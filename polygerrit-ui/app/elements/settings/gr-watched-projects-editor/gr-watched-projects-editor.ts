@@ -46,6 +46,7 @@ export interface GrWatchedProjectsEditor {
     newProject: GrAutocomplete;
   };
 }
+
 @customElement('gr-watched-projects-editor')
 export class GrWatchedProjectsEditor extends PolymerElement {
   static get template() {
@@ -62,7 +63,7 @@ export class GrWatchedProjectsEditor extends PolymerElement {
   _projectsToRemove: ProjectWatchInfo[] = [];
 
   @property({type: Object})
-  _query?: AutocompleteQuery;
+  _query: AutocompleteQuery;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -238,6 +239,27 @@ export class GrWatchedProjectsEditor extends PolymerElement {
       return true;
     }
     return filter1 === filter2;
+  }
+
+  /**
+   * TypeScript checking type doesn't appear to work
+   * with index-as so we work around this.
+   */
+  _getIndexNumber(projectName?: string, filter?: string) {
+    if (!this._projects) return '0';
+
+    let indexNum = '0';
+    for (let i = 0; i < this._projects.length; i++) {
+      if (
+        this._projects[i].project === projectName &&
+        this.areFiltersEqual(this._projects[i].filter, filter)
+      ) {
+        indexNum = `${i}`;
+        break;
+      }
+    }
+
+    return indexNum;
   }
 }
 

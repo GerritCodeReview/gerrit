@@ -46,6 +46,7 @@ export interface GrWatchedProjectsEditor {
     newProject: GrAutocomplete;
   };
 }
+
 @customElement('gr-watched-projects-editor')
 export class GrWatchedProjectsEditor extends PolymerElement {
   static get template() {
@@ -62,7 +63,7 @@ export class GrWatchedProjectsEditor extends PolymerElement {
   _projectsToRemove: ProjectWatchInfo[] = [];
 
   @property({type: Object})
-  _query?: AutocompleteQuery;
+  _query: AutocompleteQuery;
 
   private readonly restApiService = appContext.restApiService;
 

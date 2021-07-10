@@ -28,10 +28,7 @@ import {
   GroupInfo,
   EmailAddress,
 } from '../../../types/common';
-import {
-  ReviewerSuggestionsProvider,
-  SuggestionItem,
-} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
@@ -39,6 +36,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {PaperInputElementExt} from '../../../types/types';
 import {fireAlert} from '../../../utils/event-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
+import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
@@ -114,6 +112,13 @@ export interface AccountAddition {
   group?: GroupInfoInput;
 }
 
+declare global {
+  interface HTMLElementEventMap {
+    'add': CustomEvent<{value: RawAccountInput}>;
+    'input-keydown': CustomEvent<{input: PaperInputElementExt; keyCode: number}>;
+  }
+}
+
 @customElement('gr-account-list')
 export class GrAccountList extends PolymerElement {
   static get template() {
@@ -176,7 +181,7 @@ export class GrAccountList extends PolymerElement {
    * Returns suggestion items
    */
   @property({type: Object})
-  _querySuggestions: (input: string) => Promise<SuggestionItem[]>;
+  _querySuggestions: (input: string) => Promise<AutocompleteSuggestion[]>;
 
   /**
    * Set to true to disable suggestions on empty input.
@@ -191,7 +196,7 @@ export class GrAccountList extends PolymerElement {
   constructor() {
     super();
     this.reporting = appContext.reportingService;
-    this._querySuggestions = input => this._getSuggestions(input);
+    this._querySuggestions = (text: string) => this._getSuggestions(text);
     this.addEventListener('remove', e =>
       this._handleRemove(e as CustomEvent<{account: AccountInput}>)
     );
@@ -205,7 +210,7 @@ export class GrAccountList extends PolymerElement {
     return this.$.entry.focusStart;
   }
 
-  _getSuggestions(input: string) {
+  _getSuggestions(input: string): Promise<AutocompleteSuggestion[]> {
     if (this.skipSuggestOnEmpty && !input) {
       return Promise.resolve([]);
     }
@@ -459,3 +464,4 @@ export class GrAccountList extends PolymerElement {
     return (maxCount && maxCount <= accountsRecord.base.length) || readonly;
   }
 }
+

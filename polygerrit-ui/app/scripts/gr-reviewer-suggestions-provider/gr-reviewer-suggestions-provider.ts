@@ -29,6 +29,7 @@ import {
   Suggestion,
 } from '../../types/common';
 import {assertNever} from '../../utils/common-util';
+import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
 
 // TODO(TS): enum name doesn't follow typescript style guid rules
 // Rename it
@@ -44,15 +45,15 @@ export function isAccountSuggestions(s: Suggestion): s is AccountInfo {
 
 type ApiCallCallback = (input: string) => Promise<Suggestion[] | void>;
 
-export interface SuggestionItem {
+/*export interface SuggestionItem {
   name: string;
   value: SuggestedReviewerInfo;
-}
+}*/
 
 export interface ReviewerSuggestionsProvider {
   init(): void;
   getSuggestions(input: string): Promise<Suggestion[]>;
-  makeSuggestionItem(suggestion: Suggestion): SuggestionItem;
+  makeSuggestionItem(suggestion: Suggestion): AutocompleteSuggestion;
 }
 
 export class GrReviewerSuggestionsProvider
@@ -119,7 +120,7 @@ export class GrReviewerSuggestionsProvider
     return this._apiCall(input).then(reviewers => reviewers || []);
   }
 
-  makeSuggestionItem(suggestion: Suggestion): SuggestionItem {
+  makeSuggestionItem(suggestion: Suggestion): AutocompleteSuggestion {
     if (isReviewerAccountSuggestion(suggestion)) {
       // Reviewer is an account suggestion from getChangeSuggestedReviewers.
       return {

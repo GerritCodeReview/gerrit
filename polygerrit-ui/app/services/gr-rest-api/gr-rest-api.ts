@@ -476,13 +476,13 @@ export interface RestApiService {
   ): Promise<{[pluginName: string]: PluginInfo} | undefined>;
 
   getChanges(
-    changesPerPage?: number,
+    changesPerPage?: string,
     query?: string,
     offset?: 'n,z' | number,
     options?: string
   ): Promise<ChangeInfo[] | undefined>;
   getChanges(
-    changesPerPage?: number,
+    changesPerPage?: string,
     query?: string[],
     offset?: 'n,z' | number,
     options?: string
@@ -494,7 +494,7 @@ export interface RestApiService {
    * changeInfos.
    */
   getChanges(
-    changesPerPage?: number,
+    changesPerPage?: string,
     query?: string | string[],
     offset?: 'n,z' | number,
     options?: string

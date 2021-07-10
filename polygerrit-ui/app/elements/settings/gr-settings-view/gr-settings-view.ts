@@ -494,7 +494,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     });
   }
 
-  _getFilterDocsLink(docsBaseUrl?: string) {
+  _getFilterDocsLink(docsBaseUrl?: string | null) {
     let base = docsBaseUrl;
     if (!base || !ABSOLUTE_URL_PATTERN.test(base)) {
       base = GERRIT_DOCS_BASE_URL;
@@ -541,3 +541,4 @@ declare global {
     'gr-settings-view': GrSettingsView;
   }
 }
+

@@ -180,21 +180,19 @@ export class GrEditControls extends PolymerElement {
     }
   }
 
-  _closeDialog(dialog?: GrDialog, clearInputs = false) {
+  _closeDialog(dialog?: GrDialog) {
     if (!dialog) return;
 
-    if (clearInputs) {
-      // Dialog may have autocompletes and plain inputs -- as these have
-      // different properties representing their bound text, it is easier to
-      // just make two separate queries.
-      dialog.querySelectorAll('gr-autocomplete').forEach(input => {
-        input.text = '';
-      });
+    // Dialog may have autocompletes and plain inputs -- as these have
+    // different properties representing their bound text, it is easier to
+    // just make two separate queries.
+    dialog.querySelectorAll('gr-autocomplete').forEach(input => {
+      input.text = '';
+    });
 
-      dialog.querySelectorAll('iron-input').forEach(input => {
-        input.bindValue = '';
-      });
-    }
+    dialog.querySelectorAll('iron-input').forEach(input => {
+      input.bindValue = '';
+    });
 
     dialog.classList.toggle('invisible', true);
     return this.$.overlay.close();
@@ -211,12 +209,12 @@ export class GrEditControls extends PolymerElement {
       this.patchNum
     );
     GerritNav.navigateToRelativeUrl(url);
-    this._closeDialog(this._getDialogFromEvent(e), true);
+    this._closeDialog(this._getDialogFromEvent(e));
   }
 
   _handleUploadConfirm(path: string, fileData: string) {
     if (!this.change || !path || !fileData) {
-      this._closeDialog(this.$.openDialog, true);
+      this._closeDialog(this.$.openDialog);
       return Promise.resolve();
     }
     return this.restApiService
@@ -225,7 +223,7 @@ export class GrEditControls extends PolymerElement {
         if (!res || !res.ok) {
           return;
         }
-        this._closeDialog(this.$.openDialog, true);
+        this._closeDialog(this.$.openDialog);
         GerritNav.navigateToChange(this.change);
       });
   }
@@ -240,7 +238,7 @@ export class GrEditControls extends PolymerElement {
         if (!res || !res.ok) {
           return;
         }
-        this._closeDialog(dialog, true);
+        this._closeDialog(dialog);
         GerritNav.navigateToChange(this.change);
       });
   }
@@ -253,7 +251,7 @@ export class GrEditControls extends PolymerElement {
         if (!res || !res.ok) {
           return;
         }
-        this._closeDialog(dialog, true);
+        this._closeDialog(dialog);
         GerritNav.navigateToChange(this.change);
       });
   }
@@ -266,7 +264,7 @@ export class GrEditControls extends PolymerElement {
         if (!res || !res.ok) {
           return;
         }
-        this._closeDialog(dialog, true);
+        this._closeDialog(dialog);
         GerritNav.navigateToChange(this.change);
       });
   }

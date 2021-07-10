@@ -58,22 +58,25 @@ export declare interface PluginApi {
   checks(): ChecksPluginApi;
   eventHelper(element: Node): EventHelperPluginApi;
   getPluginName(): string;
-  hook(endpointName: string, opt_options?: RegisterOptions): HookApi;
+  hook<T extends HTMLElement>(
+    endpointName: string,
+    opt_options?: RegisterOptions
+  ): HookApi<T>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   on(eventName: EventType, target: any): void;
   popup(): Promise<PopupPluginApi>;
   popup(moduleName: string): Promise<PopupPluginApi>;
   popup(moduleName?: string): Promise<PopupPluginApi | null>;
-  registerCustomComponent(
+  registerCustomComponent<T extends HTMLElement>(
     endpointName: string,
     moduleName?: string,
     options?: RegisterOptions
-  ): HookApi;
-  registerDynamicCustomComponent(
+  ): HookApi<T>;
+  registerDynamicCustomComponent<T extends HTMLElement>(
     endpointName: string,
     moduleName?: string,
     options?: RegisterOptions
-  ): HookApi;
+  ): HookApi<T>;
   registerStyleModule(endpoint: string, moduleName: string): void;
   reporting(): ReportingPluginApi;
   restApi(): RestPluginApi;

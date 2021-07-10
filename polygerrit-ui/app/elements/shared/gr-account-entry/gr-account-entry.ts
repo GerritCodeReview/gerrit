@@ -54,13 +54,13 @@ export class GrAccountEntry extends PolymerElement {
    */
 
   @property({type: Boolean})
-  allowAnyInput?: boolean;
+  allowAnyInput = false;
 
   @property({type: Boolean})
-  borderless?: boolean;
+  borderless = false;
 
   @property({type: String})
-  placeholder?: string;
+  placeholder = '';
 
   @property({type: Number})
   suggestFrom = 0;
@@ -69,7 +69,7 @@ export class GrAccountEntry extends PolymerElement {
   querySuggestions: AutocompleteQuery = () => Promise.resolve([]);
 
   @property({type: String, observer: '_inputTextChanged'})
-  _inputText?: string;
+  _inputText = '';
 
   get focusStart() {
     return this.$.input.focusStart;

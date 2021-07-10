@@ -26,6 +26,7 @@ import {
   ValueChangedDetail,
 } from '../../../api/change-reply';
 import {appContext} from '../../../services/app-context';
+import {HookApi, PluginElement} from '../../../api/hook';
 
 /**
  * GrChangeReplyInterface, provides a set of handy methods on reply dialog.
@@ -58,7 +59,7 @@ export class GrChangeReplyInterface implements ChangeReplyPluginApi {
 
   addReplyTextChangedCallback(handler: ReplyChangedCallback) {
     this.reporting.trackApi(this.plugin, 'reply', 'addReplyTextChangedCb');
-    const hookApi = this.plugin.hook('reply-text');
+    const hookApi = this.plugin.hook('reply-text') as HookApi<PluginElement>;
     const registeredHandler = (e: Event) => {
       const ce = e as CustomEvent<ValueChangedDetail>;
       handler(ce.detail.value);
@@ -79,7 +80,9 @@ export class GrChangeReplyInterface implements ChangeReplyPluginApi {
 
   addLabelValuesChangedCallback(handler: LabelsChangedCallback) {
     this.reporting.trackApi(this.plugin, 'reply', 'addLabelValuesChangedCb');
-    const hookApi = this.plugin.hook('reply-label-scores');
+    const hookApi = this.plugin.hook(
+      'reply-label-scores'
+    ) as HookApi<PluginElement>;
     const registeredHandler = (e: Event) => {
       const ce = e as CustomEvent<LabelsChangedDetail>;
       handler(ce.detail);

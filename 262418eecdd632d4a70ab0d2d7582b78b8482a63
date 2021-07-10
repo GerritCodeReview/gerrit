@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "662ce218_0d61d0af",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-10T01:05:27Z",
+      "side": 1,
+      "message": "Fixed the typo in the documentation at https://gerrit-review.googlesource.com/c/gerrit/+/311844",
+      "range": {
+        "startLine": 290,
+        "startChar": 2,
+        "endLine": 290,
+        "endChar": 25
+      },
+      "revId": "262418eecdd632d4a70ab0d2d7582b78b8482a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

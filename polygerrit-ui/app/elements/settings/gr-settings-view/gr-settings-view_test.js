@@ -157,16 +157,8 @@ suite('gr-settings-view tests', () => {
     assert.isFalse(element._prefsChanged);
     assert.isFalse(element._menuChanged);
 
-    // Change the diff view element.
-    const diffSelect = valueOf('Diff view', 'preferences').firstElementChild;
-    diffSelect.bindValue = 'SIDE_BY_SIDE';
-
     const publishOnPush =
         valueOf('Publish comments on push', 'preferences').firstElementChild;
-    diffSelect.dispatchEvent(
-        new CustomEvent('change', {
-          composed: true, bubbles: true,
-        }));
 
     MockInteractions.tap(publishOnPush);
 
@@ -174,7 +166,6 @@ suite('gr-settings-view tests', () => {
     assert.isFalse(element._menuChanged);
 
     stubRestApi('savePreferences').callsFake(prefs => {
-      assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
       assertMenusEqual(prefs.my, preferences.my);
       assert.equal(prefs.publish_comments_on_push, true);
       return Promise.resolve();

@@ -45,7 +45,7 @@ export class GrEditPreferences extends PolymerElement {
   }
 
   @property({type: Boolean, notify: true})
-  hasUnsavedChanges = false;
+  hasUnsavedChanges? = false;
 
   @property({type: Object})
   editPrefs?: EditPreferencesInfo;

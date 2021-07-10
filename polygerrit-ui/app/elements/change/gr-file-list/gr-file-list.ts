@@ -360,7 +360,9 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     this.fileCursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.fileCursor.cursorTargetClass = 'selected';
     this.fileCursor.focusOnMove = true;
-    this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
+    this.addEventListener('keydown', e =>
+      this._scopedKeydownHandler((e as unknown) as CustomKeyboardEvent)
+    );
   }
 
   /** @override */
@@ -428,7 +430,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
    *
    * Context: Issue 7277
    */
-  _scopedKeydownHandler(e: KeyboardEvent) {
+  _scopedKeydownHandler(e: CustomKeyboardEvent) {
     if (e.keyCode === 13) {
       // TODO(TS): e is not an instance of CustomKeyboardEvent.
       // However, to fix it we should fix keyboard-shortcut-mixin first

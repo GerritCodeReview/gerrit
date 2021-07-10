@@ -49,7 +49,7 @@ export class GrDiffPreferences extends PolymerElement {
   }
 
   @property({type: Boolean, notify: true})
-  hasUnsavedChanges = false;
+  hasUnsavedChanges? = false;
 
   @property({type: Object})
   diffPrefs?: DiffPreferencesInfo;

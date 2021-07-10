@@ -24,6 +24,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-menu-editor_html';
 import {customElement, property} from '@polymer/decorators';
 import {TopMenuItemInfo} from '../../../types/common';
+import {KeydownEvent} from '../../../types/events';
 
 @customElement('gr-menu-editor')
 export class GrMenuEditor extends PolymerElement {
@@ -90,7 +91,7 @@ export class GrMenuEditor extends PolymerElement {
     return !newName?.length || !newUrl?.length;
   }
 
-  _handleInputKeydown(e: KeyboardEvent) {
+  _handleInputKeydown(e: KeydownEvent) {
     if (e.keyCode === 13) {
       e.stopPropagation();
       this._handleAddButton();

@@ -26,6 +26,7 @@ export enum EventType {
   CHANGE = 'change',
   CHANGED = 'changed',
   CHANGE_MESSAGE_DELETED = 'change-message-deleted',
+  COMMIT = 'commit',
   DIALOG_CHANGE = 'dialog-change',
   DROP = 'drop',
   EDITABLE_CONTENT_SAVE = 'editable-content-save',
@@ -58,6 +59,8 @@ declare global {
     /* prettier-ignore */
     'changed': ChangedEvent;
     'change-message-deleted': ChangeMessageDeletedEvent;
+    /* prettier-ignore */
+    'commit': CommitEvent;
     'dialog-change': DialogChangeEvent;
     /* prettier-ignore */
     'drop': DropEvent;
@@ -108,6 +111,8 @@ export interface ChangeMessageDeletedEventDetail {
   message: ChangeMessage;
 }
 export type ChangeMessageDeletedEvent = CustomEvent<ChangeMessageDeletedEventDetail>;
+
+export type CommitEvent = CustomEvent;
 
 // TODO(milutin) - remove once new gr-dialog will do it out of the box
 // This informs gr-app-element to remove footer, header from a11y tree

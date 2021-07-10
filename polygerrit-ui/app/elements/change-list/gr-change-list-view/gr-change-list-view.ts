@@ -85,8 +85,8 @@ export class GrChangeListView extends PolymerElement {
   @property({type: Object})
   preferences?: PreferencesInput;
 
-  @property({type: Number})
-  _changesPerPage?: number;
+  @property({type: String})
+  _changesPerPage?: string;
 
   @property({type: String})
   _query = '';
@@ -206,7 +206,7 @@ export class GrChangeListView extends PolymerElement {
     query: string,
     offset: number | undefined,
     direction: number,
-    changesPerPage: number
+    changesPerPage: string
   ) {
     offset = offset ?? 0;
     const limit = this._limitFor(query, changesPerPage);

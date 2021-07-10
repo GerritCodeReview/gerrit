@@ -28,6 +28,7 @@ import {
   PluginConfigOptionsChangedEventDetail,
   ArrayPluginOption,
 } from '../gr-repo-plugin-config/gr-repo-plugin-config-types';
+import {KeydownEvent} from '../../../types/events';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -74,7 +75,7 @@ export class GrPluginConfigArrayEditor extends PolymerElement {
     this._handleAdd();
   }
 
-  _handleInputKeydown(e: KeyboardEvent) {
+  _handleInputKeydown(e: KeydownEvent) {
     // Enter.
     if (e.keyCode === 13) {
       e.preventDefault();

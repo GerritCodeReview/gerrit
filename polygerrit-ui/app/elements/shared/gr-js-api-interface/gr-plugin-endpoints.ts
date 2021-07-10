@@ -16,7 +16,7 @@
  */
 import {PluginApi} from '../../../api/plugin';
 import {notUndefined} from '../../../types/types';
-import {HookApi} from '../../../api/hook';
+import {HookApi, PluginElement} from '../../../api/hook';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (value: any) => void;
@@ -26,7 +26,7 @@ export interface ModuleInfo {
   plugin: PluginApi;
   pluginUrl?: URL;
   type?: string;
-  domHook?: HookApi;
+  domHook?: HookApi<PluginElement>;
   slot?: string;
 }
 
@@ -36,7 +36,7 @@ interface Options {
   slot?: string;
   type?: string;
   moduleName?: string;
-  domHook?: HookApi;
+  domHook?: HookApi<PluginElement>;
 }
 
 export class GrPluginEndpoints {

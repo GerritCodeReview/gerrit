@@ -287,7 +287,7 @@ export interface AccountDetailInfo extends AccountInfo {
  */
 export interface AccountExternalIdInfo {
   identity: string;
-  email?: string;
+  email_address?: string;
   trusted?: boolean;
   can_delete?: boolean;
 }

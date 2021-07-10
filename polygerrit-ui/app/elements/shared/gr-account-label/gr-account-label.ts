@@ -190,11 +190,7 @@ export class GrAccountLabel extends PolymerElement {
       : '';
   }
 
-  _computeName(
-    account?: AccountInfo,
-    config?: ServerInfo,
-    firstName?: boolean
-  ) {
+  _computeName(account: AccountInfo, firstName: boolean, config?: ServerInfo) {
     return getDisplayName(config, account, firstName);
   }
 
@@ -264,30 +260,29 @@ export class GrAccountLabel extends PolymerElement {
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo,
-    selfAccount: AccountInfo,
-    selected: boolean
+    selected: boolean,
+    selfAccount?: AccountInfo
   ) {
     if (selected) return true;
-    return (
-      this._hasUnforcedAttention(highlight, account, change) &&
-      (isInvolved(change, selfAccount) || isSelf(account, selfAccount))
-    );
+    return (this._hasUnforcedAttention(highlight, account, change) &&
+      (isInvolved(change, selfAccount) ||
+        isSelf(account, selfAccount))) as boolean;
   }
 
   _computeAttentionIconTitle(
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo,
-    selfAccount: AccountInfo,
     force: boolean,
-    selected: boolean
+    selected: boolean,
+    selfAccount?: AccountInfo
   ) {
     const enabled = this._computeAttentionButtonEnabled(
       highlight,
       account,
       change,
-      selfAccount,
-      selected
+      selected,
+      selfAccount
     );
     return enabled
       ? 'Click to remove the user from the attention set'

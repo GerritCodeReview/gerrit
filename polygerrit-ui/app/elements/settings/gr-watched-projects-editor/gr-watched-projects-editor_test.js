@@ -193,5 +193,13 @@ suite('gr-watched-projects-editor tests', () => {
     assert.equal(element._projectsToRemove.length, 1);
     assert.equal(element._projectsToRemove[0].project, 'project b');
   });
+
+  test('_getIndexNumber', () => {
+    assert.deepEqual(element._getIndexNumber('project a', undefined), '0');
+    assert.deepEqual(element._getIndexNumber('project b', 'filter 1'), '1');
+    assert.deepEqual(element._getIndexNumber('project b', 'filter 2'), '2');
+    assert.deepEqual(element._getIndexNumber('project c', undefined), '3');
+    assert.deepEqual(element._getIndexNumber('project g', 'filter 2'), '0');
+  });
 });
 

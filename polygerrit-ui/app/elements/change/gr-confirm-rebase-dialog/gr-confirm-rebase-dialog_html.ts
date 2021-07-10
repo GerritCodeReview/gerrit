@@ -61,7 +61,6 @@ export const htmlTemplate = html`
           id="rebaseOnParentInput"
           name="rebaseOptions"
           type="radio"
-          on-click="_handleRebaseOnParent"
         />
         <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
           Rebase on parent change

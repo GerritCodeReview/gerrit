@@ -117,7 +117,7 @@ suite('gr-edit-controls tests', () => {
         assert.isFalse(editDiffStub.called);
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
-        assert.equal(element._path, 'src/test.cpp');
+        assert.equal(element._path, '');
       });
     });
   });
@@ -202,7 +202,7 @@ suite('gr-edit-controls tests', () => {
         );
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
-        assert.equal(element._path, 'src/test.cpp');
+        assert.equal(element._path, '');
       });
     });
   });
@@ -296,8 +296,8 @@ suite('gr-edit-controls tests', () => {
         );
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
-        assert.equal(element._path, 'src/test.cpp');
-        assert.equal(element._newPath, 'src/test.newPath');
+        assert.equal(element._path, '');
+        assert.equal(element._newPath, '');
       });
     });
   });
@@ -365,7 +365,7 @@ suite('gr-edit-controls tests', () => {
         );
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
-        assert.equal(element._path, 'src/test.cpp');
+        assert.equal(element._path, '');
       });
     });
   });

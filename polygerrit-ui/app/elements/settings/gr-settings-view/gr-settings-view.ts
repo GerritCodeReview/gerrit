@@ -62,10 +62,18 @@ import {
 import {GrSshEditor} from '../gr-ssh-editor/gr-ssh-editor';
 import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
-import {CustomKeyboardEvent} from '../../../types/events';
+import {KeydownEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
+import {
+  DateFormat,
+  DefaultBase,
+  DiffViewMode,
+  EmailFormat,
+  EmailStrategy,
+  TimeFormat,
+} from '../../../constants/constants';
 
 const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'changes_per_page',
@@ -115,6 +123,13 @@ export interface GrSettingsView {
     publishCommentsOnPush: HTMLInputElement;
     disableKeyboardShortcuts: HTMLInputElement;
     relativeDateInChangeTable: HTMLInputElement;
+    changesPerPageSelect: HTMLInputElement;
+    dateTimeFormatSelect: HTMLInputElement;
+    timeFormatSelect: HTMLInputElement;
+    emailNotificationsSelect: HTMLInputElement;
+    emailFormatSelect: HTMLInputElement;
+    defaultBaseForMergesSelect: HTMLInputElement;
+    diffViewSelect: HTMLInputElement;
   };
 }
 
@@ -164,10 +179,10 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
   _prefsChanged = false;
 
   @property({type: Boolean})
-  _diffPrefsChanged?: boolean;
+  _diffPrefsChanged = false;
 
   @property({type: Boolean})
-  _editPrefsChanged?: boolean;
+  _editPrefsChanged = false;
 
   @property({type: Boolean})
   _menuChanged = false;
@@ -197,7 +212,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
   _docsBaseUrl?: string | null;
 
   @property({type: Boolean})
-  _emailsChanged?: boolean;
+  _emailsChanged = false;
 
   @property({type: Boolean})
   _showNumber?: boolean;
@@ -461,7 +476,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     this.$.emailEditor.save();
   }
 
-  _handleNewEmailKeydown(e: CustomKeyboardEvent) {
+  _handleNewEmailKeydown(e: KeydownEvent) {
     if (e.keyCode === 13) {
       // Enter
       e.stopPropagation();
@@ -494,7 +509,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     });
   }
 
-  _getFilterDocsLink(docsBaseUrl?: string) {
+  _getFilterDocsLink(docsBaseUrl?: string | null) {
     let base = docsBaseUrl;
     if (!base || !ABSOLUTE_URL_PATTERN.test(base)) {
       base = GERRIT_DOCS_BASE_URL;
@@ -533,6 +548,65 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
    */
   _onTapDarkToggle(e: Event) {
     e.preventDefault();
+  }
+
+  _handleChangesPerPage() {
+    this.set(
+      '_localPrefs.changes_per_page',
+      Number(this.$.changesPerPageSelect.value)
+    );
+  }
+
+  _handleDateFormat() {
+    this.set('_localPrefs.date_format', this.$.dateTimeFormatSelect.value);
+  }
+
+  _handleTimeFormat() {
+    this.set('_localPrefs.time_format', this.$.timeFormatSelect.value);
+  }
+
+  _handleEmailStrategy() {
+    this.set(
+      '_localPrefs.email_strategy',
+      this.$.emailNotificationsSelect.value
+    );
+  }
+
+  _handleEmailFormat() {
+    this.set('_localPrefs.email_format', this.$.emailFormatSelect.value);
+  }
+
+  _handleDefaultBaseForMerges() {
+    this.set(
+      '_localPrefs.default_base_for_merges',
+      this.$.defaultBaseForMergesSelect.value
+    );
+  }
+
+  _handleDiffView() {
+    this.set(
+      '_localPrefs.diff_view',
+      this.$.diffViewSelect.value as DiffViewMode
+    );
+  }
+
+  /**
+   * bind-value has type string so we have to convert anything inputed
+   * to string.
+   *
+   * This is so typescript template checker doesn't fail.
+   */
+  _convertToString(
+    key?:
+      | DateFormat
+      | DefaultBase
+      | DiffViewMode
+      | EmailFormat
+      | EmailStrategy
+      | TimeFormat
+      | number
+  ) {
+    return key !== undefined ? String(key) : '';
   }
 }
 

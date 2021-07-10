@@ -15,14 +15,16 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-watched-projects-editor.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-watched-projects-editor';
+import {GrWatchedProjectsEditor} from './gr-watched-projects-editor';
+import {stubRestApi} from '../../../test/test-utils';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-watched-projects-editor');
 
 suite('gr-watched-projects-editor tests', () => {
-  let element;
+  let element: GrWatchedProjectsEditor;
 
   setup(done => {
     const projects = [
@@ -64,12 +66,11 @@ suite('gr-watched-projects-editor tests', () => {
   });
 
   test('renders', () => {
-    const rows = element.shadowRoot
-        .querySelector('table').querySelectorAll('tbody tr');
+    const rows = element.shadowRoot!.querySelector('table')!.querySelectorAll('tbody tr')!;
     assert.equal(rows.length, 4);
 
-    function getKeysOfRow(row) {
-      const boxes = rows[row].querySelectorAll('input[checked]');
+    function getKeysOfRow(row: number) {
+      const boxes = rows[row]!.querySelectorAll('input[checked]')!;
       return Array.prototype.map.call(boxes,
           e => e.getAttribute('data-key'));
     }
@@ -157,37 +158,36 @@ suite('gr-watched-projects-editor tests', () => {
   test('_handleAddProject', () => {
     element.$.newProject.value = 'project d';
     element.$.newProject.setText('project d');
-    element.$.newFilter.bindValue = '';
+    element.$.newFilterInput.bindValue = '';
 
     element._handleAddProject();
 
-    assert.equal(element._projects.length, 5);
-    assert.equal(element._projects[4].project, 'project d');
-    assert.isNotOk(element._projects[4].filter);
-    assert.isTrue(element._projects[4]._is_local);
+    const projects = element._projects!;
+    assert.equal(projects.length, 5);
+    assert.equal(projects[4].project, 'project d');
+    assert.isNotOk(projects[4].filter);
+    assert.isTrue(projects[4]._is_local);
   });
 
   test('_handleAddProject with invalid inputs', () => {
     element.$.newProject.value = 'project b';
     element.$.newProject.setText('project b');
-    element.$.newFilter.bindValue = 'filter 1';
+    element.$.newFilterInput.bindValue = 'filter 1';
     element.$.newFilter.value = 'filter 1';
 
     element._handleAddProject();
 
-    assert.equal(element._projects.length, 4);
+    assert.equal(element._projects!.length, 4);
   });
 
   test('_handleRemoveProject', () => {
-    assert.equal(element._projectsToRemove, 0);
-    const button = element.shadowRoot
-        .querySelector('table tbody tr:nth-child(2) gr-button');
+    assert.equal(element._projectsToRemove, []);
+    const button = element.shadowRoot!.querySelector('table tbody tr:nth-child(2) gr-button')!;
     MockInteractions.tap(button);
 
     flush();
 
-    const rows = element.shadowRoot
-        .querySelector('table tbody').querySelectorAll('tr');
+    const rows = element.shadowRoot!.querySelector('table tbody')!.querySelectorAll('tr')!;
     assert.equal(rows.length, 3);
 
     assert.equal(element._projectsToRemove.length, 1);

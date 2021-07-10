@@ -1156,30 +1156,33 @@ export interface QueryLimitInfo {
  * The PreferencesInfo entity contains information about a user’s preferences
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-info
  */
+
 export interface PreferencesInfo {
-  changes_per_page: 10 | 25 | 50 | 100;
+  // Only allowed 10, 25, 50 and 100. Because bind-value being string only
+  // we have to use string rather then setting numbers.
+  changes_per_page: string;
   theme: AppTheme;
   expand_inline_diffs?: boolean;
   download_scheme?: string;
-  date_format: DateFormat;
-  time_format: TimeFormat;
+  date_format: string;
+  time_format: string;
   relative_date_in_change_table?: boolean;
-  diff_view: DiffViewMode;
+  diff_view: string;
   size_bar_in_change_table?: boolean;
   legacycid_in_change_table?: boolean;
   mute_common_path_prefixes?: boolean;
   signed_off_by?: boolean;
   my: TopMenuItemInfo[];
   change_table: string[];
-  email_strategy: EmailStrategy;
-  default_base_for_merges: DefaultBase;
+  email_strategy: string;
+  default_base_for_merges: string;
   publish_comments_on_push?: boolean;
   disable_keyboard_shortcuts?: boolean;
   work_in_progress_by_default?: boolean;
   // The email_format doesn't mentioned in doc, but exists in Java class GeneralPreferencesInfo
-  email_format?: EmailFormat;
+  email_format?: string;
   // The following property doesn't exist in RestAPI, it is added by GrRestApiInterface
-  default_diff_view?: DiffViewMode;
+  default_diff_view?: string;
 }
 
 /**

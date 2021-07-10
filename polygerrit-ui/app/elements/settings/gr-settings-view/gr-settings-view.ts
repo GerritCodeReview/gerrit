@@ -188,7 +188,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
   _addingEmail = false;
 
   @property({type: String})
-  _lastSentVerificationEmail?: string | null = null;
+  _lastSentVerificationEmail?: string;
 
   @property({type: Object})
   _serverConfig?: ServerInfo;
@@ -541,3 +541,4 @@ declare global {
     'gr-settings-view': GrSettingsView;
   }
 }
+

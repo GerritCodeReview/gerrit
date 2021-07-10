@@ -85,8 +85,8 @@ export class GrChangeListView extends PolymerElement {
   @property({type: Object})
   preferences?: PreferencesInput;
 
-  @property({type: Number})
-  _changesPerPage?: number;
+  @property({type: String})
+  _changesPerPage?: string;
 
   @property({type: String})
   _query = '';

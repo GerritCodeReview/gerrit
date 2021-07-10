@@ -418,8 +418,6 @@ export const htmlTemplate = html`
             >
               <input
                 class="newEmailInput"
-                bind-value="{{_newEmail}}"
-                is="iron-input"
                 type="text"
                 disabled="[[_addingEmail]]"
                 on-keydown="_handleNewEmailKeydown"

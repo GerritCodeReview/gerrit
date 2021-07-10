@@ -78,29 +78,29 @@ export declare interface RestPluginApi {
   /**
    * Fetch and parse REST API response, if request succeeds.
    */
-  send(
+  send<T>(
     method: HttpMethod,
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string
-  ): Promise<unknown>;
+  ): Promise<T>;
 
-  get(url: string): Promise<unknown>;
+  get<T>(url: string): Promise<T>;
 
-  post(
+  post<T>(
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string
-  ): Promise<unknown>;
+  ): Promise<T>;
 
-  put(
+  put<T>(
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string
-  ): Promise<unknown>;
+  ): Promise<T>;
 
   delete(url: string): Promise<Response>;
 }

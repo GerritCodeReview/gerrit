@@ -500,7 +500,7 @@ displayed on the right side of the screen.
 
 This screen allows to review a patch and to comment on it.
 
-image::images/gwt-user-review-ui-side-by-side-diff-screen.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen.png"]
+image::images/user-review-ui-side-by-side-diff-screen.png[width=800, link="images/user-review-ui-side-by-side-diff-screen.png"]
 
 [[side-by-side-header]]
 In the screen header the project name and the name of the viewed patch

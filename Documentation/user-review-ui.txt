@@ -606,14 +606,6 @@ frequently used methods are:
 For typing the new comment, a new comment box is shown under the code
 that is commented.
 
-Clicking on the `Save` button saves the new comment as a draft. To make
-it visible to other users it must be published from the change screen
-by link:#reply[replying] to the change.
-
-Clicking on the `Discard` button deletes the new comment.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-commented.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-commented.png"]
-
 [[file-level-comments]]
 === File Level Comments
 

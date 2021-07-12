@@ -23,7 +23,7 @@ import {
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {customElement, property} from '@polymer/decorators';
 import {PluginApi} from '../../../api/plugin';
-import {HookApi} from '../../../api/hook';
+import {HookApi, PluginElement} from '../../../api/hook';
 
 const INIT_PROPERTIES_TIMEOUT_MS = 10000;
 
@@ -37,7 +37,7 @@ export class GrEndpointDecorator extends PolymerElement {
   name!: string;
 
   @property({type: Object})
-  _domHooks = new Map<HTMLElement, HookApi>();
+  _domHooks = new Map<PluginElement, HookApi<PluginElement>>();
 
   @property({type: Object})
   _initializedPlugins = new Map<string, boolean>();

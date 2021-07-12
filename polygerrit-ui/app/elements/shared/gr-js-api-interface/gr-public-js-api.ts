@@ -41,7 +41,7 @@ import {ReportingPluginApi} from '../../../api/reporting';
 import {ChangeActionsPluginApi} from '../../../api/change-actions';
 import {ChangeReplyPluginApi} from '../../../api/change-reply';
 import {RestPluginApi} from '../../../api/rest';
-import {HookApi, RegisterOptions} from '../../../api/hook';
+import {HookApi, PluginElement, RegisterOptions} from '../../../api/hook';
 import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
 
 /**
@@ -108,11 +108,11 @@ export class Plugin implements PluginApi {
   /**
    * Registers an endpoint for the plugin.
    */
-  registerCustomComponent(
+  registerCustomComponent<T extends PluginElement>(
     endpointName: string,
     moduleName?: string,
     options?: RegisterOptions
-  ): HookApi {
+  ): HookApi<T> {
     this.report.trackApi(this, 'plugin', 'registerCustomComponent');
     return this._registerCustomComponent(endpointName, moduleName, options);
   }
@@ -123,11 +123,11 @@ export class Plugin implements PluginApi {
    * Dynamic plugins are registered by specific prefix, such as
    * 'change-list-header'.
    */
-  registerDynamicCustomComponent(
+  registerDynamicCustomComponent<T extends PluginElement>(
     endpointName: string,
     moduleName?: string,
     options?: RegisterOptions
-  ): HookApi {
+  ): HookApi<T> {
     this.report.trackApi(this, 'plugin', 'registerDynamicCustomComponent');
     const fullEndpointName = `${endpointName}-${this.getPluginName()}`;
     return this._registerCustomComponent(
@@ -138,16 +138,16 @@ export class Plugin implements PluginApi {
     );
   }
 
-  _registerCustomComponent(
+  _registerCustomComponent<T extends PluginElement>(
     endpoint: string,
     moduleName?: string,
     options?: RegisterOptions,
     dynamicEndpoint?: string
-  ): HookApi {
+  ): HookApi<T> {
     const type =
       options && options.replace ? EndpointType.REPLACE : EndpointType.DECORATE;
     const slot = (options && options.slot) || '';
-    const domHook = this.domHooks.getDomHook(endpoint, moduleName);
+    const domHook = this.domHooks.getDomHook<T>(endpoint, moduleName);
     moduleName = moduleName || domHook.getModuleName();
     getPluginEndpoints().registerModule(this, {
       slot,
@@ -164,7 +164,10 @@ export class Plugin implements PluginApi {
    * Returns instance of DOM hook API for endpoint. Creates a placeholder
    * element for the first call.
    */
-  hook(endpointName: string, options?: RegisterOptions) {
+  hook<T extends PluginElement>(
+    endpointName: string,
+    options?: RegisterOptions
+  ): HookApi<T> {
     this.report.trackApi(this, 'plugin', 'hook');
     return this.registerCustomComponent(endpointName, undefined, options);
   }

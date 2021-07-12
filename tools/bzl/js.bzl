@@ -4,6 +4,41 @@ load("//tools/bzl:genrule2.bzl", "genrule2")
 
 ComponentInfo = provider()
 
+def get_ts_compiled_path(outdir, file_name):
+    """Calculates the typescript output path for a file_name.
+
+    Args:
+      outdir: the typescript output directory (relative to polygerrit-ui/app/)
+      file_name: the original file name (relative to polygerrit-ui/app/)
+
+    Returns:
+      String - the path to the file produced by the typescript compiler
+    """
+    if not outdir.endswith("/") and len(outdir) > 0:
+        outdir = outdir + "/"
+    if file_name.endswith(".js"):
+        return outdir + file_name
+    if file_name.endswith(".ts"):
+        return outdir + file_name[:-2] + "js"
+    fail("The file " + file_name + " has unsupported extension")
+
+def get_ts_output_files(outdir, srcs):
+    """Calculates the files paths produced by the typescript compiler
+
+    Args:
+      outdir: the typescript output directory (relative to polygerrit-ui/app/)
+      srcs: list of input files (all paths relative to polygerrit-ui/app/)
+
+    Returns:
+      List of strings
+    """
+    result = []
+    for f in srcs:
+        if f.endswith(".d.ts"):
+            continue
+        result.append(get_ts_compiled_path(outdir, f))
+    return result
+
 def _js_component(ctx):
     dir = ctx.outputs.zip.path + ".dir"
     name = ctx.outputs.zip.basename
@@ -49,6 +84,54 @@ js_component = rule(
         "zip": "%{name}.zip",
     },
 )
+
+def compile_plugin_ts(name, srcs, ts_outdir = "", additional_deps = [], tags = []):
+    """Compiles srcs files with the typescript compiler. The following
+    dependencies are always passed:
+      the file specified by the ts_project argument
+      :tsconfig.json"
+      @ui_npm//:node_modules,
+    If compilation succeed, the file name+".success" is created. This is useful
+    for wrapping compilation in bazel test rules.
+
+    Args:
+      name: rule name
+      srcs: list of input files (.js, .d.ts and .ts)
+      ts_outdir: typescript output directory; ignored if emitJS is True
+      additional_deps: list of additional dependencies for compilation
+
+    Returns:
+      The list of compiled JS files if emitJS is True; otherwise returns an
+      empty list
+    """
+    ts_rule_name = name + "_ts_compiled"
+
+    # List of files produced by the typescript compiler
+    generated_js = get_ts_output_files(ts_outdir, srcs)
+
+    all_srcs = srcs + [
+        ":tsconfig.json",
+        "@plugins_npm//:node_modules",
+    ] + additional_deps
+
+    success_out = name + ".success"
+
+    # Run the compiler
+    native.genrule(
+        name = ts_rule_name,
+        srcs = all_srcs,
+        outs = generated_js + [success_out],
+        cmd = " && ".join([
+            "$(location //tools/node_tools:tsc-bin) --project $(location :tsconfig.json)" +
+            " --outdir $(RULEDIR)/{}".format(ts_outdir) +
+            " --baseUrl ./external/plugins_npm/node_modules/",
+            "touch $(location {})".format(success_out),
+        ]),
+        tools = ["//tools/node_tools:tsc-bin"],
+        tags = tags,
+    )
+
+    return generated_js
 
 def polygerrit_plugin(name, app, plugin_name = None):
     """Produces plugin file set with minified javascript.
@@ -104,6 +187,7 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
 
     rollup_bundle(
         name = bundle,
+        config_file = ":rollup.config.js",
         srcs = srcs,
         entry_point = entry_point,
         format = "iife",

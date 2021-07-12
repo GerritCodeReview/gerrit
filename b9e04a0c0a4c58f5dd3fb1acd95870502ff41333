@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ecddbde_8eead1e8",
+        "filename": "polygerrit-ui/app/api/rest.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-12T11:44:43Z",
+      "side": 1,
+      "message": "why is the return type Promise\u003cT\u003e here?",
+      "range": {
+        "startLine": 89,
+        "startChar": 2,
+        "endLine": 89,
+        "endChar": 34
+      },
+      "revId": "b9e04a0c0a4c58f5dd3fb1acd95870502ff41333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

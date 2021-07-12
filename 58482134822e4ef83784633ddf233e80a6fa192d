@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a053f7f_a290e511",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-12T15:07:35Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f43a2dcf_c3b02771",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "58482134822e4ef83784633ddf233e80a6fa192d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a32afcee_78777f7e",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-07-12T14:24:57Z",
       "side": 1,
       "message": "That means 0 is converted to \u0027\u0027. Maybe instead\n\n  return key !\u003d\u003d undefined ? String(key) : \u0027\u0027;",
+      "revId": "58482134822e4ef83784633ddf233e80a6fa192d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ff3eed6_c7b030c3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-12T15:07:35Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a32afcee_78777f7e",
       "revId": "58482134822e4ef83784633ddf233e80a6fa192d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

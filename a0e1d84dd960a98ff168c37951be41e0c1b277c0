@@ -33,6 +33,24 @@
       "message": "Thanks Edwin for the fix.\n\nFrom [1]:\n\n\u003e cache#getAll: This method will throw an exception if CacheLoader.loadAll(java.lang.Iterable\u003c? extends K\u003e) returns null, returns a map containing null keys or values, or fails to return an entry for each requested key.\n\nI was assuming that this situation will never happen, i.e. we will get a different exception if the cache does not entries for some of the input keys.\n\n[1] https://guava.dev/releases/19.0/api/docs/com/google/common/cache/LoadingCache.html#getAll(java.lang.Iterable)",
       "revId": "a0e1d84dd960a98ff168c37951be41e0c1b277c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0532677e_f1554b9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-12T09:19:48Z",
+      "side": 1,
+      "message": "Yes, this is a bit weird. In the test I added we get exactly this exception, but it seems in prd it\u0027s not thrown. Let\u0027s see if this issue is solved when this fix is rolled out.",
+      "parentUuid": "17ddcb49_73c37eb9",
+      "revId": "a0e1d84dd960a98ff168c37951be41e0c1b277c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

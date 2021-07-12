@@ -480,7 +480,7 @@ The polling frequency depends on the server configuration; by default
 it is 30 seconds. Polling may also be completely disabled by the
 administrator.
 
-image::images/gwt-user-review-ui-change-screen-change-update.png[width=800, link="images/gwt-user-review-ui-change-screen-change-update.png"]
+image::images/user-review-ui-change-screen-change-update.png[width=400, link="images/user-review-ui-change-screen-change-update.png"]
 
 [[plugin-extensions]]
 === Plugin Extensions

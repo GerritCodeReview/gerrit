@@ -22,7 +22,6 @@ import {GerritNav} from '../gr-navigation/gr-navigation.js';
 import {stubBaseUrl, stubRestApi, addListenerForTest} from '../../../test/test-utils.js';
 import {_testOnly_RoutePattern} from './gr-router.js';
 import {GerritView} from '../../../services/router/router-model.js';
-import {EditPatchSetNum} from '../../../types/common.js';
 
 const basicFixture = fixtureFromElement('gr-router');
 
@@ -1430,16 +1429,16 @@ suite('gr-router tests', () => {
       suite('_handleChangeRoute', () => {
         let normalizeRangeStub;
 
-        function makeParams(path, hash, baseNum, patchNum) {
+        function makeParams(path, hash) {
           return {
             params: [
               'foo/bar', // 0 Project
               1234, // 1 Change number
               null, // 2 Unused
               null, // 3 Unused
-              baseNum ? baseNum : 4, // 4 Base patch number
+              4, // 4 Base patch number
               null, // 5 Unused
-              patchNum ? patchNum : 7, // 6 Patch number
+              7, // 6 Patch number
             ],
             queryMap: new Map(),
           };
@@ -1476,23 +1475,6 @@ suite('gr-router tests', () => {
           });
           assert.isFalse(redirectStub.called);
           assert.isTrue(normalizeRangeStub.called);
-        });
-
-        test('redirect due to patchNum being an edit', () => {
-          normalizeRangeStub.returns(true);
-          const ctx = makeParams(null, '');
-          element._handleChangeRoute(ctx, undefined, EditPatchSetNum, false);
-          assert.isTrue(normalizeRangeStub.called);
-          assert.isFalse(setParamsStub.called);
-          assert.isTrue(redirectStub.calledOnce);
-
-          const params = {
-            view: GerritView.CHANGE,
-            changeNum: '1234',
-            project: 'test',
-            edit: true,
-          };
-          assert.equal(element._generateUrl(params), '/c/test/+/1234,edit');
         });
       });
 

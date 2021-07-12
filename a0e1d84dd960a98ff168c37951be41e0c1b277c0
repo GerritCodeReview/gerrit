@@ -69,6 +69,24 @@
       "parentUuid": "0532677e_f1554b9a",
       "revId": "a0e1d84dd960a98ff168c37951be41e0c1b277c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5df1d52_17da883e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-12T09:28:31Z",
+      "side": 1,
+      "message": "Pretty sure, you can have a look at the trace that is linked from the bug. It shows pretty clearly that we asked for n keys, but got less than n results from the cache.",
+      "parentUuid": "1e7eb922_bfc0348e",
+      "revId": "a0e1d84dd960a98ff168c37951be41e0c1b277c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

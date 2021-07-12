@@ -1768,6 +1768,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    */
   _processEdit(change: ParsedChangeInfo, edit?: EditInfo | false) {
     if (
+      !edit &&
       (changeIsMerged(change) || changeIsAbandoned(change)) &&
       this._editMode
     ) {
@@ -1944,7 +1945,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     if (lastpatchNum === undefined)
       throw new Error('missing lastPatchNum property');
     return this.restApiService
-      .getChangeCommitInfo(this._changeNum, lastpatchNum)
+      .getChangeCommitInfo(this._changeNum, lastpatchNum, r =>
+        this._handleGetChangeDetailError(r)
+      )
       .then(commitInfo => {
         if (!commitInfo) return;
         this._latestCommitMessage = this._prepareCommitMsgForLinkify(
@@ -1976,7 +1979,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     if (this._patchRange.patchNum === undefined)
       throw new Error('missing required patchNum property');
     return this.restApiService
-      .getChangeCommitInfo(this._changeNum, this._patchRange.patchNum)
+      .getChangeCommitInfo(this._changeNum, this._patchRange.patchNum, r =>
+        this._handleGetChangeDetailError(r)
+      )
       .then(commitInfo => {
         this._commitInfo = commitInfo;
       });

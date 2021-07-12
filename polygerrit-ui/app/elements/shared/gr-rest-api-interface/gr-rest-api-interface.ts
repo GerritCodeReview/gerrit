@@ -1245,10 +1245,15 @@ export class GrRestApiInterface
     );
   }
 
-  getChangeCommitInfo(changeNum: NumericChangeId, patchNum: PatchSetNum) {
+  getChangeCommitInfo(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    errFn?: ErrorCallback
+  ) {
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/commit?links',
+      errFn,
       revision: patchNum,
       reportEndpointAsIs: true,
     }) as Promise<CommitInfo | undefined>;

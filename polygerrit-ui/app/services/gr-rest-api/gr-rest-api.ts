@@ -772,6 +772,7 @@ export interface RestApiService {
 
   getChangeCommitInfo(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
+    opt_errFn?: ErrorCallback
   ): Promise<CommitInfo | undefined>;
 }

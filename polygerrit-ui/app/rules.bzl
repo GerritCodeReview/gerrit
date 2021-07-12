@@ -1,38 +1,6 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
+load("//tools/bzl:js.bzl", "get_ts_compiled_path", "get_ts_output_files")
 load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
-
-def _get_ts_compiled_path(outdir, file_name):
-    """Calculates the typescript output path for a file_name.
-
-    Args:
-      outdir: the typescript output directory (relative to polygerrit-ui/app/)
-      file_name: the original file name (relative to polygerrit-ui/app/)
-
-    Returns:
-      String - the path to the file produced by the typescript compiler
-    """
-    if file_name.endswith(".js"):
-        return outdir + "/" + file_name
-    if file_name.endswith(".ts"):
-        return outdir + "/" + file_name[:-2] + "js"
-    fail("The file " + file_name + " has unsupported extension")
-
-def _get_ts_output_files(outdir, srcs):
-    """Calculates the files paths produced by the typescript compiler
-
-    Args:
-      outdir: the typescript output directory (relative to polygerrit-ui/app/)
-      srcs: list of input files (all paths relative to polygerrit-ui/app/)
-
-    Returns:
-      List of strings
-    """
-    result = []
-    for f in srcs:
-        if f.endswith(".d.ts"):
-            continue
-        result.append(_get_ts_compiled_path(outdir, f))
-    return result
 
 def compile_ts(name, srcs, ts_outdir, additional_deps = [], ts_project = "tsconfig_bazel.json", emitJS = True, tags = []):
     """Compiles srcs files with the typescript compiler. The following
@@ -61,7 +29,7 @@ def compile_ts(name, srcs, ts_outdir, additional_deps = [], ts_project = "tsconf
     ts_rule_name = name + "_ts_compiled"
 
     # List of files produced by the typescript compiler
-    generated_js = _get_ts_output_files(ts_outdir, srcs) if emitJS else []
+    generated_js = get_ts_output_files(ts_outdir, srcs) if emitJS else []
 
     all_srcs = srcs + [
         ":tsconfig.json",
@@ -101,6 +69,8 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
 
     native.filegroup(
         name = app_name + "-full-src",
+        # TODO(brohlfs): The addition of "@ui_npm//:node_modules" does not seem
+        # to influence the result. Consider removing it.
         srcs = srcs + [
             "@ui_npm//:node_modules",
         ],

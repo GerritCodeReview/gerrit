@@ -2,6 +2,7 @@ load(":rules.bzl", "compile_ts", "polygerrit_bundle")
 load("//tools/js:eslint.bzl", "eslint")
 load("//tools/js:template_checker.bzl", "transform_polymer_templates")
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test", "npm_package_bin")
+load("@npm//@bazel/typescript:index.bzl", "ts_project")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -22,7 +23,7 @@ src_dirs = [
     "utils",
 ]
 
-compiled_pg_srcs = compile_ts(
+ts_project(
     name = "compile_pg",
     srcs = glob(
         [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
@@ -34,9 +35,12 @@ compiled_pg_srcs = compile_ts(
             "**/*_test.ts",
         ],
     ),
-    # The same outdir also appears in the following files:
-    # polylint_test.sh
-    ts_outdir = "_pg_ts_out",
+    allow_js = True,
+    incremental = True,
+    out_dir = "_pg_ts_out",
+    tsc = "//tools/node_tools:tsc-bin",
+    tsconfig = "tsconfig.json",
+    deps = ["@ui_npm//:node_modules"],
 )
 
 compiled_pg_srcs_with_tests = compile_ts(
@@ -203,7 +207,7 @@ sh_test(
 
 polygerrit_bundle(
     name = "polygerrit_ui",
-    srcs = compiled_pg_srcs,
+    srcs = [":compile_pg"],
     outs = ["polygerrit_ui.zip"],
     app_name = "gr-app",
     entry_point = "_pg_ts_out/elements/gr-app-entry-point.js",
@@ -287,9 +291,9 @@ filegroup(
     srcs = [
         # Workaround for https://github.com/bazelbuild/bazel/issues/1305
         "@ui_npm//:node_modules",
-    ] +
-    # Polylinter can't check .ts files, run it on compiled srcs
-    compiled_pg_srcs,
+        # Polylinter can't check .ts files, run it on compiled srcs
+        ":compile_pg",
+    ],
 )
 
 sh_test(

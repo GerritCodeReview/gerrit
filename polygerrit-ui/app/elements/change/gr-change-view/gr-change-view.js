@@ -1564,6 +1564,44 @@ class GrChangeView extends mixinBehaviors( [
    */
   _processEdit(change, edit) {
     if (
+      !edit &&
+      this._patchRange.patchNum === this.EDIT_NAME &&
+      change.status === this.ChangeStatus.NEW
+    ) {
+      /* eslint-disable max-len */
+      const message = 'Change edit not found. Please create a change edit.';
+      this.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {message},
+            bubbles: true,
+            composed: true,
+          })
+      );
+      GerritNav.navigateToChange(change);
+      return;
+    }
+
+    if (
+      !edit &&
+      (change.status === this.ChangeStatus.MERGED ||
+        change.status === this.ChangeStatus.ABANDONED) &&
+      this._editMode
+    ) {
+      /* eslint-disable max-len */
+      const message =
+        'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.';
+      this.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {message},
+            bubbles: true,
+            composed: true,
+          })
+      );
+      GerritNav.navigateToChange(change);
+      return;
+    }
+
+    if (
       (change.status === this.ChangeStatus.MERGED ||
         change.status === this.ChangeStatus.ABANDONED) &&
       this._editMode
@@ -1711,12 +1749,31 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _getCommitInfo() {
+    // We only call _getEdit if the patchset number is an edit.
+    // We have to do this to ensure we can tell if an edit
+    // exists or not.
+    // This safely works even if a edit does not exist.
+    if (this._patchRange.patchNum === this.EDIT_NAME) {
+      return this._getEdit().then(edit => {
+        if (!edit) {
+          return Promise.resolve();
+        }
+
+        return this._getChangeCommitInfo();
+      });
+    }
+
+    return this._getChangeCommitInfo();
+  }
+
+  _getChangeCommitInfo() {
     return this.$.restAPI.getChangeCommitInfo(
         this._changeNum, this._patchRange.patchNum).then(
         commitInfo => {
           this._commitInfo = commitInfo;
         });
   }
+
 
   _reloadDraftsWithCallback(e) {
     return this._reloadDrafts().then(() => e.detail.resolve());

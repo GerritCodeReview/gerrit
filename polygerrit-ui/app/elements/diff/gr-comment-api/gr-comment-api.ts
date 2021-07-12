@@ -42,6 +42,7 @@ import {
   isInBaseOfPatchRange,
   isInRevisionOfPatchRange,
   isPatchsetLevel,
+  addPath,
 } from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
@@ -75,33 +76,11 @@ export class ChangeComments {
     portedComments: PathToCommentsInfoMap | undefined,
     portedDrafts: PathToCommentsInfoMap | undefined
   ) {
-    this._comments = this._addPath(comments);
-    this._robotComments = this._addPath(robotComments);
-    this._drafts = this._addPath(drafts);
+    this._comments = addPath(comments);
+    this._robotComments = addPath(robotComments);
+    this._drafts = addPath(drafts);
     this._portedComments = portedComments || {};
     this._portedDrafts = portedDrafts || {};
-  }
-
-  /**
-   * Add path info to every comment as CommentInfo returned
-   * from server does not have that.
-   *
-   * TODO(taoalpha): should consider changing BE to send path
-   * back within CommentInfo
-   */
-  _addPath<T>(
-    comments: {[path: string]: T[]} = {}
-  ): {[path: string]: Array<T & {path: string}>} {
-    const updatedComments: {[path: string]: Array<T & {path: string}>} = {};
-    for (const filePath of Object.keys(comments)) {
-      const allCommentsForPath = comments[filePath] || [];
-      if (allCommentsForPath.length) {
-        updatedComments[filePath] = allCommentsForPath.map(comment => {
-          return {...comment, path: filePath};
-        });
-      }
-    }
-    return updatedComments;
   }
 
   get drafts() {

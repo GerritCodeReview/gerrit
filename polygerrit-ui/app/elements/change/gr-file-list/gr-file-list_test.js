@@ -33,6 +33,7 @@ import {
   mockPromise,
   query,
 } from '../../../test/test-utils.js';
+import {EditPatchSetNum} from '../../../types/common.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {createCommentThreads} from '../../../utils/comment-util.js';
 import {
@@ -1226,6 +1227,15 @@ suite('gr-file-list tests', () => {
 
       test('not shown for non-Auto Merge base parents', async () => {
         element.patchRange = {basePatchNum: 1, patchNum: 2};
+        await element.reload();
+        await flush();
+
+        assert.notOk(query(element, '.cleanlyMergedText'));
+        assert.notOk(query(element, '.showParentButton'));
+      });
+
+      test('not shown in edit mode', async () => {
+        element.patchRange = {basePatchNum: 1, patchNum: EditPatchSetNum};
         await element.reload();
         await flush();
 

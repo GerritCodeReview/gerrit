@@ -63,6 +63,7 @@ import {
 import {customElement, observe, property} from '@polymer/decorators';
 import {
   BasePatchSetNum,
+  EditPatchSetNum,
   ElementPropertyDeepChange,
   FileInfo,
   FileNameToFileInfoMap,
@@ -500,12 +501,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   @observe('_filesByPath')
-  async _updateCleanlyMergedPaths(
-    // changeNum?: NumericChangeId,
-    // change?: ParsedChangeInfo,
-    // patchRange?: PatchRange,
-    filesByPath?: FileNameToFileInfoMap
-  ) {
+  async _updateCleanlyMergedPaths(filesByPath?: FileNameToFileInfoMap) {
     // When viewing Auto Merge base vs a patchset, add an additional row that
     // knows how many files were cleanly merged. This requires an additional RPC
     // for the diffs between target parent and the patch set. The cleanly merged
@@ -516,7 +512,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       this.changeNum &&
       this.patchRange?.patchNum &&
       new RevisionInfo(this.change).isMergeCommit(this.patchRange.patchNum) &&
-      this.patchRange.basePatchNum === 'PARENT'
+      this.patchRange.basePatchNum === 'PARENT' &&
+      this.patchRange.patchNum !== EditPatchSetNum
     ) {
       const allFilesByPath = await this.restApiService.getChangeOrEditFiles(
         this.changeNum,

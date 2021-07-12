@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7da87b8_72f52162",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-12T11:35:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c46597a_aed6311d",
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06b42b05_e9cf3189",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-07-12T10:54:51Z",
       "side": 1,
       "message": "This is not used and thus should be removed.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 40
+      },
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4134d9da_9a3dbd57",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-12T11:35:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06b42b05_e9cf3189",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f4fcdc7_d74510fc",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-12T11:35:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1b5ea55_a05b3d3a",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 3
+      },
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5596aaa_2f46281f",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-07-12T10:54:51Z",
       "side": 1,
       "message": "This catch block is now very similar to L209. Any change to factor this out?",
+      "range": {
+        "startLine": 152,
+        "startChar": 7,
+        "endLine": 163,
+        "endChar": 5
+      },
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf9cbfcd_e2fa506a",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-12T11:35:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5596aaa_2f46281f",
       "range": {
         "startLine": 152,
         "startChar": 7,
@@ -105,6 +195,76 @@
         "startChar": 0,
         "endLine": 165,
         "endChar": 62
+      },
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15de5208_29c217f3",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-12T11:35:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e218640_a408383e",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 62
+      },
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1298e81_eca00603",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-12T11:35:05Z",
+      "side": 1,
+      "message": "all these fields may be final",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 20
+      },
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebf64db6_f65a437b",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-12T11:35:05Z",
+      "side": 1,
+      "message": "nit: unnecessary variable.",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 29
       },
       "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

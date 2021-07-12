@@ -52,6 +52,24 @@
       "parentUuid": "80781c2b_7adae1d4",
       "revId": "b9468bb4ad7b285fe8fcb1a138b50c557bee5531",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45ebcd1c_28dee614",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-07-12T13:16:20Z",
+      "side": 1,
+      "message": "I don\u0027t think so, or we would have fixed this already.",
+      "parentUuid": "422599c7_af1d4e28",
+      "revId": "b9468bb4ad7b285fe8fcb1a138b50c557bee5531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

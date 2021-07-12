@@ -93,9 +93,6 @@ export const htmlTemplate = html`
                 disabled$="[[_computeDisabled(option.info.editable)]]"
               >
                 <input
-                  is="iron-input"
-                  value="[[option.info.value]]"
-                  on-input="_handleStringChange"
                   data-option-key$="[[option._key]]"
                   disabled$="[[_computeDisabled(option.info.editable)]]"
                 />

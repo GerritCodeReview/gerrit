@@ -70,11 +70,8 @@ export const htmlTemplate = html`
     >
       <input
         id="input"
-        is="iron-input"
         class$="[[_computeInputClass(hideInput)]]"
         type="text"
-        bind-value="[[text]]"
-        on-click="_handleInputClick"
         readonly=""
       />
     </iron-input>

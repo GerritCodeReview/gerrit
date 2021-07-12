@@ -15,24 +15,31 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-identities.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-identities';
+import {GrIdentities} from './gr-identities';
+import {stubRestApi} from '../../../test/test-utils';
+import {ServerInfo} from '../../../types/common';
+import {createServerInfo} from '../../../test/test-data-generators';
+import {queryAll, queryAndAssert} from '../../../test/test-utils';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-identities');
 
 suite('gr-identities tests', () => {
-  let element;
+  let element: GrIdentities;
 
   const ids = [
     {
       identity: 'username:john',
       email_address: 'john.doe@example.com',
       trusted: true,
-    }, {
+    },
+    {
       identity: 'gerrit:gerrit',
       email_address: 'gerrit@example.com',
-    }, {
+    },
+    {
       identity: 'mailto:gerrit2@example.com',
       email_address: 'gerrit2@example.com',
       trusted: true,
@@ -49,36 +56,29 @@ suite('gr-identities tests', () => {
   });
 
   test('renders', () => {
-    const rows = Array.from(
-        element.root.querySelectorAll('tbody tr'));
+    const rows = Array.from(queryAll(element, 'tbody tr'));
 
     assert.equal(rows.length, 2);
 
-    const nameCells = rows.map(row =>
-      row.querySelectorAll('td')[2].textContent
-    );
+    const nameCells = rows.map(row => queryAll(row, 'td')[2].textContent);
 
-    assert.equal(nameCells[0].trim(), 'gerrit:gerrit');
-    assert.equal(nameCells[1].trim(), '');
+    assert.equal(nameCells[0]!.trim(), 'gerrit:gerrit');
+    assert.equal(nameCells[1]!.trim(), '');
   });
 
   test('renders email', () => {
-    const rows = Array.from(
-        element.root.querySelectorAll('tbody tr'));
+    const rows = Array.from(queryAll(element, 'tbody tr'));
 
     assert.equal(rows.length, 2);
 
-    const nameCells = rows.map(row =>
-      row.querySelectorAll('td')[1].textContent
-    );
+    const nameCells = rows.map(row => queryAll(row, 'td')[1]!.textContent);
 
-    assert.equal(nameCells[0], 'gerrit@example.com');
-    assert.equal(nameCells[1], 'gerrit2@example.com');
+    assert.equal(nameCells[0]!, 'gerrit@example.com');
+    assert.equal(nameCells[1]!, 'gerrit2@example.com');
   });
 
   test('_computeIdentity', () => {
-    assert.equal(
-        element._computeIdentity(ids[0].identity), 'username:john');
+    assert.equal(element._computeIdentity(ids[0].identity), 'username:john');
     assert.equal(element._computeIdentity(ids[2].identity), '');
   });
 
@@ -98,71 +98,51 @@ suite('gr-identities tests', () => {
   });
 
   test('_handleDeleteItem opens modal', () => {
-    const deleteBtn =
-        element.root.querySelector('.deleteButton');
+    const deleteBtn = queryAndAssert(element, '.deleteButton');
     const deleteItem = sinon.stub(element, '_handleDeleteItem');
     MockInteractions.tap(deleteBtn);
     assert.isTrue(deleteItem.called);
   });
 
   test('_computeShowLinkAnotherIdentity', () => {
-    let serverConfig;
-
-    serverConfig = {
-      auth: {
-        git_basic_auth_policy: 'OAUTH',
-      },
+    const config: ServerInfo = {
+      ...createServerInfo(),
     };
-    assert.isTrue(element._computeShowLinkAnotherIdentity(serverConfig));
 
-    serverConfig = {
-      auth: {
-        git_basic_auth_policy: 'OpenID',
-      },
-    };
-    assert.isTrue(element._computeShowLinkAnotherIdentity(serverConfig));
+    config.auth.git_basic_auth_policy = 'OAUTH';
+    assert.isTrue(element._computeShowLinkAnotherIdentity(config));
 
-    serverConfig = {
-      auth: {
-        git_basic_auth_policy: 'HTTP_LDAP',
-      },
-    };
-    assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
+    config.auth.git_basic_auth_policy = 'OpenID';
+    assert.isTrue(element._computeShowLinkAnotherIdentity(config));
 
-    serverConfig = {
-      auth: {
-        git_basic_auth_policy: 'LDAP',
-      },
-    };
-    assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
+    config.auth.git_basic_auth_policy = 'HTTP_LDAP';
+    assert.isFalse(element._computeShowLinkAnotherIdentity(config));
 
-    serverConfig = {
-      auth: {
-        git_basic_auth_policy: 'HTTP',
-      },
-    };
-    assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
+    config.auth.git_basic_auth_policy = 'LDAP';
+    assert.isFalse(element._computeShowLinkAnotherIdentity(config));
 
-    serverConfig = {};
-    assert.isFalse(element._computeShowLinkAnotherIdentity(serverConfig));
+    config.auth.git_basic_auth_policy = 'HTTP';
+    assert.isFalse(element._computeShowLinkAnotherIdentity(config));
+
+    assert.isFalse(element._computeShowLinkAnotherIdentity(undefined));
   });
 
   test('_showLinkAnotherIdentity', () => {
-    element.serverConfig = {
-      auth: {
-        git_basic_auth_policy: 'OAUTH',
-      },
+    let config: ServerInfo = {
+      ...createServerInfo(),
     };
+    config.auth.git_basic_auth_policy = 'OAUTH';
+
+    element.serverConfig = config;
 
     assert.isTrue(element._showLinkAnotherIdentity);
 
-    element.serverConfig = {
-      auth: {
-        git_basic_auth_policy: 'LDAP',
-      },
+    config = {
+      ...createServerInfo(),
     };
+    config.auth.git_basic_auth_policy = 'LDAP';
+    element.serverConfig = config;
 
     assert.isFalse(element._showLinkAnotherIdentity);
   });
 });
-

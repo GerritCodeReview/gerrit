@@ -16,6 +16,98 @@
       "message": "an easy mis-parsing of this would be \"Make conflicts cache-reentrant\". you could avoid this by enquoting \"conflicts\". alternatively, use singular \"conflict\", though that\u0027s inconsistent with the class naming. or maybe somebody has a better idea.",
       "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06b42b05_e9cf3189",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-12T10:54:51Z",
+      "side": 1,
+      "message": "This is not used and thus should be removed.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 40
+      },
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1b5ea55_a05b3d3a",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-12T10:54:51Z",
+      "side": 1,
+      "message": "this is now not used anymore and it should be removed from the interface and from the implementation",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 3
+      },
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5596aaa_2f46281f",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-12T10:54:51Z",
+      "side": 1,
+      "message": "This catch block is now very similar to L209. Any change to factor this out?",
+      "range": {
+        "startLine": 152,
+        "startChar": 7,
+        "endLine": 163,
+        "endChar": 5
+      },
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e218640_a408383e",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-12T10:54:51Z",
+      "side": 1,
+      "message": "I wonder whether this logic should actually be in ConflictsPredicate, that arguably should not know about how to load a conflict\n\nI think This loader belongs to the ConflictsCacheImpl and I believed it should be moved there.",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 62
+      },
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

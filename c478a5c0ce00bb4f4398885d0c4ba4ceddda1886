@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46f806ed_eeb08bf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-12T16:07:02Z",
+      "side": 1,
+      "message": "Added a better explanation which i hopes explains it better and what it fixes :)",
+      "parentUuid": "a1434cef_ba4fdd84",
+      "revId": "c478a5c0ce00bb4f4398885d0c4ba4ceddda1886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "565daa5b_edb4e19d",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cac2ed9_ae91515f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-12T16:07:02Z",
+      "side": 1,
+      "message": "Added a better explanation on why we don\u0027t want the dialog when a change edit doesn\u0027t exist.",
+      "parentUuid": "565daa5b_edb4e19d",
+      "revId": "c478a5c0ce00bb4f4398885d0c4ba4ceddda1886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f86649b_df0eb171",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-07-12T15:43:56Z",
       "side": 1,
       "message": "How?",
+      "revId": "c478a5c0ce00bb4f4398885d0c4ba4ceddda1886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1450368a_08bbb1c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-12T16:07:02Z",
+      "side": 1,
+      "message": "Added a better explanation :)",
+      "parentUuid": "2f86649b_df0eb171",
       "revId": "c478a5c0ce00bb4f4398885d0c4ba4ceddda1886",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

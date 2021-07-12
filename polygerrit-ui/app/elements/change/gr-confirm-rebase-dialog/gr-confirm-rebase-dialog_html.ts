@@ -57,12 +57,7 @@ export const htmlTemplate = html`
         class="rebaseOption"
         hidden$="[[!_displayParentOption(rebaseOnCurrent, hasParent)]]"
       >
-        <input
-          id="rebaseOnParentInput"
-          name="rebaseOptions"
-          type="radio"
-          on-click="_handleRebaseOnParent"
-        />
+        <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
         <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
           Rebase on parent change
         </label>

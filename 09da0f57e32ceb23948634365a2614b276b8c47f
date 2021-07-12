@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71812f35_3844ba30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-12T14:52:21Z",
+      "side": 1,
+      "message": "Reverted as this broke selecting patchset edit in the patchset selector and also broke deleting change edits if the change was merged",
+      "revId": "09da0f57e32ceb23948634365a2614b276b8c47f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

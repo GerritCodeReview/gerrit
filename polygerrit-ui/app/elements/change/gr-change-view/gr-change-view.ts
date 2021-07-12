@@ -76,8 +76,9 @@ import {
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {
-  changeIsMerged,
   changeIsAbandoned,
+  changeIsMerged,
+  changeIsOpen,
   changeStatuses,
   isCc,
   isOwner,
@@ -1768,6 +1769,17 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    */
   _processEdit(change: ParsedChangeInfo, edit?: EditInfo | false) {
     if (
+      !edit &&
+      this._patchRange?.patchNum === EditPatchSetNum &&
+      changeIsOpen(change)
+    ) {
+      fireAlert(this, 'Change edit not found. Please create a change edit.');
+      GerritNav.navigateToChange(change);
+      return;
+    }
+
+    if (
+      !edit &&
       (changeIsMerged(change) || changeIsAbandoned(change)) &&
       this._editMode
     ) {
@@ -1970,16 +1982,28 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   _getCommitInfo() {
     if (!this._changeNum)
-      throw new Error('missing required changeNum property');
+      throw new Error('missing required _changeNum property');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     if (this._patchRange.patchNum === undefined)
       throw new Error('missing required patchNum property');
-    return this.restApiService
-      .getChangeCommitInfo(this._changeNum, this._patchRange.patchNum)
-      .then(commitInfo => {
-        this._commitInfo = commitInfo;
-      });
+
+    // We have to call _getEdit to ensure we can tell
+    // if a change edit is created or not.
+    // This safely works if a change edit does not exist too.
+    this._getEdit().then(edit => {
+      if (this._patchRange!.patchNum! === EditPatchSetNum && !edit) {
+        return Promise.resolve();
+      }
+
+      return this.restApiService
+        .getChangeCommitInfo(this._changeNum!, this._patchRange!.patchNum!)
+        .then(commitInfo => {
+          this._commitInfo = commitInfo;
+        });
+    });
+
+    return Promise.resolve();
   }
 
   /**

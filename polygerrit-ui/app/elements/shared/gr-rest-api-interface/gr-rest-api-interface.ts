@@ -1246,9 +1246,14 @@ export class GrRestApiInterface
   }
 
   getChangeCommitInfo(changeNum: NumericChangeId, patchNum: PatchSetNum) {
+    const errFn: ErrorCallback = (response?: Response | null) => {
+      if (response)
+        console.info(`Fetching change edit failed, ${response.status}`);
+    };
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/commit?links',
+      errFn,
       revision: patchNum,
       reportEndpointAsIs: true,
     }) as Promise<CommitInfo | undefined>;

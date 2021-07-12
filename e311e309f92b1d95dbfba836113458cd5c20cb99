@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7484323f_86d1a9b5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-12T14:14:30Z",
+      "side": 1,
+      "message": "I think I would prefer fixing the template checker or keeping the file in the allow list over adding this hack.",
+      "range": {
+        "startLine": 244,
+        "startChar": 2,
+        "endLine": 263,
+        "endChar": 3
+      },
+      "revId": "e311e309f92b1d95dbfba836113458cd5c20cb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

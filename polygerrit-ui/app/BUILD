@@ -1,7 +1,8 @@
 load(":rules.bzl", "compile_ts", "polygerrit_bundle")
 load("//tools/js:eslint.bzl", "eslint")
 load("//tools/js:template_checker.bzl", "transform_polymer_templates")
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test", "npm_package_bin")
+load("//tools/bzl:js.bzl", "get_ts_output_files")
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test", "npm_package_bin", "pkg_npm")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -37,6 +38,26 @@ compiled_pg_srcs = compile_ts(
     # The same outdir also appears in the following files:
     # polylint_test.sh
     ts_outdir = "_pg_ts_out",
+)
+
+js_plugin_api_compiled = compile_ts(
+    name = "js_plugin_api_compile",
+    srcs = glob(["api/**/*.ts"]),
+)
+
+genrule(
+    name = "copy",
+    srcs = [":react-test"],
+    outs = ["react-test"],
+    cmd = "cp -r $(SRCS) $(OUTS)",
+)
+
+# Use this rule for publishing the js plugin api as a package to the npm repo.
+pkg_npm(
+    name = "js_plugin_api_npm_package",
+    srcs = glob(["api/**/*"]),
+    package_path = "api",
+    deps = js_plugin_api_compiled,
 )
 
 compiled_pg_srcs_with_tests = compile_ts(

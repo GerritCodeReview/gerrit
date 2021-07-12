@@ -67,7 +67,7 @@ export default {
     throw new Error(warning.message);
   },
   output: {
-    format: 'iife',
+    //format: 'iife',
     compact: true,
     plugins: [
       terser({

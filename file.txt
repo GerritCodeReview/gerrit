@@ -1,0 +1,3 @@
+Build options: --workspace_status_command='python3 ./tools/workspace_status.py' --repository_cache='~/.gerritcodereview/bazel-cache/repository' --action_env=PATH --disk_cache='~/.gerritcodereview/bazel-cache/cas' --java_toolchain=//tools:error_prone_warnings_toolchain_java11 --incompatible_strict_action_env --announce_rc --noexperimental_worker_multiplex --subcommands=1 --explain=file.txt --verbose_explanations
+Executing action 'BazelWorkspaceStatusAction stable-status.txt': unconditional execution is requested.
+Executing action 'Bundling JavaScript plugins/delete-project/gr-delete-repo-bundle.js [rollup]': no entry in the cache (action is new).

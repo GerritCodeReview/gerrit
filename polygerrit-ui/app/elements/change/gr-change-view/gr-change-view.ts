@@ -77,7 +77,11 @@ import {EventType} from '../../plugins/gr-plugin-types';
 import {customElement, property, observe} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
-import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
+import {
+  changeIsAbandoned,
+  changeIsMerged,
+  changeIsOpen,
+} from '../../../utils/change-util';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
 import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
@@ -1932,6 +1936,25 @@ export class GrChangeView extends KeyboardShortcutMixin(
    */
   _processEdit(change: ParsedChangeInfo, edit?: EditInfo | false) {
     if (
+      !edit &&
+      this._patchRange?.patchNum === EditPatchSetNum &&
+      changeIsOpen(change)
+    ) {
+      /* eslint-disable max-len */
+      const message = 'Change edit not found. Please create a change edit.';
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {message},
+          bubbles: true,
+          composed: true,
+        })
+      );
+      GerritNav.navigateToChange(change);
+      return;
+    }
+
+    if (
+      !edit &&
       (changeIsMerged(change) || changeIsAbandoned(change)) &&
       this._editMode
     ) {
@@ -2117,13 +2140,32 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _getCommitInfo() {
     if (!this._changeNum)
-      throw new Error('missing required changeNum property');
+      throw new Error('missing required _changeNum property');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     if (this._patchRange.patchNum === undefined)
       throw new Error('missing required patchNum property');
+
+    // We only call _getEdit if the patchset number is an edit.
+    // We have to do this to ensure we can tell if an edit
+    // exists or not.
+    // This safely works even if a edit does not exist.
+    if (this._patchRange!.patchNum! === EditPatchSetNum) {
+      return this._getEdit().then(edit => {
+        if (!edit) {
+          return Promise.resolve();
+        }
+
+        return this._getChangeCommitInfo();
+      });
+    }
+
+    return this._getChangeCommitInfo();
+  }
+
+  _getChangeCommitInfo() {
     return this.$.restAPI
-      .getChangeCommitInfo(this._changeNum, this._patchRange.patchNum)
+      .getChangeCommitInfo(this._changeNum!, this._patchRange!.patchNum!)
       .then(commitInfo => {
         this._commitInfo = commitInfo;
       });

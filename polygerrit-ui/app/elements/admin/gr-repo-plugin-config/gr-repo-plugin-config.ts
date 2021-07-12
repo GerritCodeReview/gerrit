@@ -123,6 +123,7 @@ export class GrRepoPluginConfig extends PolymerElement {
 
   _handleStringChange(e: Event) {
     const el = (dom(e) as EventApi).localTarget as IronInputElement;
+    if (!el || el.value === undefined) return;
     // In the template, the data-option-key is assigned to each editor
     const _key = el.getAttribute('data-option-key')!;
     const configChangeInfo = this._buildConfigChangeInfo(el.value, _key);

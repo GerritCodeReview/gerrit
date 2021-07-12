@@ -414,15 +414,11 @@ export const htmlTemplate = html`
               bind-value="{{_newEmail}}"
               type="text"
               on-keydown="_handleNewEmailKeydown"
-              placeholder="email@example.com"
             >
               <input
                 class="newEmailInput"
-                bind-value="{{_newEmail}}"
-                is="iron-input"
                 type="text"
                 disabled="[[_addingEmail]]"
-                on-keydown="_handleNewEmailKeydown"
                 placeholder="email@example.com"
               />
             </iron-input>

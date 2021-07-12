@@ -38,28 +38,14 @@ export const htmlTemplate = html`
     <div id="form">
       <section id="itemNameSection">
         <span class="title">[[detailType]] name</span>
-        <iron-input
-          placeholder="[[detailType]] Name"
-          bind-value="{{_itemName}}"
-        >
-          <input
-            is="iron-input"
-            placeholder="[[detailType]] Name"
-            bind-value="{{_itemName}}"
-          />
+        <iron-input bind-value="{{_itemName}}">
+          <input placeholder="[[detailType]] Name" />
         </iron-input>
       </section>
       <section id="itemRevisionSection">
         <span class="title">Initial Revision</span>
-        <iron-input
-          placeholder="Revision (Branch or SHA-1)"
-          bind-value="{{_itemRevision}}"
-        >
-          <input
-            is="iron-input"
-            placeholder="Revision (Branch or SHA-1)"
-            bind-value="{{_itemRevision}}"
-          />
+        <iron-input bind-value="{{_itemRevision}}">
+          <input placeholder="Revision (Branch or SHA-1)" />
         </iron-input>
       </section>
       <section
@@ -67,15 +53,8 @@ export const htmlTemplate = html`
         class$="[[_computeHideItemClass(itemDetail)]]"
       >
         <span class="title">Annotation</span>
-        <iron-input
-          placeholder="Annotation (Optional)"
-          bind-value="{{_itemAnnotation}}"
-        >
-          <input
-            is="iron-input"
-            placeholder="Annotation (Optional)"
-            bind-value="{{_itemAnnotation}}"
-          />
+        <iron-input bind-value="{{_itemAnnotation}}">
+          <input placeholder="Annotation (Optional)" />
         </iron-input>
       </section>
     </div>

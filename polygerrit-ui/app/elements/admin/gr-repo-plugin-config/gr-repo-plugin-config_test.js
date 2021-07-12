@@ -111,13 +111,18 @@ suite('gr-repo-plugin-config tests', () => {
         name: 'testName',
         config: {plugin: {value: 'test', type: 'STRING'}},
       };
+      element._pluginConfigOptions = {
+        info: {
+          type: 'STRING',
+          value: 'test',
+        },
+      };
       flush();
 
-      const input = element.shadowRoot
-          .querySelector('input');
-      assert.ok(input);
-      input.value = 'newTest';
-      input.dispatchEvent(new Event('input'));
+      const inputEl = element.shadowRoot.querySelector('iron-input');
+      assert.ok(inputEl);
+      inputEl.bindValue = 'newTest';
+      inputEl.dispatchEvent(new Event('input'));
       flush();
 
       assert.isTrue(buildStub.called);

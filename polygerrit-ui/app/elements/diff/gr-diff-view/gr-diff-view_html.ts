@@ -367,12 +367,7 @@ export const htmlTemplate = html`
           <span hidden="" id="annotation-span">
             <label for="annotation-checkbox" id="annotation-label"></label>
             <iron-input type="checkbox" disabled="">
-              <input
-                is="iron-input"
-                type="checkbox"
-                id="annotation-checkbox"
-                disabled=""
-              />
+              <input type="checkbox" id="annotation-checkbox" disabled="" />
             </iron-input>
           </span>
         </gr-endpoint-decorator>

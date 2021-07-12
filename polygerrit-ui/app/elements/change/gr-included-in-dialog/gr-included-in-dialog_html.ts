@@ -78,11 +78,7 @@ export const htmlTemplate = html`
       placeholder="Filter"
       bind-value="{{_filterText}}"
     >
-      <input
-        is="iron-input"
-        placeholder="Filter"
-        bind-value="{{_filterText}}"
-      />
+      <input placeholder="Filter" />
     </iron-input>
   </header>
   <div class$="[[_computeLoadingClass(_loaded)]]">Loading...</div>

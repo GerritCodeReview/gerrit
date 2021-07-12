@@ -138,18 +138,8 @@ export const htmlTemplate = html`
         <label for="baseInput">
           Provide base commit sha1 for cherry-pick
         </label>
-        <iron-input
-          maxlength="40"
-          placeholder="(optional)"
-          bind-value="{{baseCommit}}"
-        >
-          <input
-            is="iron-input"
-            id="baseCommitInput"
-            maxlength="40"
-            placeholder="(optional)"
-            bind-value="{{baseCommit}}"
-          />
+        <iron-input bind-value="{{baseCommit}}">
+          <input id="baseCommitInput" maxlength="40" placeholder="(optional)" />
         </iron-input>
         <label for="messageInput"> Cherry Pick Commit Message </label>
       </template>

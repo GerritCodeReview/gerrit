@@ -113,10 +113,8 @@ export class GrCopyClipboard extends GrLitElement {
         >
           <input
             id="input"
-            is="iron-input"
             class="${classMap({hideInput: this.hideInput})}"
             type="text"
-            @click="${this._handleInputClick}"
             readonly=""
             .value=${this.text}
             part="text-container-style"

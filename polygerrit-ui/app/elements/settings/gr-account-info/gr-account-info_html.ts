@@ -87,11 +87,7 @@ export const htmlTemplate = html`
           bind-value="{{_account.name}}"
           id="nameIronInput"
         >
-          <input
-            id="nameInput"
-            disabled="[[_saving]]"
-            on-keydown="_handleKeydown"
-          />
+          <input id="nameInput" disabled="[[_saving]]" />
         </iron-input>
       </span>
     </section>
@@ -102,11 +98,7 @@ export const htmlTemplate = html`
           on-keydown="_handleKeydown"
           bind-value="{{_account.display_name}}"
         >
-          <input
-            id="displayNameInput"
-            disabled="[[_saving]]"
-            on-keydown="_handleKeydown"
-          />
+          <input id="displayNameInput" disabled="[[_saving]]" />
         </iron-input>
       </span>
     </section>
@@ -117,11 +109,7 @@ export const htmlTemplate = html`
           on-keydown="_handleKeydown"
           bind-value="{{_account.status}}"
         >
-          <input
-            id="statusInput"
-            disabled="[[_saving]]"
-            on-keydown="_handleKeydown"
-          />
+          <input id="statusInput" disabled="[[_saving]]" />
         </iron-input>
       </span>
     </section>

@@ -22,7 +22,6 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import 'lodash/lodash.js';
 import {createRevisions} from '../../../test/test-data-generators.js';
 import {stubRestApi} from '../../../test/test-utils.js';
-import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
 
 const basicFixture = fixtureFromElement('gr-file-list-header');
 
@@ -160,34 +159,6 @@ suite('gr-file-list-header tests', () => {
     assert.equal(navigateToChangeStub.callCount, 1);
     assert.isTrue(navigateToChangeStub.lastCall
         .calledWithExactly(element.change, 3, 1));
-  });
-
-  test('navigateToChange called when range select changes with edit', () => {
-    const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
-    element.change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      revisions: {
-        rev2: {_number: 2},
-        rev1: {_number: 1},
-        rev13: {_number: 13},
-        rev3: {_number: 3},
-      },
-      status: 'NEW',
-      labels: {},
-    };
-    element.basePatchNum = 1;
-    element.patchNum = EditPatchSetNum;
-
-    const detail = {
-      detail: {
-        basePatchNum: ParentPatchSetNum,
-        patchNum: EditPatchSetNum,
-      },
-    };
-    element._handlePatchChange(detail);
-    assert.equal(navigateToChangeStub.callCount, 1);
-    assert.isTrue(navigateToChangeStub.lastCall
-        .calledWithExactly(element.change, undefined, undefined, true));
   });
 
   test('class is applied to file list on old patch set', () => {

@@ -70,6 +70,30 @@
       },
       "revId": "b9e04a0c0a4c58f5dd3fb1acd95870502ff41333",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "775ca5df_c79a848b",
+        "filename": "polygerrit-ui/app/api/rest.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-12T14:30:04Z",
+      "side": 1,
+      "message": "This affects js plugin api callers only, but yes, TypeScript plugins will have to change from\n\n  get(\u0027/url\u0027) as Promise\u003cExpectedType\u003e\n  \nto\n\n  get\u003cExpectedType\u003e(\u0027/url\u0027)\n  \nwhich I find nicer. And I have come across a couple of TypeScript plugins that already follow this pattern.",
+      "parentUuid": "04eb2737_e66dbde8",
+      "range": {
+        "startLine": 89,
+        "startChar": 2,
+        "endLine": 89,
+        "endChar": 34
+      },
+      "revId": "b9e04a0c0a4c58f5dd3fb1acd95870502ff41333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

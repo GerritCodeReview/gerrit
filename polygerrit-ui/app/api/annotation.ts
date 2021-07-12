@@ -28,7 +28,7 @@ export type CoverageProvider = (
   basePatchNum?: number,
   patchNum?: number,
   change?: ChangeInfo
-) => Promise<Array<CoverageRange>>;
+) => Promise<Array<CoverageRange> | undefined>;
 
 export declare interface AnnotationPluginApi {
   /**

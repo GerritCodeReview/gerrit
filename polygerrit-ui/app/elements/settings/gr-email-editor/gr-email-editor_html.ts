@@ -73,7 +73,6 @@ export const htmlTemplate = html`
                 <input
                   class="preferredRadio"
                   type="radio"
-                  on-change="_handlePreferredChange"
                   name="preferred"
                   checked$="[[item.preferred]]"
                 />

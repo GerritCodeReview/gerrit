@@ -80,12 +80,7 @@ export const htmlTemplate = html`
     </template>
     <div class$="row [[_computeShowInputRow(disabled)]]">
       <iron-input on-keydown="_handleInputKeydown" bind-value="{{_newValue}}">
-        <input
-          is="iron-input"
-          id="input"
-          on-keydown="_handleInputKeydown"
-          bind-value="{{_newValue}}"
-        />
+        <input id="input" />
       </iron-input>
       <gr-button
         id="addButton"

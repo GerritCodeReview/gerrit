@@ -101,14 +101,10 @@ export const htmlTemplate = html`
             ></gr-autocomplete>
           </th>
           <th colspan$="[[_getTypeCount()]]">
-            <iron-input
-              class="newFilterInput"
-              placeholder="branch:name, or other search expression"
-            >
+            <iron-input class="newFilterInput">
               <input
                 id="newFilter"
                 class="newFilterInput"
-                is="iron-input"
                 placeholder="branch:name, or other search expression"
               />
             </iron-input>

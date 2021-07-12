@@ -98,13 +98,7 @@ export const htmlTemplate = html`
           type="text"
           on-input="_handleValueChange"
         >
-          <input
-            class="editRefInput"
-            bind-value="{{section.id}}"
-            is="iron-input"
-            type="text"
-            on-input="_handleValueChange"
-          />
+          <input class="editRefInput" type="text" />
         </iron-input>
         <gr-button link="" id="deleteBtn" on-click="_handleRemoveReference"
           >Remove</gr-button

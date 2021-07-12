@@ -62,12 +62,7 @@ export const htmlTemplate = html`
     <div class="filterContainer">
       <label>Filter:</label>
       <iron-input type="text" bind-value="{{filter}}">
-        <input
-          is="iron-input"
-          type="text"
-          id="filter"
-          bind-value="{{filter}}"
-        />
+        <input type="text" id="filter" />
       </iron-input>
     </div>
     <div id="createNewContainer" class$="[[_computeCreateClass(createNew)]]">

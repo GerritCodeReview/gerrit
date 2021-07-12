@@ -33,7 +33,7 @@ export const htmlTemplate = html`
       <section>
         <span class="title">Group name</span>
         <iron-input bind-value="{{_name}}">
-          <input is="iron-input" bind-value="{{_name}}" />
+          <input />
         </iron-input>
       </section>
     </div>

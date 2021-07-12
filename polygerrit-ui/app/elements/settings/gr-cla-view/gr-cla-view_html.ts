@@ -100,10 +100,7 @@ export const htmlTemplate = html`
         class$="agreementsTextBox [[_computeHideAgreementClass(_agreementName, _serverConfig.auth.contributor_agreements)]]"
       >
         <h3 class="heading-3">Complete the agreement:</h3>
-        <iron-input
-          bind-value="{{_agreementsText}}"
-          placeholder="Enter 'I agree' here"
-        >
+        <iron-input bind-value="{{_agreementsText}}">
           <input id="input-agreements" placeholder="Enter 'I agree' here" />
         </iron-input>
         <gr-button

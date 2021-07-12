@@ -37,6 +37,7 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -360,6 +361,46 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists()
+      throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+
+    // create "existing file" and submit it.
+    String existingFile = "existing file";
+    Change.Id prep =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file(existingFile)
+            .content("content")
+            .create();
+    vote(admin, prep.toString(), 2, 1);
+    gApi.changes().id(prep.get()).current().submit();
+
+    Change.Id changeId = changeOperations.newChange().project(project).create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file(existingFile)
+        .content("new content")
+        .create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // no votes are copied since the list of files changed ("existing file" was added to the
+    // change).
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
   public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted()
       throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
@@ -405,7 +446,32 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed() throws Exception {
+  @TestProjectInput(createEmptyCommit = false)
+  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit()
+      throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
+    // configured for that label, and list of files didn't change.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+  }
+
+  @Test
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed()
+      throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
           .updateLabelType(
@@ -420,10 +486,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     changeOperations.change(changeId).newPatchset().file("file").renameTo("new_file").create();
     ChangeInfo c = detailedChange(changeId.toString());
 
-    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
-    // configured for that label, and list of files didn't change (rename is still the same file).
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, -2, 0);
+    // no votes are copied since the list of files changed (rename).
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
   }
 
   @Test

@@ -22,6 +22,30 @@
       },
       "revId": "e59351163201ce5edb92216838bb46c483c1919b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f9ebca6_d185ad8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-12T15:08:21Z",
+      "side": 1,
+      "message": "Done. patchest comment is a link to the place the issue was reported, but I put the relevant detail into the commit message.",
+      "parentUuid": "94c912a7_c4f4f62a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "e59351163201ce5edb92216838bb46c483c1919b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

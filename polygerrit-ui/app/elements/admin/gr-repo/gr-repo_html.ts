@@ -319,8 +319,6 @@ export const htmlTemplate = html`
                 >
                   <input
                     id="maxGitObjSizeInput"
-                    bind-value="{{_repoConfig.max_object_size_limit.configured_value}}"
-                    is="iron-input"
                     type="text"
                     disabled$="[[_readOnly]]"
                   />

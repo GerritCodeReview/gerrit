@@ -92,13 +92,7 @@ export const htmlTemplate = html`
                 data-option-key$="[[option._key]]"
                 disabled$="[[_computeDisabled(option.info.editable)]]"
               >
-                <input
-                  is="iron-input"
-                  value="[[option.info.value]]"
-                  on-input="_handleStringChange"
-                  data-option-key$="[[option._key]]"
-                  disabled$="[[_computeDisabled(option.info.editable)]]"
-                />
+                <input disabled$="[[_computeDisabled(option.info.editable)]]" />
               </iron-input>
             </template>
             <template is="dom-if" if="[[option.info.inherited_value]]">

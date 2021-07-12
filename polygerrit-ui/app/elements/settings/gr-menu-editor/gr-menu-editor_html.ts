@@ -86,32 +86,19 @@ export const htmlTemplate = html`
         <tr>
           <th>
             <iron-input
-              placeholder="New Title"
               on-keydown="_handleInputKeydown"
               bind-value="{{_newName}}"
             >
-              <input
-                is="iron-input"
-                placeholder="New Title"
-                on-keydown="_handleInputKeydown"
-                bind-value="{{_newName}}"
-              />
+              <input placeholder="New Title" />
             </iron-input>
           </th>
           <th>
             <iron-input
               class="newUrlInput"
-              placeholder="New URL"
               on-keydown="_handleInputKeydown"
               bind-value="{{_newUrl}}"
             >
-              <input
-                class="newUrlInput"
-                is="iron-input"
-                placeholder="New URL"
-                on-keydown="_handleInputKeydown"
-                bind-value="{{_newUrl}}"
-              />
+              <input class="newUrlInput" placeholder="New URL" />
             </iron-input>
           </th>
           <th></th>

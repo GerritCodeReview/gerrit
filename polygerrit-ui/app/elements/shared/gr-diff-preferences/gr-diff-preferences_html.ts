@@ -60,22 +60,11 @@ export const htmlTemplate = html`
       <span class="value">
         <iron-input
           type="number"
-          prevent-invalid-input=""
           allowed-pattern="[0-9]"
           bind-value="{{diffPrefs.line_length}}"
-          on-keypress="_handleDiffPrefsChanged"
           on-change="_handleDiffPrefsChanged"
         >
-          <input
-            is="iron-input"
-            type="number"
-            id="columnsInput"
-            prevent-invalid-input=""
-            allowed-pattern="[0-9]"
-            bind-value="{{diffPrefs.line_length}}"
-            on-keypress="_handleDiffPrefsChanged"
-            on-change="_handleDiffPrefsChanged"
-          />
+          <input type="number" id="columnsInput" />
         </iron-input>
       </span>
     </section>
@@ -87,19 +76,9 @@ export const htmlTemplate = html`
           prevent-invalid-input=""
           allowed-pattern="[0-9]"
           bind-value="{{diffPrefs.tab_size}}"
-          on-keypress="_handleDiffPrefsChanged"
           on-change="_handleDiffPrefsChanged"
         >
-          <input
-            is="iron-input"
-            type="number"
-            id="tabSizeInput"
-            prevent-invalid-input=""
-            allowed-pattern="[0-9]"
-            bind-value="{{diffPrefs.tab_size}}"
-            on-keypress="_handleDiffPrefsChanged"
-            on-change="_handleDiffPrefsChanged"
-          />
+          <input type="number" id="tabSizeInput" />
         </iron-input>
       </span>
     </section>
@@ -114,16 +93,7 @@ export const htmlTemplate = html`
           on-keypress="_handleDiffPrefsChanged"
           on-change="_handleDiffPrefsChanged"
         >
-          <input
-            is="iron-input"
-            type="number"
-            id="fontSizeInput"
-            prevent-invalid-input=""
-            allowed-pattern="[0-9]"
-            bind-value="{{diffPrefs.font_size}}"
-            on-keypress="_handleDiffPrefsChanged"
-            on-change="_handleDiffPrefsChanged"
-          />
+          <input type="number" id="fontSizeInput" />
         </iron-input>
       </span>
     </section>

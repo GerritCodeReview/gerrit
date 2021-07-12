@@ -54,36 +54,16 @@ export const htmlTemplate = html`
     <section class$="[[_computeBranchClass(baseChange)]]">
       <span class="title">Provide base commit sha1 for change</span>
       <span class="value">
-        <iron-input
-          maxlength="40"
-          placeholder="(optional)"
-          bind-value="{{baseCommit}}"
-        >
-          <input
-            is="iron-input"
-            id="baseCommitInput"
-            maxlength="40"
-            placeholder="(optional)"
-            bind-value="{{baseCommit}}"
-          />
+        <iron-input bind-value="{{baseCommit}}">
+          <input id="baseCommitInput" maxlength="40" placeholder="(optional)" />
         </iron-input>
       </span>
     </section>
     <section>
       <span class="title">Enter topic for new change</span>
       <span class="value">
-        <iron-input
-          maxlength="1024"
-          placeholder="(optional)"
-          bind-value="{{topic}}"
-        >
-          <input
-            is="iron-input"
-            id="tagNameInput"
-            maxlength="1024"
-            placeholder="(optional)"
-            bind-value="{{topic}}"
-          />
+        <iron-input bind-value="{{topic}}">
+          <input id="tagNameInput" maxlength="1024" placeholder="(optional)" />
         </iron-input>
       </span>
     </section>

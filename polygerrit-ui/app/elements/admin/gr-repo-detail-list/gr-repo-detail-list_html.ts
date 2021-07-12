@@ -120,7 +120,7 @@ export const htmlTemplate = html`
                   edit
                 </gr-button>
                 <iron-input bind-value="{{_revisedRef}}" class="editItem">
-                  <input is="iron-input" bind-value="{{_revisedRef}}" />
+                  <input />
                 </iron-input>
                 <gr-button
                   link=""

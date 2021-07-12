@@ -22,6 +22,30 @@
       },
       "revId": "a6a18caaa204a5c3830fa5306216d6a56c34309c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02c1b9d9_0988a41b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-12T12:16:51Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8a5716da_4a810bfc",
+      "range": {
+        "startLine": 110,
+        "startChar": 21,
+        "endLine": 110,
+        "endChar": 23
+      },
+      "revId": "a6a18caaa204a5c3830fa5306216d6a56c34309c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

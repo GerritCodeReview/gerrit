@@ -51,7 +51,6 @@ import {assertNever} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
   DashboardId,
-  EditPatchSetNum,
   GroupId,
   NumericChangeId,
   PatchSetNum,
@@ -1600,15 +1599,6 @@ export class GrRouter extends PolymerElement {
       view: GerritView.CHANGE,
       queryMap: ctx.queryMap,
     };
-
-    // We do not want to allow "edit" to be used as a
-    // patch number. Instead redirect to ,edit.
-    if (ctx.params[4] === EditPatchSetNum && !ctx.params[6]) {
-      params.basePatchNum = undefined;
-      params.edit = true;
-      this._redirect(this._generateUrl(params));
-      return;
-    }
 
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);

@@ -123,6 +123,24 @@
       "parentUuid": "6f878764_25e3a43e",
       "revId": "a0e1d84dd960a98ff168c37951be41e0c1b277c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cecb4a2_5b8f4907",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-12T09:33:40Z",
+      "side": 1,
+      "message": "Yeah, but they have been reverted by now:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/311729",
+      "parentUuid": "cb7db99f_d713dd33",
+      "revId": "a0e1d84dd960a98ff168c37951be41e0c1b277c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

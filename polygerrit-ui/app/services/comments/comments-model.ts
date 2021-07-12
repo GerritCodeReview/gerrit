@@ -23,7 +23,7 @@ import {
   PathToCommentsInfoMap,
   RobotCommentInfo,
 } from '../../types/common';
-import {DraftInfo} from '../../utils/comment-util';
+import {addPath, DraftInfo} from '../../utils/comment-util';
 
 interface CommentState {
   comments: PathToCommentsInfoMap;
@@ -71,7 +71,7 @@ export function updateStateComments(comments?: {
   [path: string]: CommentInfo[];
 }) {
   const nextState = {...privateState$.getValue()};
-  nextState.comments = comments || {};
+  nextState.comments = addPath(comments) || {};
   privateState$.next(nextState);
 }
 
@@ -79,13 +79,13 @@ export function updateStateRobotComments(robotComments?: {
   [path: string]: RobotCommentInfo[];
 }) {
   const nextState = {...privateState$.getValue()};
-  nextState.robotComments = robotComments || {};
+  nextState.robotComments = addPath(robotComments) || {};
   privateState$.next(nextState);
 }
 
 export function updateStateDrafts(drafts?: {[path: string]: DraftInfo[]}) {
   const nextState = {...privateState$.getValue()};
-  nextState.drafts = drafts || {};
+  nextState.drafts = addPath(drafts) || {};
   privateState$.next(nextState);
 }
 

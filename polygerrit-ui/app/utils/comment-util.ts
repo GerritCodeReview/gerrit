@@ -361,3 +361,25 @@ export function computeId(comment: UIComment) {
   if (isDraft(comment)) return comment.__draftID;
   throw new Error('Missing id in root comment.');
 }
+
+/**
+ * Add path info to every comment as CommentInfo returned
+ * from server does not have that.
+ *
+ * TODO(taoalpha): should consider changing BE to send path
+ * back within CommentInfo
+ */
+export function addPath<T>(
+  comments: {[path: string]: T[]} = {}
+): {[path: string]: Array<T & {path: string}>} {
+  const updatedComments: {[path: string]: Array<T & {path: string}>} = {};
+  for (const filePath of Object.keys(comments)) {
+    const allCommentsForPath = comments[filePath] || [];
+    if (allCommentsForPath.length) {
+      updatedComments[filePath] = allCommentsForPath.map(comment => {
+        return {...comment, path: filePath};
+      });
+    }
+  }
+  return updatedComments;
+}

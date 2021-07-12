@@ -1563,9 +1563,32 @@ class GrChangeView extends mixinBehaviors( [
    * @param {?Object} edit
    */
   _processEdit(change, edit) {
+    const status = change && change.status;
+
     if (
-      (change.status === this.ChangeStatus.MERGED ||
-        change.status === this.ChangeStatus.ABANDONED) &&
+      !edit &&
+      this._patchRange.patchNum === this.EDIT_NAME &&
+      status &&
+      change.status === this.ChangeStatus.NEW
+    ) {
+      /* eslint-disable max-len */
+      const message = 'Change edit not found. Please create a change edit.';
+      this.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {message},
+            bubbles: true,
+            composed: true,
+          })
+      );
+      GerritNav.navigateToChange(change);
+      return;
+    }
+
+    if (
+      !edit &&
+      status &&
+      (status === this.ChangeStatus.MERGED ||
+        status === this.ChangeStatus.ABANDONED) &&
       this._editMode
     ) {
       /* eslint-disable max-len */
@@ -1711,6 +1734,24 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _getCommitInfo() {
+    // We only call _getEdit if the patchset number is an edit.
+    // We have to do this to ensure we can tell if an edit
+    // exists or not.
+    // This safely works even if a edit does not exist.
+    if (this._patchRange.patchNum === this.EDIT_NAME) {
+      return this._getEdit().then(edit => {
+        if (!edit) {
+          return Promise.resolve();
+        }
+
+        return this._getChangeCommitInfo();
+      });
+    }
+
+    return this._getChangeCommitInfo();
+  }
+
+  _getChangeCommitInfo() {
     return this.$.restAPI.getChangeCommitInfo(
         this._changeNum, this._patchRange.patchNum).then(
         commitInfo => {

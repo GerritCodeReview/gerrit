@@ -1430,6 +1430,7 @@ suite('gr-change-view tests', () => {
       labels: {},
       current_revision: 'foo',
       revisions: {foo: {commit: {}}},
+      status: 'NEW',
     }));
 
     element._getChangeDetail().then(() => {
@@ -1445,6 +1446,7 @@ suite('gr-change-view tests', () => {
       labels: {},
       current_revision: 'foo',
       revisions: {foo: {commit: {}}},
+      status: 'NEW',
     }));
 
     element._getChangeDetail().then(() => {

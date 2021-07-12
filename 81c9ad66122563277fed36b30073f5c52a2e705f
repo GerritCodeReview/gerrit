@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "451246bc_86955c23",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-12T14:12:45Z",
+      "side": 1,
+      "message": "Would be nice if you could use `queryAndAssert` and `queryAll` utilities. Here and below.",
+      "revId": "81c9ad66122563277fed36b30073f5c52a2e705f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

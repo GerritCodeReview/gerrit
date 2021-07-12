@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "938db6ae_a99ea9b5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-12T14:17:31Z",
+      "side": 1,
+      "message": "Would be nice to replace all 5 occurrences of `querySelector` in this file, and use test util functions instead.",
+      "range": {
+        "startLine": 58,
+        "startChar": 42,
+        "endLine": 58,
+        "endChar": 55
+      },
+      "revId": "881cf14f81741d453620fe64279b4054f7596e28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

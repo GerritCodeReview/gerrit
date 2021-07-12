@@ -1768,6 +1768,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    */
   _processEdit(change: ParsedChangeInfo, edit?: EditInfo | false) {
     if (
+      !edit &&
       (changeIsMerged(change) || changeIsAbandoned(change)) &&
       this._editMode
     ) {

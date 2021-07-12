@@ -144,9 +144,10 @@ export class Plugin implements PluginApi {
     options?: RegisterOptions,
     dynamicEndpoint?: string
   ): HookApi<T> {
-    const type =
-      options && options.replace ? EndpointType.REPLACE : EndpointType.DECORATE;
-    const slot = (options && options.slot) || '';
+    const type = options?.replace
+      ? EndpointType.REPLACE
+      : EndpointType.DECORATE;
+    const slot = options?.slot ?? '';
     const domHook = this.domHooks.getDomHook<T>(endpoint, moduleName);
     moduleName = moduleName || domHook.getModuleName();
     getPluginEndpoints().registerModule(this, {

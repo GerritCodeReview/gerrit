@@ -30,8 +30,10 @@ export type PluginElement = HTMLElement & GerritElementExtensions;
 export type HookCallback<T extends PluginElement> = (el: T) => void;
 
 export declare interface RegisterOptions {
+  /** Defaults to empty string. */
   slot?: string;
-  replace: boolean;
+  /** Defaults to false. */
+  replace?: boolean;
 }
 
 export declare interface HookApi<T extends PluginElement> {

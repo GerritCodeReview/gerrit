@@ -126,7 +126,7 @@ export function updateStateDeleteDraft(draft: DraftInfo) {
   if (!draft.path) throw new Error('draft path undefined');
   nextState.drafts = {...nextState.drafts};
   const drafts = nextState.drafts;
-  const index = drafts[draft.path].findIndex(
+  const index = (drafts[draft.path] || []).findIndex(
     d => d.__draftID === draft.__draftID || d.id === draft.id
   );
   if (index === -1) return;

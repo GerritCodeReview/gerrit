@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da3f8412_b1d4b0f6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-13T15:44:00Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be #copy-clipboard-button as copy-clipboard-button element doesn\u0027t exist in the html?",
+      "revId": "73cb183d9dab641f209e4b5e944d7f8b958a7368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42f6c646_38e9a026",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-07-13T17:18:11Z",
+      "side": 1,
+      "message": "that\u0027s mightily garbled. 😄",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "eea7d37d1cfce0f7622ae0f4821b1ef06672cf80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6a36ae2_6ad6094b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-07-13T17:18:11Z",
+      "side": 1,
+      "message": "it might be just clueless me, but i find that a bit insufficient for understanding. ^^",
+      "revId": "eea7d37d1cfce0f7622ae0f4821b1ef06672cf80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f290214c_fc8ba002",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-07-13T17:18:11Z",
+      "side": 1,
+      "message": "isn\u0027t it policy not to have empty lines between footers?",
+      "revId": "eea7d37d1cfce0f7622ae0f4821b1ef06672cf80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

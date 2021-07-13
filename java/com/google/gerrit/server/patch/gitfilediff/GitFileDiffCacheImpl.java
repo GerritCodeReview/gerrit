@@ -24,6 +24,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multimaps;
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -221,7 +224,8 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
       Map<GitFileDiffCacheKey, String> filePaths =
           keys.stream().collect(Collectors.toMap(identity(), GitFileDiffCacheKey::newFilePath));
       DiffFormatter formatter = createDiffFormatter(options, repo, reader);
-      Map<String, DiffEntry> diffEntries = loadDiffEntries(formatter, options, filePaths.values());
+      Multimap<String, DiffEntry> diffEntries =
+          loadDiffEntries(formatter, options, filePaths.values());
       for (GitFileDiffCacheKey key : filePaths.keySet()) {
         String newFilePath = filePaths.get(key);
         if (!diffEntries.containsKey(newFilePath)) {
@@ -233,14 +237,15 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
                   newFilePath));
           continue;
         }
-        DiffEntry diffEntry = diffEntries.get(newFilePath);
-        GitFileDiff gitFileDiff = createGitFileDiff(diffEntry, formatter, key);
-        result.put(key, gitFileDiff);
+        for (DiffEntry entry : diffEntries.get(newFilePath)) {
+          GitFileDiff gitFileDiff = createGitFileDiff(entry, formatter, key);
+          result.put(key, gitFileDiff);
+        }
       }
       return result.build();
     }
 
-    private static Map<String, DiffEntry> loadDiffEntries(
+    private static Multimap<String, DiffEntry> loadDiffEntries(
         DiffFormatter diffFormatter, DiffOptions diffOptions, Collection<String> filePaths)
         throws IOException {
       Set<String> filePathsSet = ImmutableSet.copyOf(filePaths);
@@ -251,7 +256,11 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
 
       return diffEntries.stream()
           .filter(d -> filePathsSet.contains(pathExtractor.apply(d)))
-          .collect(Collectors.toMap(d -> pathExtractor.apply(d), identity()));
+          .collect(
+              Multimaps.toMultimap(
+                  d -> pathExtractor.apply(d),
+                  identity(),
+                  MultimapBuilder.treeKeys().arrayListValues()::build));
     }
 
     private static DiffFormatter createDiffFormatter(

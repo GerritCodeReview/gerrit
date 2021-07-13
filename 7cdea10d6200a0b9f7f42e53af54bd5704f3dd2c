@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52714d82_4d254c12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-13T11:27:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04fa97bc_784c2206",
+      "revId": "7cdea10d6200a0b9f7f42e53af54bd5704f3dd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4ea6199_f0d8f3b9",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-07-12T10:36:09Z",
       "side": 1,
       "message": "How do you ensure that this is executed when deleted drafts are recovered?",
+      "revId": "7cdea10d6200a0b9f7f42e53af54bd5704f3dd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c325a456_00fedc81",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-13T11:27:56Z",
+      "side": 1,
+      "message": "created a restoreDraft method which makes the api call to save the draft.",
+      "parentUuid": "a4ea6199_f0d8f3b9",
       "revId": "7cdea10d6200a0b9f7f42e53af54bd5704f3dd2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dfd0853_b643bf6a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-13T11:27:56Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "ba9848bf_d609354c",
+      "revId": "7cdea10d6200a0b9f7f42e53af54bd5704f3dd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d337bbd5_3ffa27ab",
@@ -69,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f18332d9_e3d29c31",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-13T11:27:56Z",
+      "side": 1,
+      "message": "Directly calling is cleaner.\nUpdated.",
+      "parentUuid": "d337bbd5_3ffa27ab",
+      "revId": "7cdea10d6200a0b9f7f42e53af54bd5704f3dd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "475a3de9_d8a96a31",
@@ -82,6 +154,24 @@
       "writtenOn": "2021-07-12T10:36:09Z",
       "side": 1,
       "message": "I think some comments would be nice here about how this works.",
+      "revId": "7cdea10d6200a0b9f7f42e53af54bd5704f3dd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48e54644_36bac4db",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-13T11:27:56Z",
+      "side": 1,
+      "message": "added on the state interface definition.",
+      "parentUuid": "475a3de9_d8a96a31",
       "revId": "7cdea10d6200a0b9f7f42e53af54bd5704f3dd2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

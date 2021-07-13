@@ -81,6 +81,13 @@ public class ChangeIdIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void tripletWithoutChangeIdReturnsNotFound() throws Exception {
+    createChange().assertOkStatus();
+    RestResponse res = adminRestSession.get(changeDetail(project.get() + "~master~"));
+    res.assertNotFound();
+  }
+
+  @Test
   public void changeIdReturnsChange() throws Exception {
     PushOneCommit.Result c = createChange();
     RestResponse res = adminRestSession.get(changeDetail(c.getChangeId()));

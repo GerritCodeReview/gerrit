@@ -82,14 +82,12 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
       throws RestApiException, PermissionBackendException, IOException {
-    List<ChangeNotes> notes = changeFinder.find(id.encoded());
-    if (notes.isEmpty()) {
+    Optional<ChangeNotes> notes = changeFinder.findOne(id.encoded());
+    if (!notes.isPresent()) {
       throw new ResourceNotFoundException(id);
-    } else if (notes.size() != 1) {
-      throw new ResourceNotFoundException("Multiple changes found for " + id);
     }
 
-    ChangeNotes change = notes.get(0);
+    ChangeNotes change = notes.get();
     if (!canRead(change)) {
       throw new ResourceNotFoundException(id);
     }

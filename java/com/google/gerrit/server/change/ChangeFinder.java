@@ -100,7 +100,7 @@ public class ChangeFinder {
   }
 
   public Optional<ChangeNotes> findOne(String id) {
-    List<ChangeNotes> ctls = find(id);
+    List<ChangeNotes> ctls = find(id, true);
     if (ctls.size() != 1) {
       return Optional.empty();
     }
@@ -114,6 +114,10 @@ public class ChangeFinder {
    * @return possibly-empty list of notes for all matching changes; may or may not be visible.
    */
   public List<ChangeNotes> find(String id) {
+    return find(id, false);
+  }
+
+  private List<ChangeNotes> find(String id, boolean findOne) {
     if (id.isEmpty()) {
       return Collections.emptyList();
     }
@@ -153,6 +157,10 @@ public class ChangeFinder {
       Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id, y, z);
       if (triplet.isPresent()) {
         ChangeTriplet t = triplet.get();
+
+        if (findOne && t.id().get().isEmpty()) {
+          return Collections.emptyList();
+        }
         changeIdCounter.increment(ChangeIdType.TRIPLET);
         return asChangeNotes(query.byBranchKey(t.branch(), t.id()));
       }

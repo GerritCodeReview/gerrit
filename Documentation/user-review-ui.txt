@@ -480,7 +480,7 @@ The polling frequency depends on the server configuration; by default
 it is 30 seconds. Polling may also be completely disabled by the
 administrator.
 
-image::images/gwt-user-review-ui-change-screen-change-update.png[width=800, link="images/gwt-user-review-ui-change-screen-change-update.png"]
+image::images/user-review-ui-change-screen-change-update.png[width=400, link="images/user-review-ui-change-screen-change-update.png"]
 
 [[plugin-extensions]]
 === Plugin Extensions
@@ -500,17 +500,8 @@ displayed on the right side of the screen.
 
 This screen allows to review a patch and to comment on it.
 
-image::images/gwt-user-review-ui-side-by-side-diff-screen.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen.png"]
+image::images/user-review-ui-side-by-side-diff-screen.png[width=800, link="images/user-review-ui-side-by-side-diff-screen.png"]
 
-[[side-by-side-header]]
-In the screen header the project name and the name of the viewed patch
-file are shown.
-
-If a Git web browser is configured on the server, the project name and
-the file path are displayed as links to the project and the folder in
-the Git web browser.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-project-and-file.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-project-and-file.png"]
 
 [[side-by-side-mark-reviewed]]
 The checkbox in front of the file name allows the
@@ -615,13 +606,9 @@ frequently used methods are:
 For typing the new comment, a new comment box is shown under the code
 that is commented.
 
-Clicking on the `Save` button saves the new comment as a draft. To make
-it visible to other users it must be published from the change screen
-by link:#reply[replying] to the change.
-
-Clicking on the `Discard` button deletes the new comment.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-commented.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-commented.png"]
+Clicking on the `Save` button saves the new comment as a draft. To
+make it visible to other users it must be published from the change
+screen by link:#reply[replying] to the change.
 
 [[file-level-comments]]
 === File Level Comments

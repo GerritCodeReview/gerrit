@@ -121,6 +121,9 @@ export class GrMessage extends PolymerElement {
   @property({type: Object})
   message: ChangeMessage | undefined;
 
+  @property({type: Array})
+  commentThreads: CommentThread[] = [];
+
   @computed('message')
   get author() {
     return this.message?.author || this.message?.updated_by;
@@ -195,13 +198,13 @@ export class GrMessage extends PolymerElement {
       '_computeMessageContentCollapsed(message.message,' +
       ' message.accounts_in_message,' +
       ' message.tag,' +
-      ' message.commentThreads)',
+      ' commentThreads)',
   })
   _messageContentCollapsed = '';
 
   @property({
     type: String,
-    computed: '_computeCommentCountText(message.commentThreads.length)',
+    computed: '_computeCommentCountText(commentThreads)',
   })
   _commentCountText = '';
 
@@ -234,12 +237,12 @@ export class GrMessage extends PolymerElement {
     }
   }
 
-  _computeCommentCountText(threadsLength?: number) {
-    if (!threadsLength) {
+  _computeCommentCountText(commentThreads?: CommentThread[]) {
+    if (!commentThreads?.length) {
       return undefined;
     }
 
-    return pluralize(threadsLength, 'comment');
+    return pluralize(commentThreads.length, 'comment');
   }
 
   _computeMessageContentExpanded(

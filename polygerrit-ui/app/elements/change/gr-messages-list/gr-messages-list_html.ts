@@ -93,6 +93,7 @@ export const htmlTemplate = html`
       change="[[change]]"
       change-num="[[changeNum]]"
       message="[[message]]"
+      comment-threads="[[getCommentThreads(message, changeComments)]]"
       project-name="[[projectName]]"
       show-reply-button="[[showReplyButtons]]"
       on-message-anchor-tap="_handleAnchorClick"

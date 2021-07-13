@@ -1207,10 +1207,15 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi originalChange = gApi.changes().id(project.get() + "~master~" + result.getChangeId());
 
     ChangeApi cherryPick = originalChange.revision(result.getCommit().name()).cherryPick(input);
+    String firstCherryPickChangeId = cherryPick.id();
     cherryPick.setWorkInProgress();
-    cherryPick = originalChange.revision(result.getCommit().name()).cherryPick(input);
+    gApi.changes()
+        .id(project.get() + "~master~" + result.getChangeId())
+        .revision(result.getCommit().name())
+        .cherryPick(input);
 
-    ChangeInfo secondCherryPickResult = cherryPick.get(ALL_REVISIONS);
+    ChangeInfo secondCherryPickResult =
+        gApi.changes().id(firstCherryPickChangeId).get(ALL_REVISIONS);
     assertThat(secondCherryPickResult.revisions).hasSize(2);
     assertThat(secondCherryPickResult.workInProgress).isNull();
   }

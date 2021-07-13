@@ -24,7 +24,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multimaps;
 import com.google.common.collect.Streams;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
@@ -41,6 +45,7 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -163,7 +168,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
     }
 
     @Override
-    public GitFileDiff load(GitFileDiffCacheKey key) throws IOException {
+    public GitFileDiff load(GitFileDiffCacheKey key) throws IOException, DiffNotAvailableException {
       try (TraceTimer timer =
           TraceContext.newTimer(
               "Loading a single key from git file diff cache",
@@ -177,7 +182,8 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
 
     @Override
     public Map<GitFileDiffCacheKey, GitFileDiff> loadAll(
-        Iterable<? extends GitFileDiffCacheKey> keys) throws IOException {
+        Iterable<? extends GitFileDiffCacheKey> keys)
+        throws IOException, DiffNotAvailableException {
       try (TraceTimer timer =
           TraceContext.newTimer("Loading multiple keys from git file diff cache")) {
         ImmutableMap.Builder<GitFileDiffCacheKey, GitFileDiff> result =
@@ -215,13 +221,14 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
      */
     private Map<GitFileDiffCacheKey, GitFileDiff> loadAllImpl(
         Repository repo, ObjectReader reader, DiffOptions options, List<GitFileDiffCacheKey> keys)
-        throws IOException {
+        throws IOException, DiffNotAvailableException {
       ImmutableMap.Builder<GitFileDiffCacheKey, GitFileDiff> result =
           ImmutableMap.builderWithExpectedSize(keys.size());
       Map<GitFileDiffCacheKey, String> filePaths =
           keys.stream().collect(Collectors.toMap(identity(), GitFileDiffCacheKey::newFilePath));
       DiffFormatter formatter = createDiffFormatter(options, repo, reader);
-      Map<String, DiffEntry> diffEntries = loadDiffEntries(formatter, options, filePaths.values());
+      ListMultimap<String, DiffEntry> diffEntries =
+          loadDiffEntries(formatter, options, filePaths.values());
       for (GitFileDiffCacheKey key : filePaths.keySet()) {
         String newFilePath = filePaths.get(key);
         if (!diffEntries.containsKey(newFilePath)) {
@@ -233,14 +240,22 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
                   newFilePath));
           continue;
         }
-        DiffEntry diffEntry = diffEntries.get(newFilePath);
-        GitFileDiff gitFileDiff = createGitFileDiff(diffEntry, formatter, key);
-        result.put(key, gitFileDiff);
+        // Normally, JGit should return one DiffEntry per file path with change type = {ADDED,
+        // MODIFIED, etc...}. In some rare cases, JGit returns two {ADDED, DELETED} diff entries for
+        // the same file, instead of one "MODIFIED" entry. This happens, e.g. when a file is
+        // modified between two patchsets and the file mode is changed (for example converting a
+        // symlink to a regular file). We handle this case by converting the "ADDED" diff entry to
+        // "REWRITE".
+        List<GitFileDiff> gitDiffs = new ArrayList<>();
+        for (DiffEntry entry : diffEntries.get(newFilePath)) {
+          gitDiffs.add(createGitFileDiff(entry, formatter, key));
+        }
+        result.put(key, getSingleDiffEntry(gitDiffs));
       }
       return result.build();
     }
 
-    private static Map<String, DiffEntry> loadDiffEntries(
+    private static ListMultimap<String, DiffEntry> loadDiffEntries(
         DiffFormatter diffFormatter, DiffOptions diffOptions, Collection<String> filePaths)
         throws IOException {
       Set<String> filePathsSet = ImmutableSet.copyOf(filePaths);
@@ -251,7 +266,11 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
 
       return diffEntries.stream()
           .filter(d -> filePathsSet.contains(pathExtractor.apply(d)))
-          .collect(Collectors.toMap(d -> pathExtractor.apply(d), identity()));
+          .collect(
+              Multimaps.toMultimap(
+                  d -> pathExtractor.apply(d),
+                  identity(),
+                  MultimapBuilder.treeKeys().arrayListValues()::build));
     }
 
     private static DiffFormatter createDiffFormatter(
@@ -332,6 +351,60 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
         throw new IOException(e.getMessage(), e.getCause());
       }
     }
+  }
+
+  /**
+   * Returns a single diff entry for the same file path. Normally the list should contain a single
+   * entry, but in some cases (e.g. converting a symlink to a regular file with same name) JGit
+   * produces two {ADDED, DELETED} entries for the same file. We merge those entries into a single
+   * 'REWRITE' entry.
+   */
+  private static GitFileDiff getSingleDiffEntry(List<GitFileDiff> gitDiffs)
+      throws DiffNotAvailableException {
+    if (gitDiffs.size() == 1) {
+      return gitDiffs.get(0);
+    } else if (gitDiffs.size() == 2) {
+      return convertAddDeleteEntriesToRewrite(gitDiffs);
+    } else {
+      throw new DiffNotAvailableException(
+          String.format(
+              "JGit error: found %d diff entries for same file path %s",
+              gitDiffs.size(), getDefaultPath(gitDiffs.get(0))));
+    }
+  }
+
+  /**
+   * Convert the input list into a single {@link GitFileDiff} with {@link Patch.ChangeType} equals
+   * {@link Patch.ChangeType#REWRITE}. The input list is expected to have a length of two and should
+   * contain exactly two {ADDED, DELETED} entries.
+   *
+   * @param gitDiffs input list of exactly two {@link GitFileDiff} for same file path.
+   * @return a combined {@link GitFileDiff} with change type equals {@link
+   *     Patch.ChangeType#REWRITE}.
+   * @throws DiffNotAvailableException if input list contains git diffs with change types other than
+   *     {ADDED, DELETED}. This is a JGit error.
+   */
+  private static GitFileDiff convertAddDeleteEntriesToRewrite(List<GitFileDiff> gitDiffs)
+      throws DiffNotAvailableException {
+    List<Patch.ChangeType> changeTypes =
+        gitDiffs.stream().map(GitFileDiff::changeType).collect(Collectors.toList());
+    if (!(changeTypes.contains(Patch.ChangeType.ADDED)
+        && changeTypes.contains(Patch.ChangeType.DELETED))) {
+      // This is an illegal state. JGit is not supposed to return this, so we throw an exception.
+      throw new DiffNotAvailableException(
+          String.format(
+              "JGit error: unexpected change types %s and %s for same file path %s",
+              changeTypes.get(0), changeTypes.get(1), getDefaultPath(gitDiffs.get(0))));
+    }
+    GitFileDiff addedEntry =
+        gitDiffs.get(0).changeType().equals(Patch.ChangeType.ADDED)
+            ? gitDiffs.get(0)
+            : gitDiffs.get(1);
+    return addedEntry.toBuilder().changeType(Patch.ChangeType.REWRITE).build();
+  }
+
+  private static String getDefaultPath(GitFileDiff f) {
+    return f.oldPath().isPresent() ? f.oldPath().get() : f.newPath().get();
   }
 
   /** An entity representing the options affecting the diff computation. */

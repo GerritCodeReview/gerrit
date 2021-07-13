@@ -55,7 +55,7 @@ export const htmlTemplate = html`
   <div class="commandContainer">
     <gr-copy-clipboard
       text="[[command]]"
-      has-tooltip
+      hasTooltip
       button-title="[[tooltip]]"
     ></gr-copy-clipboard>
   </div>

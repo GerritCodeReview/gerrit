@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a172d4fc_7ed7e37d",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-13T13:09:18Z",
+      "side": 1,
+      "message": "This is now: the \"triple dots\" dropdown menu.\n\nAlso I was curious: Is this the only place that plugins can add action in the change screen?",
+      "range": {
+        "startLine": 490,
+        "startChar": 9,
+        "endLine": 490,
+        "endChar": 36
+      },
+      "revId": "08b154633e45f5fd79c0d5a5b0efff5cecc65457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -15,16 +15,14 @@
  * limitations under the License.
  */
 import '@polymer/iron-input/iron-input';
-import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-copy-clipboard_html';
-import {GrButton} from '../gr-button/gr-button';
-import {customElement, property} from '@polymer/decorators';
 import {IronIconElement} from '@polymer/iron-icon';
-import {assertIsDefined} from '../../../utils/common-util';
+import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+import {classMap} from 'lit-html/directives/class-map';
+import {css, customElement, html, property} from 'lit-element';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {GrButton} from '../gr-button/gr-button';
 
 const COPY_TIMEOUT_MS = 1000;
 
@@ -33,17 +31,8 @@ declare global {
     'gr-copy-clipboard': GrCopyClipboard;
   }
 }
-
-export interface GrCopyClipboard {
-  $: {button: GrButton; icon: IronIconElement; input: HTMLInputElement};
-}
-
 @customElement('gr-copy-clipboard')
-export class GrCopyClipboard extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrCopyClipboard extends GrLitElement {
   @property({type: String})
   text: string | undefined;
 
@@ -56,29 +45,121 @@ export class GrCopyClipboard extends PolymerElement {
   @property({type: Boolean})
   hideInput = false;
 
-  focusOnCopy() {
-    this.$.button.focus();
+  static get styles() {
+    return [
+      css`
+        .text {
+          align-items: center;
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .copyText {
+          flex-grow: 1;
+          margin-right: var(--spacing-s);
+        }
+        .hideInput {
+          display: none;
+        }
+        input#input {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
+          width: 100%;
+        }
+        /*
+         * Typically icons are 20px, which is the normal line-height.
+         * The copy icon is too prominent at 20px, so we choose 16px
+         * here, but add 2x2px padding below, so the entire
+         * component should still fit nicely into a normal inline
+         * layout flow.
+         */
+        #icon {
+          height: 16px;
+          width: 16px;
+        }
+        iron-icon {
+          color: var(--deemphasized-text-color);
+          vertical-align: top;
+        }
+      `,
+    ];
   }
 
-  _computeInputClass(hideInput: boolean) {
-    return hideInput ? 'hideInput' : '';
+  render() {
+    // To pass CSS mixins for @apply to Polymer components, they need to appear
+    // in <style> inside the template.
+    const customStyle = html`
+      <style>
+        iron-icon {
+          --iron-icon-height: 20px;
+          --iron-icon-width: 20px;
+        }
+        gr-button {
+          --gr-button: {
+            padding: 2px;
+          }
+        }
+      </style>
+    `;
+    return html`${customStyle}
+      <div class="text">
+        <iron-input
+          class="copyText"
+          type="text"
+          @click="${this._handleInputClick}"
+          readonly=""
+          bind-value=${this.text}
+        >
+          <input
+            id="input"
+            is="iron-input"
+            class="${classMap({hideInput: this.hideInput})}"
+            type="text"
+            @click="${this._handleInputClick}"
+            readonly=""
+            .value=${this.text}
+            part="text-container-style"
+          />
+        </iron-input>
+        <gr-button
+          id="copy-clipboard-button"
+          link=""
+          ?has-tooltip=${this.hasTooltip}
+          class="copyToClipboard"
+          title="${this.buttonTitle}"
+          @click="${this._copyToClipboard}"
+          aria-label="Click to copy to clipboard"
+        >
+          <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
+        </gr-button>
+      </div> `;
+  }
+
+  focusOnCopy() {
+    queryAndAssert<GrButton>(this, '#copy-clipboard-button').focus();
   }
 
   _handleInputClick(e: MouseEvent) {
     e.preventDefault();
-    ((dom(e) as EventApi).rootTarget as HTMLInputElement).select();
+    const rootTarget = e.composedPath()[0];
+    (rootTarget as HTMLInputElement).select();
   }
 
   _copyToClipboard(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
 
+    this.text = queryAndAssert<HTMLInputElement>(this, '#input').value;
     assertIsDefined(this.text, 'text');
-    this.$.icon.icon = 'gr-icons:check';
+    this.iconEl.icon = 'gr-icons:check';
     navigator.clipboard.writeText(this.text);
     setTimeout(
-      () => (this.$.icon.icon = 'gr-icons:content-copy'),
+      () => (this.iconEl.icon = 'gr-icons:content-copy'),
       COPY_TIMEOUT_MS
     );
+  }
+
+  private get iconEl(): IronIconElement {
+    return queryAndAssert<IronIconElement>(this, '#icon');
   }
 }

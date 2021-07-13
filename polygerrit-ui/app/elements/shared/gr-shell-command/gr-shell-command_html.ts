@@ -45,17 +45,15 @@ export const htmlTemplate = html`
       /* Should roughly match the height of .commandContainer without padding. */
       line-height: 26px;
     }
-    .commandContainer gr-copy-clipboard {
-      --text-container-style: {
-        border: none;
-      }
+    .commandContainer gr-copy-clipboard::part(text-container-style) {
+      border: none;
     }
   </style>
   <label>[[label]]</label>
   <div class="commandContainer">
     <gr-copy-clipboard
       text="[[command]]"
-      has-tooltip
+      hasTooltip
       button-title="[[tooltip]]"
     ></gr-copy-clipboard>
   </div>

@@ -70,9 +70,9 @@ export const htmlTemplate = html`
               </td>
               <td>
                 <gr-copy-clipboard
-                  has-tooltip=""
-                  button-title="Copy GPG public key to clipboard"
-                  hide-input=""
+                  hasTooltip=""
+                  buttonTitle="Copy GPG public key to clipboard"
+                  hideInput=""
                   text="[[key.key]]"
                 >
                 </gr-copy-clipboard>

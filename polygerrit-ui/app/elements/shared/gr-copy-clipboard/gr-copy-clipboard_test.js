@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-copy-clipboard.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {queryAndAssert} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-copy-clipboard');
 
@@ -32,18 +32,18 @@ suite('gr-copy-clipboard tests', () => {
   });
 
   test('copy to clipboard', () => {
-    const clipboardSpy = sinon.spy(element, '_copyToClipboard');
+    const clipboardSpy = sinon.spy(navigator.clipboard, 'writeText');
     const copyBtn = element.shadowRoot
         .querySelector('.copyToClipboard');
-    MockInteractions.tap(copyBtn);
+    MockInteractions.click(copyBtn);
     assert.isTrue(clipboardSpy.called);
   });
 
   test('focusOnCopy', () => {
     element.focusOnCopy();
-    assert.deepEqual(dom(element.root).activeElement,
-        element.shadowRoot
-            .querySelector('.copyToClipboard'));
+    const activeElement = element.shadowRoot.activeElement;
+    const button = element.shadowRoot.querySelector('.copyToClipboard');
+    assert.deepEqual(activeElement, button);
   });
 
   test('_handleInputClick', () => {
@@ -58,16 +58,17 @@ suite('gr-copy-clipboard tests', () => {
     assert.equal(inputElement.selectionEnd, element.text.length - 1);
   });
 
-  test('hideInput', () => {
+  test('hideInput', async () => {
     // iron-input as parent should never be hidden as copy won't work
     // on nested hidden elements
     const ironInputElement = element.shadowRoot.querySelector('iron-input');
     assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
 
-    assert.notEqual(getComputedStyle(element.$.input).display, 'none');
+    const input = queryAndAssert(element, 'input');
+    assert.notEqual(getComputedStyle(input).display, 'none');
     element.hideInput = true;
-    flush();
-    assert.equal(getComputedStyle(element.$.input).display, 'none');
+    await flush();
+    assert.equal(getComputedStyle(input).display, 'none');
   });
 
   test('stop events propagation', () => {

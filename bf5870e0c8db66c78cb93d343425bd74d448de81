@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4993e42d_29776821",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-07-13T14:40:14Z",
+      "side": 1,
+      "message": "I wonder if we should change the API to fail when 2 requests are performed on the same object.",
+      "range": {
+        "startLine": 1209,
+        "startChar": 4,
+        "endLine": 1209,
+        "endChar": 13
+      },
+      "revId": "bf5870e0c8db66c78cb93d343425bd74d448de81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

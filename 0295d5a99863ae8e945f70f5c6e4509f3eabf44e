@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d52fc24_8f573261",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-13T13:18:37Z",
+      "side": 1,
+      "message": "Motivation of this change is to support shorter names for different conditions in project.config. For example: submittableIf is better than submittabilityExpression. @Edwin please also LMK your opinion.",
+      "revId": "0295d5a99863ae8e945f70f5c6e4509f3eabf44e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

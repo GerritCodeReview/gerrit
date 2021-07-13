@@ -622,7 +622,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
 
     // No emails for adding to attention set were sent.
-    email.getMessages().isEmpty();
+    assertThat(email.getMessages()).isEmpty();
   }
 
   @Test
@@ -643,7 +643,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
 
     // No emails for removing from attention set were sent.
-    email.getMessages().isEmpty();
+    assertThat(email.getMessages()).isEmpty();
   }
 
   @Test

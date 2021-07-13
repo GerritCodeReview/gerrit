@@ -63,6 +63,30 @@
       },
       "revId": "838c149501cc42925e318bb766188c003510e1fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c67b7b20_094c116e",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-13T09:35:43Z",
+      "side": 1,
+      "message": "Looks good. I think that\u0027s all what is needed.",
+      "parentUuid": "85294862_98c9dea6",
+      "range": {
+        "startLine": 602,
+        "startChar": 2,
+        "endLine": 622,
+        "endChar": 3
+      },
+      "revId": "838c149501cc42925e318bb766188c003510e1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -39,6 +39,30 @@
       },
       "revId": "838c149501cc42925e318bb766188c003510e1fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85294862_98c9dea6",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-13T09:33:34Z",
+      "side": 1,
+      "message": "Done. But not sure if my added change is sufficient.",
+      "parentUuid": "feb65185_1e498e67",
+      "range": {
+        "startLine": 602,
+        "startChar": 2,
+        "endLine": 622,
+        "endChar": 3
+      },
+      "revId": "838c149501cc42925e318bb766188c003510e1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

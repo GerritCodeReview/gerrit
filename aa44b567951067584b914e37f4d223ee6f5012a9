@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24dc1bba_67b9393f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-13T12:19:07Z",
+      "side": 1,
+      "message": "It\u0027s intended to have separate logs for these.\nThe reason is that on some hosts users have that many groups that the log entry that lists the groups gets too large and is being dropped from the logs. If this happens we would still be able to see the calling user and the commands if these are separate logs, but if they are combined we would lose all the info.",
+      "revId": "aa44b567951067584b914e37f4d223ee6f5012a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

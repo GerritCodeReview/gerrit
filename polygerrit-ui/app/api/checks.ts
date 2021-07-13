@@ -62,7 +62,7 @@ export declare interface ChangeData {
   patchsetNumber: number;
   patchsetSha: string;
   repo: string;
-  commmitMessage?: string;
+  commitMessage?: string;
   changeInfo: ChangeInfo;
 }
 

@@ -171,7 +171,7 @@ export class ChecksService {
               patchsetNumber: patchNum,
               patchsetSha,
               repo: change.project,
-              commmitMessage: getCurrentRevision(change)?.commit?.message,
+              commitMessage: getCurrentRevision(change)?.commit?.message,
               changeInfo: change as ChangeInfo,
             };
             return this.fetchResults(pluginName, data, patchset);

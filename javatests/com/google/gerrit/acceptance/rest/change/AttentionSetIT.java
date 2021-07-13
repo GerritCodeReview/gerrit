@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.extensions.restapi.testing.AttentionSetUpdateSubject.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
@@ -32,23 +33,29 @@ import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -82,6 +89,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Inject private FakeEmailSender email;
   @Inject private TestCommentHelper testCommentHelper;
   @Inject private Provider<InternalChangeQuery> changeQueryProvider;
+  @Inject private ProjectOperations projectOperations;
 
   /** Simulates a fake clock. Uses second granularity. */
   private static class FakeClock implements LongSupplier {
@@ -1832,6 +1840,44 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
     assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
     assertThat(attentionSet).hasReasonThat().isEqualTo("Their vote was deleted");
+  }
+
+  @Test
+  public void accountsWithNoReadPermissionIgnoredOnReply() throws Exception {
+    // Create a group with user.
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name("User");
+    groupInput.members = ImmutableList.of(String.valueOf(user.id()));
+    GroupInfo group = gApi.groups().create(groupInput).get();
+
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+
+    // remove read permission for user.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(AccountGroup.uuid(group.id)))
+        .update();
+
+    // removing user without permissions from attention set is allowed on reply.
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().removeUserFromAttentionSet(user.email(), "reason"));
+
+    // Add user to attention throws an exception.
+    assertThrows(
+        AuthException.class,
+        () -> change(r).addToAttentionSet(new AttentionSetInput(user.email(), "reason")));
+
+    // Add user to attention set is ignored on reply.
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().addUserToAttentionSet(user.email(), "reason"));
+    assertThat(Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user)).operation())
+        .isEqualTo(Operation.REMOVE);
   }
 
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(

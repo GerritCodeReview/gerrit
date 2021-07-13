@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca473872_dfd3a2e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-13T19:28:21Z",
+      "side": 1,
+      "message": "I guess this fixes:\n\n```\nUncaught (in promise) TypeError: Cannot read property \u0027getAllThreadsForChange\u0027 of undefined\n    at module$contents$google3$third_party$javascript$polygerrit$elements$change$gr$2dmessages$2dlist$gr$2dmessages$2dlist_computeThreads (gr-app.js:20873)\n    at HTMLElement.getCommentThreads (gr-app.js:20887)\n    at runMethodEffect$$module$third_party$javascript$polymer$v2$polymer$lib$mixins$property_effects (gr-app.js:2035)\n    at Function._evaluateBinding (gr-app.js:2098)\n    at Object.runBindingEffect$$module$third_party$javascript$polymer$v2$polymer$lib$mixins$property_effects [as fn] (gr-app.js:2027)\n    at runEffects$$module$third_party$javascript$polymer$v2$polymer$lib$mixins$property_effects (gr-app.js:2008)\n    at baseRunEffects (gr-app.js:2067)\n    at klass$jscomp$1._runEffectsForTemplate (gr-app.js:2068)\n    at klass$jscomp$1._propagatePropertyChanges (gr-app.js:2067)\n    at klass$jscomp$1._propertiesChanged (gr-app.js:2062)\n```\n\nthat i\u0027m seeing after rebasing a change.",
+      "revId": "eeb6127008d5944620c677e230057c75ab2f1af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

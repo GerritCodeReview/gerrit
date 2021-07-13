@@ -3719,6 +3719,18 @@ each process retrieves at once.
 +
 By default, 1.
 
+[[notedb.onlineMigrationProjects]] notedb.onlineMigrationProjects::
++
+Limit the online migration from reviewDb to noteDb to a list of projects.
++
+This allows to experiment the migration to noteDb on a per-project basis
+for debugging problems and without having to interrupt the service on active
+projects.
++
+When not defined, all projects are migrated to noteDb.
++
+By default, undefined.
+
 [[notedb.onlineMigrationThreads]] notedb.onlineMigrationThreads::
 +
 The number of threads used to run the online migration from reviewDb to noteDb.

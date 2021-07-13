@@ -9,9 +9,9 @@
       "updated": "2021-07-13T09:43:18Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
+      "state": "SCHEDULED",
       "created": "2021-07-13T09:38:21Z",
-      "updated": "2021-07-13T12:06:47Z"
+      "updated": "2021-07-13T12:08:19Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "NOT_STARTED",

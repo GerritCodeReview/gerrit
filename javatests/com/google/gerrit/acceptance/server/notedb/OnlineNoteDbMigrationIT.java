@@ -43,6 +43,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
@@ -62,12 +63,14 @@ import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.rebuild.MigrationException;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.gerrit.server.notedb.rebuild.NotesMigrationStateListener;
+import com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator;
 import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -318,6 +321,38 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
 
     invalidateNoteDbState(id1, id2);
     migrate(b -> b.setProjects(ImmutableList.of(p2)), NoteDbMigrator::rebuild);
+    assertNotRebuilt(id1);
+    assertRebuilt(id2);
+  }
+
+  @Test
+  @GerritConfig(name = "noteDb.onlineMigrationProjects", value = "project2")
+  @UseLocalDisk
+  public void rebuildSubsetOfProjectsFromConfig() throws Exception {
+    Injector injector =
+        server.getTestInjector().createChildInjector(new OnlineNoteDbMigrator.Module(true));
+    OnlineNoteDbMigrator onlineNoteDbMigrator = injector.getInstance(OnlineNoteDbMigrator.class);
+
+    setNotesMigrationState(WRITE);
+
+    ProjectInput in = new ProjectInput();
+    in.name = "project2";
+    in.parent = allProjects.get();
+    in.createEmptyCommit = true;
+    gApi.projects().create(in);
+    Project.NameKey p2 = new Project.NameKey(in.name);
+
+    TestRepository<?> tr2 = cloneProject(p2, admin);
+
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = pushFactory.create(db, admin.getIdent(), tr2).to("refs/for/master");
+    Change.Id id1 = r1.getChange().getId();
+    Change.Id id2 = r2.getChange().getId();
+
+    invalidateNoteDbState(id1, id2);
+
+    onlineNoteDbMigrator.migrate();
+
     assertNotRebuilt(id1);
     assertRebuilt(id2);
   }

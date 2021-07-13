@@ -16,19 +16,24 @@ package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
+import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator.Builder;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -38,6 +43,8 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
   private static final String TRIAL = "OnlineNoteDbMigrator/trial";
 
   private static final String ONLINE_MIGRATION_THREADS = "onlineMigrationThreads";
+
+  private static final String ONLINE_MIGRATION_PROJECTS = "onlineMigrationProjects";
 
   public static class Module extends LifecycleModule {
     private final boolean trial;
@@ -59,6 +66,7 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
   private final boolean upgradeIndex;
   private final boolean trial;
   private final int threads;
+  private final String[] projects;
 
   @Inject
   OnlineNoteDbMigrator(
@@ -73,6 +81,7 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
     this.upgradeIndex = VersionManager.getOnlineUpgrade(cfg);
     this.trial = trial || NoteDbMigrator.getTrialMode(cfg);
     this.threads = cfg.getInt(SECTION_NOTE_DB, ONLINE_MIGRATION_THREADS, 1);
+    this.projects = cfg.getStringList(SECTION_NOTE_DB, null, ONLINE_MIGRATION_PROJECTS);
   }
 
   @Override
@@ -83,22 +92,35 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
     t.start();
   }
 
-  private void migrate() {
+  @VisibleForTesting
+  public void migrate() {
     logger.atInfo().log("Starting online NoteDb migration");
     if (upgradeIndex) {
       logger.atInfo().log(
           "Online index schema upgrades will be deferred until NoteDb migration is complete");
     }
     Stopwatch sw = Stopwatch.createStarted();
-    // TODO(dborowitz): maybe expose a progress monitor somewhere.
-    try (NoteDbMigrator migrator =
-        migratorBuilderProvider
-            .get()
-            .setThreads(threads)
-            .setAutoMigrate(true)
-            .setTrialMode(trial)
-            .build()) {
-      migrator.migrate();
+
+    Builder migratorBuilder =
+        migratorBuilderProvider.get().setThreads(threads).setAutoMigrate(true).setTrialMode(trial);
+
+    try {
+      // TODO(dborowitz): maybe expose a progress monitor somewhere.
+      if (projects.length > 0) {
+        try (NoteDbMigrator migrator =
+            migratorBuilder
+                .setProjects(
+                    Arrays.asList(projects).stream()
+                        .map(Project.NameKey::new)
+                        .collect(Collectors.toList()))
+                .build()) {
+          migrator.rebuild();
+        }
+      } else {
+        try (NoteDbMigrator migrator = migratorBuilder.build()) {
+          migrator.migrate();
+        }
+      }
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Error in online NoteDb migration");
     }

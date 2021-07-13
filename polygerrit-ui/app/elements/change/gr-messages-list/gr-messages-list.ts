@@ -369,6 +369,10 @@ export class GrMessagesList extends KeyboardShortcutMixin(PolymerElement) {
     return combinedMessages;
   }
 
+  getCommentThreads(message: CombinedMessage, changeComments: ChangeComments) {
+    return computeThreads(message, changeComments);
+  }
+
   _updateExpandedStateOfAllMessages(exp: boolean) {
     if (this._combinedMessages) {
       for (let i = 0; i < this._combinedMessages.length; i++) {

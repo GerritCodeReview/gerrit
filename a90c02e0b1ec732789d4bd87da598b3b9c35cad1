@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51bad15a_89d14528",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-07-13T18:04:14Z",
+      "side": 1,
+      "message": "nit: s/computes/compute/",
+      "range": {
+        "startLine": 11,
+        "startChar": 64,
+        "endLine": 11,
+        "endChar": 72
+      },
+      "revId": "a90c02e0b1ec732789d4bd87da598b3b9c35cad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e9dca36_58301113",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-07-13T18:04:14Z",
+      "side": 1,
+      "message": "nit: can it be again private?",
+      "range": {
+        "startLine": 202,
+        "startChar": 2,
+        "endLine": 202,
+        "endChar": 8
+      },
+      "revId": "a90c02e0b1ec732789d4bd87da598b3b9c35cad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "786b03da_844f6f68",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-07-13T18:04:14Z",
+      "side": 1,
+      "message": "nit: class is private static hence constructor can be private too ;)",
+      "revId": "a90c02e0b1ec732789d4bd87da598b3b9c35cad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

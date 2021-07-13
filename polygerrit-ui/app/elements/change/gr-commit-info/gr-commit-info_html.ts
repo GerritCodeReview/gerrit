@@ -33,7 +33,7 @@ export const htmlTemplate = html`
     <gr-copy-clipboard
       has-tooltip=""
       button-title="Copy full SHA to clipboard"
-      hide-input=""
+      hideInput=""
       text="[[commitInfo.commit]]"
     >
     </gr-copy-clipboard>

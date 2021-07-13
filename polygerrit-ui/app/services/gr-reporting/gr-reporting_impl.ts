@@ -419,7 +419,10 @@ export class GrReporting implements ReportingService {
       eventInfo.inBackgroundTab = isInBackgroundTab;
     }
 
-    if (this._flagsService.enabledExperiments.length) {
+    if (
+      name === Timing.APP_STARTED &&
+      this._flagsService.enabledExperiments.length
+    ) {
       eventInfo.enabledExperiments = JSON.stringify(
         this._flagsService.enabledExperiments
       );

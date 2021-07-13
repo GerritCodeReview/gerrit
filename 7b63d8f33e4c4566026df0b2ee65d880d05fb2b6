@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74bd6c30_9fb2bd74",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-13T14:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99a67670_880874c6",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 20
+      },
+      "revId": "7b63d8f33e4c4566026df0b2ee65d880d05fb2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eabb61fe_6acec01e",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "346fbde6_aa6b5192",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-13T14:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eabb61fe_6acec01e",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 14
+      },
+      "revId": "7b63d8f33e4c4566026df0b2ee65d880d05fb2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6b8f8d1_a535de9b",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-07-12T16:41:01Z",
       "side": 1,
       "message": "nit: I see that you don\u0027t want to duplicate the code but it introduces tight cyclic coupling between Loader and ConflictsPredicate:\n1. ConflictsPredicate uses Loader to load conflicts\n2. Loader refers to ConflictsPredicate.warnWithOccasionalStackTrace in order to log error - note that it will also use ConflictsPredicate logger (which would be confusing to find it in the logs ;))",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 36
+      },
+      "revId": "7b63d8f33e4c4566026df0b2ee65d880d05fb2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "042ed812_5e2d4845",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-13T14:00:54Z",
+      "side": 1,
+      "message": "I have moved the Loader back to the ConfigPredicate is actually needed.\n\nThis allows to remove most of the arguments (they can be retrieved by the parent class) and also removes the coupling, as everything is now contained in the ConflictsPredicate class.\n\nThe number of args could be reduced further by moving the loader within the CheckConflict cache, in order to access args and the changeDataCache, but then the class would not be able to be static anymore.\n\nSo I think the current position is the best compromise.",
+      "parentUuid": "b6b8f8d1_a535de9b",
       "range": {
         "startLine": 123,
         "startChar": 8,

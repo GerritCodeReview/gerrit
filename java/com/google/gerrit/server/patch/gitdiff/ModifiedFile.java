@@ -51,6 +51,8 @@ public abstract class ModifiedFile {
     return new AutoValue_ModifiedFile.Builder();
   }
 
+  public abstract Builder toBuilder();
+
   /** Computes this object's weight, which is its size in bytes. */
   public int weight() {
     int weight = 1; // the changeType field

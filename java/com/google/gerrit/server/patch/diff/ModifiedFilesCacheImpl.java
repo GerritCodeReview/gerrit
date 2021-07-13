@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
@@ -37,8 +38,12 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -82,7 +87,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
             .valueSerializer(GitModifiedFilesCacheImpl.ValueSerializer.INSTANCE)
             .maximumWeight(10 << 20)
             .weigher(ModifiedFilesWeigher.class)
-            .version(1)
+            .version(2)
             .loader(ModifiedFilesLoader.class);
       }
     };
@@ -140,6 +145,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
               .renameScore(key.renameScore())
               .build();
       List<ModifiedFile> modifiedFiles = gitCache.get(gitKey);
+      modifiedFiles = eliminateDuplicates(modifiedFiles);
       if (key.aCommit().equals(ObjectId.zeroId())) {
         return ImmutableList.copyOf(modifiedFiles);
       }
@@ -201,6 +207,52 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
       // One of the above file paths could be /dev/null but we need not explicitly check for this
       // value as the set of file paths shouldn't contain it.
       return touchedFilePaths.contains(oldFilePath) || touchedFilePaths.contains(newFilePath);
+    }
+
+    /**
+     * Return unique modified files from the input list. In some cases, JGit returns two
+     * ADDED/DELETED diff entries for the same file path. This happens e.g. when a file's mode is
+     * changed between patchsets, for example converting a symlink file to a regular file. We
+     * identify this case and return a single modified file with changeType = {@link
+     * com.google.gerrit.entities.Patch.ChangeType#REWRITE}.
+     */
+    private static List<ModifiedFile> eliminateDuplicates(List<ModifiedFile> modifiedFiles)
+        throws DiffNotAvailableException {
+      List<ModifiedFile> result = new ArrayList<>();
+      Map<String, List<ModifiedFile>> byPath = new TreeMap<>();
+      for (ModifiedFile f : modifiedFiles) {
+        String path = getDefaultPath(f);
+        byPath.computeIfAbsent(path, k -> new ArrayList<>()).add(f);
+      }
+      for (String path : byPath.keySet()) {
+        List<ModifiedFile> entries = byPath.get(path);
+        if (entries.size() == 1) {
+          result.add(entries.get(0));
+        } else if (entries.size() == 2) {
+          // Convert ADD/DELETE entries to REWRITE.
+          List<ChangeType> changeTypes =
+              entries.stream().map(ModifiedFile::changeType).collect(Collectors.toList());
+          if (changeTypes.containsAll(ImmutableList.of(ChangeType.ADDED, ChangeType.DELETED))) {
+            ModifiedFile addedEntry =
+                entries.get(0).changeType().equals(ChangeType.ADDED)
+                    ? entries.get(0)
+                    : entries.get(1);
+            result.add(addedEntry.toBuilder().changeType(ChangeType.REWRITE).build());
+          } else {
+            // This is an illegal state. JGit is not supposed to return this, so we throw an
+            // exception.
+            throw new DiffNotAvailableException(
+                String.format(
+                    "JGit error: unexpected change types %s and %s for same file path %s",
+                    changeTypes.get(0), changeTypes.get(1), path));
+          }
+        }
+      }
+      return result;
+    }
+
+    private static String getDefaultPath(ModifiedFile f) {
+      return f.oldPath().isPresent() ? f.oldPath().get() : f.newPath().get();
     }
   }
 }

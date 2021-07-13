@@ -34,6 +34,24 @@
       "parentUuid": "24dc1bba_67b9393f",
       "revId": "aa44b567951067584b914e37f4d223ee6f5012a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87d6ae20_ea318d56",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-07-13T13:11:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a468872_baccb2b5",
+      "revId": "aa44b567951067584b914e37f4d223ee6f5012a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

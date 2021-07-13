@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aac74a90_0d7b8da1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-13T14:13:55Z",
+      "side": 1,
+      "message": "queryAndAssert\nAlso perhaps this needs a better Id than \"button\"?",
+      "range": {
+        "startLine": 129,
+        "startChar": 19,
+        "endLine": 129,
+        "endChar": 61
+      },
+      "revId": "37a8d37bcff63e6dc2064d79ea160a76c744d1c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

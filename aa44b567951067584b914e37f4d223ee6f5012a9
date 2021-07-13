@@ -52,6 +52,24 @@
       "parentUuid": "6a468872_baccb2b5",
       "revId": "aa44b567951067584b914e37f4d223ee6f5012a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "262dff0f_c603f3fd",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-13T13:21:38Z",
+      "side": 1,
+      "message": "\u003e so why log it?\n\nAll information that is needed to do an investigation should be available from the trace. Needing to do extra calls slows down the investigation, especially if they require additional permissions so that you need to go through extra hoops.",
+      "parentUuid": "87d6ae20_ea318d56",
+      "revId": "aa44b567951067584b914e37f4d223ee6f5012a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

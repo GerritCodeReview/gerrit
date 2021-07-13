@@ -31,9 +31,9 @@ export const htmlTemplate = html`
       >[[_computeShortHash(change, commitInfo, serverConfig)]]</a
     >
     <gr-copy-clipboard
-      has-tooltip=""
-      button-title="Copy full SHA to clipboard"
-      hide-input=""
+      hasTooltip=""
+      buttonTitle="Copy full SHA to clipboard"
+      hideInput=""
       text="[[commitInfo.commit]]"
     >
     </gr-copy-clipboard>

@@ -39,7 +39,6 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -68,7 +67,6 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -1061,37 +1059,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void receivePackOmitsMissingObject() throws Exception {
-    String rev = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     try (Repository repo = repoManager.openRepository(project);
         TestRepository<Repository> tr = new TestRepository<>(repo)) {
-      String subject = "Subject for missing commit";
-      Change c = new Change(cd3.change());
-      PatchSet.Id psId = PatchSet.id(cd3.getId(), 2);
-      c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
-
-      PersonIdent committer = serverIdent.get();
-      PersonIdent author =
-          noteUtil.newIdent(getAccount(admin.id()).id(), committer.getWhen(), committer);
-      tr.branch(RefNames.changeMetaRef(cd3.getId()))
-          .commit()
-          .author(author)
-          .committer(committer)
-          .message(
-              "Update patch set "
-                  + psId.get()
-                  + "\n"
-                  + "\n"
-                  + "Patch-set: "
-                  + psId.get()
-                  + "\n"
-                  + "Commit: "
-                  + rev
-                  + "\n"
-                  + "Subject: "
-                  + subject
-                  + "\n")
-          .create();
-      indexer.index(c.getProject(), c.getId());
+      PatchSet.Id psId = PatchSet.id(cd3.getId(), 1);
+      tr.delete(psId.toRefName());
     }
 
     assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd4, 1));

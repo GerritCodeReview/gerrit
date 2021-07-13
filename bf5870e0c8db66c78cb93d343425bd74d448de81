@@ -22,6 +22,30 @@
       },
       "revId": "bf5870e0c8db66c78cb93d343425bd74d448de81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e253ca2_ab6b1dba",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-13T14:49:53Z",
+      "side": 1,
+      "message": "Good idea! (similar to QueryProvider).\n\nSounds like a good topic for a hackathon / fixit week.",
+      "parentUuid": "4993e42d_29776821",
+      "range": {
+        "startLine": 1209,
+        "startChar": 4,
+        "endLine": 1209,
+        "endChar": 13
+      },
+      "revId": "bf5870e0c8db66c78cb93d343425bd74d448de81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

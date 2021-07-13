@@ -100,7 +100,7 @@ public class ChangeFinder {
   }
 
   public Optional<ChangeNotes> findOne(String id) {
-    List<ChangeNotes> ctls = find(id);
+    List<ChangeNotes> ctls = find(id, 2);
     if (ctls.size() != 1) {
       return Optional.empty();
     }
@@ -114,6 +114,17 @@ public class ChangeFinder {
    * @return possibly-empty list of notes for all matching changes; may or may not be visible.
    */
   public List<ChangeNotes> find(String id) {
+    return find(id, 0);
+  }
+
+  /**
+   * Find at most N changes matching the given identifier.
+   *
+   * @param id change identifier.
+   * @param queryLimit maximum number of changes to be returned
+   * @return possibly-empty list of notes for all matching changes; may or may not be visible.
+   */
+  public List<ChangeNotes> find(String id, int queryLimit) {
     if (id.isEmpty()) {
       return Collections.emptyList();
     }
@@ -141,6 +152,9 @@ public class ChangeFinder {
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
+    if (queryLimit > 0) {
+      query.setLimit(queryLimit);
+    }
 
     // Try commit hash
     if (id.matches("^([0-9a-fA-F]{" + ObjectIds.ABBREV_STR_LEN + "," + ObjectIds.STR_LEN + "})$")) {
@@ -153,6 +167,7 @@ public class ChangeFinder {
       Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id, y, z);
       if (triplet.isPresent()) {
         ChangeTriplet t = triplet.get();
+
         changeIdCounter.increment(ChangeIdType.TRIPLET);
         return asChangeNotes(query.byBranchKey(t.branch(), t.id()));
       }

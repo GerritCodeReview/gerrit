@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2eb190b_d9899b08",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-13T07:03:47Z",
+      "side": 0,
+      "message": "FWIW, this sentence was here because it was not self-explanatory to some users that after clicking \"SAVE\" they must still publish the comment to make it visible to other users. New users often assume that \"SAVE\" already makes the comment visible to everyone. Should we rather keep this sentence?",
+      "range": {
+        "startLine": 609,
+        "startChar": 0,
+        "endLine": 612,
+        "endChar": 0
+      },
+      "revId": "f7a4d5e73e4ace1547645c6005a3158368a13831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

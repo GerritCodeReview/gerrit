@@ -41,9 +41,11 @@ export class CommentsService {
   // automatically
   loadAll(changeNum: NumericChangeId, patchNum = CURRENT as RevisionId) {
     const revision = patchNum;
-    this.restApiService
-      .getDiffComments(changeNum)
-      .then(comments => updateStateComments(comments));
+    setTimeout(() => {
+      this.restApiService
+        .getDiffComments(changeNum)
+        .then(comments => updateStateComments(comments));
+    }, 3 * 1000);
     this.restApiService
       .getDiffRobotComments(changeNum)
       .then(robotComments => updateStateRobotComments(robotComments));

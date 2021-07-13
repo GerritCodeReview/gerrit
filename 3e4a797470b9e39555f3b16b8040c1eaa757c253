@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "196ae07e_4bb68b8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1092381
+      },
+      "writtenOn": "2021-07-13T12:26:41Z",
+      "side": 1,
+      "message": "Hi Ben,\nI took a look and I can\u0027t find any other usages of the field, so this should be a safe change, though please let me know if not. :) \nThanks!",
+      "revId": "3e4a797470b9e39555f3b16b8040c1eaa757c253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -76,9 +76,9 @@ export const htmlTemplate = html`
               </td>
               <td>
                 <gr-copy-clipboard
-                  has-tooltip=""
-                  button-title="Copy SSH public key to clipboard"
-                  hide-input=""
+                  hasTooltip=""
+                  buttonTitle="Copy SSH public key to clipboard"
+                  hideInput=""
                   text="[[key.ssh_public_key]]"
                 >
                 </gr-copy-clipboard>

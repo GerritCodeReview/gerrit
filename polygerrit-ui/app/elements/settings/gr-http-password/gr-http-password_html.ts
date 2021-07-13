@@ -78,9 +78,9 @@ export const htmlTemplate = html`
         <span class="title">New Password:</span>
         <span class="value">[[_generatedPassword]]</span>
         <gr-copy-clipboard
-          has-tooltip=""
-          button-title="Copy password to clipboard"
-          hide-input=""
+          hasTooltip=""
+          buttonTitle="Copy password to clipboard"
+          hideInput=""
           text="[[_generatedPassword]]"
         >
         </gr-copy-clipboard>

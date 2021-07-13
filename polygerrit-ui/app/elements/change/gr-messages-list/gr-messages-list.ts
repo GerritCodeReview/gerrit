@@ -90,9 +90,9 @@ function getMessageId(x: CombinedMessage): ChangeMessageId | undefined {
  */
 function computeThreads(
   message: CombinedMessage,
-  changeComments: ChangeComments
+  changeComments?: ChangeComments
 ): CommentThread[] {
-  if (message._index === undefined) {
+  if (message._index === undefined || changeComments === undefined) {
     return [];
   }
   const messageId = getMessageId(message);
@@ -369,7 +369,7 @@ export class GrMessagesList extends KeyboardShortcutMixin(PolymerElement) {
     return combinedMessages;
   }
 
-  getCommentThreads(message: CombinedMessage, changeComments: ChangeComments) {
+  getCommentThreads(message: CombinedMessage, changeComments?: ChangeComments) {
     return computeThreads(message, changeComments);
   }
 

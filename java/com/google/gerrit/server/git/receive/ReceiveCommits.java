@@ -659,7 +659,9 @@ class ReceiveCommits {
   // Process as many commands as possible, but may leave some commands in state NOT_ATTEMPTED.
   private void processCommandsUnsafe(
       Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
-    logger.atFine().log("Calling user: %s", user.getLoggableName());
+    logger.atFine().log("Calling user: %s, commands: %d", user.getLoggableName(), commands.size());
+
+    // If the list of groups is large, the log entry may get dropped, so separate out.
     logger.atFine().log("Groups: %s", lazy(() -> user.getEffectiveGroups().getKnownGroups()));
 
     if (!projectState.getProject().getState().permitsWrite()) {
@@ -668,8 +670,6 @@ class ReceiveCommits {
       }
       return;
     }
-
-    logger.atFine().log("Parsing %d commands", commands.size());
 
     List<ReceiveCommand> magicCommands = new ArrayList<>();
     List<ReceiveCommand> regularCommands = new ArrayList<>();

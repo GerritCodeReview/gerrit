@@ -66,8 +66,8 @@ export const htmlTemplate = html`
           account="[[reviewer]]"
           change="[[change]]"
           on-remove="_handleRemove"
-          highlight-attention
-          voteable-text="[[_computeVoteableText(reviewer, change)]]"
+          highlightAttention
+          voteableText="[[_computeVoteableText(reviewer, change)]]"
           removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]"
         >
         </gr-account-chip>

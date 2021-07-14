@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "89b7faba_9237694e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T16:15:07Z",
+      "side": 1,
+      "message": "Yeah right. I was confused because ChangeNotesState instances are cache in ChangeNotesCache.\n\nDone.",
+      "parentUuid": "ede54360_78b360d6",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "8a0e4345eef4c7c067a2fd7c8404f04275b84354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "728ba950_40cc4fef",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -54,6 +78,24 @@
       "writtenOn": "2021-07-14T15:11:15Z",
       "side": 1,
       "message": "Can this be private?",
+      "revId": "8a0e4345eef4c7c067a2fd7c8404f04275b84354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b255bf20_efdfccf5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T16:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "566a2713_923f565c",
       "revId": "8a0e4345eef4c7c067a2fd7c8404f04275b84354",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

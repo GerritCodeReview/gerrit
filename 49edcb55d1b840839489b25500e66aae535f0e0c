@@ -130,6 +130,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5b197f6_218168fa",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T14:35:58Z",
+      "side": 1,
+      "message": "Ah I see. Thanks.",
+      "parentUuid": "14f1a1e0_9dd4c97f",
+      "revId": "49edcb55d1b840839489b25500e66aae535f0e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8d81daa_639ff524",
@@ -355,6 +373,30 @@
       "side": 1,
       "message": "We don\u0027t have a binary dependency on elastic here on purpose. I thought about inventing a common lib but did not want to further complicate the build.",
       "parentUuid": "ccfc1528_f8c59574",
+      "range": {
+        "startLine": 238,
+        "startChar": 6,
+        "endLine": 238,
+        "endChar": 22
+      },
+      "revId": "49edcb55d1b840839489b25500e66aae535f0e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1119e226_eda8420e",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/AbstractReindexTests.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T14:35:58Z",
+      "side": 1,
+      "message": "OK, didn\u0027t notice it\u0027d require adding a dependency.\n\nSGTM.",
+      "parentUuid": "771dc143_72ba7544",
       "range": {
         "startLine": 238,
         "startChar": 6,

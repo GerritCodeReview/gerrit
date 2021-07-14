@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9fba330_4ce98e38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T14:35:58Z",
+      "side": 1,
+      "message": "Final comment: can we add a test to ensure that, when the env variable is set, the bindings are correct?",
+      "revId": "f628b11652df0511b86ade650609ffad2bbd2940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

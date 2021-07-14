@@ -22,6 +22,30 @@
       },
       "revId": "6acb8554dec8016a177191b9c1cfebf177b383ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80d17724_5112ee5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-07-14T15:36:32Z",
+      "side": 1,
+      "message": "no, because then the \"reply\" would fail (see the bug in the commit message). This will happen because the frontend by default will add some users, making the reply fail, which is bad.\nThe bug still has a frontend AI to resolve this, though.",
+      "parentUuid": "0f758a5a_bb80b7e2",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "6acb8554dec8016a177191b9c1cfebf177b383ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

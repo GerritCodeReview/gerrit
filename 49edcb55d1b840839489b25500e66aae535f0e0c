@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14487a67_e9387119",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T12:56:21Z",
+      "side": 1,
+      "message": "Does \"both\" refer to lucene/fake, or elastic/lucene?\n\nAddendum, I think you mean lucene/fake.",
+      "range": {
+        "startLine": 7,
+        "startChar": 59,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "49edcb55d1b840839489b25500e66aae535f0e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cfbef56_13e1e84d",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T12:56:21Z",
+      "side": 1,
+      "message": "Is ELASTIC not allowed?\n\nAddendum: not supported as per your comment in code :)\n\nOptional: you could add a hint that elastic backend is not supported in tests.",
+      "range": {
+        "startLine": 368,
+        "startChar": 51,
+        "endLine": 368,
+        "endChar": 63
+      },
+      "revId": "49edcb55d1b840839489b25500e66aae535f0e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cbe9d68_7802c280",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T12:56:21Z",
+      "side": 1,
+      "message": "Is this line needed? #startOnDisk is not invoked from tests, right?",
+      "revId": "49edcb55d1b840839489b25500e66aae535f0e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8d81daa_639ff524",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T12:56:21Z",
+      "side": 1,
+      "message": "nit: fix format.",
+      "range": {
+        "startLine": 371,
+        "startChar": 6,
+        "endLine": 373,
+        "endChar": 22
+      },
+      "revId": "49edcb55d1b840839489b25500e66aae535f0e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c0b192_5550ba61",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T12:56:21Z",
+      "side": 1,
+      "message": "nit: fix format.",
+      "range": {
+        "startLine": 543,
+        "startChar": 9,
+        "endLine": 545,
+        "endChar": 22
+      },
+      "revId": "49edcb55d1b840839489b25500e66aae535f0e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02e8dbea_5157bdfd",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T12:56:21Z",
+      "side": 1,
+      "message": "nit: fix format.",
+      "range": {
+        "startLine": 160,
+        "startChar": 6,
+        "endLine": 162,
+        "endChar": 22
+      },
+      "revId": "49edcb55d1b840839489b25500e66aae535f0e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f525418_8ee9f555",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T12:56:21Z",
+      "side": 1,
+      "message": "Can\u0027t we just use FakeIndexModule? It also include all indexes (change, account, group, project) as opposed to FakeIndexModuleOnInit that only includes account and group indexes.",
+      "range": {
+        "startLine": 425,
+        "startChar": 74,
+        "endLine": 425,
+        "endChar": 95
+      },
+      "revId": "49edcb55d1b840839489b25500e66aae535f0e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccfc1528_f8c59574",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/AbstractReindexTests.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T12:56:21Z",
+      "side": 1,
+      "message": "Can be replaced with: \n\u003e ElasticTestUtils.createAllIndexes(ctx.getInjector()) \n\nand the method from L227 can be removed (unless you need to override?).",
+      "range": {
+        "startLine": 238,
+        "startChar": 6,
+        "endLine": 238,
+        "endChar": 22
+      },
+      "revId": "49edcb55d1b840839489b25500e66aae535f0e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

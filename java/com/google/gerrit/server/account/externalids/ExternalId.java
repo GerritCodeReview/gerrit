@@ -136,6 +136,12 @@ public abstract class ExternalId implements Serializable {
   /** Scheme for external auth used during authentication, e.g. OAuth Token */
   public static final String SCHEME_EXTERNAL = "external";
 
+  /** Scheme for http resources uses for auth like openid identities */
+  public static final String SCHEME_HTTP = "http";
+
+  /** Scheme for https resources uses for auth like openid identities */
+  public static final String SCHEME_HTTPS = "https";
+
   @AutoValue
   public abstract static class Key implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -16,6 +16,29 @@
       "message": "Warning to reviewers: the IT test isn\u0027t fully working yet.",
       "revId": "9cad1a76fb786bb91dddeb507c462d23cf084d77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28937286_bd66fddf",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/OnlineNoteDbMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-07-14T16:32:38Z",
+      "side": 1,
+      "message": "When is the migrate called when having projects? And is it actually needed to rebuild? We already call build() at L115.",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 120,
+        "endChar": 27
+      },
+      "revId": "9cad1a76fb786bb91dddeb507c462d23cf084d77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

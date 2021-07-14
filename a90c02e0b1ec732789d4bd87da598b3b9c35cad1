@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "534d5983_0209c0dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-14T10:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51bad15a_89d14528",
+      "range": {
+        "startLine": 11,
+        "startChar": 64,
+        "endLine": 11,
+        "endChar": 72
+      },
+      "revId": "a90c02e0b1ec732789d4bd87da598b3b9c35cad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e9dca36_58301113",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da836113_bcb74f9c",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-14T10:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d413d99_e9d2b4aa",
+      "range": {
+        "startLine": 202,
+        "startChar": 2,
+        "endLine": 202,
+        "endChar": 8
+      },
+      "revId": "a90c02e0b1ec732789d4bd87da598b3b9c35cad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "786b03da_844f6f68",
@@ -84,6 +132,24 @@
       "writtenOn": "2021-07-13T18:04:14Z",
       "side": 1,
       "message": "nit: class is private static hence constructor can be private too ;)",
+      "revId": "a90c02e0b1ec732789d4bd87da598b3b9c35cad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81ac04e7_56f8f20f",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-14T10:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "786b03da_844f6f68",
       "revId": "a90c02e0b1ec732789d4bd87da598b3b9c35cad1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

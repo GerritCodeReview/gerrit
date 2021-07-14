@@ -67,6 +67,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f0e48db_3caa6988",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-07-14T09:02:21Z",
+      "side": 1,
+      "message": "I was about to ask the same question and reply to myself later on :P Might be worth adding a comment?",
+      "parentUuid": "a6ca54ff_5f3d107b",
+      "range": {
+        "startLine": 103,
+        "startChar": 36,
+        "endLine": 103,
+        "endChar": 39
+      },
+      "revId": "deabb2d9c4c1e2dbd48b6710bc3e456ebaec3d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f1c89af_79bd0b94",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-07-14T09:02:21Z",
+      "side": 1,
+      "message": "leftover",
+      "revId": "deabb2d9c4c1e2dbd48b6710bc3e456ebaec3d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76a077fc_c6d5a362",
         "filename": "java/com/google/gerrit/server/restapi/change/ChangesCollection.java",
         "patchSetId": 3

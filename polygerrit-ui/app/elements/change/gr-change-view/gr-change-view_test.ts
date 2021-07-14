@@ -93,11 +93,12 @@ import {SinonFakeTimers, SinonStubbedMember} from 'sinon/pkg/sinon-esm';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {CommentThread, UIRobot} from '../../../utils/comment-util';
-import {GerritView} from '../../../services/router/router-model';
+import {GerritView, _testOnly_resetState as routerModelResetState} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {appContext} from '../../../services/app-context';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
+import {_testOnly_resetState as changeModelResetState} from '../../../services/change/change-model';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -508,6 +509,8 @@ suite('gr-change-view tests', () => {
 
   suite('plugins adding to file tab', () => {
     setup(done => {
+      routerModelResetState();
+      changeModelResetState();
       element._changeNum = TEST_NUMERIC_CHANGE_ID;
       // Resolving it here instead of during setup() as other tests depend
       // on flush() not being called during setup.

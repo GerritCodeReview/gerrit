@@ -187,6 +187,7 @@ import {
   changeComments$,
   drafts$,
 } from '../../../services/comments/comments-model';
+import {primaryTab$} from '../../../services/change/change-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -585,6 +586,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   private lastStarredTimestamp?: number;
 
+  private primaryTab?: string;
+
   /** @override */
   ready() {
     super.ready();
@@ -596,6 +599,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     });
     drafts$.pipe(takeUntil(this.disconnected$)).subscribe(drafts => {
       this._diffDrafts = {...drafts};
+    });
+    primaryTab$.pipe(takeUntil(this.disconnected$)).subscribe(primaryTab => {
+      this.primaryTab = primaryTab;
     });
     changeComments$
       .pipe(takeUntil(this.disconnected$))
@@ -823,6 +829,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       (e.composedPath()?.[0] as Element | undefined)?.tagName
     );
     if (activeTabName) {
+      this.changeService.updateStatePrimaryTab(activeTabName);
       this._activeTabs = [activeTabName, this._activeTabs[1]];
 
       // update plugin endpoint if its a plugin tab
@@ -1246,6 +1253,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       primaryTab = params.queryMap.get('tab') as PrimaryTab;
     } else if (params && 'commentId' in params) {
       primaryTab = PrimaryTab.COMMENT_THREADS;
+    } else if (this.primaryTab) {
+      primaryTab = this.primaryTab as PrimaryTab;
     }
     this._setActivePrimaryTab(
       new CustomEvent('initActiveTab', {

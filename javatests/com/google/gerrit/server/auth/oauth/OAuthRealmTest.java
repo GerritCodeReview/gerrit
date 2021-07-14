@@ -16,6 +16,8 @@ package com.google.gerrit.server.auth.oauth;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_HTTP;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_HTTPS;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
@@ -65,5 +67,7 @@ public final class OAuthRealmTest {
     assertThat(accountBelongsToRealm(SCHEME_USERNAME, "xxexternalxx")).isFalse();
     assertThat(accountBelongsToRealm(SCHEME_MAILTO, "external.foo@bar.com")).isFalse();
     assertThat(accountBelongsToRealm(SCHEME_MAILTO, "bar.external@bar.com")).isFalse();
+    assertThat(accountBelongsToRealm(SCHEME_HTTP, "example.org/test")).isFalse();
+    assertThat(accountBelongsToRealm(SCHEME_HTTPS, "example.org/test")).isFalse();
   }
 }

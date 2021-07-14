@@ -130,6 +130,7 @@ export function updateStateDeleteDraft(draft: DraftInfo) {
     d => d.__draftID === draft.__draftID || d.id === draft.id
   );
   if (index === -1) return;
-  drafts[draft.path] = [...drafts[draft.path]].splice(index, 1);
+  drafts[draft.path] = [...drafts[draft.path]];
+  drafts[draft.path].splice(index, 1);
   privateState$.next(nextState);
 }

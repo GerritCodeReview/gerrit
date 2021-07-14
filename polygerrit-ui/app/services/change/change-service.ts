@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {routerChangeNum$} from '../router/router-model';
-import {change$, updateState} from './change-model';
+import {change$, updateState, updateStatePrimaryTab} from './change-model';
 import {ParsedChangeInfo} from '../../types/types';
 import {appContext} from '../app-context';
 import {ChangeInfo} from '../../types/common';
@@ -50,6 +50,10 @@ export class ChangeService {
    */
   updateChange(change: ParsedChangeInfo) {
     updateState(change);
+  }
+
+  updateStatePrimaryTab(primaryTab: string) {
+    updateStatePrimaryTab(primaryTab);
   }
 
   /**

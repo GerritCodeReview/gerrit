@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ede54360_78b360d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-14T15:11:15Z",
+      "side": 1,
+      "message": "I don\u0027t think \"Cache\" is the right term here. ChangeNotesState is the parsed version of the data that is stored in a change meta commit, it\u0027s not used to cache any data. Maybe you got confused because ChangeNotesState instances can be cached? Can you maybe rephrase this commit message to make it clearer what this is about and what\u0027s the motivation for this change?\n\nIIUC this change is just enabling ChangeNotesParser to read submit requirements from a change meta commit, if the change meta commits would contain submit requirements (which they don\u0027t contain yet, but the follow-up change will store them there)?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "8a0e4345eef4c7c067a2fd7c8404f04275b84354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "728ba950_40cc4fef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-14T15:11:15Z",
+      "side": 1,
+      "message": "Code LGTM, but I think the commit message can be clearer.",
+      "revId": "8a0e4345eef4c7c067a2fd7c8404f04275b84354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "566a2713_923f565c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-14T15:11:15Z",
+      "side": 1,
+      "message": "Can this be private?",
+      "revId": "8a0e4345eef4c7c067a2fd7c8404f04275b84354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbfc7c09_314121cc",
+        "filename": "polygerrit-ui/app/api/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-14T14:51:10Z",
+      "side": 1,
+      "message": "IIRC, if there is a BUILD file in the directory, bazel treat the whole dir (+subdirs) as a package and doesn\u0027t add files from it into top-level glob patterns.\nI.e. in this case, all files from the polygerrit-ui/app/api directory are not included in glob patterns defined in polygerrit-ui/app/BUILD; I think this is the reason of broken checks.",
+      "revId": "99a230e33e02401d61683361a4847289c37a76f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e661f177_f03623d5",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 4

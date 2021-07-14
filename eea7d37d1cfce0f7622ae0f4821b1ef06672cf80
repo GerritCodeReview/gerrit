@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f798c7d6_0b691a01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-07-14T08:00:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42f6c646_38e9a026",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "eea7d37d1cfce0f7622ae0f4821b1ef06672cf80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6a36ae2_6ad6094b",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5291bb4_efff6142",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-07-14T08:00:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6a36ae2_6ad6094b",
+      "revId": "eea7d37d1cfce0f7622ae0f4821b1ef06672cf80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f290214c_fc8ba002",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-07-13T17:18:11Z",
       "side": 1,
       "message": "isn\u0027t it policy not to have empty lines between footers?",
+      "revId": "eea7d37d1cfce0f7622ae0f4821b1ef06672cf80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd06c8db_0cf85386",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-07-14T08:00:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f290214c_fc8ba002",
       "revId": "eea7d37d1cfce0f7622ae0f4821b1ef06672cf80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

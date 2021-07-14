@@ -176,7 +176,11 @@ import {
   fireReload,
   fireTitleChange,
 } from '../../../utils/event-util';
-import {GerritView, routerView$} from '../../../services/router/router-model';
+import {
+  GerritView,
+  primaryTab$,
+  routerView$,
+} from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {Subject} from 'rxjs';
@@ -554,6 +558,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly commentsService = appContext.commentsService;
 
+  private readonly routerService = appContext.routerService;
+
   private replyDialogResizeObserver?: ResizeObserver;
 
   override keyboardShortcuts() {
@@ -596,6 +602,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     });
     drafts$.pipe(takeUntil(this.disconnected$)).subscribe(drafts => {
       this._diffDrafts = {...drafts};
+    });
+    primaryTab$.pipe(takeUntil(this.disconnected$)).subscribe(primaryTab => {
+      this._activeTabs = [primaryTab ?? PrimaryTab.FILES, this._activeTabs[1]];
     });
     changeComments$
       .pipe(takeUntil(this.disconnected$))
@@ -818,7 +827,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       (e.composedPath()?.[0] as Element | undefined)?.tagName
     );
     if (activeTabName) {
-      this._activeTabs = [activeTabName, this._activeTabs[1]];
+      this.routerService.setPrimaryTab(activeTabName as PrimaryTab);
 
       // update plugin endpoint if its a plugin tab
       const pluginIndex = (this._dynamicTabHeaderEndpoints || []).indexOf(
@@ -1234,7 +1243,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _initActiveTabs(params?: AppElementChangeViewParams) {
-    let primaryTab = PrimaryTab.FILES;
+    let primaryTab = this._activeTabs[0];
     if (params && params.queryMap && params.queryMap.has('tab')) {
       primaryTab = params.queryMap.get('tab') as PrimaryTab;
     } else if (params && 'commentId' in params) {

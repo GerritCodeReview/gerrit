@@ -176,7 +176,11 @@ import {
   fireReload,
   fireTitleChange,
 } from '../../../utils/event-util';
-import {GerritView, routerView$} from '../../../services/router/router-model';
+import {
+  GerritView,
+  primaryTab$,
+  routerView$,
+} from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {Subject} from 'rxjs';
@@ -554,6 +558,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly commentsService = appContext.commentsService;
 
+  private readonly routerService = appContext.routerService;
+
   private replyDialogResizeObserver?: ResizeObserver;
 
   override keyboardShortcuts() {
@@ -586,8 +592,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   private lastStarredTimestamp?: number;
 
+  private primaryTab = PrimaryTab.FILES;
+
   override ready() {
-    super.ready();
     aPluginHasRegistered$.pipe(takeUntil(this.disconnected$)).subscribe(b => {
       this._showChecksTab = b;
     });
@@ -596,6 +603,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     });
     drafts$.pipe(takeUntil(this.disconnected$)).subscribe(drafts => {
       this._diffDrafts = {...drafts};
+    });
+    primaryTab$.pipe(takeUntil(this.disconnected$)).subscribe(primaryTab => {
+      this.primaryTab = primaryTab || PrimaryTab.FILES;
+      this._activeTabs = [this.primaryTab, this._activeTabs[1]];
     });
     changeComments$
       .pipe(takeUntil(this.disconnected$))
@@ -818,7 +829,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       (e.composedPath()?.[0] as Element | undefined)?.tagName
     );
     if (activeTabName) {
-      this._activeTabs = [activeTabName, this._activeTabs[1]];
+      this.routerService.updateStatePrimaryTab(activeTabName as PrimaryTab);
 
       // update plugin endpoint if its a plugin tab
       const pluginIndex = (this._dynamicTabHeaderEndpoints || []).indexOf(
@@ -1239,6 +1250,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       primaryTab = params.queryMap.get('tab') as PrimaryTab;
     } else if (params && 'commentId' in params) {
       primaryTab = PrimaryTab.COMMENT_THREADS;
+    } else if (this.primaryTab) {
+      primaryTab = this.primaryTab as PrimaryTab;
     }
     this._setActivePrimaryTab(
       new CustomEvent('initActiveTab', {

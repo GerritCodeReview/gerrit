@@ -677,7 +677,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     patchRange?: PatchRange,
     file?: NormalizedFileInfo
   ) {
-    const draftCount = changeComments?.computeDraftCountForFile(
+    if (changeComments === undefined) return '';
+    const draftCount = changeComments.computeDraftCountForFile(
       patchRange,
       file
     );
@@ -693,7 +694,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     patchRange?: PatchRange,
     file?: NormalizedFileInfo
   ) {
-    const draftCount = changeComments?.computeDraftCountForFile(
+    if (changeComments === undefined) return '';
+    const draftCount = changeComments.computeDraftCountForFile(
       patchRange,
       file
     );

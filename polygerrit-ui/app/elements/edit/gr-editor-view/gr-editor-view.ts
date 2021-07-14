@@ -198,9 +198,20 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
   _editChange(value?: ChangeInfo | null) {
     if (!changeIsMerged(value) && !changeIsAbandoned(value)) return;
     if (!value) return;
+<<<<<<< HEAD
     fireAlert(
       this,
       'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
+=======
+    const message =
+      'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.';
+    this.dispatchEvent(
+      new CustomEvent('show-alert', {
+        detail: {message},
+        bubbles: true,
+        composed: true,
+      })
+>>>>>>> stable-3.3
     );
     GerritNav.navigateToChange(value);
   }
@@ -227,6 +238,7 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _viewEditInChangeView() {
+<<<<<<< HEAD
     const patch = this._successfulSave
       ? (EditPatchSetNum as PatchSetNum)
       : this._patchNum;
@@ -237,6 +249,10 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
         undefined,
         patch !== EditPatchSetNum
       );
+=======
+    if (this._change)
+      GerritNav.navigateToChange(this._change, undefined, undefined, true);
+>>>>>>> stable-3.3
   }
 
   _getFileData(

@@ -1809,9 +1809,20 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       (changeIsMerged(change) || changeIsAbandoned(change)) &&
       this._editMode
     ) {
+<<<<<<< HEAD
       fireAlert(
         this,
         'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
+=======
+      const message =
+        'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.';
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {message},
+          bubbles: true,
+          composed: true,
+        })
+>>>>>>> stable-3.3
       );
       GerritNav.navigateToChange(change);
       return;

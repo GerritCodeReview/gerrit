@@ -32,6 +32,8 @@ import {property, customElement} from '@polymer/decorators';
 import {
   AccountInfo,
   ChangeInfo,
+  EditPatchSetNum,
+  ParentPatchSetNum,
   PatchSetNum,
   CommitInfo,
   ServerInfo,
@@ -198,6 +200,10 @@ export class GrFileListHeader extends KeyboardShortcutMixin(PolymerElement) {
       (basePatchNum === this.basePatchNum && patchNum === this.patchNum) ||
       !this.change
     ) {
+      return;
+    }
+    if (patchNum === EditPatchSetNum && basePatchNum === ParentPatchSetNum) {
+      GerritNav.navigateToChange(this.change, undefined, undefined, true);
       return;
     }
     GerritNav.navigateToChange(this.change, patchNum, basePatchNum);

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a00d8e_2221bf04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-14T07:52:21Z",
+      "side": 1,
+      "message": "The fix looks good to me, but one of the assertions is failing.",
+      "revId": "ce6c0a12bf3ddfa549bb36a8f72fc30990fe0ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b05d169_e2673b3b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-14T07:52:21Z",
+      "side": 1,
+      "message": "Looks like this assertion is failing now.",
+      "revId": "ce6c0a12bf3ddfa549bb36a8f72fc30990fe0ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

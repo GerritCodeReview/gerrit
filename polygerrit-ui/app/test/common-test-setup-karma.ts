@@ -17,6 +17,8 @@
 import './common-test-setup';
 import '@polymer/test-fixture/test-fixture';
 import 'chai/chai';
+import {_testOnly_resetState as checksResetState} from '../services/checks/checks-model';
+import {_testOnly_resetState as commentsResetState} from '../services/comments/comments-model';
 
 declare global {
   interface Window {
@@ -44,6 +46,8 @@ let originalOnBeforeUnload: typeof window.onbeforeunload;
 
 suiteSetup(() => {
   // This suiteSetup() method is called only once before all tests
+  checksResetState();
+  commentsResetState();
 
   // Can't use window.addEventListener("beforeunload",...) here,
   // the handler is raised too late.

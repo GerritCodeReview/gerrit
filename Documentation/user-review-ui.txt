@@ -485,11 +485,11 @@ image::images/user-review-ui-change-screen-change-update.png[width=400, link="im
 [[plugin-extensions]]
 === Plugin Extensions
 
-Gerrit plugins may extend the change screen; they can add buttons for
-additional actions to the change info block and display arbitrary UI
-controls below the change info block.
+Gerrit plugins may extend the change screen. Java plugins in the
+backend can add additional actions to the triple-dot menu block.
+Frontend plugins can change the UI controls in arbitrary ways.
 
-image::images/gwt-user-review-ui-change-screen-plugin-extensions.png[width=800, link="images/gwt-user-review-ui-change-screen-plugin-extensions.png"]
+image::images/user-review-ui-change-screen-plugin-extensions.png[width=400, link="images/user-review-ui-change-screen-plugin-extensions.png"]
 
 [[side-by-side]]
 == Side-by-Side Diff Screen

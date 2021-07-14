@@ -16,6 +16,24 @@
       "message": "This is problematic, because existing (js) usages of gerrit_js_bundle, don\u0027t have such a config and don\u0027t need one.\n\nIs it possible to depend on a default config in the tools directory somehow?",
       "revId": "99a230e33e02401d61683361a4847289c37a76f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0025a8ec_c71cc366",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-14T14:47:40Z",
+      "side": 1,
+      "message": "I think it is possible. Have you tried to put rollup.config.js file in \"tools/bzl/\" directory and reference it as config_file \u003d \"//tools/bzl:rollup.config.js\" ? (probably, you should also add export_files([\"rollup.config.js\"]) in the tools/bzl/BUILD file)\n\n(if it works, maybe rename the file into plugin_rollup_config.js or similar)",
+      "parentUuid": "e661f177_f03623d5",
+      "revId": "99a230e33e02401d61683361a4847289c37a76f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

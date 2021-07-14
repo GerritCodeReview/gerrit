@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e661f177_f03623d5",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-14T13:34:49Z",
+      "side": 1,
+      "message": "This is problematic, because existing (js) usages of gerrit_js_bundle, don\u0027t have such a config and don\u0027t need one.\n\nIs it possible to depend on a default config in the tools directory somehow?",
+      "revId": "99a230e33e02401d61683361a4847289c37a76f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

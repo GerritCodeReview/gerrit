@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d413d99_e9d2b4aa",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-14T00:39:03Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6e9dca36_58301113",
+      "range": {
+        "startLine": 202,
+        "startChar": 2,
+        "endLine": 202,
+        "endChar": 8
+      },
+      "revId": "a90c02e0b1ec732789d4bd87da598b3b9c35cad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "786b03da_844f6f68",
         "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 3

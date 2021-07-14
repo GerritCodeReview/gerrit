@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a6b4824_30a2f760",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-14T21:10:52Z",
+      "side": 1,
+      "message": "How do you know that the error is about \"edit\"?\n\nShould we maybe not call the rest api at all when patchNum \u003d\u003d\u003d \u0027edit\u0027? Should the callers make sure that they don\u0027t call `getChangeCommitInfo` with \u0027edit\u0027? Maybe we can force the parameter of this method to not allow \u0027edit\u0027?",
+      "revId": "c9204fed46c52dc1d32b9b1b3cf21ce01003651e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

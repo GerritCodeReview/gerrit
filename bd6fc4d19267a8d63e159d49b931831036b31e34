@@ -16,6 +16,24 @@
       "message": "Could you add a test?",
       "revId": "bd6fc4d19267a8d63e159d49b931831036b31e34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f16a585_62c4b2fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-14T09:02:50Z",
+      "side": 1,
+      "message": "Sure. I don\u0027t know how to reproduce this behaviour in JGit but I can debug a little bit and try to understand.\n\nMarking as WIP to move it out from your incoming reviews.",
+      "parentUuid": "e0825dc5_d3321be3",
+      "revId": "bd6fc4d19267a8d63e159d49b931831036b31e34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

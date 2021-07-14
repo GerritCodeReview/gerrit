@@ -102,13 +102,13 @@ export const htmlTemplate = html`
           </th>
           <th colspan$="[[_getTypeCount()]]">
             <iron-input
+              id="newFilterInput"
               class="newFilterInput"
               placeholder="branch:name, or other search expression"
             >
               <input
                 id="newFilter"
                 class="newFilterInput"
-                is="iron-input"
                 placeholder="branch:name, or other search expression"
               />
             </iron-input>

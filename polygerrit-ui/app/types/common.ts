@@ -984,6 +984,7 @@ export interface ProjectWatchInfo {
   notify_all_comments?: boolean;
   notify_submitted_changes?: boolean;
   notify_abandoned_changes?: boolean;
+  _is_local?: boolean; // Added manually
 }
 /**
  * The DeleteDraftCommentsInput entity contains information specifying a set of draft comments that should be deleted

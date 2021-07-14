@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f758a5a_bb80b7e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-14T15:27:33Z",
+      "side": 1,
+      "message": "Isn\u0027t it more confusing if the user replying specifies a user to be added to the attention set, the request succeeds, but then the user was not added to the attention set? Wouldn\u0027t it be better to reject the request as 400 Bad Request with a proper error message explaining that this user cannot be added to the attention set because that user cannot see the change?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "6acb8554dec8016a177191b9c1cfebf177b383ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

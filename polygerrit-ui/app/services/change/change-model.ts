@@ -32,13 +32,19 @@ import {ParsedChangeInfo} from '../../types/types';
 
 interface ChangeState {
   change?: ParsedChangeInfo;
+  primaryTab?: string;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
 // Use DeepReadOnly?
 const initialState: ChangeState = {};
 
-const privateState$ = new BehaviorSubject(initialState);
+// Mutable for testing
+let privateState$ = new BehaviorSubject(initialState);
+
+export function _testOnly_resetState() {
+  privateState$ = new BehaviorSubject(initialState);
+}
 
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const changeState$: Observable<ChangeState> = privateState$;
@@ -59,6 +65,16 @@ export function updateState(change?: ParsedChangeInfo) {
   }
   privateState$.next({...current, change});
 }
+
+export function updateStatePrimaryTab(primaryTab: string) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, primaryTab});
+}
+
+export const primaryTab$ = changeState$.pipe(
+  map(changeState => changeState.primaryTab),
+  distinctUntilChanged()
+);
 
 /**
  * If you depend on both, router and change state, then you want to filter out

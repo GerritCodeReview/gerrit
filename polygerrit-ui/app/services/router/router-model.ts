@@ -18,6 +18,7 @@
 import {NumericChangeId, PatchSetNum} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
+import {PrimaryTab} from '../../constants/constants';
 
 export enum GerritView {
   ADMIN = 'admin',
@@ -39,6 +40,7 @@ export interface RouterState {
   view?: GerritView;
   changeNum?: NumericChangeId;
   patchNum?: PatchSetNum;
+  primaryTab?: PrimaryTab;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
@@ -64,6 +66,20 @@ export function updateState(
     patchNum,
   });
 }
+
+export function _testOnly_resetState() {
+  privateState$.next(initialState);
+}
+
+export function updateStatePrimaryTab(primaryTab: PrimaryTab) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, primaryTab});
+}
+
+export const primaryTab$ = routerState$.pipe(
+  map(routerState => routerState.primaryTab),
+  distinctUntilChanged()
+);
 
 export const routerView$ = routerState$.pipe(
   map(state => state.view),

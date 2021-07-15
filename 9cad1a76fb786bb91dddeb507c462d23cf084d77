@@ -39,6 +39,30 @@
       },
       "revId": "9cad1a76fb786bb91dddeb507c462d23cf084d77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3241890e_afa9a252",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/OnlineNoteDbMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-15T00:31:16Z",
+      "side": 1,
+      "message": "We could just this two conditional paths at the if() at L107",
+      "parentUuid": "28937286_bd66fddf",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 120,
+        "endChar": 27
+      },
+      "revId": "9cad1a76fb786bb91dddeb507c462d23cf084d77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

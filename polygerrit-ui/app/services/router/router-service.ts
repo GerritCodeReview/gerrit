@@ -17,9 +17,15 @@
 
 import {updateStatePrimaryTab} from './router-model';
 import {PrimaryTab} from '../../constants/constants';
+import {UrlEncodedCommentId} from '../../types/common';
+import {updateStateScrollCommentId} from './router-model';
 
 export class RouterService {
   updateStatePrimaryTab(primaryTab: PrimaryTab) {
     updateStatePrimaryTab(primaryTab);
+  }
+
+  updateScrollCommentId(scrollCommentId?: UrlEncodedCommentId) {
+    updateStateScrollCommentId(scrollCommentId);
   }
 }

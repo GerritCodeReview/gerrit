@@ -16,6 +16,24 @@
       "message": "Does this work in Firefox, Edge and Safari?",
       "revId": "cb6a7d6326b0dada5d943edbd3c0703688cc2210",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "441d9019_78e69c92",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-link/gr-account-link.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-15T11:56:28Z",
+      "side": 1,
+      "message": "I checked Safari and Firefox. It works. Edge is now chromium, so it should be fine.",
+      "parentUuid": "b22279a1_9bff63c5",
+      "revId": "cb6a7d6326b0dada5d943edbd3c0703688cc2210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

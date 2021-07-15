@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbd94d79_0b49cfd3",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-15T14:59:53Z",
+      "side": 1,
+      "message": "Isn\u0027t this also encoded in the URL and thus (should be) part of the router state?",
+      "revId": "34e98f4bc448c25f5a5484530edd042d051338b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

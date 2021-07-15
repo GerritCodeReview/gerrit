@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a36a061c_e9ef65be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-15T01:07:20Z",
+      "side": 1,
+      "message": "Tested E2E with Gerrit and works as expected: the online migrator would restrict the migration to the specified projects.",
+      "revId": "ef8e8cfd35412f9ddd04447e9e108851faf8040d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

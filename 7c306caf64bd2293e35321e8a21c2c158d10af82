@@ -153,6 +153,24 @@
       "message": "Maybe also get the submit requirements via the API and assert that this doesn\u0027t execute the the submit rules since the submit requirements results are loaded from NoteDb? [1] is an example how you could assert this.\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java;l\u003d689",
       "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1826dd4_19bfc259",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4245,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-15T12:12:00Z",
+      "side": 1,
+      "message": "Ah, doing this may only be possible with the follow-up change.",
+      "parentUuid": "63ea11b7_5b5f2b45",
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

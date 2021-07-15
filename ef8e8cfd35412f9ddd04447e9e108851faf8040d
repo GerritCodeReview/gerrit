@@ -63,6 +63,30 @@
       },
       "revId": "ef8e8cfd35412f9ddd04447e9e108851faf8040d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c50cac7e_ba80008f",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/OnlineNoteDbMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-07-15T07:57:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ba2689a4_fa7614f6",
+      "range": {
+        "startLine": 117,
+        "startChar": 19,
+        "endLine": 117,
+        "endChar": 26
+      },
+      "revId": "ef8e8cfd35412f9ddd04447e9e108851faf8040d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

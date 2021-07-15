@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56fb8673_011ecfa2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1994,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-15T07:18:15Z",
+      "side": 1,
+      "message": "This will cause a delay and issue an extra call to the server, which is something that we want to avoid.\n\nYou can either only do this when `patchNum \u003d\u003d\u003d \u0027edit\u0027`. That is still not great, but I think acceptable.\n\nOr you have to make sure that _getEdit() and _processEdit() have already run (or somehow wait for them).",
+      "revId": "9db3ccb957384e0b879f4169d563e082d94b2812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -218,7 +218,7 @@ or if they are an administrator.
 ** [[plugin-actions]]Further actions may be available if plugins are installed.
 
 +
-image::images/user-review-ui-change-screen-change-info-actions.png[width=600, link="images/user-review-ui-change-screen-change-info-actions.png"]
+image::images/user-review-ui-change-screen-change-info-actions.png[width=400, link="images/user-review-ui-change-screen-change-info-actions.png"]
 
 - [[labels]]Labels & Votes:
 +
@@ -259,7 +259,7 @@ The change screen only presents one patch set at a time. Which patch
 set is currently viewed can be seen from the `Patch Sets` drop-down
 panel in the change header.
 
-image::images/user-review-ui-change-screen-patch-sets.png[width=487, link="images/user-review-ui-change-screen-patch-sets.png"]
+image::images/user-review-ui-change-screen-patch-sets.png[width=300, link="images/user-review-ui-change-screen-patch-sets.png"]
 
 
 [[download]]
@@ -458,7 +458,7 @@ Using the quick approve button also publishes all inline draft
 comments; a summary comment is only added if the reply popup panel is
 open when the quick approve button is clicked.
 
-image::images/user-review-ui-change-screen-quick-approve.png[width=800, link="images/gwt-user-review-ui-change-screen-quick-approve.png"]
+image::images/user-review-ui-change-screen-quick-approve.png[width=800, link="images/user-review-ui-change-screen-quick-approve.png"]
 
 [[history]]
 === History
@@ -489,7 +489,7 @@ Gerrit plugins may extend the change screen. Java plugins in the
 backend can add additional actions to the triple-dot menu block.
 Frontend plugins can change the UI controls in arbitrary ways.
 
-image::images/user-review-ui-change-screen-plugin-extensions.png[width=400, link="images/user-review-ui-change-screen-plugin-extensions.png"]
+image::images/user-review-ui-change-screen-plugin-extensions.png[width=300, link="images/user-review-ui-change-screen-plugin-extensions.png"]
 
 [[side-by-side]]
 == Side-by-Side Diff Screen
@@ -509,7 +509,7 @@ patch to be marked as reviewed. The link:#mark-reviewed[Mark Reviewed]
 diff preference allows to control whether the files should be
 automatically marked as reviewed when they are viewed.
 
-image::images/user-review-ui-side-by-side-diff-screen-reviewed.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-reviewed.png"]
+image::images/user-review-ui-side-by-side-diff-screen-reviewed.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-reviewed.png"]
 
 [[patch-set-selection]]
 In the header, on each side, the list of patch sets is shown. Clicking
@@ -616,7 +616,7 @@ screen by link:#reply[replying] to the change.
 File level comments are added by clicking the 'File' header at the top
 of the file.
 
-image::images/user-review-ui-side-by-side-diff-screen-file-level-comment.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-file-level-comment.png"]
+image::images/user-review-ui-side-by-side-diff-screen-file-level-comment.png[width=400, link="images/user-review-ui-side-by-side-diff-screen-file-level-comment.png"]
 
 [[diff-preferences]]
 === Diff Preferences
@@ -626,7 +626,7 @@ rendered. Users can configure their preferences in the diff
 preferences. The diff preferences can be accessed by clicking on the
 settings icon in the screen header.
 
-image::images/user-review-ui-side-by-side-diff-screen-preferences.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png"]
+image::images/user-review-ui-side-by-side-diff-screen-preferences.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-preferences.png"]
 
 The following diff preferences can be configured:
 
@@ -673,7 +673,7 @@ block of skipped lines.
 If many lines are skipped there are additional links to expand the
 context by ten lines before and after the skipped block.
 +
-image::images/user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png"]
+image::images/user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png"]
 
 - [[syntax-highlighting]]`Syntax Highlighting`:
 +
@@ -703,7 +703,7 @@ most actions can be controlled by keyboard shortcuts. Typing `?` opens
 a popup that shows a list of available keyboard shortcuts.
 
 
-image::images/user-review-ui-change-screen-keyboard-shortcuts.png[width=800, link="images/gwt-user-review-ui-change-screen-keyboard-shortcuts.png"]
+image::images/user-review-ui-change-screen-keyboard-shortcuts.png[width=800, link="images/user-review-ui-change-screen-keyboard-shortcuts.png"]
 
 
 In addition, Vim-like commands can be used to link:#key-navigation[

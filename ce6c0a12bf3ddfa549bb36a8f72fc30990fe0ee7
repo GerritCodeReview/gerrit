@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b567a41a_a9f94402",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-07-15T12:34:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ba2e655_db128458",
+      "revId": "ce6c0a12bf3ddfa549bb36a8f72fc30990fe0ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b05d169_e2673b3b",

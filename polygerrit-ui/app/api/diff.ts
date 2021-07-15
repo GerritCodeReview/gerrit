@@ -206,6 +206,7 @@ export declare interface DiffPreferencesInfo {
   font_size: number;
   // TODO: Missing documentation
   show_file_comment_button?: boolean;
+  line_wrapping?: boolean;
 }
 
 export declare interface ImageDiffPreferences {

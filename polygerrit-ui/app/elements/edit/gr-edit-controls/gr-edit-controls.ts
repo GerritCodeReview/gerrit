@@ -176,23 +176,35 @@ export class GrEditControls extends PolymerElement {
       '.dialog'
     ) as NodeListOf<GrDialog>;
     for (const dialog of dialogs) {
-      this._closeDialog(dialog);
+      // We set the second param to false
+      // because this function is called by
+      // _showDialog which when you open
+      // either restore, delete or rename
+      // dialogs it reseted the automatically
+      // set input.
+      this._closeDialog(dialog, false);
     }
   }
 
-  _closeDialog(dialog?: GrDialog) {
+  /**
+   * @param dialog The dialog
+   * @param clearInputs Whether to clear the current input
+   */
+  _closeDialog(dialog?: GrDialog, clearInputs = true) {
     if (!dialog) return;
 
-    // Dialog may have autocompletes and plain inputs -- as these have
-    // different properties representing their bound text, it is easier to
-    // just make two separate queries.
-    dialog.querySelectorAll('gr-autocomplete').forEach(input => {
-      input.text = '';
-    });
+    if (clearInputs) {
+      // Dialog may have autocompletes and plain inputs -- as these have
+      // different properties representing their bound text, it is easier to
+      // just make two separate queries.
+      dialog.querySelectorAll('gr-autocomplete').forEach(input => {
+        input.text = '';
+      });
 
-    dialog.querySelectorAll('iron-input').forEach(input => {
-      input.bindValue = '';
-    });
+      dialog.querySelectorAll('iron-input').forEach(input => {
+        input.bindValue = '';
+      });
+    }
 
     dialog.classList.toggle('invisible', true);
     return this.$.overlay.close();

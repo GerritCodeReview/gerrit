@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79d814ff_f3654cbb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-07-15T08:29:20Z",
+      "side": 1,
+      "message": "Gal, any idea about the failure here?",
+      "revId": "ce6c0a12bf3ddfa549bb36a8f72fc30990fe0ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b05d169_e2673b3b",
@@ -31,6 +48,24 @@
       "writtenOn": "2021-07-14T07:52:21Z",
       "side": 1,
       "message": "Looks like this assertion is failing now.",
+      "revId": "ce6c0a12bf3ddfa549bb36a8f72fc30990fe0ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d7ef87f_73abf3be",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-07-15T08:29:20Z",
+      "side": 1,
+      "message": "I know, that\u0027s why I split it out. :-)",
+      "parentUuid": "8b05d169_e2673b3b",
       "revId": "ce6c0a12bf3ddfa549bb36a8f72fc30990fe0ee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

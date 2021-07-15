@@ -15,7 +15,11 @@
  * limitations under the License.
  */
 
-import {NumericChangeId, PatchSetNum} from '../../types/common';
+import {
+  NumericChangeId,
+  PatchSetNum,
+  UrlEncodedCommentId,
+} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 
@@ -39,6 +43,7 @@ export interface RouterState {
   view?: GerritView;
   changeNum?: NumericChangeId;
   patchNum?: PatchSetNum;
+  scrollCommentId?: UrlEncodedCommentId;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
@@ -55,13 +60,24 @@ export const routerState$: Observable<RouterState> = privateState$;
 export function updateState(
   view?: GerritView,
   changeNum?: NumericChangeId,
-  patchNum?: PatchSetNum
+  patchNum?: PatchSetNum,
+  scrollCommentId?: UrlEncodedCommentId
 ) {
   privateState$.next({
     ...privateState$.getValue(),
     view,
     changeNum,
     patchNum,
+    scrollCommentId,
+  });
+}
+
+export function updateStateScrollCommentId(
+  scrollCommentId?: UrlEncodedCommentId
+) {
+  privateState$.next({
+    ...privateState$.getValue(),
+    scrollCommentId,
   });
 }
 
@@ -77,5 +93,10 @@ export const routerChangeNum$ = routerState$.pipe(
 
 export const routerPatchNum$ = routerState$.pipe(
   map(state => state.patchNum),
+  distinctUntilChanged()
+);
+
+export const routerScrollCommentId$ = routerState$.pipe(
+  map(state => state.scrollCommentId),
   distinctUntilChanged()
 );

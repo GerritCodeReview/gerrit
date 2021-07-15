@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87b98c8a_9007b658",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteJson.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-15T12:11:06Z",
+      "side": 1,
+      "message": "Not sure I understand why this is needed, can you explain?",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89af5344_1dbac10a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeRevisionNoteData.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-15T12:11:06Z",
+      "side": 1,
+      "message": "Looks like this diff would be better part of the predecessor change?",
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e437c075_696f1630",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-15T12:11:06Z",
+      "side": 1,
+      "message": "This field is only set when setLatestPatchSet was called, which is only called from StoreSubmitRequirementsOp. This means for all other ChangeUpdates that are performed by Gerrit this is always null (because they do not call setLatestPatchSet). So this comment saying that this field is only null if we are inserting a new patchset is not correct.\n\nI would prefer to drop this field, see other comment below.",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 164,
+        "endChar": 85
+      },
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6096ae40_d119b43c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-15T12:11:06Z",
+      "side": 1,
+      "message": "Maybe change this to putSubmitRequirementResult(ObjectId revision, SubmitRequirementResult rs) or putSubmitRequirementResult(ObjectId revision, List\u003cSubmitRequirementResult\u003e rs) so that you can drop the setLatestPatchSet method.\n\nBut I wonder if we need the revision parameter at all. When the ChangeUpdate is being created by\n\n  ChangeUpdate update \u003d ctx.getUpdate(change.currentPatchSetId());\n  \nwe already specify the patch set. Can we just pass in this patch set information into ChangeUpdate at this point, so that we do not need to specify it once again when storing SubmitRequirements?\n\nAlso see by comment in StoreSubmitRequirementsOp.",
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe772888_94fece9f",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-15T12:11:06Z",
+      "side": 1,
+      "message": "Do we need any sorting for this list so that the submit requirements in NoteDb always appear in a consistent order?",
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d3664c2_dd1ca5e0",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-15T12:11:06Z",
+      "side": 1,
+      "message": "[optional] would it be easier for callers if this was\n\n  putSubmitRequirementResults(List\u003cSubmitRequirementResult\u003e result)\n  \n?",
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc6e6e0e_048fc527",
+        "filename": "java/com/google/gerrit/server/notedb/StoreSubmitRequirementsOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-15T12:11:06Z",
+      "side": 1,
+      "message": "Why do we need to specify the patch set twice, once to create ChangeUpdate and then once again to tell ChangeUpdate for which patch set it was created?",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 59
+      },
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63ea11b7_5b5f2b45",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4245,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-15T12:11:06Z",
+      "side": 1,
+      "message": "Maybe also get the submit requirements via the API and assert that this doesn\u0027t execute the the submit rules since the submit requirements results are loaded from NoteDb? [1] is an example how you could assert this.\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java;l\u003d689",
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

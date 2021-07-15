@@ -18,10 +18,11 @@
 import '../gr-account-label/gr-account-label';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
-import {css, customElement, html, LitElement, property} from 'lit-element';
+import {css, customElement, html, property} from 'lit-element';
+import {GrLitElement} from '../../lit/gr-lit-element';
 
 @customElement('gr-account-link')
-export class GrAccountLink extends LitElement {
+export class GrAccountLink extends GrLitElement {
   @property({type: String})
   voteableText?: string;
 
@@ -74,10 +75,8 @@ export class GrAccountLink extends LitElement {
           color: var(--primary-text-color);
           text-decoration: none;
         }
-        gr-account-label {
-          --gr-account-label-text-hover-style: {
-            text-decoration: underline;
-          }
+        gr-account-label::part(gr-account-label-text):hover {
+          text-decoration: underline !important;
         }
       `,
     ];
@@ -96,6 +95,7 @@ export class GrAccountLink extends LitElement {
           ?hide-status=${this.hideStatus}
           ?first-name=${this.firstName}
           .voteable-text=${this.voteableText}
+          part="gr-account-link-text => gr-account-label-text"
         >
         </gr-account-label>
       </a>

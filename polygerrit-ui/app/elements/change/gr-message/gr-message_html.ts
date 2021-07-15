@@ -195,10 +195,8 @@ export const htmlTemplate = html`
       padding-bottom: 1px;
       color: var(--vote-text-color);
     }
-    gr-account-label {
-      --gr-account-label-text-style: {
-        font-weight: var(--font-weight-bold);
-      }
+    gr-account-label::part(gr-account-label-text) {
+      font-weight: var(--font-weight-bold);
     }
     iron-icon {
       --iron-icon-height: 20px;

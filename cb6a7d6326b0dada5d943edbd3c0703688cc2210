@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b22279a1_9bff63c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-link/gr-account-link.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-15T11:30:12Z",
+      "side": 1,
+      "message": "Does this work in Firefox, Edge and Safari?",
+      "revId": "cb6a7d6326b0dada5d943edbd3c0703688cc2210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

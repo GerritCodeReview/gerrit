@@ -1421,22 +1421,12 @@ public class RevisionIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () ->
-                gApi.changes()
-                    .id(r.getChangeId())
-                    .revision(r.getCommit().name())
-                    .files(3)
-                    .keySet());
+            () -> gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files(3));
     assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: 3");
     thrown =
         assertThrows(
             BadRequestException.class,
-            () ->
-                gApi.changes()
-                    .id(r.getChangeId())
-                    .revision(r.getCommit().name())
-                    .files(-1)
-                    .keySet());
+            () -> gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files(-1));
     assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: -1");
   }
 
@@ -1449,14 +1439,13 @@ public class RevisionIT extends AbstractDaemonTest {
 
     BadRequestException thrown =
         assertThrows(
-            BadRequestException.class,
-            () -> gApi.changes().id(changeId).revision(revId2).files(2).keySet());
+            BadRequestException.class, () -> gApi.changes().id(changeId).revision(revId2).files(2));
     assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: 2");
 
     thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.changes().id(changeId).revision(revId2).files(-1).keySet());
+            () -> gApi.changes().id(changeId).revision(revId2).files(-1));
     assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: -1");
   }
 

@@ -429,9 +429,16 @@ export const htmlTemplate = html`
     }
     /** Support the line length indicator **/
     .full-width td.content .contentText {
-      background-image: var(--line-length-indicator);
+      /*
+      Same strategy as in https://stackoverflow.com/questions/1179928/how-can-i-put-a-vertical-line-down-the-center-of-a-div
+      */
+      background-image: linear-gradient(
+        var(--line-length-indicator-color),
+        var(--line-length-indicator-color)
+      );
+      background-size: 1px 100%;
       background-position: var(--line-limit) 0;
-      background-repeat: repeat-y;
+      background-repeat: no-repeat;
     }
     .newlineWarning {
       color: var(--deemphasized-text-color);

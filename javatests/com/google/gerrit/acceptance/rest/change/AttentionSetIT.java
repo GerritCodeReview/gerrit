@@ -630,7 +630,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
 
     // No emails for adding to attention set were sent.
-    email.getMessages().isEmpty();
+    assertThat(email.getMessages()).isEmpty();
   }
 
   @Test
@@ -639,6 +639,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // implictly adds the user to the attention set when adding as reviewer
     change(r).addReviewer(user.email());
     requestScopeOperations.setApiUser(user.id());
+    email.clear();
 
     ReviewInput reviewInput =
         ReviewInput.create().removeUserFromAttentionSet(user.email(), "reason");
@@ -651,7 +652,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
 
     // No emails for removing from attention set were sent.
-    email.getMessages().isEmpty();
+    assertThat(email.getMessages()).isEmpty();
   }
 
   @Test

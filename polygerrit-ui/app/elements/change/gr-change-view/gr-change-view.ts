@@ -179,6 +179,7 @@ import {
 import {
   GerritView,
   primaryTab$,
+  routerScrollCommentId$,
   routerView$,
 } from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
@@ -600,6 +601,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     routerView$.pipe(takeUntil(this.disconnected$)).subscribe(view => {
       this.isViewCurrent = view === GerritView.CHANGE;
     });
+    routerScrollCommentId$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(scrollCommentId => {
+        this.scrollCommentId = scrollCommentId;
+      });
     drafts$.pipe(takeUntil(this.disconnected$)).subscribe(drafts => {
       this._diffDrafts = {...drafts};
     });
@@ -1210,7 +1216,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
     this.$.fileList.collapseAllDiffs();
     this._patchRange = patchRange;
-    this.scrollCommentId = value.commentId;
 
     const patchKnown =
       !patchRange.patchNum ||

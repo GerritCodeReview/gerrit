@@ -321,6 +321,8 @@ export class GrRouter extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly routerService = appContext.routerService;
+
   start() {
     if (!this._app) {
       return;
@@ -332,7 +334,8 @@ export class GrRouter extends PolymerElement {
     updateState(
       params.view,
       'changeNum' in params ? params.changeNum : undefined,
-      'patchNum' in params ? params.patchNum ?? undefined : undefined
+      'patchNum' in params ? params.patchNum ?? undefined : undefined,
+      'commentId' in params ? params.commentId : undefined
     );
     this._appElement().params = params;
   }
@@ -1639,6 +1642,7 @@ export class GrRouter extends PolymerElement {
       commentId: ctx.params[2] as UrlEncodedCommentId,
       view: GerritView.CHANGE,
     };
+    this.routerService.setScrollCommentId(params.commentId);
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);
     this._redirectOrNavigate(params);

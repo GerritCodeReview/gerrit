@@ -189,7 +189,6 @@ export interface ChangeViewState {
   showDownloadDialog: boolean;
   diffMode: DiffViewMode | null;
   numFilesShown: number | null;
-  scrollTop?: number;
   diffViewMode?: boolean;
 }
 

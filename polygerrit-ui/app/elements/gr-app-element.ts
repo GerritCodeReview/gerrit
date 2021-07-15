@@ -295,7 +295,6 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
         showDownloadDialog: false,
         diffMode: null,
         numFilesShown: null,
-        scrollTop: 0,
       },
       changeListView: {
         query: null,

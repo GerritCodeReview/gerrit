@@ -676,7 +676,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.addEventListener('close-fix-preview', e => this._onCloseFixPreview(e));
-    window.addEventListener('scroll', this.handleScroll);
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
 
     this.addEventListener(EventType.SHOW_PRIMARY_TAB, e =>
@@ -693,7 +692,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   /** @override */
   disconnectedCallback() {
     this.disconnected$.next();
-    window.removeEventListener('scroll', this.handleScroll);
     document.removeEventListener(
       'visibilitychange',
       this.handleVisibilityChange
@@ -1139,14 +1137,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this._openReplyDialog(target);
   }
 
-  readonly handleScroll = () => {
-    this.scrollTask = debounce(
-      this.scrollTask,
-      () => (this.viewState.scrollTop = document.body.scrollTop),
-      150
-    );
-  };
-
   _setShownFiles(e: CustomEvent<{length: number}>) {
     this._shownFileCount = e.detail.length;
   }
@@ -1283,11 +1273,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this._sendShowChangeEvent();
 
     setTimeout(() => {
-      if (this.viewState.scrollTop) {
-        document.documentElement.scrollTop = document.body.scrollTop = this.viewState.scrollTop;
-      } else {
-        this._maybeScrollToMessage(window.location.hash);
-      }
+      this._maybeScrollToMessage(window.location.hash);
       this._initialLoadComplete = true;
     });
   }
@@ -1407,7 +1393,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   _resetFileListViewState() {
     this.set('viewState.selectedFileIndex', 0);
-    this.set('viewState.scrollTop', 0);
     if (
       !!this.viewState.changeNum &&
       this.viewState.changeNum !== this._changeNum

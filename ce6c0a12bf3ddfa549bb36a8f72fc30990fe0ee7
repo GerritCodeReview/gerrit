@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ba2e655_db128458",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-07-15T08:57:00Z",
+      "side": 1,
+      "message": "email.clear()",
+      "revId": "ce6c0a12bf3ddfa549bb36a8f72fc30990fe0ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b05d169_e2673b3b",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 1
@@ -66,6 +83,24 @@
       "side": 1,
       "message": "I know, that\u0027s why I split it out. :-)",
       "parentUuid": "8b05d169_e2673b3b",
+      "revId": "ce6c0a12bf3ddfa549bb36a8f72fc30990fe0ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bebb5827_873dfb92",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-07-15T08:57:00Z",
+      "side": 1,
+      "message": "I debugged, and you can add email.clear() after adding a reviewer (see other comment). Adding a reviewer sends an email, but that\u0027s intended.",
+      "parentUuid": "3d7ef87f_73abf3be",
       "revId": "ce6c0a12bf3ddfa549bb36a8f72fc30990fe0ee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

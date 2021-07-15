@@ -39,6 +39,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -154,6 +156,21 @@ public class Reindex extends SiteProgram {
     } else if (indexType.isElasticsearch()) {
       indexModule =
           ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);
+    } else if (indexType.isFake()) {
+      // Use Reflection so that we can omit the fake index binary in production code. Test code does
+      // compile the component in.
+      try {
+        Class<?> clazz = Class.forName("com.google.gerrit.index.testing.FakeIndexModule");
+        Method m =
+            clazz.getMethod(
+                "singleVersionWithExplicitVersions", Map.class, int.class, boolean.class);
+        indexModule = (Module) m.invoke(null, versions, threads, replica);
+      } catch (NoSuchMethodException
+          | ClassNotFoundException
+          | IllegalAccessException
+          | InvocationTargetException e) {
+        throw new IllegalStateException("can't create index", e);
+      }
     } else {
       throw new IllegalStateException("unsupported index.type = " + indexType);
     }

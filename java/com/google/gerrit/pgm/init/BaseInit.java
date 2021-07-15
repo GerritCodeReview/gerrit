@@ -32,6 +32,7 @@ import com.google.gerrit.pgm.init.api.InstallAllPlugins;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.LibraryDownload;
 import com.google.gerrit.pgm.init.index.IndexManagerOnInit;
+import com.google.gerrit.pgm.init.index.IndexModuleOnInit;
 import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
 import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -57,6 +58,7 @@ import com.google.inject.spi.Message;
 import com.google.inject.util.Providers;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -418,6 +420,19 @@ public class BaseInit extends SiteProgram {
         modules.add(new LuceneIndexModuleOnInit());
       } else if (indexType.isElasticsearch()) {
         modules.add(new ElasticIndexModuleOnInit());
+      } else if (indexType.isFake()) {
+        try {
+          Class<?> clazz = Class.forName("com.google.gerrit.index.testing.FakeIndexModuleOnInit");
+          Module indexOnInitModule = (Module) clazz.getDeclaredConstructor().newInstance();
+          modules.add(indexOnInitModule);
+        } catch (InstantiationException
+            | IllegalAccessException
+            | ClassNotFoundException
+            | NoSuchMethodException
+            | InvocationTargetException e) {
+          throw new IllegalStateException("unable to create fake index", e);
+        }
+        modules.add(new IndexModuleOnInit());
       } else {
         throw new IllegalStateException("unsupported index.type = " + indexType);
       }

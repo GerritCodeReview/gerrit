@@ -32,9 +32,9 @@ export const htmlTemplate = html`
       padding: 0 1px;
 
       --account-label-padding-horizontal: 6px;
-      --gr-account-label-text-style: {
-        color: var(--deemphasized-text-color);
-      }
+    }
+    .container gr-account-link::part(gr-account-link-text) {
+      color: var(--deemphasized-text-color);
     }
     :host([show-avatar]) .container {
     }

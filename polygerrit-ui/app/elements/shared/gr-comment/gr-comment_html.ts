@@ -236,11 +236,11 @@ export const htmlTemplate = html`
       margin-left: var(--spacing-s);
     }
     .headerLeft gr-account-label {
-      --gr-account-label-text-style: {
-        font-weight: var(--font-weight-bold);
-      }
       --account-max-length: 130px;
       width: 150px;
+    }
+    .headerLeft gr-account-label::part(gr-account-label-text) {
+      font-weight: var(--font-weight-bold);
     }
     .draft gr-account-label {
       width: unset;

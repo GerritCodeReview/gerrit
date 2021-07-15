@@ -59,12 +59,6 @@ export const htmlTemplate = html`
       position: relative;
       top: 1px;
     }
-    .text {
-      @apply --gr-account-label-text-style;
-    }
-    .text:hover {
-      @apply --gr-account-label-text-hover-style;
-    }
     #attentionButton {
       /* This negates the 4px horizontal padding, which we appreciate as a
          larger click target, but which we don't want to consume space. :-) */
@@ -87,6 +81,7 @@ export const htmlTemplate = html`
     }
     .name {
       display: inline-block;
+      text-decoration: inherit;
       vertical-align: top;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -130,7 +125,7 @@ export const htmlTemplate = html`
     <template is="dom-if" if="[[!hideAvatar]]">
       <gr-avatar account="[[account]]" imageSize="32"></gr-avatar>
     </template>
-    <span class="text">
+    <span class="text" part="gr-account-label-text">
       <span class="name">[[_computeName(account, _config, firstName)]]</span>
       <template is="dom-if" if="[[!hideStatus]]">
         <template is="dom-if" if="[[account.status]]">

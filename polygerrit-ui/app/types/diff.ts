@@ -104,7 +104,6 @@ export interface DiffPreferencesInfo extends DiffPreferenceInfoApi {
   hide_line_numbers?: boolean;
   hide_empty_pane?: boolean;
   match_brackets?: boolean;
-  line_wrapping?: boolean;
 }
 
 export declare type DiffPreferencesInfoKey = keyof DiffPreferencesInfo;

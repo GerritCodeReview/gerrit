@@ -16,6 +16,46 @@
       "message": "I\u0027ve pushed this to the stable-3.2 branch because that is the branch we are running locally and it is what I have tested this against. I\u0027ll be honest I always get confused around where Gerrit wants changes pushed to branch wise. If you can point me in the right direction for that along with general code review that would be excellent.",
       "revId": "1a25c8bd96c380d7b134412570f14b36fb2a9075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29bf6b68_b9466af4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-15T22:08:40Z",
+      "side": 1,
+      "message": "I am trying to push the fix for the issue noted inline but receive\n\n  remote: INTERNAL Internal error encountered\n\nWhen pushing.",
+      "revId": "1a25c8bd96c380d7b134412570f14b36fb2a9075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26f583ee_f64c7891",
+        "filename": "java/com/google/gerrit/server/auth/openid/OpenIdRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-15T22:08:40Z",
+      "side": 1,
+      "message": "This is an unused import and needs to be removed. This is why the style checker failed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 42
+      },
+      "revId": "1a25c8bd96c380d7b134412570f14b36fb2a9075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

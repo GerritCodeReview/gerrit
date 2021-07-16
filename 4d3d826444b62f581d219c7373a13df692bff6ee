@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5521a90b_2916a63c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:13:58Z",
+      "side": 1,
+      "message": "You are doing more in this change. Can you either break the change up or mention the other fixes in the commit message?",
+      "revId": "4d3d826444b62f581d219c7373a13df692bff6ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74a4ef3e_db6b6e4c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:13:58Z",
+      "side": 1,
+      "message": "Let\u0027s stay consistent with other handle methods and use this.$.",
+      "range": {
+        "startLine": 548,
+        "startChar": 4,
+        "endLine": 550,
+        "endChar": 63
+      },
+      "revId": "4d3d826444b62f581d219c7373a13df692bff6ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6ed23c9_c796cdbc",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:13:58Z",
+      "side": 1,
+      "message": "80 chars",
+      "revId": "4d3d826444b62f581d219c7373a13df692bff6ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93716870_4ccbf89d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:13:58Z",
+      "side": 1,
+      "message": "checker \u003e template checker",
+      "revId": "4d3d826444b62f581d219c7373a13df692bff6ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

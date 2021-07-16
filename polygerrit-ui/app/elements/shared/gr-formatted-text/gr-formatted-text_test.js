@@ -387,20 +387,5 @@ suite('gr-formatted-text tests', () => {
     assert.equal(result[3].type, 'code');
     assert.equal(result[4].type, 'quote');
   });
-
-  test('_computeNodes called without config', () => {
-    const computeNodesSpy = sinon.spy(element, '_computeNodes');
-    element.content = 'some text';
-    assert.isTrue(computeNodesSpy.called);
-  });
-
-  test('_contentOrConfigChanged called with config', () => {
-    const contentStub = sinon.stub(element, '_contentChanged');
-    const contentConfigStub = sinon.stub(element, '_contentOrConfigChanged');
-    element.content = 'some text';
-    element.config = {};
-    assert.isTrue(contentStub.called);
-    assert.isTrue(contentConfigStub.called);
-  });
 });
 

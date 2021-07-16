@@ -16,6 +16,46 @@
       "message": "Added a note above the function so that the regression doesn\u0027t get caused in the future.",
       "revId": "bf8cfe7d7c443b9157f0c228e762ec7bb05bd46c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74c91431_7e38b545",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:04:25Z",
+      "side": 1,
+      "message": "80 char formatting",
+      "revId": "bf8cfe7d7c443b9157f0c228e762ec7bb05bd46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6b7967f_25e55a93",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:04:25Z",
+      "side": 1,
+      "message": "I don\u0027t think this comment helps the understanding. WDYT?",
+      "range": {
+        "startLine": 189,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 5
+      },
+      "revId": "bf8cfe7d7c443b9157f0c228e762ec7bb05bd46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -51,7 +51,7 @@ import {
 } from '../../../types/common';
 import {GrComment} from '../gr-comment/gr-comment';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {CustomKeyboardEvent} from '../../../types/events';
+import {CustomKeyboardEvent, CommentTabState} from '../../../types/events';
 import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
@@ -197,6 +197,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Object})
   _selfAccount?: AccountDetailInfo;
 
+  @property({type: String})
+  commentTabState?: CommentTabState;
+
   get keyBindings() {
     return {
       'e shift+e': '_handleEKey',
@@ -214,6 +217,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   private readonly syntaxLayer = new GrSyntaxLayer();
 
   readonly restApiService = appContext.restApiService;
+
+  private readonly routerService = appContext.routerService;
 
   constructor() {
     super();
@@ -268,12 +273,29 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
         (_entries: ResizeObserverEntry[], observer: ResizeObserver) => {
           if (this.offsetHeight > 0) {
             this.scrollIntoView();
+            /*
+             * When user goes to diff page for the second time and goes back to
+             * the change page, the thread elements are not recalculated and
+             * hence the observer is not called, since there is no change in
+             * the thread object, hence we set this property to false to
+             * explicitly trigger handleShouldScrollIntoViewChanged when the
+             * second load happens
+             */
+            this.shouldScrollIntoView = false;
+            this.routerService.setScrollCommentId(undefined);
           }
           observer.unobserve(this);
         }
       );
       resizeObserver.observe(this);
     }
+  }
+
+  updateScrollCommentId() {
+    // only update scroll commentId if the click is from the comments tab
+    if (!this.commentTabState) return;
+    const comment = this.comments[0];
+    this.routerService.setScrollCommentId(comment.id);
   }
 
   _shouldShowCommentContext(

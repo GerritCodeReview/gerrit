@@ -67,7 +67,7 @@ suite('gr-reviewer-list tests', () => {
     await dialogShown;
   });
 
-  test('only show remove for removable reviewers', () => {
+  test('only show remove for removable reviewers', async () => {
     element.mutable = true;
     element.change = {
       ...createChange(),
@@ -112,7 +112,7 @@ suite('gr-reviewer-list tests', () => {
         },
       ],
     };
-    flush();
+    await flush();
     const chips = element.root!.querySelectorAll('gr-account-chip');
     assert.equal(chips.length, 4);
 

@@ -184,7 +184,7 @@ export const htmlTemplate = html`
         <gr-account-chip
           account="[[change.owner]]"
           change="[[change]]"
-          highlight-attention
+          highlightAttention
         ></gr-account-chip>
         <template is="dom-if" if="[[_pushCertificateValidation]]">
           <gr-tooltip-content
@@ -213,7 +213,7 @@ export const htmlTemplate = html`
         <gr-account-chip
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.UPLOADER)]]"
           change="[[change]]"
-          highlight-attention
+          highlightAttention
         ></gr-account-chip>
       </span>
     </section>

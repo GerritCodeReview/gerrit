@@ -66,7 +66,7 @@ export const htmlTemplate = html`
           account="[[reviewer]]"
           change="[[change]]"
           on-remove="_handleRemove"
-          highlight-attention
+          highlightAttention
           voteable-text="[[_computeVoteableText(reviewer, change)]]"
           removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]"
         >

@@ -62,15 +62,13 @@ export const routerState$: Observable<RouterState> = privateState$;
 export function updateState(
   view?: GerritView,
   changeNum?: NumericChangeId,
-  patchNum?: PatchSetNum,
-  scrollCommentId?: UrlEncodedCommentId
+  patchNum?: PatchSetNum
 ) {
   privateState$.next({
     ...privateState$.getValue(),
     view,
     changeNum,
     patchNum,
-    scrollCommentId,
   });
 }
 

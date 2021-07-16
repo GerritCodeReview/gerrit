@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "676820ec_2c3b405f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-16T12:38:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "74c91431_7e38b545",
+      "revId": "bf8cfe7d7c443b9157f0c228e762ec7bb05bd46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6b7967f_25e55a93",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-07-16T10:04:25Z",
       "side": 1,
       "message": "I don\u0027t think this comment helps the understanding. WDYT?",
+      "range": {
+        "startLine": 189,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 5
+      },
+      "revId": "bf8cfe7d7c443b9157f0c228e762ec7bb05bd46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ffc85e4_bebf75c7",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-16T12:38:34Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "d6b7967f_25e55a93",
       "range": {
         "startLine": 189,
         "startChar": 2,

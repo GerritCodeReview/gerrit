@@ -34,6 +34,24 @@
       "parentUuid": "dbd94d79_0b49cfd3",
       "revId": "34e98f4bc448c25f5a5484530edd042d051338b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "965f178e_772a6bd7",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:06:24Z",
+      "side": 1,
+      "message": "I think router state is the better place, but maybe you want to write a design doc first for the entire effort of maintaining UI state?",
+      "parentUuid": "39cadd4f_93c834b8",
+      "revId": "34e98f4bc448c25f5a5484530edd042d051338b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

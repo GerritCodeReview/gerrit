@@ -158,6 +158,8 @@ public class PrologRuleEvaluator {
       return ruleError("Error looking up change " + cd.getId(), e);
     }
 
+    logger.atFine().log("input approvals: %s", cd.approvals());
+
     List<Term> results;
     try {
       results =
@@ -178,7 +180,9 @@ public class PrologRuleEvaluator {
               getSubmitRuleName(), cd.getId(), projectState.getName()));
     }
 
-    return resultsToSubmitRecord(getSubmitRule(), results);
+    SubmitRecord submitRecord = resultsToSubmitRecord(getSubmitRule(), results);
+    logger.atFine().log("submit record: %s", submitRecord);
+    return submitRecord;
   }
 
   private String getSubmitRuleName() {
@@ -320,6 +324,7 @@ public class PrologRuleEvaluator {
       logger.atSevere().withCause(e).log(err);
       return createRuleError(DEFAULT_MSG);
     }
+    logger.atFine().log("rule error: %s", err);
     return createRuleError(err);
   }
 

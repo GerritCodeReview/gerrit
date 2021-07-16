@@ -169,6 +169,7 @@ export const htmlTemplate = html`
         root-id="{{thread.rootId}}"
         should-scroll-into-view="[[computeShouldScrollIntoView(thread.comments, scrollCommentId)]]"
         on-thread-discard="_handleThreadDiscard"
+        comment-tab-state="[[commentTabState]]"
       ></gr-comment-thread>
     </template>
   </div>

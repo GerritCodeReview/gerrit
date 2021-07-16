@@ -220,6 +220,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
 
   readonly restApiService = appContext.restApiService;
 
+  private readonly routerService = appContext.routerService;
+
   constructor() {
     super();
     this.addEventListener('comment-update', e =>
@@ -280,6 +282,11 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
       );
       resizeObserver.observe(this);
     }
+  }
+
+  updateScrollCommentId() {
+    const comment = this.comments[0];
+    this.routerService.updateScrollCommentId(comment.id);
   }
 
   _shouldShowCommentContext(

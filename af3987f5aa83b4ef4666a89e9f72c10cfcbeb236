@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99e248fd_44e4d6b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:32:57Z",
+      "side": 1,
+      "message": "Use the `fire()` util.",
+      "revId": "af3987f5aa83b4ef4666a89e9f72c10cfcbeb236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54fe73c1_942cdbf4",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:32:57Z",
+      "side": 1,
+      "message": "We actually keep this indefinitely, right?",
+      "range": {
+        "startLine": 35,
+        "startChar": 50,
+        "endLine": 35,
+        "endChar": 61
+      },
+      "revId": "af3987f5aa83b4ef4666a89e9f72c10cfcbeb236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ed8c4e3_9e7a07ba",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:32:57Z",
+      "side": 1,
+      "message": "I am not sure whether we want to strictly ban this pattern, but it somewhat goes against the idea of the reactive model. The model should only contain reducers and selectors. If any service or component is interested in the state, then they should subscribe to the appropriate selectors.",
+      "revId": "af3987f5aa83b4ef4666a89e9f72c10cfcbeb236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3caf8052_2f48fa0b",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:32:57Z",
+      "side": 1,
+      "message": "Does the `updateStateUndoDiscardedDraft()` call in line 80 have to know about the new draft ID?",
+      "revId": "af3987f5aa83b4ef4666a89e9f72c10cfcbeb236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

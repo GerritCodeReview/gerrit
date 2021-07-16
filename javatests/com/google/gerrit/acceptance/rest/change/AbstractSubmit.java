@@ -59,6 +59,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -462,6 +463,42 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void submitWholeTopicMultipleProjects() throws Throwable {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+    String topic = "test-topic";
+
+    // Create test projects
+    Project.NameKey keyA = createProjectForPush(getSubmitType());
+    TestRepository<?> repoA = cloneProject(keyA);
+    Project.NameKey keyB = createProjectForPush(getSubmitType());
+    TestRepository<?> repoB = cloneProject(keyB);
+
+    // Create changes on project-a
+    PushOneCommit.Result change1 =
+        createChange(repoA, "master", "Change 1", "a.txt", "content", topic);
+    PushOneCommit.Result change2 =
+        createChange(repoA, "master", "Change 2", "b.txt", "content", topic);
+
+    // Create changes on project-b
+    PushOneCommit.Result change3 =
+        createChange(repoB, "master", "Change 3", "a.txt", "content", topic);
+    PushOneCommit.Result change4 =
+        createChange(repoB, "master", "Change 4", "b.txt", "content", topic);
+
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+    approve(change3.getChangeId());
+    approve(change4.getChangeId());
+    submit(change4.getChangeId());
+
+    String expectedTopic = name(topic);
+    change1.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change2.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change3.assertChange(Change.Status.MERGED, expectedTopic, admin);
+    change4.assertChange(Change.Status.MERGED, expectedTopic, admin);
+  }
+
+  @Test
+  public void submitWholeTopicMultipleProjects_halfFails() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     String topic = "test-topic";
 
@@ -1115,6 +1152,61 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     String expectedTopic = name(topic);
     change1.assertChange(Change.Status.MERGED, expectedTopic, admin);
     change2.assertChange(Change.Status.MERGED, expectedTopic, admin);
+
+    repoA.git().fetch().call();
+    RevWalk rwA = repoA.getRevWalk();
+    RevCommit masterA = rwA.parseCommit(projectOperations.project(keyA).getHead("master"));
+    RevCommit change1Ps = parseCurrentRevision(rwA, change1.getChangeId());
+    assertThat(rwA.isMergedInto(change1Ps, masterA)).isTrue();
+
+    repoB.git().fetch().call();
+    RevWalk rwB = repoB.getRevWalk();
+    RevCommit masterB = rwB.parseCommit(projectOperations.project(keyB).getHead("master"));
+    RevCommit change2Ps = parseCurrentRevision(rwB, change2.getChangeId());
+    assertThat(rwB.isMergedInto(change2Ps, masterB)).isTrue();
+
+    assertThat(input.generateLockFailures).containsExactly(false);
+  }
+
+  @Test
+  // @GerritConfig(name = "retry.CHANGE_UPDATE.timeout", value = "1MS")
+  public void retrySubmitAfterTornTopicOnLockFailure_succesfullSubmisisonReindexed()
+      throws Throwable {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+
+    String topic = "test-topic";
+
+    Project.NameKey keyA = createProjectForPush(getSubmitType());
+    Project.NameKey keyB = createProjectForPush(getSubmitType());
+    TestRepository<?> repoA = cloneProject(keyA);
+    TestRepository<?> repoB = cloneProject(keyB);
+
+    PushOneCommit.Result change1 =
+        createChange(repoA, "master", "Change 1", "a.txt", "content", topic);
+    PushOneCommit.Result change2 =
+        createChange(repoB, "master", "Change 2", "b.txt", "content", topic);
+
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+
+    TestSubmitInput input = new TestSubmitInput();
+    input.generateLockFailures =
+        new ArrayDeque<>(
+            ImmutableList.of(
+                false, // Change 1, attempt 1: success
+                true, // Change 2, attempt 1: lock failure
+                false, // Change 1, attempt 1: success
+                true, // Change 2, attempt 1: lock failure
+                false)); // Leftover value to check total number of calls.
+
+    submit(change2.getChangeId(), input, RestApiException.class, "Cannot submit change");
+
+    // Assert no retry was attempted
+    assertThat(input.generateLockFailures).containsExactly(false);
+
+    String expectedTopic = name(topic);
+    change1.assertChange(Status.MERGED, expectedTopic, admin);
+    change2.assertChange(Status.NEW, expectedTopic, admin);
 
     repoA.git().fetch().call();
     RevWalk rwA = repoA.getRevWalk();

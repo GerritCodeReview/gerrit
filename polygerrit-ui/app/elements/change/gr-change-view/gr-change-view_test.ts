@@ -128,8 +128,6 @@ suite('gr-change-view tests', () => {
     TestKeyboardShortcutBinder.pop();
   });
 
-  const TEST_SCROLL_TOP_PX = 100;
-
   const ROBOT_COMMENTS_LIMIT = 10;
 
   // TODO: should have a mock service to generate VALID fake data
@@ -1803,42 +1801,6 @@ suite('gr-change-view tests', () => {
 
     element._maybeShowRevertDialog();
     assert.isTrue(awaitPluginsLoadedStub.called);
-  });
-
-  suite('scroll related tests', () => {
-    test('document scrolling calls function to set scroll height', done => {
-      const originalHeight = document.body.scrollHeight;
-      const scrollStub = sinon.stub(element, 'handleScroll').callsFake(() => {
-        assert.isTrue(scrollStub.called);
-        document.body.style.height = `${originalHeight}px`;
-        scrollStub.restore();
-        done();
-      });
-      document.body.style.height = '10000px';
-      element.handleScroll();
-    });
-
-    test('scrollTop is set correctly', async () => {
-      element.viewState = {scrollTop: TEST_SCROLL_TOP_PX};
-
-      sinon.stub(element, 'loadData').callsFake(() => {
-        // When element is reloaded, ensure that the history
-        // state has the scrollTop set earlier. This will then
-        // be reset.
-        assert.isTrue(element.viewState.scrollTop === TEST_SCROLL_TOP_PX);
-        return Promise.resolve([]);
-      });
-
-      // simulate reloading component, which is done when route
-      // changes to match a regex of change view type.
-      element.params = {...createAppElementChangeViewParams()};
-      await flush();
-    });
-
-    test('scrollTop is reset when new change is loaded', () => {
-      element._resetFileListViewState();
-      assert.equal(element.viewState.scrollTop, 0);
-    });
   });
 
   suite('reply dialog tests', () => {

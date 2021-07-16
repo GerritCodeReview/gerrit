@@ -124,6 +124,7 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
           <a
             href$="[[_getDiffUrlForPath(projectName, changeNum, path, patchNum)]]"
+            on-click="updateScrollCommentId"
           >
             [[_computeDisplayPath(path)]]
           </a>
@@ -134,6 +135,7 @@ export const htmlTemplate = html`
       <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
         <a
           href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]"
+          on-click="updateScrollCommentId"
           >[[_computeDisplayLine(lineNum, range)]]</a
         >
       </template>
@@ -235,7 +237,11 @@ export const htmlTemplate = html`
         </gr-diff>
         <div class="view-diff-container">
           <a href="[[_getUrlForViewDiff(comments, changeNum, projectName)]]">
-            <gr-button link class="view-diff-button" on-click="_handleViewDiff">
+            <gr-button
+              link
+              class="view-diff-button"
+              on-click="updateScrollCommentId"
+            >
               View Diff
             </gr-button>
           </a>

@@ -215,6 +215,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
 
   readonly restApiService = appContext.restApiService;
 
+  private readonly routerService = appContext.routerService;
+
   constructor() {
     super();
     this.addEventListener('comment-update', e =>
@@ -269,12 +271,27 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
         (_entries: ResizeObserverEntry[], observer: ResizeObserver) => {
           if (this.offsetHeight > 0) {
             this.scrollIntoView();
+            /*
+             * When user goes to diff page for the second time and goes back to
+             * the change page, the thread elements are not recalculated and
+             * hence the observer is not called, since there is no change in
+             * the thread object, hence we set this property to false to
+             * explicitly trigger handleShouldScrollIntoViewChanged when the
+             * second load happens
+             */
+            this.shouldScrollIntoView = false;
+            this.routerService.updateScrollCommentId(undefined);
           }
           observer.unobserve(this);
         }
       );
       resizeObserver.observe(this);
     }
+  }
+
+  updateScrollCommentId() {
+    const comment = this.comments[0];
+    this.routerService.updateScrollCommentId(comment.id);
   }
 
   _shouldShowCommentContext(

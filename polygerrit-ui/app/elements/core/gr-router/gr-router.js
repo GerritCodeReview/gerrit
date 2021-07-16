@@ -1367,15 +1367,6 @@ class GrRouter extends mixinBehaviors( [
       queryMap: ctx.queryMap,
     };
 
-    // We do not want to allow "edit" to be used as a
-    // patch number. Instead redirect to ,edit.
-    if (ctx.params[4] === 'edit' && !ctx.params[6]) {
-      params.basePatchNum = undefined;
-      params.edit = true;
-      this._redirect(this._generateUrl(params));
-      return;
-    }
-
     this.$.reporting.setRepoName(params.project);
     this._redirectOrNavigate(params);
   }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce687e67_ec23bc5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:39:28Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "c81e761f336b7601a25775160d6c91f32f2b5bdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e582c6e2_1586cdfb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-16T10:39:28Z",
+      "side": 1,
+      "message": "@query or queryAndAssert\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/checks/gr-checks-runs.ts;l\u003d357;drc\u003d49f62cfeb80034c14059ca14c23c0e1dacaff292\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/utils/common-util.ts;l\u003d102;drc\u003d6d3a6c3a374616c571cf8117bf8caa1e1593b586",
+      "revId": "c81e761f336b7601a25775160d6c91f32f2b5bdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

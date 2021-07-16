@@ -64,7 +64,11 @@ import {
   AppElementParams,
 } from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
-import {GerritView, updateState} from '../../../services/router/router-model';
+import {
+  GerritView,
+  updateState,
+  updateStateScrollCommentId,
+} from '../../../services/router/router-model';
 import {firePageError} from '../../../utils/event-util';
 import {addQuotesWhen} from '../../../utils/string-util';
 import {windowLocationReload} from '../../../utils/dom-util';
@@ -334,9 +338,13 @@ export class GrRouter extends PolymerElement {
     updateState(
       params.view,
       'changeNum' in params ? params.changeNum : undefined,
-      'patchNum' in params ? params.patchNum ?? undefined : undefined,
-      'commentId' in params ? params.commentId : undefined
+      'patchNum' in params ? params.patchNum ?? undefined : undefined
     );
+    // only set scrollCommentId if set as we do not want to override existing
+    // value to undefined
+    if ('commentId' in params) {
+      updateStateScrollCommentId(params.commentId);
+    }
     this._appElement().params = params;
   }
 

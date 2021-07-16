@@ -242,10 +242,6 @@ class GrFileListHeader extends mixinBehaviors( [
     const {basePatchNum, patchNum} = e.detail;
     if (this.patchNumEquals(basePatchNum, this.basePatchNum) &&
         this.patchNumEquals(patchNum, this.patchNum)) { return; }
-    if (patchNum === 'edit' && basePatchNum === 'PARENT') {
-      GerritNav.navigateToChange(this.change, undefined, undefined, true);
-      return;
-    }
     GerritNav.navigateToChange(this.change, patchNum, basePatchNum);
   }
 

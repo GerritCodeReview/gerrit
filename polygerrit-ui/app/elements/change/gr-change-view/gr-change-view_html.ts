@@ -344,7 +344,7 @@ export const htmlTemplate = html`
           <span class="headerSubject">[[_change.subject]]</span>
           <gr-copy-clipboard
             class="changeCopyClipboard"
-            hide-input=""
+            hideInput=""
             text="[[_computeCopyTextForTitle(_change)]]"
           >
           </gr-copy-clipboard>

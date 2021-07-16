@@ -127,7 +127,7 @@ export const htmlTemplate = html`
     <span id="triggerText">[[text]]</span>
     <gr-copy-clipboard
       hidden="[[!showCopyForTriggerText]]"
-      hide-input=""
+      hideInput=""
       text="[[text]]"
     ></gr-copy-clipboard>
   </gr-button>

@@ -410,7 +410,7 @@ export const htmlTemplate = html`
               </span>
               <gr-file-status-chip file="[[file]]"></gr-file-status-chip>
               <gr-copy-clipboard
-                hide-input=""
+                hideInput=""
                 text="[[file.__path]]"
               ></gr-copy-clipboard>
             </a>
@@ -418,7 +418,7 @@ export const htmlTemplate = html`
               <div class="oldPath" title$="[[file.old_path]]">
                 [[file.old_path]]
                 <gr-copy-clipboard
-                  hide-input=""
+                  hideInput=""
                   text="[[file.old_path]]"
                 ></gr-copy-clipboard>
               </div>

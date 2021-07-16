@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "294a56f0_d490303c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteJson.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-16T12:39:42Z",
+      "side": 1,
+      "message": "SubmitRequirementResult is now stored in NoteDb in JSON format. It contains ImmutableList\u003cString\u003e for passingAtoms and failingAtoms through composition with SubmitRequirementExpressionResult, hence we need a type adapter for ImmutableList.\n\nRemoving this line fails in instantiating an ImmutableList while deserializing from JSON:\n\njava.lang.RuntimeException: Failed to invoke com.google.common.collect.ImmutableList() with no args\n...",
+      "parentUuid": "87b98c8a_9007b658",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89af5344_1dbac10a",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-07-15T12:11:06Z",
       "side": 1,
       "message": "Looks like this diff would be better part of the predecessor change?",
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d3f7860_59f593b9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeRevisionNoteData.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-16T12:39:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89af5344_1dbac10a",
       "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ec3dc91_87f1297c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-16T12:39:42Z",
+      "side": 1,
+      "message": "Removed this field.\n\nDone.",
+      "parentUuid": "e437c075_696f1630",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 164,
+        "endChar": 85
+      },
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6096ae40_d119b43c",
@@ -77,6 +143,24 @@
       "writtenOn": "2021-07-15T12:11:06Z",
       "side": 1,
       "message": "Maybe change this to putSubmitRequirementResult(ObjectId revision, SubmitRequirementResult rs) or putSubmitRequirementResult(ObjectId revision, List\u003cSubmitRequirementResult\u003e rs) so that you can drop the setLatestPatchSet method.\n\nBut I wonder if we need the revision parameter at all. When the ChangeUpdate is being created by\n\n  ChangeUpdate update \u003d ctx.getUpdate(change.currentPatchSetId());\n  \nwe already specify the patch set. Can we just pass in this patch set information into ChangeUpdate at this point, so that we do not need to specify it once again when storing SubmitRequirements?\n\nAlso see by comment in StoreSubmitRequirementsOp.",
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "831529ea_67d9dbe2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-16T12:39:42Z",
+      "side": 1,
+      "message": "Turned out we can drop this. I overcomplicated this part since when uploading a new patchset, the latest patchset ID stored in this class (ChangeUpdate) is for the old patchset, not the patchset being uploaded by this update.\n\nHowever, we don\u0027t need to take care of this case, since submit requirements are only stored when the change is being merged. I also found I can just use the \"curr\" objectId that is passed to #storeRevisionNotes.\n\nDone.",
+      "parentUuid": "6096ae40_d119b43c",
       "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e52eee8_cbf16f9f",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-16T12:39:42Z",
+      "side": 1,
+      "message": "Done. Sorted submit requirements by name.",
+      "parentUuid": "fe772888_94fece9f",
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d3664c2_dd1ca5e0",
@@ -115,6 +217,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2014692d_e9af6fe2",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-16T12:39:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d3664c2_dd1ca5e0",
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc6e6e0e_048fc527",
@@ -128,6 +248,30 @@
       "writtenOn": "2021-07-15T12:11:06Z",
       "side": 1,
       "message": "Why do we need to specify the patch set twice, once to create ChangeUpdate and then once again to tell ChangeUpdate for which patch set it was created?",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 59
+      },
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2050f137_a6c0f83e",
+        "filename": "java/com/google/gerrit/server/notedb/StoreSubmitRequirementsOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-16T12:39:42Z",
+      "side": 1,
+      "message": "Done (removed this).\n\nBackground: I did that so that I can have access to the ObjectId in ChangeUpdate (couldn\u0027t add bindings there for PatchSetUtil or ChangeDataFactory, etc... because they resulted in a circular Guice bindings). Turned out that I could directly use the curr parameter passed to ChangeUpdate#storeRevisionNotes.",
+      "parentUuid": "dc6e6e0e_048fc527",
       "range": {
         "startLine": 35,
         "startChar": 4,
@@ -169,6 +313,24 @@
       "side": 1,
       "message": "Ah, doing this may only be possible with the follow-up change.",
       "parentUuid": "63ea11b7_5b5f2b45",
+      "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "408b8a9b_297da4e2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4245,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-16T12:39:42Z",
+      "side": 1,
+      "message": "Thanks for the reference. Yes, this will be possible with the next change.",
+      "parentUuid": "b1826dd4_19bfc259",
       "revId": "7c306caf64bd2293e35321e8a21c2c158d10af82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

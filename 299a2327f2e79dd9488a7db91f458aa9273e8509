@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b45ba178_9d247a5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-17T15:36:56Z",
+      "side": 1,
+      "message": "This was exposed by my recent regression which i fixed UI side but the api still vulnerable.",
+      "revId": "299a2327f2e79dd9488a7db91f458aa9273e8509",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

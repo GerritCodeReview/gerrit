@@ -259,7 +259,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         } else if (isRenameFile(input)) {
           editModifier.renameFile(repository, resource.getNotes(), input.oldPath, input.newPath);
         } else {
-          editModifier.createEdit(repository, resource.getNotes());
+          throw InvalidChangeOperationException("You must supply restore_path or old_path and new_path");
         }
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());

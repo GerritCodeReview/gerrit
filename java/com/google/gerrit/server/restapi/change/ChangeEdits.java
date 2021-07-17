@@ -27,7 +27,8 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.FileContentInput;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
-import com.google.gerrit.extensions.common.EditInfo;
+import com.google.ger
+rit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -259,7 +260,8 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         } else if (isRenameFile(input)) {
           editModifier.renameFile(repository, resource.getNotes(), input.oldPath, input.newPath);
         } else {
-          editModifier.createEdit(repository, resource.getNotes());
+          throw new InvalidChangeOperationException(
+              "You must supply restore_path or old_path and new_path");
         }
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());

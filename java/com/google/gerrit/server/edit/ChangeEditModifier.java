@@ -305,8 +305,9 @@ public class ChangeEditModifier {
    * @throws InvalidChangeOperationException if the file was already restored
    */
   public void restoreFile(Repository repository, ChangeNotes notes, String file)
-      throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
-          PermissionBackendException, ResourceConflictException {
+      throws AuthException, BadRequestException, IllegalArgumentException, InvalidChangeOperationException,
+          IOException, PermissionBackendException, ResourceConflictException {
+    System.out.println(file);
     modifyCommit(
         repository,
         notes,

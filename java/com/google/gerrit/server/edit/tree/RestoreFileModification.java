@@ -41,7 +41,12 @@ public class RestoreFileModification implements TreeModification {
   @Override
   public List<DirCacheEditor.PathEdit> getPathEdits(
       Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents)
-      throws IOException {
+      throws IllegalArgumentException, IOException {
+
+    if (filePath.isEmpty()) {
+      throw new IllegalArgumentException("file path cannot be empty");
+    }
+
     if (parents.isEmpty()) {
       DirCacheEditor.DeletePath deletePath = new DirCacheEditor.DeletePath(filePath);
       return Collections.singletonList(deletePath);

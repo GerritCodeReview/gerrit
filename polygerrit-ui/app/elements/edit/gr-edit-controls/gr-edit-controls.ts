@@ -36,6 +36,7 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {appContext} from '../../../services/app-context';
 import {IronInputElement} from '@polymer/iron-input';
+import {fireAlert} from '../../../utils/event-util';
 
 export interface GrEditControls {
   $: {
@@ -209,6 +210,11 @@ export class GrEditControls extends PolymerElement {
   }
 
   _handleOpenConfirm(e: Event) {
+    if (!this.change || !this._path) {
+      fireAlert(this, 'You must enter a path.');
+      this._closeDialog(this.$.openDialog);
+      return;
+    }
     const url = GerritNav.getEditUrlForDiff(
       this.change,
       this._path,
@@ -220,6 +226,7 @@ export class GrEditControls extends PolymerElement {
 
   _handleUploadConfirm(path: string, fileData: string) {
     if (!this.change || !path || !fileData) {
+      fireAlert(this, 'You must enter a path and data must be added.');
       this._closeDialog(this.$.openDialog);
       return Promise.resolve();
     }
@@ -238,6 +245,11 @@ export class GrEditControls extends PolymerElement {
     // Get the dialog before the api call as the event will change during bubbling
     // which will make Polymer.dom(e).path an empty array in polymer 2
     const dialog = this._getDialogFromEvent(e);
+    if (!this.change || !this._path) {
+      fireAlert(this, 'You must enter a path.');
+      this._closeDialog(dialog);
+      return;
+    }
     this.restApiService
       .deleteFileInChangeEdit(this.change._number, this._path)
       .then(res => {
@@ -251,6 +263,11 @@ export class GrEditControls extends PolymerElement {
 
   _handleRestoreConfirm(e: Event) {
     const dialog = this._getDialogFromEvent(e);
+    if (!this.change || !this._path) {
+      fireAlert(this, 'You must enter a path.');
+      this._closeDialog(dialog);
+      return;
+    }
     this.restApiService
       .restoreFileInChangeEdit(this.change._number, this._path)
       .then(res => {
@@ -264,6 +281,11 @@ export class GrEditControls extends PolymerElement {
 
   _handleRenameConfirm(e: Event) {
     const dialog = this._getDialogFromEvent(e);
+    if (!this.change || !this._path || !this._newPath) {
+      fireAlert(this, 'You must enter a path.');
+      this._closeDialog(dialog);
+      return;
+    }
     return this.restApiService
       .renameFileInChangeEdit(this.change._number, this._path, this._newPath)
       .then(res => {

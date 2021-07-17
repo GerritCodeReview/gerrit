@@ -282,8 +282,8 @@ public class ChangeEditModifier {
    */
   public void renameFile(
       Repository repository, ChangeNotes notes, String currentFilePath, String newFilePath)
-      throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
-          PermissionBackendException, ResourceConflictException {
+      throws AuthException, BadRequestException, IllegalArgumentException, InvalidChangeOperationException,
+          IOException, PermissionBackendException, ResourceConflictException {
     modifyCommit(
         repository,
         notes,

@@ -38,7 +38,8 @@
     "test:single": "npm run compile:local && npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --testFiles",
     "postinstall": "(git apply --reverse --ignore-whitespace twinkie.patch || true) && git apply --ignore-whitespace twinkie.patch",
     "polytest": "npm run safe_bazelisk test //polygerrit-ui/app:validate_polymer_templates",
-    "polytest:dev": "rm -rf ./polygerrit-ui/app/tmpl_out && npm run safe_bazelisk build //polygerrit-ui/app:template_test_tar && mkdir ./polygerrit-ui/app/tmpl_out && tar -xf bazel-bin/polygerrit-ui/app/template_test_tar.tar -C ./polygerrit-ui/app/tmpl_out"
+    "polytest:dev": "rm -rf ./polygerrit-ui/app/tmpl_out && npm run safe_bazelisk build //polygerrit-ui/app:template_test_tar && mkdir ./polygerrit-ui/app/tmpl_out && tar -xf bazel-bin/polygerrit-ui/app/template_test_tar.tar -C ./polygerrit-ui/app/tmpl_out",
+    "google-java-format": "./tools/setup_gjf.sh || git show --diff-filter=AM --pretty=\"\" --name-only HEAD | grep java$ | xargs ./tools/format/google-java-format-1.7 -r"
   },
   "repository": {
     "type": "git",

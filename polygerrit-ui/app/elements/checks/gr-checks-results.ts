@@ -588,7 +588,7 @@ class GrResultExpanded extends GrLitElement {
           .value="${this.result}"
         ></gr-endpoint-param>
         <gr-formatted-text
-          no-trailing-margin=""
+          noTrailingMargin
           class="message"
           content="${this.result.message}"
           config="${this.repoConfig}"

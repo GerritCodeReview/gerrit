@@ -42,7 +42,7 @@ export class GrFormattedText extends GrLitElement {
   @property({type: Object})
   config?: CommentLinks;
 
-  @property({type: Boolean})
+  @property({type: Boolean, reflect: true})
   noTrailingMargin = false;
 
   private readonly reporting = appContext.reportingService;
@@ -67,10 +67,10 @@ export class GrFormattedText extends GrLitElement {
         blockquote {
           max-width: var(--gr-formatted-text-prose-max-width, none);
         }
-        :host(.noTrailingMargin) p:last-child,
-        :host(.noTrailingMargin) ul:last-child,
-        :host(.noTrailingMargin) blockquote:last-child,
-        :host(.noTrailingMargin) gr-linked-text.pre:last-child {
+        :host([noTrailingMargin]) p:last-child,
+        :host([noTrailingMargin]) ul:last-child,
+        :host([noTrailingMargin]) blockquote:last-child,
+        :host([noTrailingMargin]) gr-linked-text.pre:last-child {
           margin: 0;
         }
         code,
@@ -101,14 +101,6 @@ export class GrFormattedText extends GrLitElement {
   render() {
     const nodes = this._computeNodes(this._computeBlocks(this.content));
     return html`<div id="container">${nodes}</div>`;
-  }
-
-  constructor() {
-    super();
-
-    if (this.noTrailingMargin) {
-      this.classList.add('noTrailingMargin');
-    }
   }
 
   /**

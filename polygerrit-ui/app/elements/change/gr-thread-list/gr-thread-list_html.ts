@@ -109,7 +109,7 @@ export const htmlTemplate = html`
           <gr-account-label
             account="[[item]]"
             on-click="handleAccountClicked"
-            selection-chip-style
+            selectionChipStyle
             selected="[[isSelected(item, selectedAuthors)]]"
           > </gr-account-label>
         </template>

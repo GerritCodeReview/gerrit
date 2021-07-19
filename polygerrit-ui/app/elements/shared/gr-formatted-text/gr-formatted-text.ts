@@ -15,12 +15,10 @@
  * limitations under the License.
  */
 import '../gr-linked-text/gr-linked-text';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {customElement, property} from '@polymer/decorators';
-import {htmlTemplate} from './gr-formatted-text_html';
 import {CommentLinks} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 
@@ -36,20 +34,9 @@ declare global {
     'gr-formatted-text': GrFormattedText;
   }
 }
-
-export interface GrFormattedText {
-  $: {
-    container: HTMLElement;
-  };
-}
-
 @customElement('gr-formatted-text')
-export class GrFormattedText extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: String, observer: '_contentChanged'})
+export class GrFormattedText extends GrLitElement {
+  @property({type: String})
   content?: string;
 
   @property({type: Object})
@@ -60,40 +47,67 @@ export class GrFormattedText extends PolymerElement {
 
   private readonly reporting = appContext.reportingService;
 
-  static get observers() {
-    return ['_contentOrConfigChanged(content, config)'];
+  static get styles() {
+    return [
+      css`
+        :host {
+          display: block;
+          font-family: var(--font-family);
+        }
+        p,
+        ul,
+        code,
+        blockquote,
+        gr-linked-text.pre {
+          margin: 0 0 var(--spacing-m) 0;
+        }
+        p,
+        ul,
+        code,
+        blockquote {
+          max-width: var(--gr-formatted-text-prose-max-width, none);
+        }
+        :host(.noTrailingMargin) p:last-child,
+        :host(.noTrailingMargin) ul:last-child,
+        :host(.noTrailingMargin) blockquote:last-child,
+        :host(.noTrailingMargin) gr-linked-text.pre:last-child {
+          margin: 0;
+        }
+        code,
+        blockquote {
+          border-left: 1px solid #aaa;
+          padding: 0 var(--spacing-m);
+        }
+        code {
+          display: block;
+          white-space: pre-wrap;
+          color: var(--deemphasized-text-color);
+        }
+        li {
+          list-style-type: disc;
+          margin-left: var(--spacing-xl);
+        }
+        code,
+        gr-linked-text.pre {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-code);
+          /* usually 16px = 12px + 4px */
+          line-height: calc(var(--font-size-code) + var(--spacing-s));
+        }
+      `,
+    ];
   }
 
-  /** @override */
-  ready() {
-    super.ready();
+  render() {
+    const nodes = this._computeNodes(this._computeBlocks(this.content));
+    return html`<div id="container">${nodes}</div>`;
+  }
+
+  constructor() {
+    super();
+
     if (this.noTrailingMargin) {
       this.classList.add('noTrailingMargin');
-    }
-  }
-
-  _contentChanged(content: string) {
-    // In the case where the config may not be set (perhaps due to the
-    // request for it still being in flight), set the content anyway to
-    // prevent waiting on the config to display the text.
-    if (this.config) return;
-    this._contentOrConfigChanged(content);
-  }
-
-  /**
-   * Given a source string, update the DOM inside #container.
-   */
-  _contentOrConfigChanged(content?: string) {
-    const container = this.$.container;
-
-    // Remove existing content.
-    while (container.firstChild) {
-      container.removeChild(container.firstChild);
-    }
-
-    // Add new content.
-    for (const node of this._computeNodes(this._computeBlocks(content))) {
-      if (node) container.appendChild(node);
     }
   }
 

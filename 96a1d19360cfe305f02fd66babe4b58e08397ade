@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40ccc0e2_485c1182",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-19T20:07:07Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "1bb31772_72f5934f",
+      "revId": "96a1d19360cfe305f02fd66babe4b58e08397ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42be996e_61272416",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2021-07-19T19:44:09Z",
       "side": 1,
       "message": "OpenId should be mentioned up here now?",
+      "revId": "96a1d19360cfe305f02fd66babe4b58e08397ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc46f7e3_11f348cf",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-19T20:07:07Z",
+      "side": 1,
+      "message": "I read this as SCHEME_GERRIT is specific to the various LDAP authtypes. I don\u0027t think this applies to openid.",
+      "parentUuid": "42be996e_61272416",
       "revId": "96a1d19360cfe305f02fd66babe4b58e08397ade",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -60,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "711a45fa_4d47e776",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-19T20:07:07Z",
+      "side": 1,
+      "message": "In this case the external id identifier that is hashed into the notedb is an http(s) url for an openid identity. Something like:\n\n  https://example.org/my.name\n  \nor\n\n  https://example.org/randomstringhere\n\nDifferent implementations vary slightly. I didn\u0027t want to assert that openid is the only resource that uses this scheme as it is theoretically possible for other external id resources to use the http(s) scheme.\n\nMaybe something like this would read better:\n\n  Scheme for http(s) resources. OpenID in particular makes use of these external IDs.",
+      "parentUuid": "2f04bc8d_4ba864f8",
+      "range": {
+        "startLine": 139,
+        "startChar": 32,
+        "endLine": 139,
+        "endChar": 36
+      },
+      "revId": "96a1d19360cfe305f02fd66babe4b58e08397ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "002341f0_ad7b4a4c",
         "filename": "javatests/com/google/gerrit/server/auth/openid/OpenIdRealmTest.java",
         "patchSetId": 3
@@ -71,6 +131,30 @@
       "writtenOn": "2021-07-19T19:44:09Z",
       "side": 1,
       "message": "The other auth test classes don\u0027t have these \"reversed order\" tests. Are these doing anything different than the two just above?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 18
+      },
+      "revId": "96a1d19360cfe305f02fd66babe4b58e08397ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "713976ec_608d5f12",
+        "filename": "javatests/com/google/gerrit/server/auth/openid/OpenIdRealmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-19T20:07:07Z",
+      "side": 1,
+      "message": "https://gerrit.googlesource.com/gerrit/+/refs/tags/v3.2.10/javatests/com/google/gerrit/server/auth/ldap/LdapRealmTest.java#81 does this for the LdapRealm and https://gerrit.googlesource.com/gerrit/+/refs/tags/v3.2.10/javatests/com/google/gerrit/server/auth/oauth/OAuthRealmTest.java#56 does it for oath.\n\nThe difference here is that I\u0027m checking SCHEME_HTTP and SCHEME_HTTPS because openid can theoretically be either (though it really should be HTTPS in a secure setup).",
+      "parentUuid": "002341f0_ad7b4a4c",
       "range": {
         "startLine": 67,
         "startChar": 0,

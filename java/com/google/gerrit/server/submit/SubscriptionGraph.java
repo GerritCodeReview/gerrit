@@ -332,6 +332,8 @@ public class SubscriptionGraph {
         MergeOpRepoManager orm)
         throws IOException {
       Collection<SubmoduleSubscription> ret = new ArrayList<>();
+      if (RefNames.isGerritRef(srcBranch.branch())) return ret;
+
       Project.NameKey srcProject = srcBranch.project();
       for (SubscribeSection s :
           projectCache

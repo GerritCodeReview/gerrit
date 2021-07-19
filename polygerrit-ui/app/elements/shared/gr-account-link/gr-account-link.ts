@@ -89,12 +89,12 @@ export class GrAccountLink extends GrLitElement {
         <gr-account-label
           .account="${this.account}"
           .change="${this.change}"
-          ?force-attention=${this.forceAttention}
-          ?highlight-attention=${this.highlightAttention}
-          ?hide-avatar=${this.hideAvatar}
-          ?hide-status=${this.hideStatus}
-          ?first-name=${this.firstName}
-          .voteable-text=${this.voteableText}
+          ?forceAttention=${this.forceAttention}
+          ?highlightAttention=${this.highlightAttention}
+          ?hideAvatar=${this.hideAvatar}
+          ?hideStatus=${this.hideStatus}
+          ?firstName=${this.firstName}
+          .voteableText=${this.voteableText}
           part="gr-account-link-text => gr-account-label-text"
         >
         </gr-account-label>

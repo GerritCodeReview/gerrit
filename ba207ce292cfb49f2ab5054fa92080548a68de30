@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0de2363f_cf643637",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-19T11:29:21Z",
+      "side": 1,
+      "message": "Let me summarize our offline chat and the internal bug so that the community also knows what we are trying to do.\n\nGoal: Make sure that background jobs in the Google installation don\u0027t bombard the storage with N requests per second effectively clogging replication and affecting end users.\n\nOptions:\n(1) Implement batching (this change)\n(2) Use a quota service with backoff (internally: GST or Bouncer)\n\nI am a big fan of (2) because the complexity is really low (just a couple of LOC) and it doesn\u0027t require callers to do anything. Our internal background job framework is quite smart with sharding. If you want to migrate NoteDb refs for all changes, you can shard by host, repo or change. Change being the most effective shard discriminator.\n\nMost of the migration code we write works like this:\nfor (host in hosts):\n  for (repo in host.repos)\n    for (change in repo.changes)\n      doMigration(change.id);\n\nThe problem with approach (1) is that the migration code either needs to take care of batching which is prone to programmer error (what if I forget) or we do it magically in the background (that would drive complexity). If we do it magically in the background, that would mean that we can also only ever bach together updates in the same shard/worker.\n\nThere\u0027s an additional problem with batching: Our storage falls over for batch updates after a certain limit (low houndres of refs). So even with batching, we\u0027d still need some sort of rate limiting to make sure we aren\u0027t overwhelming the storage.\n\nThat\u0027s why all in all I was hoping we just rate limit our updates with exponential backoff and retry. We do that for background API access where we need to adhere to quota already.",
+      "revId": "ba207ce292cfb49f2ab5054fa92080548a68de30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "753da149_db5c7ac4",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-19T11:29:21Z",
+      "side": 1,
+      "message": "It took a considerable amount of effort to make operations in the same repo atomic, so as much as possible, I\u0027d try to avoid falling back to non-atomic operations.",
+      "range": {
+        "startLine": 440,
+        "startChar": 0,
+        "endLine": 440,
+        "endChar": 30
+      },
+      "revId": "ba207ce292cfb49f2ab5054fa92080548a68de30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c101942a_fb0aed63",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-19T11:29:21Z",
+      "side": 1,
+      "message": "I think this should be a hard requirement (i.e. callers need to make sure they just enqueue a single update per change), not something that the storage allows by dropping the atomicity.\n\nIf we\u0027d allow multiple updates per change, things would get tricky, because each operation (as long as it is not \u0027forced\u0027) asserts that the parent state in the repo is at a specified SHA1 (to detect racing writes).",
+      "range": {
+        "startLine": 528,
+        "startChar": 22,
+        "endLine": 529,
+        "endChar": 4
+      },
+      "revId": "ba207ce292cfb49f2ab5054fa92080548a68de30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

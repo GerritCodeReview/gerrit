@@ -262,7 +262,7 @@ export const htmlTemplate = html`
           <gr-account-label
             account="[[_getAuthor(comment, _selfAccount)]]"
             class$="[[_computeAccountLabelClass(draft)]]"
-            hide-status=""
+            hideStatus
           >
           </gr-account-label>
         </template>

@@ -173,9 +173,9 @@ export class GrAccountChip extends GrLitElement {
         <gr-account-link
           .account="${this.account}"
           .change="${this.change}"
-          ?force-attention=${this.forceAttention}
-          ?highlight-attention=${this.highlightAttention}
-          .voteable-text=${this.voteableText}
+          ?forceAttention=${this.forceAttention}
+          ?highlightAttention=${this.highlightAttention}
+          .voteableText=${this.voteableText}
         >
         </gr-account-link>
         <gr-button

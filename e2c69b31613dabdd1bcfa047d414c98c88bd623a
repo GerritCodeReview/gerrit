@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e8a8675_c4e5264b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-19T07:58:42Z",
+      "side": 1,
+      "message": "I have similar comments as in master. Let\u0027s finish master version and then continue on this one.",
+      "revId": "e2c69b31613dabdd1bcfa047d414c98c88bd623a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

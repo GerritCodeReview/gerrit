@@ -308,6 +308,7 @@ export declare interface AttentionSetInfo {
   account: AccountInfo;
   last_update?: Timestamp;
   reason?: string;
+  reason_account?: AccountInfo;
 }
 
 /**

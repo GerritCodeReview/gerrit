@@ -197,7 +197,7 @@ suite('gr-hovercard-account tests', () => {
     const apiPromise = new Promise(r => {
       apiResolve = r;
     });
-    stubRestApi('addToAttentionSet').returns(apiPromise);
+    const apiSpy = stubRestApi('addToAttentionSet').returns(apiPromise);
     element.highlightAttention = true;
     element._target = document.createElement('div');
     flush();
@@ -214,13 +214,22 @@ suite('gr-hovercard-account tests', () => {
     MockInteractions.tap(button);
 
     assert.equal(Object.keys(element.change.attention_set).length, 1);
+    const attention_set_info = Object.values(element.change.attention_set)[0];
+    assert.equal(attention_set_info.reason,
+        `Added by <GERRIT_ACCOUNT_${ACCOUNT._account_id}>`
+        + ` using the hovercard menu`);
+    assert.equal(attention_set_info.reason_account._account_id,
+        ACCOUNT._account_id);
     assert.isTrue(showAlertListener.called, 'showAlertListener was called');
     assert.isTrue(updatedListener.called, 'updatedListener was called');
     assert.isFalse(element._isShowing, 'hovercard is hidden');
 
     apiResolve({});
     await flush();
-
+    assert.isTrue(apiSpy.calledOnce);
+    assert.equal(apiSpy.lastCall.args[2],
+        `Added by <GERRIT_ACCOUNT_${ACCOUNT._account_id}>`
+        + ` using the hovercard menu`);
     assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
   });
 
@@ -229,7 +238,7 @@ suite('gr-hovercard-account tests', () => {
     const apiPromise = new Promise(r => {
       apiResolve = r;
     });
-    stubRestApi('removeFromAttentionSet').returns(apiPromise);
+    const apiSpy = stubRestApi('removeFromAttentionSet').returns(apiPromise);
     element.highlightAttention = true;
     element.change = {
       attention_set: {31415926535: {}},
@@ -258,6 +267,10 @@ suite('gr-hovercard-account tests', () => {
     apiResolve({});
     await flush();
 
+    assert.isTrue(apiSpy.calledOnce);
+    assert.equal(apiSpy.lastCall.args[2],
+        `Removed by <GERRIT_ACCOUNT_${ACCOUNT._account_id}>`
+        + ` using the hovercard menu`);
     assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
   });
 });

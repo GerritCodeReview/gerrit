@@ -45,7 +45,6 @@ import {
   mapReviewer,
   removeServiceUsers,
 } from '../../../utils/account-util';
-import {getDisplayName} from '../../../utils/display-name-util';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {TargetElement} from '../../../api/plugin';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -116,6 +115,7 @@ import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {Interaction, Timing} from '../../../constants/reporting';
+import {getReplyByReason} from '../../../utils/attention-set-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -606,8 +606,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
       reviewInput.ready = true;
     }
 
-    const selfName = getDisplayName(this.serverConfig, this._account);
-    const reason = `${selfName} replied on the change`;
+    const reason = getReplyByReason(this._account, this.serverConfig);
 
     reviewInput.ignore_automatic_attention_set_rules = true;
     reviewInput.add_to_attention_set = [];

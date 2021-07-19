@@ -241,24 +241,60 @@ suite('gr-reply-dialog tests', () => {
     );
   });
 
-  test('modified attention set', done => {
+  test('modified attention set', async () => {
+    await flush();
+    element._account = {_account_id: 123 as AccountId};
     element._newAttentionSet = new Set([314 as AccountId]);
-    const buttonEl = queryAndAssert(element, '.edit-attention-button');
-    tap(buttonEl);
-    flush();
+    const saveReviewPromise = interceptSaveReview();
+    const modifyButton = queryAndAssert(element, '.edit-attention-button');
+    tap(modifyButton);
+    await flush();
 
-    stubSaveReview((review: ReviewInput) => {
-      assert.isTrue(review?.ignore_automatic_attention_set_rules);
-      assert.deepEqual(review?.add_to_attention_set, [
-        {
-          user: 314 as AccountId,
-          reason: 'Anonymous replied on the change',
-        },
-      ]);
-      assert.deepEqual(review?.remove_from_attention_set, []);
-      done();
-    });
     tap(queryAndAssert(element, '.send'));
+    const review = await saveReviewPromise;
+
+    assert.deepEqual(review, {
+      drafts: 'PUBLISH_ALL_REVISIONS',
+      labels: {
+        'Code-Review': 0,
+        Verified: 0,
+      },
+      add_to_attention_set: [
+        {reason: '<GERRIT_ACCOUNT_123> replied on the change', user: 314},
+      ],
+      reviewers: [],
+      remove_from_attention_set: [],
+      ignore_automatic_attention_set_rules: true,
+    });
+  });
+
+  test('modified attention set by anonymous', async () => {
+    await flush();
+    element._account = {};
+    element._newAttentionSet = new Set([314 as AccountId]);
+    const saveReviewPromise = interceptSaveReview();
+    const modifyButton = queryAndAssert(element, '.edit-attention-button');
+    tap(modifyButton);
+    await flush();
+
+    tap(queryAndAssert(element, '.send'));
+    const review = await saveReviewPromise;
+
+    assert.deepEqual(review, {
+      drafts: 'PUBLISH_ALL_REVISIONS',
+      labels: {
+        'Code-Review': 0,
+        Verified: 0,
+      },
+      add_to_attention_set: [
+        {reason: 'Anonymous replied on the change', user: 314},
+      ],
+      reviewers: [],
+      remove_from_attention_set: [],
+      ignore_automatic_attention_set_rules: true,
+    });
+    element._newAttentionSet = new Set();
+    await flush();
   });
 
   function checkComputeAttention(

@@ -231,7 +231,6 @@ public class SubscriptionGraph {
         Map<BranchNameKey, GitModules> branchGitModules,
         MergeOpRepoManager orm)
         throws SubmoduleConflictException {
-      logger.atFine().log("Calculating superprojects - submodules map");
       LinkedHashSet<BranchNameKey> allVisited = new LinkedHashSet<>();
       for (BranchNameKey updatedBranch : updatedBranches) {
         if (allVisited.contains(updatedBranch)) {
@@ -332,7 +331,6 @@ public class SubscriptionGraph {
         Map<BranchNameKey, GitModules> branchGitModules,
         MergeOpRepoManager orm)
         throws IOException {
-      logger.atFine().log("Calculating possible superprojects for %s", srcBranch);
       Collection<SubmoduleSubscription> ret = new ArrayList<>();
       Project.NameKey srcProject = srcBranch.project();
       for (SubscribeSection s :
@@ -340,7 +338,6 @@ public class SubscriptionGraph {
               .get(srcProject)
               .orElseThrow(illegalState(srcProject))
               .getSubscribeSections(srcBranch)) {
-        logger.atFine().log("Checking subscribe section %s", s);
         Collection<BranchNameKey> branches = getDestinationBranches(srcBranch, s, orm);
         for (BranchNameKey targetBranch : branches) {
           Project.NameKey targetProject = targetBranch.project();
@@ -348,11 +345,11 @@ public class SubscriptionGraph {
             OpenRepo or = orm.getRepo(targetProject);
             ObjectId id = or.repo.resolve(targetBranch.branch());
             if (id == null) {
-              logger.atFine().log("The branch %s doesn't exist.", targetBranch);
+              logger.atFine().log("SubscribeSection %s: branch %s doesn't exist.", s, targetBranch);
               continue;
             }
           } catch (NoSuchProjectException e) {
-            logger.atFine().log("The project %s doesn't exist", targetProject);
+            logger.atFine().log("SubscribeSection %s: project %s doesn't exist", s, targetProject);
             continue;
           }
 

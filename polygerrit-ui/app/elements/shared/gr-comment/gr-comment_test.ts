@@ -367,23 +367,20 @@ suite('gr-comment tests', () => {
         getTimerStub = stubReporting('getTimer').returns(mockTimer);
       });
 
-      test('create', () => {
+      test('create', async () => {
         element.patchNum = 1 as PatchSetNum;
         element.comment = {};
-        return element._handleSave(mockEvent)!.then(() => {
-          assert.equal(
-            (queryAndAssert(
-              element,
-              'gr-account-label'
-            ).shadowRoot?.querySelector(
-              'span.name'
-            ) as HTMLSpanElement).innerText.trim(),
-            'Dhruv Srivastava'
-          );
-          assert.isTrue(endStub.calledOnce);
-          assert.isTrue(getTimerStub.calledOnce);
-          assert.equal(getTimerStub.lastCall.args[0], 'CreateDraftComment');
-        });
+        await element._handleSave(mockEvent);
+        await flush();
+        const grAccountLabel = queryAndAssert(element, 'gr-account-label');
+        const spanName = queryAndAssert<HTMLSpanElement>(
+          grAccountLabel,
+          'span.name'
+        );
+        assert.equal(spanName.innerText.trim(), 'Dhruv Srivastava');
+        assert.isTrue(endStub.calledOnce);
+        assert.isTrue(getTimerStub.calledOnce);
+        assert.equal(getTimerStub.lastCall.args[0], 'CreateDraftComment');
       });
 
       test('update', () => {

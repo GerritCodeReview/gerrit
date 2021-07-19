@@ -22,6 +22,7 @@ import {
   AccountInfo,
   ChangeInfo,
   EmailAddress,
+  ServerInfo,
 } from '../types/common';
 import {hasAttention, getReason} from './attention-set-util';
 
@@ -47,6 +48,6 @@ suite('attention-set-util', () => {
   });
 
   test('getReason', () => {
-    assert.equal(getReason(KERMIT, change), 'a good reason');
+    assert.equal(getReason({} as ServerInfo, KERMIT, change), 'a good reason');
   });
 });

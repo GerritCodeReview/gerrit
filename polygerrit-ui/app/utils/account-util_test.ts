@@ -16,8 +16,14 @@
  */
 
 import '../test/common-test-setup-karma';
-import {isServiceUser, removeServiceUsers} from './account-util';
+import {
+  getAccountTemplate,
+  isServiceUser,
+  removeServiceUsers,
+  replaceTemplates,
+} from './account-util';
 import {AccountTag} from '../constants/constants';
+import {AccountInfo, ServerInfo} from '../api/rest-api';
 
 const EMPTY = {};
 const ERNIE = {name: 'Ernie'};
@@ -41,5 +47,105 @@ suite('account-util tests 3', () => {
       EMPTY,
       ERNIE,
     ]);
+  });
+
+  test('replaceTemplates with display config', () => {
+    const config = {
+      user: {
+        anonymous_coward_name: 'Unidentified User',
+      },
+      accounts: {
+        default_display_name: 'USERNAME',
+      },
+    } as ServerInfo;
+
+    const accounts = [
+      {
+        _account_id: 1,
+        name: 'Test User #1',
+        username: 'test-username-1',
+      } as AccountInfo,
+      {
+        _account_id: 2,
+        name: 'Test User #2',
+      } as AccountInfo,
+    ];
+    assert.equal(
+      replaceTemplates(
+        'Text with action by <GERRIT_ACCOUNT_0000001>',
+        accounts,
+        config
+      ),
+      'Text with action by test-username-1'
+    );
+    assert.equal(
+      replaceTemplates(
+        'Text with action by <GERRIT_ACCOUNT_0000002>',
+        accounts,
+        config
+      ),
+      'Text with action by Test User #2'
+    );
+    assert.equal(
+      replaceTemplates(
+        'Text with action by <GERRIT_ACCOUNT_3>',
+        accounts,
+        config
+      ),
+      'Text with action by Gerrit Account 3'
+    );
+  });
+
+  test('replaceTemplates no display config', () => {
+    const accounts = [
+      {
+        _account_id: 1,
+        name: 'Test User #1',
+        username: 'test-username-1',
+      } as AccountInfo,
+      {
+        _account_id: 2,
+        name: 'Test User #2',
+      } as AccountInfo,
+    ];
+    assert.equal(
+      replaceTemplates(
+        'Text with action by <GERRIT_ACCOUNT_0000001>',
+        accounts
+      ),
+      'Text with action by Test User #1'
+    );
+    assert.equal(
+      replaceTemplates(
+        'Text with action by <GERRIT_ACCOUNT_0000002>',
+        accounts
+      ),
+      'Text with action by Test User #2'
+    );
+
+    assert.equal(
+      replaceTemplates('Text with action by <GERRIT_ACCOUNT_3>', accounts),
+      'Text with action by Gerrit Account 3'
+    );
+  });
+
+  test('getTemplate', () => {
+    const config = {
+      user: {
+        anonymous_coward_name: 'Unidentified User',
+      },
+      accounts: {
+        default_display_name: 'USERNAME',
+      },
+    } as ServerInfo;
+
+    const account = {
+      _account_id: 1,
+      name: 'Test User #1',
+      username: 'test-username-1',
+    } as AccountInfo;
+    assert.equal(getAccountTemplate(account, config), '<GERRIT_ACCOUNT_1>');
+    assert.equal(getAccountTemplate({}, config), 'Unidentified User');
+    assert.equal(getAccountTemplate(), 'Anonymous');
   });
 });

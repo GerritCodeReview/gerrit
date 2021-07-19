@@ -487,8 +487,8 @@ export const htmlTemplate = html`
                   account="[[account]]"
                   force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
                   selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                  hide-hovercard=""
-                  selection-chip-style
+                  hideHovercard
+                  selectionChipStyle
                   on-click="_handleAttentionClick"
                 ></gr-account-label>
               </template>
@@ -558,8 +558,8 @@ export const htmlTemplate = html`
               account="[[_owner]]"
               force-attention="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
               selected="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
-              hide-hovercard=""
-              selection-chip-style
+              hideHovercard
+              selectionChipStyle
               on-click="_handleAttentionClick"
             >
             </gr-account-label>
@@ -573,8 +573,8 @@ export const htmlTemplate = html`
                 account="[[_uploader]]"
                 force-attention="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
                 selected="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
-                hide-hovercard=""
-                selection-chip-style
+                hideHovercard
+                selectionChipStyle
                 on-click="_handleAttentionClick"
               >
               </gr-account-label>
@@ -593,8 +593,8 @@ export const htmlTemplate = html`
                 account="[[account]]"
                 force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
                 selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                hide-hovercard=""
-                selection-chip-style
+                hideHovercard
+                selectionChipStyle
                 on-click="_handleAttentionClick"
               >
               </gr-account-label>
@@ -614,8 +614,8 @@ export const htmlTemplate = html`
                   account="[[account]]"
                   force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
                   selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                  hide-hovercard=""
-                  selection-chip-style
+                  hideHovercard
+                  selectionChipStyle
                   on-click="_handleAttentionClick"
                 >
                 </gr-account-label>

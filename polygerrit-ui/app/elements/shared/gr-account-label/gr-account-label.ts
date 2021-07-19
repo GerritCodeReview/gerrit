@@ -15,30 +15,25 @@
  * limitations under the License.
  */
 import '@polymer/iron-icon/iron-icon';
-import '../../../styles/shared-styles';
 import '../gr-avatar/gr-avatar';
 import '../gr-hovercard-account/gr-hovercard-account';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-account-label_html';
 import {appContext} from '../../../services/app-context';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
-import {customElement, property} from '@polymer/decorators';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {fireEvent} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
 import {ShowAlertEventDetail} from '../../../types/events';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 
 @customElement('gr-account-label')
-export class GrAccountLabel extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrAccountLabel extends GrLitElement {
   @property({type: Object})
-  account!: AccountInfo;
+  account?: AccountInfo;
 
   @property({type: Object})
   _selfAccount?: AccountInfo;
@@ -49,7 +44,7 @@ export class GrAccountLabel extends PolymerElement {
    * related features like adding the user as a reviewer.
    */
   @property({type: Object})
-  change!: ChangeInfo;
+  change?: ChangeInfo;
 
   @property({type: String})
   voteableText?: string;
@@ -83,10 +78,7 @@ export class GrAccountLabel extends PolymerElement {
 
   @property({
     type: Boolean,
-    reflectToAttribute: true,
-    computed:
-      '_computeCancelLeftPadding(hideAvatar, ' +
-      'highlightAttention, account, change, forceAttention)',
+    reflect: true,
   })
   cancelLeftPadding = false;
 
@@ -96,31 +88,194 @@ export class GrAccountLabel extends PolymerElement {
   @property({type: Object})
   _config?: ServerInfo;
 
-  @property({type: Boolean, reflectToAttribute: true})
+  @property({type: Boolean, reflect: true})
   selectionChipStyle = false;
 
   @property({
     type: Boolean,
-    reflectToAttribute: true,
-    observer: 'selectedChanged',
+    reflect: true,
   })
   selected = false;
 
-  @property({type: Boolean, reflectToAttribute: true})
+  @property({type: Boolean, reflect: true})
   deselected = false;
 
   reporting: ReportingService;
 
   private readonly restApiService = appContext.restApiService;
 
+  static get styles() {
+    return [
+      css`
+        :host {
+          display: inline-block;
+          vertical-align: top;
+          position: relative;
+          border-radius: var(--label-border-radius);
+          box-sizing: border-box;
+          white-space: nowrap;
+          padding: 0 var(--account-label-padding-horizontal, 0);
+        }
+        /* If the first element is the avatar, then we cancel the left padding, so
+       we can fit nicely into the gr-account-chip rounding.
+       The obvious alternative of 'chip has padding' and 'avatar gets negative
+       margin' does not work, because we need 'overflow:hidden' on the label. */
+        :host([cancelLeftPadding]) {
+          padding-left: 0;
+        }
+        :host::after {
+          content: var(--account-label-suffix);
+        }
+        :host([deselected][selectionChipStyle]) {
+          background-color: var(--background-color-primary);
+          border: 1px solid var(--comment-separator-color);
+          border-radius: 8px;
+          color: var(--deemphasized-text-color);
+        }
+        :host([selected][selectionChipStyle]) {
+          background-color: var(--chip-selected-background-color);
+          border: 1px solid var(--chip-selected-background-color);
+          border-radius: 8px;
+          color: var(--chip-selected-text-color);
+        }
+        :host([selected]) iron-icon.attention {
+          color: var(--chip-selected-text-color);
+        }
+        gr-avatar {
+          height: calc(var(--line-height-normal) - 2px);
+          width: calc(var(--line-height-normal) - 2px);
+          vertical-align: top;
+          position: relative;
+          top: 1px;
+        }
+        #attentionButton {
+          /* This negates the 4px horizontal padding, which we appreciate as a
+         larger click target, but which we don't want to consume space. :-) */
+          margin: 0 -4px 0 -4px;
+          vertical-align: top;
+        }
+        iron-icon.attention {
+          color: var(--deemphasized-text-color);
+          width: 12px;
+          height: 12px;
+          vertical-align: top;
+        }
+        iron-icon.status {
+          color: var(--deemphasized-text-color);
+          width: 14px;
+          height: 14px;
+          vertical-align: top;
+          position: relative;
+          top: 2px;
+        }
+        .name {
+          display: inline-block;
+          text-decoration: inherit;
+          vertical-align: top;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: var(--account-max-length, 180px);
+        }
+        .hasAttention .name {
+          font-weight: var(--font-weight-bold);
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const {account, change, highlightAttention, forceAttention} = this;
+    if (!account) return;
+    const hasAttention = this._hasAttention(
+      highlightAttention,
+      account,
+      change,
+      forceAttention
+    );
+    this.deselected = !this.selected;
+    this.cancelLeftPadding = this._computeCancelLeftPadding(
+      this.hideAvatar,
+      highlightAttention,
+      account,
+      change,
+      forceAttention
+    );
+    return html`<span>
+        ${!this.hideHovercard
+          ? html`<gr-hovercard-account
+              for="hovercardTarget"
+              .account="${account}"
+              .change="${change}"
+              ?highlight-attention=${highlightAttention}
+              .voteable-text=${this.voteableText}
+            ></gr-hovercard-account>`
+          : ''}
+        ${hasAttention
+          ? html`<gr-button
+              id="attentionButton"
+              link=""
+              aria-label="Remove user from attention set"
+              @click=${this._handleRemoveAttentionClick}
+              ?disabled=${!this._computeAttentionButtonEnabled(
+                highlightAttention,
+                account,
+                change,
+                this.selected,
+                this._selfAccount
+              )}
+              ?has-tooltip=${this._computeAttentionButtonEnabled(
+                highlightAttention,
+                account,
+                change,
+                false,
+                this._selfAccount
+              )}
+              title="${this._computeAttentionIconTitle(
+                highlightAttention,
+                account,
+                change,
+                forceAttention,
+                this.selected,
+                this._selfAccount
+              )}"
+              ><iron-icon
+                class="attention"
+                icon="gr-icons:attention"
+              ></iron-icon>
+            </gr-button>`
+          : ''}
+      </span>
+      <span
+        id="hovercardTarget"
+        class="${classMap({
+          hasAttention: !!this._hasAttention(
+            highlightAttention,
+            account,
+            change,
+            forceAttention
+          ),
+        })}"
+      >
+        ${!this.hideAvatar
+          ? html`<gr-avatar .account="${account}" imageSize="32"></gr-avatar>`
+          : ''}
+        <span class="text" part="gr-account-label-text">
+          <span class="name"
+            >${this._computeName(account, this.firstName, this._config)}</span
+          >
+          ${!this.hideStatus && account.status
+            ? html`<iron-icon
+                class="status"
+                icon="gr-icons:calendar"
+              ></iron-icon>`
+            : ''}
+        </span>
+      </span>`;
+  }
+
   constructor() {
     super();
     this.reporting = appContext.reportingService;
-  }
-
-  /** @override */
-  ready() {
-    super.ready();
     this.restApiService.getConfig().then(config => {
       this._config = config;
     });
@@ -129,18 +284,14 @@ export class GrAccountLabel extends PolymerElement {
     });
     this.addEventListener('attention-set-updated', () => {
       // For re-evaluation of everything that depends on 'change'.
-      this.change = {...this.change};
+      if (this.change) this.change = {...this.change};
     });
-  }
-
-  selectedChanged(selected?: boolean) {
-    this.deselected = !selected;
   }
 
   _isAttentionSetEnabled(
     highlight: boolean,
     account: AccountInfo,
-    change: ChangeInfo
+    change?: ChangeInfo
   ) {
     return highlight && !!change && !!account && !isServiceUser(account);
   }
@@ -149,7 +300,7 @@ export class GrAccountLabel extends PolymerElement {
     hideAvatar: boolean,
     highlight: boolean,
     account: AccountInfo,
-    change: ChangeInfo,
+    change: ChangeInfo | undefined,
     force: boolean
   ) {
     return (
@@ -160,7 +311,7 @@ export class GrAccountLabel extends PolymerElement {
   _hasAttention(
     highlight: boolean,
     account: AccountInfo,
-    change: ChangeInfo,
+    change: ChangeInfo | undefined,
     force: boolean
   ) {
     return force || this._hasUnforcedAttention(highlight, account, change);
@@ -169,10 +320,11 @@ export class GrAccountLabel extends PolymerElement {
   _hasUnforcedAttention(
     highlight: boolean,
     account: AccountInfo,
-    change: ChangeInfo
+    change?: ChangeInfo
   ) {
     return (
       this._isAttentionSetEnabled(highlight, account, change) &&
+      change &&
       change.attention_set &&
       !!account._account_id &&
       hasOwnProperty(change.attention_set, account._account_id)
@@ -190,11 +342,16 @@ export class GrAccountLabel extends PolymerElement {
       : '';
   }
 
-  _computeName(account: AccountInfo, firstName: boolean, config?: ServerInfo) {
+  _computeName(
+    account?: AccountInfo,
+    firstName?: boolean,
+    config?: ServerInfo
+  ) {
     return getDisplayName(config, account, firstName);
   }
 
   _handleRemoveAttentionClick(e: MouseEvent) {
+    if (!this.account || !this.change) return;
     if (this.selected) return;
     e.preventDefault();
     e.stopPropagation();
@@ -236,6 +393,7 @@ export class GrAccountLabel extends PolymerElement {
   }
 
   _reportingDetails() {
+    if (!this.account) return;
     const targetId = this.account._account_id;
     const ownerId =
       (this.change && this.change.owner && this.change.owner._account_id) || -1;
@@ -259,7 +417,7 @@ export class GrAccountLabel extends PolymerElement {
   _computeAttentionButtonEnabled(
     highlight: boolean,
     account: AccountInfo,
-    change: ChangeInfo,
+    change: ChangeInfo | undefined,
     selected: boolean,
     selfAccount?: AccountInfo
   ) {
@@ -273,7 +431,7 @@ export class GrAccountLabel extends PolymerElement {
   _computeAttentionIconTitle(
     highlight: boolean,
     account: AccountInfo,
-    change: ChangeInfo,
+    change: ChangeInfo | undefined,
     force: boolean,
     selected: boolean,
     selfAccount?: AccountInfo

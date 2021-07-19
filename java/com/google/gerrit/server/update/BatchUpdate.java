@@ -75,6 +75,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
@@ -553,11 +554,15 @@ public class BatchUpdate implements AutoCloseable {
     try {
       logDebug("Executing updateRepo on %d ops", ops.size());
       RepoContextImpl ctx = new RepoContextImpl();
-      for (BatchUpdateOp op : ops.values()) {
+      for (Entry<Change.Id, BatchUpdateOp> op : ops.entries()) {
         try (TraceContext.TraceTimer ignored =
             TraceContext.newTimer(
-                op.getClass().getSimpleName() + "#updateRepo", Metadata.empty())) {
-          op.updateRepo(ctx);
+                op.getClass().getSimpleName() + "#updateRepo",
+                Metadata.builder()
+                    .projectName(project.get())
+                    .changeId(op.getKey().get())
+                    .build())) {
+          op.getValue().updateRepo(ctx);
         }
       }
 
@@ -672,7 +677,8 @@ public class BatchUpdate implements AutoCloseable {
       for (BatchUpdateOp op : e.getValue()) {
         try (TraceContext.TraceTimer ignored =
             TraceContext.newTimer(
-                op.getClass().getSimpleName() + "#updateChange", Metadata.empty())) {
+                op.getClass().getSimpleName() + "#updateChange",
+                Metadata.builder().projectName(project.get()).changeId(id.get()).build())) {
           dirty |= op.updateChange(ctx);
         }
       }

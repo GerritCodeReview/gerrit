@@ -99,9 +99,10 @@ public abstract class SubscribeSection {
   public ImmutableSet<BranchNameKey> getDestinationBranches(
       BranchNameKey src, Collection<Ref> allRefsInRefsHeads) {
     Set<BranchNameKey> ret = new HashSet<>();
-    logger.atFine().log("Inspecting SubscribeSection %s", this);
-    for (RefSpec r : matchingRefSpecs()) {
-      logger.atFine().log("Inspecting [matching] ref %s", r);
+
+    ImmutableList<RefSpec> matching = matchingRefSpecs();
+    ImmutableList<RefSpec> multiMatch = multiMatchRefSpecs();
+    for (RefSpec r : matching) {
       if (!r.matchSource(src.branch())) {
         continue;
       }
@@ -118,8 +119,7 @@ public abstract class SubscribeSection {
       }
     }
 
-    for (RefSpec r : multiMatchRefSpecs()) {
-      logger.atFine().log("Inspecting [all] ref %s", r);
+    for (RefSpec r : multiMatch) {
       if (!r.matchSource(src.branch())) {
         continue;
       }
@@ -133,7 +133,9 @@ public abstract class SubscribeSection {
         }
       }
     }
-    logger.atFine().log("Returning possible branches: %s for project %s", ret, project());
+    logger.atFine().log(
+        "getDestinationBranches(%s): %s. matching refs: %s, multimatch refs: %s",
+        this, ret, matching, multiMatch);
     return ImmutableSet.copyOf(ret);
   }
 

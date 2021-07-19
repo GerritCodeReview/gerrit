@@ -22,6 +22,30 @@
       },
       "revId": "e178a9c362889521fc05e1a6863b29023e7701c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37eb5260_eb9fc7ee",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-19T13:12:39Z",
+      "side": 1,
+      "message": "Thanks a lot for identifying this bug!\n\nAs per our discussion on chat, we came up to the solution of storing the patchset commit ID in SubmitRequirementResult. I implemented that in the previous change - I582c12eae80 - and used that here.\n\nDone.",
+      "parentUuid": "e2b5fff5_9904ca19",
+      "range": {
+        "startLine": 509,
+        "startChar": 0,
+        "endLine": 510,
+        "endChar": 21
+      },
+      "revId": "e178a9c362889521fc05e1a6863b29023e7701c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

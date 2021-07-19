@@ -73,7 +73,7 @@ public abstract class Timer0 implements RegistrationHandle {
     long durationMs = unit.toMillis(value);
     LoggingContext.getInstance()
         .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationMs));
-    logger.atFinest().log("%s took %dms", name, durationMs);
+    if (durationMs > 0) logger.atFinest().log("%s took %dms", name, durationMs);
     doRecord(value, unit);
   }
 

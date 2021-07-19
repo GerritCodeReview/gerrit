@@ -45,6 +45,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
@@ -179,6 +180,11 @@ public class SubscriptionGraph {
     @Override
     public SubscriptionGraph compute(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
+      updatedBranches =
+          updatedBranches.stream()
+              .filter(br -> RefNames.isGerritRef(br.branch()))
+              .collect(Collectors.toSet());
+
       Map<BranchNameKey, GitModules> branchGitModules = new HashMap<>();
       // All affected branches, including those in superprojects and submodules.
       Set<BranchNameKey> affectedBranches = new HashSet<>();

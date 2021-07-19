@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be3089a8_da19c70b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-19T23:42:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40ccc0e2_485c1182",
+      "revId": "96a1d19360cfe305f02fd66babe4b58e08397ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42be996e_61272416",
@@ -108,6 +126,30 @@
       "side": 1,
       "message": "In this case the external id identifier that is hashed into the notedb is an http(s) url for an openid identity. Something like:\n\n  https://example.org/my.name\n  \nor\n\n  https://example.org/randomstringhere\n\nDifferent implementations vary slightly. I didn\u0027t want to assert that openid is the only resource that uses this scheme as it is theoretically possible for other external id resources to use the http(s) scheme.\n\nMaybe something like this would read better:\n\n  Scheme for http(s) resources. OpenID in particular makes use of these external IDs.",
       "parentUuid": "2f04bc8d_4ba864f8",
+      "range": {
+        "startLine": 139,
+        "startChar": 32,
+        "endLine": 139,
+        "endChar": 36
+      },
+      "revId": "96a1d19360cfe305f02fd66babe4b58e08397ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a129935_c8344503",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-19T23:42:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "711a45fa_4d47e776",
       "range": {
         "startLine": 139,
         "startChar": 32,

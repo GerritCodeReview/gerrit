@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b98c426f_62136b40",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1943,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-19T07:57:50Z",
+      "side": 1,
+      "message": "I think this is not needed.",
+      "range": {
+        "startLine": 1943,
+        "startChar": 6,
+        "endLine": 1943,
+        "endChar": 34
+      },
+      "revId": "5be8b8b1e501a056588bcf4210019f6159c228a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ec4fc5a_e0e93338",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1951,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-19T07:57:50Z",
+      "side": 1,
+      "message": "I think, you can use `fireAlert()`",
+      "range": {
+        "startLine": 1945,
+        "startChar": 6,
+        "endLine": 1951,
+        "endChar": 8
+      },
+      "revId": "5be8b8b1e501a056588bcf4210019f6159c228a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d945a82b_51ef14f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2153,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-19T07:57:50Z",
+      "side": 1,
+      "message": "I think ! is not needed here as well.",
+      "range": {
+        "startLine": 2153,
+        "startChar": 26,
+        "endLine": 2153,
+        "endChar": 36
+      },
+      "revId": "5be8b8b1e501a056588bcf4210019f6159c228a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "550693eb_adf693e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2153,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-19T07:57:50Z",
+      "side": 1,
+      "message": "! in _patchRange is not needed, because it was checked above",
+      "range": {
+        "startLine": 2153,
+        "startChar": 13,
+        "endLine": 2153,
+        "endChar": 25
+      },
+      "revId": "5be8b8b1e501a056588bcf4210019f6159c228a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "515c24ef_1269bd0a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2166,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-19T07:57:50Z",
+      "side": 1,
+      "message": "This would be clearer with\n```\n_getChangeCommitInfo(changeNum: ChangeNum, patchNum: PatchNum)\n```\n\nso we would not need !",
+      "range": {
+        "startLine": 2166,
+        "startChar": 2,
+        "endLine": 2166,
+        "endChar": 22
+      },
+      "revId": "5be8b8b1e501a056588bcf4210019f6159c228a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

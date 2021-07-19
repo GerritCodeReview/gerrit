@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import produce from 'immer';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
@@ -104,33 +105,32 @@ export function updateStatePortedDrafts(portedDrafts?: PathToCommentsInfoMap) {
 }
 
 export function updateStateAddDraft(draft: DraftInfo) {
-  const nextState = {...privateState$.getValue()};
-  if (!draft.path) throw new Error('draft path undefined');
-  nextState.drafts = {...nextState.drafts};
-  const drafts = nextState.drafts;
-  if (!drafts[draft.path]) drafts[draft.path] = [] as DraftInfo[];
-  else drafts[draft.path] = [...drafts[draft.path]];
-  const index = drafts[draft.path].findIndex(
-    d => d.__draftID === draft.__draftID || d.id === draft.id
-  );
-  if (index !== -1) {
-    drafts[draft.path][index] = draft;
-  } else {
-    drafts[draft.path].push(draft);
-  }
+  const nextState = produce(privateState$.getValue(), draftState => {
+    const drafts = draftState.drafts;
+    if (!draft.path) throw new Error('draft path undefined');
+    if (!drafts[draft.path]) drafts[draft.path] = [];
+    const index = drafts[draft.path].findIndex(
+      d => d.__draftID === draft.__draftID || d.id === draft.id
+    );
+    if (index !== -1) {
+      drafts[draft.path][index] = draft;
+    } else {
+      drafts[draft.path].push(draft);
+    }
+  });
   privateState$.next(nextState);
 }
 
 export function updateStateDeleteDraft(draft: DraftInfo) {
-  const nextState = {...privateState$.getValue()};
-  if (!draft.path) throw new Error('draft path undefined');
-  nextState.drafts = {...nextState.drafts};
-  const drafts = nextState.drafts;
-  const index = (drafts[draft.path] || []).findIndex(
-    d => d.__draftID === draft.__draftID || d.id === draft.id
-  );
-  if (index === -1) return;
-  drafts[draft.path] = [...drafts[draft.path]];
-  drafts[draft.path].splice(index, 1);
+  const nextState = produce(privateState$.getValue(), draftState => {
+    const drafts = draftState.drafts;
+    if (!draft.path) throw new Error('draft path undefined');
+    const index = (drafts[draft.path] || []).findIndex(
+      d => d.__draftID === draft.__draftID || d.id === draft.id
+    );
+    if (index === -1) return;
+    drafts[draft.path] = [...drafts[draft.path]];
+    drafts[draft.path].splice(index, 1);
+  });
   privateState$.next(nextState);
 }

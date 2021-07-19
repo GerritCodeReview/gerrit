@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9335bc5e_f517a607",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-19T07:27:39Z",
+      "side": 1,
+      "message": "This alert is confusing, maybe just simple:\n\n```You must enter a path and data.```",
+      "range": {
+        "startLine": 229,
+        "startChar": 23,
+        "endLine": 229,
+        "endChar": 67
+      },
+      "revId": "121270254a4e75c3427ce8ba13b07583e8c7438e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

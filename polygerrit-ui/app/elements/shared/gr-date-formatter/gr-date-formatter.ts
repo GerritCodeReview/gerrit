@@ -33,6 +33,9 @@ import {TimeFormat, DateFormat} from '../../../constants/constants';
 import {assertNever} from '../../../utils/common-util';
 import {Timestamp} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { preferences$ } from '../../../services/user/user-model';
 
 const TimeFormats = {
   TIME_12: 'h:mm A', // 2:14 PM
@@ -125,6 +128,8 @@ export class GrDateFormatter extends TooltipMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
+  disconnected$ = new Subject();
+
   constructor() {
     super();
   }
@@ -133,6 +138,12 @@ export class GrDateFormatter extends TooltipMixin(PolymerElement) {
   connectedCallback() {
     super.connectedCallback();
     this._loadPreferences();
+  }
+
+  /** @override */
+  disconnectedCallback() {
+    this.disconnected$.next();
+    super.disconnectedCallback();
   }
 
   _getUtcOffsetString() {
@@ -147,17 +158,14 @@ export class GrDateFormatter extends TooltipMixin(PolymerElement) {
         this._relative = this.forceRelative;
         return;
       }
-      return Promise.all([this._loadTimeFormat(), this._loadRelative()]);
-    });
-  }
-
-  _loadTimeFormat() {
-    return this._getPreferences().then(preferences => {
-      if (!preferences) {
-        throw Error('Preferences is not set');
-      }
-      this._decideTimeFormat(preferences.time_format);
-      this._decideDateFormat(preferences.date_format);
+      preferences$.pipe(takeUntil(this.disconnected$)).subscribe(prefs => {
+        // prefs.relative_date_in_change_table is not set when false.
+        this._relative =
+          this.forceRelative || !!prefs?.relative_date_in_change_table;
+        if (!prefs) return;
+        this._decideTimeFormat(prefs.time_format);
+        this._decideDateFormat(prefs.date_format);
+      });
     });
   }
 
@@ -196,20 +204,8 @@ export class GrDateFormatter extends TooltipMixin(PolymerElement) {
     }
   }
 
-  _loadRelative() {
-    return this._getPreferences().then(prefs => {
-      // prefs.relative_date_in_change_table is not set when false.
-      this._relative =
-        this.forceRelative || !!(prefs && prefs.relative_date_in_change_table);
-    });
-  }
-
   _getLoggedIn() {
     return this.restApiService.getLoggedIn();
-  }
-
-  _getPreferences() {
-    return this.restApiService.getPreferences();
   }
 
   _computeDateStr(

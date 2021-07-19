@@ -25,10 +25,14 @@ import {
   isAccount,
   isGroup,
   ReviewerInput,
+  ServerInfo,
 } from '../types/common';
 import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever} from './common-util';
 import {AccountAddition} from '../elements/shared/gr-account-list/gr-account-list';
+import {getDisplayName} from './display-name-util';
+
+export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 
 export function accountKey(account: AccountInfo): AccountId | EmailAddress {
   if (account._account_id) return account._account_id;
@@ -89,5 +93,39 @@ export function uniqueDefinedAvatar(
 ) {
   return (
     index === accountArray.findIndex(other => hasSameAvatar(account, other))
+  );
+}
+
+/**
+ * @desc Get account in pseudonymized form, that can be send to the backend.
+ *
+ * If account is not present, returns anonymous user name according to config.
+ */
+export function getAccountTemplate(account?: AccountInfo, config?: ServerInfo) {
+  return account?._account_id
+    ? `<GERRIT_ACCOUNT_${account._account_id}>`
+    : getDisplayName(config);
+}
+
+/**
+ * @desc Replace account templates with user display names in text, received from the backend.
+ */
+export function replaceTemplates(
+  text: string,
+  accountsInText?: AccountInfo[],
+  config?: ServerInfo
+) {
+  return text.replace(
+    new RegExp(ACCOUNT_TEMPLATE_REGEX, 'g'),
+    (_accountIdTemplate, accountId) => {
+      const parsedAccountId = Number(accountId) as AccountId;
+      const accountInText = (accountsInText || []).find(
+        account => account._account_id === parsedAccountId
+      );
+      if (!accountInText) {
+        return `Gerrit Account ${parsedAccountId}`;
+      }
+      return getDisplayName(config, accountInText);
+    }
   );
 }

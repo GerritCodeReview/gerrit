@@ -121,7 +121,6 @@ ignore_templates_list = [
     "elements/gr-app-element_html.ts",
     "elements/settings/gr-settings-view/gr-settings-view_html.ts",
     "elements/settings/gr-watched-projects-editor/gr-watched-projects-editor_html.ts",
-    "elements/shared/gr-account-entry/gr-account-entry_html.ts",
     "elements/shared/gr-account-label/gr-account-label_html.ts",
     "elements/shared/gr-account-list/gr-account-list_html.ts",
     "elements/shared/gr-autocomplete/gr-autocomplete_html.ts",

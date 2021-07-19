@@ -16,8 +16,9 @@
  */
 
 import '../test/common-test-setup-karma';
-import {isServiceUser, removeServiceUsers} from './account-util';
+import {getAccountTemplate, isServiceUser, removeServiceUsers, replaceTemplates} from './account-util';
 import {AccountTag} from '../constants/constants';
+import {AccountInfo, ServerInfo} from '../api/rest-api';
 
 const EMPTY = {};
 const ERNIE = {name: 'Ernie'};
@@ -41,5 +42,62 @@ suite('account-util tests 3', () => {
       EMPTY,
       ERNIE,
     ]);
+  });
+
+  test('replaceTemplates', () => {
+    const config = {
+      user: {
+        anonymous_coward_name: 'Anonymous Coward',
+      },
+      accounts: {
+        default_display_name: 'USERNAME',
+      },
+    } as ServerInfo;
+
+    const accounts = [{
+      _account_id: 1,
+      name: 'Test User #1',
+      username: 'test-username-1',
+    } as AccountInfo, {_account_id: 1,
+      name: 'Test User #2',
+      display_name: 'Display Name'} as AccountInfo] ;
+    assert.equal(replaceTemplates("Text with action by <GERRIT_ACCOUNT_0000001>", accounts, config),
+        "Text with action by test-username-1");
+    assert.equal(replaceTemplates("Text with action by <GERRIT_ACCOUNT_0000001>", accounts),
+        "Text with action by Test Username #1");
+    // found acount according to config
+    assert.equal(replaceTemplates("Text with action by <GERRIT_ACCOUNT_0000001>", accounts, config),
+        "Text with action by Test User #2");
+    assert.equal(replaceTemplates("Text with action by <GERRIT_ACCOUNT_0000001>", accounts),
+        "Text with action by Test User #2");
+
+    assert.equal(replaceTemplates("Text with action by <GERRIT_ACCOUNT_0000003>", accounts, config),
+        "Text with action by Gerrit Account");
+    // Not found account displays as row number
+    assert.equal(replaceTemplates("Text with action by <GERRIT_ACCOUNT_0000003>", accounts),
+        "Text with action by Gerrit Account");
+
+  });
+
+
+  test('getTemplate', () => {
+    const config = {
+      user: {
+        anonymous_coward_name: 'Anonymous Coward',
+      },
+      accounts: {
+        default_display_name: 'USERNAME',
+      },
+    } as ServerInfo;
+
+    const account = {
+      _account_id: 1,
+      name: 'Test User #1',
+      username: 'test-username-1',
+    } as AccountInfo;
+    assert.equal(getAccountTemplate(account, config),
+        "<GERRIT_ACCOUNT_0000001>");
+    assert.equal(getAccountTemplate({}, config),
+        "Anonymous Coward");
   });
 });

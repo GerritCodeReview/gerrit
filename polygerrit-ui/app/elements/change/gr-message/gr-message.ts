@@ -26,7 +26,6 @@ import '../../../styles/gr-voting-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-message_html';
 import {
-  ChangeMessageTemplate,
   MessageTag,
   SpecialFilePath,
 } from '../../../constants/constants';
@@ -44,7 +43,6 @@ import {
   PatchSetNum,
   AccountInfo,
   BasePatchSetNum,
-  AccountId,
 } from '../../../types/common';
 import {CommentThread} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
@@ -56,7 +54,7 @@ import {
   computeLatestPatchNum,
   computePredecessor,
 } from '../../../utils/patch-set-util';
-import {isServiceUser} from '../../../utils/account-util';
+import {isServiceUser, replaceTemplates} from '../../../utils/account-util';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?[Pp]atch [Ss]et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
@@ -350,13 +348,7 @@ export class GrMessage extends PolymerElement {
     const isNewPatchSet = this._isNewPatchsetTag(tag);
 
     if (accountsInMessage) {
-      content = content.replace(
-        new RegExp(ChangeMessageTemplate.ACCOUNT_TEMPLATE, 'g'),
-        (_accountIdTemplate, accountId) =>
-          accountsInMessage.find(
-            account => account._account_id === (Number(accountId) as AccountId)
-          )?.name || `Gerrit Account ${accountId}`
-      );
+      content = replaceTemplates(content, accountsInMessage, this.config);
     }
 
     const lines = content.split('\n');

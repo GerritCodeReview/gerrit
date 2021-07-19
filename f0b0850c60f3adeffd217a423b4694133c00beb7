@@ -94,6 +94,30 @@
       },
       "revId": "f0b0850c60f3adeffd217a423b4694133c00beb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1733fef4_25525d37",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4088,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-19T09:59:32Z",
+      "side": 1,
+      "message": "Thanks for suggesting. I tried runs_per_test\u003d100 and the test still succeeds.",
+      "parentUuid": "7f4c17a9_ae905902",
+      "range": {
+        "startLine": 4088,
+        "startChar": 2,
+        "endLine": 4088,
+        "endChar": 26
+      },
+      "revId": "f0b0850c60f3adeffd217a423b4694133c00beb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

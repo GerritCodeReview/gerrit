@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2b5fff5_9904ca19",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-19T07:56:30Z",
+      "side": 1,
+      "message": "Is this correct. Looking at [1] it sounds like curr is the SHA1 of the last commit on the change meta branch, and not the SHA1 of the latest (current) patch set.\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java;drc\u003d0bfa9e0585a2fdc10b26e56a7b7b7540e89674d1;l\u003d199",
+      "range": {
+        "startLine": 509,
+        "startChar": 0,
+        "endLine": 510,
+        "endChar": 21
+      },
+      "revId": "e178a9c362889521fc05e1a6863b29023e7701c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

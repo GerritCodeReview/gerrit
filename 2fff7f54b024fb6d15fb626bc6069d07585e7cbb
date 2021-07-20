@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c599bb53_36b1f7ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-20T07:10:09Z",
+      "side": 1,
+      "message": "better: read",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc016ad2_240a1718",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-20T07:10:09Z",
+      "side": 1,
+      "message": "I think this is not the case for changes that are read from the index, right?",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "583ede39_4bd15785",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-20T07:10:09Z",
+      "side": 1,
+      "message": "That\u0027s intended to ensure that NoteDb is not being accessed for changes that were loaded from the index. You shouldn\u0027t overrule this, as this can result in 1 NoteDb read for every change that is returned for a search query (which is too expensive if a change query has many results). When processing change queries all data must be loaded from the index and NoteDb must not be accessed. It looks like submit requirements are not stored in the index yet? In this case, I\u0027m afraid, that we have to implement that first.",
+      "range": {
+        "startLine": 948,
+        "startChar": 59,
+        "endLine": 949,
+        "endChar": 73
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

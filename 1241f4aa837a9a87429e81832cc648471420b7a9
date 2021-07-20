@@ -22,6 +22,30 @@
       },
       "revId": "1241f4aa837a9a87429e81832cc648471420b7a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e453ac35_d1ac23b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-20T14:48:10Z",
+      "side": 1,
+      "message": "Looking at this now, I think with NoteDb it might not be possible to happen anymore.\n\nWith ReviewDb it happened like this:\nThe creation of the patch set ref refs/changes/YY/XXXX/Z succeeded, but inserting the patch set in the database failed. On a next push the next free patch set number was used.\n\nSo maybe this only affects old changes.\n\nAlso earlier we had deletable draft patch sets which could cause gaps in patch set numbers.\n\nUpdated the commit message.",
+      "parentUuid": "3cda8a58_ca5f55ea",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "1241f4aa837a9a87429e81832cc648471420b7a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

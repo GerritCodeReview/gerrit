@@ -46,6 +46,30 @@
       },
       "revId": "e178a9c362889521fc05e1a6863b29023e7701c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acec961c_bef39173",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-20T06:53:41Z",
+      "side": 1,
+      "message": "Nice, looks much better now!",
+      "parentUuid": "37eb5260_eb9fc7ee",
+      "range": {
+        "startLine": 509,
+        "startChar": 0,
+        "endLine": 510,
+        "endChar": 21
+      },
+      "revId": "e178a9c362889521fc05e1a6863b29023e7701c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

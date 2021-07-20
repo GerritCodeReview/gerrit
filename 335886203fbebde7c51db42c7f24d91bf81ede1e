@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f4f8a32_fa4e4d5c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-20T06:53:41Z",
+      "side": 1,
+      "message": "I think this needs to be updated now, since this method is no longer returning a map.",
+      "range": {
+        "startLine": 418,
+        "startChar": 47,
+        "endLine": 420,
+        "endChar": 0
+      },
+      "revId": "335886203fbebde7c51db42c7f24d91bf81ede1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

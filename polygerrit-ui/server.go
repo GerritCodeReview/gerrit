@@ -202,9 +202,9 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
 		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)lit-(element|html).js';$")
 		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}lit-${3}/lit-${3}.js';"))
 
-		// 'immer' imports and exports have to be resolved to 'immer/dist/immer.esm.js'.
+		// 'immer' imports and exports have to be resolved to 'immer/dist/immer.umd.development.js'.
 		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)immer.js';$")
-		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}/immer/dist/immer.esm.js';"))
+		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}immer/dist/immer.umd.development.js';"))
 
 		if strings.HasSuffix(normalizedContentPath, "/node_modules/page/page.js") {
 			// Can't import page.js directly, because this is undefined.

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import type {Immer} from 'immer';
 import {ParsedJSON} from './common';
 import {HighlightJS} from './types';
 
@@ -40,6 +41,7 @@ declare global {
     // it's defined because of limitations from typescript, which don't import .mjs
     page?: unknown;
     hljs?: HighlightJS;
+    immer?: Immer;
 
     DEFAULT_DETAIL_HEXES?: {
       diffPage?: string;

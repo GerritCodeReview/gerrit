@@ -44,11 +44,6 @@ public abstract class ApprovalContext {
         "approval and target must be the same change. got: %s, %s",
         psa.patchSetId(),
         id);
-    checkState(
-        psa.patchSetId().get() + 1 == id.get(),
-        "approvals can only be copied to the next consecutive patch set. got: %s, %s",
-        psa.patchSetId(),
-        id);
     return new AutoValue_ApprovalContext(psa, id, changeNotes, changeKind);
   }
 }

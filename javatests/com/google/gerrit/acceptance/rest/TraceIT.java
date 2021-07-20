@@ -24,7 +24,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -409,7 +409,7 @@ public class TraceIT extends AbstractDaemonTest {
       PushOneCommit.Result r = push.to("refs/heads/master");
       r.assertOkStatus();
 
-      verifyZeroInteractions(testPerformanceLogger);
+      verifyNoInteractions(testPerformanceLogger);
     }
   }
 

@@ -93,7 +93,7 @@ public class AbandonUtil {
         try {
           batchAbandon.batchAbandon(updateFactory, project, internalUser, changes, message);
           count += changes.size();
-        } catch (Throwable e) {
+        } catch (Exception e) {
           StringBuilder msg = new StringBuilder("Failed to auto-abandon inactive change(s):");
           for (ChangeData change : changes) {
             msg.append(" ").append(change.getId().get());

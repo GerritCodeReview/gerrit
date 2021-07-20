@@ -310,7 +310,7 @@ public class Daemon extends SiteProgram {
         RuntimeShutdown.waitFor();
       }
       return 0;
-    } catch (Throwable err) {
+    } catch (RuntimeException err) {
       logger.atSevere().withCause(err).log("Unable to start daemon");
       return 1;
     }

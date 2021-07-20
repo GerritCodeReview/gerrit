@@ -253,7 +253,7 @@ public class PluginLoader implements LifecycleListener {
           FileSnapshot snapshot = FileSnapshot.save(off.toFile());
           Plugin offPlugin = loadPlugin(name, off, snapshot);
           disabled.put(name, offPlugin);
-        } catch (Throwable e) {
+        } catch (Exception e) {
           // This shouldn't happen, as the plugin was loaded earlier.
           logger.atWarning().withCause(e.getCause()).log(
               "Cannot load disabled plugin %s", active.getName());
@@ -510,7 +510,7 @@ public class PluginLoader implements LifecycleListener {
       if (!newPlugin.isDisabled()) {
         try {
           newPlugin.start(env);
-        } catch (Throwable e) {
+        } catch (Exception e) {
           newPlugin.stop(env);
           throw e;
         }
@@ -528,7 +528,7 @@ public class PluginLoader implements LifecycleListener {
       }
       broken.remove(name);
       return newPlugin;
-    } catch (Throwable err) {
+    } catch (Exception err) {
       broken.put(name, snapshot);
       throw new PluginInstallException(err);
     }

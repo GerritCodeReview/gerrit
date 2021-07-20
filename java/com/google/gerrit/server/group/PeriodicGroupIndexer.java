@@ -145,7 +145,7 @@ public class PeriodicGroupIndexer implements Runnable {
       }
       groupUuids = newGroupUuids;
       logger.atInfo().log("Run group indexer, %s groups reindexed", reindexCounter);
-    } catch (Throwable t) {
+    } catch (Exception t) {
       logger.atSevere().withCause(t).log("Failed to reindex groups");
     }
   }

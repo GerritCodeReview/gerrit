@@ -107,7 +107,7 @@ public class LifecycleManager {
       LifecycleListener obj = listeners.get(i).get();
       try {
         obj.stop();
-      } catch (Throwable err) {
+      } catch (RuntimeException err) {
         logger.atWarning().withCause(err).log("Failed to stop %s", obj.getClass());
       }
       startedIndex = i - 1;

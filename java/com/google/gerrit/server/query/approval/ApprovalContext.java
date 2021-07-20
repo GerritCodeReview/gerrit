@@ -44,11 +44,12 @@ public abstract class ApprovalContext {
         "approval and target must be the same change. got: %s, %s",
         psa.patchSetId(),
         id);
-    checkState(
-        psa.patchSetId().get() + 1 == id.get(),
-        "approvals can only be copied to the next consecutive patch set. got: %s, %s",
-        psa.patchSetId(),
-        id);
+    // TODO(ekempin): Use checkState to verify that psa.patchSetId().get() + 1 == id.get() so that
+    // it's ensured that approvals are only copied to the next consecutive patch set. To add back
+    // this verification https://gerrit-review.googlesource.com/c/gerrit/+/312633 can be reverted.
+    // As explained in the commit message of this change doing this check is only possible if there
+    // are no changes with gaps in patch set numbers. Since it's planned to fix-up old changes with
+    // gaps in patch set numbers, this todo is a reminder to add back the check once this is done.
     return new AutoValue_ApprovalContext(psa, id, changeNotes, changeKind);
   }
 }

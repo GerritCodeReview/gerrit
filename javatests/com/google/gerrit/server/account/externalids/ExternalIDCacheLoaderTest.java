@@ -17,7 +17,7 @@ package com.google.gerrit.server.account.externalids;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -80,7 +80,7 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyZeroInteractions(externalIdReaderSpy);
+    verifyNoInteractions(externalIdReaderSpy);
   }
 
   @Test
@@ -92,7 +92,7 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyZeroInteractions(externalIdReaderSpy);
+    verifyNoInteractions(externalIdReaderSpy);
   }
 
   @Test
@@ -142,7 +142,7 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyZeroInteractions(externalIdReaderSpy);
+    verifyNoInteractions(externalIdReaderSpy);
   }
 
   @Test
@@ -156,7 +156,7 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyZeroInteractions(externalIdReaderSpy);
+    verifyNoInteractions(externalIdReaderSpy);
   }
 
   @Test
@@ -173,7 +173,7 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyZeroInteractions(externalIdReaderSpy);
+    verifyNoInteractions(externalIdReaderSpy);
   }
 
   @Test
@@ -186,7 +186,7 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(oldState, allFromGit(oldState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyZeroInteractions(externalIdReaderSpy);
+    verifyNoInteractions(externalIdReaderSpy);
   }
 
   @Test
@@ -200,7 +200,7 @@ public class ExternalIDCacheLoaderTest {
     externalIdCache.put(oldState, allFromGit(oldState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
-    verifyZeroInteractions(externalIdReaderSpy);
+    verifyNoInteractions(externalIdReaderSpy);
   }
 
   private ExternalIdCacheLoader createLoader(boolean allowPartial) {

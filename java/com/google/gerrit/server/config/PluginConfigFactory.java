@@ -52,7 +52,6 @@ public class PluginConfigFactory implements ReloadPluginListener {
   private final SecureStore secureStore;
   private final Map<String, Config> pluginConfigs;
 
-  private volatile FileSnapshot cfgSnapshot;
   private volatile Config cfg;
 
   @Inject
@@ -69,7 +68,6 @@ public class PluginConfigFactory implements ReloadPluginListener {
     this.secureStore = secureStore;
 
     this.pluginConfigs = new HashMap<>();
-    this.cfgSnapshot = FileSnapshot.save(site.gerrit_config.toFile());
     this.cfg = cfgProvider.get();
   }
 
@@ -103,12 +101,10 @@ public class PluginConfigFactory implements ReloadPluginListener {
    * @return the plugin configuration from the 'gerrit.config' file
    */
   public PluginConfig getFromGerritConfig(String pluginName, boolean refresh) {
-    if (refresh && secureStore.isOutdated()) {
-      secureStore.reload();
-    }
-    File configFile = site.gerrit_config.toFile();
-    if (refresh && cfgSnapshot.isModified(configFile)) {
-      cfgSnapshot = FileSnapshot.save(configFile);
+    if (refresh) {
+      if (secureStore.isOutdated()) {
+        secureStore.reload();
+      }
       cfg = cfgProvider.get();
     }
     return PluginConfig.createFromGerritConfig(pluginName, cfg);

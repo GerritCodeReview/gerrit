@@ -16,7 +16,6 @@ package com.google.gerrit.server.config;
 
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
@@ -28,22 +27,15 @@ import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 
 @Singleton
 public class PluginConfigFactory implements ReloadPluginListener {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private static final String EXTENSION = ".config";
 
-  private final SitePaths site;
+  private final GlobalPluginConfigProvider globalPluginConfigProvider;
   private final Provider<Config> cfgProvider;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
@@ -54,12 +46,12 @@ public class PluginConfigFactory implements ReloadPluginListener {
 
   @Inject
   PluginConfigFactory(
-      SitePaths site,
       @GerritServerConfig Provider<Config> cfgProvider,
+      GlobalPluginConfigProvider globalPluginConfigProvider,
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
       SecureStore secureStore) {
-    this.site = site;
+    this.globalPluginConfigProvider = globalPluginConfigProvider;
     this.cfgProvider = cfgProvider;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
@@ -211,25 +203,9 @@ public class PluginConfigFactory implements ReloadPluginListener {
       return pluginConfigs.get(pluginName);
     }
 
-    Path pluginConfigFile = site.etc_dir.resolve(pluginName + ".config");
-    FileBasedConfig cfg = new FileBasedConfig(pluginConfigFile.toFile(), FS.DETECTED);
+    Config cfg = globalPluginConfigProvider.get(pluginName);
     GlobalPluginConfig pluginConfig = new GlobalPluginConfig(pluginName, cfg, secureStore);
     pluginConfigs.put(pluginName, pluginConfig);
-    if (!cfg.getFile().exists()) {
-      logger.atInfo().log("No %s; assuming defaults", pluginConfigFile.toAbsolutePath());
-      return pluginConfig;
-    }
-
-    try {
-      cfg.load();
-    } catch (ConfigInvalidException e) {
-      // This is an error in user input, don't spam logs with a stack trace.
-      logger.atWarning().log(
-          "Failed to load %s: %s", pluginConfigFile.toAbsolutePath(), e.getMessage());
-    } catch (IOException e) {
-      logger.atWarning().withCause(e).log("Failed to load %s", pluginConfigFile.toAbsolutePath());
-    }
-
     return pluginConfig;
   }
 

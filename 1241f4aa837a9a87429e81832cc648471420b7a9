@@ -46,6 +46,30 @@
       },
       "revId": "1241f4aa837a9a87429e81832cc648471420b7a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce6243e3_4f27d3e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-07-20T14:52:02Z",
+      "side": 1,
+      "message": "I wonder if it\u0027s not better to backfill the broken changes, so we don\u0027t have to carry forward this assumption. We could create a unique SHA-1 by amending the commit timestamp of the previous patchset until we see a new SHA-1.",
+      "parentUuid": "e453ac35_d1ac23b1",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "1241f4aa837a9a87429e81832cc648471420b7a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

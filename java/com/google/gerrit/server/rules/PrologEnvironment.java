@@ -143,7 +143,7 @@ public class PrologEnvironment extends BufferingPrologControl {
     for (Iterator<Runnable> i = cleanup.iterator(); i.hasNext(); ) {
       try {
         i.next().run();
-      } catch (Throwable err) {
+      } catch (Exception err) {
         logger.atSevere().withCause(err).log("Failed to execute cleanup for PrologEnvironment");
       }
       i.remove();

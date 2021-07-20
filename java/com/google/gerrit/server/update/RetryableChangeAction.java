@@ -82,11 +82,11 @@ public class RetryableChangeAction<T> extends RetryableAction<T> {
   public T call() throws UpdateException, RestApiException {
     try {
       return super.call();
-    } catch (Throwable t) {
-      Throwables.throwIfUnchecked(t);
-      Throwables.throwIfInstanceOf(t, UpdateException.class);
-      Throwables.throwIfInstanceOf(t, RestApiException.class);
-      throw new UpdateException(t);
+    } catch (Exception e) {
+      Throwables.throwIfUnchecked(e);
+      Throwables.throwIfInstanceOf(e, UpdateException.class);
+      Throwables.throwIfInstanceOf(e, RestApiException.class);
+      throw new UpdateException(e);
     }
   }
 }

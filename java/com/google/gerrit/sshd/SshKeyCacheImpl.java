@@ -138,7 +138,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
         // to do with the key object, and instead we must abort this load.
         //
         throw e;
-      } catch (Throwable e) {
+      } catch (Exception e) {
         markInvalid(k);
       }
     }

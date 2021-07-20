@@ -337,7 +337,7 @@ class GrResultRow extends GrLitElement {
             ${this.renderLink(firstPrimaryLink(this.result))}
             ${this.renderSummary(this.result.summary)}
             <div class="message" @click="${this.toggleExpandedClick}">
-              ${this.isExpanded ? '' : this.result.message}
+              ${!this.isExpanded ? '' : this.result.message}
             </div>
             ${this.renderLinks()} ${this.renderActions()}
             <div class="tags">

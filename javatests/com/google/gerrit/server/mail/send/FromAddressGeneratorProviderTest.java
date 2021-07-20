@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.entities.Account;
@@ -125,7 +125,7 @@ public class FromAddressGeneratorProviderTest {
     assertThat(r).isNotNull();
     assertThat(r.name()).isEqualTo(ident.getName());
     assertThat(r.email()).isEqualTo(ident.getEmailAddress());
-    verifyZeroInteractions(accountCache);
+    verifyNoInteractions(accountCache);
   }
 
   @Test
@@ -229,7 +229,7 @@ public class FromAddressGeneratorProviderTest {
     assertThat(r).isNotNull();
     assertThat(r.name()).isEqualTo(ident.getName());
     assertThat(r.email()).isEqualTo(ident.getEmailAddress());
-    verifyZeroInteractions(accountCache);
+    verifyNoInteractions(accountCache);
   }
 
   @Test
@@ -239,7 +239,7 @@ public class FromAddressGeneratorProviderTest {
     assertThat(r).isNotNull();
     assertThat(r.name()).isEqualTo(ident.getName());
     assertThat(r.email()).isEqualTo(ident.getEmailAddress());
-    verifyZeroInteractions(accountCache);
+    verifyNoInteractions(accountCache);
   }
 
   @Test
@@ -304,7 +304,7 @@ public class FromAddressGeneratorProviderTest {
     assertThat(r).isNotNull();
     assertThat(r.name()).isEqualTo(ident.getName());
     assertThat(r.email()).isEqualTo(ident.getEmailAddress());
-    verifyZeroInteractions(accountCache);
+    verifyNoInteractions(accountCache);
   }
 
   @Test

@@ -70,6 +70,30 @@
       },
       "revId": "1241f4aa837a9a87429e81832cc648471420b7a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ec856e2_d64e97c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-21T07:18:05Z",
+      "side": 1,
+      "message": "Yes, this sounds feasible. I\u0027ve updated our internal issue with this suggestion. In the meantime should we still submit this fix to make these changes accessible already now?",
+      "parentUuid": "ce6243e3_4f27d3e5",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "1241f4aa837a9a87429e81832cc648471420b7a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

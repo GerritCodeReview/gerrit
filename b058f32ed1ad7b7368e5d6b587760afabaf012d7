@@ -284,6 +284,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a2aee55_fb3f17a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T23:25:43Z",
+      "side": 1,
+      "message": "Something like https://gerrit-review.googlesource.com/c/homepage/+/312722 for the release note?",
+      "parentUuid": "90cf8b6d_a84b49d7",
+      "range": {
+        "startLine": 16,
+        "startChar": 30,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c7a13c0f_7381d86a",

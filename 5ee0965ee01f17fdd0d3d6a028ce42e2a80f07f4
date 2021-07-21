@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "237361be_7658dbf4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T23:25:43Z",
+      "side": 1,
+      "message": "Once we settle on a change that we like I can go through functional testing of that change again before we merge it. Just let me know when you all are happy with it and I can do that and report back with the results.\n\nThe changes we have made since the last time I did full functional testing have been pretty minimal to the actual code. Should just be the addition of the XRI hanlding. This means that we probably don\u0027t really need to go through that again but I\u0027m happy to do it.",
+      "revId": "5ee0965ee01f17fdd0d3d6a028ce42e2a80f07f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

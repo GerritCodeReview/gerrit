@@ -439,6 +439,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2224778_6cbf2a57",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T23:13:23Z",
+      "side": 1,
+      "message": "I\u0027m open to doing that, but I\u0027m not sure how I would go about that. Do you think it would be better to define these constants in the OpenIdRealm maybe? I\u0027ve mostly been following along the other implementations to make sense of how this works :) and the constants have all lived here so far from what I can tell.",
+      "parentUuid": "26bc9251_c5de08d8",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 0
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3899bf23_038cf911",
         "filename": "java/com/google/gerrit/server/auth/openid/OpenIdRealm.java",
         "patchSetId": 4

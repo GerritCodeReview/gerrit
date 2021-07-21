@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99ea4982_7696b1b1",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-07-21T20:49:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dc46f7e3_11f348cf",
+      "revId": "96a1d19360cfe305f02fd66babe4b58e08397ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f04bc8d_4ba864f8",
@@ -197,6 +215,30 @@
       "side": 1,
       "message": "https://gerrit.googlesource.com/gerrit/+/refs/tags/v3.2.10/javatests/com/google/gerrit/server/auth/ldap/LdapRealmTest.java#81 does this for the LdapRealm and https://gerrit.googlesource.com/gerrit/+/refs/tags/v3.2.10/javatests/com/google/gerrit/server/auth/oauth/OAuthRealmTest.java#56 does it for oath.\n\nThe difference here is that I\u0027m checking SCHEME_HTTP and SCHEME_HTTPS because openid can theoretically be either (though it really should be HTTPS in a secure setup).",
       "parentUuid": "002341f0_ad7b4a4c",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 18
+      },
+      "revId": "96a1d19360cfe305f02fd66babe4b58e08397ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8218454_12074969",
+        "filename": "javatests/com/google/gerrit/server/auth/openid/OpenIdRealmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-07-21T20:49:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "713976ec_608d5f12",
       "range": {
         "startLine": 67,
         "startChar": 0,

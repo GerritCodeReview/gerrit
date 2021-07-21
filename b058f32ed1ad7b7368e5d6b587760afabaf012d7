@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "271cff2b_964f687b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-07-21T20:49:32Z",
+      "side": 1,
+      "message": "This is really good info. Is this explained to the user anywhere in docs?",
+      "range": {
+        "startLine": 16,
+        "startChar": 30,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7a13c0f_7381d86a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-07-21T20:49:32Z",
+      "side": 1,
+      "message": "This looks pretty good to me, but I\u0027m not as familiar with the auth code and even less so with OpenId. Luca or David, could you double check and +2 if it looks good?",
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

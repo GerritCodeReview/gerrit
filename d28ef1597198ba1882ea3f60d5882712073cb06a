@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcefb65b_b3318f68",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-21T12:27:31Z",
+      "side": 1,
+      "message": "Do we really need both here? It looks like if we use a primitive integer, then 0 can represent all the required state that is now represented by using either null or 0?",
+      "range": {
+        "startLine": 88,
+        "startChar": 78,
+        "endLine": 88,
+        "endChar": 93
+      },
+      "revId": "d28ef1597198ba1882ea3f60d5882712073cb06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -47,8 +47,7 @@ public class FileInfoJsonNewImpl implements FileInfoJson {
       throws ResourceConflictException, PatchListNotAvailableException {
     try {
       if (base == null) {
-        return asFileInfo(
-            diffs.listModifiedFilesAgainstParent(change.getProject(), objectId, null));
+        return asFileInfo(diffs.listModifiedFilesAgainstParent(change.getProject(), objectId, 0));
       }
       return asFileInfo(diffs.listModifiedFiles(change.getProject(), base.commitId(), objectId));
     } catch (DiffNotAvailableException e) {
@@ -63,7 +62,7 @@ public class FileInfoJsonNewImpl implements FileInfoJson {
       throws ResourceConflictException, PatchListNotAvailableException {
     try {
       Map<String, FileDiffOutput> modifiedFiles =
-          diffs.listModifiedFilesAgainstParent(project, objectId, parent + 1);
+          diffs.listModifiedFilesAgainstParent(project, objectId, parent);
       return asFileInfo(modifiedFiles);
     } catch (DiffNotAvailableException e) {
       convertException(e);

@@ -46,7 +46,8 @@ public interface FileInfoJson {
    *
    * @param change a Gerrit change.
    * @param objectId a commit SHA-1 identifying a patchset commit.
-   * @param parentNum an integer identifying the parent number used for comparison.
+   * @param parentNum 1-based integer identifying the parent number used for comparison. If zero,
+   *     the only parent will be used or the auto-merge if {@code newCommit} is a merge commit.
    * @return a mapping of the file paths to their related diff information.
    */
   default Map<String, FileInfo> getFileInfoMap(Change change, ObjectId objectId, int parentNum)
@@ -74,7 +75,8 @@ public interface FileInfoJson {
    *
    * @param project a project identifying a repository.
    * @param objectId a commit SHA-1 identifying a patchset commit.
-   * @param parentNum an integer identifying the parent number used for comparison.
+   * @param parentNum 1-based integer identifying the parent number used for comparison. If zero,
+   *     the only parent will be used or the auto-merge if {@code newCommit} is a merge commit.
    * @return a mapping of the file paths to their related diff information.
    */
   Map<String, FileInfo> getFileInfoMap(Project.NameKey project, ObjectId objectId, int parentNum)

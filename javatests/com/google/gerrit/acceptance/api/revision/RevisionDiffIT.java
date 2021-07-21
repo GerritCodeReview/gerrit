@@ -153,7 +153,8 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     PushOneCommit.Result result = push.to("refs/heads/master");
 
     Map<String, FileDiffOutput> modifiedFiles =
-        diffOperations.listModifiedFilesAgainstParent(project, result.getCommit(), null);
+        diffOperations.listModifiedFilesAgainstParent(
+            project, result.getCommit(), /* parentNum= */ 0);
 
     assertThat(modifiedFiles.keySet()).containsExactly("/COMMIT_MSG", "f.txt");
     assertThat(

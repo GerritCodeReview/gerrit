@@ -91,7 +91,7 @@ public class DiffOperationsImpl implements DiffOperations {
 
   @Override
   public Map<String, FileDiffOutput> listModifiedFilesAgainstParent(
-      Project.NameKey project, ObjectId newCommit, @Nullable Integer parent)
+      Project.NameKey project, ObjectId newCommit, int parent)
       throws DiffNotAvailableException {
     try {
       DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
@@ -120,7 +120,7 @@ public class DiffOperationsImpl implements DiffOperations {
   public FileDiffOutput getModifiedFileAgainstParent(
       Project.NameKey project,
       ObjectId newCommit,
-      @Nullable Integer parent,
+      int parent,
       String fileName,
       @Nullable DiffPreferencesInfo.Whitespace whitespace)
       throws DiffNotAvailableException {
@@ -376,7 +376,7 @@ public class DiffOperationsImpl implements DiffOperations {
       Project.NameKey project, ObjectId newCommit, Integer parent) throws IOException {
     DiffParameters.Builder result =
         DiffParameters.builder().project(project).newCommit(newCommit).parent(parent);
-    if (parent != null) {
+    if (parent > 0) {
       result.baseCommit(baseCommitUtil.getBaseCommit(project, newCommit, parent));
       result.comparisonType(ComparisonType.againstParent(parent));
       return result.build();

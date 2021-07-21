@@ -46,8 +46,8 @@ public interface DiffOperations {
    *
    * @param project a project name representing a git repository.
    * @param newCommit 20 bytes SHA-1 of the new commit used in the diff.
-   * @param parentNum integer specifying which parent to use as base. If null, the only parent will
-   *     be used or the auto-merge if {@code newCommit} is a merge commit.
+   * @param parentNum 1-based integer specifying which parent to use as base. If zero, the only
+   *     parent will be used or the auto-merge if {@code newCommit} is a merge commit.
    * @return map of file paths to the file diffs. The map key is the new file path for all {@link
    *     ChangeType} file diffs except {@link ChangeType#DELETED} entries where the map key contains
    *     the old file path. The map entries are not sorted by key.
@@ -56,7 +56,7 @@ public interface DiffOperations {
    *     an internal error occurred in Git while evaluating the diff.
    */
   Map<String, FileDiffOutput> listModifiedFilesAgainstParent(
-      Project.NameKey project, ObjectId newCommit, @Nullable Integer parentNum)
+      Project.NameKey project, ObjectId newCommit, int parentNum)
       throws DiffNotAvailableException;
 
   /**
@@ -85,8 +85,8 @@ public interface DiffOperations {
    *
    * @param project a project name representing a git repository.
    * @param newCommit 20 bytes SHA-1 of the new commit used in the diff.
-   * @param parentNum integer specifying which parent to use as base. If null, the only parent will
-   *     be used or the auto-merge if {@code newCommit} is a merge commit.
+   * @param parentNum 1-based integer specifying which parent to use as base. If zero, the only
+   *     parent will be used or the auto-merge if {@code newCommit} is a merge commit.
    * @param fileName the file name for which the diff should be evaluated.
    * @param whitespace preference controlling whitespace effect in diff computation.
    * @return the diff for the single file between the two commits.
@@ -96,7 +96,7 @@ public interface DiffOperations {
   FileDiffOutput getModifiedFileAgainstParent(
       Project.NameKey project,
       ObjectId newCommit,
-      @Nullable Integer parentNum,
+      int parentNum,
       String fileName,
       @Nullable DiffPreferencesInfo.Whitespace whitespace)
       throws DiffNotAvailableException;

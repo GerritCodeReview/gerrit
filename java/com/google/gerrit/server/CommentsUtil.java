@@ -438,7 +438,7 @@ public class CommentsUtil {
       // unignore the test in PortedCommentsIT.
       Map<String, FileDiffOutput> modifiedFiles =
           diffOperations.listModifiedFilesAgainstParent(
-              change.getProject(), patchset.commitId(), /* parentNum= */ null);
+              change.getProject(), patchset.commitId(), /* parentNum= */ 0);
       return modifiedFiles.isEmpty()
           ? null
           : modifiedFiles.values().iterator().next().oldCommitId();

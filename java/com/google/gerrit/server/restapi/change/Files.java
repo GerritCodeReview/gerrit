@@ -183,7 +183,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         r =
             Response.ok(
                 fileInfoJson.getFileInfoMap(
-                    resource.getChange(), resource.getPatchSet().commitId(), parentNum - 1));
+                    resource.getChange(), resource.getPatchSet().commitId(), parentNum));
       } else {
         r = Response.ok(fileInfoJson.getFileInfoMap(resource.getChange(), resource.getPatchSet()));
       }
@@ -280,11 +280,11 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
         Map<String, FileDiffOutput> oldList =
             diffOperations.listModifiedFilesAgainstParent(
-                project, patchSet.commitId(), /* parentNum= */ null);
+                project, patchSet.commitId(), /* parentNum= */ 0);
 
         Map<String, FileDiffOutput> curList =
             diffOperations.listModifiedFilesAgainstParent(
-                project, resource.getPatchSet().commitId(), /* parentNum= */ null);
+                project, resource.getPatchSet().commitId(), /* parentNum= */ 0);
 
         int sz = paths.size();
         List<String> pathList = Lists.newArrayListWithCapacity(sz);

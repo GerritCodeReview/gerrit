@@ -68,6 +68,30 @@
       },
       "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbc951df_127beeb7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-21T08:37:09Z",
+      "side": 1,
+      "message": "Thanks for the insights and explanation, Edwin. Yes that was a hacky workaround to retrieve SRs from NoteDb instead of the index, but we should retrieve SRs in index instead.\n\nYes, SRs are not yet stored in the index. I will add a change prior to this one for this. I\u0027ll also proceed and merge I2a63f725b9f96 and predecessors since they are done.",
+      "parentUuid": "583ede39_4bd15785",
+      "range": {
+        "startLine": 948,
+        "startChar": 59,
+        "endLine": 949,
+        "endChar": 73
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

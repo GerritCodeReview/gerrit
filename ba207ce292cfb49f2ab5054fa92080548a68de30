@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "977ad793_f9f69a6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-07-21T17:56:35Z",
+      "side": 1,
+      "message": "Thank you for taking a look!\n\nDiscussed offline, Patrick raised the concern that adding batching on top of NoteDbManager will introduce extra complexity to the already complex code.\n\nTaking into account that #2 should be sufficient to prevent problems with storage in background jobs, I decided to postpone the idea of batching until we find more use cases for it.",
+      "parentUuid": "0de2363f_cf643637",
+      "revId": "ba207ce292cfb49f2ab5054fa92080548a68de30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "753da149_db5c7ac4",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 9

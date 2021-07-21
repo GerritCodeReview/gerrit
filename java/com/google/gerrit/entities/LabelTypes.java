@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class LabelTypes {
   protected List<LabelType> labelTypes;
@@ -36,12 +37,12 @@ public class LabelTypes {
     return labelTypes;
   }
 
-  public LabelType byLabel(LabelId labelId) {
-    return byLabel().get(labelId.get().toLowerCase());
+  public Optional<LabelType> byLabel(LabelId labelId) {
+    return Optional.ofNullable(byLabel().get(labelId.get().toLowerCase()));
   }
 
-  public LabelType byLabel(String labelName) {
-    return byLabel().get(labelName.toLowerCase());
+  public Optional<LabelType> byLabel(String labelName) {
+    return Optional.ofNullable(byLabel().get(labelName.toLowerCase()));
   }
 
   private Map<String, LabelType> byLabel() {

@@ -91,8 +91,8 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
   }
 
   protected static LabelType type(LabelTypes types, String toFind) {
-    if (types.byLabel(toFind) != null) {
-      return types.byLabel(toFind);
+    if (types.byLabel(toFind).isPresent()) {
+      return types.byLabel(toFind).get();
     }
 
     for (LabelType lt : types.getLabelTypes()) {

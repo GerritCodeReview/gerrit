@@ -63,7 +63,7 @@ public class FileInfoJsonNewImpl implements FileInfoJson {
       throws ResourceConflictException, PatchListNotAvailableException {
     try {
       Map<String, FileDiffOutput> modifiedFiles =
-          diffs.listModifiedFilesAgainstParent(project, objectId, parent + 1);
+          diffs.listModifiedFilesAgainstParent(project, objectId, parent);
       return asFileInfo(modifiedFiles);
     } catch (DiffNotAvailableException e) {
       convertException(e);

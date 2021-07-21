@@ -183,7 +183,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         r =
             Response.ok(
                 fileInfoJson.getFileInfoMap(
-                    resource.getChange(), resource.getPatchSet().commitId(), parentNum - 1));
+                    resource.getChange(), resource.getPatchSet().commitId(), parentNum));
       } else {
         r = Response.ok(fileInfoJson.getFileInfoMap(resource.getChange(), resource.getPatchSet()));
       }

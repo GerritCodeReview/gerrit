@@ -36,6 +36,10 @@ import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.converter.ChangeMessageProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
@@ -52,6 +56,9 @@ import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeCo
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerStatusUpdateProto;
+import com.google.gerrit.server.cache.proto.Cache.SubmitRequirementExpressionResultProto;
+import com.google.gerrit.server.cache.proto.Cache.SubmitRequirementProto;
+import com.google.gerrit.server.cache.proto.Cache.SubmitRequirementResultProto;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.notedb.ChangeNotesState.ChangeColumns;
 import com.google.gerrit.server.notedb.ChangeNotesState.Serializer;
@@ -671,6 +678,69 @@ public class ChangeNotesStateTest {
   }
 
   @Test
+  public void serializeSubmitRequirementsResult() throws Exception {
+    assertRoundTrip(
+        newBuilder()
+            .submitRequirementsResult(
+                ImmutableList.of(
+                    SubmitRequirementResult.builder()
+                        .patchSetCommitId(
+                            ObjectId.fromString("26e50c7d315a33a13e5cc00902781fa876bc36cd"))
+                        .submitRequirement(
+                            SubmitRequirement.builder()
+                                .setName("Code-Review")
+                                .setApplicabilityExpression(
+                                    SubmitRequirementExpression.of("project:foo"))
+                                .setSubmittabilityExpression(
+                                    SubmitRequirementExpression.create("label:code-review=+2"))
+                                .setAllowOverrideInChildProjects(false)
+                                .build())
+                        .applicabilityExpressionResult(
+                            Optional.of(
+                                SubmitRequirementExpressionResult.create(
+                                    SubmitRequirementExpression.create("project:foo"),
+                                    SubmitRequirementExpressionResult.Status.PASS,
+                                    ImmutableList.of("project:foo"),
+                                    ImmutableList.of())))
+                        .submittabilityExpressionResult(
+                            SubmitRequirementExpressionResult.create(
+                                SubmitRequirementExpression.create("label:code-review=+2"),
+                                SubmitRequirementExpressionResult.Status.FAIL,
+                                ImmutableList.of(),
+                                ImmutableList.of("label:code-review=+2")))
+                        .build()))
+            .build(),
+        newProtoBuilder()
+            .addSubmitRequirementResult(
+                SubmitRequirementResultProto.newBuilder()
+                    .setCommit(
+                        ObjectIdConverter.create()
+                            .toByteString(
+                                ObjectId.fromString("26e50c7d315a33a13e5cc00902781fa876bc36cd")))
+                    .setSubmitRequirement(
+                        SubmitRequirementProto.newBuilder()
+                            .setName("Code-Review")
+                            .setApplicabilityExpression("project:foo")
+                            .setSubmittabilityExpression("label:code-review=+2")
+                            .setAllowOverrideInChildProjects(false)
+                            .build())
+                    .setApplicabilityExpressionResult(
+                        SubmitRequirementExpressionResultProto.newBuilder()
+                            .setExpression("project:foo")
+                            .setStatus("PASS")
+                            .addPassingAtoms("project:foo")
+                            .build())
+                    .setSubmittabilityExpressionResult(
+                        SubmitRequirementExpressionResultProto.newBuilder()
+                            .setExpression("label:code-review=+2")
+                            .setStatus("FAIL")
+                            .addFailingAtoms("label:code-review=+2")
+                            .build())
+                    .build())
+            .build());
+  }
+
+  @Test
   public void serializeAssigneeUpdates() throws Exception {
     assertRoundTrip(
         newBuilder()
@@ -842,6 +912,9 @@ public class ChangeNotesStateTest {
                 .put(
                     "publishedComments",
                     new TypeLiteral<ImmutableListMultimap<ObjectId, HumanComment>>() {}.getType())
+                .put(
+                    "submitRequirementsResult",
+                    new TypeLiteral<ImmutableList<SubmitRequirementResult>>() {}.getType())
                 .put("updateCount", int.class)
                 .put("mergedOn", Timestamp.class)
                 .build());

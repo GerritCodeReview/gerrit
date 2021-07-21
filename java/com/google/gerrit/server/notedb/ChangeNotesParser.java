@@ -68,6 +68,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
@@ -125,6 +126,7 @@ class ChangeNotesParser {
   private final List<AssigneeStatusUpdate> assigneeUpdates;
   private final List<SubmitRecord> submitRecords;
   private final ListMultimap<ObjectId, HumanComment> humanComments;
+  private final List<SubmitRequirementResult> submitRequirementResults;
   private final Map<PatchSet.Id, PatchSet.Builder> patchSets;
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
@@ -187,6 +189,7 @@ class ChangeNotesParser {
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
     humanComments = MultimapBuilder.hashKeys().arrayListValues().build();
+    submitRequirementResults = new ArrayList<>();
     patchSets = new HashMap<>();
     deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
@@ -259,6 +262,7 @@ class ChangeNotesParser {
         submitRecords,
         buildAllMessages(),
         humanComments,
+        submitRequirementResults,
         firstNonNull(isPrivate, false),
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
@@ -773,6 +777,9 @@ class ChangeNotesParser {
     for (Map.Entry<ObjectId, ChangeRevisionNote> e : rns.entrySet()) {
       for (HumanComment c : e.getValue().getEntities()) {
         humanComments.put(e.getKey(), c);
+      }
+      for (SubmitRequirementResult sr : e.getValue().getSubmitRequirementsResult()) {
+        submitRequirementResults.add(sr);
       }
     }
 

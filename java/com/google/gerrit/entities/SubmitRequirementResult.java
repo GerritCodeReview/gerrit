@@ -16,11 +16,17 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Result of evaluating a {@link SubmitRequirement} on a given Change. */
 @AutoValue
 public abstract class SubmitRequirementResult {
+  /** Submit requirement for which this result is evaluated. */
+  public abstract SubmitRequirement submitRequirement();
+
   /** Result of evaluating a {@link SubmitRequirement#applicabilityExpression()} on a change. */
   public abstract Optional<SubmitRequirementExpressionResult> applicabilityExpressionResult();
 
@@ -31,6 +37,9 @@ public abstract class SubmitRequirementResult {
 
   /** Result of evaluating a {@link SubmitRequirement#overrideExpression()} ()} on a change. */
   public abstract Optional<SubmitRequirementExpressionResult> overrideExpressionResult();
+
+  /** SHA-1 of the patchset commit ID for which the submit requirement was evaluated. */
+  public abstract ObjectId patchSetCommitId();
 
   @Memoized
   public Status status() {
@@ -51,6 +60,10 @@ public abstract class SubmitRequirementResult {
 
   public static Builder builder() {
     return new AutoValue_SubmitRequirementResult.Builder();
+  }
+
+  public static TypeAdapter<SubmitRequirementResult> typeAdapter(Gson gson) {
+    return new AutoValue_SubmitRequirementResult.GsonTypeAdapter(gson);
   }
 
   public enum Status {
@@ -84,6 +97,7 @@ public abstract class SubmitRequirementResult {
 
   @AutoValue.Builder
   public abstract static class Builder {
+    public abstract Builder submitRequirement(SubmitRequirement submitRequirement);
 
     public abstract Builder applicabilityExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);
@@ -92,6 +106,8 @@ public abstract class SubmitRequirementResult {
 
     public abstract Builder overrideExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);
+
+    public abstract Builder patchSetCommitId(ObjectId value);
 
     public abstract SubmitRequirementResult build();
   }

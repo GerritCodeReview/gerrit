@@ -17,6 +17,8 @@ package com.google.gerrit.entities;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import java.util.Optional;
 
 /** Describe a applicability, blocking or override expression of a {@link SubmitRequirement}. */
@@ -41,4 +43,8 @@ public abstract class SubmitRequirementExpression {
 
   /** Returns the underlying String representing this {@link SubmitRequirementExpression}. */
   public abstract String expressionString();
+
+  public static TypeAdapter<SubmitRequirementExpression> typeAdapter(Gson gson) {
+    return new AutoValue_SubmitRequirementExpression.GsonTypeAdapter(gson);
+  }
 }

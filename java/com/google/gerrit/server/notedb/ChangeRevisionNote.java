@@ -16,7 +16,9 @@ package com.google.gerrit.server.notedb;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,11 +36,18 @@ class ChangeRevisionNote extends RevisionNote<HumanComment> {
   private final HumanComment.Status status;
   private String pushCert;
 
+  private ImmutableList<SubmitRequirementResult> submitRequirementsResult;
+
   ChangeRevisionNote(
       ChangeNoteJson noteJson, ObjectReader reader, ObjectId noteId, HumanComment.Status status) {
     super(reader, noteId);
     this.noteJson = noteJson;
     this.status = status;
+  }
+
+  public ImmutableList<SubmitRequirementResult> getSubmitRequirementsResult() {
+    checkParsed();
+    return submitRequirementsResult;
   }
 
   public String getPushCert() {
@@ -52,20 +61,24 @@ class ChangeRevisionNote extends RevisionNote<HumanComment> {
     MutableInteger p = new MutableInteger();
     p.value = offset;
 
-    HumanCommentsRevisionNoteData data = parseJson(noteJson, raw, p.value);
+    ChangeRevisionNoteData data = parseJson(noteJson, raw, p.value);
     if (status == HumanComment.Status.PUBLISHED) {
       pushCert = data.pushCert;
     } else {
       pushCert = null;
     }
+    this.submitRequirementsResult =
+        data.submitRequirementResults == null
+            ? ImmutableList.of()
+            : ImmutableList.copyOf(data.submitRequirementResults);
     return data.comments;
   }
 
-  private HumanCommentsRevisionNoteData parseJson(ChangeNoteJson noteUtil, byte[] raw, int offset)
+  private ChangeRevisionNoteData parseJson(ChangeNoteJson noteUtil, byte[] raw, int offset)
       throws IOException {
     try (InputStream is = new ByteArrayInputStream(raw, offset, raw.length - offset);
         Reader r = new InputStreamReader(is, UTF_8)) {
-      return noteUtil.getGson().fromJson(r, HumanCommentsRevisionNoteData.class);
+      return noteUtil.getGson().fromJson(r, ChangeRevisionNoteData.class);
     }
   }
 }

@@ -249,7 +249,7 @@ export const htmlTemplate = html`
         <div class="content messageContent">
           <div class="message hideOnOpen">[[_messageContentCollapsed]]</div>
           <gr-formatted-text
-            no-trailing-margin=""
+            noTrailingMargin
             class="message hideOnCollapsed"
             content="[[_messageContentExpanded]]"
             config="[[_projectConfig.commentlinks]]"

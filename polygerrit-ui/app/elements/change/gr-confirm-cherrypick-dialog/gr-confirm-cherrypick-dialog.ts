@@ -150,18 +150,27 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
     this._query = (text: string) => this._getProjectBranchesSuggestions(text);
   }
 
-  updateChanges(changes: ChangeInfo[]) {
-    this.changes = changes;
-    this._statuses = {};
+  containsDuplicateProject(changes: ChangeInfo[]) {
     const projects: {[projectName: string]: boolean} = {};
-    this._duplicateProjectChanges = false;
+    let duplicateProjectChanges = false;
     changes.forEach(change => {
       this.selectedChangeIds.add(change.id);
       if (projects[change.project]) {
-        this._duplicateProjectChanges = true;
+        duplicateProjectChanges = true;
       }
       projects[change.project] = true;
     });
+    return duplicateProjectChanges;
+  }
+
+  updateChanges(changes: ChangeInfo[]) {
+    this.changes = changes;
+    this._statuses = {};
+    this._duplicateProjectChanges = false;
+    changes.forEach(change => {
+      this.selectedChangeIds.add(change.id);
+    });
+    this._duplicateProjectChanges = this.containsDuplicateProject(changes);
     this._changesCount = changes.length;
     this._showCherryPickTopic = changes.length > 1;
   }
@@ -185,6 +194,10 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
     if (this.selectedChangeIds.has(changeId))
       this.selectedChangeIds.delete(changeId);
     else this.selectedChangeIds.add(changeId);
+    const changes = this.changes.filter(change =>
+      this.selectedChangeIds.has(change.id)
+    );
+    this._duplicateProjectChanges = this.containsDuplicateProject(changes);
   }
 
   _computeTopicErrorMessage(duplicateProjectChanges: boolean) {

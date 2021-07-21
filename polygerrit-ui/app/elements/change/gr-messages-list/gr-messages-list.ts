@@ -63,7 +63,7 @@ interface TagsCountReportInfo {
   all: number;
 }
 
-type CombinedMessage = Omit<
+export type CombinedMessage = Omit<
   FormattedReviewerUpdateInfo | ChangeMessageInfo,
   'tag'
 > & {
@@ -75,8 +75,16 @@ type CombinedMessage = Omit<
   tag?: string;
 };
 
-function isChangeMessageInfo(x: CombinedMessage): x is ChangeMessageInfo {
+export function isChangeMessageInfo(
+  x: CombinedMessage
+): x is ChangeMessageInfo {
   return (x as ChangeMessageInfo).id !== undefined;
+}
+
+export function isFormattedReviewerUpdateInfo(
+  x: CombinedMessage
+): x is FormattedReviewerUpdateInfo {
+  return (x as FormattedReviewerUpdateInfo).type === 'REVIEWER_UPDATE';
 }
 
 function getMessageId(x: CombinedMessage): ChangeMessageId | undefined {

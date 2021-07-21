@@ -50,6 +50,7 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.webui.EditWebLink;
+import com.google.gerrit.server.change.FileInfoJsonExperimentImpl;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.inject.Inject;
@@ -109,7 +110,8 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     intraline = baseConfig.getBoolean(TEST_PARAMETER_MARKER, "intraline", false);
     useNewDiffCacheListFiles =
-        baseConfig.getBoolean("cache", "diff_cache", "runNewDiffCache_ListFiles", false);
+        Arrays.asList(baseConfig.getStringList("experiments", null, "enabled"))
+            .contains(FileInfoJsonExperimentImpl.NEW_DIFF_CACHE_FEATURE);
     useNewDiffCacheGetDiff =
         baseConfig.getBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", false);
 

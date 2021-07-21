@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.api.revision;
 
+import com.google.gerrit.server.change.FileInfoJsonExperimentImpl;
 import com.google.gerrit.testing.ConfigSuite;
 import org.eclipse.jgit.lib.Config;
 
@@ -26,7 +27,8 @@ public class RevisionNewDiffCacheIT extends RevisionDiffIT {
   @ConfigSuite.Default
   public static Config newDiffCacheConfig() {
     Config config = new Config();
-    config.setBoolean("cache", "diff_cache", "runNewDiffCache_ListFiles", true);
+    config.setString(
+        "experiments", null, "enabled", FileInfoJsonExperimentImpl.NEW_DIFF_CACHE_FEATURE);
     return config;
   }
 }

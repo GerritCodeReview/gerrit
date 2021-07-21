@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -33,7 +34,9 @@ import org.eclipse.jgit.lib.ObjectId;
  * FileInfoJsonNewImpl}.
  */
 public class FileInfoJsonExperimentImpl implements FileInfoJson {
-  private final String NEW_DIFF_CACHE_FEATURE = "GerritBackendRequestFeature__use_new_diff_cache";
+  @VisibleForTesting
+  public static final String NEW_DIFF_CACHE_FEATURE =
+      "GerritBackendRequestFeature__use_new_diff_cache";
 
   private final FileInfoJsonOldImpl oldImpl;
   private final FileInfoJsonNewImpl newImpl;

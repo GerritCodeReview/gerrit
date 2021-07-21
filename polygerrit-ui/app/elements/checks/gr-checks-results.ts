@@ -590,8 +590,8 @@ class GrResultExpanded extends GrLitElement {
         <gr-formatted-text
           noTrailingMargin
           class="message"
-          content="${this.result.message}"
-          config="${this.repoConfig}"
+          .content="${this.result.message}"
+          .config="${this.repoConfig?.commentlinks}"
         ></gr-formatted-text>
       </gr-endpoint-decorator>
     `;

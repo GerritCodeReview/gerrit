@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "77be446a_001d6063",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-07-21T09:32:45Z",
+      "side": 1,
+      "message": "https://material.io/components/snackbars#behavior \n\n\u003e Appearing and disappearing\n\n\u003e Snackbars appear without warning, and don\u0027t require user interaction. They automatically disappear from the screen after a minimum of four seconds, and a maximum of ten seconds.\n\nSeems like Critique is using ten seconds before the snackbar disappears from the screen so I propose we use the same time.",
+      "parentUuid": "aca69e6a_105ddd53",
+      "range": {
+        "startLine": 35,
+        "startChar": 50,
+        "endLine": 35,
+        "endChar": 61
+      },
+      "revId": "af3987f5aa83b4ef4666a89e9f72c10cfcbeb236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ed8c4e3_9e7a07ba",
         "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
         "patchSetId": 21

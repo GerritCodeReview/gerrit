@@ -22,7 +22,6 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -502,8 +501,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
-      LabelType type = labelTypes.byLabel(ent.getKey());
-      if (type == null) {
+      Optional<LabelType> type = labelTypes.byLabel(ent.getKey());
+      if (!type.isPresent()) {
         logger.atFine().log("label %s not found", ent.getKey());
         if (strictLabels) {
           throw new BadRequestException(
@@ -518,15 +517,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         logger.atFine().log(
             "skipping on behalf of permission check for label %s"
                 + " because caller is an internal user",
-            type.getName());
+            type.get().getName());
       } else {
         try {
-          perm.check(new LabelPermission.WithValue(ON_BEHALF_OF, type, ent.getValue()));
+          perm.check(new LabelPermission.WithValue(ON_BEHALF_OF, type.get(), ent.getValue()));
         } catch (AuthException e) {
           throw new AuthException(
               String.format(
                   "not permitted to modify label \"%s\" on behalf of \"%s\"",
-                  type.getName(), in.onBehalfOf),
+                  type.get().getName(), in.onBehalfOf),
               e);
         }
       }
@@ -558,8 +557,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     Iterator<Map.Entry<String, Short>> itr = labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
-      LabelType lt = labelTypes.byLabel(ent.getKey());
-      if (lt == null) {
+      Optional<LabelType> lt = labelTypes.byLabel(ent.getKey());
+      if (!lt.isPresent()) {
         logger.atFine().log("label %s not found", ent.getKey());
         if (strictLabels) {
           throw new BadRequestException(
@@ -576,7 +575,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         continue;
       }
 
-      if (lt.getValue(ent.getValue()) == null) {
+      if (lt.get().getValue(ent.getValue()) == null) {
         logger.atFine().log("label value %s not found", ent.getValue());
         if (strictLabels) {
           throw new BadRequestException(
@@ -590,10 +589,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       short val = ent.getValue();
       try {
-        perm.check(new LabelPermission.WithValue(lt, val));
+        perm.check(new LabelPermission.WithValue(lt.get(), val));
       } catch (AuthException e) {
         throw new AuthException(
-            String.format("Applying label \"%s\": %d is restricted", lt.getName(), val), e);
+            String.format("Applying label \"%s\": %d is restricted", lt.get().getName(), val), e);
       }
     }
   }
@@ -1356,7 +1355,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeUpdate update = ctx.getUpdate(psId);
       for (Map.Entry<String, Short> ent : allApprovals.entrySet()) {
         String name = ent.getKey();
-        LabelType lt = requireNonNull(labelTypes.byLabel(name), name);
+        LabelType lt =
+            labelTypes
+                .byLabel(name)
+                .orElseThrow(() -> new IllegalStateException("no label config for " + name));
 
         PatchSetApproval c = current.remove(lt.getName());
         String normName = lt.getName();
@@ -1448,7 +1450,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<String> disallowed = new ArrayList<>(labelTypes.getLabelTypes().size());
 
       for (PatchSetApproval psa : del) {
-        LabelType lt = requireNonNull(labelTypes.byLabel(psa.label()));
+        LabelType lt =
+            labelTypes
+                .byLabel(psa.label())
+                .orElseThrow(() -> new IllegalStateException("no label config for " + psa.label()));
         String normName = lt.getName();
         if (!lt.isAllowPostSubmit()) {
           disallowed.add(normName);
@@ -1460,7 +1465,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       for (PatchSetApproval psa : ups) {
-        LabelType lt = requireNonNull(labelTypes.byLabel(psa.label()));
+        LabelType lt =
+            labelTypes
+                .byLabel(psa.label())
+                .orElseThrow(() -> new IllegalStateException("no label config for " + psa.label()));
         String normName = lt.getName();
         if (!lt.isAllowPostSubmit()) {
           disallowed.add(normName);
@@ -1508,9 +1516,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           continue;
         }
 
-        LabelType lt = labelTypes.byLabel(a.labelId());
-        if (lt != null) {
-          current.put(lt.getName(), a);
+        Optional<LabelType> lt = labelTypes.byLabel(a.labelId());
+        if (lt.isPresent()) {
+          current.put(lt.get().getName(), a);
         } else {
           del.add(a);
         }

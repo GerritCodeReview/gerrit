@@ -605,7 +605,7 @@ public class ChangeField {
     for (PatchSetApproval a : cd.currentApprovals()) {
       if (a.value() != 0 && !a.isLegacySubmit()) {
         allApprovals.add(formatLabel(a.label(), a.value(), a.accountId()));
-        LabelType labelType = cd.getLabelTypes().byLabel(a.labelId());
+        Optional<LabelType> labelType = cd.getLabelTypes().byLabel(a.labelId());
         allApprovals.addAll(getMaxMinAnyLabels(a.label(), a.value(), labelType, a.accountId()));
         if (owners && cd.change().getOwner().equals(a.accountId())) {
           allApprovals.add(formatLabel(a.label(), a.value(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
@@ -622,13 +622,15 @@ public class ChangeField {
   }
 
   private static List<String> getMaxMinAnyLabels(
-      String label, short labelVal, LabelType labelType, @Nullable Account.Id accountId) {
+      String label, short labelVal, Optional<LabelType> labelType, @Nullable Account.Id accountId) {
     List<String> labels = new ArrayList<>();
-    if (labelVal == labelType.getMaxPositive()) {
-      labels.add(formatLabel(label, MagicLabelValue.MAX.name(), accountId));
-    }
-    if (labelVal == labelType.getMaxNegative()) {
-      labels.add(formatLabel(label, MagicLabelValue.MIN.name(), accountId));
+    if (labelType.isPresent()) {
+      if (labelVal == labelType.get().getMaxPositive()) {
+        labels.add(formatLabel(label, MagicLabelValue.MAX.name(), accountId));
+      }
+      if (labelVal == labelType.get().getMaxNegative()) {
+        labels.add(formatLabel(label, MagicLabelValue.MIN.name(), accountId));
+      }
     }
     labels.add(formatLabel(label, MagicLabelValue.ANY.name(), accountId));
     return labels;

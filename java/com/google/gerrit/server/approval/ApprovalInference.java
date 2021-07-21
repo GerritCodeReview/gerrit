@@ -52,6 +52,7 @@ import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -397,14 +398,14 @@ class ApprovalInference {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
         continue;
       }
-      LabelType type = labelTypes.byLabel(psa.labelId());
+      Optional<LabelType> type = labelTypes.byLabel(psa.labelId());
       // Only compute modified files if there is a relevant label, since this is expensive.
       if (modifiedFiles == null
-          && type != null
-          && type.isCopyAllScoresIfListOfFilesDidNotChange()) {
+          && type.isPresent()
+          && type.get().isCopyAllScoresIfListOfFilesDidNotChange()) {
         modifiedFiles = listModifiedFiles(project, ps, priorPatchSet);
       }
-      if (type == null) {
+      if (!type.isPresent()) {
         logger.atFine().log(
             "approval %d on label %s of patch set %d of change %d cannot be copied"
                 + " to patch set %d because the label no longer exists on project %s",

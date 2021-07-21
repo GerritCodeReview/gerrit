@@ -555,8 +555,7 @@ public class RetryHelper {
       Action<T> action,
       Options opts,
       Retryer<T> retryer,
-      MetricListener listener)
-      throws Throwable {
+      MetricListener listener) {
     try {
       return retryer.call(action::call);
     } catch (ExecutionException | RetryException e) {

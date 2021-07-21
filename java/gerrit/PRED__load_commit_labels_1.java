@@ -16,6 +16,7 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
+import java.util.Optional;
 
 /** Exports list of {@code commit_label( label('Code-Review', 2), user(12345789) )}. */
 class PRED__load_commit_labels_1 extends Predicate.P1 {
@@ -38,13 +39,14 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
     LabelTypes types = cd.getLabelTypes();
 
     for (PatchSetApproval a : cd.currentApprovals()) {
-      LabelType t = types.byLabel(a.labelId());
-      if (t == null) {
+      Optional<LabelType> t = types.byLabel(a.labelId());
+      if (!t.isPresent()) {
         continue;
       }
 
       StructureTerm labelTerm =
-          new StructureTerm(sym_label, SymbolTerm.intern(t.getName()), new IntegerTerm(a.value()));
+          new StructureTerm(
+              sym_label, SymbolTerm.intern(t.get().getName()), new IntegerTerm(a.value()));
 
       StructureTerm userTerm = new StructureTerm(sym_user, new IntegerTerm(a.accountId().get()));
 

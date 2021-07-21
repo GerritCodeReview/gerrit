@@ -164,6 +164,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "90cf8b6d_a84b49d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T22:43:21Z",
+      "side": 1,
+      "message": "The homepage project, just create a change there for the next release in development, so that we don\u0027t forget this important change in the OpenID logic.",
+      "parentUuid": "a65fb8d8_5267064a",
+      "range": {
+        "startLine": 16,
+        "startChar": 30,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c7a13c0f_7381d86a",
@@ -295,6 +319,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "26bc9251_c5de08d8",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T22:43:21Z",
+      "side": 1,
+      "message": "+1\n\nWould be also useful to define the set of schemes that belong to OpenId?\n(includes HTTP, HTTPS and XRI)",
+      "parentUuid": "a9f6bb65_6b0e0a97",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 0
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3899bf23_038cf911",
         "filename": "java/com/google/gerrit/server/auth/openid/OpenIdRealm.java",
         "patchSetId": 4
@@ -360,6 +408,24 @@
       "side": 1,
       "message": "Yes, accountBelongsToRealm() is used to determine if an externalid record belongs to the realm. If it does belong to the realm then the externalid cannot be deleted. Implementing this check for the https identifiers in an openid setup should prevent the email address from being deleted if it is part of the openid externalid.\n\nI think the DefaultRealm\u0027s implementation of allowsEdit() currently allows you to add and remove other emails addresses which is fine.",
       "parentUuid": "3ffe2d09_4f68fe0b",
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dd73d25_979cce92",
+        "filename": "java/com/google/gerrit/server/auth/openid/OpenIdRealm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T22:43:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "782e14cb_f4e617b2",
       "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

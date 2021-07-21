@@ -64,6 +64,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -265,11 +266,13 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
           approvalsUtil.byPatchSet(
               ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
         ProjectState projectState = projectCache.get(project).orElseThrow(illegalState(project));
-        LabelType type = projectState.getLabelTypes(ctx.getNotes()).byLabel(psa.labelId());
+        Optional<LabelType> type =
+            projectState.getLabelTypes(ctx.getNotes()).byLabel(psa.labelId());
         // Only keep veto votes, defined as votes where:
         // 1- the label function allows minimum values to block submission.
         // 2- the vote holds the minimum value.
-        if (type == null || (type.isMaxNegative(psa) && type.getFunction().isBlock())) {
+        if (!type.isPresent()
+            || (type.get().isMaxNegative(psa) && type.get().getFunction().isBlock())) {
           continue;
         }
 

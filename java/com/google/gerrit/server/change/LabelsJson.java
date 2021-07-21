@@ -57,6 +57,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -103,9 +104,9 @@ public class LabelsJson {
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels != null) {
         for (SubmitRecord.Label r : rec.labels) {
-          LabelType type = labelTypes.byLabel(r.label);
-          if (type != null && (!isMerged || type.isAllowPostSubmit())) {
-            toCheck.put(type.getName(), type);
+          Optional<LabelType> type = labelTypes.byLabel(r.label);
+          if (type.isPresent() && (!isMerged || type.get().isAllowPostSubmit())) {
+            toCheck.put(type.get().getName(), type.get());
           }
         }
       }
@@ -120,18 +121,18 @@ public class LabelsJson {
         continue;
       }
       for (SubmitRecord.Label r : rec.labels) {
-        LabelType type = labelTypes.byLabel(r.label);
-        if (type == null || (isMerged && !type.isAllowPostSubmit())) {
+        Optional<LabelType> type = labelTypes.byLabel(r.label);
+        if (!type.isPresent() || (isMerged && !type.get().isAllowPostSubmit())) {
           continue;
         }
 
-        for (LabelValue v : type.getValues()) {
-          boolean ok = can.contains(new LabelPermission.WithValue(type, v));
+        for (LabelValue v : type.get().getValues()) {
+          boolean ok = can.contains(new LabelPermission.WithValue(type.get(), v));
           if (isMerged) {
             if (labels == null) {
               labels = currentLabels(filterApprovalsBy, cd);
             }
-            short prev = labels.getOrDefault(type.getName(), (short) 0);
+            short prev = labels.getOrDefault(type.get().getName(), (short) 0);
             ok &= v.getValue() >= prev;
           }
           if (ok) {
@@ -176,21 +177,21 @@ public class LabelsJson {
       setAllApprovals(accountLoader, cd, labels);
     }
     for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
-      LabelType type = labelTypes.byLabel(e.getKey());
-      if (type == null) {
+      Optional<LabelType> type = labelTypes.byLabel(e.getKey());
+      if (!type.isPresent()) {
         continue;
       }
       if (standard) {
         for (PatchSetApproval psa : cd.currentApprovals()) {
-          if (type.matches(psa)) {
+          if (type.get().matches(psa)) {
             short val = psa.value();
             Account.Id accountId = psa.accountId();
-            setLabelScores(accountLoader, type, e.getValue(), val, accountId);
+            setLabelScores(accountLoader, type.get(), e.getValue(), val, accountId);
           }
         }
       }
       if (detailed) {
-        setLabelValues(type, e.getValue());
+        setLabelValues(type.get(), e.getValue());
       }
     }
     return labels;
@@ -261,9 +262,9 @@ public class LabelsJson {
         MultimapBuilder.hashKeys().hashSetValues().build();
     for (PatchSetApproval a : cd.currentApprovals()) {
       allUsers.add(a.accountId());
-      LabelType type = labelTypes.byLabel(a.labelId());
-      if (type != null) {
-        labelNames.add(type.getName());
+      Optional<LabelType> type = labelTypes.byLabel(a.labelId());
+      if (type.isPresent()) {
+        labelNames.add(type.get().getName());
         // Not worth the effort to distinguish between votable/non-votable for 0
         // values on closed changes, since they can't vote anyway.
         current.put(a.accountId(), a);
@@ -292,8 +293,8 @@ public class LabelsJson {
 
     if (detailed) {
       labels.entrySet().stream()
-          .filter(e -> labelTypes.byLabel(e.getKey()) != null)
-          .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()), e.getValue()));
+          .filter(e -> labelTypes.byLabel(e.getKey()).isPresent())
+          .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()).get(), e.getValue()));
     }
 
     for (Account.Id accountId : allUsers) {
@@ -308,16 +309,16 @@ public class LabelsJson {
         }
       }
       for (PatchSetApproval psa : current.get(accountId)) {
-        LabelType type = labelTypes.byLabel(psa.labelId());
-        if (type == null) {
+        Optional<LabelType> type = labelTypes.byLabel(psa.labelId());
+        if (!type.isPresent()) {
           continue;
         }
 
         short val = psa.value();
-        ApprovalInfo info = byLabel.get(type.getName());
+        ApprovalInfo info = byLabel.get(type.get().getName());
         if (info != null) {
           info.value = Integer.valueOf(val);
-          info.permittedVotingRange = pvr.getOrDefault(type.getName(), null);
+          info.permittedVotingRange = pvr.getOrDefault(type.get().getName(), null);
           info.date = psa.granted();
           info.tag = psa.tag().orElse(null);
           if (psa.postSubmit()) {
@@ -328,7 +329,7 @@ public class LabelsJson {
           continue;
         }
 
-        setLabelScores(accountLoader, type, labels.get(type.getName()), val, accountId);
+        setLabelScores(accountLoader, type.get(), labels.get(type.get().getName()), val, accountId);
       }
     }
     return labels;
@@ -428,24 +429,24 @@ public class LabelsJson {
       PermissionBackend.ForChange perm = permissionBackend.absentUser(accountId).change(cd);
       Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(accountId, cd));
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
-        LabelType lt = labelTypes.byLabel(e.getKey());
-        if (lt == null) {
+        Optional<LabelType> lt = labelTypes.byLabel(e.getKey());
+        if (!lt.isPresent()) {
           // Ignore submit record for undefined label; likely the submit rule
           // author didn't intend for the label to show up in the table.
           continue;
         }
         Integer value;
-        VotingRangeInfo permittedVotingRange = pvr.getOrDefault(lt.getName(), null);
+        VotingRangeInfo permittedVotingRange = pvr.getOrDefault(lt.get().getName(), null);
         String tag = null;
         Timestamp date = null;
-        PatchSetApproval psa = current.get(accountId, lt.getName());
+        PatchSetApproval psa = current.get(accountId, lt.get().getName());
         if (psa != null) {
           value = Integer.valueOf(psa.value());
           if (value == 0) {
             // This may be a dummy approval that was inserted when the reviewer
             // was added. Explicitly check whether the user can vote on this
             // label.
-            value = perm.test(new LabelPermission(lt)) ? 0 : null;
+            value = perm.test(new LabelPermission(lt.get())) ? 0 : null;
           }
           tag = psa.tag().orElse(null);
           date = psa.granted();
@@ -456,7 +457,7 @@ public class LabelsJson {
           // Either the user cannot vote on this label, or they were added as a
           // reviewer but have not responded yet. Explicitly check whether the
           // user can vote on this label.
-          value = perm.test(new LabelPermission(lt)) ? 0 : null;
+          value = perm.test(new LabelPermission(lt.get())) ? 0 : null;
         }
         addApproval(
             e.getValue().label(),

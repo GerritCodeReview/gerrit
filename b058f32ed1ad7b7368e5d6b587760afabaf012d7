@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d952ce56_ea89544c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T23:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8701ab31_4a1d4f50",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b291cae1_f8777e70",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-07-21T21:24:09Z",
       "side": 1,
       "message": "nit: use imperative form in commit messages",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8e95629_a009aad4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T23:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b291cae1_f8777e70",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b808f1e5_a476f71c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T23:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2e4b2f2_93198dd3",
+      "range": {
+        "startLine": 11,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2926c9f7_eeadb772",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-07-21T21:24:09Z",
       "side": 1,
       "message": "OpenId account.",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4569eb61_eeab1198",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T23:11:45Z",
+      "side": 1,
+      "message": "Gah I missed fixing this one. I expect I\u0027ll have another patchset up and will get it then. Sorry.",
+      "parentUuid": "2926c9f7_eeadb772",
       "range": {
         "startLine": 16,
         "startChar": 22,
@@ -491,6 +587,30 @@
       "side": 1,
       "message": "Neither do I, it\u0027s just a nit, feel free to ignore it :-)",
       "parentUuid": "07b6faca_9d937d93",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 3
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05e77ba8_c5e33cc6",
+        "filename": "javatests/com/google/gerrit/server/auth/openid/OpenIdRealmTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T23:11:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "649c326c_1a888cd2",
       "range": {
         "startLine": 44,
         "startChar": 0,

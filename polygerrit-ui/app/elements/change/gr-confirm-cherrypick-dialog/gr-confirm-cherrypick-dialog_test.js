@@ -130,6 +130,8 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     });
 
     test('deselecting a change removes it from being cherry picked', () => {
+      const duplicateChangesStub = sinon.stub(element,
+          'containsDuplicateProject');
       element.branch = 'master';
       const executeChangeActionStub = stubRestApi(
           'executeChangeAction').returns(Promise.resolve([]));
@@ -142,6 +144,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
           querySelector('gr-dialog').$.confirm);
       flush();
       assert.equal(executeChangeActionStub.callCount, 1);
+      assert.isTrue(duplicateChangesStub.called);
     });
 
     test('deselecting all change shows error message', () => {

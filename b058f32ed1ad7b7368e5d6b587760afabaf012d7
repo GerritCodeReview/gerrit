@@ -3,6 +3,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8701ab31_4a1d4f50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T21:24:09Z",
+      "side": 1,
+      "message": "That is what the code is physically doing, but what is *logically* doing is preventing the removal of e-mails associated to OpenId accounts.\n\nCan we instead say something like:\nPrevent removing e-mail associated with OpenId accounts]\n\nWDYT?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b291cae1_f8777e70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T21:24:09Z",
+      "side": 1,
+      "message": "nit: use imperative form in commit messages",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2e4b2f2_93198dd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T21:24:09Z",
+      "side": 1,
+      "message": "accidentally deletes\n\nI believe it was a genuine bug, well spotted. The removal of the OpenId external-id record wasn\u0027t intentional and just happened because of the DefaultRealm.",
+      "range": {
+        "startLine": 11,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2926c9f7_eeadb772",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T21:24:09Z",
+      "side": 1,
+      "message": "OpenId account.",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "271cff2b_964f687b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -14,6 +106,30 @@
       "writtenOn": "2021-07-21T20:49:32Z",
       "side": 1,
       "message": "This is really good info. Is this explained to the user anywhere in docs?",
+      "range": {
+        "startLine": 16,
+        "startChar": 30,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c748977a_8f242b73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T21:24:09Z",
+      "side": 1,
+      "message": "+1\n\nThat is very useful information that should be captured in the docs.\nWe do also need an entry in the release notes by documenting this change of behaviour.",
+      "parentUuid": "271cff2b_964f687b",
       "range": {
         "startLine": 16,
         "startChar": 30,
@@ -37,6 +153,86 @@
       "writtenOn": "2021-07-21T20:49:32Z",
       "side": 1,
       "message": "This looks pretty good to me, but I\u0027m not as familiar with the auth code and even less so with OpenId. Luca or David, could you double check and +2 if it looks good?",
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b54963b_a6efc9a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T21:24:09Z",
+      "side": 1,
+      "message": "Looks good, just a couple of nits and a more important question about the removal of e-mails associated with the OpenId account: do we allow them or not?",
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61281fa3_1ee0f87b",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T21:24:09Z",
+      "side": 1,
+      "message": "I see in the code that the scheme is directly taken from the OpenId provider:\n    final com.google.gerrit.server.account.AuthRequest areq \u003d\n        new com.google.gerrit.server.account.AuthRequest(ExternalId.Key.parse(openidIdentifier));\n\nAre you sure that the openidIdentifier is always prefixed by http or https?",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 0
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3899bf23_038cf911",
+        "filename": "java/com/google/gerrit/server/auth/openid/OpenIdRealm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T21:24:09Z",
+      "side": 1,
+      "message": "It should also prevent the removal of e-mails:\nallowsEdit(AccountFieldName.REGISTER_NEW_EMAIL) should return false.\n\nBear in mind that it would also prevent the OpenId users from adding extra e-mails, is that what you want? If not, then we do need to introduce a new AccountFieldName.DELETE_EMAIL option.",
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c88c1fc7_09b06ff7",
+        "filename": "javatests/com/google/gerrit/server/auth/openid/OpenIdRealmTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-21T21:24:09Z",
+      "side": 1,
+      "message": "nit: we typically put the private methods after the public ones.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 3
+      },
       "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

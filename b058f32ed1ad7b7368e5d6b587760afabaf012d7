@@ -271,6 +271,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9f6bb65_6b0e0a97",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T22:35:48Z",
+      "side": 1,
+      "message": "Indeed it does. I guess I can extend this change to also check against a\n\n  public static final String SCEME_XRI \u003d \u0027xri\u0027;\n  \nScheme identifier.",
+      "parentUuid": "6f7c8b02_f56125e3",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 0
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3899bf23_038cf911",
         "filename": "java/com/google/gerrit/server/auth/openid/OpenIdRealm.java",
         "patchSetId": 4
@@ -318,6 +342,24 @@
       "side": 1,
       "message": "Wasn\u0027t this problem happening when a user was removing his e-mail associated with the OpenID provider?",
       "parentUuid": "cb69dfb7_ea91ad6e",
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "782e14cb_f4e617b2",
+        "filename": "java/com/google/gerrit/server/auth/openid/OpenIdRealm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T22:35:48Z",
+      "side": 1,
+      "message": "Yes, accountBelongsToRealm() is used to determine if an externalid record belongs to the realm. If it does belong to the realm then the externalid cannot be deleted. Implementing this check for the https identifiers in an openid setup should prevent the email address from being deleted if it is part of the openid externalid.\n\nI think the DefaultRealm\u0027s implementation of allowsEdit() currently allows you to add and remove other emails addresses which is fine.",
+      "parentUuid": "3ffe2d09_4f68fe0b",
       "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -94,6 +94,30 @@
       },
       "revId": "1241f4aa837a9a87429e81832cc648471420b7a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f4534b5_ea1373fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-21T09:25:43Z",
+      "side": 1,
+      "message": "Yes, these changes should be accessible even until we have fixed the underlying patch set number gap issue. Can you add a TODO here please so that we don\u0027t forget to re-add this check back?",
+      "parentUuid": "1ec856e2_d64e97c5",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "1241f4aa837a9a87429e81832cc648471420b7a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

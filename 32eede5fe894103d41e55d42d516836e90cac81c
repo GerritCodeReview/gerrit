@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "564997f0_12b9edb3",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-21T09:18:33Z",
+      "side": 1,
+      "message": "I would remove this line. It\u0027s already doing in updateChanges and it\u0027s something you expect in function containsDuplicateProject",
+      "range": {
+        "startLine": 157,
+        "startChar": 6,
+        "endLine": 157,
+        "endChar": 44
+      },
+      "revId": "32eede5fe894103d41e55d42d516836e90cac81c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d94c14b_c6fc587f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-21T09:18:33Z",
+      "side": 1,
+      "message": "Maybe just return true; here",
+      "range": {
+        "startLine": 159,
+        "startChar": 8,
+        "endLine": 159,
+        "endChar": 39
+      },
+      "revId": "32eede5fe894103d41e55d42d516836e90cac81c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a0e5fd3_e2361d34",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-21T09:18:33Z",
+      "side": 1,
+      "message": "Why not to calculate immediately with this.containsDuplicateProject(changes);",
+      "range": {
+        "startLine": 169,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 41
+      },
+      "revId": "32eede5fe894103d41e55d42d516836e90cac81c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

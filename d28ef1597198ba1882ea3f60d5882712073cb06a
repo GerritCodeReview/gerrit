@@ -22,6 +22,30 @@
       },
       "revId": "d28ef1597198ba1882ea3f60d5882712073cb06a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7862e508_a93c9b47",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-21T14:47:30Z",
+      "side": 1,
+      "message": "Agree that this is redundant. Almost all callers pass in null values (many in gerrit core, also in code-owners [1]).\n\nThere was only 1 caller who was passing 0, hence resulting in the exception we saw in logs. I converted that caller to pass null.\n\nThanks for letting me re-think about this again. The confusion was that DiffOperations expects a 1-based parent, while FileInfoJson expected a 0-based parent. I unified them so that both use a 1-based parent, with 0 meaning the default parent (or automerge if num-parents \u003e\u003d 2).\n\nDone.\n\n[1] https://gerrit.googlesource.com/plugins/code-owners/+/fd62fcdf9626bf86c1b152a83e969152c3b47554/java/com/google/gerrit/plugins/codeowners/backend/ChangedFiles.java#290",
+      "parentUuid": "dcefb65b_b3318f68",
+      "range": {
+        "startLine": 88,
+        "startChar": 78,
+        "endLine": 88,
+        "endChar": 93
+      },
+      "revId": "d28ef1597198ba1882ea3f60d5882712073cb06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

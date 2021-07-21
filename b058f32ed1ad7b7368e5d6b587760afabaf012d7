@@ -189,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aeef5fa_5e77a887",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T23:37:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4569eb61_eeab1198",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "271cff2b_964f687b",
@@ -298,6 +322,30 @@
       "side": 1,
       "message": "Something like https://gerrit-review.googlesource.com/c/homepage/+/312722 for the release note?",
       "parentUuid": "90cf8b6d_a84b49d7",
+      "range": {
+        "startLine": 16,
+        "startChar": 30,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aa53de1_41e9e490",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T23:37:39Z",
+      "side": 1,
+      "message": "I gave adding some docs a go. The location doesn\u0027t feel quite right but there is discussion about how users can modify external IDs in the location I updated and this is a general external ID behavior not specific to OpenId.",
+      "parentUuid": "6a2aee55_fb3f17a7",
       "range": {
         "startLine": 16,
         "startChar": 30,

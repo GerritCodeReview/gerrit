@@ -92,6 +92,30 @@
       },
       "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7fb9d56_11f3fea6",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-21T08:38:01Z",
+      "side": 1,
+      "message": "Sounds good to me.",
+      "parentUuid": "fbc951df_127beeb7",
+      "range": {
+        "startLine": 948,
+        "startChar": 59,
+        "endLine": 949,
+        "endChar": 73
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

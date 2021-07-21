@@ -172,7 +172,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
     this.fileName = fileName;
     this.psa = patchSetA;
-    this.parentNum = -1;
+    this.parentNum = 0;
     this.psb = patchSetB;
     this.diffPrefs = diffPrefs;
     this.currentUser = currentUser;
@@ -223,7 +223,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.runNewDiffCache = cfg.getBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", false);
 
     changeId = patchSetB.changeId();
-    checkArgument(parentNum >= 0, "parentNum must be >= 0");
+    checkArgument(parentNum > 0, "parentNum must be > 0");
   }
 
   @Override
@@ -326,11 +326,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     FileDiffOutput fileDiffOutput =
         aId == null
             ? diffOperations.getModifiedFileAgainstParent(
-                notes.getProjectName(),
-                bId,
-                parentNum == -1 ? null : parentNum + 1,
-                fileName,
-                diffPrefs.ignoreWhitespace)
+                notes.getProjectName(), bId, parentNum, fileName, diffPrefs.ignoreWhitespace)
             : diffOperations.getModifiedFile(
                 notes.getProjectName(), aId, bId, fileName, diffPrefs.ignoreWhitespace);
     return newBuilder().toPatchScriptNew(git, fileDiffOutput);
@@ -395,7 +391,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     if (psa == null) {
       return Optional.empty();
     }
-    checkState(parentNum < 0, "expected no parentNum when psa is present");
+    checkState(parentNum == 0, "expected no parentNum when psa is present");
     checkArgument(psa.get() != 0, "edit not supported for left side");
     return Optional.of(getCommitId(psa));
   }
@@ -409,10 +405,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private PatchListKey keyFor(ObjectId aId, ObjectId bId, Whitespace whitespace) {
-    if (parentNum < 0) {
+    if (parentNum == 0) {
       return PatchListKey.againstCommit(aId, bId, whitespace);
     }
-    return PatchListKey.againstParentNum(parentNum + 1, bId, whitespace);
+    return PatchListKey.againstParentNum(parentNum, bId, whitespace);
   }
 
   private PatchList listFor(PatchListKey key) throws PatchListNotAvailableException {

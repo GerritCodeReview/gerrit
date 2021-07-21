@@ -47,8 +47,11 @@ public class FileInfoJsonNewImpl implements FileInfoJson {
       throws ResourceConflictException, PatchListNotAvailableException {
     try {
       if (base == null) {
+        // Setting parentNum=0 requests the default parent, which is the only parent for
+        // single-parent commits, or the auto-merge otherwise
         return asFileInfo(
-            diffs.listModifiedFilesAgainstParent(change.getProject(), objectId, null));
+            diffs.listModifiedFilesAgainstParent(
+                change.getProject(), objectId, /* parentNum= */ 0));
       }
       return asFileInfo(diffs.listModifiedFiles(change.getProject(), base.commitId(), objectId));
     } catch (DiffNotAvailableException e) {
@@ -63,7 +66,7 @@ public class FileInfoJsonNewImpl implements FileInfoJson {
       throws ResourceConflictException, PatchListNotAvailableException {
     try {
       Map<String, FileDiffOutput> modifiedFiles =
-          diffs.listModifiedFilesAgainstParent(project, objectId, parent + 1);
+          diffs.listModifiedFilesAgainstParent(project, objectId, parent);
       return asFileInfo(modifiedFiles);
     } catch (DiffNotAvailableException e) {
       convertException(e);

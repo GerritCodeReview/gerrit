@@ -60,10 +60,10 @@ class FileInfoJsonOldImpl implements FileInfoJson {
       Project.NameKey project, ObjectId objectId, int parentNum)
       throws ResourceConflictException, PatchListNotAvailableException {
     PatchListKey key =
-        parentNum == -1
+        parentNum == 0
             ? PatchListKey.againstDefaultBase(objectId, Whitespace.IGNORE_NONE)
             : PatchListKey.againstParentNum(
-                parentNum + 1, objectId, DiffPreferencesInfo.Whitespace.IGNORE_NONE);
+                parentNum, objectId, DiffPreferencesInfo.Whitespace.IGNORE_NONE);
     return toFileInfoMap(project, key);
   }
 

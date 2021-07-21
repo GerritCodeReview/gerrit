@@ -77,6 +77,10 @@ public class FilesInCommitCollection implements ChildCollection<CommitResource, 
   }
 
   public static final class ListFiles implements RestReadView<CommitResource> {
+    /**
+     * The 1-based parent number. If zero, the default base commit will be used, which is the only
+     * parent for commits having one parent or the auto-merge commit otherwise.
+     */
     @Option(name = "--parent", metaVar = "parent-number")
     int parentNum;
 
@@ -97,8 +101,7 @@ public class FilesInCommitCollection implements ChildCollection<CommitResource, 
         throws ResourceConflictException, PatchListNotAvailableException {
       RevCommit commit = resource.getCommit();
       return Response.ok(
-          fileInfoJson.getFileInfoMap(
-              resource.getProjectState().getNameKey(), commit, parentNum - 1));
+          fileInfoJson.getFileInfoMap(resource.getProjectState().getNameKey(), commit, parentNum));
     }
   }
 }

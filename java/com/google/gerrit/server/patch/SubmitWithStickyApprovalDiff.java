@@ -18,6 +18,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
@@ -43,6 +44,7 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.Config;
@@ -242,10 +244,9 @@ public class SubmitWithStickyApprovalDiff {
       if (!patchSetApproval.label().equals(LabelId.CODE_REVIEW)) {
         continue;
       }
-      if (!projectState
-          .getLabelTypes(notes)
-          .byLabel(patchSetApproval.labelId())
-          .isMaxPositive(patchSetApproval)) {
+      Optional<LabelType> lt =
+          projectState.getLabelTypes(notes).byLabel(patchSetApproval.labelId());
+      if (!lt.isPresent() || lt.get().isMaxPositive(patchSetApproval)) {
         continue;
       }
       if (patchSetApproval.patchSetId().get() > maxPatchSetId.get()) {

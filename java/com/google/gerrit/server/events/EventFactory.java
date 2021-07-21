@@ -71,6 +71,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -535,10 +536,8 @@ public class EventFactory {
     a.grantedOn = approval.granted().getTime() / 1000L;
     a.oldValue = null;
 
-    LabelType lt = labelTypes.byLabel(approval.labelId());
-    if (lt != null) {
-      a.description = lt.getName();
-    }
+    Optional<LabelType> lt = labelTypes.byLabel(approval.labelId());
+    lt.ifPresent(l -> a.description = l.getName());
     return a;
   }
 

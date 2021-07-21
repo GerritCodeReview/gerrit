@@ -72,7 +72,7 @@ public class SchemaCreatorImplTest {
 
   @Test
   public void createSchema_Label_CodeReview() throws Exception {
-    LabelType codeReview = getLabelTypes().byLabel("Code-Review");
+    LabelType codeReview = getLabelTypes().byLabel("Code-Review").get();
     assertThat(codeReview).isNotNull();
     assertThat(codeReview.getName()).isEqualTo("Code-Review");
     assertThat(codeReview.getDefaultValue()).isEqualTo(0);

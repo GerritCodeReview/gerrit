@@ -600,11 +600,11 @@ public class MergeUtil {
       } else if (isVerified(a.labelId())) {
         tag = "Tested-by";
       } else {
-        final LabelType lt = project.getLabelTypes().byLabel(a.labelId());
-        if (lt == null) {
+        final Optional<LabelType> lt = project.getLabelTypes().byLabel(a.labelId());
+        if (!lt.isPresent()) {
           continue;
         }
-        tag = lt.getName();
+        tag = lt.get().getName();
       }
 
       if (!contains(footers, new FooterKey(tag), identbuf.toString())) {

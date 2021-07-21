@@ -140,6 +140,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a65fb8d8_5267064a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T22:11:28Z",
+      "side": 1,
+      "message": "I agree it is useful info, but we don\u0027t really seem to document basic user management tasks like this anywhere? I may just be missing it. I\u0027m not sure writing out entirely new docs for this is in the scope of fixing the bug?\n\nAs for the release notes where are those recorded?",
+      "parentUuid": "c748977a_8f242b73",
+      "range": {
+        "startLine": 16,
+        "startChar": 30,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c7a13c0f_7381d86a",

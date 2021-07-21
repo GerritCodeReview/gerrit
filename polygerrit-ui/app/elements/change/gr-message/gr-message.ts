@@ -21,16 +21,12 @@ import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-formatted-text/gr-formatted-text';
-import '../../../styles/shared-styles';
 import '../../../styles/gr-voting-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-message_html';
 import {
   ChangeMessageTemplate,
   MessageTag,
   SpecialFilePath,
 } from '../../../constants/constants';
-import {customElement, property, computed, observe} from '@polymer/decorators';
 import {
   ChangeInfo,
   ChangeMessageInfo,
@@ -57,6 +53,13 @@ import {
   computePredecessor,
 } from '../../../utils/patch-set-util';
 import {isServiceUser} from '../../../utils/account-util';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
+import {classMap} from 'lit-html/directives/class-map';
+import {
+  CombinedMessage,
+  isFormattedReviewerUpdateInfo,
+} from '../gr-messages-list/gr-messages-list';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?[Pp]atch [Ss]et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
@@ -89,11 +92,7 @@ interface Score {
 }
 
 @customElement('gr-message')
-export class GrMessage extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrMessage extends GrLitElement {
   /**
    * Fired when this message's reply link is tapped.
    *
@@ -119,7 +118,7 @@ export class GrMessage extends PolymerElement {
   changeNum?: NumericChangeId;
 
   @property({type: Object})
-  message: ChangeMessage | undefined;
+  message: CombinedMessage | undefined;
 
   @property({type: Array})
   commentThreads: CommentThread[] = [];
@@ -137,7 +136,7 @@ export class GrMessage extends PolymerElement {
 
   @property({
     type: Boolean,
-    reflectToAttribute: true,
+    reflect: true,
     computed: '_computeIsHidden(hideAutomated, isAutomated)',
   })
   hidden = false;
@@ -209,6 +208,374 @@ export class GrMessage extends PolymerElement {
   _commentCountText = '';
 
   private readonly restApiService = appContext.restApiService;
+
+  static get styles() {
+    return [
+      css`
+        :host {
+          display: block;
+          position: relative;
+          cursor: pointer;
+          overflow-y: hidden;
+        }
+        :host(.expanded) {
+          cursor: auto;
+        }
+        .collapsed .contentContainer {
+          align-items: center;
+          color: var(--deemphasized-text-color);
+          display: flex;
+          white-space: nowrap;
+        }
+        .contentContainer {
+          padding: var(--spacing-m) var(--spacing-l);
+        }
+        .expanded .contentContainer {
+          background-color: var(--background-color-secondary);
+        }
+        .collapsed .contentContainer {
+          background-color: var(--background-color-primary);
+        }
+        div.serviceUser.expanded div.contentContainer {
+          background-color: var(
+            --background-color-service-user,
+            var(--background-color-secondary)
+          );
+        }
+        div.serviceUser.collapsed div.contentContainer {
+          background-color: var(
+            --background-color-service-user,
+            var(--background-color-primary)
+          );
+        }
+        .name {
+          font-weight: var(--font-weight-bold);
+        }
+        .collapsed .message {
+          max-width: none;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .collapsed .author,
+        .collapsed .content,
+        .collapsed .message,
+        .collapsed .updateCategory,
+        gr-account-chip {
+          display: inline;
+        }
+        gr-button {
+          margin: 0 -4px;
+        }
+        .collapsed gr-thread-list,
+        .collapsed .replyBtn,
+        .collapsed .deleteBtn,
+        .collapsed .hideOnCollapsed,
+        .hideOnOpen {
+          display: none;
+        }
+        .replyBtn {
+          margin-right: var(--spacing-m);
+        }
+        .collapsed .hideOnOpen {
+          display: block;
+        }
+        .collapsed .content {
+          flex: 1;
+          margin-right: var(--spacing-m);
+          min-width: 0;
+          overflow: hidden;
+        }
+        .collapsed .content.messageContent {
+          text-overflow: ellipsis;
+        }
+        .collapsed .dateContainer {
+          position: static;
+        }
+        .collapsed .author {
+          overflow: hidden;
+          color: var(--primary-text-color);
+          margin-right: var(--spacing-s);
+        }
+        .authorLabel {
+          min-width: 130px;
+          margin-right: var(--spacing-s);
+        }
+        .expanded .author {
+          cursor: pointer;
+          margin-bottom: var(--spacing-m);
+        }
+        .expanded .content {
+          padding-left: 40px;
+        }
+        .dateContainer {
+          position: absolute;
+          /* right and top values should match .contentContainer padding */
+          right: var(--spacing-l);
+          top: var(--spacing-m);
+        }
+        .dateContainer gr-button {
+          margin-right: var(--spacing-m);
+          color: var(--deemphasized-text-color);
+        }
+        .dateContainer .patchset:before {
+          content: 'Patchset ';
+        }
+        .dateContainer .patchsetDiffButton {
+          margin-right: var(--spacing-m);
+        }
+        span.date {
+          color: var(--deemphasized-text-color);
+        }
+        span.date:hover {
+          text-decoration: underline;
+        }
+        .dateContainer iron-icon {
+          cursor: pointer;
+          vertical-align: top;
+        }
+        .score {
+          box-sizing: border-box;
+          border-radius: var(--border-radius);
+          color: var(--vote-text-color);
+          display: inline-block;
+          padding: 0 var(--spacing-s);
+          text-align: center;
+        }
+        .score,
+        .commentsSummary {
+          margin-right: var(--spacing-s);
+          min-width: 115px;
+        }
+        .expanded .commentsSummary {
+          display: none;
+        }
+        .commentsIcon {
+          vertical-align: top;
+        }
+        .score.removed {
+          background-color: var(--vote-color-neutral);
+        }
+        .score.negative {
+          background-color: var(--vote-color-disliked);
+          border: 1px solid var(--vote-outline-disliked);
+          line-height: calc(var(--line-height-normal) - 2px);
+          color: var(--chip-color);
+        }
+        .score.negative.min {
+          background-color: var(--vote-color-rejected);
+          border: none;
+          padding-top: 1px;
+          padding-bottom: 1px;
+          color: var(--vote-text-color);
+        }
+        .score.positive {
+          background-color: var(--vote-color-recommended);
+          border: 1px solid var(--vote-outline-recommended);
+          line-height: calc(var(--line-height-normal) - 2px);
+          color: var(--chip-color);
+        }
+        .score.positive.max {
+          background-color: var(--vote-color-approved);
+          border: none;
+          padding-top: 1px;
+          padding-bottom: 1px;
+          color: var(--vote-text-color);
+        }
+        gr-account-label::part(gr-account-label-text) {
+          font-weight: var(--font-weight-bold);
+        }
+        @media screen and (max-width: 50em) {
+          .expanded .content {
+            padding-left: 0;
+          }
+          .score,
+          .commentsSummary {
+            min-width: 0px;
+          }
+          .authorLabel {
+            width: 100px;
+          }
+          .dateContainer .patchset:before {
+            content: 'PS ';
+          }
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const {author, message} = this;
+    if (!message) return;
+    const customStyle = html`<style include="gr-voting-styles">
+      .message {
+        --gr-formatted-text-prose-max-width: 120ch;
+      }
+      .dateContainer .patchsetDiffButton {
+        --padding: 0 var(--spacing-m);
+      }
+      .authorLabel {
+        --account-max-length: 120px;
+      }
+      iron-icon {
+        --iron-icon-height: 20px;
+        --iron-icon-width: 20px;
+      }
+    </style>`;
+
+    return html`${customStyle}
+      <div
+        class="${classMap({
+          expanded: this._expanded,
+          collapsed: !this._expanded,
+          serviceUser: isServiceUser(author),
+        })}"
+      >
+        <div class="contentContainer">
+          <div class="author" @click=${this._handleAuthorClick}>
+            <span ?hidden="${!this.showOnBehalfOf}">
+              <span class="name">${message?.real_author?.name}</span>
+              on behalf of
+            </span>
+            <gr-account-label
+              .account="${author}"
+              class="authorLabel"
+            ></gr-account-label>
+            ${this._getScores(message, this.labelExtremes).map(
+              score =>
+                html`
+                  <span
+                    class$="score [[_computeScoreClass(score, labelExtremes)]]"
+                  >
+                    ${score.label} ${score.value}
+                  </span>
+                `
+            )}
+          </div>
+          ${this._commentCountText
+            ? html`<div class="commentsSummary">
+                <iron-icon
+                  icon="gr-icons:comment"
+                  class="commentsIcon"
+                ></iron-icon>
+                <span class="numberOfComments">${this._commentCountText}</span>
+              </div>`
+            : ''}
+          ${message?.message
+            ? html` <div class="content messageContent">
+                <div class="message hideOnOpen">
+                  ${this._messageContentCollapsed}
+                </div>
+                <gr-formatted-text
+                  noTrailingMargin
+                  class="message hideOnCollapsed"
+                  .content="${this._messageContentExpanded}"
+                  .config="${this._projectConfig?.commentlinks}"
+                ></gr-formatted-text>
+                ${this._expanded
+                  ? html`
+                      ${this._messageContentExpanded
+                        ? html`
+                            <div
+                              class="replyActionContainer"
+                              ?hidden=${!this.showReplyButton}
+                            >
+                              <gr-button
+                                class="replyBtn"
+                                link=""
+                                small=""
+                                @click=${this._handleReplyTap}
+                              >
+                                Reply
+                              </gr-button>
+                              <gr-button
+                                ?disabled=${this._isDeletingChangeMsg}
+                                class="deleteBtn"
+                                ?hidden=${!this._isAdmin}
+                                link=""
+                                small=""
+                                @click=${this._handleDeleteMessage}
+                              >
+                                Delete
+                              </gr-button>
+                            </div>
+                          `
+                        : ''}
+                      <gr-thread-list
+                        change="${this.change}"
+                        ?hidden=${!this.message?.commentThreads.length}
+                        threads="${message.commentThreads}"
+                        change-num="${this.changeNum}"
+                        logged-in="${this._loggedIn}"
+                        hide-dropdown
+                        show-comment-context
+                      >
+                      </gr-thread-list>
+                    `
+                  : ''}
+              </div>`
+            : ''}
+          ${isFormattedReviewerUpdateInfo(message)
+            ? html`
+                <div class="content">
+                  ${message.updates.map(
+                    update =>
+                      html`<div class="updateCategory">
+                      ${update.message}
+                      ${update.reviewers.map(
+                        reviewer =>
+                          html`<gr-account-chip
+                            .account="${reviewer}"
+                            .change="${this.change}"
+                          >
+                          </gr-account-chip> `
+                      )}
+                    </div>`
+                  )}
+                </div>
+              `
+            : ''}
+          <span class="dateContainer">
+            ${this._showViewDiffButton(message)
+              ? html`<gr-button
+                  class="patchsetDiffButton"
+                  @click=${this._handleViewPatchsetDiff}
+                  link
+                >
+                  View Diff
+                </gr-button>`
+              : ''}
+            ${message?._revision_number
+              ? html`<span class="patchset"
+                  >${message._revision_number} |</span
+                >`
+              : ''}
+            ${!message?.id
+              ? html`<span class="date">
+                  <gr-date-formatter
+                    has-tooltip=""
+                    show-date-and-time=""
+                    date-str="${message?.date}"
+                  ></gr-date-formatter>
+                </span>`
+              : html`<span class="date" @click=${this._handleAnchorClick}>
+                  <gr-date-formatter
+                    has-tooltip=""
+                    show-date-and-time=""
+                    date-str="${message.date}"
+                  ></gr-date-formatter>
+                </span>`}
+            <iron-icon
+              id="expandToggle"
+              @click=${this._toggleExpanded}
+              title="Toggle expanded state"
+              icon="${this._expanded
+                ? 'gr-icons:expand-less'
+                : 'gr-icons:expand-more'}"
+            ></iron-icon>
+          </span>
+        </div>
+      </div>`;
+  }
 
   constructor() {
     super();
@@ -445,10 +812,6 @@ export class GrMessage extends PolymerElement {
     return hideAutomated && isAutomated;
   }
 
-  _computeIsReviewerUpdate(message: ChangeMessage) {
-    return message.type === 'REVIEWER_UPDATE';
-  }
-
   _getScores(message?: ChangeMessage, labelExtremes?: LabelExtreme): Score[] {
     if (!message || !message.message || !labelExtremes) {
       return [];
@@ -506,13 +869,6 @@ export class GrMessage extends PolymerElement {
     return classes.join(' ');
   }
 
-  _computeClass(expanded?: boolean, author?: AccountInfo) {
-    const classes = [];
-    classes.push(expanded ? 'expanded' : 'collapsed');
-    if (isServiceUser(author)) classes.push('serviceUser');
-    return classes.join(' ');
-  }
-
   _handleAnchorClick(e: Event) {
     e.preventDefault();
     // The element which triggers _handleAnchorClick is rendered only if
@@ -563,10 +919,6 @@ export class GrMessage extends PolymerElement {
     this.restApiService.getProjectConfig(name as RepoName).then(config => {
       this._projectConfig = config;
     });
-  }
-
-  _computeExpandToggleIcon(expanded: boolean) {
-    return expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
   }
 
   _toggleExpanded(e: Event) {

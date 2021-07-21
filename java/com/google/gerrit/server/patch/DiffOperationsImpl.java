@@ -376,11 +376,13 @@ public class DiffOperationsImpl implements DiffOperations {
       Project.NameKey project, ObjectId newCommit, Integer parent) throws IOException {
     DiffParameters.Builder result =
         DiffParameters.builder().project(project).newCommit(newCommit).parent(parent);
-    if (parent != null) {
+    if (parent != null && parent > 0) {
       result.baseCommit(baseCommitUtil.getBaseCommit(project, newCommit, parent));
       result.comparisonType(ComparisonType.againstParent(parent));
       return result.build();
     }
+    // If parent = 0 or null, proceed by calculating the default parent (for single-parent commits)
+    // or the auto-merge otherwise.
     int numParents = baseCommitUtil.getNumParents(project, newCommit);
     if (numParents == 0) {
       result.baseCommit(ObjectId.zeroId());

@@ -199,6 +199,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "676cc687_33ca6583",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T21:56:46Z",
+      "side": 1,
+      "message": "From the protocol spec (https://openid.net/specs/openid-authentication-2_0.html):\n\n  OpenID Authentication uses only standard HTTP(S) requests and responses, so it does not require any special capabilities of the User-Agent or other client software.",
+      "parentUuid": "61281fa3_1ee0f87b",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 0
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3899bf23_038cf911",
         "filename": "java/com/google/gerrit/server/auth/openid/OpenIdRealm.java",
         "patchSetId": 4
@@ -216,6 +240,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb69dfb7_ea91ad6e",
+        "filename": "java/com/google/gerrit/server/auth/openid/OpenIdRealm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T21:56:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand this comment. Adding and removing emails not directly associated with the openid external id record should be safe and is fine to do.\n\nIn my testing of this code it seemed that this was working as expected. I believe because the DefaultRealm implementation allows it?\n\nCan you expand on this to make sure I understand properly?",
+      "parentUuid": "3899bf23_038cf911",
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c88c1fc7_09b06ff7",
         "filename": "javatests/com/google/gerrit/server/auth/openid/OpenIdRealmTest.java",
         "patchSetId": 4
@@ -227,6 +269,30 @@
       "writtenOn": "2021-07-21T21:24:09Z",
       "side": 1,
       "message": "nit: we typically put the private methods after the public ones.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 3
+      },
+      "revId": "b058f32ed1ad7b7368e5d6b587760afabaf012d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07b6faca_9d937d93",
+        "filename": "javatests/com/google/gerrit/server/auth/openid/OpenIdRealmTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-21T21:56:46Z",
+      "side": 1,
+      "message": "This is modeled after the other realm test implementations. I feel like consistency is more important here. But don\u0027t have a strong feeling about that.",
+      "parentUuid": "c88c1fc7_09b06ff7",
       "range": {
         "startLine": 44,
         "startChar": 0,

@@ -46,6 +46,30 @@
       },
       "revId": "9e7ecf972041e1f4cc3f7c551a8f12cb71b391d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec597cca_f0042808",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-22T22:54:56Z",
+      "side": 1,
+      "message": "I believe the issue is caused by the conflicting needs of having the e-mail coming from the realm but also allowing to adding other e-mails that are potentially conflicting with others.\n\nShould we specify that in the description?\nBasically, if they are willing to change account and user another, they need to make sure that any secondary e-mails on the original account are removed.",
+      "parentUuid": "ccd58028_1e395ee3",
+      "range": {
+        "startLine": 368,
+        "startChar": 11,
+        "endLine": 368,
+        "endChar": 50
+      },
+      "revId": "9e7ecf972041e1f4cc3f7c551a8f12cb71b391d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

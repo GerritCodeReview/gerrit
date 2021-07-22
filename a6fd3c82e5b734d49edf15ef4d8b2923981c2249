@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d1536c1_b842fe0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-22T13:15:06Z",
+      "side": 1,
+      "message": "Thanks for review!",
+      "revId": "a6fd3c82e5b734d49edf15ef4d8b2923981c2249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba468c57_89b3c2eb",
@@ -14,6 +31,30 @@
       "writtenOn": "2021-07-22T11:10:36Z",
       "side": 1,
       "message": "if this is private internal-only I believe we can use @state instead of @property to not expose it.",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 88,
+        "endChar": 11
+      },
+      "revId": "a6fd3c82e5b734d49edf15ef4d8b2923981c2249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62997ff4_2d13c8fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-22T13:15:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba468c57_89b3c2eb",
       "range": {
         "startLine": 88,
         "startChar": 3,
@@ -47,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bab3b994_0eaf4f9c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-22T13:15:06Z",
+      "side": 1,
+      "message": "Since they reflect to the attribute they need to be property. deselect is used in css rule.",
+      "parentUuid": "b4edcb76_eecdb133",
+      "range": {
+        "startLine": 101,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 12
+      },
+      "revId": "a6fd3c82e5b734d49edf15ef4d8b2923981c2249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "203c2f08_21f58c52",
@@ -70,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb007dd1_f16af5a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-22T13:15:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "203c2f08_21f58c52",
+      "range": {
+        "startLine": 119,
+        "startChar": 80,
+        "endLine": 119,
+        "endChar": 82
+      },
+      "revId": "a6fd3c82e5b734d49edf15ef4d8b2923981c2249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5418312_4b4b6de6",
@@ -83,6 +172,30 @@
       "writtenOn": "2021-07-22T11:10:36Z",
       "side": 1,
       "message": "do you need to compute this again? You computed it at the start of render()",
+      "range": {
+        "startLine": 251,
+        "startChar": 24,
+        "endLine": 256,
+        "endChar": 11
+      },
+      "revId": "a6fd3c82e5b734d49edf15ef4d8b2923981c2249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d077d1a2_93a38f1d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-22T13:15:06Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "a5418312_4b4b6de6",
       "range": {
         "startLine": 251,
         "startChar": 24,

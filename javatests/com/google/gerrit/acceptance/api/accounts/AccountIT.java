@@ -2975,7 +2975,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void externalIdBatchUpdates_commitMsg() throws Exception {
+  public void externalIdBatchUpdates_commitMsg_multipleAccounts() throws Exception {
     ExternalId extId1 =
         ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id(), "1@foo.com");
     ExternalId extId2 =
@@ -2995,6 +2995,22 @@ public class AccountIT extends AbstractDaemonTest {
           rw.parseCommit(allUsersRepo.exactRef(RefNames.REFS_EXTERNAL_IDS).getObjectId());
 
       assertThat(commit.getFullMessage()).isEqualTo("Batch update for 2 accounts\n");
+    }
+  }
+
+  @Test
+  public void externalIdBatchUpdates_commitMsg_singleAccount() throws Exception {
+    ExternalId extId =
+        ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id(), "1@foo.com");
+
+    accountsUpdateProvider.get().update("foobar", admin.id(), (a, u) -> u.addExternalId(extId));
+
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(allUsersRepo)) {
+      RevCommit commit =
+          rw.parseCommit(allUsersRepo.exactRef(RefNames.REFS_EXTERNAL_IDS).getObjectId());
+
+      assertThat(commit.getFullMessage()).isEqualTo("foobar\n");
     }
   }
 

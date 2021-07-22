@@ -94,6 +94,30 @@
       },
       "revId": "9e7ecf972041e1f4cc3f7c551a8f12cb71b391d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "462731a1_b75c29db",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-22T23:07:00Z",
+      "side": 1,
+      "message": "\u003e In our case the situation where people might run into this is if they have an email: external id and an openid external id that both record the same email address. New gerrit won\u0027t let you get into this situation, but it is possible for accounts migrated from the sql database into notedb.\n\nAh, gotcha. I believe you guys went into that situation when migrating to v2.15 where the accounts were migrated from ReviewDb to All-Users.git where the external-ids are hashed and the e-mails must be unique. You are right, that wasn\u0027t the case in ReviewDb.\n\nI believe we missed in the migration to v2.15 a blocker on that and we allowed people to continue with a potentially dangerous situation.\n\n\u003e In that case if they want to remove an email address (possibly because it belongs to a former employer) they would need to update the email in the openid and login to update the openid external id record, then they can click on the delete button for the email address external id record that was kept separately.\n\nYes, indeed.\n\n\n\u003e However, this is definitely a corner case so I don\u0027t mind updating the text here. Maybe something like:\n\u003e \n\u003e   If users wish to remove these email addresses from Gerrit they must first update\n\u003e   the external authentication record in that system, log in to Gerrit, then Gerrit\n\u003e   will update the external ID record with the new email address.\n\n+1",
+      "parentUuid": "5add5ea3_4fd198c4",
+      "range": {
+        "startLine": 368,
+        "startChar": 11,
+        "endLine": 368,
+        "endChar": 50
+      },
+      "revId": "9e7ecf972041e1f4cc3f7c551a8f12cb71b391d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

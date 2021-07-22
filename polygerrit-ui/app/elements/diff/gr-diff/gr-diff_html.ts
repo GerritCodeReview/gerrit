@@ -50,6 +50,9 @@ export const htmlTemplate = html`
       background-color: var(--diff-blank-background-color);
     }
     .diffContainer {
+      max-width: var(--diff-max-width, none);
+    }
+    .diffContainer {
       display: flex;
       font-family: var(--monospace-font-family);
       @apply --diff-container-styles;
@@ -169,10 +172,10 @@ export const htmlTemplate = html`
     .image-diff .content {
       background-color: var(--diff-blank-background-color);
     }
-    .full-width {
+    .responsive {
       width: 100%;
     }
-    .full-width .contentText {
+    .responsive .contentText {
       white-space: break-spaces;
       word-wrap: break-word;
     }
@@ -423,12 +426,12 @@ export const htmlTemplate = html`
       color: var(--link-color);
       text-decoration: none;
     }
-    .full-width td.blame {
+    .responsive td.blame {
       overflow: hidden;
       width: 200px;
     }
     /** Support the line length indicator **/
-    .full-width td.content .contentText {
+    .responsive td.content .contentText {
       /*
       Same strategy as in https://stackoverflow.com/questions/1179928/how-can-i-put-a-vertical-line-down-the-center-of-a-div
       */

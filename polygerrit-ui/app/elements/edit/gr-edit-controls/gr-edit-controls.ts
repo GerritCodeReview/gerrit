@@ -256,7 +256,7 @@ export class GrEditControls extends PolymerElement {
         if (!res || !res.ok) {
           return;
         }
-        this._closeDialog(dialog);
+        this._closeDialog(dialog)
         GerritNav.navigateToChange(this.change);
       });
   }

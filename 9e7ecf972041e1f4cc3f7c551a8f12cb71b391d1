@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09e942cd_4885f796",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-22T22:24:58Z",
+      "side": 1,
+      "message": "If the user is changing the e-mail on the authentication system, it would get automatically (if the realm allows it) updated in Gerrit. There isn\u0027t any need to remove it then.",
+      "range": {
+        "startLine": 368,
+        "startChar": 11,
+        "endLine": 368,
+        "endChar": 50
+      },
+      "revId": "9e7ecf972041e1f4cc3f7c551a8f12cb71b391d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

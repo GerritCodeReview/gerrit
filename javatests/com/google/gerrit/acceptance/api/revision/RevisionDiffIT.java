@@ -2838,10 +2838,6 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
   @Test
   public void symlinkConvertedToRegularFileIsIdentifiedAsAdded() throws Exception {
-    // TODO(ghareeb): fix this test for the new diff cache implementation
-    assume().that(useNewDiffCacheListFiles).isFalse();
-    assume().that(useNewDiffCacheGetDiff).isFalse();
-
     String target = "file.txt";
     String symlink = "link.lnk";
 

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba468c57_89b3c2eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-22T11:10:36Z",
+      "side": 1,
+      "message": "if this is private internal-only I believe we can use @state instead of @property to not expose it.",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 88,
+        "endChar": 11
+      },
+      "revId": "a6fd3c82e5b734d49edf15ef4d8b2923981c2249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4edcb76_eecdb133",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-22T11:10:36Z",
+      "side": 1,
+      "message": "users cannot set this property because it will be overwritten in render() based on selected property. Can it just be removed and css can use equivalent of !selected ?\nIf not, deselected can be private @state ?\n\nSame for cancelLeftPadding, we set it in render() so user cannot control, right?",
+      "range": {
+        "startLine": 101,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 12
+      },
+      "revId": "a6fd3c82e5b734d49edf15ef4d8b2923981c2249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "203c2f08_21f58c52",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-22T11:10:36Z",
+      "side": 1,
+      "message": "exceeds line length limit",
+      "range": {
+        "startLine": 119,
+        "startChar": 80,
+        "endLine": 119,
+        "endChar": 82
+      },
+      "revId": "a6fd3c82e5b734d49edf15ef4d8b2923981c2249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5418312_4b4b6de6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-22T11:10:36Z",
+      "side": 1,
+      "message": "do you need to compute this again? You computed it at the start of render()",
+      "range": {
+        "startLine": 251,
+        "startChar": 24,
+        "endLine": 256,
+        "endChar": 11
+      },
+      "revId": "a6fd3c82e5b734d49edf15ef4d8b2923981c2249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

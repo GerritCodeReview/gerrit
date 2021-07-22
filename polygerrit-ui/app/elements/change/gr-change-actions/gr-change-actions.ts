@@ -1486,6 +1486,7 @@ export class GrChangeActions
   }
 
   _handleDeleteConfirm() {
+    this._hideAllDialogs();
     this._fireAction(
       '/',
       assertUIActionInfo(this.actions[ChangeActions.DELETE]),

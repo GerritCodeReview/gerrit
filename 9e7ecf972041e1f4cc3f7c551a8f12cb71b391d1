@@ -70,6 +70,30 @@
       },
       "revId": "9e7ecf972041e1f4cc3f7c551a8f12cb71b391d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5add5ea3_4fd198c4",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-22T23:01:31Z",
+      "side": 1,
+      "message": "In our case the situation where people might run into this is if they have an email: external id and an openid external id that both record the same email address. New gerrit won\u0027t let you get into this situation, but it is possible for accounts migrated from the sql database into notedb.\n\nIn that case if they want to remove an email address (possibly because it belongs to a former employer) they would need to update the email in the openid and login to update the openid external id record, then they can click on the delete button for the email address external id record that was kept separately.\n\nHowever, this is definitely a corner case so I don\u0027t mind updating the text here. Maybe something like:\n\n  If users wish to remove these email addresses from Gerrit they must first update\n  the external authentication record in that system, log in to Gerrit, then Gerrit\n  will update the external ID record with the new email address.",
+      "parentUuid": "ec597cca_f0042808",
+      "range": {
+        "startLine": 368,
+        "startChar": 11,
+        "endLine": 368,
+        "endChar": 50
+      },
+      "revId": "9e7ecf972041e1f4cc3f7c551a8f12cb71b391d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

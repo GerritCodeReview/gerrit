@@ -64,6 +64,10 @@ export interface GrDiffBuilderElement {
   };
 }
 
+export function getLineNumberCellWidth(prefs: DiffPreferencesInfo) {
+  return prefs.font_size * 4;
+}
+
 @customElement('gr-diff-builder')
 export class GrDiffBuilderElement extends PolymerElement {
   static get template() {
@@ -212,7 +216,7 @@ export class GrDiffBuilderElement extends PolymerElement {
     this.$.processor.keyLocations = keyLocations;
 
     this._clearDiffContent();
-    this._builder.addColumns(this.diffElement, prefs.font_size);
+    this._builder.addColumns(this.diffElement, getLineNumberCellWidth(prefs));
 
     const isBinary = !!(this.isImageDiff || this.diff.binary);
 

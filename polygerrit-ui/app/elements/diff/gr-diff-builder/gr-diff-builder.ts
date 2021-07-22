@@ -31,7 +31,11 @@ import {
   GrContextControlsShowConfig,
 } from '../gr-context-controls/gr-context-controls';
 import {BlameInfo} from '../../../types/common';
-import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
+import {
+  DiffInfo,
+  DiffPreferencesInfo,
+  DiffResponsiveMode,
+} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 
@@ -69,6 +73,20 @@ declare global {
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
   }
+}
+
+export function getResponsiveMode(
+  prefs: DiffPreferencesInfo,
+  renderPrefs?: RenderPreferences
+): DiffResponsiveMode {
+  if (renderPrefs?.responsive_mode) {
+    return renderPrefs.responsive_mode;
+  }
+  // Backwards compatibility to the line_wrapping param.
+  if (prefs.line_wrapping) {
+    return 'FULL_RESPONSIVE';
+  }
+  return 'NONE';
 }
 
 export abstract class GrDiffBuilder {
@@ -494,9 +512,11 @@ export abstract class GrDiffBuilder {
 
     const {beforeNumber, afterNumber} = line;
     if (beforeNumber !== 'FILE' && beforeNumber !== 'LOST') {
-      const lineLimit = !this._prefs.line_wrapping
-        ? this._prefs.line_length
-        : Infinity;
+      const responsiveMode = getResponsiveMode(this._prefs, this._renderPrefs);
+      const lineLimit =
+        responsiveMode !== 'FULL_RESPONSIVE'
+          ? this._prefs.line_length
+          : Infinity;
       const contentText = this._formatText(
         line.text,
         this._prefs.tab_size,

@@ -47,7 +47,10 @@ import {
   DiffPreferencesInfoKey,
 } from '../../../types/diff';
 import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
-import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
+import {
+  GrDiffBuilderElement,
+  getLineNumberCellWidth,
+} from '../gr-diff-builder/gr-diff-builder-element';
 import {
   CoverageRange,
   DiffLayer,
@@ -726,33 +729,51 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (!prefs) return;
 
     this.blame = null;
+    this._updatePreferenceStyles(prefs, this.renderPrefs);
 
+    if (this.diff && !this.noRenderOnPrefsChange) {
+      this._debounceRenderDiffTable();
+    }
+  }
+
+  _updatePreferenceStyles(
+    prefs: DiffPreferencesInfo,
+    renderPrefs?: RenderPreferences
+  ) {
     const lineLength =
       this.path === COMMIT_MSG_PATH
         ? COMMIT_MSG_LINE_LENGTH
         : prefs.line_length;
+    const sideBySide = this.viewMode === 'SIDE_BY_SIDE';
     const stylesToUpdate: {[key: string]: string} = {};
 
-    if (prefs.line_wrapping) {
-      this._diffTableClass = 'full-width';
-      if (this.viewMode === 'SIDE_BY_SIDE') {
-        stylesToUpdate['--content-width'] = 'none';
-        stylesToUpdate['--line-limit'] = `${lineLength}ch`;
-      }
-    } else {
-      this._diffTableClass = '';
-      stylesToUpdate['--content-width'] = `${lineLength}ch`;
+    let responsiveMode = renderPrefs?.responsive_mode;
+    // Backwards compatibility to the line_wrapping param.
+    if (!responsiveMode && prefs.line_wrapping) {
+      responsiveMode = 'FULL_RESPONSIVE';
     }
 
+    const responsive =
+      responsiveMode === 'FULL_RESPONSIVE' || responsiveMode === 'SHRINK_ONLY';
+    this._diffTableClass = responsive ? 'responsive' : '';
+    const lineLimit = `${lineLength}ch`;
+    stylesToUpdate['--line-limit'] = lineLimit;
+    stylesToUpdate['--content-width'] = responsive ? 'none' : lineLimit;
+    if (responsiveMode === 'SHRINK_ONLY') {
+      // Calculating ideal (initial) width for the whole table.
+      const contentWidth = `${sideBySide ? 2 : 1} * ${lineLimit}`;
+      const lineNumberWidth = `2 * ${getLineNumberCellWidth(prefs)}px`;
+      stylesToUpdate[
+        '--diff-max-width'
+      ] = `calc(${contentWidth} + ${lineNumberWidth})`;
+    } else {
+      stylesToUpdate['--diff-max-width'] = 'none';
+    }
     if (prefs.font_size) {
       stylesToUpdate['--font-size'] = `${prefs.font_size}px`;
     }
 
     this.updateStyles(stylesToUpdate);
-
-    if (this.diff && !this.noRenderOnPrefsChange) {
-      this._debounceRenderDiffTable();
-    }
   }
 
   _renderPrefsChanged(renderPrefs?: RenderPreferences) {
@@ -765,6 +786,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     }
     if (renderPrefs.hide_line_length_indicator) {
       this.classList.add('hide-line-length-indicator');
+    }
+    if (this.prefs) {
+      this._updatePreferenceStyles(this.prefs, renderPrefs);
     }
     this.$.diffBuilder.updateRenderPrefs(renderPrefs);
   }

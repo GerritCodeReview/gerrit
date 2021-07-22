@@ -36,7 +36,7 @@ suite('gr-diff a11y test', () => {
 suite('gr-diff tests', () => {
   let element;
 
-  const MINIMAL_PREFS = {tab_size: 2, line_length: 80};
+  const MINIMAL_PREFS = {tab_size: 2, line_length: 80, font_size: 12};
 
   setup(() => {
 
@@ -85,7 +85,66 @@ suite('gr-diff tests', () => {
     element = basicFixture.instantiate();
     element.prefs = {...MINIMAL_PREFS, line_wrapping: false};
     flush();
-    assert.isNotOk(getComputedStyleValue('--line-limit', element));
+    assert.equal(getComputedStyleValue('--line-limit', element), '80ch');
+  });
+  suite('FULL_RESPONSIVE mode', () => {
+    setup(() => {
+      element = basicFixture.instantiate();
+      element.prefs = {...MINIMAL_PREFS};
+      element.renderPrefs = {responsive_mode: 'FULL_RESPONSIVE'};
+    });
+
+    test('line limit is based on line_length', () => {
+      element.prefs = {...element.prefs, line_length: 100};
+      flush();
+      assert.equal(getComputedStyleValue('--line-limit', element), '100ch');
+    });
+
+    test('content-width should not be defined', () => {
+      flush();
+      assert.equal(getComputedStyleValue('--content-width', element), 'none');
+    });
+  });
+
+  suite('SHRINK_ONLY mode', () => {
+    setup(() => {
+      element = basicFixture.instantiate();
+      element.prefs = {...MINIMAL_PREFS};
+      element.renderPrefs = {responsive_mode: 'SHRINK_ONLY'};
+    });
+
+    test('line limit is based on line_length', () => {
+      element.prefs = {...element.prefs, line_length: 100};
+      flush();
+      assert.equal(getComputedStyleValue('--line-limit', element), '100ch');
+    });
+
+    test('content-width should not be defined', () => {
+      flush();
+      assert.equal(getComputedStyleValue('--content-width', element), 'none');
+    });
+
+    test('max-width considers two content columns in side-by-side', () => {
+      element.viewMode = 'SIDE_BY_SIDE';
+      flush();
+      assert.equal(getComputedStyleValue('--diff-max-width', element),
+          'calc(2 * 80ch + 2 * 48px)');
+    });
+
+    test('max-width considers one content column in unified', () => {
+      element.viewMode = 'UNIFIED_DIFF';
+      flush();
+      assert.equal(getComputedStyleValue('--diff-max-width', element),
+          'calc(1 * 80ch + 2 * 48px)');
+    });
+
+    test('max-width considers font-size', () => {
+      element.prefs = {...element.prefs, font_size: 13};
+      flush();
+      // Each line number column: 4 * 13 = 52px
+      assert.equal(getComputedStyleValue('--diff-max-width', element),
+          'calc(2 * 80ch + 2 * 52px)');
+    });
   });
 
   suite('not logged in', () => {

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecc5d10b_d323b0f3",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T12:36:03Z",
+      "side": 1,
+      "message": "I\u0027d find this more readable inline.",
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba1281bd_53f8775e",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T12:36:03Z",
+      "side": 1,
+      "message": "\"two diff entries (ADDED+DELETED)\"\n\nThe current wording could also be read as \"two ADDED diff entries\".",
+      "range": {
+        "startLine": 216,
+        "startChar": 49,
+        "endLine": 216,
+        "endChar": 80
+      },
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8321b178_453c31aa",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T12:36:03Z",
+      "side": 1,
+      "message": "Would it be easier to build a com.google.common.collect.Multimap keyed by file path, then iterate over it and merge the values where the Collection\u003cV\u003e has 2 elements? You could also verify that there are always either 1 or 2 entries.",
+      "range": {
+        "startLine": 228,
+        "startChar": 6,
+        "endLine": 249,
+        "endChar": 48
+      },
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d605c8ea_be226b9e",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T12:36:03Z",
+      "side": 1,
+      "message": "opt: forEach()?",
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c8997dc_062b04ce",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T12:36:03Z",
+      "side": 1,
+      "message": "private static final Set\u003cChangeType\u003e ADDED_AND_DELETED \u003d ImmutableSet.of(ADDED, DELETED);\n\nThen you can simply do:\nImmutableSet.of(gitDiffs.get(0).changeType(), gitDiffs.get(1).changeType()).equals(ADDED_AND_DELETED);",
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11a085b0_2268cff7",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T12:36:03Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be in GitFileDiff?",
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

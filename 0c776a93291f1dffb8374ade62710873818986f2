@@ -1,0 +1,227 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e4afa97_eb30ed54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T14:03:53Z",
+      "side": 1,
+      "message": "Basically LGTM, just small things.",
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d49b1138_d5fe0ccd",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T14:03:53Z",
+      "side": 1,
+      "message": "How about extracting this to a static final Pattern?",
+      "range": {
+        "startLine": 547,
+        "startChar": 21,
+        "endLine": 547,
+        "endChar": 79
+      },
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b9b302e_0adbbe83",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T14:03:53Z",
+      "side": 1,
+      "message": "empty()",
+      "range": {
+        "startLine": 576,
+        "startChar": 31,
+        "endLine": 576,
+        "endChar": 42
+      },
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8baa9c0c_280ae45d",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T14:03:53Z",
+      "side": 1,
+      "message": "This will aways be true when it\u0027s evaluated.",
+      "range": {
+        "startLine": 580,
+        "startChar": 17,
+        "endLine": 580,
+        "endChar": 49
+      },
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c80dd21d_b6a3c039",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T14:03:53Z",
+      "side": 1,
+      "message": "nit/opt: This should be \", who was added as a reviewer,\" (https://www.grammarly.com/blog/subordinate-clause/)\n\nNot sure if we want to change this here, I\u0027m fine either way.",
+      "range": {
+        "startLine": 585,
+        "startChar": 33,
+        "endLine": 585,
+        "endChar": 59
+      },
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06e50317_0475554a",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T14:03:53Z",
+      "side": 1,
+      "message": "Extract this and the other patterns?",
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cc977ce_37ed37df",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T14:03:53Z",
+      "side": 1,
+      "message": "matter",
+      "range": {
+        "startLine": 627,
+        "startChar": 35,
+        "endLine": 627,
+        "endChar": 41
+      },
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4017285_d0547457",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T14:03:53Z",
+      "side": 1,
+      "message": "Why not just make the pattern case insensitive?",
+      "range": {
+        "startLine": 629,
+        "startChar": 9,
+        "endLine": 629,
+        "endChar": 13
+      },
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bbdaaf8_2c740f20",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T14:03:53Z",
+      "side": 1,
+      "message": "nit: remove newline",
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "504310eb_b73c0b59",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1327,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T14:03:53Z",
+      "side": 1,
+      "message": "This is already implied by the next assertion.",
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23390a94_f8251fb0",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1363,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T14:03:53Z",
+      "side": 1,
+      "message": "Why not use .containsExactly() like above?",
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

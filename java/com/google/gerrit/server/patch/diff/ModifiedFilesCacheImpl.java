@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
@@ -37,8 +38,12 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -82,7 +87,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
             .valueSerializer(GitModifiedFilesCacheImpl.ValueSerializer.INSTANCE)
             .maximumWeight(10 << 20)
             .weigher(ModifiedFilesWeigher.class)
-            .version(1)
+            .version(2)
             .loader(ModifiedFilesLoader.class);
       }
     };
@@ -139,7 +144,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
               .bTree(bTree)
               .renameScore(key.renameScore())
               .build();
-      List<ModifiedFile> modifiedFiles = gitCache.get(gitKey);
+      List<ModifiedFile> modifiedFiles = mergeRewrittenEntries(gitCache.get(gitKey));
       if (key.aCommit().equals(ObjectId.zeroId())) {
         return ImmutableList.copyOf(modifiedFiles);
       }
@@ -201,6 +206,47 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
       // One of the above file paths could be /dev/null but we need not explicitly check for this
       // value as the set of file paths shouldn't contain it.
       return touchedFilePaths.contains(oldFilePath) || touchedFilePaths.contains(newFilePath);
+    }
+
+    /**
+     * Return the {@code modifiedFiles} input list while merging {@link ChangeType#ADDED} and {@link
+     * ChangeType#DELETED} entries for the same file into a single {@link ChangeType#REWRITE} entry.
+     *
+     * <p>Background: In some cases, JGit returns two diff entries (ADDED + DELETED) for the same
+     * file path. This happens e.g. when a file's mode is changed between patchsets, for example
+     * converting a symlink file to a regular file. We identify this case and return a single
+     * modified file with changeType = {@link ChangeType#REWRITE}.
+     */
+    private static List<ModifiedFile> mergeRewrittenEntries(List<ModifiedFile> modifiedFiles) {
+      // To detect REWRITTEN entries, we want to find two modified files such that: first file has
+      // {type=DELETE, old_path=$f}, second file has {type=ADD, new_path=$f}. We do that by
+      // maintaining a map of {new_path => modified_file}, then search the input list for deleted
+      // file entries that have a matching added entry in the map.
+      // This algorithm should not interfere with copied files, which have multiple different new
+      // paths for copied files.
+      List<ModifiedFile> result = new ArrayList<>();
+      Map<String, ModifiedFile> byPathAdded =
+          modifiedFiles.stream()
+              .filter(f -> f.changeType() == ChangeType.ADDED)
+              .collect(Collectors.toMap(f -> f.newPath().get(), Function.identity()));
+      for (ModifiedFile f : modifiedFiles) {
+        // Ignore added entries. They will be added at the end.
+        if (f.changeType().equals(ChangeType.ADDED)) {
+          continue;
+        }
+        if (f.changeType() == ChangeType.DELETED && byPathAdded.containsKey(f.oldPath().get())) {
+          String path = f.oldPath().get();
+          ModifiedFile addedEntry = byPathAdded.get(path);
+          // Merge both entries into a single REWRITE entry. Remove the added entry from map.
+          result.add(addedEntry.toBuilder().changeType(ChangeType.REWRITE).build());
+          byPathAdded.remove(path);
+        } else {
+          result.add(f);
+        }
+      }
+      // Add the remaining added entries to the result
+      byPathAdded.values().forEach(result::add);
+      return result;
     }
   }
 }

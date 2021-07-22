@@ -187,6 +187,10 @@ public abstract class GitFileDiff {
     return result;
   }
 
+  public String getDefaultPath() {
+    return oldPath().isPresent() ? oldPath().get() : newPath().get();
+  }
+
   public static Builder builder() {
     return new AutoValue_GitFileDiff.Builder();
   }

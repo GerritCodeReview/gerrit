@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70b0928b_8d512564",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-22T14:45:56Z",
+      "side": 1,
+      "message": "I also fixed the test in RevisionDiffIT that was causing CI failures.",
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecc5d10b_d323b0f3",
@@ -18,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "baf23662_269ebfc2",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-22T14:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecc5d10b_d323b0f3",
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba1281bd_53f8775e",
@@ -31,6 +66,30 @@
       "writtenOn": "2021-07-22T12:36:03Z",
       "side": 1,
       "message": "\"two diff entries (ADDED+DELETED)\"\n\nThe current wording could also be read as \"two ADDED diff entries\".",
+      "range": {
+        "startLine": 216,
+        "startChar": 49,
+        "endLine": 216,
+        "endChar": 80
+      },
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53f6b81a_af09bc8b",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-22T14:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba1281bd_53f8775e",
       "range": {
         "startLine": 216,
         "startChar": 49,
@@ -64,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48553138_152f68d1",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-22T14:45:56Z",
+      "side": 1,
+      "message": "You have to inspect both old and new file paths:\n   * old path for DELETED entries\n   * new path for ADDED entries\n   \nso a single map won\u0027t suffice.\n\nWe could add keys \u003d {old_path + new_path}, values \u003d {ModifiedFile instances} but that would result in duplicate entries for, e.g., renamed files which will occur two times in the map. I also tried that prior to uploading PS4 and got failures with tests that do copies (a file can have many entries with same old path, but with different new paths).\n\nI found this implementation easier to understand.",
+      "parentUuid": "8321b178_453c31aa",
+      "range": {
+        "startLine": 228,
+        "startChar": 6,
+        "endLine": 249,
+        "endChar": 48
+      },
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d605c8ea_be226b9e",
@@ -77,6 +160,24 @@
       "writtenOn": "2021-07-22T12:36:03Z",
       "side": 1,
       "message": "opt: forEach()?",
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51740870_dc051200",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-22T14:45:56Z",
+      "side": 1,
+      "message": "Had to keep it as explicit for loop since createGitFileDiff throws an exception that we want to propagate back to callers.",
+      "parentUuid": "d605c8ea_be226b9e",
       "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +199,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7dbfd8a_7e3958d4",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-22T14:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c8997dc_062b04ce",
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11a085b0_2268cff7",
@@ -111,6 +230,24 @@
       "writtenOn": "2021-07-22T12:36:03Z",
       "side": 1,
       "message": "Shouldn\u0027t this be in GitFileDiff?",
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c551233_7c32de2d",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-22T14:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11a085b0_2268cff7",
       "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

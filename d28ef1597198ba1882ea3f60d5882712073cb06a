@@ -46,6 +46,30 @@
       },
       "revId": "d28ef1597198ba1882ea3f60d5882712073cb06a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fd64f98_e903915c",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-22T10:16:19Z",
+      "side": 1,
+      "message": "\u003e RE: I converted that caller to pass null.\n\nCorrection: I converted all callers to pass 0 as to request the default base (or auto-merge).",
+      "parentUuid": "7862e508_a93c9b47",
+      "range": {
+        "startLine": 88,
+        "startChar": 78,
+        "endLine": 88,
+        "endChar": 93
+      },
+      "revId": "d28ef1597198ba1882ea3f60d5882712073cb06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

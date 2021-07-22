@@ -149,6 +149,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9906a143_8bc3a1e3",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T16:06:21Z",
+      "side": 1,
+      "message": "Couldn\u0027t you use key\u003doldPath for DELETE, newPath for ADD? And then maybe use a special key (\"\") for all other operation types.\n\nI imagine that building the Multimap would be simple this way, and iterating over it to merge ADDED and DELETED would also be straightforward. By grouping all other change types to a key of \"\" (and then just copying them) you would avoid the problem of copies.",
+      "parentUuid": "48553138_152f68d1",
+      "range": {
+        "startLine": 228,
+        "startChar": 6,
+        "endLine": 249,
+        "endChar": 48
+      },
+      "revId": "b957ceb52728ac9c53681680d3e53ec601150004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d605c8ea_be226b9e",
         "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
         "patchSetId": 4

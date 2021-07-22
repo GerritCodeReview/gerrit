@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3d62583_6f8a6b98",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-22T16:06:21Z",
+      "side": 1,
+      "message": "If you use gitDiffs.changeType().get(0) you can remove changeTypes above.",
+      "range": {
+        "startLine": 388,
+        "startChar": 14,
+        "endLine": 388,
+        "endChar": 32
+      },
+      "revId": "15ebfdae6129dca3cebcdc178b308603bc99e7f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -78,8 +78,7 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
     return sectionEl;
   }
 
-  addColumns(outputEl: HTMLElement, fontSize: number): void {
-    const width = fontSize * 4;
+  addColumns(outputEl: HTMLElement, lineNumberWidth: number): void {
     const colgroup = document.createElement('colgroup');
 
     // Add the blame column.
@@ -88,12 +87,12 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
 
     // Add left-side line number.
     col = document.createElement('col');
-    col.setAttribute('width', width.toString());
+    col.setAttribute('width', lineNumberWidth.toString());
     colgroup.appendChild(col);
 
     // Add right-side line number.
     col = document.createElement('col');
-    col.setAttribute('width', width.toString());
+    col.setAttribute('width', lineNumberWidth.toString());
     colgroup.appendChild(col);
 
     // Add the content.

@@ -213,6 +213,10 @@ export declare interface ImageDiffPreferences {
   automatic_blink?: boolean;
 }
 
+export declare type DiffResponsiveMode =
+  | 'FULL_RESPONSIVE'
+  | 'SHRINK_ONLY'
+  | 'NONE';
 export declare interface RenderPreferences {
   hide_left_side?: boolean;
   disable_context_control_buttons?: boolean;
@@ -220,6 +224,7 @@ export declare interface RenderPreferences {
   hide_line_length_indicator?: boolean;
   use_block_expansion?: boolean;
   image_diff_prefs?: ImageDiffPreferences;
+  responsive_mode?: DiffResponsiveMode;
 }
 
 /**

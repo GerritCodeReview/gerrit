@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4467cde6_61397e9e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-22T13:42:43Z",
+      "side": 1,
+      "message": "optional: this extra space is being highlighted in red on gerrit so it should probably be removed, but seems like eslint doesn\u0027t care.",
+      "range": {
+        "startLine": 120,
+        "startChar": 75,
+        "endLine": 120,
+        "endChar": 76
+      },
+      "revId": "49ef920d267852e73e8552e5930fea5b5f40ef9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93a75aeb_02c3a933",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-22T13:42:43Z",
+      "side": 1,
+      "message": "Is this used anymore? It was only in the polymer html",
+      "revId": "49ef920d267852e73e8552e5930fea5b5f40ef9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

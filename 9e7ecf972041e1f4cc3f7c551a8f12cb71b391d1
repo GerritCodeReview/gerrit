@@ -22,6 +22,30 @@
       },
       "revId": "9e7ecf972041e1f4cc3f7c551a8f12cb71b391d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccd58028_1e395ee3",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-22T22:30:46Z",
+      "side": 1,
+      "message": "This is true if all of your accounts don\u0027t have external id email conflicts. Unfortunately we still have a couple hundred of those (I plan to fix a little more than half of them next week). If you do have those conflicts then I think there may still be other records to delete potentially.\n\nIf you would prefer we not document that corner case because it is unexpected and doesn\u0027t affect most installs then I can update this.",
+      "parentUuid": "09e942cd_4885f796",
+      "range": {
+        "startLine": 368,
+        "startChar": 11,
+        "endLine": 368,
+        "endChar": 50
+      },
+      "revId": "9e7ecf972041e1f4cc3f7c551a8f12cb71b391d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -512,7 +512,10 @@ public class AccountsUpdate {
 
     BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
 
-    String externalIdUpdateMessage = "Batch update for " + updatedAccounts.size() + " accounts";
+    String externalIdUpdateMessage =
+        updatedAccounts.size() == 1
+            ? Iterables.getOnlyElement(updatedAccounts).message
+            : "Batch update for " + updatedAccounts.size() + " accounts";
     for (UpdatedAccount updatedAccount : updatedAccounts) {
       // These updates are all for different refs (because batches never update the same account
       // more than once), so there can be multiple commits in the same batch, all with the same base

@@ -21,7 +21,9 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.config.FileBasedGlobalPluginConfigProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GlobalPluginConfigProvider;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -54,6 +56,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
+    bind(GlobalPluginConfigProvider.class).to(FileBasedGlobalPluginConfigProvider.class);
     bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
 
     if (repoManager != null) {

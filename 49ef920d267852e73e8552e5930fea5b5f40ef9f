@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa484303_edaad9fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-22T13:49:19Z",
+      "side": 1,
+      "message": "Red indicates it\u0027s a white line (or aka space)",
+      "parentUuid": "4467cde6_61397e9e",
+      "range": {
+        "startLine": 120,
+        "startChar": 75,
+        "endLine": 120,
+        "endChar": 76
+      },
+      "revId": "49ef920d267852e73e8552e5930fea5b5f40ef9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93a75aeb_02c3a933",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
         "patchSetId": 13

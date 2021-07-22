@@ -85,7 +85,7 @@ suite('gr-diff tests', () => {
     element = basicFixture.instantiate();
     element.prefs = {...MINIMAL_PREFS, line_wrapping: false};
     flush();
-    assert.isNotOk(getComputedStyleValue('--line-limit', element));
+    assert.equal(getComputedStyleValue('--line-limit', element), '80ch');
   });
 
   suite('not logged in', () => {

@@ -18,11 +18,14 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
@@ -37,6 +40,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -82,7 +86,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
             .valueSerializer(GitModifiedFilesCacheImpl.ValueSerializer.INSTANCE)
             .maximumWeight(10 << 20)
             .weigher(ModifiedFilesWeigher.class)
-            .version(1)
+            .version(2)
             .loader(ModifiedFilesLoader.class);
       }
     };
@@ -139,7 +143,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
               .bTree(bTree)
               .renameScore(key.renameScore())
               .build();
-      List<ModifiedFile> modifiedFiles = gitCache.get(gitKey);
+      List<ModifiedFile> modifiedFiles = mergeRewrittenEntries(gitCache.get(gitKey));
       if (key.aCommit().equals(ObjectId.zeroId())) {
         return ImmutableList.copyOf(modifiedFiles);
       }
@@ -201,6 +205,62 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
       // One of the above file paths could be /dev/null but we need not explicitly check for this
       // value as the set of file paths shouldn't contain it.
       return touchedFilePaths.contains(oldFilePath) || touchedFilePaths.contains(newFilePath);
+    }
+
+    /**
+     * Return the {@code modifiedFiles} input list while merging {@link ChangeType#ADDED} and {@link
+     * ChangeType#DELETED} entries for the same file into a single {@link ChangeType#REWRITE} entry.
+     *
+     * <p>Background: In some cases, JGit returns two diff entries (ADDED + DELETED) for the same
+     * file path. This happens e.g. when a file's mode is changed between patchsets, for example
+     * converting a symlink file to a regular file. We identify this case and return a single
+     * modified file with changeType = {@link ChangeType#REWRITE}.
+     */
+    private static List<ModifiedFile> mergeRewrittenEntries(List<ModifiedFile> modifiedFiles) {
+      List<ModifiedFile> result = new ArrayList<>();
+
+      // Handle ADDED and DELETED entries separately.
+      ListMultimap<String, ModifiedFile> byPath = ArrayListMultimap.create();
+      modifiedFiles.stream()
+          .filter(ModifiedFilesLoader::isAddedOrDeleted)
+          .forEach(
+              f -> {
+                if (f.oldPath().isPresent()) {
+                  byPath.get(f.oldPath().get()).add(f);
+                }
+                if (f.newPath().isPresent()) {
+                  byPath.get(f.newPath().get()).add(f);
+                }
+              });
+      for (String path : byPath.keySet()) {
+        List<ModifiedFile> entries = byPath.get(path);
+        if (entries.size() == 1) {
+          result.add(entries.get(0));
+        } else if (entries.size() == 2) {
+          result.add(getAddedEntry(entries).toBuilder().changeType(ChangeType.REWRITE).build());
+        } else {
+          // JGit error. Not expected to happen.
+          logger.atWarning().log(
+              "Found %d ADDED and DELETED entries for the same file path: %s."
+                  + " Adding the first entry only to the result.",
+              entries.size(), entries);
+          result.add(entries.get(0));
+        }
+      }
+
+      // Add the remaining non ADDED/DELETED entries to the result
+      modifiedFiles.stream().filter(f -> !isAddedOrDeleted(f)).forEach(result::add);
+      return result;
+    }
+
+    private static boolean isAddedOrDeleted(ModifiedFile f) {
+      return f.changeType() == ChangeType.ADDED || f.changeType() == ChangeType.DELETED;
+    }
+
+    private static ModifiedFile getAddedEntry(List<ModifiedFile> modifiedFiles) {
+      return modifiedFiles.get(0).changeType() == ChangeType.ADDED
+          ? modifiedFiles.get(0)
+          : modifiedFiles.get(1);
     }
   }
 }

@@ -2837,11 +2837,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void symlinkConvertedToRegularFileIsIdentifiedAsAdded() throws Exception {
-    // TODO(ghareeb): fix this test for the new diff cache implementation
-    assume().that(useNewDiffCacheListFiles).isFalse();
-    assume().that(useNewDiffCacheGetDiff).isFalse();
-
+  public void symlinkConvertedToRegularFileIsIdentifiedAsRewritten() throws Exception {
     String target = "file.txt";
     String symlink = "link.lnk";
 
@@ -2869,23 +2865,39 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         gApi.changes().id(result.getChangeId()).current().files(initialRev);
 
     assertThat(changedFiles.keySet()).containsExactly("/COMMIT_MSG", symlink);
-    assertThat(changedFiles.get(symlink).status).isEqualTo('W'); // Rewrite
+
+    // Both old and new diff caches agree that the state is rewritten
+    assertThat(changedFiles.get(symlink).status).isEqualTo('W'); // Rewritten
 
     DiffInfo diffInfo =
         gApi.changes().id(result.getChangeId()).current().file(symlink).diff(initialRev);
 
-    // The diff logic identifies two entries for the file:
-    // 1. One entry as 'DELETED' for the symlink.
-    // 2. Another entry as 'ADDED' for the new regular file.
-    // Since the diff logic returns a single entry, we prioritize returning the 'ADDED' entry in
-    // this case so that the client is able to see the new content that was added to the file.
-    assertThat(diffInfo.changeType).isEqualTo(ChangeType.ADDED);
-    assertThat(diffInfo.content).hasSize(1);
-    assertThat(diffInfo)
-        .content()
-        .element(0)
-        .linesOfB()
-        .containsExactly("Content of the new file named 'symlink'");
+    // TODO(ghareeb): Remove the else branch when the new diff cache is rolled out as default.
+    if (useNewDiffCacheGetDiff) {
+      // File diff in New diff cache: change type is correctly identified as REWRITTEN
+      assertThat(diffInfo.changeType).isEqualTo(ChangeType.REWRITE);
+      assertThat(diffInfo.content).hasSize(2);
+      assertThat(diffInfo)
+          .content()
+          .element(0)
+          .linesOfB()
+          .containsExactly("Content of the new file named 'symlink'");
+      assertThat(diffInfo).content().element(1).linesOfA().containsExactly("file.txt");
+    } else {
+      // File diff in old diff cache: The diff logic identifies two entries for the file:
+      // 1. One entry as 'DELETED' for the symlink.
+      // 2. Another entry as 'ADDED' for the new regular file.
+      // Since the diff logic returns a single entry, the implementation prioritizes  the 'ADDED'
+      // entry in this case so that the user is able to see the new content that was added to the
+      // file.
+      assertThat(diffInfo.changeType).isEqualTo(ChangeType.ADDED);
+      assertThat(diffInfo.content).hasSize(1);
+      assertThat(diffInfo)
+          .content()
+          .element(0)
+          .linesOfB()
+          .containsExactly("Content of the new file named 'symlink'");
+    }
   }
 
   @Test

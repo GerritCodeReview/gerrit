@@ -72,7 +72,7 @@ public class DiffOperationsTest {
 
     FileDiffOutput diffOutput =
         diffOperations.getModifiedFileAgainstParent(
-            testProjectName, newCommitId, /* parentNum=*/ null, fileName2, /* whitespace=*/ null);
+            testProjectName, newCommitId, /* parentNum=*/ 0, fileName2, /* whitespace=*/ null);
 
     assertThat(diffOutput.oldCommitId()).isEqualTo(oldCommitId);
     assertThat(diffOutput.newCommitId()).isEqualTo(newCommitId);

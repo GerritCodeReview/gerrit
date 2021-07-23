@@ -104,7 +104,7 @@ http://localhost:8080
 Now that you have a simple version of Gerrit running, use the installation to
 explore the user interface and learn about Gerrit. For more detailed
 installation instructions, see
-link:[Standalone Daemon Installation Guide](install.html).
+link:install.html[Standalone Daemon Installation Guide].
 
 GERRIT
 ------

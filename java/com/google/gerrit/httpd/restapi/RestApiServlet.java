@@ -46,6 +46,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
+import static javax.servlet.http.HttpServletResponse.SC_REQUEST_TIMEOUT;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
@@ -112,6 +113,7 @@ import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -190,6 +192,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang.WordUtils;
 import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -225,6 +228,7 @@ public class RestApiServlet extends HttpServlet {
   public static final String XD_METHOD = "$m";
   public static final int SC_UNPROCESSABLE_ENTITY = 422;
   public static final int SC_TOO_MANY_REQUESTS = 429;
+  public static final int SC_CLIENT_CLOSED_REQUEST = 499;
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
   private static final String PLAIN_TEXT = "text/plain";
@@ -709,6 +713,27 @@ public class RestApiServlet extends HttpServlet {
                 messageOr(e, "Quota limit reached"),
                 e.caching(),
                 e);
+      } catch (RequestCancelledException e) {
+        cause = Optional.of(e);
+        switch (e.getCancellationReason()) {
+          case CLIENT_CLOSED_REQUEST:
+            statusCode = SC_CLIENT_CLOSED_REQUEST;
+            break;
+          case CLIENT_PROVIDED_DEADLINE_EXCEEDED:
+          case SERVER_DEADLINE_EXCEEDED:
+            statusCode = SC_REQUEST_TIMEOUT;
+            break;
+        }
+
+        StringBuilder msg =
+            new StringBuilder(
+                WordUtils.capitalizeFully(e.getCancellationReason().name().replaceAll("_", " ")));
+        if (e.getCancellationMessage().isPresent()) {
+          msg.append("\n\n");
+          msg.append(e.getCancellationMessage().get());
+        }
+
+        responseBytes = replyError(req, res, statusCode, msg.toString(), e);
       } catch (Exception e) {
         cause = Optional.of(e);
         statusCode = SC_INTERNAL_SERVER_ERROR;

@@ -192,7 +192,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang.WordUtils;
 import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -725,9 +724,7 @@ public class RestApiServlet extends HttpServlet {
             break;
         }
 
-        StringBuilder msg =
-            new StringBuilder(
-                WordUtils.capitalizeFully(e.getCancellationReason().name().replaceAll("_", " ")));
+        StringBuilder msg = new StringBuilder(e.formatCancellationReason());
         if (e.getCancellationMessage().isPresent()) {
           msg.append("\n\n");
           msg.append(e.getCancellationMessage().get());

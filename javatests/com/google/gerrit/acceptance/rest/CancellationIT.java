@@ -21,13 +21,19 @@ import static org.apache.http.HttpStatus.SC_REQUEST_TIMEOUT;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
+import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.util.List;
 import org.junit.Test;
 
 public class CancellationIT extends AbstractDaemonTest {
@@ -111,6 +117,90 @@ public class CancellationIT extends AbstractDaemonTest {
       assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
       assertThat(response.getEntityContent())
           .isEqualTo("Server Deadline Exceeded\n\ndeadline = 10m");
+    }
+  }
+
+  @Test
+  public void handleClientDisconnectedForPush() throws Exception {
+    CommitValidationListener commitValidationListener =
+        new CommitValidationListener() {
+          @Override
+          public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+              throws CommitValidationException {
+            // Simulate a request cancellation by throwing RequestCancelledException. In contrast to
+            // an actual request cancellation this allows us verify the error message that is sent
+            // to the client.
+            throw new RequestCancelledException(
+                RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* cancellationMessage= */ null);
+          }
+        };
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(commitValidationListener)) {
+      PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+      PushOneCommit.Result r = push.to("refs/heads/master");
+      r.assertErrorStatus("Client Closed Request");
+    }
+  }
+
+  @Test
+  public void handleClientDeadlineExceededForPush() throws Exception {
+    CommitValidationListener commitValidationListener =
+        new CommitValidationListener() {
+          @Override
+          public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+              throws CommitValidationException {
+            // Simulate an exceeded deadline by throwing RequestCancelledException.
+            throw new RequestCancelledException(
+                RequestStateProvider.Reason.CLIENT_PROVIDED_DEADLINE_EXCEEDED,
+                /* cancellationMessage= */ null);
+          }
+        };
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(commitValidationListener)) {
+      PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+      PushOneCommit.Result r = push.to("refs/heads/master");
+      r.assertErrorStatus("Client Provided Deadline Exceeded");
+    }
+  }
+
+  @Test
+  public void handleServerDeadlineExceededForPush() throws Exception {
+    CommitValidationListener commitValidationListener =
+        new CommitValidationListener() {
+          @Override
+          public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+              throws CommitValidationException {
+            // Simulate an exceeded deadline by throwing RequestCancelledException.
+            throw new RequestCancelledException(
+                RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED,
+                /* cancellationMessage= */ null);
+          }
+        };
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(commitValidationListener)) {
+      PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+      PushOneCommit.Result r = push.to("refs/heads/master");
+      r.assertErrorStatus("Server Deadline Exceeded");
+    }
+  }
+
+  @Test
+  public void handleRequestCancellationWithMessageForPush() throws Exception {
+    CommitValidationListener commitValidationListener =
+        new CommitValidationListener() {
+          @Override
+          public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+              throws CommitValidationException {
+            // Simulate an exceeded deadline by throwing RequestCancelledException.
+            throw new RequestCancelledException(
+                RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED, "deadline = 10m");
+          }
+        };
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(commitValidationListener)) {
+      PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+      PushOneCommit.Result r = push.to("refs/heads/master");
+      r.assertErrorStatus("Server Deadline Exceeded (deadline = 10m)");
     }
   }
 }

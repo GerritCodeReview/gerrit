@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "426bd367_891af577",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-07-23T10:32:04Z",
+      "side": 1,
+      "message": "I just noticed something else while downloading the change:\n* When I tab through the tabs, let\u0027s say I tab to Checks and then hit Enter, I go to the commit message. \n* When I hit Spacebar, it works fine and shows the tab.\n\nDo you also experience this?",
+      "revId": "a358f630720090608af5893127c946bb2a25d5ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

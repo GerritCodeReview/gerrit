@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffc4715a_2cc8023a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-07-23T10:32:04Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "ced11513_79176b74",
+      "revId": "cb8e1296ea88f022ceaa7106f4b345c2d41851de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28e90440_4e517f6a",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "Gray background focus was defined as linear gradient in app-theme\n--gray-background-focus: linear-gradient(var(--gray-700-12), var(--gray-700-12), var(--gray-100));\n\nin google b/185218582 you link to this variable as background.",
       "parentUuid": "28e90440_4e517f6a",
+      "range": {
+        "startLine": 248,
+        "startChar": 22,
+        "endLine": 248,
+        "endChar": 45
+      },
+      "revId": "cb8e1296ea88f022ceaa7106f4b345c2d41851de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c364e761_73d556b9",
+        "filename": "polygerrit-ui/app/styles/shared-styles.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-07-23T10:32:04Z",
+      "side": 1,
+      "message": "Yes interesting, I did not notice before that it had a gradient. The Material specs do not use gradient. I\u0027ll follow up with Ben to discuss this and make relevant changes do the app theme.",
+      "parentUuid": "49cf612c_2626277e",
       "range": {
         "startLine": 248,
         "startChar": 22,

@@ -34,6 +34,24 @@
       "parentUuid": "baf47c04_2f64e941",
       "revId": "f53508e594aa5ef23d8fbbf4d8205f997876d531",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76800c3e_651bddcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-07-23T16:34:59Z",
+      "side": 1,
+      "message": "On a test node running this patch I get the following error message if I try to delete the email address associated with my OpenID external ID:\n\n  An error occurred\n  \n  Error 409 (Conflict): Cannot remove e-mail \u0027clark@example.org\u0027 which is directly associated with OPENID_SSO authentication\n  \n  Endpoint: /accounts/self/email/*\n  \nI am able to delete a different email address if it is not my preferred email address and if it isn\u0027t associated with my OpenID external ID.",
+      "parentUuid": "fe0351a7_17bb71d4",
+      "revId": "f53508e594aa5ef23d8fbbf4d8205f997876d531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

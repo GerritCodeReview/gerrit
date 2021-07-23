@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "874e7921_8bb30eec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-23T14:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "913f7cf9_8032e1c3",
+      "revId": "f1db12703faffa9867b1ebadff57dcb9d103642c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4090d489_9fbdab7e",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-06-02T07:30:33Z",
       "side": 1,
       "message": "I think it would be good to add a test for gr-cursor-manager itself, as that is transitively part of the gr-diff API, while gr-file-list is not. So we probably want to ensure we have a well defined behavior for gr-cursor-manager on its own.",
+      "revId": "f1db12703faffa9867b1ebadff57dcb9d103642c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35694189_56351205",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-23T14:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4090d489_9fbdab7e",
       "revId": "f1db12703faffa9867b1ebadff57dcb9d103642c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

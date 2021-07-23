@@ -28,7 +28,7 @@ this maintenance.
 
 Unlike a typical server database, access to Git repositories is not
 marshalled through a single process or a set of inter communicating
-processes. Unfortuntatlely the design of the on-disk layout of a Git
+processes. Unfortunately the design of the on-disk layout of a Git
 repository does not allow for 100% race free operations when accessed by
 multiple actors concurrently. These design shortcomings are more likely
 to impact the operations of busy repositories since racy conditions are

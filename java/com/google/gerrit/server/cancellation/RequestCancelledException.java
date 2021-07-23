@@ -16,6 +16,7 @@ package com.google.gerrit.server.cancellation;
 
 import com.google.gerrit.common.Nullable;
 import java.util.Optional;
+import org.apache.commons.lang.WordUtils;
 
 /** Exception to signal that the current request is cancelled and should be aborted. */
 public class RequestCancelledException extends RuntimeException {
@@ -50,6 +51,11 @@ public class RequestCancelledException extends RuntimeException {
   /** Returns the reason why the request is cancelled. */
   public RequestStateProvider.Reason getCancellationReason() {
     return cancellationReason;
+  }
+
+  /** Returns the cancellation reason as a user-readable string. */
+  public String formatCancellationReason() {
+    return WordUtils.capitalizeFully(cancellationReason.name().replaceAll("_", " "));
   }
 
   /**

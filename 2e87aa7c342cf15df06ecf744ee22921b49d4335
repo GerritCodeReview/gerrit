@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c32c7c9_3515dcb1",
+        "filename": "polygerrit-ui/app/styles/shared-styles.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-23T13:45:01Z",
+      "side": 1,
+      "message": "optional: should we use var(--spacing-s) instead of 4px?",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 243,
+        "endChar": 25
+      },
+      "revId": "2e87aa7c342cf15df06ecf744ee22921b49d4335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

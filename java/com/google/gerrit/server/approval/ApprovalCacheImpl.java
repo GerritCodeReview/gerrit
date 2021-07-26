@@ -49,7 +49,7 @@ public class ApprovalCacheImpl implements ApprovalCache {
                 CACHE_NAME,
                 Cache.PatchSetApprovalsKeyProto.class,
                 Cache.AllPatchSetApprovalsProto.class)
-            .version(1)
+            .version(2)
             .loader(Loader.class)
             .keySerializer(new ProtobufSerializer<>(Cache.PatchSetApprovalsKeyProto.parser()))
             .valueSerializer(new ProtobufSerializer<>(Cache.AllPatchSetApprovalsProto.parser()));

@@ -39,15 +39,15 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
 
   @Override
   public boolean match(ApprovalContext ctx) {
-    PatchSet currentPatchset = ctx.changeNotes().getCurrentPatchSet();
-    Map.Entry<PatchSet.Id, PatchSet> priorPatchSet =
-        ctx.changeNotes().getPatchSets().lowerEntry(currentPatchset.id());
+    PatchSet targetPatchSet = ctx.changeNotes().getPatchSets().get(ctx.target());
+    PatchSet sourcePatchSet =
+        ctx.changeNotes().getPatchSets().get(ctx.patchSetApproval().patchSetId());
     try {
       return match(
           diffOperations.listModifiedFiles(
               ctx.changeNotes().getProjectName(),
-              priorPatchSet.getValue().commitId(),
-              currentPatchset.commitId()));
+              sourcePatchSet.commitId(),
+              targetPatchSet.commitId()));
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "242d2a12_929d54b7",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-26T07:23:24Z",
+      "side": 1,
+      "message": "Would .toUpperCase() do the trick as well?",
+      "range": {
+        "startLine": 730,
+        "startChar": 20,
+        "endLine": 730,
+        "endChar": 39
+      },
+      "revId": "4635ba0954e3606cc8b0ad3173123edf150670f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb3f338f_c4fa6a0b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/CancellationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-26T07:23:24Z",
+      "side": 1,
+      "message": "Leave a comment that for the test we can\u0027t just close the client connection because then we can\u0027t assert on the status code anymore?",
+      "revId": "4635ba0954e3606cc8b0ad3173123edf150670f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

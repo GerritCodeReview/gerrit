@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c725159_28eb8f56",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-26T11:25:55Z",
+      "side": 1,
+      "message": "Is it ok that line-limit is now set even for Unified diff?\n\nshouldn\u0027t be \n```\nif (sideBySide) {\nstylesToUpdate[\u0027--line-limit\u0027] \u003d lineLimit;\n}\n```",
+      "range": {
+        "startLine": 758,
+        "startChar": 4,
+        "endLine": 758,
+        "endChar": 47
+      },
+      "revId": "9673fc4694cb5a875b76d72b976dead7584368b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14ffd601_9b1e7423",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-26T11:25:55Z",
+      "side": 1,
+      "message": "NIT: Why to use calc, when you can calculate it here?\n```\n\u003d `${contentWidth+lineNumberWidth}px`\n```\n\nI assume it\u0027s because \u0027ch + px\u0027 calculation.",
+      "range": {
+        "startLine": 766,
+        "startChar": 11,
+        "endLine": 766,
+        "endChar": 15
+      },
+      "revId": "9673fc4694cb5a875b76d72b976dead7584368b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

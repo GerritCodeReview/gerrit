@@ -9,6 +9,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/util/time",
         "//lib:gson",
         "//lib:guava",

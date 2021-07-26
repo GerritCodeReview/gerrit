@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.cancellation.RequestStateContext;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -208,6 +209,7 @@ public class TraceContext implements AutoCloseable {
     }
 
     private TraceTimer(Runnable startLogFn, Consumer<Long> doneLogFn) {
+      RequestStateContext.abortIfCancelled();
       startLogFn.run();
       this.doneLogFn = doneLogFn;
       this.stopwatch = Stopwatch.createStarted();
@@ -217,6 +219,7 @@ public class TraceContext implements AutoCloseable {
     public void close() {
       stopwatch.stop();
       doneLogFn.accept(stopwatch.elapsed(TimeUnit.MILLISECONDS));
+      RequestStateContext.abortIfCancelled();
     }
   }
 

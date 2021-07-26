@@ -31,6 +31,7 @@ public interface RequestStateProvider {
   void checkIfCancelled(OnCancelled onCancelled);
 
   /** Callback interface to be invoked if a request is cancelled. */
+  @FunctionalInterface
   interface OnCancelled {
     /**
      * Callback that is invoked if the request is cancelled.

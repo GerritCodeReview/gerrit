@@ -85,10 +85,11 @@ suite('gr-linked-text tests', () => {
     window.CANONICAL_PATH = originalCanonicalPath;
   });
 
-  test('URL pattern was parsed and linked.', () => {
+  test('URL pattern was parsed and linked.', async () => {
     // Regular inline link.
     const url = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
     element.content = url;
+    await flush();
     const linkEl = queryAndAssert(element, '#output')
       .childNodes[0] as HTMLAnchorElement;
     assert.equal(linkEl.target, '_blank');
@@ -97,9 +98,10 @@ suite('gr-linked-text tests', () => {
     assert.equal(linkEl.textContent, url);
   });
 
-  test('Bug pattern was parsed and linked', () => {
+  test('Bug pattern was parsed and linked', async () => {
     // "Issue/Bug" pattern.
     element.content = 'Issue 3650';
+    await flush();
 
     let linkEl = queryAndAssert(element, '#output')
       .childNodes[0] as HTMLAnchorElement;
@@ -109,6 +111,7 @@ suite('gr-linked-text tests', () => {
     assert.equal(linkEl.textContent, 'Issue 3650');
 
     element.content = 'Bug 3650';
+    await flush();
     linkEl = queryAndAssert(element, '#output')
       .childNodes[0] as HTMLAnchorElement;
     assert.equal(linkEl.target, '_blank');
@@ -117,10 +120,10 @@ suite('gr-linked-text tests', () => {
     assert.equal(linkEl.textContent, 'Bug 3650');
   });
 
-  test('Pattern with same prefix as link was correctly parsed', () => {
+  test('Pattern with same prefix as link was correctly parsed', async () => {
     // Pattern starts with the same prefix (`http`) as the url.
     element.content = 'httpexample 3650';
-
+    await flush();
     assert.equal(queryAndAssert(element, '#output').childNodes.length, 1);
     const linkEl = queryAndAssert(element, '#output')
       .childNodes[0] as HTMLAnchorElement;
@@ -130,12 +133,12 @@ suite('gr-linked-text tests', () => {
     assert.equal(linkEl.textContent, 'httpexample 3650');
   });
 
-  test('Change-Id pattern was parsed and linked', () => {
+  test('Change-Id pattern was parsed and linked', async () => {
     // "Change-Id:" pattern.
     const changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
     const prefix = 'Change-Id: ';
     element.content = prefix + changeID;
-
+    await flush();
     const textNode = queryAndAssert(element, '#output').childNodes[0];
     const linkEl = queryAndAssert(element, '#output')
       .childNodes[1] as HTMLAnchorElement;
@@ -147,14 +150,14 @@ suite('gr-linked-text tests', () => {
     assert.equal(linkEl.textContent, changeID);
   });
 
-  test('Change-Id pattern was parsed and linked with base url', () => {
+  test('Change-Id pattern was parsed and linked with base url', async () => {
     window.CANONICAL_PATH = '/r';
 
     // "Change-Id:" pattern.
     const changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
     const prefix = 'Change-Id: ';
     element.content = prefix + changeID;
-
+    await flush();
     const textNode = queryAndAssert(element, '#output').childNodes[0];
     const linkEl = queryAndAssert(element, '#output')
       .childNodes[1] as HTMLAnchorElement;
@@ -166,8 +169,9 @@ suite('gr-linked-text tests', () => {
     assert.equal(linkEl.textContent, changeID);
   });
 
-  test('Multiple matches', () => {
+  test('Multiple matches', async () => {
     element.content = 'Issue 3650\nIssue 3450';
+    await flush();
     const linkEl1 = queryAndAssert(element, '#output')
       .childNodes[0] as HTMLAnchorElement;
     const linkEl2 = queryAndAssert(element, '#output')
@@ -188,7 +192,7 @@ suite('gr-linked-text tests', () => {
     assert.equal(linkEl2.textContent, 'Issue 3450');
   });
 
-  test('Change-Id pattern parsed before bug pattern', () => {
+  test('Change-Id pattern parsed before bug pattern', async () => {
     // "Change-Id:" pattern.
     const changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
     const prefix = 'Change-Id: ';
@@ -200,7 +204,7 @@ suite('gr-linked-text tests', () => {
     const bugUrl = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
 
     element.content = prefix + changeID + bug;
-
+    await flush();
     const textNode = queryAndAssert(element, '#output').childNodes[0];
     const changeLinkEl = queryAndAssert(element, '#output')
       .childNodes[1] as HTMLAnchorElement;
@@ -218,8 +222,9 @@ suite('gr-linked-text tests', () => {
     assert.equal(bugLinkEl.textContent, 'Issue 3650');
   });
 
-  test('html field in link config', () => {
+  test('html field in link config', async () => {
     element.content = 'google:do a barrel roll';
+    await flush();
     const linkEl = queryAndAssert(element, '#output')
       .childNodes[0] as HTMLAnchorElement;
     assert.equal(
@@ -229,52 +234,58 @@ suite('gr-linked-text tests', () => {
     assert.equal(linkEl.textContent, 'do a barrel roll');
   });
 
-  test('removing hash from links', () => {
+  test('removing hash from links', async () => {
     element.content = 'hash:foo';
+    await flush();
     const linkEl = queryAndAssert(element, '#output')
       .childNodes[0] as HTMLAnchorElement;
     assert.isTrue(linkEl.href.endsWith('/awesomesauce'));
     assert.equal(linkEl.textContent, 'foo');
   });
 
-  test('html with base url', () => {
+  test('html with base url', async () => {
     window.CANONICAL_PATH = '/r';
 
     element.content = 'test foo';
+    await flush();
     const linkEl = queryAndAssert(element, '#output')
       .childNodes[0] as HTMLAnchorElement;
     assert.isTrue(linkEl.href.endsWith('/r/awesomesauce'));
     assert.equal(linkEl.textContent, 'foo');
   });
 
-  test('a is not at start', () => {
+  test('a is not at start', async () => {
     window.CANONICAL_PATH = '/r';
 
     element.content = 'a test foo';
+    await flush();
     const linkEl = queryAndAssert(element, '#output')
       .childNodes[1] as HTMLAnchorElement;
     assert.isTrue(linkEl.href.endsWith('/r/awesomesauce'));
     assert.equal(linkEl.textContent, 'foo');
   });
 
-  test('hash html with base url', () => {
+  test('hash html with base url', async () => {
     window.CANONICAL_PATH = '/r';
 
     element.content = 'hash:foo';
+    await flush();
     const linkEl = queryAndAssert(element, '#output')
       .childNodes[0] as HTMLAnchorElement;
     assert.isTrue(linkEl.href.endsWith('/r/awesomesauce'));
     assert.equal(linkEl.textContent, 'foo');
   });
 
-  test('disabled config', () => {
+  test('disabled config', async () => {
     element.content = 'foo:baz';
+    await flush();
     assert.equal(queryAndAssert(element, '#output').innerHTML, 'foo:baz');
   });
 
-  test('R=email labels link correctly', () => {
+  test('R=email labels link correctly', async () => {
     element.removeZeroWidthSpace = true;
     element.content = 'R=\u200Btest@google.com';
+    await flush();
     assert.equal(
       queryAndAssert(element, '#output').textContent,
       'R=test@google.com'
@@ -285,9 +296,10 @@ suite('gr-linked-text tests', () => {
     );
   });
 
-  test('CC=email labels link correctly', () => {
+  test('CC=email labels link correctly', async () => {
     element.removeZeroWidthSpace = true;
     element.content = 'CC=\u200Btest@google.com';
+    await flush();
     assert.equal(
       queryAndAssert(element, '#output').textContent,
       'CC=test@google.com'
@@ -298,36 +310,42 @@ suite('gr-linked-text tests', () => {
     );
   });
 
-  test('only {http,https,mailto} protocols are linkified', () => {
+  test('only {http,https,mailto} protocols are linkified', async () => {
     element.content = 'xx mailto:test@google.com yy';
+    await flush();
     let links = queryAndAssert(element, '#output').querySelectorAll('a');
     assert.equal(links.length, 1);
     assert.equal(links[0].getAttribute('href'), 'mailto:test@google.com');
     assert.equal(links[0].innerHTML, 'mailto:test@google.com');
 
     element.content = 'xx http://google.com yy';
+    await flush();
     links = queryAndAssert(element, '#output').querySelectorAll('a');
     assert.equal(links.length, 1);
     assert.equal(links[0].getAttribute('href'), 'http://google.com');
     assert.equal(links[0].innerHTML, 'http://google.com');
 
     element.content = 'xx https://google.com yy';
+    await flush();
     links = queryAndAssert(element, '#output').querySelectorAll('a');
     assert.equal(links.length, 1);
     assert.equal(links[0].getAttribute('href'), 'https://google.com');
     assert.equal(links[0].innerHTML, 'https://google.com');
 
     element.content = 'xx ssh://google.com yy';
+    await flush();
     links = queryAndAssert(element, '#output').querySelectorAll('a');
     assert.equal(links.length, 0);
 
     element.content = 'xx ftp://google.com yy';
+    await flush();
     links = queryAndAssert(element, '#output').querySelectorAll('a');
     assert.equal(links.length, 0);
   });
 
-  test('links without leading whitespace are linkified', () => {
+  test('links without leading whitespace are linkified', async () => {
     element.content = 'xx abcmailto:test@google.com yy';
+    await flush();
     assert.equal(
       queryAndAssert(element, '#output').innerHTML.substr(0, 6),
       'xx abc'
@@ -338,6 +356,7 @@ suite('gr-linked-text tests', () => {
     assert.equal(links[0].innerHTML, 'mailto:test@google.com');
 
     element.content = 'xx defhttp://google.com yy';
+    await flush();
     assert.equal(
       queryAndAssert(element, '#output').innerHTML.substr(0, 6),
       'xx def'
@@ -348,6 +367,7 @@ suite('gr-linked-text tests', () => {
     assert.equal(links[0].innerHTML, 'http://google.com');
 
     element.content = 'xx qwehttps://google.com yy';
+    await flush();
     assert.equal(
       queryAndAssert(element, '#output').innerHTML.substr(0, 6),
       'xx qwe'
@@ -359,6 +379,7 @@ suite('gr-linked-text tests', () => {
 
     // Non-latin character
     element.content = 'xx абвhttps://google.com yy';
+    await flush();
     assert.equal(
       queryAndAssert(element, '#output').innerHTML.substr(0, 6),
       'xx абв'
@@ -369,15 +390,17 @@ suite('gr-linked-text tests', () => {
     assert.equal(links[0].innerHTML, 'https://google.com');
 
     element.content = 'xx ssh://google.com yy';
+    await flush();
     links = queryAndAssert(element, '#output').querySelectorAll('a');
     assert.equal(links.length, 0);
 
     element.content = 'xx ftp://google.com yy';
+    await flush();
     links = queryAndAssert(element, '#output').querySelectorAll('a');
     assert.equal(links.length, 0);
   });
 
-  test('overlapping links', () => {
+  test('overlapping links', async () => {
     element.config = {
       b1: {
         match: '(B:\\s*)(\\d+)',
@@ -389,7 +412,8 @@ suite('gr-linked-text tests', () => {
       },
     };
     element.content = '- B: 123, 45';
-    const links = element.root!.querySelectorAll('a');
+    await flush();
+    const links = element.shadowRoot!.querySelectorAll('a');
 
     assert.equal(links.length, 2);
     assert.equal(
@@ -402,13 +426,5 @@ suite('gr-linked-text tests', () => {
 
     assert.equal(links[1].href, 'ftp://foo/45');
     assert.equal(links[1].textContent, '45');
-  });
-
-  test('_contentOrConfigChanged called with config', () => {
-    const contentStub = sinon.stub(element, '_contentChanged');
-    const contentConfigStub = sinon.stub(element, '_contentOrConfigChanged');
-    element.content = 'some text';
-    assert.isTrue(contentStub.called);
-    assert.isTrue(contentConfigStub.called);
   });
 });

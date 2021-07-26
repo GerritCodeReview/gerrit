@@ -15,6 +15,8 @@
 package com.google.gerrit.server.cancellation;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import org.junit.Test;
@@ -87,6 +89,76 @@ public class RequestStateContextTest {
     }
 
     assertNoRequestStateProviders();
+  }
+
+  @Test
+  public void abortIfCancelled_noRequestStateProvider() {
+    assertNoRequestStateProviders();
+
+    // Calling abortIfCancelled() shouldn't throw an exception.
+    RequestStateContext.abortIfCancelled();
+  }
+
+  @Test
+  public void abortIfCancelled_requestNotCancelled() {
+    try (RequestStateContext requestStateContext =
+        RequestStateContext.open()
+            .addRequestStateProvider(
+                new RequestStateProvider() {
+                  @Override
+                  public void checkIfCancelled(OnCancelled onCancelled) {}
+                })) {
+      // Calling abortIfCancelled() shouldn't throw an exception.
+      RequestStateContext.abortIfCancelled();
+    }
+  }
+
+  @Test
+  public void abortIfCancelled_requestCancelled() {
+    try (RequestStateContext requestStateContext =
+        RequestStateContext.open()
+            .addRequestStateProvider(
+                new RequestStateProvider() {
+                  @Override
+                  public void checkIfCancelled(OnCancelled onCancelled) {
+                    onCancelled.onCancel(
+                        RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* message= */ null);
+                  }
+                })) {
+      RequestCancelledException requestCancelledException =
+          assertThrows(
+              RequestCancelledException.class, () -> RequestStateContext.abortIfCancelled());
+      assertThat(requestCancelledException)
+          .hasMessageThat()
+          .isEqualTo("Request cancelled: CLIENT_CLOSED_REQUEST");
+      assertThat(requestCancelledException.getCancellationReason())
+          .isEqualTo(RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST);
+      assertThat(requestCancelledException.getCancellationMessage()).isEmpty();
+    }
+  }
+
+  @Test
+  public void abortIfCancelled_requestCancelled_withMessage() {
+    try (RequestStateContext requestStateContext =
+        RequestStateContext.open()
+            .addRequestStateProvider(
+                new RequestStateProvider() {
+                  @Override
+                  public void checkIfCancelled(OnCancelled onCancelled) {
+                    onCancelled.onCancel(
+                        RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED, "deadline = 10m");
+                  }
+                })) {
+      RequestCancelledException requestCancelledException =
+          assertThrows(
+              RequestCancelledException.class, () -> RequestStateContext.abortIfCancelled());
+      assertThat(requestCancelledException)
+          .hasMessageThat()
+          .isEqualTo("Request cancelled: SERVER_DEADLINE_EXCEEDED (deadline = 10m)");
+      assertThat(requestCancelledException.getCancellationReason())
+          .isEqualTo(RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED);
+      assertThat(requestCancelledException.getCancellationMessage()).hasValue("deadline = 10m");
+    }
   }
 
   private void assertNoRequestStateProviders() {

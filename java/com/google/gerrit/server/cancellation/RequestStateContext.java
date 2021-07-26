@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cancellation;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -57,7 +58,25 @@ public class RequestStateContext implements AutoCloseable {
   private static final ThreadLocal<Set<RequestStateProvider>> threadLocalRequestStateProviders =
       new ThreadLocal<>();
 
+  /**
+   * Aborts the current request by throwing a {@link RequestCancelledException} if any of the
+   * registered {@link RequestStateProvider}s reports the request as cancelled.
+   *
+   * @throws RequestCancelledException thrown if the current request is cancelled and should be
+   *     aborted
+   */
+  public static void abortIfCancelled() throws RequestCancelledException {
+    getRequestStateProviders()
+        .forEach(
+            requestStateProvider ->
+                requestStateProvider.checkIfCancelled(
+                    (reason, message) -> {
+                      throw new RequestCancelledException(reason, message);
+                    }));
+  }
+
   /** Returns the {@link RequestStateProvider}s that have been registered for the thread. */
+  @VisibleForTesting
   static ImmutableSet<RequestStateProvider> getRequestStateProviders() {
     if (threadLocalRequestStateProviders.get() == null) {
       return ImmutableSet.of();

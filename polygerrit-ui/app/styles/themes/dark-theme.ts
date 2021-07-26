@@ -38,20 +38,20 @@ function getStyleEl() {
 
       --error-foreground: var(--red-200);
       --error-background: var(--red-tonal);
-      --error-background-hover: linear-gradient(var(--white-04), var(--white-04)), var(--red-tonal);
-      --error-background-focus: linear-gradient(var(--white-12), var(--white-12)), var(--red-tonal);
+      --error-background-hover: linear-gradient(var(--white-04), var(--white-04), var(--red-tonal));
+      --error-background-focus: linear-gradient(var(--white-12), var(--white-12), var(--red-tonal));
       --error-ripple: var(--white-10);
 
       --warning-foreground: var(--orange-200);
       --warning-background: var(--orange-tonal);
-      --warning-background-hover: linear-gradient(var(--white-04), var(--white-04)), var(--orange-tonal);
-      --warning-background-focus: linear-gradient(var(--white-12), var(--white-12)), var(--orange-tonal);
+      --warning-background-hover: linear-gradient(var(--white-04), var(--white-04), var(--orange-tonal));
+      --warning-background-focus: linear-gradient(var(--white-12), var(--white-12), var(--orange-tonal));
       --warning-ripple: var(--white-10);
 
       --info-foreground: var(--blue-200);
       --info-background: var(--blue-tonal);
-      --info-background-hover: linear-gradient(var(--white-04), var(--white-04)), var(--blue-tonal);
-      --info-background-focus: linear-gradient(var(--white-12), var(--white-12)), var(--blue-tonal);
+      --info-background-hover: linear-gradient(var(--white-04), var(--white-04), var(--blue-tonal));
+      --info-background-focus: linear-gradient(var(--white-12), var(--white-12), var(--blue-tonal));
       --info-ripple: var(--white-10);
 
       --primary-button-text-color: black;
@@ -64,14 +64,14 @@ function getStyleEl() {
 
       --success-foreground: var(--green-200);
       --success-background: var(--green-tonal);
-      --success-background-hover: linear-gradient(var(--white-04), var(--white-04)), var(--green-tonal);
-      --success-background-focus: linear-gradient(var(--white-12), var(--white-12)), var(--green-tonal);
+      --success-background-hover: linear-gradient(var(--white-04), var(--white-04), var(--green-tonal));
+      --success-background-focus: linear-gradient(var(--white-12), var(--white-12), var(--green-tonal));
       --success-ripple: var(--white-10);
 
       --gray-foreground: var(--gray-300);
       --gray-background: var(--gray-tonal);
-      --gray-background-hover: linear-gradient(var(--white-04), var(--white-04)), var(--gray-tonal);
-      --gray-background-focus: linear-gradient(var(--white-12), var(--white-12)), var(--gray-tonal);
+      --gray-background-hover: linear-gradient(var(--white-04), var(--white-04), var(--gray-tonal));
+      --gray-background-focus: linear-gradient(var(--white-12), var(--white-12), var(--gray-tonal));
       --gray-ripple: var(--white-10);
 
       --disabled-foreground: var(--gray-200-38);

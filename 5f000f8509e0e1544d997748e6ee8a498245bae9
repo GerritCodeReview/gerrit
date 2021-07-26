@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dfe5d78_3cfcfa55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-07-26T15:21:33Z",
+      "side": 1,
+      "message": "I came to this change after reading patchset level comment can be disabled in Gerrit 3.3 https://www.gerritcodereview.com/3.3.html#new-features\n\n\nThis revert got merged in stable-3.4 and a future merge removed it again ( https://gerrit-review.googlesource.com/c/gerrit/+/292041 ).  That matches 3.3 release note stating that the feature will be removed in 3.4 but maybe it is an unwanted side effect?\n\n",
+      "revId": "5f000f8509e0e1544d997748e6ee8a498245bae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

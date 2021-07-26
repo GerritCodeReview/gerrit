@@ -255,6 +255,25 @@ suite('gr-cursor-manager tests', () => {
     assert.isTrue(cursor.target.focus.called);
   });
 
+  suite('circular options', () => {
+    const options = {circular: true};
+    setup(() => {
+      cursor.stops = [...list.querySelectorAll('li')];
+    });
+
+    test('previous() on first element goes to last element', () => {
+      cursor.setCursor(list.children[0]);
+      cursor.previous(options);
+      assert.equal(cursor.index, list.children.length - 1);
+    });
+
+    test('next() on last element goes to first element', () => {
+      cursor.setCursor(list.children[list.children.length - 1]);
+      cursor.next(options);
+      assert.equal(cursor.index, 0);
+    });
+  });
+
   suite('_scrollToTarget', () => {
     let scrollStub;
     setup(() => {

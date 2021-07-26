@@ -87,7 +87,7 @@ export class GrCursorManager {
   }
 
   /**
-   * Move the cursor forward. Clipped to the ends of the stop list.
+   * Move the cursor forward. Clipped to the end of the stop list.
    *
    * @param options.filter Skips any stops for which filter returns false.
    * @param options.getTargetHeight Optional function to calculate the
@@ -95,22 +95,36 @@ export class GrCursorManager {
    *    sometimes different, used by the diff cursor.
    * @param options.clipToTop When none of the next indices match, move
    *     back to first instead of to last.
+   * @param options.circular When on last element, you get to first element.
    * @return If a move was performed or why not.
-   * @private
    */
   next(
     options: {
       filter?: (stop: HTMLElement) => boolean;
       getTargetHeight?: (target: HTMLElement) => number;
       clipToTop?: boolean;
+      circular?: boolean;
     } = {}
   ): CursorMoveResult {
     return this._moveCursor(1, options);
   }
 
+  /**
+   * Move the cursor backward. Clipped to the beginning of stop list.
+   *
+   * @param options.filter Skips any stops for which filter returns false.
+   * @param options.getTargetHeight Optional function to calculate the
+   *    height of the target's 'section'. The height of the target itself is
+   *    sometimes different, used by the diff cursor.
+   * @param options.clipToTop When none of the next indices match, move
+   * back to first instead of to last.
+   * @param options.circular When on first element, you get to last element.
+   * @return  If a move was performed or why not.
+   */
   previous(
     options: {
       filter?: (stop: HTMLElement) => boolean;
+      circular?: boolean;
     } = {}
   ): CursorMoveResult {
     return this._moveCursor(-1, options);
@@ -276,34 +290,18 @@ export class GrCursorManager {
     }
   }
 
-  /**
-   * Move the cursor forward or backward by delta. Clipped to the beginning or
-   * end of stop list.
-   *
-   * @param delta either -1 or 1.
-   * @param options.abort Will abort moving the cursor when encountering a
-   *    stop for which this condition is met. Will abort even if the stop
-   *    would have been filtered
-   * @param options.filter Will keep going and skip any stops for which this
-   *    condition is not met.
-   * @param options.getTargetHeight Optional function to calculate the
-   * height of the target's 'section'. The height of the target itself is
-   * sometimes different, used by the diff cursor.
-   * @param options.clipToTop When none of the next indices match, move
-   * back to first instead of to last.
-   * @return  If a move was performed or why not.
-   * @private
-   */
   _moveCursor(
     delta: number,
     {
       filter,
       getTargetHeight,
       clipToTop,
+      circular,
     }: {
       filter?: (stop: HTMLElement) => boolean;
       getTargetHeight?: (target: HTMLElement) => number;
       clipToTop?: boolean;
+      circular?: boolean;
     } = {}
   ): CursorMoveResult {
     if (!this.stops.length) {
@@ -326,7 +324,10 @@ export class GrCursorManager {
         (delta > 0 && newIndex >= this.stops.length) ||
         (delta < 0 && newIndex < 0)
       ) {
-        newIndex = delta < 0 || clipToTop ? 0 : this.stops.length - 1;
+        newIndex =
+          (delta < 0 && !circular) || (delta > 0 && circular) || clipToTop
+            ? 0
+            : this.stops.length - 1;
         newStop = this.stops[newIndex];
         clipped = true;
         break;

@@ -18,6 +18,7 @@ acceptance_tests(
     vm_args = ["-Xmx512m"],
     deps = [
         ":util",
+        "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/logging",
         "//lib/commons:compress",
     ],

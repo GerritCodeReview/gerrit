@@ -19,6 +19,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
+import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
@@ -61,6 +62,12 @@ public abstract class SshCommand extends BaseCommand {
                   RequestInfo.builder(RequestInfo.RequestType.SSH, user, traceContext).build();
               requestListeners.runEach(l -> l.onRequest(requestInfo));
               SshCommand.this.run();
+            } catch (RequestCancelledException e) {
+              StringBuilder msg = new StringBuilder(e.formatCancellationReason());
+              if (e.getCancellationMessage().isPresent()) {
+                msg.append(String.format(" (%s)", e.getCancellationMessage().get()));
+              }
+              stderr.println(msg.toString());
             } finally {
               stdout.flush();
               stderr.flush();

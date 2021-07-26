@@ -114,6 +114,7 @@ import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.approval.ApprovalsUtil;
+import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -640,8 +641,17 @@ class ReceiveCommits {
       Task commandProgress = progress.beginSubTask("refs", UNKNOWN);
       commands =
           commands.stream().map(c -> wrapReceiveCommand(c, commandProgress)).collect(toList());
-      processCommandsUnsafe(commands, progress);
-      rejectRemaining(commands, INTERNAL_SERVER_ERROR);
+
+      try {
+        processCommandsUnsafe(commands, progress);
+        rejectRemaining(commands, INTERNAL_SERVER_ERROR);
+      } catch (RequestCancelledException e) {
+        StringBuilder msg = new StringBuilder(e.formatCancellationReason());
+        if (e.getCancellationMessage().isPresent()) {
+          msg.append(String.format(" (%s)", e.getCancellationMessage().get()));
+        }
+        rejectRemaining(commands, msg.toString());
+      }
 
       // This sends error messages before the 'done' string of the progress monitor is sent.
       // Currently, the test framework relies on this ordering to understand if pushes completed

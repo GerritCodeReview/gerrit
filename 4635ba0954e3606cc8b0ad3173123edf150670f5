@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e335d8b6_f1cb894f",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-26T07:52:45Z",
+      "side": 1,
+      "message": "No, toUpperCase() is not the same. Actually all upper case is our starting case. WordUtils.capitalizeFully capitalizes only the first character of each word, e.g. converts \"CLIENT CLOSED REQUEST\" to \"Client Closed Request\". \"Client Closed Request\" is the case that is consistent with most of the other request status messages that we return (e.g. \"Precondition Failed\" or \"Unprocessable Entity\"). Exceptions are \"Quota limit reached\" and \"Internal server error\" which only capitalize the first character of the first word.",
+      "parentUuid": "242d2a12_929d54b7",
+      "range": {
+        "startLine": 730,
+        "startChar": 20,
+        "endLine": 730,
+        "endChar": 39
+      },
+      "revId": "4635ba0954e3606cc8b0ad3173123edf150670f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb3f338f_c4fa6a0b",

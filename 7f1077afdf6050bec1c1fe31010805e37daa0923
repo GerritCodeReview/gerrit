@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30bbfab4_4f79c9cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-26T10:57:55Z",
+      "side": 1,
+      "message": "nice change",
+      "revId": "7f1077afdf6050bec1c1fe31010805e37daa0923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "614b12ad_1e72b394",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-26T10:57:55Z",
+      "side": 1,
+      "message": "optional: maybe this rename isn\u0027t that helpful anymore and could be inlined, you converted this in one place already. same in _handleParseResult",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 38
+      },
+      "revId": "7f1077afdf6050bec1c1fe31010805e37daa0923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca51b6f6_d0cc4885",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-26T10:57:55Z",
+      "side": 1,
+      "message": "optional: I think this can be done if you want. Not necessary in this change. https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts;l\u003d122;drc\u003dd2db462d8d2b3dbe77acf0cde62400cf908a3ff0",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 0
+      },
+      "revId": "7f1077afdf6050bec1c1fe31010805e37daa0923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

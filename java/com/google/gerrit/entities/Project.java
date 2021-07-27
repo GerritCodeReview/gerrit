@@ -150,6 +150,7 @@ public abstract class Project {
     return builder;
   }
 
+  @Nullable
   public String getName() {
     return getNameKey() != null ? getNameKey().get() : null;
   }
@@ -183,7 +184,8 @@ public abstract class Project {
 
   @Override
   public final String toString() {
-    return Optional.of(getName()).orElse("<null>");
+    String name = getName();
+    return name != null ? name : "<null>";
   }
 
   public abstract Builder toBuilder();

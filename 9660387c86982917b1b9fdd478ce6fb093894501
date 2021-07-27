@@ -16,6 +16,23 @@
       "message": "We are planning on merging this change in a couple of days unless there\u0027s an objection.",
       "revId": "9660387c86982917b1b9fdd478ce6fb093894501",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "922c83c7_a72ed440",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-27T21:08:34Z",
+      "side": 1,
+      "message": "LGTM, thanks for the nice optimisation.",
+      "revId": "9660387c86982917b1b9fdd478ce6fb093894501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

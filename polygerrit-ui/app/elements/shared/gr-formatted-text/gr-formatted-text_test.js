@@ -297,6 +297,14 @@ suite('gr-formatted-text tests', () => {
     assertBlock(result, 1, 'paragraph', 'B');
   });
 
+  test('pre format 5', () => {
+    const comment = '  Q\n    <R>\n  S\n \nB';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 2);
+    assertBlock(result, 0, 'pre', '  Q\n    <R>\n  S');
+    assertBlock(result, 1, 'paragraph', ' \nB');
+  });
+
   test('quote 1', () => {
     const comment = '> I\'m happy\n > with quotes!\n\nSee above.';
     const result = element._computeBlocks(comment);

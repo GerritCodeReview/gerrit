@@ -22,6 +22,30 @@
       },
       "revId": "28f1992e78fb0b5e22bc5ba84372a0c06f7edf50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a96b421_3811e7a9",
+        "filename": "java/com/google/gerrit/entities/Project.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-27T07:49:57Z",
+      "side": 1,
+      "message": "Yes, of course, that was actually the original Rosie fix :-)",
+      "parentUuid": "b10cf6eb_dcc419f8",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 42
+      },
+      "revId": "28f1992e78fb0b5e22bc5ba84372a0c06f7edf50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

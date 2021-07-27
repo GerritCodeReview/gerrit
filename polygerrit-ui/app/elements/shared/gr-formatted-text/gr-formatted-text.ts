@@ -183,7 +183,9 @@ export class GrFormattedText extends GrLitElement {
         // include pre or all regular lines but stop at next new line
         while (
           this._isPreFormat(lines[nextI]) ||
-          (this._isRegularLine(lines[nextI]) && lines[nextI].length)
+          (this._isRegularLine(lines[nextI]) &&
+            !this._isWhitespaceLine(lines[nextI]) &&
+            lines[nextI].length)
         ) {
           nextI++;
         }
@@ -255,11 +257,15 @@ export class GrFormattedText extends GrLitElement {
   }
 
   _isPreFormat(line: string) {
-    return line && /^[ \t]/.test(line);
+    return line && /^[ \t]/.test(line) && !this._isWhitespaceLine(line);
   }
 
   _isList(line: string) {
     return line && /^[-*] /.test(line);
+  }
+
+  _isWhitespaceLine(line: string) {
+    return line && /^\s+$/.test(line);
   }
 
   _makeLinkedText(content = '', isPre?: boolean) {

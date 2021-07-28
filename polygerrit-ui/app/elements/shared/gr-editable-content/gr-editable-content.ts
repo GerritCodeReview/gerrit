@@ -112,7 +112,8 @@ export class GrEditableContent extends PolymerElement {
 
   private readonly reporting = appContext.reportingService;
 
-  private storeTask?: DelayedTask;
+  // Tests use this so needs to be non private
+  storeTask?: DelayedTask;
 
   /** @override */
   ready() {

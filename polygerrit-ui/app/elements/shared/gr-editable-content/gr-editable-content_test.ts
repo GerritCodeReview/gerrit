@@ -15,13 +15,18 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-editable-content.js';
+import '../../../test/common-test-setup-karma';
+import './gr-editable-content';
+import {GrEditableContent} from './gr-editable-content';
+import {queryAndAssert} from '../../../test/test-utils';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {GrButton} from '../gr-button/gr-button';
+import {stubStorage} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-editable-content');
 
 suite('gr-editable-content tests', () => {
-  let element;
+  let element: GrEditableContent;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -33,8 +38,7 @@ suite('gr-editable-content tests', () => {
     const handler = sinon.spy();
     element.addEventListener('editable-content-save', handler);
 
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('gr-button[primary]'));
+    MockInteractions.tap(queryAndAssert(element, 'gr-button[primary]'));
 
     assert.isTrue(handler.called);
     assert.equal(handler.lastCall.args[0].detail.content, 'foo');
@@ -44,8 +48,7 @@ suite('gr-editable-content tests', () => {
     const handler = sinon.spy();
     element.addEventListener('editable-content-cancel', handler);
 
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('gr-button.cancel-button'));
+    MockInteractions.tap(queryAndAssert(element, 'gr-button.cancel-button'));
 
     assert.isTrue(handler.called);
   });
@@ -79,19 +82,22 @@ suite('gr-editable-content tests', () => {
     });
 
     test('save button is disabled initially', () => {
-      assert.isTrue(element.shadowRoot
-          .querySelector('gr-button[primary]').disabled);
+      assert.isTrue(
+        (queryAndAssert(element, 'gr-button[primary]') as GrButton).disabled
+      );
     });
 
     test('save button is enabled when content changes', () => {
       element._newContent = 'new content';
-      assert.isFalse(element.shadowRoot
-          .querySelector('gr-button[primary]').disabled);
+      assert.isFalse(
+        (queryAndAssert(element, 'gr-button[primary]') as GrButton).disabled
+      );
     });
   });
 
   suite('storageKey and related behavior', () => {
-    let dispatchSpy;
+    let dispatchSpy: sinon.SinonSpy;
+
     setup(() => {
       element.content = 'current content';
       element.storageKey = 'test';
@@ -99,8 +105,10 @@ suite('gr-editable-content tests', () => {
     });
 
     test('editing toggled to true, has stored data', () => {
-      sinon.stub(element.storage, 'getEditableContentItem')
-          .returns({message: 'stored content'});
+      stubStorage('getEditableContentItem').returns({
+        message: 'stored content',
+        updated: 0,
+      });
       element.editing = true;
 
       assert.equal(element._newContent, 'stored content');
@@ -109,8 +117,7 @@ suite('gr-editable-content tests', () => {
     });
 
     test('editing toggled to true, has no stored data', () => {
-      sinon.stub(element.storage, 'getEditableContentItem')
-          .returns({});
+      stubStorage('getEditableContentItem').returns(null);
       element.editing = true;
 
       assert.equal(element._newContent, 'current content');
@@ -118,28 +125,26 @@ suite('gr-editable-content tests', () => {
     });
 
     test('edits are cached', () => {
-      const storeStub =
-          sinon.stub(element.storage, 'setEditableContentItem');
-      const eraseStub =
-          sinon.stub(element.storage, 'eraseEditableContentItem');
+      const storeStub = stubStorage('setEditableContentItem');
+      const eraseStub = stubStorage('eraseEditableContentItem');
       element.editing = true;
 
       element._newContent = 'new content';
       flush();
-      element.storeTask.flush();
+      element.storeTask?.flush();
 
       assert.isTrue(storeStub.called);
       assert.deepEqual(
-          [element.storageKey, element._newContent],
-          storeStub.lastCall.args);
+        [element.storageKey, element._newContent],
+        storeStub.lastCall.args
+      );
 
       element._newContent = '';
       flush();
-      element.storeTask.flush();
+      element.storeTask?.flush();
 
       assert.isTrue(eraseStub.called);
       assert.deepEqual([element.storageKey], eraseStub.lastCall.args);
     });
   });
 });
-

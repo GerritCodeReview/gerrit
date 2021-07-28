@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efc17933_2bc80708",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-28T19:32:00Z",
+      "side": 1,
+      "message": "Needs to be:\n\n    if (this._change)\n      GerritNav.navigateToChange(this._change, undefined, undefined, true);\n      \nsee https://github.com/GerritCodeReview/gerrit/commit/e2a2f471633d56cd36560fdf12e37677df878dec",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 8
+      },
+      "revId": "01cd91e62cc9a2c26cc9e83c9b8020e379286cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d975bab_ceb14819",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-28T19:32:00Z",
+      "side": 1,
+      "message": "Should be:\n    assert.equal(navStub.lastCall.args[1], undefined);\n    assert.equal(navStub.lastCall.args[3], true);\n    \nsee https://github.com/GerritCodeReview/gerrit/commit/e2a2f471633d56cd36560fdf12e37677df878dec",
+      "range": {
+        "startLine": 326,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 60
+      },
+      "revId": "01cd91e62cc9a2c26cc9e83c9b8020e379286cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

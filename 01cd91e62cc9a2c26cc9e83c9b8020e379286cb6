@@ -45,6 +45,30 @@
       },
       "revId": "01cd91e62cc9a2c26cc9e83c9b8020e379286cb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3337bb0_65126231",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-07-28T21:09:50Z",
+      "side": 1,
+      "message": "Yeah, I was waiting for the checks and I was planning to add you as a reviewer because I had doubts which one is correct. I believe I\u0027ve picked up the newer version. I will address the comments. Thanks!",
+      "parentUuid": "0d975bab_ceb14819",
+      "range": {
+        "startLine": 326,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 60
+      },
+      "revId": "01cd91e62cc9a2c26cc9e83c9b8020e379286cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

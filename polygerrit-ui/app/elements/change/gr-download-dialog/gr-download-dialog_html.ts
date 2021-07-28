@@ -59,6 +59,9 @@ export const htmlTemplate = html`
     .hidden {
       display: none;
     }
+    gr-download-commands {
+      width: min(80vw, 1200px);
+    }
   </style>
   <section>
     <h3 class="heading-3">

@@ -58,6 +58,7 @@ java_library(
         "//java/com/google/gerrit/server/data",
         "//java/com/google/gerrit/server/git/receive:ref_cache",
         "//java/com/google/gerrit/server/ioutil",
+        "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/util/git",
         "//java/com/google/gerrit/server/util/time",

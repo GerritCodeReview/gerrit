@@ -106,6 +106,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -932,17 +933,24 @@ public class ChangeData {
     return messages;
   }
 
-  /** Get all submit requirements for this change, including those from parent projects. */
+  /**
+   * Get all evaluated submit requirements for this change, including those from parent projects.
+   * For closed changes, submit requirements are read from the change notes. For active changes,
+   * submit requirements are evaluated online.
+   */
   public Map<SubmitRequirement, SubmitRequirementResult> submitRequirements() {
     if (submitRequirements == null) {
-      ProjectState state = projectCache.get(project()).orElseThrow(illegalState(project()));
-      Map<String, SubmitRequirement> requirements = state.getSubmitRequirements();
-      ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> result =
-          ImmutableMap.builderWithExpectedSize(requirements.size());
-      for (SubmitRequirement requirement : requirements.values()) {
-        result.put(requirement, submitRequirementsEvaluator.evaluate(requirement, this));
+      Change c = change();
+      if (c != null && c.isClosed()) {
+        if (!lazyload()) {
+          return Collections.emptyMap();
+        }
+        submitRequirements =
+            notes().getSubmitRequirementsResult().stream()
+                .collect(Collectors.toMap(r -> r.submitRequirement(), Function.identity()));
+      } else {
+        submitRequirements = submitRequirementsEvaluator.getResults(this);
       }
-      submitRequirements = result.build();
     }
     return submitRequirements;
   }

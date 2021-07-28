@@ -166,6 +166,7 @@ import com.google.gerrit.server.mail.send.MailTemplates;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.notedb.NoteDbModule;
+import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchScriptFactory;
@@ -466,6 +467,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergedByPushOp.Factory.class);
     factory(GitModules.Factory.class);
     factory(VersionedAuthorizedKeys.Factory.class);
+    factory(StoreSubmitRequirementsOp.Factory.class);
 
     bind(AccountManager.class);
     bind(SubscriptionGraph.Factory.class).to(ConfiguredSubscriptionGraphFactory.class);

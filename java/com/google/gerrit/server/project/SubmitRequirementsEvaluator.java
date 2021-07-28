@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
@@ -26,16 +29,20 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.Map;
 import java.util.Optional;
 
 /** Evaluates submit requirements for different change data. */
 @Singleton
 public class SubmitRequirementsEvaluator {
   private final Provider<ChangeQueryBuilder> changeQueryBuilderProvider;
+  private final ProjectCache projectCache;
 
   @Inject
-  private SubmitRequirementsEvaluator(Provider<ChangeQueryBuilder> changeQueryBuilderProvider) {
+  private SubmitRequirementsEvaluator(
+      Provider<ChangeQueryBuilder> changeQueryBuilderProvider, ProjectCache projectCache) {
     this.changeQueryBuilderProvider = changeQueryBuilderProvider;
+    this.projectCache = projectCache;
   }
 
   /**
@@ -48,6 +55,21 @@ public class SubmitRequirementsEvaluator {
   public void validateExpression(SubmitRequirementExpression expression)
       throws QueryParseException {
     changeQueryBuilderProvider.get().parse(expression.expressionString());
+  }
+
+  /**
+   * Evaluate and return all submit requirements for a change. Submit requirements are retrieved for
+   * the project containing the change and parent projects as well.
+   */
+  public Map<SubmitRequirement, SubmitRequirementResult> getResults(ChangeData cd) {
+    ProjectState state = projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
+    Map<String, SubmitRequirement> requirements = state.getSubmitRequirements();
+    ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> result =
+        ImmutableMap.builderWithExpectedSize(requirements.size());
+    for (SubmitRequirement requirement : requirements.values()) {
+      result.put(requirement, evaluate(requirement, cd));
+    }
+    return result.build();
   }
 
   /** Evaluate a {@link SubmitRequirement} on a given {@link ChangeData}. */

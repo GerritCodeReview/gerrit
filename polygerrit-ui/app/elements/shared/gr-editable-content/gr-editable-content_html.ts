@@ -69,7 +69,7 @@ export const htmlTemplate = html`
       box-shadow: var(--elevation-level-1);
       /* slightly up to cover rounded corner of the commit msg */
       margin-top: calc(-1 * var(--spacing-xs));
-      /* To make this bar pop over editor, since editor has relative position. 
+      /* To make this bar pop over editor, since editor has relative position.
       */
       position: relative;
     }

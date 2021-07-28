@@ -106,7 +106,7 @@ export class GrEditableContent extends PolymerElement {
   _saveDisabled!: boolean;
 
   @property({type: String, observer: '_newContentChanged'})
-  _newContent?: string;
+  _newContent = '';
 
   private readonly storage = appContext.storageService;
 

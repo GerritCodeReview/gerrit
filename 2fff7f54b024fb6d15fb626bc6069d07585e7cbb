@@ -118,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "588ea02d_3fe77c11",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-28T16:11:03Z",
+      "side": 1,
+      "message": "I got rid of this boolean. It\u0027s actually not needed since we can deduce that the change is closed from change data and act accordingly.",
+      "parentUuid": "cf9e3315_b6415ce6",
+      "range": {
+        "startLine": 944,
+        "startChar": 84,
+        "endLine": 944,
+        "endChar": 94
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "583ede39_4bd15785",

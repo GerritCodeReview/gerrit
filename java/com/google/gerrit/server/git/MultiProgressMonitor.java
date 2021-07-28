@@ -131,7 +131,7 @@ public class MultiProgressMonitor {
   private int spinnerIndex;
   private char spinnerState = NO_SPINNER;
   private boolean done;
-  private boolean write = true;
+  private boolean clientDisconnected;
 
   private final long maxIntervalNanos;
 
@@ -343,14 +343,14 @@ public class MultiProgressMonitor {
   }
 
   private void send(StringBuilder s) {
-    if (write) {
+    if (!clientDisconnected) {
       try {
         out.write(Constants.encode(s.toString()));
         out.flush();
       } catch (IOException e) {
         logger.atWarning().withCause(e).log(
             "Sending progress to client failed. Stop sending updates for task %s", taskName);
-        write = false;
+        clientDisconnected = true;
       }
     }
   }

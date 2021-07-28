@@ -26,6 +26,8 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.cache.proto.Cache;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -38,7 +40,9 @@ public class ProjectSerializer {
 
   public static Project deserialize(Cache.ProjectProto proto) {
     Project.Builder builder =
-        Project.builder(Project.nameKey(proto.getName()))
+        Project.builder(
+                Project.nameKey(proto.getName()),
+                Timestamp.from(Instant.ofEpochMilli(proto.getRegisteredOn())))
             .setSubmitType(SUBMIT_TYPE_CONVERTER.convert(proto.getSubmitType()))
             .setState(PROJECT_STATE_CONVERTER.convert(proto.getState()))
             .setDescription(emptyToNull(proto.getDescription()))
@@ -78,6 +82,7 @@ public class ProjectSerializer {
             .setMaxObjectSizeLimit(nullToEmpty(autoValue.getMaxObjectSizeLimit()))
             .setDefaultDashboard(nullToEmpty(autoValue.getDefaultDashboard()))
             .setLocalDefaultDashboard(nullToEmpty(autoValue.getLocalDefaultDashboard()))
+            .setRegisteredOn(autoValue.getRegisteredOn().toInstant().toEpochMilli())
             .setConfigRefState(nullToEmpty(autoValue.getConfigRefState()));
 
     autoValue

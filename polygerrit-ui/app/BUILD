@@ -129,7 +129,6 @@ ignore_templates_list = [
     "elements/shared/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog_html.ts",
     "elements/shared/gr-copy-clipboard/gr-copy-clipboard_html.ts",
     "elements/shared/gr-dialog/gr-dialog_html.ts",
-    "elements/shared/gr-diff-preferences/gr-diff-preferences_html.ts",
     "elements/shared/gr-download-commands/gr-download-commands_html.ts",
     "elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
     "elements/shared/gr-dropdown/gr-dropdown_html.ts",

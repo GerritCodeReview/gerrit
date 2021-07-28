@@ -21,18 +21,23 @@ import '../gr-select/gr-select';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-preferences_html';
 import {customElement, property} from '@polymer/decorators';
-import {DiffPreferencesInfo} from '../../../types/diff';
+import {DiffPreferencesInfo, IgnoreWhitespaceType} from '../../../types/diff';
 import {GrSelect} from '../gr-select/gr-select';
 import {appContext} from '../../../services/app-context';
 
 export interface GrDiffPreferences {
   $: {
+    contextLineSelect: HTMLInputElement;
+    columnsInput: HTMLInputElement;
+    tabSizeInput: HTMLInputElement;
+    fontSizeInput: HTMLInputElement;
     lineWrappingInput: HTMLInputElement;
     showTabsInput: HTMLInputElement;
     showTrailingWhitespaceInput: HTMLInputElement;
     automaticReviewInput: HTMLInputElement;
     syntaxHighlightInput: HTMLInputElement;
     contextSelect: GrSelect;
+    ignoreWhiteSpace: HTMLInputElement;
   };
   save(): Promise<void>;
 }
@@ -61,8 +66,28 @@ export class GrDiffPreferences extends PolymerElement {
     this.hasUnsavedChanges = true;
   }
 
+  _handleDiffContextChanged() {
+    this.set('diffPrefs.context', Number(this.$.contextLineSelect.value));
+    this._handleDiffPrefsChanged();
+  }
+
   _handleLineWrappingTap() {
     this.set('diffPrefs.line_wrapping', this.$.lineWrappingInput.checked);
+    this._handleDiffPrefsChanged();
+  }
+
+  _handleDiffLineLengthChanged() {
+    this.set('diffPrefs.line_length', Number(this.$.columnsInput.value));
+    this._handleDiffPrefsChanged();
+  }
+
+  _handleDiffTabSizeChanged() {
+    this.set('diffPrefs.tab_size', Number(this.$.tabSizeInput.value));
+    this._handleDiffPrefsChanged();
+  }
+
+  _handleDiffFontSizeChanged() {
+    this.set('diffPrefs.font_size', Number(this.$.fontSizeInput.value));
     this._handleDiffPrefsChanged();
   }
 
@@ -92,12 +117,41 @@ export class GrDiffPreferences extends PolymerElement {
     this._handleDiffPrefsChanged();
   }
 
+  _handleDiffIgnoreWhitespaceChanged() {
+    this.set(
+      'diffPrefs.ignore_whitespace',
+      this.$.ignoreWhiteSpace.value as IgnoreWhitespaceType
+    );
+    this._handleDiffPrefsChanged();
+  }
+
   save() {
     if (!this.diffPrefs)
       return Promise.reject(new Error('Missing diff preferences'));
     return this.restApiService.saveDiffPreferences(this.diffPrefs).then(_ => {
       this.hasUnsavedChanges = false;
     });
+  }
+
+  /**
+   * bind-value has type string so we have to convert
+   * anything inputed to string.
+   *
+   * This is so typescript checker doesn't fail.
+   */
+  _convertToString(key?: number | IgnoreWhitespaceType) {
+    return key !== undefined ? String(key) : '';
+  }
+
+  /**
+   * input 'checked' does not allow undefined,
+   * so we make sure the value is boolean
+   * by returning false if undefined.
+   *
+   * This is so typescript checker doesn't fail.
+   */
+  _convertToBoolean(key?: boolean) {
+    return key !== undefined ? key : false;
   }
 }
 

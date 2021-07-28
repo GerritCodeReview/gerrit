@@ -15,14 +15,16 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-copy-clipboard.js';
-import {queryAndAssert} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-copy-clipboard';
+import {GrCopyClipboard} from './gr-copy-clipboard';
+import {queryAndAssert} from '../../../test/test-utils';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-copy-clipboard');
 
 suite('gr-copy-clipboard tests', () => {
-  let element;
+  let element: GrCopyClipboard;
 
   setup(async () => {
     element = basicFixture.instantiate();
@@ -33,35 +35,34 @@ suite('gr-copy-clipboard tests', () => {
 
   test('copy to clipboard', () => {
     const clipboardSpy = sinon.spy(navigator.clipboard, 'writeText');
-    const copyBtn = element.shadowRoot
-        .querySelector('.copyToClipboard');
+    const copyBtn = queryAndAssert(element, '.copyToClipboard');
     MockInteractions.click(copyBtn);
     assert.isTrue(clipboardSpy.called);
   });
 
   test('focusOnCopy', () => {
     element.focusOnCopy();
-    const activeElement = element.shadowRoot.activeElement;
-    const button = element.shadowRoot.querySelector('.copyToClipboard');
+    const activeElement = element.shadowRoot!.activeElement;
+    const button = queryAndAssert(element, '.copyToClipboard');
     assert.deepEqual(activeElement, button);
   });
 
   test('_handleInputClick', () => {
     // iron-input as parent should never be hidden as copy won't work
     // on nested hidden elements
-    const ironInputElement = element.shadowRoot.querySelector('iron-input');
+    const ironInputElement = queryAndAssert(element, 'iron-input');
     assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
 
-    const inputElement = element.shadowRoot.querySelector('input');
+    const inputElement = queryAndAssert(element, 'input') as HTMLInputElement;
     MockInteractions.tap(inputElement);
     assert.equal(inputElement.selectionStart, 0);
-    assert.equal(inputElement.selectionEnd, element.text.length - 1);
+    assert.equal(inputElement.selectionEnd, element.text!.length! - 1);
   });
 
   test('hideInput', async () => {
     // iron-input as parent should never be hidden as copy won't work
     // on nested hidden elements
-    const ironInputElement = element.shadowRoot.querySelector('iron-input');
+    const ironInputElement = queryAndAssert(element, 'iron-input');
     assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
 
     const input = queryAndAssert(element, 'input');
@@ -76,10 +77,8 @@ suite('gr-copy-clipboard tests', () => {
     divParent.appendChild(element);
     const clickStub = sinon.stub();
     divParent.addEventListener('click', clickStub);
-    element.stopPropagation = true;
-    const copyBtn = element.shadowRoot.querySelector('.copyToClipboard');
+    const copyBtn = queryAndAssert(element, '.copyToClipboard');
     MockInteractions.tap(copyBtn);
     assert.isFalse(clickStub.called);
   });
 });
-

@@ -16,6 +16,46 @@
       "message": "change is ready for review.",
       "revId": "0032b6818d17d5b622031ccf3331aba8da1be7ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0fde439_36886077",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-28T08:29:19Z",
+      "side": 1,
+      "message": "The change is trying to use 0 instead of null for parentNum. The string \"parentNum !\u003d null\" appears 4 time in the code and none of this place can work with parentNum \u003d 0. (and probably there are other places where parentNum has a different name)\nIt seems, that parentNum \u003d 0 is used only in restApi-related methods and then converted to nullable value. Maybe let\u0027s use null everywhere and just disable 0 in non-api-related code?",
+      "revId": "0032b6818d17d5b622031ccf3331aba8da1be7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e68c325_6290fc9d",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-28T08:29:19Z",
+      "side": 1,
+      "message": "IIUC, this getBaseCommit-\u003egetParentCommit must be update as a part of this change.\nThe BaseCommitUtil.getParentCommit checks for null and not for zero.",
+      "range": {
+        "startLine": 390,
+        "startChar": 24,
+        "endLine": 390,
+        "endChar": 81
+      },
+      "revId": "0032b6818d17d5b622031ccf3331aba8da1be7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

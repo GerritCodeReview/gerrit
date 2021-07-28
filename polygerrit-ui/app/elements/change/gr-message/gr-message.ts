@@ -57,6 +57,13 @@ import {
   computePredecessor,
 } from '../../../utils/patch-set-util';
 import {isServiceUser} from '../../../utils/account-util';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {
+  css,
+  customElement as customLitElement,
+  html,
+  property as litProperty,
+} from 'lit-element';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?[Pp]atch [Ss]et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
@@ -67,6 +74,7 @@ const VOTE_RESET_TEXT = '0 (vote reset)';
 declare global {
   interface HTMLElementTagNameMap {
     'gr-message': GrMessage;
+    'gr-message-date-container': GrMessageDateContainer;
   }
 }
 
@@ -86,6 +94,13 @@ export type LabelExtreme = {[labelName: string]: VotingRangeInfo};
 interface Score {
   label?: string;
   value?: string;
+}
+
+function isNewPatchsetTag(tag?: ReviewInputTag) {
+  return (
+    tag === MessageTag.TAG_NEW_PATCHSET ||
+    tag === MessageTag.TAG_NEW_WIP_PATCHSET
+  );
 }
 
 @customElement('gr-message')
@@ -293,53 +308,6 @@ export class GrMessage extends PolymerElement {
     return this._patchsetCommentSummary(commentThreads);
   }
 
-  _showViewDiffButton(message?: ChangeMessage) {
-    return (
-      this._isNewPatchsetTag(message?.tag) || this._isMergePatchset(message)
-    );
-  }
-
-  _isMergePatchset(message?: ChangeMessage) {
-    return (
-      message?.tag === MessageTag.TAG_MERGED &&
-      message?.message.match(MERGED_PATCHSET_PATTERN)
-    );
-  }
-
-  _isNewPatchsetTag(tag?: ReviewInputTag) {
-    return (
-      tag === MessageTag.TAG_NEW_PATCHSET ||
-      tag === MessageTag.TAG_NEW_WIP_PATCHSET
-    );
-  }
-
-  _handleViewPatchsetDiff(e: Event) {
-    if (!this.message || !this.change) return;
-    let patchNum: PatchSetNum;
-    let basePatchNum: PatchSetNum;
-    if (this.message.message.match(UPLOADED_NEW_PATCHSET_PATTERN)) {
-      const match = this.message.message.match(UPLOADED_NEW_PATCHSET_PATTERN)!;
-      if (isNaN(Number(match[1])))
-        throw new Error('invalid patchnum in message');
-      patchNum = Number(match[1]) as PatchSetNum;
-      basePatchNum = computePredecessor(patchNum)!;
-    } else if (this.message.message.match(MERGED_PATCHSET_PATTERN)) {
-      const match = this.message.message.match(MERGED_PATCHSET_PATTERN)!;
-      if (isNaN(Number(match[1])))
-        throw new Error('invalid patchnum in message');
-      basePatchNum = Number(match[1]) as BasePatchSetNum;
-      patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
-    } else {
-      // Message is of the form "Commit Message was updated" or "Patchset X
-      // was rebased"
-      patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
-      basePatchNum = computePredecessor(patchNum)!;
-    }
-    GerritNav.navigateToChange(this.change, patchNum, basePatchNum);
-    // stop propagation to stop message expansion
-    e.stopPropagation();
-  }
-
   _computeMessageContent(
     isExpanded: boolean,
     content?: string,
@@ -347,7 +315,7 @@ export class GrMessage extends PolymerElement {
     tag?: ReviewInputTag
   ) {
     if (!content) return '';
-    const isNewPatchSet = this._isNewPatchsetTag(tag);
+    const isNewPatchSet = isNewPatchsetTag(tag);
 
     if (accountsInMessage) {
       content = content.replace(
@@ -513,22 +481,6 @@ export class GrMessage extends PolymerElement {
     return classes.join(' ');
   }
 
-  _handleAnchorClick(e: Event) {
-    e.preventDefault();
-    // The element which triggers _handleAnchorClick is rendered only if
-    // message.id defined: the element is wrapped in dom-if if="[[message.id]]"
-    const detail: MessageAnchorTapDetail = {
-      id: this.message!.id,
-    };
-    this.dispatchEvent(
-      new CustomEvent('message-anchor-tap', {
-        bubbles: true,
-        composed: true,
-        detail,
-      })
-    );
-  }
-
   _handleReplyTap(e: Event) {
     e.preventDefault();
     this.dispatchEvent(
@@ -568,9 +520,157 @@ export class GrMessage extends PolymerElement {
   _computeExpandToggleIcon(expanded: boolean) {
     return expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
   }
+}
+
+@customLitElement('gr-message-date-container')
+export class GrMessageDateContainer extends GrLitElement {
+  @litProperty({type: Object})
+  message: ChangeMessage | undefined;
+
+  @litProperty({type: Object})
+  change?: ChangeInfo;
+
+  customStyle = html`<style include="gr-voting-styles">
+    .dateContainer .patchsetDiffButton {
+      --padding: 0 var(--spacing-m);
+    }
+    iron-icon {
+      --iron-icon-height: 20px;
+      --iron-icon-width: 20px;
+    }
+  </style> `;
+
+  static get styles() {
+    return [
+      css`
+        .dateContainer {
+          position: absolute;
+          /* right and top values should match .contentContainer padding */
+          right: var(--spacing-l);
+          top: var(--spacing-m);
+        }
+        .dateContainer gr-button {
+          margin-right: var(--spacing-m);
+          color: var(--deemphasized-text-color);
+        }
+        .dateContainer .patchset:before {
+          content: 'Patchset ';
+        }
+        .dateContainer .patchsetDiffButton {
+          margin-right: var(--spacing-m);
+        }
+        span.date {
+          color: var(--deemphasized-text-color);
+        }
+        span.date:hover {
+          text-decoration: underline;
+        }
+        .dateContainer iron-icon {
+          cursor: pointer;
+          vertical-align: top;
+        }
+        @media screen and (max-width: 50em) {
+          .dateContainer .patchset:before {
+            content: 'PS ';
+          }
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const {message} = this;
+    if (!message) return;
+
+    const showViewDiffButton =
+      isNewPatchsetTag(message?.tag) || this._isMergePatchset(message);
+    const viewDiffButton = showViewDiffButton
+      ? html`<gr-button
+          class="patchsetDiffButton"
+          @click=${this._handleViewPatchsetDiff}
+          link
+        >
+          View Diff
+        </gr-button>`
+      : html``;
+
+    return html`${this.customStyle}<span class="dateContainer">
+        ${viewDiffButton}
+        ${message._revision_number
+          ? html`<span class="patchset">${message._revision_number} |</span>`
+          : ''}
+        <span class="date" @click=${this._handleAnchorClick}>
+          <gr-date-formatter
+            has-tooltip=""
+            show-date-and-time=""
+            date-str="${message.date}"
+          ></gr-date-formatter>
+        </span>
+        <iron-icon
+          id="expandToggle"
+          @click=${this._toggleExpanded}
+          title="Toggle expanded state"
+          icon="${message.expanded
+            ? 'gr-icons:expand-less'
+            : 'gr-icons:expand-more'}"
+        ></iron-icon>
+      </span>`;
+  }
+
+  _handleAnchorClick(e: Event) {
+    if (!this.message?.id) return;
+    e.preventDefault();
+    const detail: MessageAnchorTapDetail = {
+      id: this.message?.id,
+    };
+    this.dispatchEvent(
+      new CustomEvent('message-anchor-tap', {
+        bubbles: true,
+        composed: true,
+        detail,
+      })
+    );
+  }
 
   _toggleExpanded(e: Event) {
     e.stopPropagation();
-    this.set('message.expanded', !this.message?.expanded);
+    if (this.message) {
+      this.message.expanded = !this.message.expanded;
+    }
+  }
+
+  _handleViewPatchsetDiff(e: Event) {
+    if (!this.message || !this.change) return;
+    const message = this.message.message;
+    let patchNum: PatchSetNum;
+    let basePatchNum: PatchSetNum;
+    if (message.match(UPLOADED_NEW_PATCHSET_PATTERN)) {
+      const match = message.match(UPLOADED_NEW_PATCHSET_PATTERN)!;
+      if (isNaN(Number(match[1])))
+        throw new Error('invalid patchnum in message');
+      patchNum = Number(match[1]) as PatchSetNum;
+      basePatchNum = computePredecessor(patchNum)!;
+    } else if (message.match(MERGED_PATCHSET_PATTERN)) {
+      const match = message.match(MERGED_PATCHSET_PATTERN)!;
+      if (isNaN(Number(match[1])))
+        throw new Error('invalid patchnum in message');
+      basePatchNum = Number(match[1]) as BasePatchSetNum;
+      patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
+    } else {
+      // Message is of the form "Commit Message was updated" or "Patchset X
+      // was rebased"
+      patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
+      basePatchNum = computePredecessor(patchNum)!;
+    }
+    GerritNav.navigateToChange(this.change, patchNum, basePatchNum);
+    // stop propagation to stop message expansion
+    e.stopPropagation();
+  }
+
+  _isMergePatchset(message?: ChangeMessage): boolean {
+    return (
+      message?.tag === MessageTag.TAG_MERGED &&
+      MERGED_PATCHSET_PATTERN.test(message?.message)
+    );
   }
 }

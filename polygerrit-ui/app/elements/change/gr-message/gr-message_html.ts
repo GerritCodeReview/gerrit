@@ -312,44 +312,10 @@ export const htmlTemplate = html`
           </template>
         </div>
       </template>
-      <span class="dateContainer">
-        <template is="dom-if" if="[[_showViewDiffButton(message)]]">
-          <gr-button
-            class="patchsetDiffButton"
-            on-click="_handleViewPatchsetDiff"
-            link
-          >
-            View Diff
-          </gr-button>
-        </template>
-        <template is="dom-if" if="[[message._revision_number]]">
-          <span class="patchset">[[message._revision_number]] |</span>
-        </template>
-        <template is="dom-if" if="[[!message.id]]">
-          <span class="date">
-            <gr-date-formatter
-              has-tooltip=""
-              show-date-and-time=""
-              date-str="[[message.date]]"
-            ></gr-date-formatter>
-          </span>
-        </template>
-        <template is="dom-if" if="[[message.id]]">
-          <span class="date" on-click="_handleAnchorClick">
-            <gr-date-formatter
-              has-tooltip=""
-              show-date-and-time=""
-              date-str="[[message.date]]"
-            ></gr-date-formatter>
-          </span>
-        </template>
-        <iron-icon
-          id="expandToggle"
-          on-click="_toggleExpanded"
-          title="Toggle expanded state"
-          icon="[[_computeExpandToggleIcon(_expanded)]]"
-        ></iron-icon>
-      </span>
+      <gr-message-date-container
+        change="[[change]]"
+        message="[[message]]"
+      ></gr-message-date-container>
     </div>
   </div>
 `;

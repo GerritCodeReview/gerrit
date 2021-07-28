@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -244,5 +245,13 @@ public class CancellationIT extends AbstractDaemonTest {
       PushOneCommit.Result r = push.to("refs/heads/master");
       r.assertErrorStatus("Server Deadline Exceeded (deadline = 10m)");
     }
+  }
+
+  @Test
+  @GerritConfig(name = "receive.timeout", value = "1ms")
+  public void abortPushIfTimeoutExceeded() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("Server Deadline Exceeded (timeout=0m)");
   }
 }

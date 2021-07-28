@@ -24,6 +24,8 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -136,11 +138,22 @@ public abstract class Project {
   @Nullable
   public abstract String getConfigRefState();
 
+  public abstract Timestamp getRegisteredOn();
+
+  /**
+   * WIP constructor. To not introduce dummy timestamp in tests and ProjectConfig.onLoad() and
+   * RefValidationHelper.validateRefOperation
+   */
   public static Builder builder(Project.NameKey nameKey) {
+    return builder(nameKey, Timestamp.valueOf(LocalDateTime.now()));
+  }
+
+  public static Builder builder(Project.NameKey nameKey, Timestamp timeStamp) {
     Builder builder =
         new AutoValue_Project.Builder()
             .setNameKey(nameKey)
             .setSubmitType(SubmitType.MERGE_IF_NECESSARY)
+            .setRegisteredOn(timeStamp)
             .setState(ProjectState.ACTIVE);
     ImmutableMap.Builder<BooleanProjectConfig, InheritableBoolean> booleans =
         ImmutableMap.builder();
@@ -217,6 +230,8 @@ public abstract class Project {
 
     /** Sets the {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
     public abstract Builder setConfigRefState(String state);
+
+    public abstract Builder setRegisteredOn(Timestamp registeredOn);
 
     public abstract Project build();
 

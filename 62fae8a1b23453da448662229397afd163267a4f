@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50482f57_303b5a27",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-28T14:42:02Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "9dd58f09_f16a30b7",
+      "range": {
+        "startLine": 341,
+        "startChar": 7,
+        "endLine": 341,
+        "endChar": 8
+      },
+      "revId": "62fae8a1b23453da448662229397afd163267a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d367b446_55ba8b0d",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-07-28T11:29:34Z",
       "side": 1,
       "message": "It would be better to do\n\n`const default: AvatarInfo[] \u003d ...`\n\nthan `as AvatarInfo`, because first one is checking if type is correct and second one is just labeling it as type avatarInfo.",
+      "range": {
+        "startLine": 34,
+        "startChar": 7,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "62fae8a1b23453da448662229397afd163267a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee567356_c1ead197",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-28T14:42:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d367b446_55ba8b0d",
       "range": {
         "startLine": 34,
         "startChar": 7,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dabedd2_2a1d1fe0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-28T14:42:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8ee115e9_bdf2be24",
+      "range": {
+        "startLine": 42,
+        "startChar": 30,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "62fae8a1b23453da448662229397afd163267a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce1dde0d_21ad6375",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-07-28T11:29:34Z",
       "side": 1,
       "message": "Better like this:\n```\n{\n        ...createAccountWithEmail(\u0027test@example.com\u0027),\n        avatars: defaultAvatars,\n      }),   \n```",
+      "range": {
+        "startLine": 59,
+        "startChar": 21,
+        "endLine": 59,
+        "endChar": 28
+      },
+      "revId": "62fae8a1b23453da448662229397afd163267a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d4ef3b5_2d424478",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-28T14:42:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ce1dde0d_21ad6375",
       "range": {
         "startLine": 59,
         "startChar": 21,

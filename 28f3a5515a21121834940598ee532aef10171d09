@@ -22,6 +22,30 @@
       },
       "revId": "28f3a5515a21121834940598ee532aef10171d09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03ff1d8d_fc5c5c52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-28T08:09:33Z",
+      "side": 1,
+      "message": "I thought about the rollout as well, but when I read the javadocs for throwable that did not worry me: There is only two sublcasses of Throwable: Exception and Error.\n\nWe still catch Exception/RuntimeException (the former only if there are exceptions in the signature). So this really only boils down to stopping to catch \u0027Error\u0027\n\nhttps://docs.oracle.com/javase/7/docs/api/java/lang/Error.html\n\nThat doc says: An Error is a subclass of Throwable that indicates serious problems that a reasonable application should not try to catch.",
+      "parentUuid": "982921f6_0b4ea4d6",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "28f3a5515a21121834940598ee532aef10171d09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

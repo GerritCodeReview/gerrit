@@ -121,6 +121,27 @@ public class CancellationIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void handleWrappedRequestCancelledException() throws Exception {
+    ProjectCreationValidationListener projectCreationListener =
+        new ProjectCreationValidationListener() {
+          @Override
+          public void validateNewProject(CreateProjectArgs args) throws ValidationException {
+            // Simulate an exceeded deadline by throwing RequestCancelledException.
+            throw new RuntimeException(
+                new RequestCancelledException(
+                    RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED, "deadline = 10m"));
+          }
+        };
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectCreationListener)) {
+      RestResponse response = adminRestSession.put("/projects/" + name("new"));
+      assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+      assertThat(response.getEntityContent())
+          .isEqualTo("Server Deadline Exceeded\n\ndeadline = 10m");
+    }
+  }
+
+  @Test
   public void handleClientDisconnectedForPush() throws Exception {
     CommitValidationListener commitValidationListener =
         new CommitValidationListener() {
@@ -181,6 +202,27 @@ public class CancellationIT extends AbstractDaemonTest {
       PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
       PushOneCommit.Result r = push.to("refs/heads/master");
       r.assertErrorStatus("Server Deadline Exceeded");
+    }
+  }
+
+  @Test
+  public void handleWrappedRequestCancelledExceptionForPush() throws Exception {
+    CommitValidationListener commitValidationListener =
+        new CommitValidationListener() {
+          @Override
+          public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+              throws CommitValidationException {
+            // Simulate an exceeded deadline by throwing RequestCancelledException.
+            throw new RuntimeException(
+                new RequestCancelledException(
+                    RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED, "deadline = 10m"));
+          }
+        };
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(commitValidationListener)) {
+      PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+      PushOneCommit.Result r = push.to("refs/heads/master");
+      r.assertErrorStatus("Server Deadline Exceeded (deadline = 10m)");
     }
   }
 

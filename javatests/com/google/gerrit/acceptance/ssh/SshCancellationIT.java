@@ -99,4 +99,22 @@ public class SshCancellationIT extends AbstractDaemonTest {
       adminSshSession.assertFailure("Server Deadline Exceeded (deadline = 10m)");
     }
   }
+
+  @Test
+  public void handleWrappedRequestCancelledException() throws Exception {
+    ProjectCreationValidationListener projectCreationListener =
+        new ProjectCreationValidationListener() {
+          @Override
+          public void validateNewProject(CreateProjectArgs args) throws ValidationException {
+            throw new RuntimeException(
+                new RequestCancelledException(
+                    RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED, "deadline = 10m"));
+          }
+        };
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectCreationListener)) {
+      adminSshSession.exec("gerrit create-project " + name("new"));
+      adminSshSession.assertFailure("Server Deadline Exceeded (deadline = 10m)");
+    }
+  }
 }

@@ -46,6 +46,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
@@ -645,10 +646,18 @@ class ReceiveCommits {
       try {
         processCommandsUnsafe(commands, progress);
         rejectRemaining(commands, INTERNAL_SERVER_ERROR);
-      } catch (RequestCancelledException e) {
-        StringBuilder msg = new StringBuilder(e.formatCancellationReason());
-        if (e.getCancellationMessage().isPresent()) {
-          msg.append(String.format(" (%s)", e.getCancellationMessage().get()));
+      } catch (RuntimeException e) {
+        Optional<RequestCancelledException> requestCancelledException =
+            RequestCancelledException.getFromCausalChain(e);
+        if (!requestCancelledException.isPresent()) {
+          Throwables.throwIfUnchecked(e);
+        }
+        StringBuilder msg =
+            new StringBuilder(requestCancelledException.get().formatCancellationReason());
+        if (requestCancelledException.get().getCancellationMessage().isPresent()) {
+          msg.append(
+              String.format(
+                  " (%s)", requestCancelledException.get().getCancellationMessage().get()));
         }
         rejectRemaining(commands, msg.toString());
       }

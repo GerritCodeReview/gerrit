@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "699e06d8_e840efc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-28T17:43:06Z",
+      "side": 1,
+      "message": "Updated the commit message, thanks.",
+      "parentUuid": "5521a90b_2916a63c",
+      "revId": "4d3d826444b62f581d219c7373a13df692bff6ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74a4ef3e_db6b6e4c",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-07-16T10:13:58Z",
       "side": 1,
       "message": "Let\u0027s stay consistent with other handle methods and use this.$.",
+      "range": {
+        "startLine": 548,
+        "startChar": 4,
+        "endLine": 550,
+        "endChar": 63
+      },
+      "revId": "4d3d826444b62f581d219c7373a13df692bff6ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7892f31e_67d139b8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-28T17:43:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "74a4ef3e_db6b6e4c",
       "range": {
         "startLine": 548,
         "startChar": 4,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "494d8a65_f238f50a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-28T17:43:06Z",
+      "side": 1,
+      "message": "Fixed, thanks, done.",
+      "parentUuid": "a6ed23c9_c796cdbc",
+      "revId": "4d3d826444b62f581d219c7373a13df692bff6ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93716870_4ccbf89d",
@@ -71,6 +131,24 @@
       "writtenOn": "2021-07-16T10:13:58Z",
       "side": 1,
       "message": "checker \u003e template checker",
+      "revId": "4d3d826444b62f581d219c7373a13df692bff6ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea3ab967_bb3c0d5d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-28T17:43:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "93716870_4ccbf89d",
       "revId": "4d3d826444b62f581d219c7373a13df692bff6ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

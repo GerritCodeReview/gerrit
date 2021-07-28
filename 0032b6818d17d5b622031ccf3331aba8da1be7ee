@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65458019_1131d2db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-28T09:15:38Z",
+      "side": 1,
+      "message": "Two of these callers are PatchListKey and PatchListCacheImpl; these are used in old diff cache and will be deprecated.\n\nBaseCommitUtil is package private for diffs and internally uses nulls to refer to default parents; we could update it to be in consistence with remaining callers as in this change.\n\nDiffSummaryKey is also part of the old diff world but will remain there. It\u0027s setting its parent from PatchListKey and that should be fine to keep.",
+      "parentUuid": "e0fde439_36886077",
+      "revId": "0032b6818d17d5b622031ccf3331aba8da1be7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e68c325_6290fc9d",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-07-28T08:29:19Z",
       "side": 1,
       "message": "IIUC, this getBaseCommit-\u003egetParentCommit must be update as a part of this change.\nThe BaseCommitUtil.getParentCommit checks for null and not for zero.",
+      "range": {
+        "startLine": 390,
+        "startChar": 24,
+        "endLine": 390,
+        "endChar": 81
+      },
+      "revId": "0032b6818d17d5b622031ccf3331aba8da1be7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaabad5e_5b89d144",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-28T09:15:38Z",
+      "side": 1,
+      "message": "Yes, it should be updated. In BaseCommitUtil we use null to refer to the base commit; we could update it to use zero to be in consistence with DiffOperations (and this change).\n\nI revisited current code here and in BaseCommitUtil and it does not contain a bug:\n\n* line 379: if parent \u003e 0, we call BaseCommitUtil with that parent (good)\n* line 390: we call BaseCommitUtil with parent \u003d 0 (default parent), but numParents \u003d 1, which is checked in BaseCommitUtil (line 103) and returns that only parent.\n* line 400: we use parent \u003d 1 to get the first parent (good)\n* line 404: we use parent \u003d null to get the default parent (good)",
+      "parentUuid": "1e68c325_6290fc9d",
       "range": {
         "startLine": 390,
         "startChar": 24,

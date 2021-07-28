@@ -369,6 +369,7 @@ message ProjectProto {
   string default_dashboard = 8;
   string local_default_dashboard = 9;
   string config_ref_state = 10;
+  int64 registered_on = 11;
 }
 
 // Serialized form of com.google.gerrit.common.data.GroupReference.

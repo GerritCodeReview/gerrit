@@ -343,6 +343,7 @@ export const htmlTemplate = html`
             id="modeSelect"
             save-on-change="[[!_diffPrefsDisabled]]"
             mode="{{changeViewState.diffMode}}"
+            show-tooltip-below=""
           ></gr-diff-mode-selector>
         </div>
         <span
@@ -355,6 +356,7 @@ export const htmlTemplate = html`
               link=""
               class="prefsButton"
               has-tooltip=""
+              position-below=""
               title="Diff preferences"
               on-click="_handlePrefsTap"
               ><iron-icon icon="gr-icons:settings"></iron-icon

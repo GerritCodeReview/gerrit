@@ -43,6 +43,9 @@ export class GrDiffModeSelector extends PolymerElement {
   @property({type: Boolean})
   saveOnChange = false;
 
+  @property({type: Boolean})
+  showTooltipBelow = false;
+
   private readonly restApiService = appContext.restApiService;
 
   /** @override */

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3d68e78_31336d3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-28T16:10:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c599bb53_36b1f7ee",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc016ad2_240a1718",
@@ -42,6 +66,53 @@
         "startChar": 35,
         "endLine": 11,
         "endChar": 7
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "595559cd_44067ddc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-28T16:10:13Z",
+      "side": 1,
+      "message": "Yes, in ChangeData submitRequirements are not lazy loaded, hence changeData will return empty map for changes created from the index.\n\nPlease note that ChangeData#submitRequirements returns a detailed result of the SR (the detailed expressions results and their passing/failing atoms). For the index, I believe we only need to store the result (i.e. pass/fail/overridden) and surface it via another method in ChangeData. I think this will be sufficient, WDYT?",
+      "parentUuid": "bc016ad2_240a1718",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf9e3315_b6415ce6",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-28T16:10:13Z",
+      "side": 1,
+      "message": "Is it better to name this \"stored\" or \"fromStorage\"?",
+      "range": {
+        "startLine": 944,
+        "startChar": 84,
+        "endLine": 944,
+        "endChar": 94
       },
       "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -108,6 +179,30 @@
       "side": 1,
       "message": "Sounds good to me.",
       "parentUuid": "fbc951df_127beeb7",
+      "range": {
+        "startLine": 948,
+        "startChar": 59,
+        "endLine": 949,
+        "endChar": 73
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e53f2b50_45a21d03",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-28T16:10:13Z",
+      "side": 1,
+      "message": "I just realized that this method should return the detailed submit requirements results, and it is meant to be called on the GET change request path, which loads the change data from NoteDb and not the index. I removed the code in line 947 (for changing storage constraint) and the test that I added in this change still passed.\n\nIf I understand correctly, for the dashboard, if we want to show a quick SR result (i.e. PASS/FAIL/OVERRIDDEN/etc...) we should have another method that returns only the result, and these should be served from the index. I can implement that in a follow up change.",
+      "parentUuid": "b7fb9d56_11f3fea6",
       "range": {
         "startLine": 948,
         "startChar": 59,

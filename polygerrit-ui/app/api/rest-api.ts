@@ -338,7 +338,7 @@ export interface AuthInfo {
 export declare interface AvatarInfo {
   url: string;
   height: number;
-  width: number;
+  width?: number;
 }
 
 export type BasePatchSetNum = BrandType<'PARENT' | number, '_patchSet'>;

@@ -15,21 +15,23 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-avatar.js';
-import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader.js';
-import {appContext} from '../../../services/app-context.js';
+import '../../../test/common-test-setup-karma';
+import './gr-avatar';
+import {GrAvatar} from './gr-avatar';
+import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
+import {appContext} from '../../../services/app-context';
+import {AccountId, AccountInfo, AvatarInfo} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-avatar');
 
 suite('gr-avatar tests', () => {
-  let element;
+  let element: GrAvatar;
   const defaultAvatars = [
     {
       url: 'https://cdn.example.com/s12-p/photo.jpg',
       height: 12,
     },
-  ];
+  ] as AvatarInfo[];
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -38,39 +40,39 @@ suite('gr-avatar tests', () => {
   test('account without avatar', () => {
     assert.equal(
         element._buildAvatarURL({
-          _account_id: 123,
-        }),
+          _account_id: 123 as AccountId,
+        } as AccountInfo),
         '');
   });
 
   test('methods', () => {
     assert.equal(
         element._buildAvatarURL({
-          _account_id: 123,
+          _account_id: 123 as AccountId,
           avatars: defaultAvatars,
-        }),
+        } as AccountInfo),
         '/accounts/123/avatar?s=16');
     assert.equal(
         element._buildAvatarURL({
           email: 'test@example.com',
           avatars: defaultAvatars,
-        }),
+        } as AccountInfo),
         '/accounts/test%40example.com/avatar?s=16');
     assert.equal(
         element._buildAvatarURL({
           name: 'John Doe',
           avatars: defaultAvatars,
-        }),
+        } as AccountInfo),
         '/accounts/John%20Doe/avatar?s=16');
     assert.equal(
         element._buildAvatarURL({
           username: 'John_Doe',
           avatars: defaultAvatars,
-        }),
+        } as AccountInfo),
         '/accounts/John_Doe/avatar?s=16');
     assert.equal(
         element._buildAvatarURL({
-          _account_id: 123,
+          _account_id: 123 as AccountId,
           avatars: [
             {
               url: 'https://cdn.example.com/s12-p/photo.jpg',
@@ -84,19 +86,19 @@ suite('gr-avatar tests', () => {
               url: 'https://cdn.example.com/s100-p/photo.jpg',
               height: 100,
             },
-          ],
-        }),
+          ] as AvatarInfo[],
+        } as AccountInfo),
         'https://cdn.example.com/s16-p/photo.jpg');
     assert.equal(
         element._buildAvatarURL({
-          _account_id: 123,
+          _account_id: 123 as AccountId,
           avatars: [
             {
               url: 'https://cdn.example.com/s95-p/photo.jpg',
               height: 95,
             },
-          ],
-        }),
+          ] as AvatarInfo[],
+        } as AccountInfo),
         '/accounts/123/avatar?s=16');
     assert.equal(element._buildAvatarURL(undefined), '');
   });
@@ -114,7 +116,7 @@ suite('gr-avatar tests', () => {
 
       element.imageSize = 64;
       element.account = {
-        _account_id: 123,
+        _account_id: 123 as AccountId,
         avatars: defaultAvatars,
       };
       flush();
@@ -138,7 +140,7 @@ suite('gr-avatar tests', () => {
   });
 
   suite('plugin has avatars', () => {
-    let element;
+    let element: GrAvatar;
 
     setup(() => {
       stub('gr-avatar', '_getConfig').callsFake(() =>
@@ -166,7 +168,7 @@ suite('gr-avatar tests', () => {
   });
 
   suite('config not set', () => {
-    let element;
+    let element: GrAvatar;
 
     setup(() => {
       stub('gr-avatar', '_getConfig').callsFake(() => Promise.resolve({}));
@@ -180,7 +182,7 @@ suite('gr-avatar tests', () => {
 
       element.imageSize = 64;
       element.account = {
-        _account_id: 123,
+        _account_id: 123 as AccountId,
         avatars: defaultAvatars,
       };
       // Emulate plugins loaded.

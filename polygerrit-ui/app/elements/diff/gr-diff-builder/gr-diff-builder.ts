@@ -514,7 +514,7 @@ export abstract class GrDiffBuilder {
     if (beforeNumber !== 'FILE' && beforeNumber !== 'LOST') {
       const responsiveMode = getResponsiveMode(this._prefs, this._renderPrefs);
       const lineLimit =
-        responsiveMode !== 'FULL_RESPONSIVE'
+        responsiveMode === 'NONE'
           ? this._prefs.line_length
           : Infinity;
       const contentText = this._formatText(

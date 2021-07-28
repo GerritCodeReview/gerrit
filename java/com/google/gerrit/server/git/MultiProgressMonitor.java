@@ -14,14 +14,18 @@
 
 package com.google.gerrit.server.git;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.gerrit.server.cancellation.RequestStateProvider;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
@@ -46,8 +50,26 @@ import org.eclipse.jgit.lib.ProgressMonitor;
  * <p>Callers should try to keep task and sub-task descriptions short, since the output should fit
  * on one terminal line. (Note that git clients do not accept terminal control characters, so true
  * multi-line progress messages would be impossible.)
+ *
+ * <p>Whether the client is disconnected or the deadline is exceeded can be checked by {@link
+ * #checkIfCancelled(RequestStateProvider.OnCancelled)}. This allows the worker thread to react to
+ * cancellations and abort its execution and finish gracefully. After a cancellation has been
+ * signaled the worker thread has 10 * {@link #maxIntervalNanos} to react to the cancellation and
+ * finish gracefully. If the worker thread doesn't finish gracefully in time after the cancellation
+ * has been signaled, the future executing the task is forcefully cancelled which means that the
+ * worker thread gets interrupted and an internal error is returned to the client. To react to
+ * cancellations it is recommended that the task opens a {@link
+ * com.google.gerrit.server.cancellation.RequestStateContext} in a try-with-resources block to
+ * register the {@link MultiProgressMonitor} as a {@link RequestStateProvider}. This way the worker
+ * thread gets aborted by a {@link com.google.gerrit.server.cancellation.RequestCancelledException}
+ * when the request is cancelled which allows the worker thread to handle the cancellation
+ * gracefully by catching this exception (e.g. to return a proper error message). {@link
+ * com.google.gerrit.server.cancellation.RequestCancelledException} is only thrown when the worker
+ * thread checks for cancellation via {@link
+ * com.google.gerrit.server.cancellation.RequestStateContext#abortIfCancelled()}. E.g. this is done
+ * whenever {@link com.google.gerrit.server.logging.TraceContext.TraceTimer} is opened/closed.
  */
-public class MultiProgressMonitor {
+public class MultiProgressMonitor implements RequestStateProvider {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Constant indicating the total work units cannot be predicted. */
@@ -132,6 +154,8 @@ public class MultiProgressMonitor {
   private char spinnerState = NO_SPINNER;
   private boolean done;
   private boolean clientDisconnected;
+  private boolean deadlineExceeded;
+  private Optional<Long> timeout = Optional.empty();
 
   private final long maxIntervalNanos;
 
@@ -142,7 +166,7 @@ public class MultiProgressMonitor {
    * @param taskName name of the overall task.
    */
   public MultiProgressMonitor(OutputStream out, String taskName) {
-    this(out, taskName, 500, TimeUnit.MILLISECONDS);
+    this(out, taskName, 500, MILLISECONDS);
   }
 
   /**
@@ -192,7 +216,8 @@ public class MultiProgressMonitor {
     long overallStart = System.nanoTime();
     long deadline;
     if (timeoutTime > 0) {
-      deadline = overallStart + NANOSECONDS.convert(timeoutTime, timeoutUnit);
+      timeout = Optional.of(NANOSECONDS.convert(timeoutTime, timeoutUnit));
+      deadline = overallStart + timeout.get();
     } else {
       deadline = 0;
     }
@@ -212,14 +237,28 @@ public class MultiProgressMonitor {
         long now = System.nanoTime();
 
         if (deadline > 0 && now > deadline) {
-          workerFuture.cancel(true);
-          if (workerFuture.isCancelled()) {
-            logger.atWarning().log(
-                "MultiProgressMonitor worker killed after %sms: (timeout %sms, cancelled)",
-                TimeUnit.MILLISECONDS.convert(now - overallStart, NANOSECONDS),
-                TimeUnit.MILLISECONDS.convert(now - deadline, NANOSECONDS));
+          logger.atFine().log(
+              "deadline exceeded after %sms: (timeout %sms, signaling cancellation)",
+              MILLISECONDS.convert(now - overallStart, NANOSECONDS),
+              MILLISECONDS.convert(now - deadline, NANOSECONDS));
+          deadlineExceeded = true;
+
+          // After setting deadlineExceeded = true give the worker 10 x maxIntervalNanos to react
+          // to the cancellation and return gracefully.
+          // The factor of 10 is a magic number that is a best guess for long it takes
+          // ReceiveCommits to react to a cancellation. We likely need to tweak this in follow-up
+          // changes or make it configurable.
+          if (now > deadline + 10 * maxIntervalNanos) {
+            // The worker didn't react to the cancellation, cancel it forcefully by an interrupt.
+            workerFuture.cancel(true);
+            if (workerFuture.isCancelled()) {
+              logger.atWarning().log(
+                  "MultiProgressMonitor worker killed after %sms: (timeout %sms, cancelled)",
+                  MILLISECONDS.convert(now - overallStart, NANOSECONDS),
+                  MILLISECONDS.convert(now - deadline, NANOSECONDS));
+            }
+            break;
           }
-          break;
         }
 
         left -= now - start;
@@ -239,7 +278,7 @@ public class MultiProgressMonitor {
     }
 
     // The loop exits as soon as the worker calls end(), but we give it another
-    // maxInterval to finish up and return.
+    // maxIntervalNanos to finish up and return.
     try {
       return workerFuture.get(maxIntervalNanos, NANOSECONDS);
     } catch (InterruptedException | CancellationException e) {
@@ -353,5 +392,27 @@ public class MultiProgressMonitor {
         clientDisconnected = true;
       }
     }
+  }
+
+  @Override
+  public void checkIfCancelled(OnCancelled onCancelled) {
+    if (clientDisconnected) {
+      onCancelled.onCancel(RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* message= */ null);
+    } else if (deadlineExceeded) {
+      onCancelled.onCancel(
+          RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED, formatTimeout().orElse(null));
+    }
+  }
+
+  private Optional<String> formatTimeout() {
+    if (!timeout.isPresent()) {
+      return Optional.empty();
+    }
+    long timeoutInMinutes = MINUTES.convert(timeout.get(), NANOSECONDS);
+    if (timeoutInMinutes > 0) {
+      return Optional.of(String.format("timeout=%sm", timeoutInMinutes));
+    }
+    return Optional.of(
+        String.format("timeout=%sms", MILLISECONDS.convert(timeout.get(), NANOSECONDS)));
   }
 }

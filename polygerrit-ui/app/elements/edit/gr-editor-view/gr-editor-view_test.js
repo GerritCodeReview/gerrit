@@ -317,7 +317,7 @@ suite('gr-editor-view tests', () => {
     element._showAlert('test message');
   });
 
-  test('_viewEditInChangeView respects _patchNum', () => {
+  test('_viewEditInChangeView', () => {
     element._change = {};
     navigateStub.restore();
     const navStub = sinon.stub(GerritNav, 'navigateToChange');

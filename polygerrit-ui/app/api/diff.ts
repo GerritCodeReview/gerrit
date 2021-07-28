@@ -200,7 +200,7 @@ export declare interface DiffPreferencesInfo {
   line_length: number;
   show_line_endings?: boolean;
   show_tabs?: boolean;
-  show_whitespace_errors?: boolean;
+  show_whitespace_errors?: boolean; //show_whitespace_errors
   syntax_highlighting?: boolean;
   tab_size: number;
   font_size: number;

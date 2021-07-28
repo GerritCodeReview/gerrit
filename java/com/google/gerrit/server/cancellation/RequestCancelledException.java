@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cancellation;
 
+import com.google.common.base.Throwables;
 import com.google.gerrit.common.Nullable;
 import java.util.Optional;
 import org.apache.commons.lang.WordUtils;
@@ -21,6 +22,17 @@ import org.apache.commons.lang.WordUtils;
 /** Exception to signal that the current request is cancelled and should be aborted. */
 public class RequestCancelledException extends RuntimeException {
   private static final long serialVersionUID = 1L;
+
+  /**
+   * Checks whether the given exception was caused by {@link RequestCancelledException}. If yes, the
+   * {@link RequestCancelledException} is returned. If not, {@link Optional#empty()} is returned.
+   */
+  public static Optional<RequestCancelledException> getFromCausalChain(Throwable e) {
+    return Throwables.getCausalChain(e).stream()
+        .filter(RequestCancelledException.class::isInstance)
+        .map(RequestCancelledException.class::cast)
+        .findFirst();
+  }
 
   private final RequestStateProvider.Reason cancellationReason;
   private final Optional<String> cancellationMessage;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "107d00ac_c7a23bbb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-29T15:45:02Z",
+      "side": 1,
+      "message": "This would be actually better if it is CustomKeyboardEvent from polygerrit-ui/app/types/events.ts\n\nand then in tests\nI would use \n```\nelement._handleEnterByKey(\n      new CustomEvent(\u0027keydown\u0027, {detail: {keyboardEvent: {keyCode: 13}}})as CustomKeyboardEvent\n    );\n    ```",
+      "range": {
+        "startLine": 237,
+        "startChar": 23,
+        "endLine": 237,
+        "endChar": 34
+      },
+      "revId": "165063060d0a4afa337a2672ffca6a2852310318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

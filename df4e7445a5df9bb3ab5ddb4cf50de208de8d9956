@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8c2c8b7_a36baa83",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-29T13:03:47Z",
+      "side": 1,
+      "message": "nit: You could make this a method on the cancellation reason enum",
+      "range": {
+        "startLine": 723,
+        "startChar": 14,
+        "endLine": 723,
+        "endChar": 24
+      },
+      "revId": "df4e7445a5df9bb3ab5ddb4cf50de208de8d9956",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

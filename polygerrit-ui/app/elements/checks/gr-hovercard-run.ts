@@ -37,7 +37,7 @@ export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
   }
 
   @property({type: Object})
-  run?: CheckRun;
+  run?: CheckRun; //
 
   computeIcon(run?: CheckRun) {
     if (!run) return '';
@@ -111,6 +111,10 @@ export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
   hideDescriptionSection(run?: CheckRun) {
     if (!run) return true;
     return !run.checkLink && !run.checkDescription;
+  }
+
+  _convertUndefined(value?: string) {
+    return value ?? '';
   }
 }
 

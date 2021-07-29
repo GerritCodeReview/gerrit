@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39c4ca68_c3f03baa",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-07-29T07:51:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efc17933_2bc80708",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 8
+      },
+      "revId": "01cd91e62cc9a2c26cc9e83c9b8020e379286cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d975bab_ceb14819",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "Yeah, I was waiting for the checks and I was planning to add you as a reviewer because I had doubts which one is correct. I believe I\u0027ve picked up the newer version. I will address the comments. Thanks!",
       "parentUuid": "0d975bab_ceb14819",
+      "range": {
+        "startLine": 326,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 60
+      },
+      "revId": "01cd91e62cc9a2c26cc9e83c9b8020e379286cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "499ae542_df74f5cd",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-07-29T07:51:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3337bb0_65126231",
       "range": {
         "startLine": 326,
         "startChar": 0,

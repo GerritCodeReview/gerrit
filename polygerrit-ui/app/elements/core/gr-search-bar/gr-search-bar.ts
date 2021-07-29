@@ -180,7 +180,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(PolymerElement) {
   accountSuggestions: SuggestionProvider = () => Promise.resolve([]);
 
   @property({type: String})
-  _inputVal?: string;
+  _inputVal = '';
 
   @property({type: Number})
   _threshold = 1;

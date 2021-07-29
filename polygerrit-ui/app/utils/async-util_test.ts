@@ -15,32 +15,32 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
-import {asyncForeach} from './async-util.js';
+import '../test/common-test-setup-karma';
+import {asyncForeach} from './async-util';
 
 suite('async-util tests', () => {
-  test('loops over each item', () => {
-    const fn = sinon.stub().returns(Promise.resolve());
-    return asyncForeach([1, 2, 3], fn)
-        .then(() => {
-          assert.isTrue(fn.calledThrice);
-          assert.equal(fn.getCall(0).args[0], 1);
-          assert.equal(fn.getCall(1).args[0], 2);
-          assert.equal(fn.getCall(2).args[0], 3);
-        });
+  test('loops over each item', async () => {
+    const fn = sinon.stub().resolves();
+
+    await asyncForeach([1, 2, 3], fn);
+
+    assert.isTrue(fn.calledThrice);
+    assert.equal(fn.firstCall.firstArg, 1);
+    assert.equal(fn.secondCall.firstArg, 2);
+    assert.equal(fn.thirdCall.firstArg, 3);
   });
 
-  test('halts on stop condition', () => {
+  test('halts on stop condition', async () => {
     const stub = sinon.stub();
-    const fn = (e, stop) => {
-      stub(e);
-      stop();
+    const fn = (item: number, stopCallback: () => void) => {
+      stub(item);
+      stopCallback();
       return Promise.resolve();
     };
-    return asyncForeach([1, 2, 3], fn)
-        .then(() => {
-          assert.isTrue(stub.calledOnce);
-          assert.equal(stub.lastCall.args[0], 1);
-        });
+
+    await asyncForeach([1, 2, 3], fn);
+
+    assert.isTrue(stub.calledOnce);
+    assert.equal(stub.lastCall.firstArg, 1);
   });
 });

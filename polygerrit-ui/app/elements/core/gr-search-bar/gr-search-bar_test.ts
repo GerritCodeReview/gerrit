@@ -15,17 +15,23 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-search-bar.js';
-import '../../../scripts/util.js';
-import {TestKeyboardShortcutBinder, stubRestApi} from '../../../test/test-utils.js';
-import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {_testOnly_clearDocsBaseUrlCache} from '../../../utils/url-util.js';
+import '../../../test/common-test-setup-karma';
+import './gr-search-bar';
+import '../../../scripts/util';
+import {GrSearchBar} from './gr-search-bar';
+import {
+  TestKeyboardShortcutBinder,
+  stubRestApi,
+} from '../../../test/test-utils';
+import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {_testOnly_clearDocsBaseUrlCache} from '../../../utils/url-util';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {ServerInfo} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-search-bar');
 
 suite('gr-search-bar tests', () => {
-  let element;
+  let element: GrSearchBar;
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
@@ -46,26 +52,34 @@ suite('gr-search-bar tests', () => {
     assert.equal(element._inputVal, 'foo');
   });
 
-  const getActiveElement = () => (document.activeElement.shadowRoot ?
-    document.activeElement.shadowRoot.activeElement :
-    document.activeElement);
+  const getActiveElement = () =>
+    document.activeElement!.shadowRoot
+      ? document.activeElement!.shadowRoot.activeElement
+      : document.activeElement;
 
   test('enter in search input fires event', done => {
     element.addEventListener('handle-search', () => {
       assert.notEqual(getActiveElement(), element.$.searchInput);
-      assert.notEqual(getActiveElement(), element.$.searchButton);
       done();
     });
     element.value = 'test';
-    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-        null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(
+      element.$.searchInput.$.input,
+      13,
+      null,
+      'enter'
+    );
   });
 
   test('input blurred after commit', () => {
     const blurSpy = sinon.spy(element.$.searchInput.$.input, 'blur');
     element.$.searchInput.text = 'fate/stay';
-    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-        null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(
+      element.$.searchInput.$.input,
+      13,
+      null,
+      'enter'
+    );
     assert.isTrue(blurSpy.called);
   });
 
@@ -73,8 +87,12 @@ suite('gr-search-bar tests', () => {
     const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = '';
-    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-        null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(
+      element.$.searchInput.$.input,
+      13,
+      null,
+      'enter'
+    );
     assert.isFalse(searchSpy.called);
   });
 
@@ -82,8 +100,12 @@ suite('gr-search-bar tests', () => {
     const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'added:';
-    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-        null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(
+      element.$.searchInput.$.input,
+      13,
+      null,
+      'enter'
+    );
     assert.isFalse(searchSpy.called);
   });
 
@@ -91,8 +113,12 @@ suite('gr-search-bar tests', () => {
     const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'age:1week';
-    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-        null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(
+      element.$.searchInput.$.input,
+      13,
+      null,
+      'enter'
+    );
     assert.isTrue(searchSpy.called);
   });
 
@@ -100,8 +126,12 @@ suite('gr-search-bar tests', () => {
     const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'random:1week';
-    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-        null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(
+      element.$.searchInput.$.input,
+      13,
+      null,
+      'enter'
+    );
     assert.isTrue(searchSpy.called);
   });
 
@@ -109,8 +139,12 @@ suite('gr-search-bar tests', () => {
     const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'random:';
-    MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-        null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(
+      element.$.searchInput.$.input,
+      13,
+      null,
+      'enter'
+    );
     assert.isTrue(searchSpy.called);
   });
 
@@ -129,21 +163,23 @@ suite('gr-search-bar tests', () => {
     });
 
     test('Autocompletes accounts', () => {
-      sinon.stub(element, 'accountSuggestions').callsFake(() =>
-        Promise.resolve([{text: 'owner:fred@goog.co'}])
-      );
+      sinon
+        .stub(element, 'accountSuggestions')
+        .callsFake(() => Promise.resolve([{text: 'owner:fred@goog.co'}]));
       return element._getSearchSuggestions('owner:fr').then(s => {
         assert.equal(s[0].value, 'owner:fred@goog.co');
       });
     });
 
     test('Autocompletes groups', done => {
-      sinon.stub(element, 'groupSuggestions').callsFake(() =>
-        Promise.resolve([
-          {text: 'ownerin:Polygerrit'},
-          {text: 'ownerin:gerrit'},
-        ])
-      );
+      sinon
+        .stub(element, 'groupSuggestions')
+        .callsFake(() =>
+          Promise.resolve([
+            {text: 'ownerin:Polygerrit'},
+            {text: 'ownerin:gerrit'},
+          ])
+        );
       element._getSearchSuggestions('ownerin:pol').then(s => {
         assert.equal(s[0].value, 'ownerin:Polygerrit');
         done();
@@ -151,13 +187,15 @@ suite('gr-search-bar tests', () => {
     });
 
     test('Autocompletes projects', done => {
-      sinon.stub(element, 'projectSuggestions').callsFake(() =>
-        Promise.resolve([
-          {text: 'project:Polygerrit'},
-          {text: 'project:gerrit'},
-          {text: 'project:gerrittest'},
-        ])
-      );
+      sinon
+        .stub(element, 'projectSuggestions')
+        .callsFake(() =>
+          Promise.resolve([
+            {text: 'project:Polygerrit'},
+            {text: 'project:gerrit'},
+            {text: 'project:gerrittest'},
+          ])
+        );
       element._getSearchSuggestions('project:pol').then(s => {
         assert.equal(s[0].value, 'project:Polygerrit');
         done();
@@ -193,11 +231,13 @@ suite('gr-search-bar tests', () => {
   ].forEach(mergeability => {
     suite(`mergeability as ${mergeability}`, () => {
       setup(done => {
-        stubRestApi('getConfig').returns(Promise.resolve({
-          change: {
-            mergeability_computation_behavior: mergeability,
-          },
-        }));
+        stubRestApi('getConfig').returns(
+          Promise.resolve({
+            change: {
+              mergeability_computation_behavior: mergeability,
+            },
+          } as ServerInfo)
+        );
 
         element = basicFixture.instantiate();
         flush(done);
@@ -218,11 +258,13 @@ suite('gr-search-bar tests', () => {
 
   suite('doc url', () => {
     setup(done => {
-      stubRestApi('getConfig').returns(Promise.resolve({
-        gerrit: {
-          doc_url: 'https://doc.com/',
-        },
-      }));
+      stubRestApi('getConfig').returns(
+        Promise.resolve({
+          gerrit: {
+            doc_url: 'https://doc.com/',
+          },
+        } as ServerInfo)
+      );
 
       _testOnly_clearDocsBaseUrlCache();
       element = basicFixture.instantiate();
@@ -232,18 +274,17 @@ suite('gr-search-bar tests', () => {
     test('compute help doc url with correct path', () => {
       assert.equal(element.docBaseUrl, 'https://doc.com/');
       assert.equal(
-          element._computeHelpDocLink(element.docBaseUrl),
-          'https://doc.com/user-search.html'
+        element._computeHelpDocLink(element.docBaseUrl),
+        'https://doc.com/user-search.html'
       );
     });
 
     test('compute help doc url fallback to gerrit url', () => {
       assert.equal(
-          element._computeHelpDocLink(),
-          'https://gerrit-review.googlesource.com/documentation/' +
+        element._computeHelpDocLink(null),
+        'https://gerrit-review.googlesource.com/documentation/' +
           'user-search.html'
       );
     });
   });
 });
-

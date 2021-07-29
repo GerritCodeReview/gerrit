@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1df45b29_c13b294a",
+        "filename": "polygerrit-ui/app/utils/display-name-util_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-29T16:19:31Z",
+      "side": 1,
+      "message": "I can remove this line and ts is not complaining. So i think it\u0027s not needed",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 44
+      },
+      "revId": "5edd33b9da97525d6150776a102d4e5cab015689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

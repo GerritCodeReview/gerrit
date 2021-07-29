@@ -26,6 +26,7 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {fireEvent} from '../../../utils/event-util';
+import {EmojiSuggestion} from '../gr-textarea/gr-textarea';
 
 export interface GrAutocompleteDropdown {
   $: {
@@ -81,7 +82,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
   horizontalOffset: number | null = null;
 
   @property({type: Array})
-  suggestions: Item[] = [];
+  suggestions: Item[] | EmojiSuggestion[] = [];
 
   get keyBindings() {
     return {

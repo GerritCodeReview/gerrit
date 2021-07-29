@@ -56,15 +56,15 @@ const ALL_SUGGESTIONS: EmojiSuggestion[] = [
   {value: '😜', match: 'winking tongue ;)'},
 ];
 
-interface EmojiSuggestion {
+interface ValueChangeEvent {
+  value: string;
+}
+
+export interface EmojiSuggestion {
   value: string;
   match: string;
   dataValue?: string;
   text?: string;
-}
-
-interface ValueChangeEvent {
-  value: string;
 }
 
 export interface GrTextarea {
@@ -74,6 +74,13 @@ export interface GrTextarea {
     caratSpan: HTMLSpanElement;
     hiddenText: HTMLDivElement;
   };
+}
+
+declare global {
+  interface HTMLElementEventMap {
+    'item-selected': CustomEvent;
+    'bind-value-changed': CustomEvent<ValueChangeEvent>;
+  }
 }
 
 @customElement('gr-textarea')
@@ -86,7 +93,7 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
    * @event bind-value-changed
    */
   @property({type: Boolean})
-  autocomplete?: boolean;
+  autocomplete?: string;
 
   @property({type: Boolean})
   disabled?: boolean;
@@ -101,7 +108,7 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
   placeholder?: string;
 
   @property({type: String, notify: true, observer: '_handleTextChanged'})
-  text?: string;
+  text = '';
 
   @property({type: Boolean})
   hideBorder = false;
@@ -125,10 +132,10 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
   _hideEmojiAutocomplete = true;
 
   @property({type: Number})
-  _index?: number;
+  _index: number | null = null;
 
   @property({type: Array})
-  _suggestions?: EmojiSuggestion[];
+  _suggestions: EmojiSuggestion[] = [];
 
   @property({type: Number})
   readonly _verticalOffset = 20;

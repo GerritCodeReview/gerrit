@@ -34,5 +34,5 @@ export const htmlTemplate = html`
     coverage-ranges="[[_rightCoverageRanges]]"
     side="right"
   ></gr-coverage-layer>
-  <gr-diff-processor id="processor" groups="{{_groups}}"></gr-diff-processor>
+  <gr-diff-processor id="processor" groups="{{_groups}}" async-threshold="[[asyncThreshold]]"></gr-diff-processor>
 `;

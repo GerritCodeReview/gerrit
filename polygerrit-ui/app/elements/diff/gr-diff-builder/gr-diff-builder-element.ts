@@ -113,6 +113,9 @@ export class GrDiffBuilderElement extends PolymerElement {
   @property({type: String})
   path?: string;
 
+  @property({type: Number})
+  asyncThreshold = 64;
+
   @property({type: Object})
   _builder?: GrDiffBuilder;
 

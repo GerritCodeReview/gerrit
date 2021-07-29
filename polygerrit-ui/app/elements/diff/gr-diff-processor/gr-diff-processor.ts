@@ -100,7 +100,7 @@ export class GrDiffProcessor extends PolymerElement {
   keyLocations: KeyLocations = {left: {}, right: {}};
 
   @property({type: Number})
-  _asyncThreshold = 64;
+  asyncThreshold = 64;
 
   @property({type: Number})
   _nextStepHandle: number | null = null;
@@ -192,7 +192,7 @@ export class GrDiffProcessor extends PolymerElement {
 
           // Increment the index and recurse.
           state.chunkIndex = stateUpdate.newChunkIndex;
-          if (currentBatch >= this._asyncThreshold) {
+          if (currentBatch >= this.asyncThreshold) {
             currentBatch = 0;
             this._nextStepHandle = window.setTimeout(nextStep, 1);
           } else {

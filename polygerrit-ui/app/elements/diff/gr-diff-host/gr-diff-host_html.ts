@@ -41,6 +41,7 @@ export const htmlTemplate = html`
     show-newline-warning-left="[[_showNewlineWarningLeft(diff)]]"
     show-newline-warning-right="[[_showNewlineWarningRight(diff)]]"
     use-new-image-diff-ui="[[_useNewImageDiffUi()]]"
+    async-threshold="128"
   >
   </gr-diff>
 `;

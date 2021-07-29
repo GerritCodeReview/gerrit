@@ -269,6 +269,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   @property({type: String, observer: '_useNewImageDiffUiObserver'})
   useNewImageDiffUi = false;
 
+  @property({type: Number})
+  asyncThreshold = 64;
+
   @property({
     type: String,
     computed:

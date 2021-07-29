@@ -570,6 +570,7 @@ export const htmlTemplate = html`
           layers="[[layers]]"
           revision-image="[[revisionImage]]"
           use-new-image-diff-ui="[[useNewImageDiffUi]]"
+          async-threshold="[[asyncThreshold]]"
         >
           <table
             id="diffTable"

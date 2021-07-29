@@ -130,7 +130,7 @@ export const htmlTemplate = html`
         <div hidden$="[[!run.statusLink]]" class="row">
           <div class="title">Status</div>
           <div>
-            <a href="[[run.statusLink]]" target="_blank"
+            <a href="[[_convertUndefined(run.statusLink)]]" target="_blank"
               ><iron-icon
                 aria-label="external link to check status"
                 class="small link"
@@ -202,7 +202,7 @@ export const htmlTemplate = html`
         <div hidden$="[[!run.checkLink]]" class="row">
           <div class="title">Documentation</div>
           <div>
-            <a href="[[run.checkLink]]" target="_blank"
+            <a href="[[_convertUndefined(run.checkLink)]]" target="_blank"
               ><iron-icon
                 aria-label="external link to check documentation"
                 class="small link"
@@ -217,7 +217,6 @@ export const htmlTemplate = html`
     <template is="dom-repeat" items="[[computeActions(run)]]">
       <div class="action">
         <gr-checks-action
-          event-target="[[_target]]"
           action="[[item]]"
         ></gr-checks-action>
       </div>

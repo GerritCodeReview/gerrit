@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f346f48_d4b6bcf4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-29T23:46:28Z",
+      "side": 0,
+      "message": "Should we remove this as bind-value does this?",
+      "range": {
+        "startLine": 121,
+        "startChar": 12,
+        "endLine": 121,
+        "endChar": 31
+      },
+      "revId": "bf78ab82680edfe7cff077ecb6ab7a65cf2585a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

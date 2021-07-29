@@ -39,7 +39,7 @@ declare global {
   }
 }
 
-interface Item {
+export interface Item {
   dataValue?: string;
   name?: string;
   text?: string;

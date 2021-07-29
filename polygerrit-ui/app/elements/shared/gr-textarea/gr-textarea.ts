@@ -28,7 +28,7 @@ import {appContext} from '../../../services/app-context';
 import {customElement, property} from '@polymer/decorators';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import {GrAutocompleteDropdown, Item} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -56,7 +56,7 @@ const ALL_SUGGESTIONS: EmojiSuggestion[] = [
   {value: '😜', match: 'winking tongue ;)'},
 ];
 
-interface EmojiSuggestion {
+interface EmojiSuggestion extends Item {
   value: string;
   match: string;
   dataValue?: string;

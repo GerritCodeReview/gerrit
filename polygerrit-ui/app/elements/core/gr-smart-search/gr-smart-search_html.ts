@@ -28,3 +28,4 @@ export const htmlTemplate = html`
     account-suggestions="[[_accountSuggestions]]"
   ></gr-search-bar>
 `;
+

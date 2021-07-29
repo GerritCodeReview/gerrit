@@ -22,6 +22,30 @@
       },
       "revId": "165063060d0a4afa337a2672ffca6a2852310318",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a96402f_7768f4b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-29T16:37:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "107d00ac_c7a23bbb",
+      "range": {
+        "startLine": 237,
+        "startChar": 23,
+        "endLine": 237,
+        "endChar": 34
+      },
+      "revId": "165063060d0a4afa337a2672ffca6a2852310318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

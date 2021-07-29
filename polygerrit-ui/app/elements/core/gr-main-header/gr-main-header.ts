@@ -110,7 +110,7 @@ export class GrMainHeader extends PolymerElement {
   }
 
   @property({type: String, notify: true})
-  searchQuery?: string;
+  searchQuery = '';
 
   @property({type: Boolean, reflectToAttribute: true})
   loggedIn?: boolean;

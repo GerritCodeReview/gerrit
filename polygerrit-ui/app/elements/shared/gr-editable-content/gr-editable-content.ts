@@ -106,13 +106,14 @@ export class GrEditableContent extends PolymerElement {
   _saveDisabled!: boolean;
 
   @property({type: String, observer: '_newContentChanged'})
-  _newContent?: string;
+  _newContent = '';
 
   private readonly storage = appContext.storageService;
 
   private readonly reporting = appContext.reportingService;
 
-  private storeTask?: DelayedTask;
+  // Tests use this so needs to be non private
+  storeTask?: DelayedTask;
 
   /** @override */
   ready() {

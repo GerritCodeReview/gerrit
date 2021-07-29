@@ -48,6 +48,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6acad5e_ad2e6a2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1127770
+      },
+      "writtenOn": "2021-07-29T18:11:59Z",
+      "side": 1,
+      "message": "Serialization and deserialization tests will fail without proto. ",
+      "revId": "cad6b08b825f29a79319115b738a0cdf1df6a167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a95ea0d_a16d9723",

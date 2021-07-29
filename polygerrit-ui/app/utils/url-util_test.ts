@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
+import {ServerInfo} from '../api/rest-api';
+import '../test/common-test-setup-karma';
+import {createGerritInfo, createServerInfo} from '../test/test-data-generators';
 import {
   getBaseUrl,
   getDocsBaseUrl,
@@ -25,11 +27,13 @@ import {
   toPath,
   toPathname,
   toSearchParams,
-} from './url-util.js';
+} from './url-util';
+import {appContext} from '../services/app-context';
+import {stubRestApi} from '../test/test-utils';
 
 suite('url-util tests', () => {
   suite('getBaseUrl tests', () => {
-    let originalCanonicalPath;
+    let originalCanonicalPath: string | undefined;
 
     suiteSetup(() => {
       originalCanonicalPath = window.CANONICAL_PATH;
@@ -51,43 +55,50 @@ suite('url-util tests', () => {
     });
 
     test('null config', async () => {
-      const mockRestApi = {
-        probePath: sinon.stub().returns(Promise.resolve(true)),
-      };
-      const docsBaseUrl = await getDocsBaseUrl(null, mockRestApi);
-      assert.isTrue(
-          mockRestApi.probePath.calledWith('/Documentation/index.html'));
+      const probePathMock = stubRestApi('probePath').resolves(true);
+      const docsBaseUrl = await getDocsBaseUrl(
+        undefined,
+        appContext.restApiService
+      );
+      assert.isTrue(probePathMock.calledWith('/Documentation/index.html'));
       assert.equal(docsBaseUrl, '/Documentation');
     });
 
     test('no doc config', async () => {
-      const mockRestApi = {
-        probePath: sinon.stub().returns(Promise.resolve(true)),
+      const probePathMock = stubRestApi('probePath').resolves(true);
+      const config: ServerInfo = {
+        ...createServerInfo(),
+        gerrit: createGerritInfo(),
       };
-      const config = {gerrit: {}};
-      const docsBaseUrl = await getDocsBaseUrl(config, mockRestApi);
-      assert.isTrue(
-          mockRestApi.probePath.calledWith('/Documentation/index.html'));
+      const docsBaseUrl = await getDocsBaseUrl(
+        config,
+        appContext.restApiService
+      );
+      assert.isTrue(probePathMock.calledWith('/Documentation/index.html'));
       assert.equal(docsBaseUrl, '/Documentation');
     });
 
     test('has doc config', async () => {
-      const mockRestApi = {
-        probePath: sinon.stub().returns(Promise.resolve(true)),
+      const probePathMock = stubRestApi('probePath').resolves(true);
+      const config: ServerInfo = {
+        ...createServerInfo(),
+        gerrit: {...createGerritInfo(), doc_url: 'foobar'},
       };
-      const config = {gerrit: {doc_url: 'foobar'}};
-      const docsBaseUrl = await getDocsBaseUrl(config, mockRestApi);
-      assert.isFalse(mockRestApi.probePath.called);
+      const docsBaseUrl = await getDocsBaseUrl(
+        config,
+        appContext.restApiService
+      );
+      assert.isFalse(probePathMock.called);
       assert.equal(docsBaseUrl, 'foobar');
     });
 
     test('no probe', async () => {
-      const mockRestApi = {
-        probePath: sinon.stub().returns(Promise.resolve(false)),
-      };
-      const docsBaseUrl = await getDocsBaseUrl(null, mockRestApi);
-      assert.isTrue(
-          mockRestApi.probePath.calledWith('/Documentation/index.html'));
+      const probePathMock = stubRestApi('probePath').resolves(false);
+      const docsBaseUrl = await getDocsBaseUrl(
+        undefined,
+        appContext.restApiService
+      );
+      assert.isTrue(probePathMock.calledWith('/Documentation/index.html'));
       assert.isNotOk(docsBaseUrl);
     });
   });
@@ -144,7 +155,9 @@ suite('url-util tests', () => {
     assert.equal(toPath('asdf', params), 'asdf');
     params.set('qwer', 'zxcv');
     assert.equal(toPath('asdf', params), 'asdf?qwer=zxcv');
-    assert.equal(toPath(toPathname('asdf?qwer=zxcv'),
-        toSearchParams('asdf?qwer=zxcv')), 'asdf?qwer=zxcv');
+    assert.equal(
+      toPath(toPathname('asdf?qwer=zxcv'), toSearchParams('asdf?qwer=zxcv')),
+      'asdf?qwer=zxcv'
+    );
   });
 });

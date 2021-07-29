@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fe3edf2_a3568840",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-29T16:40:46Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4a19cadc_2c146fc4",
+      "range": {
+        "startLine": 84,
+        "startChar": 11,
+        "endLine": 84,
+        "endChar": 45
+      },
+      "revId": "bc51db87dea8cabfe6406767b6ed0b526d91a98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d0a9016_dbe81a32",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-07-29T16:31:05Z",
       "side": 1,
       "message": "Nit: Maybe it would be enough:\n\n`return resolveWeblinks[0].url ?? \u0027\u0027;`",
+      "range": {
+        "startLine": 115,
+        "startChar": 13,
+        "endLine": 115,
+        "endChar": 65
+      },
+      "revId": "bc51db87dea8cabfe6406767b6ed0b526d91a98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fecb7c42_e90f4f2b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-29T16:40:46Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3d0a9016_dbe81a32",
       "range": {
         "startLine": 115,
         "startChar": 13,

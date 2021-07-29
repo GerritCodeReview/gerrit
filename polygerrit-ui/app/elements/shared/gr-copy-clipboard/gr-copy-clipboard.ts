@@ -20,6 +20,7 @@ import '../gr-icons/gr-icons';
 import {IronIconElement} from '@polymer/iron-icon';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {classMap} from 'lit-html/directives/class-map';
+import {ifDefined} from 'lit-html/directives/if-defined';
 import {css, customElement, html, property} from 'lit-element';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {GrButton} from '../gr-button/gr-button';
@@ -126,7 +127,7 @@ export class GrCopyClipboard extends GrLitElement {
           link=""
           ?has-tooltip=${this.hasTooltip}
           class="copyToClipboard"
-          title="${this.buttonTitle}"
+          title="${ifDefined(this.buttonTitle)}"
           @click="${this._copyToClipboard}"
           aria-label="Click to copy to clipboard"
         >

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91dbb428_8a51130e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-29T13:11:44Z",
+      "side": 1,
+      "message": "Are there \"points of no return\" in the computation?\n\nSo for example, if we have already created the change / completed the Git transaction, we can cancel, but that will just mean that the index becomes stale.\n\nI guess we\u0027re saying that we don\u0027t care about such cases so that this mechanism remains as simple as possible. Would be good to document that maybe in your DD.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 69
+      },
+      "revId": "16a16dad7df7e095c286f315c7d7ef9ae629e957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d06255b_0ec530bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-29T13:11:44Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 44,
+        "startChar": 14,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "16a16dad7df7e095c286f315c7d7ef9ae629e957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b92e986_95d43469",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-29T13:11:44Z",
+      "side": 1,
+      "message": "Magic number? If so, mention that it\u0027s a best guess.",
+      "range": {
+        "startLine": 247,
+        "startChar": 31,
+        "endLine": 247,
+        "endChar": 33
+      },
+      "revId": "16a16dad7df7e095c286f315c7d7ef9ae629e957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

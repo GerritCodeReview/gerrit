@@ -100,6 +100,7 @@ import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.ServiceUserClassifierImpl;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
+import com.google.gerrit.server.account.externalids.ExternalIdUpdatePreprocessor;
 import com.google.gerrit.server.approval.ApprovalCacheImpl;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.auth.AuthBackend;
@@ -476,5 +477,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ReloadPluginListener.class)
         .annotatedWith(UniqueAnnotations.create())
         .to(PluginConfigFactory.class);
+    DynamicItem.itemOf(binder(), ExternalIdUpdatePreprocessor.class);
   }
 }

@@ -15,14 +15,16 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-smart-search.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-smart-search';
+import {GrSmartSearch} from './gr-smart-search';
+import {stubRestApi} from '../../../test/test-utils';
+import {EmailAddress, GroupId, UrlEncodedRepoName} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-smart-search');
 
 suite('gr-smart-search tests', () => {
-  let element;
+  let element: GrSmartSearch;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -33,7 +35,7 @@ suite('gr-smart-search tests', () => {
       Promise.resolve([
         {
           name: 'fred',
-          email: 'fred@goog.co',
+          email: 'fred@goog.co' as EmailAddress,
         },
       ])
     );
@@ -43,51 +45,53 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Inserts self as option when valid', () => {
-    stubRestApi('getSuggestedAccounts').callsFake( () =>
+    stubRestApi('getSuggestedAccounts').callsFake(() =>
       Promise.resolve([
         {
           name: 'fred',
-          email: 'fred@goog.co',
+          email: 'fred@goog.co' as EmailAddress,
         },
       ])
     );
-    element._fetchAccounts('owner', 's')
-        .then(s => {
-          assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
-          assert.deepEqual(s[1], {text: 'owner:self'});
-        })
-        .then(() => element._fetchAccounts('owner', 'selfs'))
-        .then(s => {
-          assert.notEqual(s[0], {text: 'owner:self'});
-        });
+    element
+      ._fetchAccounts('owner', 's')
+      .then(s => {
+        assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
+        assert.deepEqual(s[1], {text: 'owner:self'});
+      })
+      .then(() => element._fetchAccounts('owner', 'selfs'))
+      .then(s => {
+        assert.notEqual(s[0], {text: 'owner:self'});
+      });
   });
 
   test('Inserts me as option when valid', () => {
-    stubRestApi('getSuggestedAccounts').callsFake( () =>
+    stubRestApi('getSuggestedAccounts').callsFake(() =>
       Promise.resolve([
         {
           name: 'fred',
-          email: 'fred@goog.co',
+          email: 'fred@goog.co' as EmailAddress,
         },
       ])
     );
-    return element._fetchAccounts('owner', 'm')
-        .then(s => {
-          assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
-          assert.deepEqual(s[1], {text: 'owner:me'});
-        })
-        .then(() => element._fetchAccounts('owner', 'meme'))
-        .then(s => {
-          assert.notEqual(s[0], {text: 'owner:me'});
-        });
+    return element
+      ._fetchAccounts('owner', 'm')
+      .then(s => {
+        assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
+        assert.deepEqual(s[1], {text: 'owner:me'});
+      })
+      .then(() => element._fetchAccounts('owner', 'meme'))
+      .then(s => {
+        assert.notEqual(s[0], {text: 'owner:me'});
+      });
   });
 
   test('Autocompletes groups', () => {
-    stubRestApi('getSuggestedGroups').callsFake( () =>
+    stubRestApi('getSuggestedGroups').callsFake(() =>
       Promise.resolve({
-        Polygerrit: 0,
-        gerrit: 0,
-        gerrittest: 0,
+        Polygerrit: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
+        gerrit: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
+        gerrittest: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
       })
     );
     return element._fetchGroups('ownerin', 'pol').then(s => {
@@ -96,19 +100,20 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes projects', () => {
-    stubRestApi('getSuggestedProjects').callsFake( () =>
-      Promise.resolve({Polygerrit: 0}));
+    stubRestApi('getSuggestedProjects').callsFake(() =>
+      Promise.resolve({Polygerrit: {id: 'test' as UrlEncodedRepoName}})
+    );
     return element._fetchProjects('project', 'pol').then(s => {
       assert.deepEqual(s[0], {text: 'project:Polygerrit'});
     });
   });
 
   test('Autocomplete doesnt override exact matches to input', () => {
-    stubRestApi('getSuggestedGroups').callsFake( () =>
+    stubRestApi('getSuggestedGroups').callsFake(() =>
       Promise.resolve({
-        Polygerrit: 0,
-        gerrit: 0,
-        gerrittest: 0,
+        Polygerrit: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
+        gerrit: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
+        gerrittest: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
       })
     );
     return element._fetchGroups('ownerin', 'gerrit').then(s => {
@@ -119,19 +124,20 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes accounts with no email', () => {
-    stubRestApi('getSuggestedAccounts').callsFake( () =>
-      Promise.resolve([{name: 'fred'}]));
+    stubRestApi('getSuggestedAccounts').callsFake(() =>
+      Promise.resolve([{name: 'fred'}])
+    );
     return element._fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:"fred"', label: 'fred'});
     });
   });
 
   test('Autocompletes accounts with email', () => {
-    stubRestApi('getSuggestedAccounts').callsFake( () =>
-      Promise.resolve([{email: 'fred@goog.co'}]));
+    stubRestApi('getSuggestedAccounts').callsFake(() =>
+      Promise.resolve([{email: 'fred@goog.co' as EmailAddress}])
+    );
     return element._fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: ''});
     });
   });
 });
-

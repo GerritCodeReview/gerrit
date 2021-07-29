@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "111b5a78_02ad41f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-29T12:58:29Z",
+      "side": 1,
+      "message": "plural, so no \u0027\n\nhere and below",
+      "range": {
+        "startLine": 7,
+        "startChar": 57,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "15ee82d05fd299d121d68a03d0e19dce96ed93d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50c605d7_5e9e626c",
+        "filename": "java/com/google/gerrit/server/cancellation/RequestStateContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-29T12:58:29Z",
+      "side": 1,
+      "message": "The name is quite close to \"RequestContext\". Can we explain in the JavaDoc of either of them why they are different any why we need them to be separate?",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "15ee82d05fd299d121d68a03d0e19dce96ed93d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

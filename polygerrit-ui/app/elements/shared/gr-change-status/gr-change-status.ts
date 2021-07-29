@@ -77,11 +77,11 @@ export class GrChangeStatus extends PolymerElement {
   @property({type: Object})
   resolveWeblinks?: GeneratedWebLink[] = [];
 
-  _computeStatusString(status: ChangeStates) {
+  _computeStatusString(status?: ChangeStates) {
     if (status === ChangeStates.WIP && !this.flat) {
       return 'Work in Progress';
     }
-    return status;
+    return status ?? '';
   }
 
   _toClassName(str?: ChangeStates) {
@@ -107,14 +107,14 @@ export class GrChangeStatus extends PolymerElement {
     revertedChange?: ChangeInfo,
     resolveWeblinks?: GeneratedWebLink[],
     status?: ChangeStates
-  ): string | undefined {
+  ): string {
     if (revertedChange) {
       return GerritNav.getUrlForSearchQuery(`${revertedChange._number}`);
     }
     if (status === ChangeStates.MERGE_CONFLICT && resolveWeblinks?.length) {
-      return resolveWeblinks[0].url;
+      return resolveWeblinks[0].url ?? '';
     }
-    return undefined;
+    return '';
   }
 
   showResolveIcon(

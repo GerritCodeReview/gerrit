@@ -112,6 +112,10 @@ export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
     if (!run) return true;
     return !run.checkLink && !run.checkDescription;
   }
+
+  _convertUndefined(value?: string) {
+    return value ?? '';
+  }
 }
 
 declare global {

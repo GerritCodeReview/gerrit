@@ -106,7 +106,6 @@ ignore_templates_list = [
     "elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
     "elements/change/gr-reviewer-list/gr-reviewer-list_html.ts",
     "elements/change/gr-thread-list/gr-thread-list_html.ts",
-    "elements/checks/gr-hovercard-run_html.ts",
     "elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_html.ts",
     "elements/diff/gr-diff-builder/gr-diff-builder-element_html.ts",
     "elements/diff/gr-diff-host/gr-diff-host_html.ts",

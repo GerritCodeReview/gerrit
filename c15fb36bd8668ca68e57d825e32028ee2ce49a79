@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c11ef01_420c4f7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-29T20:59:47Z",
+      "side": 1,
+      "message": "@Milutin could you +2 please? :)",
+      "revId": "c15fb36bd8668ca68e57d825e32028ee2ce49a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -39,12 +39,17 @@ declare global {
   }
 }
 
-interface Item {
+export interface Item {
   dataValue?: string;
   name?: string;
   text?: string;
   label?: string;
   value?: string;
+}
+
+export interface ItemSelectedEvent {
+  trigger: string;
+  selected: HTMLElement | null;
 }
 
 @customElement('gr-autocomplete-dropdown')
@@ -155,7 +160,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
-      new CustomEvent('item-selected', {
+      new CustomEvent<ItemSelectedEvent>('item-selected', {
         detail: {
           trigger: 'tab',
           selected: this.cursor.target,
@@ -170,7 +175,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
-      new CustomEvent('item-selected', {
+      new CustomEvent<ItemSelectedEvent>('item-selected', {
         detail: {
           trigger: 'enter',
           selected: this.cursor.target,
@@ -189,7 +194,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
   _handleClickItem(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    let selected = e.target! as Element;
+    let selected = e.target! as HTMLElement;
     while (!selected.classList.contains('autocompleteOption')) {
       if (!selected || selected === this) {
         return;
@@ -197,7 +202,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
       selected = selected.parentElement!;
     }
     this.dispatchEvent(
-      new CustomEvent('item-selected', {
+      new CustomEvent<ItemSelectedEvent>('item-selected', {
         detail: {
           trigger: 'click',
           selected,

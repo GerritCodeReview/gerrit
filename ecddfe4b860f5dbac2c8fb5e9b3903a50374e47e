@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "852df4f1_b367b7ff",
+        "filename": "polygerrit-ui/app/utils/date-util_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-29T13:54:55Z",
+      "side": 1,
+      "message": "this was the only code change (besides --.js on imports)",
+      "range": {
+        "startLine": 32,
+        "startChar": 63,
+        "endLine": 32,
+        "endChar": 75
+      },
+      "revId": "ecddfe4b860f5dbac2c8fb5e9b3903a50374e47e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

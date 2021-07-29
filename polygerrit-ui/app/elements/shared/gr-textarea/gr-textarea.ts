@@ -234,7 +234,7 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
     this._setEmoji(this.$.emojiSuggestions.getCurrentText());
   }
 
-  _handleEnterByKey(e: CustomEvent<{keyboardEvent: KeyboardEvent}>) {
+  _handleEnterByKey(e: CustomEvent) {
     // Enter should have newline behavior if the picker is closed or if the user
     // has only typed ':'. Also make sure that shortcuts aren't clobbered.
     if (this._hideEmojiAutocomplete || this.disableEnterKeyForSelectingEmoji) {

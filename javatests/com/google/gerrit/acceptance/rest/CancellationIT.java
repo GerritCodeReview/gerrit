@@ -35,6 +35,7 @@ import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
@@ -265,5 +266,69 @@ public class CancellationIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
+  }
+
+  @Test
+  public void abortPushIfClientProvidedDeadlineExceeded() throws Exception {
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add("deadline=1ms");
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("Client Provided Deadline Exceeded (timeout=1ms)");
+  }
+
+  @Test
+  public void pushRejectedIfInvalidDeadlineIsProvided_missingTimeUnit() throws Exception {
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add("deadline=1");
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("Invalid deadline. Missing time unit: 1");
+  }
+
+  @Test
+  public void pushRejectedIfInvalidDeadlineIsProvided_invalidTimeUnit() throws Exception {
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add("deadline=1x");
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("Invalid deadline. Invalid time unit value: 1x");
+  }
+
+  @Test
+  public void pushRejectedIfInvalidDeadlineIsProvided_invalidValue() throws Exception {
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add("deadline=invalid");
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("Invalid deadline. Invalid value: invalid");
+  }
+
+  @Test
+  public void pushSucceedsWithinDeadline() throws Exception {
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add("deadline=10m");
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+  }
+
+  @Test
+  @GerritConfig(name = "receive.timeout", value = "1ms")
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_PUSH_CANCELLATION)
+  public void clientProvidedDeadlineOnPushDoesntOverrideServerTimeout() throws Exception {
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add("deadline=10m");
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("Server Deadline Exceeded (timeout=1ms)");
   }
 }

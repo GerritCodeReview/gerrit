@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1be5738_db0687e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-29T15:37:16Z",
+      "side": 1,
+      "message": "Thanks for conversion!",
+      "revId": "d278379ca8aa97c92f6c8c69be707e31ffe287ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c90f759_3cb9da0a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-29T15:37:16Z",
+      "side": 1,
+      "message": "This can be inside line 21. There are 2 imports for test-utils.",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "d278379ca8aa97c92f6c8c69be707e31ffe287ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b218d39_45a0bee4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-29T15:37:16Z",
+      "side": 1,
+      "message": "Nit: I think it\u0027s better to use\n\n`queryAndAssert\u003cGrButton\u003e(element, \u0027gr-button[primary\u0027)`",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 23
+      },
+      "revId": "d278379ca8aa97c92f6c8c69be707e31ffe287ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

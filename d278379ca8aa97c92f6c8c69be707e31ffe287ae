@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc5572eb_524981dc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-29T16:03:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1c90f759_3cb9da0a",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "d278379ca8aa97c92f6c8c69be707e31ffe287ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b218d39_45a0bee4",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-07-29T15:37:16Z",
       "side": 1,
       "message": "Nit: I think it\u0027s better to use\n\n`queryAndAssert\u003cGrButton\u003e(element, \u0027gr-button[primary\u0027)`",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 23
+      },
+      "revId": "d278379ca8aa97c92f6c8c69be707e31ffe287ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1018b9d7_4fe3fe38",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-29T16:03:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3b218d39_45a0bee4",
       "range": {
         "startLine": 86,
         "startChar": 9,

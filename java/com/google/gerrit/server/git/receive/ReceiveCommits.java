@@ -107,7 +107,9 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
+import com.google.gerrit.server.DeadlineChecker;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.PublishCommentsOp;
@@ -618,7 +620,10 @@ class ReceiveCommits {
   ReceiveCommitsResult processCommands(
       Collection<ReceiveCommand> commands, MultiProgressMonitor progress) throws StorageException {
     checkState(!used, "Tried to re-use a ReceiveCommits objects that is single-use only");
+    long start = System.nanoTime();
     parsePushOptions();
+    String clientProvidedDeadlineValue =
+        Iterables.getLast(pushOptions.get("deadline"), /* defaultValue= */ null);
     int commandCount = commands.size();
     try (TraceContext traceContext =
             TraceContext.newTrace(
@@ -645,9 +650,13 @@ class ReceiveCommits {
           commands.stream().map(c -> wrapReceiveCommand(c, commandProgress)).collect(toList());
 
       try (RequestStateContext requestStateContext =
-          RequestStateContext.open().addRequestStateProvider(progress)) {
+          RequestStateContext.open()
+              .addRequestStateProvider(progress)
+              .addRequestStateProvider(new DeadlineChecker(start, clientProvidedDeadlineValue))) {
         processCommandsUnsafe(commands, progress);
         rejectRemaining(commands, INTERNAL_SERVER_ERROR);
+      } catch (InvalidDeadlineException e) {
+        rejectRemaining(commands, e.getMessage());
       } catch (RuntimeException e) {
         Optional<RequestCancelledException> requestCancelledException =
             RequestCancelledException.getFromCausalChain(e);
@@ -1560,6 +1569,12 @@ class ReceiveCommits {
 
     @Option(name = "--trace", metaVar = "NAME", usage = "enable tracing")
     String trace;
+
+    @Option(
+        name = "--deadline",
+        metaVar = "NAME",
+        usage = "deadline after which the push should be aborted")
+    String deadline;
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;

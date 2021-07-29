@@ -460,6 +460,22 @@ the command output:
 Given the trace ID an administrator can find the corresponding logs and
 investigate issues more easily.
 
+[[deadline]]
+==== Setting a deadline
+
+When pushing to Gerrit it's possible that the client sets a deadline after which
+the push should be aborted. To do this the `deadline=<deadline>` push option
+must be set on the git push. Values can be specified using standard time unit
+abbreviations ('ms', 'sec', 'min', etc.). If no unit is specified, milliseconds
+is assumed.
+
+----
+  git push -o deadline=10m ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master
+----
+
+Setting a deadline doesn't override the server-side
+link:config.html#receive.timeout[receive timeout] after which a push is aborted.
+
 [[push_replace]]
 === Replace Changes
 

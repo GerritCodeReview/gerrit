@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.server.DeadlineChecker.TIMEOUT_FORMATTER;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.base.Strings;
@@ -401,22 +401,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
     } else if (deadlineExceeded) {
       onCancelled.onCancel(
           RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED,
-          formatTimeout().map(t -> "timeout=" + t).orElse(null));
+          timeout.map(TIMEOUT_FORMATTER).orElse(null));
     }
-  }
-
-  private Optional<String> formatTimeout() {
-    if (!timeout.isPresent()) {
-      return Optional.empty();
-    }
-
-    String formattedTimeout = MILLISECONDS.convert(timeout.get(), NANOSECONDS) + "ms";
-
-    long timeoutInMinutes = MINUTES.convert(timeout.get(), NANOSECONDS);
-    if (timeoutInMinutes > 0) {
-      formattedTimeout = timeoutInMinutes + "m";
-    }
-
-    return Optional.of(formattedTimeout);
   }
 }

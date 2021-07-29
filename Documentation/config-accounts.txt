@@ -359,6 +359,15 @@ branch. However Gerrit rejects pushes if:
 * hashed passwords of external IDs with scheme `username` cannot be
   decoded
 
+Users can edit some external IDs via the user settings page or the
+REST API. Note that email addresses cannot be deleted if they are
+associated with the user's login credentials external ID, for
+example the email address associated with an OpenId or OAUTH external
+ID. If users wish to remove these email addresses from Gerrit they must
+first update the external authentication record in that system,
+log in to Gerrit, then Gerrit will update the external ID record with
+the new email address.
+
 [[starred-changes]]
 == Starred Changes
 

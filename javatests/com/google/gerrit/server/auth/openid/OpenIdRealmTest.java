@@ -1,4 +1,4 @@
-// Copyright (C) 2020 The Android Open Source Project
+// Copyright (C) 2021 Open Infrastructure Foundation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,57 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.auth.ldap;
+package com.google.gerrit.server.auth.openid;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_HTTP;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_HTTPS;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_XRI;
-import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_CACHE;
-import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
-import static com.google.gerrit.server.auth.ldap.LdapModule.PARENT_GROUPS_CACHE;
-import static com.google.gerrit.server.auth.ldap.LdapModule.USERNAME_CACHE;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.TypeLiteral;
 import java.util.Arrays;
-import java.util.Optional;
-import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class LdapRealmTest {
-  @Inject private LdapRealm ldapRealm = null;
+public final class OpenIdRealmTest {
+  @Inject private OpenIdRealm openidRealm = null;
 
   @Before
   public void setUpInjector() throws Exception {
-    Injector injector =
-        Guice.createInjector(
-            new InMemoryModule(),
-            new CacheModule() {
-              @Override
-              protected void configure() {
-                cache(GROUP_CACHE, String.class, new TypeLiteral<Set<AccountGroup.UUID>>() {})
-                    .loader(LdapRealm.MemberLoader.class);
-                cache(USERNAME_CACHE, String.class, new TypeLiteral<Optional<Account.Id>>() {})
-                    .loader(LdapRealm.UserLoader.class);
-                cache(GROUP_EXIST_CACHE, String.class, new TypeLiteral<Boolean>() {})
-                    .loader(LdapRealm.ExistenceLoader.class);
-                cache(
-                    PARENT_GROUPS_CACHE, String.class, new TypeLiteral<ImmutableSet<String>>() {});
-              }
-            });
+    Injector injector = Guice.createInjector(new InMemoryModule());
     injector.injectMembers(this);
   }
 
@@ -71,7 +47,7 @@ public final class LdapRealmTest {
   }
 
   private boolean accountBelongsToRealm(ExternalId... ids) {
-    return ldapRealm.accountBelongsToRealm(Arrays.asList(ids));
+    return openidRealm.accountBelongsToRealm(Arrays.asList(ids));
   }
 
   private boolean accountBelongsToRealm(String scheme, String id) {
@@ -80,12 +56,32 @@ public final class LdapRealmTest {
 
   @Test
   public void accountBelongsToRealm() throws Exception {
-    assertThat(accountBelongsToRealm(SCHEME_GERRIT, "test")).isTrue();
-    assertThat(accountBelongsToRealm(id(SCHEME_USERNAME, "test"), id(SCHEME_GERRIT, "test")))
+    assertThat(accountBelongsToRealm(SCHEME_HTTP, "example.org/test")).isTrue();
+    assertThat(accountBelongsToRealm(SCHEME_HTTPS, "example.org/test")).isTrue();
+    assertThat(accountBelongsToRealm(SCHEME_XRI, "example.org/test")).isTrue();
+    assertThat(
+            accountBelongsToRealm(id(SCHEME_USERNAME, "test"), id(SCHEME_HTTP, "example.org/test")))
         .isTrue();
-    assertThat(accountBelongsToRealm(id(SCHEME_GERRIT, "test"), id(SCHEME_USERNAME, "test")))
+    assertThat(
+            accountBelongsToRealm(
+                id(SCHEME_USERNAME, "test"), id(SCHEME_HTTPS, "example.org/test")))
+        .isTrue();
+    assertThat(
+            accountBelongsToRealm(id(SCHEME_USERNAME, "test"), id(SCHEME_XRI, "example.org/test")))
+        .isTrue();
+    assertThat(
+            accountBelongsToRealm(id(SCHEME_HTTP, "example.org/test"), id(SCHEME_USERNAME, "test")))
+        .isTrue();
+    assertThat(
+            accountBelongsToRealm(
+                id(SCHEME_HTTPS, "example.org/test"), id(SCHEME_USERNAME, "test")))
+        .isTrue();
+    assertThat(
+            accountBelongsToRealm(id(SCHEME_XRI, "test"), id(SCHEME_USERNAME, "example.org/test")))
         .isTrue();
 
+    assertThat(accountBelongsToRealm(SCHEME_EXTERNAL, "test")).isFalse();
+    assertThat(accountBelongsToRealm(SCHEME_GERRIT, "test")).isFalse();
     assertThat(accountBelongsToRealm(SCHEME_USERNAME, "test")).isFalse();
     assertThat(accountBelongsToRealm(SCHEME_MAILTO, "foo@bar.com")).isFalse();
 
@@ -93,8 +89,5 @@ public final class LdapRealmTest {
     assertThat(accountBelongsToRealm(SCHEME_USERNAME, "xxgerritxx")).isFalse();
     assertThat(accountBelongsToRealm(SCHEME_MAILTO, "gerrit.foo@bar.com")).isFalse();
     assertThat(accountBelongsToRealm(SCHEME_MAILTO, "bar.gerrit@bar.com")).isFalse();
-    assertThat(accountBelongsToRealm(SCHEME_HTTP, "example.org/test")).isFalse();
-    assertThat(accountBelongsToRealm(SCHEME_HTTPS, "example.org/test")).isFalse();
-    assertThat(accountBelongsToRealm(SCHEME_XRI, "example.org/test")).isFalse();
   }
 }

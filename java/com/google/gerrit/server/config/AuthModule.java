@@ -22,6 +22,7 @@ import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.InternalAuthBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.auth.oauth.OAuthRealm;
+import com.google.gerrit.server.auth.openid.OpenIdRealm;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 
@@ -50,10 +51,14 @@ public class AuthModule extends AbstractModule {
       case CUSTOM_EXTENSION:
         break;
 
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case HTTP:
       case OPENID:
       case OPENID_SSO:
+        bind(Realm.class).to(OpenIdRealm.class);
+        DynamicSet.bind(binder(), AuthBackend.class).to(InternalAuthBackend.class);
+        break;
+
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case HTTP:
       default:
         bind(Realm.class).to(DefaultRealm.class);
         DynamicSet.bind(binder(), AuthBackend.class).to(InternalAuthBackend.class);

@@ -29,6 +29,7 @@ import {customElement, property} from '@polymer/decorators';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import {CustomKeyboardEvent} from '../../../types/events';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -234,11 +235,14 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
     this._setEmoji(this.$.emojiSuggestions.getCurrentText());
   }
 
-  _handleEnterByKey(e: CustomEvent<{keyboardEvent: KeyboardEvent}>) {
+  _handleEnterByKey(e: CustomKeyboardEvent) {
     // Enter should have newline behavior if the picker is closed or if the user
     // has only typed ':'. Also make sure that shortcuts aren't clobbered.
     if (this._hideEmojiAutocomplete || this.disableEnterKeyForSelectingEmoji) {
-      if (!e.detail.keyboardEvent.metaKey && !e.detail.keyboardEvent.ctrlKey) {
+      if (
+        !e.detail.keyboardEvent?.metaKey &&
+        !e.detail.keyboardEvent?.ctrlKey
+      ) {
         this.indent(e);
       }
       return;
@@ -411,7 +415,7 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  private indent(e: CustomEvent<{keyboardEvent: KeyboardEvent}>): void {
+  private indent(e: CustomKeyboardEvent): void {
     if (!document.queryCommandSupported('insertText')) {
       return;
     }

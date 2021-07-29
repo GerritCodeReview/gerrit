@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89124aa0_0e218081",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-29T13:12:54Z",
+      "side": 1,
+      "message": "Isn\u0027t this something the client should handle client-side by just disconnecting? Like the RPC clients do.",
+      "range": {
+        "startLine": 472,
+        "startChar": 11,
+        "endLine": 472,
+        "endChar": 26
+      },
+      "revId": "f98f96976c4b284b355b4d24fa90fc51c8fae8bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

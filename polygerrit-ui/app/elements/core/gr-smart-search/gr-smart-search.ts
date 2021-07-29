@@ -32,6 +32,12 @@ const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
 const ME_EXPRESSION = 'me';
 
+declare global {
+  interface HTMLElementEventMap {
+    'handle-search': CustomEvent<SearchBarHandleSearchDetail>;
+  }
+}
+
 @customElement('gr-smart-search')
 export class GrSmartSearch extends PolymerElement {
   static get template() {
@@ -39,7 +45,7 @@ export class GrSmartSearch extends PolymerElement {
   }
 
   @property({type: String})
-  searchQuery?: string;
+  searchQuery = '';
 
   @property({type: Object})
   _config?: ServerInfo;

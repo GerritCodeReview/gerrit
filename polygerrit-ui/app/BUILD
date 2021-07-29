@@ -109,7 +109,6 @@ ignore_templates_list = [
     "elements/checks/gr-hovercard-run_html.ts",
     "elements/core/gr-main-header/gr-main-header_html.ts",
     "elements/core/gr-search-bar/gr-search-bar_html.ts",
-    "elements/core/gr-smart-search/gr-smart-search_html.ts",
     "elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_html.ts",
     "elements/diff/gr-diff-builder/gr-diff-builder-element_html.ts",
     "elements/diff/gr-diff-host/gr-diff-host_html.ts",

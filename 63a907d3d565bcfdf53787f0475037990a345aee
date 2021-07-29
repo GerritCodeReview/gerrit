@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea76e43c_face3b3c",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-29T08:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a284c991_f30ab059",
+      "range": {
+        "startLine": 304,
+        "startChar": 43,
+        "endLine": 304,
+        "endChar": 64
+      },
+      "revId": "63a907d3d565bcfdf53787f0475037990a345aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "473421e7_fb26e1b9",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-07-28T14:18:58Z",
       "side": 1,
       "message": "The change LGTM, but this concern came to my mind:\n\nWhat if change was voted with label\u003d+2 and got merged. Later on the project removed that label. Will this predicate return false in this case? i.e. does projectCache.get(project).getLabelTypes() return labels at the latest state of the project?\nIf that\u0027s the case, that sounds like a wrong behaviour to me.",
+      "revId": "63a907d3d565bcfdf53787f0475037990a345aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f35280c3_d9a8e049",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-07-29T08:55:31Z",
+      "side": 1,
+      "message": "The predicate is never executed for closed changes (or at the very least the outcome is not relevant). We persist votes in NoteDb when the change gets submitted.",
+      "parentUuid": "473421e7_fb26e1b9",
       "revId": "63a907d3d565bcfdf53787f0475037990a345aee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

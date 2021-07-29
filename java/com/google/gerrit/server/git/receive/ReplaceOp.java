@@ -465,10 +465,10 @@ public class ReplaceOp implements BatchUpdateOp {
           continue;
         }
 
-        LabelType lt = projectState.getLabelTypes().byLabel(a.labelId());
-        if (lt != null) {
-          current.put(lt.getName(), a);
-        }
+        projectState
+            .getLabelTypes()
+            .byLabel(a.labelId())
+            .ifPresent(l -> current.put(l.getName(), a));
       }
     }
     return current;

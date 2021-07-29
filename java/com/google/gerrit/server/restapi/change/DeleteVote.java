@@ -194,7 +194,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
               ctx.getNotes(), psId, accountId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
-        if (labelTypes.byLabel(a.labelId()) == null) {
+        if (!labelTypes.byLabel(a.labelId()).isPresent()) {
           continue; // Ignore undefined labels.
         } else if (!a.label().equals(label)) {
           // Populate map for non-matching labels, needed by VoteDeleted.

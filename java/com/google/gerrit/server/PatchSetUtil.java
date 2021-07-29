@@ -151,8 +151,10 @@ public class PatchSetUtil {
 
     ApprovalsUtil approvalsUtil = approvalsUtilProvider.get();
     for (PatchSetApproval ap : approvalsUtil.byPatchSet(notes, change.currentPatchSetId())) {
-      LabelType type = projectState.getLabelTypes(notes).byLabel(ap.label());
-      if (type != null && ap.value() == 1 && type.getFunction() == LabelFunction.PATCH_SET_LOCK) {
+      Optional<LabelType> type = projectState.getLabelTypes(notes).byLabel(ap.label());
+      if (type.isPresent()
+          && ap.value() == 1
+          && type.get().getFunction() == LabelFunction.PATCH_SET_LOCK) {
         return true;
       }
     }

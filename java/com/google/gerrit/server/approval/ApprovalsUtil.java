@@ -61,6 +61,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -299,8 +300,12 @@ public class ApprovalsUtil {
     List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
     Date ts = update.getWhen();
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
-      LabelType lt = labelTypes.byLabel(vote.getKey());
-      cells.add(newApproval(ps.id(), user, lt.getLabelId(), vote.getValue(), ts).build());
+      Optional<LabelType> lt = labelTypes.byLabel(vote.getKey());
+      if (!lt.isPresent()) {
+        throw new BadRequestException(
+            String.format("label \"%s\" is not a configured label", vote.getKey()));
+      }
+      cells.add(newApproval(ps.id(), user, lt.get().getLabelId(), vote.getValue(), ts).build());
     }
     for (PatchSetApproval psa : cells) {
       update.putApproval(psa.label(), psa.value());
@@ -310,11 +315,11 @@ public class ApprovalsUtil {
 
   public static void checkLabel(LabelTypes labelTypes, String name, Short value)
       throws BadRequestException {
-    LabelType label = labelTypes.byLabel(name);
-    if (label == null) {
+    Optional<LabelType> label = labelTypes.byLabel(name);
+    if (!label.isPresent()) {
       throw new BadRequestException(String.format("label \"%s\" is not a configured label", name));
     }
-    if (label.getValue(value) == null) {
+    if (label.get().getValue(value) == null) {
       throw new BadRequestException(
           String.format("label \"%s\": %d is not a valid value", name, value));
     }

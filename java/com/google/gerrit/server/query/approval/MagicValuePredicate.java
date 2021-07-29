@@ -23,6 +23,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 
 /** Predicate that matches patch set approvals we want to copy based on the value. */
 public class MagicValuePredicate extends ApprovalPredicate {
@@ -47,19 +48,23 @@ public class MagicValuePredicate extends ApprovalPredicate {
 
   @Override
   public boolean match(ApprovalContext ctx) {
+    Optional<LabelType> lt =
+        getLabelType(ctx.changeNotes().getProjectName(), ctx.patchSetApproval().labelId());
     short pValue;
     switch (value) {
       case ANY:
         return true;
       case MIN:
-        pValue =
-            getLabelType(ctx.changeNotes().getProjectName(), ctx.patchSetApproval().labelId())
-                .getMaxNegative();
+        if (!lt.isPresent()) {
+          return false;
+        }
+        pValue = lt.get().getMaxNegative();
         break;
       case MAX:
-        pValue =
-            getLabelType(ctx.changeNotes().getProjectName(), ctx.patchSetApproval().labelId())
-                .getMaxPositive();
+        if (!lt.isPresent()) {
+          return false;
+        }
+        pValue = lt.get().getMaxPositive();
         break;
       default:
         throw new IllegalArgumentException("unrecognized label value: " + value);
@@ -67,7 +72,7 @@ public class MagicValuePredicate extends ApprovalPredicate {
     return pValue == ctx.patchSetApproval().value();
   }
 
-  private LabelType getLabelType(Project.NameKey project, LabelId labelId) {
+  private Optional<LabelType> getLabelType(Project.NameKey project, LabelId labelId) {
     return projectCache
         .get(project)
         .orElseThrow(() -> new IllegalStateException(project + " absent"))

@@ -123,7 +123,6 @@ ignore_templates_list = [
     "elements/settings/gr-watched-projects-editor/gr-watched-projects-editor_html.ts",
     "elements/shared/gr-account-list/gr-account-list_html.ts",
     "elements/shared/gr-autocomplete/gr-autocomplete_html.ts",
-    "elements/shared/gr-change-status/gr-change-status_html.ts",
     "elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
     "elements/shared/gr-comment/gr-comment_html.ts",
     "elements/shared/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog_html.ts",

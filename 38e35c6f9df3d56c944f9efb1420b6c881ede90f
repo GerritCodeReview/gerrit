@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb30d590_07896e2e",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-29T16:43:56Z",
+      "side": 1,
+      "message": "Maybe i shouldn\u0027t do this here rather should i do this in gr-settings-view?",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 28
+      },
+      "revId": "38e35c6f9df3d56c944f9efb1420b6c881ede90f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

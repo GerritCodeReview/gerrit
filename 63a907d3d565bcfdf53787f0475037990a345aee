@@ -81,6 +81,24 @@
       "parentUuid": "473421e7_fb26e1b9",
       "revId": "63a907d3d565bcfdf53787f0475037990a345aee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "110da2b3_4d7a604f",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-29T09:36:14Z",
+      "side": 1,
+      "message": "OK, thanks.",
+      "parentUuid": "f35280c3_d9a8e049",
+      "revId": "63a907d3d565bcfdf53787f0475037990a345aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

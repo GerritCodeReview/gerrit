@@ -29,6 +29,7 @@ import {customElement, property} from '@polymer/decorators';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import {Item, ItemSelectedEvent} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -56,11 +57,8 @@ const ALL_SUGGESTIONS: EmojiSuggestion[] = [
   {value: '😜', match: 'winking tongue ;)'},
 ];
 
-interface EmojiSuggestion {
-  value: string;
+interface EmojiSuggestion extends Item {
   match: string;
-  dataValue?: string;
-  text?: string;
 }
 
 interface ValueChangeEvent {
@@ -76,6 +74,13 @@ export interface GrTextarea {
   };
 }
 
+declare global {
+  interface HTMLElementEventMap {
+    'item-selected': CustomEvent<ItemSelectedEvent>;
+    'bind-value-changed': CustomEvent<ValueChangeEvent>;
+  }
+}
+
 @customElement('gr-textarea')
 export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
@@ -86,7 +91,7 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
    * @event bind-value-changed
    */
   @property({type: Boolean})
-  autocomplete?: boolean;
+  autocomplete?: string;
 
   @property({type: Boolean})
   disabled?: boolean;
@@ -101,7 +106,7 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
   placeholder?: string;
 
   @property({type: String, notify: true, observer: '_handleTextChanged'})
-  text?: string;
+  text = '';
 
   @property({type: Boolean})
   hideBorder = false;
@@ -125,10 +130,10 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
   _hideEmojiAutocomplete = true;
 
   @property({type: Number})
-  _index?: number;
+  _index: number | null = null;
 
   @property({type: Array})
-  _suggestions?: EmojiSuggestion[];
+  _suggestions: EmojiSuggestion[] = [];
 
   @property({type: Number})
   readonly _verticalOffset = 20;
@@ -242,8 +247,10 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
     this._setEmoji(this.$.emojiSuggestions.getCurrentText());
   }
 
-  _handleEmojiSelect(e: CustomEvent) {
-    this._setEmoji(e.detail.selected.dataset['value']);
+  _handleEmojiSelect(e: CustomEvent<ItemSelectedEvent>) {
+    if (e.detail.selected?.dataset['value']) {
+      this._setEmoji(e.detail.selected?.dataset['value']);
+    }
   }
 
   _setEmoji(text: string) {

@@ -66,6 +66,22 @@ public class DeadlineChecker implements RequestStateProvider {
    *
    * <p>No deadline is enforced if the client provided deadline value is {@code null} or {@code 0}.
    *
+   * @param clientProvidedTimeoutValue the timeout value that the client provided, must represent a
+   *     numerical time unit (e.g. "5m"), if no time unit is specified milliseconds are assumed, may
+   *     be {@code null}
+   * @throws InvalidDeadlineException thrown if the client provided deadline value cannot be parsed,
+   *     e.g. because it uses a bad time unit
+   */
+  public DeadlineChecker(@Nullable String clientProvidedTimeoutValue)
+      throws InvalidDeadlineException {
+    this(System.nanoTime(), clientProvidedTimeoutValue);
+  }
+
+  /**
+   * Creates a {@code ClientProvidedDeadlineChecker}.
+   *
+   * <p>No deadline is enforced if the client provided deadline value is {@code null} or {@code 0}.
+   *
    * @param start the start time of the request in nanoseconds
    * @param clientProvidedTimeoutValue the timeout value that the client provided, must represent a
    *     numerical time unit (e.g. "5m"), if no time unit is specified milliseconds are assumed, may

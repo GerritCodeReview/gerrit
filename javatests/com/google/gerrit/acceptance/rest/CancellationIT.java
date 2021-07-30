@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -37,6 +38,7 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.http.message.BasicHeader;
 import org.junit.Test;
 
 public class CancellationIT extends AbstractDaemonTest {
@@ -142,6 +144,16 @@ public class CancellationIT extends AbstractDaemonTest {
       assertThat(response.getEntityContent())
           .isEqualTo("Server Deadline Exceeded\n\ndeadline = 10m");
     }
+  }
+
+  @Test
+  public void abortIfClientProvidedDeadlineExceeded() throws Exception {
+    RestResponse response =
+        adminRestSession.putWithHeaders(
+            "/projects/" + name("new"), new BasicHeader(RestApiServlet.X_GERRIT_DEADLINE, "1ms"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent())
+        .isEqualTo("Client Provided Deadline Exceeded\n\ntimeout=1ms");
   }
 
   @Test

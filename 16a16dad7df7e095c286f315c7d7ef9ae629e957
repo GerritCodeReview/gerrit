@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b424bfd_a7fee0d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-30T09:48:11Z",
+      "side": 1,
+      "message": "Added a paragraph about this below. Will also put it into the DD.",
+      "parentUuid": "91dbb428_8a51130e",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 69
+      },
+      "revId": "16a16dad7df7e095c286f315c7d7ef9ae629e957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d06255b_0ec530bc",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f04ea07_20a2b558",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-30T09:48:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d06255b_0ec530bc",
+      "range": {
+        "startLine": 44,
+        "startChar": 14,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "16a16dad7df7e095c286f315c7d7ef9ae629e957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b92e986_95d43469",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-07-29T13:11:44Z",
       "side": 1,
       "message": "Magic number? If so, mention that it\u0027s a best guess.",
+      "range": {
+        "startLine": 247,
+        "startChar": 31,
+        "endLine": 247,
+        "endChar": 33
+      },
+      "revId": "16a16dad7df7e095c286f315c7d7ef9ae629e957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5ca9473_18b6a4b4",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-30T09:48:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b92e986_95d43469",
       "range": {
         "startLine": 247,
         "startChar": 31,

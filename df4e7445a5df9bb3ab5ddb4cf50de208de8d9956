@@ -22,6 +22,30 @@
       },
       "revId": "df4e7445a5df9bb3ab5ddb4cf50de208de8d9956",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0655332b_55e8ceff",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-30T09:47:09Z",
+      "side": 1,
+      "message": "This seems to be unrelated to this change, but I also wouldn\u0027t like to do this. The Reason enum is the generic reason for the cancellation that is independent of the protocol that is being used for the request. The status codes to which the reasons are mapped are specific to HTTP, hence doing this conversion should be part of the com/google/gerrit/httpd/ package and not be done in the generic com/google/gerrit/server/cancellation package. Actually the cancellation package doesn\u0027t (and shouldn\u0027t) have a dependency to javax.servlet.http.HttpServletResponse.SC_REQUEST_TIMEOUT, so if we would want to move this code, we would need to add our own definition of SC_REQUEST_TIMEOUT there.\n\nBut to make this nicer I\u0027ve factored this out into some private methods in the follow-up change.",
+      "parentUuid": "d8c2c8b7_a36baa83",
+      "range": {
+        "startLine": 723,
+        "startChar": 14,
+        "endLine": 723,
+        "endChar": 24
+      },
+      "revId": "df4e7445a5df9bb3ab5ddb4cf50de208de8d9956",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

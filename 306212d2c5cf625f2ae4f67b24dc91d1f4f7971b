@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32d08c81_401fcc29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-07-30T12:57:14Z",
+      "side": 1,
+      "message": "I guess this works for now, but long term I think it would be best to explicitly style the line gutter with a configurable line gutter background, instead of reusing the \"blank\" color for multiple unrelated things.",
+      "revId": "306212d2c5cf625f2ae4f67b24dc91d1f4f7971b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

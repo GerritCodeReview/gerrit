@@ -25,7 +25,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.plugincontext.AutoCloseablePluginSetContext;
+import com.google.gerrit.server.plugincontext.AutoCloseablePluginSetContext.ExtensionCallContext;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,7 +38,7 @@ import org.kohsuke.args4j.Option;
 
 public abstract class SshCommand extends BaseCommand {
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
-  @Inject private PluginSetContext<RequestListener> requestListeners;
+  @Inject private AutoCloseablePluginSetContext<RequestListener> requestListeners;
   @Inject @GerritServerConfig private Config config;
 
   @Option(name = "--trace", usage = "enable request tracing")
@@ -58,11 +59,14 @@ public abstract class SshCommand extends BaseCommand {
             stdout = toPrintWriter(out);
             stderr = toPrintWriter(err);
             try (TraceContext traceContext = enableTracing();
+                ExtensionCallContext extensionCallContext =
+                    requestListeners.openEach(
+                        l ->
+                            l.onRequest(
+                                RequestInfo.builder(RequestInfo.RequestType.SSH, user, traceContext)
+                                    .build()));
                 PerformanceLogContext performanceLogContext =
                     new PerformanceLogContext(config, performanceLoggers)) {
-              RequestInfo requestInfo =
-                  RequestInfo.builder(RequestInfo.RequestType.SSH, user, traceContext).build();
-              requestListeners.runEach(l -> l.onRequest(requestInfo));
               SshCommand.this.run();
             } catch (RuntimeException e) {
               Optional<RequestCancelledException> requestCancelledException =

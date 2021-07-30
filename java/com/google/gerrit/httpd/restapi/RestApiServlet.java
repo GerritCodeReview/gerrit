@@ -132,6 +132,8 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.AutoCloseablePluginSetContext;
+import com.google.gerrit.server.plugincontext.AutoCloseablePluginSetContext.ExtensionCallContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.quota.QuotaException;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
@@ -255,7 +257,7 @@ public class RestApiServlet extends HttpServlet {
     final Provider<CurrentUser> currentUser;
     final DynamicItem<WebSession> webSession;
     final Provider<ParameterParser> paramParser;
-    final PluginSetContext<RequestListener> requestListeners;
+    final AutoCloseablePluginSetContext<RequestListener> requestListeners;
     final PermissionBackend permissionBackend;
     final GroupAuditService auditService;
     final RestApiMetrics metrics;
@@ -275,7 +277,7 @@ public class RestApiServlet extends HttpServlet {
         Provider<CurrentUser> currentUser,
         DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
-        PluginSetContext<RequestListener> requestListeners,
+        AutoCloseablePluginSetContext<RequestListener> requestListeners,
         PermissionBackend permissionBackend,
         GroupAuditService auditService,
         RestApiMetrics metrics,
@@ -352,14 +354,15 @@ public class RestApiServlet extends HttpServlet {
 
     try (TraceContext traceContext = enableTracing(req, res)) {
       List<IdString> path = splitPath(req);
+      RequestInfo requestInfo = createRequestInfo(traceContext, requestUri(req), path);
 
       try (RequestStateContext requestStateContext =
               RequestStateContext.open()
                   .addRequestStateProvider(
                       new ClientProvidedDeadlineChecker(req.getHeader(X_GERRIT_DEADLINE)));
+          ExtensionCallContext extensionCallContext =
+              globals.requestListeners.openEach(l -> l.onRequest(requestInfo));
           PerThreadCache ignored = PerThreadCache.create()) {
-        RequestInfo requestInfo = createRequestInfo(traceContext, requestUri(req), path);
-        globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
 
         // It's important that the PerformanceLogContext is closed before the response is sent to
         // the client. Only this way it is ensured that the invocation of the PerformanceLogger

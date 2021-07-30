@@ -23,6 +23,10 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
  * request, SSH request, Git push/fetch).
  */
 @ExtensionPoint
-public interface RequestListener {
+public interface RequestListener extends AutoCloseable {
   void onRequest(RequestInfo requestInfo);
+
+  /** Guaranteed to be invoked at the end of the request. */
+  @Override
+  default void close() {}
 }

@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
-import {SpecialFilePath} from '../constants/constants.js';
+import '../test/common-test-setup-karma';
+import {FileInfoStatus, SpecialFilePath} from '../constants/constants';
 import {
   addUnmodifiedFiles,
   computeDisplayPath,
   isMagicPath,
-  specialFilePathCompare, truncatePath,
-} from './path-list-util.js';
+  specialFilePathCompare,
+  truncatePath,
+} from './path-list-util';
+import {FileInfo} from '../api/rest-api';
+import {hasOwnProperty} from './common-util';
 
 suite('path-list-utl tests', () => {
   test('special sort', () => {
@@ -34,69 +37,69 @@ suite('path-list-utl tests', () => {
       '/asdasd',
       '/mrPeanutbutter.py',
     ];
-    assert.deepEqual(
-        testFiles.sort(specialFilePathCompare),
-        [
-          '/COMMIT_MSG',
-          '/MERGE_LIST',
-          '/a.h',
-          '/a.cpp',
-          '/asdasd',
-          '/mrPeanutbutter.py',
-        ]);
+    assert.deepEqual(testFiles.sort(specialFilePathCompare), [
+      '/COMMIT_MSG',
+      '/MERGE_LIST',
+      '/a.h',
+      '/a.cpp',
+      '/asdasd',
+      '/mrPeanutbutter.py',
+    ]);
   });
 
   test('special file path sorting', () => {
     assert.deepEqual(
-        ['.b', '/COMMIT_MSG', '.a', 'file'].sort(
-            specialFilePathCompare),
-        ['/COMMIT_MSG', '.a', '.b', 'file']);
+      ['.b', '/COMMIT_MSG', '.a', 'file'].sort(specialFilePathCompare),
+      ['/COMMIT_MSG', '.a', '.b', 'file']
+    );
 
     assert.deepEqual(
-        ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.h'].sort(
-            specialFilePathCompare),
-        ['/COMMIT_MSG', '.b', 'foo/bar/baz.h', 'foo/bar/baz.cc']);
+      ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.h'].sort(
+        specialFilePathCompare
+      ),
+      ['/COMMIT_MSG', '.b', 'foo/bar/baz.h', 'foo/bar/baz.cc']
+    );
 
     assert.deepEqual(
-        ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hpp'].sort(
-            specialFilePathCompare),
-        ['/COMMIT_MSG', '.b', 'foo/bar/baz.hpp', 'foo/bar/baz.cc']);
+      ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hpp'].sort(
+        specialFilePathCompare
+      ),
+      ['/COMMIT_MSG', '.b', 'foo/bar/baz.hpp', 'foo/bar/baz.cc']
+    );
 
     assert.deepEqual(
-        ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hxx'].sort(
-            specialFilePathCompare),
-        ['/COMMIT_MSG', '.b', 'foo/bar/baz.hxx', 'foo/bar/baz.cc']);
+      ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hxx'].sort(
+        specialFilePathCompare
+      ),
+      ['/COMMIT_MSG', '.b', 'foo/bar/baz.hxx', 'foo/bar/baz.cc']
+    );
 
     assert.deepEqual(
-        ['foo/bar.h', 'foo/bar.hxx', 'foo/bar.hpp'].sort(
-            specialFilePathCompare),
-        ['foo/bar.h', 'foo/bar.hpp', 'foo/bar.hxx']);
+      ['foo/bar.h', 'foo/bar.hxx', 'foo/bar.hpp'].sort(specialFilePathCompare),
+      ['foo/bar.h', 'foo/bar.hpp', 'foo/bar.hxx']
+    );
 
     // Regression test for Issue 4448.
     assert.deepEqual(
-        [
-          'minidump/minidump_memory_writer.cc',
-          'minidump/minidump_memory_writer.h',
-          'minidump/minidump_thread_writer.cc',
-          'minidump/minidump_thread_writer.h',
-        ].sort(specialFilePathCompare),
-        [
-          'minidump/minidump_memory_writer.h',
-          'minidump/minidump_memory_writer.cc',
-          'minidump/minidump_thread_writer.h',
-          'minidump/minidump_thread_writer.cc',
-        ]);
+      [
+        'minidump/minidump_memory_writer.cc',
+        'minidump/minidump_memory_writer.h',
+        'minidump/minidump_thread_writer.cc',
+        'minidump/minidump_thread_writer.h',
+      ].sort(specialFilePathCompare),
+      [
+        'minidump/minidump_memory_writer.h',
+        'minidump/minidump_memory_writer.cc',
+        'minidump/minidump_thread_writer.h',
+        'minidump/minidump_thread_writer.cc',
+      ]
+    );
 
     // Regression test for Issue 4545.
-    assert.deepEqual(
-        [
-          'task_test.go',
-          'task.go',
-        ].sort(specialFilePathCompare),
-        [
-          'task.go',
-          'task_test.go',
-        ]);
+    assert.deepEqual(['task_test.go', 'task.go'].sort(specialFilePathCompare), [
+      'task.go',
+      'task_test.go',
+    ]);
   });
 
   test('file display name', () => {
@@ -119,12 +122,19 @@ suite('path-list-utl tests', () => {
       'file1.txt': true,
     };
 
-    const files = {'file2.txt': {status: 'M'}};
+    const files: {[filename: string]: FileInfo} = {
+      'file2.txt': {
+        status: FileInfoStatus.REWRITTEN,
+        size_delta: 10,
+        size: 10,
+      },
+    };
     addUnmodifiedFiles(files, commentedPaths);
-    assert.equal(files['file1.txt'].status, 'U');
-    assert.equal(files['file2.txt'].status, 'M');
-    assert.isFalse(files.hasOwnProperty(
-        SpecialFilePath.PATCHSET_LEVEL_COMMENTS));
+    assert.equal(files['file1.txt'].status, FileInfoStatus.UNMODIFIED);
+    assert.equal(files['file2.txt'].status, FileInfoStatus.REWRITTEN);
+    assert.isFalse(
+      hasOwnProperty(files, SpecialFilePath.PATCHSET_LEVEL_COMMENTS)
+    );
   });
 
   test('truncatePath with long path should add ellipsis', () => {
@@ -158,4 +168,3 @@ suite('path-list-utl tests', () => {
     assert.equal(shortenedPath, expectedPath);
   });
 });
-

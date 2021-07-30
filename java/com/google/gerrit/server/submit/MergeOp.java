@@ -241,6 +241,7 @@ public class MergeOp implements AutoCloseable {
   private final NotifyResolver notifyResolver;
   private final RetryHelper retryHelper;
   private final ChangeData.Factory changeDataFactory;
+  private final StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory;
 
   // Changes that were updated by this MergeOp.
   private final Map<Change.Id, Change> updatedChanges;
@@ -274,7 +275,8 @@ public class MergeOp implements AutoCloseable {
       NotifyResolver notifyResolver,
       TopicMetrics topicMetrics,
       RetryHelper retryHelper,
-      ChangeData.Factory changeDataFactory) {
+      ChangeData.Factory changeDataFactory,
+      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -291,6 +293,7 @@ public class MergeOp implements AutoCloseable {
     this.topicMetrics = topicMetrics;
     this.changeDataFactory = changeDataFactory;
     this.updatedChanges = new HashMap<>();
+    this.storeSubmitRequirementsOpFactory = storeSubmitRequirementsOpFactory;
   }
 
   @Override
@@ -665,7 +668,7 @@ public class MergeOp implements AutoCloseable {
         Change.Id changeId = entry.getKey();
         batchUpdatesByProject
             .get(project)
-            .addOp(changeId, new StoreSubmitRequirementsOp(changeDataFactory));
+            .addOp(changeId, storeSubmitRequirementsOpFactory.create());
       }
       try {
         submissionExecutor.setAdditionalBatchUpdateListeners(

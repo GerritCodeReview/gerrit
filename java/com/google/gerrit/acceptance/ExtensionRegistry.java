@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -91,6 +92,7 @@ public class ExtensionRegistry {
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final DynamicSet<PluginPushOption> pluginPushOptions;
   private final DynamicSet<OnPostReview> onPostReviews;
+  private final DynamicSet<RequestListener> requestListeners;
 
   @Inject
   ExtensionRegistry(
@@ -125,7 +127,8 @@ public class ExtensionRegistry {
       DynamicMap<PluginProjectPermissionDefinition> pluginProjectPermissionDefinitions,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       DynamicSet<PluginPushOption> pluginPushOption,
-      DynamicSet<OnPostReview> onPostReviews) {
+      DynamicSet<OnPostReview> onPostReviews,
+      DynamicSet<RequestListener> requestListeners) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -158,10 +161,15 @@ public class ExtensionRegistry {
     this.pluginConfigEntries = pluginConfigEntries;
     this.pluginPushOptions = pluginPushOption;
     this.onPostReviews = onPostReviews;
+    this.requestListeners = requestListeners;
   }
 
   public Registration newRegistration() {
     return new Registration();
+  }
+
+  public DynamicSet<RequestListener> getRequestListeners() {
+    return requestListeners;
   }
 
   @SuppressWarnings("FunctionalInterfaceClash")
@@ -300,6 +308,10 @@ public class ExtensionRegistry {
 
     public Registration add(OnPostReview onPostReview) {
       return add(onPostReviews, onPostReview);
+    }
+
+    public Registration add(RequestListener requestListener) {
+      return add(requestListeners, requestListener);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

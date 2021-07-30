@@ -31,7 +31,8 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.plugincontext.AutoCloseablePluginSetContext;
+import com.google.gerrit.server.plugincontext.AutoCloseablePluginSetContext.ExtensionCallContext;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -50,7 +51,7 @@ final class Upload extends AbstractGitCommand {
   @Inject private DynamicSet<PreUploadHook> preUploadHooks;
   @Inject private DynamicSet<PostUploadHook> postUploadHooks;
   @Inject private DynamicSet<UploadPackInitializer> uploadPackInitializers;
-  @Inject private PluginSetContext<RequestListener> requestListeners;
+  @Inject private AutoCloseablePluginSetContext<RequestListener> requestListeners;
   @Inject private UploadValidators.Factory uploadValidatorsFactory;
   @Inject private PermissionBackend permissionBackend;
   @Inject private UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook;
@@ -91,12 +92,14 @@ final class Upload extends AbstractGitCommand {
       initializer.init(projectState.getNameKey(), up);
     }
     try (TraceContext traceContext = TraceContext.open();
-        TracingHook tracingHook = new TracingHook()) {
-      RequestInfo requestInfo =
-          RequestInfo.builder(RequestInfo.RequestType.GIT_UPLOAD, user, traceContext)
-              .project(projectState.getNameKey())
-              .build();
-      requestListeners.runEach(l -> l.onRequest(requestInfo));
+        TracingHook tracingHook = new TracingHook();
+        ExtensionCallContext extensionCallContext =
+            requestListeners.openEach(
+                l ->
+                    l.onRequest(
+                        RequestInfo.builder(RequestInfo.RequestType.GIT_UPLOAD, user, traceContext)
+                            .project(projectState.getNameKey())
+                            .build()))) {
       up.setProtocolV2Hook(tracingHook);
       up.upload(in, out, err);
       session.setPeerAgent(up.getPeerUserAgent());

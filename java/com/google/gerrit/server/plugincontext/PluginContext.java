@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -151,11 +152,21 @@ public class PluginContext<T> {
           Strings.nullToEmpty(extension.getExportName()));
     }
 
+    Timer3.Context<String, String, String> startLatency(
+        String pluginName, Class<?> extensionClass, @Nullable String exportName) {
+      return latency.start(pluginName, extensionClass.getName(), Strings.nullToEmpty(exportName));
+    }
+
     void incrementErrorCount(Extension<?> extension) {
       errorCount.increment(
           extension.getPluginName(),
           extension.get().getClass().getName(),
           Strings.nullToEmpty(extension.getExportName()));
+    }
+
+    void incrementErrorCount(
+        String pluginName, Class<?> extensionClass, @Nullable String exportName) {
+      errorCount.increment(pluginName, extensionClass.getName(), Strings.nullToEmpty(exportName));
     }
   }
 
@@ -182,6 +193,16 @@ public class PluginContext<T> {
    */
   public static <T> TraceContext newTrace(Extension<T> extension) {
     return TraceContext.open().addPluginTag(requireNonNull(extension).getPluginName());
+  }
+
+  /**
+   * Opens a new trace context for invoking a plugin extension.
+   *
+   * @param pluginName the name of the plugin
+   * @return the created trace context
+   */
+  public static TraceContext newTrace(String pluginName) {
+    return TraceContext.open().addPluginTag(requireNonNull(pluginName));
   }
 
   /**
@@ -237,6 +258,37 @@ public class PluginContext<T> {
       pluginMetrics.incrementErrorCount(extension);
       logger.atWarning().withCause(e).log(
           "Failure in %s of plugin %s", extensionImpl.getClass(), extension.getPluginName());
+    }
+  }
+
+  /**
+   * Runs a plugin extension. All exceptions from the plugin extension are caught and logged.
+   *
+   * <p>The consumer gets the extension implementation provided that should be invoked.
+   *
+   * @param pluginMetrics the plugin metrics
+   * @param pluginName the name of the plugin
+   * @param extensionImpl extension implementation that is being invoked
+   * @param exportName the export name
+   * @param extensionImplConsumer the consumer that invokes the extension
+   */
+  static <T> void runLogExceptions(
+      PluginMetrics pluginMetrics,
+      String pluginName,
+      T extensionImpl,
+      @Nullable String exportName,
+      ExtensionImplConsumer<T> extensionImplConsumer) {
+    if (extensionImpl == null) {
+      return;
+    }
+    try (TraceContext traceContext = newTrace(pluginName);
+        Timer3.Context<String, String, String> ctx =
+            pluginMetrics.startLatency(pluginName, extensionImpl.getClass(), exportName)) {
+      extensionImplConsumer.run(extensionImpl);
+    } catch (Throwable e) {
+      pluginMetrics.incrementErrorCount(pluginName, extensionImpl.getClass(), exportName);
+      logger.atWarning().withCause(e).log(
+          "Failure in %s of plugin %s", extensionImpl.getClass(), pluginName);
     }
   }
 

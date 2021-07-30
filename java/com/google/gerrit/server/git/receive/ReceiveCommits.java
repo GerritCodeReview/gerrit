@@ -166,6 +166,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.plugincontext.AutoCloseablePluginSetContext;
+import com.google.gerrit.server.plugincontext.AutoCloseablePluginSetContext.ExtensionCallContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -368,7 +370,7 @@ class ReceiveCommits {
   private final ReceiveConfig receiveConfig;
   private final RefOperationValidators.Factory refValidatorsFactory;
   private final ReplaceOp.Factory replaceOpFactory;
-  private final PluginSetContext<RequestListener> requestListeners;
+  private final AutoCloseablePluginSetContext<RequestListener> requestListeners;
   private final PublishCommentsOp.Factory publishCommentsOp;
   private final RetryHelper retryHelper;
   private final RequestScopePropagator requestScopePropagator;
@@ -455,7 +457,7 @@ class ReceiveCommits {
       ReceiveConfig receiveConfig,
       RefOperationValidators.Factory refValidatorsFactory,
       ReplaceOp.Factory replaceOpFactory,
-      PluginSetContext<RequestListener> requestListeners,
+      AutoCloseablePluginSetContext<RequestListener> requestListeners,
       RetryHelper retryHelper,
       RequestScopePropagator requestScopePropagator,
       Sequences seq,
@@ -633,12 +635,14 @@ class ReceiveCommits {
         TraceTimer traceTimer =
             newTimer("processCommands", Metadata.builder().resourceCount(commandCount));
         PerformanceLogContext performanceLogContext =
-            new PerformanceLogContext(config, performanceLoggers)) {
-      RequestInfo requestInfo =
-          RequestInfo.builder(RequestInfo.RequestType.GIT_RECEIVE, user, traceContext)
-              .project(project.getNameKey())
-              .build();
-      requestListeners.runEach(l -> l.onRequest(requestInfo));
+            new PerformanceLogContext(config, performanceLoggers);
+        ExtensionCallContext extensionCallContext =
+            requestListeners.openEach(
+                l ->
+                    l.onRequest(
+                        RequestInfo.builder(RequestInfo.RequestType.GIT_RECEIVE, user, traceContext)
+                            .project(project.getNameKey())
+                            .build()))) {
       traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.getNameKey().get()));
 
       // Log the push options here, rather than in parsePushOptions(), so that they are included

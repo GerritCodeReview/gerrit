@@ -85,8 +85,8 @@ import java.util.stream.Stream;
  * </pre>
  */
 public class PluginSetContext<T> implements Iterable<PluginSetEntryContext<T>> {
-  private final DynamicSet<T> dynamicSet;
-  private final PluginMetrics pluginMetrics;
+  protected final DynamicSet<T> dynamicSet;
+  protected final PluginMetrics pluginMetrics;
 
   @VisibleForTesting
   @Inject

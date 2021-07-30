@@ -43,6 +43,8 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.plugincontext.AutoCloseablePluginSetContext;
+import com.google.gerrit.server.plugincontext.AutoCloseablePluginSetContext.ExtensionCallContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -358,7 +360,7 @@ public class GitOverHttpServlet extends GitServlet {
     private final Provider<CurrentUser> userProvider;
     private final GroupAuditService groupAuditService;
     private final Metrics metrics;
-    private final PluginSetContext<RequestListener> requestListeners;
+    private final AutoCloseablePluginSetContext<RequestListener> requestListeners;
     private final UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook;
     private final Provider<WebSession> sessionProvider;
 
@@ -369,7 +371,7 @@ public class GitOverHttpServlet extends GitServlet {
         Provider<CurrentUser> userProvider,
         GroupAuditService groupAuditService,
         Metrics metrics,
-        PluginSetContext<RequestListener> requestListeners,
+        AutoCloseablePluginSetContext<RequestListener> requestListeners,
         UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook,
         Provider<WebSession> sessionProvider) {
       this.uploadValidatorsFactory = uploadValidatorsFactory;
@@ -397,14 +399,17 @@ public class GitOverHttpServlet extends GitServlet {
       HttpServletRequest httpRequest = (HttpServletRequest) request;
       String sessionId = getSessionIdOrNull(sessionProvider);
 
-      try (TraceContext traceContext = TraceContext.open()) {
-        RequestInfo requestInfo =
-            RequestInfo.builder(
-                    RequestInfo.RequestType.GIT_UPLOAD, userProvider.get(), traceContext)
-                .project(state.getNameKey())
-                .build();
-        requestListeners.runEach(l -> l.onRequest(requestInfo));
-
+      try (TraceContext traceContext = TraceContext.open();
+          ExtensionCallContext extensionCallContext =
+              requestListeners.openEach(
+                  l ->
+                      l.onRequest(
+                          RequestInfo.builder(
+                                  RequestInfo.RequestType.GIT_UPLOAD,
+                                  userProvider.get(),
+                                  traceContext)
+                              .project(state.getNameKey())
+                              .build()))) {
         try {
           perm.check(ProjectPermission.RUN_UPLOAD_PACK);
         } catch (AuthException e) {

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "605ddc23_5045051e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-30T07:32:21Z",
+      "side": 1,
+      "message": "Can you please include information about changes that were loaded from the index here? How are submit requirements populated for them, or why submit requirements are not needed for them? E.g. what happens if the SUBMIT_REQUIREMENTS ListChangesOption is specified when doing a change query? Also are we missing a test for this option?",
+      "revId": "d95246260ae0f8938ef936f385605699c3638b1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "848ce4c4_2016b118",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-30T07:32:21Z",
+      "side": 1,
+      "message": "Please also mentioned what happens when this is invoked for a change that was loaded from the index.",
+      "revId": "d95246260ae0f8938ef936f385605699c3638b1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4c1f5b4_bb8a1d81",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-30T07:32:21Z",
+      "side": 1,
+      "message": "Doesn\u0027t this need to check the lazyLoad flag too?",
+      "revId": "d95246260ae0f8938ef936f385605699c3638b1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "628d2b21_e961ce8f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 4334,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-30T07:32:21Z",
+      "side": 1,
+      "message": "This line seems not to be relevant for the test, drop it?",
+      "revId": "d95246260ae0f8938ef936f385605699c3638b1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

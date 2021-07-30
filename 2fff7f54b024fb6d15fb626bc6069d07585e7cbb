@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7249747c_ae05db1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-30T07:32:21Z",
+      "side": 1,
+      "message": "Maybe, I guess it depends on what should be shown for submit requirements on dashboards. Are you saying requesting SUBMIT_REQUIREMENTS should be disallowed when querying changes, and instead we would support a new SUBMIT_REQUIREMENT_RESULTS option that only returns the result (pass/fail/overridden)?",
+      "parentUuid": "595559cd_44067ddc",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf9e3315_b6415ce6",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 11

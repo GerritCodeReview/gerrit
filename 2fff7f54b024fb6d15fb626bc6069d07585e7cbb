@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d63e998_a689f7a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-30T17:24:39Z",
+      "side": 1,
+      "message": "I was confused by two different things:\n1) Storing submit requirements in the indexed documents.\n2) Using submit requirements as a field to query changes (like author:ghareeb)\n\nSome fields are \"stored only\" in ChangeField and used in backfilling ChangeData from the index. I think this is what you were referring to.\n\nI added a prior change to store SRs in indexed documents.\n\nDone.",
+      "parentUuid": "7249747c_ae05db1d",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "2fff7f54b024fb6d15fb626bc6069d07585e7cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf9e3315_b6415ce6",

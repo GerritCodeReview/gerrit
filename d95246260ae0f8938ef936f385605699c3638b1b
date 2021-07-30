@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cfc7d06_fc8ff82f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-30T17:24:39Z",
+      "side": 1,
+      "message": "The prior change has this explained in its commit message.\n\nDone.",
+      "parentUuid": "605ddc23_5045051e",
+      "revId": "d95246260ae0f8938ef936f385605699c3638b1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "848ce4c4_2016b118",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-07-30T07:32:21Z",
       "side": 1,
       "message": "Please also mentioned what happens when this is invoked for a change that was loaded from the index.",
+      "revId": "d95246260ae0f8938ef936f385605699c3638b1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1610c128_5f829179",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-30T17:24:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "848ce4c4_2016b118",
       "revId": "d95246260ae0f8938ef936f385605699c3638b1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "539f2383_e52737e3",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-30T17:24:39Z",
+      "side": 1,
+      "message": "OK. This occurs if the change data is loaded from the index, and submit requirements are null, which is impossible to happen after we implemented storing SRs in the change index.\n\nDone as a safety guard.",
+      "parentUuid": "c4c1f5b4_bb8a1d81",
+      "revId": "d95246260ae0f8938ef936f385605699c3638b1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "628d2b21_e961ce8f",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-07-30T07:32:21Z",
       "side": 1,
       "message": "This line seems not to be relevant for the test, drop it?",
+      "revId": "d95246260ae0f8938ef936f385605699c3638b1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e37b7332_2eb295d8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 4334,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-30T17:24:39Z",
+      "side": 1,
+      "message": "This is needed because this boolean is mandatory. Otherwise Autovalue fails with missing property exception.",
+      "parentUuid": "628d2b21_e961ce8f",
       "revId": "d95246260ae0f8938ef936f385605699c3638b1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -23,7 +23,7 @@ import {
   lineNumberToNumber,
 } from '../gr-diff/gr-diff-utils';
 
-const tokenMatcher = new RegExp(/[a-zA-Z0-9_]+/g);
+const tokenMatcher = new RegExp(/[\w]+/g);
 
 /** CSS class for all tokens. */
 const CSS_TOKEN = 'token';

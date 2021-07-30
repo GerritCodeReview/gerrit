@@ -114,6 +114,7 @@ import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
+import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -718,24 +719,11 @@ public class RestApiServlet extends HttpServlet {
         Optional<RequestCancelledException> requestCancelledException =
             RequestCancelledException.getFromCausalChain(e);
         if (requestCancelledException.isPresent()) {
-          switch (requestCancelledException.get().getCancellationReason()) {
-            case CLIENT_CLOSED_REQUEST:
-              statusCode = SC_CLIENT_CLOSED_REQUEST;
-              break;
-            case CLIENT_PROVIDED_DEADLINE_EXCEEDED:
-            case SERVER_DEADLINE_EXCEEDED:
-              statusCode = SC_REQUEST_TIMEOUT;
-              break;
-          }
-
-          StringBuilder msg =
-              new StringBuilder(requestCancelledException.get().formatCancellationReason());
-          if (requestCancelledException.get().getCancellationMessage().isPresent()) {
-            msg.append("\n\n");
-            msg.append(requestCancelledException.get().getCancellationMessage().get());
-          }
-
-          responseBytes = replyError(req, res, statusCode, msg.toString(), e);
+          statusCode =
+              getCancellationStatusCode(requestCancelledException.get().getCancellationReason());
+          responseBytes =
+              replyError(
+                  req, res, statusCode, getCancellationMessage(requestCancelledException.get()), e);
         } else {
           statusCode = SC_INTERNAL_SERVER_ERROR;
 
@@ -1967,6 +1955,28 @@ public class RestApiServlet extends HttpServlet {
       logger.atFinest().log("Text response body:\n%s", text);
     }
     return replyBinaryResult(req, res, BinaryResult.create(text).setContentType(PLAIN_TEXT));
+  }
+
+  private static int getCancellationStatusCode(RequestStateProvider.Reason cancellationReason) {
+    switch (cancellationReason) {
+      case CLIENT_CLOSED_REQUEST:
+        return SC_CLIENT_CLOSED_REQUEST;
+      case CLIENT_PROVIDED_DEADLINE_EXCEEDED:
+      case SERVER_DEADLINE_EXCEEDED:
+        return SC_REQUEST_TIMEOUT;
+    }
+    logger.atSevere().log("Unexpected cancellation reason: %s", cancellationReason);
+    return SC_INTERNAL_SERVER_ERROR;
+  }
+
+  private static String getCancellationMessage(
+      RequestCancelledException requestCancelledException) {
+    StringBuilder msg = new StringBuilder(requestCancelledException.formatCancellationReason());
+    if (requestCancelledException.getCancellationMessage().isPresent()) {
+      msg.append("\n\n");
+      msg.append(requestCancelledException.getCancellationMessage().get());
+    }
+    return msg.toString();
   }
 
   private static boolean acceptsGzip(HttpServletRequest req) {

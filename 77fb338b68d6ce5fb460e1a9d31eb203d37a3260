@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5882b2bb_ee61ee9b",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-30T15:10:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cd891fab_e8063826",
+      "range": {
+        "startLine": 235,
+        "startChar": 26,
+        "endLine": 239,
+        "endChar": 25
+      },
+      "revId": "77fb338b68d6ce5fb460e1a9d31eb203d37a3260",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "264f00aa_1d6c7f7b",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-07-30T10:03:58Z",
       "side": 1,
       "message": "Same as in line 239. I would use ..createServerInfo()",
+      "range": {
+        "startLine": 263,
+        "startChar": 10,
+        "endLine": 263,
+        "endChar": 16
+      },
+      "revId": "77fb338b68d6ce5fb460e1a9d31eb203d37a3260",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e5a65b8_5f017599",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-30T15:10:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "264f00aa_1d6c7f7b",
       "range": {
         "startLine": 263,
         "startChar": 10,

@@ -148,10 +148,14 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
    * The computation of the {@link ChangeField#DIRECTORY} field is changed, hence reindexing is
    * required.
    */
-  static final Schema<ChangeData> V63 = schema(V62, false);
+  @Deprecated static final Schema<ChangeData> V63 = schema(V62, false);
 
   /** Added support for MIN/MAX/ANY for {@link ChangeField#LABEL} */
-  static final Schema<ChangeData> V64 = schema(V63, false);
+  @Deprecated static final Schema<ChangeData> V64 = schema(V63, false);
+
+  /** Added new field for submit requirements. */
+  static final Schema<ChangeData> V65 =
+      new Schema.Builder<ChangeData>().add(V64).add(ChangeField.STORED_SUBMIT_REQUIREMENTS).build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

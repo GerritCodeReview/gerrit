@@ -947,6 +947,11 @@ public class ChangeData {
     return submitRequirements;
   }
 
+  public void setSubmitRequirements(
+      Map<SubmitRequirement, SubmitRequirementResult> submitRequirements) {
+    this.submitRequirements = submitRequirements;
+  }
+
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
     // If the change is not submitted yet, 'strict' and 'lenient' both have the same result. If the
     // change is submitted, SubmitRecord requested with 'strict' will contain just a single entry

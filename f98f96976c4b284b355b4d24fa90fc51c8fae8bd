@@ -22,6 +22,30 @@
       },
       "revId": "f98f96976c4b284b355b4d24fa90fc51c8fae8bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b52a9fa_4bde454b",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-30T09:48:19Z",
+      "side": 1,
+      "message": "It\u0027s possible, but then it would be upon the client to implement this. With a push option this is much more convenient. \n\nFor git push it\u0027s possible that clients implement this, but for REST requests we are not able to detect request cancellations by the client, hence when we implement client-provided deadlines for REST requests, we will still need most of the code that is added by this change, hence supporting this for git push is just a matter of a few line in ReceiveCommits.",
+      "parentUuid": "89124aa0_0e218081",
+      "range": {
+        "startLine": 472,
+        "startChar": 11,
+        "endLine": 472,
+        "endChar": 26
+      },
+      "revId": "f98f96976c4b284b355b4d24fa90fc51c8fae8bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

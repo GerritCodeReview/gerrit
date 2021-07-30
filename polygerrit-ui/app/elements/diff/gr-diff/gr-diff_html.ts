@@ -102,6 +102,7 @@ export const htmlTemplate = html`
     }
     td.lineNum {
       vertical-align: top;
+      background-color: var(--diff-blank-background-color);
     }
 
     /*

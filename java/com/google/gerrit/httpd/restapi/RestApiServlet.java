@@ -106,14 +106,17 @@ import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DeadlineChecker;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
+import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.RevisionResource;
@@ -208,6 +211,7 @@ public class RestApiServlet extends HttpServlet {
 
   private static final String FORM_TYPE = "application/x-www-form-urlencoded";
 
+  @VisibleForTesting public static final String X_GERRIT_DEADLINE = "X-Gerrit-Deadline";
   @VisibleForTesting public static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
   @VisibleForTesting public static final String X_GERRIT_UPDATED_REF = "X-Gerrit-UpdatedRef";
 
@@ -350,7 +354,10 @@ public class RestApiServlet extends HttpServlet {
     try (TraceContext traceContext = enableTracing(req, res)) {
       List<IdString> path = splitPath(req);
 
-      try (PerThreadCache ignored = PerThreadCache.create()) {
+      try (RequestStateContext requestStateContext =
+              RequestStateContext.open()
+                  .addRequestStateProvider(new DeadlineChecker(req.getHeader(X_GERRIT_DEADLINE)));
+          PerThreadCache ignored = PerThreadCache.create()) {
         RequestInfo requestInfo = createRequestInfo(traceContext, requestUri(req), path);
         globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
 
@@ -713,6 +720,10 @@ public class RestApiServlet extends HttpServlet {
                 messageOr(e, "Quota limit reached"),
                 e.caching(),
                 e);
+      } catch (InvalidDeadlineException e) {
+        cause = Optional.of(e);
+        responseBytes =
+            replyError(req, res, statusCode = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e);
       } catch (Exception e) {
         cause = Optional.of(e);
 

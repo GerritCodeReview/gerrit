@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a3c2190_ae405668",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-31T02:25:37Z",
+      "side": 1,
+      "message": "I\u0027m good with the merge, but I am missing context for the PolyGerrit-related conflict resolutions. @Paladox can you help?",
+      "revId": "66a44e4b3aba15f7242fc98b203e58f73e71ecf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

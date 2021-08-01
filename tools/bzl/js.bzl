@@ -111,6 +111,7 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
         sourcemap = "hidden",
         deps = [
             "@tools_npm//rollup-plugin-node-resolve",
+            "@tools_npm//rollup-plugin-import-css",
         ],
     )
 

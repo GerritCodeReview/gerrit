@@ -24,6 +24,7 @@ rollup_bundle(
     deps = [
         ":preprocessor",
         "@tools_npm//rollup-plugin-node-resolve",
+        "@tools_npm//rollup-plugin-styles",
     ],
 )
 
@@ -36,6 +37,7 @@ rollup_bundle(
     deps = [
         ":preprocessor",
         "@tools_npm//rollup-plugin-node-resolve",
+        "@tools_npm//rollup-plugin-import-css",
     ],
 )
 

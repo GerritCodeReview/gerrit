@@ -21,7 +21,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-move-dialog_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {customElement, property} from '@polymer/decorators';
-import {RepoName, BranchName} from '../../../types/common';
+import {RepoName} from '../../../types/common';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {appContext} from '../../../services/app-context';
 
@@ -46,10 +46,10 @@ export class GrConfirmMoveDialog extends KeyboardShortcutMixin(PolymerElement) {
    */
 
   @property({type: String})
-  branch?: BranchName;
+  branch = '';
 
   @property({type: String})
-  message?: string;
+  message = '';
 
   @property({type: String})
   project?: RepoName;

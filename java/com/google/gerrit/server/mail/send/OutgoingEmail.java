@@ -367,6 +367,10 @@ public abstract class OutgoingEmail {
    * @return name/email of account, or Anonymous Coward if unset.
    */
   protected String getNameEmailFor(Account.Id accountId) {
+    if (accountId == null) {
+      return String.format(
+          "%s <%s>", args.gerritPersonIdent.getName(), args.gerritPersonIdent.getEmailAddress());
+    }
     Optional<Account> account = args.accountCache.get(accountId).map(AccountState::getAccount);
     if (account.isPresent()) {
       String name = account.get().getFullName();
@@ -390,6 +394,10 @@ public abstract class OutgoingEmail {
    * @return name/email of account, username, or null if unset.
    */
   protected String getUserNameEmailFor(Account.Id accountId) {
+    if (accountId == null) {
+      return null;
+    }
+
     Optional<AccountState> accountState = args.accountCache.get(accountId);
     if (!accountState.isPresent()) {
       return null;

@@ -15,31 +15,33 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-confirm-move-dialog.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-confirm-move-dialog';
+import {GrConfirmMoveDialog} from './gr-confirm-move-dialog';
+import {stubRestApi} from '../../../test/test-utils';
+import {GitRef, RepoName} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-confirm-move-dialog');
 
 suite('gr-confirm-move-dialog tests', () => {
-  let element;
+  let element: GrConfirmMoveDialog;
 
   setup(() => {
-    stubRestApi('getRepoBranches').callsFake(input => {
+    stubRestApi('getRepoBranches').callsFake((input: string) => {
       if (input.startsWith('test')) {
         return Promise.resolve([
           {
-            ref: 'refs/heads/test-branch',
+            ref: 'refs/heads/test-branch' as GitRef,
             revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
             can_delete: true,
           },
         ]);
       } else {
-        return Promise.resolve(undefined);
+        return Promise.resolve([]);
       }
     });
     element = basicFixture.instantiate();
-    element.project = 'test-project';
+    element.project = 'test-repo' as RepoName;
   });
 
   test('with updated commit message', () => {
@@ -68,4 +70,3 @@ suite('gr-confirm-move-dialog tests', () => {
     assert.equal(branches.length, 0);
   });
 });
-

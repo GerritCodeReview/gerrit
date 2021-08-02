@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -366,7 +367,11 @@ public abstract class OutgoingEmail {
    * @param accountId user to fetch.
    * @return name/email of account, or Anonymous Coward if unset.
    */
-  protected String getNameEmailFor(Account.Id accountId) {
+  protected String getNameEmailFor(@Nullable Account.Id accountId) {
+    if (accountId == null) {
+      return String.format(
+          "%s <%s>", args.gerritPersonIdent.getName(), args.gerritPersonIdent.getEmailAddress());
+    }
     Optional<Account> account = args.accountCache.get(accountId).map(AccountState::getAccount);
     if (account.isPresent()) {
       String name = account.get().getFullName();
@@ -389,7 +394,11 @@ public abstract class OutgoingEmail {
    * @param accountId user to fetch.
    * @return name/email of account, username, or null if unset.
    */
-  protected String getUserNameEmailFor(Account.Id accountId) {
+  protected String getUserNameEmailFor(@Nullable Account.Id accountId) {
+    if (accountId == null) {
+      return null;
+    }
+
     Optional<AccountState> accountState = args.accountCache.get(accountId);
     if (!accountState.isPresent()) {
       return null;

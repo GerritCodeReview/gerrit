@@ -79,6 +79,7 @@ import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
+import com.google.gerrit.server.DeadlineRequestListener;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.ExceptionHookImpl;
@@ -420,6 +421,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), PerformanceLogger.class);
     DynamicSet.setOf(binder(), RequestListener.class);
     DynamicSet.bind(binder(), RequestListener.class).to(TraceRequestListener.class);
+    DynamicSet.bind(binder(), RequestListener.class).to(DeadlineRequestListener.class);
     DynamicSet.setOf(binder(), ChangeETagComputation.class);
     DynamicSet.setOf(binder(), ExceptionHook.class);
     DynamicSet.bind(binder(), ExceptionHook.class).to(ExceptionHookImpl.class);

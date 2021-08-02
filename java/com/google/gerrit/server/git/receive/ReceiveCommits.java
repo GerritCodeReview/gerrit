@@ -44,6 +44,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
@@ -105,9 +106,10 @@ import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.ClientProvidedDeadlineChecker;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
+import com.google.gerrit.server.DeadlineChecker;
+import com.google.gerrit.server.DeadlineRequestListener;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.PatchSetUtil;
@@ -636,13 +638,11 @@ class ReceiveCommits {
             newTimer("processCommands", Metadata.builder().resourceCount(commandCount));
         PerformanceLogContext performanceLogContext =
             new PerformanceLogContext(config, performanceLoggers);
+        // To let client provided deadlines override server deadlines, DeadlineRequestListener must
+        // only be invoked after the DeadlineChecker for the client provided deadline has been
+        // registered.
         ExtensionCallContext extensionCallContext =
-            requestListeners.openEach(
-                l ->
-                    l.onRequest(
-                        RequestInfo.builder(RequestInfo.RequestType.GIT_RECEIVE, user, traceContext)
-                            .project(project.getNameKey())
-                            .build()))) {
+            invokeRequestListeners(traceContext, l -> !(l instanceof DeadlineRequestListener))) {
       traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.getNameKey().get()));
 
       // Log the push options here, rather than in parsePushOptions(), so that they are included
@@ -654,10 +654,16 @@ class ReceiveCommits {
           commands.stream().map(c -> wrapReceiveCommand(c, commandProgress)).collect(toList());
 
       try (RequestStateContext requestStateContext =
-          RequestStateContext.open()
-              .addRequestStateProvider(progress)
-              .addRequestStateProvider(
-                  new ClientProvidedDeadlineChecker(start, clientProvidedDeadlineValue))) {
+              RequestStateContext.open()
+                  .addRequestStateProvider(progress)
+                  .addRequestStateProvider(
+                      DeadlineChecker.createForClientProvidedDeadline(
+                          start, clientProvidedDeadlineValue));
+          // Invoke DeadlineRequestListener only now after the DeadlineChecker for the client
+          // provided deadline has been registered so that the server side deadlines can be ignored
+          // when a client provided deadline was already set.
+          ExtensionCallContext extensionCallContext2 =
+              invokeRequestListeners(traceContext, DeadlineRequestListener.class::isInstance)) {
         processCommandsUnsafe(commands, progress);
         rejectRemaining(commands, INTERNAL_SERVER_ERROR);
       } catch (InvalidDeadlineException e) {
@@ -3571,6 +3577,19 @@ class ReceiveCommits {
       }
       return r;
     }
+  }
+
+  private ExtensionCallContext invokeRequestListeners(
+      TraceContext traceContext, Predicate<RequestListener> filter) {
+    return requestListeners.openEach(
+        l -> {
+          if (filter.apply(l)) {
+            l.onRequest(
+                RequestInfo.builder(RequestInfo.RequestType.GIT_RECEIVE, user, traceContext)
+                    .project(project.getNameKey())
+                    .build());
+          }
+        });
   }
 
   private TraceTimer newTimer(String name) {

@@ -17,6 +17,10 @@ package com.google.gerrit.server;
 public class InvalidDeadlineException extends Exception {
   private static final long serialVersionUID = 1L;
 
+  public InvalidDeadlineException(String message) {
+    super("Invalid deadline. " + message);
+  }
+
   public InvalidDeadlineException(String message, Throwable cause) {
     super("Invalid deadline. " + message, cause);
   }

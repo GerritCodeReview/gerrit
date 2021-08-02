@@ -259,6 +259,10 @@ milliseconds is assumed.
   X-Gerrit-Deadline: 5m
 ----
 
+Setting a deadline on the request overrides any
+link:config-gerrit.html#deadline.id[server-side deadline] that has been
+configured on the host.
+
 [[updated-refs]]
 === X-Gerrit-UpdatedRef
 This is only enabled when "X-Gerrit-UpdatedRef-Enabled" is set to "true" in the

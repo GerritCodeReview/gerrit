@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.cancellation;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -76,8 +75,7 @@ public class RequestStateContext implements AutoCloseable {
   }
 
   /** Returns the {@link RequestStateProvider}s that have been registered for the thread. */
-  @VisibleForTesting
-  static ImmutableSet<RequestStateProvider> getRequestStateProviders() {
+  public static ImmutableSet<RequestStateProvider> getRequestStateProviders() {
     if (threadLocalRequestStateProviders.get() == null) {
       return ImmutableSet.of();
     }

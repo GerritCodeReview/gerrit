@@ -105,8 +105,8 @@ import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
-import com.google.gerrit.server.ClientProvidedDeadlineChecker;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DeadlineChecker;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.OptionUtil;
@@ -359,7 +359,8 @@ public class RestApiServlet extends HttpServlet {
       try (RequestStateContext requestStateContext =
               RequestStateContext.open()
                   .addRequestStateProvider(
-                      new ClientProvidedDeadlineChecker(req.getHeader(X_GERRIT_DEADLINE)));
+                      DeadlineChecker.createForClientProvidedDeadline(
+                          req.getHeader(X_GERRIT_DEADLINE)));
           ExtensionCallContext extensionCallContext =
               globals.requestListeners.openEach(l -> l.onRequest(requestInfo));
           PerThreadCache ignored = PerThreadCache.create()) {

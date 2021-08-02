@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eae82441_d80585f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-02T06:19:20Z",
+      "side": 1,
+      "message": "Nice change, my comments are just nits around the plugin layer",
+      "revId": "6bdb35ed9bf834370214668f6610b740906f069c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d48c0d9_6fa963a7",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-02T06:19:20Z",
+      "side": 1,
+      "message": "If you use PluginSetContext iso DynamicItem you get tracing for free which makes debugging much easier.\n\nIn any case, we want a 1:n binding here so that you can register multiple preprocessors. So either use PluginSetContext or DynamicMap (keys are plugin names)",
+      "range": {
+        "startLine": 101,
+        "startChar": 20,
+        "endLine": 101,
+        "endChar": 31
+      },
+      "revId": "6bdb35ed9bf834370214668f6610b740906f069c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c585579f_41cfe8d5",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-02T06:19:20Z",
+      "side": 1,
+      "message": "nit: Optional?",
+      "range": {
+        "startLine": 303,
+        "startChar": 3,
+        "endLine": 303,
+        "endChar": 11
+      },
+      "revId": "6bdb35ed9bf834370214668f6610b740906f069c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce065660_b3852083",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-02T06:19:20Z",
+      "side": 1,
+      "message": "Should we pass the actual blob ID instead? extId.blobId()\n\nHere and above.",
+      "range": {
+        "startLine": 958,
+        "startChar": 57,
+        "endLine": 958,
+        "endChar": 61
+      },
+      "revId": "6bdb35ed9bf834370214668f6610b740906f069c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "522b5510_edba69a1",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdUpdatePreprocessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-02T06:19:20Z",
+      "side": 1,
+      "message": "missing @ExtensionPoint annotation",
+      "revId": "6bdb35ed9bf834370214668f6610b740906f069c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85c7f977_8f6450ca",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdUpdatePreprocessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-02T06:19:20Z",
+      "side": 1,
+      "message": "Please document what failure modes you expect.\n\nI assume we throw a RTE in case of a failure in the preprocessor such as the failure to call a remote system?",
+      "range": {
+        "startLine": 25,
+        "startChar": 55,
+        "endLine": 25,
+        "endChar": 58
+      },
+      "revId": "6bdb35ed9bf834370214668f6610b740906f069c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "036e5a14_18199ef4",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-02T06:19:20Z",
+      "side": 1,
+      "message": "DynamicMap.mapOf",
+      "range": {
+        "startLine": 480,
+        "startChar": 4,
+        "endLine": 480,
+        "endChar": 22
+      },
+      "revId": "6bdb35ed9bf834370214668f6610b740906f069c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ acceptance_tests(
     group = "rest_bindings_collection",
     labels = ["rest"],
     deps = [
+        "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/logging",
     ],
 )

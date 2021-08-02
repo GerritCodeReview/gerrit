@@ -712,50 +712,58 @@ public class RestApiServlet extends HttpServlet {
                 messageOr(e, "Quota limit reached"),
                 e.caching(),
                 e);
-      } catch (RequestCancelledException e) {
-        cause = Optional.of(e);
-        switch (e.getCancellationReason()) {
-          case CLIENT_CLOSED_REQUEST:
-            statusCode = SC_CLIENT_CLOSED_REQUEST;
-            break;
-          case CLIENT_PROVIDED_DEADLINE_EXCEEDED:
-          case SERVER_DEADLINE_EXCEEDED:
-            statusCode = SC_REQUEST_TIMEOUT;
-            break;
-        }
-
-        StringBuilder msg = new StringBuilder(e.formatCancellationReason());
-        if (e.getCancellationMessage().isPresent()) {
-          msg.append("\n\n");
-          msg.append(e.getCancellationMessage().get());
-        }
-
-        responseBytes = replyError(req, res, statusCode, msg.toString(), e);
       } catch (Exception e) {
         cause = Optional.of(e);
-        statusCode = SC_INTERNAL_SERVER_ERROR;
 
-        Optional<ExceptionHook.Status> status = getStatus(e);
-        statusCode = status.map(ExceptionHook.Status::statusCode).orElse(SC_INTERNAL_SERVER_ERROR);
-
-        if (res.isCommitted()) {
-          responseBytes = 0;
-          if (statusCode == SC_INTERNAL_SERVER_ERROR) {
-            logger.atSevere().withCause(e).log(
-                "Error in %s %s, response already committed", req.getMethod(), uriForLogging(req));
-          } else {
-            logger.atWarning().log(
-                "Response for %s %s already committed, wanted to set status %d",
-                req.getMethod(), uriForLogging(req), statusCode);
+        Optional<RequestCancelledException> requestCancelledException =
+            RequestCancelledException.getFromCausalChain(e);
+        if (requestCancelledException.isPresent()) {
+          switch (requestCancelledException.get().getCancellationReason()) {
+            case CLIENT_CLOSED_REQUEST:
+              statusCode = SC_CLIENT_CLOSED_REQUEST;
+              break;
+            case CLIENT_PROVIDED_DEADLINE_EXCEEDED:
+            case SERVER_DEADLINE_EXCEEDED:
+              statusCode = SC_REQUEST_TIMEOUT;
+              break;
           }
-        } else {
-          res.reset();
-          traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
 
-          if (status.isPresent()) {
-            responseBytes = reply(req, res, e, status.get(), getUserMessages(traceContext, e));
+          StringBuilder msg =
+              new StringBuilder(requestCancelledException.get().formatCancellationReason());
+          if (requestCancelledException.get().getCancellationMessage().isPresent()) {
+            msg.append("\n\n");
+            msg.append(requestCancelledException.get().getCancellationMessage().get());
+          }
+
+          responseBytes = replyError(req, res, statusCode, msg.toString(), e);
+        } else {
+          statusCode = SC_INTERNAL_SERVER_ERROR;
+
+          Optional<ExceptionHook.Status> status = getStatus(e);
+          statusCode =
+              status.map(ExceptionHook.Status::statusCode).orElse(SC_INTERNAL_SERVER_ERROR);
+
+          if (res.isCommitted()) {
+            responseBytes = 0;
+            if (statusCode == SC_INTERNAL_SERVER_ERROR) {
+              logger.atSevere().withCause(e).log(
+                  "Error in %s %s, response already committed",
+                  req.getMethod(), uriForLogging(req));
+            } else {
+              logger.atWarning().log(
+                  "Response for %s %s already committed, wanted to set status %d",
+                  req.getMethod(), uriForLogging(req), statusCode);
+            }
           } else {
-            responseBytes = replyInternalServerError(req, res, e, getUserMessages(traceContext, e));
+            res.reset();
+            traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
+
+            if (status.isPresent()) {
+              responseBytes = reply(req, res, e, status.get(), getUserMessages(traceContext, e));
+            } else {
+              responseBytes =
+                  replyInternalServerError(req, res, e, getUserMessages(traceContext, e));
+            }
           }
         }
       } finally {

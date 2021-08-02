@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.base.Throwables;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.DynamicOptions;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Optional;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.eclipse.jgit.lib.Config;
@@ -62,10 +64,18 @@ public abstract class SshCommand extends BaseCommand {
                   RequestInfo.builder(RequestInfo.RequestType.SSH, user, traceContext).build();
               requestListeners.runEach(l -> l.onRequest(requestInfo));
               SshCommand.this.run();
-            } catch (RequestCancelledException e) {
-              StringBuilder msg = new StringBuilder(e.formatCancellationReason());
-              if (e.getCancellationMessage().isPresent()) {
-                msg.append(String.format(" (%s)", e.getCancellationMessage().get()));
+            } catch (RuntimeException e) {
+              Optional<RequestCancelledException> requestCancelledException =
+                  RequestCancelledException.getFromCausalChain(e);
+              if (!requestCancelledException.isPresent()) {
+                Throwables.throwIfUnchecked(e);
+              }
+              StringBuilder msg =
+                  new StringBuilder(requestCancelledException.get().formatCancellationReason());
+              if (requestCancelledException.get().getCancellationMessage().isPresent()) {
+                msg.append(
+                    String.format(
+                        " (%s)", requestCancelledException.get().getCancellationMessage().get()));
               }
               stderr.println(msg.toString());
             } finally {

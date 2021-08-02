@@ -148,7 +148,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
    * The computation of the {@link ChangeField#DIRECTORY} field is changed, hence reindexing is
    * required.
    */
-  static final Schema<ChangeData> V63 = schema(V62, false);
+  @Deprecated static final Schema<ChangeData> V63 = schema(V62, false);
 
   /** Added support for MIN/MAX/ANY for {@link ChangeField#LABEL} */
   static final Schema<ChangeData> V64 = schema(V63, false);

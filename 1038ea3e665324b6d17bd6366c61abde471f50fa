@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04c94e9e_79cfb0bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-08-02T17:46:19Z",
+      "side": 1,
+      "message": "The previous checks failure was related to some download failures. Rerunning made things happy.\n\nThis merge looks how I expect for the mariadb and the openid fixes.",
+      "revId": "1038ea3e665324b6d17bd6366c61abde471f50fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

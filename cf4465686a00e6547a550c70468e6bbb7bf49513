@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c16d5a5f_a628638f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-02T08:57:50Z",
+      "side": 1,
+      "message": "This will kill existing pushes that are working in Gerrit today. We currently see the following logs ~6 times per week:\n\n\u003e MultiProgressMonitor worker killed after 295056ms: (timeout 56ms, cancelled)\n\nSo this is a change in behavior that might cause issues when being rolled out (today, we tell the client \"timeout\" but the push does process further). Should we gate this behind a flag or increase the default timeout?",
+      "range": {
+        "startLine": 648,
+        "startChar": 26,
+        "endLine": 648,
+        "endChar": 70
+      },
+      "revId": "cf4465686a00e6547a550c70468e6bbb7bf49513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

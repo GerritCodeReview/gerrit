@@ -63,6 +63,7 @@ export const htmlTemplate = html`
     table {
       border-collapse: collapse;
       table-layout: fixed;
+      background-color: var(--diff-blank-background-color);
     }
 
     /*

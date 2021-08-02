@@ -89,6 +89,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a188f678_d699c4bd",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-08-02T08:53:31Z",
+      "side": 1,
+      "message": "That would require returning the actual removed external ID in the one remove() overload that currently doesn\u0027t return it. It would also make the API a tiny bit more complex (by having one more non-null field passed).\n\nI\u0027m wondering: Should we even preprocess removals? We currently don\u0027t have a use case for that, and it adds more complexity than the upsert part: Should the preprocessor be called for removals of IDs that turned out to not exist? On second thought, I\u0027d actually be slightly in favor of removing remove() from the interface until it\u0027s actually needed. WDYT?",
+      "parentUuid": "ce065660_b3852083",
+      "range": {
+        "startLine": 958,
+        "startChar": 57,
+        "endLine": 958,
+        "endChar": 61
+      },
+      "revId": "6bdb35ed9bf834370214668f6610b740906f069c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "522b5510_edba69a1",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdUpdatePreprocessor.java",
         "patchSetId": 2

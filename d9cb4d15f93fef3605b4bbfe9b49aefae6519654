@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acd5c6bb_f753c36f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 39
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-02T08:12:11Z",
+      "side": 1,
+      "message": "We have removed our internal dependency on Lucene, so this upgrade is no longer blocked by library compliance.",
+      "revId": "d9cb4d15f93fef3605b4bbfe9b49aefae6519654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

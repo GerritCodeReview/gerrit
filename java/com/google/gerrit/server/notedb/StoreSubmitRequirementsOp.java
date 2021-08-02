@@ -15,16 +15,26 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.inject.Inject;
 
 /** A {@link BatchUpdateOp} that stores the evaluated submit requirements of a change in NoteDb. */
 public class StoreSubmitRequirementsOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
+  private final SubmitRequirementsEvaluator evaluator;
 
-  public StoreSubmitRequirementsOp(ChangeData.Factory changeDataFactory) {
+  public interface Factory {
+    StoreSubmitRequirementsOp create();
+  }
+
+  @Inject
+  public StoreSubmitRequirementsOp(
+      ChangeData.Factory changeDataFactory, SubmitRequirementsEvaluator evaluator) {
     this.changeDataFactory = changeDataFactory;
+    this.evaluator = evaluator;
   }
 
   @Override
@@ -32,7 +42,7 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
     Change change = ctx.getChange();
     ChangeData changeData = changeDataFactory.create(change);
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
-    update.putSubmitRequirementResults(changeData.submitRequirements().values());
+    update.putSubmitRequirementResults(evaluator.getResults(changeData).values());
     return !changeData.submitRequirements().isEmpty();
   }
 }

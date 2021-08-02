@@ -1,6 +1,6 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:js.bzl", "get_ts_compiled_path", "get_ts_output_files")
-load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
+load("@ui_npm//@bazel/rollup:index.bzl", "rollup_bundle")
 
 def compile_ts(name, srcs, ts_outdir, additional_deps = [], ts_project = "tsconfig_bazel.json", emitJS = True, tags = []):
     """Compiles srcs files with the typescript compiler. The following

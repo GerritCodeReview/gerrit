@@ -2,7 +2,7 @@ load(":rules.bzl", "compile_ts", "polygerrit_bundle")
 load("//tools/js:eslint.bzl", "eslint")
 load("//tools/js:template_checker.bzl", "transform_polymer_templates")
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test", "npm_package_bin")
-load("@npm//@bazel/typescript:index.bzl", "ts_project")
+load("@ui_npm//@bazel/typescript:index.bzl", "ts_project")
 
 package(default_visibility = ["//visibility:public"])
 

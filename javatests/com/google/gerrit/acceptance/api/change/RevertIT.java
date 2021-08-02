@@ -352,14 +352,16 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revertNotificationsSupressedOnWip() throws Exception {
+  public void notificationsForWipReverts_NotSuppressedByDefault() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
 
     sender.clear();
-    gApi.changes().id(r.getChangeId()).revert(createWipRevertInput()).get();
+    RevertInput revertInput = createWipRevertInput();
+    revertInput.notify = NotifyHandling.NONE;
+    gApi.changes().id(r.getChangeId()).revert(revertInput).get();
     assertThat(sender.getMessages()).isEmpty();
   }
 
@@ -715,9 +717,7 @@ public class RevertIT extends AbstractDaemonTest {
     sender.clear();
 
     RevertInput revertInput = createWipRevertInput();
-    // Setting the Notifications to ALL will be overridden because the WIP flag overrides the
-    // notifications to OWNER
-    revertInput.notify = NotifyHandling.ALL;
+    revertInput.notify = NotifyHandling.OWNER;
     gApi.changes().id(changeId2).revertSubmission(revertInput);
 
     assertThat(sender.getMessages()).isEmpty();

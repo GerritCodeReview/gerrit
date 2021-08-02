@@ -257,9 +257,6 @@ public class RevertSubmission
       cherryPickInput.base = null;
       Project.NameKey project = projectAndBranch.project();
       cherryPickInput.destination = projectAndBranch.branch();
-      if (revertInput.workInProgress) {
-        cherryPickInput.notify = NotifyHandling.OWNER;
-      }
       Collection<ChangeData> changesInProjectAndBranch =
           changesPerProjectAndBranch.get(projectAndBranch);
 

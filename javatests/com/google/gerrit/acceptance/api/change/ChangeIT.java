@@ -4325,6 +4325,61 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirement_backFilledFromIndexForActiveChanges() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    voteLabel(changeId, "code-review", 2);
+
+    // Query the change. ChangeInfo is back-filled from the change index.
+    List<ChangeInfo> changeInfos =
+        gApi.changes()
+            .query()
+            .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
+            .withOptions(ImmutableSet.of(ListChangesOption.SUBMIT_REQUIREMENTS))
+            .get();
+    assertThat(changeInfos).hasSize(1);
+    assertSubmitRequirementStatus(
+        changeInfos.get(0).submitRequirements, "code-review", Status.SATISFIED);
+  }
+
+  @Test
+  public void submitRequirement_backFilledFromIndexForClosedChanges() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    voteLabel(changeId, "code-review", 2);
+    gApi.changes().id(changeId).current().submit();
+
+    // Query the change. ChangeInfo is back-filled from the change index.
+    List<ChangeInfo> changeInfos =
+        gApi.changes()
+            .query()
+            .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
+            .withOptions(ImmutableSet.of(ListChangesOption.SUBMIT_REQUIREMENTS))
+            .get();
+    assertThat(changeInfos).hasSize(1);
+    assertSubmitRequirementStatus(
+        changeInfos.get(0).submitRequirements, "code-review", Status.SATISFIED);
+  }
+
+  @Test
   public void fourByteEmoji() throws Exception {
     // U+1F601 GRINNING FACE WITH SMILING EYES
     String smile = new String(Character.toChars(0x1f601));

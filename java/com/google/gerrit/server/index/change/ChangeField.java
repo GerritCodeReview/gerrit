@@ -70,6 +70,7 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
+import com.google.gerrit.server.notedb.SubmitRequirementProtoConverter;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -1076,6 +1077,27 @@ public class ChangeField {
       }
     }
     return result;
+  }
+
+  /** Serialized submit requirements, used for pre-populating results. */
+  public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_REQUIREMENTS =
+      storedOnly("full_submit_requirements")
+          .buildRepeatable(
+              cd ->
+                  toProtos(
+                      SubmitRequirementProtoConverter.INSTANCE, cd.submitRequirements().values()),
+              (cd, field) -> parseSubmitRequirements(field, cd));
+
+  private static void parseSubmitRequirements(Iterable<byte[]> values, ChangeData out) {
+    out.setSubmitRequirements(
+        StreamSupport.stream(values.spliterator(), false)
+            .map(
+                f ->
+                    SubmitRequirementProtoConverter.INSTANCE.fromProto(
+                        Protos.parseUnchecked(
+                            SubmitRequirementProtoConverter.INSTANCE.getParser(), f)))
+            .collect(
+                ImmutableMap.toImmutableMap(sr -> sr.submitRequirement(), Function.identity())));
   }
 
   /**

@@ -85,8 +85,8 @@ export const htmlTemplate = html`
           <label for="revertSubmission" class="label revertSubmission">
             Revert entire submission ([[_changesCount]] Changes)
           </label>
-        </div></template
-      >
+        </div>
+      </template>
       <gr-endpoint-decorator name="confirm-revert-change">
         <label for="messageInput"> Revert Commit Message </label>
         <iron-autogrow-textarea

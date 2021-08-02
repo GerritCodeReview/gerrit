@@ -66,7 +66,7 @@ public class IndexPreloadingUtil {
       "is:open owner:${user} -is:wip -is:ignored limit:25";
   public static final String DASHBOARD_INCOMING_QUERY =
       "is:open -owner:${user} -is:wip -is:ignored (reviewer:${user} OR assignee:${user}) limit:25";
-  public static final String CC_QUERY = "is:open -is:ignored cc:${user} limit:10";
+  public static final String CC_QUERY = "is:open -is:ignored -is:wip cc:${user} limit:10";
   public static final String DASHBOARD_RECENTLY_CLOSED_QUERY =
       "is:closed -is:ignored (-is:wip OR owner:self) "
           + "(owner:${user} OR reviewer:${user} OR assignee:${user} "

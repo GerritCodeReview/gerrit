@@ -38,7 +38,9 @@ public class IndexConfig {
   }
 
   public static Config createForLucene() {
-    return create();
+    Config cfg = create();
+    cfg.setString("index", null, "type", "lucene");
+    return cfg;
   }
 
   public static Config createForElasticsearch() {

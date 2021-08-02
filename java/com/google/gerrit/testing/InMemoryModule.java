@@ -134,7 +134,6 @@ public class InMemoryModule extends FactoryModule {
     cfg.setString("user", null, "name", "Gerrit Code Review");
     cfg.setString("user", null, "email", "gerrit@localhost");
     cfg.unset("cache", null, "directory");
-    cfg.setString("index", null, "type", "lucene");
     cfg.setBoolean("index", "lucene", "testInmemory", true);
     cfg.setInt("sendemail", null, "threadPoolSize", 0);
     cfg.setBoolean("receive", null, "enableSignedPush", false);
@@ -240,7 +239,8 @@ public class InMemoryModule extends FactoryModule {
     bind(AllChangesIndexer.class).toProvider(Providers.of(null));
     bind(AllGroupsIndexer.class).toProvider(Providers.of(null));
 
-    IndexType indexType = new IndexType(cfg.getString("index", null, "type"));
+    String indexTypeCfg = cfg.getString("index", null, "type");
+    IndexType indexType = new IndexType(indexTypeCfg != null ? indexTypeCfg : "fake");
     // For custom index types, callers must provide their own module.
     if (indexType.isLucene()) {
       install(luceneIndexModule());

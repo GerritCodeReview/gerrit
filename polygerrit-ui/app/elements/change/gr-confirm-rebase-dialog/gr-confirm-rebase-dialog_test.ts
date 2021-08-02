@@ -15,14 +15,19 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-confirm-rebase-dialog.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-confirm-rebase-dialog';
+import {GrConfirmRebaseDialog, RebaseChange} from './gr-confirm-rebase-dialog';
+import {stubRestApi} from '../../../test/test-utils';
+// import {ChangeInfo} from '../../../types/common';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {NumericChangeId} from '../../../types/common';
+import {createChangeViewChange} from '../../../test/test-data-generators';
 
 const basicFixture = fixtureFromElement('gr-confirm-rebase-dialog');
 
 suite('gr-confirm-rebase-dialog tests', () => {
-  let element;
+  let element: GrConfirmRebaseDialog;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -102,36 +107,39 @@ suite('gr-confirm-rebase-dialog tests', () => {
   });
 
   suite('parent suggestions', () => {
-    let recentChanges;
-    let getChangesStub;
+    let recentChanges: RebaseChange[];
+    let getChangesStub: sinon.SinonStub;
     setup(() => {
       recentChanges = [
         {
           name: '123: my first awesome change',
-          value: 123,
+          value: 123 as NumericChangeId,
         },
         {
           name: '124: my second awesome change',
-          value: 124,
+          value: 124 as NumericChangeId,
         },
         {
           name: '245: my third awesome change',
-          value: 245,
+          value: 245 as NumericChangeId,
         },
       ];
 
       getChangesStub = stubRestApi('getChanges').returns(Promise.resolve(
           [
             {
-              _number: 123,
+              ...createChangeViewChange(),
+              _number: 123 as NumericChangeId,
               subject: 'my first awesome change',
             },
             {
-              _number: 124,
+              ...createChangeViewChange(),
+              _number: 124 as NumericChangeId,
               subject: 'my second awesome change',
             },
             {
-              _number: 245,
+              ...createChangeViewChange(),
+              _number: 245 as NumericChangeId,
               subject: 'my third awesome change',
             },
           ]
@@ -139,7 +147,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
     });
 
     test('_getRecentChanges', () => {
-      sinon.spy(element, '_getRecentChanges');
+      const recentChangesSpy = sinon.spy(element, '_getRecentChanges');
       return element._getRecentChanges()
           .then(() => {
             assert.deepEqual(element._recentChanges, recentChanges);
@@ -148,7 +156,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
             element._getRecentChanges();
           })
           .then(() => {
-            assert.equal(element._getRecentChanges.callCount, 2);
+            assert.equal(recentChangesSpy.callCount, 2);
             assert.equal(getChangesStub.callCount, 1);
           });
     });
@@ -159,14 +167,14 @@ suite('gr-confirm-rebase-dialog tests', () => {
       assert.equal(element._filterChanges('awesome', recentChanges).length, 3);
       assert.equal(element._filterChanges('third', recentChanges).length, 1);
 
-      element.changeNumber = 123;
+      element.changeNumber = 123 as NumericChangeId;
       assert.equal(element._filterChanges('123', recentChanges).length, 0);
       assert.equal(element._filterChanges('124', recentChanges).length, 1);
       assert.equal(element._filterChanges('awesome', recentChanges).length, 2);
     });
 
     test('input text change triggers function', () => {
-      sinon.spy(element, '_getRecentChanges');
+      const recentChangesSpy =  sinon.spy(element, '_getRecentChanges');
       element.$.parentInput.noDebounce = true;
       MockInteractions.pressAndReleaseKeyOn(
           element.$.parentInput.$.input,
@@ -174,9 +182,9 @@ suite('gr-confirm-rebase-dialog tests', () => {
           null,
           'enter');
       element._text = '1';
-      assert.isTrue(element._getRecentChanges.calledOnce);
+      assert.isTrue(recentChangesSpy.calledOnce);
       element._text = '12';
-      assert.isTrue(element._getRecentChanges.calledTwice);
+      assert.isTrue(recentChangesSpy.calledTwice);
     });
   });
 });

@@ -85,19 +85,20 @@ export class GrConfirmSubmitDialog extends PolymerElement {
     return commentThreads.filter(thread => isUnresolved(thread));
   }
 
-  _computeUnresolvedCommentsWarning(change: ChangeInfo) {
+  _computeUnresolvedCommentsWarning(change?: ChangeInfo) {
+    if (!change) return '';
     const unresolvedCount = change.unresolved_comment_count;
     if (!unresolvedCount) throw new Error('unresolved comments undefined or 0');
     return `Heads Up! ${pluralize(unresolvedCount, 'unresolved comment')}.`;
   }
 
-  _handleConfirmTap(e: MouseEvent) {
+  _handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('confirm', {bubbles: false}));
   }
 
-  _handleCancelTap(e: MouseEvent) {
+  _handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('cancel', {bubbles: false}));

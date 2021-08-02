@@ -33,6 +33,7 @@ import {
   AccountDetailInfo,
   AccountInfo,
   ChangeInfo,
+  NumericChangeId,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {
@@ -82,7 +83,7 @@ export class GrThreadList extends PolymerElement {
   threads: CommentThread[] = [];
 
   @property({type: String})
-  changeNum?: string;
+  changeNum?: NumericChangeId;
 
   @property({type: Boolean})
   loggedIn?: boolean;

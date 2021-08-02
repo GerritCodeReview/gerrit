@@ -15,35 +15,37 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-confirm-move-dialog.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-confirm-move-dialog';
+import {GrConfirmMoveDialog} from './gr-confirm-move-dialog';
+import {stubRestApi} from '../../../test/test-utils';
+import {BranchName, GitRef, RepoName} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-confirm-move-dialog');
 
 suite('gr-confirm-move-dialog tests', () => {
-  let element;
+  let element: GrConfirmMoveDialog;
 
   setup(() => {
-    stubRestApi('getRepoBranches').callsFake(input => {
+    stubRestApi('getRepoBranches').callsFake((input: string) => {
       if (input.startsWith('test')) {
         return Promise.resolve([
           {
-            ref: 'refs/heads/test-branch',
+            ref: 'refs/heads/test-branch' as GitRef,
             revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
             can_delete: true,
           },
         ]);
       } else {
-        return Promise.resolve(undefined);
+        return Promise.resolve([]);
       }
     });
     element = basicFixture.instantiate();
-    element.project = 'test-project';
+    element.project = 'test-repo' as RepoName;
   });
 
   test('with updated commit message', () => {
-    element.branch = 'master';
+    element.branch = 'master' as BranchName;
     const myNewMessage = 'updated commit message';
     element.message = myNewMessage;
     flush();
@@ -52,13 +54,15 @@ suite('gr-confirm-move-dialog tests', () => {
 
   test('_getProjectBranchesSuggestions empty', async () => {
     const branches = await element._getProjectBranchesSuggestions(
-        'nonexistent');
+      'nonexistent'
+    );
     assert.equal(branches.length, 0);
   });
 
   test('_getProjectBranchesSuggestions non-empty', async () => {
     const branches = await element._getProjectBranchesSuggestions(
-        'test-branch');
+      'test-branch'
+    );
     assert.equal(branches.length, 1);
     assert.equal(branches[0].name, 'test-branch');
   });
@@ -68,4 +72,3 @@ suite('gr-confirm-move-dialog tests', () => {
     assert.equal(branches.length, 0);
   });
 });
-

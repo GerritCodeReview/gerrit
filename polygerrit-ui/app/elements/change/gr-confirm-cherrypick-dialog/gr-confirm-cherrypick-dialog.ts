@@ -24,11 +24,11 @@ import {htmlTemplate} from './gr-confirm-cherrypick-dialog_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {
-  ChangeInfo,
   BranchInfo,
-  RepoName,
-  CommitId,
+  ChangeInfo,
   ChangeInfoId,
+  CommitId,
+  RepoName,
 } from '../../../types/common';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {customElement, property, observe} from '@polymer/decorators';
@@ -45,13 +45,15 @@ enum CherryPickType {
 }
 
 // These values are directly displayed in the dialog to show progress of change
-enum ProgressStatus {
+export enum ProgressStatus {
   RUNNING = 'RUNNING',
   FAILED = 'FAILED',
   NOT_STARTED = 'NOT STARTED',
   SUCCESSFUL = 'SUCCESSFUL',
 }
 
+// This must be a string as index requires a string or number.
+// Typescript doesn't detect that ChangeInfoId is a string.
 type Statuses = {[changeId: string]: Status};
 
 interface Status {

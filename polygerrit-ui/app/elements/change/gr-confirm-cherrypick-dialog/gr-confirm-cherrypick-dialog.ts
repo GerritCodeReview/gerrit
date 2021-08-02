@@ -27,7 +27,6 @@ import {
   ChangeInfo,
   BranchInfo,
   RepoName,
-  BranchName,
   CommitId,
   ChangeInfoId,
 } from '../../../types/common';
@@ -91,7 +90,7 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
    */
 
   @property({type: String})
-  branch?: BranchName;
+  branch = '';
 
   @property({type: String})
   baseCommit?: string;
@@ -106,7 +105,7 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
   commitNum?: CommitId;
 
   @property({type: String})
-  message?: string;
+  message = '';
 
   @property({type: String})
   project?: RepoName;
@@ -249,7 +248,7 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
     cherryPickType: CherryPickType,
     duplicateProjectChanges: boolean,
     statuses: Statuses,
-    branch?: BranchName
+    branch: string
   ) {
     if (!branch) return true;
     const duplicateProject =

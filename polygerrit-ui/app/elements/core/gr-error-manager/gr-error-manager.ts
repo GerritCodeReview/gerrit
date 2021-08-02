@@ -47,6 +47,7 @@ const STALE_CREDENTIAL_THRESHOLD_MS = 10 * 60 * 1000;
 const SIGN_IN_WIDTH_PX = 690;
 const SIGN_IN_HEIGHT_PX = 500;
 const TOO_MANY_FILES = 'too many files to find conflicts';
+const CONFLICTS_OPERATOR_IS_NOT_SUPPORTED = '\'conflicts:\' operator is not supported by server';
 const AUTHENTICATION_REQUIRED = 'Authentication required\n';
 
 // Bigger number has higher priority
@@ -167,7 +168,7 @@ export class GrErrorManager extends PolymerElement {
   }
 
   _shouldSuppressError(msg: string) {
-    return msg.includes(TOO_MANY_FILES);
+    return msg.includes(TOO_MANY_FILES) || msg.includes(CONFLICTS_OPERATOR_IS_NOT_SUPPORTED);
   }
 
   private readonly handleAuthRequired = () => {

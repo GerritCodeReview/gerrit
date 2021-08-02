@@ -36,6 +36,8 @@ import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.account.AccountIndex;
@@ -50,6 +52,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Fake secondary index implementation for usage in tests. All values are kept in-memory.
@@ -179,14 +182,17 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
   public static class FakeChangeIndex
       extends AbstractFakeIndex<Change.Id, ChangeData, Map<String, Object>> implements ChangeIndex {
     private final ChangeData.Factory changeDataFactory;
+    private final boolean skipMergable;
 
     @Inject
     FakeChangeIndex(
         SitePaths sitePaths,
         ChangeData.Factory changeDataFactory,
-        @Assisted Schema<ChangeData> schema) {
+        @Assisted Schema<ChangeData> schema,
+        @GerritServerConfig Config cfg) {
       super(schema, sitePaths, "changes");
       this.changeDataFactory = changeDataFactory;
+      this.skipMergable = !MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex();
     }
 
     @Override
@@ -208,6 +214,9 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     protected Map<String, Object> docFor(ChangeData value) {
       ImmutableMap.Builder<String, Object> doc = ImmutableMap.builder();
       for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
+        if (ChangeField.MERGEABLE.getName().equals(field.getName()) && skipMergable) {
+          continue;
+        }
         Object docifiedValue = field.get(value);
         if (docifiedValue != null) {
           doc.put(field.getName(), field.get(value));

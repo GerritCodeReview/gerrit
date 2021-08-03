@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc60feda_49ca8af6",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-03T21:26:10Z",
+      "side": 1,
+      "message": "Somehow we need to detect if a file is binary and then prevent editing it.\n\nI\u0027m not exactly sure how to do that in javascript... had a look around but couldn\u0027t figure out how.",
+      "revId": "a0339651fb75e1a4106895164a013a55b4bac558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

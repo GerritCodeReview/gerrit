@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c45f0e7f_e5fd245c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-08-03T08:27:48Z",
+      "side": 1,
+      "message": "Seems like there is a discrepancy between the fix and the description. In the change it looks like we use _GerritPersonIdent_ when accountId is null, not account state",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ef2d4c92_41f1079a",

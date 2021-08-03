@@ -41,6 +41,7 @@ public abstract class SshCommand extends BaseCommand {
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
   @Inject private PluginSetContext<RequestListener> requestListeners;
   @Inject @GerritServerConfig private Config config;
+  @Inject private DeadlineChecker.Factory deadlineCheckerFactory;
 
   @Option(name = "--trace", usage = "enable request tracing")
   private boolean trace;
@@ -64,28 +65,30 @@ public abstract class SshCommand extends BaseCommand {
             stderr = toPrintWriter(err);
             try (TraceContext traceContext = enableTracing();
                 PerformanceLogContext performanceLogContext =
-                    new PerformanceLogContext(config, performanceLoggers);
-                RequestStateContext requestStateContext =
-                    RequestStateContext.open()
-                        .addRequestStateProvider(new DeadlineChecker(deadline))) {
+                    new PerformanceLogContext(config, performanceLoggers)) {
               RequestInfo requestInfo =
                   RequestInfo.builder(RequestInfo.RequestType.SSH, user, traceContext).build();
-              requestListeners.runEach(l -> l.onRequest(requestInfo));
-              SshCommand.this.run();
-            } catch (RuntimeException e) {
-              Optional<RequestCancelledException> requestCancelledException =
-                  RequestCancelledException.getFromCausalChain(e);
-              if (!requestCancelledException.isPresent()) {
-                Throwables.throwIfUnchecked(e);
+              try (RequestStateContext requestStateContext =
+                  RequestStateContext.open()
+                      .addRequestStateProvider(
+                          deadlineCheckerFactory.create(requestInfo, deadline))) {
+                requestListeners.runEach(l -> l.onRequest(requestInfo));
+                SshCommand.this.run();
+              } catch (RuntimeException e) {
+                Optional<RequestCancelledException> requestCancelledException =
+                    RequestCancelledException.getFromCausalChain(e);
+                if (!requestCancelledException.isPresent()) {
+                  Throwables.throwIfUnchecked(e);
+                }
+                StringBuilder msg =
+                    new StringBuilder(requestCancelledException.get().formatCancellationReason());
+                if (requestCancelledException.get().getCancellationMessage().isPresent()) {
+                  msg.append(
+                      String.format(
+                          " (%s)", requestCancelledException.get().getCancellationMessage().get()));
+                }
+                stderr.println(msg.toString());
               }
-              StringBuilder msg =
-                  new StringBuilder(requestCancelledException.get().formatCancellationReason());
-              if (requestCancelledException.get().getCancellationMessage().isPresent()) {
-                msg.append(
-                    String.format(
-                        " (%s)", requestCancelledException.get().getCancellationMessage().get()));
-              }
-              stderr.println(msg.toString());
             } finally {
               stdout.flush();
               stderr.flush();

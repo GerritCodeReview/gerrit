@@ -38,8 +38,7 @@ public abstract class RequestConfig {
 
     for (String id : cfg.getSubsections(section)) {
       try {
-        RequestConfig.Builder requestConfig = RequestConfig.builder();
-        requestConfig.id(id);
+        RequestConfig.Builder requestConfig = RequestConfig.builder(cfg, section, id);
         requestConfig.requestTypes(parseRequestTypes(cfg, section, id));
         requestConfig.requestUriPatterns(parseRequestUriPatterns(cfg, section, id));
         requestConfig.accountIds(parseAccounts(cfg, section, id));
@@ -101,7 +100,13 @@ public abstract class RequestConfig {
     return patterns.build();
   }
 
-  /** ID of the config */
+  /** the config from which this request config was read */
+  abstract Config cfg();
+
+  /** the section from which this request config was read */
+  abstract String section();
+
+  /** ID of the config, also the subsection from which this request config was read */
   abstract String id();
 
   /** request types that should be matched */
@@ -116,8 +121,8 @@ public abstract class RequestConfig {
   /** pattern matching projects names */
   abstract ImmutableSet<Pattern> projectPatterns();
 
-  private static Builder builder() {
-    return new AutoValue_RequestConfig.Builder();
+  private static Builder builder(Config cfg, String section, String id) {
+    return new AutoValue_RequestConfig.Builder().cfg(cfg).section(section).id(id);
   }
 
   /**
@@ -185,6 +190,10 @@ public abstract class RequestConfig {
 
   @AutoValue.Builder
   abstract static class Builder {
+    abstract Builder cfg(Config cfg);
+
+    abstract Builder section(String section);
+
     abstract Builder id(String id);
 
     abstract Builder requestTypes(ImmutableSet<String> requestTypes);

@@ -27,12 +27,12 @@ export const htmlTemplate = html`
     <section>
       <label for="contextLineSelect" class="title">Context</label>
       <span class="value">
-        <gr-select id="contextSelect" bind-value="{{diffPrefs.context}}">
-          <select
-            id="contextLineSelect"
-            on-keypress="_handleDiffPrefsChanged"
-            on-change="_handleDiffPrefsChanged"
-          >
+        <gr-select
+          id="contextSelect"
+          bind-value="[[_convertToString(diffPrefs.context)]]"
+          on-change="_handleDiffContextChanged"
+        >
+          <select id="contextLineSelect">
             <option value="3">3 lines</option>
             <option value="10">10 lines</option>
             <option value="25">25 lines</option>
@@ -50,7 +50,7 @@ export const htmlTemplate = html`
         <input
           id="lineWrappingInput"
           type="checkbox"
-          checked="[[diffPrefs.line_wrapping]]"
+          checked="[[_convertToBoolean(diffPrefs.line_wrapping)]]"
           on-change="_handleLineWrappingTap"
         />
       </span>
@@ -59,23 +59,11 @@ export const htmlTemplate = html`
       <label for="columnsInput" class="title">Diff width</label>
       <span class="value">
         <iron-input
-          type="number"
-          prevent-invalid-input=""
           allowed-pattern="[0-9]"
-          bind-value="{{diffPrefs.line_length}}"
-          on-keypress="_handleDiffPrefsChanged"
-          on-change="_handleDiffPrefsChanged"
+          bind-value="[[_convertToString(diffPrefs.line_length)]]"
+          on-change="_handleDiffLineLengthChanged"
         >
-          <input
-            is="iron-input"
-            type="number"
-            id="columnsInput"
-            prevent-invalid-input=""
-            allowed-pattern="[0-9]"
-            bind-value="{{diffPrefs.line_length}}"
-            on-keypress="_handleDiffPrefsChanged"
-            on-change="_handleDiffPrefsChanged"
-          />
+          <input id="columnsInput" type="number" />
         </iron-input>
       </span>
     </section>
@@ -83,23 +71,11 @@ export const htmlTemplate = html`
       <label for="tabSizeInput" class="title">Tab width</label>
       <span class="value">
         <iron-input
-          type="number"
-          prevent-invalid-input=""
           allowed-pattern="[0-9]"
-          bind-value="{{diffPrefs.tab_size}}"
-          on-keypress="_handleDiffPrefsChanged"
-          on-change="_handleDiffPrefsChanged"
+          bind-value="[[_convertToString(diffPrefs.tab_size)]]"
+          on-change="_handleDiffTabSizeChanged"
         >
-          <input
-            is="iron-input"
-            type="number"
-            id="tabSizeInput"
-            prevent-invalid-input=""
-            allowed-pattern="[0-9]"
-            bind-value="{{diffPrefs.tab_size}}"
-            on-keypress="_handleDiffPrefsChanged"
-            on-change="_handleDiffPrefsChanged"
-          />
+          <input id="tabSizeInput" type="number" />
         </iron-input>
       </span>
     </section>
@@ -107,23 +83,11 @@ export const htmlTemplate = html`
       <label for="fontSizeInput" class="title">Font size</label>
       <span class="value">
         <iron-input
-          type="number"
-          prevent-invalid-input=""
           allowed-pattern="[0-9]"
-          bind-value="{{diffPrefs.font_size}}"
-          on-keypress="_handleDiffPrefsChanged"
-          on-change="_handleDiffPrefsChanged"
+          bind-value="[[_convertToString(diffPrefs.font_size)]]"
+          on-change="_handleDiffFontSizeChanged"
         >
-          <input
-            is="iron-input"
-            type="number"
-            id="fontSizeInput"
-            prevent-invalid-input=""
-            allowed-pattern="[0-9]"
-            bind-value="{{diffPrefs.font_size}}"
-            on-keypress="_handleDiffPrefsChanged"
-            on-change="_handleDiffPrefsChanged"
-          />
+          <input id="fontSizeInput" type="number" />
         </iron-input>
       </span>
     </section>
@@ -133,7 +97,7 @@ export const htmlTemplate = html`
         <input
           id="showTabsInput"
           type="checkbox"
-          checked="[[diffPrefs.show_tabs]]"
+          checked="[[_convertToBoolean(diffPrefs.show_tabs)]]"
           on-change="_handleShowTabsTap"
         />
       </span>
@@ -146,7 +110,7 @@ export const htmlTemplate = html`
         <input
           id="showTrailingWhitespaceInput"
           type="checkbox"
-          checked="[[diffPrefs.show_whitespace_errors]]"
+          checked="[[_convertToBoolean(diffPrefs.show_whitespace_errors)]]"
           on-change="_handleShowTrailingWhitespaceTap"
         />
       </span>
@@ -159,7 +123,7 @@ export const htmlTemplate = html`
         <input
           id="syntaxHighlightInput"
           type="checkbox"
-          checked="[[diffPrefs.syntax_highlighting]]"
+          checked="[[_convertToBoolean(diffPrefs.syntax_highlighting)]]"
           on-change="_handleSyntaxHighlightTap"
         />
       </span>
@@ -172,7 +136,7 @@ export const htmlTemplate = html`
         <input
           id="automaticReviewInput"
           type="checkbox"
-          checked="[[!diffPrefs.manual_review]]"
+          checked="[[!_convertToBoolean(diffPrefs.manual_review)]]"
           on-change="_handleAutomaticReviewTap"
         />
       </span>
@@ -181,12 +145,11 @@ export const htmlTemplate = html`
       <div class="pref">
         <label for="ignoreWhiteSpace" class="title">Ignore Whitespace</label>
         <span class="value">
-          <gr-select bind-value="{{diffPrefs.ignore_whitespace}}">
-            <select
-              id="ignoreWhiteSpace"
-              on-keypress="_handleDiffPrefsChanged"
-              on-change="_handleDiffPrefsChanged"
-            >
+          <gr-select
+            bind-value="[[_convertToString(diffPrefs.ignore_whitespace)]]"
+            on-change="_handleDiffIgnoreWhitespaceChanged"
+          >
+            <select id="ignoreWhiteSpace">
               <option value="IGNORE_NONE">None</option>
               <option value="IGNORE_TRAILING">Trailing</option>
               <option value="IGNORE_LEADING_AND_TRAILING">

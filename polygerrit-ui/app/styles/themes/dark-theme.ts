@@ -136,6 +136,7 @@ function getStyleEl() {
       /* misc colors */
       --border-color: var(--gray-700);
       --comment-separator-color: var(--border-color);
+      --focus-border-color: var(--gray-200);
 
       /* checks tag colors */
       --tag-gray: var(--gray-tonal);

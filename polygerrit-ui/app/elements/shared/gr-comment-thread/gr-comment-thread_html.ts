@@ -66,6 +66,9 @@ export const htmlTemplate = html`
     .comment-box.robotComment {
       background-color: var(--robot-comment-background-color);
     }
+    .comment-box.focus {
+      border: 2px solid var(--focus-border-color);
+    }
     #commentInfoContainer {
       display: flex;
     }

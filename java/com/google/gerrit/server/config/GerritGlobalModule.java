@@ -79,6 +79,7 @@ import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
+import com.google.gerrit.server.DeadlineChecker;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.ExceptionHookImpl;
@@ -279,6 +280,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeJson.AssistedFactory.class);
     factory(ChangeIsVisibleToPredicate.Factory.class);
+    factory(DeadlineChecker.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(PatchScriptFactory.Factory.class);
     factory(PatchScriptFactoryForAutoFix.Factory.class);

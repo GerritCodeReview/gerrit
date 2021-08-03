@@ -156,6 +156,206 @@ public class CancellationIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  public void abortIfServerDeadlineExceeded() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent()).isEqualTo("Server Deadline Exceeded\n\ntimeout=1ms");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1")
+  public void abortIfServerDeadlineExceeded_millisecondsAssumedByDefault() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent()).isEqualTo("Server Deadline Exceeded\n\ntimeout=1ms");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.foo.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.bar.timeout", value = "100ms")
+  public void stricterDeadlineTakesPrecedence() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent()).isEqualTo("Server Deadline Exceeded\n\ntimeout=1ms");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.requestType", value = "REST")
+  public void abortIfServerDeadlineExceeded_requestType() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent()).isEqualTo("Server Deadline Exceeded\n\ntimeout=1ms");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.requestUriPattern", value = "/projects/.*")
+  public void abortIfServerDeadlineExceeded_requestUriPattern() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent()).isEqualTo("Server Deadline Exceeded\n\ntimeout=1ms");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.projectPattern", value = ".*new.*")
+  public void abortIfServerDeadlineExceeded_projectPattern() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent()).isEqualTo("Server Deadline Exceeded\n\ntimeout=1ms");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.account", value = "1000000")
+  public void abortIfServerDeadlineExceeded_account() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent()).isEqualTo("Server Deadline Exceeded\n\ntimeout=1ms");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.requestType", value = "SSH")
+  public void nonMatchingServerDeadlineIsIgnored_requestType() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.requestUriPattern", value = "/changes/.*")
+  public void nonMatchingServerDeadlineIsIgnored_requestUriPattern() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.projectPattern", value = ".*foo.*")
+  public void nonMatchingServerDeadlineIsIgnored_projectPattern() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.account", value = "999")
+  public void nonMatchingServerDeadlineIsIgnored_account() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1x")
+  public void invalidServerDeadlineIsIgnored_invalidTimeUnit() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "invalid")
+  public void invalidServerDeadlineIsIgnored_invalidValue() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.requestType", value = "INVALID")
+  public void invalidServerDeadlineIsIgnored_invalidRequestType() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.requestUriPattern", value = "][")
+  public void invalidServerDeadlineIsIgnored_invalidRequestUriPattern() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.projectPattern", value = "][")
+  public void invalidServerDeadlineIsIgnored_invalidProjectPattern() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.account", value = "invalid")
+  public void invalidServerDeadlineIsIgnored_invalidAccount() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.requestType", value = "REST")
+  public void deadlineConfigWithoutTimeoutIsIgnored() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "0ms")
+  @GerritConfig(name = "deadline.default.requestType", value = "REST")
+  public void deadlineConfigWithZeroTimeoutIsIgnored() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "500ms")
+  public void exceededDeadlineForOneRequestDoesntAbortFollowUpRequest() throws Exception {
+    ProjectCreationValidationListener projectCreationValidationListener =
+        new ProjectCreationValidationListener() {
+          @Override
+          public void validateNewProject(CreateProjectArgs args) throws ValidationException {
+            try {
+              Thread.sleep(1000);
+            } catch (InterruptedException e) {
+              throw new RuntimeException("interrupted during sleep");
+            }
+          }
+        };
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectCreationValidationListener)) {
+      RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+      assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+      assertThat(response.getEntityContent())
+          .isEqualTo("Server Deadline Exceeded\n\ntimeout=500ms");
+    }
+    // verify that the exceeded deadline for the previous request, isn't applied to a new request
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new2"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  public void clientProvidedDeadlineOverridesServerDeadline() throws Exception {
+    RestResponse response =
+        adminRestSession.putWithHeaders(
+            "/projects/" + name("new"), new BasicHeader(RestApiServlet.X_GERRIT_DEADLINE, "2ms"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent())
+        .isEqualTo("Client Provided Deadline Exceeded\n\ntimeout=2ms");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  public void clientCanDisableDeadlineBySettingZeroAsDeadline() throws Exception {
+    RestResponse response =
+        adminRestSession.putWithHeaders(
+            "/projects/" + name("new"), new BasicHeader(RestApiServlet.X_GERRIT_DEADLINE, "0"));
+    response.assertCreated();
+  }
+
+  @Test
   public void handleClientDisconnectedForPush() throws Exception {
     CommitValidationListener commitValidationListener =
         new CommitValidationListener() {
@@ -269,6 +469,15 @@ public class CancellationIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "receive.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.timeout", value = "10s")
+  public void receiveTimeoutTakesPrecedence() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("Server Deadline Exceeded (timeout=1ms)");
+  }
+
+  @Test
   public void abortPushIfClientProvidedDeadlineExceeded() throws Exception {
     List<String> pushOptions = new ArrayList<>();
     pushOptions.add("deadline=1ms");
@@ -317,6 +526,17 @@ public class CancellationIT extends AbstractDaemonTest {
     push.setPushOptions(pushOptions);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  public void clientProvidedDeadlineOnPushOverridesServerDeadline() throws Exception {
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add("deadline=2ms");
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("Client Provided Deadline Exceeded (timeout=2ms)");
   }
 
   @Test

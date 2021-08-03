@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "959b6cb9_d8176404",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-03T10:22:52Z",
+      "side": 1,
+      "message": "There is a merge conflict and an unresolved comment, so I am removing myself from the attention set for now.",
+      "revId": "c96751b21ece5806b8e25092d770ce24a6c644e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

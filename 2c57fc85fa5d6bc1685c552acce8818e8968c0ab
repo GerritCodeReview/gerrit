@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b28f17be_ac412f0c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-03T11:34:08Z",
+      "side": 1,
+      "message": "Why does this have to be optional?",
+      "revId": "2c57fc85fa5d6bc1685c552acce8818e8968c0ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

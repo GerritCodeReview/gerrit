@@ -26,6 +26,7 @@ import {createChange} from '../../../test/test-data-generators.js';
 import {CoverageType} from '../../../types/types.js';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
+import {_testOnly_resetState} from '../../../services/comments/comments-model.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -42,6 +43,7 @@ suite('gr-diff-host tests', () => {
     element.path = 'some/path';
     sinon.stub(element.reporting, 'time');
     sinon.stub(element.reporting, 'timeEnd');
+    _testOnly_resetState();
     await flush();
   });
 

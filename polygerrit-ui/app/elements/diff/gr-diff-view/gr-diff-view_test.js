@@ -1555,6 +1555,7 @@ suite('gr-diff-view tests', () => {
           view: GerritView.DIFF,
           changeNum: '42',
           patchNum: 3,
+          path: 'abcd',
         };
         await flush();
       });

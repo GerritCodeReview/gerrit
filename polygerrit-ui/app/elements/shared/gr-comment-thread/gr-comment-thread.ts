@@ -214,6 +214,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly flagsService = appContext.flagsService;
 
+  private readonly commentsService = appContext.commentsService;
+
   readonly storage = appContext.storageService;
 
   private readonly syntaxLayer = new GrSyntaxLayer();
@@ -329,6 +331,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     const draft = this._newDraft(lineNum, range);
     draft.__editing = true;
     draft.unresolved = unresolved === false ? unresolved : true;
+    this.commentsService.addDraft(draft);
     this.push('comments', draft);
   }
 

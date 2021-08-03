@@ -58,7 +58,11 @@ import {GrButton} from '../gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences} from '../../../api/diff';
-import {check, assertIsDefined} from '../../../utils/common-util';
+import {
+  check,
+  assertIsDefined,
+  queryAndAssert,
+} from '../../../utils/common-util';
 import {fireAlert, waitForEventOnce} from '../../../utils/event-util';
 import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
 import {StorageLocation} from '../../../services/storage/gr-storage';
@@ -273,6 +277,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
       const resizeObserver = new ResizeObserver(
         (_entries: ResizeObserverEntry[], observer: ResizeObserver) => {
           if (this.offsetHeight > 0) {
+            queryAndAssert(this, '.comment-box').classList.add('focus');
             this.scrollIntoView();
           }
           observer.unobserve(this);

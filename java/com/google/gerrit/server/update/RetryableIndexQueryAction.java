@@ -87,9 +87,9 @@ public class RetryableIndexQueryAction<Q extends InternalQuery<?, Q>, T>
   public T call() {
     try {
       return super.call();
-    } catch (Throwable t) {
-      Throwables.throwIfUnchecked(t);
-      throw new StorageException(t);
+    } catch (Exception e) {
+      Throwables.throwIfUnchecked(e);
+      throw new StorageException(e);
     }
   }
 }

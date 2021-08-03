@@ -204,7 +204,7 @@ public class PluginContext<T> {
     try (TraceContext traceContext = newTrace(extension);
         Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       extensionImplConsumer.run(extensionImpl);
-    } catch (Throwable e) {
+    } catch (Exception e) {
       pluginMetrics.incrementErrorCount(extension);
       logger.atWarning().withCause(e).log(
           "Failure in %s of plugin %s", extensionImpl.getClass(), extension.getPluginName());
@@ -233,7 +233,7 @@ public class PluginContext<T> {
     try (TraceContext traceContext = newTrace(extension);
         Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       extensionConsumer.run(extension);
-    } catch (Throwable e) {
+    } catch (Exception e) {
       pluginMetrics.incrementErrorCount(extension);
       logger.atWarning().withCause(e).log(
           "Failure in %s of plugin %s", extensionImpl.getClass(), extension.getPluginName());
@@ -267,7 +267,7 @@ public class PluginContext<T> {
     try (TraceContext traceContext = newTrace(extension);
         Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       extensionImplConsumer.run(extensionImpl);
-    } catch (Throwable e) {
+    } catch (Exception e) {
       Throwables.throwIfInstanceOf(e, exceptionClass);
       Throwables.throwIfUnchecked(e);
       pluginMetrics.incrementErrorCount(extension);
@@ -304,7 +304,7 @@ public class PluginContext<T> {
     try (TraceContext traceContext = newTrace(extension);
         Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       extensionConsumer.run(extension);
-    } catch (Throwable e) {
+    } catch (Exception e) {
       Throwables.throwIfInstanceOf(e, exceptionClass);
       Throwables.throwIfUnchecked(e);
       pluginMetrics.incrementErrorCount(extension);

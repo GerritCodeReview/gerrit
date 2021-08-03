@@ -369,11 +369,11 @@ public abstract class AbstractDaemonTest {
     if (commonServer != null) {
       try {
         commonServer.close();
-      } catch (Throwable t) {
+      } catch (Exception e) {
         throw new AssertionError(
             "Error stopping common server in "
                 + (firstTest != null ? firstTest.getTestClass().getName() : "unknown test class"),
-            t);
+            e);
       } finally {
         commonServer = null;
       }

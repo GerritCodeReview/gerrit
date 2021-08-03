@@ -547,7 +547,7 @@ public class JettyServer {
           filterHolder.setInitParameters(initParams);
         }
         app.addFilter(filterHolder, "/*", EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
-      } catch (Throwable e) {
+      } catch (Exception e) {
         throw new IllegalArgumentException(
             "Unable to instantiate front-end HTTP Filter " + filterClassName, e);
       }

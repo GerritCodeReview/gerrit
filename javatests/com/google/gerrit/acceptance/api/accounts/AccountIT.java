@@ -1797,7 +1797,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
 
     assertThat(accountCache.get(admin.id())).isEmpty();
-    assertThat(accountQueryProvider.get().byDefault(admin.id().toString())).isEmpty();
+    assertThat(accountQueryProvider.get().byDefault(admin.id().toString(), true)).isEmpty();
   }
 
   @Test
@@ -2187,7 +2187,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void internalQueryFindActiveAndInactiveAccounts() throws Exception {
     String name = name("foo");
-    assertThat(accountQueryProvider.get().byDefault(name)).isEmpty();
+    assertThat(accountQueryProvider.get().byDefault(name, true)).isEmpty();
 
     TestAccount foo1 = accountCreator.create(name + "-1");
     assertThat(gApi.accounts().id(foo1.username()).getActive()).isTrue();
@@ -2196,7 +2196,7 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().id(foo2.username()).setActive(false);
     assertThat(gApi.accounts().id(foo2.id().get()).getActive()).isFalse();
 
-    assertThat(accountQueryProvider.get().byDefault(name)).hasSize(2);
+    assertThat(accountQueryProvider.get().byDefault(name, true)).hasSize(2);
   }
 
   @Test

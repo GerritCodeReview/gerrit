@@ -54,8 +54,8 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
     super(queryProcessor, indexes, indexConfig);
   }
 
-  public List<AccountState> byDefault(String query) {
-    return query(AccountPredicates.defaultPredicate(schema(), true, query));
+  public List<AccountState> byDefault(String query, boolean canSeeSecondaryEmails) {
+    return query(AccountPredicates.defaultPredicate(schema(), canSeeSecondaryEmails, query));
   }
 
   public List<AccountState> byExternalId(String scheme, String id) {

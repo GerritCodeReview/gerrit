@@ -66,6 +66,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1bd80a30_0d20b4d3",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-08-03T09:13:46Z",
+      "side": 1,
+      "message": "We should probably document this new behaviour.",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 373,
+        "endChar": 5
+      },
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9d68e448_63a45334",
         "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 1

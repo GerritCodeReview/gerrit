@@ -1,7 +1,8 @@
-load(":rules.bzl", "compile_ts", "polygerrit_bundle")
+load(":rules.bzl", "polygerrit_bundle")
 load("//tools/js:eslint.bzl", "eslint")
 load("//tools/js:template_checker.bzl", "transform_polymer_templates")
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test", "npm_package_bin")
+load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_project")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -22,7 +23,7 @@ src_dirs = [
     "utils",
 ]
 
-compiled_pg_srcs = compile_ts(
+ts_project(
     name = "compile_pg",
     srcs = glob(
         [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
@@ -34,12 +35,34 @@ compiled_pg_srcs = compile_ts(
             "**/*_test.ts",
         ],
     ),
-    # The same outdir also appears in the following files:
-    # polylint_test.sh
-    ts_outdir = "_pg_ts_out",
+    allow_js = True,
+    incremental = True,
+    out_dir = "_pg_ts_out",
+    tsc = "//tools/node_tools:tsc-bin",
+    tsconfig = ":ts_config_bazel",
+    deps = [
+        "@ui_npm//:node_modules",
+    ],
 )
 
-compiled_pg_srcs_with_tests = compile_ts(
+ts_config(
+    name = "ts_config_bazel",
+    src = "tsconfig_bazel.json",
+    deps = [
+        "tsconfig.json",
+    ],
+)
+
+ts_config(
+    name = "ts_config_bazel_test",
+    src = "tsconfig_bazel_test.json",
+    deps = [
+        "tsconfig.json",
+        "tsconfig_bazel.json",
+    ],
+)
+
+ts_project(
     name = "compile_pg_with_tests",
     srcs = glob(
         [
@@ -54,15 +77,18 @@ compiled_pg_srcs_with_tests = compile_ts(
             "rollup.config.js",
         ],
     ),
-    additional_deps = [
-        "@ui_dev_npm//:node_modules",
-        "tsconfig_bazel.json",
-    ],
+    allow_js = True,
+    incremental = True,
     # The same outdir also appears in the following files:
     # wct_test.sh
     # karma.conf.js
-    ts_outdir = "_pg_with_tests_out",
-    ts_project = "tsconfig_bazel_test.json",
+    out_dir = "_pg_with_tests_out",
+    tsc = "//tools/node_tools:tsc-bin",
+    tsconfig = ":ts_config_bazel_test",
+    deps = [
+        "@ui_dev_npm//:node_modules",
+        "@ui_npm//:node_modules",
+    ],
 )
 
 # Template checker reports problems in the following files. Ignore the files,
@@ -151,40 +177,48 @@ templates_srcs = transform_polymer_templates(
 # Note, that the compile_ts macro creates build rules. If the build succeed,
 # the macro creates the file compile_template_test.success. The
 # 'validate_polymer_templates' rule tests existence of the file.
-compile_ts(
-    name = "compile_template_test",
-    srcs = templates_srcs + glob(
-        [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
-            ".ts",
-        ]],
-        exclude = [
-            "**/*_test.ts",
-        ] + ignore_templates_list,
-    ),
-    additional_deps = [
-        "tsconfig_bazel.json",
-    ],
-    emitJS = False,
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
-    ts_outdir = "_pg_template_test_out",
-    ts_project = "tsconfig_template_test.json",
-)
-
+#
+# TODO: Re-instantiate this rule. It broke when switching to ts_project with
+# ERROR: //polygerrit-ui/app:compile_template_test srcs cannot be a mix of
+#        generated files and source files since this would prevent giving a
+#        single rootDir to the TypeScript compiler
+# Also, the emitJS feature of compile_ts has to be re-created in some form.
+#ts_project(
+#    name = "compile_template_test",
+#    srcs = templates_srcs + glob(
+#        [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
+#            ".ts",
+#        ]],
+#        exclude = [
+#            "**/*_test.ts",
+#        ] + ignore_templates_list,
+#    ),
+#    allow_js = True,
+#    out_dir = "_pg_template_test_out",
+#    # Should not run sandboxed.
+#    tags = [
+#        "local",
+#        "manual",
+#    ],
+#    tsc = "//tools/node_tools:tsc-bin",
+#    tsconfig = "tsconfig_template_test.json",
+#)
+#
 # This rule allows to run polymer template checker with bazel test command.
 # For details - see compile_template_test rule.
-sh_test(
-    name = "validate_polymer_templates",
-    srcs = [":empty_test.sh"],
-    data = ["compile_template_test.success"],
-)
+#
+# TODO: Re-instantiate this test. It broke when switching
+#       'compile_template_test'to ts_project, see above. ts_project does not
+#       create '.success' files.
+#sh_test(
+#    name = "validate_polymer_templates",
+#    srcs = [":empty_test.sh"],
+#    data = ["compile_template_test.success"],
+#)
 
 polygerrit_bundle(
     name = "polygerrit_ui",
-    srcs = compiled_pg_srcs,
+    srcs = [":compile_pg"],
     outs = ["polygerrit_ui.zip"],
     app_name = "gr-app",
     entry_point = "_pg_ts_out/elements/gr-app-entry-point.js",
@@ -218,7 +252,7 @@ filegroup(
             "node_modules/**",
             "node_modules_licenses/**",
         ],
-    ) + compiled_pg_srcs_with_tests,
+    ) + [":compile_pg_with_tests"],
 )
 
 # Workaround for https://github.com/bazelbuild/bazel/issues/1305
@@ -268,9 +302,9 @@ filegroup(
     srcs = [
         # Workaround for https://github.com/bazelbuild/bazel/issues/1305
         "@ui_npm//:node_modules",
-    ] +
-    # Polylinter can't check .ts files, run it on compiled srcs
-    compiled_pg_srcs,
+        # Polylinter can't check .ts files, run it on compiled srcs
+        ":compile_pg",
+    ],
 )
 
 sh_test(

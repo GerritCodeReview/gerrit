@@ -16,6 +16,52 @@
       "message": "Can you add a couple of tests to cover the change ?",
       "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff044a27_6d9ea7b3",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-08-03T08:06:54Z",
+      "side": 1,
+      "message": "nit: should we annotate this as @Nullable?",
+      "range": {
+        "startLine": 369,
+        "startChar": 35,
+        "endLine": 369,
+        "endChar": 55
+      },
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d68e448_63a45334",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-08-03T08:06:54Z",
+      "side": 1,
+      "message": "nit: should we annotate this as @Nullable?",
+      "range": {
+        "startLine": 396,
+        "startChar": 38,
+        "endLine": 396,
+        "endChar": 59
+      },
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

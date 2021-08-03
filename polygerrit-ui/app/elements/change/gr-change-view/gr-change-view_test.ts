@@ -36,6 +36,8 @@ import {EventType, PluginApi} from '../../../api/plugin';
 
 import 'lodash/lodash';
 import {
+  queryAll,
+  queryAndAssert,
   stubRestApi,
   TestKeyboardShortcutBinder,
 } from '../../../test/test-utils';
@@ -520,10 +522,10 @@ suite('gr-change-view tests', () => {
           'change-view-tab-header-url'
         )
       );
-      const primaryTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
-      const paperTabs = primaryTabs.querySelectorAll<HTMLElement>('paper-tab');
+      const primaryTabs = queryAndAssert(element, '#primaryTabs');
+      const paperTabs = queryAll<HTMLElement>(primaryTabs, 'paper-tab');
       // 4 Tabs are : Files, Comment Threads, Plugin, Findings
-      assert.equal(primaryTabs.querySelectorAll('paper-tab').length, 4);
+      assert.equal(queryAll(primaryTabs, 'paper-tab').length, 4);
       assert.equal(paperTabs[2].dataset.name, 'change-view-tab-header-url');
     });
 
@@ -588,8 +590,8 @@ suite('gr-change-view tests', () => {
     });
 
     test('switching tab sets _selectedTabPluginEndpoint', done => {
-      const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
-      tap(paperTabs.querySelectorAll('paper-tab')[2]);
+      const paperTabs = queryAndAssert(element, '#primaryTabs');
+      tap(queryAll(paperTabs, 'paper-tab')[2]);
       flush(() => {
         assert.equal(
           element._selectedTabPluginEndpoint,
@@ -881,9 +883,10 @@ suite('gr-change-view tests', () => {
           },
         },
       };
-      const relatedChanges = element.shadowRoot!.querySelector(
+      const relatedChanges = queryAndAssert<GrRelatedChangesList>(
+        element,
         '#relatedChanges'
-      ) as GrRelatedChangesList;
+      );
       sinon.stub(relatedChanges, 'reload');
       sinon.stub(element, 'loadData').returns(Promise.resolve([]));
       sinon.spy(element, '_paramsChanged');
@@ -906,8 +909,8 @@ suite('gr-change-view tests', () => {
         current_revision: 'rev4' as CommitId,
       };
       element._commentThreads = THREADS;
-      const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
-      tap(paperTabs.querySelectorAll('paper-tab')[3]);
+      const paperTabs = queryAndAssert<HTMLElement>(element, '#primaryTabs');
+      tap(queryAll(paperTabs, 'paper-tab')[3]);
       flush(() => {
         done();
       });
@@ -956,7 +959,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('Show more button is hidden', () => {
-      assert.isNull(element.shadowRoot!.querySelector('.show-robot-comments'));
+      assert.isNull(queryAndAssert(element, '.show-robot-comments'));
     });
 
     suite('robot comments show more button', () => {
@@ -972,7 +975,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('Show more button is rendered', () => {
-        assert.isOk(element.shadowRoot!.querySelector('.show-robot-comments'));
+        assert.isOk(queryAndAssert(element, '.show-robot-comments'));
         assert.equal(
           element._robotCommentThreads!.length,
           ROBOT_COMMENTS_LIMIT
@@ -980,7 +983,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('Clicking show more button renders all comments', done => {
-        tap(element.shadowRoot!.querySelector('.show-robot-comments')!);
+        tap(queryAndAssert(element, '.show-robot-comments')!);
         flush(() => {
           assert.equal(element._robotCommentThreads!.length, 62);
           done();
@@ -1042,9 +1045,7 @@ suite('gr-change-view tests', () => {
     const expectedStatuses = [ChangeStates.MERGED, ChangeStates.WIP];
     assert.deepEqual(element._changeStatuses, expectedStatuses);
     flush();
-    const statusChips = element.shadowRoot!.querySelectorAll(
-      'gr-change-status'
-    );
+    const statusChips = queryAll(element, 'gr-change-status');
     assert.equal(statusChips.length, 2);
   });
 
@@ -1489,9 +1490,10 @@ suite('gr-change-view tests', () => {
   test('related changes are not updated after other action', done => {
     sinon.stub(element, 'loadData').callsFake(() => Promise.resolve([]));
     flush();
-    const relatedChanges = element.shadowRoot!.querySelector(
+    const relatedChanges = queryAndAssert<GrRelatedChangesList>(
+      element,
       '#relatedChanges'
-    ) as GrRelatedChangesList;
+    );
     sinon.stub(relatedChanges, 'reload');
     element.loadData(true).then(() => {
       assert.isFalse(navigateToChangeStub.called);
@@ -1918,9 +1920,10 @@ suite('gr-change-view tests', () => {
 
   test('topic update reloads related changes', () => {
     flush();
-    const relatedChanges = element.shadowRoot!.querySelector(
+    const relatedChanges = queryAndAssert<GrRelatedChangesList>(
+      element,
       '#relatedChanges'
-    ) as GrRelatedChangesList;
+    );
     const reloadStub = sinon.stub(relatedChanges, 'reload');
     element.dispatchEvent(new CustomEvent('topic-changed'));
     assert.isTrue(reloadStub.calledOnce);
@@ -2019,9 +2022,10 @@ suite('gr-change-view tests', () => {
     const Actions = GrEditConstants.Actions;
     element.$.fileListHeader.editMode = true;
     flush();
-    const controls = element.$.fileListHeader.shadowRoot!.querySelector(
+    const controls = queryAndAssert<GrEditControls>(
+      element.$.fileListHeader,
       '#editControls'
-    ) as GrEditControls;
+    );
     const openDeleteDialogStub = sinon.stub(controls, 'openDeleteDialog');
     const openRenameDialogStub = sinon.stub(controls, 'openRenameDialog');
     const openRestoreDialogStub = sinon.stub(controls, 'openRestoreDialog');
@@ -2309,7 +2313,7 @@ suite('gr-change-view tests', () => {
     const stub = sinon.stub(element, '_handleToggleStar');
     flush();
 
-    tap(element.$.changeStar.shadowRoot!.querySelector('button')!);
+    tap(queryAndAssert(element.$.changeStar, 'button'));
     assert.isTrue(stub.called);
   });
 

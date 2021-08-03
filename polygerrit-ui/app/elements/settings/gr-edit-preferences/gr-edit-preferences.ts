@@ -89,6 +89,14 @@ export class GrEditPreferences extends PolymerElement {
     this._handleEditPrefsChanged();
   }
 
+  _handleEditShowTrailingWhitespaceTap() {
+    this.set(
+      'editPrefs.show_whitespace_errors',
+      this.$.showTrailingWhitespaceInput.checked
+    );
+    this._handleEditPrefsChanged();
+  }
+
   _handleMatchBracketsChanged() {
     this.set('editPrefs.match_brackets', this.$.showMatchBrackets.checked);
     this._handleEditPrefsChanged();

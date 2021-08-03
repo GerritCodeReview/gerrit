@@ -28,7 +28,7 @@ import {
   GenerateUrlEditViewParameters,
 } from '../../core/gr-navigation/gr-navigation';
 import {computeTruncatedPath} from '../../../utils/path-list-util';
-import {customElement, property} from '@polymer/decorators';
+import {customElement, observe, property} from '@polymer/decorators';
 import {
   ChangeInfo,
   PatchSetNum,
@@ -211,13 +211,22 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _editChange(value?: ChangeInfo | null) {
-    if (!changeIsMerged(value) && !changeIsAbandoned(value)) return;
     if (!value) return;
+    if (!changeIsMerged(value) && !changeIsAbandoned(value)) return;
     fireAlert(
       this,
       'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
     );
     GerritNav.navigateToChange(value);
+  }
+
+  @observe('_change', '_type')
+  _editType(change?: ChangeInfo | null, type?: string) {
+    if (!change || !type || !type.startsWith('image/')) return;
+
+    // Prevent editing binary files
+    fireAlert(this, 'You cannot edit binary files within the inline editor.');
+    GerritNav.navigateToChange(change);
   }
 
   _handlePathChanged(e: CustomEvent<string>) {

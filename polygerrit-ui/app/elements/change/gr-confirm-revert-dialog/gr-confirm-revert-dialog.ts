@@ -59,7 +59,7 @@ export class GrConfirmRevertDialog extends PolymerElement {
   /* The revert message updated by the user
       The default value is set by the dialog */
   @property({type: String})
-  _message?: string;
+  _message = '';
 
   @property({type: Number})
   _revertType = RevertType.REVERT_SINGLE_CHANGE;
@@ -198,7 +198,7 @@ export class GrConfirmRevertDialog extends PolymerElement {
     this._message = this._revertMessages[RevertType.REVERT_SUBMISSION];
   }
 
-  _handleConfirmTap(e: MouseEvent) {
+  _handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     if (this._message === this._originalRevertMessages[this._revertType]) {
@@ -218,7 +218,7 @@ export class GrConfirmRevertDialog extends PolymerElement {
     );
   }
 
-  _handleCancelTap(e: MouseEvent) {
+  _handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(

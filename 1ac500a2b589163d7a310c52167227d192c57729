@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50d18722_e20cf90e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-03T11:28:56Z",
+      "side": 1,
+      "message": "This references a code-owners change. Is that correct?",
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6136b203_155dbb20",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-03T11:28:56Z",
+      "side": 1,
+      "message": "Don\u0027t use the ! for asserting that a variable is defined. Instead check and return, e.g.:\n\n  if (change?.attention_set \u003d\u003d\u003d undefined) return;\n  if (account?._account_id \u003d\u003d\u003d undefined) return;\n  \nThen the compiler should allow you to write:\n\n  const attention_set_info \u003d change.attention_set[account._account_id];",
+      "range": {
+        "startLine": 47,
+        "startChar": 29,
+        "endLine": 47,
+        "endChar": 75
+      },
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb856184_bfbc82c2",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-03T11:28:56Z",
+      "side": 1,
+      "message": "variable names should be camel case",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8330bba5_5879024e",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-03T11:28:56Z",
+      "side": 1,
+      "message": "We prefer one-line if statements for simple returns.",
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e051e0fa_c5539f77",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-03T11:28:56Z",
+      "side": 1,
+      "message": "Maybe just inline?\n\n  return `Added by ${getAccountTemplate(account, config)} using the hovercard menu`;\n  \nMaybe then even inline (and delete) these util functions?",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

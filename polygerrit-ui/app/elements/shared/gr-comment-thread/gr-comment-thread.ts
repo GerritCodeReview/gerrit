@@ -530,6 +530,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     if (this._orderedComments) {
       for (let i = 0; i < this._orderedComments.length; i++) {
         const comment = this._orderedComments[i];
+        if (isDraft(comment)) {
+          comment.collapsed = false;
+          continue;
+        }
         const isRobotComment = !!(comment as UIRobot).robot_id;
         // False if it's an unresolved comment under UNRESOLVED_EXPAND_COUNT.
         const resolvedThread =

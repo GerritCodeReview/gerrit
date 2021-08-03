@@ -36,6 +36,7 @@ export interface GrEditPreferences {
     showMatchBrackets: HTMLInputElement;
     editShowLineWrapping: HTMLInputElement;
     editShowTabs: HTMLInputElement;
+    editShowTrailingWhitespaceInput: HTMLInputElement;
   };
 }
 @customElement('gr-edit-preferences')
@@ -72,6 +73,14 @@ export class GrEditPreferences extends GestureEventListeners(
 
   _handleEditShowTabsChanged() {
     this.set('editPrefs.show_tabs', this.$.editShowTabs.checked);
+    this._handleEditPrefsChanged();
+  }
+
+  _handleEditShowTrailingWhitespaceTap() {
+    this.set(
+      'editPrefs.show_whitespace_errors',
+      this.$.editShowTrailingWhitespaceInput.checked
+    );
     this._handleEditPrefsChanged();
   }
 

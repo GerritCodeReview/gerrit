@@ -116,7 +116,24 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
+<<<<<<< HEAD   (1038ea Merge branch 'stable-3.2' into stable-3.3)
       <span class="title">Match brackets</span>
+=======
+      <label for="showTrailingWhitespaceInput" class="title"
+        >Show trailing whitespace</label
+      >
+      <span class="value">
+        <input
+          id="editShowTrailingWhitespaceInput"
+          type="checkbox"
+          checked$="[[editPrefs.show_whitespace_errors]]"
+          on-change="_handleEditShowTrailingWhitespaceTap"
+        />
+      </span>
+    </section>
+    <section>
+      <label for="showMatchBrackets" class="title">Match brackets</label>
+>>>>>>> CHANGE (e82edf Add missing "Show trailing whitespace" to edit preference)
       <span class="value">
         <input
           id="showMatchBrackets"

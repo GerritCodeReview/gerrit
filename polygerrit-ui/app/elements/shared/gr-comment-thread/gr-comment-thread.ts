@@ -225,18 +225,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener('comment-update', e =>
       this._handleCommentUpdate(e as CustomEvent)
     );
-    // Wait for comment to be rendered before scrolling to it
-    if (this.shouldScrollIntoView) {
-      const resizeObserver = new ResizeObserver(
-        (_entries: ResizeObserverEntry[], observer: ResizeObserver) => {
-          if (this.offsetHeight > 0) {
-            this.scrollIntoView();
-            observer.unobserve(this);
-          }
-        }
-      );
-      resizeObserver.observe(this);
-    }
   }
 
   /** @override */

@@ -82,13 +82,9 @@ import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
 import {Timing} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
 import {preferences$} from '../../../services/user/user-model';
-import {
-  changeComments$,
-  drafts$,
-} from '../../../services/comments/comments-model';
+import {changeComments$} from '../../../services/comments/comments-model';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {UIDraft} from '../../../utils/comment-util';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -316,9 +312,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Array})
   _dynamicPrependedContentEndpoints?: string[];
 
-  @property({type: Object})
-  diffDrafts?: {[path: string]: UIDraft[]} = {};
-
   private readonly reporting = appContext.reportingService;
 
   private readonly restApiService = appContext.restApiService;
@@ -373,9 +366,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   /** @override */
   connectedCallback() {
     super.connectedCallback();
-    drafts$.pipe(takeUntil(this.disconnected$)).subscribe(drafts => {
-      this.diffDrafts = drafts;
-    });
     changeComments$
       .pipe(takeUntil(this.disconnected$))
       .subscribe(changeComments => {

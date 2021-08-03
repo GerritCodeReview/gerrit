@@ -237,6 +237,7 @@ const styleSheet = safeStyleSheet`
 
     /* misc colors */
     --border-color: var(--gray-300);
+    --focus-border-color: #005fcc;
     --comment-separator-color: var(--gray-300);
 
     /* checks tag colors */

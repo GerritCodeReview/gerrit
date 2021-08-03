@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f89ca15_2ec82641",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-08-03T15:45:43Z",
+      "side": 1,
+      "message": "I meant we could maybe avoid parsing this String into a Pattern every time, but it\u0027s just a micro optimization, so totally optional.",
+      "parentUuid": "75f9c994_beb0d0a4",
+      "range": {
+        "startLine": 547,
+        "startChar": 21,
+        "endLine": 547,
+        "endChar": 79
+      },
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b9b302e_0adbbe83",

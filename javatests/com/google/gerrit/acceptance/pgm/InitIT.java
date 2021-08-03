@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.MustBeClosed;
@@ -61,6 +62,10 @@ public class InitIT extends StandaloneSiteTest {
 
   @Test
   public void initDoesNotReindexProjectsOnExistingSites() throws Exception {
+    // These tests expect the Lucene index to modify files on disk which the fake index doesn't do.
+    String configuredIndexBackend = baseConfig.getString("index", null, "type");
+    configuredIndexBackend = configuredIndexBackend == null ? "fake" : configuredIndexBackend;
+    assume().that(configuredIndexBackend).isEqualTo("lucene");
     initSite();
 
     // Simulate a projects indexes files modified in the past by 3 seconds

@@ -14,21 +14,32 @@
 
 package com.google.gerrit.server;
 
+import static java.util.Comparator.comparing;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
 
 /** {@link RequestStateProvider} that checks whether a client provided deadline is exceeded. */
 public class DeadlineChecker implements RequestStateProvider {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static String SECTION_DEADLINE = "deadline";
+
   /**
    * Formatter to format a timeout as {@code timeout=<TIMEOUT><TIME_UNIT>}.
    *
@@ -44,6 +55,17 @@ public class DeadlineChecker implements RequestStateProvider {
         }
         return String.format("timeout=%s", formattedTimeout);
       };
+
+  public interface Factory {
+    DeadlineChecker create(RequestInfo requestInfo, @Nullable String clientProvidedTimeoutValue)
+        throws InvalidDeadlineException;
+
+    DeadlineChecker create(
+        long start, RequestInfo requestInfo, @Nullable String clientProvidedTimeoutValue)
+        throws InvalidDeadlineException;
+  }
+
+  private final RequestStateProvider.Reason cancellationReason;
 
   /**
    * Timeout in nanoseconds after which the request should be aborted.
@@ -66,15 +88,20 @@ public class DeadlineChecker implements RequestStateProvider {
    *
    * <p>No deadline is enforced if the client provided deadline value is {@code null} or {@code 0}.
    *
+   * @param requestInfo the request that was received from a user
    * @param clientProvidedTimeoutValue the timeout value that the client provided, must represent a
    *     numerical time unit (e.g. "5m"), if no time unit is specified milliseconds are assumed, may
    *     be {@code null}
    * @throws InvalidDeadlineException thrown if the client provided deadline value cannot be parsed,
    *     e.g. because it uses a bad time unit
    */
-  public DeadlineChecker(@Nullable String clientProvidedTimeoutValue)
+  @AssistedInject
+  DeadlineChecker(
+      @GerritServerConfig Config serverConfig,
+      @Assisted RequestInfo requestInfo,
+      @Assisted @Nullable String clientProvidedTimeoutValue)
       throws InvalidDeadlineException {
-    this(System.nanoTime(), clientProvidedTimeoutValue);
+    this(serverConfig, System.nanoTime(), requestInfo, clientProvidedTimeoutValue);
   }
 
   /**
@@ -83,24 +110,63 @@ public class DeadlineChecker implements RequestStateProvider {
    * <p>No deadline is enforced if the client provided deadline value is {@code null} or {@code 0}.
    *
    * @param start the start time of the request in nanoseconds
+   * @param requestInfo the request that was received from a user
    * @param clientProvidedTimeoutValue the timeout value that the client provided, must represent a
    *     numerical time unit (e.g. "5m"), if no time unit is specified milliseconds are assumed, may
    *     be {@code null}
    * @throws InvalidDeadlineException thrown if the client provided deadline value cannot be parsed,
    *     e.g. because it uses a bad time unit
    */
-  public DeadlineChecker(long start, @Nullable String clientProvidedTimeoutValue)
+  @AssistedInject
+  DeadlineChecker(
+      @GerritServerConfig Config serverConfig,
+      @Assisted long start,
+      @Assisted RequestInfo requestInfo,
+      @Assisted @Nullable String clientProvidedTimeoutValue)
       throws InvalidDeadlineException {
-    this.timeout = parseTimeout(clientProvidedTimeoutValue);
+    Optional<ServerDeadline> serverSideDeadline = getServerSideDeadline(serverConfig, requestInfo);
+    Optional<Long> clientedProvidedTimeout = parseTimeout(clientProvidedTimeoutValue);
+    if (serverSideDeadline.isPresent()) {
+      if (clientedProvidedTimeout.isPresent()) {
+        logger.atFine().log(
+            "client provided deadline (timeout=%sms) overrides server deadline %s (timeout=%sms)",
+            TimeUnit.MILLISECONDS.convert(clientedProvidedTimeout.get(), TimeUnit.NANOSECONDS),
+            serverSideDeadline.get().id(),
+            TimeUnit.MILLISECONDS.convert(
+                serverSideDeadline.get().timeout(), TimeUnit.NANOSECONDS));
+      } else {
+        logger.atFine().log(
+            "applying server deadline %s (timeout = %sms)",
+            serverSideDeadline.get().id(),
+            TimeUnit.MILLISECONDS.convert(
+                serverSideDeadline.get().timeout(), TimeUnit.NANOSECONDS));
+      }
+    }
+    this.cancellationReason =
+        clientedProvidedTimeout.isPresent()
+            ? RequestStateProvider.Reason.CLIENT_PROVIDED_DEADLINE_EXCEEDED
+            : RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED;
+    this.timeout =
+        clientedProvidedTimeout.orElse(serverSideDeadline.map(ServerDeadline::timeout).orElse(0L));
     this.deadline = timeout > 0 ? Optional.of(start + timeout) : Optional.empty();
+  }
+
+  private Optional<ServerDeadline> getServerSideDeadline(
+      Config serverConfig, RequestInfo requestInfo) {
+    return RequestConfig.parseConfigs(serverConfig, SECTION_DEADLINE).stream()
+        .filter(deadlineConfig -> deadlineConfig.matches(requestInfo))
+        .map(ServerDeadline::readFrom)
+        .filter(ServerDeadline::hasTimeout)
+        // let the stricter deadline (the lower deadline) take precedence
+        .sorted(comparing(ServerDeadline::timeout))
+        .findFirst();
   }
 
   @Override
   public void checkIfCancelled(OnCancelled onCancelled) {
     long now = System.nanoTime();
     if (deadline.isPresent() && now > deadline.get()) {
-      onCancelled.onCancel(
-          Reason.CLIENT_PROVIDED_DEADLINE_EXCEEDED, TIMEOUT_FORMATTER.apply(timeout));
+      onCancelled.onCancel(cancellationReason, TIMEOUT_FORMATTER.apply(timeout));
     }
   }
 
@@ -113,9 +179,14 @@ public class DeadlineChecker implements RequestStateProvider {
    * @throws InvalidDeadlineException thrown if the provided deadline value cannot be parsed, e.g.
    *     because it uses a bad time unit
    */
-  private static long parseTimeout(@Nullable String timeoutValue) throws InvalidDeadlineException {
-    if (Strings.isNullOrEmpty(timeoutValue) || "0".equals(timeoutValue)) {
-      return 0;
+  private static Optional<Long> parseTimeout(@Nullable String timeoutValue)
+      throws InvalidDeadlineException {
+    if (Strings.isNullOrEmpty(timeoutValue)) {
+      return Optional.empty();
+    }
+
+    if ("0".equals(timeoutValue)) {
+      return Optional.of(0L);
     }
 
     // If no time unit was specified, assume milliseconds.
@@ -129,9 +200,34 @@ public class DeadlineChecker implements RequestStateProvider {
       if (parsedTimeout == -1) {
         throw new InvalidDeadlineException(String.format("Invalid value: %s", timeoutValue));
       }
-      return parsedTimeout;
+      return Optional.of(parsedTimeout);
     } catch (IllegalArgumentException e) {
       throw new InvalidDeadlineException(e.getMessage(), e);
+    }
+  }
+
+  @AutoValue
+  abstract static class ServerDeadline {
+    abstract String id();
+
+    abstract long timeout();
+
+    boolean hasTimeout() {
+      return timeout() > 0;
+    }
+
+    static ServerDeadline readFrom(RequestConfig requestConfig) {
+      String timeoutValue =
+          requestConfig.cfg().getString(requestConfig.section(), requestConfig.id(), "timeout");
+      try {
+        Optional<Long> timeout = parseTimeout(timeoutValue);
+        return new AutoValue_DeadlineChecker_ServerDeadline(requestConfig.id(), timeout.orElse(0L));
+      } catch (InvalidDeadlineException e) {
+        logger.atWarning().log(
+            "Ignoring invalid deadline configuration %s.%s.timeout: %s",
+            requestConfig.section(), requestConfig.id(), e.getMessage());
+        return new AutoValue_DeadlineChecker_ServerDeadline(requestConfig.id(), 0);
+      }
     }
   }
 }

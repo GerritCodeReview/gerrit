@@ -198,6 +198,7 @@ suite('gr-diff-view tests', () => {
           changeNum: '42',
           commentLink: true,
           commentId: 'c1',
+          path: 'abcd',
         };
         element._change = {
           ...createChange(),
@@ -1551,10 +1552,12 @@ suite('gr-diff-view tests', () => {
 
     suite('_initPatchRange', () => {
       setup(async () => {
+        stubRestApi('getDiff').returns(Promise.resolve({}));
         element.params = {
           view: GerritView.DIFF,
           changeNum: '42',
           patchNum: 3,
+          path: 'abcd',
         };
         await flush();
       });

@@ -97,7 +97,6 @@ ignore_templates_list = [
     "elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog_html.ts",
     "elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog_html.ts",
     "elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_html.ts",
-    "elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog_html.ts",
     "elements/change/gr-file-list-header/gr-file-list-header_html.ts",
     "elements/change/gr-file-list/gr-file-list_html.ts",
     "elements/change/gr-label-score-row/gr-label-score-row_html.ts",

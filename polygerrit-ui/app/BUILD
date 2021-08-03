@@ -117,7 +117,6 @@ ignore_templates_list = [
     "elements/shared/gr-autocomplete/gr-autocomplete_html.ts",
     "elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
     "elements/shared/gr-comment/gr-comment_html.ts",
-    "elements/shared/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog_html.ts",
     "elements/shared/gr-dialog/gr-dialog_html.ts",
     "elements/shared/gr-download-commands/gr-download-commands_html.ts",
     "elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",

@@ -54,13 +54,13 @@ export class GrConfirmDeleteCommentDialog extends PolymerElement {
    */
 
   @property({type: String})
-  message?: string;
+  message = '';
 
   resetFocus() {
     this.$.messageInput.textarea.focus();
   }
 
-  _handleConfirmTap(e: MouseEvent) {
+  _handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
@@ -72,7 +72,7 @@ export class GrConfirmDeleteCommentDialog extends PolymerElement {
     );
   }
 
-  _handleCancelTap(e: MouseEvent) {
+  _handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(

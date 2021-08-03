@@ -16,6 +16,29 @@
       "message": "This was somehow missed and i was wondering why i wasn\u0027t seeing the red colour indicating whitespace.",
       "revId": "41b0e1d2dc73ad451e1728be545cf84ffe616e66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c440e271_0641b74c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-03T10:12:10Z",
+      "side": 1,
+      "message": "Don\u0027t you need `$\u003d` as in other places in this template?",
+      "range": {
+        "startLine": 95,
+        "startChar": 17,
+        "endLine": 95,
+        "endChar": 18
+      },
+      "revId": "41b0e1d2dc73ad451e1728be545cf84ffe616e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

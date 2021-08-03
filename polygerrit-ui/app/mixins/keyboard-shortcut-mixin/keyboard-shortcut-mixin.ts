@@ -808,12 +808,17 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
         const target = (dom(e) as EventApi).rootTarget as Element;
         const tagName = target.tagName;
         const type = target.getAttribute('type');
+        // If the element contains contenteditable and you start typing,
+        // disable shortcuts.
+        const contentEditable =
+          target.classList.contains('CodeMirror-code') && target.getAttribute('contenteditable');
         if (
           // Suppress shortcuts on <input> and <textarea>, but not on
           // checkboxes, because we want to enable workflows like 'click
           // mark-reviewed and then press ] to go to the next file'.
           (tagName === 'INPUT' && type !== 'checkbox') ||
           tagName === 'TEXTAREA' ||
+          contentEditable ||
           // Suppress shortcuts if the key is 'enter'
           // and target is an anchor or button or paper-tab.
           (e.keyCode === 13 &&

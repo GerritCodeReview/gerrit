@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75b34e78_57f637af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-03T19:16:34Z",
+      "side": 1,
+      "message": "Are you also planning to update the documentation? Is this required because of GDPR concerns?",
+      "revId": "0859ee86d1154ca45bd315a628379a651ffc1ec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

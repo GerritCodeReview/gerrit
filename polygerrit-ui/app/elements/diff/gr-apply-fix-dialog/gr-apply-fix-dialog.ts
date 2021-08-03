@@ -97,7 +97,7 @@ export class GrApplyFixDialog extends PolymerElement {
       '_computeDisableApplyFixButton(_isApplyFixLoading, change, ' +
       '_patchNum)',
   })
-  _disableApplyFixButton?: boolean;
+  _disableApplyFixButton = false;
 
   layers = appContext.flagsService.isEnabled(
     KnownExperimentId.TOKEN_HIGHLIGHTING
@@ -187,12 +187,13 @@ export class GrApplyFixDialog extends PolymerElement {
     return (_fixSuggestions || []).length === 1;
   }
 
-  overridePartialPrefs(prefs: DiffPreferencesInfo): DiffPreferencesInfo {
+  overridePartialPrefs(prefs?: DiffPreferencesInfo) {
+    if (!prefs) return undefined;
     // generate a smaller gr-diff than fullscreen for dialog
     return {...prefs, line_length: 50};
   }
 
-  onCancel(e: CustomEvent) {
+  onCancel(e: Event) {
     if (e) {
       e.stopPropagation();
     }
@@ -203,7 +204,7 @@ export class GrApplyFixDialog extends PolymerElement {
     return _selectedFixIdx + 1;
   }
 
-  _onPrevFixClick(e: CustomEvent) {
+  _onPrevFixClick(e: Event) {
     if (e) e.stopPropagation();
     if (this._selectedFixIdx >= 1 && this._fixSuggestions) {
       this._selectedFixIdx -= 1;
@@ -213,7 +214,7 @@ export class GrApplyFixDialog extends PolymerElement {
     }
   }
 
-  _onNextFixClick(e: CustomEvent) {
+  _onNextFixClick(e: Event) {
     if (e) e.stopPropagation();
     if (
       this._fixSuggestions &&
@@ -257,7 +258,7 @@ export class GrApplyFixDialog extends PolymerElement {
   }
 
   _computeDisableApplyFixButton(
-    isApplyFixLoading?: boolean,
+    isApplyFixLoading: boolean,
     change?: ParsedChangeInfo,
     patchNum?: PatchSetNum
   ) {
@@ -271,7 +272,7 @@ export class GrApplyFixDialog extends PolymerElement {
     return isApplyFixLoading;
   }
 
-  _handleApplyFix(e: CustomEvent) {
+  _handleApplyFix(e: Event) {
     if (e) {
       e.stopPropagation();
     }
@@ -308,3 +309,4 @@ declare global {
     'gr-apply-fix-dialog': GrApplyFixDialog;
   }
 }
+

@@ -64,6 +64,7 @@ public class BatchUpdateTest {
             cfg.setInt("change", null, "maxFiles", 2);
             cfg.setInt("change", null, "maxPatchSets", MAX_PATCH_SETS);
             cfg.setInt("change", null, "maxUpdates", MAX_UPDATES);
+            cfg.setString("index", null, "type", "fake");
             return cfg;
           });
 

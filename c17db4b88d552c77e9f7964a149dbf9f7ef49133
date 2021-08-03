@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32775f43_6ee013bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-03T05:52:39Z",
+      "side": 1,
+      "message": "We can backport this change to the stable branches (as this is the EXACT change that will fix typing in codemirror on mobile).",
+      "revId": "c17db4b88d552c77e9f7964a149dbf9f7ef49133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

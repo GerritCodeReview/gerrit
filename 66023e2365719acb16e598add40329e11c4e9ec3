@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a24fecf0_e2266033",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-03T10:07:00Z",
+      "side": 1,
+      "message": "I would leave BranchName, \n\n```\nbranch \u003d \u0027\u0027 as BranchName;\n```\n\nor \n```\nbranch: BranchName \u003d \u0027\u0027;\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 8
+      },
+      "revId": "66023e2365719acb16e598add40329e11c4e9ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

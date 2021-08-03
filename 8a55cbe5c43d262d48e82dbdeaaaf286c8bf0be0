@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e948791_82832382",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-03T11:52:38Z",
+      "side": 1,
+      "message": "This may potentially conflict with the workaround that we have in place for Safari selection:\n\nhttps://cs.opensource.google/search?q\u003dcontenteditable\u0026sq\u003d\u0026ss\u003dgerrit\n\nCan you check?",
+      "revId": "8a55cbe5c43d262d48e82dbdeaaaf286c8bf0be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

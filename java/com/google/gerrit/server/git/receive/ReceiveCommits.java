@@ -352,6 +352,7 @@ class ReceiveCommits {
   private final Config config;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
+  private final DeadlineChecker.Factory deadlineCheckerFactory;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final DynamicSet<PluginPushOption> pluginPushOptions;
   private final PluginSetContext<ReceivePackInitializer> initializers;
@@ -437,6 +438,7 @@ class ReceiveCommits {
       BranchCommitValidator.Factory commitValidatorFactory,
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
       CreateRefControl createRefControl,
+      DeadlineChecker.Factory deadlineCheckerFactory,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       DynamicSet<PluginPushOption> pluginPushOptions,
       PluginSetContext<ReceivePackInitializer> initializers,
@@ -487,6 +489,7 @@ class ReceiveCommits {
     this.config = config;
     this.createRefControl = createRefControl;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
+    this.deadlineCheckerFactory = deadlineCheckerFactory;
     this.editUtil = editUtil;
     this.hashtagsFactory = hashtagsFactory;
     this.setTopicFactory = setTopicFactory;
@@ -652,7 +655,8 @@ class ReceiveCommits {
       try (RequestStateContext requestStateContext =
           RequestStateContext.open()
               .addRequestStateProvider(progress)
-              .addRequestStateProvider(new DeadlineChecker(start, clientProvidedDeadlineValue))) {
+              .addRequestStateProvider(
+                  deadlineCheckerFactory.create(start, requestInfo, clientProvidedDeadlineValue))) {
         processCommandsUnsafe(commands, progress);
         rejectRemaining(commands, INTERNAL_SERVER_ERROR);
       } catch (InvalidDeadlineException e) {

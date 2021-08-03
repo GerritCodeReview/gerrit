@@ -269,6 +269,7 @@ public class RestApiServlet extends HttpServlet {
     final Injector injector;
     final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
     final ExperimentFeatures experimentFeatures;
+    final DeadlineChecker.Factory deadlineCheckerFactory;
 
     @Inject
     Globals(
@@ -287,7 +288,8 @@ public class RestApiServlet extends HttpServlet {
         PluginSetContext<ExceptionHook> exceptionHooks,
         Injector injector,
         DynamicMap<DynamicOptions.DynamicBean> dynamicBeans,
-        ExperimentFeatures experimentFeatures) {
+        ExperimentFeatures experimentFeatures,
+        DeadlineChecker.Factory deadlineCheckerFactory) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
@@ -305,6 +307,7 @@ public class RestApiServlet extends HttpServlet {
       this.injector = injector;
       this.dynamicBeans = dynamicBeans;
       this.experimentFeatures = experimentFeatures;
+      this.deadlineCheckerFactory = deadlineCheckerFactory;
     }
 
     private static Pattern makeAllowOrigin(Config cfg) {
@@ -352,12 +355,14 @@ public class RestApiServlet extends HttpServlet {
 
     try (TraceContext traceContext = enableTracing(req, res)) {
       List<IdString> path = splitPath(req);
+      RequestInfo requestInfo = createRequestInfo(traceContext, requestUri(req), path);
 
       try (RequestStateContext requestStateContext =
               RequestStateContext.open()
-                  .addRequestStateProvider(new DeadlineChecker(req.getHeader(X_GERRIT_DEADLINE)));
+                  .addRequestStateProvider(
+                      globals.deadlineCheckerFactory.create(
+                          requestInfo, req.getHeader(X_GERRIT_DEADLINE)));
           PerThreadCache ignored = PerThreadCache.create()) {
-        RequestInfo requestInfo = createRequestInfo(traceContext, requestUri(req), path);
         globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
 
         // It's important that the PerformanceLogContext is closed before the response is sent to

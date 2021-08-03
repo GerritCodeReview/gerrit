@@ -5307,6 +5307,68 @@ May be specified multiple times.
 +
 By default, unset (all projects are matched).
 
+[[deadline.id]]
+==== Subsection deadline.<id>
+
+There can be multiple `deadline.<id>` subsections to configure deadlines for
+request executions. For a deadline to apply all conditions of the
+`deadline.<id>` subsection must match. The subsection name is the ID of the
+deadline configuration and allows to track back an applied deadline to its
+configuration.
+
+Clients can override the deadlines that are configured here by setting a
+deadline on the request.
+
+Deadlines are only supported for `REST`, `SSH` and `GIT_RECEIVE` requests, but
+not for `GIT_UPLOAD` requests.
+
+[[deadline.id.timeout]]deadline.<id>.timeout::
++
+Timeout after which matching requests should be cancelled.
++
+Values can be specified using standard time unit abbreviations ('ms', 'sec',
+'min', etc.). If no unit is specified, milliseconds is assumed.
++
+For some requests additional timeout configurations may apply, e.g.
+link:#receive.timeout[receive.timeout] for git pushes.
++
+By default, unset.
+
+[[deadline.id.requestType]]deadline.<id>.requestType::
++
+Type of request to which the deadline applies (can be `GIT_RECEIVE`, `REST` and
+`SSH`).
++
+May be specified multiple times.
++
+By default, unset (all request types are matched).
+
+[[deadline.id.requestUriPattern]]deadline.<id>.requestUriPattern::
++
+Regular expression to match request URIs to which the deadline applies. Request
+URIs are only available for REST requests. Request URIs never include the '/a'
+prefix.
++
+May be specified multiple times.
++
+By default, unset (all request URIs are matched).
+
+[[deadline.id.account]]deadline.<id>.account::
++
+Account ID of an account to which the deadline applies.
++
+May be specified multiple times.
++
+By default, unset (all accounts are matched).
+
+[[deadline.id.projectPattern]]deadline.<id>.projectPattern::
++
+Regular expression to match project names to which the deadline applies.
++
+May be specified multiple times.
++
+By default, unset (all projects are matched).
+
 [[trackingid]]
 === Section trackingid
 

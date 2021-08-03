@@ -16,6 +16,24 @@
       "message": "This may potentially conflict with the workaround that we have in place for Safari selection:\n\nhttps://cs.opensource.google/search?q\u003dcontenteditable\u0026sq\u003d\u0026ss\u003dgerrit\n\nCan you check?",
       "revId": "8a55cbe5c43d262d48e82dbdeaaaf286c8bf0be0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "758e0c2d_7822f93e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-03T22:57:24Z",
+      "side": 1,
+      "message": "Ah, that broke it 😞\n\nFixed it by adding keyCode to the equation. So if it equals 191, then it means you are typing. I\u0027ve tested this on safari and works (you can still select on the diff page \u0026 also comment).",
+      "parentUuid": "8e948791_82832382",
+      "revId": "8a55cbe5c43d262d48e82dbdeaaaf286c8bf0be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

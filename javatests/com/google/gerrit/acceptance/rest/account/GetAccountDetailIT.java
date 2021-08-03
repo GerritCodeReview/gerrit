@@ -58,4 +58,21 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
     AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
     assertThat(info.tags).containsExactly(AccountInfo.Tag.SERVICE_USER);
   }
+
+  @Test
+  public void searchForSecondaryEmailRequiresModifyAccountPermission() throws Exception {
+    Account.Id id =
+        accountOperations
+            .newAccount()
+            .preferredEmail("preferred@email")
+            .addSecondaryEmail("secondary@email")
+            .create();
+    RestResponse r = userRestSession.get("/accounts/secondary/detail/");
+    r.assertStatus(404);
+    // The admin has MODIFY_ACCOUNT permission and can see the user.
+    r = adminRestSession.get("/accounts/secondary/detail/");
+    r.assertStatus(200);
+    AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
+    assertThat(info._accountId).isEqualTo(id.get());
+  }
 }

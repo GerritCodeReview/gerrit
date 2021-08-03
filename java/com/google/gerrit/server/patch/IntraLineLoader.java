@@ -25,6 +25,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -250,11 +251,46 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
           wordEdits.set(j, new Edit(ab, ae, bb, be));
         }
 
-        edits.set(i, new ReplaceEdit(e, wordEdits));
+        // Validate that the intra-line edits applied to the "a" text produces the "b" text. If this
+        // check fails, fallback to a single replace edit that covers the whole area.
+        if (isValidTransformation(a, b, wordEdits)) {
+          edits.set(i, new ReplaceEdit(e, wordEdits));
+        } else {
+          edits.set(i, new ReplaceEdit(e, Arrays.asList(new Edit(0, a.size(), 0, b.size()))));
+        }
       }
     }
 
     return new IntraLineDiff(edits);
+  }
+
+  /**
+   * Validate that the application of the list of {@code edits} to the {@code lText} text produces
+   * the {@code rText} text.
+   *
+   * @return true if {@code lText} + {@code edits} results in the {@code rText} text, and false
+   *     otherwise.
+   */
+  private static boolean isValidTransformation(CharText lText, CharText rText, List<Edit> edits) {
+    StringBuilder reconstructed = toStringBuilder(lText);
+    String right = toStringBuilder(rText).toString();
+    // Process edits right to left to avoid re-computation of indices when characters are removed.
+    for (int i = edits.size() - 1; i >= 0; i--) {
+      int beginLeft = edits.get(i).getBeginA();
+      int endLeft = edits.get(i).getEndA();
+      int beginRight = edits.get(i).getBeginB();
+      int endRight = edits.get(i).getEndB();
+      reconstructed.replace(beginLeft, endLeft, right.substring(beginRight, endRight));
+    }
+    return right.contentEquals(reconstructed);
+  }
+
+  private static StringBuilder toStringBuilder(CharText text) {
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < text.size(); i++) {
+      result.append(text.charAt(i));
+    }
+    return result;
   }
 
   private static void combineLineEdits(

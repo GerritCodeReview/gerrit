@@ -22,6 +22,30 @@
       },
       "revId": "66023e2365719acb16e598add40329e11c4e9ec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f27c8b4c_a3ca9768",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-03T16:36:30Z",
+      "side": 1,
+      "message": "It fails with:\n\nbazel-out/darwin-fastbuild/bin/polygerrit-ui/app/template_test_out/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog_html.ts(87,7): error TS2322: Type \u0027string\u0027 is not assignable to type \u0027BrandType\u003cstring, \"_branchName\"\u003e\u0027.",
+      "parentUuid": "a24fecf0_e2266033",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 8
+      },
+      "revId": "66023e2365719acb16e598add40329e11c4e9ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

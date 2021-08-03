@@ -1094,7 +1094,7 @@ suite('gr-change-actions tests', () => {
         );
         tap(abandonButton);
 
-        assert.isUndefined(element.$.confirmAbandonDialog.message);
+        assert.equal(element.$.confirmAbandonDialog.message, '');
       });
 
       test('works', () => {

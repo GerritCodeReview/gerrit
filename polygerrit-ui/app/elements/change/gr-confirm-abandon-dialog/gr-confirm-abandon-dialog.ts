@@ -56,7 +56,7 @@ export class GrConfirmAbandonDialog extends KeyboardShortcutMixin(
    */
 
   @property({type: String})
-  message?: string;
+  message = '';
 
   get keyBindings() {
     return {

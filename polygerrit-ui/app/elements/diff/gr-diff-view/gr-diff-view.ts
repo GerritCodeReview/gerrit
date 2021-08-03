@@ -1091,7 +1091,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     this._commentMap = this._getPaths(this._patchRange);
   }
 
-  _isFileUnchanged(diff: DiffInfo) {
+  _isFileUnchanged(diff?: DiffInfo) {
     if (!diff || !diff.content) return false;
     return !diff.content.some(
       content =>
@@ -1178,7 +1178,6 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
         this.reporting.diffViewDisplayed();
       })
       .then(() => {
-        if (!this._diff) throw new Error('Missing this._diff');
         const fileUnchanged = this._isFileUnchanged(this._diff);
         if (fileUnchanged && value.commentLink) {
           assertIsDefined(this._change, '_change');

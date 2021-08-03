@@ -50,6 +50,7 @@ import {
   stubRestApi,
   stubStorage,
 } from '../../../test/test-utils';
+import {_testOnly_resetState} from '../../../services/comments/comments-model';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
 
@@ -61,7 +62,7 @@ suite('gr-comment-thread tests', () => {
 
     setup(() => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-
+      _testOnly_resetState();
       element = basicFixture.instantiate();
       element.patchNum = 3 as PatchSetNum;
       element.changeNum = 1 as NumericChangeId;
@@ -773,6 +774,7 @@ suite('comment action tests with unresolved thread', () => {
   test('addDraft sets unresolved state correctly', () => {
     let unresolved = true;
     element.comments = [];
+    element.path = 'abcd';
     element.addDraft(undefined, undefined, unresolved);
     assert.equal(element.comments[0].unresolved, true);
 
@@ -780,7 +782,6 @@ suite('comment action tests with unresolved thread', () => {
     element.comments = [];
     element.addDraft(undefined, undefined, unresolved);
     assert.equal(element.comments[0].unresolved, false);
-
     element.comments = [];
     element.addDraft();
     assert.equal(element.comments[0].unresolved, true);
@@ -801,6 +802,7 @@ suite('comment action tests with unresolved thread', () => {
 
   test('new comment gets created', () => {
     element.comments = [];
+    element.path = 'abcd';
     element.addOrEditDraft(1);
     assert.equal(element.comments.length, 1);
     // Mock a submitted comment.

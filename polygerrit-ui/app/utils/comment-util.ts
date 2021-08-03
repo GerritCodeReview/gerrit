@@ -112,14 +112,12 @@ export function createCommentThreads(
   const threads: CommentThread[] = [];
   const idThreadMap: CommentIdToCommentThreadMap = {};
   for (const comment of sortedComments) {
-    if (!comment.id) continue;
-    // If the comment is in reply to another comment, find that comment's
     // thread and append to it.
     if (comment.in_reply_to) {
       const thread = idThreadMap[comment.in_reply_to];
       if (thread) {
         thread.comments.push(comment);
-        idThreadMap[comment.id] = thread;
+        if (comment.id) idThreadMap[comment.id] = thread;
         continue;
       }
     }
@@ -149,7 +147,7 @@ export function createCommentThreads(
       newThread.line = 'FILE';
     }
     threads.push(newThread);
-    idThreadMap[comment.id] = newThread;
+    if (comment.id) idThreadMap[comment.id] = newThread;
   }
   return threads;
 }

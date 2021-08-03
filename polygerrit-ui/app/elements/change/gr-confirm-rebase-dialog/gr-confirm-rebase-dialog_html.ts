@@ -79,7 +79,6 @@ export const htmlTemplate = html`
           name="rebaseOptions"
           type="radio"
           disabled$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]"
-          on-click="_handleRebaseOnTip"
         />
         <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
           Rebase on top of the [[branch]] branch<span hidden$="[[!hasParent]]">

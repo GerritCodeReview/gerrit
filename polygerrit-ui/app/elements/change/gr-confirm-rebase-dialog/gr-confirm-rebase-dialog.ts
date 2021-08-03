@@ -77,10 +77,10 @@ export class GrConfirmRebaseDialog extends PolymerElement {
   rebaseOnCurrent?: boolean;
 
   @property({type: String})
-  _text?: string;
+  _text = '';
 
   @property({type: Object})
-  _query?: AutocompleteQuery;
+  _query: AutocompleteQuery = () => Promise.resolve([]);
 
   @property({type: Array})
   _recentChanges?: RebaseChange[];
@@ -146,15 +146,15 @@ export class GrConfirmRebaseDialog extends PolymerElement {
       );
   }
 
-  _displayParentOption(rebaseOnCurrent: boolean, hasParent: boolean) {
+  _displayParentOption(rebaseOnCurrent?: boolean, hasParent?: boolean) {
     return hasParent && rebaseOnCurrent;
   }
 
-  _displayParentUpToDateMsg(rebaseOnCurrent: boolean, hasParent: boolean) {
+  _displayParentUpToDateMsg(rebaseOnCurrent?: boolean, hasParent?: boolean) {
     return hasParent && !rebaseOnCurrent;
   }
 
-  _displayTipOption(rebaseOnCurrent: boolean, hasParent: boolean) {
+  _displayTipOption(rebaseOnCurrent?: boolean, hasParent?: boolean) {
     return !(!rebaseOnCurrent && !hasParent);
   }
 

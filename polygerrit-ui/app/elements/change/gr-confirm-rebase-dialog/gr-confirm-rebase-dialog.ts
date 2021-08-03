@@ -27,8 +27,9 @@ import {
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {appContext} from '../../../services/app-context';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 
-interface RebaseChange {
+export interface RebaseChange {
   name: string;
   value: NumericChangeId;
 }
@@ -39,10 +40,15 @@ export interface ConfirmRebaseEventDetail {
 
 export interface GrConfirmRebaseDialog {
   $: {
+    confirmDialog: GrDialog;
     parentInput: GrAutocomplete;
+    parentUpToDateMsg: HTMLDivElement;
+    rebaseOnParent: HTMLDivElement;
     rebaseOnParentInput: HTMLInputElement;
     rebaseOnOtherInput: HTMLInputElement;
+    rebaseOnTip: HTMLDivElement;
     rebaseOnTipInput: HTMLInputElement;
+    tipUpToDateMsg: HTMLDivElement;
   };
 }
 

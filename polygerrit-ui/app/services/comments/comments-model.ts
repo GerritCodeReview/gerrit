@@ -111,7 +111,9 @@ export function updateStateAddDraft(draft: DraftInfo) {
   if (!drafts[draft.path]) drafts[draft.path] = [] as DraftInfo[];
   else drafts[draft.path] = [...drafts[draft.path]];
   const index = drafts[draft.path].findIndex(
-    d => (d.__draftID && d.__draftID === draft.__draftID) || d.id === draft.id
+    d =>
+      (d.__draftID && d.__draftID === draft.__draftID) ||
+      (d.id && d.id === draft.id)
   );
   if (index !== -1) {
     drafts[draft.path][index] = draft;
@@ -127,7 +129,9 @@ export function updateStateDeleteDraft(draft: DraftInfo) {
   nextState.drafts = {...nextState.drafts};
   const drafts = nextState.drafts;
   const index = (drafts[draft.path] || []).findIndex(
-    d => (d.__draftID && d.__draftID === draft.__draftID) || d.id === draft.id
+    d =>
+      (d.__draftID && d.__draftID === draft.__draftID) ||
+      (d.id && d.id === draft.id)
   );
   if (index === -1) return;
   drafts[draft.path] = [...drafts[draft.path]];

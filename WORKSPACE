@@ -925,6 +925,7 @@ yarn_install(
     data = ["//:twinkie.patch"],
     frozen_lockfile = False,
     package_json = "//:package.json",
+    package_path = "",
     yarn_lock = "//:yarn.lock",
 )
 
@@ -943,6 +944,7 @@ yarn_install(
     ],
     frozen_lockfile = False,
     package_json = "//:polygerrit-ui/app/package.json",
+    package_path = "polygerrit-ui/app",
     yarn_lock = "//:polygerrit-ui/app/yarn.lock",
 )
 
@@ -950,6 +952,7 @@ yarn_install(
     name = "ui_dev_npm",
     frozen_lockfile = False,
     package_json = "//:polygerrit-ui/package.json",
+    package_path = "polygerrit-ui",
     yarn_lock = "//:polygerrit-ui/yarn.lock",
 )
 
@@ -957,6 +960,7 @@ yarn_install(
     name = "tools_npm",
     frozen_lockfile = False,
     package_json = "//:tools/node_tools/package.json",
+    package_path = "tools/node_tools",
     yarn_lock = "//:tools/node_tools/yarn.lock",
 )
 
@@ -965,6 +969,7 @@ yarn_install(
     args = ["--prod"],
     frozen_lockfile = False,
     package_json = "//:plugins/package.json",
+    package_path = "plugins",
     yarn_lock = "//:plugins/yarn.lock",
 )
 

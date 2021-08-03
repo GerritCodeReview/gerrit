@@ -116,6 +116,17 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section>
+      <span class="title">Show trailing whitespace</span>
+      <span class="value">
+        <input
+          id="editShowTrailingWhitespaceInput"
+          type="checkbox"
+          checked$="[[editPrefs.show_whitespace_errors]]"
+          on-change="_handleEditShowTrailingWhitespaceTap"
+        />
+      </span>
+    </section>
+    <section>
       <span class="title">Match brackets</span>
       <span class="value">
         <input

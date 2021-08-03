@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.base.Strings;
@@ -142,7 +143,7 @@ public class MultiProgressMonitor {
    * @param taskName name of the overall task.
    */
   public MultiProgressMonitor(OutputStream out, String taskName) {
-    this(out, taskName, 500, TimeUnit.MILLISECONDS);
+    this(out, taskName, 500, MILLISECONDS);
   }
 
   /**
@@ -216,8 +217,8 @@ public class MultiProgressMonitor {
           if (workerFuture.isCancelled()) {
             logger.atWarning().log(
                 "MultiProgressMonitor worker killed after %sms: (timeout %sms, cancelled)",
-                TimeUnit.MILLISECONDS.convert(now - overallStart, NANOSECONDS),
-                TimeUnit.MILLISECONDS.convert(now - deadline, NANOSECONDS));
+                MILLISECONDS.convert(now - overallStart, NANOSECONDS),
+                MILLISECONDS.convert(now - deadline, NANOSECONDS));
           }
           break;
         }

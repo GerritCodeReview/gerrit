@@ -57,7 +57,7 @@ export class GrConfirmAbandonDialog extends base {
    */
 
   @property({type: String})
-  message?: string;
+  message = '';
 
   get keyBindings() {
     return {

@@ -20,6 +20,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -41,6 +42,7 @@ public interface NoteDbSchemaVersion {
     final SystemGroupBackend systemGroupBackend;
     final PersonIdent serverUser;
     final GroupIndexCollection groupIndexCollection;
+    final AutoMerger autoMerger;
 
     @Inject
     Arguments(
@@ -50,7 +52,8 @@ public interface NoteDbSchemaVersion {
         ProjectConfig.Factory projectConfigFactory,
         SystemGroupBackend systemGroupBackend,
         @GerritPersonIdent PersonIdent serverUser,
-        GroupIndexCollection groupIndexCollection) {
+        GroupIndexCollection groupIndexCollection,
+        AutoMerger autoMerger) {
       this.repoManager = repoManager;
       this.allProjects = allProjects;
       this.allUsers = allUsers;
@@ -58,6 +61,7 @@ public interface NoteDbSchemaVersion {
       this.systemGroupBackend = systemGroupBackend;
       this.serverUser = serverUser;
       this.groupIndexCollection = groupIndexCollection;
+      this.autoMerger = autoMerger;
     }
   }
 

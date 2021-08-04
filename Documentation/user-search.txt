@@ -445,6 +445,10 @@ is:unassigned::
 +
 True if the change does not have an assignee.
 
+is:attention::
++
+True if the change has an assignee.
+
 is:watched::
 +
 True if this change matches one of the current user's watch filters,

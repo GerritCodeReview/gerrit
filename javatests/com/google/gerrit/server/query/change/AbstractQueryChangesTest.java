@@ -3396,6 +3396,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     AttentionSetInput input = new AttentionSetInput(userId.toString(), "some reason");
     gApi.changes().id(change1.getChangeId()).addToAttentionSet(input);
 
+    assertQuery("is:attention", change1);
+    assertQuery("-is:attention", change2);
+    assertQuery("has:attention", change1);
+    assertQuery("-has:attention", change2);
     assertQuery("attention:" + user.getUserName().get(), change1);
     assertQuery("-attention:" + userId.toString(), change2);
   }

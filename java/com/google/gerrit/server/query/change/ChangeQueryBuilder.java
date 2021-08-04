@@ -580,6 +580,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return ChangePredicates.editBy(self());
     }
 
+    if ("attention".equalsIgnoreCase(value)) {
+      return Predicate.not(ChangePredicates.attentionSet(self()));
+    }
+
     if ("unresolved".equalsIgnoreCase(value)) {
       return new IsUnresolvedPredicate();
     }
@@ -651,6 +655,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       }
       throw new QueryParseException(
           "'is:private' operator is not supported by change index version");
+    }
+
+    if ("attention".equalsIgnoreCase(value)) {
+      return Predicate.not(ChangePredicates.attentionSet(Account.id()));
     }
 
     if ("assigned".equalsIgnoreCase(value)) {

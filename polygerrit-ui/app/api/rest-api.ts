@@ -568,8 +568,9 @@ export declare interface DetailedLabelInfo extends LabelCommonInfo {
 }
 
 export function isDetailedLabelInfo(
-  label: LabelInfo
+  label?: LabelInfo
 ): label is DetailedLabelInfo | (QuickLabelInfo & DetailedLabelInfo) {
+  if (label === undefined) return false;
   return !!(label as DetailedLabelInfo).values;
 }
 
@@ -827,8 +828,9 @@ export declare interface QuickLabelInfo extends LabelCommonInfo {
 }
 
 export function isQuickLabelInfo(
-  l: LabelInfo
+  l?: LabelInfo
 ): l is QuickLabelInfo | (QuickLabelInfo & DetailedLabelInfo) {
+  if (l === undefined) return false;
   const quickLabelInfo = l as QuickLabelInfo;
   return (
     quickLabelInfo.approved !== undefined ||

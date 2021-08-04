@@ -398,6 +398,10 @@ public abstract class OutgoingEmail {
    * @return name/email of account, username, or null if unset.
    */
   protected String getUserNameEmailFor(Account.Id accountId) {
+    if (accountId == null) {
+      return null;
+    }
+
     Optional<AccountState> accountState = args.accountCache.get(accountId);
     if (!accountState.isPresent()) {
       return null;

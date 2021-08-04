@@ -28,4 +28,5 @@ export enum KnownExperimentId {
   TOKEN_HIGHLIGHTING = 'UiFeature__token_highlighting',
   CHECKS_DEVELOPER = 'UiFeature__checks_developer',
   NEW_REPLY_DIALOG = 'UiFeature__new_reply_dialog',
+  SUBMIT_REQUIREMENTS_UI = 'UiFeature__submit_requirements_ui',
 }

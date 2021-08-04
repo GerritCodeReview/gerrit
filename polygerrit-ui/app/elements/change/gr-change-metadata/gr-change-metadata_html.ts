@@ -488,11 +488,16 @@ export const htmlTemplate = html`
       </span>
     </section>
     <div class="separatedSection">
-      <gr-change-requirements
-        change="{{change}}"
-        account="[[account]]"
-        mutable="[[_mutable]]"
-      ></gr-change-requirements>
+      <template is="dom-if" if="[[_isSubmitRequirementsUiEnabled]]">
+        <gr-submit-requirements></gr-submit-requirements>
+      </template>
+      <template is="dom-if" if="[[!_isSubmitRequirementsUiEnabled]]">
+        <gr-change-requirements
+          change="{{change}}"
+          account="[[account]]"
+          mutable="[[_mutable]]"
+        ></gr-change-requirements>
+      </template>
     </div>
     <section
       id="webLinks"

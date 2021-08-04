@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
 import org.junit.Test;
 
 public class RequestStateContextTest {
@@ -158,6 +159,95 @@ public class RequestStateContextTest {
       assertThat(requestCancelledException.getCancellationReason())
           .isEqualTo(RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED);
       assertThat(requestCancelledException.getCancellationMessage()).hasValue("deadline = 10m");
+    }
+  }
+
+  @Test
+  public void nonCancellableOperation_requestNotCanclled() {
+    try (RequestStateContext requestStateContext =
+        RequestStateContext.open()
+            .addRequestStateProvider(
+                new RequestStateProvider() {
+                  @Override
+                  public void checkIfCancelled(OnCancelled onCancelled) {}
+                })) {
+      // Calling abortIfCancelled() shouldn't throw an exception.
+      RequestStateContext.abortIfCancelled();
+      try (NonCancellableOperationContext nonCancellableOperationContext =
+          RequestStateContext.startNonCancellableOperation()) {
+        // Calling abortIfCancelled() shouldn't throw an exception.
+        RequestStateContext.abortIfCancelled();
+      }
+      // Calling abortIfCancelled() shouldn't throw an exception.
+      RequestStateContext.abortIfCancelled();
+    }
+  }
+
+  @Test
+  public void nonCancellableOperationNotAborted() {
+    try (RequestStateContext requestStateContext =
+        RequestStateContext.open()
+            .addRequestStateProvider(
+                new RequestStateProvider() {
+                  @Override
+                  public void checkIfCancelled(OnCancelled onCancelled) {
+                    onCancelled.onCancel(
+                        RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* message= */ null);
+                  }
+                })) {
+      assertThrows(RequestCancelledException.class, () -> RequestStateContext.abortIfCancelled());
+      boolean cancelledOnClose = false;
+      try (NonCancellableOperationContext nonCancellableOperationContext =
+          RequestStateContext.startNonCancellableOperation()) {
+        // Calling abortIfCancelled() shouldn't throw an exception since we are within a
+        // non-cancellable operation.
+        RequestStateContext.abortIfCancelled();
+      } catch (RequestCancelledException e) {
+        // The request is expected to get aborted on close of the non-cancellable operation.
+        cancelledOnClose = true;
+      }
+      assertThat(cancelledOnClose).isTrue();
+    }
+  }
+
+  @Test
+  public void nestedNonCancellableOperationNotAborted() {
+    try (RequestStateContext requestStateContext =
+        RequestStateContext.open()
+            .addRequestStateProvider(
+                new RequestStateProvider() {
+                  @Override
+                  public void checkIfCancelled(OnCancelled onCancelled) {
+                    onCancelled.onCancel(
+                        RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* message= */ null);
+                  }
+                })) {
+      assertThrows(RequestCancelledException.class, () -> RequestStateContext.abortIfCancelled());
+      boolean cancelledOnClose = false;
+      try (NonCancellableOperationContext nonCancellableOperationContext =
+          RequestStateContext.startNonCancellableOperation()) {
+        // Calling abortIfCancelled() shouldn't throw an exception since we are within a
+        // non-cancellable operation.
+        RequestStateContext.abortIfCancelled();
+
+        try (NonCancellableOperationContext nestedNonCancellableOperationContext =
+            RequestStateContext.startNonCancellableOperation()) {
+          // Calling abortIfCancelled() shouldn't throw an exception since we are within a
+          // non-cacellable operation.
+          RequestStateContext.abortIfCancelled();
+
+          // Close of the nestedNonCancellableOperationContext shouldn't throw an exception since
+          // the outer nonCancellableOperationContext is still open.
+        }
+
+        // Calling abortIfCancelled() shouldn't throw an exception since we are within a
+        // non-cancellable operation.
+        RequestStateContext.abortIfCancelled();
+      } catch (RequestCancelledException e) {
+        // The request is expected to get aborted on close of the non-cancellable operation.
+        cancelledOnClose = true;
+      }
+      assertThat(cancelledOnClose).isTrue();
     }
   }
 

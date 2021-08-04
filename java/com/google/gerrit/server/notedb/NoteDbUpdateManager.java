@@ -31,6 +31,8 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.cancellation.RequestStateContext;
+import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -316,7 +318,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
       executed = true;
       return null;
     }
-    try (Timer0.Context timer = metrics.updateLatency.start()) {
+    try (Timer0.Context timer = metrics.updateLatency.start();
+        NonCancellableOperationContext nonCancellableOperationContext =
+            RequestStateContext.startNonCancellableOperation()) {
       stage();
       // ChangeUpdates must execute before ChangeDraftUpdates.
       //

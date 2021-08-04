@@ -78,11 +78,6 @@ public class AutoMerger {
 
   public static final String AUTO_MERGE_MSG_PREFIX = "Auto-merge of ";
 
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public static boolean cacheAutomerge(Config cfg) {
-    return cfg.getBoolean("change", null, "cacheAutomerge", true);
-  }
-
   private enum OperationType {
     CACHE_LOAD,
     IN_MEMORY_WRITE,
@@ -92,7 +87,6 @@ public class AutoMerger {
   private final Counter1<OperationType> counter;
   private final Timer1<OperationType> latency;
   private final Provider<PersonIdent> gerritIdentProvider;
-  private final boolean save;
   private final ThreeWayMergeStrategy configuredMergeStrategy;
 
   @Inject
@@ -112,7 +106,6 @@ public class AutoMerger {
                 .setCumulative()
                 .setUnit("milliseconds"),
             Field.ofEnum(OperationType.class, "type", Metadata.Builder::operationName).build());
-    this.save = cacheAutomerge(cfg);
     this.gerritIdentProvider = gerritIdentProvider;
     this.configuredMergeStrategy = MergeUtil.getMergeStrategy(cfg);
   }
@@ -160,7 +153,7 @@ public class AutoMerger {
   public Optional<ReceiveCommand> createAutoMergeCommitIfNecessary(
       RepoView repoView, RevWalk rw, ObjectInserter ins, RevCommit maybeMergeCommit)
       throws IOException {
-    if (maybeMergeCommit.getParentCount() != 2 || !save) {
+    if (maybeMergeCommit.getParentCount() != 2) {
       logger.atFine().log("AutoMerge not required");
       return Optional.empty();
     }

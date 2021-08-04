@@ -45,6 +45,30 @@
       },
       "revId": "5450e01e7ffc3393112fcb862e455e8fb0da669d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a31a17b2_433e5232",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/CancellationIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-04T15:03:17Z",
+      "side": 1,
+      "message": "Good idea, done.\n\nI would still make an exception for \u00270\u0027 \u003d no deadline. This becomes relevant later when the client wants to override a server-side deadline.",
+      "parentUuid": "dec5bedd_a26cd6ad",
+      "range": {
+        "startLine": 282,
+        "startChar": 68,
+        "endLine": 282,
+        "endChar": 83
+      },
+      "revId": "5450e01e7ffc3393112fcb862e455e8fb0da669d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -95,7 +95,16 @@ export const htmlTemplate = html`
           query="[[_query]]"
           text="{{_path}}"
         ></gr-autocomplete>
+<<<<<<< HEAD   (4081ba Add missing "Show trailing whitespace" to edit preference)
         <div id="dragDropArea" on-drop="_handleDragAndDropUpload">
+=======
+        <div
+          id="dragDropArea"
+          contenteditable="true"
+          on-drop="_handleDragAndDropUpload"
+          on-keypress="_handleKeyPress"
+        >
+>>>>>>> CHANGE (c20f01 Remove contenteditable="false" from within dragDropArea)
           <p>Drag and drop a file here</p>
           <p>or</p>
           <p>

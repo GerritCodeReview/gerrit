@@ -142,6 +142,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_ADDED = "added";
   public static final String FIELD_AGE = "age";
   public static final String FIELD_ATTENTION_SET_USERS = "attentionusers";
+  public static final String FIELD_ATTENTION_SET_USERS_COUNT = "attentionuserscount";
   public static final String FIELD_ATTENTION_SET_FULL = "attentionfull";
   public static final String FIELD_ASSIGNEE = "assignee";
   public static final String FIELD_AUTHOR = "author";
@@ -614,6 +615,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return ChangePredicates.editBy(self());
     }
 
+    if ("attention".equalsIgnoreCase(value)) {
+      if (!args.index.getSchema().hasField(ChangeField.ATTENTION_SET_USERS)) {
+        throw new QueryParseException(
+            "'has:attention' operator is not supported by change index version");
+      }
+      return new IsAttentionPredicate();
+    }
+
     if ("unresolved".equalsIgnoreCase(value)) {
       return new IsUnresolvedPredicate();
     }
@@ -685,6 +694,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       }
       throw new QueryParseException(
           "'is:private' operator is not supported by change index version");
+    }
+
+    if ("attention".equalsIgnoreCase(value)) {
+      if (!args.index.getSchema().hasField(ChangeField.ATTENTION_SET_USERS)) {
+        throw new QueryParseException(
+            "'is:attention' operator is not supported by change index version");
+      }
+      return new IsAttentionPredicate();
     }
 
     if ("assigned".equalsIgnoreCase(value)) {

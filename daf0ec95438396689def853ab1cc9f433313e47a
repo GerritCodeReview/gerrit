@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a95c3b_423eea77",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1139450
+      },
+      "writtenOn": "2021-08-04T18:14:43Z",
+      "side": 1,
+      "message": "boleano o",
+      "revId": "daf0ec95438396689def853ab1cc9f433313e47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4e86582_b177d591",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1139450
+      },
+      "writtenOn": "2021-08-04T18:14:43Z",
+      "side": 1,
+      "message": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+      "revId": "daf0ec95438396689def853ab1cc9f433313e47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0f8a9ca_0a4ae6be",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1139450
+      },
+      "writtenOn": "2021-08-04T18:14:43Z",
+      "side": 1,
+      "message": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+      "revId": "daf0ec95438396689def853ab1cc9f433313e47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95b0982a_1e8856ee",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1139450
+      },
+      "writtenOn": "2021-08-04T18:14:43Z",
+      "side": 1,
+      "message": "32",
+      "revId": "daf0ec95438396689def853ab1cc9f433313e47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

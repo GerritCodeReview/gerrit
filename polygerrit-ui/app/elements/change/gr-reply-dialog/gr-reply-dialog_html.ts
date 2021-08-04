@@ -133,6 +133,7 @@ export const htmlTemplate = html`
     .previewContainer gr-formatted-text {
       background: var(--table-header-background-color);
       padding: var(--spacing-l);
+      border-top: none;
     }
     #checkingStatusLabel,
     #notLatestLabel {
@@ -244,7 +245,6 @@ export const htmlTemplate = html`
     .patchsetLevelContainer {
       width: 80ch;
       border-radius: var(--border-radius);
-      margin-left: var(--spacing-xl);
       box-shadow: var(--elevation-level-2);
     }
     .patchsetLevelContainer.resolved{

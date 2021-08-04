@@ -57,10 +57,10 @@ export class GrRepoBranchPicker extends PolymerElement {
   _branchDisabled?: boolean;
 
   @property({type: Object})
-  _query?: AutocompleteQuery;
+  _query: AutocompleteQuery = () => Promise.resolve([]);
 
   @property({type: Object})
-  _repoQuery?: AutocompleteQuery;
+  _repoQuery: AutocompleteQuery = () => Promise.resolve([]);
 
   private readonly restApiService = appContext.restApiService;
 

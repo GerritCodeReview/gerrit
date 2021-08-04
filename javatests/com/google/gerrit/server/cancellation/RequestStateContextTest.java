@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.server.cancellation.RequestStateContext.AtomicOperationContext;
 import org.junit.Test;
 
 public class RequestStateContextTest {
@@ -158,6 +159,95 @@ public class RequestStateContextTest {
       assertThat(requestCancelledException.getCancellationReason())
           .isEqualTo(RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED);
       assertThat(requestCancelledException.getCancellationMessage()).hasValue("deadline = 10m");
+    }
+  }
+
+  @Test
+  public void atomicOperation_requestNotCanclled() {
+    try (RequestStateContext requestStateContext =
+        RequestStateContext.open()
+            .addRequestStateProvider(
+                new RequestStateProvider() {
+                  @Override
+                  public void checkIfCancelled(OnCancelled onCancelled) {}
+                })) {
+      // Calling abortIfCancelled() shouldn't throw an exception.
+      RequestStateContext.abortIfCancelled();
+      try (AtomicOperationContext atomicOperationContext =
+          RequestStateContext.startAtomicOperation()) {
+        // Calling abortIfCancelled() shouldn't throw an exception.
+        RequestStateContext.abortIfCancelled();
+      }
+      // Calling abortIfCancelled() shouldn't throw an exception.
+      RequestStateContext.abortIfCancelled();
+    }
+  }
+
+  @Test
+  public void atomicOperationNotAborted() {
+    try (RequestStateContext requestStateContext =
+        RequestStateContext.open()
+            .addRequestStateProvider(
+                new RequestStateProvider() {
+                  @Override
+                  public void checkIfCancelled(OnCancelled onCancelled) {
+                    onCancelled.onCancel(
+                        RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* message= */ null);
+                  }
+                })) {
+      assertThrows(RequestCancelledException.class, () -> RequestStateContext.abortIfCancelled());
+      boolean cancelledOnClose = false;
+      try (AtomicOperationContext atomicOperationContext =
+          RequestStateContext.startAtomicOperation()) {
+        // Calling abortIfCancelled() shouldn't throw an exception since we are within an atomic
+        // operation.
+        RequestStateContext.abortIfCancelled();
+      } catch (RequestCancelledException e) {
+        // The request is expected to get aborted on close of the atomic operation.
+        cancelledOnClose = true;
+      }
+      assertThat(cancelledOnClose).isTrue();
+    }
+  }
+
+  @Test
+  public void nestedAtomicOperationNotAborted() {
+    try (RequestStateContext requestStateContext =
+        RequestStateContext.open()
+            .addRequestStateProvider(
+                new RequestStateProvider() {
+                  @Override
+                  public void checkIfCancelled(OnCancelled onCancelled) {
+                    onCancelled.onCancel(
+                        RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* message= */ null);
+                  }
+                })) {
+      assertThrows(RequestCancelledException.class, () -> RequestStateContext.abortIfCancelled());
+      boolean cancelledOnClose = false;
+      try (AtomicOperationContext atomicOperationContext =
+          RequestStateContext.startAtomicOperation()) {
+        // Calling abortIfCancelled() shouldn't throw an exception since we are within an atomic
+        // operation.
+        RequestStateContext.abortIfCancelled();
+
+        try (AtomicOperationContext nestedAtomicOperationContext =
+            RequestStateContext.startAtomicOperation()) {
+          // Calling abortIfCancelled() shouldn't throw an exception since we are within an atomic
+          // operation.
+          RequestStateContext.abortIfCancelled();
+
+          // Close of the nestedAtomicOperationContext shouldn't throw an exception since the outer
+          // atomicOperationContext is still open.
+        }
+
+        // Calling abortIfCancelled() shouldn't throw an exception since we are within an atomic
+        // operation.
+        RequestStateContext.abortIfCancelled();
+      } catch (RequestCancelledException e) {
+        // The request is expected to get aborted on close of the atomic operation.
+        cancelledOnClose = true;
+      }
+      assertThat(cancelledOnClose).isTrue();
     }
   }
 

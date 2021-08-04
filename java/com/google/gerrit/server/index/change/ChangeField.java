@@ -94,6 +94,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.PersonIdent;
 
+
 /**
  * Fields indexed on change documents.
  *

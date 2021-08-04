@@ -98,6 +98,9 @@ public class DiffOperationsImpl implements DiffOperations {
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);
+    } catch (AutoMergeCommitNotInRepoException e) {
+      throw new DiffNotAvailableException(
+          "Auto-merge commit is not in the repository. Cannot request diffs against arbitrary git commits.");
     }
   }
 
@@ -138,6 +141,9 @@ public class DiffOperationsImpl implements DiffOperations {
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);
+    } catch (AutoMergeCommitNotInRepoException e) {
+      throw new DiffNotAvailableException(
+          "Auto-merge commit is not in the repository. Cannot request diffs against arbitrary git commits.");
     }
   }
 
@@ -372,7 +378,8 @@ public class DiffOperationsImpl implements DiffOperations {
 
   /** Compute Diff parameters - the base commit and the comparison type - using the input args. */
   private DiffParameters computeDiffParameters(
-      Project.NameKey project, ObjectId newCommit, Integer parent) throws IOException {
+      Project.NameKey project, ObjectId newCommit, Integer parent)
+      throws AutoMergeCommitNotInRepoException, IOException {
     DiffParameters.Builder result =
         DiffParameters.builder().project(project).newCommit(newCommit).parent(parent);
     if (parent > 0) {

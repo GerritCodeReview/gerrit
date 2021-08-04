@@ -243,8 +243,7 @@ public class AutoMerger {
     return rw.parseCommit(ins.insert(cb));
   }
 
-  private Optional<RevCommit> lookupCommit(Repository repo, RevWalk rw, String refName)
-      throws IOException {
+  Optional<RevCommit> lookupCommit(Repository repo, RevWalk rw, String refName) throws IOException {
     Ref ref = repo.getRefDatabase().exactRef(refName);
     if (ref != null && ref.getObjectId() != null) {
       RevObject obj = rw.parseAny(ref.getObjectId());

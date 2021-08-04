@@ -214,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "738f8a87_db384fe1",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-08-04T07:47:28Z",
+      "side": 1,
+      "message": "I was thinking in the javadoc, at L365.",
+      "parentUuid": "280ace08_f0d43512",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 373,
+        "endChar": 5
+      },
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9d68e448_63a45334",
         "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 1

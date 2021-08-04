@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48491a5e_80f0b9aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-04T23:31:18Z",
+      "side": 1,
+      "message": "Why not tagging the test as flaky instead? Even better to find the parts of the tests that are flaky and fixing them :-)",
+      "revId": "3082d99b3bef18dd72bdbb7255f493cc9e94f2b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4a1f856_25b2ee5a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4051,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-04T23:31:18Z",
+      "side": 1,
+      "message": "This would never run the tests which isn\u0027t exactly what the commit says.",
+      "range": {
+        "startLine": 4051,
+        "startChar": 2,
+        "endLine": 4051,
+        "endChar": 26
+      },
+      "revId": "3082d99b3bef18dd72bdbb7255f493cc9e94f2b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

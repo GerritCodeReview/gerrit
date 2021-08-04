@@ -16,6 +16,24 @@
       "message": "Why does this have to be optional?",
       "revId": "2c57fc85fa5d6bc1685c552acce8818e8968c0ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ed6f66b_63c16d19",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-04T00:34:11Z",
+      "side": 1,
+      "message": "Because _emailsChanged can be undefined so removing the \u0027?\u0027 here results in:\n\n`error TS2322: Type \u0027boolean | undefined\u0027 is not assignable to type \u0027boolean\u0027.`",
+      "parentUuid": "b28f17be_ac412f0c",
+      "revId": "2c57fc85fa5d6bc1685c552acce8818e8968c0ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

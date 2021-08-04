@@ -118,6 +118,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbaafd0e_149eae69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-04T07:57:47Z",
+      "side": 1,
+      "message": "Why don\u0027t you cherry-pick *that* change and do a follow-up for fixing getUserNameEmailFor?",
+      "parentUuid": "4d29c4e1_6aac4cd4",
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff044a27_6d9ea7b3",

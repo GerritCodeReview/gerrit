@@ -947,7 +947,7 @@ class ChangeNotesParser {
     if (a.getName().equals(c.getName()) && a.getEmailAddress().equals(c.getEmailAddress())) {
       return null;
     }
-    return parseIdent(commit.getAuthorIdent());
+    return parseIdent(a);
   }
 
   private void parseReviewer(Timestamp ts, ReviewerStateInternal state, String line)

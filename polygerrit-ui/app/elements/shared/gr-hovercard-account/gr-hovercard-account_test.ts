@@ -15,41 +15,44 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-hovercard-account.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {ReviewerState} from '../../../constants/constants.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-hovercard-account';
+import {GrHovercardAccount} from './gr-hovercard-account';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {ReviewerState} from '../../../constants/constants';
+import {stubRestApi} from '../../../test/test-utils';
+import {EmailAddress} from '../../../types/common';
+import {createAccountWithId} from '../../../test/test-data-generators';
 
 const basicFixture = fixtureFromTemplate(html`
 <gr-hovercard-account class="hovered"></gr-hovercard-account>
 `);
 
 suite('gr-hovercard-account tests', () => {
-  let element;
+  let element: GrHovercardAccount;
 
-  const ACCOUNT = {
-    email: 'kermit@gmail.com',
+  const account = {
+    ...createAccountWithId(),
+    email: 'kermit@gmail.com' as EmailAddress,
     username: 'kermit',
     name: 'Kermit The Frog',
-    _account_id: '31415926535',
   };
 
   setup(async () => {
-    stubRestApi('getAccount').returns(Promise.resolve({...ACCOUNT}));
+    stubRestApi('getAccount').returns(Promise.resolve(account));
     element = basicFixture.instantiate();
-    element.account = {...ACCOUNT};
+    element.account = account;
     element.change = {
       attention_set: {},
       reviewers: {},
-      owner: {...ACCOUNT},
+      owner: account,
     };
-    element.show({});
+    element.show();
     await flush();
   });
 
   teardown(() => {
-    element.hide({});
+    element.hide();
   });
 
   test('account name is shown', () => {

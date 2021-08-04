@@ -27,6 +27,7 @@ import {
 } from '@polymer/iron-overlay-behavior/iron-scroll-manager';
 import {ShowAlertEventDetail} from '../../../types/events';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+
 interface ReloadEventDetail {
   clearPatchset?: boolean;
 }

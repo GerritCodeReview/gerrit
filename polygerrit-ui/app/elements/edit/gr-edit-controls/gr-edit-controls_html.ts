@@ -101,9 +101,9 @@ export const htmlTemplate = html`
           on-drop="_handleDragAndDropUpload"
           on-keypress="_handleKeyPress"
         >
-          <p contenteditable="false">Drag and drop a file here</p>
-          <p contenteditable="false">or</p>
-          <p contenteditable="false">
+          <p>Drag and drop a file here</p>
+          <p>or</p>
+          <p>
             <iron-input>
               <input
                 is="iron-input"
@@ -115,9 +115,7 @@ export const htmlTemplate = html`
               />
             </iron-input>
             <label for="fileUploadInput">
-              <gr-button id="fileUploadBrowse" contenteditable="false"
-                >Browse</gr-button
-              >
+              <gr-button id="fileUploadBrowse">Browse</gr-button>
             </label>
           </p>
         </div>

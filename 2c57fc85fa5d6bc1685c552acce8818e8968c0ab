@@ -34,6 +34,24 @@
       "parentUuid": "b28f17be_ac412f0c",
       "revId": "2c57fc85fa5d6bc1685c552acce8818e8968c0ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9746454e_205b54f0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-04T01:35:59Z",
+      "side": 1,
+      "message": "Oh, i guess we can change the that one to default to false as well.",
+      "parentUuid": "3ed6f66b_63c16d19",
+      "revId": "2c57fc85fa5d6bc1685c552acce8818e8968c0ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

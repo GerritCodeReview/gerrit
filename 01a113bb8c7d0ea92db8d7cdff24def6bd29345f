@@ -142,6 +142,30 @@
       },
       "revId": "01a113bb8c7d0ea92db8d7cdff24def6bd29345f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b6c60d9_8379d29b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-08-04T19:30:53Z",
+      "side": 1,
+      "message": "I have updated this change to not skip shuffling of slices. We can add an option to that in a subsequent change.",
+      "parentUuid": "811b9ac0_051a9b5a",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "01a113bb8c7d0ea92db8d7cdff24def6bd29345f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

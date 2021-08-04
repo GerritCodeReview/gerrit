@@ -43,6 +43,8 @@ import {ReviewerState} from '../../../constants/constants';
 import {CURRENT} from '../../../utils/patch-set-util';
 import {isInvolved, isRemovableReviewer} from '../../../utils/change-util';
 import {assertIsDefined} from '../../../utils/common-util';
+import {Constructor} from '../../../utils/common-util';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
 
 @customElement('gr-hovercard-account')
 export class GrHovercardAccount extends hovercardBehaviorMixin(PolymerElement) {

@@ -70,6 +70,30 @@
       },
       "revId": "f98f96976c4b284b355b4d24fa90fc51c8fae8bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2881588_500f2eab",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-04T13:42:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5b52a9fa_4bde454b",
+      "range": {
+        "startLine": 472,
+        "startChar": 11,
+        "endLine": 472,
+        "endChar": 26
+      },
+      "revId": "f98f96976c4b284b355b4d24fa90fc51c8fae8bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

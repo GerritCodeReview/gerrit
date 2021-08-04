@@ -229,6 +229,7 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
     GerritNav.navigateToChange(change);
   }
 
+
   _handlePathChanged(e: CustomEvent<string>) {
     // TODO(TS) could be cleaned up, it was added for type requirements
     if (this._changeNum === undefined || !this._path) {

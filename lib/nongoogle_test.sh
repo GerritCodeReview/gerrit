@@ -11,6 +11,7 @@ TMP=$(mktemp -d || mktemp -d -t /tmp/tmp.XXXXXX)
 grep 'name = "[^"]*"' ${bzl} | sed 's|^[^"]*"||g;s|".*$||g' | sort > $TMP/names
 
 cat << EOF > $TMP/want
+backward-codecs
 cglib-3_2
 commons-io
 docker-java-api
@@ -33,6 +34,10 @@ jackson-core
 jimfs
 jna
 jruby
+lucene-analyzers-common
+lucene-core
+lucene-misc
+lucene-queryparser
 mina-core
 nekohtml
 objenesis

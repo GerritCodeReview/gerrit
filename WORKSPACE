@@ -657,38 +657,6 @@ maven_jar(
 
 declare_nongoogle_deps()
 
-LUCENE_VERS = "6.6.5"
-
-maven_jar(
-    name = "lucene-core",
-    artifact = "org.apache.lucene:lucene-core:" + LUCENE_VERS,
-    sha1 = "2983f80b1037e098209657b0ca9176827892d0c0",
-)
-
-maven_jar(
-    name = "lucene-analyzers-common",
-    artifact = "org.apache.lucene:lucene-analyzers-common:" + LUCENE_VERS,
-    sha1 = "6094f91071d90570b7f5f8ce481d5de7d2d2e9d5",
-)
-
-maven_jar(
-    name = "backward-codecs",
-    artifact = "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
-    sha1 = "460a19e8d1aa7d31e9614cf528a6cb508c9e823d",
-)
-
-maven_jar(
-    name = "lucene-misc",
-    artifact = "org.apache.lucene:lucene-misc:" + LUCENE_VERS,
-    sha1 = "ce3a1b7b6a92b9af30791356a4bd46d1cea6cc1e",
-)
-
-maven_jar(
-    name = "lucene-queryparser",
-    artifact = "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
-    sha1 = "2db9ca0086a4b8e0b9bc9f08a9b420303168e37c",
-)
-
 maven_jar(
     name = "mime-util",
     artifact = "eu.medsea.mimeutil:mime-util:2.1.3",

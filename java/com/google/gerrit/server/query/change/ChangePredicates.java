@@ -41,6 +41,13 @@ public class ChangePredicates {
   }
 
   /**
+   * Returns a predicate that matches changes that have attention set.
+   */
+  public static Predicate<ChangeData> attentionSetCount(int count) {
+    return new ChangeIndexPredicate(ChangeField.ATTENTION_SET_USERS_COUNT, count);
+  }
+
+  /**
    * Returns a predicate that matches changes that are assigned to the provided {@link
    * com.google.gerrit.entities.Account.Id}.
    */

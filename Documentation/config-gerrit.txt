@@ -5334,6 +5334,15 @@ link:#receive.timeout[receive.timeout] for git pushes.
 +
 By default, unset.
 
+[[deadline.id.isAdvisory]]deadline.<id>.isAdvisory::
++
+Whether this deadline is an advisory deadline. Advisory deadlines do not cause
+requests to be aborted when they are exceeded. Instead, if an advisory deadline
+is exceeded, only a log is written. This is useful to test how many requests
+would be affected by a new deadline configuration.
++
+By default, `false`.
+
 [[deadline.id.requestType]]deadline.<id>.requestType::
 +
 Type of request to which the deadline applies (can be `GIT_RECEIVE`, `REST` and

@@ -78,6 +78,13 @@ import {
 } from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, property, observe} from '@polymer/decorators';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
+import {
+  changeIsAbandoned,
+  changeIsMerged,
+  changeIsOpen,
+} from '../../../utils/change-util';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
 import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
@@ -1814,7 +1821,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       this._patchRange?.patchNum === EditPatchSetNum &&
       changeIsOpen(change)
     ) {
-      /* eslint-disable max-len */
       fireAlert(this, 'Change edit not found. Please create a change edit.');
       GerritNav.navigateToChange(change);
       return;

@@ -201,6 +201,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private boolean forceRebuild;
     private boolean forceStateChangeWithSkip;
     private boolean gc;
+    private boolean shuffleProjectSlices;
     private int sequenceGap = -1;
     private boolean autoMigrate;
     private boolean verbose;
@@ -399,6 +400,22 @@ public class NoteDbMigrator implements AutoCloseable {
     }
 
     /**
+     * Shuffle project slices during the rebuild phase of noteDb migration.
+     *
+     * <p>This might help reduce memory allocation if the site has few large and many small
+     * repositories. It mixes slices from large and small repositories to reduce overall memory
+     * allocation, so that the number of migration threads can be increased without driving java GC
+     * crazy. However, it has the down-side of reducing disk cache hits.
+     *
+     * @param shuffleProjectSlices whether project slices must be shuffled during migration
+     * @return this.
+     */
+    public Builder setShuffleProjectSlices(boolean shuffleProjectSlices) {
+      this.shuffleProjectSlices = shuffleProjectSlices;
+      return this;
+    }
+
+    /**
      * Gap between ReviewDb change sequence numbers and NoteDb.
      *
      * <p>If NoteDb sequences are enabled in a running server, there is a race between the migration
@@ -478,6 +495,7 @@ public class NoteDbMigrator implements AutoCloseable {
           forceRebuild,
           forceStateChangeWithSkip,
           gc,
+          shuffleProjectSlices,
           sequenceGap >= 0 ? sequenceGap : Sequences.getChangeSequenceGap(cfg),
           autoMigrate,
           verbose);
@@ -542,6 +560,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final boolean forceRebuild;
   private final boolean forceStateChangeWithSkip;
   private final boolean gc;
+  private final boolean shuffleProjectSlices;
   private final int sequenceGap;
   private final boolean autoMigrate;
   private final boolean verbose;
@@ -575,6 +594,7 @@ public class NoteDbMigrator implements AutoCloseable {
       boolean forceRebuild,
       boolean forceStateChangeWithSkip,
       boolean gc,
+      boolean shuffleProjectSlices,
       int sequenceGap,
       boolean autoMigrate,
       boolean verbose)
@@ -612,6 +632,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.forceRebuild = forceRebuild;
     this.forceStateChangeWithSkip = forceStateChangeWithSkip;
     this.gc = gc;
+    this.shuffleProjectSlices = shuffleProjectSlices;
     this.sequenceGap = sequenceGap;
     this.autoMigrate = autoMigrate;
     this.verbose = verbose;
@@ -891,7 +912,9 @@ public class NoteDbMigrator implements AutoCloseable {
         slices.add(ps);
       }
     }
-    Collections.shuffle(slices);
+    if (shuffleProjectSlices) {
+      Collections.shuffle(slices);
+    }
     totalChangeCount = changesByProject.size();
     return slices;
   }

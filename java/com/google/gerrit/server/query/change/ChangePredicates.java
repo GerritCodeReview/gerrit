@@ -35,7 +35,7 @@ public class ChangePredicates {
   /**
    * Returns a predicate that matches changes where the provided {@link
    * com.google.gerrit.entities.Account.Id} is in the attention set.
-   */
+   */ 
   public static Predicate<ChangeData> attentionSet(Account.Id id) {
     return new ChangeIndexPredicate(ChangeField.ATTENTION_SET_USERS, id.toString());
   }

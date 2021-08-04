@@ -48,6 +48,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.cancellation.RequestStateContext;
+import com.google.gerrit.server.cancellation.RequestStateContext.AtomicOperationContext;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -137,7 +139,8 @@ public class BatchUpdate implements AutoCloseable {
 
     checkDifferentProject(updates);
 
-    try {
+    try (AtomicOperationContext atomicOperationContext =
+        RequestStateContext.startAtomicOperation()) {
       List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
       List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
       try {

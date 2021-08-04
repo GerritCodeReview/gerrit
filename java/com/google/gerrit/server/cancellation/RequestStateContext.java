@@ -58,14 +58,26 @@ public class RequestStateContext implements AutoCloseable {
   private static final ThreadLocal<Set<RequestStateProvider>> threadLocalRequestStateProviders =
       new ThreadLocal<>();
 
+  /** Whether currently an atomic operation is being performed that should not be cancelled. */
+  private static final ThreadLocal<Boolean> inAtomicOperation = new ThreadLocal<>();
+
   /**
    * Aborts the current request by throwing a {@link RequestCancelledException} if any of the
    * registered {@link RequestStateProvider}s reports the request as cancelled.
    *
+   * <p>If an atomic operation is currently being performed, request cancellations are ignored and
+   * the request doesn't get aborted.
+   *
    * @throws RequestCancelledException thrown if the current request is cancelled and should be
    *     aborted
+   * @see #startAtomicOperation()
    */
   public static void abortIfCancelled() throws RequestCancelledException {
+    if (inAtomicOperation.get() != null && inAtomicOperation.get()) {
+      // Do not cancel the request while an atomic operation is being performed.
+      return;
+    }
+
     getRequestStateProviders()
         .forEach(
             requestStateProvider ->
@@ -73,6 +85,27 @@ public class RequestStateContext implements AutoCloseable {
                     (reason, message) -> {
                       throw new RequestCancelledException(reason, message);
                     }));
+  }
+
+  /**
+   * Starts an atomic operation that cannot be cancelled.
+   *
+   * <p>If the request was cancelled while the atomic operation was running, it gets abort on close
+   * of the returned {@link AutoCloseable}.
+   *
+   * @return {@link AutoCloseable} that stops the atomic operation on close.
+   */
+  public static AtomicOperationContext startAtomicOperation() {
+    if (inAtomicOperation.get() != null && inAtomicOperation.get()) {
+      // atomic operation is already in progress
+      return () -> {};
+    }
+
+    inAtomicOperation.set(true);
+    return () -> {
+      inAtomicOperation.remove();
+      abortIfCancelled();
+    };
   }
 
   /** Returns the {@link RequestStateProvider}s that have been registered for the thread. */
@@ -132,5 +165,15 @@ public class RequestStateContext implements AutoCloseable {
         threadLocalRequestStateProviders.remove();
       }
     }
+  }
+
+  /**
+   * Context for an atomic operation.
+   *
+   * <p>While open, the current request cannot be cancelled.
+   */
+  public interface AtomicOperationContext extends AutoCloseable {
+    @Override
+    void close();
   }
 }

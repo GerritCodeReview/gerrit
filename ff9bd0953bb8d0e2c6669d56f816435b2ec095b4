@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf178305_18af993e",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-04T13:43:19Z",
+      "side": 1,
+      "message": "Same as in the prior change, could we reject these with BadRequestExceptions instead? Would feel safer to me.",
+      "range": {
+        "startLine": 253,
+        "startChar": 47,
+        "endLine": 255,
+        "endChar": 0
+      },
+      "revId": "ff9bd0953bb8d0e2c6669d56f816435b2ec095b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

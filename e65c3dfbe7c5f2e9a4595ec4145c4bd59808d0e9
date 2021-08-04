@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "950e3414_242b7670",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-04T20:07:16Z",
+      "side": 1,
+      "message": "It would be great to have a justification for this, especially when updating the 3.4 stable branch.",
+      "revId": "e65c3dfbe7c5f2e9a4595ec4145c4bd59808d0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

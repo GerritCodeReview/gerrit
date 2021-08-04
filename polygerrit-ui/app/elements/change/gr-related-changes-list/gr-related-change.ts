@@ -168,6 +168,10 @@ export class GrRelatedChange extends GrLitElement {
       return 'Indirect ancestor';
     } else if (change.submittable) {
       return 'Submittable';
+    } else if (change.work_in_progress) {
+      return 'WIP';
+    } else if (change.is_private) {
+      return 'Private';
     }
     return '';
   }

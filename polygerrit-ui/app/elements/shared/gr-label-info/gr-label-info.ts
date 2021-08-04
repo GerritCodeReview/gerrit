@@ -34,10 +34,13 @@ import {
   AccountId,
   isQuickLabelInfo,
   isDetailedLabelInfo,
+  DetailedLabelInfo,
+  LabelNameToInfoMap,
 } from '../../../types/common';
 import {GrButton} from '../gr-button/gr-button';
 import {getVotingRangeOrDefault} from '../../../utils/label-util';
 import {appContext} from '../../../services/app-context';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -54,7 +57,7 @@ enum LabelClassName {
 
 interface FormattedLabel {
   className?: LabelClassName;
-  account: ApprovalInfo;
+  account?: ApprovalInfo;
   value: string;
 }
 
@@ -90,11 +93,25 @@ export class GrLabelInfo extends PolymerElement {
    * This method also listens on change.labels.*,
    * to trigger computation when a label is removed from the change.
    */
-  _mapLabelInfo(labelInfo?: LabelInfo, account?: AccountInfo) {
+  _mapLabelInfo(
+    labelInfo?: LabelInfo,
+    account?: AccountInfo,
+    changeLabel?: PolymerDeepPropertyChange<
+      LabelNameToInfoMap | undefined,
+      LabelNameToInfoMap | undefined
+    >
+  ) {
     const result: FormattedLabel[] = [];
     if (!labelInfo) {
       return result;
     }
+
+    // Just supplying the 3rd param isn't enough to silence the typescript
+    // checker. We have to use the param.
+    if (changeLabel) {
+      // Fake variable to satisfy typescript checker
+    }
+
     if (!isDetailedLabelInfo(labelInfo)) {
       if (
         isQuickLabelInfo(labelInfo) &&
@@ -114,7 +131,7 @@ export class GrLabelInfo extends PolymerElement {
 
     // Sort votes by positivity.
     // TODO(TS): maybe mark value as required if always present
-    const votes = (labelInfo.all || []).sort(
+    const votes = ((labelInfo as DetailedLabelInfo).all || []).sort(
       (a, b) => (a.value || 0) - (b.value || 0)
     );
     const votingRange = getVotingRangeOrDefault(labelInfo);
@@ -165,11 +182,11 @@ export class GrLabelInfo extends PolymerElement {
    *     vote.
    */
   _computeDeleteClass(
-    reviewer: ApprovalInfo,
     mutable: boolean,
-    change: ChangeInfo
+    reviewer?: ApprovalInfo,
+    change?: ChangeInfo
   ) {
-    if (!mutable || !change || !change.removable_reviewers) {
+    if (!mutable || !change || !change.removable_reviewers || !reviewer) {
       return 'hidden';
     }
     const removable = change.removable_reviewers;
@@ -217,7 +234,7 @@ export class GrLabelInfo extends PolymerElement {
       });
   }
 
-  _computeValueTooltip(labelInfo: LabelInfo, score: string) {
+  _computeValueTooltip(score: string, labelInfo?: LabelInfo) {
     if (
       !labelInfo ||
       !isDetailedLabelInfo(labelInfo) ||
@@ -232,10 +249,23 @@ export class GrLabelInfo extends PolymerElement {
    * This method also listens change.labels.* in
    * order to trigger computation when a label is removed from the change.
    */
-  _computeShowPlaceholder(labelInfo?: LabelInfo) {
+  _computeShowPlaceholder(
+    labelInfo?: LabelInfo,
+    changeLabel?: PolymerDeepPropertyChange<
+      LabelNameToInfoMap | undefined,
+      LabelNameToInfoMap | undefined
+    >
+  ) {
     if (!labelInfo) {
       return '';
     }
+
+    // Just supplying the 2nd param isn't enough to silence the typescript
+    // checker. We have to use the param.
+    if (changeLabel) {
+      // Fake variable to satisfy typescript checker
+    }
+
     if (
       !isDetailedLabelInfo(labelInfo) &&
       isQuickLabelInfo(labelInfo) &&

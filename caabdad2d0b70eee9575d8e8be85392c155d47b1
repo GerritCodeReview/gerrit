@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8c319ed_b8fb0db5",
+        "filename": "tools/node_tools/deps.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-04T09:24:54Z",
+      "side": 1,
+      "message": "some comment",
+      "range": {
+        "startLine": 15,
+        "startChar": 9,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "caabdad2d0b70eee9575d8e8be85392c155d47b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

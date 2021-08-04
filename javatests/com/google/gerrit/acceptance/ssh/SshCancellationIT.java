@@ -117,4 +117,34 @@ public class SshCancellationIT extends AbstractDaemonTest {
       adminSshSession.assertFailure("Server Deadline Exceeded (deadline = 10m)");
     }
   }
+
+  @Test
+  public void abortIfClientProvidedDeadlineExceeded() throws Exception {
+    adminSshSession.exec("gerrit create-project --deadline 1ms " + name("new"));
+    adminSshSession.assertFailure("Client Provided Deadline Exceeded (timeout=1ms)");
+  }
+
+  @Test
+  public void requestRejectedIfInvalidDeadlineIsProvided_missingTimeUnit() throws Exception {
+    adminSshSession.exec("gerrit create-project --deadline 1 " + name("new"));
+    adminSshSession.assertFailure("Invalid deadline. Missing time unit: 1");
+  }
+
+  @Test
+  public void requestRejectedIfInvalidDeadlineIsProvided_invalidTimeUnit() throws Exception {
+    adminSshSession.exec("gerrit create-project --deadline 1x " + name("new"));
+    adminSshSession.assertFailure("Invalid deadline. Invalid time unit value: 1x");
+  }
+
+  @Test
+  public void requestRejectedIfInvalidDeadlineIsProvided_invalidValue() throws Exception {
+    adminSshSession.exec("gerrit create-project --deadline invalid " + name("new"));
+    adminSshSession.assertFailure("Invalid deadline. Invalid value: invalid");
+  }
+
+  @Test
+  public void requestSucceedsWithinDeadline() throws Exception {
+    adminSshSession.exec("gerrit create-project --deadline 10m " + name("new"));
+    adminSshSession.assertSuccess();
+  }
 }

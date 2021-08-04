@@ -525,11 +525,16 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
    * - last {UNRESOLVED_EXPAND_COUNT} comments expanded by default if the
    * thread is unresolved,
    * - it's a robot comment.
+   * - it's a draft
    */
   _setInitialExpandedState() {
     if (this._orderedComments) {
       for (let i = 0; i < this._orderedComments.length; i++) {
         const comment = this._orderedComments[i];
+        if (isDraft(comment)) {
+          comment.collapsed = false;
+          continue;
+        }
         const isRobotComment = !!(comment as UIRobot).robot_id;
         // False if it's an unresolved comment under UNRESOLVED_EXPAND_COUNT.
         const resolvedThread =

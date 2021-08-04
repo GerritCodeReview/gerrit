@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Comparator.comparing;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -22,6 +23,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.common.Nullable;
@@ -84,6 +86,14 @@ public class DeadlineChecker implements RequestStateProvider {
   private final Optional<Long> deadline;
 
   /**
+   * Matching server side deadlines that have been configured as a dry run.
+   *
+   * <p>If any of these deadlines is exceeded the request should not be aborted, but only a log
+   * should be written.
+   */
+  private final ImmutableList<ServerDeadline> dryRunDeadlines;
+
+  /**
    * Creates a {@code ClientProvidedDeadlineChecker}.
    *
    * <p>No deadline is enforced if the client provided deadline value is {@code null} or {@code 0}.
@@ -124,7 +134,11 @@ public class DeadlineChecker implements RequestStateProvider {
       @Assisted RequestInfo requestInfo,
       @Assisted @Nullable String clientProvidedTimeoutValue)
       throws InvalidDeadlineException {
-    Optional<ServerDeadline> serverSideDeadline = getServerSideDeadline(serverConfig, requestInfo);
+    ImmutableList<RequestConfig> deadlineConfigs =
+        RequestConfig.parseConfigs(serverConfig, SECTION_DEADLINE);
+    dryRunDeadlines = getDryRunDeadlines(deadlineConfigs, requestInfo);
+    Optional<ServerDeadline> serverSideDeadline =
+        getServerSideDeadline(deadlineConfigs, requestInfo);
     Optional<Long> clientedProvidedTimeout = parseTimeout(clientProvidedTimeoutValue);
     if (serverSideDeadline.isPresent()) {
       if (clientedProvidedTimeout.isPresent()) {
@@ -152,19 +166,40 @@ public class DeadlineChecker implements RequestStateProvider {
   }
 
   private Optional<ServerDeadline> getServerSideDeadline(
-      Config serverConfig, RequestInfo requestInfo) {
-    return RequestConfig.parseConfigs(serverConfig, SECTION_DEADLINE).stream()
+      ImmutableList<RequestConfig> deadlineConfigs, RequestInfo requestInfo) {
+    return deadlineConfigs.stream()
         .filter(deadlineConfig -> deadlineConfig.matches(requestInfo))
         .map(ServerDeadline::readFrom)
         .filter(ServerDeadline::hasTimeout)
+        .filter(deadline -> !deadline.dryRun())
         // let the stricter deadline (the lower deadline) take precedence
         .sorted(comparing(ServerDeadline::timeout))
         .findFirst();
   }
 
+  private ImmutableList<ServerDeadline> getDryRunDeadlines(
+      ImmutableList<RequestConfig> deadlineConfigs, RequestInfo requestInfo) {
+    return deadlineConfigs.stream()
+        .filter(deadlineConfig -> deadlineConfig.matches(requestInfo))
+        .map(ServerDeadline::readFrom)
+        .filter(ServerDeadline::hasTimeout)
+        .filter(ServerDeadline::dryRun)
+        .collect(toImmutableList());
+  }
+
   @Override
   public void checkIfCancelled(OnCancelled onCancelled) {
     long now = System.nanoTime();
+
+    dryRunDeadlines.forEach(
+        dryRunDeadline -> {
+          if (now > dryRunDeadline.timeout()) {
+            logger.atWarning().log(
+                "dry run deadline %s exceeded (%s)",
+                dryRunDeadline.id(), TIMEOUT_FORMATTER.apply(dryRunDeadline.timeout()));
+          }
+        });
+
     if (deadline.isPresent() && now > deadline.get()) {
       onCancelled.onCancel(cancellationReason, TIMEOUT_FORMATTER.apply(timeout));
     }
@@ -212,6 +247,8 @@ public class DeadlineChecker implements RequestStateProvider {
 
     abstract long timeout();
 
+    abstract boolean dryRun();
+
     boolean hasTimeout() {
       return timeout() > 0;
     }
@@ -219,14 +256,20 @@ public class DeadlineChecker implements RequestStateProvider {
     static ServerDeadline readFrom(RequestConfig requestConfig) {
       String timeoutValue =
           requestConfig.cfg().getString(requestConfig.section(), requestConfig.id(), "timeout");
+      boolean dryRun =
+          requestConfig
+              .cfg()
+              .getBoolean(
+                  requestConfig.section(), requestConfig.id(), "dryrun", /* defaultValue= */ false);
       try {
         Optional<Long> timeout = parseTimeout(timeoutValue);
-        return new AutoValue_DeadlineChecker_ServerDeadline(requestConfig.id(), timeout.orElse(0L));
+        return new AutoValue_DeadlineChecker_ServerDeadline(
+            requestConfig.id(), timeout.orElse(0L), dryRun);
       } catch (InvalidDeadlineException e) {
         logger.atWarning().log(
             "Ignoring invalid deadline configuration %s.%s.timeout: %s",
             requestConfig.section(), requestConfig.id(), e.getMessage());
-        return new AutoValue_DeadlineChecker_ServerDeadline(requestConfig.id(), 0);
+        return new AutoValue_DeadlineChecker_ServerDeadline(requestConfig.id(), 0, dryRun);
       }
     }
   }

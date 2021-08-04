@@ -5334,6 +5334,15 @@ link:#receive.timeout[receive.timeout] for git pushes.
 +
 By default, unset.
 
+[[deadline.id.dryrun]]deadline.<id>.dryrun::
++
+Whether this deadline should be executed as a dry run. If yes, the request is
+not aborted if the deadline is exceeded but only a log is written. This is
+useful to test how many requests would be affected by a new deadline
+configuration.
++
+By default, `false`.
+
 [[deadline.id.requestType]]deadline.<id>.requestType::
 +
 Type of request to which the deadline applies (can be `GIT_RECEIVE`, `REST` and

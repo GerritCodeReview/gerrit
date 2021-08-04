@@ -278,6 +278,24 @@ public class CancellationIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.dryrun", value = "true")
+  public void dryRunServerDeadlineIsIgnored() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.test.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.test.dryrun", value = "true")
+  @GerritConfig(name = "deadline.default.timeout", value = "2ms")
+  public void nonDryRunDeadlineIsAppliedIfStricterDryRunDeadlineExists() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent()).isEqualTo("Server Deadline Exceeded\n\ntimeout=2ms");
+  }
+
+  @Test
   @GerritConfig(name = "deadline.default.timeout", value = "1")
   public void invalidServerDeadlineIsIgnored_missingTimeUnit() throws Exception {
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));

@@ -247,6 +247,19 @@ the stderr command output:
 Given the trace ID an administrator can find the corresponding logs and
 investigate issues more easily.
 
+[[deadline]]
+=== Setting a deadline
+
+When invoking an SSH command it's possible that the client sets a deadline
+after which the request should be aborted. To do this the
+`--deadline <deadline>` option must be set on the request. Values can be
+specified using standard time unit abbreviations ('ms', 'sec', 'min', etc.). If
+no unit is specified, milliseconds is assumed.
+
+----
+  $ ssh -p 29418 review.example.com gerrit create-project --deadline 5m foo/bar
+----
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

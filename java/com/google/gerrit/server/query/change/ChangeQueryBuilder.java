@@ -653,6 +653,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           "'is:private' operator is not supported by change index version");
     }
 
+    if ("attention".equalsIgnoreCase(value)) {
+      return Predicate.not(ChangePredicates.attentionSet(Account.id()));
+    }
+
     if ("assigned".equalsIgnoreCase(value)) {
       return Predicate.not(ChangePredicates.assignee(Account.id(ChangeField.NO_ASSIGNEE)));
     }

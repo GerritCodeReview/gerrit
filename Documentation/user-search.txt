@@ -427,6 +427,11 @@ has:unresolved::
 +
 True if the change has unresolved comments.
 
+has:attention::
++
+True if the change has attention by the current user.
+
+
 [[is]]
 is:assigned::
 +
@@ -441,6 +446,10 @@ current user with the default label.
 is:unassigned::
 +
 True if the change does not have an assignee.
+
+is:attention::
++
+True if the change has attention by the current user.
 
 is:watched::
 +

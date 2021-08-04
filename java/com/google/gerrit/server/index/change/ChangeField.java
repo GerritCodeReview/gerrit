@@ -342,6 +342,11 @@ public class ChangeField {
       integer(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS)
           .buildRepeatable(ChangeField::getAttentionSetUserIds);
 
+  /** Number of changes that contain attention set. */
+  public static final FieldDef<ChangeData, Integer> ATTENTION_SET_USERS_COUNT =
+      intRange(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS_COUNT)
+          .build(cd -> additionsOnly(cd.attentionSet()).size());
+
   /**
    * The full attention set data including timestamp, reason and possible future fields.
    *

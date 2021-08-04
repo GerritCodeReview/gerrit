@@ -3422,6 +3422,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void attentionSetIndexed() throws Exception {
     assume().that(getSchema().hasField(ChangeField.ATTENTION_SET_USERS)).isTrue();
+    assume().that(getSchema().hasField(ChangeField.ATTENTION_SET_USERS_COUNT)).isTrue();
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
@@ -3429,8 +3430,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     AttentionSetInput input = new AttentionSetInput(userId.toString(), "some reason");
     gApi.changes().id(change1.getChangeId()).addToAttentionSet(input);
 
+    assertQuery("is:attention", change1);
+    assertQuery("-is:attention", change2);
+    assertQuery("has:attention", change1);
+    assertQuery("-has:attention", change2);
     assertQuery("attention:" + user.getUserName().get(), change1);
     assertQuery("-attention:" + userId.toString(), change2);
+
+    gApi.changes()
+        .id(change1.getChangeId())
+        .attention(userId.toString())
+        .remove(new AttentionSetInput("removed again"));
+    assertQuery("-is:attention", change1, change2);
   }
 
   @Test

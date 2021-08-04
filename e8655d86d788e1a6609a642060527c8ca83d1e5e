@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a8fab85_6256363e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-08-04T07:23:45Z",
+      "side": 1,
+      "message": "accountId is null because it\u0027s never set and it\u0027s never set because account state is null",
+      "parentUuid": "c45f0e7f_e5fd245c",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ef2d4c92_41f1079a",
@@ -58,6 +82,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d29c4e1_6aac4cd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-08-04T07:23:45Z",
+      "side": 1,
+      "message": "It was resolved in this change:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/239127\n\nbut `getUserNameEmailFor` was never fixed",
+      "parentUuid": "3a8990ba_b1c02b4d",
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adbfd725_3e701505",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-08-04T07:23:45Z",
+      "side": 1,
+      "message": "It is quite difficult to add test for this part of the code, I\u0027ve checked stable-2.14(where it was already fixed) and master(where was fixed again :() and both fixes are without tests",
+      "parentUuid": "ef2d4c92_41f1079a",
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff044a27_6d9ea7b3",
@@ -71,6 +131,30 @@
       "writtenOn": "2021-08-03T08:06:54Z",
       "side": 1,
       "message": "nit: should we annotate this as @Nullable?",
+      "range": {
+        "startLine": 369,
+        "startChar": 35,
+        "endLine": 369,
+        "endChar": 55
+      },
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f4d25d8_51b4b305",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-08-04T07:23:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff044a27_6d9ea7b3",
       "range": {
         "startLine": 369,
         "startChar": 35,
@@ -106,6 +190,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "280ace08_f0d43512",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-08-04T07:23:45Z",
+      "side": 1,
+      "message": "Could you point me where we should document it. On master and on stable-2.14 I don\u0027t see any documentation for this behaviour",
+      "parentUuid": "1bd80a30_0d20b4d3",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 373,
+        "endChar": 5
+      },
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9d68e448_63a45334",
         "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 1
@@ -117,6 +225,30 @@
       "writtenOn": "2021-08-03T08:06:54Z",
       "side": 1,
       "message": "nit: should we annotate this as @Nullable?",
+      "range": {
+        "startLine": 396,
+        "startChar": 38,
+        "endLine": 396,
+        "endChar": 59
+      },
+      "revId": "e8655d86d788e1a6609a642060527c8ca83d1e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e13eccc1_25bff074",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-08-04T07:23:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d68e448_63a45334",
       "range": {
         "startLine": 396,
         "startChar": 38,

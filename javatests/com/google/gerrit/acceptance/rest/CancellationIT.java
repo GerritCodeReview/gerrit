@@ -27,6 +27,7 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
@@ -249,9 +250,20 @@ public class CancellationIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "receive.timeout", value = "1ms")
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_PUSH_CANCELLATION)
   public void abortPushIfTimeoutExceeded() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertErrorStatus("Server Deadline Exceeded (timeout=1ms)");
+  }
+
+  @Test
+  @GerritConfig(name = "receive.timeout", value = "1ms")
+  public void pushNotAbortedIfTimeoutExceededAndExperimentNotEnabled() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
   }
 }

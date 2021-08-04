@@ -40,6 +40,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ReceiveCommitsExecutor;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.ProjectRunnable;
@@ -124,8 +125,10 @@ public class AsyncReceiveCommits {
     }
   }
 
-  private static MultiProgressMonitor newMultiProgressMonitor(MessageSender messageSender) {
+  private static MultiProgressMonitor newMultiProgressMonitor(
+      ExperimentFeatures experimentFeatures, MessageSender messageSender) {
     return new MultiProgressMonitor(
+        experimentFeatures,
         new OutputStream() {
           @Override
           public void write(int b) {
@@ -204,6 +207,7 @@ public class AsyncReceiveCommits {
     }
   }
 
+  private final ExperimentFeatures experimentFeatures;
   private final Metrics metrics;
   private final ReceiveCommits receiveCommits;
   private final PermissionBackend.ForProject perm;
@@ -220,6 +224,7 @@ public class AsyncReceiveCommits {
 
   @Inject
   AsyncReceiveCommits(
+      ExperimentFeatures experimentFeatures,
       ReceiveCommits.Factory factory,
       PermissionBackend permissionBackend,
       Provider<InternalChangeQuery> queryProvider,
@@ -239,6 +244,7 @@ public class AsyncReceiveCommits {
       @Assisted Repository repo,
       @Assisted @Nullable MessageSender messageSender)
       throws PermissionBackendException {
+    this.experimentFeatures = experimentFeatures;
     this.executor = executor;
     this.scopePropagator = scopePropagator;
     this.receiveConfig = receiveConfig;
@@ -361,7 +367,8 @@ public class AsyncReceiveCommits {
       return ReceiveCommitsResult.empty();
     }
     String currentThreadName = Thread.currentThread().getName();
-    MultiProgressMonitor monitor = newMultiProgressMonitor(receiveCommits.getMessageSender());
+    MultiProgressMonitor monitor =
+        newMultiProgressMonitor(experimentFeatures, receiveCommits.getMessageSender());
     Callable<ReceiveCommitsResult> callable =
         () -> {
           String oldName = Thread.currentThread().getName();

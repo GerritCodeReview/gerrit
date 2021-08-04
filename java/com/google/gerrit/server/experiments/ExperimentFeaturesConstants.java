@@ -25,6 +25,13 @@ public class ExperimentFeaturesConstants {
   public static String GERRIT_BACKEND_REQUEST_FEATURE_REMOVE_REVISION_ETAG =
       "GerritBackendRequestFeature__remove_revision_etag";
 
+  /**
+   * Whether git pushes are cancelled if the client disconnects or the configured receive.timeout is
+   * exceeded.
+   */
+  public static final String GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_PUSH_CANCELLATION =
+      "GerritBackendRequestFeature__enable_push_cencallation";
+
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES =
       ImmutableSet.of(UI_FEATURE_PATCHSET_COMMENTS);

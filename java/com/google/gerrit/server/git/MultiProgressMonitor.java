@@ -22,6 +22,8 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -147,6 +149,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
     }
   }
 
+  private final ExperimentFeatures experimentFeatures;
   private final OutputStream out;
   private final String taskName;
   private final List<Task> tasks = new CopyOnWriteArrayList<>();
@@ -165,8 +168,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
    * @param out stream for writing progress messages.
    * @param taskName name of the overall task.
    */
-  public MultiProgressMonitor(OutputStream out, String taskName) {
-    this(out, taskName, 500, MILLISECONDS);
+  public MultiProgressMonitor(
+      ExperimentFeatures experimentFeatures, OutputStream out, String taskName) {
+    this(experimentFeatures, out, taskName, 500, MILLISECONDS);
   }
 
   /**
@@ -178,7 +182,12 @@ public class MultiProgressMonitor implements RequestStateProvider {
    * @param maxIntervalUnit time unit for progress interval.
    */
   public MultiProgressMonitor(
-      OutputStream out, String taskName, long maxIntervalTime, TimeUnit maxIntervalUnit) {
+      ExperimentFeatures experimentFeatures,
+      OutputStream out,
+      String taskName,
+      long maxIntervalTime,
+      TimeUnit maxIntervalUnit) {
+    this.experimentFeatures = experimentFeatures;
     this.out = out;
     this.taskName = taskName;
     maxIntervalNanos = NANOSECONDS.convert(maxIntervalTime, maxIntervalUnit);
@@ -396,6 +405,11 @@ public class MultiProgressMonitor implements RequestStateProvider {
 
   @Override
   public void checkIfCancelled(OnCancelled onCancelled) {
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_PUSH_CANCELLATION)) {
+      return;
+    }
+
     if (clientDisconnected) {
       onCancelled.onCancel(RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* message= */ null);
     } else if (deadlineExceeded) {

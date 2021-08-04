@@ -30,6 +30,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.SiteIndexer;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -62,6 +63,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final int PROJECT_SLICE_MAX_REFS = 1000;
 
+  private final ExperimentFeatures experimentFeatures;
   private final ChangeData.Factory changeDataFactory;
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService executor;
@@ -71,12 +73,14 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   @Inject
   AllChangesIndexer(
+      ExperimentFeatures experimentFeatures,
       ChangeData.Factory changeDataFactory,
       GitRepositoryManager repoManager,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory,
       ChangeNotes.Factory notesFactory,
       ProjectCache projectCache) {
+    this.experimentFeatures = experimentFeatures;
     this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
     this.executor = executor;
@@ -180,7 +184,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   private SiteIndexer.Result indexAll(ChangeIndex index, List<ProjectSlice> projectSlices) {
     Stopwatch sw = Stopwatch.createStarted();
-    MultiProgressMonitor mpm = new MultiProgressMonitor(progressOut, "Reindexing changes");
+    MultiProgressMonitor mpm =
+        new MultiProgressMonitor(experimentFeatures, progressOut, "Reindexing changes");
     Task projTask = mpm.beginSubTask("project-slices", projectSlices.size());
     checkState(totalWork >= 0);
     Task doneTask = mpm.beginSubTask(null, totalWork);

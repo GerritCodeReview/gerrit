@@ -28,6 +28,7 @@ import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Throwables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -438,12 +439,12 @@ public class RetryHelper {
    * @param opts options for retrying the action on failure
    * @param exceptionPredicate predicate to control on which exception the action should be retried
    * @return the result of executing the action
-   * @throws Throwable any error or exception that made the action fail, callers are expected to
+   * @throws Exception any error or exception that made the action fail, callers are expected to
    *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
    */
   <T> T execute(
       String actionType, Action<T> action, Options opts, Predicate<Throwable> exceptionPredicate)
-      throws Throwable {
+      throws Exception {
     MetricListener listener = new MetricListener();
     try (TraceContext traceContext = TraceContext.open()) {
       RetryerBuilder<T> retryerBuilder =
@@ -556,7 +557,7 @@ public class RetryHelper {
       Options opts,
       Retryer<T> retryer,
       MetricListener listener)
-      throws Throwable {
+      throws Exception {
     try {
       return retryer.call(action::call);
     } catch (ExecutionException | RetryException e) {
@@ -567,7 +568,8 @@ public class RetryHelper {
             listener.getOriginalCause().map(this::formatCause).orElse("_unknown"));
       }
       if (e.getCause() != null) {
-        throw e.getCause();
+        Throwables.throwIfUnchecked(e.getCause());
+        Throwables.throwIfInstanceOf(e.getCause(), Exception.class);
       }
       throw e;
     }

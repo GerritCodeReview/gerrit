@@ -22,6 +22,30 @@
       },
       "revId": "cf4465686a00e6547a550c70468e6bbb7bf49513",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bba20cb_495a629b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-04T11:53:31Z",
+      "side": 1,
+      "message": "Yes, good point. I added an experiment flag as follow-up change (same topic):\nhttps://gerrit-review.googlesource.com/c/gerrit/+/313682\n\nAlso increased our internal timeout so that this will affect less requests.",
+      "parentUuid": "c16d5a5f_a628638f",
+      "range": {
+        "startLine": 648,
+        "startChar": 26,
+        "endLine": 648,
+        "endChar": 70
+      },
+      "revId": "cf4465686a00e6547a550c70468e6bbb7bf49513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

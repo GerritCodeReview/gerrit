@@ -46,6 +46,30 @@
       },
       "revId": "66023e2365719acb16e598add40329e11c4e9ec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d8a7904_a575bf8d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-04T09:44:05Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t know it\u0027s because of gr-autocomplete with string to text. Dmitrii is fixing this in https://gerrit-review.googlesource.com/c/gerrit/+/311703/1 Maybe worth to wait for that.",
+      "parentUuid": "f27c8b4c_a3ca9768",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 8
+      },
+      "revId": "66023e2365719acb16e598add40329e11c4e9ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

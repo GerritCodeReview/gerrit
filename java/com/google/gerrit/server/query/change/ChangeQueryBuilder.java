@@ -614,6 +614,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return ChangePredicates.editBy(self());
     }
 
+    if ("attention".equalsIgnoreCase(value)) {
+      if (!args.index.getSchema().hasField(ChangeField.ATTENTION_SET_USERS)) {
+        throw new QueryParseException(
+            "'has:attention' operator is not supported by change index version");
+      }
+      return ChangePredicates.attentionSet(self());
+    }
+
     if ("unresolved".equalsIgnoreCase(value)) {
       return new IsUnresolvedPredicate();
     }
@@ -685,6 +693,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       }
       throw new QueryParseException(
           "'is:private' operator is not supported by change index version");
+    }
+
+    if ("attention".equalsIgnoreCase(value)) {
+      if (!args.index.getSchema().hasField(ChangeField.ATTENTION_SET_USERS)) {
+        throw new QueryParseException(
+            "'is:attention' operator is not supported by change index version");
+      }
+      return ChangePredicates.attentionSet(Account.id(1));
     }
 
     if ("assigned".equalsIgnoreCase(value)) {

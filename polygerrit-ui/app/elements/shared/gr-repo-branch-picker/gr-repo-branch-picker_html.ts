@@ -50,3 +50,4 @@ export const htmlTemplate = html`
     </gr-labeled-autocomplete>
   </div>
 `;
+

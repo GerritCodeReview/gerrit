@@ -117,4 +117,10 @@ public class SshCancellationIT extends AbstractDaemonTest {
       adminSshSession.assertFailure("Server Deadline Exceeded (deadline = 10m)");
     }
   }
+
+  @Test
+  public void abortIfClientProvidedDeadlineExceeded() throws Exception {
+    adminSshSession.exec("gerrit create-project --deadline 1ms " + name("new"));
+    adminSshSession.assertFailure("Client Provided Deadline Exceeded (timeout=1ms)");
+  }
 }

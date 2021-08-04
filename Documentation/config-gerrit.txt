@@ -1294,21 +1294,6 @@ Allow blame on side by side diff. If set to false, blame cannot be used.
 +
 Default is true.
 
-[[change.cacheAutomerge]]change.cacheAutomerge::
-+
-When reviewing merge commits, the left-hand side shows the output of the
-result of JGit's automatic merge algorithm. This option controls whether
-this output is cached in the change repository, or if only the diff is
-cached in the persistent `diff` cache.
-+
-If true, automerge results are stored in the repository under
-`refs/cache-automerge/*`; the results of diffing the change against its
-automerge base are stored in the diff cache. If false, no extra data is
-stored in the repository, only the diff cache. This can result in slight
-performance improvements by reducing the number of refs in the repo.
-+
-Default is true.
-
 [[change.commentSizeLimit]]change.commentSizeLimit::
 +
 Maximum allowed size in characters of a regular (non-robot) comment. Comments

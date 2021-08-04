@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9592b58_eefb356f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-04T13:14:58Z",
+      "side": 1,
+      "message": "I was thinking about what else we could do here and came up with [1], but I\u0027m not sure if it\u0027s really necessary. BatchUpdate schedules tasks to do the indexing asynchronously and we do not propagate request cancellations to background threads, so the indexing should never be aborted.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/313686",
+      "parentUuid": "5b424bfd_a7fee0d3",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 69
+      },
+      "revId": "16a16dad7df7e095c286f315c7d7ef9ae629e957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d06255b_0ec530bc",

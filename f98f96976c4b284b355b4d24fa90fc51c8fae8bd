@@ -46,6 +46,30 @@
       },
       "revId": "f98f96976c4b284b355b4d24fa90fc51c8fae8bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14894ece_93312cf3",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-04T13:27:17Z",
+      "side": 1,
+      "message": "Another reason why we will need this is to be able to override deadlines that have been configured on server-side. If a push gets aborted due to a server side deadline, the client may want to retry with specifying a higher deadline.",
+      "parentUuid": "5b52a9fa_4bde454b",
+      "range": {
+        "startLine": 472,
+        "startChar": 11,
+        "endLine": 472,
+        "endChar": 26
+      },
+      "revId": "f98f96976c4b284b355b4d24fa90fc51c8fae8bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

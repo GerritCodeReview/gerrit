@@ -51,10 +51,10 @@ export class GrLabeledAutocomplete extends PolymerElement {
   label?: string;
 
   @property({type: String})
-  placeholder?: string;
+  placeholder = '';
 
   @property({type: Boolean})
-  disabled?: boolean;
+  disabled = false;
 
   _handleTriggerClick(e: Event) {
     // Stop propagation here so we don't confuse gr-autocomplete, which

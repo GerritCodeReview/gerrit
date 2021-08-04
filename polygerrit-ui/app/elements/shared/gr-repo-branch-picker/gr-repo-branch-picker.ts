@@ -54,7 +54,7 @@ export class GrRepoBranchPicker extends PolymerElement {
   branch?: BranchName;
 
   @property({type: Boolean})
-  _branchDisabled?: boolean;
+  _branchDisabled = false;
 
   @property({type: Object})
   _query: AutocompleteQuery = () => Promise.resolve([]);

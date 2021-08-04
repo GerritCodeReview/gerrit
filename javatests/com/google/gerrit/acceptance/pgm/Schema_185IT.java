@@ -17,27 +17,35 @@ package com.google.gerrit.acceptance.pgm;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseLocalDisk;
-import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.schema.NoteDbSchemaVersion;
 import com.google.gerrit.server.schema.Schema_185;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * We use local disk so that the auto-merge computation of the upgrade is persisted. The logic in
+ * {@link AutoMerger} relies on the inserter type to actually persist commits.
+ */
+@UseLocalDisk
 public class Schema_185IT extends AbstractDaemonTest {
   @Inject private NoteDbSchemaVersion.Arguments args;
+  @Inject AutoMerger autoMerger;
+
+  @Before
+  public void setup() {
+    // We set cache auto-merge to false so that pushing a new change does not persist the
+    // auto-merge on disk. This is to verify that the upgrade really persists them.
+    autoMerger.setCacheAutomerge(false);
+  }
 
   @Test
-  @GerritConfig(name = "change.cacheAutomerge", value = "false")
-  @UseLocalDisk
   public void upgradeCreatesAutoMerge() throws Exception {
-    // We use change.cacheAutomerge = false so that pushing a new change does not persist the
-    // auto-merge on disk. We use local disk so that the auto-merge computation of the upgrade is
-    // persisted.
-    PushOneCommit.Result r = createMergeCommitChange("refs/for/master", "my_file.txt");
+    createMergeCommitChange("refs/for/master", "my_file.txt");
 
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.getRefDatabase().getRefsByPrefix("refs/cache-automerge")).isEmpty();
@@ -52,10 +60,8 @@ public class Schema_185IT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "change.cacheAutomerge", value = "false")
-  @UseLocalDisk
   public void upgradeIsIdempotent() throws Exception {
-    PushOneCommit.Result r = createMergeCommitChange("refs/for/master", "my_file.txt");
+    createMergeCommitChange("refs/for/master", "my_file.txt");
 
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.getRefDatabase().getRefsByPrefix("refs/cache-automerge")).isEmpty();
@@ -71,11 +77,9 @@ public class Schema_185IT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "change.cacheAutomerge", value = "false")
-  @UseLocalDisk
   public void upgradeLarge() throws Exception {
     for (int i = 0; i < 8; i++) {
-      PushOneCommit.Result r = createMergeCommitChange("refs/for/master", "my_file.txt");
+      createMergeCommitChange("refs/for/master", "my_file.txt");
     }
 
     try (Repository repo = repoManager.openRepository(project)) {

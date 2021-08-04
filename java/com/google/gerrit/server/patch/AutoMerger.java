@@ -16,8 +16,8 @@ package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
@@ -78,11 +78,6 @@ public class AutoMerger {
 
   public static final String AUTO_MERGE_MSG_PREFIX = "Auto-merge of ";
 
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public static boolean cacheAutomerge(Config cfg) {
-    return cfg.getBoolean("change", null, "cacheAutomerge", true);
-  }
-
   private enum OperationType {
     CACHE_LOAD,
     IN_MEMORY_WRITE,
@@ -92,8 +87,14 @@ public class AutoMerger {
   private final Counter1<OperationType> counter;
   private final Timer1<OperationType> latency;
   private final Provider<PersonIdent> gerritIdentProvider;
-  private final boolean save;
   private final ThreeWayMergeStrategy configuredMergeStrategy;
+
+  /**
+   * Save the auto-merge commit in the repository. Always set to true. Calls to {@link
+   * #createAutoMergeCommit} or {@link #createAutoMergeCommitIfNecessary} will persist the
+   * auto-merge commit in git. We keep this boolean to allow overriding it in tests.
+   */
+  private boolean save;
 
   @Inject
   AutoMerger(
@@ -112,9 +113,14 @@ public class AutoMerger {
                 .setCumulative()
                 .setUnit("milliseconds"),
             Field.ofEnum(OperationType.class, "type", Metadata.Builder::operationName).build());
-    this.save = cacheAutomerge(cfg);
+    this.save = true;
     this.gerritIdentProvider = gerritIdentProvider;
     this.configuredMergeStrategy = MergeUtil.getMergeStrategy(cfg);
+  }
+
+  @VisibleForTesting
+  public void setCacheAutomerge(boolean value) {
+    this.save = value;
   }
 
   /**
@@ -149,7 +155,7 @@ public class AutoMerger {
 
   /**
    * Creates an auto merge commit for the provided commit in case it is a merge commit. To be used
-   * whenever Gerrit creates new patch sets.
+   * whenever Gerrit creates new patch sets. Auto-merge commits will always be stored in git.
    *
    * <p>Callers need to include the returned {@link ReceiveCommand} in their ref transaction.
    *
@@ -184,7 +190,8 @@ public class AutoMerger {
   }
 
   /**
-   * Creates an auto-merge commit of the parents of the given merge commit.
+   * Creates an auto-merge commit of the parents of the given merge commit. Auto-merge commits will
+   * always be stored in git.
    *
    * @return auto-merge commit. Headers of the returned RevCommit are parsed.
    */

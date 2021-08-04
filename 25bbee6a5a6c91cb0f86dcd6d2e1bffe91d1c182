@@ -22,6 +22,30 @@
       },
       "revId": "25bbee6a5a6c91cb0f86dcd6d2e1bffe91d1c182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49733f80_c5b822fa",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-04T16:29:05Z",
+      "side": 1,
+      "message": "it’s for CodeMirror. on mobile they use inputStyle contenteditable, on desktop it doesn’t. hence why the issue with typing “/“ was only on mobile.",
+      "parentUuid": "523decb5_ec0e488a",
+      "range": {
+        "startLine": 814,
+        "startChar": 10,
+        "endLine": 814,
+        "endChar": 27
+      },
+      "revId": "25bbee6a5a6c91cb0f86dcd6d2e1bffe91d1c182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

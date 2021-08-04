@@ -122,9 +122,7 @@ ignore_templates_list = [
     "elements/shared/gr-dropdown/gr-dropdown_html.ts",
     "elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
     "elements/shared/gr-label-info/gr-label-info_html.ts",
-    "elements/shared/gr-labeled-autocomplete/gr-labeled-autocomplete_html.ts",
     "elements/shared/gr-list-view/gr-list-view_html.ts",
-    "elements/shared/gr-repo-branch-picker/gr-repo-branch-picker_html.ts",
 ]
 
 # Transform templates into a .ts files.

@@ -116,6 +116,7 @@ import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
+import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -643,7 +644,8 @@ class ReceiveCommits {
       commands =
           commands.stream().map(c -> wrapReceiveCommand(c, commandProgress)).collect(toList());
 
-      try {
+      try (RequestStateContext requestStateContext =
+          RequestStateContext.open().addRequestStateProvider(progress)) {
         processCommandsUnsafe(commands, progress);
         rejectRemaining(commands, INTERNAL_SERVER_ERROR);
       } catch (RuntimeException e) {

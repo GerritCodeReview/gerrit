@@ -28,6 +28,7 @@ import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-linked-chip/gr-linked-chip';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
+import '../gr-submit-requirements/gr-submit-requirements';
 import '../gr-change-requirements/gr-change-requirements';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-reviewer-list/gr-reviewer-list';
@@ -87,6 +88,7 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {Interaction} from '../../../constants/reporting';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -215,14 +217,22 @@ export class GrChangeMetadata extends PolymerElement {
   @property({type: Object})
   queryTopic?: AutocompleteQuery;
 
+  @property({type: Boolean})
+  _isSubmitRequirementsUiEnabled = false;
+
   restApiService = appContext.restApiService;
 
   private readonly reporting = appContext.reportingService;
+
+  private readonly flagsService = appContext.flagsService;
 
   /** @override */
   ready() {
     super.ready();
     this.queryTopic = (input: string) => this._getTopicSuggestions(input);
+    this._isSubmitRequirementsUiEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+    );
   }
 
   @observe('change.labels')

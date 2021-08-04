@@ -17,7 +17,6 @@ package com.google.gerrit.server.patch;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
@@ -244,8 +243,7 @@ public class AutoMerger {
     return rw.parseCommit(ins.insert(cb));
   }
 
-  private Optional<RevCommit> lookupCommit(Repository repo, RevWalk rw, String refName)
-      throws IOException {
+  Optional<RevCommit> lookupCommit(Repository repo, RevWalk rw, String refName) throws IOException {
     Ref ref = repo.getRefDatabase().exactRef(refName);
     if (ref != null && ref.getObjectId() != null) {
       RevObject obj = rw.parseAny(ref.getObjectId());

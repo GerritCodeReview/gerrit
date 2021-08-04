@@ -97,10 +97,7 @@ export const htmlTemplate = html`
           <span class="value">[[voteableText]]</span>
         </div>
       </template>
-      <template
-        is="dom-if"
-        if="[[_computeShowLabelNeedsAttention(_config, highlightAttention, account, change)]]"
-      >
+      <template is="dom-if" if="[[_computeShowLabelNeedsAttention()]]">
         <div class="attention">
           <div>
             <iron-icon
@@ -133,10 +130,7 @@ export const htmlTemplate = html`
           </div>
         </div>
       </template>
-      <template
-        is="dom-if"
-        if="[[_computeShowActionAddToAttentionSet(_config, highlightAttention, account, change, _selfAccount)]]"
-      >
+      <template is="dom-if" if="[[_computeShowActionAddToAttentionSet()]]">
         <div class="action">
           <gr-button
             class="addToAttentionSet"
@@ -148,10 +142,7 @@ export const htmlTemplate = html`
           </gr-button>
         </div>
       </template>
-      <template
-        is="dom-if"
-        if="[[_computeShowActionRemoveFromAttentionSet(_config, highlightAttention, account, change, _selfAccount)]]"
-      >
+      <template is="dom-if" if="[[_computeShowActionRemoveFromAttentionSet()]]">
         <div class="action">
           <gr-button
             class="removeFromAttentionSet"
@@ -163,10 +154,7 @@ export const htmlTemplate = html`
           </gr-button>
         </div>
       </template>
-      <template
-        is="dom-if"
-        if="[[_showReviewerOrCCActions(account, change, _selfAccount)]]"
-      >
+      <template is="dom-if" if="[[_showReviewerOrCCActions(account, change)]]">
         <div class="action">
           <gr-button
             class="removeReviewerOrCC"

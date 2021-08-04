@@ -397,7 +397,11 @@ public abstract class OutgoingEmail {
    * @param accountId user to fetch.
    * @return name/email of account, username, or null if unset.
    */
-  protected String getUserNameEmailFor(Account.Id accountId) {
+  protected String getUserNameEmailFor(@Nullable Account.Id accountId) {
+    if (accountId == null) {
+      return null;
+    }
+
     Optional<AccountState> accountState = args.accountCache.get(accountId);
     if (!accountState.isPresent()) {
       return null;

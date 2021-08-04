@@ -100,7 +100,7 @@ export const htmlTemplate = html`
         <td>
           <gr-label
             has-tooltip=""
-            title="[[_computeValueTooltip(labelInfo, mappedLabel.value)]]"
+            title="[[_computeValueTooltip(mappedLabel.value, labelInfo)]]"
             class$="[[mappedLabel.className]] voteChip font-small"
           >
             [[mappedLabel.value]]
@@ -119,7 +119,7 @@ export const htmlTemplate = html`
             on-click="_onDeleteVote"
             tooltip="Remove vote"
             data-account-id$="[[mappedLabel.account._account_id]]"
-            class$="deleteBtn [[_computeDeleteClass(mappedLabel.account, mutable, change)]]"
+            class$="deleteBtn [[_computeDeleteClass(mutable, mappedLabel.account, change)]]"
           >
             <iron-icon icon="gr-icons:delete"></iron-icon>
           </gr-button>

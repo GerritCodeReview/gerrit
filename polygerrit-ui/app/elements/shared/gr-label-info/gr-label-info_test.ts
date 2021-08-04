@@ -205,16 +205,16 @@ suite('gr-label-info tests', () => {
     // Existing label.
     let labelInfo: LabelInfo = {values: {0: 'Baz'}};
     let score = '0';
-    assert.equal(element._computeValueTooltip(labelInfo, score), 'Baz');
+    assert.equal(element._computeValueTooltip(score, labelInfo), 'Baz');
 
     // Non-existent score.
     score = '2';
-    assert.equal(element._computeValueTooltip(labelInfo, score), '');
+    assert.equal(element._computeValueTooltip(score, labelInfo), '');
 
     // No values on label.
     labelInfo = {values: {}};
     score = '0';
-    assert.equal(element._computeValueTooltip(labelInfo, score), '');
+    assert.equal(element._computeValueTooltip(score, labelInfo), '');
   });
 
   test('placeholder', () => {

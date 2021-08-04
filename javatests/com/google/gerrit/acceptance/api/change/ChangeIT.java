@@ -4048,6 +4048,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore("Test is flaky")
   public void submitRequirement_withLabelEqualsMinBlockingSubmission() throws Exception {
     configSubmitRequirement(
         project,

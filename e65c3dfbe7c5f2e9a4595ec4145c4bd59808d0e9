@@ -16,6 +16,24 @@
       "message": "It would be great to have a justification for this, especially when updating the 3.4 stable branch.",
       "revId": "e65c3dfbe7c5f2e9a4595ec4145c4bd59808d0e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d81f4437_5f38d8f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-04T20:08:40Z",
+      "side": 1,
+      "message": "Maybe just copy over the justification from the 3.4 change.\n\nOr (even better) just wait for the 3.4 change to propagate to master.",
+      "parentUuid": "950e3414_242b7670",
+      "revId": "e65c3dfbe7c5f2e9a4595ec4145c4bd59808d0e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -20,7 +20,6 @@ export const htmlTemplate = html`
   <style include="shared-styles">
     #threads {
       display: block;
-      padding: var(--spacing-l);
     }
     gr-comment-thread {
       display: block;

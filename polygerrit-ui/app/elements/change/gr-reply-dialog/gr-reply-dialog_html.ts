@@ -130,6 +130,9 @@ export const htmlTemplate = html`
     #textarea {
       flex: 1;
     }
+    .previewContainer {
+      border-top: none;
+    }
     .previewContainer gr-formatted-text {
       background: var(--table-header-background-color);
       padding: var(--spacing-l);
@@ -244,7 +247,6 @@ export const htmlTemplate = html`
     .patchsetLevelContainer {
       width: 80ch;
       border-radius: var(--border-radius);
-      margin-left: var(--spacing-xl);
       box-shadow: var(--elevation-level-2);
     }
     .patchsetLevelContainer.resolved{
@@ -255,7 +257,7 @@ export const htmlTemplate = html`
     }
     .labelContainer {
       padding-left: var(--spacing-m);
-      padding-bottom: var(--spacing-l);
+      padding-bottom: var(--spacing-m);
     }
 
   </style>

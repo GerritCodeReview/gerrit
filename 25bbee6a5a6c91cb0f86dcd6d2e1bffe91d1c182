@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "523decb5_ec0e488a",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-04T12:35:42Z",
+      "side": 1,
+      "message": "I would like to find a better solution than to special case the slash here. Can you describe which component is affected here? And that is the contenteditable? Then I can suggest an alternative solution.",
+      "range": {
+        "startLine": 814,
+        "startChar": 10,
+        "endLine": 814,
+        "endChar": 27
+      },
+      "revId": "25bbee6a5a6c91cb0f86dcd6d2e1bffe91d1c182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

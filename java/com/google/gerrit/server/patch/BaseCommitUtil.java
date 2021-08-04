@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
@@ -49,7 +50,7 @@ class BaseCommitUtil {
   }
 
   RevObject getBaseCommit(Project.NameKey project, ObjectId newCommit, @Nullable Integer parentNum)
-      throws IOException {
+      throws AutoMergeCommitNotInRepoException, IOException {
     try (Repository repo = repoManager.openRepository(project);
         InMemoryInserter ins = new InMemoryInserter(repo);
         ObjectReader reader = ins.newReader();
@@ -94,7 +95,7 @@ class BaseCommitUtil {
       RevWalk rw,
       @Nullable Integer parentNum,
       ObjectId commitId)
-      throws IOException {
+      throws AutoMergeCommitNotInRepoException, IOException {
     RevCommit current = rw.parseCommit(commitId);
     switch (current.getParentCount()) {
       case 0:
@@ -109,6 +110,11 @@ class BaseCommitUtil {
         }
         // Only support auto-merge for 2 parents, not octopus merges
         if (current.getParentCount() == 2) {
+          if (!autoMerger
+              .lookupCommit(repo, rw, RefNames.refsCacheAutomerge(current.name()))
+              .isPresent()) {
+            throw new AutoMergeCommitNotInRepoException();
+          }
           return autoMerger.lookupFromGitOrMergeInMemory(repo, rw, ins, current, mergeStrategy);
         }
         return null;

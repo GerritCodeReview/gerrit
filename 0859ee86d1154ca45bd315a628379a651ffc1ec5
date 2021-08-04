@@ -16,6 +16,24 @@
       "message": "Are you also planning to update the documentation? Is this required because of GDPR concerns?",
       "revId": "0859ee86d1154ca45bd315a628379a651ffc1ec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c743217d_6c7c34a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-08-04T11:51:19Z",
+      "side": 1,
+      "message": "The current behavior is a bug and is hopefully not documented anywhere: If you can\u0027t see secondary emails, you shouldn\u0027t be able to search them. Even if the search results don\u0027t show the actual email address, you could still probe.\n\nIs there documentation that would need updating?",
+      "parentUuid": "75b34e78_57f637af",
+      "revId": "0859ee86d1154ca45bd315a628379a651ffc1ec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

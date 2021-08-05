@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e02be49_2c013e2c",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-05T09:06:40Z",
+      "side": 1,
+      "message": "Thanks for pointing at this!\nEach of the methods is called for most of the commits for all changes, so I think the optimization would not hurt here, extracted to final static patterns.",
+      "parentUuid": "5f89ca15_2ec82641",
+      "range": {
+        "startLine": 547,
+        "startChar": 21,
+        "endLine": 547,
+        "endChar": 79
+      },
+      "revId": "0c776a93291f1dffb8374ade62710873818986f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b9b302e_0adbbe83",

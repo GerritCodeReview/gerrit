@@ -51,6 +51,24 @@
       "message": "I think there is a missing import here for OpenIdRealm.",
       "revId": "5add2dfda3400d996a6558f2a3ff43d52930fa92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d11664d_cb8f0da6",
+        "filename": "java/com/google/gerrit/auth/AuthModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-05T00:24:07Z",
+      "side": 1,
+      "message": "I think i\u0027ve done it correctly now, thanks!",
+      "parentUuid": "267db933_e724d8ab",
+      "revId": "5add2dfda3400d996a6558f2a3ff43d52930fa92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

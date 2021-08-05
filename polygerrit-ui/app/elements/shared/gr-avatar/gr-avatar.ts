@@ -37,6 +37,9 @@ export class GrAvatar extends GrLitElement {
   static get styles() {
     return [
       css`
+        :host([hidden]) {
+          display: none;
+        }
         :host {
           display: inline-block;
           border-radius: 50%;

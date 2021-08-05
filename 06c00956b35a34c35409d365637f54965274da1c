@@ -1,77 +1,27 @@
 {
-  "comments": [],
-  "submitRequirementResults": [
+  "comments": [
     {
-      "submitRequirement": {
-        "name": "Code-Review",
-        "description": {
-          "value": "At least one maximum vote for label \u0027Code-Review\u0027 is required"
-        },
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Review\u003dMAX -label:Code-Review\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "unresolved": true,
+      "key": {
+        "uuid": "31dccc9b_669d5712",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
       },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dMAX -label:Code-Review\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label2:code-review\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label2:code-review\u003dMIN"
-        ]
+      "lineNbr": 15,
+      "author": {
+        "id": 1072905
       },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": 113248598,
-        "w2": -1285933885,
-        "w3": 1409930085,
-        "w4": 1669289110,
-        "w5": 1383389724
-      }
-    },
-    {
-      "submitRequirement": {
-        "name": "Verified",
-        "description": {
-          "value": "CI build and tests results are verified"
-        },
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Verified\u003dMAX -label:Verified\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "writtenOn": "2021-08-05T08:01:56Z",
+      "side": 1,
+      "message": "This is the wrong issue id.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 16
       },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dMAX -label:Verified\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label2:verified\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label2:verified\u003dMIN"
-        ]
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": 113248598,
-        "w2": -1285933885,
-        "w3": 1409930085,
-        "w4": 1669289110,
-        "w5": 1383389724
-      }
+      "revId": "06c00956b35a34c35409d365637f54965274da1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

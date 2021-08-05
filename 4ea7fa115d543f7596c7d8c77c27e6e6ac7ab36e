@@ -70,6 +70,30 @@
       },
       "revId": "4ea7fa115d543f7596c7d8c77c27e6e6ac7ab36e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e51a9c1_00507dbd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-05T21:41:31Z",
+      "side": 1,
+      "message": "In the mixin it creates _isShowing but for some reason typescript isn\u0027t picking that up so it complains that it isn\u0027t defined in gr-hovercard-account. Would you know how we can get typescript to pickup that the param is coming from the mixin?",
+      "parentUuid": "cb122c86_213aeec1",
+      "range": {
+        "startLine": 75,
+        "startChar": 32,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "4ea7fa115d543f7596c7d8c77c27e6e6ac7ab36e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

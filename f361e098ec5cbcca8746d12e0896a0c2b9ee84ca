@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39ae0d10_b1810645",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-05T10:53:28Z",
+      "side": 1,
+      "message": "What precisely is the inconsistent state we are worried about?\n\nI can only think of these two:\n1) We fail to index after the ref update (staleness detection will pick up)\n2) We fail to delete the draft comments in All-Users.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "f361e098ec5cbcca8746d12e0896a0c2b9ee84ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e1cd234_4f364b0b",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-05T10:53:28Z",
+      "side": 1,
+      "message": "nit: how about\n\n\"startNonInterruptableOperation\" or \"startNonCancellableOperation\"?",
+      "range": {
+        "startLine": 143,
+        "startChar": 33,
+        "endLine": 143,
+        "endChar": 39
+      },
+      "revId": "f361e098ec5cbcca8746d12e0896a0c2b9ee84ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

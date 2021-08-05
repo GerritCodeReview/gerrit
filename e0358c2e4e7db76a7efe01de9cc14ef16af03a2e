@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bf1a66e_9fb274ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-05T23:35:14Z",
+      "side": 1,
+      "message": "I guess this was caused by the conversion to lit element?",
+      "revId": "e0358c2e4e7db76a7efe01de9cc14ef16af03a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

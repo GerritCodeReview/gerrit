@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0897be0c_f40c968e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-05T09:33:40Z",
+      "side": 1,
+      "message": "Sorry, it was done in the backend for core and then for code-owners plugin. Linked the first change instead.",
+      "parentUuid": "50d18722_e20cf90e",
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6136b203_155dbb20",
@@ -64,6 +82,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0929343_f47bbe47",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-05T09:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6136b203_155dbb20",
+      "range": {
+        "startLine": 47,
+        "startChar": 29,
+        "endLine": 47,
+        "endChar": 75
+      },
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1328071e_045c91c6",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-05T09:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb856184_bfbc82c2",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8330bba5_5879024e",
@@ -81,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc79eebf_3eb5a66d",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-05T09:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8330bba5_5879024e",
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e051e0fa_c5539f77",
@@ -94,6 +178,30 @@
       "writtenOn": "2021-08-03T11:28:56Z",
       "side": 1,
       "message": "Maybe just inline?\n\n  return `Added by ${getAccountTemplate(account, config)} using the hovercard menu`;\n  \nMaybe then even inline (and delete) these util functions?",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "766af055_9660ee82",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-05T09:33:40Z",
+      "side": 1,
+      "message": "I just wanted to keep all attention set reasons in one place, so in case we add more it was clear how those need to look like.\n\nThough I think we could move reason to the backend entirely - generate reason in Rest endpoints instead and change the text slightly (i.e. instead of \u0027Added by USER using the hovercard menu\u0027 -\u003e \u0027Added by USER\u0027).\n\nI wanted to get your opinion on this.",
+      "parentUuid": "e051e0fa_c5539f77",
       "range": {
         "startLine": 61,
         "startChar": 2,

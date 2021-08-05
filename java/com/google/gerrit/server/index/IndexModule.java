@@ -33,6 +33,7 @@ import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexDefinition;
@@ -110,6 +111,7 @@ public class IndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
+    factory(MultiProgressMonitor.Factory.class);
 
     bind(AccountIndexRewriter.class);
     bind(AccountIndexCollection.class);

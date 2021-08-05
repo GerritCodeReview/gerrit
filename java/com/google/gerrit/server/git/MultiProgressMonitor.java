@@ -24,6 +24,8 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -149,6 +151,13 @@ public class MultiProgressMonitor implements RequestStateProvider {
     }
   }
 
+  public interface Factory {
+    MultiProgressMonitor create(OutputStream out, String taskName);
+
+    MultiProgressMonitor create(
+        OutputStream out, String taskName, long maxIntervalTime, TimeUnit maxIntervalUnit);
+  }
+
   private final ExperimentFeatures experimentFeatures;
   private final OutputStream out;
   private final String taskName;
@@ -168,8 +177,11 @@ public class MultiProgressMonitor implements RequestStateProvider {
    * @param out stream for writing progress messages.
    * @param taskName name of the overall task.
    */
-  public MultiProgressMonitor(
-      ExperimentFeatures experimentFeatures, OutputStream out, String taskName) {
+  @AssistedInject
+  private MultiProgressMonitor(
+      ExperimentFeatures experimentFeatures,
+      @Assisted OutputStream out,
+      @Assisted String taskName) {
     this(experimentFeatures, out, taskName, 500, MILLISECONDS);
   }
 
@@ -181,12 +193,13 @@ public class MultiProgressMonitor implements RequestStateProvider {
    * @param maxIntervalTime maximum interval between progress messages.
    * @param maxIntervalUnit time unit for progress interval.
    */
-  public MultiProgressMonitor(
+  @AssistedInject
+  private MultiProgressMonitor(
       ExperimentFeatures experimentFeatures,
-      OutputStream out,
-      String taskName,
-      long maxIntervalTime,
-      TimeUnit maxIntervalUnit) {
+      @Assisted OutputStream out,
+      @Assisted String taskName,
+      @Assisted long maxIntervalTime,
+      @Assisted TimeUnit maxIntervalUnit) {
     this.experimentFeatures = experimentFeatures;
     this.out = out;
     this.taskName = taskName;

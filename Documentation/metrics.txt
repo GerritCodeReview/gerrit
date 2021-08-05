@@ -22,6 +22,11 @@ that ultimately timed out
 * `action/auto_retry_count`: Number of automatic retries with tracing
 * `action/failures_on_auto_retry_count`: Number of failures on auto retry
 
+=== Cancellations
+
+* `cancellation/cancelled_requests_count`: Number of request cancellations by
+  request
+
 === Pushes
 
 * `receivecommits/changes`: histogram of number of changes processed

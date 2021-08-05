@@ -105,6 +105,7 @@ import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DeadlineChecker;
 import com.google.gerrit.server.DynamicOptions;
@@ -271,6 +272,7 @@ public class RestApiServlet extends HttpServlet {
     final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
     final ExperimentFeatures experimentFeatures;
     final DeadlineChecker.Factory deadlineCheckerFactory;
+    final CancellationMetrics cancellationMetrics;
 
     @Inject
     Globals(
@@ -290,7 +292,8 @@ public class RestApiServlet extends HttpServlet {
         Injector injector,
         DynamicMap<DynamicOptions.DynamicBean> dynamicBeans,
         ExperimentFeatures experimentFeatures,
-        DeadlineChecker.Factory deadlineCheckerFactory) {
+        DeadlineChecker.Factory deadlineCheckerFactory,
+        CancellationMetrics cancellationMetrics) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
@@ -309,6 +312,7 @@ public class RestApiServlet extends HttpServlet {
       this.dynamicBeans = dynamicBeans;
       this.experimentFeatures = experimentFeatures;
       this.deadlineCheckerFactory = deadlineCheckerFactory;
+      this.cancellationMetrics = cancellationMetrics;
     }
 
     private static Pattern makeAllowOrigin(Config cfg) {
@@ -735,8 +739,10 @@ public class RestApiServlet extends HttpServlet {
         Optional<RequestCancelledException> requestCancelledException =
             RequestCancelledException.getFromCausalChain(e);
         if (requestCancelledException.isPresent()) {
-          statusCode =
-              getCancellationStatusCode(requestCancelledException.get().getCancellationReason());
+          RequestStateProvider.Reason cancellationReason =
+              requestCancelledException.get().getCancellationReason();
+          globals.cancellationMetrics.countCancelledRequest(requestInfo, cancellationReason);
+          statusCode = getCancellationStatusCode(cancellationReason);
           responseBytes =
               replyError(
                   req, res, statusCode, getCancellationMessage(requestCancelledException.get()), e);

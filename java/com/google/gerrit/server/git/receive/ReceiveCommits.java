@@ -104,6 +104,7 @@ import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
@@ -340,6 +341,7 @@ class ReceiveCommits {
   private final AccountResolver accountResolver;
   private final AllProjectsName allProjectsName;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final CancellationMetrics cancellationMetrics;
   private final ChangeEditUtil editUtil;
   private final ChangeIndexer indexer;
   private final ChangeInserter.Factory changeInserterFactory;
@@ -426,6 +428,7 @@ class ReceiveCommits {
       AccountResolver accountResolver,
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
+      CancellationMetrics cancellationMetrics,
       ProjectConfig.Factory projectConfigFactory,
       @GerritServerConfig Config config,
       ChangeEditUtil editUtil,
@@ -481,6 +484,7 @@ class ReceiveCommits {
     this.accountResolver = accountResolver;
     this.allProjectsName = allProjectsName;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.cancellationMetrics = cancellationMetrics;
     this.changeFormatter = changeFormatterProvider.get();
     this.changeInserterFactory = changeInserterFactory;
     this.commentsUtil = commentsUtil;
@@ -667,6 +671,8 @@ class ReceiveCommits {
         if (!requestCancelledException.isPresent()) {
           Throwables.throwIfUnchecked(e);
         }
+        cancellationMetrics.countCancelledRequest(
+            requestInfo, requestCancelledException.get().getCancellationReason());
         StringBuilder msg =
             new StringBuilder(requestCancelledException.get().formatCancellationReason());
         if (requestCancelledException.get().getCancellationMessage().isPresent()) {

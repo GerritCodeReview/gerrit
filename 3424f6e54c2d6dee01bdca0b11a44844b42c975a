@@ -33,6 +33,24 @@
       "message": "In the coming weeks this should be retrieved from the change-model and not passed down from the parent component.\n\nThen you can also select what you actually want from the change, e.g. the submit requirements only.\n\nBut feel free to leave as is for now and just ack.",
       "revId": "3424f6e54c2d6dee01bdca0b11a44844b42c975a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80d96123_83598b8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-05T12:25:38Z",
+      "side": 1,
+      "message": "It\u0027s not clear if this will not be part of dashboard, where passing down change is better than subscription. I will refactor it if it will make sense to have subscription",
+      "parentUuid": "802a2767_2cbc3fea",
+      "revId": "3424f6e54c2d6dee01bdca0b11a44844b42c975a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

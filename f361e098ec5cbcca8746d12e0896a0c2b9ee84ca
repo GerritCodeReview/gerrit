@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00fdb378_f1ee9365",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-05T10:54:31Z",
+      "side": 1,
+      "message": "Actually, I think draft comment updates could be a motivation for this change, but we also dispatch these on a different thread (similarly to change indexing).",
+      "parentUuid": "39ae0d10_b1810645",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "f361e098ec5cbcca8746d12e0896a0c2b9ee84ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e1cd234_4f364b0b",
         "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 3

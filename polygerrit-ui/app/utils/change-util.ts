@@ -105,6 +105,9 @@ export const ListChangesOption = {
    * deletions field (number of lines deleted)
    */
   SKIP_DIFFSTAT: 23,
+
+  /** Include the evaluated submit requirements for the caller. */
+  SUBMIT_REQUIREMENTS: 24,
 };
 
 export function listChangesOptionsToHex(...args: number[]) {

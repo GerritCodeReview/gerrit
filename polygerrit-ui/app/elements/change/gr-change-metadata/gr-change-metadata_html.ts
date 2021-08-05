@@ -489,7 +489,7 @@ export const htmlTemplate = html`
     </section>
     <div class="separatedSection">
       <template is="dom-if" if="[[_isSubmitRequirementsUiEnabled]]">
-        <gr-submit-requirements></gr-submit-requirements>
+        <gr-submit-requirements change="[[change]]"></gr-submit-requirements>
       </template>
       <template is="dom-if" if="[[!_isSubmitRequirementsUiEnabled]]">
         <gr-change-requirements

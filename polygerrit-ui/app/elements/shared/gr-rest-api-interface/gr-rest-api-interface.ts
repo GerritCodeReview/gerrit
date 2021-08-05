@@ -156,6 +156,7 @@ import {
 import {firePageError, fireServerError} from '../../../utils/event-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {ErrorCallback} from '../../../api/rest';
+import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
 
 const MAX_PROJECT_RESULTS = 25;
 // This value is somewhat arbitrary and not based on research or calculations.
@@ -291,14 +292,17 @@ export class GrRestApiInterface
   // The value is set in created, before any other actions
   private authService: AuthService;
 
+  private flagService: FlagsService;
+
   // The value is set in created, before any other actions
   private readonly _restApiHelper: GrRestApiHelper;
 
-  constructor(authService?: AuthService) {
+  constructor(authService?: AuthService, flagService?: FlagsService) {
     super();
     // TODO: Make the authService constructor parameter required when we have
     // changed all usages of this class to not instantiate via createElement().
     this.authService = authService ?? appContext.authService;
+    this.flagService = flagService ?? appContext.flagsService;
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
       this.authService,
@@ -1148,7 +1152,8 @@ export class GrRestApiInterface
     if (
       window.DEFAULT_DETAIL_HEXES &&
       window.DEFAULT_DETAIL_HEXES.changePage &&
-      (!config || !(config.receive && config.receive.enable_signed_push))
+      (!config || !(config.receive && config.receive.enable_signed_push)) &&
+      !this.flagService?.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)
     ) {
       return window.DEFAULT_DETAIL_HEXES.changePage;
     }
@@ -1168,6 +1173,9 @@ export class GrRestApiInterface
     ];
     if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);
+    }
+    if (this.flagService?.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
+      options.push(ListChangesOption.SUBMIT_REQUIREMENTS);
     }
     return listChangesOptionsToHex(...options);
   }

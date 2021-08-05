@@ -418,6 +418,7 @@ export declare interface ChangeInfo {
   cherry_pick_of_patch_set?: PatchSetNum;
   contains_git_conflicts?: boolean;
   internalHost?: string; // TODO(TS): provide an explanation what is its
+  submit_requirements?: SubmitRequirementResultInfo[];
 }
 
 // The ID of the change in the format "'<project>~<branch>~<Change-Id>'"
@@ -1018,4 +1019,30 @@ export declare interface WebLinkInfo {
   url: string;
   /** URL to the icon of the link. */
   image_url: string;
+}
+
+/**
+ * The SubmitRequirementResultInfo describes the result of evaluating
+ * a submit requirement on a change.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#submit-requirement-result-info
+ */
+export declare interface SubmitRequirementResultInfo {
+  name: string;
+  description?: string;
+  status: string;
+  applicability_expression_result?: SubmitRequirementExpressionInfo;
+  submittability_expression_result: SubmitRequirementExpressionInfo;
+  override_expression_result?: SubmitRequirementExpressionInfo;
+}
+
+/**
+ * The SubmitRequirementExpressionInfo describes the result of evaluating
+ * a single submit requirement expression, for example label:code-review=+2.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#submit-requirement-expression-info
+ */
+export declare interface SubmitRequirementExpressionInfo {
+  expression: string;
+  fulfilled: boolean;
+  passing_atoms: string;
+  failing_atoms: string;
 }

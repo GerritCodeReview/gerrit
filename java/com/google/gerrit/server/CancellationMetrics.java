@@ -31,10 +31,27 @@ import com.google.inject.Singleton;
 /** Metrics for request cancellations and deadlines. */
 @Singleton
 public class CancellationMetrics {
+  private final Counter3<String, String, String> advisoryDeadlineCount;
   private final Counter3<String, String, RequestStateProvider.Reason> cancelledRequestsCount;
 
   @Inject
   CancellationMetrics(MetricMaker metrics) {
+    this.advisoryDeadlineCount =
+        metrics.newCounter(
+            "cancellation/advisory_deadline_count",
+            new Description("Exceeded advisory deadlines by request").setRate(),
+            Field.ofString("request_type", Metadata.Builder::requestType)
+                .description("The type of the request to which the advisory deadline applied.")
+                .build(),
+            Field.ofString("request_uri", Metadata.Builder::restViewName)
+                .description(
+                    "The URI of the request to which the advisory deadline applied"
+                        + " (only set for request_type = REST).")
+                .build(),
+            Field.ofString("deadline_id", (metadataBuilder, resolveAllUsers) -> {})
+                .description("The ID of the advisory deadline.")
+                .build());
+
     this.cancelledRequestsCount =
         metrics.newCounter(
             "cancellation/cancelled_requests_count",
@@ -53,6 +70,13 @@ public class CancellationMetrics {
                     Metadata.Builder::cancellationReason)
                 .description("The reason why the request was cancelled.")
                 .build());
+  }
+
+  public void countAdvisoryDeadline(RequestInfo requestInfo, String deadlineId) {
+    advisoryDeadlineCount.increment(
+        requestInfo.requestType(),
+        requestInfo.requestUri().map(CancellationMetrics::redactRequestUri).orElse(""),
+        deadlineId);
   }
 
   public void countCancelledRequest(

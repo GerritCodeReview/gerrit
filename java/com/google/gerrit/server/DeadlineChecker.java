@@ -67,6 +67,8 @@ public class DeadlineChecker implements RequestStateProvider {
         throws InvalidDeadlineException;
   }
 
+  private final CancellationMetrics cancellationsMetrics;
+  private final RequestInfo requestInfo;
   private final RequestStateProvider.Reason cancellationReason;
 
   /**
@@ -88,8 +90,8 @@ public class DeadlineChecker implements RequestStateProvider {
   /**
    * Matching server side deadlines that have been configured as as advisory.
    *
-   * <p>If any of these deadlines is exceeded the request should not be aborted, but only a log
-   * should be written.
+   * <p>If any of these deadlines is exceeded the request is not be aborted. Instead the {@code
+   * cancellation/advisory_deadline_count} metric is incremented and a log is written.
    */
   private final ImmutableList<ServerDeadline> advisoryDeadlines;
 
@@ -108,10 +110,16 @@ public class DeadlineChecker implements RequestStateProvider {
   @AssistedInject
   DeadlineChecker(
       @GerritServerConfig Config serverConfig,
+      CancellationMetrics cancellationsMetrics,
       @Assisted RequestInfo requestInfo,
       @Assisted @Nullable String clientProvidedTimeoutValue)
       throws InvalidDeadlineException {
-    this(serverConfig, System.nanoTime(), requestInfo, clientProvidedTimeoutValue);
+    this(
+        serverConfig,
+        cancellationsMetrics,
+        System.nanoTime(),
+        requestInfo,
+        clientProvidedTimeoutValue);
   }
 
   /**
@@ -130,10 +138,14 @@ public class DeadlineChecker implements RequestStateProvider {
   @AssistedInject
   DeadlineChecker(
       @GerritServerConfig Config serverConfig,
+      CancellationMetrics cancellationsMetrics,
       @Assisted long start,
       @Assisted RequestInfo requestInfo,
       @Assisted @Nullable String clientProvidedTimeoutValue)
       throws InvalidDeadlineException {
+    this.cancellationsMetrics = cancellationsMetrics;
+    this.requestInfo = requestInfo;
+
     ImmutableList<RequestConfig> deadlineConfigs =
         RequestConfig.parseConfigs(serverConfig, SECTION_DEADLINE);
     advisoryDeadlines = getAdvisoryDeadlines(deadlineConfigs, requestInfo);
@@ -197,6 +209,7 @@ public class DeadlineChecker implements RequestStateProvider {
             logger.atWarning().log(
                 "advisory deadline %s exceeded (%s)",
                 advisoryDeadline.id(), TIMEOUT_FORMATTER.apply(advisoryDeadline.timeout()));
+            cancellationsMetrics.countAdvisoryDeadline(requestInfo, advisoryDeadline.id());
           }
         });
 

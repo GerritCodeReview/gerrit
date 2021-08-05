@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4956f03a_7dedb24e",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-05T17:14:13Z",
+      "side": 1,
+      "message": "Did you mean to add this?",
+      "range": {
+        "startLine": 49,
+        "startChar": 22,
+        "endLine": 49,
+        "endChar": 49
+      },
+      "revId": "510d31b33d0a2f4058971e81778fc2ffaa4dceda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1399f4e7_cd8cc335",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-05T08:50:02Z",
+      "side": 1,
+      "message": "maybe rename this to resetButton? not sure why it\u0027s called \"Menu\" when it\u0027s a button",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 13
+      },
+      "revId": "a9138c169469ca4a51603de70f7543ea56628e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a852e664_2b9c5296",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.ts",
         "patchSetId": 3
@@ -62,6 +85,30 @@
       "side": 1,
       "message": "I can take a look.",
       "parentUuid": "c8f23aab_db84aaf3",
+      "range": {
+        "startLine": 535,
+        "startChar": 0,
+        "endLine": 580,
+        "endChar": 3
+      },
+      "revId": "a9138c169469ca4a51603de70f7543ea56628e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7faf338a_c5385a10",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-05T08:50:02Z",
+      "side": 1,
+      "message": "Looks like you forgot/removed the resolving promise part?\nI uploaded a patchset fixing this test. I reverted back to using \"resolveConfirm\" similar to gr-settings-view_test.js to minimise the changes during TS conversion.\nLet me know if you need further help.",
+      "parentUuid": "ba95e098_3b6d2de9",
       "range": {
         "startLine": 535,
         "startChar": 0,

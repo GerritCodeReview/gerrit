@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d89772d1_deb6bbac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-05T11:44:51Z",
+      "side": 1,
+      "message": "this is needed to test a bug fix on stable 3.1",
+      "revId": "8bb99b67b8d52b6a963daa26d27204dab11326e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -72,8 +72,9 @@ export class GrEventHelper {
     const capture = options?.capture;
     const event = options?.event || 'click';
     const handler = (e: Event) => {
-      if (!e.path) return;
-      if (e.path.indexOf(this.element) !== -1) {
+      const path = e.composedPath();
+      if (!path) return;
+      if (path.indexOf(this.element) !== -1) {
         let mayContinue = true;
         try {
           mayContinue = callback(e);

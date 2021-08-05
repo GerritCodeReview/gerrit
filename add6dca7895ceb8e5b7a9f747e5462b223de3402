@@ -33,6 +33,23 @@
       "message": "Thank you for the quick review!",
       "revId": "add6dca7895ceb8e5b7a9f747e5462b223de3402",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a374a9b_6004bf8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-08-05T10:36:46Z",
+      "side": 1,
+      "message": "I have spotted a similar one in the keyboard shortcut handling:\n\n* stable-3.2: https://gerrit-review.googlesource.com/c/gerrit/+/313922\n* stable-3.3: https://gerrit-review.googlesource.com/c/gerrit/+/313923",
+      "revId": "add6dca7895ceb8e5b7a9f747e5462b223de3402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

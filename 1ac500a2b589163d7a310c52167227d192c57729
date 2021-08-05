@@ -210,6 +210,30 @@
       },
       "revId": "1ac500a2b589163d7a310c52167227d192c57729",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ba30f9f_04d683c3",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-05T09:48:57Z",
+      "side": 1,
+      "message": "Sounds good to have all reasons in one place.\n\nAt the moment I would not spend time on moving the reasons to the backend. Impact in unclear to me. And there are vague plans for custom reasons, so I am not sure whether it will be altogether feasible to always set the reasons in the backend.",
+      "parentUuid": "766af055_9660ee82",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

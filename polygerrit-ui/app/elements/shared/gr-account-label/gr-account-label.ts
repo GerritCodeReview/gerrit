@@ -184,13 +184,14 @@ export class GrAccountLabel extends GrLitElement {
   }
 
   render() {
-    const {account, change, highlightAttention, forceAttention} = this;
+    const {account, change, highlightAttention, forceAttention, _config} = this;
     if (!account) return;
     const hasAttention =
       forceAttention ||
       this._hasUnforcedAttention(highlightAttention, account, change);
     this.deselected = !this.selected;
-    this.cancelLeftPadding = !this.hideAvatar && !hasAttention;
+    const hasAvatars = !!_config?.plugin?.has_avatars;
+    this.cancelLeftPadding = !this.hideAvatar && !hasAttention && hasAvatars;
     return html`<span>
         ${!this.hideHovercard
           ? html`<gr-hovercard-account

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10c95216_f4700e26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-08-05T10:41:47Z",
+      "side": 1,
+      "message": "See the rational on the stable-3.2 patch https://gerrit-review.googlesource.com/c/gerrit/+/313922\n\nI have send this one for stable-3.3 as a standalone patch: the file got renamed since stable-3.2 and I could not figure out how to get git merge to detect the rename.",
+      "revId": "d5b8af3d5b9367e53ba6c3d3abaddd208785bbae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

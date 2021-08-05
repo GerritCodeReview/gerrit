@@ -106,6 +106,165 @@ export class GrAccountLabel extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
+<<<<<<< HEAD   (64140e Pop up accounts when typing within assignee or attention on )
+=======
+  static get styles() {
+    return [
+      css`
+        :host {
+          display: inline-block;
+          vertical-align: top;
+          position: relative;
+          border-radius: var(--label-border-radius);
+          box-sizing: border-box;
+          white-space: nowrap;
+          padding: 0 var(--account-label-padding-horizontal, 0);
+        }
+        /* If the first element is the avatar, then we cancel the left padding,
+        so we can fit nicely into the gr-account-chip rounding. The obvious
+        alternative of 'chip has padding' and 'avatar gets negative margin'
+        does not work, because we need 'overflow:hidden' on the label. */
+        :host([cancelLeftPadding]) {
+          padding-left: 0;
+        }
+        :host::after {
+          content: var(--account-label-suffix);
+        }
+        :host([deselected][selectionChipStyle]) {
+          background-color: var(--background-color-primary);
+          border: 1px solid var(--comment-separator-color);
+          border-radius: 8px;
+          color: var(--deemphasized-text-color);
+        }
+        :host([selected][selectionChipStyle]) {
+          background-color: var(--chip-selected-background-color);
+          border: 1px solid var(--chip-selected-background-color);
+          border-radius: 8px;
+          color: var(--chip-selected-text-color);
+        }
+        :host([selected]) iron-icon.attention {
+          color: var(--chip-selected-text-color);
+        }
+        gr-avatar {
+          height: calc(var(--line-height-normal) - 2px);
+          width: calc(var(--line-height-normal) - 2px);
+          vertical-align: top;
+          position: relative;
+          top: 1px;
+        }
+        #attentionButton {
+          /* This negates the 4px horizontal padding, which we appreciate as a
+         larger click target, but which we don't want to consume space. :-) */
+          margin: 0 -4px 0 -4px;
+          vertical-align: top;
+        }
+        iron-icon.attention {
+          color: var(--deemphasized-text-color);
+          width: 12px;
+          height: 12px;
+          vertical-align: top;
+        }
+        iron-icon.status {
+          color: var(--deemphasized-text-color);
+          width: 14px;
+          height: 14px;
+          vertical-align: top;
+          position: relative;
+          top: 2px;
+        }
+        .name {
+          display: inline-block;
+          text-decoration: inherit;
+          vertical-align: top;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: var(--account-max-length, 180px);
+        }
+        .hasAttention .name {
+          font-weight: var(--font-weight-bold);
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const {account, change, highlightAttention, forceAttention, _config} = this;
+    if (!account) return;
+    const hasAttention =
+      forceAttention ||
+      this._hasUnforcedAttention(highlightAttention, account, change);
+    this.deselected = !this.selected;
+    const hasAvatars = !!_config?.plugin?.has_avatars;
+    this.cancelLeftPadding = !this.hideAvatar && !hasAttention && hasAvatars;
+    return html`<span>
+        ${!this.hideHovercard
+          ? html`<gr-hovercard-account
+              for="hovercardTarget"
+              .account="${account}"
+              .change="${change}"
+              ?highlight-attention=${highlightAttention}
+              .voteableText=${this.voteableText}
+            ></gr-hovercard-account>`
+          : ''}
+        ${hasAttention
+          ? html`<gr-button
+              id="attentionButton"
+              link=""
+              aria-label="Remove user from attention set"
+              @click=${this._handleRemoveAttentionClick}
+              ?disabled=${!this._computeAttentionButtonEnabled(
+                highlightAttention,
+                account,
+                change,
+                this.selected,
+                this._selfAccount
+              )}
+              ?has-tooltip=${this._computeAttentionButtonEnabled(
+                highlightAttention,
+                account,
+                change,
+                false,
+                this._selfAccount
+              )}
+              title="${this._computeAttentionIconTitle(
+                highlightAttention,
+                account,
+                change,
+                forceAttention,
+                this.selected,
+                this._selfAccount
+              )}"
+              ><iron-icon
+                class="attention"
+                icon="gr-icons:attention"
+              ></iron-icon>
+            </gr-button>`
+          : ''}
+      </span>
+      <span
+        id="hovercardTarget"
+        class="${classMap({
+          hasAttention: !!hasAttention,
+        })}"
+      >
+        ${!this.hideAvatar
+          ? html`<gr-avatar .account="${account}" imageSize="32"></gr-avatar>`
+          : ''}
+        <span class="text" part="gr-account-label-text">
+          <span class="name"
+            >${this._computeName(account, this.firstName, this._config)}</span
+          >
+          ${!this.hideStatus && account.status
+            ? html`<iron-icon
+                class="status"
+                icon="gr-icons:calendar"
+              ></iron-icon>`
+            : ''}
+        </span>
+      </span>`;
+  }
+
+>>>>>>> CHANGE (114690 Disable setting cancelLeftPadding if avatars are not set in )
   constructor() {
     super();
     this.reporting = appContext.reportingService;

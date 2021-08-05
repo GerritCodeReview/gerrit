@@ -4294,11 +4294,28 @@ and updating references, not the time to index the pack. Values can
 be specified using standard time unit abbreviations ('ms', 'sec',
 'min', etc.).
 +
+After the timeout is exceeded the task processing the receive gets a
+cancellation signal that allows the tast to finish gracefully.
+link:#receive.cancellationTimeout[receive.cancellationTimeout]
+defines how much time the task has to react to the cancellation signal
+before it is focefully cancelled.
++
 The receive timeout cannot be overriden by setting a higher
 link:user-upload#deadline[deadline] on the git push request.
 +
 Default is 4 minutes. If no unit is specified, milliseconds
 is assumed.
+
+[[receive.cancellationTimeout]]receive.cancellationTimeout::
++
+Defines the time that a receive task has to react to a cancellation
+signal and finish gracefully after link:#receive.timeout[receive.timeout]
+is exceeded. If the receive task is still not terminated after the
+cancellation timeout is exceeded the task is forcefully cancelled.
+Values can be specified using standard time unit abbreviations ('ms',
+'sec', 'min', etc.).
++
+Default is 5 seconds. If no unit is specified, milliseconds is assumed.
 
 [[receive.trustedKey]]receive.trustedKey::
 +

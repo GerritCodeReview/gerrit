@@ -16,6 +16,41 @@
       "message": "These bits look the way I expect them to look.",
       "revId": "5add2dfda3400d996a6558f2a3ff43d52930fa92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a9e69be_c42094d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-08-05T00:12:56Z",
+      "side": 1,
+      "message": "Spoke too soon testing caught a missing import noted inline.",
+      "parentUuid": "95026566_4d34cf9f",
+      "revId": "5add2dfda3400d996a6558f2a3ff43d52930fa92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "267db933_e724d8ab",
+        "filename": "java/com/google/gerrit/auth/AuthModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-08-05T00:12:56Z",
+      "side": 1,
+      "message": "I think there is a missing import here for OpenIdRealm.",
+      "revId": "5add2dfda3400d996a6558f2a3ff43d52930fa92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

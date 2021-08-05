@@ -40,6 +40,33 @@ export class GrAvatar extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
+<<<<<<< HEAD   (4b36e8 Merge branch 'stable-3.3' into stable-3.4)
+=======
+  static get styles() {
+    return [
+      css`
+        :host([hidden]) {
+          display: none;
+        }
+        :host {
+          display: inline-block;
+          border-radius: 50%;
+          background-size: cover;
+          background-color: var(
+            --avatar-background-color,
+            var(--gray-background)
+          );
+        }
+      `,
+    ];
+  }
+
+  render() {
+    this._updateAvatarURL();
+    return html``;
+  }
+
+>>>>>>> CHANGE (e0358c Fix bug in gr-avatar which wasn't hiding avatars when "hidde)
   /** @override */
   connectedCallback() {
     super.connectedCallback();

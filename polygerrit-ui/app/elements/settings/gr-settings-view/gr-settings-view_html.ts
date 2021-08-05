@@ -370,7 +370,7 @@ export const htmlTemplate = html`
           disabled="[[!_menuChanged]]"
           >Save changes</gr-button
         >
-        <gr-button id="resetMenu" link="" on-click="_handleResetMenuButton"
+        <gr-button id="resetButton" link="" on-click="_handleResetMenuButton"
           >Reset</gr-button
         >
       </fieldset>

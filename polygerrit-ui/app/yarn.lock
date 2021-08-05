@@ -505,10 +505,10 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-codemirror-minified@^5.62.0:
-  version "5.62.0"
-  resolved "https://registry.yarnpkg.com/codemirror-minified/-/codemirror-minified-5.62.0.tgz#1d5bc5fc2c2baddebe54afefc90371d462be5f05"
-  integrity sha512-p4ALY/Lz5y4ftS5Q34rCBwLcupeATA5h4nBP2CZQgMWr+kQGnVDJxOCtC5KAYNk6Yo0jyKBvrsvr0ZxzuEuDow==
+codemirror-minified@^5.62.2:
+  version "5.62.2"
+  resolved "https://registry.yarnpkg.com/codemirror-minified/-/codemirror-minified-5.62.2.tgz#37d866f5f39bbd4482c60b1607c669bcb7190388"
+  integrity sha512-lQpyiEaqyEln1YDiHqq8lJcX8GkTJamecZAn0DkgdteFIVCRHnVmllOXPF+d159OSNkMi1UcKRObcU6ueBHe1A==
 
 concat-map@0.0.1:
   version "0.0.1"

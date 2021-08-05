@@ -314,6 +314,8 @@ export class GrSearchBar extends KeyboardShortcutMixin(
         // Fetch projects.
         return this.projectSuggestions(predicate, expression);
 
+      case 'assignee':
+      case 'attention':
       case 'author':
       case 'cc':
       case 'commentby':

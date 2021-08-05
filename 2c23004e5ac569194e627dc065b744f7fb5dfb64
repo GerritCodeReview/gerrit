@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc8b5984_c70e77e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-05T13:09:00Z",
+      "side": 1,
+      "message": "Executed 136 out of 136 tests: 133 tests pass and 3 fail locally.\n\nThe failed tests are elastic tests (I don\u0027t have a docker env) and MailIT which fails for a missing class definition, so unrelated.",
+      "revId": "2c23004e5ac569194e627dc065b744f7fb5dfb64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

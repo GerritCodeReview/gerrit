@@ -338,6 +338,7 @@ export function createAttemptMap(runs: CheckRunApi[]) {
 export function fromApiToInternalRun(run: CheckRunApi): CheckRun {
   return {
     ...run,
+    pluginName: 'fake',
     internalRunId: 'fake',
     isSingleAttempt: false,
     isLatestAttempt: false,

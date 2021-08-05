@@ -33,6 +33,15 @@ export class GrEndpointDecorator extends PolymerElement {
     return htmlTemplate;
   }
 
+  /**
+   * If set, then this endpoint only invokes callbacks registered by the target
+   * plugin. For example this is used for the `check-result-expanded` endpoint.
+   * In that case Gerrit knows which plugin has provided the check result, and
+   * only that plugin has an interest to hook into the endpoint.
+   */
+  @property({type: String})
+  targetPlugin?: string;
+
   @property({type: String})
   name!: string;
 
@@ -160,6 +169,9 @@ export class GrEndpointDecorator extends PolymerElement {
 
   _initModule({moduleName, plugin, type, domHook, slot}: ModuleInfo) {
     const name = plugin.getPluginName() + '.' + moduleName;
+    if (this.targetPlugin) {
+      if (this.targetPlugin !== plugin.getPluginName()) return;
+    }
     if (this._initializedPlugins.get(name)) {
       return;
     }

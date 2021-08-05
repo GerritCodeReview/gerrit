@@ -841,9 +841,10 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
         ) {
           return true;
         }
-        for (let i = 0; e.path && i < e.path.length; i++) {
+        const path = e.composedPath();
+        for (let i = 0; path && i < path.length; i++) {
           // TODO(TS): narrow this down to Element from EventTarget first
-          if ((e.path[i] as Element).tagName === 'GR-OVERLAY') {
+          if ((path[i] as Element).tagName === 'GR-OVERLAY') {
             return true;
           }
         }

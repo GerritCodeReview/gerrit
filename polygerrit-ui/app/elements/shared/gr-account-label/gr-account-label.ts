@@ -151,9 +151,11 @@ export class GrAccountLabel extends GestureEventListeners(
     change: ChangeInfo,
     force: boolean
   ) {
+    const hasAvatars = !!config?.plugin?.has_avatars;
     return (
       !hideAvatar &&
-      !this._hasAttention(config, highlight, account, change, force)
+      !this._hasAttention(config, highlight, account, change, force) &&
+      hasAvatars
     );
   }
 

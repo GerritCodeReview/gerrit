@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3a3cb93_e23576b6",
+        "filename": "polygerrit-ui/app/utils/account-util_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-05T11:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6335f0dd_e60c1d9b",
+      "revId": "272bbb6e6a204844a9865976b435458d94198f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e558981_5a812a03",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dadfa01_9f62bf4d",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-05T11:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e558981_5a812a03",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 49
+      },
+      "revId": "272bbb6e6a204844a9865976b435458d94198f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3aa3778f_72857ffb",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-08-05T09:48:57Z",
       "side": 1,
       "message": "Nit: Consistent naming: Either add `get...` prefix here or remove above.",
+      "range": {
+        "startLine": 75,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 29
+      },
+      "revId": "272bbb6e6a204844a9865976b435458d94198f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d14c8118_cabc0757",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-05T11:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aa3778f_72857ffb",
       "range": {
         "startLine": 75,
         "startChar": 16,

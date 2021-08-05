@@ -234,6 +234,30 @@
       },
       "revId": "1ac500a2b589163d7a310c52167227d192c57729",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f63f79b_09a53ca2",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-05T11:26:28Z",
+      "side": 1,
+      "message": "Ack, thank you for opinion, I will go ahead with the backend adjustment in this case.",
+      "parentUuid": "1ba30f9f_04d683c3",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "1ac500a2b589163d7a310c52167227d192c57729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -107,6 +107,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43fbd14f_6cb1e9d0",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-05T17:28:23Z",
+      "side": 1,
+      "message": "@Delphine I don\u0027t fully understand how your comment is relevant to the original comment.\nThe temporary part is related to how we store the comment inside the state and not related to showing the comment itself.\nRe length of snackbar, we can discuss that in a separate comment thread but I am marking this one resolved since we don\u0027t actually persist the draft anywhere.",
+      "parentUuid": "77be446a_001d6063",
+      "range": {
+        "startLine": 35,
+        "startChar": 50,
+        "endLine": 35,
+        "endChar": 61
+      },
+      "revId": "af3987f5aa83b4ef4666a89e9f72c10cfcbeb236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ed8c4e3_9e7a07ba",

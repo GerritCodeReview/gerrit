@@ -356,6 +356,7 @@ const styleSheet = safeStyleSheet`
     --syntax-selector-attr-color: #fa8602;
     --syntax-selector-class-color: #164;
     --syntax-selector-id-color: #2a00ff;
+    --syntax-property-color: #fa8602;
     --syntax-selector-pseudo-color: #fa8602;
     --syntax-string-color: #2a00ff;
     --syntax-tag-color: #170;

@@ -71,7 +71,11 @@ import {
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {changeStatuses} from '../../../utils/change-util';
-import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
+import {
+  changeIsAbandoned,
+  changeIsMerged,
+  changeIsOpen,
+} from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -1806,6 +1810,17 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    */
   _processEdit(change: ParsedChangeInfo, edit?: EditInfo | false) {
     if (
+      !edit &&
+      this._patchRange?.patchNum === EditPatchSetNum &&
+      changeIsOpen(change)
+    ) {
+      fireAlert(this, 'Change edit not found. Please create a change edit.');
+      GerritNav.navigateToChange(change);
+      return;
+    }
+
+    if (
+      !edit &&
       (changeIsMerged(change) || changeIsAbandoned(change)) &&
       this._editMode
     ) {
@@ -1982,13 +1997,32 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   _getCommitInfo() {
     if (!this._changeNum)
-      throw new Error('missing required changeNum property');
+      throw new Error('missing required _changeNum property');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     if (this._patchRange.patchNum === undefined)
       throw new Error('missing required patchNum property');
+
+    // We only call _getEdit if the patchset number is an edit.
+    // We have to do this to ensure we can tell if an edit
+    // exists or not.
+    // This safely works even if a edit does not exist.
+    if (this._patchRange!.patchNum! === EditPatchSetNum) {
+      return this._getEdit().then(edit => {
+        if (!edit) {
+          return Promise.resolve();
+        }
+
+        return this._getChangeCommitInfo();
+      });
+    }
+
+    return this._getChangeCommitInfo();
+  }
+
+  _getChangeCommitInfo() {
     return this.restApiService
-      .getChangeCommitInfo(this._changeNum, this._patchRange.patchNum)
+      .getChangeCommitInfo(this._changeNum!, this._patchRange!.patchNum!)
       .then(commitInfo => {
         this._commitInfo = commitInfo;
       });

@@ -18,6 +18,9 @@ import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
   <style>
+    :host([hidden]) {
+      display: none;
+    }
     :host {
       display: inline-block;
       border-radius: 50%;

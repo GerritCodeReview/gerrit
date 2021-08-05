@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eb0e021_880b7455",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-05T08:56:20Z",
+      "side": 0,
+      "message": "Instead of removing this, could we make it so that OWNER is the default if no input is provided?\n\n\u003e input.notify \u003d firstNonNull(input.notify, NotifyHandling.OWNER);",
+      "range": {
+        "startLine": 267,
+        "startChar": 22,
+        "endLine": 269,
+        "endChar": 5
+      },
+      "revId": "68d12fc8fdb09fa7242caf555b6639236a0dc800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

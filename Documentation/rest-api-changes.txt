@@ -7722,8 +7722,8 @@ endpoint is the topic of the change being reverted, and the default for the
 RevertSubmission endpoint is `revert-{submission_id}-{timestamp.now}`.
 Topic can't contain quotation marks.
 |`work_in_progress` |optional|
-When present, change is marked as Work In Progress. This will also override
-the notify value to `OWNER`. +
+When present, change is marked as Work In Progress. The `notify` input is
+used if it's present, otherwise it will be overridden to `OWNER`. +
 If not set, the default is false.
 |=============================
 

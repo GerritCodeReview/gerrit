@@ -206,7 +206,7 @@ const CCED: DashboardSection = {
   // Open changes the viewed user is CCed on. Changes ignored by the viewing
   // user are filtered out.
   name: 'CCed on',
-  query: 'is:open -is:ignored cc:${user}',
+  query: 'is:open -is:ignored -is:wip cc:${user}',
   suffixForDashboard: 'limit:10',
 };
 export const CLOSED: DashboardSection = {

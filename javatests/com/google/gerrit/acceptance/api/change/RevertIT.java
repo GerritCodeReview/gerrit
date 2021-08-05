@@ -359,7 +359,10 @@ public class RevertIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
 
     sender.clear();
-    gApi.changes().id(r.getChangeId()).revert(createWipRevertInput()).get();
+    // If notify input not specified, the endpoint overrides it to OWNER
+    RevertInput revertInput = createWipRevertInput();
+    revertInput.notify = null;
+    gApi.changes().id(r.getChangeId()).revert(revertInput).get();
     assertThat(sender.getMessages()).isEmpty();
   }
 
@@ -702,7 +705,7 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revertSubmissionWipNotificationsAreSupressed() throws Exception {
+  public void revertSubmissionWipNotificationsWithNotifyHandlingAll() throws Exception {
     String changeId1 = createChange("first change", "a.txt", "message").getChangeId();
     approve(changeId1);
     gApi.changes().id(changeId1).addReviewer(user.email());
@@ -714,13 +717,12 @@ public class RevertIT extends AbstractDaemonTest {
 
     sender.clear();
 
+    // If notify handling is specified, it will be used by the API
     RevertInput revertInput = createWipRevertInput();
-    // Setting the Notifications to ALL will be overridden because the WIP flag overrides the
-    // notifications to OWNER
     revertInput.notify = NotifyHandling.ALL;
     gApi.changes().id(changeId2).revertSubmission(revertInput);
 
-    assertThat(sender.getMessages()).isEmpty();
+    assertThat(sender.getMessages()).hasSize(4);
   }
 
   @Test

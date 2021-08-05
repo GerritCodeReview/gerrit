@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caf25950_a66cc72b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-08-05T10:40:23Z",
+      "side": 1,
+      "message": "A similar fix has been done by Dhruv for the autocomplete dialog in https://gerrit-review.googlesource.com/c/gerrit/+/290135\n\nI have merely applied the same fix (event.path \u003e event.composablePath()).  I don\u0027t quite know what it changes but from the console log I can see that it now iterates properly across the event targets.\n\nI have send the patch for 3.3: https://gerrit-review.googlesource.com/c/gerrit/+/313923 (I could not figure out how to make it a merge since the file got renamed).\n\nThere is still an issue that keyboard shorcuts are not suppressed while in a reply dialog and emitting the event on the iron overlay, the event is somehow considered to target body. But that is an entirely different issue ;)",
+      "revId": "c85a7998491470fef25b395e0b45db5fd0dd9b88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

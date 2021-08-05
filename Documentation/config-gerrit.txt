@@ -4294,6 +4294,9 @@ and updating references, not the time to index the pack. Values can
 be specified using standard time unit abbreviations ('ms', 'sec',
 'min', etc.).
 +
+The receive timeout cannot be overriden by setting a higher
+link:user-upload#deadline[deadline] on the git push request.
++
 Default is 4 minutes. If no unit is specified, milliseconds
 is assumed.
 

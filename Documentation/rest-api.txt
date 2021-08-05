@@ -244,6 +244,20 @@ HTTP/1.1 200 OK
 Given the trace ID an administrator can find the corresponding logs and
 investigate issues more easily.
 
+[[deadline]]
+=== Setting a deadline
+
+When invoking a REST endpoint it's possible that the client sets a deadline
+after which the request should be aborted. To do this the `X-Gerrit-Deadline`
+header must be set on the request. Values must be specified using standard time
+unit abbreviations ('ms', 'sec', 'min', etc.).
+
+.Example Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/suggest_reviewers?q=J
+  X-Gerrit-Deadline: 5m
+----
+
 [[updated-refs]]
 === X-Gerrit-UpdatedRef
 This is only enabled when "X-Gerrit-UpdatedRef-Enabled" is set to "true" in the

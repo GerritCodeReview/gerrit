@@ -17,10 +17,13 @@ package com.google.gerrit.sshd;
 import com.google.common.base.Throwables;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.DeadlineChecker;
 import com.google.gerrit.server.DynamicOptions;
+import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
+import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
@@ -46,6 +49,9 @@ public abstract class SshCommand extends BaseCommand {
   @Option(name = "--trace-id", usage = "trace ID (can only be set if --trace was set too)")
   private String traceId;
 
+  @Option(name = "--deadline", usage = "deadline after which the request should be aborted)")
+  private String deadline;
+
   protected PrintWriter stdout;
   protected PrintWriter stderr;
 
@@ -59,11 +65,16 @@ public abstract class SshCommand extends BaseCommand {
             stderr = toPrintWriter(err);
             try (TraceContext traceContext = enableTracing();
                 PerformanceLogContext performanceLogContext =
-                    new PerformanceLogContext(config, performanceLoggers)) {
+                    new PerformanceLogContext(config, performanceLoggers);
+                RequestStateContext requestStateContext =
+                    RequestStateContext.open()
+                        .addRequestStateProvider(new DeadlineChecker(deadline))) {
               RequestInfo requestInfo =
                   RequestInfo.builder(RequestInfo.RequestType.SSH, user, traceContext).build();
               requestListeners.runEach(l -> l.onRequest(requestInfo));
               SshCommand.this.run();
+            } catch (InvalidDeadlineException e) {
+              stderr.println(e.getMessage());
             } catch (RuntimeException e) {
               Optional<RequestCancelledException> requestCancelledException =
                   RequestCancelledException.getFromCausalChain(e);

@@ -16,6 +16,7 @@
  */
 import '@polymer/iron-dropdown/iron-dropdown';
 import '../gr-button/gr-button';
+import {GrButton} from '../gr-button/gr-button';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
@@ -43,6 +44,7 @@ declare global {
 export interface GrDropdown {
   $: {
     dropdown: IronDropdownElement;
+    trigger: GrButton;
   };
 }
 
@@ -125,7 +127,8 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
     };
   }
 
-  private cursor = new GrCursorManager();
+  // Used within the tests so needs to be non-private.
+  cursor = new GrCursorManager();
 
   constructor() {
     super();

@@ -320,14 +320,14 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     this.push('comments', draft);
   }
 
-  fireRemoveSelf() {
-    this.dispatchEvent(
-      new CustomEvent('thread-discard', {
-        detail: {rootId: this.rootId},
-        bubbles: false,
-      })
-    );
-  }
+  // fireRemoveSelf() {
+  //   this.dispatchEvent(
+  //     new CustomEvent('thread-discard', {
+  //       detail: {rootId: this.rootId},
+  //       bubbles: false,
+  //     })
+  //   );
+  // }
 
   _getDiffUrlForPath(
     projectName?: RepoName,
@@ -701,10 +701,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
         'Cannot find comment ' + JSON.stringify(diffCommentEl.comment)
       );
     }
-    this.splice('comments', idx, 1);
-    if (this.comments.length === 0) {
-      this.fireRemoveSelf();
-    }
+    // this.splice('comments', idx, 1);
+    // if (this.comments.length === 0) {
+      // this.fireRemoveSelf();
+    // }
 
     // Check to see if there are any other open comments getting edited and
     // set the local storage value to its message value.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2f8c091_e553f249",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-06T08:41:05Z",
+      "side": 1,
+      "message": "I think once https://gerrit-review.googlesource.com/c/plugins/codemirror-editor/+/313722/comment/12fda75d_1a1b0838/ is addressed this change will not be required.\nRemoving myself from the Attention Set.",
+      "revId": "f4bcfcfcc1c090867f5f51c0cdab9a6810a95beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

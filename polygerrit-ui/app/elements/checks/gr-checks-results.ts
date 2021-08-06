@@ -578,7 +578,10 @@ class GrResultExpanded extends GrLitElement {
     return html`
       ${this.renderFirstPrimaryLink()} ${this.renderOtherPrimaryLinks()}
       ${this.renderSecondaryLinks()} ${this.renderCodePointers()}
-      <gr-endpoint-decorator name="check-result-expanded">
+      <gr-endpoint-decorator
+        name="check-result-expanded"
+        .targetPlugin="${this.result.pluginName}"
+      >
         <gr-endpoint-param
           name="run"
           .value="${this.result}"

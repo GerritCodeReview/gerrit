@@ -52,6 +52,10 @@ export interface CheckResult extends CheckResultApi {
 
 export interface CheckRun extends CheckRunApi {
   /**
+   * For convenience we attach the name of the plugin to each run.
+   */
+  pluginName: string;
+  /**
    * Internally we want to uniquely identify a result with an id, for example
    * when efficiently re-rendering lists of results in the UI.
    */
@@ -295,6 +299,7 @@ export function updateStateSetProvider(
 //  different types/states of runs and results.
 
 export const fakeRun0: CheckRun = {
+  pluginName: 'f0',
   internalRunId: 'f0',
   checkName: 'FAKE Error Finder',
   labelName: 'Presubmit',
@@ -359,6 +364,7 @@ export const fakeRun0: CheckRun = {
 };
 
 export const fakeRun1: CheckRun = {
+  pluginName: 'f1',
   internalRunId: 'f1',
   checkName: 'FAKE Super Check',
   statusLink: 'https://www.google.com/',
@@ -423,6 +429,7 @@ export const fakeRun1: CheckRun = {
 };
 
 export const fakeRun2: CheckRun = {
+  pluginName: 'f2',
   internalRunId: 'f2',
   checkName: 'FAKE Mega Analysis',
   statusDescription: 'This run is nearly completed, but not quite.',
@@ -474,6 +481,7 @@ Example code:
 };
 
 export const fakeRun3: CheckRun = {
+  pluginName: 'f3',
   internalRunId: 'f3',
   checkName: 'FAKE Critical Observations',
   status: RunStatus.RUNNABLE,
@@ -483,6 +491,7 @@ export const fakeRun3: CheckRun = {
 };
 
 export const fakeRun4_1: CheckRun = {
+  pluginName: 'f4',
   internalRunId: 'f4',
   checkName: 'FAKE Elimination',
   status: RunStatus.COMPLETED,
@@ -493,6 +502,7 @@ export const fakeRun4_1: CheckRun = {
 };
 
 export const fakeRun4_2: CheckRun = {
+  pluginName: 'f4',
   internalRunId: 'f4',
   checkName: 'FAKE Elimination',
   status: RunStatus.COMPLETED,
@@ -510,6 +520,7 @@ export const fakeRun4_2: CheckRun = {
 };
 
 export const fakeRun4_3: CheckRun = {
+  pluginName: 'f4',
   internalRunId: 'f4',
   checkName: 'FAKE Elimination',
   status: RunStatus.COMPLETED,
@@ -527,6 +538,7 @@ export const fakeRun4_3: CheckRun = {
 };
 
 export const fakeRun4_4: CheckRun = {
+  pluginName: 'f4',
   internalRunId: 'f4',
   checkName: 'FAKE Elimination',
   checkDescription: 'Shows you the possible eliminations.',
@@ -714,6 +726,7 @@ export function updateStateSetResults(
       assertIsDefined(attemptInfo, 'attemptInfo');
       return {
         ...run,
+        pluginName,
         internalRunId: runId,
         isLatestAttempt: attemptInfo.latestAttempt === run.attempt,
         isSingleAttempt: attemptInfo.isSingleAttempt,

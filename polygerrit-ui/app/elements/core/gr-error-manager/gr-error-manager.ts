@@ -41,7 +41,7 @@ import {windowLocationReload} from '../../../utils/dom-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {fireIronAnnounce} from '../../../utils/event-util';
 
-const HIDE_ALERT_TIMEOUT_MS = 5000;
+const HIDE_ALERT_TIMEOUT_MS = 10 * 1000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
 const STALE_CREDENTIAL_THRESHOLD_MS = 10 * 60 * 1000;
 const SIGN_IN_WIDTH_PX = 690;

@@ -51,6 +51,24 @@
       "message": "Nice. Can we add a test that uses the regular API path to check that a user without MODIFY_ACCOUNT permission won\u0027t search secondary emails there?\n\nThe Java API uses the same logic as the REST API, so this should be as simple as:\n\n\u003e gApi.accounts().id(\"secondart@example.com\"). ...",
       "revId": "0859ee86d1154ca45bd315a628379a651ffc1ec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9a5fdea_0e21f92b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-08-06T18:19:58Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b03e5f29_7425f412",
+      "revId": "0859ee86d1154ca45bd315a628379a651ffc1ec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

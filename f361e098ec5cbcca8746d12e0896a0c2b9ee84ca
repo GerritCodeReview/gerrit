@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "918ce29b_33a72e0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-06T12:39:15Z",
+      "side": 1,
+      "message": "\u003e I can only think of these two:\n\u003e 1) We fail to index after the ref update (staleness detection will pick up)\n\nI thought that this was the concern that you had?\nAs explained below I think it\u0027s actually not an issue since the indexing is done by non-cancellable background tasks.\nAs yes, staleness detection would find and fix this too.\n\n\u003e 2) We fail to delete the draft comments in All-Users.\nAh, I didn\u0027t think of this yet.\n\n\u003e Actually, I think draft comment updates could be a motivation for this change,\n\u003e but we also dispatch these on a different thread (similarly to change indexing).\n\nI think the difference is that the dispatching happens only after the update to the repo is done, which means the dispatching would not happen if the cancellation would appear right after the repo update. So I agree it makes sense to use an atomic/non-cancellable operation here. Done.",
+      "parentUuid": "00fdb378_f1ee9365",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "f361e098ec5cbcca8746d12e0896a0c2b9ee84ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e1cd234_4f364b0b",
@@ -61,6 +85,30 @@
       "writtenOn": "2021-08-05T10:53:28Z",
       "side": 1,
       "message": "nit: how about\n\n\"startNonInterruptableOperation\" or \"startNonCancellableOperation\"?",
+      "range": {
+        "startLine": 143,
+        "startChar": 33,
+        "endLine": 143,
+        "endChar": 39
+      },
+      "revId": "f361e098ec5cbcca8746d12e0896a0c2b9ee84ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bb0d8c7_372cc7c2",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-06T12:39:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e1cd234_4f364b0b",
       "range": {
         "startLine": 143,
         "startChar": 33,

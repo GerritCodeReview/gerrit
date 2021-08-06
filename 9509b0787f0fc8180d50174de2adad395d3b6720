@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e316f26_2faa7899",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-06T04:12:08Z",
+      "side": 1,
+      "message": "Makes sense, thanks for fix!",
+      "revId": "9509b0787f0fc8180d50174de2adad395d3b6720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f696c51b_9158fafa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-06T04:12:08Z",
+      "side": 1,
+      "message": "Nit: It can be one liner\n`const hasAvatars \u003d !!_config?.plugin?.has_avatars;`\n\nBut I am ok with same code as it is same in gr-avatar",
+      "range": {
+        "startLine": 193,
+        "startChar": 4,
+        "endLine": 197,
+        "endChar": 6
+      },
+      "revId": "9509b0787f0fc8180d50174de2adad395d3b6720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

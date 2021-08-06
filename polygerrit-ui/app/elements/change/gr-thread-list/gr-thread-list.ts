@@ -556,21 +556,6 @@ export class GrThreadList extends PolymerElement {
     };
   }
 
-  removeThread(rootId: string) {
-    for (let i = 0; i < this.threads.length; i++) {
-      if (this.threads[i].rootId === rootId) {
-        this.splice('threads', i, 1);
-        // Needed to ensure threads get re-rendered in the correct order.
-        flush();
-        return;
-      }
-    }
-  }
-
-  _handleThreadDiscard(e: CustomEvent) {
-    this.removeThread(e.detail.rootId);
-  }
-
   _isOnParent(side?: CommentSide) {
     // TODO(TS): That looks like a bug? CommentSide.REVISION will also be
     // classified as parent??

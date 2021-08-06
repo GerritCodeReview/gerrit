@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "456f5824_2b7742c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2021-08-06T20:01:48Z",
+      "side": 1,
+      "message": "The mariadb and openid deletion fix both look good to me.",
+      "revId": "7100ede3dfeb66754255fff6135bc69080e168a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -131,6 +131,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17b20804_e00d7a93",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-08-06T08:54:41Z",
+      "side": 1,
+      "message": "Sounds good, I added a new comment thread then.",
+      "parentUuid": "43fbd14f_6cb1e9d0",
+      "range": {
+        "startLine": 35,
+        "startChar": 50,
+        "endLine": 35,
+        "endChar": 61
+      },
+      "revId": "af3987f5aa83b4ef4666a89e9f72c10cfcbeb236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ed8c4e3_9e7a07ba",

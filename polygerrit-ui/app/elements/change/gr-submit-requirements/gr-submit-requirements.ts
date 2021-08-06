@@ -17,6 +17,8 @@
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {css, customElement, html, property} from 'lit-element';
 import {ParsedChangeInfo} from '../../../types/types';
+import {SubmitRequirementStatus} from '../../../api/rest-api';
+import {assertNever} from '../../../utils/common-util';
 
 @customElement('gr-submit-requirements')
 export class GrSubmitRequirements extends GrLitElement {
@@ -41,16 +43,31 @@ export class GrSubmitRequirements extends GrLitElement {
         }
         .title {
           min-width: 10em;
-          padding: var(--spacing-s) var(--spacing-m) 0
-            var(--requirements-horizontal-padding);
+          padding: var(--spacing-s) 0 0 0;
         }
         .value {
           padding: var(--spacing-s) 0 0 0;
         }
         .title,
-        .value {
+        .value,
+        .status {
           display: table-cell;
           vertical-align: top;
+        }
+        .status {
+          width: var(--line-height-small);
+          padding: var(--spacing-s) var(--spacing-m) 0
+            var(--requirements-horizontal-padding);
+        }
+        iron-icon {
+          width: var(--line-height-small);
+          height: var(--line-height-small);
+        }
+        iron-icon.satisfied {
+          color: var(--success-foreground);
+        }
+        iron-icon.unsatisfied {
+          color: var(--warning-foreground);
         }
       `,
     ];
@@ -59,9 +76,9 @@ export class GrSubmitRequirements extends GrLitElement {
   render() {
     const submit_requirements = this.change?.submit_requirements ?? [];
     return html`<h3 class="metadata-title">Submit Requirements</h3>
-
       ${submit_requirements.map(
         requirement => html`<section>
+          <div class="status">${this.renderStatus(requirement.status)}</div>
           <div class="title">
             <gr-limited-text
               class="name"
@@ -69,9 +86,32 @@ export class GrSubmitRequirements extends GrLitElement {
               text="${requirement.name}"
             ></gr-limited-text>
           </div>
-          <div class="value">${requirement.status}</div>
         </section>`
       )}`;
+  }
+
+  renderStatus(status: SubmitRequirementStatus) {
+    let grIcon: string;
+    switch (status) {
+      case SubmitRequirementStatus.SATISFIED:
+        grIcon = 'gr-icons:check';
+        break;
+      case SubmitRequirementStatus.UNSATISFIED:
+        grIcon = 'gr-icons:close';
+        break;
+      case SubmitRequirementStatus.OVERRIDDEN:
+        grIcon = 'gr-icons:warning';
+        break;
+      case SubmitRequirementStatus.NOT_APPLICABLE:
+        grIcon = 'gr-icons:info';
+        break;
+      default:
+        assertNever(status, `Unsupported status: ${status}`);
+    }
+    return html`<iron-icon
+      class=${status.toLowerCase()}
+      icon="${grIcon}"
+    ></iron-icon>`;
   }
 }
 

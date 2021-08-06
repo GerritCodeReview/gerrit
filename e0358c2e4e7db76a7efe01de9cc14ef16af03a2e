@@ -16,6 +16,23 @@
       "message": "I guess this was caused by the conversion to lit element?",
       "revId": "e0358c2e4e7db76a7efe01de9cc14ef16af03a2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c2a299a_aafa8627",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-06T01:51:50Z",
+      "side": 1,
+      "message": "Oh looks like somehow shared-styles isn\u0027t being applied to the lit elements (included here https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.ts#L20)",
+      "revId": "e0358c2e4e7db76a7efe01de9cc14ef16af03a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

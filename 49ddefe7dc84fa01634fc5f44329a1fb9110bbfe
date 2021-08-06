@@ -22,6 +22,30 @@
       },
       "revId": "49ddefe7dc84fa01634fc5f44329a1fb9110bbfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe760792_9feb3b27",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5337,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-06T11:33:56Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, I like the term \"advisory\" more. Done.",
+      "parentUuid": "dd1015fa_92ae7557",
+      "range": {
+        "startLine": 5337,
+        "startChar": 36,
+        "endLine": 5337,
+        "endChar": 42
+      },
+      "revId": "49ddefe7dc84fa01634fc5f44329a1fb9110bbfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

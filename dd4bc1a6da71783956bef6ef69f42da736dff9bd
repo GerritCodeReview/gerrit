@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8deb8e3e_301c7c73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-08-06T13:15:53Z",
+      "side": 1,
+      "message": "I see that the spacing between Resolved + Preview formatting selection and the bottom of the patchset level comment card is --spacing-l. The proposal is to use --spacing-m. \n\nThe rest LGTM, thanks.",
+      "revId": "dd4bc1a6da71783956bef6ef69f42da736dff9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cffafd01_b63987a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-08-06T13:15:53Z",
+      "side": 1,
+      "message": "I still see the border between the patchset level comment card and the formated text background when I select \"Preview formatting\", do you also have the same on your machine?",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 23
+      },
+      "revId": "dd4bc1a6da71783956bef6ef69f42da736dff9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

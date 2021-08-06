@@ -1029,7 +1029,7 @@ export declare interface WebLinkInfo {
 export declare interface SubmitRequirementResultInfo {
   name: string;
   description?: string;
-  status: string;
+  status: SubmitRequirementStatus;
   applicability_expression_result?: SubmitRequirementExpressionInfo;
   submittability_expression_result: SubmitRequirementExpressionInfo;
   override_expression_result?: SubmitRequirementExpressionInfo;
@@ -1045,4 +1045,15 @@ export declare interface SubmitRequirementExpressionInfo {
   fulfilled: boolean;
   passing_atoms: string;
   failing_atoms: string;
+}
+
+/**
+ * Status describing the result of evaluating the submit requirement.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#submit-requirement-result-info
+ */
+export enum SubmitRequirementStatus {
+  SATISFIED = 'SATISFIED',
+  UNSATISFIED = 'UNSATISFIED',
+  OVERRIDDEN = 'OVERRIDDEN',
+  NOT_APPLICABLE = 'NOT_APPLICABLE',
 }

@@ -150,6 +150,7 @@ export const htmlTemplate = html`
         items="[[_orderedComments]]"
         as="comment"
       >
+        <span>HelloOwrls</span>
         <gr-comment
           comment="{{comment}}"
           comments="{{comments}}"
@@ -164,7 +165,6 @@ export const htmlTemplate = html`
           side="[[comment.side]]"
           project-config="[[_projectConfig]]"
           on-create-fix-comment="_handleCommentFix"
-          on-comment-discard="_handleCommentDiscard"
           on-copy-comment-link="handleCopyLink"
         ></gr-comment>
       </template>

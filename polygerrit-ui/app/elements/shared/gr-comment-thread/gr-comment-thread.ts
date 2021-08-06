@@ -114,7 +114,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Number})
   changeNum?: NumericChangeId;
 
-  @property({type: Array})
+  @property({type: Array, observer: 'commentsChanged'})
   comments: UIComment[] = [];
 
   @property({type: Object, reflectToAttribute: true})
@@ -227,6 +227,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
+  commentsChanged() {
+    console.log(this.comments);
+  }
+
   /** @override */
   connectedCallback() {
     super.connectedCallback();
@@ -320,14 +324,14 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     this.push('comments', draft);
   }
 
-  fireRemoveSelf() {
-    this.dispatchEvent(
-      new CustomEvent('thread-discard', {
-        detail: {rootId: this.rootId},
-        bubbles: false,
-      })
-    );
-  }
+  // fireRemoveSelf() {
+  //   this.dispatchEvent(
+  //     new CustomEvent('thread-discard', {
+  //       detail: {rootId: this.rootId},
+  //       bubbles: false,
+  //     })
+  //   );
+  // }
 
   _getDiffUrlForPath(
     projectName?: RepoName,
@@ -700,10 +704,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
       throw new Error(
         'Cannot find comment ' + JSON.stringify(diffCommentEl.comment)
       );
-    }
-    this.splice('comments', idx, 1);
-    if (this.comments.length === 0) {
-      this.fireRemoveSelf();
     }
 
     // Check to see if there are any other open comments getting edited and

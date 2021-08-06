@@ -255,6 +255,7 @@ export const htmlTemplate = html`
   <div id="container" class="container">
     <div class="header" id="header" on-click="_handleToggleCollapsed">
       <div class="headerLeft">
+        <span> headerleft </span>
         <template is="dom-if" if="[[comment.robot_id]]">
           <span class="robotName"> [[comment.robot_id]] </span>
         </template>

@@ -66,14 +66,7 @@ import {KeydownEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
-import {
-  DateFormat,
-  DefaultBase,
-  DiffViewMode,
-  EmailFormat,
-  EmailStrategy,
-  TimeFormat,
-} from '../../../constants/constants';
+import {DiffViewMode} from '../../../constants/constants';
 
 const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'changes_per_page',
@@ -591,21 +584,13 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
   }
 
   /**
-   * bind-value has type string so we have to convert anything inputed
-   * to string.
+   * bind-value and value has type string so we have to convert
+   * anything inputed to string.
    *
-   * This is so typescript template checker doesn't fail.
+   * This is so typescript checker doesn't fail.
    */
-  _convertToString(
-    key?:
-      | DateFormat
-      | DefaultBase
-      | DiffViewMode
-      | EmailFormat
-      | EmailStrategy
-      | TimeFormat
-      | number
-  ) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  _convertToString(key?: any): string {
     return key !== undefined ? String(key) : '';
   }
 }

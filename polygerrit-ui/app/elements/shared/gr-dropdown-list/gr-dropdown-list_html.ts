@@ -155,7 +155,7 @@ export const htmlTemplate = html`
           <div class="topContent">
             <div>[[item.text]]</div>
             <template is="dom-if" if="[[item.date]]">
-              <gr-date-formatter date-str="[[item.date]]"></gr-date-formatter>
+              <gr-date-formatter date-str="[[_convertToString(item.date)]]"></gr-date-formatter>
             </template>
             <template is="dom-if" if="[[item.file]]">
               <gr-file-status-chip file="[[item.file]]"></gr-file-status-chip>
@@ -173,7 +173,7 @@ export const htmlTemplate = html`
   <gr-select bind-value="{{value}}">
     <select>
       <template is="dom-repeat" items="[[items]]">
-        <option disabled$="[[item.disabled]]" value="[[item.value]]">
+        <option disabled$="[[item.disabled]]" value="[[_convertToString(item.value)]]">
           [[_computeMobileText(item)]]
         </option>
       </template>

@@ -134,12 +134,13 @@ export class GrDiffPreferences extends PolymerElement {
   }
 
   /**
-   * bind-value has type string so we have to convert
+   * bind-value and value has type string so we have to convert
    * anything inputed to string.
    *
    * This is so typescript checker doesn't fail.
    */
-  _convertToString(key?: number | IgnoreWhitespaceType) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  _convertToString(key?: any): string {
     return key !== undefined ? String(key) : '';
   }
 

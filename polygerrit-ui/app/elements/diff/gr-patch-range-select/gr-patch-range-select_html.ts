@@ -51,7 +51,7 @@ export const htmlTemplate = html`
   <span class="patchRange" aria-label="patch range starts with">
     <gr-dropdown-list
       id="basePatchDropdown"
-      value="[[basePatchNum]]"
+      value="[[_convertToString(basePatchNum)]]"
       on-value-change="_handlePatchChange"
       items="[[_baseDropdownContent]]"
     >

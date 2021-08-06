@@ -455,6 +455,17 @@ export class GrPatchRangeSelect extends PolymerElement {
       new CustomEvent('patch-range-change', {detail, bubbles: false})
     );
   }
+
+  /**
+   * bind-value and value has type string so we have to convert
+   * anything inputed to string.
+   *
+   * This is so typescript checker doesn't fail.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  _convertToString(key?: any): string {
+    return key !== undefined ? String(key) : '';
+  }
 }
 
 declare global {

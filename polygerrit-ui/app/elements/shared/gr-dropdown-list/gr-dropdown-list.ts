@@ -39,7 +39,7 @@ import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
  * If date is not provided, nothing will be displayed in its place.
  */
 export interface DropdownItem {
-  text: string;
+  text?: string;
   value: string | number;
   bottomText?: string;
   triggerText?: string;
@@ -141,6 +141,17 @@ export class GrDropdownList extends PolymerElement {
         bubbles: false,
       })
     );
+  }
+
+  /**
+   * bind-value and value has type string so we have to convert
+   * anything inputed to string.
+   *
+   * This is so typescript checker doesn't fail.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  _convertToString(key?: any): string {
+    return key !== undefined ? String(key) : '';
   }
 }
 

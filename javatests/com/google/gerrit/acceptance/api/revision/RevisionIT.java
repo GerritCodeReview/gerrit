@@ -94,8 +94,8 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
@@ -1912,7 +1912,8 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(message.message)
         .isEqualTo(
             String.format(
-                "Removed Code-Review+1 by %s\n", ChangeMessagesUtil.getAccountTemplate(user.id())));
+                "Removed Code-Review+1 by %s\n",
+                AccountTemplateUtil.getAccountTemplate(user.id())));
     assertThat(getReviewers(c.reviewers.get(ReviewerState.REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.id(), user.id()));
   }

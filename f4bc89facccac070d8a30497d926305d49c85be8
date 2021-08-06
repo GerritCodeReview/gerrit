@@ -16,6 +16,24 @@
       "message": "Do we really intent to change this or is there an intention for admins to change it?",
       "revId": "f4bc89facccac070d8a30497d926305d49c85be8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be289841_7013a55b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-06T11:32:03Z",
+      "side": 1,
+      "message": "I think yes, as it controls the balance between aborting pushes forcefully but quicker (ISE) and giving them more time to finish gracefully (rejected push). Admins may considered the one or the other more important and set a higher or lower cancellation timeout accordingly.\n\nFor Google we have no experience yet how long it takes a receive task to react to a cancellation signal, hence I expect that we may need to do some tweaking of this parameter until it works nicely.",
+      "parentUuid": "00507232_7966f7bb",
+      "revId": "f4bc89facccac070d8a30497d926305d49c85be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

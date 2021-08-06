@@ -54,12 +54,15 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.AttentionSetInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.restapi.change.GetAttentionSet;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
@@ -90,6 +93,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Inject private TestCommentHelper testCommentHelper;
   @Inject private Provider<InternalChangeQuery> changeQueryProvider;
   @Inject private ProjectOperations projectOperations;
+  @Inject private GetAttentionSet getAttentionSet;
 
   /** Simulates a fake clock. Uses second granularity. */
   private static class FakeClock implements LongSupplier {
@@ -147,6 +151,78 @@ public class AttentionSetIT extends AbstractDaemonTest {
             String.format(
                 "%s requires the attention of %s to this change.\n The reason is: first.",
                 user.fullName(), admin.fullName()));
+  }
+
+  @Test
+  public void addUserWithTemplateReason() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    String manualReason = "Added by " + AccountTemplateUtil.getAccountTemplate(user.id());
+    int accountId =
+        change(r).addToAttentionSet(new AttentionSetInput(admin.email(), manualReason))._accountId;
+    assertThat(accountId).isEqualTo(admin.id().get());
+    AttentionSetUpdate expectedAttentionSetUpdate =
+        AttentionSetUpdate.createFromRead(
+            fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.ADD, manualReason);
+    assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
+    AttentionSetInfo attentionSetInfo =
+        Iterables.getOnlyElement(change(r).get().attentionSet.values());
+    assertThat(attentionSetInfo.reason).isEqualTo(manualReason);
+    assertThat(attentionSetInfo.reasonAccount).isEqualTo(getAccountInfo(user.id()));
+    assertThat(attentionSetInfo.account).isEqualTo(getAccountInfo(admin.id()));
+
+    AttentionSetInfo getAttentionSetInfo =
+        Iterables.getOnlyElement(
+            getAttentionSet.apply(parseChangeResource(r.getChangeId())).value());
+    assertThat(getAttentionSetInfo.reason).isEqualTo(manualReason);
+    assertThat(getAttentionSetInfo.reasonAccount).isEqualTo(getAccountInfo(user.id()));
+    assertThat(getAttentionSetInfo.account).isEqualTo(getAccountInfo(admin.id()));
+  }
+
+  @Test
+  public void addUserWithTemplateReasonMultipleAccounts() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    String manualReason =
+        String.format(
+            "Added by %s with user %s",
+            AccountTemplateUtil.getAccountTemplate(user.id()),
+            AccountTemplateUtil.getAccountTemplate(admin.id()));
+    int accountId =
+        change(r).addToAttentionSet(new AttentionSetInput(admin.email(), manualReason))._accountId;
+    assertThat(accountId).isEqualTo(admin.id().get());
+    AttentionSetUpdate expectedAttentionSetUpdate =
+        AttentionSetUpdate.createFromRead(
+            fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.ADD, manualReason);
+    assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
+    AttentionSetInfo attentionSetInfo =
+        Iterables.getOnlyElement(change(r).get().attentionSet.values());
+    assertThat(attentionSetInfo.reason).isEqualTo(manualReason);
+    assertThat(attentionSetInfo.reasonAccount).isEqualTo(getAccountInfo(user.id()));
+    assertThat(attentionSetInfo.account).isEqualTo(getAccountInfo(admin.id()));
+
+    AttentionSetInfo getAttentionSetInfo =
+        Iterables.getOnlyElement(
+            getAttentionSet.apply(parseChangeResource(r.getChangeId())).value());
+    assertThat(getAttentionSetInfo.reason).isEqualTo(manualReason);
+    assertThat(getAttentionSetInfo.reasonAccount).isEqualTo(getAccountInfo(user.id()));
+    assertThat(getAttentionSetInfo.account).isEqualTo(getAccountInfo(admin.id()));
+  }
+
+  @Test
+  public void reviewWithManuallyAddedUserAndTemplateReason() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    String manualReason = "Review by " + AccountTemplateUtil.getAccountTemplate(user.id());
+    ReviewInput reviewInput =
+        ReviewInput.create().addUserToAttentionSet(user.email(), manualReason);
+
+    change(r).current().review(reviewInput);
+
+    AttentionSetInfo attentionSetInfo = change(r).get().attentionSet.get(user.id().get());
+    assertThat(attentionSetInfo.reason).isEqualTo(manualReason);
+    assertThat(attentionSetInfo.reasonAccount).isEqualTo(getAccountInfo(user.id()));
+    assertThat(attentionSetInfo.account).isEqualTo(getAccountInfo(user.id()));
   }
 
   @Test

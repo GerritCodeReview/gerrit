@@ -71,7 +71,6 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
-import com.google.gerrit.extensions.common.AttentionSetInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -112,12 +111,12 @@ import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
+import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -597,11 +596,7 @@ public class ChangeJson {
               .collect(
                   toImmutableMap(
                       a -> a.account().get(),
-                      a ->
-                          new AttentionSetInfo(
-                              accountLoader.get(a.account()),
-                              Timestamp.from(a.timestamp()),
-                              a.reason())));
+                      a -> AttentionSetUtil.createAttentionSetInfo(a, accountLoader)));
     }
     out.assignee = in.getAssignee() != null ? accountLoader.get(in.getAssignee()) : null;
     out.hashtags = cd.hashtags();

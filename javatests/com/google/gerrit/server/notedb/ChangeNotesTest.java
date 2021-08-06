@@ -52,11 +52,11 @@ import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.AssigneeStatusUpdate;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testing.TestChanges;
@@ -1632,17 +1632,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     String messageTemplate =
         String.format(
             "Change update by %s, also includes %s",
-            ChangeMessagesUtil.getAccountTemplate(changeOwner.getAccountId()),
-            ChangeMessagesUtil.getAccountTemplate(otherUser.getAccountId()));
+            AccountTemplateUtil.getAccountTemplate(changeOwner.getAccountId()),
+            AccountTemplateUtil.getAccountTemplate(otherUser.getAccountId()));
     update.setChangeMessage(messageTemplate);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
     ChangeMessage cm = Iterables.getOnlyElement(notes.getChangeMessages());
     assertThat(cm.getMessage()).isEqualTo(messageTemplate);
-
-    assertThat(cm.getAccountsInMessage())
-        .containsExactly(changeOwner.getAccountId(), otherUser.getAccountId());
   }
 
   @Test

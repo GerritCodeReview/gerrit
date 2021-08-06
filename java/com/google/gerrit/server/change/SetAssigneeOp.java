@@ -30,6 +30,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.validators.AssigneeValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -106,12 +107,12 @@ public class SetAssigneeOp implements BatchUpdateOp {
     msg.append("Assignee ");
     if (oldAssignee == null) {
       msg.append("added: ");
-      msg.append(ChangeMessagesUtil.getAccountTemplate(newAssignee.getAccountId()));
+      msg.append(AccountTemplateUtil.getAccountTemplate(newAssignee.getAccountId()));
     } else {
       msg.append("changed from: ");
-      msg.append(ChangeMessagesUtil.getAccountTemplate(oldAssignee.getAccountId()));
+      msg.append(AccountTemplateUtil.getAccountTemplate(oldAssignee.getAccountId()));
       msg.append(" to: ");
-      msg.append(ChangeMessagesUtil.getAccountTemplate(newAssignee.getAccountId()));
+      msg.append(AccountTemplateUtil.getAccountTemplate(newAssignee.getAccountId()));
     }
     cmUtil.setChangeMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_ASSIGNEE);
   }

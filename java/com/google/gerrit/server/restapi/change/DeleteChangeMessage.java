@@ -41,6 +41,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -122,13 +123,13 @@ public class DeleteChangeMessage
     }
     return String.format(
         "Change message removed by: %s\nReason: %s",
-        ChangeMessagesUtil.getAccountTemplate(deletedBy), deletedReason);
+        AccountTemplateUtil.getAccountTemplate(deletedBy), deletedReason);
   }
 
   public static String createNewChangeMessage(Account.Id deletedBy) {
     requireNonNull(deletedBy, "user must not be null");
 
-    return "Change message removed by: " + ChangeMessagesUtil.getAccountTemplate(deletedBy);
+    return "Change message removed by: " + AccountTemplateUtil.getAccountTemplate(deletedBy);
   }
 
   private class DeleteChangeMessageOp implements BatchUpdateOp {

@@ -189,6 +189,7 @@ import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.AbstractModule;
@@ -2467,8 +2468,11 @@ public class ChangeIT extends AbstractDaemonTest {
     // Make sure the change message for removing a reviewer is correct.
     assertThat(Iterables.getLast(gApi.changes().id(changeId).messages()).message)
         .isEqualTo("Removed reviewer " + user.getNameEmail() + ".");
-    assertThat(Iterables.getLast(gApi.changes().id(changeId).get().messages).message)
-        .isEqualTo("Removed reviewer " + ChangeMessagesUtil.getAccountTemplate(user.id()) + ".");
+    ChangeMessageInfo changeMessageInfo =
+        Iterables.getLast(gApi.changes().id(changeId).get().messages);
+    assertThat(changeMessageInfo.message)
+        .isEqualTo("Removed reviewer " + AccountTemplateUtil.getAccountTemplate(user.id()) + ".");
+    assertThat(changeMessageInfo.accountsInMessage).containsExactly(getAccountInfo(user.id()));
 
     // Make sure the reviewer can still be added again.
     gApi.changes().id(changeId).addReviewer(user.id().toString());
@@ -2508,8 +2512,11 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(Iterables.getLast(gApi.changes().id(changeId).messages()).message)
         .isEqualTo("Removed cc " + user.getNameEmail() + ".");
 
-    assertThat(Iterables.getLast(gApi.changes().id(changeId).get().messages).message)
-        .isEqualTo("Removed cc " + ChangeMessagesUtil.getAccountTemplate(user.id()) + ".");
+    ChangeMessageInfo changeMessageInfo =
+        Iterables.getLast(gApi.changes().id(changeId).get().messages);
+    assertThat(changeMessageInfo.message)
+        .isEqualTo("Removed cc " + AccountTemplateUtil.getAccountTemplate(user.id()) + ".");
+    assertThat(changeMessageInfo.accountsInMessage).containsExactly(getAccountInfo(user.id()));
   }
 
   @Test
@@ -2560,10 +2567,11 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(changeMessageInfo.message)
           .contains(
               "Removed reviewer "
-                  + ChangeMessagesUtil.getAccountTemplate(user.id())
+                  + AccountTemplateUtil.getAccountTemplate(user.id())
                   + " with the following votes");
       assertThat(changeMessageInfo.message)
-          .contains("* Code-Review+1 by " + ChangeMessagesUtil.getAccountTemplate(user.id()));
+          .contains("* Code-Review+1 by " + AccountTemplateUtil.getAccountTemplate(user.id()));
+      assertThat(changeMessageInfo.accountsInMessage).containsExactly(getAccountInfo(user.id()));
     } else {
       assertThat(sender.getMessages()).isEmpty();
     }
@@ -2681,7 +2689,8 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(message.author._accountId).isEqualTo(admin.id().get());
     assertThat(message.message)
         .isEqualTo(
-            "Removed Code-Review+1 by " + ChangeMessagesUtil.getAccountTemplate(user.id()) + "\n");
+            "Removed Code-Review+1 by " + AccountTemplateUtil.getAccountTemplate(user.id()) + "\n");
+    assertThat(message.accountsInMessage).containsExactly(getAccountInfo(user.id()));
     assertThat(gApi.changes().id(r.getChangeId()).message(message.id).get().message)
         .isEqualTo("Removed Code-Review+1 by User1 <user1@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))

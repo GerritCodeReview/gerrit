@@ -35,7 +35,6 @@ import com.google.gerrit.entities.UserIdentity;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -63,6 +62,7 @@ import com.google.gerrit.server.patch.FilePathAdapter;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -92,7 +92,7 @@ public class EventFactory {
   private final ChangeKindCache changeKindCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final IndexConfig indexConfig;
-  private final ChangeMessagesUtil changeMessagesUtil;
+  private final AccountTemplateUtil accountTemplateUtil;
 
   @Inject
   EventFactory(
@@ -106,7 +106,7 @@ public class EventFactory {
       ChangeKindCache changeKindCache,
       Provider<InternalChangeQuery> queryProvider,
       IndexConfig indexConfig,
-      ChangeMessagesUtil changeMessagesUtil) {
+      AccountTemplateUtil accountTemplateUtil) {
     this.accountCache = accountCache;
     this.urlFormatter = urlFormatter;
     this.emails = emails;
@@ -117,7 +117,7 @@ public class EventFactory {
     this.changeKindCache = changeKindCache;
     this.queryProvider = queryProvider;
     this.indexConfig = indexConfig;
-    this.changeMessagesUtil = changeMessagesUtil;
+    this.accountTemplateUtil = accountTemplateUtil;
   }
 
   public ChangeAttribute asChangeAttribute(Change change) {
@@ -548,7 +548,7 @@ public class EventFactory {
         message.getAuthor() != null
             ? asAccountAttribute(message.getAuthor())
             : asAccountAttribute(myIdent.get());
-    a.message = changeMessagesUtil.replaceTemplates(message.getMessage());
+    a.message = accountTemplateUtil.replaceTemplates(message.getMessage());
     return a;
   }
 

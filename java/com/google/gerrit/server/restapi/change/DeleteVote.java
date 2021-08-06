@@ -56,6 +56,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -224,7 +225,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       StringBuilder msg = new StringBuilder();
       msg.append("Removed ");
       LabelVote.appendTo(msg, label, requireNonNull(oldApprovals.get(label)));
-      msg.append(" by ").append(ChangeMessagesUtil.getAccountTemplate(accountId)).append("\n");
+      msg.append(" by ").append(AccountTemplateUtil.getAccountTemplate(accountId)).append("\n");
       mailMessage =
           cmUtil.setChangeMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_VOTE);
       return true;

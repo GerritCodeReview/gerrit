@@ -19,15 +19,13 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.inject.TypeLiteral;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import org.junit.Test;
@@ -163,15 +161,14 @@ public class ChangeMessageProtoConverterTest {
             PatchSet.id(Change.id(34), 13),
             String.format(
                 "This is a change message by %s and includes %s ",
-                ChangeMessagesUtil.getAccountTemplate(Account.id(10001)),
-                ChangeMessagesUtil.getAccountTemplate(Account.id(10002))),
+                AccountTemplateUtil.getAccountTemplate(Account.id(10001)),
+                AccountTemplateUtil.getAccountTemplate(Account.id(10002))),
             Account.id(10003),
             "An arbitrary tag.");
 
     ChangeMessage convertedChangeMessage =
         changeMessageProtoConverter.fromProto(changeMessageProtoConverter.toProto(changeMessage));
-    assertThat(convertedChangeMessage.getAccountsInMessage())
-        .containsExactly(Account.id(10001), Account.id(10002));
+
     assertThat(convertedChangeMessage).isEqualTo(changeMessage);
   }
 
@@ -210,8 +207,6 @@ public class ChangeMessageProtoConverterTest {
                 .put("author", Account.Id.class)
                 .put("writtenOn", Timestamp.class)
                 .put("message", String.class)
-                // accountsInMessage are parsed from message template and are not serialized.
-                .put("accountsInMessage", new TypeLiteral<ImmutableSet<Account.Id>>() {}.getType())
                 .put("patchset", PatchSet.Id.class)
                 .put("tag", String.class)
                 .put("realAuthor", Account.Id.class)

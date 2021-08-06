@@ -14,6 +14,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.entities.ChangeMessage.ACCOUNT_TEMPLATE_PATTERN;
 import static com.google.gerrit.entities.ChangeMessage.ACCOUNT_TEMPLATE_REGEX;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
@@ -23,7 +24,10 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -33,11 +37,14 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.git.RefUpdateUtil;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.notedb.ChangeNoteUtil.AttentionStatusInNoteDb;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.CommitMessageRange;
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.ByteArrayOutputStream;
@@ -50,6 +57,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -57,6 +65,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.EditList;
@@ -130,12 +139,55 @@ public class CommitRewriter {
     public List<String> refsFailedToFix = new ArrayList<>();
   }
 
+  public static final String DEFAULT_ACCOUNT_REPLACEMENT = "Gerrit Account";
+
+  private static final Pattern NON_REPLACE_ACCOUNT_PATTERN =
+      Pattern.compile(DEFAULT_ACCOUNT_REPLACEMENT + "|" + ACCOUNT_TEMPLATE_REGEX);
+
+  private static final Pattern OK_ACCOUNT_NAME_PATTERN =
+      Pattern.compile("(?i:someone|someone else|anonymous)|" + ACCOUNT_TEMPLATE_REGEX);
+
+  /** Patterns to match change messages that need to be fixed. */
+  private static final Pattern ASSIGNEE_DELETED_PATTERN = Pattern.compile("Assignee deleted: (.*)");
+
+  private static final Pattern ASSIGNEE_ADDED_PATTERN = Pattern.compile("Assignee added: (.*)");
+  private static final Pattern ASSIGNEE_CHANGED_PATTERN =
+      Pattern.compile("Assignee changed from: (.*) to: (.*)");
+
+  private static final Pattern REMOVED_REVIEWER_PATTERN =
+      Pattern.compile("Removed (cc|reviewer) (.*) .*");
+
+  private static final Pattern REMOVED_VOTE_PATTERN = Pattern.compile("Removed (.*) by (.*)");
+
+  private static final Pattern REMOVED_CHANGE_MESSAGE_PATTERN =
+      Pattern.compile("Change message removed by: (.*)(\nReason: .*)?");
+
+  private static final Pattern SUBMITTED_PATTERN =
+      Pattern.compile("Change has been successfully (.*) by (.*)");
+
+  private static final Pattern ON_CODE_OWNER_ADD_REVIEWER_PATTERN =
+      Pattern.compile("(.*) who was added as reviewer owns the following files");
+  private static final Pattern ON_CODE_OWNER_APPROVAL_PATTERN =
+      Pattern.compile("code-owner approved by (.*):");
+  private static final Pattern ON_CODE_OWNER_OVERRIDE_PATTERN =
+      Pattern.compile("code-owners submit requirement .* overridden by (.*):");
+
+  private static final Pattern REPLY_BY_REASON_PATTERN =
+      Pattern.compile("(.*) replied on the change");
+  private static final Pattern ADDED_BY_REASON_PATTERN =
+      Pattern.compile("Added by (.*) using the hovercard menu");
+  private static final Pattern REMOVED_BY_REASON_PATTERN =
+      Pattern.compile("Removed by (.*) using the hovercard menu");
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final ChangeNotes.Factory changeNotesFactory;
   private final AccountCache accountCache;
-  private DiffAlgorithm diffAlgorithm = new HistogramDiff();
+  private final DiffAlgorithm diffAlgorithm = new HistogramDiff();
+  private static final Gson gson = OutputFormat.JSON_COMPACT.newGson();
 
   @Inject
-  public CommitRewriter(ChangeNotes.Factory changeNotesFactory, AccountCache accountCache) {
+  CommitRewriter(ChangeNotes.Factory changeNotesFactory, AccountCache accountCache) {
     this.changeNotesFactory = changeNotesFactory;
     this.accountCache = accountCache;
   }
@@ -164,11 +216,16 @@ public class CommitRewriter {
         if (changeId == null || !ref.getName().equals(RefNames.changeMetaRef(changeId))) {
           continue;
         }
-
-        ChangeNotes changeNotes = changeNotesFactory.create(project, changeId);
-        ImmutableSet<AccountState> accountsInChange =
-            options.verifyCommits ? collectAccounts(changeNotes) : ImmutableSet.of();
         try {
+          ImmutableSet<AccountState> accountsInChange = ImmutableSet.of();
+          if (options.verifyCommits) {
+            try {
+              ChangeNotes changeNotes = changeNotesFactory.create(project, changeId);
+              accountsInChange = collectAccounts(changeNotes);
+            } catch (Exception e) {
+              logger.atWarning().withCause(e).log("Failed to run verification on ref %s", ref);
+            }
+          }
           ChangeFixProgress changeFixProgress =
               backfillChange(revWalk, ins, ref, accountsInChange, options);
           if (changeFixProgress.anyFixesApplied) {
@@ -180,7 +237,8 @@ public class CommitRewriter {
           if (!changeFixProgress.isValidAfterFix) {
             result.refsStillInvalidAfterFix.add(ref.getName());
           }
-        } catch (ConfigInvalidException | IOException e) {
+        } catch (Exception e) {
+          logger.atWarning().withCause(e).log("Failed to fix ref %s", ref);
           result.refsFailedToFix.add(ref.getName());
         }
       }
@@ -192,6 +250,7 @@ public class CommitRewriter {
         }
       }
     } catch (IOException e) {
+      logger.atWarning().withCause(e).log("Failed to fix project %s", project.get());
       result.ok = false;
     }
 
@@ -209,8 +268,12 @@ public class CommitRewriter {
     Set<Account.Id> accounts = new HashSet<>();
     accounts.add(changeNotes.getChange().getOwner());
     for (PatchSetApproval patchSetApproval : changeNotes.getApprovals().values()) {
-      accounts.add(patchSetApproval.accountId());
-      accounts.add(patchSetApproval.realAccountId());
+      if (patchSetApproval.accountId() != null) {
+        accounts.add(patchSetApproval.accountId());
+      }
+      if (patchSetApproval.realAccountId() != null) {
+        accounts.add(patchSetApproval.realAccountId());
+      }
     }
     accounts.addAll(changeNotes.getAllPastReviewers());
     accounts.addAll(changeNotes.getPastAssignees());
@@ -218,15 +281,21 @@ public class CommitRewriter {
         .getAttentionSetUpdates()
         .forEach(attentionSetUpdate -> accounts.add(attentionSetUpdate.account()));
     for (SubmitRecord submitRecord : changeNotes.getSubmitRecords()) {
-      accounts.addAll(
-          submitRecord.labels.stream()
-              .map(label -> label.appliedBy)
-              .filter(Objects::nonNull)
-              .collect(Collectors.toSet()));
+      if (submitRecord.labels != null) {
+        accounts.addAll(
+            submitRecord.labels.stream()
+                .map(label -> label.appliedBy)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet()));
+      }
     }
     for (HumanComment comment : changeNotes.getHumanComments().values()) {
-      accounts.add(comment.author.getId());
-      accounts.add(comment.getRealAuthor().getId());
+      if (comment.author != null) {
+        accounts.add(comment.author.getId());
+      }
+      if (comment.getRealAuthor() != null) {
+        accounts.add(comment.getRealAuthor().getId());
+      }
     }
     return ImmutableSet.copyOf(accountCache.get(accounts).values());
   }
@@ -396,7 +465,7 @@ public class CommitRewriter {
 
   private boolean verifyPersonIdent(PersonIdent newIdent, PersonIdent originalIdent) {
     return newIdent.getTimeZoneOffset() == originalIdent.getTimeZoneOffset()
-        && newIdent.getWhen().equals(originalIdent.getWhen())
+        && newIdent.getWhen().getTime() == originalIdent.getWhen().getTime()
         && newIdent.getEmailAddress().equals(originalIdent.getEmailAddress());
   }
 
@@ -405,27 +474,27 @@ public class CommitRewriter {
     if (Strings.isNullOrEmpty(originalChangeMessage)) {
       return Optional.empty();
     }
-    Pattern assigneeDeletedPattern = Pattern.compile("Assignee deleted: (.*)");
-    Matcher assigneeDeletedMatcher = assigneeDeletedPattern.matcher(originalChangeMessage);
+
+    Matcher assigneeDeletedMatcher = ASSIGNEE_DELETED_PATTERN.matcher(originalChangeMessage);
     if (assigneeDeletedMatcher.matches()) {
-      if (!assigneeDeletedMatcher.group(1).matches(ACCOUNT_TEMPLATE_REGEX)) {
+      if (!ACCOUNT_TEMPLATE_PATTERN.matcher(assigneeDeletedMatcher.group(1)).matches()) {
         return Optional.of(
             "Assignee deleted: " + ChangeMessagesUtil.getAccountTemplate(oldAssignee));
       }
       return Optional.empty();
     }
-    Pattern assigneeAddedPattern = Pattern.compile("Assignee added: (.*)");
-    Matcher assigneeAddedMatcher = assigneeAddedPattern.matcher(originalChangeMessage);
+
+    Matcher assigneeAddedMatcher = ASSIGNEE_ADDED_PATTERN.matcher(originalChangeMessage);
     if (assigneeAddedMatcher.matches()) {
-      if (!assigneeAddedMatcher.group(1).matches(ACCOUNT_TEMPLATE_REGEX)) {
+      if (!ACCOUNT_TEMPLATE_PATTERN.matcher(assigneeAddedMatcher.group(1)).matches()) {
         return Optional.of("Assignee added: " + ChangeMessagesUtil.getAccountTemplate(newAssignee));
       }
       return Optional.empty();
     }
-    Pattern assigneeChangedPattern = Pattern.compile("Assignee changed from: (.*) to: (.*)");
-    Matcher assigneeChangedMatcher = assigneeChangedPattern.matcher(originalChangeMessage);
+
+    Matcher assigneeChangedMatcher = ASSIGNEE_CHANGED_PATTERN.matcher(originalChangeMessage);
     if (assigneeChangedMatcher.matches()) {
-      if (!assigneeChangedMatcher.group(1).matches(ACCOUNT_TEMPLATE_REGEX)) {
+      if (!ACCOUNT_TEMPLATE_PATTERN.matcher(assigneeChangedMatcher.group(1)).matches()) {
         return Optional.of(
             String.format(
                 "Assignee changed from: %s to: %s",
@@ -441,9 +510,8 @@ public class CommitRewriter {
     if (Strings.isNullOrEmpty(originalChangeMessage)) {
       return Optional.empty();
     }
-    Pattern removedReviewer = Pattern.compile("Removed (cc|reviewer) (.*) .*");
-    Matcher matcher = removedReviewer.matcher(originalChangeMessage);
-    if (matcher.matches() && !matcher.group(2).matches(ACCOUNT_TEMPLATE_REGEX)) {
+    Matcher matcher = REMOVED_REVIEWER_PATTERN.matcher(originalChangeMessage);
+    if (matcher.matches() && !ACCOUNT_TEMPLATE_PATTERN.matcher(matcher.group(2)).matches()) {
       // Since we do not use change messages for reviewer updates on UI, it does not matter what we
       // rewrite it to.
       return Optional.of(originalChangeMessage.substring(0, matcher.end(1)));
@@ -456,9 +524,9 @@ public class CommitRewriter {
     if (Strings.isNullOrEmpty(originalChangeMessage)) {
       return Optional.empty();
     }
-    Pattern removedVotePattern = Pattern.compile("Removed (.*) by (.*)");
-    Matcher matcher = removedVotePattern.matcher(originalChangeMessage);
-    if (matcher.matches() && !matcher.group(2).matches(ACCOUNT_TEMPLATE_REGEX)) {
+
+    Matcher matcher = REMOVED_VOTE_PATTERN.matcher(originalChangeMessage);
+    if (matcher.matches() && !ACCOUNT_TEMPLATE_PATTERN.matcher(matcher.group(2)).matches()) {
       return Optional.of(
           String.format(
               "Removed %s by %s",
@@ -471,10 +539,9 @@ public class CommitRewriter {
     if (Strings.isNullOrEmpty(originalChangeMessage)) {
       return Optional.empty();
     }
-    Pattern removedChangeMessage =
-        Pattern.compile("Change message removed by: (.*)(\nReason: .*)?");
-    Matcher matcher = removedChangeMessage.matcher(originalChangeMessage);
-    if (matcher.matches() && !matcher.group(1).matches(ACCOUNT_TEMPLATE_REGEX)) {
+
+    Matcher matcher = REMOVED_CHANGE_MESSAGE_PATTERN.matcher(originalChangeMessage);
+    if (matcher.matches() && !ACCOUNT_TEMPLATE_PATTERN.matcher(matcher.group(1)).matches()) {
       String fixedMessage = "Change message removed";
       if (matcher.group(2) != null) {
         fixedMessage += matcher.group(2);
@@ -488,8 +555,8 @@ public class CommitRewriter {
     if (Strings.isNullOrEmpty(originalChangeMessage)) {
       return Optional.empty();
     }
-    Pattern submittedPattern = Pattern.compile("Change has been successfully (.*) by (.*)");
-    Matcher matcher = submittedPattern.matcher(originalChangeMessage);
+
+    Matcher matcher = SUBMITTED_PATTERN.matcher(originalChangeMessage);
     if (matcher.matches()) {
       // See https://gerrit-review.googlesource.com/c/gerrit/+/272654
       return Optional.of(originalChangeMessage.substring(0, matcher.end(1)));
@@ -500,11 +567,115 @@ public class CommitRewriter {
   /**
    * Rewrites a code owners change message.
    *
-   * @param originalMessage the original change message
-   * @return the updated change message
+   * <p>See https://gerrit-review.googlesource.com/c/plugins/code-owners/+/305409
    */
-  private Optional<String> fixCodeOwnersChangeMessage(String originalMessage) {
-    // TODO(mariasavtchouk): backfill this case
+  private Optional<String> fixCodeOwnersOnAddReviewerChangeMessage(
+      ChangeFixProgress changeFixProgress, String originalMessage) {
+    if (Strings.isNullOrEmpty(originalMessage)) {
+      return Optional.empty();
+    }
+
+    Matcher onAddReviewerMatcher = ON_CODE_OWNER_ADD_REVIEWER_PATTERN.matcher(originalMessage);
+    if (!onAddReviewerMatcher.find()
+        || NON_REPLACE_ACCOUNT_PATTERN.matcher(onAddReviewerMatcher.group(1)).matches()) {
+      return Optional.empty();
+    }
+
+    // Pre fix, try to replace with something meaningful.
+    // Retrieve reviewer accounts from cache and try to match by their name.
+    Map<Account.Id, AccountState> missingUserNameReviewers =
+        accountCache.get(
+            changeFixProgress.parsedReviewers.entrySet().stream()
+                .filter(entry -> entry.getValue().isEmpty())
+                .map(Map.Entry::getKey)
+                .collect(ImmutableSet.toImmutableSet()));
+    // TODO(mariasavtchouk): Adjust based on the dry run.
+    // We could just reset parsedReviewers here, because next message should only include the delta
+    changeFixProgress.parsedReviewers.putAll(
+        missingUserNameReviewers.entrySet().stream()
+            .collect(
+                ImmutableMap.toImmutableMap(
+                    Map.Entry::getKey, e -> e.getValue().account().getName())));
+    onAddReviewerMatcher.reset();
+    StringBuffer sb = new StringBuffer();
+    while (onAddReviewerMatcher.find()) {
+      String reviewerName = onAddReviewerMatcher.group(1);
+      Set<Account.Id> possibleReplacements =
+          changeFixProgress.parsedReviewers.entrySet().stream()
+              .filter(reviewer -> reviewer.getValue().equals(reviewerName))
+              .map(Entry::getKey)
+              .collect(ImmutableSet.toImmutableSet());
+      String replacementName = DEFAULT_ACCOUNT_REPLACEMENT;
+      if (possibleReplacements.isEmpty()) {
+        logger.atWarning().log("Could not find reviewer account matching name %s", reviewerName);
+      } else if (possibleReplacements.size() > 1) {
+        logger.atWarning().log("Found multiple reviewer account matching name %s", reviewerName);
+      } else {
+        replacementName =
+            ChangeMessagesUtil.getAccountTemplate(Iterables.getOnlyElement(possibleReplacements));
+      }
+      onAddReviewerMatcher.appendReplacement(
+          sb, replacementName + ", who was added as reviewer owns the following files");
+    }
+    onAddReviewerMatcher.appendTail(sb);
+    sb.append("\n");
+    return Optional.of(sb.toString());
+  }
+
+  private Optional<String> fixCodeOwnersOnReviewChangeMessage(
+      Account.Id reviewer, String originalMessage) {
+    if (Strings.isNullOrEmpty(originalMessage)) {
+      return Optional.empty();
+    }
+
+    Matcher onCodeOwnerApprovalMatcher = ON_CODE_OWNER_APPROVAL_PATTERN.matcher(originalMessage);
+    if (onCodeOwnerApprovalMatcher.find()
+        && !ACCOUNT_TEMPLATE_PATTERN.matcher(onCodeOwnerApprovalMatcher.group(1)).matches()) {
+      return Optional.of(
+          originalMessage.replace(
+                  "approved by " + onCodeOwnerApprovalMatcher.group(1),
+                  "approved by " + ChangeMessagesUtil.getAccountTemplate(reviewer))
+              + "\n");
+    }
+
+    Matcher onCodeOwnerOverrideMatcher = ON_CODE_OWNER_OVERRIDE_PATTERN.matcher(originalMessage);
+    if (onCodeOwnerOverrideMatcher.find()
+        && !ACCOUNT_TEMPLATE_PATTERN.matcher(onCodeOwnerOverrideMatcher.group(1)).matches()) {
+      return Optional.of(
+          originalMessage.replace(
+                  "overridden by " + onCodeOwnerOverrideMatcher.group(1),
+                  "overridden by " + ChangeMessagesUtil.getAccountTemplate(reviewer))
+              + "\n");
+    }
+
+    return Optional.empty();
+  }
+
+  private Optional<String> fixAttentionSetReason(String originalReason) {
+    if (Strings.isNullOrEmpty(originalReason)) {
+      return Optional.empty();
+    }
+    // Only the latest attention set updates are displayed on UI. As long as reason is
+    // human-readable, it does not matter what we rewrite it to.
+
+    Matcher replyByReasonMatcher = REPLY_BY_REASON_PATTERN.matcher(originalReason);
+    if (replyByReasonMatcher.matches()
+        && !OK_ACCOUNT_NAME_PATTERN.matcher(replyByReasonMatcher.group(1)).matches()) {
+      return Optional.of("Someone replied on the change");
+    }
+
+    Matcher addedByReasonMatcher = ADDED_BY_REASON_PATTERN.matcher(originalReason);
+    if (addedByReasonMatcher.matches()
+        && !OK_ACCOUNT_NAME_PATTERN.matcher(addedByReasonMatcher.group(1)).matches()) {
+      return Optional.of("Added by someone using the hovercard menu");
+    }
+
+    Matcher removedByReasonMatcher = REMOVED_BY_REASON_PATTERN.matcher(originalReason);
+    if (removedByReasonMatcher.matches()
+        && !OK_ACCOUNT_NAME_PATTERN.matcher(removedByReasonMatcher.group(1)).matches()) {
+
+      return Optional.of("Removed by someone using the hovercard menu");
+    }
     return Optional.empty();
   }
 
@@ -544,7 +715,7 @@ public class CommitRewriter {
     for (FooterLine fl : footerLines) {
       String footerKey = fl.getKey();
       String footerValue = fl.getValue();
-      if (footerKey.equals(FOOTER_TAG.getName())) {
+      if (footerKey.equalsIgnoreCase(FOOTER_TAG.getName())) {
         if (footerValue.equals(ChangeMessagesUtil.TAG_MERGED)) {
           fixedChangeMessage = fixSubmitChangeMessage(originalChangeMessage);
         }
@@ -565,11 +736,10 @@ public class CommitRewriter {
           continue;
         }
       } else if (Arrays.stream(ReviewerStateInternal.values())
-          .filter(state -> footerKey.equalsIgnoreCase(state.getFooterKey().getName()))
-          .findAny()
-          .isPresent()) {
+          .anyMatch(state -> footerKey.equalsIgnoreCase(state.getFooterKey().getName()))) {
         fixedChangeMessage = fixReviewerChangeMessage(originalChangeMessage);
         FixIdentResult fixedReviewer = getFixedIdentString(footerValue);
+        fixProgress.parsedReviewers.putIfAbsent(fixedReviewer.accountId, "");
         if (fixedReviewer.fixedIdentString.isPresent()) {
           addFooter(footerLinesBuilder, footerKey, fixedReviewer.fixedIdentString.get());
           anyFootersFixed = true;
@@ -601,10 +771,42 @@ public class CommitRewriter {
           continue;
         }
       } else if (footerKey.equalsIgnoreCase(FOOTER_SUBMITTED_WITH.getName())) {
-        // TODO(mariasavtchouk): backfill this case
+        // Record format:
+        // Submitted-with: OK
+        // Submitted-with: OK: Code-Review: User Name <accountId@serverId>
+        int voterIdentStart = StringUtils.ordinalIndexOf(footerValue, ": ", 2);
+        if (voterIdentStart >= 0) {
+          String originalIdentString = footerValue.substring(voterIdentStart + 2);
+          FixIdentResult fixedVoter = getFixedIdentString(originalIdentString);
+          if (fixedVoter.fixedIdentString.isPresent()) {
+            String fixedLabelVote =
+                footerValue.substring(0, voterIdentStart)
+                    + ": "
+                    + fixedVoter.fixedIdentString.get();
+            addFooter(footerLinesBuilder, footerKey, fixedLabelVote);
+            anyFootersFixed = true;
+            continue;
+          }
+        }
 
       } else if (footerKey.equalsIgnoreCase(FOOTER_ATTENTION.getName())) {
-        // TODO(mariasavtchouk): backfill this case
+        AttentionStatusInNoteDb originalAttentionSetUpdate =
+            gson.fromJson(footerValue, AttentionStatusInNoteDb.class);
+        FixIdentResult fixedAttentionAccount =
+            getFixedIdentString(originalAttentionSetUpdate.personIdent);
+        Optional<String> fixedReason = fixAttentionSetReason(originalAttentionSetUpdate.reason);
+        if (fixedAttentionAccount.fixedIdentString.isPresent() || fixedReason.isPresent()) {
+          AttentionStatusInNoteDb fixedAttentionSetUpdate =
+              new AttentionStatusInNoteDb(
+                  fixedAttentionAccount.fixedIdentString.isPresent()
+                      ? fixedAttentionAccount.fixedIdentString.get()
+                      : originalAttentionSetUpdate.personIdent,
+                  originalAttentionSetUpdate.operation,
+                  fixedReason.isPresent() ? fixedReason.get() : originalAttentionSetUpdate.reason);
+          addFooter(footerLinesBuilder, footerKey, gson.toJson(fixedAttentionSetUpdate));
+          anyFootersFixed = true;
+          continue;
+        }
       }
       addFooter(footerLinesBuilder, footerKey, footerValue);
     }
@@ -613,7 +815,12 @@ public class CommitRewriter {
       fixedChangeMessage = fixDeleteChangeMessageCommitMessage(originalChangeMessage);
     }
     if (!fixedChangeMessage.isPresent()) {
-      fixedChangeMessage = fixCodeOwnersChangeMessage(originalChangeMessage);
+      fixedChangeMessage =
+          fixCodeOwnersOnReviewChangeMessage(fixProgress.updateAuthorId, originalChangeMessage);
+    }
+    if (!fixedChangeMessage.isPresent()) {
+      fixedChangeMessage =
+          fixCodeOwnersOnAddReviewerChangeMessage(fixProgress, originalChangeMessage);
     }
     if (!anyFootersFixed && !fixedChangeMessage.isPresent()) {
       return Optional.empty();
@@ -622,8 +829,7 @@ public class CommitRewriter {
     fixedCommitBuilder.append(changeSubject);
     fixedCommitBuilder.append("\n\n");
     if (commitMessageRange.get().hasChangeMessage()) {
-      fixedCommitBuilder.append(
-          fixedChangeMessage.isPresent() ? fixedChangeMessage.get() : originalChangeMessage);
+      fixedCommitBuilder.append(fixedChangeMessage.orElse(originalChangeMessage));
       fixedCommitBuilder.append("\n\n");
     }
     fixedCommitBuilder.append(footerLinesBuilder);
@@ -693,7 +899,9 @@ public class CommitRewriter {
   public static byte[] cutTreeAndParents(byte[] b) {
     final int sz = b.length;
     int ptr = 46; // skip the "tree ..." line.
-    while (ptr < sz && b[ptr] == 'p') ptr += 48; // skip this parent.
+    while (ptr < sz && b[ptr] == 'p') {
+      ptr += 48;
+    } // skip this parent.
     return Arrays.copyOfRange(b, ptr, b.length + 1);
   }
 
@@ -745,6 +953,13 @@ public class CommitRewriter {
 
     /** Author of the current commit update. */
     Account.Id updateAuthorId = null;
+
+    /**
+     * Reviewer accounts parsed so far together with their {@link Account#getName} extracted from
+     * {@link #accountCache} if needed by rewrite. Maps to empty string if was not requested from
+     * cache yet.
+     */
+    Map<Account.Id, String> parsedReviewers = new HashMap<>();
 
     /** Id of the current commit in rewriter walk. */
     ObjectId newTipId = null;

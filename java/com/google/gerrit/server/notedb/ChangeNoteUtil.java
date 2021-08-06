@@ -208,7 +208,7 @@ public class ChangeNoteUtil {
   }
 
   /** Helper class for JSON serialization. Timestamp is taken from the commit. */
-  private static class AttentionStatusInNoteDb {
+  public static class AttentionStatusInNoteDb {
 
     final String personIdent;
     final AttentionSetUpdate.Operation operation;

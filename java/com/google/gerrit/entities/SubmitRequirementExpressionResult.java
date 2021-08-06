@@ -119,6 +119,7 @@ public abstract class SubmitRequirementExpressionResult {
   public abstract static class PredicateResult {
     abstract ImmutableList<PredicateResult> childPredicateResults();
 
+    /** We only set this field for terminal (leaf) predicates. */
     public abstract String predicateString();
 
     /** true if the predicate is passing for a given change. */
@@ -149,7 +150,7 @@ public abstract class SubmitRequirementExpressionResult {
     }
 
     private void getAtomsRecursively(ImmutableList.Builder<PredicateResult> list, boolean status) {
-      if (childPredicateResults().isEmpty() && status() == status) {
+      if (!predicateString().isEmpty() && status() == status) {
         list.add(this);
         return;
       }

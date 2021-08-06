@@ -104,11 +104,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     assertThat(result.passingAtoms())
         .containsExactly(String.format("project:%s", project.get()), "message:\"Fix a bug\"");
 
-    assertThat(result.failingAtoms())
-        .containsExactly(
-            // TODO(ghareeb): querying "branch:" creates a RefPredicate. Fix names so that they
-            // match
-            String.format("ref:refs/heads/foo"));
+    assertThat(result.failingAtoms()).containsExactly(String.format("branch:refs/heads/foo"));
   }
 
   @Test
@@ -147,13 +143,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
     SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.UNSATISFIED);
-    // While submit requirements are evaluated, passing and failing atoms are written using the
-    // predicate's "toString" method. Some predicates have a name that is not matching with the
-    // actual parsed query, for example 'label' is transformed to 'label2', 'branch' to 'ref',
-    // etc...
-    // TODO(ghareeb): adapt the output such that resulted atoms match with the user supplied query.
     assertThat(result.submittabilityExpressionResult().failingAtoms())
-        .containsExactly("label2:code-review+2");
+        .containsExactly("label:\"code-review=+2\"");
   }
 
   @Test

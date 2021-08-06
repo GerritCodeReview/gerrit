@@ -1080,8 +1080,6 @@ public class ChangeNotesStateTest {
                 .put("author", Account.Id.class)
                 .put("writtenOn", Timestamp.class)
                 .put("message", String.class)
-                // accountsInMessage are parsed from message template and are not serialized.
-                .put("accountsInMessage", new TypeLiteral<ImmutableSet<Account.Id>>() {}.getType())
                 .put("patchset", PatchSet.Id.class)
                 .put("tag", String.class)
                 .put("realAuthor", Account.Id.class)

@@ -46,6 +46,7 @@ import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoView;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -144,7 +145,7 @@ public class DeleteReviewerOp extends ReviewerOp {
     StringBuilder msg = new StringBuilder();
     msg.append(
         String.format(
-            "Removed %s %s", ccOrReviewer, ChangeMessagesUtil.getAccountTemplate(reviewer.id())));
+            "Removed %s %s", ccOrReviewer, AccountTemplateUtil.getAccountTemplate(reviewer.id())));
     StringBuilder removedVotesMsg = new StringBuilder();
     removedVotesMsg.append(" with the following votes:\n\n");
     boolean votesRemoved = false;
@@ -158,7 +159,7 @@ public class DeleteReviewerOp extends ReviewerOp {
             .append(a.label())
             .append(formatLabelValue(a.value()))
             .append(" by ")
-            .append(ChangeMessagesUtil.getAccountTemplate(a.accountId()))
+            .append(AccountTemplateUtil.getAccountTemplate(a.accountId()))
             .append("\n");
         votesRemoved = true;
       }

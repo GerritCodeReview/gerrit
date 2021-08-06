@@ -14,14 +14,14 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.entities.ChangeMessage.ACCOUNT_TEMPLATE_PATTERN;
-import static com.google.gerrit.entities.ChangeMessage.ACCOUNT_TEMPLATE_REGEX;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
+import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_PATTERN;
+import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_REGEX;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
@@ -44,6 +44,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.AttentionStatusInNoteDb;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.CommitMessageRange;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -479,7 +480,7 @@ public class CommitRewriter {
     if (assigneeDeletedMatcher.matches()) {
       if (!ACCOUNT_TEMPLATE_PATTERN.matcher(assigneeDeletedMatcher.group(1)).matches()) {
         return Optional.of(
-            "Assignee deleted: " + ChangeMessagesUtil.getAccountTemplate(oldAssignee));
+            "Assignee deleted: " + AccountTemplateUtil.getAccountTemplate(oldAssignee));
       }
       return Optional.empty();
     }
@@ -487,7 +488,8 @@ public class CommitRewriter {
     Matcher assigneeAddedMatcher = ASSIGNEE_ADDED_PATTERN.matcher(originalChangeMessage);
     if (assigneeAddedMatcher.matches()) {
       if (!ACCOUNT_TEMPLATE_PATTERN.matcher(assigneeAddedMatcher.group(1)).matches()) {
-        return Optional.of("Assignee added: " + ChangeMessagesUtil.getAccountTemplate(newAssignee));
+        return Optional.of(
+            "Assignee added: " + AccountTemplateUtil.getAccountTemplate(newAssignee));
       }
       return Optional.empty();
     }
@@ -498,8 +500,8 @@ public class CommitRewriter {
         return Optional.of(
             String.format(
                 "Assignee changed from: %s to: %s",
-                ChangeMessagesUtil.getAccountTemplate(oldAssignee),
-                ChangeMessagesUtil.getAccountTemplate(newAssignee)));
+                AccountTemplateUtil.getAccountTemplate(oldAssignee),
+                AccountTemplateUtil.getAccountTemplate(newAssignee)));
       }
       return Optional.empty();
     }
@@ -530,7 +532,7 @@ public class CommitRewriter {
       return Optional.of(
           String.format(
               "Removed %s by %s",
-              matcher.group(1), ChangeMessagesUtil.getAccountTemplate(reviewer)));
+              matcher.group(1), AccountTemplateUtil.getAccountTemplate(reviewer)));
     }
     return Optional.empty();
   }
@@ -612,7 +614,7 @@ public class CommitRewriter {
         logger.atWarning().log("Found multiple reviewer account matching name %s", reviewerName);
       } else {
         replacementName =
-            ChangeMessagesUtil.getAccountTemplate(Iterables.getOnlyElement(possibleReplacements));
+            AccountTemplateUtil.getAccountTemplate(Iterables.getOnlyElement(possibleReplacements));
       }
       onAddReviewerMatcher.appendReplacement(
           sb, replacementName + ", who was added as reviewer owns the following files");
@@ -634,7 +636,7 @@ public class CommitRewriter {
       return Optional.of(
           originalMessage.replace(
                   "approved by " + onCodeOwnerApprovalMatcher.group(1),
-                  "approved by " + ChangeMessagesUtil.getAccountTemplate(reviewer))
+                  "approved by " + AccountTemplateUtil.getAccountTemplate(reviewer))
               + "\n");
     }
 
@@ -644,7 +646,7 @@ public class CommitRewriter {
       return Optional.of(
           originalMessage.replace(
                   "overridden by " + onCodeOwnerOverrideMatcher.group(1),
-                  "overridden by " + ChangeMessagesUtil.getAccountTemplate(reviewer))
+                  "overridden by " + AccountTemplateUtil.getAccountTemplate(reviewer))
               + "\n");
     }
 

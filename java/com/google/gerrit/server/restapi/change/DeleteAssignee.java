@@ -35,6 +35,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -105,7 +106,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       cmUtil.setChangeMessage(
           ctx,
           "Assignee deleted: "
-              + ChangeMessagesUtil.getAccountTemplate(deletedAssignee.getAccountId()),
+              + AccountTemplateUtil.getAccountTemplate(deletedAssignee.getAccountId()),
           ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
     }
 

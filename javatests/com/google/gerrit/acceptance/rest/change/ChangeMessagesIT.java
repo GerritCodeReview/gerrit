@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
@@ -47,8 +48,8 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.inject.Inject;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -81,6 +82,28 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertThat(c.messages).isNotNull();
     assertThat(c.messages).hasSize(1);
     assertThat(c.messages.iterator().next().message).isEqualTo("Uploaded patch set 1.");
+  }
+
+  @Test
+  public void messageWithAccountTemplate() throws Exception {
+    String changeId = createChange().getChangeId();
+    String messageTemplate =
+        String.format(
+            "Review added by %s: some nits need to be fixed by %s.",
+            AccountTemplateUtil.getAccountTemplate(admin.id()),
+            AccountTemplateUtil.getAccountTemplate(user.id()));
+    postMessage(changeId, messageTemplate);
+    ChangeInfo c = get(changeId, MESSAGES, DETAILED_ACCOUNTS);
+    assertThat(c.messages).isNotNull();
+    assertThat(c.messages).hasSize(2);
+    Iterator<ChangeMessageInfo> it = c.messages.iterator();
+    ChangeMessageInfo defaultMessage = it.next();
+    assertThat(defaultMessage.message).isEqualTo("Uploaded patch set 1.");
+    assertThat(defaultMessage.accountsInMessage).isEmpty();
+    ChangeMessageInfo messageWithTemplate = it.next();
+    assertMessage(messageTemplate, messageWithTemplate.message);
+    assertThat(messageWithTemplate.accountsInMessage)
+        .containsExactly(getAccountInfo(admin.id()), getAccountInfo(user.id()));
   }
 
   @Test
@@ -151,7 +174,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   @Test
   public void getChangeMessagesWithTemplate() throws Exception {
     String changeId = createChange().getChangeId();
-    String messageTemplate = "Review by " + ChangeMessagesUtil.getAccountTemplate(admin.id());
+    String messageTemplate = "Review by " + AccountTemplateUtil.getAccountTemplate(admin.id());
     postMessage(changeId, messageTemplate);
     assertMessage(
         messageTemplate,
@@ -411,7 +434,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
                 rangeAfter.get().changeMessageStart(),
                 rangeAfter.get().changeMessageEnd() + 1);
         String expectedMessageTemplate =
-            "Change message removed by: " + ChangeMessagesUtil.getAccountTemplate(deletedBy.id());
+            "Change message removed by: " + AccountTemplateUtil.getAccountTemplate(deletedBy.id());
         if (!Strings.isNullOrEmpty(deleteReason)) {
           expectedMessageTemplate = expectedMessageTemplate + "\nReason: " + deleteReason;
         }

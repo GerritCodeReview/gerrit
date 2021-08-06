@@ -15,16 +15,9 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * A message attached to a {@link Change}. This message is persisted in data storage, that is why it
@@ -35,15 +28,6 @@ import java.util.regex.Pattern;
  * user input.
  */
 public final class ChangeMessage {
-
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  /** Template to identify an account in {@link ChangeMessage#message}. */
-  public static final String ACCOUNT_TEMPLATE = "<GERRIT_ACCOUNT_%d>";
-
-  public static final String ACCOUNT_TEMPLATE_REGEX = "<GERRIT_ACCOUNT_([0-9]+)>";
-
-  public static final Pattern ACCOUNT_TEMPLATE_PATTERN = Pattern.compile(ACCOUNT_TEMPLATE_REGEX);
 
   public static Key key(Change.Id changeId, String uuid) {
     return new AutoValue_ChangeMessage_Key(changeId, uuid);
@@ -69,9 +53,6 @@ public final class ChangeMessage {
    * Identifiable Information and can be persisted in data storage.
    */
   @Nullable protected String message;
-
-  /** {@link Account.Id}s that are used in {@link #message} template. */
-  protected ImmutableSet<Account.Id> accountsInMessage;
 
   /** Which patchset (if any) was this message generated from? */
   @Nullable protected PatchSet.Id patchset;
@@ -103,28 +84,10 @@ public final class ChangeMessage {
     message.writtenOn = wo;
     message.patchset = psid;
     message.message = messageTemplate;
-    message.accountsInMessage =
-        messageTemplate == null ? ImmutableSet.of() : parseTemplates(messageTemplate);
     // Use null for same real author, as before the column was added.
     message.realAuthor = Objects.equals(a, realAuthor) ? null : realAuthor;
     message.tag = tag;
     return message;
-  }
-
-  /* Returns account ids that are used in {@code messageTemplate}. */
-  public static ImmutableSet<Account.Id> parseTemplates(String messageTemplate) {
-    Matcher matcher = ACCOUNT_TEMPLATE_PATTERN.matcher(messageTemplate);
-    Set<Account.Id> accountsInTemplate = new HashSet<>();
-    while (matcher.find()) {
-      String accountId = matcher.group(1);
-      Optional<Account.Id> parsedAccountId = Account.Id.tryParse(accountId);
-      if (parsedAccountId.isPresent()) {
-        accountsInTemplate.add(parsedAccountId.get());
-      } else {
-        logger.atFine().log("Failed to parse accountId from template %s", matcher.group());
-      }
-    }
-    return ImmutableSet.copyOf(accountsInTemplate);
   }
 
   public ChangeMessage.Key getKey() {
@@ -149,11 +112,6 @@ public final class ChangeMessage {
     return message;
   }
 
-  /** Account ids, used in {@link #message} template. */
-  public ImmutableSet<Account.Id> getAccountsInMessage() {
-    return accountsInMessage == null ? ImmutableSet.of() : accountsInMessage;
-  }
-
   public String getTag() {
     return tag;
   }
@@ -172,7 +130,6 @@ public final class ChangeMessage {
         && Objects.equals(author, m.author)
         && Objects.equals(writtenOn, m.writtenOn)
         && Objects.equals(message, m.message)
-        && Objects.equals(accountsInMessage, m.accountsInMessage)
         && Objects.equals(patchset, m.patchset)
         && Objects.equals(tag, m.tag)
         && Objects.equals(realAuthor, m.realAuthor);
@@ -180,8 +137,7 @@ public final class ChangeMessage {
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        key, author, writtenOn, message, accountsInMessage, patchset, tag, realAuthor);
+    return Objects.hash(key, author, writtenOn, message, patchset, tag, realAuthor);
   }
 
   @Override
@@ -201,8 +157,6 @@ public final class ChangeMessage {
         + tag
         + ", message=["
         + message
-        + "], accountsInMessage="
-        + accountsInMessage
-        + "}";
+        + "]}";
   }
 }

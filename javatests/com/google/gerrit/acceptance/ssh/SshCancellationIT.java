@@ -18,6 +18,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.project.CreateProjectArgs;
@@ -145,6 +146,26 @@ public class SshCancellationIT extends AbstractDaemonTest {
   @Test
   public void requestSucceedsWithinDeadline() throws Exception {
     adminSshSession.exec("gerrit create-project --deadline 10m " + name("new"));
+    adminSshSession.assertSuccess();
+  }
+
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  public void abortIfServerDeadlineExceeded() throws Exception {
+    adminSshSession.exec("gerrit create-project " + name("new"));
+    adminSshSession.assertFailure("Server Deadline Exceeded (timeout=1ms)");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  public void clientProvidedDeadlineOverridesServerDeadline() throws Exception {
+    adminSshSession.exec("gerrit create-project --deadline 2ms " + name("new"));
+    adminSshSession.assertFailure("Client Provided Deadline Exceeded (timeout=2ms)");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  public void clientCanDisableDeadlineBySettingZeroAsDeadline() throws Exception {
+    adminSshSession.exec("gerrit create-project --deadline 0 " + name("new"));
     adminSshSession.assertSuccess();
   }
 }

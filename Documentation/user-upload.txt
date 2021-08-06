@@ -472,8 +472,10 @@ abbreviations ('ms', 'sec', 'min', etc.).
   git push -o deadline=10m ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master
 ----
 
-Setting a deadline doesn't override the server-side
-link:config.html#receive.timeout[receive timeout] after which a push is aborted.
+Setting a deadline for the push overrides any
+link:config-gerrit.html#deadline.id[server-side deadline] that has been
+configured on the host, but not the link:config.html#receive.timeout[receive
+timeout].
 
 [[push_replace]]
 === Replace Changes

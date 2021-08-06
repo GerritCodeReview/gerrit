@@ -52,6 +52,24 @@
       "parentUuid": "add81c4d_1d742b29",
       "revId": "c26fa49ba6f1e10710c6a567f23000250a616ddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7c271cd_db9f7569",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-08-06T09:54:31Z",
+      "side": 1,
+      "message": "Yes, it is for all snackbars in general.\nThanks for share the link.",
+      "parentUuid": "9dd02964_bd64a8e8",
+      "revId": "c26fa49ba6f1e10710c6a567f23000250a616ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

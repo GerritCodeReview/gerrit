@@ -94,6 +94,30 @@
       },
       "revId": "4ea7fa115d543f7596c7d8c77c27e6e6ac7ab36e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdd6ac53_6b25a072",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-06T08:19:38Z",
+      "side": 1,
+      "message": "Sorry I am not super familiar with the template error setup.\nI tried \"npm run polylint\" and it did not show any errors.\n\nHow can I see the error specifically when you say \"it complains\" how do I see this complaint?",
+      "parentUuid": "5e51a9c1_00507dbd",
+      "range": {
+        "startLine": 75,
+        "startChar": 32,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "4ea7fa115d543f7596c7d8c77c27e6e6ac7ab36e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

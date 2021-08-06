@@ -95,6 +95,9 @@ $_documentContainer.innerHTML = `<dom-module id="gr-syntax-theme">
       .gr-syntax-literal { /* XML/HTML Attribute */
         color: var(--syntax-literal-color);
       }
+      .gr-syntax-property {
+        color: var(--syntax-property-color);
+      }
       .gr-syntax-selector-pseudo {
         color: var(--syntax-selector-pseudo-color);
       }

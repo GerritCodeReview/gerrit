@@ -20,8 +20,11 @@ import static com.google.gerrit.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
 import static com.google.gerrit.auth.ldap.LdapModule.PARENT_GROUPS_CACHE;
 import static com.google.gerrit.auth.ldap.LdapModule.USERNAME_CACHE;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_HTTP;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_HTTPS;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_XRI;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
@@ -90,5 +93,8 @@ public final class LdapRealmTest {
     assertThat(accountBelongsToRealm(SCHEME_USERNAME, "xxgerritxx")).isFalse();
     assertThat(accountBelongsToRealm(SCHEME_MAILTO, "gerrit.foo@bar.com")).isFalse();
     assertThat(accountBelongsToRealm(SCHEME_MAILTO, "bar.gerrit@bar.com")).isFalse();
+    assertThat(accountBelongsToRealm(SCHEME_HTTP, "example.org/test")).isFalse();
+    assertThat(accountBelongsToRealm(SCHEME_HTTPS, "example.org/test")).isFalse();
+    assertThat(accountBelongsToRealm(SCHEME_XRI, "example.org/test")).isFalse();
   }
 }

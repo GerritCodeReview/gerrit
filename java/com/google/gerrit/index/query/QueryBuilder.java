@@ -44,8 +44,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.antlr.runtime.CharStream;
+import org.antlr.runtime.CommonToken;
+import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
 
 /**
@@ -221,7 +225,7 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
     if (Strings.isNullOrEmpty(query)) {
       throw new QueryParseException("query is empty");
     }
-    return toPredicate(QueryParser.parse(query));
+    return toPredicate(QueryParser.parse(query), new SubexpressionBoundaries());
   }
 
   public void setOperatorAliases(Map<String, String> opAliases) {
@@ -245,23 +249,78 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
     return predicates;
   }
 
-  private Predicate<T> toPredicate(Tree r) throws QueryParseException, IllegalArgumentException {
+  private Predicate<T> toPredicate(Tree r, SubexpressionBoundaries boundaries)
+      throws QueryParseException, IllegalArgumentException {
+    Predicate<T> result;
     switch (r.getType()) {
       case AND:
-        return and(children(r));
+        result = and(children(r, boundaries));
+        break;
       case OR:
-        return or(children(r));
+        result = or(children(r, boundaries));
+        break;
       case NOT:
-        return not(toPredicate(onlyChildOf(r)));
+        result = not(toPredicate(onlyChildOf(r), boundaries));
+        break;
 
       case DEFAULT_FIELD:
-        return defaultField(concatenateChildText(r));
+        result = defaultField(concatenateChildText(r));
+        break;
 
       case FIELD_NAME:
-        return operator(r.getText(), concatenateChildText(r));
+        result = operator(r.getText(), concatenateChildText(r));
+        break;
 
       default:
         throw error("Unsupported operator: " + r);
+    }
+    result.setQueryString(getQueryString(r, boundaries));
+    return result;
+  }
+
+  /**
+   * Reconstruct the query sub-expression that was passed as input to the query parser from the tree
+   * input parameter.
+   */
+  private String getQueryString(Tree r, SubexpressionBoundaries boundaries) {
+    CommonTree ct = (CommonTree) r;
+    CommonToken token = (CommonToken) ct.getToken();
+    CharStream inputStream = token.getInputStream();
+    int leftIdx = boundaries.getLeftIndex(r);
+    int rightIdx = boundaries.getRightIndex(r);
+    if (inputStream == null) {
+      return "";
+    }
+    return inputStream.substring(leftIdx, rightIdx);
+  }
+
+  /**
+   * Stores the left and right indices of Antlr {@link Tree}s that correspond to different
+   * sub-expressions of the original query expressions.
+   */
+  private static class SubexpressionBoundaries {
+    private Map<Tree, Integer> rightIndices = new HashMap<>();
+
+    /** Return the stop index of a sub-expression identified by the tree parameter. */
+    private int getRightIndex(Tree r) {
+      if (rightIndices.containsKey(r)) {
+        return rightIndices.get(r);
+      }
+      CommonTree ct = (CommonTree) r;
+      if (ct.getChildCount() == 0) {
+        CommonToken token = (CommonToken) ct.getToken();
+        return token.getStopIndex();
+      }
+      int val = getRightIndex(ct.getChild(ct.getChildCount() - 1));
+      rightIndices.put(r, val);
+      return val;
+    }
+
+    /** Return the start index of a sub-expression identified by the tree parameter. */
+    private int getLeftIndex(Tree r) {
+      CommonTree ct = (CommonTree) r;
+      CommonToken token = (CommonToken) ct.getToken();
+      return token.getStartIndex();
     }
   }
 
@@ -325,10 +384,11 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
     throw error("Unsupported query:" + value);
   }
 
-  private List<Predicate<T>> children(Tree r) throws QueryParseException, IllegalArgumentException {
+  private List<Predicate<T>> children(Tree r, SubexpressionBoundaries boundaries)
+      throws QueryParseException, IllegalArgumentException {
     List<Predicate<T>> p = new ArrayList<>(r.getChildCount());
     for (int i = 0; i < r.getChildCount(); i++) {
-      p.add(toPredicate(r.getChild(i)));
+      p.add(toPredicate(r.getChild(i), boundaries));
     }
     return p;
   }
@@ -367,7 +427,10 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
     @Override
     public Predicate<T> create(Q builder, String value) throws QueryParseException {
       try {
-        return (Predicate<T>) method.invoke(builder, value);
+        Predicate<T> predicate = (Predicate<T>) method.invoke(builder, value);
+        // All operator predicates are terminal predicates.
+        predicate.setTerminal(true);
+        return predicate;
       } catch (RuntimeException | IllegalAccessException e) {
         throw error("Error in operator " + name + ":" + value, e);
       } catch (InvocationTargetException e) {

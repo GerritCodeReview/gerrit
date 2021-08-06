@@ -41,6 +41,32 @@ import java.util.List;
  * @param <T> type of object the predicate can evaluate in memory.
  */
 public abstract class Predicate<T> {
+  /** Query String that was used to create this predicate. Only set from the Antlr query parser. */
+  private String queryString = null;
+
+  /**
+   * Boolean indicating if this predicate is a leaf predicate in a composite expression. Only set
+   * from the Antlr query parser.
+   */
+  private boolean isTerminal = false;
+
+  /** Sets the {@link #queryString} field. This can only be set once. */
+  void setQueryString(String queryString) {
+    this.queryString = this.queryString == null ? queryString : this.queryString;
+  }
+
+  public String getQueryString() {
+    return queryString;
+  }
+
+  void setTerminal(boolean isTerminal) {
+    this.isTerminal = isTerminal;
+  }
+
+  public boolean isTerminal() {
+    return isTerminal;
+  }
+
   /** A predicate that matches any input, always, with no cost. */
   @SuppressWarnings("unchecked")
   public static <T> Predicate<T> any() {

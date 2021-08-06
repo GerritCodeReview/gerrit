@@ -139,7 +139,7 @@ export const htmlTemplate = html`
               title$="[[link.tooltip]]"
             >
               <span
-                class$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]"
+                class$="itemAction [[_computeDisabledClass(disabledIds.*, link.id)]]"
                 data-id$="[[link.id]]"
                 on-click="_handleItemTap"
                 hidden$="[[link.url]]"

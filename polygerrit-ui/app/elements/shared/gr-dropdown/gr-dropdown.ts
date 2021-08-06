@@ -32,6 +32,9 @@ const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
 
 declare global {
+  interface HTMLElementEventMap {
+    'opened-changed': CustomEvent;
+  }
   interface HTMLElementTagNameMap {
     'gr-dropdown': GrDropdown;
   }
@@ -84,7 +87,7 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
   items?: DropdownLink[];
 
   @property({type: Boolean})
-  downArrow?: boolean;
+  downArrow = false;
 
   @property({type: Array})
   topContent?: DropdownContent[];
@@ -242,7 +245,7 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
    * @param bold Whether the item is bold.
    * @return The class for the top-content item.
    */
-  _getClassIfBold(bold: boolean) {
+  _getClassIfBold(bold?: boolean) {
     return bold ? 'bold-text' : '';
   }
 
@@ -329,8 +332,8 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
    *     list.
    * @return The class for the item button.
    */
-  _computeDisabledClass(id: string, disabledIdsRecord: DisableIdsRecord) {
-    return disabledIdsRecord.base.includes(id) ? 'disabled' : '';
+  _computeDisabledClass(disabledIdsRecord: DisableIdsRecord, id?: string) {
+    return id && disabledIdsRecord.base.includes(id) ? 'disabled' : '';
   }
 
   /**

@@ -34,6 +34,24 @@
       "parentUuid": "0c495deb_f024761d",
       "revId": "c26fa49ba6f1e10710c6a567f23000250a616ddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dd02964_bd64a8e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-06T09:48:58Z",
+      "side": 1,
+      "message": "Also the timeout is defined here FYI\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts;l\u003d44?q\u003d%22const%20HIDE_ALERT_TIMEOUT_MS%20%3D%205000;%22\u0026sq\u003d",
+      "parentUuid": "add81c4d_1d742b29",
+      "revId": "c26fa49ba6f1e10710c6a567f23000250a616ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

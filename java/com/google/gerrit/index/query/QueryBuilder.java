@@ -46,6 +46,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.antlr.runtime.CharStream;
+import org.antlr.runtime.CommonToken;
+import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
 
 /**
@@ -246,23 +249,45 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
   }
 
   private Predicate<T> toPredicate(Tree r) throws QueryParseException, IllegalArgumentException {
+    Predicate<T> result;
     switch (r.getType()) {
       case AND:
-        return and(children(r));
+        result = and(children(r));
+        break;
       case OR:
-        return or(children(r));
+        result = or(children(r));
+        break;
       case NOT:
-        return not(toPredicate(onlyChildOf(r)));
+        result = not(toPredicate(onlyChildOf(r)));
+        break;
 
       case DEFAULT_FIELD:
-        return defaultField(concatenateChildText(r));
+        result = defaultField(concatenateChildText(r));
+        break;
 
       case FIELD_NAME:
-        return operator(r.getText(), concatenateChildText(r));
+        result = operator(r.getText(), concatenateChildText(r));
+        result.setQueryString(getQueryString(r));
+        break;
 
       default:
         throw error("Unsupported operator: " + r);
     }
+    return result;
+  }
+
+  /**
+   * Reconstruct the query sub-expression that was passed as input to the query parser from the tree
+   * input parameter.
+   */
+  private String getQueryString(Tree r) {
+    CommonTree ct = (CommonTree) r;
+    CommonToken token = (CommonToken) ct.getToken();
+    CharStream inputStream = token.getInputStream();
+    if (inputStream == null) {
+      return "";
+    }
+    return inputStream.substring(token.getStartIndex(), token.getStopIndex());
   }
 
   private static String concatenateChildText(Tree r) throws QueryParseException {
@@ -367,7 +392,10 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
     @Override
     public Predicate<T> create(Q builder, String value) throws QueryParseException {
       try {
-        return (Predicate<T>) method.invoke(builder, value);
+        Predicate<T> predicate = (Predicate<T>) method.invoke(builder, value);
+        // All operator predicates are terminal predicates.
+        predicate.setTerminal(true);
+        return predicate;
       } catch (RuntimeException | IllegalAccessException e) {
         throw error("Error in operator " + name + ":" + value, e);
       } catch (InvocationTargetException e) {

@@ -32,10 +32,19 @@ public class AttentionSetInfo {
   /** The human readable reason why the user was added. */
   public String reason;
 
-  public AttentionSetInfo(AccountInfo account, Timestamp lastUpdate, String reason) {
+  /**
+   * The user that might be mentioned in {@link #reason} as the one who caused the update. This is
+   * needed since {@link #reason} contains the account in pseudonymized form and is expanded in the
+   * frontend.
+   */
+  public AccountInfo reasonAccount;
+
+  public AttentionSetInfo(
+      AccountInfo account, Timestamp lastUpdate, String reason, AccountInfo reasonAccount) {
     this.account = account;
     this.lastUpdate = lastUpdate;
     this.reason = reason;
+    this.reasonAccount = reasonAccount;
   }
 
   @Override
@@ -44,14 +53,15 @@ public class AttentionSetInfo {
       AttentionSetInfo attentionSetInfo = (AttentionSetInfo) o;
       return Objects.equals(account, attentionSetInfo.account)
           && Objects.equals(lastUpdate, attentionSetInfo.lastUpdate)
-          && Objects.equals(reason, attentionSetInfo.reason);
+          && Objects.equals(reason, attentionSetInfo.reason)
+          && Objects.equals(reasonAccount, attentionSetInfo.reasonAccount);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(account, lastUpdate, reason);
+    return Objects.hash(account, lastUpdate, reason, reasonAccount);
   }
 
   protected AttentionSetInfo() {}

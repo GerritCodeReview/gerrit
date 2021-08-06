@@ -29,7 +29,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -103,7 +103,8 @@ public class DeleteVoteIT extends AbstractDaemonTest {
     assertThat(message.message)
         .isEqualTo(
             String.format(
-                "Removed Code-Review+1 by %s\n", ChangeMessagesUtil.getAccountTemplate(user.id())));
+                "Removed Code-Review+1 by %s\n",
+                AccountTemplateUtil.getAccountTemplate(user.id())));
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.id(), user.id()));
   }

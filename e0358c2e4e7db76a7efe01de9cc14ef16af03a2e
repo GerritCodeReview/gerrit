@@ -33,6 +33,59 @@
       "message": "Oh looks like somehow shared-styles isn\u0027t being applied to the lit elements (included here https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.ts#L20)",
       "revId": "e0358c2e4e7db76a7efe01de9cc14ef16af03a2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a56b460f_96555e71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-06T04:02:35Z",
+      "side": 1,
+      "message": "It was caused by removing shared styles from gr-avatar https://gerrit-review.googlesource.com/c/gerrit/+/302675",
+      "parentUuid": "3bf1a66e_9fb274ad",
+      "revId": "e0358c2e4e7db76a7efe01de9cc14ef16af03a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "361b7bb0_6794bd8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-06T04:02:35Z",
+      "side": 1,
+      "message": "We are trying to reduce use of shared-styles, because they are too many and then they slow down rendering of page if they are included in every element.",
+      "parentUuid": "4c2a299a_aafa8627",
+      "revId": "e0358c2e4e7db76a7efe01de9cc14ef16af03a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee7112bb_c7c221a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-06T04:02:35Z",
+      "side": 1,
+      "message": "Thanks a lot of catching this issue and fixing!",
+      "revId": "e0358c2e4e7db76a7efe01de9cc14ef16af03a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

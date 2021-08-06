@@ -17,6 +17,7 @@ package com.google.gerrit.auth;
 import com.google.gerrit.auth.ldap.LdapModule;
 import com.google.gerrit.auth.oauth.OAuthRealm;
 import com.google.gerrit.auth.oauth.OAuthTokenCache;
+import com.google.gerrit.auth.openid.OpenIdRealm;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.account.DefaultRealm;
@@ -52,10 +53,14 @@ public class AuthModule extends AbstractModule {
       case CUSTOM_EXTENSION:
         break;
 
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case HTTP:
       case OPENID:
       case OPENID_SSO:
+        bind(Realm.class).to(OpenIdRealm.class);
+        DynamicSet.bind(binder(), AuthBackend.class).to(InternalAuthBackend.class);
+        break;
+
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case HTTP:
       default:
         bind(Realm.class).to(DefaultRealm.class);
         DynamicSet.bind(binder(), AuthBackend.class).to(InternalAuthBackend.class);

@@ -16,6 +16,24 @@
       "message": "Not sure where this is specified in the code so adding it here.\n\nLet\u0027s make the snackbar disappear after 10 seconds. Seems like Critique is using ten seconds before the snackbar disappears from the screen so I propose we use the same time.\n\nFrom Material specs https://material.io/components/snackbars#behavior \n\nAppearing and disappearing\n\nSnackbars appear without warning, and don\u0027t require user interaction. They automatically disappear from the screen after a minimum of four seconds, and a maximum of ten seconds.\n\n",
       "revId": "c26fa49ba6f1e10710c6a567f23000250a616ddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "add81c4d_1d742b29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-06T08:57:42Z",
+      "side": 1,
+      "message": "Is this for all snackbars in general or only this one? I think the specs refer to snackbars in general? Just confirming.",
+      "parentUuid": "0c495deb_f024761d",
+      "revId": "c26fa49ba6f1e10710c6a567f23000250a616ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

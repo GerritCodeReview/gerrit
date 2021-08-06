@@ -26,7 +26,7 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
-import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
@@ -163,15 +163,14 @@ public class ChangeMessageProtoConverterTest {
             PatchSet.id(Change.id(34), 13),
             String.format(
                 "This is a change message by %s and includes %s ",
-                ChangeMessagesUtil.getAccountTemplate(Account.id(10001)),
-                ChangeMessagesUtil.getAccountTemplate(Account.id(10002))),
+                AccountTemplateUtil.getAccountTemplate(Account.id(10001)),
+                AccountTemplateUtil.getAccountTemplate(Account.id(10002))),
             Account.id(10003),
             "An arbitrary tag.");
 
     ChangeMessage convertedChangeMessage =
         changeMessageProtoConverter.fromProto(changeMessageProtoConverter.toProto(changeMessage));
-    assertThat(convertedChangeMessage.getAccountsInMessage())
-        .containsExactly(Account.id(10001), Account.id(10002));
+
     assertThat(convertedChangeMessage).isEqualTo(changeMessage);
   }
 

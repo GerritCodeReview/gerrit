@@ -24,9 +24,9 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
 import java.util.Set;
 
 /** Reads the list of users currently in the attention set. */
@@ -47,10 +47,7 @@ public class GetAttentionSet implements RestReadView<ChangeResource> {
     ImmutableSet<AttentionSetInfo> response =
         // This filtering should match ChangeJson.
         additionsOnly(changeResource.getNotes().getAttentionSet()).stream()
-            .map(
-                a ->
-                    new AttentionSetInfo(
-                        accountLoader.get(a.account()), Timestamp.from(a.timestamp()), a.reason()))
+            .map(a -> AttentionSetUtil.createAttentionSetInfo(a, accountLoader))
             .collect(toImmutableSet());
     accountLoader.fill();
     return Response.ok(response);

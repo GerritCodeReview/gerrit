@@ -14,13 +14,13 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.entities.ChangeMessage.ACCOUNT_TEMPLATE_REGEX;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
+import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_REGEX;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -38,6 +38,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.CommitMessageRange;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.ByteArrayOutputStream;
@@ -410,7 +411,7 @@ public class CommitRewriter {
     if (assigneeDeletedMatcher.matches()) {
       if (!assigneeDeletedMatcher.group(1).matches(ACCOUNT_TEMPLATE_REGEX)) {
         return Optional.of(
-            "Assignee deleted: " + ChangeMessagesUtil.getAccountTemplate(oldAssignee));
+            "Assignee deleted: " + AccountTemplateUtil.getAccountTemplate(oldAssignee));
       }
       return Optional.empty();
     }
@@ -418,7 +419,8 @@ public class CommitRewriter {
     Matcher assigneeAddedMatcher = assigneeAddedPattern.matcher(originalChangeMessage);
     if (assigneeAddedMatcher.matches()) {
       if (!assigneeAddedMatcher.group(1).matches(ACCOUNT_TEMPLATE_REGEX)) {
-        return Optional.of("Assignee added: " + ChangeMessagesUtil.getAccountTemplate(newAssignee));
+        return Optional.of(
+            "Assignee added: " + AccountTemplateUtil.getAccountTemplate(newAssignee));
       }
       return Optional.empty();
     }
@@ -429,8 +431,8 @@ public class CommitRewriter {
         return Optional.of(
             String.format(
                 "Assignee changed from: %s to: %s",
-                ChangeMessagesUtil.getAccountTemplate(oldAssignee),
-                ChangeMessagesUtil.getAccountTemplate(newAssignee)));
+                AccountTemplateUtil.getAccountTemplate(oldAssignee),
+                AccountTemplateUtil.getAccountTemplate(newAssignee)));
       }
       return Optional.empty();
     }
@@ -462,7 +464,7 @@ public class CommitRewriter {
       return Optional.of(
           String.format(
               "Removed %s by %s",
-              matcher.group(1), ChangeMessagesUtil.getAccountTemplate(reviewer)));
+              matcher.group(1), AccountTemplateUtil.getAccountTemplate(reviewer)));
     }
     return Optional.empty();
   }

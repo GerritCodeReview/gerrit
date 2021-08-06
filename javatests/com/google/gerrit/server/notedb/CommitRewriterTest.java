@@ -35,6 +35,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.CommitRewriter.BackfillResult;
 import com.google.gerrit.server.notedb.CommitRewriter.RunOptions;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
@@ -949,12 +950,13 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(notesAfterRewrite.getChange().getAssignee()).isNull();
     assertThat(changeMessages(notesAfterRewrite))
         .containsExactly(
-            "Assignee added: " + ChangeMessagesUtil.getAccountTemplate(changeOwner.getAccountId()),
+            "Assignee added: " + AccountTemplateUtil.getAccountTemplate(changeOwner.getAccountId()),
             String.format(
                 "Assignee changed from: %s to: %s",
-                ChangeMessagesUtil.getAccountTemplate(changeOwner.getAccountId()),
-                ChangeMessagesUtil.getAccountTemplate(otherUser.getAccountId())),
-            "Assignee deleted: " + ChangeMessagesUtil.getAccountTemplate(otherUser.getAccountId()));
+                AccountTemplateUtil.getAccountTemplate(changeOwner.getAccountId()),
+                AccountTemplateUtil.getAccountTemplate(otherUser.getAccountId())),
+            "Assignee deleted: "
+                + AccountTemplateUtil.getAccountTemplate(otherUser.getAccountId()));
 
     Ref metaRefAfterRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
     assertThat(metaRefAfterRewrite.getObjectId()).isNotEqualTo(metaRefBeforeRewrite.getObjectId());

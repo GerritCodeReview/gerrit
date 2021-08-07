@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac2ee1ed_62304201",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-07T10:46:49Z",
+      "side": 1,
+      "message": "You don\u0027t need to change order of paramaters, i think it could be done by\n```\n_computeDisabledClass(id: string | undefined, disabledIdsRecord: DisableIdsRecord) {\n```",
+      "range": {
+        "startLine": 335,
+        "startChar": 2,
+        "endLine": 335,
+        "endChar": 23
+      },
+      "revId": "12996b817e6b0ed4bd6835f79df9c8a22e2475c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

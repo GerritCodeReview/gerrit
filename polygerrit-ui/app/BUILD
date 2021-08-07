@@ -117,7 +117,6 @@ ignore_templates_list = [
     "elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
     "elements/shared/gr-comment/gr-comment_html.ts",
     "elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
-    "elements/shared/gr-dropdown/gr-dropdown_html.ts",
     "elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
     "elements/shared/gr-label-info/gr-label-info_html.ts",
     "elements/shared/gr-list-view/gr-list-view_html.ts",

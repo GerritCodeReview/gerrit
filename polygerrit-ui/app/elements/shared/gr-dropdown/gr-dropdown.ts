@@ -16,6 +16,7 @@
  */
 import '@polymer/iron-dropdown/iron-dropdown';
 import '../gr-button/gr-button';
+import {GrButton} from '../gr-button/gr-button';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
@@ -32,6 +33,9 @@ const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
 
 declare global {
+  interface HTMLElementEventMap {
+    'opened-changed': CustomEvent;
+  }
   interface HTMLElementTagNameMap {
     'gr-dropdown': GrDropdown;
   }
@@ -40,6 +44,7 @@ declare global {
 export interface GrDropdown {
   $: {
     dropdown: IronDropdownElement;
+    trigger: GrButton;
   };
 }
 
@@ -84,7 +89,7 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
   items?: DropdownLink[];
 
   @property({type: Boolean})
-  downArrow?: boolean;
+  downArrow = false;
 
   @property({type: Array})
   topContent?: DropdownContent[];
@@ -122,7 +127,8 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
     };
   }
 
-  private cursor = new GrCursorManager();
+  // Used within the tests so needs to be non-private.
+  cursor = new GrCursorManager();
 
   constructor() {
     super();
@@ -242,7 +248,7 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
    * @param bold Whether the item is bold.
    * @return The class for the top-content item.
    */
-  _getClassIfBold(bold: boolean) {
+  _getClassIfBold(bold?: boolean) {
     return bold ? 'bold-text' : '';
   }
 
@@ -329,8 +335,8 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
    *     list.
    * @return The class for the item button.
    */
-  _computeDisabledClass(id: string, disabledIdsRecord: DisableIdsRecord) {
-    return disabledIdsRecord.base.includes(id) ? 'disabled' : '';
+  _computeDisabledClass(disabledIdsRecord: DisableIdsRecord, id?: string) {
+    return id && disabledIdsRecord.base.includes(id) ? 'disabled' : '';
   }
 
   /**

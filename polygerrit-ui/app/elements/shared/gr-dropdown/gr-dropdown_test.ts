@@ -15,29 +15,36 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-dropdown.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import '../../../test/common-test-setup-karma';
+import './gr-dropdown';
+import {DropdownLink, GrDropdown} from './gr-dropdown';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {queryAll, queryAndAssert} from '../../../test/test-utils';
+import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 
 const basicFixture = fixtureFromElement('gr-dropdown');
 
 suite('gr-dropdown tests', () => {
-  let element;
+  let element: GrDropdown;
 
   setup(() => {
     element = basicFixture.instantiate();
   });
 
   test('_computeIsDownload', () => {
-    assert.isTrue(element._computeIsDownload({download: true}));
-    assert.isFalse(element._computeIsDownload({download: false}));
+    assert.isTrue(element._computeIsDownload({download: true} as DropdownLink));
+    assert.isFalse(
+      element._computeIsDownload({download: false} as DropdownLink)
+    );
   });
 
   test('tap on trigger opens menu, then closes', () => {
-    sinon.stub(element, '_open')
-        .callsFake(() => { element.$.dropdown.open(); });
-    sinon.stub(element, '_close')
-        .callsFake(() => { element.$.dropdown.close(); });
+    sinon.stub(element, '_open').callsFake(() => {
+      element.$.dropdown.open();
+    });
+    sinon.stub(element, '_close').callsFake(() => {
+      element.$.dropdown.close();
+    });
     assert.isFalse(element.$.dropdown.opened);
     MockInteractions.tap(element.$.trigger);
     assert.isTrue(element.$.dropdown.opened);
@@ -54,21 +61,25 @@ suite('gr-dropdown tests', () => {
 
   test('link URLs', () => {
     assert.equal(
-        element._computeLinkURL({url: 'http://example.com/test'}),
-        'http://example.com/test');
+      element._computeLinkURL({url: 'http://example.com/test'}),
+      'http://example.com/test'
+    );
     assert.equal(
-        element._computeLinkURL({url: 'https://example.com/test'}),
-        'https://example.com/test');
+      element._computeLinkURL({url: 'https://example.com/test'}),
+      'https://example.com/test'
+    );
     assert.equal(
-        element._computeLinkURL({url: '/test'}),
-        '//' + window.location.host + '/test');
+      element._computeLinkURL({url: '/test'}),
+      '//' + window.location.host + '/test'
+    );
     assert.equal(
-        element._computeLinkURL({url: '/test', target: '_blank'}),
-        '/test');
+      element._computeLinkURL({url: '/test', target: '_blank'}),
+      '/test'
+    );
   });
 
   test('link rel', () => {
-    let link = {url: '/test'};
+    let link: DropdownLink = {url: '/test'};
     assert.isNull(element._computeLinkRel(link));
 
     link = {url: '/test', target: '_blank'};
@@ -92,7 +103,7 @@ suite('gr-dropdown tests', () => {
   test('Top text exists and is bolded correctly', () => {
     element.topContent = [{text: 'User', bold: true}, {text: 'email'}];
     flush();
-    const topItems = element.root.querySelectorAll('.top-item');
+    const topItems = queryAll<HTMLDivElement>(element, '.top-item');
     assert.equal(topItems.length, 2);
     assert.isTrue(topItems[0].classList.contains('bold-text'));
     assert.isFalse(topItems[1].classList.contains('bold-text'));
@@ -106,8 +117,9 @@ suite('gr-dropdown tests', () => {
     element.addEventListener('tap-item-foo', fooTapped);
     element.addEventListener('tap-item', tapped);
     flush();
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('.itemAction'));
+    MockInteractions.tap(
+      queryAndAssert<HTMLSpanElement>(element, '.itemAction')
+    );
     assert.isTrue(fooTapped.called);
     assert.isTrue(tapped.called);
     assert.deepEqual(tapped.lastCall.args[0].detail, item0);
@@ -122,8 +134,9 @@ suite('gr-dropdown tests', () => {
     element.addEventListener('tap-item-foo', stub);
     element.addEventListener('tap-item', tapped);
     flush();
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('.itemAction'));
+    MockInteractions.tap(
+      queryAndAssert<HTMLSpanElement>(element, '.itemAction')
+    );
     assert.isFalse(stub.called);
     assert.isFalse(tapped.called);
   });
@@ -135,8 +148,10 @@ suite('gr-dropdown tests', () => {
     ];
     element.disabledIds = [];
     flush();
-    const tooltipContents = dom(element.root)
-        .querySelectorAll('iron-dropdown li gr-tooltip-content');
+    const tooltipContents = queryAll<GrTooltipContent>(
+      element,
+      'iron-dropdown li gr-tooltip-content'
+    );
     assert.equal(tooltipContents.length, 2);
     assert.isTrue(tooltipContents[0].hasTooltip);
     assert.equal(tooltipContents[0].getAttribute('title'), 'hello');
@@ -177,11 +192,13 @@ suite('gr-dropdown tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
       assert.isTrue(element.$.dropdown.opened);
 
-      const el = element.cursor.target.querySelector(':not([hidden]) a');
+      const el = queryAndAssert<HTMLAnchorElement>(
+        element.cursor.target as HTMLElement,
+        ':not([hidden]) a'
+      );
       const stub = sinon.stub(el, 'click');
       MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
       assert.isTrue(stub.called);
     });
   });
 });
-

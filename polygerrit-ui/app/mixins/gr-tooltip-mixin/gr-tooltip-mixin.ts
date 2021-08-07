@@ -207,13 +207,9 @@ export const TooltipMixin = dedupingMixin(
           rect.left - parentRect.left + (rect.width - boxRect.width) / 2;
         const right = parentRect.width - left - boxRect.width;
         if (left < 0) {
-          tooltip.updateStyles({
-            '--gr-tooltip-arrow-center-offset': `${left}px`,
-          });
+          tooltip.style.setProperty('--gr-tooltip-arrow-center-offset', `${left}px`);
         } else if (right < 0) {
-          tooltip.updateStyles({
-            '--gr-tooltip-arrow-center-offset': `${-0.5 * right}px`,
-          });
+          tooltip.style.setProperty('--gr-tooltip-arrow-center-offset', `${-0.5 * right}px`);
         }
         tooltip.style.left = `${Math.max(0, left)}px`;
 

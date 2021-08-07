@@ -61,6 +61,7 @@ import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {DiffViewMode} from '../../../api/diff';
 import {
+  DefaultBase,
   ChangeStatus,
   PrimaryTab,
   SecondaryTab,
@@ -1448,7 +1449,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     const parentCount = hasOwnProperty(parentCounts, 1) ? parentCounts[1] : 1;
 
     const preferFirst =
-      this._prefs && this._prefs.default_base_for_merges === 'FIRST_PARENT';
+      this._prefs && this._prefs.default_base_for_merges === DefaultBase.FIRST_PARENT;
 
     if (parentCount > 1 && preferFirst && !patchRange.patchNum) {
       return -1;

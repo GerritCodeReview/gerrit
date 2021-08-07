@@ -32,6 +32,7 @@ import {customElement, property} from '@polymer/decorators';
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {RenderPreferences} from '../../../api/diff';
 
 const WHOLE_FILE = -1;
 
@@ -61,7 +62,10 @@ export interface KeyLocations {
  * _asyncThreshold of 64, but feel free to tune this constant to your
  * performance needs.
  */
-const MAX_GROUP_SIZE = 120;
+function calcMaxGroupSize(asyncThreshold?: number): number {
+  if (!asyncThreshold) return 120;
+  return asyncThreshold * 2;
+}
 
 /**
  * Converts the API's `DiffContent`s  to `GrDiffGroup`s for rendering.
@@ -487,6 +491,7 @@ export class GrDiffProcessor extends PolymerElement {
       // chunks so they can be rendered incrementally. Note: this is not
       // enabled for any other context preference because manipulating the
       // chunks in this way violates assumptions by the context grouper logic.
+      const MAX_GROUP_SIZE = calcMaxGroupSize(this._asyncThreshold);
       if (this.context === -1 && chunk.ab.length > MAX_GROUP_SIZE * 2) {
         // Split large shared chunks in two, where the first is the maximum
         // group size.
@@ -697,6 +702,7 @@ export class GrDiffProcessor extends PolymerElement {
       return [chunk];
     }
 
+    const MAX_GROUP_SIZE = calcMaxGroupSize(this._asyncThreshold);
     return this._breakdown(chunk[key]!, MAX_GROUP_SIZE).map(subChunkLines => {
       const subChunk: DiffContent = {};
       subChunk[key!] = subChunkLines;
@@ -726,6 +732,12 @@ export class GrDiffProcessor extends PolymerElement {
     const tail = array.slice(array.length - size);
 
     return this._breakdown(head, size).concat([tail]);
+  }
+
+  updateRenderPrefs(renderPrefs: RenderPreferences) {
+    if (renderPrefs.num_lines_rendered_at_once) {
+      this._asyncThreshold = renderPrefs.num_lines_rendered_at_once;
+    }
   }
 }
 

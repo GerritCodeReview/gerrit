@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a832fd40_84c4e3ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-07T10:40:44Z",
+      "side": 1,
+      "message": "Thanks a lot for converting to typescript!",
+      "revId": "0a3d0bf69c394a3faec87e5f97e9c297dbf5e500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf6f6451_2fbbc18a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-07T10:40:44Z",
+      "side": 1,
+      "message": "it\u0027s ok like this, but better would be create in test-data-generators\n```\nexport function createDropDownlink(): DropdownLink {\n  return {};\n}\n```\n\nand then here \n```\n{...createDropdownlink(), download: false}",
+      "range": {
+        "startLine": 37,
+        "startChar": 54,
+        "endLine": 37,
+        "endChar": 66
+      },
+      "revId": "0a3d0bf69c394a3faec87e5f97e9c297dbf5e500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

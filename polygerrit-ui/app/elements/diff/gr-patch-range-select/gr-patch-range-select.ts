@@ -475,3 +475,4 @@ export class GrPatchRangeSelect extends PolymerElement {
     return key !== undefined ? String(key) : '';
   }
 }
+

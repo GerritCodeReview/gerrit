@@ -23,5 +23,79 @@
       "revId": "12996b817e6b0ed4bd6835f79df9c8a22e2475c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
+  ],
+  "submitRequirementResults": [
+    {
+      "submitRequirement": {
+        "name": "Code-Review",
+        "description": {
+          "value": "At least one maximum vote for label \u0027Code-Review\u0027 is required"
+        },
+        "applicabilityExpression": {},
+        "submittabilityExpression": {
+          "expressionString": "label:Code-Review\u003dMAX -label:Code-Review\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {},
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "label:Code-Review\u003dMAX -label:Code-Review\u003dMIN"
+        },
+        "status": "PASS",
+        "errorMessage": {},
+        "passingAtoms": [
+          "label2:code-review\u003dMAX"
+        ],
+        "failingAtoms": [
+          "label2:code-review\u003dMIN"
+        ]
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": 312044417,
+        "w2": 2120945364,
+        "w3": -1117243913,
+        "w4": -1644574558,
+        "w5": 774141385
+      }
+    },
+    {
+      "submitRequirement": {
+        "name": "Verified",
+        "description": {
+          "value": "CI build and tests results are verified"
+        },
+        "applicabilityExpression": {},
+        "submittabilityExpression": {
+          "expressionString": "label:Verified\u003dMAX -label:Verified\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {},
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "label:Verified\u003dMAX -label:Verified\u003dMIN"
+        },
+        "status": "PASS",
+        "errorMessage": {},
+        "passingAtoms": [
+          "label2:verified\u003dMAX"
+        ],
+        "failingAtoms": [
+          "label2:verified\u003dMIN"
+        ]
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": 312044417,
+        "w2": 2120945364,
+        "w3": -1117243913,
+        "w4": -1644574558,
+        "w5": 774141385
+      }
+    }
   ]
 }

@@ -175,7 +175,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {
   _suggestionEls = [];
 
   @property({type: Number})
-  _index?: number;
+  _index: number | null = null;
 
   @property({type: Boolean})
   _disableSuggestions = false;

@@ -463,3 +463,18 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
   }
   return false;
 }
+
+export function updateStyles(element: Element, properties: Object) {
+  if (window.ShadyCSS) {
+    window.ShadyCSS.styleSubtree(
+      /** @type {!HTMLElement} */ element,
+      properties
+    );
+  }
+}
+
+declare global {
+  interface Window {
+    ShadyCSS: any;
+  }
+}

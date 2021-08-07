@@ -70,11 +70,11 @@ export class ChangeComments {
    * elements of that which uses the gr-comment-api.
    */
   constructor(
-    comments: PathToCommentsInfoMap | undefined,
-    robotComments: {[path: string]: RobotCommentInfo[]} | undefined,
-    drafts: {[path: string]: DraftInfo[]} | undefined,
-    portedComments: PathToCommentsInfoMap | undefined,
-    portedDrafts: PathToCommentsInfoMap | undefined
+    comments?: PathToCommentsInfoMap,
+    robotComments?: {[path: string]: RobotCommentInfo[]},
+    drafts?: {[path: string]: DraftInfo[]},
+    portedComments?: PathToCommentsInfoMap,
+    portedDrafts?: PathToCommentsInfoMap
   ) {
     this._comments = addPath(comments);
     this._robotComments = addPath(robotComments);

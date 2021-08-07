@@ -71,7 +71,7 @@ suite('gr-tooltip-content tests', () => {
     assert.equal(tooltip.style.top, '100px');
   });
 
-  test('left side position', () => {
+  test('left side position', async () => {
     sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
       return {top: 100, left: 10, width: 50};
     });
@@ -80,6 +80,7 @@ suite('gr-tooltip-content tests', () => {
         {top: 0, left: 0, width: 1000});
 
     element._positionTooltip(tooltip);
+    await element.updateComplete;
     assert.isTrue(tooltip.updateStyles.called);
     const offset = tooltip.updateStyles
         .lastCall.args[0]['--gr-tooltip-arrow-center-offset'];
@@ -88,7 +89,7 @@ suite('gr-tooltip-content tests', () => {
     assert.equal(tooltip.style.top, '100px');
   });
 
-  test('right side position', () => {
+  test('right side position', async () => {
     sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
       return {top: 100, left: 950, width: 50};
     });
@@ -97,6 +98,7 @@ suite('gr-tooltip-content tests', () => {
         {top: 0, left: 0, width: 1000});
 
     element._positionTooltip(tooltip);
+    await element.updateComplete;
     assert.isTrue(tooltip.updateStyles.called);
     const offset = tooltip.updateStyles
         .lastCall.args[0]['--gr-tooltip-arrow-center-offset'];

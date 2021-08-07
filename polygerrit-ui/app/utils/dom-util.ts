@@ -463,3 +463,9 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
   }
   return false;
 }
+
+export function updateStyles(element: Element, properties: any) {
+  if ((window as any).ShadyCSS) {
+    (window as any).ShadyCSS.styleSubtree(/** @type {!HTMLElement} */(element), properties);
+  }
+}

@@ -28,6 +28,6 @@ export const htmlTemplate = html`
   <gr-tooltip
     id="tooltip"
     text="Press c to comment"
-    position-below="[[positionBelow]]"
+    positionBelow="[[positionBelow]]"
   ></gr-tooltip>
 `;

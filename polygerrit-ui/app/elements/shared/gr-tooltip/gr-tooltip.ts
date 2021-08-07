@@ -14,14 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-tooltip_html';
-import {customElement, property, observe} from '@polymer/decorators';
 
-export interface GrTooltip {
-  $: {};
-}
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -30,22 +26,79 @@ declare global {
 }
 
 @customElement('gr-tooltip')
-export class GrTooltip extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrTooltip extends GrLitElement {
   @property({type: String})
   text = '';
 
-  @property({type: String})
-  maxWidth = '';
-
-  @property({type: Boolean, reflectToAttribute: true})
+  @property({type: Boolean, reflect: true})
   positionBelow = false;
 
-  @observe('maxWidth')
-  _updateWidth(maxWidth: string) {
-    this.updateStyles({'--tooltip-max-width': maxWidth});
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          --gr-tooltip-arrow-size: 0.5em;
+          --gr-tooltip-arrow-center-offset: 0;
+
+          background-color: var(--tooltip-background-color);
+          box-shadow: var(--elevation-level-2);
+          color: var(--tooltip-text-color);
+          font-size: var(--font-size-small);
+          position: absolute;
+          z-index: 1000;
+          max-width: var(--tooltip-max-width);
+        }
+        :host .tooltip {
+          padding: var(--spacing-m) var(--spacing-l);
+        }
+        :host .arrowPositionBelow,
+        :host([position-below]) .arrowPositionAbove {
+          display: none;
+        }
+        :host([position-below]) .arrowPositionBelow {
+          display: initial;
+        }
+        .arrow {
+          border-left: var(--gr-tooltip-arrow-size) solid transparent;
+          border-right: var(--gr-tooltip-arrow-size) solid transparent;
+          height: 0;
+          position: absolute;
+          left: calc(50% - var(--gr-tooltip-arrow-size));
+          margin-left: var(--gr-tooltip-arrow-center-offset);
+          width: 0;
+        }
+        .arrowPositionAbove {
+          border-top: var(--gr-tooltip-arrow-size) solid
+            var(--tooltip-background-color);
+          bottom: calc(-1 * var(--gr-tooltip-arrow-size));
+        }
+        .arrowPositionBelow {
+          border-bottom: var(--gr-tooltip-arrow-size) solid
+            var(--tooltip-background-color);
+          top: calc(-1 * var(--gr-tooltip-arrow-size));
+        }
+      `,
+    ];
+  }
+
+  render() {
+    return html` <div class="tooltip">
+      <i class="arrowPositionBelow arrow"></i>
+      ${this.text}
+      <i class="arrowPositionAbove arrow"></i>
+    </div>`;
+  }
+
+  set maxWidth(value: string) {
+    // lit-elements do not have updateStyles
+    // so we have to manually define what was in polymer.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((window as any).ShadyCSS) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).ShadyCSS.styleSubtree(/** @type {!HTMLElement} */ this, {
+        '--tooltip-max-width': value,
+      });
+    }
   }
 }

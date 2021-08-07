@@ -46,6 +46,30 @@
       },
       "revId": "bcf616e5362aaa341231ba880bd4eb656db2c24f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23d998bf_f281ac9d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-07T10:47:50Z",
+      "side": 1,
+      "message": "Same as there, we are waiting for Dmitrii change - https://gerrit-review.googlesource.com/c/gerrit/+/311703/1",
+      "parentUuid": "1d73a4e5_7f84a636",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 8
+      },
+      "revId": "bcf616e5362aaa341231ba880bd4eb656db2c24f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

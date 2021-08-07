@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import '../gr-comment-api/gr-comment-api.js';
-import '../../shared/revision-info/revision-info.js';
-import './gr-patch-range-select.js';
-import '../../../test/mocks/comment-api.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
+import '../../../test/common-test-setup-karma';
+import '../gr-comment-api/gr-comment-api';
+import '../../shared/revision-info/revision-info';
+import './gr-patch-range-select';
+import {GrPatchRangeSelect} from './gr-patch-range-select';
+import '../../../test/mocks/comment-api';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
-import {stubRestApi} from '../../../test/test-utils.js';
-import {EditPatchSetNum} from '../../../types/common.js';
-import {SpecialFilePath} from '../../../constants/constants.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {ChangeComments} from '../gr-comment-api/gr-comment-api';
+import {stubRestApi} from '../../../test/test-utils';
+import {EditPatchSetNum, RevisionInfo} from '../../../types/common';
+import {SpecialFilePath} from '../../../constants/constants';
 
 const commentApiMockElement = createCommentApiMockWithTemplateElement(
     'gr-patch-range-select-comment-api-mock', html`
@@ -39,16 +40,16 @@ const commentApiMockElement = createCommentApiMockWithTemplateElement(
 const basicFixture = fixtureFromElement(commentApiMockElement.is);
 
 suite('gr-patch-range-select tests', () => {
-  let element;
+  let element: GrPatchRangeSelect;
 
   let commentApiWrapper;
 
-  function getInfo(revisions) {
-    const revisionObj = {};
+  function getInfo(revisions: RevisionInfo[]) {
+    const revisionObj: {[revisionId: string]: RevisionInfo} = {};
     for (let i = 0; i < revisions.length; i++) {
       revisionObj[i] = revisions[i];
     }
-    return new RevisionInfo({revisions: revisionObj});
+    return new RevisionInfoClass({revisions: revisionObj});
   }
 
   setup(() => {

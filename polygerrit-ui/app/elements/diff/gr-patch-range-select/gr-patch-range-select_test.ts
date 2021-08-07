@@ -15,19 +15,21 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import '../gr-comment-api/gr-comment-api.js';
-import '../../shared/revision-info/revision-info.js';
-import './gr-patch-range-select.js';
-import '../../../test/mocks/comment-api.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
+import '../../../test/common-test-setup-karma';
+import '../gr-comment-api/gr-comment-api';
+import '../../shared/revision-info/revision-info';
+import './gr-patch-range-select';
+import {GrPatchRangeSelect} from './gr-patch-range-select';
+import '../../../test/mocks/comment-api';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
-import {stubRestApi} from '../../../test/test-utils.js';
-import {EditPatchSetNum} from '../../../types/common.js';
-import {SpecialFilePath} from '../../../constants/constants.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {ChangeComments} from '../gr-comment-api/gr-comment-api';
+import {stubRestApi} from '../../../test/test-utils';
+import {EditPatchSetNum, PatchSetNum, RevisionInfo} from '../../../types/common';
+import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
+import {SpecialFilePath} from '../../../constants/constants';
 
 const commentApiMockElement = createCommentApiMockWithTemplateElement(
     'gr-patch-range-select-comment-api-mock', html`
@@ -38,17 +40,19 @@ const commentApiMockElement = createCommentApiMockWithTemplateElement(
 
 const basicFixture = fixtureFromElement(commentApiMockElement.is);
 
+type RevIdToRevisionInfo = {[revisionId: string]: RevisionInfo | EditRevisionInfo};
+
 suite('gr-patch-range-select tests', () => {
-  let element;
+  let element: GrPatchRangeSelect;
 
   let commentApiWrapper;
 
-  function getInfo(revisions) {
-    const revisionObj = {};
+  function getInfo(revisions: RevisionInfo[]) {
+    const revisionObj: Partial<RevIdToRevisionInfo> = {};
     for (let i = 0; i < revisions.length; i++) {
       revisionObj[i] = revisions[i];
     }
-    return new RevisionInfo({revisions: revisionObj});
+    return new RevisionInfoClass({revisions: revisionObj} as ParsedChangeInfo);
   }
 
   setup(() => {
@@ -68,33 +72,33 @@ suite('gr-patch-range-select tests', () => {
 
   test('enabled/disabled options', () => {
     const patchRange = {
-      basePatchNum: 'PARENT',
-      patchNum: 3,
+      basePatchNum: 'PARENT' as PatchSetNum,
+      patchNum: 3 as PatchSetNum,
     };
-    const sortedRevisions = [
-      {_number: 3},
-      {_number: EditPatchSetNum, basePatchNum: 2},
-      {_number: 2},
-      {_number: 1},
+    const sortedRevisions: RevisionInfo[] = [
+      {_number: 3 as PatchSetNum},
+      {_number: EditPatchSetNum, basePatchNum: 2 as PatchSetNum},
+      {_number: 2 as PatchSetNum},
+      {_number: 1 as PatchSetNum},
     ];
-    for (const patchNum of ['1', '2', '3']) {
+    for (const patchNum: PatchSetNum of [1, 2, 3]) {
       assert.isFalse(element._computeRightDisabled(patchRange.basePatchNum,
           patchNum, sortedRevisions));
     }
-    for (const basePatchNum of ['1', '2']) {
+    for (const basePatchNum: PatchSetNum of [1, 2]) {
       assert.isFalse(element._computeLeftDisabled(basePatchNum,
           patchRange.patchNum, sortedRevisions));
     }
-    assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum));
+    assert.isTrue(element._computeLeftDisabled(3 as PatchSetNum, patchRange.patchNum));
 
     patchRange.basePatchNum = EditPatchSetNum;
-    assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum,
+    assert.isTrue(element._computeLeftDisabled(3 as PatchSetNum, patchRange.patchNum,
         sortedRevisions));
-    assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum, '1',
+    assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum, 1 as PatchSetNum,
         sortedRevisions));
-    assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum, '2',
+    assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum, 2 as PatchSetNum,
         sortedRevisions));
-    assert.isFalse(element._computeRightDisabled(patchRange.basePatchNum, '3',
+    assert.isFalse(element._computeRightDisabled(patchRange.basePatchNum, 3 as PatchSetNum,
         sortedRevisions));
     assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum,
         EditPatchSetNum, sortedRevisions));

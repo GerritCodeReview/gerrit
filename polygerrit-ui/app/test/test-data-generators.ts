@@ -230,7 +230,10 @@ export function createCommitInfoWithRequiredCommit(
   };
 }
 
-export function createRevision(patchSetNum = 1): RevisionInfo {
+export function createRevision(
+  patchSetNum = 1,
+  description = ''
+): RevisionInfo {
   return {
     _number: patchSetNum as PatchSetNum,
     commit: createCommit(),
@@ -238,13 +241,14 @@ export function createRevision(patchSetNum = 1): RevisionInfo {
     kind: RevisionKind.REWORK,
     ref: 'refs/changes/5/6/1' as GitRef,
     uploader: createAccountWithId(),
+    description,
   };
 }
 
-export function createEditRevision(): EditRevisionInfo {
+export function createEditRevision(basePatchNum = 1): EditRevisionInfo {
   return {
     _number: EditPatchSetNum,
-    basePatchNum: 1 as BasePatchSetNum,
+    basePatchNum: basePatchNum as BasePatchSetNum,
     commit: createCommit(),
   };
 }

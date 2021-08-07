@@ -15,40 +15,46 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-download-commands.js';
-import {isHidden, stubRestApi} from '../../../test/test-utils.js';
-import {updatePreferences} from '../../../services/user/user-model.js';
-import {createPreferences} from '../../../test/test-data-generators.js';
+import '../../../test/common-test-setup-karma';
+import './gr-download-commands';
+import {GrDownloadCommands} from './gr-download-commands';
+import {isHidden, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {updatePreferences} from '../../../services/user/user-model';
+import {createPreferences} from '../../../test/test-data-generators';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 
 const basicFixture = fixtureFromElement('gr-download-commands');
 
 suite('gr-download-commands', () => {
-  let element;
+  let element: GrDownloadCommands;
 
   const SCHEMES = ['http', 'repo', 'ssh'];
-  const COMMANDS = [{
-    title: 'Checkout',
-    command: `git fetch http://andybons@localhost:8080/a/test-project
+  const COMMANDS = [
+    {
+      title: 'Checkout',
+      command: `git fetch http://andybons@localhost:8080/a/test-project
         refs/changes/05/5/1 && git checkout FETCH_HEAD`,
-  }, {
-    title: 'Cherry Pick',
-    command: `git fetch http://andybons@localhost:8080/a/test-project
+    },
+    {
+      title: 'Cherry Pick',
+      command: `git fetch http://andybons@localhost:8080/a/test-project
         refs/changes/05/5/1 && git cherry-pick FETCH_HEAD`,
-  }, {
-    title: 'Format Patch',
-    command: `git fetch http://andybons@localhost:8080/a/test-project
+    },
+    {
+      title: 'Format Patch',
+      command: `git fetch http://andybons@localhost:8080/a/test-project
         refs/changes/05/5/1 && git format-patch -1 --stdout FETCH_HEAD`,
-  }, {
-    title: 'Pull',
-    command: `git pull http://andybons@localhost:8080/a/test-project
+    },
+    {
+      title: 'Pull',
+      command: `git pull http://andybons@localhost:8080/a/test-project
         refs/changes/05/5/1`,
-  }];
+    },
+  ];
   const SELECTED_SCHEME = 'http';
 
-  setup(() => {
-
-  });
+  setup(() => {});
 
   suite('unauthenticated', () => {
     setup(async () => {
@@ -61,26 +67,26 @@ suite('gr-download-commands', () => {
     });
 
     test('focusOnCopy', () => {
-      const focusStub = sinon.stub(element.shadowRoot
-          .querySelector('gr-shell-command'),
-      'focusOnCopy');
+      const focusStub = sinon.stub(
+        queryAndAssert<GrShellCommand>(element, 'gr-shell-command'),
+        'focusOnCopy'
+      );
       element.focusOnCopy();
       assert.isTrue(focusStub.called);
     });
 
     test('element visibility', () => {
-      assert.isFalse(isHidden(element.shadowRoot.querySelector('paper-tabs')));
-      assert.isFalse(isHidden(element.shadowRoot.querySelector('.commands')));
+      assert.isFalse(isHidden(queryAndAssert(element, 'paper-tabs')));
+      assert.isFalse(isHidden(queryAndAssert(element, '.commands')));
 
       element.schemes = [];
-      assert.isTrue(isHidden(element.shadowRoot.querySelector('paper-tabs')));
-      assert.isTrue(isHidden(element.shadowRoot.querySelector('.commands')));
+      assert.isTrue(isHidden(queryAndAssert(element, 'paper-tabs')));
+      assert.isTrue(isHidden(queryAndAssert(element, '.commands')));
     });
 
     test('tab selection', () => {
       assert.equal(element.$.downloadTabs.selected, '0');
-      MockInteractions.tap(element.shadowRoot
-          .querySelector('[data-scheme="ssh"]'));
+      MockInteractions.tap(queryAndAssert(element, '[data-scheme="ssh"]'));
       flush();
       assert.equal(element.selectedScheme, 'ssh');
       assert.equal(element.$.downloadTabs.selected, '2');
@@ -89,18 +95,20 @@ suite('gr-download-commands', () => {
     test('saves scheme to preferences', () => {
       element._loggedIn = true;
       const savePrefsStub = stubRestApi('savePreferences').returns(
-          Promise.resolve());
+        Promise.resolve(new Response())
+      );
 
       flush();
 
-      const repoTab = element.shadowRoot
-          .querySelector('paper-tab[data-scheme="repo"]');
+      const repoTab = queryAndAssert(element, 'paper-tab[data-scheme="repo"]');
 
       MockInteractions.tap(repoTab);
 
       assert.isTrue(savePrefsStub.called);
-      assert.equal(savePrefsStub.lastCall.args[0].download_scheme,
-          repoTab.getAttribute('data-scheme'));
+      assert.equal(
+        savePrefsStub.lastCall.args[0].download_scheme,
+        repoTab.getAttribute('data-scheme')
+      );
     });
   });
   suite('authenticated', () => {
@@ -125,4 +133,3 @@ suite('gr-download-commands', () => {
     });
   });
 });
-

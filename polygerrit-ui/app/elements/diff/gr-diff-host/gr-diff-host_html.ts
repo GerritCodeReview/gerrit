@@ -27,6 +27,7 @@ export const htmlTemplate = html`
     is-image-diff="[[isImageDiff]]"
     hidden$="[[hidden]]"
     no-render-on-prefs-change="[[noRenderOnPrefsChange]]"
+    render-prefs="[[_renderPrefs]]"
     line-wrapping="[[lineWrapping]]"
     view-mode="[[viewMode]]"
     line-of-interest="[[lineOfInterest]]"

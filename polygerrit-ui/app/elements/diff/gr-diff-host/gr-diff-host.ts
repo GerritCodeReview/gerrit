@@ -91,6 +91,7 @@ import {changeComments$} from '../../../services/comments/comments-model';
 import {takeUntil} from 'rxjs/operators';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subject} from 'rxjs';
+import {RenderPreferences} from '../../../api/diff';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -262,6 +263,11 @@ export class GrDiffHost extends PolymerElement {
 
   @property({type: Array})
   _layers: DiffLayer[] = [];
+
+  @property({type: Object})
+  _renderPrefs: RenderPreferences = {
+    num_lines_rendered_at_once: 128,
+  };
 
   private readonly reporting = appContext.reportingService;
 

@@ -528,8 +528,8 @@ export class GrDiffBuilderElement extends PolymerElement {
   }
 
   updateRenderPrefs(renderPrefs: RenderPreferences) {
-    if (!this._builder) return;
-    this._builder.updateRenderPrefs(renderPrefs);
+    this._builder?.updateRenderPrefs(renderPrefs);
+    this.$.processor.updateRenderPrefs(renderPrefs);
   }
 }
 

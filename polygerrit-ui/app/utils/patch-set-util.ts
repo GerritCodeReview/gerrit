@@ -95,7 +95,7 @@ export function isNumber(psn: PatchSetNum): psn is PatchSetNumber {
  * @return The correspondent revision obj from {revisions}
  */
 export function getRevisionByPatchNum(
-  revisions: RevisionInfo[],
+  revisions: (RevisionInfo | EditRevisionInfo)[],
   patchNum: PatchSetNum
 ) {
   for (const rev of revisions) {
@@ -309,10 +309,10 @@ export function hasEditPatchsetLoaded(patchRange: PatchRange) {
  */
 export function findSortedIndex(
   patchNum: PatchSetNum,
-  revisions: RevisionInfo[]
+  revisions: (RevisionInfo | EditRevisionInfo)[]
 ) {
   revisions = revisions || [];
-  const findNum = (rev: RevisionInfo) => `${rev._number}` === `${patchNum}`;
+  const findNum = (rev: (RevisionInfo | EditRevisionInfo)) => `${rev._number}` === `${patchNum}`;
   return revisions.findIndex(findNum);
 }
 

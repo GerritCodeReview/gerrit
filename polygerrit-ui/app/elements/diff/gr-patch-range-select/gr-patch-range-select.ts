@@ -52,6 +52,7 @@ import {
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GeneratedWebLink} from '../../core/gr-navigation/gr-navigation';
+import {EditRevisionInfo} from '../../../types/types';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -154,7 +155,7 @@ export class GrPatchRangeSelect extends PolymerElement {
   _computeBaseDropdownContent(
     availablePatches?: PatchSet[],
     patchNum?: PatchSetNum,
-    _sortedRevisions?: RevisionInfo[],
+    _sortedRevisions?: (RevisionInfo | EditRevisionInfo)[],
     changeComments?: ChangeComments,
     revisionInfo?: RevisionInfoClass
   ): DropdownItem[] | undefined {
@@ -217,7 +218,7 @@ export class GrPatchRangeSelect extends PolymerElement {
   _computeMobileText(
     patchNum: PatchSetNum,
     changeComments: ChangeComments,
-    revisions: RevisionInfo[]
+    revisions: (RevisionInfo | EditRevisionInfo)[]
   ) {
     return (
       `${patchNum}` +
@@ -229,7 +230,7 @@ export class GrPatchRangeSelect extends PolymerElement {
   _computePatchDropdownContent(
     availablePatches?: PatchSet[],
     basePatchNum?: BasePatchSetNum,
-    _sortedRevisions?: RevisionInfo[],
+    _sortedRevisions?: (RevisionInfo | EditRevisionInfo)[],
     changeComments?: ChangeComments
   ): DropdownItem[] | undefined {
     // Polymer 2: check for undefined
@@ -280,7 +281,7 @@ export class GrPatchRangeSelect extends PolymerElement {
   _createDropdownEntry(
     patchNum: PatchSetNum,
     prefix: string,
-    sortedRevisions: RevisionInfo[],
+    sortedRevisions: (RevisionInfo | EditRevisionInfo)[],
     changeComments: ChangeComments,
     sha: string
   ) {
@@ -325,7 +326,7 @@ export class GrPatchRangeSelect extends PolymerElement {
   _computeLeftDisabled(
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
-    sortedRevisions: RevisionInfo[]
+    sortedRevisions: (RevisionInfo | EditRevisionInfo)[]
   ): boolean {
     return (
       findSortedIndex(basePatchNum, sortedRevisions) <=
@@ -350,7 +351,7 @@ export class GrPatchRangeSelect extends PolymerElement {
   _computeRightDisabled(
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
-    sortedRevisions: RevisionInfo[]
+    sortedRevisions: (RevisionInfo | EditRevisionInfo)[]
   ): boolean {
     if (basePatchNum === ParentPatchSetNum) {
       return false;
@@ -407,7 +408,7 @@ export class GrPatchRangeSelect extends PolymerElement {
   }
 
   _computePatchSetDescription(
-    revisions: RevisionInfo[],
+    revisions: (RevisionInfo | EditRevisionInfo)[],
     patchNum: PatchSetNum,
     addFrontSpace?: boolean
   ) {
@@ -419,7 +420,7 @@ export class GrPatchRangeSelect extends PolymerElement {
   }
 
   _computePatchSetDate(
-    revisions: RevisionInfo[],
+    revisions: (RevisionInfo | EditRevisionInfo)[],
     patchNum: PatchSetNum
   ): Timestamp | undefined {
     const rev = getRevisionByPatchNum(revisions, patchNum);

@@ -74,6 +74,15 @@ export interface GrPatchRangeSelect {
   };
 }
 
+declare global {
+  interface HTMLElementEventMap {
+    'value-change': DropDownValueChangeEvent;
+  }
+  interface HTMLElementTagNameMap {
+    'gr-patch-range-select': GrPatchRangeSelect;
+  }
+}
+
 /**
  * Fired when the patch range changes
  *
@@ -459,10 +468,14 @@ export class GrPatchRangeSelect extends PolymerElement {
       new CustomEvent('patch-range-change', {detail, bubbles: false})
     );
   }
-}
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-patch-range-select': GrPatchRangeSelect;
+  /**
+   * value has type string so we have to convert
+   * anything inputed to string.
+   *
+   * This is so typescript checker doesn't fail.
+   */
+  private convertToString(key?: PatchSetNum) {
+    return key !== undefined ? String(key) : '';
   }
 }

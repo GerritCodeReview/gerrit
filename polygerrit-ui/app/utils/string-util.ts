@@ -38,3 +38,13 @@ export function ordinal(n?: number): string {
   if (n % 10 === 3 && n % 100 !== 13) return `${n}rd`;
   return `${n}th`;
 }
+
+/**
+ * value has type string so we have to convert
+ * anything inputed to string.
+ *
+ * This is so typescript checker doesn't fail.
+ */
+export function convertToString(key?: unknown) {
+  return key !== undefined ? String(key) : '';
+}

@@ -21,7 +21,7 @@ import '../../shared/gr-select/gr-select';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-patch-range-select_html';
-import {pluralize} from '../../../utils/string-util';
+import {convertToString, pluralize} from '../../../utils/string-util';
 import {appContext} from '../../../services/app-context';
 import {
   computeLatestPatchNum,
@@ -72,6 +72,15 @@ export interface GrPatchRangeSelect {
   $: {
     patchNumDropdown: GrDropdownList;
   };
+}
+
+declare global {
+  interface HTMLElementEventMap {
+    'value-change': DropDownValueChangeEvent;
+  }
+  interface HTMLElementTagNameMap {
+    'gr-patch-range-select': GrPatchRangeSelect;
+  }
 }
 
 /**
@@ -459,10 +468,8 @@ export class GrPatchRangeSelect extends PolymerElement {
       new CustomEvent('patch-range-change', {detail, bubbles: false})
     );
   }
-}
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-patch-range-select': GrPatchRangeSelect;
+  convertToString(value?: unknown) {
+    return convertToString(value);
   }
 }

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '@polymer/paper-tabs/paper-tab';
 import '@polymer/paper-tabs/paper-tabs';
 import '../gr-shell-command/gr-shell-command';
 import '../../../styles/shared-styles';
@@ -29,6 +30,9 @@ import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
 declare global {
+  interface HTMLElementEventMap {
+    'selected-changed': CustomEvent<{value: number}>;
+  }
   interface HTMLElementTagNameMap {
     'gr-download-commands': GrDownloadCommands;
   }

@@ -26,7 +26,6 @@ suite('gr-tooltip-content tests', () => {
   function makeTooltip(tooltipRect, parentRect) {
     return {
       getBoundingClientRect() { return tooltipRect; },
-      updateStyles: sinon.stub(),
       style: {left: 0, top: 0},
       parentElement: {
         getBoundingClientRect() { return parentRect; },
@@ -64,42 +63,46 @@ suite('gr-tooltip-content tests', () => {
     const tooltip = makeTooltip(
         {height: 30, width: 50},
         {top: 0, left: 0, width: 1000});
+    const updateStyles = sinon.stub(element, 'updateStyles');
 
     element._positionTooltip(tooltip);
-    assert.isFalse(tooltip.updateStyles.called);
+    assert.isFalse(updateStyles.called);
     assert.equal(tooltip.style.left, '175px');
     assert.equal(tooltip.style.top, '100px');
   });
 
-  test('left side position', () => {
+  test('left side position', async () => {
     sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
       return {top: 100, left: 10, width: 50};
     });
     const tooltip = makeTooltip(
         {height: 30, width: 120},
         {top: 0, left: 0, width: 1000});
+    const updateStyles = sinon.stub(element, 'updateStyles');
 
     element._positionTooltip(tooltip);
-    assert.isTrue(tooltip.updateStyles.called);
-    const offset = tooltip.updateStyles
-        .lastCall.args[0]['--gr-tooltip-arrow-center-offset'];
+    await element.updateComplete;
+    assert.isTrue(updateStyles.called);
+    const offset = updateStyles
+        .lastCall.args[1]['--gr-tooltip-arrow-center-offset'];
     assert.isBelow(parseFloat(offset.replace(/px$/, '')), 0);
     assert.equal(tooltip.style.left, '0px');
     assert.equal(tooltip.style.top, '100px');
   });
 
-  test('right side position', () => {
+  test('right side position', async () => {
     sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
       return {top: 100, left: 950, width: 50};
     });
     const tooltip = makeTooltip(
         {height: 30, width: 120},
         {top: 0, left: 0, width: 1000});
+    const updateStyles = sinon.stub(element, 'updateStyles');
 
     element._positionTooltip(tooltip);
-    assert.isTrue(tooltip.updateStyles.called);
-    const offset = tooltip.updateStyles
-        .lastCall.args[0]['--gr-tooltip-arrow-center-offset'];
+    assert.isTrue(updateStyles.called);
+    const offset = updateStyles
+        .lastCall.args[1]['--gr-tooltip-arrow-center-offset'];
     assert.isAbove(parseFloat(offset.replace(/px$/, '')), 0);
     assert.equal(tooltip.style.left, '915px');
     assert.equal(tooltip.style.top, '100px');
@@ -112,12 +115,13 @@ suite('gr-tooltip-content tests', () => {
     const tooltip = makeTooltip(
         {height: 30, width: 120},
         {top: 0, left: 0, width: 1000});
+    const updateStyles = sinon.stub(element, 'updateStyles');
 
     element.positionBelow = true;
     element._positionTooltip(tooltip);
-    assert.isTrue(tooltip.updateStyles.called);
-    const offset = tooltip.updateStyles
-        .lastCall.args[0]['--gr-tooltip-arrow-center-offset'];
+    assert.isTrue(updateStyles.called);
+    const offset = updateStyles
+        .lastCall.args[1]['--gr-tooltip-arrow-center-offset'];
     assert.isAbove(parseFloat(offset.replace(/px$/, '')), 0);
     assert.equal(tooltip.style.left, '915px');
     assert.equal(tooltip.style.top, '157.2px');

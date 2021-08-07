@@ -17,6 +17,7 @@
 import '../gr-icons/gr-icons';
 import '../gr-tooltip/gr-tooltip';
 import {getRootElement} from '../../../scripts/rootElement';
+import {updateStyles} from '../../../utils/dom-util';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
@@ -210,11 +211,11 @@ export class GrTooltipContent extends LitElement {
     const left = rect.left - parentRect.left + (rect.width - boxRect.width) / 2;
     const right = parentRect.width - left - boxRect.width;
     if (left < 0) {
-      tooltip.updateStyles({
+      this.updateStyles(tooltip, {
         '--gr-tooltip-arrow-center-offset': `${left}px`,
       });
     } else if (right < 0) {
-      tooltip.updateStyles({
+      this.updateStyles(tooltip, {
         '--gr-tooltip-arrow-center-offset': `${-0.5 * right}px`,
       });
     }
@@ -226,5 +227,9 @@ export class GrTooltipContent extends LitElement {
     } else {
       tooltip.style.top = `${top + rect.height + BOTTOM_OFFSET}px`;
     }
+  }
+
+  updateStyles(element: Element, properties: Object) {
+    return updateStyles(element, properties);
   }
 }

@@ -43,6 +43,10 @@ import {accountOrGroupKey} from '../../../utils/account-util';
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
 declare global {
+  interface HTMLElementEventMap {
+    'add': CustomEvent;
+    'input-keydown': CustomEvent;
+  }
   interface HTMLElementTagNameMap {
     'gr-account-list': GrAccountList;
   }
@@ -176,7 +180,7 @@ export class GrAccountList extends PolymerElement {
    * Returns suggestion items
    */
   @property({type: Object})
-  _querySuggestions: (input: string) => Promise<SuggestionItem[]>;
+  _querySuggestions: (input: string) => Promise<SuggestionItem[]>; //
 
   reporting: ReportingService;
 
@@ -213,7 +217,7 @@ export class GrAccountList extends PolymerElement {
     });
   }
 
-  _handleAdd(e: CustomEvent<{value: RawAccountInput}>) {
+  _handleAdd(e: CustomEvent) {
     this.addAccountItem(e.detail.value);
   }
 
@@ -324,9 +328,7 @@ export class GrAccountList extends PolymerElement {
       paperInput.inputElement) as HTMLTextAreaElement;
   }
 
-  _handleInputKeydown(
-    e: CustomEvent<{input: PaperInputElementExt; keyCode: number}>
-  ) {
+  _handleInputKeydown(e: CustomEvent) {
     const input = this._getNativeInput(e.detail.input);
     if (
       input.selectionStart !== input.selectionEnd ||
@@ -446,3 +448,4 @@ export class GrAccountList extends PolymerElement {
     return (maxCount && maxCount <= accountsRecord.base.length) || readonly;
   }
 }
+

@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-import {customElement, property} from '@polymer/decorators';
-import {htmlTemplate} from './gr-range-header_html';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
 
 /**
  * Represents a header (label) for a code chunk whenever showing
@@ -26,12 +25,39 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
  * like long comments and moved in/out chunks.
  */
 @customElement('gr-range-header')
-export class GrRangeHeader extends PolymerElement {
+export class GrRangeHeader extends GrLitElement {
   @property({type: String})
   icon?: string;
 
-  static get template() {
-    return htmlTemplate;
+  static get styles() {
+    return [
+      css`
+        .row {
+          color: var(--gr-range-header-color);
+          display: flex;
+          font-family: var(--font-family, ''), 'Roboto Mono';
+          font-size: var(--font-size-small, 12px);
+          font-weight: var(--code-hint-font-weight, 500);
+          line-height: var(--line-height-small, 16px);
+          justify-content: flex-end;
+          padding: var(--spacing-s) var(--spacing-l);
+        }
+        .icon {
+          color: var(--gr-range-header-color);
+          height: var(--line-height-small, 16px);
+          width: var(--line-height-small, 16px);
+          margin-right: var(--spacing-s);
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const icon = this.icon ? this.icon : '';
+    return html` <div class="row">
+      <iron-icon class="icon" icon=${icon}></iron-icon>
+      <slot></slot>
+    </div>`;
   }
 }
 

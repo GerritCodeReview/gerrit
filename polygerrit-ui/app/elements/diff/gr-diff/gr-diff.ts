@@ -760,15 +760,35 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       responsiveMode === 'FULL_RESPONSIVE' || responsiveMode === 'SHRINK_ONLY';
     this._diffTableClass = responsive ? 'responsive' : '';
     const lineLimit = `${lineLength}ch`;
-    stylesToUpdate['--line-limit'] = lineLimit;
+    stylesToUpdate['--line-limit'] =
+      responsiveMode === 'FULL_RESPONSIVE' ? lineLimit : 'none';
     stylesToUpdate['--content-width'] = responsive ? 'none' : lineLimit;
     if (responsiveMode === 'SHRINK_ONLY') {
-      // Calculating ideal (initial) width for the whole table.
+      // Calculating ideal (initial) width for the whole table including
+      // width of each table column (content and line number columns) and
+      // border. We also add a 1px correction as some values are calculated
+      // in 'ch'.
+
+      // We might have 1 to 2 columns for content depending if side-by-side
+      // or unified mode
       const contentWidth = `${sideBySide ? 2 : 1} * ${lineLimit}`;
+
+      // We always have 2 columns for line number
       const lineNumberWidth = `2 * ${getLineNumberCellWidth(prefs)}px`;
+
+      // border-right in ".section" css definition (in gr-diff_html.ts)
+      const sectionRightBorder = '1px';
+
+      // As some of these calculations are done using 'ch' we end up
+      // having <1px difference between ideal and calculated size leading
+      // to lines using the max columns (e.g. 80) to wrap.
+      // Adding 1px as correction to be sure wrapping won't happen in these
+      // cases so it doesn' block further experimentation with the SHRINK_MODE.
+      // If we find another way to avoid this correction we will change it.
+      const correction = '1px';
       stylesToUpdate[
         '--diff-max-width'
-      ] = `calc(${contentWidth} + ${lineNumberWidth})`;
+      ] = `calc(${contentWidth} + ${lineNumberWidth} + ${sectionRightBorder} + ${correction})`;
     } else {
       stylesToUpdate['--diff-max-width'] = 'none';
     }

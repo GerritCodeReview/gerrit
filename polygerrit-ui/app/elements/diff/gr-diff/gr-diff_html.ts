@@ -69,6 +69,9 @@ export const htmlTemplate = html`
     /*
       Context controls break up the table visually, so we set the right border
       on individual sections to leave a gap for the divider.
+
+      Also taken into account for max-width calculations in SHRINK_ONLY
+      mode (check GrDiff._updatePreferenceStyles).
       */
     .section {
       border-right: 1px solid var(--border-color);

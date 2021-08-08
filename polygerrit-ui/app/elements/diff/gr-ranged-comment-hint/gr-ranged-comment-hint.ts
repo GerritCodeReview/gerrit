@@ -16,19 +16,76 @@
  */
 
 import '../gr-range-header/gr-range-header';
-import {customElement, property} from '@polymer/decorators';
 import {CommentRange} from '../../../types/common';
-import {htmlTemplate} from './gr-ranged-comment-hint_html';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 
 @customElement('gr-ranged-comment-hint')
-export class GrRangedCommentHint extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrRangedCommentHint extends GrLitElement {
   @property({type: Object})
   range?: CommentRange;
+
+
+  static get styles() {
+    return [
+      grRangedCommentTheme,
+      sharedStyles,
+      css`
+        :host {
+          --gr-tooltip-arrow-size: 0.5em;
+          --gr-tooltip-arrow-center-offset: 0;
+
+          background-color: var(--tooltip-background-color);
+          box-shadow: var(--elevation-level-2);
+          color: var(--tooltip-text-color);
+          font-size: var(--font-size-small);
+          position: absolute;
+          z-index: 1000;
+          max-width: var(--tooltip-max-width);
+        }
+        :host .tooltip {
+          padding: var(--spacing-m) var(--spacing-l);
+        }
+        :host .arrowPositionBelow,
+        :host([position-below]) .arrowPositionAbove {
+          display: none;
+        }
+        :host([position-below]) .arrowPositionBelow {
+          display: initial;
+        }
+        .arrow {
+          border-left: var(--gr-tooltip-arrow-size) solid transparent;
+          border-right: var(--gr-tooltip-arrow-size) solid transparent;
+          height: 0;
+          position: absolute;
+          left: calc(50% - var(--gr-tooltip-arrow-size));
+          margin-left: var(--gr-tooltip-arrow-center-offset);
+          width: 0;
+        }
+        .arrowPositionAbove {
+          border-top: var(--gr-tooltip-arrow-size) solid
+            var(--tooltip-background-color);
+          bottom: calc(-1 * var(--gr-tooltip-arrow-size));
+        }
+        .arrowPositionBelow {
+          border-bottom: var(--gr-tooltip-arrow-size) solid
+            var(--tooltip-background-color);
+          top: calc(-1 * var(--gr-tooltip-arrow-size));
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const range = this.range;
+    return html`  <div class="rangeHighlight row">
+    <gr-range-header icon="gr-icons:comment"
+      >${this._computeRangeLabel(range)}</gr-range-header
+    >
+  </div>`;
+  }
 
   _computeRangeLabel(range?: CommentRange): string {
     if (!range) return '';

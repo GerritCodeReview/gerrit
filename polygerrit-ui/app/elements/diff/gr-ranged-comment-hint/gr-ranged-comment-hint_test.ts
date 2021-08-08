@@ -19,20 +19,16 @@ import '../../../test/common-test-setup-karma';
 import './gr-ranged-comment-hint';
 import {CommentRange} from '../../../types/common';
 import {GrRangedCommentHint} from './gr-ranged-comment-hint';
+import {queryAndAssert} from '../../../test/test-utils';
+import {GrRangeHeader} from '../gr-range-header/gr-range-header';
 
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag';
-
-const basicFixture = fixtureFromTemplate(html`
-  <gr-ranged-comment-hint></gr-ranged-comment-hint>
-`);
+const basicFixture = fixtureFromElement('gr-ranged-comment-hint');
 
 suite('gr-ranged-comment-hint tests', () => {
   let element: GrRangedCommentHint;
 
   setup(async () => {
-    element = basicFixture.instantiate() as GrRangedCommentHint;
+    element = basicFixture.instantiate();
     await flush();
   });
 
@@ -44,7 +40,7 @@ suite('gr-ranged-comment-hint tests', () => {
       end_character: 3,
     } as CommentRange;
     await flush();
-    const textDiv = element.root?.querySelector('gr-range-header');
+    const textDiv = queryAndAssert<GrRangeHeader>(element, 'gr-range-header');
     assert.equal(textDiv?.innerText.trim(), 'Long comment range 2 - 5');
   });
 });

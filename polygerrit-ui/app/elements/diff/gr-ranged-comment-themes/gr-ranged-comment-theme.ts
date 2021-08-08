@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import {css} from 'lit-element';
+
 // Mark the file as a module. Otherwise typescript assumes this is a script
 // and $_documentContainer is a global variable.
 // See: https://www.typescriptlang.org/docs/handbook/modules.html
@@ -22,15 +24,19 @@ export {};
 
 const $_documentContainer = document.createElement('template');
 
+export const grRangedCommentTheme = css`
+  .rangeHighlight {
+    background-color: var(--diff-highlight-range-color);
+  }
+  .rangeHoverHighlight {
+    background-color: var(--diff-highlight-range-hover-color);
+  }
+`;
+
 $_documentContainer.innerHTML = `<dom-module id="gr-ranged-comment-theme">
   <template>
     <style>
-      .rangeHighlight {
-        background-color: var(--diff-highlight-range-color);
-      }
-      .rangeHoverHighlight {
-        background-color: var(--diff-highlight-range-hover-color);
-      }
+    ${grRangedCommentTheme.cssText}
     </style>
   </template>
 </dom-module>`;

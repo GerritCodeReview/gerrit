@@ -37,6 +37,7 @@ suite('gr-edit-file-controls tests', () => {
   });
 
   test('open tap emits event', () => {
+    //
     const actions = queryAndAssert<GrDropdown>(element, '#actions');
     element.filePath = 'foo';
     actions._open();

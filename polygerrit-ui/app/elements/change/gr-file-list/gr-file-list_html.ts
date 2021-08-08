@@ -593,7 +593,7 @@ export const htmlTemplate = html`
             <template is="dom-if" if="[[editMode]]">
               <gr-edit-file-controls
                 class$="[[_computeClass('', file.__path)]]"
-                file-path="[[file.__path]]"
+                filePath="[[file.__path]]"
               ></gr-edit-file-controls>
             </template>
           </div>

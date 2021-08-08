@@ -30,13 +30,15 @@ suite('gr-edit-file-controls tests', () => {
 
   let fileActionHandler: sinon.SinonStub;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
     fileActionHandler = sinon.stub();
     element.addEventListener('file-action-tap', fileActionHandler);
+    await flush();
   });
 
   test('open tap emits event', () => {
+    ////
     const actions = queryAndAssert<GrDropdown>(element, '#actions');
     element.filePath = 'foo';
     actions._open();

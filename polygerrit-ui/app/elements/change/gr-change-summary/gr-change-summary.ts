@@ -35,6 +35,7 @@ import {
   firstPrimaryLink,
   getResultsOf,
   hasCompletedWithoutResults,
+  hasResults,
   hasResultsOf,
   iconFor,
   isRunning,
@@ -65,6 +66,15 @@ export enum SummaryChipStyles {
   WARNING = 'warning',
   CHECK = 'check',
   UNDEFINED = '',
+}
+
+function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
+  if (modifierPressed(e)) return;
+  // Only react to `return` and `space`.
+  if (e.keyCode !== 13 && e.keyCode !== 32) return;
+  e.preventDefault();
+  e.stopPropagation();
+  handler();
 }
 
 @customElement('gr-summary-chip')
@@ -298,8 +308,11 @@ export class GrChecksChip extends GrLitElement {
   }
 }
 
-/** What is the maximum number of expanded checks chips? */
-const DETAILS_QUOTA = 2;
+/** What is the maximum number of detailed checks chips? */
+const DETAILS_QUOTA: Map<RunStatus | Category, number> = new Map();
+DETAILS_QUOTA.set(Category.ERROR, 7);
+DETAILS_QUOTA.set(Category.WARNING, 2);
+DETAILS_QUOTA.set(RunStatus.RUNNING, 2);
 
 @customElement('gr-change-summary')
 export class GrChangeSummary extends GrLitElement {
@@ -327,22 +340,7 @@ export class GrChangeSummary extends GrLitElement {
   @property()
   loginCallback?: () => void;
 
-  /**
-   * How many check chips may still be rendered as a detailed chip. Is reset
-   * when rendering begins and decreases while chips are rendered. So when
-   * there are two ERRORs, then those would consume 2 from this quota and then
-   * there would only be DETAILS_QUOTA - 2 left for the other summary chips.
-   * Once there are more results than quota left we will stop rendering
-   * detailed chips and fall back to just icon+number rendering.
-   */
-  private detailsQuota = DETAILS_QUOTA;
-
-  /**
-   * Is reset when rendering begins and contains the check names of runs that
-   * have a detailed chip. We keep track of this such that we can ensure to not
-   * show two detailed chips with the same name.
-   */
-  private detailsCheckNames: string[] = [];
+  private showAllChips = new Map<RunStatus | Category, boolean>();
 
   constructor() {
     super();
@@ -361,7 +359,7 @@ export class GrChangeSummary extends GrLitElement {
         :host {
           display: block;
           color: var(--deemphasized-text-color);
-          max-width: 650px;
+          max-width: 625px;
           margin-bottom: var(--spacing-m);
         }
         .zeroState {
@@ -405,6 +403,9 @@ export class GrChangeSummary extends GrLitElement {
         td.value {
           padding-right: var(--spacing-l);
           padding-bottom: var(--spacing-m);
+        }
+        .checksSummary {
+          line-height: calc(var(--line-height-normal) + var(--spacing-s));
         }
         iron-icon.launch {
           color: var(--gray-foreground);
@@ -479,90 +480,105 @@ export class GrChangeSummary extends GrLitElement {
       return category === Category.SUCCESS && hasCompletedWithoutResults(run);
     });
     const count = (run: CheckRun) => getResultsOf(run, category);
-    return this.renderChecksChip(runs, category, count);
+    if (category === Category.SUCCESS || category === Category.INFO) {
+      return this.renderChecksChipsCollapsed(runs, category, count);
+    }
+    return this.renderChecksChipsExpanded(runs, category, count);
   }
 
-  renderChecksChipForStatus(
-    status: RunStatus,
-    filter: (run: CheckRun) => boolean
-  ) {
+  renderChecksChipRunning() {
     if (this.errorMessage || this.loginCallback) return;
-    const runs = this.runs.filter(filter);
-    return this.renderChecksChip(runs, status, () => []);
+    const runs = this.runs.filter(isRunning);
+    return this.renderChecksChipsExpanded(runs, RunStatus.RUNNING, () => []);
   }
 
-  renderChecksChip(
+  renderChecksChipsExpanded(
     runs: CheckRun[],
     statusOrCategory: RunStatus | Category,
     resultFilter: (run: CheckRun) => CheckResult[]
   ) {
-    if (runs.length === 0) {
-      return html``;
-    }
-    // If a run has both an error and a warning result, then we only want to
-    // show a detailed chip with the expanded checkName once. For simplicity
-    // just stop rendering detailed chips completely as soon as we run into
-    // this by setting detailsQuota to 0 (after the if-block).
-    const hasDetailChipAlready = runs.some(run =>
-      this.detailsCheckNames.includes(run.checkName)
-    );
-    const notInfo = statusOrCategory !== Category.INFO;
-    if (!hasDetailChipAlready && notInfo && runs.length <= this.detailsQuota) {
-      this.detailsQuota -= runs.length;
-      return runs.map(run => {
-        this.detailsCheckNames.push(run.checkName);
-        const allPrimaryLinks = resultFilter(run)
-          .map(firstPrimaryLink)
-          .filter(notUndefined);
-        const links = allPrimaryLinks.length === 1 ? allPrimaryLinks : [];
-        const text = `${run.checkName}`;
-        const tabState: ChecksTabState = {
-          checkName: run.checkName,
-          statusOrCategory,
-        };
-        return html`<gr-checks-chip
-          .statusOrCategory="${statusOrCategory}"
-          .text="${text}"
-          @click="${() => this.onChipClick(tabState)}"
-          @keydown="${(e: KeyboardEvent) => this.onChipKeyDown(e, tabState)}"
-          >${links.map(
-            link => html`
-              <a
-                href="${link.url}"
-                target="_blank"
-                @click="${this.onLinkClick}"
-                @keydown="${this.onLinkKeyDown}"
-                aria-label="Link to check details"
-                ><iron-icon class="launch" icon="gr-icons:launch"></iron-icon
-              ></a>
-            `
-          )}
-        </gr-checks-chip>`;
-      });
-    }
-    this.detailsQuota = 0;
-    this.detailsCheckNames = [];
-    const sum = runs.reduce(
+    if (runs.length === 0) return;
+    const showAll = this.showAllChips.get(statusOrCategory) ?? false;
+    let count = showAll ? 999 : DETAILS_QUOTA.get(statusOrCategory) ?? 2;
+    if (count === runs.length - 1) count = runs.length;
+    const more = runs.length - count;
+    return html`${runs
+      .slice(0, count)
+      .map(run =>
+        this.renderChecksChipDetailed(run, statusOrCategory, resultFilter)
+      )}${this.renderChecksChipPlusMore(statusOrCategory, more)}`;
+  }
+
+  private renderChecksChipsCollapsed(
+    runs: CheckRun[],
+    statusOrCategory: RunStatus | Category,
+    resultFilter: (run: CheckRun) => CheckResult[]
+  ) {
+    const count = runs.reduce(
       (sum, run) => sum + (resultFilter(run).length || 1),
       0
     );
-    if (sum === 0) return;
+    if (count === 0) return;
+    const handler = () => this.onChipClick({statusOrCategory});
     return html`<gr-checks-chip
       .statusOrCategory="${statusOrCategory}"
-      .text="${sum}"
-      @click="${() => this.onChipClick({statusOrCategory})}"
-      @keydown="${(e: KeyboardEvent) =>
-        this.onChipKeyDown(e, {statusOrCategory})}"
+      .text="${count}"
+      @click="${handler}"
+      @keydown="${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}"
     ></gr-checks-chip>`;
   }
 
-  private onChipKeyDown(e: KeyboardEvent, state: ChecksTabState) {
-    if (modifierPressed(e)) return;
-    // Only react to `return` and `space`.
-    if (e.keyCode !== 13 && e.keyCode !== 32) return;
-    e.preventDefault();
-    e.stopPropagation();
-    this.onChipClick(state);
+  private renderChecksChipPlusMore(
+    statusOrCategory: RunStatus | Category,
+    count: number
+  ) {
+    if (count <= 0) return;
+    if (this.showAllChips.get(statusOrCategory) === true) return;
+    const handler = () => {
+      this.showAllChips.set(statusOrCategory, true);
+      this.requestUpdate();
+    };
+    return html`<gr-checks-chip
+      .statusOrCategory="${statusOrCategory}"
+      .text="+ ${count} more"
+      @click="${handler}"
+      @keydown="${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}"
+    ></gr-checks-chip>`;
+  }
+
+  private renderChecksChipDetailed(
+    run: CheckRun,
+    statusOrCategory: RunStatus | Category,
+    resultFilter: (run: CheckRun) => CheckResult[]
+  ) {
+    const allPrimaryLinks = resultFilter(run)
+      .map(firstPrimaryLink)
+      .filter(notUndefined);
+    const links = allPrimaryLinks.length === 1 ? allPrimaryLinks : [];
+    const text = `${run.checkName}`;
+    const tabState: ChecksTabState = {
+      checkName: run.checkName,
+      statusOrCategory,
+    };
+    const handler = () => this.onChipClick(tabState);
+    return html`<gr-checks-chip
+      .statusOrCategory="${statusOrCategory}"
+      .text="${text}"
+      @click="${handler}"
+      @keydown="${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}"
+      >${links.map(
+        link => html`
+          <a
+            href="${link.url}"
+            target="_blank"
+            @click="${this.onLinkClick}"
+            @keydown="${this.onLinkKeyDown}"
+            aria-label="Link to check details"
+            ><iron-icon class="launch" icon="gr-icons:launch"></iron-icon
+          ></a>
+        `
+      )}
+    </gr-checks-chip>`;
   }
 
   private onChipClick(state: ChecksTabState) {
@@ -582,8 +598,6 @@ export class GrChangeSummary extends GrLitElement {
   }
 
   render() {
-    this.detailsQuota = DETAILS_QUOTA;
-    this.detailsCheckNames = [];
     const commentThreads =
       this.commentThreads?.filter(t => !isRobotThread(t) || hasHumanReply(t)) ??
       [];
@@ -592,26 +606,34 @@ export class GrChangeSummary extends GrLitElement {
     const countUnresolvedComments = unresolvedThreads.length;
     const unresolvedAuthors = this.getAccounts(unresolvedThreads);
     const draftCount = this.changeComments?.computeDraftCount() ?? 0;
+    const hasNonRunningChip = this.runs.some(
+      run => hasCompletedWithoutResults(run) || hasResults(run)
+    );
+    const hasRunningChip = this.runs.some(isRunning);
     return html`
       <div>
         <table>
           <tr ?hidden=${!this.showChecksSummary}>
             <td class="key">Checks</td>
             <td class="value">
-              ${this.renderChecksError()}${this.renderChecksLogin()}
-              ${this.renderChecksZeroState()}${this.renderChecksChipForCategory(
-                Category.ERROR
-              )}${this.renderChecksChipForCategory(
-                Category.WARNING
-              )}${this.renderChecksChipForCategory(
-                Category.INFO
-              )}${this.renderChecksChipForCategory(
-                Category.SUCCESS
-              )}${this.renderChecksChipForStatus(RunStatus.RUNNING, isRunning)}
-              <span
-                class="loadingSpin"
-                ?hidden="${!this.someProvidersAreLoading}"
-              ></span>
+              <div class="checksSummary">
+                ${this.renderChecksError()}${this.renderChecksLogin()}
+                ${this.renderChecksZeroState()}${this.renderChecksChipForCategory(
+                  Category.ERROR
+                )}${this.renderChecksChipForCategory(
+                  Category.WARNING
+                )}${this.renderChecksChipForCategory(
+                  Category.INFO
+                )}${this.renderChecksChipForCategory(
+                  Category.SUCCESS
+                )}${hasNonRunningChip && hasRunningChip
+                  ? html`<br />`
+                  : ''}${this.renderChecksChipRunning()}
+                <span
+                  class="loadingSpin"
+                  ?hidden="${!this.someProvidersAreLoading}"
+                ></span>
+              </div>
             </td>
           </tr>
           <tr>

@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-button/gr-button';
+
 import '../../shared/gr-dropdown/gr-dropdown';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-edit-file-controls_html';
 import {GrEditConstants} from '../gr-edit-constants';
-import {customElement, property} from '@polymer/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
 
 interface EditAction {
   label: string;
@@ -28,11 +27,7 @@ interface EditAction {
 }
 
 @customElement('gr-edit-file-controls')
-export class GrEditFileControls extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrEditFileControls extends GrLitElement {
   /**
    * Fired when an action in the overflow menu is tapped.
    *
@@ -45,8 +40,48 @@ export class GrEditFileControls extends PolymerElement {
   @property({type: Array})
   _allFileActions = Object.values(GrEditConstants.Actions);
 
-  @property({type: Array, computed: '_computeFileActions(_allFileActions)'})
-  _fileActions?: EditAction[];
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          align-items: center;
+          display: flex;
+          justify-content: flex-end;
+        }
+        #actions {
+          margin-right: var(--spacing-l);
+        }
+        gr-button,
+        gr-dropdown {
+          --gr-button: {
+            height: 1.8em;
+          }
+        }
+        gr-dropdown {
+          --gr-dropdown-item: {
+            background-color: transparent;
+            border: none;
+            color: var(--link-color);
+            text-transform: uppercase;
+          }
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const fileActions = this._computeFileActions(this._allFileActions);
+    return html` <gr-dropdown
+      id="actions"
+      .items=${fileActions}
+      down-arrow=""
+      vertical-offset="20"
+      @tap-item="${this._handleActionTap}"
+      link=""
+      >Actions</gr-dropdown
+    >`;
+  }
 
   _handleActionTap(e: CustomEvent) {
     e.preventDefault();

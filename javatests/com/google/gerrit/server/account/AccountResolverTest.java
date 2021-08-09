@@ -352,7 +352,7 @@ public class AccountResolverTest {
   }
 
   private static AccountResolver newAccountResolver() {
-    return new AccountResolver(null, null, null, null, null, null, null, "Anonymous Name");
+    return new AccountResolver(null, null, null, null, null, null, null, null, "Anonymous Name");
   }
 
   private AccountState newAccount(int id) {

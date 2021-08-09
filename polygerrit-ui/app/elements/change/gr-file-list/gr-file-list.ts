@@ -582,14 +582,20 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   private _toggleFileExpanded(file: PatchSetFile) {
-    // Is the path in the list of expanded diffs? IF so remove it, otherwise
+    // Is the path in the list of expanded diffs? If so, remove it, otherwise
     // add it to the list.
-    const pathIndex = this._expandedFiles.findIndex(f => f.path === file.path);
-    if (pathIndex === -1) {
+    const indexInExpanded = this._expandedFiles.findIndex(
+      f => f.path === file.path
+    );
+    if (indexInExpanded === -1) {
       this.push('_expandedFiles', file);
     } else {
-      this.splice('_expandedFiles', pathIndex, 1);
+      this.splice('_expandedFiles', indexInExpanded, 1);
     }
+    const indexInAll = this._files.findIndex(f => f.__path === file.path);
+    this.root!.querySelectorAll(`.${FILE_ROW_CLASS}`)[
+      indexInAll
+    ].scrollIntoView({block: 'nearest'});
   }
 
   _toggleFileExpandedByIndex(index: number) {

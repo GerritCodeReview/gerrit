@@ -131,7 +131,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       p.warning = configEntry.getWarning(project);
       p.type = configEntry.getType();
       p.permittedValues = configEntry.getPermittedValues();
-      p.editable = configEntry.isEditable(project) ? true : null;
+      p.editable = configEntry.isEditable(project);
       if (configEntry.isInheritable() && !allProjects.equals(project.getNameKey())) {
         PluginConfig cfgWithInheritance =
             cfgFactory.getFromProjectConfigWithInheritance(project, e.getPluginName());

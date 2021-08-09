@@ -46,6 +46,30 @@
       },
       "revId": "29966606431f336af80c4d0630f9f9716cc84ae2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "313a139b_727945c9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-09T18:48:57Z",
+      "side": 0,
+      "message": "I get the following error when clicking \"Save for review\":\nError 400: com.google.gerrit.exceptions.InvalidNameException: Invalid Name: refs/for/**\nEndpoint: /projects/*/access:review\n\nSteps to reproduce:\n1. Click add reference\n2. Modify permissions, somehow\n3. Click add refernce\n4. Again modify permission\n5. Click \"save for review.\"",
+      "parentUuid": "70b5a195_21388ff9",
+      "range": {
+        "startLine": 484,
+        "startChar": 4,
+        "endLine": 485,
+        "endChar": 43
+      },
+      "revId": "29966606431f336af80c4d0630f9f9716cc84ae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -190,8 +190,13 @@ export function getRepoSubsections(repoName: RepoName) {
   return {
     name: repoName,
     view: GerritNav.View.REPO,
-    url: GerritNav.getUrlForRepo(repoName),
     children: [
+      {
+        name: 'General',
+        view: GerritNav.View.REPO,
+        detailType: GerritNav.RepoDetailView.GENERAL,
+        url: GerritNav.getUrlForRepoGeneral(repoName),
+      },
       {
         name: 'Access',
         view: GerritNav.View.REPO,

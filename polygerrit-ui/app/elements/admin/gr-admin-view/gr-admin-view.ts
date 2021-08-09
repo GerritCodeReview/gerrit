@@ -308,7 +308,11 @@ export class GrAdminView extends PolymerElement {
       '_showRepoMain',
       params.view === GerritView.REPO && !params.detail
     );
-
+    this.set(
+      '_showRepoMain',
+      params.view === GerritView.REPO &&
+        params.detail === RepoDetailView.GENERAL
+    );
     this.set(
       '_showRepoList',
       params.view === GerritView.ADMIN && params.adminView === 'gr-repo-list'

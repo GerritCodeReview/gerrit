@@ -419,6 +419,7 @@ export enum GroupDetailView {
 }
 
 export enum RepoDetailView {
+  GENERAL = 'general',
   ACCESS = 'access',
   BRANCHES = 'branches',
   COMMANDS = 'commands',
@@ -841,6 +842,7 @@ export const GerritNav = {
   getUrlForRepo(repoName: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
+      detail: RepoDetailView.GENERAL,
       repoName,
     });
   },
@@ -849,7 +851,7 @@ export const GerritNav = {
    * Navigate to a repo settings page.
    */
   navigateToRepo(repoName: RepoName) {
-    this._navigate(this.getUrlForRepo(repoName));
+    this._navigate(this.getUrlForRepoGeneral(repoName));
   },
 
   getUrlForRepoTags(repoName: RepoName) {
@@ -865,6 +867,14 @@ export const GerritNav = {
       view: GerritView.REPO,
       repoName,
       detail: GerritNav.RepoDetailView.BRANCHES,
+    });
+  },
+
+  getUrlForRepoGeneral(repoName: RepoName) {
+    return this._getUrlFor({
+      view: GerritView.REPO,
+      repoName,
+      detail: GerritNav.RepoDetailView.GENERAL,
     });
   },
 

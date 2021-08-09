@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3aa466d_f541eff4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-09T10:29:11Z",
+      "side": 1,
+      "message": "Thanks for fix. You can submit if you are are certain with changes and we can change resetState in following change, if it needs change. ",
+      "revId": "89fd52f0f6cacafc48577e4b79d8fb59e559b426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f82a8628_7c700e29",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-09T10:29:11Z",
+      "side": 1,
+      "message": "I am little confused why it is needed to still send state to oldPrivateState. if it is needed maybe we can have 2 functions, one that resetState and second that will reset state and also to feed oldPrivateState.",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 68
+      },
+      "revId": "89fd52f0f6cacafc48577e4b79d8fb59e559b426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd3e58b_3058c098",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-09T10:29:11Z",
+      "side": 1,
+      "message": "NIT: I think, it will be worth to have this in comment-util with some tests.",
+      "range": {
+        "startLine": 123,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 32
+      },
+      "revId": "89fd52f0f6cacafc48577e4b79d8fb59e559b426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

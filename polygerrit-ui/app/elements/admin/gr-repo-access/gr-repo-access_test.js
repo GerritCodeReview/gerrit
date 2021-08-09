@@ -748,6 +748,7 @@ suite('gr-repo-access tests', () => {
           'refs/for/*': {
             added: true,
             permissions: {},
+            updatedId: 'refs/for/*',
           },
         },
         remove: {},
@@ -766,6 +767,7 @@ suite('gr-repo-access tests', () => {
                 label: 'Code-Review',
               },
             },
+            updatedId: 'refs/for/*',
           },
         },
         remove: {},
@@ -795,6 +797,7 @@ suite('gr-repo-access tests', () => {
                 label: 'Code-Review',
               },
             },
+            updatedId: 'refs/for/*',
           },
         },
         remove: {},

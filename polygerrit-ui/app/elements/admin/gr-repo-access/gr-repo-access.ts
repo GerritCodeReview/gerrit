@@ -481,13 +481,17 @@ export class GrRepoAccess extends PolymerElement {
       return;
     }
     let newRef = 'refs/for/*';
+    // The user should always see "refs/for/*", even if the mapping has extra
+    // '*' to avoid conflicts. 'updatedId' is changing depending on user input,
+    // but it should start as the initial text that we put in 'id' (newRef).
+    const section = {permissions: {}, added: true, updatedId: newRef};
+    this.push('_sections', {id: newRef, value: section});
+
     // Avoid using an already used key for the placeholder, since it
     // immediately gets added to an object.
     while (this._local[newRef]) {
       newRef = `${newRef}*`;
     }
-    const section = {permissions: {}, added: true};
-    this.push('_sections', {id: newRef, value: section});
     this.set(['_local', newRef], section);
     flush();
     // Template already instantiated at this point

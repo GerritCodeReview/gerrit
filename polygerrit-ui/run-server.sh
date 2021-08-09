@@ -13,8 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+bazel_bin=$(which bazelisk 2>/dev/null)
+if [[ -z "$bazel_bin" ]]; then
+    echo "Warning: bazelisk is not installed; falling back to bazel."
+    bazel_bin=bazel
+fi
+
 set -eu
 SCRIPTNAME=$(mktemp)
 trap "{ rm -f $SCRIPTNAME; }" EXIT
-bazel run --script_path="$SCRIPTNAME" //polygerrit-ui:devserver
+${bazel_bin} run --script_path="$SCRIPTNAME" //polygerrit-ui:devserver
 "$SCRIPTNAME" "$@"

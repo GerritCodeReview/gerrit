@@ -24,7 +24,8 @@ export const htmlTemplate = html`
     :host {
       display: table;
     }
-    gr-change-requirements {
+    gr-change-requirements,
+    gr-submit-requirements {
       --requirements-horizontal-padding: var(--metadata-horizontal-padding);
     }
     gr-editable-label {

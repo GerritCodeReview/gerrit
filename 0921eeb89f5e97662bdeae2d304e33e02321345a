@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a75fbd0_ec23b44f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-09T12:40:08Z",
+      "side": 1,
+      "message": "nit: rendered",
+      "range": {
+        "startLine": 19,
+        "startChar": 35,
+        "endLine": 19,
+        "endChar": 63
+      },
+      "revId": "0921eeb89f5e97662bdeae2d304e33e02321345a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b705b462_16740135",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-09T12:40:08Z",
+      "side": 1,
+      "message": "optional: I would now prefer to rename this as maxGroupSize since it\u0027s no longer a pure constant and depends on this._asyncThreshold.",
+      "range": {
+        "startLine": 494,
+        "startChar": 12,
+        "endLine": 494,
+        "endChar": 26
+      },
+      "revId": "0921eeb89f5e97662bdeae2d304e33e02321345a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

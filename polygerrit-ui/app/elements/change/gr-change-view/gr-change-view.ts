@@ -2093,7 +2093,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
     this._reloadComments();
 
-    let coreDataPromise;
+    let coreDataPromise: Promise<void>;
 
     // If the patch number is specified
     if (this._patchRange && this._patchRange.patchNum) {
@@ -2109,20 +2109,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         loadingFlagSet,
       ]);
 
-      // Promise resolves when mergeability information has loaded.
-      const mergeabilityLoaded = detailAndPatchResourcesLoaded.then(() =>
+      // all other core data depends on mergeability.
+      coreDataPromise = detailAndPatchResourcesLoaded.then(() =>
         this._getMergeability()
       );
-      allDataPromises.push(mergeabilityLoaded);
-
-      // Promise resolves when the change actions have loaded.
-      const actionsLoaded = detailAndPatchResourcesLoaded.then(() =>
-        this.$.actions.reload()
-      );
-      allDataPromises.push(actionsLoaded);
-
-      // The core data is loaded when both mergeability and actions are known.
-      coreDataPromise = Promise.all([mergeabilityLoaded, actionsLoaded]);
+      allDataPromises.push(coreDataPromise);
     } else {
       // Resolves when the file list has loaded.
       const fileListReload = loadingFlagSet.then(() =>
@@ -2139,14 +2130,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       });
       allDataPromises.push(latestCommitMessageLoaded);
 
-      // Promise resolves when mergeability information has loaded.
-      const mergeabilityLoaded = loadingFlagSet.then(() =>
-        this._getMergeability()
-      );
-      allDataPromises.push(mergeabilityLoaded);
-
-      // Core data is loaded when mergeability has been loaded.
-      coreDataPromise = Promise.all([mergeabilityLoaded]);
+      coreDataPromise = loadingFlagSet.then(() => this._getMergeability());
+      allDataPromises.push(coreDataPromise);
     }
 
     if (isLocationChange) {

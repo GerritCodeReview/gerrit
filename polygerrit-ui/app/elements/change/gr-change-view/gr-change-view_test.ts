@@ -892,7 +892,7 @@ suite('gr-change-view tests', () => {
   });
 
   suite('Findings comment tab', () => {
-    setup(done => {
+    setup(async () => {
       element._changeNum = TEST_NUMERIC_CHANGE_ID;
       element._change = {
         ...createChangeViewChange(),
@@ -906,11 +906,10 @@ suite('gr-change-view tests', () => {
         current_revision: 'rev4' as CommitId,
       };
       element._commentThreads = THREADS;
+      await flush();
       const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
       tap(paperTabs.querySelectorAll('paper-tab')[3]);
-      flush(() => {
-        done();
-      });
+      await flush();
     });
 
     test('robot comments count per patchset', () => {

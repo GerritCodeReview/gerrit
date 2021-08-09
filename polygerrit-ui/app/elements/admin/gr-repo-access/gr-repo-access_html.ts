@@ -82,6 +82,7 @@ export const htmlTemplate = html`
           text="{{_inheritFromFilter}}"
           query="[[_query]]"
           on-commit="_handleUpdateInheritFrom"
+          on-keydown="_handleUpdateInheritFrom"
         ></gr-autocomplete>
       </h3>
       <div class$="weblinks [[_computeWebLinkClass(_weblinks)]]">

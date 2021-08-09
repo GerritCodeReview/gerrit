@@ -86,6 +86,7 @@ export const htmlTemplate = html`
     }
     .jumpToFileContainer {
       display: inline-block;
+      word-break: break-all;
     }
     .mobile {
       display: none;
@@ -189,6 +190,7 @@ export const htmlTemplate = html`
       .jumpToFileContainer {
         display: block;
         width: 100%;
+        word-break: break-all;
       }
       gr-dropdown-list {
         width: 100%;

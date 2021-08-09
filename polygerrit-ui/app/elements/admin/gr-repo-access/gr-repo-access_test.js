@@ -1068,32 +1068,10 @@ suite('gr-repo-access tests', () => {
       newSection.shadowRoot
           .querySelector('gr-permission')._handleAddRuleItem(
               {detail: {value: 'Maintainers'}});
-      // Modify a the reference from the default value.
-      element._local['refs/for/**'].updatedId = 'refs/for/new2';
       expectedInput = {
         add: {
-          'refs/for/new': {
+          'refs/for/*': {
             added: true,
-            updatedId: 'refs/for/new',
-            permissions: {
-              'label-Code-Review': {
-                added: true,
-                rules: {
-                  Maintainers: {
-                    action: 'ALLOW',
-                    added: true,
-                    modified: true,
-                    max: 2,
-                    min: -2,
-                  },
-                },
-                label: 'Code-Review',
-              },
-            },
-          },
-          'refs/for/new2': {
-            added: true,
-            updatedId: 'refs/for/new2',
             permissions: {
               'label-Code-Review': {
                 added: true,

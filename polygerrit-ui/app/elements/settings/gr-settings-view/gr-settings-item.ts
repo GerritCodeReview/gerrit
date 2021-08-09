@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-settings-item_html';
-import {property, customElement} from '@polymer/decorators';
+
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -25,14 +25,26 @@ declare global {
 }
 
 @customElement('gr-settings-item')
-export class GrSettingsItem extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrSettingsItem extends GrLitElement {
   @property({type: String})
   anchor?: string;
 
   @property({type: String})
   title = '';
+
+  static get styles() {
+    return [
+      css`
+        :host {
+          display: block;
+          margin-bottom: var(--spacing-xxl);
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const anchor = this.anchor ?? '';
+    return html`<h2 id="${anchor}" class="heading-2">${this.title}</h2>`;
+  }
 }

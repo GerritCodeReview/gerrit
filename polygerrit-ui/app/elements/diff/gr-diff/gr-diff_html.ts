@@ -444,7 +444,7 @@ export const htmlTemplate = html`
         var(--line-length-indicator-color)
       );
       background-size: 1px 100%;
-      background-position: var(--line-limit) 0;
+      background-position: var(--line-limit-marker) 0;
       background-repeat: no-repeat;
     }
     .newlineWarning {

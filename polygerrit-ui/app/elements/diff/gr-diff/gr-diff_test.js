@@ -78,14 +78,14 @@ suite('gr-diff tests', () => {
     element = basicFixture.instantiate();
     element.prefs = {...MINIMAL_PREFS, line_wrapping: true};
     flush();
-    assert.equal(getComputedStyleValue('--line-limit', element), '80ch');
+    assert.equal(getComputedStyleValue('--line-limit-marker', element), '80ch');
   });
 
   test('line limit without line_wrapping', () => {
     element = basicFixture.instantiate();
     element.prefs = {...MINIMAL_PREFS, line_wrapping: false};
     flush();
-    assert.equal(getComputedStyleValue('--line-limit', element), 'none');
+    assert.equal(getComputedStyleValue('--line-limit-marker', element), '-1px');
   });
   suite('FULL_RESPONSIVE mode', () => {
     setup(() => {
@@ -97,7 +97,8 @@ suite('gr-diff tests', () => {
     test('line limit is based on line_length', () => {
       element.prefs = {...element.prefs, line_length: 100};
       flush();
-      assert.equal(getComputedStyleValue('--line-limit', element), '100ch');
+      assert.equal(getComputedStyleValue('--line-limit-marker', element),
+          '100ch');
     });
 
     test('content-width should not be defined', () => {

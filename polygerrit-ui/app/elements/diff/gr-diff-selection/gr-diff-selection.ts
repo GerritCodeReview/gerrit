@@ -270,6 +270,11 @@ export class GrDiffSelection extends PolymerElement {
     endOffset: number,
     side: Side
   ) {
+    const skipChunk = this.diff?.content.find(chunk => chunk.skip);
+    if (skipChunk) {
+      startLineNum -= skipChunk.skip!;
+      if (endLineNum) endLineNum -= skipChunk.skip!;
+    }
     const lines = this._getDiffLines(side).slice(startLineNum - 1, endLineNum);
     if (lines.length) {
       lines[lines.length - 1] = lines[lines.length - 1].substring(0, endOffset);

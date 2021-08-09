@@ -761,7 +761,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this._diffTableClass = responsive ? 'responsive' : '';
     const lineLimit = `${lineLength}ch`;
     stylesToUpdate['--line-limit'] =
-      responsiveMode === 'FULL_RESPONSIVE' ? lineLimit : 'none';
+      responsiveMode === 'FULL_RESPONSIVE' ? lineLimit : '-1px';
     stylesToUpdate['--content-width'] = responsive ? 'none' : lineLimit;
     if (responsiveMode === 'SHRINK_ONLY') {
       // Calculating ideal (initial) width for the whole table including

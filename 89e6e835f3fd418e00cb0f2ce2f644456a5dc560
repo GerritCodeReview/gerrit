@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8831cb05_cdef5051",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-09T12:23:33Z",
+      "side": 1,
+      "message": "I tested it with the new code and that works :-)",
+      "parentUuid": "f0f3fe45_a6e3dc00",
+      "revId": "89e6e835f3fd418e00cb0f2ce2f644456a5dc560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ad2eab0_1a2daa1b",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-08-09T11:24:18Z",
       "side": 1,
       "message": "Good idea. I think it is better to use \u0027on-value-changed\u0027 here - it is raised each time when entered text is changed for whatever reason; for example, keydown doesn\u0027t handle copy-paste with mouse.",
+      "range": {
+        "startLine": 85,
+        "startChar": 10,
+        "endLine": 85,
+        "endChar": 20
+      },
+      "revId": "89e6e835f3fd418e00cb0f2ce2f644456a5dc560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65ff683c_f77f135d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-09T12:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ad2eab0_1a2daa1b",
       "range": {
         "startLine": 85,
         "startChar": 10,

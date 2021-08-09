@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbaf73f8_007d07ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-08-09T09:47:51Z",
+      "side": 1,
+      "message": "We discussed this with Ben together this morning, LGTM from UX perspective. Thanks Ben!",
+      "revId": "49e0a04ceaa94e61bfaaee281467edd5ac21700c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

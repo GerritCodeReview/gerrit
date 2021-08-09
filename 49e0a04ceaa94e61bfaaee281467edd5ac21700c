@@ -16,6 +16,52 @@
       "message": "We discussed this with Ben together this morning, LGTM from UX perspective. Thanks Ben!",
       "revId": "49e0a04ceaa94e61bfaaee281467edd5ac21700c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a46c6dde_b9d1216b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-09T10:06:53Z",
+      "side": 1,
+      "message": "Cool, this can be used in gr-checks-results, gr-checks-runs.",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 71,
+        "endChar": 27
+      },
+      "revId": "49e0a04ceaa94e61bfaaee281467edd5ac21700c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cc3acbb_d050b20b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-09T10:06:53Z",
+      "side": 1,
+      "message": "Is this different than \n```run \u003d\u003e !isRunning(run)```\n?",
+      "range": {
+        "startLine": 610,
+        "startChar": 13,
+        "endLine": 610,
+        "endChar": 63
+      },
+      "revId": "49e0a04ceaa94e61bfaaee281467edd5ac21700c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

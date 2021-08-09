@@ -93,6 +93,30 @@
       },
       "revId": "2d24046e8bc36c0f91daa1eb633b2dc7af18c6d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a65029b_44377e3d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-hint/gr-ranged-comment-hint.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-09T10:48:32Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t know.",
+      "parentUuid": "0336c43a_e23811b5",
+      "range": {
+        "startLine": 47,
+        "startChar": 16,
+        "endLine": 47,
+        "endChar": 17
+      },
+      "revId": "2d24046e8bc36c0f91daa1eb633b2dc7af18c6d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

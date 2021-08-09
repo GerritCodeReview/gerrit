@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8eaee46_cb02c818",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-09T15:11:25Z",
+      "side": 1,
+      "message": "There is an opposite problem now - if the file row is visible, it jumps to the top of window.\nOne idea - check if the row is visible and call scrollIntoView only if it is invisible. \nMaybe this help: https://www.javascripttutorial.net/dom/css/check-if-an-element-is-visible-in-the-viewport/",
+      "range": {
+        "startLine": 593,
+        "startChar": 6,
+        "endLine": 593,
+        "endChar": 85
+      },
+      "revId": "f88aee5bcf556295a4a154c9de1223378418f119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

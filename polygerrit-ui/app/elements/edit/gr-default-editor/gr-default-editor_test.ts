@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-default-editor.js';
+import '../../../test/common-test-setup-karma';
+import './gr-default-editor';
+import {GrDefaultEditor} from './gr-default-editor';
 
 const basicFixture = fixtureFromElement('gr-default-editor');
 
 suite('gr-default-editor tests', () => {
-  let element;
+  let element: GrDefaultEditor;
 
   setup(() => {
     element = basicFixture.instantiate();

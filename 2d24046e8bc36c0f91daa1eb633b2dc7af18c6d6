@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8fc1faa_0019e7cc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-hint/gr-ranged-comment-hint.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-09T07:44:20Z",
+      "side": 1,
+      "message": "This will not work. You need to set css properties in \u003cstyle\u003e\u003c/style. like this https://gerrit-review.googlesource.com/c/gerrit/+/311959/6/polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts#93",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 73
+      },
+      "revId": "2d24046e8bc36c0f91daa1eb633b2dc7af18c6d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c72e4c8b_4aba4e7c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-hint/gr-ranged-comment-hint.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-09T07:44:20Z",
+      "side": 1,
+      "message": "Nit: space is probably not needed here.",
+      "range": {
+        "startLine": 47,
+        "startChar": 16,
+        "endLine": 47,
+        "endChar": 17
+      },
+      "revId": "2d24046e8bc36c0f91daa1eb633b2dc7af18c6d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

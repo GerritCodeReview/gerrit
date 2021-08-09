@@ -20,7 +20,9 @@ import {htmlTemplate} from './gr-default-editor_html';
 import {customElement, property} from '@polymer/decorators';
 
 export interface GrDefaultEditor {
-  $: {};
+  $: {
+    textarea: HTMLTextAreaElement;
+  };
 }
 
 declare global {

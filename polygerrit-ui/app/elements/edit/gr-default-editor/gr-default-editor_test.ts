@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-default-editor.js';
+import '../../../test/common-test-setup-karma';
+import './gr-default-editor';
+import {GrDefaultEditor} from './gr-default-editor';
 
 const basicFixture = fixtureFromElement('gr-default-editor');
 
 suite('gr-default-editor tests', () => {
-  let element;
+  let element: GrDefaultEditor;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -29,15 +30,12 @@ suite('gr-default-editor tests', () => {
   });
 
   test('fires content-change event', done => {
-    const contentChangedHandler = e => {
-      assert.equal(e.detail.value, 'test');
-      done();
-    };
     const textarea = element.$.textarea;
-    element.addEventListener('content-change', contentChangedHandler);
+    element.addEventListener('content-change', e => {
+      assert.equal((e as CustomEvent).detail.value, 'test');
+      done();
+    });
     textarea.value = 'test';
-    textarea.dispatchEvent(new CustomEvent('input',
-        {target: textarea, bubbles: true, composed: true}));
+    textarea.dispatchEvent(new Event('input', {bubbles: true, composed: true}));
   });
 });
-

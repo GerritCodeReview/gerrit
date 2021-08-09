@@ -480,12 +480,7 @@ export class GrRepoAccess extends PolymerElement {
     if (!this._local) {
       return;
     }
-    let newRef = 'refs/for/*';
-    // Avoid using an already used key for the placeholder, since it
-    // immediately gets added to an object.
-    while (this._local[newRef]) {
-      newRef = `${newRef}*`;
-    }
+    const newRef = 'refs/for/*';
     const section = {permissions: {}, added: true};
     this.push('_sections', {id: newRef, value: section});
     this.set(['_local', newRef], section);

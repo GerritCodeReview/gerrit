@@ -589,39 +589,42 @@ suite('gr-diff-processor tests', () => {
     });
 
     test('breaks down shared chunks w/ whole-file', () => {
-      const size = 120 * 2 + 5;
+      const maxGroupSize = 128;
+      const size = maxGroupSize * 2 + 5;
       const content = [{
         ab: _.times(size, () => `${Math.random()}`),
       }];
       element.context = -1;
       const result = element._splitLargeChunks(content);
       assert.equal(result.length, 2);
-      assert.deepEqual(result[0].ab, content[0].ab.slice(0, 120));
-      assert.deepEqual(result[1].ab, content[0].ab.slice(120));
+      assert.deepEqual(result[0].ab, content[0].ab.slice(0, maxGroupSize));
+      assert.deepEqual(result[1].ab, content[0].ab.slice(maxGroupSize));
     });
 
     test('breaks down added chunks', () => {
-      const size = 120 * 2 + 5;
+      const maxGroupSize = 128;
+      const size = maxGroupSize * 2 + 5;
       const content = _.times(size, () => `${Math.random()}`);
       element.context = 5;
       const splitContent = element._splitLargeChunks([{a: [], b: content}])
           .map(r => r.b);
       assert.equal(splitContent.length, 3);
       assert.deepEqual(splitContent[0], content.slice(0, 5));
-      assert.deepEqual(splitContent[1], content.slice(5, 125));
-      assert.deepEqual(splitContent[2], content.slice(125));
+      assert.deepEqual(splitContent[1], content.slice(5, maxGroupSize + 5));
+      assert.deepEqual(splitContent[2], content.slice(maxGroupSize + 5));
     });
 
     test('breaks down removed chunks', () => {
-      const size = 120 * 2 + 5;
+      const maxGroupSize = 128;
+      const size = maxGroupSize * 2 + 5;
       const content = _.times(size, () => `${Math.random()}`);
       element.context = 5;
       const splitContent = element._splitLargeChunks([{a: content, b: []}])
           .map(r => r.a);
       assert.equal(splitContent.length, 3);
       assert.deepEqual(splitContent[0], content.slice(0, 5));
-      assert.deepEqual(splitContent[1], content.slice(5, 125));
-      assert.deepEqual(splitContent[2], content.slice(125));
+      assert.deepEqual(splitContent[1], content.slice(5, maxGroupSize + 5));
+      assert.deepEqual(splitContent[2], content.slice(maxGroupSize + 5));
     });
 
     test('does not break down moved chunks', () => {

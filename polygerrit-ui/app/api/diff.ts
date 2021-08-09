@@ -225,6 +225,7 @@ export declare interface RenderPreferences {
   use_block_expansion?: boolean;
   image_diff_prefs?: ImageDiffPreferences;
   responsive_mode?: DiffResponsiveMode;
+  num_lines_rendered_at_once?: number;
 }
 
 /**

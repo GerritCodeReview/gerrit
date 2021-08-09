@@ -91,7 +91,10 @@ class GrRepoPluginConfig extends mixinBehaviors( [
   }
 
   _computeDisabled(editable) {
-    return editable === 'false';
+    if (editable == undefined) {
+      return false;
+    }
+    return !editable;
   }
 
   /**

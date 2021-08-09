@@ -203,6 +203,7 @@ suite('gr-router tests', () => {
       '_handleProjectsOldRoute',
       '_handleRepoAccessRoute',
       '_handleRepoDashboardsRoute',
+      '_handleRepoGeneralRoute',
       '_handleRepoListFilterOffsetRoute',
       '_handleRepoListFilterRoute',
       '_handleRepoListOffsetRoute',
@@ -1126,9 +1127,18 @@ suite('gr-router tests', () => {
       });
 
       test('_handleRepoRoute', () => {
+        const data = {path: '/admin/repos/test'};
+        element._handleRepoRoute(data);
+        assert.isTrue(redirectStub.calledOnce);
+        assert.equal(
+            redirectStub.lastCall.args[0], '/admin/repos/test,general');
+      });
+
+      test('_handleRepoGeneralRoute', () => {
         const data = {params: {0: 4321}};
-        assertDataToParams(data, '_handleRepoRoute', {
+        assertDataToParams(data, '_handleRepoGeneralRoute', {
           view: GerritNav.View.REPO,
+          detail: GerritNav.RepoDetailView.GENERAL,
           repo: 4321,
         });
       });

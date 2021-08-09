@@ -168,7 +168,7 @@ suite('gr-admin-view tests', () => {
         .querySelector('.breadcrumbText').innerText, 'Test Repo');
     assert.equal(
         element.shadowRoot.querySelector('#pageSelect').items.length,
-        6
+        7
     );
   });
 
@@ -243,7 +243,6 @@ suite('gr-admin-view tests', () => {
         text: 'Home',
         value: 'repo',
         view: 'repo',
-        url: '',
         parent: 'my-repo',
         detailType: undefined,
       },
@@ -280,8 +279,13 @@ suite('gr-admin-view tests', () => {
         subsection: {
           name: 'my-repo',
           view: 'repo',
-          url: '',
           children: [
+            {
+              name: 'General',
+              view: 'repo',
+              url: '',
+              detailType: 'general',
+            },
             {
               name: 'Access',
               view: 'repo',
@@ -336,9 +340,17 @@ suite('gr-admin-view tests', () => {
         text: 'Home',
         value: 'repo',
         view: 'repo',
-        url: '',
+        url: undefined,
         parent: 'my-repo',
         detailType: undefined,
+      },
+      {
+        text: 'General',
+        value: 'repogeneral',
+        view: 'repo',
+        url: '',
+        detailType: 'general',
+        parent: 'my-repo',
       },
       {
         text: 'Access',
@@ -396,7 +408,7 @@ suite('gr-admin-view tests', () => {
     assert.isFalse(GerritNav.navigateToRelativeUrl.called);
 
     // When explicitly changed, navigation is called
-    element.shadowRoot.querySelector('#pageSelect').value = 'repo';
+    element.shadowRoot.querySelector('#pageSelect').value = 'repogeneral';
     assert.isTrue(element._selectedIsCurrentPage.calledTwice);
     assert.isTrue(GerritNav.navigateToRelativeUrl.calledOnce);
   });

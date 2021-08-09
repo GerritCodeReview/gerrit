@@ -69,7 +69,7 @@ interface AdminSubsectionLink {
   text: string;
   value: string;
   view: GerritView;
-  url: string;
+  url?: string;
   detailType?: GroupDetailView | RepoDetailView;
   parent?: GroupId | RepoName;
 }
@@ -262,6 +262,7 @@ export class GrAdminView extends PolymerElement {
 
     // This is when it gets set initially.
     if (this._selectedIsCurrentPage(selected)) return;
+    if (selected.url === undefined) return;
     GerritNav.navigateToRelativeUrl(selected.url);
   }
 
@@ -308,7 +309,11 @@ export class GrAdminView extends PolymerElement {
       '_showRepoMain',
       params.view === GerritView.REPO && !params.detail
     );
-
+    this.set(
+      '_showRepoMain',
+      params.view === GerritView.REPO &&
+        params.detail === RepoDetailView.GENERAL
+    );
     this.set(
       '_showRepoList',
       params.view === GerritView.ADMIN && params.adminView === 'gr-repo-list'

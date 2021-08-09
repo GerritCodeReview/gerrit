@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c40cd95e_3c173f87",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-09T10:08:35Z",
+      "side": 1,
+      "message": "Yes, can do this later.",
+      "parentUuid": "a46c6dde_b9d1216b",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 71,
+        "endChar": 27
+      },
+      "revId": "49e0a04ceaa94e61bfaaee281467edd5ac21700c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cc3acbb_d050b20b",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-08-09T10:06:53Z",
       "side": 1,
       "message": "Is this different than \n```run \u003d\u003e !isRunning(run)```\n?",
+      "range": {
+        "startLine": 610,
+        "startChar": 13,
+        "endLine": 610,
+        "endChar": 63
+      },
+      "revId": "49e0a04ceaa94e61bfaaee281467edd5ac21700c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f081bc9a_1cdba74f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-09T10:08:35Z",
+      "side": 1,
+      "message": "Yes, a running run can already have results. Also there is \"runnable\".",
+      "parentUuid": "4cc3acbb_d050b20b",
       "range": {
         "startLine": 610,
         "startChar": 13,

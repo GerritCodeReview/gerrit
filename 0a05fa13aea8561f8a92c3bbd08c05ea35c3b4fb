@@ -39,6 +39,30 @@
       },
       "revId": "0a05fa13aea8561f8a92c3bbd08c05ea35c3b4fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27e9d641_3a15d97a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-09T12:26:53Z",
+      "side": 1,
+      "message": "Ohh sorry misunderstood the setup() part as a test. Ignore.",
+      "parentUuid": "a475e752_6a03029b",
+      "range": {
+        "startLine": 911,
+        "startChar": 6,
+        "endLine": 912,
+        "endChar": 20
+      },
+      "revId": "0a05fa13aea8561f8a92c3bbd08c05ea35c3b4fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

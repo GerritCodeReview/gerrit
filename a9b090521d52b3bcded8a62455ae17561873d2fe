@@ -16,6 +16,24 @@
       "message": "This does not work.\n\n`commentState$` would still be based on the old subject.\n\nSame for `changeComments$` and other selectors.\n\nYou probably have to keep using the subject and just emit the initial state again:\n\n  privateState$.next(initialState);",
       "revId": "a9b090521d52b3bcded8a62455ae17561873d2fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cfb8e4f_d9164569",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-09T16:01:04Z",
+      "side": 1,
+      "message": "Reused the implementation that Frank suggested.",
+      "parentUuid": "245c5840_a2953f7e",
+      "revId": "a9b090521d52b3bcded8a62455ae17561873d2fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

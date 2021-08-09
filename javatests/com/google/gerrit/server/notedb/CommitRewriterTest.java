@@ -44,6 +44,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.lib.ObjectId;
@@ -792,21 +793,26 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
 
     List<String> commitHistoryDiff = result.fixedRefDiff.get(RefNames.changeMetaRef(c.getId()));
-    assertThat(commitHistoryDiff)
-        .containsExactly(
+    assertThat(commitHistoryDiff).hasSize(3);
+    assertThat(commitHistoryDiff.get(0))
+        .isEqualTo(
             "@@ -8 +8 @@\n"
                 + "-Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Other Account using the hovercard menu\"}\n"
-                + "+Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by someone using the hovercard menu\"}\n",
-            "@@ -7,2 +7,2 @@\n"
-                + "-Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Other Account replied on the change\"}\n"
-                + "-Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by Other Account using the hovercard menu\"}\n"
-                + "+Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Someone replied on the change\"}\n"
-                + "+Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by someone using the hovercard menu\"}\n",
-            "@@ -7,2 +7,2 @@\n"
-                + "-Attention: {\"person_ident\":\"Other Account \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by someone using the hovercard menu\"}\n"
-                + "-Attention: {\"person_ident\":\"Change Owner \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Other Account replied on the change\"}\n"
-                + "+Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by someone using the hovercard menu\"}\n"
-                + "+Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Someone replied on the change\"}\n");
+                + "+Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by someone using the hovercard menu\"}\n");
+    assertThat(Arrays.asList(commitHistoryDiff.get(1).split("\n")))
+        .containsExactly(
+            "@@ -7,2 +7,2 @@",
+            "-Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Other Account replied on the change\"}",
+            "-Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by Other Account using the hovercard menu\"}",
+            "+Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Someone replied on the change\"}",
+            "+Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by someone using the hovercard menu\"}");
+    assertThat(Arrays.asList(commitHistoryDiff.get(2).split("\n")))
+        .containsExactly(
+            "@@ -7,2 +7,2 @@",
+            "-Attention: {\"person_ident\":\"Other Account \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by someone using the hovercard menu\"}",
+            "-Attention: {\"person_ident\":\"Change Owner \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Other Account replied on the change\"}",
+            "+Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by someone using the hovercard menu\"}",
+            "+Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Someone replied on the change\"}");
   }
 
   @Test

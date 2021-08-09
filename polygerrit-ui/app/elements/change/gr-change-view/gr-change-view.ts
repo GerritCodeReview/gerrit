@@ -2115,14 +2115,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       );
       allDataPromises.push(mergeabilityLoaded);
 
-      // Promise resolves when the change actions have loaded.
-      const actionsLoaded = detailAndPatchResourcesLoaded.then(() =>
-        this.$.actions.reload()
-      );
-      allDataPromises.push(actionsLoaded);
+      // _getChangeDetail triggers reload of change actions already.
 
-      // The core data is loaded when both mergeability and actions are known.
-      coreDataPromise = Promise.all([mergeabilityLoaded, actionsLoaded]);
+      // The core data is loaded when mergeability is known.
+      coreDataPromise = Promise.all([mergeabilityLoaded]);
     } else {
       // Resolves when the file list has loaded.
       const fileListReload = loadingFlagSet.then(() =>

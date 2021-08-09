@@ -22,6 +22,30 @@
       },
       "revId": "f88aee5bcf556295a4a154c9de1223378418f119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d419864_e632045b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-08-09T15:43:16Z",
+      "side": 1,
+      "message": "I found another way: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView\nExplanation of the options: https://stackoverflow.com/questions/48634459/scrollintoview-block-vs-inline\nCS says this is at least reasonably popular at Google.\n\nI also noticed that there is another complementary problem: You\u0027d actually want the same behavior when expanding a diff, right? So I moved the code out of the else.",
+      "parentUuid": "b8eaee46_cb02c818",
+      "range": {
+        "startLine": 593,
+        "startChar": 6,
+        "endLine": 593,
+        "endChar": 85
+      },
+      "revId": "f88aee5bcf556295a4a154c9de1223378418f119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

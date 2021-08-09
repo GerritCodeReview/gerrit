@@ -147,6 +147,13 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
     SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.UNSATISFIED);
+    // While submit requirements are evaluated, passing and failing atoms are written using the
+    // predicate's "toString" method. Some predicates have a name that is not matching with the
+    // actual parsed query, for example 'label' is transformed to 'label2', 'branch' to 'ref',
+    // etc...
+    // TODO(ghareeb): adapt the output such that resulted atoms match with the user supplied query.
+    assertThat(result.submittabilityExpressionResult().failingAtoms())
+        .containsExactly("label2:code-review+2");
   }
 
   @Test

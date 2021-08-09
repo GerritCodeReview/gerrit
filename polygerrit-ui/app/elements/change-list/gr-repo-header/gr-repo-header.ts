@@ -49,7 +49,7 @@ export class GrRepoHeader extends PolymerElement {
       return;
     }
 
-    this._repoUrl = GerritNav.getUrlForRepo(repoName);
+    this._repoUrl = GerritNav.getUrlForRepoGeneral(repoName);
 
     this.restApiService.getRepo(repoName).then(repo => {
       if (!repo?.web_links) return;

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "547ca288_1d3606ed",
+        "filename": "polygerrit-ui/app/services/gr-auth/gr-auth_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-09T14:56:07Z",
+      "side": 1,
+      "message": "The response.clone is an experimental feature (can be removed in the future) and isn\u0027t supported by Chrome for Android and some other browsers (some users use smartphones for codereview) - https://developer.mozilla.org/en-US/docs/Web/API/Response/clone\n\nFor safety, please wrap it in if + try/catch:\nif (response.clone) {\n try {\n    ...\n } catch() {\n   // Ignore error\n }\n}\n\nMaybe put it into a separate function in this file.",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 22
+      },
+      "revId": "7a65f9633c9f3d406d2d3560e7c4f5142243a353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b65dc88_374497d6",
+        "filename": "polygerrit-ui/app/services/gr-auth/gr-auth_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-09T14:56:07Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 233,
+        "startChar": 8,
+        "endLine": 233,
+        "endChar": 32
+      },
+      "revId": "7a65f9633c9f3d406d2d3560e7c4f5142243a353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a68cd7b8_abec9f5e",
+        "filename": "polygerrit-ui/app/services/gr-auth/gr-auth_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-09T14:56:07Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 307,
+        "startChar": 8,
+        "endLine": 307,
+        "endChar": 32
+      },
+      "revId": "7a65f9633c9f3d406d2d3560e7c4f5142243a353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

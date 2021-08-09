@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bf739b3_c7d127c0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-09T14:44:49Z",
+      "side": 0,
+      "message": "It seems, I know what was the problem:\nThe this._local is a hashmap where ref is the key.\nThe line\nthis.set([\u0027_local\u0027, newRef], section) sets value for the newRef key.\n\nSo, if you add \u0027refs/for/*\u0027, configure it (without saving) and when click Add reference again - it silently overwrites the previous setting; after clicking save you will see only the last item.",
+      "range": {
+        "startLine": 484,
+        "startChar": 4,
+        "endLine": 485,
+        "endChar": 43
+      },
+      "revId": "29966606431f336af80c4d0630f9f9716cc84ae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

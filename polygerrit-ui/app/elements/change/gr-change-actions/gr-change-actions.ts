@@ -443,6 +443,9 @@ export class GrChangeActions
   @property({type: Boolean})
   _loading = true;
 
+  // Ensure only one /actions request is in-flight.
+  private _loadingPromise: Promise<void> | null = null;
+
   @property({type: String})
   _actionLoadingMessage = '';
 
@@ -611,11 +614,15 @@ export class GrChangeActions
       return Promise.resolve();
     }
     const change = this.change;
+    if (this._loadingPromise) {
+      return this._loadingPromise;
+    }
 
     this._loading = true;
-    return this.restApiService
+    this._loadingPromise = this.restApiService
       .getChangeRevisionActions(this.changeNum, this.latestPatchNum)
       .then(revisionActions => {
+        this._loadingPromise = null;
         if (!revisionActions) {
           return;
         }
@@ -630,8 +637,10 @@ export class GrChangeActions
       .catch(err => {
         fireAlert(this, ERR_REVISION_ACTIONS);
         this._loading = false;
+        this._loadingPromise = null;
         throw err;
       });
+    return this._loadingPromise;
   }
 
   _handleLoadingComplete() {

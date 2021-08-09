@@ -76,7 +76,12 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   }
 
   private List<ProjectInfo> directChildProjects(Project.NameKey parent) throws RestApiException {
-    return queryProvider.get().withQuery("parent:" + parent.get()).withLimit(limit).apply().stream()
+    String parentProjectName = parent.get();
+    if (parentProjectName.startsWith("-")) {
+      parentProjectName = '/' + parentProjectName;
+    }
+    return queryProvider.get().withQuery("parent:" + parentProjectName).withLimit(limit).apply()
+        .stream()
         .collect(toList());
   }
 }

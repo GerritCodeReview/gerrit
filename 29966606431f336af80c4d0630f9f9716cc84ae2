@@ -22,6 +22,30 @@
       },
       "revId": "29966606431f336af80c4d0630f9f9716cc84ae2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70b5a195_21388ff9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-09T16:32:14Z",
+      "side": 0,
+      "message": "I fixed it such that the map entry doesn\u0027t get overridden.",
+      "parentUuid": "6bf739b3_c7d127c0",
+      "range": {
+        "startLine": 484,
+        "startChar": 4,
+        "endLine": 485,
+        "endChar": 43
+      },
+      "revId": "29966606431f336af80c4d0630f9f9716cc84ae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

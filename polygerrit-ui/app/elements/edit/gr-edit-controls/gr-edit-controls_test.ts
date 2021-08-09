@@ -24,8 +24,10 @@ import {createChange, createRevision} from '../../../test/test-data-generators';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {CommitId, NumericChangeId, PatchSetNum} from '../../../types/common';
 import {RepoName} from '../../../api/rest-api';
-import {queryAndAssert} from '../../../test/test-utils';
+import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {IronInputElement} from '@polymer/iron-input';
 
 const basicFixture = fixtureFromElement('gr-edit-controls');
 
@@ -51,7 +53,7 @@ suite('gr-edit-controls tests', () => {
     // We take 1 away from the total found, due to an extra button being
     // added for the file uploads (browse).
     assert.equal(
-      element.root!.querySelectorAll('gr-button').length - 1,
+      queryAll(element, 'gr-button').length - 1,
       element._actions.length
     );
   });
@@ -59,13 +61,17 @@ suite('gr-edit-controls tests', () => {
   suite('edit button CUJ', () => {
     let editDiffStub: sinon.SinonStub;
     let navStub: sinon.SinonStub;
+    let openDialog: GrDialog;
     let openAutoComplete: GrAutocomplete;
 
     setup(() => {
       editDiffStub = sinon.stub(GerritNav, 'getEditUrlForDiff');
       navStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
-      openAutoComplete =
-        element.$.openDialog!.querySelector('gr-autocomplete')!;
+      openDialog = queryAndAssert<GrDialog>(element, '#openDialog');
+      openAutoComplete = queryAndAssert<GrAutocomplete>(
+        openDialog,
+        'gr-autocomplete'
+      );
     });
 
     test('_isValidPath', () => {
@@ -82,7 +88,7 @@ suite('gr-edit-controls tests', () => {
       element.patchNum = 1 as PatchSetNum;
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(hideDialogStub.called);
-        assert.isTrue(element.$.openDialog.disabled);
+        assert.isTrue(openDialog.disabled);
         assert.isFalse(queryStub.called);
         // Setup _focused manually - in headless mode Chrome sometimes don't
         // setup focus. flush and/or flushAsynchronousOperations don't help
@@ -90,10 +96,8 @@ suite('gr-edit-controls tests', () => {
         openAutoComplete.noDebounce = true;
         openAutoComplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
-        assert.isFalse(element.$.openDialog.disabled);
-        MockInteractions.tap(
-          queryAndAssert(element.$.openDialog, 'gr-button[primary]')
-        );
+        assert.isFalse(openDialog.disabled);
+        MockInteractions.tap(queryAndAssert(openDialog, 'gr-button[primary]'));
         assert.isTrue(editDiffStub.called);
         assert.isTrue(navStub.called);
         assert.deepEqual(editDiffStub.lastCall.args, [
@@ -108,11 +112,11 @@ suite('gr-edit-controls tests', () => {
     test('cancel', () => {
       MockInteractions.tap(queryAndAssert(element, '#open'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.openDialog.disabled);
+        assert.isTrue(openDialog.disabled);
         openAutoComplete.noDebounce = true;
         openAutoComplete.text = 'src/test.cpp';
-        assert.isFalse(element.$.openDialog.disabled);
-        MockInteractions.tap(queryAndAssert(element.$.openDialog, 'gr-button'));
+        assert.isFalse(openDialog.disabled);
+        MockInteractions.tap(queryAndAssert(openDialog, 'gr-button'));
         assert.isFalse(editDiffStub.called);
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
@@ -124,20 +128,24 @@ suite('gr-edit-controls tests', () => {
   suite('delete button CUJ', () => {
     let navStub: sinon.SinonStub;
     let deleteStub: sinon.SinonStub;
+    let deleteDialog: GrDialog;
     let deleteAutocomplete: GrAutocomplete;
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
       deleteStub = stubRestApi('deleteFileInChangeEdit');
-      deleteAutocomplete =
-        element.$.deleteDialog!.querySelector('gr-autocomplete')!;
+      deleteDialog = queryAndAssert<GrDialog>(element, '#deleteDialog');
+      deleteAutocomplete = queryAndAssert<GrAutocomplete>(
+        deleteDialog,
+        'gr-autocomplete'
+      );
     });
 
     test('delete', () => {
       deleteStub.returns(Promise.resolve({ok: true}));
       MockInteractions.tap(queryAndAssert(element, '#delete'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.deleteDialog.disabled);
+        assert.isTrue(deleteDialog.disabled);
         assert.isFalse(queryStub.called);
         // Setup _focused manually - in headless mode Chrome sometimes don't
         // setup focus. flush and/or flushAsynchronousOperations don't help
@@ -145,9 +153,9 @@ suite('gr-edit-controls tests', () => {
         deleteAutocomplete.noDebounce = true;
         deleteAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
-        assert.isFalse(element.$.deleteDialog.disabled);
+        assert.isFalse(deleteDialog.disabled);
         MockInteractions.tap(
-          queryAndAssert(element.$.deleteDialog, 'gr-button[primary]')
+          queryAndAssert(deleteDialog, 'gr-button[primary]')
         );
         flush();
 
@@ -165,7 +173,7 @@ suite('gr-edit-controls tests', () => {
       deleteStub.returns(Promise.resolve({ok: false}));
       MockInteractions.tap(queryAndAssert(element, '#delete'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.deleteDialog.disabled);
+        assert.isTrue(deleteDialog.disabled);
         assert.isFalse(queryStub.called);
         // Setup _focused manually - in headless mode Chrome sometimes don't
         // setup focus. flush and/or flushAsynchronousOperations don't help
@@ -173,9 +181,9 @@ suite('gr-edit-controls tests', () => {
         deleteAutocomplete.noDebounce = true;
         deleteAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
-        assert.isFalse(element.$.deleteDialog.disabled);
+        assert.isFalse(deleteDialog.disabled);
         MockInteractions.tap(
-          queryAndAssert(element.$.deleteDialog, 'gr-button[primary]')
+          queryAndAssert(deleteDialog, 'gr-button[primary]')
         );
         flush();
 
@@ -191,13 +199,11 @@ suite('gr-edit-controls tests', () => {
     test('cancel', () => {
       MockInteractions.tap(queryAndAssert(element, '#delete'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.deleteDialog.disabled);
-        element.$.deleteDialog!.querySelector('gr-autocomplete')!.text =
+        assert.isTrue(deleteDialog.disabled);
+        queryAndAssert<GrAutocomplete>(deleteDialog, 'gr-autocomplete').text =
           'src/test.cpp';
-        assert.isFalse(element.$.deleteDialog.disabled);
-        MockInteractions.tap(
-          queryAndAssert(element.$.deleteDialog, 'gr-button')
-        );
+        assert.isFalse(deleteDialog.disabled);
+        MockInteractions.tap(queryAndAssert(deleteDialog, 'gr-button'));
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
         assert.equal(element._path, '');
@@ -208,20 +214,24 @@ suite('gr-edit-controls tests', () => {
   suite('rename button CUJ', () => {
     let navStub: sinon.SinonStub;
     let renameStub: sinon.SinonStub;
+    let renameDialog: GrDialog;
     let renameAutocomplete: GrAutocomplete;
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
       renameStub = stubRestApi('renameFileInChangeEdit');
-      renameAutocomplete =
-        element.$.renameDialog!.querySelector('gr-autocomplete')!;
+      renameDialog = queryAndAssert<GrDialog>(element, '#renameDialog');
+      renameAutocomplete = queryAndAssert<GrAutocomplete>(
+        renameDialog,
+        'gr-autocomplete'
+      );
     });
 
     test('rename', () => {
       renameStub.returns(Promise.resolve({ok: true}));
       MockInteractions.tap(queryAndAssert(element, '#rename'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.renameDialog.disabled);
+        assert.isTrue(renameDialog.disabled);
         assert.isFalse(queryStub.called);
         // Setup _focused manually - in headless mode Chrome sometimes don't
         // setup focus. flush and/or flushAsynchronousOperations don't help
@@ -229,13 +239,16 @@ suite('gr-edit-controls tests', () => {
         renameAutocomplete.noDebounce = true;
         renameAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
-        assert.isTrue(element.$.renameDialog.disabled);
+        assert.isTrue(renameDialog.disabled);
 
-        element.$.newPathIronInput.bindValue = 'src/test.newPath';
+        queryAndAssert<IronInputElement>(
+          renameDialog,
+          '#newPathIronInput'
+        ).bindValue = 'src/test.newPath';
 
-        assert.isFalse(element.$.renameDialog.disabled);
+        assert.isFalse(renameDialog.disabled);
         MockInteractions.tap(
-          queryAndAssert(element.$.renameDialog, 'gr-button[primary]')
+          queryAndAssert(renameDialog, 'gr-button[primary]')
         );
         flush();
 
@@ -253,7 +266,7 @@ suite('gr-edit-controls tests', () => {
       renameStub.returns(Promise.resolve({ok: false}));
       MockInteractions.tap(queryAndAssert(element, '#rename'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.renameDialog.disabled);
+        assert.isTrue(renameDialog.disabled);
         assert.isFalse(queryStub.called);
         // Setup _focused manually - in headless mode Chrome sometimes don't
         // setup focus. flush and/or flushAsynchronousOperations don't help
@@ -263,11 +276,14 @@ suite('gr-edit-controls tests', () => {
         assert.isTrue(queryStub.called);
         assert.isTrue(element.$.renameDialog.disabled);
 
-        element.$.newPathIronInput.bindValue = 'src/test.newPath';
+        queryAndAssert<IronInputElement>(
+          renameDialog,
+          '#newPathIronInput'
+        ).bindValue = 'src/test.newPath';
 
-        assert.isFalse(element.$.renameDialog.disabled);
+        assert.isFalse(renameDialog.disabled);
         MockInteractions.tap(
-          queryAndAssert(element.$.renameDialog, 'gr-button[primary]')
+          queryAndAssert(renameDialog, 'gr-button[primary]')
         );
         flush();
 
@@ -283,14 +299,14 @@ suite('gr-edit-controls tests', () => {
     test('cancel', () => {
       MockInteractions.tap(queryAndAssert(element, '#rename'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.renameDialog.disabled);
-        element.$.renameDialog!.querySelector('gr-autocomplete')!.text =
-          'src/test.cpp';
-        element.$.newPathIronInput.bindValue = 'src/test.newPath';
-        assert.isFalse(element.$.renameDialog.disabled);
-        MockInteractions.tap(
-          queryAndAssert(element.$.renameDialog, 'gr-button')
-        );
+        assert.isTrue(renameDialog.disabled);
+        renameAutocomplete.text = 'src/test.cpp';
+        queryAndAssert<IronInputElement>(
+          renameDialog,
+          '#newPathIronInput'
+        ).bindValue = 'src/test.newPath';
+        assert.isFalse(renameDialog.disabled);
+        MockInteractions.tap(queryAndAssert(renameDialog, 'gr-button'));
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
         assert.equal(element._path, '');
@@ -302,10 +318,12 @@ suite('gr-edit-controls tests', () => {
   suite('restore button CUJ', () => {
     let navStub: sinon.SinonStub;
     let restoreStub: sinon.SinonStub;
+    let restoreDialog: GrDialog;
 
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
       restoreStub = stubRestApi('restoreFileInChangeEdit');
+      restoreDialog = queryAndAssert<GrDialog>(element, '#renameDialog');
     });
 
     test('restore hidden by default', () => {
@@ -320,7 +338,7 @@ suite('gr-edit-controls tests', () => {
       MockInteractions.tap(queryAndAssert(element, '#restore'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         MockInteractions.tap(
-          queryAndAssert(element.$.restoreDialog, 'gr-button[primary]')
+          queryAndAssert(restoreDialog, 'gr-button[primary]')
         );
         flush();
 
@@ -340,7 +358,7 @@ suite('gr-edit-controls tests', () => {
       MockInteractions.tap(queryAndAssert(element, '#restore'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         MockInteractions.tap(
-          queryAndAssert(element.$.restoreDialog, 'gr-button[primary]')
+          queryAndAssert(restoreDialog, 'gr-button[primary]')
         );
         flush();
 
@@ -357,9 +375,7 @@ suite('gr-edit-controls tests', () => {
       element._path = 'src/test.cpp';
       MockInteractions.tap(queryAndAssert(element, '#restore'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        MockInteractions.tap(
-          queryAndAssert(element.$.restoreDialog, 'gr-button')
-        );
+        MockInteractions.tap(queryAndAssert(restoreDialog, 'gr-button'));
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
         assert.equal(element._path, '');
@@ -403,12 +419,14 @@ suite('gr-edit-controls tests', () => {
   });
 
   test('openOpenDialog', done => {
+    const openDialog = queryAndAssert<GrDialog>(element, '#openDialog');
+    const openAutoComplete = queryAndAssert<GrAutocomplete>(
+      openDialog,
+      'gr-autocomplete'
+    );
     element.openOpenDialog('test/path.cpp').then(() => {
-      assert.isFalse(element.$.openDialog.hasAttribute('hidden'));
-      assert.equal(
-        element.$.openDialog!.querySelector('gr-autocomplete')!.text,
-        'test/path.cpp'
-      );
+      assert.isFalse(openDialog.hasAttribute('hidden'));
+      assert.equal(openAutoComplete.text, 'test/path.cpp');
       done();
     });
   });
@@ -417,17 +435,22 @@ suite('gr-edit-controls tests', () => {
     const spy = sinon.spy(element, '_getDialogFromEvent');
     element.addEventListener('tap', element._getDialogFromEvent);
 
-    MockInteractions.tap(element.$.openDialog);
+    const openDialog = queryAndAssert<GrDialog>(element, '#openDialog');
+    const deleteDialog = queryAndAssert<GrDialog>(element, '#openDialog');
+    const deleteAutocomplete = queryAndAssert<GrAutocomplete>(
+      deleteDialog,
+      'gr-autocomplete'
+    );
+
+    MockInteractions.tap(openDialog);
     flush();
     assert.equal(spy!.lastCall!.returnValue!.id, 'openDialog');
 
-    MockInteractions.tap(element.$.deleteDialog);
+    MockInteractions.tap(deleteDialog);
     flush();
     assert.equal(spy!.lastCall!.returnValue!.id, 'deleteDialog');
 
-    MockInteractions.tap(
-      element.$.deleteDialog!.querySelector('gr-autocomplete')!
-    );
+    MockInteractions.tap(deleteAutocomplete);
     flush();
     assert.equal(spy!.lastCall!.returnValue!.id, 'deleteDialog');
 

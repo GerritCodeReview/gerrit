@@ -18,15 +18,9 @@ import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
-import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-overlay/gr-overlay';
-import '../../../styles/shared-styles';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-edit-controls_html';
 import {GrEditAction, GrEditConstants} from '../gr-edit-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
 import {ChangeInfo, PatchSetNum} from '../../../types/common';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -37,6 +31,10 @@ import {
 import {appContext} from '../../../services/app-context';
 import {IronInputElement} from '@polymer/iron-input';
 import {fireAlert} from '../../../utils/event-util';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
+import {queryAll} from '../../../utils/common-util';
 
 export interface GrEditControls {
   $: {
@@ -50,11 +48,7 @@ export interface GrEditControls {
 }
 
 @customElement('gr-edit-controls')
-export class GrEditControls extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrEditControls extends GrLitElement {
   @property({type: Object})
   change!: ChangeInfo;
 
@@ -83,9 +77,185 @@ export class GrEditControls extends PolymerElement {
     this._query = (input: string) => this._queryFiles(input);
   }
 
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          align-items: center;
+          display: flex;
+          justify-content: flex-end;
+        }
+        .invisible {
+          display: none;
+        }
+        gr-button {
+          margin-left: var(--spacing-l);
+          text-decoration: none;
+        }
+        gr-dialog {
+          width: 50em;
+        }
+        gr-dialog .main {
+          width: 100%;
+        }
+        gr-dialog .main > iron-input {
+          width: 100%;
+        }
+        input {
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          margin: var(--spacing-m) 0;
+          padding: var(--spacing-s);
+          width: 100%;
+          box-sizing: content-box;
+        }
+        #fileUploadBrowse {
+          margin-left: 0;
+        }
+        #dragDropArea {
+          border: 2px dashed var(--border-color);
+          border-radius: var(--border-radius);
+          margin-top: var(--spacing-l);
+          padding: var(--spacing-xxl) var(--spacing-xxl);
+          text-align: center;
+        }
+        #dragDropArea > p {
+          font-weight: var(--font-weight-bold);
+          padding: var(--spacing-s);
+        }
+        @media screen and (max-width: 50em) {
+          gr-dialog {
+            width: 100vw;
+          }
+        }
+      `,
+    ];
+  }
+
+  renderButton(action: GrEditAction) {
+    if (!action) return html``;
+    return html`
+      <gr-button
+        id="${action.id}"
+        class="${this._computeIsInvisible(action.id, this.hiddenActions)}"
+        link=""
+        @click=${this._handleTap}
+        >${action.label}</gr-button
+      >
+    `;
+  }
+
+  render() {
+    return html` ${this._actions.map(action => this.renderButton(action))}
+      <gr-overlay id="overlay" with-backdrop="">
+        <gr-dialog
+          id="openDialog"
+          class="invisible dialog"
+          ?disabled=${!this._isValidPath(this._path)}
+          .confirm-label="Confirm"
+          confirm-on-enter=""
+          @confirm=${this._handleOpenConfirm}
+          @cancel=${this._handleDialogCancel}
+        >
+          <div class="header" slot="header">
+            Add a new file or open an existing file
+          </div>
+          <div class="main" slot="main">
+            <gr-autocomplete
+              .placeholder="Enter an existing or new full file path."
+              .query="${this._query}"
+              .text="{{_path}}"
+            ></gr-autocomplete>
+            <div
+              id="dragDropArea"
+              contenteditable="true"
+              @drop=${this._handleDragAndDropUpload}
+              @keypress=${this._handleKeyPress}
+            >
+              <p>Drag and drop a file here</p>
+              <p>or</p>
+              <p>
+                <iron-input>
+                  <input
+                    id="fileUploadInput"
+                    type="file"
+                    @change=${this._handleFileUploadChanged}
+                    multiple
+                    hidden
+                  />
+                </iron-input>
+                <label for="fileUploadInput">
+                  <gr-button id="fileUploadBrowse">Browse</gr-button>
+                </label>
+              </p>
+            </div>
+          </div>
+        </gr-dialog>
+        <gr-dialog
+          id="deleteDialog"
+          class="invisible dialog"
+          ?disabled="${!this._isValidPath(this._path)}"
+          .confirm-label="Delete"
+          confirm-on-enter=""
+          @confirm=${this._handleDeleteConfirm}
+          @cancel=${this._handleDialogCancel}
+        >
+          <div class="header" slot="header">Delete a file from the repo</div>
+          <div class="main" slot="main">
+            <gr-autocomplete
+              .placeholder="Enter an existing full file path."
+              .query="${this._query}"
+              .text="{{_path}}"
+            ></gr-autocomplete>
+          </div>
+        </gr-dialog>
+        <gr-dialog
+          id="renameDialog"
+          class="invisible dialog"
+          ?disabled="${!this._computeRenameDisabled(this._path, this._newPath)}"
+          .confirm-label="Rename"
+          confirm-on-enter=""
+          @confirm=${this._handleRenameConfirm}
+          @cancel=${this._handleDialogCancel}
+        >
+          <div class="header" slot="header">Rename a file in the repo</div>
+          <div class="main" slot="main">
+            <gr-autocomplete
+              .placeholder="Enter an existing full file path."
+              .query="${this._query}"
+              .text="{{_path}}"
+            ></gr-autocomplete>
+            <iron-input
+              id="newPathIronInput"
+              bindValue="{{_newPath}}"
+              placeholder="Enter the new path."
+            >
+              <input id="newPathInput" placeholder="Enter the new path." />
+            </iron-input>
+          </div>
+        </gr-dialog>
+        <gr-dialog
+          id="restoreDialog"
+          class="invisible dialog"
+          .confirm-label="Restore"
+          confirm-on-enter=""
+          @confirm=${this._handleRestoreConfirm}
+          @cancel=${this._handleDialogCancel}
+        >
+          <div class="header" slot="header">Restore this file?</div>
+          <div class="main" slot="main">
+            <iron-input disabled="" bindValue="${this._path}">
+              <input disabled="" />
+            </iron-input>
+          </div>
+        </gr-dialog>
+      </gr-overlay>`;
+  }
+
   _handleTap(e: Event) {
     e.preventDefault();
-    const target = (dom(e) as EventApi).localTarget as Element;
+    const target = e.target as Element;
     const action = target.id;
     switch (action) {
       case GrEditConstants.Actions.OPEN.id:
@@ -147,7 +317,7 @@ export class GrEditControls extends PolymerElement {
    * Given a dom event, gets the dialog that lies along this event path.
    */
   _getDialogFromEvent(e: Event): GrDialog | undefined {
-    return (dom(e) as EventApi).path.find(element => {
+    return e.composedPath().find(element => {
       if (!(element instanceof Element)) return false;
       if (!element.classList) return false;
       return element.classList.contains('dialog');
@@ -173,9 +343,7 @@ export class GrEditControls extends PolymerElement {
   }
 
   _hideAllDialogs() {
-    const dialogs = this.root!.querySelectorAll(
-      '.dialog'
-    ) as NodeListOf<GrDialog>;
+    const dialogs = queryAll<GrDialog>(this, '.dialog');
     for (const dialog of dialogs) {
       // We set the second param to false, because this function
       // is called by _showDialog which when you open either restore,

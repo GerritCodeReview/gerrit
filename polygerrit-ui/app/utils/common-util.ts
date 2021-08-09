@@ -117,6 +117,15 @@ export function queryAndAssert<E extends Element = Element>(
   return found;
 }
 
+export function queryAll<E extends Element = Element>(
+  el: Element | undefined,
+  selector: string
+): NodeListOf<E> {
+  if (!el) throw new Error('element not defined');
+  const root = el.shadowRoot ?? el;
+  return root.querySelectorAll<E>(selector);
+}
+
 /**
  * Returns true, if both sets contain the same members.
  */

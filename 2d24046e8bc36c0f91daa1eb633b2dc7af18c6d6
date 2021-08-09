@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66288bcb_279fdba5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-hint/gr-ranged-comment-hint.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-09T07:55:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c8fc1faa_0019e7cc",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 73
+      },
+      "revId": "2d24046e8bc36c0f91daa1eb633b2dc7af18c6d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c72e4c8b_4aba4e7c",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-08-09T07:44:20Z",
       "side": 1,
       "message": "Nit: space is probably not needed here.",
+      "range": {
+        "startLine": 47,
+        "startChar": 16,
+        "endLine": 47,
+        "endChar": 17
+      },
+      "revId": "2d24046e8bc36c0f91daa1eb633b2dc7af18c6d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0336c43a_e23811b5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-hint/gr-ranged-comment-hint.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-09T07:55:58Z",
+      "side": 1,
+      "message": "eslint added it.",
+      "parentUuid": "c72e4c8b_4aba4e7c",
       "range": {
         "startLine": 47,
         "startChar": 16,

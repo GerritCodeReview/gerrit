@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57eabcb2_3bde8053",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-09T07:30:18Z",
+      "side": 1,
+      "message": "This test is now little bit awkward. Maybe remove test, or check `--content-width`.",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 75
+      },
+      "revId": "6c9aea7c204ee7c2c515016d72d2dafb6db290b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

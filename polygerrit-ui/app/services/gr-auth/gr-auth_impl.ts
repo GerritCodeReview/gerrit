@@ -103,6 +103,11 @@ export class Auth implements AuthService {
 
     return this.authCheckPromise
       .then(res => {
+        // Make a call that requires loading the body of the request. This makes it so that the browser
+        // can close the request even though callers of this method might only ever read headers.
+        // See https://stackoverflow.com/questions/45816743/how-to-solve-this-caution-request-is-not-finished-yet-in-chrome
+        res.text();
+
         // auth-check will return 204 if authed
         // treat the rest as unauthed
         if (res.status === 204) {
@@ -220,7 +225,7 @@ export class Auth implements AuthService {
       }
     }
     options.credentials = 'same-origin';
-    return fetch(url, options);
+    return this._ensureBodyLoaded(fetch(url, options));
   }
 
   private _getAccessToken(): Promise<string | null> {
@@ -286,6 +291,22 @@ export class Auth implements AuthService {
     if (params.length) {
       url = url + (url.indexOf('?') === -1 ? '?' : '&') + params.join('&');
     }
-    return fetch(url, options);
+    return this._ensureBodyLoaded(fetch(url, options));
+  }
+
+  private _ensureBodyLoaded(response: Promise<Response>) : Promise<Response> {
+    return response.then(response => {
+      if (!response.ok) {
+        // Make a call that requires loading the body of the request. This makes it so that the browser
+        // can close the request even though callers of this method might only ever read headers.
+        // See https://stackoverflow.com/questions/45816743/how-to-solve-this-caution-request-is-not-finished-yet-in-chrome
+        try {
+          response.clone().text();
+        } catch(error) {
+          // Ignore error
+        }
+      }
+      return response;
+    });
   }
 }

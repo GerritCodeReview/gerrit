@@ -57,8 +57,9 @@ suite('gr-repo-plugin-config tests', () => {
   });
 
   test('_computeDisabled', () => {
-    assert.isFalse(element._computeDisabled('true'));
-    assert.isTrue(element._computeDisabled('false'));
+    assert.isFalse(element._computeDisabled(true));
+    assert.isTrue(element._computeDisabled(undefined));
+    assert.isTrue(element._computeDisabled(false));
   });
 
   test('_handleChange', () => {

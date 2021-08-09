@@ -374,6 +374,10 @@ export class GrPermission extends PolymerElement {
       this.groups[groupId] = {name: this.$.groupAutocomplete.text};
     }
 
+    // Clear the text of the auto-complete box, so that the user can add the
+    // next group.
+    this.$.groupAutocomplete.text = '';
+
     // Wait for new rule to get value populated via gr-rule-editor, and then
     // add to permission values as well, so that the change gets propagated
     // back to the section. Since the rule is inside a dom-repeat, a flush

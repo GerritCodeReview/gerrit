@@ -304,6 +304,7 @@ suite('gr-permission tests', () => {
       assert.equal(Object.keys(element._groupsWithRules).length, 3);
       assert.deepEqual(element.permission.value.rules['ldap:CN=test te.st'],
           {action: 'ALLOW', min: -2, max: 2, added: true});
+      assert.equal(element.$.groupAutocomplete.text, '');
       // New rule should be removed if cancel from editing.
       element.editing = false;
       assert.equal(element._rules.length, 2);

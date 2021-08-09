@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.common.base.Throwables;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.DeadlineChecker;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.InvalidDeadlineException;
@@ -43,6 +44,7 @@ public abstract class SshCommand extends BaseCommand {
   @Inject private PluginSetContext<RequestListener> requestListeners;
   @Inject @GerritServerConfig private Config config;
   @Inject private DeadlineChecker.Factory deadlineCheckerFactory;
+  @Inject private CancellationMetrics cancellationMetrics;
 
   @Option(name = "--trace", usage = "enable request tracing")
   private boolean trace;
@@ -83,6 +85,8 @@ public abstract class SshCommand extends BaseCommand {
                 if (!requestCancelledException.isPresent()) {
                   Throwables.throwIfUnchecked(e);
                 }
+                cancellationMetrics.countCancelledRequest(
+                    requestInfo, requestCancelledException.get().getCancellationReason());
                 StringBuilder msg =
                     new StringBuilder(requestCancelledException.get().formatCancellationReason());
                 if (requestCancelledException.get().getCancellationMessage().isPresent()) {

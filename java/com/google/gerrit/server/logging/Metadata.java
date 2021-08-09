@@ -55,6 +55,12 @@ public abstract class Metadata {
   /** The name of the implementation class. */
   public abstract Optional<String> className();
 
+  /**
+   * The reason of a request cancellation (CLIENT_CLOSED_REQUEST, CLIENT_PROVIDED_DEADLINE_EXCEEDED,
+   * SERVER_DEADLINE_EXCEEDED).
+   */
+  public abstract Optional<String> cancellationReason();
+
   /** The numeric ID of a change. */
   public abstract Optional<Integer> changeId();
 
@@ -150,6 +156,9 @@ public abstract class Metadata {
   /** The type of a Git push to Gerrit (CREATE_REPLACE, NORMAL, AUTOCLOSE). */
   public abstract Optional<String> pushType();
 
+  /** The type of a Git push to Gerrit (GIT_RECEIVE, GIT_UPLOAD, REST, SSH). */
+  public abstract Optional<String> requestType();
+
   /** The number of resources that is processed. */
   public abstract Optional<Integer> resourceCount();
 
@@ -173,17 +182,18 @@ public abstract class Metadata {
    * <pre>
    * Metadata{accountId=Optional.empty, actionType=Optional.empty, authDomainName=Optional.empty,
    * branchName=Optional.empty, cacheKey=Optional.empty, cacheName=Optional.empty,
-   * className=Optional.empty, changeId=Optional[9212550], changeIdType=Optional.empty,
-   * cause=Optional.empty, eventType=Optional.empty, exportValue=Optional.empty,
-   * filePath=Optional.empty, garbageCollectorName=Optional.empty, gitOperation=Optional.empty,
-   * groupId=Optional.empty, groupName=Optional.empty, groupUuid=Optional.empty,
-   * httpStatus=Optional.empty, indexName=Optional.empty, indexVersion=Optional[0],
-   * methodName=Optional.empty, multiple=Optional.empty, operationName=Optional.empty,
-   * partial=Optional.empty, noteDbFilePath=Optional.empty, noteDbRefName=Optional.empty,
+   * className=Optional.empty, cancellationReason=Optional.empty changeId=Optional[9212550],
+   * changeIdType=Optional.empty, cause=Optional.empty, diffAlgorithm=Optional.empty,
+   * eventType=Optional.empty, exportValue=Optional.empty, filePath=Optional.empty,
+   * garbageCollectorName=Optional.empty, gitOperation=Optional.empty, groupId=Optional.empty,
+   * groupName=Optional.empty, groupUuid=Optional.empty, httpStatus=Optional.empty,
+   * indexName=Optional.empty, indexVersion=Optional[0], methodName=Optional.empty,
+   * multiple=Optional.empty, operationName=Optional.empty, partial=Optional.empty,
+   * noteDbFilePath=Optional.empty, noteDbRefName=Optional.empty,
    * noteDbSequenceType=Optional.empty, patchSetId=Optional.empty, pluginMetadata=[],
    * pluginName=Optional.empty, projectName=Optional.empty, pushType=Optional.empty,
-   * resourceCount=Optional.empty, restViewName=Optional.empty, revision=Optional.empty,
-   * username=Optional.empty}
+   * requestType=Optional.empty, resourceCount=Optional.empty, restViewName=Optional.empty,
+   * revision=Optional.empty, username=Optional.empty}
    * </pre>
    *
    * <p>That's hard to read in logs. This is why this method
@@ -288,6 +298,8 @@ public abstract class Metadata {
 
     public abstract Builder className(@Nullable String className);
 
+    public abstract Builder cancellationReason(@Nullable String cancellationReason);
+
     public abstract Builder changeId(int changeId);
 
     public abstract Builder changeIdType(@Nullable String changeIdType);
@@ -354,6 +366,8 @@ public abstract class Metadata {
     public abstract Builder projectName(@Nullable String projectName);
 
     public abstract Builder pushType(@Nullable String pushType);
+
+    public abstract Builder requestType(@Nullable String requestType);
 
     public abstract Builder resourceCount(int resourceCount);
 

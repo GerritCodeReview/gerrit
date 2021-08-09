@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Comparator.comparing;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -22,6 +23,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.common.Nullable;
@@ -65,6 +67,8 @@ public class DeadlineChecker implements RequestStateProvider {
         throws InvalidDeadlineException;
   }
 
+  private final CancellationMetrics cancellationsMetrics;
+  private final RequestInfo requestInfo;
   private final RequestStateProvider.Reason cancellationReason;
 
   /**
@@ -84,6 +88,14 @@ public class DeadlineChecker implements RequestStateProvider {
   private final Optional<Long> deadline;
 
   /**
+   * Matching server side deadlines that have been configured as as advisory.
+   *
+   * <p>If any of these deadlines is exceeded the request is not be aborted. Instead the {@code
+   * cancellation/advisory_deadline_count} metric is incremented and a log is written.
+   */
+  private final ImmutableList<ServerDeadline> advisoryDeadlines;
+
+  /**
    * Creates a {@code ClientProvidedDeadlineChecker}.
    *
    * <p>No deadline is enforced if the client provided deadline value is {@code null} or {@code 0}.
@@ -98,10 +110,16 @@ public class DeadlineChecker implements RequestStateProvider {
   @AssistedInject
   DeadlineChecker(
       @GerritServerConfig Config serverConfig,
+      CancellationMetrics cancellationsMetrics,
       @Assisted RequestInfo requestInfo,
       @Assisted @Nullable String clientProvidedTimeoutValue)
       throws InvalidDeadlineException {
-    this(serverConfig, System.nanoTime(), requestInfo, clientProvidedTimeoutValue);
+    this(
+        serverConfig,
+        cancellationsMetrics,
+        System.nanoTime(),
+        requestInfo,
+        clientProvidedTimeoutValue);
   }
 
   /**
@@ -120,11 +138,19 @@ public class DeadlineChecker implements RequestStateProvider {
   @AssistedInject
   DeadlineChecker(
       @GerritServerConfig Config serverConfig,
+      CancellationMetrics cancellationsMetrics,
       @Assisted long start,
       @Assisted RequestInfo requestInfo,
       @Assisted @Nullable String clientProvidedTimeoutValue)
       throws InvalidDeadlineException {
-    Optional<ServerDeadline> serverSideDeadline = getServerSideDeadline(serverConfig, requestInfo);
+    this.cancellationsMetrics = cancellationsMetrics;
+    this.requestInfo = requestInfo;
+
+    ImmutableList<RequestConfig> deadlineConfigs =
+        RequestConfig.parseConfigs(serverConfig, SECTION_DEADLINE);
+    advisoryDeadlines = getAdvisoryDeadlines(deadlineConfigs, requestInfo);
+    Optional<ServerDeadline> serverSideDeadline =
+        getServerSideDeadline(deadlineConfigs, requestInfo);
     Optional<Long> clientedProvidedTimeout = parseTimeout(clientProvidedTimeoutValue);
     if (serverSideDeadline.isPresent()) {
       if (clientedProvidedTimeout.isPresent()) {
@@ -152,19 +178,41 @@ public class DeadlineChecker implements RequestStateProvider {
   }
 
   private Optional<ServerDeadline> getServerSideDeadline(
-      Config serverConfig, RequestInfo requestInfo) {
-    return RequestConfig.parseConfigs(serverConfig, SECTION_DEADLINE).stream()
+      ImmutableList<RequestConfig> deadlineConfigs, RequestInfo requestInfo) {
+    return deadlineConfigs.stream()
         .filter(deadlineConfig -> deadlineConfig.matches(requestInfo))
         .map(ServerDeadline::readFrom)
         .filter(ServerDeadline::hasTimeout)
+        .filter(deadline -> !deadline.isAdvisory())
         // let the stricter deadline (the lower deadline) take precedence
         .sorted(comparing(ServerDeadline::timeout))
         .findFirst();
   }
 
+  private ImmutableList<ServerDeadline> getAdvisoryDeadlines(
+      ImmutableList<RequestConfig> deadlineConfigs, RequestInfo requestInfo) {
+    return deadlineConfigs.stream()
+        .filter(deadlineConfig -> deadlineConfig.matches(requestInfo))
+        .map(ServerDeadline::readFrom)
+        .filter(ServerDeadline::hasTimeout)
+        .filter(ServerDeadline::isAdvisory)
+        .collect(toImmutableList());
+  }
+
   @Override
   public void checkIfCancelled(OnCancelled onCancelled) {
     long now = System.nanoTime();
+
+    advisoryDeadlines.forEach(
+        advisoryDeadline -> {
+          if (now > advisoryDeadline.timeout()) {
+            logger.atWarning().log(
+                "advisory deadline %s exceeded (%s)",
+                advisoryDeadline.id(), TIMEOUT_FORMATTER.apply(advisoryDeadline.timeout()));
+            cancellationsMetrics.countAdvisoryDeadline(requestInfo, advisoryDeadline.id());
+          }
+        });
+
     if (deadline.isPresent() && now > deadline.get()) {
       onCancelled.onCancel(cancellationReason, TIMEOUT_FORMATTER.apply(timeout));
     }
@@ -212,6 +260,8 @@ public class DeadlineChecker implements RequestStateProvider {
 
     abstract long timeout();
 
+    abstract boolean isAdvisory();
+
     boolean hasTimeout() {
       return timeout() > 0;
     }
@@ -219,14 +269,23 @@ public class DeadlineChecker implements RequestStateProvider {
     static ServerDeadline readFrom(RequestConfig requestConfig) {
       String timeoutValue =
           requestConfig.cfg().getString(requestConfig.section(), requestConfig.id(), "timeout");
+      boolean isAdvisory =
+          requestConfig
+              .cfg()
+              .getBoolean(
+                  requestConfig.section(),
+                  requestConfig.id(),
+                  "isAdvisory",
+                  /* defaultValue= */ false);
       try {
         Optional<Long> timeout = parseTimeout(timeoutValue);
-        return new AutoValue_DeadlineChecker_ServerDeadline(requestConfig.id(), timeout.orElse(0L));
+        return new AutoValue_DeadlineChecker_ServerDeadline(
+            requestConfig.id(), timeout.orElse(0L), isAdvisory);
       } catch (InvalidDeadlineException e) {
         logger.atWarning().log(
             "Ignoring invalid deadline configuration %s.%s.timeout: %s",
             requestConfig.section(), requestConfig.id(), e.getMessage());
-        return new AutoValue_DeadlineChecker_ServerDeadline(requestConfig.id(), 0);
+        return new AutoValue_DeadlineChecker_ServerDeadline(requestConfig.id(), 0, isAdvisory);
       }
     }
   }

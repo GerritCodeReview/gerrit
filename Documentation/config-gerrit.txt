@@ -4294,11 +4294,28 @@ and updating references, not the time to index the pack. Values can
 be specified using standard time unit abbreviations ('ms', 'sec',
 'min', etc.).
 +
+After the timeout is exceeded the task processing the receive gets a
+cancellation signal that allows the tast to finish gracefully.
+link:#receive.cancellationTimeout[receive.cancellationTimeout]
+defines how much time the task has to react to the cancellation signal
+before it is focefully cancelled.
++
 The receive timeout cannot be overriden by setting a higher
 link:user-upload#deadline[deadline] on the git push request.
 +
 Default is 4 minutes. If no unit is specified, milliseconds
 is assumed.
+
+[[receive.cancellationTimeout]]receive.cancellationTimeout::
++
+Defines the time that a receive task has to react to a cancellation
+signal and finish gracefully after link:#receive.timeout[receive.timeout]
+is exceeded. If the receive task is still not terminated after the
+cancellation timeout is exceeded the task is forcefully cancelled.
+Values can be specified using standard time unit abbreviations ('ms',
+'sec', 'min', etc.).
++
+Default is 5 seconds. If no unit is specified, milliseconds is assumed.
 
 [[receive.trustedKey]]receive.trustedKey::
 +
@@ -5333,6 +5350,16 @@ For some requests additional timeout configurations may apply, e.g.
 link:#receive.timeout[receive.timeout] for git pushes.
 +
 By default, unset.
+
+[[deadline.id.isAdvisory]]deadline.<id>.isAdvisory::
++
+Whether this deadline is an advisory deadline. Advisory deadlines do not cause
+requests to be aborted when they are exceeded. Instead, if an advisory deadline
+is exceeded, only the `cancellation/advisory_deadline_count` metrics is
+incremented and a log is written. This is useful to test how many requests would
+be affected by a new deadline configuration.
++
+By default, `false`.
 
 [[deadline.id.requestType]]deadline.<id>.requestType::
 +

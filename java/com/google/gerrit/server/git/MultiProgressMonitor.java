@@ -196,11 +196,16 @@ public class MultiProgressMonitor implements RequestStateProvider {
   /**
    * Wait for a task managed by a {@link Future}, with no timeout.
    *
-   * @see #waitFor(Future, long, TimeUnit)
+   * @see #waitFor(Future, long, TimeUnit, long, TimeUnit)
    */
   public <T> T waitFor(Future<T> workerFuture) {
     try {
-      return waitFor(workerFuture, 0, null);
+      return waitFor(
+          workerFuture,
+          /* taskTimeoutTime= */ 0,
+          /* taskTimeoutUnit= */ null,
+          /* cancellationTimeoutTime= */ 0,
+          /* cancellationTimeoutUnit= */ null);
     } catch (TimeoutException e) {
       throw new IllegalStateException("timout exception without setting a timeout", e);
     }
@@ -214,18 +219,31 @@ public class MultiProgressMonitor implements RequestStateProvider {
    * forcefully cancelled and {@link ExecutionException} is thrown.
    *
    * @param workerFuture a future that returns when worker threads are finished.
-   * @param timeoutTime overall timeout for the task; the future is forcefully cancelled if the task
-   *     exceeds the timeout. Non-positive values indicate no timeout.
-   * @param timeoutUnit unit for overall task timeout.
+   * @param taskTimeoutTime overall timeout for the task; the future gets a cancellation signal
+   *     after this timeout is exceeded; non-positive values indicate no timeout.
+   * @param taskTimeoutUnit unit for overall task timeout.
+   * @param cancellationTimeoutTime timeout for the task to react to the cancellation signal; if the
+   *     task doesn't terminate within this time it is forcefully cancelled; non-positive values
+   *     indicate no timeout.
+   * @param cancellationTimeoutUnit unit for the cancellation timeout.
    * @throws TimeoutException if this thread or a worker thread was interrupted, the worker was
    *     cancelled, or timed out waiting for a worker to call {@link #end()}.
    */
-  public <T> T waitFor(Future<T> workerFuture, long timeoutTime, TimeUnit timeoutUnit)
+  public <T> T waitFor(
+      Future<T> workerFuture,
+      long taskTimeoutTime,
+      TimeUnit taskTimeoutUnit,
+      long cancellationTimeoutTime,
+      TimeUnit cancellationTimeoutUnit)
       throws TimeoutException {
     long overallStart = System.nanoTime();
+    long cancellationNanos =
+        cancellationTimeoutTime > 0
+            ? NANOSECONDS.convert(cancellationTimeoutTime, cancellationTimeoutUnit)
+            : 0;
     long deadline;
-    if (timeoutTime > 0) {
-      timeout = Optional.of(NANOSECONDS.convert(timeoutTime, timeoutUnit));
+    if (taskTimeoutTime > 0) {
+      timeout = Optional.of(NANOSECONDS.convert(taskTimeoutTime, taskTimeoutUnit));
       deadline = overallStart + timeout.get();
     } else {
       deadline = 0;
@@ -252,12 +270,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
               MILLISECONDS.convert(now - deadline, NANOSECONDS));
           deadlineExceeded = true;
 
-          // After setting deadlineExceeded = true give the worker 10 x maxIntervalNanos to react
-          // to the cancellation and return gracefully.
-          // The factor of 10 is a magic number that is a best guess for long it takes
-          // ReceiveCommits to react to a cancellation. We likely need to tweak this in follow-up
-          // changes or make it configurable.
-          if (now > deadline + 10 * maxIntervalNanos) {
+          // After setting deadlineExceeded = true give the cancellationNanos to react to the
+          // cancellation and return gracefully.
+          if (now > deadline + cancellationNanos) {
             // The worker didn't react to the cancellation, cancel it forcefully by an interrupt.
             workerFuture.cancel(true);
             if (workerFuture.isCancelled()) {

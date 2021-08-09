@@ -46,6 +46,30 @@
       },
       "revId": "f88aee5bcf556295a4a154c9de1223378418f119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1f3d1d7_efc58d11",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-09T18:22:30Z",
+      "side": 1,
+      "message": "Great, the solution with block is much better.",
+      "parentUuid": "0d419864_e632045b",
+      "range": {
+        "startLine": 593,
+        "startChar": 6,
+        "endLine": 593,
+        "endChar": 85
+      },
+      "revId": "f88aee5bcf556295a4a154c9de1223378418f119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

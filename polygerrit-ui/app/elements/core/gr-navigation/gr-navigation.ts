@@ -419,6 +419,7 @@ export enum GroupDetailView {
 }
 
 export enum RepoDetailView {
+  GENERAL = 'general',
   ACCESS = 'access',
   BRANCHES = 'branches',
   COMMANDS = 'commands',
@@ -841,6 +842,7 @@ export const GerritNav = {
   getUrlForRepo(repoName: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
+      detail: RepoDetailView.GENERAL,
       repoName,
     });
   },

@@ -47,7 +47,7 @@ suite('gr-admin-nav-behavior tests', () => {
 
           if (expected.projectPageShown) {
             assert.isOk(res.links[0].subsection);
-            assert.equal(res.links[0].subsection.children.length, 5);
+            assert.equal(res.links[0].subsection.children.length, 6);
           } else {
             assert.isNotOk(res.links[0].subsection);
           }
@@ -84,7 +84,7 @@ suite('gr-admin-nav-behavior tests', () => {
           }
           if (expected.projectPageShown) {
             assert.equal(res.expandedSection.name, 'my-repo');
-            assert.equal(res.expandedSection.children.length, 5);
+            assert.equal(res.expandedSection.children.length, 6);
           } else if (expected.groupPageShown) {
             assert.equal(res.expandedSection.name, 'my-group');
             assert.equal(res.expandedSection.children.length,

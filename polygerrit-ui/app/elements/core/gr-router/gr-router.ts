@@ -131,6 +131,8 @@ const RoutePattern = {
   // Matches /admin/repos/<repo>,commands.
   REPO_COMMANDS: /^\/admin\/repos\/(.+),commands$/,
 
+  REPO_GENERAL: /^\/admin\/repos\/(.+),general$/,
+
   // Matches /admin/repos/<repos>,access.
   REPO_ACCESS: /^\/admin\/repos\/(.+),access$/,
 
@@ -638,7 +640,9 @@ export class GrRouter extends PolymerElement {
 
   _generateRepoUrl(params: GenerateUrlRepoViewParameters) {
     let url = `/admin/repos/${encodeURL(`${params.repoName}`, true)}`;
-    if (params.detail === RepoDetailView.ACCESS) {
+    if (params.detail === RepoDetailView.GENERAL) {
+      url += ',general';
+    } else if (params.detail === RepoDetailView.ACCESS) {
       url += ',access';
     } else if (params.detail === RepoDetailView.BRANCHES) {
       url += ',branches';
@@ -989,6 +993,8 @@ export class GrRouter extends PolymerElement {
       '_handleRepoCommandsRoute',
       true
     );
+
+    this._mapRoute(RoutePattern.REPO_GENERAL, '_handleRepoGeneralRoute');
 
     this._mapRoute(RoutePattern.REPO_ACCESS, '_handleRepoAccessRoute');
 
@@ -1403,6 +1409,16 @@ export class GrRouter extends PolymerElement {
     this.reporting.setRepoName(repo);
   }
 
+  _handleRepoGeneralRoute(data: PageContextWithQueryMap) {
+    const repo = data.params[0] as RepoName;
+    this._setParams({
+      view: GerritView.REPO,
+      detail: RepoDetailView.GENERAL,
+      repo,
+    });
+    this.reporting.setRepoName(repo);
+  }
+
   _handleRepoAccessRoute(data: PageContextWithQueryMap) {
     const repo = data.params[0] as RepoName;
     this._setParams({
@@ -1521,12 +1537,7 @@ export class GrRouter extends PolymerElement {
   }
 
   _handleRepoRoute(data: PageContextWithQueryMap) {
-    const repo = data.params[0] as RepoName;
-    this._setParams({
-      view: GerritView.REPO,
-      repo,
-    });
-    this.reporting.setRepoName(repo);
+    this._redirect(data.path + ',general');
   }
 
   _handlePluginListOffsetRoute(data: PageContextWithQueryMap) {

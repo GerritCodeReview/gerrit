@@ -31,11 +31,11 @@ suite('gr-repo-header tests', () => {
 
   test('repoUrl reset once repo changed', () => {
     sinon.stub(GerritNav, 'getUrlForRepo').callsFake(
-        repoName => `http://test.com/${repoName}`
+        repoName => `http://test.com/${repoName},general`
     );
     assert.equal(element._repoUrl, undefined);
     element.repo = 'test';
-    assert.equal(element._repoUrl, 'http://test.com/test');
+    assert.equal(element._repoUrl, 'http://test.com/test,general');
   });
 
   test('webLinks set', () => {

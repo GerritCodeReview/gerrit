@@ -73,13 +73,18 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[item.subsection]]">
           <!--If a section has a subsection, render that.-->
           <li class$="[[_computeSelectedClass(item.subsection.view, params)]]">
-            <a
-              class="title"
-              href$="[[_computeLinkURL(item.subsection)]]"
-              rel="noopener"
-            >
-              [[item.subsection.name]]</a
-            >
+            <template is="dom-if" if="[[item.subsection.url]]" as="child">
+              <a
+                class="title"
+                href$="[[_computeLinkURL(item.subsection)]]"
+                rel="noopener"
+              >
+                [[item.subsection.name]]</a
+              >
+            </template>
+            <template is="dom-if" if="[[!item.subsection.url]]" as="child">
+              [[item.subsection.name]]
+            </template>
           </li>
           <!--Loop through the links in the sub-section.-->
           <template

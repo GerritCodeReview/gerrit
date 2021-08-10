@@ -15,12 +15,11 @@
 package com.google.gerrit.server.account.externalids;
 
 import static com.google.common.collect.ImmutableSetMultimap.toImmutableSetMultimap;
-import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.SetMultimap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto;
@@ -28,19 +27,25 @@ import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto.ExternalId
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 /** Cache value containing all external IDs. */
 @AutoValue
 public abstract class AllExternalIds {
-  static AllExternalIds create(SetMultimap<Account.Id, ExternalId> byAccount) {
-    return new AutoValue_AllExternalIds(
-        ImmutableSetMultimap.copyOf(byAccount), byEmailCopy(byAccount.values()));
-  }
+  static AllExternalIds create(Stream<ExternalId> externalIds) {
+    ImmutableMap.Builder<ExternalId.Key, ExternalId> byKey = ImmutableMap.builder();
+    ImmutableSetMultimap.Builder<Account.Id, ExternalId> byAccount = ImmutableSetMultimap.builder();
+    ImmutableSetMultimap.Builder<String, ExternalId> byEmail = ImmutableSetMultimap.builder();
+    externalIds.forEach(
+        id -> {
+          byKey.put(id.key(), id);
+          byAccount.put(id.accountId(), id);
+          if (!Strings.isNullOrEmpty(id.email())) {
+            byEmail.put(id.email(), id);
+          }
+        });
 
-  static AllExternalIds create(Collection<ExternalId> externalIds) {
-    return new AutoValue_AllExternalIds(
-        externalIds.stream().collect(toImmutableSetMultimap(ExternalId::accountId, e -> e)),
-        byEmailCopy(externalIds));
+    return new AutoValue_AllExternalIds(byKey.build(), byAccount.build(), byEmail.build());
   }
 
   private static ImmutableSetMultimap<String, ExternalId> byEmailCopy(
@@ -49,6 +54,8 @@ public abstract class AllExternalIds {
         .filter(e -> !Strings.isNullOrEmpty(e.email()))
         .collect(toImmutableSetMultimap(ExternalId::email, e -> e));
   }
+
+  public abstract ImmutableMap<ExternalId.Key, ExternalId> byKey();
 
   public abstract ImmutableSetMultimap<Account.Id, ExternalId> byAccount();
 
@@ -89,8 +96,7 @@ public abstract class AllExternalIds {
       ObjectIdConverter idConverter = ObjectIdConverter.create();
       return create(
           Protos.parseUnchecked(AllExternalIdsProto.parser(), in).getExternalIdList().stream()
-              .map(proto -> toExternalId(idConverter, proto))
-              .collect(toList()));
+              .map(proto -> toExternalId(idConverter, proto)));
     }
 
     private static ExternalId toExternalId(ObjectIdConverter idConverter, ExternalIdProto proto) {

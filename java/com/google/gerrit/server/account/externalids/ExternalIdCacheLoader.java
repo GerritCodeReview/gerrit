@@ -17,6 +17,7 @@ package com.google.gerrit.server.account.externalids;
 import com.google.common.base.CharMatcher;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.flogger.FluentLogger;
@@ -221,6 +222,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
       Map<ObjectId, ObjectId> additions,
       Set<ObjectId> removals)
       throws IOException {
+    ImmutableMap.Builder<ExternalId.Key, ExternalId> byKey = ImmutableMap.builder();
     ImmutableSetMultimap.Builder<Account.Id, ExternalId> byAccount = ImmutableSetMultimap.builder();
     ImmutableSetMultimap.Builder<String, ExternalId> byEmail = ImmutableSetMultimap.builder();
 
@@ -230,6 +232,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
         continue;
       }
 
+      byKey.put(externalId.key(), externalId);
       byAccount.put(externalId.accountId(), externalId);
       if (externalId.email() != null) {
         byEmail.put(externalId.email(), externalId);
@@ -252,13 +255,14 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
           continue;
         }
 
+        byKey.put(parsedExternalId.key(), parsedExternalId);
         byAccount.put(parsedExternalId.accountId(), parsedExternalId);
         if (parsedExternalId.email() != null) {
           byEmail.put(parsedExternalId.email(), parsedExternalId);
         }
       }
     }
-    return new AutoValue_AllExternalIds(byAccount.build(), byEmail.build());
+    return new AutoValue_AllExternalIds(byKey.build(), byAccount.build(), byEmail.build());
   }
 
   private AllExternalIds reloadAllExternalIds(ObjectId notesRev)
@@ -269,7 +273,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
             Metadata.builder().revision(notesRev.name()).build())) {
       ImmutableSet<ExternalId> externalIds = externalIdReader.all(notesRev);
       externalIds.forEach(ExternalId::checkThatBlobIdIsSet);
-      AllExternalIds allExternalIds = AllExternalIds.create(externalIds);
+      AllExternalIds allExternalIds = AllExternalIds.create(externalIds.stream());
       reloadCounter.increment(false);
       return allExternalIds;
     }

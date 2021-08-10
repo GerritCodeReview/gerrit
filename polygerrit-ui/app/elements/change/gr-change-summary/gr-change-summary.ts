@@ -399,12 +399,11 @@ export class GrChangeSummary extends GrLitElement {
         td.key {
           padding-right: var(--spacing-l);
           padding-bottom: var(--spacing-m);
+          vertical-align: top;
         }
         td.value {
           padding-right: var(--spacing-l);
-          padding-bottom: var(--spacing-m);
-        }
-        .checksSummary {
+          padding-bottom: var(--spacing-s);
           line-height: calc(var(--line-height-normal) + var(--spacing-s));
         }
         iron-icon.launch {

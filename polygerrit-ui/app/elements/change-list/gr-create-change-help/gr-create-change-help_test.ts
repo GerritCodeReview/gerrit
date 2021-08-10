@@ -15,22 +15,25 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-create-change-help.js';
+import '../../../test/common-test-setup-karma';
+import './gr-create-change-help';
+import {GrCreateChangeHelp} from './gr-create-change-help';
+import {queryAndAssert} from '../../../test/test-utils';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-create-change-help');
 
 suite('gr-create-change-help tests', () => {
-  let element;
+  let element: GrCreateChangeHelp;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
   test('Create change tap', done => {
     element.addEventListener('create-tap', () => done());
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('gr-button'));
+    MockInteractions.tap(queryAndAssert<GrButton>(element, 'gr-button'));
   });
 });
-

@@ -107,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f0f8fa1_d3cd6485",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-10T13:57:44Z",
+      "side": 1,
+      "message": "I found that it works different depending on whether the change was created as WIP or as regular and then set to WIP, see CL description and test.",
+      "parentUuid": "c3074d26_941d0f5f",
+      "revId": "0b813e85c7541846dea9668f99c585665c6248b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b66896b8_b07af956",
@@ -144,6 +162,30 @@
       "side": 1,
       "message": "I think we don\u0027t even use this endpoint when adding reviewers through the UI, and we solely use PostReview, so this won\u0027t make a difference.",
       "parentUuid": "b66896b8_b07af956",
+      "range": {
+        "startLine": 91,
+        "startChar": 63,
+        "endLine": 91,
+        "endChar": 78
+      },
+      "revId": "0b813e85c7541846dea9668f99c585665c6248b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62a0791b_e3733cc0",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-10T13:57:44Z",
+      "side": 1,
+      "message": "You are right, fronted only uses PostReview endpoint, which relies on WIP and hasReviewStarted (which is not persisted in NoteDB and only set on change creation).\n\nI would either remove hasReviewStarted entirely and only rely on WIP or set hasReviewStarted when any reviewers are added in PostReview/PostReviewers endpoint.\n\nWDYT?",
+      "parentUuid": "8066c123_7c5ad8bf",
       "range": {
         "startLine": 91,
         "startChar": 63,

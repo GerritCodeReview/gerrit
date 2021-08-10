@@ -34,6 +34,24 @@
       "parentUuid": "245c5840_a2953f7e",
       "revId": "a9b090521d52b3bcded8a62455ae17561873d2fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67b2e4d6_28abb69c",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 24
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-10T07:38:56Z",
+      "side": 1,
+      "message": "I don\u0027t see what the benefit of these four lines are compared to just doing:\n\n  privateState$.next(initialState);\n  \nCan you explain?",
+      "parentUuid": "4cfb8e4f_d9164569",
+      "revId": "a9b090521d52b3bcded8a62455ae17561873d2fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

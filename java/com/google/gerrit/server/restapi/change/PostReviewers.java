@@ -88,7 +88,7 @@ public class PostReviewers
     NotifyHandling notifyHandling = input.notify;
     if (notifyHandling == null) {
       notifyHandling =
-          rsrc.getChange().isWorkInProgress() ? NotifyHandling.NONE : NotifyHandling.ALL;
+          rsrc.getChange().isWorkInProgress() ? NotifyHandling.OWNER_REVIEWERS : NotifyHandling.ALL;
     }
     return notifyResolver.resolve(notifyHandling, input.notifyDetails);
   }

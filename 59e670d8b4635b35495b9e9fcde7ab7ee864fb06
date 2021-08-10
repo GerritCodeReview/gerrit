@@ -34,6 +34,24 @@
       "parentUuid": "a96ddd33_5d6719d8",
       "revId": "59e670d8b4635b35495b9e9fcde7ab7ee864fb06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "684e0e67_8b217584",
+        "filename": "polygerrit-ui/app/elements/edit/gr-default-editor/gr-default-editor_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-10T09:20:34Z",
+      "side": 1,
+      "message": "It looks like \n```\ntextarea.dispatchEvent(new Event(\u0027input\u0027\n```\nis best we can do. Sorry for questioning it. You can delete this change",
+      "parentUuid": "ee5dd69f_1b40b43a",
+      "revId": "59e670d8b4635b35495b9e9fcde7ab7ee864fb06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

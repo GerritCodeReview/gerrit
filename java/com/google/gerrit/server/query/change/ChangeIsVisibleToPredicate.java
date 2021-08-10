@@ -23,7 +23,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.index.IndexUtils;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -42,7 +41,6 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     ChangeIsVisibleToPredicate forUser(CurrentUser user);
   }
 
-  protected final ChangeNotes.Factory notesFactory;
   protected final CurrentUser user;
   protected final PermissionBackend permissionBackend;
   protected final ProjectCache projectCache;
@@ -50,13 +48,11 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
 
   @Inject
   public ChangeIsVisibleToPredicate(
-      ChangeNotes.Factory notesFactory,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       Provider<AnonymousUser> anonymousUserProvider,
       @Assisted CurrentUser user) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(user));
-    this.notesFactory = notesFactory;
     this.user = user;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;

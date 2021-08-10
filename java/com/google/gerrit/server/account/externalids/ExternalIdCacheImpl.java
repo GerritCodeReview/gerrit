@@ -26,6 +26,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -70,6 +71,11 @@ class ExternalIdCacheImpl implements ExternalIdCache {
             m.put(extId.accountId(), extId);
           }
         });
+  }
+
+  @Override
+  public Optional<ExternalId> byKey(ExternalId.Key key) throws IOException {
+    return Optional.ofNullable(get().byKey().get(key));
   }
 
   @Override
@@ -135,7 +141,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
         m = MultimapBuilder.hashKeys().hashSetValues().build();
       }
       update.accept(m);
-      extIdsByAccount.put(newNotesRev, AllExternalIds.create(m));
+      extIdsByAccount.put(newNotesRev, AllExternalIds.create(m.values().stream()));
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Cannot update external IDs");
     } finally {

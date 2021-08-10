@@ -74,7 +74,9 @@ export class GrSubmitRequirements extends GrLitElement {
   }
 
   render() {
-    const submit_requirements = this.change?.submit_requirements ?? [];
+    const submit_requirements = (this.change?.submit_requirements ?? []).filter(
+      req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
+    );
     return html`<h3 class="metadata-title">Submit Requirements</h3>
       ${submit_requirements.map(
         requirement => html`<section>

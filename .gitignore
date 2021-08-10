@@ -33,6 +33,8 @@ js-to-ts.sh
 /package-lock.json
 /plugins/*
 !/plugins/package.json
+!/plugins/rollup.config.js
+!/plugins/tsconfig.json
 !/plugins/yarn.lock
 !/plugins/BUILD
 !/plugins/codemirror-editor

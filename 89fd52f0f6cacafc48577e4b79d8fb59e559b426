@@ -38,6 +38,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d059dbdc_eaf94e58",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-10T09:44:24Z",
+      "side": 1,
+      "message": "Maybe this will add draft twice?",
+      "range": {
+        "startLine": 322,
+        "startChar": 1,
+        "endLine": 323,
+        "endChar": 33
+      },
+      "revId": "89fd52f0f6cacafc48577e4b79d8fb59e559b426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f82a8628_7c700e29",
         "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
         "patchSetId": 7
@@ -80,80 +103,6 @@
       },
       "revId": "89fd52f0f6cacafc48577e4b79d8fb59e559b426",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
-    }
-  ],
-  "submitRequirementResults": [
-    {
-      "submitRequirement": {
-        "name": "Code-Review",
-        "description": {
-          "value": "At least one maximum vote for label \u0027Code-Review\u0027 is required"
-        },
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Review\u003dMAX -label:Code-Review\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dMAX -label:Code-Review\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label2:code-review\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label2:code-review\u003dMIN"
-        ]
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -1979886864,
-        "w2": -154481924,
-        "w3": 1213693515,
-        "w4": 2044263257,
-        "w5": -447106010
-      }
-    },
-    {
-      "submitRequirement": {
-        "name": "Verified",
-        "description": {
-          "value": "CI build and tests results are verified"
-        },
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Verified\u003dMAX -label:Verified\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dMAX -label:Verified\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label2:verified\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label2:verified\u003dMIN"
-        ]
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -1979886864,
-        "w2": -154481924,
-        "w3": 1213693515,
-        "w4": 2044263257,
-        "w5": -447106010
-      }
     }
   ]
 }

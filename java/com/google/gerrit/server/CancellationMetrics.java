@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
@@ -34,6 +35,7 @@ import com.google.inject.Singleton;
 public class CancellationMetrics {
   private final Counter3<String, String, String> advisoryDeadlineCount;
   private final Counter3<String, String, RequestStateProvider.Reason> cancelledRequestsCount;
+  private final Counter1<String> receiveTimeoutCount;
 
   @Inject
   CancellationMetrics(MetricMaker metrics) {
@@ -71,6 +73,16 @@ public class CancellationMetrics {
                     Metadata.Builder::cancellationReason)
                 .description("The reason why the request was cancelled.")
                 .build());
+
+    this.receiveTimeoutCount =
+        metrics.newCounter(
+            "cancellation/receive_timeout_count",
+            new Description(
+                    "Number of requests that are cancelled because receive.timout is exceeded")
+                .setRate(),
+            Field.ofString("cancellation_type", (metadataBuilder, resolveAllUsers) -> {})
+                .description("The cancellation type (graceful or forceful).")
+                .build());
   }
 
   public void countAdvisoryDeadline(RequestInfo requestInfo, String deadlineId) {
@@ -94,6 +106,14 @@ public class CancellationMetrics {
       String redactedRequestUri,
       RequestStateProvider.Reason cancellationReason) {
     cancelledRequestsCount.increment(requestType, redactedRequestUri, cancellationReason);
+  }
+
+  public void countGracefulReceiveTimeout() {
+    receiveTimeoutCount.increment("graceful");
+  }
+
+  public void countForcefulReceiveTimeout() {
+    receiveTimeoutCount.increment("forceful");
   }
 
   /**

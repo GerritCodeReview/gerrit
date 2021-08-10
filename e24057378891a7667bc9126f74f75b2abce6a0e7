@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3aa3015c_b33249b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-10T14:28:36Z",
+      "side": 1,
+      "message": "you can observe that the call happens in a particular order in a debugger, but does that mean it always happens in this order? AFAICT, both calls are driven by @observe(), which is fired from Polymer? What guarantees do we have about the ordering?\n\nI don\u0027t know why the calls are there, but they are triggered by reload (gr-change-view.ts, l.686). On reload, don\u0027t we want all data (including the change actions) to be recomputed?",
+      "parentUuid": "d83e16da_d35e67cf",
+      "range": {
+        "startLine": 17,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "e24057378891a7667bc9126f74f75b2abce6a0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8642e1c_41abfa34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

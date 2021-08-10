@@ -51,6 +51,24 @@
       "parentUuid": "d799a4ea_679a4b56",
       "revId": "0b813e85c7541846dea9668f99c585665c6248b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "772ccd4a_4cdf584b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-10T12:20:03Z",
+      "side": 1,
+      "message": "I think this is just the weird logic, I clicked \u0027Send and Start Review\u0027 and it set \u0027WIP\u0027 ad reviewStarted to \u0027true\u0027. So you should be receiving email notifications for each comment now?",
+      "parentUuid": "02299aa7_a2329204",
+      "revId": "0b813e85c7541846dea9668f99c585665c6248b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

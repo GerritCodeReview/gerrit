@@ -22,6 +22,30 @@
       },
       "revId": "eca96af7b4180b4e585cba62715c08b246244e14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb033b09_4f4de082",
+        "filename": "polygerrit-ui/app/elements/edit/gr-default-editor/gr-default-editor_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-10T07:51:11Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/314346",
+      "parentUuid": "d4877c70_7834cde4",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "eca96af7b4180b4e585cba62715c08b246244e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "794a2259_e02be304",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-10T14:29:57Z",
+      "side": 1,
+      "message": "dhruv: \n\nloadData() in GrChangeView is calling _getChangeDetail here [1] which sets a new change object [2] which triggers the observer for GrChangeActions and reload() is automatically called.\n\nThe call for actions.reload() in GrChangeView is waiting for changeDetail call to be finished [3] via the loadingFlagSet promise so I\u0027m wondering what speedup it is really providing since it\u0027s waiting for the changeDetail call in both cases and polymer observer shouldn\u0027t be that slow(perhaps I am wrong here but that is what I want verified here).\n\n\u003e\u003e\u003eI don\u0027t know why the calls are there\n\nThis is exactly what I\u0027m asking you to verify before implementing your change. Perhaps removing the call from GrChangeView entirely is the much simpler solution.\n\nIs there some way to verify why this code is present in GrChangeView? Perhaps find the original change which added the code and see what justification(if any) they provided.\n\n[1] gr-change-view.ts;l\u003d2064 \n\n[2] gr-change-view.ts;l\u003d1883;\n\n[3] gr-change-view.ts;l\u003d2117",
+      "parentUuid": "3aa3015c_b33249b6",
+      "range": {
+        "startLine": 17,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "e24057378891a7667bc9126f74f75b2abce6a0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8642e1c_41abfa34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

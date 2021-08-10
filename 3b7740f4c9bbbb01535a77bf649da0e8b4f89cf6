@@ -16,6 +16,24 @@
       "message": "Nice. Could you please implement the same change for group (in a separate change)? I.e. add General section and open it when you click on group?",
       "revId": "3b7740f4c9bbbb01535a77bf649da0e8b4f89cf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e61f5e87_bd9f0ce8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-10T07:58:50Z",
+      "side": 1,
+      "message": "Thanks Dmitrii. Yes, I can do that.\n\nMarking as resolved.",
+      "parentUuid": "ff2aea9e_8cf6ba7e",
+      "revId": "3b7740f4c9bbbb01535a77bf649da0e8b4f89cf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

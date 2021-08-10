@@ -216,7 +216,7 @@ public class ExternalIDCacheLoaderTest {
   }
 
   private AllExternalIds allFromGit(ObjectId revision) throws Exception {
-    return AllExternalIds.create(externalIdReader.all(revision));
+    return AllExternalIds.create(externalIdReader.all(revision).stream());
   }
 
   private ObjectId inserExternalIds(int numberOfIdsToInsert) throws Exception {

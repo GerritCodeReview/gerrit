@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -45,6 +46,8 @@ interface ExternalIdCache {
       ObjectId newNotesRev,
       Collection<ExternalId> toRemove,
       Collection<ExternalId> toAdd);
+
+  Optional<ExternalId> byKey(ExternalId.Key key) throws IOException;
 
   ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;
 

@@ -54,7 +54,7 @@ public class ExternalIds {
 
   /** Returns the specified external ID. */
   public Optional<ExternalId> get(ExternalId.Key key) throws IOException, ConfigInvalidException {
-    return externalIdReader.get(key);
+    return externalIdCache.byKey(key);
   }
 
   /** Returns the specified external ID from the given revision. */

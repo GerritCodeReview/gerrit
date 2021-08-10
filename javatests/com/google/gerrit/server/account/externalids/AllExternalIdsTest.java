@@ -128,7 +128,7 @@ public class AllExternalIdsTest {
   }
 
   private static AllExternalIds allExternalIds(ExternalId... externalIds) {
-    return AllExternalIds.create(Arrays.asList(externalIds));
+    return AllExternalIds.create(Arrays.stream(externalIds));
   }
 
   private static void assertRoundTrip(

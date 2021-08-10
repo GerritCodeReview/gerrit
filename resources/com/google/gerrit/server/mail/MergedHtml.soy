@@ -38,7 +38,9 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
     {param content: $email.changeDetail /}
   {/call}
 
-  <div style="white-space:pre-wrap">{$email.stickyApprovalDiff}</div>
+  {call mailTemplate.UnifiedDiff}
+    {param diffLines: $email.stickyApprovalDiff /}
+  {/call}
   {\n}
 
   {if $email.includeDiff}

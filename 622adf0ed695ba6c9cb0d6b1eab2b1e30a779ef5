@@ -46,6 +46,30 @@
       },
       "revId": "622adf0ed695ba6c9cb0d6b1eab2b1e30a779ef5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb9f60db_05fd33b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-10T08:10:42Z",
+      "side": 1,
+      "message": "Could you please explain why this condition is required?\nThe https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-parameter-info says that editable is false if not set.\nLooks like _computeDisabled must return true if editable is undefined.\n\nIs gerrit documentation wrong?",
+      "parentUuid": "5c95ed3f_b8ed6254",
+      "range": {
+        "startLine": 94,
+        "startChar": 17,
+        "endLine": 94,
+        "endChar": 19
+      },
+      "revId": "622adf0ed695ba6c9cb0d6b1eab2b1e30a779ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

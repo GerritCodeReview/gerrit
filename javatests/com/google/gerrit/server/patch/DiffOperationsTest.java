@@ -18,7 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -80,15 +82,58 @@ public class DiffOperationsTest {
     assertThat(diffOutput.edits()).hasSize(1);
   }
 
-  private ObjectId createCommit(
-      Repository repo, ObjectId parentCommit, ImmutableMap<String, String> fileNameToContent)
-      throws IOException {
-    ObjectId treeId = createTree(repo, fileNameToContent);
-    return createCommitInRepo(repo, treeId, parentCommit);
+  @Test
+  public void diffAgainstAutoMergePersistsAutoMergeInRepo() throws Exception {
+    ObjectId parent1 = createCommit(repo, null, ImmutableMap.of("file_1.txt", "file 1 content"));
+    ObjectId parent2 = createCommit(repo, null, ImmutableMap.of("file_2.txt", "file 2 content"));
+
+    ObjectId merge =
+        createMergeCommit(
+            repo,
+            ImmutableMap.of(
+                "file_1.txt",
+                "file 1 content",
+                "file_2.txt",
+                "file 2 content",
+                "file_3.txt",
+                "file 3 content"),
+            parent1,
+            parent2);
+
+    String autoMergeRef = RefNames.refsCacheAutomerge(merge.name());
+    assertThat(repo.getRefDatabase().exactRef(autoMergeRef)).isNull();
+
+    Map<String, FileDiffOutput> changedFiles =
+        diffOperations.listModifiedFilesAgainstParent(testProjectName, merge, /* parentNum=*/ 0);
+    assertThat(changedFiles.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST", "file_3.txt");
+
+    // Requesting diff against auto-merge had the side effect of updating the auto-merge ref
+    assertThat(repo.getRefDatabase().exactRef(autoMergeRef)).isNotNull();
   }
 
-  private static ObjectId createCommitInRepo(
-      Repository repo, ObjectId treeId, ObjectId parentCommit) throws IOException {
+  private ObjectId createMergeCommit(
+      Repository repo,
+      ImmutableMap<String, String> fileNameToContent,
+      ObjectId parent1,
+      ObjectId parent2)
+      throws IOException {
+    ObjectId treeId = createTree(repo, fileNameToContent);
+    return createCommitInRepo(repo, treeId, parent1, parent2);
+  }
+
+  private ObjectId createCommit(
+      Repository repo,
+      @Nullable ObjectId parentCommit,
+      ImmutableMap<String, String> fileNameToContent)
+      throws IOException {
+    ObjectId treeId = createTree(repo, fileNameToContent);
+    return parentCommit == null
+        ? createCommitInRepo(repo, treeId)
+        : createCommitInRepo(repo, treeId, parentCommit);
+  }
+
+  private static ObjectId createCommitInRepo(Repository repo, ObjectId treeId, ObjectId... parents)
+      throws IOException {
     try (ObjectInserter oi = repo.newObjectInserter()) {
       PersonIdent committer =
           new PersonIdent(new PersonIdent("Foo Bar", "foo.bar@baz.com"), TimeUtil.nowTs());
@@ -97,8 +142,8 @@ public class DiffOperationsTest {
       cb.setCommitter(committer);
       cb.setAuthor(committer);
       cb.setMessage("Test commit");
-      if (parentCommit != null) {
-        cb.setParentIds(parentCommit);
+      if (parents != null && parents.length > 0) {
+        cb.setParentIds(parents);
       }
       ObjectId commitId = oi.insert(cb);
       oi.flush();

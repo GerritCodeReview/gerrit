@@ -82,6 +82,11 @@ public class MultiProgressMonitor implements RequestStateProvider {
   private static final char[] SPINNER_STATES = new char[] {'-', '\\', '|', '/'};
   private static final char NO_SPINNER = ' ';
 
+  public enum TaskKind {
+    INDEXING,
+    RECEIVE_COMMITS;
+  }
+
   /** Handle for a sub-task. */
   public class Task implements ProgressMonitor {
     private final String name;
@@ -152,14 +157,19 @@ public class MultiProgressMonitor implements RequestStateProvider {
   }
 
   public interface Factory {
-    MultiProgressMonitor create(OutputStream out, String taskName);
+    MultiProgressMonitor create(OutputStream out, TaskKind taskKind, String taskName);
 
     MultiProgressMonitor create(
-        OutputStream out, String taskName, long maxIntervalTime, TimeUnit maxIntervalUnit);
+        OutputStream out,
+        TaskKind taskKind,
+        String taskName,
+        long maxIntervalTime,
+        TimeUnit maxIntervalUnit);
   }
 
   private final ExperimentFeatures experimentFeatures;
   private final OutputStream out;
+  private final TaskKind taskKind;
   private final String taskName;
   private final List<Task> tasks = new CopyOnWriteArrayList<>();
   private int spinnerIndex;
@@ -181,8 +191,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
   private MultiProgressMonitor(
       ExperimentFeatures experimentFeatures,
       @Assisted OutputStream out,
+      @Assisted TaskKind taskKind,
       @Assisted String taskName) {
-    this(experimentFeatures, out, taskName, 500, MILLISECONDS);
+    this(experimentFeatures, out, taskKind, taskName, 500, MILLISECONDS);
   }
 
   /**
@@ -197,11 +208,13 @@ public class MultiProgressMonitor implements RequestStateProvider {
   private MultiProgressMonitor(
       ExperimentFeatures experimentFeatures,
       @Assisted OutputStream out,
+      @Assisted TaskKind taskKind,
       @Assisted String taskName,
       @Assisted long maxIntervalTime,
       @Assisted TimeUnit maxIntervalUnit) {
     this.experimentFeatures = experimentFeatures;
     this.out = out;
+    this.taskKind = taskKind;
     this.taskName = taskName;
     maxIntervalNanos = NANOSECONDS.convert(maxIntervalTime, maxIntervalUnit);
   }
@@ -433,8 +446,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
 
   @Override
   public void checkIfCancelled(OnCancelled onCancelled) {
-    if (!experimentFeatures.isFeatureEnabled(
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_PUSH_CANCELLATION)) {
+    if (taskKind == TaskKind.RECEIVE_COMMITS
+        && !experimentFeatures.isFeatureEnabled(
+            ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_PUSH_CANCELLATION)) {
       return;
     }
 

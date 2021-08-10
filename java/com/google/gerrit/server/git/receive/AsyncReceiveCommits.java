@@ -41,6 +41,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ReceiveCommitsExecutor;
 import com.google.gerrit.server.git.MultiProgressMonitor;
+import com.google.gerrit.server.git.MultiProgressMonitor.TaskKind;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
@@ -163,6 +164,7 @@ public class AsyncReceiveCommits {
             messageSender.flush();
           }
         },
+        TaskKind.RECEIVE_COMMITS,
         "Processing changes");
   }
 

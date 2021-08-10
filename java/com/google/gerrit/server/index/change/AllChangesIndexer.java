@@ -33,6 +33,7 @@ import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.MultiProgressMonitor.TaskKind;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.OnlineReindexMode;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -184,7 +185,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   private SiteIndexer.Result indexAll(ChangeIndex index, List<ProjectSlice> projectSlices) {
     Stopwatch sw = Stopwatch.createStarted();
     MultiProgressMonitor mpm =
-        multiProgressMonitorFactory.create(progressOut, "Reindexing changes");
+        multiProgressMonitorFactory.create(progressOut, TaskKind.INDEXING, "Reindexing changes");
     Task projTask = mpm.beginSubTask("project-slices", projectSlices.size());
     checkState(totalWork >= 0);
     Task doneTask = mpm.beginSubTask(null, totalWork);

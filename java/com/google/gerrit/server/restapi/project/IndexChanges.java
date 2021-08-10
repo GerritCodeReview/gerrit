@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.MultiProgressMonitor.TaskKind;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -62,7 +63,7 @@ public class IndexChanges implements RestModifyView<ProjectResource, Input> {
     Project.NameKey project = resource.getNameKey();
     Task mpt =
         multiProgressMonitorFactory
-            .create(ByteStreams.nullOutputStream(), "Reindexing project")
+            .create(ByteStreams.nullOutputStream(), TaskKind.INDEXING, "Reindexing project")
             .beginSubTask("", MultiProgressMonitor.UNKNOWN);
     AllChangesIndexer allChangesIndexer = allChangesIndexerProvider.get();
     allChangesIndexer.setVerboseOut(NullOutputStream.INSTANCE);

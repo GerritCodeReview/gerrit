@@ -126,6 +126,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   public void postUpdate(PostUpdateContext ctx) {
     stateChanged.fire(ctx.getChangeData(change), ps, ctx.getAccount(), ctx.getWhen());
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
+    // If change was set to WIP no notification
     if (workInProgress
         || notify.handling().compareTo(NotifyHandling.OWNER_REVIEWERS) < 0
         || !sendEmail) {

@@ -847,6 +847,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Test
   public void commentOnReviewableWipChangeByOwner() throws Exception {
+    // This is achieved by creating regular change and making it wip
     StagedChange sc = stageReviewableWipChange();
     review(sc.owner, sc.changeId, ENABLED);
     assertThat(sender)
@@ -857,6 +858,78 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .bcc(ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void commentOnReviewableInitiallyWipChangeByOwner() throws Exception {
+    // Once a change is ever moved from WIP to Ready for review, it starts sending notifications.
+    StagedChange sc = stageWipChange();
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().workInProgress).isTrue();
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().hasReviewStarted).isFalse();
+    requestScopeOperations.setApiUser(sc.owner.id());
+    gApi.changes().id(sc.changeId).setReadyForReview();
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().workInProgress).isNull();
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().hasReviewStarted).isTrue();
+    Truth.assertThat(sender.getMessages().size()).isEqualTo(1);
+    assertThat(sender)
+        .sent("comment", sc)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+    requestScopeOperations.setApiUser(sc.owner.id());
+    gApi.changes().id(sc.changeId).setWorkInProgress();
+    Truth.assertThat(sender.getMessages().size()).isEqualTo(1);
+    review(sc.owner, sc.changeId, ENABLED);
+    Truth.assertThat(sender.getMessages().size()).isEqualTo(2);
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().workInProgress).isTrue();
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().hasReviewStarted).isTrue();
+    assertThat(sender)
+        .sent("comment", sc)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void hasReviewStartedAlwaysFalseForWIP() throws Exception {
+    // This works different in case the change was initially created as WIP, than send for review
+    // and marked WIP again
+    // This is because of Change#hasReviewStarted that is not persisted in NoteDb
+    StagedChange sc = stageWipChange();
+    requestScopeOperations.setApiUser(sc.owner.id());
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().hasReviewStarted).isEqualTo(false);
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().workInProgress).isEqualTo(true);
+    gApi.changes().id(sc.changeId).setReadyForReview();
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().hasReviewStarted).isEqualTo(true);
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().workInProgress).isEqualTo(null);
+    requestScopeOperations.setApiUser(sc.owner.id());
+    gApi.changes().id(sc.changeId).setWorkInProgress();
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().hasReviewStarted).isEqualTo(true);
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().workInProgress).isEqualTo(true);
+  }
+
+  @Test
+  public void hasReviewStartedAlwaysTrueForRegular() throws Exception {
+    // This works different in case the change was initially created as WIP, than send for review
+    // and marked WIP again
+    // This is because of Change#hasReviewStarted that is not persisted in NoteDb
+    StagedChange sc = stageReviewableWipChange();
+    requestScopeOperations.setApiUser(sc.owner.id());
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().hasReviewStarted).isEqualTo(true);
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().workInProgress).isEqualTo(true);
+    gApi.changes().id(sc.changeId).setReadyForReview();
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().hasReviewStarted).isEqualTo(true);
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().workInProgress).isEqualTo(null);
+    requestScopeOperations.setApiUser(sc.owner.id());
+    gApi.changes().id(sc.changeId).setWorkInProgress();
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().hasReviewStarted).isEqualTo(true);
+    Truth.assertThat(gApi.changes().id(sc.changeId).get().workInProgress).isEqualTo(true);
   }
 
   @Test

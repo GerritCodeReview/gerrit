@@ -87,6 +87,7 @@ public class PostReviewers
       throws BadRequestException, ConfigInvalidException, IOException {
     NotifyHandling notifyHandling = input.notify;
     if (notifyHandling == null) {
+      // This only depends on WIP
       notifyHandling =
           rsrc.getChange().isWorkInProgress() ? NotifyHandling.NONE : NotifyHandling.ALL;
     }

@@ -128,6 +128,30 @@
       },
       "revId": "0b813e85c7541846dea9668f99c585665c6248b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8066c123_7c5ad8bf",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-10T12:31:30Z",
+      "side": 1,
+      "message": "I think we don\u0027t even use this endpoint when adding reviewers through the UI, and we solely use PostReview, so this won\u0027t make a difference.",
+      "parentUuid": "b66896b8_b07af956",
+      "range": {
+        "startLine": 91,
+        "startChar": 63,
+        "endLine": 91,
+        "endChar": 78
+      },
+      "revId": "0b813e85c7541846dea9668f99c585665c6248b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

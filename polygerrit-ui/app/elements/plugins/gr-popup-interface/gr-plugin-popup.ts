@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import '../../shared/gr-overlay/gr-overlay';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-plugin-popup_html';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {customElement} from '@polymer/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, html} from 'lit';
+import {customElement, query} from 'lit/decorators';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -26,26 +26,29 @@ declare global {
   }
 }
 
-export interface GrPluginPopup {
-  $: {
-    overlay: GrOverlay;
-  };
-}
 @customElement('gr-plugin-popup')
-export class GrPluginPopup extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
+export class GrPluginPopup extends LitElement {
+  @query('#overlay') protected overlay!: GrOverlay;
+
+  static override get styles() {
+    return [sharedStyles];
+  }
+
+  override render() {
+    return html`<gr-overlay id="overlay" with-backdrop="">
+      <slot></slot>
+    </gr-overlay>`;
   }
 
   get opened() {
-    return this.$.overlay.opened;
+    return this.overlay.opened;
   }
 
   open() {
-    return this.$.overlay.open();
+    return this.overlay.open();
   }
 
   close() {
-    this.$.overlay.close();
+    return this.overlay.close();
   }
 }

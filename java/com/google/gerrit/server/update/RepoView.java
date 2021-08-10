@@ -59,7 +59,7 @@ public class RepoView {
     closeRepo = true;
   }
 
-  RepoView(Repository repo, RevWalk rw, ObjectInserter inserter) {
+  public RepoView(Repository repo, RevWalk rw, ObjectInserter inserter) {
     checkArgument(
         rw.getObjectReader().getCreatedFromInserter() == inserter,
         "expected RevWalk %s to be created by ObjectInserter %s",

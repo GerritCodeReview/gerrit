@@ -16,7 +16,7 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-agreements-list';
-import {stubRestApi} from '../../../test/test-utils';
+import {queryAll, stubRestApi} from '../../../test/test-utils';
 import {GrAgreementsList} from './gr-agreements-list';
 import {ContributorAgreementInfo} from '../../../types/common';
 
@@ -43,11 +43,11 @@ suite('gr-agreements-list tests', () => {
   });
 
   test('renders', () => {
-    const rows = element.root?.querySelectorAll('tbody tr') ?? [];
+    const rows = queryAll<HTMLTableRowElement>(element, 'tbody tr') ?? [];
     assert.equal(rows.length, 1);
 
     const nameCells = Array.from(rows).map(row =>
-      row.querySelectorAll('td')[0].textContent?.trim()
+      queryAll<HTMLTableElement>(row, 'td')[0].textContent?.trim()
     );
 
     assert.equal(nameCells[0], 'Agreements 1');

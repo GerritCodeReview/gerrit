@@ -16,6 +16,24 @@
       "message": "looks like this test failure is also relevant, will look later.",
       "revId": "349d59b84453f07e15b9b7314da7846a326e766b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b56709c3_3757f26b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-10T13:42:20Z",
+      "side": 1,
+      "message": "nevermind, it was just flaky.",
+      "parentUuid": "8fdfdffa_5bfccbfe",
+      "revId": "349d59b84453f07e15b9b7314da7846a326e766b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

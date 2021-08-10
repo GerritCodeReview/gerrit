@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5981a9e3_7305bfc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-10T14:30:34Z",
+      "side": 1,
+      "message": "thanks for the detailed analysis. The problem was introduced in https://gerrit-review.googlesource.com/c/gerrit/+/177952\n\nI did as you suggested.",
+      "parentUuid": "794a2259_e02be304",
+      "range": {
+        "startLine": 17,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "e24057378891a7667bc9126f74f75b2abce6a0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8642e1c_41abfa34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
@@ -23,7 +24,7 @@ import com.google.inject.Provider;
 /** Migrate draft changes to private or wip changes. */
 public class Schema_159 extends SchemaVersion {
 
-  private enum DraftWorkflowMigrationStrategy {
+  public enum DraftWorkflowMigrationStrategy {
     PRIVATE,
     WORK_IN_PROGRESS
   }
@@ -35,15 +36,19 @@ public class Schema_159 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    DraftWorkflowMigrationStrategy strategy = DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
-    if (ui.yesno(false, "Migrate draft changes to private changes (default is work-in-progress)")) {
-      strategy = DraftWorkflowMigrationStrategy.PRIVATE;
-    }
-    ui.message(
-        String.format("Replace draft changes with %s changes ...", strategy.name().toLowerCase()));
+    String strategy =
+        ui.readString(
+            ui.getDraftMigrationStrategy().name().toLowerCase(),
+            Sets.newHashSet(
+                DraftWorkflowMigrationStrategy.PRIVATE.name().toLowerCase(),
+                DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS.name().toLowerCase()),
+            "Choose draft changes migration strategy");
+    ui.message(String.format("Replace draft changes with %s changes ...", strategy));
     try (StatementExecutor e = newExecutor(db)) {
       String column =
-          strategy == DraftWorkflowMigrationStrategy.PRIVATE ? "is_private" : "work_in_progress";
+          strategy.equalsIgnoreCase(DraftWorkflowMigrationStrategy.PRIVATE.name())
+              ? "is_private"
+              : "work_in_progress";
       // Mark changes private/WIP and NEW if either:
       // * they have status DRAFT
       // * they have status NEW and have any draft patch sets

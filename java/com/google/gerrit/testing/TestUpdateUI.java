@@ -14,6 +14,7 @@
 
 package com.google.gerrit.testing;
 
+import com.google.gerrit.server.schema.Schema_159.DraftWorkflowMigrationStrategy;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
@@ -47,5 +48,10 @@ public class TestUpdateUI implements UpdateUI {
     for (String sql : pruneList) {
       e.execute(sql);
     }
+  }
+
+  @Override
+  public DraftWorkflowMigrationStrategy getDraftMigrationStrategy() {
+    return DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
   }
 }

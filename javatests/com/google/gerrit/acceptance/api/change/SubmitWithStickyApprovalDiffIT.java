@@ -372,6 +372,5 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     String expectedChangeMessage = "Change has been successfully merged\n\n" + expectedMessage;
     assertThat(message.trim()).isEqualTo(expectedChangeMessage.trim());
     assertThat(Iterables.getLast(sender.getMessages()).body()).contains(expectedMessage);
-    assertThat(Iterables.getLast(sender.getMessages()).htmlBody()).contains(expectedMessage);
   }
 }

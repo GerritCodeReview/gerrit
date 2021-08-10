@@ -26,10 +26,11 @@ suite('gr-plugin-popup tests', () => {
   let overlayOpen: sinon.SinonStub;
   let overlayClose: sinon.SinonStub;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
     overlayOpen = stub('gr-overlay', 'open').callsFake(() => Promise.resolve());
     overlayClose = stub('gr-overlay', 'close');
+    await flush();
   });
 
   test('exists', () => {

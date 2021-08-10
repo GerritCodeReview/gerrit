@@ -188,7 +188,7 @@ public class AutoMerger {
    *
    * @return auto-merge commit. Headers of the returned RevCommit are parsed.
    */
-  private ObjectId createAutoMergeCommit(
+  ObjectId createAutoMergeCommit(
       Config repoConfig,
       RevWalk rw,
       ObjectInserter ins,

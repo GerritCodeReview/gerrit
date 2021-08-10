@@ -40,21 +40,27 @@ class BaseCommitUtil {
   private final AutoMerger autoMerger;
   private final ThreeWayMergeStrategy mergeStrategy;
   private final GitRepositoryManager repoManager;
+  private final Config cfg;
+
+  /** If true, auto-merge results are stored in the repository. */
+  private final boolean saveAutomerge;
 
   @Inject
   BaseCommitUtil(AutoMerger am, @GerritServerConfig Config cfg, GitRepositoryManager repoManager) {
     this.autoMerger = am;
+    this.saveAutomerge = AutoMerger.cacheAutomerge(cfg);
     this.mergeStrategy = MergeUtil.getMergeStrategy(cfg);
     this.repoManager = repoManager;
+    this.cfg = cfg;
   }
 
   RevObject getBaseCommit(Project.NameKey project, ObjectId newCommit, @Nullable Integer parentNum)
       throws IOException {
     try (Repository repo = repoManager.openRepository(project);
-        InMemoryInserter ins = new InMemoryInserter(repo);
+        ObjectInserter ins = newInserter(repo);
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
-      return getParentCommit(repo, ins, rw, parentNum, newCommit);
+      return getParentCommit(ins, rw, parentNum, newCommit);
     }
   }
 
@@ -78,7 +84,6 @@ class BaseCommitUtil {
   /**
    * Returns the parent commit Object of the commit represented by the commitId parameter.
    *
-   * @param repo a git repository.
    * @param ins a git object inserter in the database.
    * @param rw a {@link RevWalk} object of the repository.
    * @param parentNum used to identify the parent number for merge commits. If parentNum is null and
@@ -89,11 +94,7 @@ class BaseCommitUtil {
    *     that auto-merge is not supported for commits having more than two parents.
    */
   RevObject getParentCommit(
-      Repository repo,
-      InMemoryInserter ins,
-      RevWalk rw,
-      @Nullable Integer parentNum,
-      ObjectId commitId)
+      ObjectInserter ins, RevWalk rw, @Nullable Integer parentNum, ObjectId commitId)
       throws IOException {
     RevCommit current = rw.parseCommit(commitId);
     switch (current.getParentCount()) {
@@ -109,10 +110,14 @@ class BaseCommitUtil {
         }
         // Only support auto-merge for 2 parents, not octopus merges
         if (current.getParentCount() == 2) {
-          return autoMerger.lookupFromGitOrMergeInMemory(repo, rw, ins, current, mergeStrategy);
+          return (RevCommit) autoMerger.createAutoMergeCommit(cfg, rw, ins, current, mergeStrategy);
         }
         return null;
     }
+  }
+
+  private ObjectInserter newInserter(Repository repo) {
+    return saveAutomerge ? repo.newObjectInserter() : new InMemoryInserter(repo);
   }
 
   private static ObjectId emptyTree(ObjectInserter ins) throws IOException {

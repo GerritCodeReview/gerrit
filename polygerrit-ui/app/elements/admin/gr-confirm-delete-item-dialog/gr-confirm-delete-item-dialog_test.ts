@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-confirm-delete-item-dialog.js';
+import '../../../test/common-test-setup-karma';
+import './gr-confirm-delete-item-dialog';
+import {GrConfirmDeleteItemDialog} from './gr-confirm-delete-item-dialog';
+import {queryAndAssert} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-confirm-delete-item-dialog');
 
 suite('gr-confirm-delete-item-dialog tests', () => {
-  let element;
+  let element: GrConfirmDeleteItemDialog;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -30,31 +32,32 @@ suite('gr-confirm-delete-item-dialog tests', () => {
   test('_handleConfirmTap', () => {
     const confirmHandler = sinon.stub();
     element.addEventListener('confirm', confirmHandler);
-    sinon.spy(element, '_handleConfirmTap');
-    element.shadowRoot
-        .querySelector('gr-dialog').dispatchEvent(
-            new CustomEvent('confirm', {
-              composed: true, bubbles: true,
-            }));
+    const confirmTapSpy = sinon.spy(element, '_handleConfirmTap');
+    queryAndAssert(element, 'gr-dialog').dispatchEvent(
+      new CustomEvent('confirm', {
+        composed: true,
+        bubbles: true,
+      })
+    );
     assert.isTrue(confirmHandler.called);
     assert.isTrue(confirmHandler.calledOnce);
-    assert.isTrue(element._handleConfirmTap.called);
-    assert.isTrue(element._handleConfirmTap.calledOnce);
+    assert.isTrue(confirmTapSpy.called);
+    assert.isTrue(confirmTapSpy.calledOnce);
   });
 
   test('_handleCancelTap', () => {
     const cancelHandler = sinon.stub();
     element.addEventListener('cancel', cancelHandler);
-    sinon.spy(element, '_handleCancelTap');
-    element.shadowRoot
-        .querySelector('gr-dialog').dispatchEvent(
-            new CustomEvent('cancel', {
-              composed: true, bubbles: true,
-            }));
+    const cancelTapSpy = sinon.spy(element, '_handleCancelTap');
+    queryAndAssert(element, 'gr-dialog').dispatchEvent(
+      new CustomEvent('cancel', {
+        composed: true,
+        bubbles: true,
+      })
+    );
     assert.isTrue(cancelHandler.called);
     assert.isTrue(cancelHandler.calledOnce);
-    assert.isTrue(element._handleCancelTap.called);
-    assert.isTrue(element._handleCancelTap.calledOnce);
+    assert.isTrue(cancelTapSpy.called);
+    assert.isTrue(cancelTapSpy.calledOnce);
   });
 });
-

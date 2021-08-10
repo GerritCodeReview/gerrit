@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78d45f0f_2edc3026",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-10T16:30:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b32c5ae_446a5d80",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "e3990fb6daff4b2592433054d70bd6a341fbae1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cab1a8e4_25571c24",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-08-10T15:39:39Z",
       "side": 1,
       "message": "nit: since we dropped the term \"terminal\" in the predecessor change, this can just say \"leaf predicates\" now",
+      "range": {
+        "startLine": 122,
+        "startChar": 35,
+        "endLine": 122,
+        "endChar": 50
+      },
+      "revId": "e3990fb6daff4b2592433054d70bd6a341fbae1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22d4d5e6_43dbe90b",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-10T16:30:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cab1a8e4_25571c24",
       "range": {
         "startLine": 122,
         "startChar": 35,

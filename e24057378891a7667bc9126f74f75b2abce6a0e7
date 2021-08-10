@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d83e16da_d35e67cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-10T14:27:58Z",
+      "side": 1,
+      "message": "Dhruv: 14:14:50\nI set a breakpoint on the reload() call and found that the call in GrChangeActions happens before the call from GrChangeView(which calls this.$.actions.reload). That means with the proposed fix, the call from GrChangeView is simply ignored.\n\nSo IIUC the call from GrChangeView is in fact redundant? @hanwen did you verify that the call inside GrChangeView cannot be simply removed?",
+      "parentUuid": "ec5b0f58_e66a9c3b",
+      "range": {
+        "startLine": 17,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "e24057378891a7667bc9126f74f75b2abce6a0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8642e1c_41abfa34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

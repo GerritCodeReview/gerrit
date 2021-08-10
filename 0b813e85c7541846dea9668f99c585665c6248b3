@@ -16,6 +16,23 @@
       "message": "There is a bug where user is complaining their reviewer have not received email when they sent a change as WIP.\n\nI think it is by design, but I do not see any reason why the reviewer should not receive an email when added ",
       "revId": "0b813e85c7541846dea9668f99c585665c6248b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d799a4ea_679a4b56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-10T11:04:41Z",
+      "side": 1,
+      "message": "Sending as WIP, should not send any email notification.",
+      "revId": "0b813e85c7541846dea9668f99c585665c6248b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

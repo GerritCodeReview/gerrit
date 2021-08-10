@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ed810ad_8052b286",
+        "filename": "polygerrit-ui/app/elements/shared/gr-shell-command/gr-shell-command.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-10T08:03:39Z",
+      "side": 1,
+      "message": "Does this work after this change? I think it has to be\n```buttonTitle\u003d\"${this.tooltip}\"```\n\nOnly polymer change dashcase to camelcase `button-title\u0027 -\u003e \u0027buttonTitle\u0027",
+      "range": {
+        "startLine": 86,
+        "startChar": 11,
+        "endLine": 86,
+        "endChar": 24
+      },
+      "revId": "1defd5e49b14d76f4571ebcf0f1b120678c67099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

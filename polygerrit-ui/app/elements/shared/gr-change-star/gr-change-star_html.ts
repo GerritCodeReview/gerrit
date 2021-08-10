@@ -36,6 +36,10 @@ export const htmlTemplate = html`
         var(--line-height-normal, 20px)
       );
     }
+    :host([hidden]) {
+      visibility: hidden;
+      display: block !important;
+    }
   </style>
   <button
     role="checkbox"

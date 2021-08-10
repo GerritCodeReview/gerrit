@@ -9,6 +9,7 @@ java_library(
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/schema",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/flogger:api",

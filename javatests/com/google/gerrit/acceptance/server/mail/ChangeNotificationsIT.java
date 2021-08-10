@@ -847,7 +847,29 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Test
   public void commentOnReviewableWipChangeByOwner() throws Exception {
+    // This is achieved by creating regular change and making it wip
     StagedChange sc = stageReviewableWipChange();
+    review(sc.owner, sc.changeId, ENABLED);
+    assertThat(sender)
+        .sent("comment", sc)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void commentOnReviewableInitiallyWipChangeByOwner() throws Exception {
+    // This works different in case the change was initially created as WIP, than send for review
+    // and marked WIP again
+    // This is because of Change#hasReviewStarted that is not persisted in NoteDb
+    StagedChange sc = stageWipChange();
+    requestScopeOperations.setApiUser(sc.owner.id());
+    gApi.changes().id(sc.changeId).setReadyForReview();
+    requestScopeOperations.setApiUser(sc.owner.id());
+    gApi.changes().id(sc.changeId).setWorkInProgress();
     review(sc.owner, sc.changeId, ENABLED);
     assertThat(sender)
         .sent("comment", sc)

@@ -274,7 +274,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     if (input.notify == null) {
-      input.notify = defaultNotify(revision.getChange(), input);
+      input.notify = defaultNotify(revision.getChange(), revision.getUser(), input);
     }
     logger.atFine().log("notify handling = %s", input.notify);
 
@@ -413,7 +413,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     return input.ready == currentWorkInProgress || input.workInProgress != currentWorkInProgress;
   }
 
-  private NotifyHandling defaultNotify(Change c, ReviewInput in) {
+  private NotifyHandling defaultNotify(Change c, CurrentUser reviewer, ReviewInput in) {
     boolean workInProgress = c.isWorkInProgress();
     if (in.workInProgress) {
       workInProgress = true;
@@ -428,7 +428,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     if (workInProgress && !c.hasReviewStarted()) {
-      // If review hasn't started we want to eliminate notifications, no matter who the author is.
+      // Change#hasReviewStarted is actually not persisted in NoteDb, so for the changes, that are
+      // initially created as WIP this returns WIP value
+      // For changes, that were marked WIP after creation, this returns NotifyHandling.ALL
       return NotifyHandling.NONE;
     }
 

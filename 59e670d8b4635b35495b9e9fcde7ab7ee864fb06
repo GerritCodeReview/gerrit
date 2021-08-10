@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a96ddd33_5d6719d8",
+        "filename": "polygerrit-ui/app/elements/edit/gr-default-editor/gr-default-editor_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-10T07:54:21Z",
+      "side": 1,
+      "message": "Hmm, this fails with:\n\n```\n  gr-default-editor tests\n    ✖ fires content-change event\n      HeadlessChrome 92.0.4515 (Mac OS X 10.15.7)\n    Error: Timeout of 5000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves.\n```",
+      "revId": "59e670d8b4635b35495b9e9fcde7ab7ee864fb06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

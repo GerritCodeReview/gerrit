@@ -128,6 +128,24 @@
       "parentUuid": "6962a40d_3ef704db",
       "revId": "bf7dff8fc0c734da6848e9eba6e34f729a026510",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef42a447_7e59806d",
+        "filename": "java/com/google/gerrit/index/query/QueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-10T15:37:08Z",
+      "side": 1,
+      "message": "Yeah, I think it\u0027s better to optimise this only later if we are sure this is actually a problem.",
+      "parentUuid": "6baf9b81_5fa2ee0c",
+      "revId": "bf7dff8fc0c734da6848e9eba6e34f729a026510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

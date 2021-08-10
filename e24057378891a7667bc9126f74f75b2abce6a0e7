@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec5b0f58_e66a9c3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-10T09:43:25Z",
+      "side": 1,
+      "message": "https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts;l\u003d2099;drc\u003df2cb8c50bb9d3ec9c9ba0ceff61c45fdb02d4fb2",
+      "parentUuid": "a73b6707_3b1bc7b4",
+      "range": {
+        "startLine": 17,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "e24057378891a7667bc9126f74f75b2abce6a0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8642e1c_41abfa34",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2021-08-10T08:05:40Z",
       "side": 1,
       "message": "IIUC then at least one of those calls will be processed by reload() in GrChangeActions since you are setting _loadingPromise to null once it resolves?",
+      "range": {
+        "startLine": 29,
+        "startChar": 37,
+        "endLine": 29,
+        "endChar": 66
+      },
+      "revId": "e24057378891a7667bc9126f74f75b2abce6a0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45d06def_271037cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-10T09:43:25Z",
+      "side": 1,
+      "message": "correct. I dug a little deeper and documented when this can happen.",
+      "parentUuid": "a8642e1c_41abfa34",
       "range": {
         "startLine": 29,
         "startChar": 37,

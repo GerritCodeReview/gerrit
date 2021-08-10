@@ -17,13 +17,25 @@
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {css, customElement, html, property} from 'lit-element';
 import {ParsedChangeInfo} from '../../../types/types';
-import {SubmitRequirementStatus} from '../../../api/rest-api';
+import {
+  AccountInfo,
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../../../api/rest-api';
 import {assertNever} from '../../../utils/common-util';
+import {extractAssociatedLabels} from '../../../utils/change-metadata-util';
+import {Label} from '../gr-change-requirements/gr-change-requirements';
 
 @customElement('gr-submit-requirements')
 export class GrSubmitRequirements extends GrLitElement {
   @property({type: Object})
   change?: ParsedChangeInfo;
+
+  @property({type: Object})
+  account?: AccountInfo;
+
+  @property({type: Boolean})
+  mutable?: boolean;
 
   static get styles() {
     return [
@@ -86,6 +98,7 @@ export class GrSubmitRequirements extends GrLitElement {
               text="${requirement.name}"
             ></gr-limited-text>
           </div>
+          <div class="value">${this.renderLabels(requirement)}</div>
         </section>`
       )}`;
   }
@@ -112,6 +125,33 @@ export class GrSubmitRequirements extends GrLitElement {
       class=${status.toLowerCase()}
       icon="${grIcon}"
     ></iron-icon>`;
+  }
+
+  renderLabels(requirement: SubmitRequirementResultInfo) {
+    const requirementLabels = extractAssociatedLabels(requirement);
+    const labels = this.change?.labels ?? {};
+
+    const allLabels: Label[] = [];
+
+    for (const label of Object.keys(labels)) {
+      if (requirementLabels.includes(label)) {
+        allLabels.push({
+          labelName: label,
+          icon: '',
+          style: '',
+          labelInfo: labels[label],
+        });
+      }
+    }
+    return allLabels.map(
+      label => html`<gr-label-info
+        .change="${this.change}"
+        .account="${this.account}"
+        .mutable="${this.mutable}"
+        label="${label.labelName}"
+        .labelInfo="${label.labelInfo}"
+      ></gr-label-info>`
+    );
   }
 }
 

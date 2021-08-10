@@ -269,8 +269,6 @@ const EDIT_ACTIONS: Set<string> = new Set([
 const AWAIT_CHANGE_ATTEMPTS = 5;
 const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
-// TODO: Remove these once we are sure that the backend does not support/send
-// them anymore.
 const SKIP_ACTION_KEYS: string[] = [
   ChangeActions.REVIEWED,
   ChangeActions.UNREVIEWED,

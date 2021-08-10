@@ -6,6 +6,16 @@ load(
     "CORE_PLUGINS",
     "CUSTOM_PLUGINS",
 )
+load("@npm//@bazel/typescript:index.bzl", "ts_config")
+
+package(default_visibility = ["//visibility:public"])
+
+exports_files(["rollup.config.js"])
+
+ts_config(
+    name = "plugin-tsconfig",
+    src = "tsconfig.json",
+)
 
 genrule2(
     name = "core",
@@ -16,7 +26,6 @@ genrule2(
           "ln -s $$ROOT/$$s $$TMP/WEB-INF/plugins;done;" +
           "cd $$TMP;" +
           "zip -qr $$ROOT/$@ .",
-    visibility = ["//visibility:public"],
 )
 
 PLUGIN_API = [
@@ -100,6 +109,7 @@ EXPORTS = [
 java_binary(
     name = "bouncycastle-deploy-env",
     main_class = "Dummy",
+    visibility = ["//visibility:private"],
     runtime_deps = [
         "//lib/bouncycastle:bcpg",
         "//lib/bouncycastle:bcpkix",
@@ -111,27 +121,23 @@ java_binary(
     name = "plugin-api",
     deploy_env = ["bouncycastle-deploy-env"],
     main_class = "Dummy",
-    visibility = ["//visibility:public"],
     runtime_deps = [":plugin-lib"],
 )
 
 java_library(
     name = "plugin-lib",
-    visibility = ["//visibility:public"],
     exports = PLUGIN_API + EXPORTS,
 )
 
 java_library(
     name = "plugin-lib-neverlink",
     neverlink = 1,
-    visibility = ["//visibility:public"],
     exports = PLUGIN_API + EXPORTS,
 )
 
 java_binary(
     name = "plugin-api-sources",
     main_class = "Dummy",
-    visibility = ["//visibility:public"],
     runtime_deps = [
         "//antlr3:libquery_parser-src.jar",
         "//java/com/google/gerrit/common:libannotations-src.jar",
@@ -163,5 +169,4 @@ java_doc(
     ],
     pkgs = ["com.google.gerrit"],
     title = "Gerrit Review Plugin API Documentation",
-    visibility = ["//visibility:public"],
 )

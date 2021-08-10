@@ -22,6 +22,30 @@
       },
       "revId": "ce93466231342231a813c784276f2fc3cbc9b61f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0d807d8_ab149a74",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-10T10:51:22Z",
+      "side": 1,
+      "message": "That should be better, but unfortunately we have some predicates that create other child predicates, e.g. LabelPredicate creates a EqualsLabelPredicate (which is not a result of the Antlr parser). WE only want to return to the caller leaf predicates that result from the Antlr parser, so that the caller gets the exact same substrings that were used in the query expression.\n\nI\u0027m open to ideas if you have a better way doing it.",
+      "parentUuid": "5d050182_3aa8b327",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 37
+      },
+      "revId": "ce93466231342231a813c784276f2fc3cbc9b61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

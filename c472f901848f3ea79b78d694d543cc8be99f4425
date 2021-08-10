@@ -39,6 +39,24 @@
       "message": "no longer used?",
       "revId": "c472f901848f3ea79b78d694d543cc8be99f4425",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "977f67cb_fc633b80",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-10T11:40:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00a6ff0b_0d3cb90b",
+      "revId": "c472f901848f3ea79b78d694d543cc8be99f4425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

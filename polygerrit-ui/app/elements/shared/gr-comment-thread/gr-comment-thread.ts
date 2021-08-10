@@ -647,7 +647,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   _newDraft(lineNum?: LineNumber, range?: CommentRange) {
     const d: UIDraft = {
       __draft: true,
-      __draftID: Math.random().toString(36),
+      __draftID: 'draft__' + Math.random().toString(36),
       __date: new Date(),
     };
     if (lineNum === 'LOST') throw new Error('invalid lineNum lost');

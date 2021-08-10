@@ -368,10 +368,14 @@ export class GrThreadList extends PolymerElement {
     // with addedCount > 0 or removed.length > 0 should also cause re-sorting
     // and re-rendering, but apparently spliceRecord is always undefined for
     // whatever reason.
-    if (this._sortedThreads.length === threads.length) {
+    // If there is an unsaved draftThread which is supposed to be replaced with
+    // a saved draftThread then resort all threads
+    const unsavedThread = this._sortedThreads.some(thread =>
+      thread.rootId.includes('draft__')
+    );
+    if (this._sortedThreads.length === threads.length && !unsavedThread) {
       // Instead of replacing the _sortedThreads which will trigger a re-render,
       // we override all threads inside of it.
-
       for (const thread of threads) {
         const idxInSortedThreads = this._sortedThreads.findIndex(
           t => t.rootId === thread.rootId

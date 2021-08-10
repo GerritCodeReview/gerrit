@@ -286,7 +286,7 @@ export function computePredecessor(
   return (Number(patchset) - 1) as BasePatchSetNum;
 }
 
-export function hasEditBasedOnCurrentPatchSet(allPatchSets: PatchSet[]) {
+export function hasEditBasedOnCurrentPatchSet(allPatchSets: PatchSet[]): boolean {
   if (!allPatchSets || allPatchSets.length < 2) {
     return false;
   }

@@ -15,29 +15,29 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-default-editor.js';
+import '../../../test/common-test-setup-karma';
+import './gr-default-editor';
+import {GrDefaultEditor} from './gr-default-editor';
+import {queryAndAssert} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-default-editor');
 
 suite('gr-default-editor tests', () => {
-  let element;
+  let element: GrDefaultEditor;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
     element.fileContent = '';
+    await flush();
   });
 
   test('fires content-change event', done => {
-    const contentChangedHandler = e => {
-      assert.equal(e.detail.value, 'test');
+    const textarea = queryAndAssert<HTMLTextAreaElement>(element, '#textarea');
+    element.addEventListener('content-change', e => {
+      assert.equal((e as CustomEvent).detail.value, 'test');
       done();
-    };
-    const textarea = element.$.textarea;
-    element.addEventListener('content-change', contentChangedHandler);
+    });
     textarea.value = 'test';
-    textarea.dispatchEvent(new CustomEvent('input',
-        {target: textarea, bubbles: true, composed: true}));
+    textarea.dispatchEvent(new Event('input', {bubbles: true, composed: true}));
   });
 });
-

@@ -2115,7 +2115,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       );
       allDataPromises.push(mergeabilityLoaded);
 
-      // Promise resovles when the change actions have loaded.
+      // Promise resolves when the change actions have loaded.
       const actionsLoaded = detailAndPatchResourcesLoaded.then(() =>
         this.$.actions.reload()
       );

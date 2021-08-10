@@ -1,0 +1,47 @@
+# This BUILD file is only for publishing the
+# "Gerrit Frontend Plugin TypeScript API" as an npm package.
+#
+# Rename 'BUILD_for_publishing_api_only' to 'BUILD' and build the
+# 'js_plugin_api_npm_package' target.
+# Then execute this command to publish it:
+# `bazel run //polygerrit-ui/app/api:js_plugin_api_npm_package.publish`
+#
+# Renaming to 'BUILD' breaks the app/BUILD, because then the api/ sources are
+# not visible anymore to the parent BUILD. And if ts_projects depend on each
+# other, then the api/ files would have to be imported with their full package
+# names.
+load("@build_bazel_rules_nodejs//:index.bzl", "pkg_npm")
+load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_project")
+
+filegroup(
+    name = "js_plugin_api_srcs",
+    srcs = glob(["**/*.ts"]),
+)
+
+ts_config(
+    name = "ts_config",
+    src = "tsconfig.json",
+    deps = [
+        "//plugins:plugin-tsconfig",
+    ],
+)
+
+ts_project(
+    name = "js_plugin_api_compiled",
+    srcs = glob(["**/*.ts"]),
+    tsc = "//tools/node_tools:tsc-bin",
+    tsconfig = ":ts_config",
+)
+
+# Use this rule for publishing the js plugin api as a package to the npm repo.
+pkg_npm(
+    name = "js_plugin_api_npm_package",
+    srcs = glob(
+        ["**/*"],
+        exclude = [
+            "BUILD",
+            "tsconfig.json",
+        ],
+    ),
+    deps = [":js_plugin_api_compiled"],
+)

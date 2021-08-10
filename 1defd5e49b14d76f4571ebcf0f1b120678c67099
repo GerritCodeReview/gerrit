@@ -22,6 +22,30 @@
       },
       "revId": "1defd5e49b14d76f4571ebcf0f1b120678c67099",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1ca08ed_b8700d43",
+        "filename": "polygerrit-ui/app/elements/shared/gr-shell-command/gr-shell-command.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-10T08:12:06Z",
+      "side": 1,
+      "message": "Seems to work, thanks.",
+      "parentUuid": "4ed810ad_8052b286",
+      "range": {
+        "startLine": 86,
+        "startChar": 11,
+        "endLine": 86,
+        "endChar": 24
+      },
+      "revId": "1defd5e49b14d76f4571ebcf0f1b120678c67099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

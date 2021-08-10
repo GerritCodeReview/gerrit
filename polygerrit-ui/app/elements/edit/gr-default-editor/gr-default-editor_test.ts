@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-default-editor';
 import {GrDefaultEditor} from './gr-default-editor';
 import {queryAndAssert} from '../../../test/test-utils';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-default-editor');
 
@@ -38,6 +39,6 @@ suite('gr-default-editor tests', () => {
       done();
     });
     textarea.value = 'test';
-    textarea.dispatchEvent(new Event('input', {bubbles: true, composed: true}));
+    MockInteractions.tap(textarea);
   });
 });

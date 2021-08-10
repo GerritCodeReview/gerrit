@@ -21,6 +21,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
@@ -167,6 +168,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
         TimeUnit maxIntervalUnit);
   }
 
+  private final CancellationMetrics cancellationMetrics;
   private final ExperimentFeatures experimentFeatures;
   private final OutputStream out;
   private final TaskKind taskKind;
@@ -189,11 +191,12 @@ public class MultiProgressMonitor implements RequestStateProvider {
    */
   @AssistedInject
   private MultiProgressMonitor(
+      CancellationMetrics cancellationMetrics,
       ExperimentFeatures experimentFeatures,
       @Assisted OutputStream out,
       @Assisted TaskKind taskKind,
       @Assisted String taskName) {
-    this(experimentFeatures, out, taskKind, taskName, 500, MILLISECONDS);
+    this(cancellationMetrics, experimentFeatures, out, taskKind, taskName, 500, MILLISECONDS);
   }
 
   /**
@@ -206,12 +209,14 @@ public class MultiProgressMonitor implements RequestStateProvider {
    */
   @AssistedInject
   private MultiProgressMonitor(
+      CancellationMetrics cancellationMetrics,
       ExperimentFeatures experimentFeatures,
       @Assisted OutputStream out,
       @Assisted TaskKind taskKind,
       @Assisted String taskName,
       @Assisted long maxIntervalTime,
       @Assisted TimeUnit maxIntervalUnit) {
+    this.cancellationMetrics = cancellationMetrics;
     this.experimentFeatures = experimentFeatures;
     this.out = out;
     this.taskKind = taskKind;
@@ -310,6 +315,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
                   MILLISECONDS.convert(now - deadline, NANOSECONDS),
                   taskKind,
                   taskName);
+              if (taskKind == TaskKind.RECEIVE_COMMITS) {
+                cancellationMetrics.countForcefulReceiveTimeout();
+              }
             }
             break;
           }
@@ -329,6 +337,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
               taskKind, taskName);
           end();
         }
+      }
+      if (deadlineExceeded && taskKind == TaskKind.RECEIVE_COMMITS) {
+        cancellationMetrics.countGracefulReceiveTimeout();
       }
       sendDone();
     }

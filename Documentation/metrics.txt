@@ -27,6 +27,8 @@ that ultimately timed out
 * `cancellation/advisory_deadline_count`: Exceeded advisory deadlines by request
 * `cancellation/cancelled_requests_count`: Number of request cancellations by
   request
+* `cancellation/receive_timeout_count`: Number of requests that are cancelled
+  because link:config.html#receive.timeout[receive.timout] is exceeded
 
 === Pushes
 

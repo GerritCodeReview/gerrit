@@ -15,18 +15,21 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-plugin-popup.js';
+import '../../../test/common-test-setup-karma';
+import './gr-plugin-popup';
+import {GrPluginPopup} from './gr-plugin-popup';
 
 const basicFixture = fixtureFromElement('gr-plugin-popup');
 
 suite('gr-plugin-popup tests', () => {
-  let element;
+  let element: GrPluginPopup;
+  let overlayOpen: sinon.SinonStub;
+  let overlayClose: sinon.SinonStub;
 
   setup(() => {
     element = basicFixture.instantiate();
-    stub('gr-overlay', 'open').callsFake(() => Promise.resolve());
-    stub('gr-overlay', 'close');
+    overlayOpen = stub('gr-overlay', 'open').callsFake(() => Promise.resolve());
+    overlayClose = stub('gr-overlay', 'close');
   });
 
   test('exists', () => {
@@ -35,14 +38,13 @@ suite('gr-plugin-popup tests', () => {
 
   test('open uses open() from gr-overlay', done => {
     element.open().then(() => {
-      assert.isTrue(element.$.overlay.open.called);
+      assert.isTrue(overlayOpen.called);
       done();
     });
   });
 
   test('close uses close() from gr-overlay', () => {
     element.close();
-    assert.isTrue(element.$.overlay.close.called);
+    assert.isTrue(overlayClose.called);
   });
 });
-

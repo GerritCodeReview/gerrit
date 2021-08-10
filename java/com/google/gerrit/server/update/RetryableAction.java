@@ -174,7 +174,7 @@ public class RetryableAction<T> {
           action,
           options.build(),
           t -> exceptionPredicates.stream().anyMatch(p -> p.test(t)));
-    } catch (Throwable t) {
+    } catch (Exception t) {
       Throwables.throwIfUnchecked(t);
       Throwables.throwIfInstanceOf(t, Exception.class);
       throw new IllegalStateException(t);

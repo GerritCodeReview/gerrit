@@ -109,10 +109,12 @@ public class AllExternalIdsTest {
     assertThatSerializedClass(AllExternalIds.class)
         .hasAutoValueMethods(
             ImmutableMap.of(
+                "byKey",
+                new TypeLiteral<ImmutableMap<ExternalId.Key, ExternalId>>() {}.getType(),
                 "byAccount",
-                    new TypeLiteral<ImmutableSetMultimap<Account.Id, ExternalId>>() {}.getType(),
+                new TypeLiteral<ImmutableSetMultimap<Account.Id, ExternalId>>() {}.getType(),
                 "byEmail",
-                    new TypeLiteral<ImmutableSetMultimap<String, ExternalId>>() {}.getType()));
+                new TypeLiteral<ImmutableSetMultimap<String, ExternalId>>() {}.getType()));
   }
 
   @Test
@@ -128,7 +130,7 @@ public class AllExternalIdsTest {
   }
 
   private static AllExternalIds allExternalIds(ExternalId... externalIds) {
-    return AllExternalIds.create(Arrays.asList(externalIds));
+    return AllExternalIds.create(Arrays.stream(externalIds));
   }
 
   private static void assertRoundTrip(

@@ -21,6 +21,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class DisabledExternalIdCache implements ExternalIdCache {
@@ -40,6 +41,11 @@ public class DisabledExternalIdCache implements ExternalIdCache {
       ObjectId newNotesRev,
       Collection<ExternalId> toRemove,
       Collection<ExternalId> toAdd) {}
+
+  @Override
+  public Optional<ExternalId> byKey(ExternalId.Key key) throws IOException {
+    throw new UnsupportedOperationException();
+  }
 
   @Override
   public ImmutableSet<ExternalId> byAccount(Account.Id accountId) {

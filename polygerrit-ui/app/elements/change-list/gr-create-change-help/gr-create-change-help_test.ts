@@ -27,8 +27,9 @@ const basicFixture = fixtureFromElement('gr-create-change-help');
 suite('gr-create-change-help tests', () => {
   let element: GrCreateChangeHelp;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
   test('Create change tap', done => {

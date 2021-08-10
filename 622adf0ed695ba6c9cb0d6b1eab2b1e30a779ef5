@@ -22,6 +22,30 @@
       },
       "revId": "622adf0ed695ba6c9cb0d6b1eab2b1e30a779ef5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c95ed3f_b8ed6254",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-08-10T06:47:39Z",
+      "side": 1,
+      "message": "With \u0027\u003d\u003d\u0027 this computes to true as well if editable is \u0027null\u0027.",
+      "parentUuid": "95920701_cc6d3625",
+      "range": {
+        "startLine": 94,
+        "startChar": 17,
+        "endLine": 94,
+        "endChar": 19
+      },
+      "revId": "622adf0ed695ba6c9cb0d6b1eab2b1e30a779ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

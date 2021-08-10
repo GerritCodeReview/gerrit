@@ -291,9 +291,11 @@ public class MultiProgressMonitor implements RequestStateProvider {
 
         if (deadline > 0 && now > deadline) {
           logger.atFine().log(
-              "deadline exceeded after %sms: (timeout %sms, signaling cancellation)",
+              "deadline exceeded after %sms, signaling cancellation (timeout=%sms, task=%s(%s))",
               MILLISECONDS.convert(now - overallStart, NANOSECONDS),
-              MILLISECONDS.convert(now - deadline, NANOSECONDS));
+              MILLISECONDS.convert(now - deadline, NANOSECONDS),
+              taskKind,
+              taskName);
           deadlineExceeded = true;
 
           // After setting deadlineExceeded = true give the cancellationNanos to react to the
@@ -303,9 +305,11 @@ public class MultiProgressMonitor implements RequestStateProvider {
             workerFuture.cancel(true);
             if (workerFuture.isCancelled()) {
               logger.atWarning().log(
-                  "MultiProgressMonitor worker killed after %sms: (timeout %sms, cancelled)",
+                  "MultiProgressMonitor worker killed after %sms, cancelled (timeout=%sms, task=%s(%s))",
                   MILLISECONDS.convert(now - overallStart, NANOSECONDS),
-                  MILLISECONDS.convert(now - deadline, NANOSECONDS));
+                  MILLISECONDS.convert(now - deadline, NANOSECONDS),
+                  taskKind,
+                  taskName);
             }
             break;
           }
@@ -320,7 +324,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
         if (!done && workerFuture.isDone()) {
           // The worker may not have called end() explicitly, which is likely a
           // programming error.
-          logger.atWarning().log("MultiProgressMonitor worker did not call end() before returning");
+          logger.atWarning().log(
+              "MultiProgressMonitor worker did not call end() before returning (task=%s(%s))",
+              taskKind, taskName);
           end();
         }
       }
@@ -332,7 +338,8 @@ public class MultiProgressMonitor implements RequestStateProvider {
     try {
       return workerFuture.get(maxIntervalNanos, NANOSECONDS);
     } catch (InterruptedException | CancellationException e) {
-      logger.atWarning().withCause(e).log("unable to finish processing");
+      logger.atWarning().withCause(e).log(
+          "unable to finish processing (task=%s(%s))", taskKind, taskName);
       throw new UncheckedExecutionException(e);
     } catch (TimeoutException e) {
       workerFuture.cancel(true);
@@ -438,7 +445,8 @@ public class MultiProgressMonitor implements RequestStateProvider {
         out.flush();
       } catch (IOException e) {
         logger.atWarning().withCause(e).log(
-            "Sending progress to client failed. Stop sending updates for task %s", taskName);
+            "Sending progress to client failed. Stop sending updates for task %s(%s)",
+            taskKind, taskName);
         clientDisconnected = true;
       }
     }

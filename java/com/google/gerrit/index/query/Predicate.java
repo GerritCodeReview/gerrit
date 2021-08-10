@@ -41,6 +41,32 @@ import java.util.List;
  * @param <T> type of object the predicate can evaluate in memory.
  */
 public abstract class Predicate<T> {
+  /** Query String that was used to create this predicate. Only set from the Antlr query parser. */
+  private String predicateString = null;
+
+  /**
+   * Boolean indicating if this predicate is a leaf predicate in a composite expression. Only set
+   * from the Antlr query parser.
+   */
+  private boolean isLeaf = false;
+
+  /** Sets the {@link #predicateString} field. This can only be set once. */
+  void setPredicateString(String predicateString) {
+    this.predicateString = this.predicateString == null ? predicateString : this.predicateString;
+  }
+
+  public String getPredicateString() {
+    return predicateString;
+  }
+
+  void setLeaf(boolean isLeaf) {
+    this.isLeaf = isLeaf;
+  }
+
+  public boolean isLeaf() {
+    return isLeaf;
+  }
+
   /** A predicate that matches any input, always, with no cost. */
   @SuppressWarnings("unchecked")
   public static <T> Predicate<T> any() {

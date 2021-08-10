@@ -114,7 +114,7 @@ public class SubmitRequirementsEvaluator {
       Predicate<ChangeData> predicate, ChangeData changeData) {
     PredicateResult.Builder predicateResult =
         PredicateResult.builder()
-            .predicateString(predicate.toString())
+            .predicateString(predicate.isLeaf() ? predicate.getPredicateString() : "")
             .status(predicate.asMatchable().match(changeData));
     predicate
         .getChildren()

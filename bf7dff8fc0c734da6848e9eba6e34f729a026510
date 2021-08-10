@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8cfd46f_3240375a",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-10T15:03:56Z",
+      "side": 1,
+      "message": "That wasn\u0027t a Antlr terminology, but was my own.\n\nDone.",
+      "parentUuid": "4da63400_9a2163f2",
+      "range": {
+        "startLine": 51,
+        "startChar": 20,
+        "endLine": 51,
+        "endChar": 28
+      },
+      "revId": "bf7dff8fc0c734da6848e9eba6e34f729a026510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbb6d525_8b2ff17f",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c5cba2b_ae6a9132",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-10T15:03:56Z",
+      "side": 1,
+      "message": "You are right. Done.",
+      "parentUuid": "fbb6d525_8b2ff17f",
+      "range": {
+        "startLine": 54,
+        "startChar": 7,
+        "endLine": 54,
+        "endChar": 21
+      },
+      "revId": "bf7dff8fc0c734da6848e9eba6e34f729a026510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6962a40d_3ef704db",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-08-10T14:36:08Z",
       "side": 1,
       "message": "Does it ever happen that the index for the same tree is needed twice?\nEven if yes, is it worth to cache this? I\u0027m asking because it seems that this caching adds quite some code complexity.\n\nMy proposal:\nCan we just drop the SubexpressionBoundaries class and instead just keep getRightIndex and getLeftIndex as static methods?",
+      "revId": "bf7dff8fc0c734da6848e9eba6e34f729a026510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6baf9b81_5fa2ee0c",
+        "filename": "java/com/google/gerrit/index/query/QueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-10T15:03:56Z",
+      "side": 1,
+      "message": "Yes, I did that initially, then replaced it with SubexpressionBoundaries for optimization.\n\nThe code is parsing the predicates top down, but getRightIndex() recurses down to children to get the right index. The complexity is thus quadretic if we don\u0027t use caching that\u0027s why I did that, but it\u0027s not really worth it since expressions are always short. I agree to use static methods to reduce code complexity.\n\nDone.",
+      "parentUuid": "6962a40d_3ef704db",
       "revId": "bf7dff8fc0c734da6848e9eba6e34f729a026510",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

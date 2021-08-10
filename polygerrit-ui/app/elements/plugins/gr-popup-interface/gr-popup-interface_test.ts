@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import {GrPopupInterface} from './gr-popup-interface.js';
-import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import '../../../test/common-test-setup-karma';
+import '../../shared/gr-js-api-interface/gr-js-api-interface';
+import {GrPopupInterface} from './gr-popup-interface';
+import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {PluginApi} from '../../../api/plugin';
 
 class GrUserTestPopupElement extends PolymerElement {
   static get is() { return 'gr-user-test-popup'; }
@@ -36,9 +37,9 @@ const containerFixture = fixtureFromElement('div');
 
 const pluginApi = _testOnly_initGerritPluginApi();
 suite('gr-popup-interface tests', () => {
-  let container;
-  let instance;
-  let plugin;
+  let container: HTMLDivElement;
+  let instance: GrPopupInterface;
+  let plugin: PluginApi;
 
   setup(() => {
     pluginApi.install(p => { plugin = p; }, '0.1',

@@ -46,80 +46,30 @@
       },
       "revId": "eca96af7b4180b4e585cba62715c08b246244e14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
-    }
-  ],
-  "submitRequirementResults": [
-    {
-      "submitRequirement": {
-        "name": "Code-Review",
-        "description": {
-          "value": "At least one maximum vote for label \u0027Code-Review\u0027 is required"
-        },
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Review\u003dMAX -label:Code-Review\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dMAX -label:Code-Review\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label2:code-review\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label2:code-review\u003dMIN"
-        ]
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -324441353,
-        "w2": -1273492658,
-        "w3": 1482472034,
-        "w4": 1901856946,
-        "w5": 1176784404
-      }
     },
     {
-      "submitRequirement": {
-        "name": "Verified",
-        "description": {
-          "value": "CI build and tests results are verified"
-        },
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Verified\u003dMAX -label:Verified\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "unresolved": false,
+      "key": {
+        "uuid": "4db14813_90474313",
+        "filename": "polygerrit-ui/app/elements/edit/gr-default-editor/gr-default-editor_test.ts",
+        "patchSetId": 3
       },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dMAX -label:Verified\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label2:verified\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label2:verified\u003dMIN"
-        ]
+      "lineNbr": 39,
+      "author": {
+        "id": 1085182
       },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -324441353,
-        "w2": -1273492658,
-        "w3": 1482472034,
-        "w4": 1901856946,
-        "w5": 1176784404
-      }
+      "writtenOn": "2021-08-10T09:20:27Z",
+      "side": 1,
+      "message": "My bad, `textarea.dispatchEvent(new Event(\u0027input\u0027` is best that we can do.",
+      "parentUuid": "eb033b09_4f4de082",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "eca96af7b4180b4e585cba62715c08b246244e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

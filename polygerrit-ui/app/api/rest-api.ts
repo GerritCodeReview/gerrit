@@ -1043,8 +1043,8 @@ export declare interface SubmitRequirementResultInfo {
 export declare interface SubmitRequirementExpressionInfo {
   expression: string;
   fulfilled: boolean;
-  passing_atoms: string;
-  failing_atoms: string;
+  passing_atoms: string[];
+  failing_atoms: string[];
 }
 
 /**

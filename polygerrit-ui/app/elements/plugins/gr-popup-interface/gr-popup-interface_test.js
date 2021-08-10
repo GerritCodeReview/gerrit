@@ -92,4 +92,3 @@ suite('gr-popup-interface tests', () => {
     });
   });
 });
-

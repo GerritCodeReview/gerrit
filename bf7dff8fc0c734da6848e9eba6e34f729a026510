@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4da63400_9a2163f2",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-10T14:36:08Z",
+      "side": 1,
+      "message": "[optional] Is \"terminal\" a term that comes from Antlr? Would \"isLeaf\" be a better name?",
+      "range": {
+        "startLine": 51,
+        "startChar": 20,
+        "endLine": 51,
+        "endChar": 28
+      },
+      "revId": "bf7dff8fc0c734da6848e9eba6e34f729a026510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbb6d525_8b2ff17f",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-10T14:36:08Z",
+      "side": 1,
+      "message": "[optional] I think we use the term \"queryString\" mostly when we talk about the whole query that the user provided. IIUC this is just the string representation of the predicate, right? Would \"predicateString\" then be a better term?",
+      "range": {
+        "startLine": 54,
+        "startChar": 7,
+        "endLine": 54,
+        "endChar": 21
+      },
+      "revId": "bf7dff8fc0c734da6848e9eba6e34f729a026510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6962a40d_3ef704db",
+        "filename": "java/com/google/gerrit/index/query/QueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-10T14:36:08Z",
+      "side": 1,
+      "message": "Does it ever happen that the index for the same tree is needed twice?\nEven if yes, is it worth to cache this? I\u0027m asking because it seems that this caching adds quite some code complexity.\n\nMy proposal:\nCan we just drop the SubexpressionBoundaries class and instead just keep getRightIndex and getLeftIndex as static methods?",
+      "revId": "bf7dff8fc0c734da6848e9eba6e34f729a026510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

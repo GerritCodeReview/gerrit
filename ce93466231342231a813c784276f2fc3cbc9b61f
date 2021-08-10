@@ -46,6 +46,30 @@
       },
       "revId": "ce93466231342231a813c784276f2fc3cbc9b61f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7977750_ea72d905",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-10T14:36:08Z",
+      "side": 1,
+      "message": "Ack, I wasn\u0027t aware that LabelPredicate extends OrPredicate.",
+      "parentUuid": "b0d807d8_ab149a74",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 37
+      },
+      "revId": "ce93466231342231a813c784276f2fc3cbc9b61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

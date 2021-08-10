@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c45255b_8a167957",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-10T11:56:24Z",
+      "side": 1,
+      "message": "Nice. It seems we allow trusted contributors to retain the max label for CR when the list of files did not change:\n\nhttps://gerrit.googlesource.com/All-Projects/+/ee8d92155120f64b6e1695de0fc53e65963ff4e7/project.config#21\n\n(I checked because I was surprised this change doesn\u0027t need to be re-approved)",
+      "revId": "09726a7e5b8675a7e62dd44cafefcc05aa981667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

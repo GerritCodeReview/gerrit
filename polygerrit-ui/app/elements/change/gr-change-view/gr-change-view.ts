@@ -2207,7 +2207,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return Promise.all(promises);
   }
 
-  _getMergeability() {
+  _getMergeability(): Promise<void> {
     if (!this._change) {
       this._mergeable = null;
       return Promise.resolve();
@@ -2261,7 +2261,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _computeCanStartReview(change: ChangeInfo) {
+  _computeCanStartReview(change: ChangeInfo): boolean {
     return !!(
       change.actions &&
       change.actions.ready &&
@@ -2277,7 +2277,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    * Returns the text to be copied when
    * click the copy icon next to change subject
    */
-  _computeCopyTextForTitle(change: ChangeInfo) {
+  _computeCopyTextForTitle(change: ChangeInfo): string {
     return (
       `${change._number}: ${change.subject} | ` +
       `${location.protocol}//${location.host}` +
@@ -2526,7 +2526,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _getRevisionInfo(change: ChangeInfo | ParsedChangeInfo) {
+  _getRevisionInfo(change: ChangeInfo | ParsedChangeInfo): RevisionInfoClass {
     return new RevisionInfoClass(change);
   }
 
@@ -2551,7 +2551,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   /**
    * Wrapper for using in the element template and computed properties
    */
-  _hasEditBasedOnCurrentPatchSet(allPatchSets: PatchSet[]) {
+  _hasEditBasedOnCurrentPatchSet(allPatchSets: PatchSet[]): boolean {
     return hasEditBasedOnCurrentPatchSet(allPatchSets);
   }
 
@@ -2563,7 +2563,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       ChangeViewPatchRange,
       ChangeViewPatchRange
     >
-  ) {
+  ): boolean {
     const patchRange = patchRangeRecord.base;
     if (!patchRange) {
       return false;

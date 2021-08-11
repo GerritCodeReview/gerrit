@@ -32,6 +32,7 @@ import {
   ChangeInfo,
   EmailAddress,
   PreferencesInput,
+  RepoName,
 } from '../../../types/common';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {ChangeListViewState} from '../../../types/types';
@@ -104,7 +105,7 @@ export class GrChangeListView extends PolymerElement {
   _userId: AccountId | EmailAddress | null = null;
 
   @property({type: String})
-  _repo: string | null = null;
+  _repo: RepoName | null = null;
 
   private readonly restApiService = appContext.restApiService;
 

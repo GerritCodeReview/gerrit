@@ -16,6 +16,29 @@
       "message": "Can you avoid the two way binding? Lit will not support that. We should try to migrate away from it.",
       "revId": "c134ef315445baa7e1b4918ea36953100160c99d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "223fe5db_e8d97e15",
+        "filename": "polygerrit-ui/app/utils/change-metadata-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-11T08:10:51Z",
+      "side": 1,
+      "message": "Could we also support \"label2:\" temporarily? Currently, the API returns \n`label2:verified\\u003dMAX`\n\nThat was because, in some cases, we have an internal representation of predicates that is different from the original query string. I implemented a fix so that the returned string always exactly matches with the query string.",
+      "range": {
+        "startLine": 90,
+        "startChar": 30,
+        "endLine": 90,
+        "endChar": 35
+      },
+      "revId": "c134ef315445baa7e1b4918ea36953100160c99d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

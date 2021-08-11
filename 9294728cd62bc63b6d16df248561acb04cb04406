@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2485241e_779ad2f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-11T08:50:55Z",
+      "side": 1,
+      "message": "Failure seems trivial to fix:\n\n\u003e FAIL: js_licenses.txt out of date\nto fix: \n\n  cp bazel-bin/Documentation/js_licenses.gen.txt Documentation/js_licenses.txt",
+      "revId": "9294728cd62bc63b6d16df248561acb04cb04406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

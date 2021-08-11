@@ -3825,8 +3825,8 @@ Retrieves revision link:#action-info[actions] of the revision of a change.
 }
 ----
 
-The response is a flat map of possible revision actions mapped to their
-link:#action-info[ActionInfo].
+The response is a flat map of possible revision REST endpoint names
+mapped to their link:#action-info[ActionInfo].
 
 [[get-review]]
 === Get Review

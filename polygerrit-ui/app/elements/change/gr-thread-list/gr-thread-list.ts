@@ -18,7 +18,6 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-thread-list_html';
 import {parseDate} from '../../../utils/date-util';
@@ -558,21 +557,6 @@ export class GrThreadList extends PolymerElement {
       hasDraft: !!lastComment && isDraft(lastComment),
       updated,
     };
-  }
-
-  removeThread(rootId: string) {
-    for (let i = 0; i < this.threads.length; i++) {
-      if (this.threads[i].rootId === rootId) {
-        this.splice('threads', i, 1);
-        // Needed to ensure threads get re-rendered in the correct order.
-        flush();
-        return;
-      }
-    }
-  }
-
-  _handleThreadDiscard(e: CustomEvent) {
-    this.removeThread(e.detail.rootId);
   }
 
   _isOnParent(side?: CommentSide) {

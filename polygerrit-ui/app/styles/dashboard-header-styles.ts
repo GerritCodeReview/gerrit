@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import {css} from 'lit-element';
+
 // Mark the file as a module. Otherwise typescript assumes this is a script
 // and $_documentContainer is a global variable.
 // See: https://www.typescriptlang.org/docs/handbook/modules.html
@@ -22,34 +24,38 @@ export {};
 
 const $_documentContainer = document.createElement('template');
 
+export const dashboardHeaderStyles = css`
+  :host {
+    background-color: var(--view-background-color);
+    display: block;
+    min-height: 9em;
+    width: 100%;
+  }
+  gr-avatar {
+    display: inline-block;
+    height: 7em;
+    left: 1em;
+    margin: 1em;
+    top: 1em;
+    width: 7em;
+  }
+  .info {
+    display: inline-block;
+    padding: var(--spacing-l);
+    vertical-align: top;
+  }
+  .info > div > span {
+    display: inline-block;
+    font-weight: var(--font-weight-bold);
+    text-align: right;
+    width: 4em;
+  }
+`;
+
 $_documentContainer.innerHTML = `<dom-module id="dashboard-header-styles">
   <template>
     <style>
-      :host {
-        background-color: var(--view-background-color);
-        display: block;
-        min-height: 9em;
-        width: 100%;
-      }
-      gr-avatar {
-        display: inline-block;
-        height: 7em;
-        left: 1em;
-        margin: 1em;
-        top: 1em;
-        width: 7em;
-      }
-      .info {
-        display: inline-block;
-        padding: var(--spacing-l);
-        vertical-align: top;
-      }
-      .info > div > span {
-        display: inline-block;
-        font-weight: var(--font-weight-bold);
-        text-align: right;
-        width: 4em;
-      }
+    ${dashboardHeaderStyles.cssText}
     </style>
   </template>
 </dom-module>`;

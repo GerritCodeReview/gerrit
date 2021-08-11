@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbcf1e11_f7c15da1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-11T08:48:21Z",
+      "side": 1,
+      "message": "Hmm for some reason this now fails... after doing a return in render()",
+      "revId": "9a5f6c5d8097d6ead91fc04ab87637cc4a451029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

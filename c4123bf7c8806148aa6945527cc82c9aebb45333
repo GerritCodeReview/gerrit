@@ -63,6 +63,30 @@
       },
       "revId": "c4123bf7c8806148aa6945527cc82c9aebb45333",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "180a8d03_77c0acea",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-11T11:25:56Z",
+      "side": 1,
+      "message": "\u003e Wow, the ref update was missing.\n\nThat makes it sounds like a test would be in order :-)",
+      "parentUuid": "8a8914ae_a4422221",
+      "range": {
+        "startLine": 113,
+        "startChar": 40,
+        "endLine": 113,
+        "endChar": 61
+      },
+      "revId": "c4123bf7c8806148aa6945527cc82c9aebb45333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

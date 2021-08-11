@@ -617,9 +617,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     PersonIdent johnDoe = new PersonIdent("John Doe", "john.doe@example.com");
     PersonIdent john = new PersonIdent("John", "john@example.com");
     PersonIdent doeSmith = new PersonIdent("Doe Smith", "doe_smith@example.com");
+    Account ua = user.asIdentifiedUser().getAccount();
+    PersonIdent myself = new PersonIdent("I Am", ua.preferredEmail());
+    PersonIdent notMyself = new PersonIdent("Not Myself", "another.guy@example.com");
+
     Change change1 = createChange(repo, johnDoe);
     Change change2 = createChange(repo, john);
     Change change3 = createChange(repo, doeSmith);
+    Change change4 = createChange(repo, notMyself);
 
     // Only email address.
     assertQuery(searchOperator + "john.doe@example.com", change1);
@@ -635,6 +640,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery(searchOperator + "\"John <john.doe@example.com>\"");
     assertQuery(searchOperator + "\"Doe John <john@example.com>\"");
     assertQuery(searchOperator + "\"Doe John <doe_smith@example.com>\"");
+
+    // Self as the name should not be matched
+    assertQuery(searchOperator + "self");
+
+    // Self matches the user's email
+    Change change5 = createChange(repo, myself);
+    assertQuery(searchOperator + "me", change5);
+    assertQuery(searchOperator + "self", change5);
   }
 
   private void byAuthorOrCommitterFullText(String searchOperator) throws Exception {

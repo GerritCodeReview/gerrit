@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08fc9c47_37341ab4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-08-11T19:03:50Z",
+      "side": 1,
+      "message": "Added tests and docs.",
+      "parentUuid": "52272d41_46319f03",
+      "revId": "ff8c9b5bef27e1d9c0c7bbb1e649171079c3b8b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7b5c70c_85f0aadc",
@@ -139,6 +157,30 @@
       "side": 1,
       "message": "I agree. I started with parseAccounts, but gave up because I had to get the Account from Account.Id, when I already have it.",
       "parentUuid": "e727e9cb_87a905bd",
+      "range": {
+        "startLine": 1420,
+        "startChar": 3,
+        "endLine": 1421,
+        "endChar": 51
+      },
+      "revId": "ff8c9b5bef27e1d9c0c7bbb1e649171079c3b8b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7140395e_dba19843",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-08-11T19:03:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07ed804e_84b07abc",
       "range": {
         "startLine": 1420,
         "startChar": 3,

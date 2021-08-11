@@ -15,24 +15,26 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-repo-header.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-repo-header';
+import {GrRepoHeader} from './gr-repo-header';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {stubRestApi} from '../../../test/test-utils';
+import {UrlEncodedRepoName} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-repo-header');
 
 suite('gr-repo-header tests', () => {
-  let element;
+  let element: GrRepoHeader;
 
   setup(() => {
     element = basicFixture.instantiate();
   });
 
   test('repoUrl reset once repo changed', () => {
-    sinon.stub(GerritNav, 'getUrlForRepo').callsFake(
-        repoName => `http://test.com/${repoName},general`
-    );
+    sinon
+      .stub(GerritNav, 'getUrlForRepo')
+      .callsFake(repoName => `http://test.com/${repoName},general`);
     assert.equal(element._repoUrl, undefined);
     element.repo = 'test';
     assert.equal(element._repoUrl, 'http://test.com/test,general');
@@ -40,6 +42,7 @@ suite('gr-repo-header tests', () => {
 
   test('webLinks set', () => {
     const repoRes = {
+      id: 'test' as UrlEncodedRepoName,
       web_links: [
         {
           name: 'gitiles',

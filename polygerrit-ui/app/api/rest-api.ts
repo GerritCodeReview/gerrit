@@ -1018,7 +1018,7 @@ export declare interface WebLinkInfo {
   /** The link URL. */
   url: string;
   /** URL to the icon of the link. */
-  image_url: string;
+  image_url?: string;
 }
 
 /**

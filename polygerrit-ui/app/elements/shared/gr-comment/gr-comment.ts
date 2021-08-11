@@ -173,7 +173,10 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean, observer: '_editingChanged'})
   editing = false;
 
-  @property({type: Boolean, reflectToAttribute: true})
+  @property({
+    type: Boolean,
+    reflectToAttribute: true,
+  })
   discarding = false;
 
   @property({type: Boolean})
@@ -521,6 +524,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   _commentChanged(comment: UIComment) {
     this.editing = isDraft(comment) && !!comment.__editing;
     this.resolved = !comment.unresolved;
+    this.discarding = false;
     if (this.editing) {
       // It's a new draft/reply, notify.
       this._fireUpdate();

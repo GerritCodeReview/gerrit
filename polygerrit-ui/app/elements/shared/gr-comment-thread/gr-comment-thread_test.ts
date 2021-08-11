@@ -532,7 +532,7 @@ suite('comment action tests with unresolved thread', () => {
     );
   });
 
-  test('discard', done => {
+  test.only('discard', done => {
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
     element.path = '/path/to/file.txt';
@@ -549,17 +549,13 @@ suite('comment action tests with unresolved thread', () => {
     const draftEl = element.root?.querySelectorAll('gr-comment')[1];
     assert.ok(draftEl);
     draftEl!.addEventListener('comment-discard', () => {
+      flush();
       const drafts = element.comments.filter(c => isDraft(c));
       assert.equal(drafts.length, 0);
       done();
     });
-    draftEl!.dispatchEvent(
-      new CustomEvent('comment-discard', {
-        detail: {comment: draftEl!.comment},
-        composed: true,
-        bubbles: false,
-      })
-    );
+    debugger;
+    draftEl!._fireDiscard();
   });
 
   test('discard with a single comment still fires event with previous rootId', done => {
@@ -578,13 +574,7 @@ suite('comment action tests with unresolved thread', () => {
       assert.equal(element.comments.length, 0);
       done();
     });
-    draftEl!.dispatchEvent(
-      new CustomEvent('comment-discard', {
-        detail: {comment: draftEl!.comment},
-        composed: true,
-        bubbles: false,
-      })
-    );
+    draftEl!._fireDiscard();
   });
 
   test(
@@ -642,13 +632,7 @@ suite('comment action tests with unresolved thread', () => {
         storageStub.restore();
         done();
       });
-      draftEl!.dispatchEvent(
-        new CustomEvent('comment-discard', {
-          detail: {comment: draftEl!.comment},
-          composed: true,
-          bubbles: false,
-        })
-      );
+      draftEl!._fireDiscard();
     }
   );
 

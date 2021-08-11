@@ -17,7 +17,6 @@
 import '../../../styles/shared-styles';
 import '../gr-comment/gr-comment';
 import '../../diff/gr-diff/gr-diff';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment-thread_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
@@ -84,12 +83,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }
-
-  /**
-   * Fired when the thread should be discarded.
-   *
-   * @event thread-discard
-   */
 
   /**
    * gr-comment-thread exposes the following attributes that allow a
@@ -321,15 +314,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     draft.unresolved = unresolved === false ? unresolved : true;
     this.commentsService.addDraft(draft);
     this.push('comments', draft);
-  }
-
-  fireRemoveSelf() {
-    this.dispatchEvent(
-      new CustomEvent('thread-discard', {
-        detail: {rootId: this.rootId},
-        bubbles: false,
-      })
-    );
   }
 
   _getDiffUrlForPath(
@@ -693,22 +677,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     return computeId(comments.base[0]);
   }
 
-  _handleCommentDiscard(e: Event) {
+  _handleCommentDiscard() {
     assertIsDefined(this.changeNum, 'changeNum');
     assertIsDefined(this.patchNum, 'patchNum');
-    const diffCommentEl = (dom(e) as EventApi).rootTarget as GrComment;
-    const comment = diffCommentEl.comment;
-    const idx = this._indexOf(comment, this.comments);
-    if (idx === -1) {
-      throw new Error(
-        'Cannot find comment ' + JSON.stringify(diffCommentEl.comment)
-      );
-    }
-    this.splice('comments', idx, 1);
-    if (this.comments.length === 0) {
-      this.fireRemoveSelf();
-    }
-
     // Check to see if there are any other open comments getting edited and
     // set the local storage value to its message value.
     for (const changeComment of this.comments) {

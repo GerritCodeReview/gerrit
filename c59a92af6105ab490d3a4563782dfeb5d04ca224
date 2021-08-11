@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a356db31_5ba36460",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-11T23:16:41Z",
+      "side": 1,
+      "message": "Do you need this or do changes 1-3 suffice?",
+      "range": {
+        "startLine": 627,
+        "startChar": 4,
+        "endLine": 627,
+        "endChar": 51
+      },
+      "revId": "c59a92af6105ab490d3a4563782dfeb5d04ca224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be284af2_76a3f8ac",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-11T23:16:41Z",
+      "side": 1,
+      "message": "This would be clearer as \"No changes exist with the current user\u0027s email address\"",
+      "range": {
+        "startLine": 644,
+        "startChar": 7,
+        "endLine": 644,
+        "endChar": 45
+      },
+      "revId": "c59a92af6105ab490d3a4563782dfeb5d04ca224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "490d8684_8caa8c4b",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-11T23:16:41Z",
+      "side": 1,
+      "message": "This would be clearer as \"Self matches a change created with the current user\u0027s email address\"",
+      "range": {
+        "startLine": 647,
+        "startChar": 7,
+        "endLine": 647,
+        "endChar": 36
+      },
+      "revId": "c59a92af6105ab490d3a4563782dfeb5d04ca224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

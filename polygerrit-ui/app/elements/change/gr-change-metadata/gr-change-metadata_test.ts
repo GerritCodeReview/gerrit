@@ -63,8 +63,10 @@ import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {PluginApi} from '../../../api/plugin';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import {stubRestApi} from '../../../test/test-utils';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {ParsedChangeInfo} from '../../../types/types';
+import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 const basicFixture = fixtureFromElement('gr-change-metadata');
 
@@ -713,25 +715,23 @@ suite('gr-change-metadata tests', () => {
       assert.isTrue(element._computeTopicReadOnly(mutable, change));
     });
 
-    test('topic read only hides delete button', () => {
+    test('topic read only hides delete button', async () => {
       element.account = createAccountDetailWithId();
       element.change = change;
-      flush();
-      const button = element!
-        .shadowRoot!.querySelector('gr-linked-chip')!
-        .shadowRoot!.querySelector('gr-button');
-      assert.isTrue(button?.hasAttribute('hidden'));
+      await flush();
+      const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
+      const button = queryAndAssert<GrButton>(chip, 'gr-button');
+      assert.isTrue(button.hasAttribute('hidden'));
     });
 
-    test('topic not read only does not hide delete button', () => {
+    test('topic not read only does not hide delete button', async () => {
       element.account = createAccountDetailWithId();
       change.actions!.topic!.enabled = true;
       element.change = change;
-      flush();
-      const button = element!
-        .shadowRoot!.querySelector('gr-linked-chip')!
-        .shadowRoot!.querySelector('gr-button');
-      assert.isFalse(button?.hasAttribute('hidden'));
+      await flush();
+      const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
+      const button = queryAndAssert<GrButton>(chip, 'gr-button');
+      assert.isFalse(button.hasAttribute('hidden'));
     });
   });
 
@@ -767,27 +767,25 @@ suite('gr-change-metadata tests', () => {
       assert.isTrue(element._computeHashtagReadOnly(mutable, change));
     });
 
-    test('hashtag read only hides delete button', () => {
+    test('hashtag read only hides delete button', async () => {
       flush();
       element.account = createAccountDetailWithId();
       element.change = change;
-      flush();
-      const button = element!
-        .shadowRoot!.querySelector('gr-linked-chip')!
-        .shadowRoot!.querySelector('gr-button');
-      assert.isTrue(button?.hasAttribute('hidden'));
+      await flush();
+      const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
+      const button = queryAndAssert<GrButton>(chip, 'gr-button');
+      assert.isTrue(button.hasAttribute('hidden'));
     });
 
-    test('hashtag not read only does not hide delete button', () => {
+    test('hashtag not read only does not hide delete button', async () => {
       flush();
       element.account = createAccountDetailWithId();
       change!.actions!.hashtags!.enabled = true;
       element.change = change;
-      flush();
-      const button = element!
-        .shadowRoot!.querySelector('gr-linked-chip')!
-        .shadowRoot!.querySelector('gr-button');
-      assert.isFalse(button?.hasAttribute('hidden'));
+      await flush();
+      const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
+      const button = queryAndAssert<GrButton>(chip, 'gr-button');
+      assert.isFalse(button.hasAttribute('hidden'));
     });
   });
 
@@ -884,20 +882,21 @@ suite('gr-change-metadata tests', () => {
       });
     });
 
-    test('topic removal', () => {
+    test('topic removal', async () => {
       const newTopic = 'the new topic' as TopicName;
       const setChangeTopicStub = stubRestApi('setChangeTopic').returns(
         Promise.resolve(newTopic)
       );
-      const chip = element.shadowRoot!.querySelector('gr-linked-chip');
-      const remove = chip!.$.remove;
+      await flush();
+      const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
+      const remove = queryAndAssert(chip, '#remove');
       const topicChangedSpy = sinon.spy();
       element.addEventListener('topic-changed', topicChangedSpy);
       tap(remove);
-      assert.isTrue(chip?.disabled);
+      assert.isTrue(chip.disabled);
       assert.isTrue(setChangeTopicStub.calledWith(42 as NumericChangeId));
       return setChangeTopicStub.lastCall.returnValue.then(() => {
-        assert.isFalse(chip?.disabled);
+        assert.isFalse(chip.disabled);
         assert.equal(element.change!.topic, '' as TopicName);
         assert.isTrue(topicChangedSpy.called);
       });

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b500515e_def8cf83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-11T07:42:06Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "81cd92f42a1d9e94bebae0a2b3f4505acbb28cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb3f4038_736adf58",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-11T07:42:06Z",
+      "side": 1,
+      "message": "Nit: Maybe move to line 44 below `sharedStyles`.",
+      "revId": "81cd92f42a1d9e94bebae0a2b3f4505acbb28cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f20fb39_1f9986a8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-11T07:42:06Z",
+      "side": 1,
+      "message": "Just return;",
+      "revId": "81cd92f42a1d9e94bebae0a2b3f4505acbb28cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bab0de40_5530af6f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-11T07:42:06Z",
+      "side": 1,
+      "message": "You also try to change the type of `this.repo` to `RepoName`.",
+      "revId": "81cd92f42a1d9e94bebae0a2b3f4505acbb28cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

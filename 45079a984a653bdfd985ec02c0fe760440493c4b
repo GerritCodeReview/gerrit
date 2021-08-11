@@ -16,6 +16,29 @@
       "message": "Woohoo code removal!\n:D",
       "revId": "45079a984a653bdfd985ec02c0fe760440493c4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dca657f3_cb95c31a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 2121,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-11T08:18:23Z",
+      "side": 1,
+      "message": "you don\u0027t need Promise.all() now",
+      "range": {
+        "startLine": 2121,
+        "startChar": 24,
+        "endLine": 2121,
+        "endChar": 58
+      },
+      "revId": "45079a984a653bdfd985ec02c0fe760440493c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

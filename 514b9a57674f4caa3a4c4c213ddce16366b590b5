@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89425a52_48458cd3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-11T10:53:07Z",
+      "side": 1,
+      "message": "Nit: We are trying to stop using underscores. But you can make render methods private, if you want.\n\nFor properties you may also be interested in learning about @internalProperty: https://lit-element.polymer-project.org/guide/properties",
+      "revId": "514b9a57674f4caa3a4c4c213ddce16366b590b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01ae7243_e91a89ce",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-11T10:53:07Z",
+      "side": 1,
+      "message": "Nit: I think it can be advantageous to do the `.map()` stuff here and have the separate render method just be based on one group.\n\nFor example then you could do\n\n  const href \u003d this._computeGroupPath(group);\n  \nat the beginning of the method and use ${href} in the template. And then you could probably inline _computeGroupPath().",
+      "revId": "514b9a57674f4caa3a4c4c213ddce16366b590b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f49f694d_3dc019f3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-11T10:53:07Z",
+      "side": 1,
+      "message": "Nit: Could be inlined.",
+      "revId": "514b9a57674f4caa3a4c4c213ddce16366b590b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       },
       "revId": "622adf0ed695ba6c9cb0d6b1eab2b1e30a779ef5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eb245e7_cd1ca78f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-08-11T08:19:17Z",
+      "side": 1,
+      "message": "I did not see that. I guess this was done to save data that has to be transferred.\nI adapted the change accordingly.",
+      "parentUuid": "cb9f60db_05fd33b7",
+      "range": {
+        "startLine": 94,
+        "startChar": 17,
+        "endLine": 94,
+        "endChar": 19
+      },
+      "revId": "622adf0ed695ba6c9cb0d6b1eab2b1e30a779ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

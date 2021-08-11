@@ -123,6 +123,30 @@
       },
       "revId": "ff8c9b5bef27e1d9c0c7bbb1e649171079c3b8b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07ed804e_84b07abc",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-08-11T16:58:00Z",
+      "side": 1,
+      "message": "I agree. I started with parseAccounts, but gave up because I had to get the Account from Account.Id, when I already have it.",
+      "parentUuid": "e727e9cb_87a905bd",
+      "range": {
+        "startLine": 1420,
+        "startChar": 3,
+        "endLine": 1421,
+        "endChar": 51
+      },
+      "revId": "ff8c9b5bef27e1d9c0c7bbb1e649171079c3b8b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

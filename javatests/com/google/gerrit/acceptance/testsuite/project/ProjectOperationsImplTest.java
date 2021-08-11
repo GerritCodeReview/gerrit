@@ -582,6 +582,15 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeAllAccessSections() {
+    projectOperations.allProjectsForUpdate().removeAllAccessSections().update();
+
+    assertThat(projectOperations.project(allProjects).getConfig())
+        .sectionValues("access")
+        .isEmpty();
+  }
+
+  @Test
   public void updatingCapabilitiesNotAllowedForNonAllProjects() throws Exception {
     Project.NameKey key = projectOperations.newProject().create();
     assertThrows(

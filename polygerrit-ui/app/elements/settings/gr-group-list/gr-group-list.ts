@@ -16,12 +16,14 @@
  */
 import '../../../styles/shared-styles';
 import '../../../styles/gr-form-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-group-list_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
 import {GroupInfo, GroupId} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,11 +31,7 @@ declare global {
   }
 }
 @customElement('gr-group-list')
-export class GrGroupList extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrGroupList extends GrLitElement {
   @property({type: Array})
   _groups: GroupInfo[] = [];
 
@@ -46,6 +44,57 @@ export class GrGroupList extends PolymerElement {
         (a.name || '').localeCompare(b.name || '')
       );
     });
+  }
+
+  static get styles() {
+    return [
+      sharedStyles,
+      formStyles,
+      css`
+        #groups .nameColumn {
+          min-width: 11em;
+          width: auto;
+        }
+        .descriptionHeader {
+          min-width: 21.5em;
+        }
+        .visibleCell {
+          text-align: center;
+          width: 6em;
+        }
+      `,
+    ];
+  }
+
+  _renderGroups(groups: GroupInfo[]) {
+    if (!groups) return;
+    return html`${groups.map(
+      group => html`<tr>
+          <td class="nameColumn">
+          <a href$="${this._computeGroupPath(group)}> ${group.name} </a>
+          </td>
+          <td>${group.description}</td>
+          <td class="visibleCell">${this._computeVisibleToAll(group)}</td>
+          </tr>
+          `
+    )}`;
+  }
+
+  render() {
+    return html` <div class="gr-form-styles">
+      <table id="groups">
+        <thead>
+          <tr>
+            <th class="nameHeader">Name</th>
+            <th class="descriptionHeader">Description</th>
+            <th class="visibleCell">Visible to all</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${this._renderGroups(this._groups)}
+        </tbody>
+      </table>
+    </div>`;
   }
 
   _computeVisibleToAll(group: GroupInfo) {

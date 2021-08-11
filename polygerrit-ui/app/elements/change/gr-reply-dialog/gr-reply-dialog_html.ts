@@ -320,72 +320,27 @@ export const htmlTemplate = html`
       </gr-overlay>
     </section>
 
-    <template is="dom-if" if="[[showNewReplyDialog]]">
-      <section class="labelsContainer">
-        <gr-endpoint-decorator name="reply-label-scores">
-          <gr-label-scores
-            id="labelScores"
-            account="[[_account]]"
-            change="[[change]]"
-            on-labels-changed="_handleLabelsChanged"
-            permitted-labels="[[permittedLabels]]"
-          ></gr-label-scores>
-        </gr-endpoint-decorator>
-        <div id="pluginMessage">[[_pluginMessage]]</div>
-      </section>
-      <section class="newReplyDialog textareaContainer">
-        <div class$="patchsetLevelContainer [[getUnresolvedPatchsetLevelClass(_isResolvedPatchsetLevelComment)]]">
-          <gr-endpoint-decorator name="reply-text">
-            <gr-textarea
-              id="textarea"
-              class="message newReplyDialog"
-              autocomplete="on"
-              placeholder="[[_messagePlaceholder]]"
-              fixed-position-dropdown=""
-              monospace="true"
-              disabled="{{disabled}}"
-              rows="4"
-              text="{{draft}}"
-              on-bind-value-changed="_handleHeightChanged"
-            >
-            </gr-textarea>
-          </gr-endpoint-decorator>
-          <div class="labelContainer">
-            <label>
-              <input
-                id="resolvedPatchsetLevelCommentCheckbox"
-                type="checkbox"
-                checked="{{_isResolvedPatchsetLevelComment::change}}"
-              />
-              Resolved
-            </label>
-            <label class="preview-formatting">
-              <input type="checkbox" checked="{{_previewFormatting::change}}" />
-              Preview formatting
-            </label>
-          </div>
-        </div>
-      </section>
-      <template is="dom-if" if="[[_previewFormatting]]">
-        <section class="previewContainer">
-          <gr-formatted-text
-            content="[[draft]]"
-            config="[[projectConfig.commentlinks]]"
-          ></gr-formatted-text>
-      </template>
-      </section>
-    </template>
-
-    <template is="dom-if" if="[[!showNewReplyDialog]]">
-      <section class="textareaContainer">
+    <section class="labelsContainer">
+      <gr-endpoint-decorator name="reply-label-scores">
+        <gr-label-scores
+          id="labelScores"
+          account="[[_account]]"
+          change="[[change]]"
+          on-labels-changed="_handleLabelsChanged"
+          permitted-labels="[[permittedLabels]]"
+        ></gr-label-scores>
+      </gr-endpoint-decorator>
+      <div id="pluginMessage">[[_pluginMessage]]</div>
+    </section>
+    <section class="newReplyDialog textareaContainer">
+      <div class$="patchsetLevelContainer [[getUnresolvedPatchsetLevelClass(_isResolvedPatchsetLevelComment)]]">
         <gr-endpoint-decorator name="reply-text">
           <gr-textarea
             id="textarea"
-            class="message"
+            class="message newReplyDialog"
             autocomplete="on"
             placeholder="[[_messagePlaceholder]]"
             fixed-position-dropdown=""
-            hide-border="true"
             monospace="true"
             disabled="{{disabled}}"
             rows="4"
@@ -394,39 +349,30 @@ export const htmlTemplate = html`
           >
           </gr-textarea>
         </gr-endpoint-decorator>
-      </section>
+        <div class="labelContainer">
+          <label>
+            <input
+              id="resolvedPatchsetLevelCommentCheckbox"
+              type="checkbox"
+              checked="{{_isResolvedPatchsetLevelComment::change}}"
+            />
+            Resolved
+          </label>
+          <label class="preview-formatting">
+            <input type="checkbox" checked="{{_previewFormatting::change}}" />
+            Preview formatting
+          </label>
+        </div>
+      </div>
+    </section>
+    <template is="dom-if" if="[[_previewFormatting]]">
       <section class="previewContainer">
-        <label>
-          <input
-            id="resolvedPatchsetLevelCommentCheckbox"
-            type="checkbox"
-            checked="{{_isResolvedPatchsetLevelComment::change}}"
-          />
-          Resolved
-        </label>
-        <label class="preview-formatting">
-          <input type="checkbox" checked="{{_previewFormatting::change}}" />
-          Preview formatting
-        </label>
         <gr-formatted-text
           content="[[draft]]"
-          hidden$="[[!_previewFormatting]]"
           config="[[projectConfig.commentlinks]]"
         ></gr-formatted-text>
-      </section>
-      <section class="labelsContainer">
-        <gr-endpoint-decorator name="reply-label-scores">
-          <gr-label-scores
-            id="labelScores"
-            account="[[_account]]"
-            change="[[change]]"
-            on-labels-changed="_handleLabelsChanged"
-            permitted-labels="[[permittedLabels]]"
-          ></gr-label-scores>
-        </gr-endpoint-decorator>
-        <div id="pluginMessage">[[_pluginMessage]]</div>
-      </section>
     </template>
+    </section>
 
     <section
       class="draftsContainer"
@@ -459,7 +405,7 @@ export const htmlTemplate = html`
         Saving comments...
       </span>
     </section>
-    <div class$="stickyBottom [[getContainerClass(showNewReplyDialog)]]">
+    <div class$="stickyBottom newReplyDialog">
       <section
         hidden$="[[!_showAttentionSummary(_attentionExpanded)]]"
         class="attention"

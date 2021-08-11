@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52272d41_46319f03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-11T16:51:01Z",
+      "side": 1,
+      "message": "I get that. I think we can call it an \"improvement of existing feature\" [1] and keep it here.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#branch",
+      "parentUuid": "848b6c71_56b117dc",
+      "revId": "ff8c9b5bef27e1d9c0c7bbb1e649171079c3b8b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7b5c70c_85f0aadc",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "parseAccount returns Account.Id. How does it help me? And I only need a single user anyway.",
       "parentUuid": "c7b5c70c_85f0aadc",
+      "range": {
+        "startLine": 1420,
+        "startChar": 3,
+        "endLine": 1421,
+        "endChar": 51
+      },
+      "revId": "ff8c9b5bef27e1d9c0c7bbb1e649171079c3b8b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e727e9cb_87a905bd",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-11T16:51:01Z",
+      "side": 1,
+      "message": "It makes this code look like all the other predicates that handle :self. That consistency helps me maintain the code. If it doesn\u0027t make sense, don\u0027t do it, I was just asking if you thought it would make sense in this situation.",
+      "parentUuid": "46beae1e_d71f22b5",
       "range": {
         "startLine": 1420,
         "startChar": 3,

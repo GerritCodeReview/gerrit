@@ -63,7 +63,9 @@ suite('gr-group-list tests', () => {
     });
   });
 
-  test('renders', () => {
+  test('renders', async () => {
+    await flush();
+
     const rows = Array.from(queryAll(element, 'tbody tr'));
 
     assert.equal(rows.length, 3);
@@ -75,11 +77,6 @@ suite('gr-group-list tests', () => {
     assert.equal(nameCells[0], 'Group 1');
     assert.equal(nameCells[1], 'Group 2');
     assert.equal(nameCells[2], 'Group 3');
-  });
-
-  test('_computeVisibleToAll', () => {
-    assert.equal(element._computeVisibleToAll(groups[0]), 'No');
-    assert.equal(element._computeVisibleToAll(groups[1]), 'Yes');
   });
 
   test('_computeGroupPath', () => {

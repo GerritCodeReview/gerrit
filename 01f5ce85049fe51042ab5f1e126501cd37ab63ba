@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5328851a_02a24b97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-11T13:01:48Z",
+      "side": 1,
+      "message": "Thanks Patrick for guiding the review.",
+      "revId": "01f5ce85049fe51042ab5f1e126501cd37ab63ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2cef363_955bc1a4",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-11T13:01:48Z",
+      "side": 1,
+      "message": "Writing the test revealed that ins.flush() is needed.\n\nThis was removed in [1], but I think you had the intention that callers would do the flush and ref updated.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/300563/7/java/com/google/gerrit/server/patch/AutoMerger.java#b220",
+      "revId": "01f5ce85049fe51042ab5f1e126501cd37ab63ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a664250_633ffc83",
+        "filename": "javatests/com/google/gerrit/server/patch/DiffOperationsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-11T13:01:48Z",
+      "side": 1,
+      "message": "The test failed before that change, because the diff caches fail with the MissingObjectException (that we\u0027ve been seeing recently). The test passes after this change, now that the auto-merge is persisted.",
+      "revId": "01f5ce85049fe51042ab5f1e126501cd37ab63ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -19,21 +19,23 @@ import '../../../test/common-test-setup-karma';
 import './gr-linked-chip';
 import {GrLinkedChip} from './gr-linked-chip';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {queryAndAssert} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-linked-chip');
 
 suite('gr-linked-chip tests', () => {
   let element: GrLinkedChip;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
   test('remove fired', () => {
     const spy = sinon.spy();
     element.addEventListener('remove', spy);
     flush();
-    MockInteractions.tap(element.$.remove);
+    MockInteractions.tap(queryAndAssert(element, '#remove'));
     assert.isTrue(spy.called);
   });
 });

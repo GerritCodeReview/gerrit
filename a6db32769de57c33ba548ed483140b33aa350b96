@@ -22,6 +22,30 @@
       },
       "revId": "a6db32769de57c33ba548ed483140b33aa350b96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7189a03d_2afb01ff",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-11T07:07:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "77ab60ea_9ed9a455",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 49
+      },
+      "revId": "a6db32769de57c33ba548ed483140b33aa350b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

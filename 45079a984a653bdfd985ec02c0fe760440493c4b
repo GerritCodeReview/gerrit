@@ -39,6 +39,30 @@
       },
       "revId": "45079a984a653bdfd985ec02c0fe760440493c4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af2023dc_7845e4e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 2121,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-11T09:30:45Z",
+      "side": 1,
+      "message": "I tried this earlier, but got into a morass of trying to define the type of the promise. Let me try again with dmitrii\u0027s tips.",
+      "parentUuid": "dca657f3_cb95c31a",
+      "range": {
+        "startLine": 2121,
+        "startChar": 24,
+        "endLine": 2121,
+        "endChar": 58
+      },
+      "revId": "45079a984a653bdfd985ec02c0fe760440493c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -20,7 +20,7 @@ import './gr-repo-header';
 import {GrRepoHeader} from './gr-repo-header';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {stubRestApi} from '../../../test/test-utils';
-import {UrlEncodedRepoName} from '../../../types/common';
+import {RepoName, UrlEncodedRepoName} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-repo-header');
 
@@ -31,16 +31,17 @@ suite('gr-repo-header tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('repoUrl reset once repo changed', () => {
+  test('repoUrl reset once repo changed', async () => {
     sinon
       .stub(GerritNav, 'getUrlForRepo')
       .callsFake(repoName => `http://test.com/${repoName},general`);
     assert.equal(element._repoUrl, undefined);
-    element.repo = 'test';
+    element.repo = 'test' as RepoName;
+    await flush();
     assert.equal(element._repoUrl, 'http://test.com/test,general');
   });
 
-  test('webLinks set', () => {
+  test('webLinks set', async () => {
     const repoRes = {
       id: 'test' as UrlEncodedRepoName,
       web_links: [
@@ -55,9 +56,8 @@ suite('gr-repo-header tests', () => {
 
     assert.deepEqual(element._webLinks, []);
 
-    element.repo = 'test';
-    flush(() => {
-      assert.deepEqual(element._webLinks, repoRes.web_links);
-    });
+    element.repo = 'test' as RepoName;
+    await flush();
+    assert.deepEqual(element._webLinks, repoRes.web_links);
   });
 });

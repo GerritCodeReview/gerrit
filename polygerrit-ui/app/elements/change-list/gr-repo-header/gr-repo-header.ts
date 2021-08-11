@@ -15,25 +15,20 @@
  * limitations under the License.
  */
 
-import '../../../styles/dashboard-header-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-repo-header_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
 import {RepoName} from '../../../types/common';
 import {WebLinkInfo} from '../../../types/diff';
 import {appContext} from '../../../services/app-context';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property, PropertyValues} from 'lit-element';
 
 @customElement('gr-repo-header')
-export class GrRepoHeader extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: String, observer: '_repoChanged'})
-  repo?: string;
+export class GrRepoHeader extends GrLitElement {
+  @property({type: String})
+  repo?: RepoName;
 
   @property({type: String})
   _repoUrl: string | null = null;
@@ -43,7 +38,53 @@ export class GrRepoHeader extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  _repoChanged(repoName: RepoName) {
+  static get styles() {
+    return [
+      sharedStyles,
+      dashboardHeaderStyles,
+      css`
+        .browse {
+          display: inline-block;
+          font-weight: var(--font-weight-bold);
+          text-align: right;
+          width: 4em;
+        }
+        a {
+          padding-right: 0.3em;
+        }
+      `,
+    ];
+  }
+
+  _renderLinks(webLinks: WebLinkInfo[]) {
+    if (!webLinks) return;
+    return html`<div>
+      <span class="browse">Browse:</span>
+      ${webLinks.map(
+        link => html`<a target="_blank" href="${link.url}">${link.name}</a> `
+      )}
+    </div> `;
+  }
+
+  render() {
+    return html` <div class="info">
+      <h1 class="heading-1">${this.repo}</h1>
+      <hr />
+      <div>
+        <span>Detail:</span> <a href="${this._repoUrl}">Repo settings</a>
+      </div>
+      ${this._renderLinks(this._webLinks)}
+    </div>`;
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('repo')) {
+      this._repoChanged();
+    }
+  }
+
+  _repoChanged() {
+    const repoName = this.repo;
     if (!repoName) {
       this._repoUrl = null;
       return;

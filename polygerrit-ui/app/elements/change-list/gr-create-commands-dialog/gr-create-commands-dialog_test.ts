@@ -28,14 +28,8 @@ suite('gr-create-commands-dialog tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('_computePushCommand', () => {
+  test('branch', () => {
     element.branch = 'master';
-    assert.equal(element._pushCommand, 'git push origin HEAD:refs/for/master');
-
-    element.branch = 'stable-2.15';
-    assert.equal(
-      element._pushCommand,
-      'git push origin HEAD:refs/for/stable-2.15'
-    );
+    assert.equal(element.branch, 'master');
   });
 });

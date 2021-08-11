@@ -421,12 +421,10 @@ export const htmlTemplate = html`
                   commit-collapsible="[[_commitCollapsible]]"
                   remove-zero-width-space=""
                 >
-                  <gr-linked-text
-                    pre=""
+                  <gr-formatted-text
                     content="[[_latestCommitMessage]]"
                     config="[[_projectConfig.commentlinks]]"
-                    remove-zero-width-space=""
-                  ></gr-linked-text>
+                  ></gr-formatted-text>
                 </gr-editable-content>
               </div>
               <h3 class="assistive-tech-only">Comments and Checks Summary</h3>

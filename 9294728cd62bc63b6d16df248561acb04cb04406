@@ -34,6 +34,24 @@
       "parentUuid": "2485241e_779ad2f7",
       "revId": "9294728cd62bc63b6d16df248561acb04cb04406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3387bf01_9d478c30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-11T10:04:51Z",
+      "side": 1,
+      "message": "Looks like this didn\u0027t work. I suspect I need to run something first that re-generates bazel-bin/Documentation/js_licenses.gen.txt, but not sure which command does this.",
+      "parentUuid": "e1a7f9d9_d6720673",
+      "revId": "9294728cd62bc63b6d16df248561acb04cb04406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

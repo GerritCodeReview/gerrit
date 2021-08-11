@@ -2048,11 +2048,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    * Some non-core data loading may still be in-flight when the core data
    * promise resolves.
    */
-  loadData(isLocationChange?: boolean, clearPatchset?: boolean) {
-    if (this.isChangeObsolete()) return Promise.resolve([]);
+  loadData(isLocationChange?: boolean, clearPatchset?: boolean): Promise<void> {
+    if (this.isChangeObsolete()) return Promise.resolve();
     if (clearPatchset && this._change) {
       GerritNav.navigateToChange(this._change);
-      return Promise.resolve([]);
+      return Promise.resolve();
     }
     this._loading = true;
     this.reporting.time(Timing.CHANGE_RELOAD);
@@ -2109,16 +2109,12 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         loadingFlagSet,
       ]);
 
-      // Promise resolves when mergeability information has loaded.
-      const mergeabilityLoaded = detailAndPatchResourcesLoaded.then(() =>
-        this._getMergeability()
-      );
-      allDataPromises.push(mergeabilityLoaded);
-
       // _getChangeDetail triggers reload of change actions already.
 
       // The core data is loaded when mergeability is known.
-      coreDataPromise = Promise.all([mergeabilityLoaded]);
+      coreDataPromise = detailAndPatchResourcesLoaded.then(() =>
+          this._getMergeability()
+      );
     } else {
       // Resolves when the file list has loaded.
       const fileListReload = loadingFlagSet.then(() =>
@@ -2135,15 +2131,13 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       });
       allDataPromises.push(latestCommitMessageLoaded);
 
-      // Promise resolves when mergeability information has loaded.
-      const mergeabilityLoaded = loadingFlagSet.then(() =>
-        this._getMergeability()
-      );
-      allDataPromises.push(mergeabilityLoaded);
-
       // Core data is loaded when mergeability has been loaded.
-      coreDataPromise = Promise.all([mergeabilityLoaded]);
+      coreDataPromise = loadingFlagSet.then(() =>
+          this._getMergeability()
+      );
     }
+
+    allDataPromises.push(coreDataPromise);
 
     if (isLocationChange) {
       this._editingCommitMessage = false;

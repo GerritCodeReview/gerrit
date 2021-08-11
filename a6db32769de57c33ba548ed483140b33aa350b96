@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77ab60ea_9ed9a455",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-11T07:06:07Z",
+      "side": 1,
+      "message": "Maybe \u0027UNKNOWN ITEM\u0027 and \u0027UNKNOWN ITEM TYPE\u0027 as fallback?",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 49
+      },
+      "revId": "a6db32769de57c33ba548ed483140b33aa350b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

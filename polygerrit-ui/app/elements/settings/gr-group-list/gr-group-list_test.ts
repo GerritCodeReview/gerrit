@@ -63,7 +63,9 @@ suite('gr-group-list tests', () => {
     });
   });
 
-  test('renders', () => {
+  test('renders', async () => {
+    await flush();
+
     const rows = Array.from(queryAll(element, 'tbody tr'));
 
     assert.equal(rows.length, 3);

@@ -383,7 +383,10 @@ export class GrMessage extends PolymerElement {
       //   Rebase messages (which have a ':newPatchSet' tag) should be kept on
       //   lines like this:
       //     Patch Set 27: Patch Set 26 was rebased
-      if (isNewPatchSet) {
+      // Only make this replacement if the line starts with Patch Set, since if
+      // it starts with "Uploaded patch set" (e.g for votes) we want to keep the
+      // "Uploaded patch set".
+      if (isNewPatchSet && line.startsWith('Patch Set')) {
         line = line.replace(PATCH_SET_PREFIX_PATTERN, '$1');
       }
       return line;

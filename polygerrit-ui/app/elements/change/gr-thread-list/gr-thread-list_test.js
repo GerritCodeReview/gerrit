@@ -31,8 +31,6 @@ const basicFixture = fixtureFromElement('gr-thread-list');
 suite('gr-thread-list tests', () => {
   let element;
 
-  let threadElements;
-
   function getVisibleThreads() {
     return [...dom(element.root)
         .querySelectorAll('gr-comment-thread')]
@@ -270,8 +268,6 @@ suite('gr-thread-list tests', () => {
 
     // use flush to render all (bypass initial-count set on dom-repeat)
     flush(() => {
-      threadElements = dom(element.root)
-          .querySelectorAll('gr-comment-thread');
       done();
     });
   });
@@ -545,11 +541,9 @@ suite('gr-thread-list tests', () => {
 
   test('thread removal and sort again', () => {
     element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
-    threadElements[1].dispatchEvent(
-        new CustomEvent('thread-discard', {
-          detail: {rootId: 'rc2'},
-          composed: true, bubbles: true,
-        }));
+    const index = element.threads.findIndex(t => t.rootId === 'rc2');
+    element.threads.splice(index, 1);
+    element.threads = [...element.threads]; // trigger observers
     flush();
     assert.equal(element._sortedThreads.length, 8);
     const expectedSortedRootIds = [

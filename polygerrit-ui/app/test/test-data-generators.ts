@@ -101,6 +101,11 @@ import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 import {GenerateUrlEditViewParameters} from '../elements/core/gr-navigation/gr-navigation';
+import {
+  SubmitRequirementExpressionInfo,
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../api/rest-api';
 
 export function dateToTimestamp(date: Date): Timestamp {
   const nanosecondSuffix = '.000000000';
@@ -664,4 +669,21 @@ export function createGroupAuditEventInfo(
       date: dateToTimestamp(new Date(2019, 11, 6, 14, 5, 8)),
     };
   }
+}
+
+export function createSubmitRequirementExpressionInfo(): SubmitRequirementExpressionInfo {
+  return {
+    expression: 'label:Verified=MAX -label:Verified=MIN',
+    fulfilled: true,
+    passing_atoms: ['label2:verified=MAX'],
+    failing_atoms: ['label2:verified=MIN'],
+  };
+}
+
+export function createSubmitRequirementResultInfo(): SubmitRequirementResultInfo {
+  return {
+    name: 'Verified',
+    status: SubmitRequirementStatus.SATISFIED,
+    submittability_expression_result: createSubmitRequirementExpressionInfo(),
+  };
 }

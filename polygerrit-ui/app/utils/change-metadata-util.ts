@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
+import {SubmitRequirementResultInfo} from '../api/rest-api';
 import {ParsedChangeInfo} from '../types/types';
+import {unique} from './common-util';
 
 export enum Metadata {
   OWNER = 'Owner',
@@ -80,4 +82,20 @@ export function isSectionSet(section: Metadata, change?: ParsedChangeInfo) {
       return !!change?.cherry_pick_of_change;
   }
   return true;
+}
+
+export function extractAssociatedLabels(
+  requirement: SubmitRequirementResultInfo
+): string[] {
+  const pattern = new RegExp('label[0-9]*:([\\w-]+)', 'g');
+  const labels = [];
+  let match;
+  while (
+    (match = pattern.exec(
+      requirement.submittability_expression_result.expression
+    )) !== null
+  ) {
+    labels.push(match[1]);
+  }
+  return labels.filter(unique);
 }

@@ -48,7 +48,7 @@ interface ChangeWIP {
   tooltip: string;
 }
 
-interface Label {
+export interface Label {
   labelName: string;
   labelInfo: LabelInfo;
   icon: string;

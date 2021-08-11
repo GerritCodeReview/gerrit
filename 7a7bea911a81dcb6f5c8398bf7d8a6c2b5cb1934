@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e851a01d_6ab5b115",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-11T11:26:33Z",
+      "side": 1,
+      "message": "Ideally, this needs a test to ensure refs are updated correctly. That would be a bit tricky because we need to set `change.cacheAutomerge \u003d false`, create an auto-merge change, then set `change.cacheAutomerge \u003d true` and request the diff API.\n\nI anyway copied the code for updating the ref from AutoMerger (version prior to your change). So it should be fine.",
+      "revId": "7a7bea911a81dcb6f5c8398bf7d8a6c2b5cb1934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

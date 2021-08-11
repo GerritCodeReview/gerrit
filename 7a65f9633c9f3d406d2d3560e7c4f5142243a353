@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ea3531f_d0b6f826",
+        "filename": "polygerrit-ui/app/services/gr-auth/gr-auth_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-11T14:43:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "547ca288_1d3606ed",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 22
+      },
+      "revId": "7a65f9633c9f3d406d2d3560e7c4f5142243a353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b65dc88_374497d6",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efa9fa81_55a07be3",
+        "filename": "polygerrit-ui/app/services/gr-auth/gr-auth_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-11T14:43:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b65dc88_374497d6",
+      "range": {
+        "startLine": 233,
+        "startChar": 8,
+        "endLine": 233,
+        "endChar": 32
+      },
+      "revId": "7a65f9633c9f3d406d2d3560e7c4f5142243a353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a68cd7b8_abec9f5e",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-08-09T14:56:07Z",
       "side": 1,
       "message": "Same as above",
+      "range": {
+        "startLine": 307,
+        "startChar": 8,
+        "endLine": 307,
+        "endChar": 32
+      },
+      "revId": "7a65f9633c9f3d406d2d3560e7c4f5142243a353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22c48f1c_1f11bc16",
+        "filename": "polygerrit-ui/app/services/gr-auth/gr-auth_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-11T14:43:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a68cd7b8_abec9f5e",
       "range": {
         "startLine": 307,
         "startChar": 8,

@@ -885,7 +885,7 @@ suite('gr-change-view tests', () => {
         '#relatedChanges'
       ) as GrRelatedChangesList;
       sinon.stub(relatedChanges, 'reload');
-      sinon.stub(element, 'loadData').returns(Promise.resolve([]));
+      sinon.stub(element, 'loadData').returns(Promise.resolve());
       sinon.spy(element, '_paramsChanged');
       element.params = createAppElementChangeViewParams();
     });
@@ -1385,7 +1385,7 @@ suite('gr-change-view tests', () => {
   test('don’t reload entire page when patchRange changes', async () => {
     const reloadStub = sinon
       .stub(element, 'loadData')
-      .callsFake(() => Promise.resolve([]));
+      .callsFake(() => Promise.resolve());
     const reloadPatchDependentStub = sinon
       .stub(element, '_reloadPatchNumDependentResources')
       .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
@@ -1420,7 +1420,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('reload ported comments when patchNum changes', async () => {
-    sinon.stub(element, 'loadData').callsFake(() => Promise.resolve([]));
+    sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
     sinon.stub(element, '_getCommitInfo');
     sinon.stub(element.$.fileList, 'reload');
     flush();
@@ -1457,7 +1457,7 @@ suite('gr-change-view tests', () => {
   test('reload entire page when patchRange doesnt change', async () => {
     const reloadStub = sinon
       .stub(element, 'loadData')
-      .callsFake(() => Promise.resolve([]));
+      .callsFake(() => Promise.resolve());
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
     const value: AppElementChangeViewParams = createAppElementChangeViewParams();
     element.params = value;
@@ -1486,7 +1486,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('related changes are not updated after other action', done => {
-    sinon.stub(element, 'loadData').callsFake(() => Promise.resolve([]));
+    sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
     flush();
     const relatedChanges = element.shadowRoot!.querySelector(
       '#relatedChanges'

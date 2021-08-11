@@ -52,6 +52,24 @@
       "parentUuid": "e1a7f9d9_d6720673",
       "revId": "9294728cd62bc63b6d16df248561acb04cb04406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9855fe6_2fdd5d4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-11T10:32:12Z",
+      "side": 1,
+      "message": "you can just get all the targets by bazel build Documentation/...\n\nI suspect it\u0027s the license_map rule, though.",
+      "parentUuid": "3387bf01_9d478c30",
+      "revId": "9294728cd62bc63b6d16df248561acb04cb04406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

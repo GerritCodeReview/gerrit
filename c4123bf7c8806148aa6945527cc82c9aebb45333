@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eb18d54_a0017162",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-11T08:56:44Z",
+      "side": 1,
+      "message": "Change LGTM overall",
+      "revId": "c4123bf7c8806148aa6945527cc82c9aebb45333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c60df26_ff7c72f7",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-11T08:56:44Z",
+      "side": 1,
+      "message": "Please use \"createAutoMergeCommit\" and do the ref transaction in BaseCommitUtil.\n\nIt would be good if we can keep AutoMerger as it is today, otherwise we\u0027ll might see more callers call \"cretaeAutoMergeCommit\" which we don\u0027t want.\n\nYou can create a repo view from a repo, revwalk and inserter.",
+      "range": {
+        "startLine": 113,
+        "startChar": 40,
+        "endLine": 113,
+        "endChar": 61
+      },
+      "revId": "c4123bf7c8806148aa6945527cc82c9aebb45333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

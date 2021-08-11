@@ -521,7 +521,7 @@ export class GrChangeMetadata extends PolymerElement {
     if (!this.change) {
       throw new Error('change must be set');
     }
-    const target = (dom(e) as EventApi).rootTarget as GrLinkedChip;
+    const target = e.composedPath()[0] as GrLinkedChip;
     target.disabled = true;
     this.restApiService
       .setChangeTopic(this.change._number)

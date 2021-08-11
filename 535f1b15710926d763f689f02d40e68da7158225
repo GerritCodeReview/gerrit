@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a183b9cd_5882aa0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-11T12:21:04Z",
+      "side": 1,
+      "message": "We came to the conclusion that the new diff cache will fail if cacheAutomerge\u003dfalse, so I think we need to merge this change in any case.\n\nWhat is up for discussion is if we really want to backfill auto merges for all merge commits. I am leaning towards \u0027no\u0027 and accepting that we might perform a write on a read path again. WDYT?",
+      "revId": "535f1b15710926d763f689f02d40e68da7158225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

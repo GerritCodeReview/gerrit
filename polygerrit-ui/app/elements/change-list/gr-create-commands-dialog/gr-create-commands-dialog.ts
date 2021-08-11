@@ -19,9 +19,10 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-shell-command/gr-shell-command';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {customElement, property} from '@polymer/decorators';
-import {htmlTemplate} from './gr-create-commands-dialog_html';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
+import {queryAndAssert} from '../../../utils/common-util';
 
 enum Commands {
   CREATE = 'git commit',
@@ -35,18 +36,8 @@ declare global {
   }
 }
 
-export interface GrCreateCommandsDialog {
-  $: {
-    commandsOverlay: GrOverlay;
-  };
-}
-
 @customElement('gr-create-commands-dialog')
-export class GrCreateCommandsDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrCreateCommandsDialog extends GrLitElement {
   @property({type: String})
   branch?: string;
 
@@ -56,21 +47,82 @@ export class GrCreateCommandsDialog extends PolymerElement {
   @property({type: String})
   readonly _amendExistingCommitCommand = Commands.AMEND;
 
-  @property({
-    type: String,
-    computed: '_computePushCommand(branch)',
-  })
-  _pushCommand?: string;
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        ol {
+          list-style: decimal;
+          margin-left: var(--spacing-l);
+        }
+        p {
+          margin-bottom: var(--spacing-m);
+        }
+        #commandsDialog {
+          max-width: 40em;
+        }
+      `,
+    ];
+  }
+
+  render() {
+    return html` <gr-overlay id="commandsOverlay" with-backdrop="">
+      <gr-dialog
+        id="commandsDialog"
+        confirm-label="Done"
+        cancel-label=""
+        confirm-on-enter=""
+        @confirm=${this._handleClose}
+      >
+        <div class="header" slot="header">Create change commands</div>
+        <div class="main" slot="main">
+          <ol>
+            <li>
+              <p>Make the changes to the files on your machine</p>
+            </li>
+            <li>
+              <p>If you are making a new commit use</p>
+              <gr-shell-command
+                .command="${this._createNewCommitCommand}"
+              ></gr-shell-command>
+              <p>Or to amend an existing commit use</p>
+              <gr-shell-command
+                command="${this._amendExistingCommitCommand}"
+              ></gr-shell-command>
+              <p>
+                Please make sure you add a commit message as it becomes the
+                description for your change.
+              </p>
+            </li>
+            <li>
+              <p>Push the change for code review</p>
+              <gr-shell-command
+                .command="${this._computePushCommand(this.branch)}"
+              ></gr-shell-command>
+            </li>
+            <li>
+              <p>
+                Close this dialog and you should be able to see your recently
+                created change in the 'Outgoing changes' section on the 'Your
+                changes' page.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </gr-dialog>
+    </gr-overlay>`;
+  }
 
   open() {
-    this.$.commandsOverlay.open();
+    queryAndAssert<GrOverlay>(this, '#commandsOverlay').open();
   }
 
   _handleClose() {
-    this.$.commandsOverlay.close();
+    queryAndAssert<GrOverlay>(this, '#commandsOverlay').close();
   }
 
-  _computePushCommand(branch: string): string {
+  _computePushCommand(branch?: string): string {
+    if (!branch) return '';
     return Commands.PUSH_PREFIX + branch;
   }
 }

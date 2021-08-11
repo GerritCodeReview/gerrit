@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16561462_08c7a564",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-11T21:58:18Z",
+      "side": 1,
+      "message": "Looks good overall, some feedback on the documentation.\nAlso, needs updating of the release notes.",
+      "revId": "bd1443318b3813df1002079bd77d36d7544c8c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26599af6_870359d7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1416,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-11T21:58:18Z",
+      "side": 1,
+      "message": "Best to be formatted as a note.",
+      "range": {
+        "startLine": 1416,
+        "startChar": 0,
+        "endLine": 1416,
+        "endChar": 9
+      },
+      "revId": "bd1443318b3813df1002079bd77d36d7544c8c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44a9e884_8dcf1050",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-11T21:58:18Z",
+      "side": 1,
+      "message": "Can we say also what happens when this is set to false? Would the query fail? Would they silently be discarded by the GUI?",
+      "revId": "bd1443318b3813df1002079bd77d36d7544c8c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -103,7 +103,7 @@ export const htmlTemplate = html`
       /* Account for border and padding and rounding errors. */
       max-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
     }
-    .commitMessage gr-linked-text {
+    .commitMessage gr-formatted-text {
       word-break: break-word;
     }
     #commitMessageEditor {
@@ -421,12 +421,10 @@ export const htmlTemplate = html`
                   commit-collapsible="[[_commitCollapsible]]"
                   remove-zero-width-space=""
                 >
-                  <gr-linked-text
-                    pre=""
+                  <gr-formatted-text
                     content="[[_latestCommitMessage]]"
                     config="[[_projectConfig.commentlinks]]"
-                    remove-zero-width-space=""
-                  ></gr-linked-text>
+                  ></gr-formatted-text>
                 </gr-editable-content>
               </div>
               <h3 class="assistive-tech-only">Comments and Checks Summary</h3>

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a8483fa_62270e19",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-11T07:25:15Z",
+      "side": 1,
+      "message": "All the \"@apply\" stuff does not work like so with Lit. You need a workaround. The styles have to be \"rendered\" like here:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/312086/5/polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts#131",
+      "revId": "ec263c88c011e1cf3462eca2f352e9b6783a0f82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44271c37_cd87184f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-11T07:25:15Z",
+      "side": 1,
+      "message": "Nit: You can add \"guard\" clauses at the beginning of the render() method:\n\n  if (!this.href) return \u0027error: href not set\u0027;\n  if (!this.text) return \u0027error: text not set\u0027;\n  \nI like this kind of \"soft assertion\". The app will throw an error when `href` is not set, but the user would clearly get a broken UI, which I think a good compromise. You don\u0027t want a js error on the console that the user does not see. And you don\u0027t want to render component without href or without text, which is clearly disfunctional.",
+      "revId": "ec263c88c011e1cf3462eca2f352e9b6783a0f82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

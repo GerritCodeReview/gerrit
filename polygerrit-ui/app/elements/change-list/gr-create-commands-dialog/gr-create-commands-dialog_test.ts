@@ -30,11 +30,14 @@ suite('gr-create-commands-dialog tests', () => {
 
   test('_computePushCommand', () => {
     element.branch = 'master';
-    assert.equal(element._pushCommand, 'git push origin HEAD:refs/for/master');
+    assert.equal(
+      element._computePushCommand(element.branch),
+      'git push origin HEAD:refs/for/master'
+    );
 
     element.branch = 'stable-2.15';
     assert.equal(
-      element._pushCommand,
+      element._computePushCommand(element.branch),
       'git push origin HEAD:refs/for/stable-2.15'
     );
   });

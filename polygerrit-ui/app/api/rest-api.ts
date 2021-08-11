@@ -686,7 +686,7 @@ export interface GroupInfo {
   url?: string;
   options?: GroupOptionsInfo;
   description?: string;
-  group_id?: string;
+  group_id?: number;
   owner?: string;
   owner_id?: string;
   created_on?: string;

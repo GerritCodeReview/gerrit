@@ -64,7 +64,7 @@ export class GrCreateGroupDialog extends PolymerElement {
       this._groupCreated = true;
       return this.restApiService.getGroupConfig(name).then(group => {
         // TODO(TS): should group always defined ?
-        page.show(this._computeGroupUrl(group!.group_id!));
+        page.show(this._computeGroupUrl(String(group!.group_id!)));
       });
     });
   }

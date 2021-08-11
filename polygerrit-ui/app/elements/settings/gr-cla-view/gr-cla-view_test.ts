@@ -48,7 +48,7 @@ suite('gr-cla-view tests', () => {
       options: {
         visible_to_all: true,
       },
-      group_id: '20',
+      group_id: 20,
       owner: 'CLA Accepted - Individual',
       owner_id: 'e9aaddc47f305be7661ad4db9b66f9b707bd19a0',
       created_on: '2017-07-31 15:11:04.000000000',
@@ -66,7 +66,7 @@ suite('gr-cla-view tests', () => {
       options: {
         visible_to_all: false,
       },
-      group_id: '21',
+      group_id: 21,
       owner: 'CLA Accepted - Individual2',
       owner_id: 'bc53f2738ef8ad0b3a4f53846ff59b05822caecb',
       created_on: '2017-07-31 15:25:42.000000000',
@@ -120,7 +120,7 @@ suite('gr-cla-view tests', () => {
     {
       options: {visible_to_all: true},
       id: 'e9aaddc47f305be7661ad4db9b66f9b707bd19a0' as GroupId,
-      group_id: '3',
+      group_id: 3,
       name: 'CLA Accepted - Individual' as GroupName,
     },
   ];

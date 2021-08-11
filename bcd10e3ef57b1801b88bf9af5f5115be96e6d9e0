@@ -16,6 +16,24 @@
       "message": "Some general thoughts:\n1) I\u0027m concerned that this schema migration would take so long to execute on server upgrades.\n2) Do we need to sync with community ",
       "revId": "bcd10e3ef57b1801b88bf9af5f5115be96e6d9e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f05c2d77_31e6b365",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-11T12:21:34Z",
+      "side": 1,
+      "message": "Agreed. I think we shoulnd\u0027t backfill - at least for now.",
+      "parentUuid": "53782448_493e082c",
+      "revId": "bcd10e3ef57b1801b88bf9af5f5115be96e6d9e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

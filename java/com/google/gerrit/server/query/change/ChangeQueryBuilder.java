@@ -1417,6 +1417,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   private Predicate<ChangeData> getAuthorOrCommitterFullTextPredicate(
       String who, Function<String, Predicate<ChangeData>> fullPredicateFunc)
       throws QueryParseException {
+    if (isSelf(who)) {
+      IdentifiedUser me = args.getIdentifiedUser();
+      List<Predicate<ChangeData>> predicates =
+          me.getEmailAddresses().stream().map(fullPredicateFunc).collect(toList());
+      return Predicate.or(predicates);
+    }
     Set<String> parts = SchemaUtil.getNameParts(who);
     if (parts.isEmpty()) {
       throw error("invalid value");

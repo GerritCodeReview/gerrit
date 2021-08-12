@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a596fc41_710e9150",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-08-12T04:01:23Z",
+      "side": 1,
+      "message": "Actually I just checked, and partial names are really not matched. Adapted the test accordingly.",
+      "parentUuid": "31865272_c687be36",
+      "range": {
+        "startLine": 644,
+        "startChar": 7,
+        "endLine": 644,
+        "endChar": 45
+      },
+      "revId": "c59a92af6105ab490d3a4563782dfeb5d04ca224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "490d8684_8caa8c4b",
@@ -204,6 +228,30 @@
       "side": 1,
       "message": "Based on the info above, I would amend my recommendation to be\n\n // \u0027:self\u0027 matches a change created with the current user\u0027s email address",
       "parentUuid": "f5fbfccd_5d01678d",
+      "range": {
+        "startLine": 647,
+        "startChar": 7,
+        "endLine": 647,
+        "endChar": 36
+      },
+      "revId": "c59a92af6105ab490d3a4563782dfeb5d04ca224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb0c9ead_ca3f9ca0",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-08-12T04:01:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6707838b_a8a998ff",
       "range": {
         "startLine": 647,
         "startChar": 7,

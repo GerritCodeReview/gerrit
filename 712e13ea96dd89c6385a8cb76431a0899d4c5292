@@ -39,6 +39,30 @@
       },
       "revId": "712e13ea96dd89c6385a8cb76431a0899d4c5292",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "557cc45f_7f0d21be",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-12T11:14:46Z",
+      "side": 1,
+      "message": "The listener is attached to gr-change-view which is not really a part of this test so I couldn\u0027t find a way to test the entire flow which is why I tested that the service function is called and then test the rest in the service itself.",
+      "parentUuid": "a20ccebb_d955d03a",
+      "range": {
+        "startLine": 544,
+        "startChar": 4,
+        "endLine": 545,
+        "endChar": 37
+      },
+      "revId": "712e13ea96dd89c6385a8cb76431a0899d4c5292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

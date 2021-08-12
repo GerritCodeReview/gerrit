@@ -424,6 +424,7 @@ export const htmlTemplate = html`
                   <gr-formatted-text
                     content="[[_latestCommitMessage]]"
                     config="[[_projectConfig.commentlinks]]"
+                    alwaysMonospace
                   ></gr-formatted-text>
                 </gr-editable-content>
               </div>

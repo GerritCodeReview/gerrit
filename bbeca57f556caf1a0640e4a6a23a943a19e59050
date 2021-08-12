@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb0f3473_234dce72",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-12T20:58:18Z",
+      "side": 1,
+      "message": "here is `alwaysMonospace` and in \u003cgr-formatted-text there is `monospace`",
+      "range": {
+        "startLine": 427,
+        "startChar": 20,
+        "endLine": 427,
+        "endChar": 35
+      },
+      "revId": "bbeca57f556caf1a0640e4a6a23a943a19e59050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

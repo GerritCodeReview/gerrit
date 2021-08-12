@@ -25,6 +25,8 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
+import {queryAndAssert} from '../../../test/test-utils';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 const basicFixture = fixtureFromElement('gr-http-password');
 
@@ -47,7 +49,7 @@ suite('gr-http-password tests', () => {
   });
 
   test('generate password', () => {
-    const button = element.$.generateButton;
+    const button = queryAndAssert<GrButton>(element, '#generateButton');
     const nextPassword = 'the new password';
     let generateResolve: (value: string | PromiseLike<string>) => void;
     const generateStub = stubRestApi('generateAccountHttpPassword').callsFake(

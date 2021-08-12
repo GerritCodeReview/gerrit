@@ -85,6 +85,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -1026,6 +1027,10 @@ public abstract class AbstractDaemonTest {
 
   protected ChangeInfo get(String id, ListChangesOption... options) throws RestApiException {
     return gApi.changes().id(id).get(options);
+  }
+
+  protected AccountInfo getAccountInfo(Account.Id accountId) throws RestApiException {
+    return gApi.accounts().id(accountId.get()).get();
   }
 
   protected List<ChangeInfo> query(String q) throws RestApiException {

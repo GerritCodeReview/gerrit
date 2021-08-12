@@ -6370,7 +6370,13 @@ the link:#attention-set[attention set].
 |Field Name    ||Description
 |`account`     || link:rest-api-accounts.html#account-info[AccountInfo] entity.
 |`last_update` || The link:rest-api.html#timestamp[timestamp] of the last update.
-|`reason`      || The reason of for adding or removing the user.
+|`reason`      ||
+The reason for adding or removing the user.
+If the update was caused by another user, that account is represented by
+account ID in reason as `<GERRIT_ACCOUNT_18419>` and the corresponding
+link:rest-api-accounts.html#account-info[AccountInfo] can be found in `reason_account` field.
+|`reason_account`      ||
+link:rest-api-accounts.html#account-info[AccountInfo] of the user who caused the update.
 
 |===========================
 [[attention-set-input]]

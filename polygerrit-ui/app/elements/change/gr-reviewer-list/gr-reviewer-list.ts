@@ -16,6 +16,7 @@
  */
 import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-button/gr-button';
+import '../../shared/gr-vote-chip/gr-vote-chip';
 import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
@@ -195,6 +196,33 @@ export class GrReviewerList extends PolymerElement {
       }
     }
     return maxScores.join(', ');
+  }
+
+  _computeVote(
+    reviewer: AccountInfo,
+    change?: ChangeInfo
+  ): ApprovalInfo | undefined {
+    const codeReviewLabel = this._computeCodeReviewLabel(change);
+    if (!codeReviewLabel?.all) return;
+    const reviewerVote = codeReviewLabel.all
+      .filter(
+        (approval: ApprovalInfo) =>
+          reviewer._account_id === approval._account_id
+      )
+      .pop();
+    return reviewerVote;
+  }
+
+  _computeCodeReviewLabel(change?: ChangeInfo) {
+    if (!change || !change.labels) {
+      return;
+    }
+    for (const label of Object.keys(change.labels)) {
+      if (label === 'Code-Review') {
+        return change.labels[label] as DetailedLabelInfo;
+      }
+    }
+    return;
   }
 
   @observe('change.reviewers.*', 'change.owner')

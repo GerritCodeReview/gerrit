@@ -29,6 +29,7 @@ import {ShowAlertEventDetail} from '../../../types/events';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {css, customElement, html, property, state} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
+import {modifierPressed} from '../../../utils/dom-util';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends GrLitElement {
@@ -192,6 +193,7 @@ export class GrAccountLabel extends GrLitElement {
     this.deselected = !this.selected;
     const hasAvatars = !!_config?.plugin?.has_avatars;
     this.cancelLeftPadding = !this.hideAvatar && !hasAttention && hasAvatars;
+
     return html`<span>
         ${!this.hideHovercard
           ? html`<gr-hovercard-account
@@ -239,6 +241,8 @@ export class GrAccountLabel extends GrLitElement {
       </span>
       <span
         id="hovercardTarget"
+        tabindex="0"
+        @keydown="${(e: KeyboardEvent) => this.handleKeyDown(e)}"
         class="${classMap({
           hasAttention: !!hasAttention,
         })}"
@@ -273,6 +277,15 @@ export class GrAccountLabel extends GrLitElement {
       // For re-evaluation of everything that depends on 'change'.
       if (this.change) this.change = {...this.change};
     });
+  }
+
+  handleKeyDown(e: KeyboardEvent) {
+    if (modifierPressed(e)) return;
+    // Only react to `return` and `space`.
+    if (e.keyCode !== 13 && e.keyCode !== 32) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.dispatchEvent(new Event('click'));
   }
 
   _isAttentionSetEnabled(

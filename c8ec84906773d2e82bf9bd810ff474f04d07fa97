@@ -16,6 +16,24 @@
       "message": "running `npm run eslintfix` should solve the code style issues",
       "revId": "c8ec84906773d2e82bf9bd810ff474f04d07fa97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1227248_0a1a9c6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-12T09:47:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "543b5959_a34f3ef3",
+      "revId": "c8ec84906773d2e82bf9bd810ff474f04d07fa97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

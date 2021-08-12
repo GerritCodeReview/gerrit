@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "695c9f29_6fc55250",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-12T04:55:55Z",
+      "side": 1,
+      "message": "Add a working one too?\n\n assertQuery(searchOperator + \"doe\", change1);",
+      "revId": "3d59002c439f58bafe9919cc73292c40e1a7e351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

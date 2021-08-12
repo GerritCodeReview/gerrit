@@ -16,6 +16,24 @@
       "message": "Although I like the use of an enum instead of a boolean, does this alter the question being asked of the user? Does it make it harder for the user to answer the question this way? Does this mean docs should be updated to reflect this? Are we OK changing the format of this question on such an old release?",
       "revId": "d49d1ff32ddcc4b4d2145e30a1f553a7a76c37f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a217bc1_d06135e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-08-12T17:20:31Z",
+      "side": 1,
+      "message": "Do you prefer having enum and ask user boolean question ?",
+      "parentUuid": "7a639f0c_47182025",
+      "revId": "d49d1ff32ddcc4b4d2145e30a1f553a7a76c37f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

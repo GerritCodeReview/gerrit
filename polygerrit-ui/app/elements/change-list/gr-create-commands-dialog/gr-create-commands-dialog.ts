@@ -41,7 +41,10 @@ export class GrCreateCommandsDialog extends GrLitElement {
   commandsOverlay?: GrOverlay;
 
   @property({type: String})
-  branch?: string;
+  branch = '';
+
+  @property({type: Boolean})
+  showDialog = false;
 
   static get styles() {
     return [
@@ -62,53 +65,59 @@ export class GrCreateCommandsDialog extends GrLitElement {
   }
 
   render() {
-    if (!this.branch) return 'error: branch is not set';
     return html` <gr-overlay id="commandsOverlay" with-backdrop="">
-      <gr-dialog
-        id="commandsDialog"
-        confirm-label="Done"
-        cancel-label=""
-        confirm-on-enter=""
-        @confirm=${() => this.commandsOverlay?.close()}
-      >
-        <div class="header" slot="header">Create change commands</div>
-        <div class="main" slot="main">
-          <ol>
-            <li>
-              <p>Make the changes to the files on your machine</p>
-            </li>
-            <li>
-              <p>If you are making a new commit use</p>
-              <gr-shell-command
-                .command="${Commands.CREATE}"
-              ></gr-shell-command>
-              <p>Or to amend an existing commit use</p>
-              <gr-shell-command .command="${Commands.AMEND}"></gr-shell-command>
-              <p>
-                Please make sure you add a commit message as it becomes the
-                description for your change.
-              </p>
-            </li>
-            <li>
-              <p>Push the change for code review</p>
-              <gr-shell-command
-                .command="${Commands.PUSH_PREFIX + this.branch}"
-              ></gr-shell-command>
-            </li>
-            <li>
-              <p>
-                Close this dialog and you should be able to see your recently
-                created change in the 'Outgoing changes' section on the 'Your
-                changes' page.
-              </p>
-            </li>
-          </ol>
-        </div>
-      </gr-dialog>
+      ${this.showDialog
+        ? html`
+            <gr-dialog
+              id="commandsDialog"
+              confirm-label="Done"
+              cancel-label=""
+              confirm-on-enter=""
+              @confirm=${() => this.commandsOverlay?.close()}
+            >
+              <div class="header" slot="header">Create change commands</div>
+              <div class="main" slot="main">
+                <ol>
+                  <li>
+                    <p>Make the changes to the files on your machine</p>
+                  </li>
+                  <li>
+                    <p>If you are making a new commit use</p>
+                    <gr-shell-command
+                      .command="${Commands.CREATE}"
+                    ></gr-shell-command>
+                    <p>Or to amend an existing commit use</p>
+                    <gr-shell-command
+                      .command="${Commands.AMEND}"
+                    ></gr-shell-command>
+                    <p>
+                      Please make sure you add a commit message as it becomes
+                      the description for your change.
+                    </p>
+                  </li>
+                  <li>
+                    <p>Push the change for code review</p>
+                    <gr-shell-command
+                      .command="${Commands.PUSH_PREFIX + this.branch}"
+                    ></gr-shell-command>
+                  </li>
+                  <li>
+                    <p>
+                      Close this dialog and you should be able to see your
+                      recently created change in the 'Outgoing changes' section
+                      on the 'Your changes' page.
+                    </p>
+                  </li>
+                </ol>
+              </div>
+            </gr-dialog>
+          `
+        : ''};
     </gr-overlay>`;
   }
 
   open() {
+    this.showDialog = true;
     this.commandsOverlay?.open();
   }
 }

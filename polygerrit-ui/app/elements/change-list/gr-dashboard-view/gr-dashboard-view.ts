@@ -450,7 +450,7 @@ export class GrDashboardView extends PolymerElement {
   }
 
   _handleDestinationConfirm(e: CustomEvent<CreateDestinationConfirmDetail>) {
-    this.$.commandsDialog.branch = e.detail.branch;
+    this.$.commandsDialog.branch = e.detail.branch || '';
     this.$.commandsDialog.open();
   }
 

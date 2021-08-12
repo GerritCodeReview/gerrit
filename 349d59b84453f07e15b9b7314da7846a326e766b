@@ -34,6 +34,23 @@
       "parentUuid": "8fdfdffa_5bfccbfe",
       "revId": "349d59b84453f07e15b9b7314da7846a326e766b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e60cf1f9_85c6f6b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-12T12:19:22Z",
+      "side": 1,
+      "message": "There is another issue now :(\nThe steps to reproduce are the same:\n1. Click add reference\n2. Modify permissions, somehow\n3. Click add refernce\n4. Again modify permission\n5. Click \"save for review.\"\n\nThe \"save for review\" creates a change, but adds only one item - from step 2 or 4 (they both sets permissions for \"/refs/for/*\").\nI think it would be good to have some simple validation on save/save for preview. ",
+      "revId": "349d59b84453f07e15b9b7314da7846a326e766b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -338,7 +338,7 @@ export const htmlTemplate = html`
           </div>
           <gr-change-star
             id="changeStar"
-            change="{{_change}}"
+            change="[[_change]]"
             on-toggle-star="_handleToggleStar"
             hidden$="[[!_loggedIn]]"
           ></gr-change-star>

@@ -14,28 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-table-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-list-view/gr-list-view';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-documentation-search_html';
 import {getBaseUrl} from '../../../utils/url-util';
-import {customElement, property} from '@polymer/decorators';
 import {DocResult} from '../../../types/common';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ListViewParams} from '../../gr-app-types';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {tableStyles} from '../../../styles/gr-table-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {customElement, html, property, PropertyValues} from 'lit-element';
 
 @customElement('gr-documentation-search')
-export class GrDocumentationSearch extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrDocumentationSearch extends GrLitElement {
   /**
    * URL params passed from the router.
    */
-  @property({type: Object, observer: '_paramsChanged'})
+  @property({type: Object})
   params?: ListViewParams;
 
   @property({type: Array})
@@ -52,6 +47,59 @@ export class GrDocumentationSearch extends PolymerElement {
   override connectedCallback() {
     super.connectedCallback();
     fireTitleChange(this, 'Documentation Search');
+  }
+
+  static get styles() {
+    return [
+      sharedStyles,
+      tableStyles,
+    ];
+  }
+
+  render() {
+    return html` <gr-list-view
+      .filter="${this._filter}"
+      .offset="${0}"
+      .loading="${this._loading}"
+      .path="/Documentation"
+    >
+      <table id="list" class="genericList">
+        <tbody>
+          <tr class="headerRow">
+            <th class="name topHeader">Name</th>
+            <th class="name topHeader"></th>
+            <th class="name topHeader"></th>
+          </tr>
+          <tr
+            id="loading"
+            class="loadingMsg ${this.computeLoadingClass(this._loading)}"
+          >
+            <td>Loading...</td>
+          </tr>
+        </tbody>
+        <tbody class="${this.computeLoadingClass(this._loading)}">
+          ${this._documentationSearches.map(
+            search => html`
+              <tr class="table">
+                <td class="name">
+                  <a href="${this._computeSearchUrl(search.url)}"
+                    >${search.title}</a
+                  >
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+            `
+          )}
+        </tbody>
+      </table>
+    </gr-list-view>`;
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this._paramsChanged(this.params);
+    }
   }
 
   _paramsChanged(params: ListViewParams) {

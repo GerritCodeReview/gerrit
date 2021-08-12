@@ -28,6 +28,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-change-list-column/gr-change-list-column';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
+import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-list-item_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -459,9 +460,17 @@ export class GrChangeListItem extends PolymerElement {
     const isLast = index === primaryCount - 1;
     return isLast && additionalCount === 0;
   }
+
+  _handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
+    if (!this.change) return;
+    this.change.starred = e.detail.starred;
+  }
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'toggle-star': CustomEvent<ChangeStarToggleStarDetail>;
+  }
   interface HTMLElementTagNameMap {
     'gr-change-list-item': GrChangeListItem;
   }

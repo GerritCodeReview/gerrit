@@ -43,6 +43,7 @@ import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
 import '../../checks/gr-checks-tab';
+import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-view_html';
@@ -2531,7 +2532,7 @@ export class GrChangeView extends base {
     this.$.replyOverlay.setFocusStops(dialog.getFocusStops());
   }
 
-  _handleToggleStar(e: CustomEvent<{change: ChangeInfo; starred: boolean}>) {
+  _handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
     if (e.detail.starred) {
       this.reporting.reportInteraction('change-starred-from-change-view');
       this.lastStarredTimestamp = Date.now();
@@ -2547,6 +2548,9 @@ export class GrChangeView extends base {
       e.detail.change._number,
       e.detail.starred
     );
+
+    if (!this._change) return;
+    this._change.starred = e.detail.starred;
   }
 
   _getRevisionInfo(change: ChangeInfo | ParsedChangeInfo): RevisionInfoClass {
@@ -2609,6 +2613,9 @@ export class GrChangeView extends base {
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'toggle-star': CustomEvent<ChangeStarToggleStarDetail>;
+  }
   interface HTMLElementTagNameMap {
     'gr-change-view': GrChangeView;
   }

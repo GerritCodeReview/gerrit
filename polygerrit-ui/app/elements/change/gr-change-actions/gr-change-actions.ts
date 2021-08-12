@@ -1189,6 +1189,13 @@ export class GrChangeActions
     });
   }
 
+  showSubmitDialog() {
+    if (!this._canSubmitChange()) {
+      return;
+    }
+    this._showActionDialog(this.$.confirmSubmitDialog);
+  }
+
   _handleActionTap(e: MouseEvent) {
     e.preventDefault();
     let el = (dom(e) as EventApi).localTarget as Element;

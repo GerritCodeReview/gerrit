@@ -350,6 +350,7 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     this.bindShortcut(Shortcut.TOGGLE_CHANGE_STAR, 's:keydown');
     this.bindShortcut(Shortcut.REFRESH_CHANGE_LIST, 'shift+r:keyup');
     this.bindShortcut(Shortcut.EDIT_TOPIC, 't');
+    this.bindShortcut(Shortcut.OPEN_SUBMIT_DIALOG, 'shift+s');
 
     this.bindShortcut(Shortcut.OPEN_REPLY_DIALOG, 'a:keyup');
     this.bindShortcut(Shortcut.OPEN_DOWNLOAD_DIALOG, 'd:keyup');

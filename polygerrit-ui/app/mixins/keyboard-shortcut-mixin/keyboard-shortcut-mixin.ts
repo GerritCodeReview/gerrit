@@ -151,6 +151,7 @@ export enum Shortcut {
   TOGGLE_CHANGE_REVIEWED = 'TOGGLE_CHANGE_REVIEWED',
   TOGGLE_CHANGE_STAR = 'TOGGLE_CHANGE_STAR',
   REFRESH_CHANGE_LIST = 'REFRESH_CHANGE_LIST',
+  OPEN_SUBMIT_DIALOG = 'OPEN_SUBMIT_DIALOG',
 
   OPEN_REPLY_DIALOG = 'OPEN_REPLY_DIALOG',
   OPEN_DOWNLOAD_DIALOG = 'OPEN_DOWNLOAD_DIALOG',
@@ -328,6 +329,11 @@ _describe(
   Shortcut.TOGGLE_CHANGE_STAR,
   ShortcutSection.ACTIONS,
   'Star/unstar change'
+);
+_describe(
+  Shortcut.OPEN_SUBMIT_DIALOG,
+  ShortcutSection.ACTIONS,
+  'Open submit dialog'
 );
 _describe(Shortcut.EDIT_TOPIC, ShortcutSection.ACTIONS, 'Add a change topic');
 _describe(

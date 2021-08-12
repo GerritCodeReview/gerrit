@@ -16,6 +16,23 @@
       "message": "this sounds completely wrong to me. commit messages are _not_ gerrit meta info, and as such should not be formatted according to a (from git\u0027s perspective) semi-arbitrarily chosen convention.",
       "revId": "5609d340bcc267087fd4c7aff0f81aa5e15beac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfb0229c_d0388bf3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1081064
+      },
+      "writtenOn": "2021-08-12T23:35:41Z",
+      "side": 1,
+      "message": "Please add an option to opt-in/opt-out. \n\nWe often deal with commit messages that are written elsewhere (e.g. cherry-picks from upstream changes) and will likely get funny results then. Most developers are used to plain text Git commit messages. (I would not be surprised if copy\u0027n\u0027paste is affected by this change as the rendered text is copied with markup?)",
+      "revId": "5609d340bcc267087fd4c7aff0f81aa5e15beac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -21,7 +21,7 @@ import {appContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, internalProperty} from 'lit-element';
+import {css, customElement, html, state} from 'lit-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -30,7 +30,7 @@ declare global {
 }
 @customElement('gr-group-list')
 export class GrGroupList extends GrLitElement {
-  @internalProperty()
+  @state()
   protected _groups: GroupInfo[] = [];
 
   private readonly restApiService = appContext.restApiService;

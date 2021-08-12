@@ -14,27 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-table-styles';
-import '../../../styles/shared-styles';
+
 import '../../shared/gr-list-view/gr-list-view';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-documentation-search_html';
 import {
   ListViewMixin,
   ListViewParams,
 } from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {getBaseUrl} from '../../../utils/url-util';
-import {customElement, property} from '@polymer/decorators';
 import {DocResult} from '../../../types/common';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {tableStyles} from '../../../styles/gr-table-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {customElement, html, property, PropertyValues} from 'lit-element';
 
 @customElement('gr-documentation-search')
 export class GrDocumentationSearch extends ListViewMixin(PolymerElement) {
-  static get template() {
-    return htmlTemplate;
-  }
-
   /**
    * URL params passed from the router.
    */
@@ -55,6 +52,69 @@ export class GrDocumentationSearch extends ListViewMixin(PolymerElement) {
   override connectedCallback() {
     super.connectedCallback();
     fireTitleChange(this, 'Documentation Search');
+  }
+
+  static get styles() {
+    return [
+      sharedStyles,
+      tableStyles,
+    ];
+  }
+
+  _renderLinks(webLinks: WebLinkInfo[]) {
+    if (!webLinks) return;
+    return html`<div>
+      <span class="browse">Browse:</span>
+      ${webLinks.map(
+        link => html`<a target="_blank" href="${link.url}">${link.name}</a> `
+      )}
+    </div> `;
+  }
+
+  render() {
+    return html` <gr-list-view
+      .filter="${this._filter}"
+      .offset="${0}"
+      .loading="${this._loading}"
+      .path="/Documentation"
+    >
+      <table id="list" class="genericList">
+        <tbody>
+          <tr class="headerRow">
+            <th class="name topHeader">Name</th>
+            <th class="name topHeader"></th>
+            <th class="name topHeader"></th>
+          </tr>
+          <tr
+            id="loading"
+            class="loadingMsg ${this.computeLoadingClass(this._loading)}"
+          >
+            <td>Loading...</td>
+          </tr>
+        </tbody>
+        <tbody class="${this.computeLoadingClass(this._loading)}">
+          ${this._documentationSearches.map(
+            search => html`
+              <tr class="table">
+                <td class="name">
+                  <a href="${this._computeSearchUrl(search.url)}"
+                    >${search.title}</a
+                  >
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+            `
+          )}
+        </tbody>
+      </table>
+    </gr-list-view>`;
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this._paramsChanged(this.params);
+    }
   }
 
   _paramsChanged(params: ListViewParams) {

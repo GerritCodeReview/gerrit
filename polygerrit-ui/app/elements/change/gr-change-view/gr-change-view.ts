@@ -578,6 +578,7 @@ export class GrChangeView extends base {
       [Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
       [Shortcut.DIFF_RIGHT_AGAINST_LATEST]: '_handleDiffRightAgainstLatest',
       [Shortcut.DIFF_BASE_AGAINST_LATEST]: '_handleDiffBaseAgainstLatest',
+      [Shortcut.OPEN_SUBMIT_DIALOG]: '_handleOpenSubmitDialog',
     };
   }
 
@@ -1511,6 +1512,15 @@ export class GrChangeView extends base {
 
     e.preventDefault();
     this.$.metadata.editTopic();
+  }
+
+  _handleOpenSubmitDialog(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || !this._submitEnabled) {
+      return;
+    }
+
+    e.preventDefault();
+    this.$.actions.showSubmitDialog();
   }
 
   _handleDiffAgainstBase(e: CustomKeyboardEvent) {

@@ -27,45 +27,46 @@ const basicFixture = fixtureFromElement('gr-change-star');
 suite('gr-change-star tests', () => {
   let element: GrChangeStar;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
     element.change = {
       ...createChange(),
       starred: true,
     };
+    await element.updateComplete;
   });
 
   test('star visibility states', async () => {
-    element.set('change.starred', true);
-    await flush();
+    element.change!.starred = true;
+    await element.updateComplete;
     let icon = queryAndAssert<IronIconElement>(element, 'iron-icon');
     assert.isTrue(icon.classList.contains('active'));
     assert.equal(icon.icon, 'gr-icons:star');
 
-    element.set('change.starred', false);
-    await flush();
+    element.change!.starred = false;
+    await element.updateComplete;
     icon = queryAndAssert<IronIconElement>(element, 'iron-icon');
     assert.isFalse(icon.classList.contains('active'));
     assert.equal(icon.icon, 'gr-icons:star-border');
   });
 
   test('starring', async () => {
-    element.set('change.starred', false);
-    await flush();
+    element.change!.starred = false;
+    await element.updateComplete;
     assert.equal(element.change!.starred, false);
 
     MockInteractions.tap(queryAndAssert(element, 'button'));
-    await flush();
+    await element.updateComplete;
     assert.equal(element.change!.starred, true);
   });
 
   test('unstarring', async () => {
-    element.set('change.starred', true);
-    await flush();
+    element.change!.starred = true;
+    await element.updateComplete;
     assert.equal(element.change!.starred, true);
 
     MockInteractions.tap(queryAndAssert(element, 'button'));
-    await flush();
+    await element.updateComplete;
     assert.equal(element.change!.starred, false);
   });
 });

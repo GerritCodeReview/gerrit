@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfbf9258_b5b40055",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-12T06:50:40Z",
+      "side": 1,
+      "message": "Nit: You could try using `createGroupInfo` (and enhancing it a bit) from test-data-generators.",
+      "revId": "613f0c27cb718c2f659533d8f6117aa8d2662c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

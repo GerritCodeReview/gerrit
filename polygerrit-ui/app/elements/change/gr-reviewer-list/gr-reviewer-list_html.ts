@@ -70,6 +70,11 @@ export const htmlTemplate = html`
           voteable-text="[[_computeVoteableText(reviewer, change)]]"
           removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]"
         >
+          <gr-vote-chip
+            slot="vote-chip"
+            vote="[[_computeVote(reviewer, change)]]"
+            label="[[_computeCodeReviewLabel(change)]]"
+          ></gr-vote-chip>
         </gr-account-chip>
       </template>
       <div class="controlsContainer" hidden$="[[!mutable]]">

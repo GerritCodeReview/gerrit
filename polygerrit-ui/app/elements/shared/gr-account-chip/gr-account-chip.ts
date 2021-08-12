@@ -178,6 +178,7 @@ export class GrAccountChip extends GrLitElement {
           .voteableText=${this.voteableText}
         >
         </gr-account-link>
+        <slot name="vote-chip"></slot>
         <gr-button
           id="remove"
           link=""

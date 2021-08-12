@@ -16,6 +16,7 @@
  */
 import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-button/gr-button';
+import '../../shared/gr-vote-chip/gr-vote-chip';
 import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
@@ -33,6 +34,8 @@ import {
   DetailedLabelInfo,
   EmailAddress,
   AccountDetailInfo,
+  isDetailedLabelInfo,
+  LabelInfo,
 } from '../../../types/common';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
@@ -41,6 +44,7 @@ import {isRemovableReviewer} from '../../../utils/change-util';
 import {ReviewerState} from '../../../constants/constants';
 import {appContext} from '../../../services/app-context';
 import {fireAlert} from '../../../utils/event-util';
+import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends PolymerElement {
@@ -195,6 +199,20 @@ export class GrReviewerList extends PolymerElement {
       }
     }
     return maxScores.join(', ');
+  }
+
+  _computeVote(
+    reviewer: AccountInfo,
+    change?: ChangeInfo
+  ): ApprovalInfo | undefined {
+    const codeReviewLabel = this._computeCodeReviewLabel(change);
+    if (!codeReviewLabel || !isDetailedLabelInfo(codeReviewLabel)) return;
+    return getApprovalInfo(codeReviewLabel, reviewer);
+  }
+
+  _computeCodeReviewLabel(change?: ChangeInfo): LabelInfo | undefined {
+    if (!change || !change.labels) return;
+    return getCodeReviewLabel(change.labels);
   }
 
   @observe('change.reviewers.*', 'change.owner')

@@ -20,6 +20,7 @@ import {
   DetailedLabelInfo,
   isDetailedLabelInfo,
   LabelInfo,
+  LabelNameToInfoMap,
   VotingRangeInfo,
 } from '../types/common';
 
@@ -101,4 +102,15 @@ export function labelCompare(labelName1: string, labelName2: string) {
   if (labelName2 === CODE_REVIEW) return 1;
 
   return labelName1.localeCompare(labelName2);
+}
+
+export function getCodeReviewLabel(
+  labels: LabelNameToInfoMap
+): LabelInfo | undefined {
+  for (const label of Object.keys(labels)) {
+    if (label === CODE_REVIEW) {
+      return labels[label];
+    }
+  }
+  return;
 }

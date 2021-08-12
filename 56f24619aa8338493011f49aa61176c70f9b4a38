@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba20556d_e2f0d49e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-12T08:27:08Z",
+      "side": 1,
+      "message": "maybe double check that change1 was submitted too?",
+      "range": {
+        "startLine": 352,
+        "startChar": 15,
+        "endLine": 352,
+        "endChar": 23
+      },
+      "revId": "56f24619aa8338493011f49aa61176c70f9b4a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "709687c1_af9fd954",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-12T08:27:08Z",
+      "side": 1,
+      "message": "curious: is the ordering defined, and if so, did we make promises about this?",
+      "range": {
+        "startLine": 383,
+        "startChar": 11,
+        "endLine": 383,
+        "endChar": 26
+      },
+      "revId": "56f24619aa8338493011f49aa61176c70f9b4a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

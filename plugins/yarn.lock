@@ -7,7 +7,14 @@
   resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.4.2.tgz#79e8ff336608cbf18e651bfa9541d7bdead5e1f9"
   integrity sha512-iqHd6G43pV4Wk5iNw95AQmWUBuIrY+dvQ1Ne8ZYkOwRhdruh4BAPhMtsmqWDlcVQbfcwZD5F2zFkGB4J4htggw==
 
-"@polymer/polymer@^3.4.1":
+"@polymer/decorators@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@polymer/decorators/-/decorators-3.0.0.tgz#e4212ac976d9abd1210f560b6e1be4165c1c0183"
+  integrity sha512-qh+VID9nDV9q3ABvIfWgm7/+udl7v2HKsMLPXFm8tj1fI7qr7yWJMFwS3xWBkMmuNPtmkS8MDP0vqLAQIEOWzg==
+  dependencies:
+    "@polymer/polymer" "^3.0.5"
+
+"@polymer/polymer@^3.0.5", "@polymer/polymer@^3.4.1":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.4.1.tgz#333bef25711f8411bb5624fb3eba8212ef8bee96"
   integrity sha512-KPWnhDZibtqKrUz7enIPOiO4ZQoJNOuLwqrhV2MXzIt3VVnUVJVG5ORz4Z2sgO+UZ+/UZnPD0jqY+jmw/+a9mQ==

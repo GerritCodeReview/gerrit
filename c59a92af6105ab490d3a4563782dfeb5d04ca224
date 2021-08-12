@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "301e784f_eb57ebfa",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-12T03:42:45Z",
+      "side": 1,
+      "message": "Gotcha. I didn\u0027t realize part of the name was normally expected to match.",
+      "parentUuid": "3b995f7e_112f9d35",
+      "range": {
+        "startLine": 627,
+        "startChar": 4,
+        "endLine": 627,
+        "endChar": 51
+      },
+      "revId": "c59a92af6105ab490d3a4563782dfeb5d04ca224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be284af2_76a3f8ac",
@@ -97,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "31865272_c687be36",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-12T03:42:45Z",
+      "side": 1,
+      "message": "Maybe then\n\n // the string \u0027self\u0027 in the name should not be matched\n \nAnd then should this also have a test showing you can still match on \"Myself\" (also helps coverage in here since there\u0027s no partial name tests)?",
+      "parentUuid": "52c114e3_76e5a718",
+      "range": {
+        "startLine": 644,
+        "startChar": 7,
+        "endLine": 644,
+        "endChar": 45
+      },
+      "revId": "c59a92af6105ab490d3a4563782dfeb5d04ca224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "490d8684_8caa8c4b",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 2
@@ -132,6 +180,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "490d8684_8caa8c4b",
+      "range": {
+        "startLine": 647,
+        "startChar": 7,
+        "endLine": 647,
+        "endChar": 36
+      },
+      "revId": "c59a92af6105ab490d3a4563782dfeb5d04ca224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6707838b_a8a998ff",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-12T03:42:45Z",
+      "side": 1,
+      "message": "Based on the info above, I would amend my recommendation to be\n\n // \u0027:self\u0027 matches a change created with the current user\u0027s email address",
+      "parentUuid": "f5fbfccd_5d01678d",
       "range": {
         "startLine": 647,
         "startChar": 7,

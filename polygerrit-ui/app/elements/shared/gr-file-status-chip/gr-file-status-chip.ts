@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles';
-import {htmlTemplate} from './gr-file-status-chip_html';
-import {customElement, property} from '@polymer/decorators';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {SpecialFilePath} from '../../../constants/constants';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
 
 const FileStatus = {
   A: 'Added',
@@ -33,13 +32,49 @@ const FileStatus = {
 };
 
 @customElement('gr-file-status-chip')
-export class GrFileStatusChip extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrFileStatusChip extends GrLitElement {
   @property({type: Object})
   file?: NormalizedFileInfo;
+
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        .status {
+          display: inline-block;
+          border-radius: var(--border-radius);
+          margin-left: var(--spacing-s);
+          padding: 0 var(--spacing-m);
+          color: var(--primary-text-color);
+          font-size: var(--font-size-small);
+          background-color: var(--file-status-added);
+        }
+        .status.invisible,
+        .status.M {
+          display: none;
+        }
+        .status.D,
+        .status.R,
+        .status.W {
+          background-color: var(--file-status-changed);
+        }
+        .status.U {
+          background-color: var(--file-status-unchanged);
+        }
+      `,
+    ];
+  }
+
+  render() {
+    return html` <span
+      class="${this._computeStatusClass(this.file)}"
+      tabindex="0"
+      title="${this._computeFileStatusLabel(this.file?.status)}"
+      aria-label="${this._computeFileStatusLabel(this.file?.status)}"
+    >
+      ${this._computeFileStatusLabel(this.file?.status)}
+    </span>`;
+  }
 
   /**
    * Get a descriptive label for use in the status indicator's tooltip and

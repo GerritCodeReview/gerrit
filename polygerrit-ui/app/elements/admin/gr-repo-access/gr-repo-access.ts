@@ -91,7 +91,7 @@ export class GrRepoAccess extends PolymerElement {
   _groups?: ProjectAccessGroups;
 
   @property({type: Object})
-  _inheritsFrom?: ProjectInfo | null | {};
+  _inheritsFrom?: ProjectInfo;
 
   @property({type: Object})
   _labels?: LabelNameToLabelTypeInfoMap;
@@ -114,7 +114,7 @@ export class GrRepoAccess extends PolymerElement {
   @property({type: Boolean})
   _loading = true;
 
-  private originalInheritsFrom?: ProjectInfo | null;
+  private originalInheritsFrom?: ProjectInfo;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -159,16 +159,13 @@ export class GrRepoAccess extends PolymerElement {
         // Keep a copy of the original inherit from values separate from
         // the ones data bound to gr-autocomplete, so the original value
         // can be restored if the user cancels.
-        this._inheritsFrom = res.inherits_from
-          ? {
-              ...res.inherits_from,
-            }
-          : null;
-        this.originalInheritsFrom = res.inherits_from
-          ? {
-              ...res.inherits_from,
-            }
-          : null;
+        if (res.inherits_from) {
+          this._inheritsFrom = {...res.inherits_from};
+          this.originalInheritsFrom = {...res.inherits_from};
+        } else {
+          this._inheritsFrom = undefined;
+          this.originalInheritsFrom = undefined;
+        }
         // Initialize the filter value so when the user clicks edit, the
         // current value appears. If there is no parent repo, it is
         // initialized as an empty string.
@@ -223,7 +220,7 @@ export class GrRepoAccess extends PolymerElement {
     }
     const originalInheritsFromId = this.originalInheritsFrom
       ? singleDecodeURL(this.originalInheritsFrom.id)
-      : null;
+      : undefined;
     const parentProject: ProjectInfo = {
       id: (e.detail.value ??
         encodeURL(this._inheritFromFilter, true)) as UrlEncodedRepoName,
@@ -279,8 +276,8 @@ export class GrRepoAccess extends PolymerElement {
     return weblinks && weblinks.length ? 'show' : '';
   }
 
-  _computeShowInherit(inheritsFrom?: RepoName) {
-    return inheritsFrom ? 'show' : '';
+  _computeShowInherit(inheritsFrom?: ProjectInfo) {
+    return inheritsFrom?.id?.length ? 'show' : '';
   }
 
   // TODO(TS): Unclear what is model here, provide a better explanation
@@ -308,18 +305,10 @@ export class GrRepoAccess extends PolymerElement {
     }
     // Restore inheritFrom.
     if (this._inheritsFrom) {
-      // Can't assign this._inheritsFrom = {...this.originalInheritsFrom}
-      // directly, because this._inheritsFrom is declared as
-      // '...|null|undefined` and typescript reports error when trying
-      // to access .name property (because 'name' in null and 'name' in undefined
-      // lead to runtime error)
-      // After migrating to Typescript v4.2 the code below can be rewritten as
-      // const copy = {...this.originalInheritsFrom};
-      const copy: ProjectInfo | {} = this.originalInheritsFrom
+      this._inheritsFrom = this.originalInheritsFrom
         ? {...this.originalInheritsFrom}
-        : {};
-      this._inheritsFrom = copy;
-      this._inheritFromFilter = 'name' in copy ? copy.name : undefined;
+        : undefined;
+      this._inheritFromFilter = this.originalInheritsFrom?.name;
     }
     if (!this._local) {
       return;
@@ -459,12 +448,10 @@ export class GrRepoAccess extends PolymerElement {
 
     const originalInheritsFromId = this.originalInheritsFrom
       ? singleDecodeURL(this.originalInheritsFrom.id)
-      : null;
-    // TODO(TS): this._inheritsFrom as ProjectInfo might be a mistake.
-    // _inheritsFrom can be {}
+      : undefined;
     const inheritsFromId = this._inheritsFrom
-      ? singleDecodeURL((this._inheritsFrom as ProjectInfo).id)
-      : null;
+      ? singleDecodeURL(this._inheritsFrom.id)
+      : undefined;
 
     const inheritFromChanged =
       // Inherit from changed

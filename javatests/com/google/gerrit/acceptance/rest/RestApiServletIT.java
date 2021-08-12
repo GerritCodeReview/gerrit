@@ -23,15 +23,20 @@ import static org.apache.http.HttpStatus.SC_OK;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
+import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.apache.http.message.BasicHeader;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
@@ -42,6 +47,8 @@ public class RestApiServletIT extends AbstractDaemonTest {
   private static BasicHeader X_GERRIT_UPDATED_REF_ENABLED_HEADER =
       new BasicHeader(X_GERRIT_UPDATED_REF_ENABLED, "true");
   private static Pattern ANY_SPACE = Pattern.compile("\\s");
+
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void restResponseBodyShouldBeCompactWithoutSpaces() throws Exception {
@@ -284,13 +291,6 @@ public class RestApiServletIT extends AbstractDaemonTest {
 
       // During submit, all relevant meta refs of the latest patchset are updated + the destination
       // branch/es.
-      // TODO(paiking): This doesn't work well for torn submissions: If the changes were in
-      // different projects in the same topic, and we tried to submit those changes together, it's
-      // possible that the first submission only submitted one of the changes, and then the retry
-      // submitted the other change. If that happens, when the user retries, they will not get the
-      // meta ref updates for the change that got submitted on the previous submission attempt.
-      // Ideally, submit should be idempotent and always return all meta refs on all submission
-      // attempts.
       assertThat(headers)
           .containsExactly(
               String.format(
@@ -311,6 +311,100 @@ public class RestApiServletIT extends AbstractDaemonTest {
                   Url.encode(branch),
                   originalDestinationBranchSha1.getName(),
                   branchSha1));
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void xGerritUpdatedRefSetMultipleHeadersForSubmitTopic() throws Exception {
+    String secondProject = "secondProject";
+    projectOperations.newProject().name(secondProject).create();
+    TestRepository<InMemoryRepository> secondRepo =
+        cloneProject(Project.nameKey("secondProject"), admin);
+    String topic = "topic";
+    String branch = "refs/heads/master";
+    Result change1 = createChange(testRepo, branch, "first change", "a.txt", "message", topic);
+    Result change2 = createChange(secondRepo, branch, "second change", "b.txt", "message", topic);
+
+    String metaRef1 = RefNames.changeMetaRef(change1.getChange().getId());
+    String metaRef2 = RefNames.changeMetaRef(change2.getChange().getId());
+
+    gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(change2.getChangeId()).current().review(ReviewInput.approve());
+
+    Project.NameKey project1 = change1.getChange().project();
+    Project.NameKey project2 = change2.getChange().project();
+
+    try (Repository repository1 = repoManager.openRepository(project1);
+        Repository repository2 = repoManager.openRepository(project2)) {
+      ObjectId originalFirstMetaRefSha1 = getMetaRefSha1(change1);
+      ObjectId originalSecondMetaRefSha1 = getMetaRefSha1(change2);
+      ObjectId originalDestinationBranchSha1Project1 =
+          repository1.resolve(change1.getChange().change().getDest().branch());
+      ObjectId originalDestinationBranchSha1Project2 =
+          repository2.resolve(change2.getChange().change().getDest().branch());
+
+      RestResponse response =
+          adminRestSession.postWithHeaders(
+              "/changes/" + change2.getChangeId() + "/submit",
+              /* content = */ null,
+              X_GERRIT_UPDATED_REF_ENABLED_HEADER);
+      response.assertOK();
+
+      ObjectId firstMetaRefSha1 = getMetaRefSha1(change1);
+      ObjectId secondMetaRefSha1 = getMetaRefSha1(change2);
+
+      List<String> headers = response.getHeaders(X_GERRIT_UPDATED_REF);
+
+      String branchSha1Project1 =
+          repository1
+              .getRefDatabase()
+              .exactRef(change1.getChange().change().getDest().branch())
+              .getObjectId()
+              .name();
+
+      String branchSha1Project2 =
+          repository2
+              .getRefDatabase()
+              .exactRef(change2.getChange().change().getDest().branch())
+              .getObjectId()
+              .name();
+
+      // During submit, all relevant meta refs of the latest patchset are updated + the destination
+      // branch/es.
+      // TODO(paiking): This doesn't work well for torn submissions: If the changes are in
+      // different projects in the same topic, and we tried to submit those changes together, it's
+      // possible that the first submission only submitted one of the changes, and then the retry
+      // submitted the other change. If that happens, when the user retries, they will not get the
+      // meta ref updates for the change that got submitted on the previous submission attempt.
+      // Ideally, submit should be idempotent and always return all meta refs on all submission
+      // attempts.
+      assertThat(headers)
+          .containsExactly(
+              String.format(
+                  "%s~%s~%s~%s",
+                  Url.encode(project1.get()),
+                  Url.encode(metaRef1),
+                  originalFirstMetaRefSha1.getName(),
+                  firstMetaRefSha1.getName()),
+              String.format(
+                  "%s~%s~%s~%s",
+                  Url.encode(project2.get()),
+                  Url.encode(metaRef2),
+                  originalSecondMetaRefSha1.getName(),
+                  secondMetaRefSha1.getName()),
+              String.format(
+                  "%s~%s~%s~%s",
+                  Url.encode(project1.get()),
+                  Url.encode(branch),
+                  originalDestinationBranchSha1Project1.getName(),
+                  branchSha1Project1),
+              String.format(
+                  "%s~%s~%s~%s",
+                  Url.encode(project2.get()),
+                  Url.encode(branch),
+                  originalDestinationBranchSha1Project2.getName(),
+                  branchSha1Project2));
     }
   }
 

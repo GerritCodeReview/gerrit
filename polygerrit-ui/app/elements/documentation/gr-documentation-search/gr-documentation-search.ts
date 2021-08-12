@@ -24,10 +24,13 @@ import {
   ListViewParams,
 } from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {getBaseUrl} from '../../../utils/url-util';
-import {customElement, property} from '@polymer/decorators';
 import {DocResult} from '../../../types/common';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property, PropertyValues} from 'lit-element';
 
 @customElement('gr-documentation-search')
 export class GrDocumentationSearch extends ListViewMixin(PolymerElement) {
@@ -56,6 +59,51 @@ export class GrDocumentationSearch extends ListViewMixin(PolymerElement) {
   connectedCallback() {
     super.connectedCallback();
     fireTitleChange(this, 'Documentation Search');
+  }
+
+  static get styles() {
+    return [
+      sharedStyles,
+      dashboardHeaderStyles,
+      css`
+        .browse {
+          display: inline-block;
+          font-weight: var(--font-weight-bold);
+          text-align: right;
+          width: 4em;
+        }
+        a {
+          padding-right: 0.3em;
+        }
+      `,
+    ];
+  }
+
+  _renderLinks(webLinks: WebLinkInfo[]) {
+    if (!webLinks) return;
+    return html`<div>
+      <span class="browse">Browse:</span>
+      ${webLinks.map(
+        link => html`<a target="_blank" href="${link.url}">${link.name}</a> `
+      )}
+    </div> `;
+  }
+
+  render() {
+    return html` <div class="info">
+      <h1 class="heading-1">${this.repo}</h1>
+      <hr />
+      <div>
+        <span>Detail:</span> <a href="${this._repoUrl}">Repo settings</a>
+      </div>
+      ${this._renderLinks(this._webLinks)}
+    </div>`;
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('repo')) {
+      this._repoChanged();
+    }
   }
 
   _paramsChanged(params: ListViewParams) {

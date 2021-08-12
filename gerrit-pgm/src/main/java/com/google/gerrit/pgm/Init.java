@@ -26,6 +26,7 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.schema.Schema_159.DraftWorkflowMigrationStrategy;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.inject.AbstractModule;
@@ -80,6 +81,13 @@ public class Init extends BaseInit {
 
   @Option(name = "--skip-download", usage = "Don't download given library")
   private List<String> skippedDownloads;
+
+  @Option(
+          name = "--migrate-draft-to",
+          usage =
+                  "Strategy to migrate draft changes during Schema 159 migration(private or work_in_progress)")
+  private DraftWorkflowMigrationStrategy draftMigrationStrategy =
+          DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
 
   @Inject Browser browser;
 
@@ -183,6 +191,11 @@ public class Init extends BaseInit {
   @Override
   protected List<String> getSkippedDownloads() {
     return skippedDownloads != null ? skippedDownloads : Collections.<String>emptyList();
+  }
+
+  @Override
+  protected DraftWorkflowMigrationStrategy getDraftMigrationStrategy() {
+    return draftMigrationStrategy;
   }
 
   @Override

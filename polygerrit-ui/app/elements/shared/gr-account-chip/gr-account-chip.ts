@@ -17,7 +17,8 @@
 import '../gr-account-link/gr-account-link';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
-import {AccountInfo, ChangeInfo} from '../../../types/common';
+import '../gr-vote-chip/gr-vote-chip';
+import {AccountInfo, ApprovalInfo, ChangeInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {css, customElement, html, property} from 'lit-element';
@@ -78,6 +79,9 @@ export class GrAccountChip extends GrLitElement {
 
   @property({type: Boolean})
   transparentBackground = false;
+
+  @property({type: Object})
+  codeReviewVote?: ApprovalInfo;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -178,6 +182,7 @@ export class GrAccountChip extends GrLitElement {
           .voteableText=${this.voteableText}
         >
         </gr-account-link>
+        <gr-vote-chip .vote="${this.codeReviewVote}"></gr-vote-chip>
         <gr-button
           id="remove"
           link=""

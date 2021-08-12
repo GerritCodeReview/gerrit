@@ -197,6 +197,30 @@ export class GrReviewerList extends PolymerElement {
     return maxScores.join(', ');
   }
 
+  _showVote(
+    reviewer: AccountInfo,
+    change: ChangeInfo
+  ): ApprovalInfo | undefined {
+    if (!change || !change.labels) {
+      return;
+    }
+    for (const label of Object.keys(change.labels)) {
+      if (label === 'Code-Review') {
+        const detailedLabel = change.labels[label] as DetailedLabelInfo;
+        if (detailedLabel.all) {
+          const reviewerVote = detailedLabel.all
+            .filter(
+              (approval: ApprovalInfo) =>
+                reviewer._account_id === approval._account_id
+            )
+            .pop();
+          return reviewerVote;
+        }
+      }
+    }
+    return;
+  }
+
   @observe('change.reviewers.*', 'change.owner')
   _reviewersChanged(
     changeRecord: PolymerDeepPropertyChange<Reviewers, Reviewers>,

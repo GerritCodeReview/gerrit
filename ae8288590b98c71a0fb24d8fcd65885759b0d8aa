@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fd9f04e_ca31df04",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6375,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T11:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18bbcdd4_e2282fca",
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7504bc5c_585f5c01",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-08-12T07:35:48Z",
       "side": 1,
       "message": "I don\u0027t understand this part. It sounds like the account is represented in both the \"reason\" and \"reason_account\" fields?",
+      "range": {
+        "startLine": 6375,
+        "startChar": 52,
+        "endLine": 6376,
+        "endChar": 9
+      },
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05d18d79_0b2849b7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6376,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T11:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7504bc5c_585f5c01",
       "range": {
         "startLine": 6375,
         "startChar": 52,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a952e7ab_8b43ee8f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6377,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T11:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6595cc79_881b3454",
+      "range": {
+        "startLine": 6377,
+        "startChar": 34,
+        "endLine": 6377,
+        "endChar": 35
+      },
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5912af8_07b81666",
@@ -77,6 +143,24 @@
       "writtenOn": "2021-08-12T07:35:48Z",
       "side": 1,
       "message": "Is this null in case there is no such account?",
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4232e503_cab1b467",
+        "filename": "java/com/google/gerrit/extensions/common/AttentionSetInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T11:03:13Z",
+      "side": 1,
+      "message": "Yes, added a comment.",
+      "parentUuid": "c5912af8_07b81666",
       "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -104,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b69e9453_2225858d",
+        "filename": "java/com/google/gerrit/server/util/AccountTemplateUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T11:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64731907_4aaadd09",
+      "range": {
+        "startLine": 34,
+        "startChar": 25,
+        "endLine": 34,
+        "endChar": 29
+      },
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2e4f628_38d01b85",
@@ -117,6 +225,24 @@
       "writtenOn": "2021-08-12T07:35:48Z",
       "side": 1,
       "message": "I think we don\u0027t normally log at FINE, right? Would this be better at INFO with \"every 100 or so times\"?",
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7acb9d6b_f6aa070f",
+        "filename": "java/com/google/gerrit/server/util/AccountTemplateUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T11:03:13Z",
+      "side": 1,
+      "message": "Looking through the codebase, most logs are actually atFine and I couldn\u0027t find log records for the logs atInfo, so maybe we do not collect them.\nI do not expect that to be too noisy. I think it would be useful fro debugging if we see something unexpected on the UI.\n\nI would keep it as it is.",
+      "parentUuid": "a2e4f628_38d01b85",
       "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -138,6 +264,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bce7f61_a5d5474a",
+        "filename": "java/com/google/gerrit/server/util/AccountTemplateUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T11:03:13Z",
+      "side": 1,
+      "message": "I still use it as a fallback for unavailable Account#getNameEmail, but rearranged to handle success case first, I think you are right and it is more readable.",
+      "parentUuid": "7a2648cb_68bb64c6",
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9b01880_081811ce",
@@ -151,6 +295,24 @@
       "writtenOn": "2021-08-12T07:35:48Z",
       "side": 1,
       "message": "Could you add javadoc?",
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bbeb1e3_ef166ee4",
+        "filename": "java/com/google/gerrit/server/util/AttentionSetUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T11:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9b01880_081811ce",
       "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -178,6 +340,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23cbbbd7_59044c35",
+        "filename": "java/com/google/gerrit/server/util/AttentionSetUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T11:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22784918_71e2ab32",
+      "range": {
+        "startLine": 103,
+        "startChar": 48,
+        "endLine": 103,
+        "endChar": 49
+      },
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55d02332_5f7b387e",
@@ -191,6 +377,24 @@
       "writtenOn": "2021-08-12T07:35:48Z",
       "side": 1,
       "message": "Isn\u0027t this implied in the next assertion?",
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7cbec0b_148cd8ad",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T11:03:13Z",
+      "side": 1,
+      "message": "I prefer seeing assertion failure in tests, rather than NullPointerException.",
+      "parentUuid": "55d02332_5f7b387e",
       "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

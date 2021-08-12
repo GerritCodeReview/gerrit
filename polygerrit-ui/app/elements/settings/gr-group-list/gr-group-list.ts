@@ -30,7 +30,7 @@ declare global {
 }
 @customElement('gr-group-list')
 export class GrGroupList extends GrLitElement {
-  @internalProperty()
+  @state()
   protected _groups: GroupInfo[] = [];
 
   private readonly restApiService = appContext.restApiService;

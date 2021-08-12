@@ -167,6 +167,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "90905375_1d288709",
+        "filename": "java/com/google/gerrit/extensions/common/AttentionSetInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-08-12T12:06:04Z",
+      "side": 1,
+      "message": "Can we mark the field @Nullable, or is that against convention (I seem to remember something like that)?",
+      "parentUuid": "4232e503_cab1b467",
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64731907_4aaadd09",
         "filename": "java/com/google/gerrit/server/util/AccountTemplateUtil.java",
         "patchSetId": 4
@@ -243,6 +261,24 @@
       "side": 1,
       "message": "Looking through the codebase, most logs are actually atFine and I couldn\u0027t find log records for the logs atInfo, so maybe we do not collect them.\nI do not expect that to be too noisy. I think it would be useful fro debugging if we see something unexpected on the UI.\n\nI would keep it as it is.",
       "parentUuid": "a2e4f628_38d01b85",
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5184d6ba_dd550240",
+        "filename": "java/com/google/gerrit/server/util/AccountTemplateUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-08-12T12:06:04Z",
+      "side": 1,
+      "message": "Wouldn\u0027t \"every 10\" or so still be sufficient? I\u0027m thinking of the recent case where IIRC Han-Wen found we had a few noisy log statements. But no strong opinion; up to you.",
+      "parentUuid": "7acb9d6b_f6aa070f",
       "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

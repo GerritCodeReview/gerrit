@@ -24,7 +24,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-account_html';
 import {appContext} from '../../../services/app-context';
 import {accountKey, isSelf} from '../../../utils/account-util';
-import {getDisplayName} from '../../../utils/display-name-util';
 import {customElement, property} from '@polymer/decorators';
 import {
   AccountInfo,
@@ -35,8 +34,10 @@ import {
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
   canHaveAttention,
+  getAddedByReason,
   getLastUpdate,
   getReason,
+  getRemovedByReason,
   hasAttention,
 } from '../../../utils/attention-set-util';
 import {ReviewerState} from '../../../constants/constants';
@@ -119,7 +120,7 @@ export class GrHovercardAccount extends hovercardBehaviorMixin(PolymerElement) {
   }
 
   _computeReason(change?: ChangeInfo) {
-    return getReason(this.account, change);
+    return getReason(this._config, this.account, change);
   }
 
   _computeLastUpdate(change?: ChangeInfo) {
@@ -234,12 +235,13 @@ export class GrHovercardAccount extends hovercardBehaviorMixin(PolymerElement) {
 
     // We are deliberately updating the UI before making the API call. It is a
     // risk that we are taking to achieve a better UX for 99.9% of the cases.
-    const selfName = getDisplayName(this._config, this._selfAccount);
-    const reason = `Added by ${selfName} using the hovercard menu`;
+    const reason = getAddedByReason(this._selfAccount, this._config);
+
     if (!this.change.attention_set) this.change.attention_set = {};
     this.change.attention_set[this.account._account_id] = {
       account: this.account,
       reason,
+      reason_account: this._selfAccount,
     };
     this.dispatchEventThroughTarget('attention-set-updated');
 
@@ -264,8 +266,8 @@ export class GrHovercardAccount extends hovercardBehaviorMixin(PolymerElement) {
 
     // We are deliberately updating the UI before making the API call. It is a
     // risk that we are taking to achieve a better UX for 99.9% of the cases.
-    const selfName = getDisplayName(this._config, this._selfAccount);
-    const reason = `Removed by ${selfName} using the hovercard menu`;
+
+    const reason = getRemovedByReason(this._selfAccount, this._config);
     if (this.change.attention_set)
       delete this.change.attention_set[this.account._account_id];
     this.dispatchEventThroughTarget('attention-set-updated');

@@ -469,7 +469,7 @@ suite('gr-message tests', () => {
           'Removed vote: \n\n * Code-Style+1 by <GERRIT_ACCOUNT_0000001>\n * Code-Style-1 by <GERRIT_ACCOUNT_0000002>';
         const tag = undefined;
         const expected =
-          'Removed vote: \n\n * Code-Style+1 by Gerrit Account 0000001\n * Code-Style-1 by Gerrit Account 0000002';
+          'Removed vote: \n\n * Code-Style+1 by Gerrit Account 1\n * Code-Style-1 by Gerrit Account 2';
         let actual = element._computeMessageContent(true, original, [], tag);
         assert.equal(actual, expected);
         actual = element._computeMessageContent(false, original, [], tag);

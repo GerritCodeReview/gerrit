@@ -15,8 +15,12 @@
  * limitations under the License.
  */
 
-import {AccountInfo, ChangeInfo} from '../types/common';
-import {isServiceUser} from './account-util';
+import {AccountInfo, ChangeInfo, ServerInfo} from '../types/common';
+import {
+  getAccountTemplate,
+  isServiceUser,
+  replaceTemplates,
+} from './account-util';
 import {hasOwnProperty} from './common-util';
 
 export function canHaveAttention(account?: AccountInfo): boolean {
@@ -34,10 +38,42 @@ export function hasAttention(
   );
 }
 
-export function getReason(account?: AccountInfo, change?: ChangeInfo) {
+export function getReason(
+  config?: ServerInfo,
+  account?: AccountInfo,
+  change?: ChangeInfo
+) {
   if (!hasAttention(account, change)) return '';
-  const entry = change!.attention_set![account!._account_id!];
-  return entry?.reason ? entry.reason : '';
+  if (change?.attention_set === undefined) return '';
+  if (account?._account_id === undefined) return '';
+
+  const attentionSetInfo = change.attention_set[account._account_id!];
+
+  if (attentionSetInfo?.reason === undefined) return '';
+
+  return replaceTemplates(
+    attentionSetInfo.reason,
+    attentionSetInfo?.reason_account ? [attentionSetInfo.reason_account] : [],
+    config
+  );
+}
+
+export function getAddedByReason(account?: AccountInfo, config?: ServerInfo) {
+  return `Added by ${getAccountTemplate(
+    account,
+    config
+  )} using the hovercard menu`;
+}
+
+export function getRemovedByReason(account?: AccountInfo, config?: ServerInfo) {
+  return `Removed by ${getAccountTemplate(
+    account,
+    config
+  )} using the hovercard menu`;
+}
+
+export function getReplyByReason(account?: AccountInfo, config?: ServerInfo) {
+  return `${getAccountTemplate(account, config)} replied on the change`;
 }
 
 export function getLastUpdate(account?: AccountInfo, change?: ChangeInfo) {

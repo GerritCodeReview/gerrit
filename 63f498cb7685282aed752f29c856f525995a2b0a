@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea7dd357_0b437174",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1452,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-12T10:19:15Z",
+      "side": 0,
+      "message": "I\u0027m seeing this TODO now. What is the plan for revert_submission? Should the backend send it or not? IS there a bug about this?",
+      "range": {
+        "startLine": 1450,
+        "startChar": 40,
+        "endLine": 1452,
+        "endChar": 37
+      },
+      "revId": "63f498cb7685282aed752f29c856f525995a2b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

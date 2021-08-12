@@ -269,11 +269,12 @@ const EDIT_ACTIONS: Set<string> = new Set([
 const AWAIT_CHANGE_ATTEMPTS = 5;
 const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
-// TODO: Remove these once we are sure that the backend does not support/send
-// them anymore.
 const SKIP_ACTION_KEYS: string[] = [
+  // REVIEWED/UNREVIEWED is made obsolete by AttentionSet. Once the
+  // backend stops supporting (UN)REVIEWED, we can remove these.
   ChangeActions.REVIEWED,
   ChangeActions.UNREVIEWED,
+  // REVERT_SUBMISSION is folded into the dialog for REVERT.
   ChangeActions.REVERT_SUBMISSION,
 ];
 

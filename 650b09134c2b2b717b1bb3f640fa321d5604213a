@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84977b38_976bb4f7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-12T08:30:54Z",
+      "side": 0,
+      "message": "the original test was added here [1] and there are 2 tests added the original change.\n\n`When editing other comments, local storage set after discard` this test has been removed for some reason and I am not sure why this test is there.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/93320/7/polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html",
+      "range": {
+        "startLine": 590,
+        "startChar": 2,
+        "endLine": 591,
+        "endChar": 78
+      },
+      "revId": "650b09134c2b2b717b1bb3f640fa321d5604213a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

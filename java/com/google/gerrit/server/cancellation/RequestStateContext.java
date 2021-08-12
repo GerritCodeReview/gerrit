@@ -58,14 +58,26 @@ public class RequestStateContext implements AutoCloseable {
   private static final ThreadLocal<Set<RequestStateProvider>> threadLocalRequestStateProviders =
       new ThreadLocal<>();
 
+  /** Whether currently a non-cancellable operation is being performed. */
+  private static final ThreadLocal<Boolean> inNonCancellableOperation = new ThreadLocal<>();
+
   /**
    * Aborts the current request by throwing a {@link RequestCancelledException} if any of the
    * registered {@link RequestStateProvider}s reports the request as cancelled.
    *
+   * <p>If an atomic operation is currently being performed, request cancellations are ignored and
+   * the request doesn't get aborted.
+   *
    * @throws RequestCancelledException thrown if the current request is cancelled and should be
    *     aborted
+   * @see #startNonCancellableOperation()
    */
   public static void abortIfCancelled() throws RequestCancelledException {
+    if (inNonCancellableOperation.get() != null && inNonCancellableOperation.get()) {
+      // Do not cancel the request while an atomic operation is being performed.
+      return;
+    }
+
     getRequestStateProviders()
         .forEach(
             requestStateProvider ->
@@ -73,6 +85,27 @@ public class RequestStateContext implements AutoCloseable {
                     (reason, message) -> {
                       throw new RequestCancelledException(reason, message);
                     }));
+  }
+
+  /**
+   * Starts a non-cancellable operation.
+   *
+   * <p>If the request was cancelled while the non-cancellable operation was running, it gets
+   * aborted on close of the returned {@link AutoCloseable}.
+   *
+   * @return {@link AutoCloseable} that finishes the non-cancellable operation on close.
+   */
+  public static NonCancellableOperationContext startNonCancellableOperation() {
+    if (inNonCancellableOperation.get() != null && inNonCancellableOperation.get()) {
+      // atomic operation is already in progress
+      return () -> {};
+    }
+
+    inNonCancellableOperation.set(true);
+    return () -> {
+      inNonCancellableOperation.remove();
+      abortIfCancelled();
+    };
   }
 
   /** Returns the {@link RequestStateProvider}s that have been registered for the thread. */
@@ -132,5 +165,15 @@ public class RequestStateContext implements AutoCloseable {
         threadLocalRequestStateProviders.remove();
       }
     }
+  }
+
+  /**
+   * Context for running a non-cancellable operation.
+   *
+   * <p>While open, the current request cannot be cancelled.
+   */
+  public interface NonCancellableOperationContext extends AutoCloseable {
+    @Override
+    void close();
   }
 }

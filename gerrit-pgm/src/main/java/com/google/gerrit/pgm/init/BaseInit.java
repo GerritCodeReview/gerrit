@@ -43,6 +43,7 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.schema.SchemaUpdater;
+import com.google.gerrit.server.schema.Schema_159.DraftWorkflowMigrationStrategy;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
@@ -132,6 +133,7 @@ public class BaseInit extends SiteProgram {
     init.flags.skipPlugins = skipPlugins();
     init.flags.deleteCaches = getDeleteCaches();
     init.flags.isNew = init.site.isNew;
+    init.flags.draftMigrationStrategy = getDraftMigrationStrategy();
 
     final SiteRun run;
     try {
@@ -429,6 +431,11 @@ public class BaseInit extends SiteProgram {
                 }
               }
             }
+
+            @Override
+            public DraftWorkflowMigrationStrategy getDraftMigrationStrategy() {
+              return flags.draftMigrationStrategy;
+            }
           });
 
       if (!pruneList.isEmpty()) {
@@ -534,5 +541,9 @@ public class BaseInit extends SiteProgram {
 
   protected boolean getDeleteCaches() {
     return false;
+  }
+
+  protected DraftWorkflowMigrationStrategy getDraftMigrationStrategy() {
+    return DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
   }
 }

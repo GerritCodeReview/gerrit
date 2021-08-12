@@ -116,7 +116,6 @@ import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {Interaction, Timing} from '../../../constants/reporting';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -355,9 +354,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean})
   _isResolvedPatchsetLevelComment = true;
 
-  @property({type: Boolean})
-  showNewReplyDialog = false;
-
   @property({type: Array, computed: '_computeAllReviewers(_reviewers.*)'})
   _allReviewers: (AccountInfo | GroupInfo)[] = [];
 
@@ -410,9 +406,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener('remove-reviewer', e => {
       this.$.reviewers.removeAccount((e as CustomEvent).detail.reviewer);
     });
-    this.showNewReplyDialog = appContext.flagsService.isEnabled(
-      KnownExperimentId.NEW_REPLY_DIALOG
-    );
   }
 
   /** @override */
@@ -547,10 +540,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
         }
       }
     }
-  }
-
-  getContainerClass(showNewReplyDialog: boolean) {
-    return showNewReplyDialog ? 'newReplyDialog' : '';
   }
 
   getUnresolvedPatchsetLevelClass(isResolvedPatchsetLevelComment: boolean) {

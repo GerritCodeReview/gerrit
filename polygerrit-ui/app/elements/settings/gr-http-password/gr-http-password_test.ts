@@ -15,37 +15,47 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-http-password.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-http-password';
+import {GrHttpPassword} from './gr-http-password';
+import {stubRestApi} from '../../../test/test-utils';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {
+  createAccountDetailWithId,
+  createServerInfo,
+} from '../../../test/test-data-generators';
+import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-http-password');
 
 suite('gr-http-password tests', () => {
-  let element;
-  let account;
-  let config;
+  let element: GrHttpPassword;
+  let account: AccountDetailInfo;
+  let config: ServerInfo;
 
   setup(done => {
-    account = {username: 'user name'};
-    config = {auth: {}};
+    account = {...createAccountDetailWithId(), username: 'user name'};
+    config = createServerInfo();
 
     stubRestApi('getAccount').returns(Promise.resolve(account));
     stubRestApi('getConfig').returns(Promise.resolve(config));
 
     element = basicFixture.instantiate();
-    element.loadData().then(() => { flush(done); });
+    element.loadData().then(() => {
+      flush(done);
+    });
   });
 
   test('generate password', () => {
     const button = element.$.generateButton;
     const nextPassword = 'the new password';
-    let generateResolve;
-    const generateStub = stubRestApi(
-        'generateAccountHttpPassword')
-        .callsFake(() => new Promise(resolve => {
+    let generateResolve: (value: string | PromiseLike<string>) => void;
+    const generateStub = stubRestApi('generateAccountHttpPassword').callsFake(
+      () =>
+        new Promise(resolve => {
           generateResolve = resolve;
-        }));
+        })
+    );
 
     assert.isNotOk(element._generatedPassword);
 
@@ -54,9 +64,8 @@ suite('gr-http-password tests', () => {
     assert.isTrue(generateStub.called);
     assert.equal(element._generatedPassword, 'Generating...');
 
-    generateResolve(nextPassword);
-
     generateStub.lastCall.returnValue.then(() => {
+      generateResolve(nextPassword);
       assert.equal(element._generatedPassword, nextPassword);
     });
   });
@@ -74,4 +83,3 @@ suite('gr-http-password tests', () => {
     });
   });
 });
-

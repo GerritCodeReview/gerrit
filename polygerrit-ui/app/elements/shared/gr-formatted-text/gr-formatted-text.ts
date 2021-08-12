@@ -19,6 +19,7 @@ import {CommentLinks} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {css, customElement, html, property} from 'lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 
@@ -44,6 +45,9 @@ export class GrFormattedText extends GrLitElement {
 
   @property({type: Boolean, reflect: true})
   noTrailingMargin = false;
+  
+  @property({type: Boolean})
+  monospace = false;
 
   private readonly reporting = appContext.reportingService;
 
@@ -53,6 +57,11 @@ export class GrFormattedText extends GrLitElement {
         :host {
           display: block;
           font-family: var(--font-family);
+        }
+        .monospace {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
         }
         p,
         ul,
@@ -100,7 +109,13 @@ export class GrFormattedText extends GrLitElement {
 
   render() {
     const nodes = this._computeNodes(this._computeBlocks(this.content));
-    return html`<div id="container">${nodes}</div>`;
+    return html`<div
+      id="container"
+      class="${classMap({monospace: this.monospace})}"
+    >
+      ${nodes}
+    </div>`;
+
   }
 
   /**

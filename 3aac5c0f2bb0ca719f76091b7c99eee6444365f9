@@ -16,6 +16,24 @@
       "message": "This should probably be pushed to the stable-branch introducing this schema, and then forward merged to here.",
       "revId": "3aac5c0f2bb0ca719f76091b7c99eee6444365f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df86a637_0bbd6040",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-08-12T17:02:29Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "12074358_0706bab3",
+      "revId": "3aac5c0f2bb0ca719f76091b7c99eee6444365f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

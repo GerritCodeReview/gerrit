@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b1ee9c7_f17f0f72",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-12T08:49:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba20556d_e2f0d49e",
+      "range": {
+        "startLine": 352,
+        "startChar": 15,
+        "endLine": 352,
+        "endChar": 23
+      },
+      "revId": "56f24619aa8338493011f49aa61176c70f9b4a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "709687c1_af9fd954",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-08-12T08:27:08Z",
       "side": 1,
       "message": "curious: is the ordering defined, and if so, did we make promises about this?",
+      "range": {
+        "startLine": 383,
+        "startChar": 11,
+        "endLine": 383,
+        "endChar": 26
+      },
+      "revId": "56f24619aa8338493011f49aa61176c70f9b4a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8806d59a_f767ddce",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-12T08:49:35Z",
+      "side": 1,
+      "message": "We didn\u0027t make any promises about the order. It\u0027s defined as the order of ref mutations.\nIn this case the real order is:\n1. refs/heads of project2\n2. meta ref of change2\n3. refs/heads of project1\n4. meta ref of change1\n\nThis order is probably the same all the time but I\u0027m not sure about topic submission for 3+ repos. Is the order of the changes in the query search consistent?\n\ncontainsExactly doesn\u0027t care about order, so this test works. I also don\u0027t see a reason to make a test for the order since we didn\u0027t promise anything.",
+      "parentUuid": "709687c1_af9fd954",
       "range": {
         "startLine": 383,
         "startChar": 11,

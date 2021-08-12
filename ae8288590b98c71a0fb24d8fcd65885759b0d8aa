@@ -183,6 +183,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbc122f2_350adca1",
+        "filename": "java/com/google/gerrit/extensions/common/AttentionSetInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T13:10:41Z",
+      "side": 1,
+      "message": "I found usages in gerrit/extensions, so added here.",
+      "parentUuid": "90905375_1d288709",
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64731907_4aaadd09",
@@ -279,6 +297,24 @@
       "side": 1,
       "message": "Wouldn\u0027t \"every 10\" or so still be sufficient? I\u0027m thinking of the recent case where IIRC Han-Wen found we had a few noisy log statements. But no strong opinion; up to you.",
       "parentUuid": "7acb9d6b_f6aa070f",
+      "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c98e24c2_463d8bd5",
+        "filename": "java/com/google/gerrit/server/util/AccountTemplateUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-12T13:10:41Z",
+      "side": 1,
+      "message": "Let\u0027s keep it to log every entry: this is really not supposed to happen, only the matched template should be parsed, if this matches, but does not parse, there is something wrong.",
+      "parentUuid": "5184d6ba_dd550240",
       "revId": "ae8288590b98c71a0fb24d8fcd65885759b0d8aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

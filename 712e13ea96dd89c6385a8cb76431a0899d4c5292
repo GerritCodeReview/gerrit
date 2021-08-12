@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1fde46f_9ba22b58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-12T11:01:03Z",
+      "side": 1,
+      "message": "I am not very familiar with comments model. Maybe Ben\u0027s can at least quickly check this change.",
+      "revId": "712e13ea96dd89c6385a8cb76431a0899d4c5292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a20ccebb_d955d03a",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-12T11:01:03Z",
+      "side": 1,
+      "message": "This looks like you implemented removing in test and you are just checking if you can render element.threads. This test would make sense if removal is  done with comments-model.",
+      "range": {
+        "startLine": 544,
+        "startChar": 4,
+        "endLine": 545,
+        "endChar": 37
+      },
+      "revId": "712e13ea96dd89c6385a8cb76431a0899d4c5292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -30,6 +30,7 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer3;
+import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Inject;
@@ -185,7 +186,8 @@ public class PluginContext<T> {
   }
 
   /**
-   * Runs a plugin extension. All exceptions from the plugin extension are caught and logged.
+   * Runs a plugin extension. All exceptions from the plugin extension are caught and logged (except
+   * {@link RequestCancelledException}.
    *
    * <p>The consumer gets the extension implementation provided that should be invoked.
    *
@@ -204,6 +206,8 @@ public class PluginContext<T> {
     try (TraceContext traceContext = newTrace(extension);
         Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       extensionImplConsumer.run(extensionImpl);
+    } catch (RequestCancelledException e) {
+      throw e;
     } catch (Exception e) {
       pluginMetrics.incrementErrorCount(extension);
       logger.atWarning().withCause(e).log(
@@ -212,7 +216,8 @@ public class PluginContext<T> {
   }
 
   /**
-   * Runs a plugin extension. All exceptions from the plugin extension are caught and logged.
+   * Runs a plugin extension. All exceptions from the plugin extension are caught and logged (except
+   * {@link RequestCancelledException}.
    *
    * <p>The consumer get the {@link Extension} provided that should be invoked. The extension
    * provides access to the plugin name and the export name.
@@ -233,6 +238,8 @@ public class PluginContext<T> {
     try (TraceContext traceContext = newTrace(extension);
         Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       extensionConsumer.run(extension);
+    } catch (RequestCancelledException e) {
+      throw e;
     } catch (Exception e) {
       pluginMetrics.incrementErrorCount(extension);
       logger.atWarning().withCause(e).log(

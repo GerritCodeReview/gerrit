@@ -62,7 +62,6 @@ export class GrCreateCommandsDialog extends GrLitElement {
   }
 
   render() {
-    if (!this.branch) return 'error: branch is not set';
     return html` <gr-overlay id="commandsOverlay" with-backdrop="">
       <gr-dialog
         id="commandsDialog"
@@ -92,7 +91,7 @@ export class GrCreateCommandsDialog extends GrLitElement {
             <li>
               <p>Push the change for code review</p>
               <gr-shell-command
-                .command="${Commands.PUSH_PREFIX + this.branch}"
+                .command="${Commands.PUSH_PREFIX + (this.branch ?? '[BRANCH]')}"
               ></gr-shell-command>
             </li>
             <li>

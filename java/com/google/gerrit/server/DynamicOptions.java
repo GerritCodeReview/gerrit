@@ -213,7 +213,7 @@ public class DynamicOptions {
     Class<?> beanClass =
         (bean instanceof BeanReceiver)
             ? ((BeanReceiver) bean).getExportedBeanReceiver()
-            : getClass();
+            : bean.getClass();
     for (String plugin : dynamicBeans.plugins()) {
       Provider<DynamicBean> provider =
           dynamicBeans.byPlugin(plugin).get(beanClass.getCanonicalName());

@@ -1019,9 +1019,9 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
   @Test
   public void intralineEditsAreIdentified() throws Exception {
-    // TODO(ghareeb): This test asserts the wrong behavior due to the following issue
-    // bugs.chromium.org/p/gerrit/issues/detail?id=13563
-    // Please remove this comment and assert the correct behavior when the bug is fixed.
+    // In some corner cases, intra-line diffs produce wrong results. In this case, the algorithm
+    // falls back to a single edit covering the whole range.
+    // See: bugs.chromium.org/p/gerrit/issues/detail?id=13563
 
     assume().that(intraline).isTrue();
 
@@ -1032,10 +1032,10 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
     addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.replace(orig, replace));
 
-    // TODO(ghareeb): remove this comment when the issue is fixed.
-    // The returned diff incorrectly contains:
+    // Intra-line logic wrongly produces
     // replace [-9999{,99}99] with [-999{,}999].
-    // If this replace edit is done, the resulting string incorrectly becomes [-9999,99].
+    // which if done, results in an incorrect [-9999,99].
+    // the intra-line algorithm detects this case and falls back to a single region edit.
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
@@ -1044,8 +1044,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     List<List<Integer>> editsB = diffInfo.content.get(1).editB;
     String reconstructed = transformStringUsingEditList(orig, replace, editsA, editsB);
 
-    // TODO(ghareeb): assert equals when the issue is fixed.
-    assertThat(reconstructed).isNotEqualTo(replace);
+    assertThat(reconstructed).isEqualTo(replace);
   }
 
   @Test

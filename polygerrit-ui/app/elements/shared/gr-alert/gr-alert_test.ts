@@ -33,18 +33,21 @@ suite('gr-alert tests', () => {
     }
   });
 
-  test('show/hide', () => {
+  test('show/hide', async () => {
     assert.isNull(element.parentNode);
     element.show('Alert text');
+    // wait for element to be rendered after being attached to DOM
+    await flush();
     assert.equal(element.parentNode, document.body);
-    element.updateStyles({'--gr-alert-transition-duration': '0ms'});
+    element.style.setProperty('--gr-alert-transition-duration', '0ms');
     element.hide();
     assert.isNull(element.parentNode);
   });
 
-  test('action event', () => {
+  test('action event', async () => {
     const spy = sinon.spy();
     element.show('Alert text');
+    await flush();
     element._actionCallback = spy;
     assert.isFalse(spy.called);
     MockInteractions.tap(element.shadowRoot!.querySelector('.action')!);

@@ -1,8 +1,8 @@
-/node_modules/
+/.tmp/
+/.vscode/
+/bower_components/
+/dist/
+/fonts/
 /package-lock.json
-npm-debug.log
-dist
-fonts
-bower_components
-.tmp
-.vscode
+/node_modules/
+/npm-debug.log

@@ -2556,6 +2556,9 @@ is returned that describes the commit.
 Retrieves the branches and tags in which a change is included. As result
 an link:rest-api-changes.html#included-in-info[IncludedInInfo] entity is returned.
 
+Branches that are not visible to the calling user according to the project's
+read permissions are filtered out from the result.
+
 .Request
 ----
   GET /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96/in HTTP/1.0

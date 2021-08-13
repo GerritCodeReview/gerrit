@@ -16,6 +16,24 @@
       "message": "what do you think? I did this to cut down on log spam.",
       "revId": "f839d95b0b22cc1374144efc5ecd2c9d0d34cfdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0fe050f_5f169237",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-13T06:45:17Z",
+      "side": 1,
+      "message": "Not sure. I actually would prefer to keep this log, as it tells us that a step has been finished.\n\nAt the moment we have a log when a step starts and ends. If we drop the end log we may see something like this in the logs:\n\nStart step Foo\nStart step Bar\nStart step Baz\nDone step Baz after 2s\n\nIf you look at this you wonder whether step Foo and Bar are still in progress, or whether they just finished in 0s. It\u0027s also unclear if Foo included Bar or if Foo and Bar were done one after another.\n\nTo me this feels like having an open parenthesis without a closing parenthesis.\n\nSince this is a log one fine level that is only triggered if a request is traced, I  don\u0027t think that there is a need to drop it?",
+      "parentUuid": "af3665ff_7dbde1ca",
+      "revId": "f839d95b0b22cc1374144efc5ecd2c9d0d34cfdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

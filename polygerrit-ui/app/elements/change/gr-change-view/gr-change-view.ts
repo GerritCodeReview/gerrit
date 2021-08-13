@@ -25,7 +25,7 @@ import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-editable-content/gr-editable-content';
-import '../../shared/gr-formatted-text/gr-formatted-text';
+import '../../shared/gr-linked-text/gr-linked-text';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-change-actions/gr-change-actions';

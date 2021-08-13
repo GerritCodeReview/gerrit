@@ -363,8 +363,8 @@ suite('gr-error-manager tests', () => {
       // toast
       let toast = toastSpy.lastCall.returnValue;
       assert.isOk(toast);
-      assert.include(toast.root.textContent, 'Credentials expired.');
-      assert.include(toast.root.textContent, 'Refresh credentials');
+      assert.include(toast.shadowRoot.textContent, 'Credentials expired.');
+      assert.include(toast.shadowRoot.textContent, 'Refresh credentials');
 
       // noInteractionOverlay
       const noInteractionOverlay = element.$.noInteractionOverlay;
@@ -401,7 +401,7 @@ suite('gr-error-manager tests', () => {
       assert.notStrictEqual(toastSpy.lastCall.returnValue, toast);
       toast = toastSpy.lastCall.returnValue;
       assert.isOk(toast);
-      assert.include(toast.root.textContent, 'Credentials refreshed');
+      assert.include(toast.shadowRoot.textContent, 'Credentials refreshed');
 
       // close overlay
       assert.isTrue(noInteractionOverlayCloseSpy.called);
@@ -421,9 +421,10 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
+      await flush();
       let toast = toastSpy.lastCall.returnValue;
       assert.isOk(toast);
-      assert.include(toast.root.textContent, 'test reload');
+      assert.include(toast.shadowRoot.textContent, 'test reload');
 
       // fake auth
       fetchStub.returns(Promise.resolve({status: 403}));
@@ -452,11 +453,11 @@ suite('gr-error-manager tests', () => {
       await flush();
       // toast
       toast = toastSpy.lastCall.returnValue;
-      assert.include(toast.root.textContent, 'Credentials expired.');
-      assert.include(toast.root.textContent, 'Refresh credentials');
+      assert.include(toast.shadowRoot.textContent, 'Credentials expired.');
+      assert.include(toast.shadowRoot.textContent, 'Refresh credentials');
     });
 
-    test('regular toast should dismiss regular toast', () => {
+    test('regular toast should dismiss regular toast', async () => {
       // Set status to AUTHED.
       appContext.authService.authCheck();
 
@@ -468,9 +469,10 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
+      await flush();
       let toast = toastSpy.lastCall.returnValue;
       assert.isOk(toast);
-      assert.include(toast.root.textContent, 'test reload');
+      assert.include(toast.shadowRoot.textContent, 'test reload');
 
       // new alert
       element.dispatchEvent(
@@ -480,9 +482,9 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-
+      await flush();
       toast = toastSpy.lastCall.returnValue;
-      assert.include(toast.root.textContent, 'second-test');
+      assert.include(toast.shadowRoot.textContent, 'second-test');
     });
 
     test('regular toast should not dismiss auth toast', done => {
@@ -513,8 +515,8 @@ suite('gr-error-manager tests', () => {
         assert.equal(fetchStub.callCount, 2);
         flush(() => {
           let toast = toastSpy.lastCall.returnValue;
-          assert.include(toast.root.textContent, 'Credentials expired.');
-          assert.include(toast.root.textContent, 'Refresh credentials');
+          assert.include(toast.shadowRoot.textContent, 'Credentials expired.');
+          assert.include(toast.shadowRoot.textContent, 'Refresh credentials');
 
           // fake an alert
           element.dispatchEvent(
@@ -530,7 +532,10 @@ suite('gr-error-manager tests', () => {
           flush(() => {
             toast = toastSpy.lastCall.returnValue;
             assert.isOk(toast);
-            assert.include(toast.root.textContent, 'Credentials expired.');
+            assert.include(
+              toast.shadowRoot.textContent,
+              'Credentials expired.'
+            );
             done();
           });
         });

@@ -37,7 +37,7 @@ suite('gr-alert tests', () => {
     assert.isNull(element.parentNode);
     element.show('Alert text');
     assert.equal(element.parentNode, document.body);
-    element.updateStyles({'--gr-alert-transition-duration': '0ms'});
+    element.updateCS({'--gr-alert-transition-duration': '0ms'});
     element.hide();
     assert.isNull(element.parentNode);
   });

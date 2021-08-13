@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc923dc_66c850c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-08-13T16:39:05Z",
+      "side": 1,
+      "message": "\nWithout fix PS1 test fail:\n\n$ bazel test --test_filter\u003dcom.google.gerrit.acceptance.ssh.DynamicOptionsIT -- //javatests/com/google/gerrit/acceptance/ssh:ssh\n\nINFO: Analyzed target //javatests/com/google/gerrit/acceptance/ssh:ssh (0 packages loaded, 0 targets configured).\nINFO: Found 1 test target...\nINFO: From Building java/com/google/gerrit/server/libserver-class.jar (972 source files) and running annotation processors (AutoAnnotationProcessor, AutoValueProcessor):\nThere was 1 failure:\n1) testDynamicPluginOptions(com.google.gerrit.acceptance.ssh.DynamicOptionsIT)\njunit.framework.AssertionFailedError: expected:\u003c[sample1, sample2]\u003e but was:\u003c[]\u003e\n\tat junit.framework.Assert.fail(Assert.java:57)\n\tat junit.framework.Assert.failNotEquals(Assert.java:329)\n\tat junit.framework.Assert.assertEquals(Assert.java:78)\n\tat junit.framework.Assert.assertEquals(Assert.java:86)\n...\nINFO: Build completed, 1 test FAILED, 5 total actions\n//javatests/com/google/gerrit/acceptance/ssh:ssh                         FAILED in 9.7s\n\n\nWith fix PS2 test pass:\n\n$ bazel test --test_filter\u003dcom.google.gerrit.acceptance.ssh.DynamicOptionsIT -- //javatests/com/google/gerrit/acceptance/ssh:ssh\n\nINFO: Analyzed target //javatests/com/google/gerrit/acceptance/ssh:ssh (0 packages loaded, 0 targets configured).\nINFO: Found 1 test target...\nINFO: From Building java/com/google/gerrit/server/libserver-class.jar (972 source files) and running annotation processors (AutoAnnotationProcessor, AutoValueProcessor):\nINFO: Elapsed time: 6.004s, Critical Path: 5.70s\nINFO: 5 processes: 3 remote cache hit, 1 internal, 1 darwin-sandbox.\nINFO: Build completed successfully, 5 total actions\n//javatests/com/google/gerrit/acceptance/ssh:ssh                         PASSED in 5.4s\nExecuted 1 out of 1 test: 1 test passes.",
+      "revId": "6d547a51eab74e16ca6f1443c653c4d20d09edf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

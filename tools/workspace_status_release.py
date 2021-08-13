@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # This is a variant of the `workspace_status.py` script that in addition to
 # plain `git describe` implements a few heuristics to arrive at more to the
@@ -9,7 +9,7 @@
 #
 # To use it, simply add
 #
-#   --workspace_status_command="python ./tools/workspace_status_release.py"
+#   --workspace_status_command="python3 ./tools/workspace_status_release.py"
 #
 # to your bazel command. So for example instead of
 #
@@ -17,11 +17,11 @@
 #
 # use
 #
-#   bazel build --workspace_status_command="python ./tools/workspace_status_release.py" release.war
+#   bazel build --workspace_status_command="python3 ./tools/workspace_status_release.py" release.war
 #
 # Alternatively, you can add
 #
-#   build --workspace_status_command="python ./tools/workspace_status_release.py"
+#   build --workspace_status_command="python3 ./tools/workspace_status_release.py"
 #
 # to `.bazelrc` in your home directory.
 #
@@ -150,7 +150,7 @@ def print_stamps_for_cwd(name, template):
         'tools', 'workspace_status_release.py')
     if os.path.isfile(workspace_status_script):
         # directory has own workspace_status_command, so we use stamps from that
-        for line in run(["python", workspace_status_script]).split('\n'):
+        for line in run(["python3", workspace_status_script]).split('\n'):
             if re.search("^STABLE_[a-zA-Z0-9().:@/_ -]*$", line):
                 print(line)
     else:

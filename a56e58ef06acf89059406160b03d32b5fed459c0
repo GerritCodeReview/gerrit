@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b10c343_d5696aea",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-13T08:28:00Z",
+      "side": 1,
+      "message": "Issue:\n* GrAutocomplete.text property defaults to \"\"\n* .text is passed into paper-input and into iron-input\n* \"\" immediately bubbles back up through on-bind-value-changed in GrRepoAccess html\n* triggers GrRepoAccess._handleUpdateInheritFrom which sets _inheritsFrom \u003d {id: \"\", name: \"\"};\n\n* this makes _computeShowInherit always return \u0027show\u0027.\n* test called \u0027inherit section\u0027 will fail when it expects to be hidden\n* Also seems like a bug that Rights Inherit From will be visible\n\nFix:\nOnly show when inheritsFrom is not empty\n\nI believe this test passed previously because it got through the display:none asserts before the event had bubbled back up to GrRepoAccess. Adding await flush() made this trigger every time.",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 283,
+        "endChar": 46
+      },
+      "revId": "a56e58ef06acf89059406160b03d32b5fed459c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

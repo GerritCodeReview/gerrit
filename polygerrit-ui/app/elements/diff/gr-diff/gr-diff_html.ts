@@ -185,6 +185,7 @@ export const htmlTemplate = html`
     .responsive .contentText {
       white-space: break-spaces;
       word-wrap: break-word;
+      word-break: break-all;
     }
     .lineNumButton,
     .content {

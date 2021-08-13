@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2299512_6a6ee215",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-13T11:18:37Z",
+      "side": 1,
+      "message": "While I tested this change and the previous one, I\u0027d like to submit the 2 changes on different releases to make sure each of them works independently.",
+      "revId": "6b0f483c6721374d49d51db67897afe90717fa01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

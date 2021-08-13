@@ -19,26 +19,19 @@ import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
-import '../../../styles/shared-styles';
 import '../gr-thread-list/gr-thread-list';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-confirm-submit-dialog_html';
-import {customElement, property} from '@polymer/decorators';
 import {ChangeInfo, ActionInfo} from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {pluralize} from '../../../utils/string-util';
 import {CommentThread, isUnresolved} from '../../../utils/comment-util';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property, query} from 'lit-element';
 
-export interface GrConfirmSubmitDialog {
-  $: {
-    dialog: GrDialog;
-  };
-}
 @customElement('gr-confirm-submit-dialog')
-export class GrConfirmSubmitDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrConfirmSubmitDialog extends GrLitElement {
+  @query('#dialog')
+  dialog?: GrDialog;
 
   /**
    * Fired when the confirm button is pressed.
@@ -64,12 +57,109 @@ export class GrConfirmSubmitDialog extends PolymerElement {
   @property({type: Boolean})
   _initialised = false;
 
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        #dialog {
+          min-width: 40em;
+        }
+        p {
+          margin-bottom: var(--spacing-l);
+        }
+        .warningBeforeSubmit {
+          color: var(--warning-foreground);
+          vertical-align: top;
+          margin-right: var(--spacing-s);
+        }
+        @media screen and (max-width: 50em) {
+          #dialog {
+            min-width: inherit;
+            width: 100%;
+          }
+        }
+      `,
+    ];
+  }
+
+  render() {
+    return html` <gr-dialog
+      id="dialog"
+      confirm-label="Continue"
+      confirm-on-enter=""
+      @cancel=${this._handleCancelTap}
+      @confirm=${this._handleConfirmTap}
+    >
+      ${this._initialised
+        ? html`
+            <div class="header" slot="header">${this.action?.label}</div>
+            <div class="main" slot="main">
+              <gr-endpoint-decorator name="confirm-submit-change">
+                <p>
+                  Ready to submit “<strong>${this.change?.subject}</strong>”?
+                </p>
+                ${this.change?.is_private
+                  ? html`
+                      <p>
+                        <iron-icon
+                          icon="gr-icons:warning"
+                          class="warningBeforeSubmit"
+                        ></iron-icon>
+                        <strong>Heads Up!</strong>
+                        Submitting this private change will also make it public.
+                      </p>
+                    `
+                  : ''}
+                ${this.change?.unresolved_comment_count
+                  ? html`<p>
+                        <iron-icon
+                          icon="gr-icons:warning"
+                          class="warningBeforeSubmit"
+                        ></iron-icon>
+                        ${this._computeUnresolvedCommentsWarning(this.change)}
+                      </p>
+                      <gr-thread-list
+                        id="commentList"
+                        .threads="${this._computeUnresolvedThreads(
+                          this.commentThreads
+                        )}"
+                        .change="${this.change}"
+                        .change-num="${this.change?._number}"
+                        logged-in="true"
+                        hide-dropdown
+                      >
+                      </gr-thread-list>`
+                  : ''}
+                ${this._computeHasChangeEdit(this.change)
+                  ? html` <iron-icon
+                        icon="gr-icons:warning"
+                        class="warningBeforeSubmit"
+                      ></iron-icon>
+                      Your unpublished edit will not be submitted. Did you
+                      forget to click
+                      <b>PUBLISH</b>?`
+                  : ''}
+                <gr-endpoint-param
+                  name="change"
+                  .value="${this.change}"
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="action"
+                  .value="${this.action}"
+                ></gr-endpoint-param>
+              </gr-endpoint-decorator>
+            </div>
+          `
+        : ''}
+    </gr-dialog>`;
+  }
+
   init() {
     this._initialised = true;
   }
 
   resetFocus() {
-    this.$.dialog.resetFocus();
+    this.dialog?.resetFocus();
   }
 
   _computeHasChangeEdit(change?: ChangeInfo) {

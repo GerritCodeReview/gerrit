@@ -16,11 +16,11 @@
  */
 import '../gr-button/gr-button';
 import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-alert_html';
 import {getRootElement} from '../../../scripts/rootElement';
-import {customElement, property} from '@polymer/decorators';
 import {ErrorType} from '../../../types/types';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {customElement, property, css, html} from 'lit-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,7 +29,89 @@ declare global {
 }
 
 @customElement('gr-alert')
-export class GrAlert extends PolymerElement {
+export class GrAlert extends GrLitElement {
+  static get styles() {
+    return [
+      css`
+        /**
+         * ALERT: DO NOT ADD TRANSITION PROPERTIES WITHOUT PROPERLY UNDERSTANDING
+         * HOW THEY ARE USED IN THE CODE.
+         */
+        :host([toast]) {
+          background-color: var(--tooltip-background-color);
+          bottom: 1.25rem;
+          border-radius: var(--border-radius);
+          box-shadow: var(--elevation-level-2);
+          color: var(--tooltip-text-color);
+          left: 1.25rem;
+          position: fixed;
+          transform: translateY(5rem);
+          transition: transform var(--gr-alert-transition-duration, 80ms)
+            ease-out;
+          z-index: 1000;
+        }
+        :host([shown]) {
+          transform: translateY(0);
+        }
+        /**
+         * NOTE: To avoid style being overwritten by outside of the shadow DOM
+         * (as outside styles always win), .content-wrapper is introduced as a
+         * wrapper around main content to have better encapsulation, styles that
+         * may be affected by outside should be defined on it.
+         * In this case, \`padding:0px\` is defined in main.css for all elements
+         * with the universal selector: *.
+         */
+        .content-wrapper {
+          padding: var(--spacing-l) var(--spacing-xl);
+        }
+        .text {
+          color: var(--tooltip-text-color);
+          display: inline-block;
+          max-height: 10rem;
+          max-width: 80vw;
+          vertical-align: bottom;
+          word-break: break-all;
+        }
+        .action {
+          color: var(--link-color);
+          font-weight: var(--font-weight-bold);
+          margin-left: var(--spacing-l);
+          text-decoration: none;
+          --gr-button: {
+            padding: 0;
+          }
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const {
+      text,
+      _hideActionButton,
+      _handleActionTap,
+      _handleDismissTap,
+      actionText,
+      showDismiss,
+    } = this;
+    return html`
+      <div class="content-wrapper">
+        <span class="text">${text}</span>
+        <gr-button
+          link=""
+          class="action"
+          ?hidden="${_hideActionButton}"
+          @click=${_handleActionTap}
+          >${actionText}</gr-button
+        >${showDismiss
+          ? html`<gr-button link="" class="action" @click=${_handleDismissTap}
+              >Dismiss</gr-button
+            >`
+          : ''}
+      </div>
+    `;
+  }
+
   static get template() {
     return htmlTemplate;
   }
@@ -49,10 +131,10 @@ export class GrAlert extends PolymerElement {
   @property({type: String})
   type?: ErrorType;
 
-  @property({type: Boolean, reflectToAttribute: true})
+  @property({type: Boolean, reflect: true})
   shown = true;
 
-  @property({type: Boolean, reflectToAttribute: true})
+  @property({type: Boolean, reflect: true})
   toast = true;
 
   @property({type: Boolean})

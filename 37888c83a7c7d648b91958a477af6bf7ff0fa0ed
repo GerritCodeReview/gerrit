@@ -16,6 +16,23 @@
       "message": "woops, misclicked, I didn\u0027t review this yet :-)",
       "revId": "37888c83a7c7d648b91958a477af6bf7ff0fa0ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2818203b_7d848795",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-13T08:04:54Z",
+      "side": 1,
+      "message": "thanks for the tests.\nBased on these tests and also that Albert agrees that hasReviewStarted doesn\u0027t make sense to determine whether we send notifications, I think we can go ahead with removing it.",
+      "revId": "37888c83a7c7d648b91958a477af6bf7ff0fa0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

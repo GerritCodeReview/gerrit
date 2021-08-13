@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
@@ -85,6 +86,14 @@ public class CancellationMetrics {
         requestInfo.requestType(),
         requestInfo.requestUri().map(CancellationMetrics::redactRequestUri).orElse(""),
         cancellationReason);
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public void countCancelledRequest(
+      String requestType,
+      String redactedRequestUri,
+      RequestStateProvider.Reason cancellationReason) {
+    cancelledRequestsCount.increment(requestType, redactedRequestUri, cancellationReason);
   }
 
   /**

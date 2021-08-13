@@ -16,6 +16,24 @@
       "message": "Reconstruction of the right string using left+edits turned out to be more subtle. We represent intraline edits as a \n  * Replace edits, from line x to line x+n. The replace edit contains:\n  * A list of intraline edits, containing indices of the changed regions. intraline edits could be ADD, DELETE, REPLACE.\n\nAfter debugging IntralineLoaderTest#preferInsertAtLineBreak1() and our DiffContentCreator, I found that insert edits mean: these {right_begin, right_end} indices where inserted in the right side, with the {left_begin, left_end} indices meaningless (unused, and sometimes wrong). For insert edits, the DiffContentCreator (the component that transforms these edits to the user renderable format) doesn\u0027t care because it just highlights the right side (added) with no need to know where this comes from the left. I think the same happens for DELETE edits (i.e. we only highlight deleted parts on the left).\n\nOne way to validate the transformation properly is to:\n  * rebuild $intermediate from left + replace edits - delete edits\n  * rebuild $intermediate from right + replace edits - insert edits\n  \nCompare (1) and (2) for equality.",
       "revId": "d7c2472623683bb3e9f00a662791695881861967",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05c8c649_1924e1dc",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-13T14:11:45Z",
+      "side": 1,
+      "message": "Actually was:\n  * rebuild $intermediate from left + replace edits - delete edits\n  * rebuild $intermediate from right - insert edits\n  \nDone.",
+      "parentUuid": "fa4d91b3_1917442a",
+      "revId": "d7c2472623683bb3e9f00a662791695881861967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

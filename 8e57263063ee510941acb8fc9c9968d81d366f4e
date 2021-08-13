@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23c1042f_1c7f57f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-13T22:07:35Z",
+      "side": 1,
+      "message": "Hi Frank,\n\nI wasn\u0027t quite sure how to change all the .gitignore files to be based on / because I am not sure which ones are files or directories.  Feedback very welcome.\n",
+      "revId": "8e57263063ee510941acb8fc9c9968d81d366f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

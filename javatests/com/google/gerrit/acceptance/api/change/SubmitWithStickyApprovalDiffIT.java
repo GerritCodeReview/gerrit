@@ -33,11 +33,8 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
-import com.google.gerrit.server.patch.filediff.Edit;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
-import java.util.Iterator;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -103,11 +100,19 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         /* file= */ "file",
         /* insertions= */ 3,
         /* deletions= */ 4,
-        /* edits= */ ImmutableList.of(
-            Edit.create(2, 3, 2, 3), Edit.create(5, 6, 5, 6), Edit.create(7, 9, 7, 8)),
-        /* previousLines= */ ImmutableList.of(
-            "-  sF\n", "-  something\n", "-  bla\n-  " + "deletedEnd\n"),
-        /* newLines= */ ImmutableList.of("+  sS\n", "+  different\n", "+  bla\n"),
+        /* expectedFileDiff= */ "@@ -1,9 +1,8 @@\n"
+            + " content\n"
+            + " aa\n"
+            + "-sF\n"
+            + "+sS\n"
+            + " aa\n"
+            + " aaa\n"
+            + "-something\n"
+            + "+different\n"
+            + " foo\n"
+            + "-bla\n"
+            + "-deletedEnd\n"
+            + "+bla",
         /* oldFileName= */ null);
   }
 
@@ -119,7 +124,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
             .newChange()
             .project(project)
             .file("file")
-            .content("content\naa\nbb\ncc" + "\ndd\nee\nff\nTODELETE1\nTODELETE2\ngg\nend")
+            .content("content\naa\nbb\ncc\ndd\nee\nff\nTODELETE1\nTODELETE2\ngg\nend")
             .create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
 
@@ -140,9 +145,21 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         /* file= */ "file",
         /* insertions= */ 4,
         /* deletions= */ 2,
-        /* edits= */ ImmutableList.of(Edit.create(4, 4, 4, 8), Edit.create(7, 9, 7, 7)),
-        /* previousLines= */ ImmutableList.of("-  TODELETE1\n-  TODELETE2\n"),
-        /* newLines= */ ImmutableList.of("+  INSERTION\n+  INSERTED\n+  VERY\n+  LONG\n"),
+        /* expectedFileDiff= */ "@@ -2,10 +2,12 @@\n"
+            + " aa\n"
+            + " bb\n"
+            + " cc\n"
+            + "+INSERTION\n"
+            + "+INSERTED\n"
+            + "+VERY\n"
+            + "+LONG\n"
+            + " dd\n"
+            + " ee\n"
+            + " ff\n"
+            + "-TODELETE1\n"
+            + "-TODELETE2\n"
+            + " gg\n"
+            + " end",
         /* oldFileName= */ null);
   }
 
@@ -191,9 +208,9 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
         .isEqualTo(
             "Change has been successfully merged\n\n1 is the latest approved patch-set.\nThe "
-                + "change was submitted "
-                + "with many unreviewed changes (the diff is too large to show). Please review the "
-                + "diff.");
+                + "change was submitted with unreviewed changes in the following files:\n\nThe "
+                + "name of the file: file\nInsertions: 1, Deletions: 1.\n\nThe diff is too "
+                + "large to show. Please review the diff.");
   }
 
   @Test
@@ -218,9 +235,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         /* file= */ "file",
         /* insertions= */ 3,
         /* deletions= */ 0,
-        /* edits= */ ImmutableList.of(Edit.create(0, 0, 0, 3)),
-        /* previousLines= */ ImmutableList.of(),
-        /* newLines= */ ImmutableList.of("+  content\n+  more content\n+  last content\n"),
+        /* expectedFileDiff= */ "@@ -0,0 +1,3 @@\n +content\n +more content\n+last content",
         /* oldFileName= */ null);
   }
 
@@ -247,9 +262,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         /* file= */ "file",
         /* insertions= */ 0,
         /* deletions= */ 3,
-        /* edits= */ ImmutableList.of(Edit.create(0, 3, 0, 0)),
-        /* previousLines= */ ImmutableList.of("-  content\n-  more content\n-  last content\n"),
-        /* newLines= */ ImmutableList.of(),
+        /* expectedFileDiff= */ "@@ -1,3 +0,0 @@\n-content\n-more content\n-last content",
         /* oldFileName= */ null);
   }
 
@@ -276,9 +289,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         /* file= */ "new_file",
         /* insertions= */ 0,
         /* deletions= */ 0,
-        /* edits= */ ImmutableList.of(),
-        /* previousLines= */ ImmutableList.of(),
-        /* newLines= */ ImmutableList.of(),
+        /* expectedFileDiff= */ "",
         /* oldFileName= */ "file");
   }
 
@@ -345,9 +356,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
       String file,
       int insertions,
       int deletions,
-      List<Edit> edits,
-      List<String> previousLines,
-      List<String> newLines,
+      String expectedFileDiff,
       String oldFileName) {
     String expectedMessage =
         "1 is the latest approved patch-set.\n"
@@ -359,38 +368,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     if (oldFileName != null) {
       expectedMessage += String.format("The file %s was renamed to %s\n", oldFileName, file);
     }
-
-    Iterator<String> previousLinesIterator = previousLines.iterator();
-    Iterator<String> newLinesIterator = newLines.iterator();
-    if (!edits.isEmpty()) {
-      expectedMessage += "```\n";
-    }
-    for (Edit edit : edits) {
-      if (edit.beginA() == edit.endA()) {
-        // Insertion
-        expectedMessage += String.format("@@ +%d:%d @@\n", edit.beginB(), edit.endB());
-        expectedMessage += newLinesIterator.next();
-        expectedMessage += "\n";
-        continue;
-      }
-      if (edit.beginB() == edit.endB()) {
-        // Deletion
-        expectedMessage += String.format("@@ -%d:%d @@\n", edit.beginA(), edit.endA());
-        expectedMessage += previousLinesIterator.next();
-        expectedMessage += "\n";
-        continue;
-      }
-      // Replace
-      expectedMessage +=
-          String.format(
-              "@@ -%d:%d, +%d:%d @@\n", edit.beginA(), edit.endA(), edit.beginB(), edit.endB());
-      expectedMessage += previousLinesIterator.next();
-      expectedMessage += newLinesIterator.next();
-      expectedMessage += "\n";
-    }
-    if (!edits.isEmpty()) {
-      expectedMessage += "```\n";
-    }
+    expectedMessage += expectedFileDiff;
     String expectedChangeMessage = "Change has been successfully merged\n\n" + expectedMessage;
     assertThat(message.trim()).isEqualTo(expectedChangeMessage.trim());
     assertThat(Iterables.getLast(sender.getMessages()).body()).contains(expectedMessage);

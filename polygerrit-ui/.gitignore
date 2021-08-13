@@ -1,7 +1,8 @@
-node_modules
 npm-debug.log
 dist
 fonts
-bower_components
-.tmp
-.vscode
+/.tmp/
+/.vscode
+/bower_components/
+/package-lock.json
+/node_modules/

@@ -51,6 +51,24 @@
       "message": "There is another issue now :(\nThe steps to reproduce are the same:\n1. Click add reference\n2. Modify permissions, somehow\n3. Click add refernce\n4. Again modify permission\n5. Click \"save for review.\"\n\nThe \"save for review\" creates a change, but adds only one item - from step 2 or 4 (they both sets permissions for \"/refs/for/*\").\nI think it would be good to have some simple validation on save/save for preview. ",
       "revId": "349d59b84453f07e15b9b7314da7846a326e766b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c32ff80d_9645153a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-13T08:25:00Z",
+      "side": 1,
+      "message": "I\u0027ve managed to reproduce the same bug now as well, but I didn\u0027t do it with my code :-)\n\nI think my code doesn\u0027t cause any new issues. I\u0027ve opened b/196512066",
+      "parentUuid": "e60cf1f9_85c6f6b5",
+      "revId": "349d59b84453f07e15b9b7314da7846a326e766b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

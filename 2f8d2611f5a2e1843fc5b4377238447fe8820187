@@ -22,6 +22,30 @@
       },
       "revId": "2f8d2611f5a2e1843fc5b4377238447fe8820187",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07401c9a_b6717e3f",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-14T03:22:30Z",
+      "side": 0,
+      "message": "Yeah, I wasn\u0027t sure if this was a safe change or not.  Thanks for pointing out the difference!\n\nI looked at the email RE, and it seems they\u0027re actually the same.\n\nI didn\u0027t want to delete the files right away, in case someone was relying on their existence somehow.",
+      "parentUuid": "6f7488d6_2c3035ad",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "2f8d2611f5a2e1843fc5b4377238447fe8820187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

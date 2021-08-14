@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfb4434e_3a6013a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-14T03:22:30Z",
+      "side": 1,
+      "message": "Thanks for the review!\n\nI noticed the same issue with this yarn.lock file changing to npmjs.org.  Fortunately, all the sha\u0027s remain the same.",
+      "revId": "a27f450c43ceb74605dca02efe908abc5240048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

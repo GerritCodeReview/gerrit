@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b1c7e19_34888d3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-14T03:00:18Z",
+      "side": 1,
+      "message": "Also realised that it\u0027s switching from yarn to npm in the lock file which shouldn\u0027t be done. Isn\u0027t there a equivalent in the yarn command line to do the same?",
+      "revId": "ec9e9b43d5d4da9792db638ad73ba98136972169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdf25f1e_21c63fca",

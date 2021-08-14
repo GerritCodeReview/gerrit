@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f7488d6_2c3035ad",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-14T02:58:37Z",
+      "side": 0,
+      "message": "Could remove this file since we are using the npm version?\n\nThough it seems we\u0027ve hacked it to add some functionality per the comment within the file.",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "2f8d2611f5a2e1843fc5b4377238447fe8820187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -19,7 +19,11 @@ import '../../../test/common-test-setup-karma';
 import './gr-repo-dashboards';
 import {GrRepoDashboards} from './gr-repo-dashboards';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {addListenerForTest, stubRestApi} from '../../../test/test-utils';
+import {
+  addListenerForTest,
+  queryAndAssert,
+  stubRestApi,
+} from '../../../test/test-utils';
 import {DashboardId, DashboardInfo, RepoName} from '../../../types/common';
 import {PageErrorEvent} from '../../../types/events.js';
 
@@ -28,8 +32,9 @@ const basicFixture = fixtureFromElement('gr-repo-dashboards');
 suite('gr-repo-dashboards tests', () => {
   let element: GrRepoDashboards;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
   suite('dashboard table', () => {
@@ -90,17 +95,24 @@ suite('gr-repo-dashboards tests', () => {
     test('loading, sections, and ordering', done => {
       assert.isTrue(element._loading);
       assert.notEqual(
-        getComputedStyle(element.$.loadingContainer).display,
+        getComputedStyle(queryAndAssert(element, '#loadingContainer')).display,
         'none'
       );
-      assert.equal(getComputedStyle(element.$.dashboards).display, 'none');
+      assert.equal(
+        getComputedStyle(queryAndAssert(element, '#dashboards')).display,
+        'none'
+      );
       element.repo = 'test' as RepoName;
       flush(() => {
         assert.equal(
-          getComputedStyle(element.$.loadingContainer).display,
+          getComputedStyle(queryAndAssert(element, '#loadingContainer'))
+            .display,
           'none'
         );
-        assert.notEqual(getComputedStyle(element.$.dashboards).display, 'none');
+        assert.notEqual(
+          getComputedStyle(queryAndAssert(element, '#dashboards')).display,
+          'none'
+        );
 
         const dashboard = element._dashboards!;
         assert.equal(dashboard.length!, 2);

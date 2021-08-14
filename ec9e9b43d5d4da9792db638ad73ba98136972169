@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a06ff3d3_218002fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-14T23:29:07Z",
+      "side": 1,
+      "message": "I\u0027ve found a way to make it work, just had to figure out how to set the yarn npmRegistryServer.",
+      "parentUuid": "1b1c7e19_34888d3e",
+      "revId": "ec9e9b43d5d4da9792db638ad73ba98136972169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdf25f1e_21c63fca",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-08-14T04:30:52Z",
       "side": 1,
       "message": "Resolved in the latest commit, thanks!",
+      "parentUuid": "cdf25f1e_21c63fca",
+      "revId": "ec9e9b43d5d4da9792db638ad73ba98136972169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90e5a54a_1a2c29c2",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-14T23:29:07Z",
+      "side": 1,
+      "message": "Good call",
       "parentUuid": "cdf25f1e_21c63fca",
       "revId": "ec9e9b43d5d4da9792db638ad73ba98136972169",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdf25f1e_21c63fca",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-14T02:55:28Z",
+      "side": 1,
+      "message": "Maybe you want to mention that we\u0027re updating karma in the commit message?",
+      "revId": "ec9e9b43d5d4da9792db638ad73ba98136972169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

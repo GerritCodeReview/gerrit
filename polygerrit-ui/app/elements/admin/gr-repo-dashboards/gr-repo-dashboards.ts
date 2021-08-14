@@ -15,16 +15,14 @@
  * limitations under the License.
  */
 
-import '../../../styles/shared-styles';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-repo-dashboards_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
 import {RepoName, DashboardId, DashboardInfo} from '../../../types/common';
 import {firePageError} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property, PropertyValues} from 'lit-element';
 
 interface DashboardRef {
   section: string;
@@ -32,12 +30,8 @@ interface DashboardRef {
 }
 
 @customElement('gr-repo-dashboards')
-export class GrRepoDashboards extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: String, observer: '_repoChanged'})
+export class GrRepoDashboards extends GrLitElement {
+  @property({type: String})
   repo?: RepoName;
 
   @property({type: Boolean})
@@ -48,7 +42,84 @@ export class GrRepoDashboards extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  _repoChanged(repo?: RepoName) {
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+          margin-bottom: var(--spacing-xxl);
+        }
+        .loading #dashboards,
+        #loadingContainer {
+          display: none;
+        }
+        .loading #loadingContainer {
+          display: block;
+        }
+      `,
+    ];
+  }
+
+  render() {
+    return html` <table
+      id="list"
+      class="genericList ${this._computeLoadingClass(this._loading)}"
+    >
+      <tbody>
+        <tr class="headerRow">
+          <th class="topHeader">Dashboard name</th>
+          <th class="topHeader">Dashboard title</th>
+          <th class="topHeader">Dashboard description</th>
+          <th class="topHeader">Inherited from</th>
+          <th class="topHeader">Default</th>
+        </tr>
+        <tr id="loadingContainer">
+          <td>Loading...</td>
+        </tr>
+      </tbody>
+      <tbody id="dashboards">
+        ${(this._dashboards ?? []).map(
+          item => html`
+            <tr class="groupHeader">
+              <td colspan="5">${item.section}</td>
+            </tr>
+            ${(item.dashboards ?? []).map(
+              info => html`
+                <tr class="table">
+                  <td class="name">
+                    <a href="${this._getUrl(info.project, info.id)}"
+                      >${info.path}</a
+                    >
+                  </td>
+                  <td class="title">${info.title}</td>
+                  <td class="desc">${info.description}</td>
+                  <td class="inherited">
+                    ${this._computeInheritedFrom(
+                      info.project,
+                      info.defining_project
+                    )}
+                  </td>
+                  <td class="default">
+                    ${this._computeIsDefault(info.is_default)}
+                  </td>
+                </tr>
+              `
+            )}
+          `
+        )}
+      </tbody>
+    </table>`;
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('repo')) {
+      this._repoChanged();
+    }
+  }
+
+  _repoChanged() {
+    const repo = this.repo;
     this._loading = true;
     if (!repo) {
       return Promise.resolve();
@@ -89,7 +160,6 @@ export class GrRepoDashboards extends PolymerElement {
 
         this._dashboards = dashboardBuilder;
         this._loading = false;
-        flush();
       });
   }
 

@@ -46,6 +46,30 @@
       },
       "revId": "2f8d2611f5a2e1843fc5b4377238447fe8820187",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83b4d8d9_fb798519",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-14T04:30:04Z",
+      "side": 0,
+      "message": "It should be safe as far as i\u0027m aware.\n\nPeople can just use either the npm or manually add the file if they need it in their plugins (i see no other usage in gerrit part from one spot).",
+      "parentUuid": "07401c9a_b6717e3f",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "2f8d2611f5a2e1843fc5b4377238447fe8820187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

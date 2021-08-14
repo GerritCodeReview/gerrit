@@ -93,7 +93,7 @@ export class GrRepoDashboards extends PolymerElement {
       });
   }
 
-  _getUrl(project: RepoName, id: DashboardId) {
+  _getUrl(project?: RepoName, id?: DashboardId) {
     if (!project || !id) {
       return '';
     }

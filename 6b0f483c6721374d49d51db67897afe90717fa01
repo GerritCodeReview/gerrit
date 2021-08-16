@@ -62,6 +62,54 @@
       },
       "revId": "6b0f483c6721374d49d51db67897afe90717fa01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4da3e28d_d4975232",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-16T08:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9affc39f_2c75bb48",
+      "range": {
+        "startLine": 611,
+        "startChar": 21,
+        "endLine": 612,
+        "endChar": 32
+      },
+      "revId": "6b0f483c6721374d49d51db67897afe90717fa01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45e66d12_5e203ae3",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-16T08:24:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9155cd7_f938d16c",
+      "range": {
+        "startLine": 611,
+        "startChar": 94,
+        "endLine": 612,
+        "endChar": 32
+      },
+      "revId": "6b0f483c6721374d49d51db67897afe90717fa01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

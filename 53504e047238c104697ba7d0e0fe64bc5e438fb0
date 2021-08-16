@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abad189e_b948b824",
+        "filename": "plugins/codemirror-editor",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-16T16:32:32Z",
+      "side": 1,
+      "message": "revert?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "53504e047238c104697ba7d0e0fe64bc5e438fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e2681d6_f2110477",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-16T16:32:32Z",
+      "side": 1,
+      "message": "this variable is not needed and maybe we can also resolve the TODO(TS) now?",
+      "range": {
+        "startLine": 227,
+        "startChar": 6,
+        "endLine": 227,
+        "endChar": 23
+      },
+      "revId": "53504e047238c104697ba7d0e0fe64bc5e438fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

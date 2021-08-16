@@ -33,6 +33,23 @@
       "message": "Seems I forgot to send my comments. Thank you for the review!",
       "revId": "70f30880b68f90a6a9710e62f613eaf3fed860f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cb3e11d_2623bc06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-16T10:19:40Z",
+      "side": 1,
+      "message": "Nice, thanks!",
+      "revId": "70f30880b68f90a6a9710e62f613eaf3fed860f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

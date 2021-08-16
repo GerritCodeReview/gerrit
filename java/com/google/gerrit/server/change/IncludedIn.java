@@ -14,6 +14,12 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
+import static java.util.Comparator.naturalOrder;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.entities.Project;
@@ -23,13 +29,18 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collection;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -37,17 +48,21 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @Singleton
 public class IncludedIn {
   private final GitRepositoryManager repoManager;
+  private final PermissionBackend permissionBackend;
   private final PluginSetContext<ExternalIncludedIn> externalIncludedIn;
 
   @Inject
   IncludedIn(
-      GitRepositoryManager repoManager, PluginSetContext<ExternalIncludedIn> externalIncludedIn) {
+      GitRepositoryManager repoManager,
+      PermissionBackend permissionBackend,
+      PluginSetContext<ExternalIncludedIn> externalIncludedIn) {
     this.repoManager = repoManager;
+    this.permissionBackend = permissionBackend;
     this.externalIncludedIn = externalIncludedIn;
   }
 
   public IncludedInInfo apply(Project.NameKey project, String revisionId)
-      throws RestApiException, IOException {
+      throws RestApiException, IOException, PermissionBackendException {
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {
       rw.setRetainBody(false);
@@ -61,18 +76,48 @@ public class IncludedIn {
       }
 
       IncludedInResolver.Result d = IncludedInResolver.resolve(r, rw, rev);
+
+      // Filter branches and tags according to their visbility by the user
+      ImmutableSortedSet<String> filteredBranches =
+          sortedShortNames(filterReadableRefs(project, d.branches()));
+      ImmutableSortedSet<String> filteredTags =
+          sortedShortNames(filterReadableRefs(project, d.tags()));
+
       ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
       externalIncludedIn.runEach(
           ext -> {
             ListMultimap<String, String> extIncludedIns =
-                ext.getIncludedIn(project.get(), rev.name(), d.tags(), d.branches());
+                ext.getIncludedIn(project.get(), rev.name(), filteredBranches, filteredTags);
             if (extIncludedIns != null) {
               external.putAll(extIncludedIns);
             }
           });
 
       return new IncludedInInfo(
-          d.branches(), d.tags(), (!external.isEmpty() ? external.asMap() : null));
+          filteredBranches, filteredTags, (!external.isEmpty() ? external.asMap() : null));
     }
+  }
+
+  /**
+   * Filter readable branches or tags according to the caller's refs visibility.
+   *
+   * @param project specific Gerrit project.
+   * @param inputRefs a list of branches (in short name) as strings
+   */
+  private Collection<String> filterReadableRefs(
+      Project.NameKey project, ImmutableList<Ref> inputRefs)
+      throws IOException, PermissionBackendException {
+    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(project);
+    try (Repository repo = repoManager.openRepository(project)) {
+      return perm.filter(inputRefs, repo, RefFilterOptions.defaults()).stream()
+          .map(Ref::getName)
+          .collect(toImmutableList());
+    }
+  }
+
+  private ImmutableSortedSet<String> sortedShortNames(Collection<String> refs) {
+    return refs.stream()
+        .map(Repository::shortenRefName)
+        .collect(toImmutableSortedSet(naturalOrder()));
   }
 }

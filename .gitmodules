@@ -24,7 +24,7 @@
 
 [submodule "plugins/gitiles"]
 	path = plugins/gitiles
-	url = ../plugins/gitiles
+	url = ../plugins/gitiles-security-fixes
 	branch = .
 
 [submodule "plugins/hooks"]

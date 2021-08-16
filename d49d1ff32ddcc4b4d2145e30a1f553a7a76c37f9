@@ -52,6 +52,24 @@
       "parentUuid": "7a217bc1_d06135e2",
       "revId": "d49d1ff32ddcc4b4d2145e30a1f553a7a76c37f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "339ac14b_8ac07d3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-16T22:43:35Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to change the question on an old release.\n\nI\u0027m good with the intent of this change (provide a non-interactive way to choose if drafts become private or wip), but I\u0027d prefer something less intrusive, especially for an older release. My concern here is a bit moot since we know this schema is removed in 3.0, but I\u0027m worried about maintaining an init flag that only has meaning for one schema version and that will show up even if you\u0027ve already moved past that version. i.e. someone who has already upgraded to 2.15 will see this init option when they run 2.16 init --help (unless I missed something in this change that would prevent that), but the option will have no effect because this schema has already been applied. That feels wrong.",
+      "parentUuid": "f9a0ffc2_a88cbffd",
+      "revId": "d49d1ff32ddcc4b4d2145e30a1f553a7a76c37f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

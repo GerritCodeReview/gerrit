@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d89f6f7_c3291cc9",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-16T08:24:17Z",
+      "side": 1,
+      "message": "And also this wouldn\u0027t be in the cache anyway, usually.\nMentioned.",
+      "parentUuid": "4c7d8516_373563c4",
+      "range": {
+        "startLine": 188,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 46
+      },
+      "revId": "43e86b7020c3d1ad81606c505e44d4528e0b5540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ad82708_3888ae5e",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-08-16T08:00:11Z",
       "side": 1,
       "message": "Instead of swallowing and logging the exception, why not just throw it and fail?",
+      "range": {
+        "startLine": 215,
+        "startChar": 7,
+        "endLine": 220,
+        "endChar": 16
+      },
+      "revId": "43e86b7020c3d1ad81606c505e44d4528e0b5540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8065846_3695171d",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-16T08:24:17Z",
+      "side": 1,
+      "message": "it would block submit.\nBut you\u0027re probably right that we should do this since this is security sensitive feature.",
+      "parentUuid": "5ad82708_3888ae5e",
       "range": {
         "startLine": 215,
         "startChar": 7,

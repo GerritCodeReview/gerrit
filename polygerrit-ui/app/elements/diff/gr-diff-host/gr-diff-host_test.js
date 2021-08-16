@@ -20,7 +20,6 @@ import './gr-diff-host.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {createCommentThreads} from '../../../utils/comment-util.js';
 import {Side, createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {createChange} from '../../../test/test-data-generators.js';
 import {CoverageType} from '../../../types/types.js';
@@ -62,51 +61,6 @@ suite('gr-diff-host tests', () => {
       await element.reload();
       assert(element.jsAPI.getDiffLayers.called);
     });
-  });
-
-  test('thread-discard handling', () => {
-    const threads = createCommentThreads([
-      {
-        id: 4711,
-        diffSide: Side.LEFT,
-        updated: '2015-12-20 15:01:20.396000000',
-        patch_set: 1,
-        path: 'some/path',
-      },
-      {
-        id: 42,
-        diffSide: Side.LEFT,
-        updated: '2017-12-20 15:01:20.396000000',
-        patch_set: 1,
-        path: 'some/path',
-      },
-    ]);
-    element._parentIndex = 1;
-    element.changeNum = 2;
-    element.path = 'some/path';
-    element.projectName = 'Some project';
-    const threadEls = threads.map(
-        thread => {
-          const threadEl = element._createThreadElement(thread);
-          // Polymer 2 doesn't fire ready events and doesn't execute
-          // observers if element is not added to the Dom.
-          // See https://github.com/Polymer/old-docs-site/issues/2322
-          // and https://github.com/Polymer/polymer/issues/4526
-          element._attachThreadElement(threadEl);
-          return threadEl;
-        });
-    assert.equal(threadEls.length, 2);
-    assert.equal(threadEls[0].comments[0].id, 4711);
-    assert.equal(threadEls[1].comments[0].id, 42);
-    for (const threadEl of threadEls) {
-      element.appendChild(threadEl);
-    }
-
-    threadEls[0].dispatchEvent(
-        new CustomEvent('thread-discard', {detail: {rootId: 4711}}));
-    const attachedThreads = element.querySelectorAll('gr-comment-thread');
-    assert.equal(attachedThreads.length, 1);
-    assert.equal(attachedThreads[0].comments[0].id, 42);
   });
 
   suite('render reporting', () => {

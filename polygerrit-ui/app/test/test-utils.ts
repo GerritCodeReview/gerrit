@@ -27,6 +27,7 @@ import {SinonSpy} from 'sinon/pkg/sinon-esm';
 import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
+import {CommentsService} from '../services/comments/comments-service';
 
 export interface MockPromise extends Promise<unknown> {
   resolve: (value?: unknown) => void;
@@ -171,6 +172,10 @@ export function stubRestApi<K extends keyof RestApiService>(method: K) {
 
 export function spyRestApi<K extends keyof RestApiService>(method: K) {
   return sinon.spy(appContext.restApiService, method);
+}
+
+export function stubComments<K extends keyof CommentsService>(method: K) {
+  return sinon.stub(appContext.commentsService, method);
 }
 
 export function stubStorage<K extends keyof StorageService>(method: K) {

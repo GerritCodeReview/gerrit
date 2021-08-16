@@ -899,13 +899,6 @@ export class GrDiffHost extends PolymerElement {
     else threadEl.lineNum = thread.line !== 'FILE' ? thread.line : undefined;
     threadEl.projectName = this.projectName;
     threadEl.range = thread.range;
-    const threadDiscardListener = (e: Event) => {
-      const threadEl = e.currentTarget as Element;
-      const parent = threadEl.parentNode;
-      if (parent) parent.removeChild(threadEl);
-      threadEl.removeEventListener('thread-discard', threadDiscardListener);
-    };
-    threadEl.addEventListener('thread-discard', threadDiscardListener);
     return threadEl;
   }
 

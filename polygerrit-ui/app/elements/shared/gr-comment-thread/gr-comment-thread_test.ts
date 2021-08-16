@@ -46,9 +46,9 @@ import {
 } from '@polymer/iron-test-helpers/mock-interactions';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {
+  stubComments,
   stubReporting,
   stubRestApi,
-  stubStorage,
 } from '../../../test/test-utils';
 import {_testOnly_resetState} from '../../../services/comments/comments-model';
 
@@ -537,6 +537,7 @@ suite('comment action tests with unresolved thread', () => {
     element.patchNum = 1 as PatchSetNum;
     element.path = '/path/to/file.txt';
     assert.isOk(element.comments[0]);
+    const deleteDraftStub = stubComments('deleteDraft');
     element.push(
       'comments',
       element._newReply(
@@ -548,18 +549,13 @@ suite('comment action tests with unresolved thread', () => {
 
     const draftEl = element.root?.querySelectorAll('gr-comment')[1];
     assert.ok(draftEl);
+    draftEl?._fireSave(); // tell the model about the draft
     draftEl!.addEventListener('comment-discard', () => {
-      const drafts = element.comments.filter(c => isDraft(c));
-      assert.equal(drafts.length, 0);
+      flush();
+      assert.isTrue(deleteDraftStub.called);
       done();
     });
-    draftEl!.dispatchEvent(
-      new CustomEvent('comment-discard', {
-        detail: {comment: draftEl!.comment},
-        composed: true,
-        bubbles: false,
-      })
-    );
+    draftEl!._fireDiscard();
   });
 
   test('discard with a single comment still fires event with previous rootId', done => {
@@ -574,83 +570,13 @@ suite('comment action tests with unresolved thread', () => {
 
     const draftEl = element.root?.querySelectorAll('gr-comment')[0];
     assert.ok(draftEl);
+    const deleteDraftStub = stubComments('deleteDraft');
     draftEl!.addEventListener('comment-discard', () => {
-      assert.equal(element.comments.length, 0);
+      assert.isTrue(deleteDraftStub.called);
       done();
     });
-    draftEl!.dispatchEvent(
-      new CustomEvent('comment-discard', {
-        detail: {comment: draftEl!.comment},
-        composed: true,
-        bubbles: false,
-      })
-    );
+    draftEl!._fireDiscard();
   });
-
-  test(
-    'When not editing other comments, local storage not set' + ' after discard',
-    done => {
-      element.changeNum = 42 as NumericChangeId;
-      element.patchNum = 1 as PatchSetNum;
-      element.comments = [
-        {
-          author: {
-            name: 'Mr. Peanutbutter',
-            email: 'tenn1sballchaser@aol.com' as EmailAddress,
-          },
-          id: 'baf0414d_60047215' as UrlEncodedCommentId,
-          path: 'test',
-          line: 5,
-          message: 'is this a crossover episode!?',
-          updated: '2015-12-08 19:48:31.843000000' as Timestamp,
-        },
-        {
-          author: {
-            name: 'Mr. Peanutbutter',
-            email: 'tenn1sballchaser@aol.com' as EmailAddress,
-          },
-          __draftID: '1',
-          in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
-          path: 'test',
-          line: 5,
-          message: 'yes',
-          updated: '2015-12-08 19:48:32.843000000' as Timestamp,
-          __draft: true,
-          __editing: true,
-        },
-        {
-          author: {
-            name: 'Mr. Peanutbutter',
-            email: 'tenn1sballchaser@aol.com' as EmailAddress,
-          },
-          __draftID: '2',
-          in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
-          path: 'test',
-          line: 5,
-          message: 'no',
-          updated: '2015-12-08 19:48:33.843000000' as Timestamp,
-          __draft: true,
-        },
-      ];
-      const storageStub = stubStorage('setDraftComment');
-      flush();
-
-      const draftEl = element.root?.querySelectorAll('gr-comment')[1];
-      assert.ok(draftEl);
-      draftEl!.addEventListener('comment-discard', () => {
-        assert.isFalse(storageStub.called);
-        storageStub.restore();
-        done();
-      });
-      draftEl!.dispatchEvent(
-        new CustomEvent('comment-discard', {
-          detail: {comment: draftEl!.comment},
-          composed: true,
-          bubbles: false,
-        })
-      );
-    }
-  );
 
   test('comment-update', () => {
     const commentEl = element.shadowRoot?.querySelector('gr-comment');

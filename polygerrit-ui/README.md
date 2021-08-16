@@ -4,11 +4,23 @@ Follow the
 [setup instructions for Gerrit backend developers](https://gerrit-review.googlesource.com/Documentation/dev-readme.html)
 where applicable, the most important command is:
 
-```
+```sh
 git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
 ```
 
 The --recurse-submodules option is needed on git clone to ensure that the core plugins, which are included as git submodules, are also cloned.
+
+Then make sure to install the commit-hook that will set up the `ChangeId` for
+each push to gerrit-reviews.
+
+```sh
+cd gerrit && (
+  f=`git rev-parse --git-dir`/hooks/commit-msg 
+  mkdir -p $(dirname $f)
+  curl -Lo $f https://gerrit-review.googlesource.com/tools/hooks/commit-msg
+  chmod +x $f
+)
+```
 
 ## Installing [Bazel](https://bazel.build/)
 

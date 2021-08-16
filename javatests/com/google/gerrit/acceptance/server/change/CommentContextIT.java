@@ -30,6 +30,8 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.server.change.FileContentUtil;
@@ -85,6 +87,28 @@ public class CommentContextIT extends AbstractDaemonTest {
     assertThat(comments.get(0).path).isEqualTo(submodulePath);
     assertThat(comments.get(0).contextLines)
         .isEqualTo(createContextLines("1", "Subproject commit " + dummyCommit.getName()));
+  }
+
+  @Test
+  public void commentContextForRootCommitOnParentSideReturnsEmptyContext() throws Exception {
+    // Create a change in a new branch, making the patchset commit a root commit
+    ChangeInfo changeInfo = createChangeInNewBranch("newBranch");
+    String changeId = changeInfo.changeId;
+    String revision = changeInfo.revisions.keySet().iterator().next();
+
+    // Write a comment on the parent side of the commit message. Set parent=1 because if unset, our
+    // handler in PostReview assumes we want to write on the auto-merge commit and fails the
+    // pre-condition.
+    CommentInput comment = CommentsUtil.newComment(COMMIT_MSG, Side.PARENT, 0, "comment", false);
+    comment.parent = 1;
+    CommentsUtil.addComments(gApi, changeId, revision, comment);
+
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().withContext(true).getAsList();
+    assertThat(comments).hasSize(1);
+    CommentInfo c = comments.stream().collect(MoreCollectors.onlyElement());
+    assertThat(c.contextLines).isEmpty();
+    assertThat(c.commitId).isNull();
   }
 
   @Test
@@ -567,5 +591,14 @@ public class CommentContextIT extends AbstractDaemonTest {
       result.add(info);
     }
     return result;
+  }
+
+  private ChangeInfo createChangeInNewBranch(String branchName) throws Exception {
+    ChangeInput in = new ChangeInput();
+    in.project = project.get();
+    in.branch = branchName;
+    in.newBranch = true;
+    in.subject = "New changes";
+    return gApi.changes().create(in).get();
   }
 }

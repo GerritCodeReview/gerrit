@@ -46,6 +46,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -101,7 +103,16 @@ public class CommentContextLoader {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       for (ObjectId commitId : commentsByCommitId.keySet()) {
-        RevCommit commit = rw.parseCommit(commitId);
+        RevCommit commit;
+        try {
+          commit = rw.parseCommit(commitId);
+        } catch (IncorrectObjectTypeException | MissingObjectException e) {
+          logger.atWarning().log("Commit %s is missing or has an incorrect object type", commitId);
+          commentsByCommitId
+              .get(commitId)
+              .forEach(contextInput -> result.put(contextInput, CommentContext.empty()));
+          continue;
+        }
         for (ContextInput contextInput : commentsByCommitId.get(commitId)) {
           Optional<Range> range = getStartAndEndLines(contextInput);
           if (!range.isPresent()) {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf1d118d_2ad64b4c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-16T12:33:19Z",
+      "side": 1,
+      "message": "table-styles not needed?",
+      "revId": "9e949e2e5f28d182f5df5b274d74b5eb759e9030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28aafdf6_227f1055",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-16T12:33:19Z",
+      "side": 1,
+      "message": "Optional nit: We are trying to slowly remove the underscores, so it would be nice to remove _ here and to add `private` instead.",
+      "revId": "9e949e2e5f28d182f5df5b274d74b5eb759e9030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

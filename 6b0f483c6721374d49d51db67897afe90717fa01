@@ -16,6 +16,52 @@
       "message": "While I tested this change and the previous one, I\u0027d like to submit the 2 changes on different releases to make sure each of them works independently.",
       "revId": "6b0f483c6721374d49d51db67897afe90717fa01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9155cd7_f938d16c",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-16T08:05:10Z",
+      "side": 1,
+      "message": "Is this still true? Looks like this should be dropped.",
+      "range": {
+        "startLine": 611,
+        "startChar": 94,
+        "endLine": 612,
+        "endChar": 32
+      },
+      "revId": "6b0f483c6721374d49d51db67897afe90717fa01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9affc39f_2c75bb48",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-16T08:05:10Z",
+      "side": 1,
+      "message": "Put this into a new line and use @param?",
+      "range": {
+        "startLine": 611,
+        "startChar": 21,
+        "endLine": 612,
+        "endChar": 32
+      },
+      "revId": "6b0f483c6721374d49d51db67897afe90717fa01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

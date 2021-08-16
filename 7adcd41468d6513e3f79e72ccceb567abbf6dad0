@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9ba0bad_2b17e322",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-16T11:57:09Z",
+      "side": 1,
+      "message": "shared styles are not needed?",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35375890_3a18f58a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-16T11:57:09Z",
+      "side": 1,
+      "message": "Does this work? I think all @apply stuff has to rendered in the render() method.",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70b8ddbf_04b6b148",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-16T11:57:09Z",
+      "side": 1,
+      "message": "I am not sure whether I like this. For the properties maybe, but for the methods I think not, because for them it is important to have the `this` context.",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bbb02c7_5c7ed8e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-16T11:57:09Z",
+      "side": 1,
+      "message": "Nit: I tend to prefer separate render...() methods over ternaries in a lot of cases. For example here you could do:\n\n  renderDismissButton() {\n    if (!this.showDismiss) return;\n    return html`\u003cgr-button ...\u003eDismiss\u003c/gr-button\u003e`;\n  }",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "718aadd7_613d08f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-16T11:57:09Z",
+      "side": 1,
+      "message": "Not your change, but a gr-button within a gr-button? Does that make sense? 😕",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -13,7 +13,12 @@ Create a new client workspace:
 
 ----
   git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
-  cd gerrit
+  cd gerrit && (
+    f=`git rev-parse --git-dir`/hooks/commit-msg 
+    mkdir -p $(dirname $f)
+    curl -Lo $f https://gerrit-review.googlesource.com/tools/hooks/commit-msg
+    chmod +x $f
+  )
 ----
 
 The `--recurse-submodules` option is needed on `git clone` to ensure that the

@@ -13,11 +13,19 @@ Create a new client workspace:
 
 ----
   git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
-  cd gerrit
+  cd gerrit && (
+    f=`git rev-parse --git-dir`/hooks/commit-msg 
+    mkdir -p $(dirname $f)
+    curl -Lo $f https://gerrit-review.googlesource.com/tools/hooks/commit-msg
+    chmod +x $f
+  )
 ----
 
 The `--recurse-submodules` option is needed on `git clone` to ensure that the
 core plugins, which are included as git submodules, are also cloned.
+
+The extra logic is necessary to set up the gerrit commit-hook that ensures
+each commit has a `Change-Id`.
 
 === Switching between branches
 

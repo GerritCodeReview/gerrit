@@ -203,6 +203,26 @@ suite('gr-error-manager tests', () => {
       });
     });
 
+    test('suppress CONFLICTS_OPERATOR_IS_NOT_SUPPORTED error', done => {
+      const showAlertStub = sinon.stub(element, '_showAlert');
+      const textSpy = sinon.spy(
+          () => Promise.resolve(
+              '\'conflicts:\' operator is not supported by server'
+          )
+      );
+      element.dispatchEvent(
+          new CustomEvent('server-error', {
+            detail: {response: {status: 500, text: textSpy}},
+            composed: true, bubbles: true,
+          }));
+
+      assert.isTrue(textSpy.called);
+      flush(() => {
+        assert.isFalse(showAlertStub.called);
+        done();
+      });
+    });
+
     test('show network error', done => {
       const consoleErrorStub = sinon.stub(console, 'error');
       const showAlertStub = sinon.stub(element, '_showAlert');

@@ -32,6 +32,7 @@ export const htmlTemplate = html`
     .subHeader {
       align-items: center;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       padding: var(--spacing-m) var(--spacing-l);
     }
@@ -67,15 +68,6 @@ export const htmlTemplate = html`
     }
     .rightControls {
       justify-content: flex-end;
-    }
-    @media screen and (max-width: 50em) {
-      header,
-      .subHeader {
-        display: block;
-      }
-      .rightControls {
-        float: right;
-      }
     }
   </style>
   <div class="stickyHeader">

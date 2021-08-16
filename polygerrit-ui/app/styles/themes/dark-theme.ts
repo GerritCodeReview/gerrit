@@ -219,6 +219,7 @@ function getStyleEl() {
       --syntax-selector-class-color: #ffcb68;
       --syntax-selector-id-color: #f77669;
       --syntax-selector-pseudo-color: #c792ea;
+      --syntax-property-color: #c792ea;
       --syntax-string-color: #c3e88d;
       --syntax-tag-color: #f77669;
       --syntax-template-tag-color: #c792ea;

@@ -117,6 +117,7 @@ const CLASS_SAFELIST = new Set<string>([
   'gr-diff gr-syntax gr-syntax-name',
   'gr-diff gr-syntax gr-syntax-number',
   'gr-diff gr-syntax gr-syntax-params',
+  'gr-diff gr-syntax gr-syntax-property',
   'gr-diff gr-syntax gr-syntax-regexp',
   'gr-diff gr-syntax gr-syntax-selector-attr',
   'gr-diff gr-syntax gr-syntax-selector-class',

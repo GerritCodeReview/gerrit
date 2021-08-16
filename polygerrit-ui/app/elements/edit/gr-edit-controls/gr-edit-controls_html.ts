@@ -95,7 +95,12 @@ export const htmlTemplate = html`
           query="[[_query]]"
           text="{{_path}}"
         ></gr-autocomplete>
-        <div id="dragDropArea" on-drop="_handleDragAndDropUpload">
+        <div
+          id="dragDropArea"
+          contenteditable="true"
+          on-drop="_handleDragAndDropUpload"
+          on-keypress="_handleKeyPress"
+        >
           <p>Drag and drop a file here</p>
           <p>or</p>
           <p>
@@ -105,6 +110,7 @@ export const htmlTemplate = html`
                 id="fileUploadInput"
                 type="file"
                 on-change="_handleFileUploadChanged"
+                multiple
                 hidden
               />
             </iron-input>

@@ -311,6 +311,8 @@ export class GrSearchBar extends KeyboardShortcutMixin(PolymerElement) {
         // Fetch projects.
         return this.projectSuggestions(predicate, expression);
 
+      case 'assignee':
+      case 'attention':
       case 'author':
       case 'cc':
       case 'commentby':

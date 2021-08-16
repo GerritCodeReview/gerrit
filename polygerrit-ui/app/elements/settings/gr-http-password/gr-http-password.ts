@@ -16,6 +16,7 @@
  */
 import '../../../styles/gr-form-styles';
 import '../../shared/gr-button/gr-button';
+import {GrButton} from '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../../styles/shared-styles';
@@ -34,6 +35,7 @@ declare global {
 export interface GrHttpPassword {
   $: {
     generatedPasswordOverlay: GrOverlay;
+    generateButton: GrButton;
   };
 }
 

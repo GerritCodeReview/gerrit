@@ -22,6 +22,30 @@
       },
       "revId": "5770901f4ed9a6ec595a8f3dfeb858994e06f160",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b084eb46_585170ae",
+        "filename": "polygerrit-ui/.gitignore",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-16T17:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4a090cc_c27585f8",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 18
+      },
+      "revId": "5770901f4ed9a6ec595a8f3dfeb858994e06f160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

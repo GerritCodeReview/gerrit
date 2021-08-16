@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eac19f2_9b4b16c2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-16T17:44:50Z",
+      "side": 1,
+      "message": "Oh i had forgotten that one, thanks!",
+      "parentUuid": "bf1d118d_2ad64b4c",
+      "revId": "9e949e2e5f28d182f5df5b274d74b5eb759e9030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28aafdf6_227f1055",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-08-16T12:33:19Z",
       "side": 1,
       "message": "Optional nit: We are trying to slowly remove the underscores, so it would be nice to remove _ here and to add `private` instead.",
+      "revId": "9e949e2e5f28d182f5df5b274d74b5eb759e9030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee8ad6eb_54530bdb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-16T17:44:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "28aafdf6_227f1055",
       "revId": "9e949e2e5f28d182f5df5b274d74b5eb759e9030",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

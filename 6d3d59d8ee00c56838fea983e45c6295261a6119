@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dc16035_738f606e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-16T12:14:27Z",
+      "side": 1,
+      "message": "I think most of the time it is nicer to convert dom-ifs/ternaries (x ? y : z) into separate render methods instead. So instead of\n\n  ${x ? html`y` : \u0027\u0027}\n  \nyou would do\n\n  ${this.renderX()}\n  \nand implement\n\n  renderX() {\n    if (!x) return;\n    return html`y`;\n  }\n  \nBut maybe this is just my personal pref, and if x, y, z are all small, then a ternary is obviously just fine. :-)",
+      "revId": "6d3d59d8ee00c56838fea983e45c6295261a6119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

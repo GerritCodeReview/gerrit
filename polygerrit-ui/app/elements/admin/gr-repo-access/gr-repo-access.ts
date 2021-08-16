@@ -218,21 +218,10 @@ export class GrRepoAccess extends PolymerElement {
   }
 
   _handleUpdateInheritFrom(e: CustomEvent<{value: string}>) {
-    if (this._inheritFromFilter === undefined) {
-      return;
-    }
-    const originalInheritsFromId = this.originalInheritsFrom
-      ? singleDecodeURL(this.originalInheritsFrom.id)
-      : null;
     const parentProject: ProjectInfo = {
-      id: (e.detail.value ??
-        encodeURL(this._inheritFromFilter, true)) as UrlEncodedRepoName,
+      id: e.detail.value as UrlEncodedRepoName,
       name: this._inheritFromFilter,
     };
-    if (originalInheritsFromId === parentProject.id) {
-      // No change
-      return;
-    }
     if (!this._inheritsFrom) {
       this._inheritsFrom = parentProject;
     } else {

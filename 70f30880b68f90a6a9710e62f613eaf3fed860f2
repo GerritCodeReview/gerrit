@@ -50,6 +50,29 @@
       "message": "Nice, thanks!",
       "revId": "70f30880b68f90a6a9710e62f613eaf3fed860f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "853fdc21_725ec643",
+        "filename": "polygerrit-ui/.gitignore",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-16T10:30:09Z",
+      "side": 1,
+      "message": "I think package-lock should be commited to repository.\nhttps://stackoverflow.com/questions/44206782/do-i-commit-the-package-lock-json-file-created-by-npm-5\n\nFrom https://github.com/npm/cli/blob/release-6.14.7/docs/content/configuring-npm/package-lock-json.md\nThis file is intended to be committed into source repositories, and serves various purposes:\n...",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 18
+      },
+      "revId": "70f30880b68f90a6a9710e62f613eaf3fed860f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

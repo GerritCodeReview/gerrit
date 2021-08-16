@@ -22,6 +22,30 @@
       },
       "revId": "0a920f38bd1245e6fff3d386be49b48dd562611f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2bb9d7c_1ca4de92",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-16T17:47:55Z",
+      "side": 1,
+      "message": "eslint did this even though i agree with you.",
+      "parentUuid": "a6d16bec_25cf2582",
+      "range": {
+        "startLine": 118,
+        "startChar": 16,
+        "endLine": 118,
+        "endChar": 45
+      },
+      "revId": "0a920f38bd1245e6fff3d386be49b48dd562611f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

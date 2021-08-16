@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4b0a5e0_1bd5d39d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-16T09:47:35Z",
+      "side": 1,
+      "message": "I was expecting native focus to be used here.\n\nMaybe it is useful to generally make the comment thread elements focusable and tabable?\n\nNative focus uses outline instead of border, which has the advantage of not changing the dimensions of the element.\n\nIf you want to change the focus outline from blue to gray globally in Gerrit, then maybe we can set the outline-color somewhere top-level or in shared styles?",
+      "revId": "8a96b27fc2ea46b1b19a1440fb7bd6ea0616ce32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -69,6 +69,24 @@
       "parentUuid": "e60cf1f9_85c6f6b5",
       "revId": "349d59b84453f07e15b9b7314da7846a326e766b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9d20c1c_57b634a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-16T09:12:20Z",
+      "side": 1,
+      "message": "I agree that you didn\u0027t touch the code. Without the fix, the default naming prevents this from happen. I.e. if a user forget to write a new refs name - the error appears when the \"Save\"/\"Save preview\" is clicked. Now it is much easier to make a mistake, so I would like to have it fixed together.",
+      "parentUuid": "c32ff80d_9645153a",
+      "revId": "349d59b84453f07e15b9b7314da7846a326e766b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

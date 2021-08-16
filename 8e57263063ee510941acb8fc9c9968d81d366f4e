@@ -16,6 +16,24 @@
       "message": "Hi Frank,\n\nI wasn\u0027t quite sure how to change all the .gitignore files to be based on / because I am not sure which ones are files or directories.  Feedback very welcome.\n",
       "revId": "8e57263063ee510941acb8fc9c9968d81d366f4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "732982df_4a299131",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-16T08:34:08Z",
+      "side": 1,
+      "message": "I don\u0027t know anything about dist \u0026 fonts, they look be unused and I don\u0027t have them. Dmitri may know.\n\n.vscode is a IDE settings folder: https://code.visualstudio.com/docs/editor/workspaces#_singlefolder-workspace-settings\n\nRest look correct.",
+      "parentUuid": "23c1042f_1c7f57f6",
+      "revId": "8e57263063ee510941acb8fc9c9968d81d366f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

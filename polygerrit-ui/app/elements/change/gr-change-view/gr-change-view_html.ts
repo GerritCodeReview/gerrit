@@ -299,6 +299,9 @@ export const htmlTemplate = html`
     .show-robot-comments {
       margin: var(--spacing-m);
     }
+    .patchInfo gr-thread-list {
+      padding: var(--spacing-l);
+    }
   </style>
   <div class="container loading" hidden$="[[!_loading]]">Loading...</div>
   <!-- TODO(taoalpha): remove on-show-checks-table,

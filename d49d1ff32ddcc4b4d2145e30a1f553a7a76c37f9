@@ -88,6 +88,24 @@
       "parentUuid": "339ac14b_8ac07d3a",
       "revId": "d49d1ff32ddcc4b4d2145e30a1f553a7a76c37f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58a61d18_21315e7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-16T23:09:08Z",
+      "side": 1,
+      "message": "\u003e \u003e I\u0027m good with the intent of this change (provide a non-interactive way to choose if drafts become private or wip), but I\u0027d prefer something less intrusive, especially for an older release. My concern here is a bit moot since we know this schema is removed in 3.0, but I\u0027m worried about maintaining an init flag that only has meaning for one schema version and that will show up even if you\u0027ve already moved past that version. i.e. someone who has already upgraded to 2.15 will see this init option when they run 2.16 init --help (unless I missed something in this change that would prevent that), but the option will have no effect because this schema has already been applied. That feels wrong.\n\u003e \n\u003e The switch \"help\" says \"Strategy to migrate draft changes during Schema 159\", so I think that should probably be enough to set expectations that it won\u0027t do anything if you are already beyond schema 159?\n\nBut users/admins running init don\u0027t typically know what schema version number they\u0027re on, so I\u0027m not sure that helps much. We don\u0027t even have an API for them to find out (they\u0027d have to do a DB query using gsql or such).\n\nLike I said, this is more of a \"I don\u0027t think this is a good pattern for future\" concern since I know we can delete it in the merge to stable-3.0 (but someone does have to remember to delete it).",
+      "parentUuid": "598dfd79_000637f0",
+      "revId": "d49d1ff32ddcc4b4d2145e30a1f553a7a76c37f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

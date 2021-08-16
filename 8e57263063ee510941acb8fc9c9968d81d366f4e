@@ -34,6 +34,24 @@
       "parentUuid": "23c1042f_1c7f57f6",
       "revId": "8e57263063ee510941acb8fc9c9968d81d366f4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3c742cd_013a10b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-16T15:54:05Z",
+      "side": 1,
+      "message": "Going by the name, I guess dist is where a build would go and thus a directory.\n\nAnd I\u0027m guessing fonts is a directory too by the name.",
+      "parentUuid": "732982df_4a299131",
+      "revId": "8e57263063ee510941acb8fc9c9968d81d366f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

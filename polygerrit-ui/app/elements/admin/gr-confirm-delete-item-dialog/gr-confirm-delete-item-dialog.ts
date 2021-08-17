@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 import '../../shared/gr-dialog/gr-dialog';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-confirm-delete-item-dialog_html';
-import {customElement, property} from '@polymer/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -27,11 +26,7 @@ declare global {
 }
 
 @customElement('gr-confirm-delete-item-dialog')
-export class GrConfirmDeleteItemDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrConfirmDeleteItemDialog extends GrLitElement {
   /**
    * Fired when the confirm button is pressed.
    *
@@ -49,6 +44,37 @@ export class GrConfirmDeleteItemDialog extends PolymerElement {
 
   @property({type: String})
   itemTypeName?: string;
+
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+          width: 30em;
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const item = this.item ?? 'UNKNOWN ITEM';
+    const itemTypeName = this.itemTypeName ?? 'UNKNOWN ITEM TYPE';
+    return html` <gr-dialog
+      confirm-label="Delete ${itemTypeName}"
+      confirm-on-enter=""
+      @confirm=${this._handleConfirmTap}
+      @cancel=${this._handleCancelTap}
+    >
+      <div class="header" slot="header">${itemTypeName} Deletion</div>
+      <div class="main" slot="main">
+        <label for="branchInput">
+          Do you really want to delete the following ${itemTypeName}?
+        </label>
+        <div>${item}</div>
+      </div>
+    </gr-dialog>`;
+  }
 
   _handleConfirmTap(e: Event) {
     e.preventDefault();

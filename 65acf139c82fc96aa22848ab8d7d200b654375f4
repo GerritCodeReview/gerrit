@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure if i need to do a .imageSize here or weather that is for properties only e.g imageSize\u003d\"${size}\"",
       "revId": "65acf139c82fc96aa22848ab8d7d200b654375f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16f241ea_441f405f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-user-header/gr-user-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-17T08:27:42Z",
+      "side": 1,
+      "message": "It is considered slightly better style to set the property directly (i.e. use a leading dot) instead of making use of the HTML attribute -\u003e property conversion. So you should prefer\n\n  .imageSize\u003d\"100\"\n  \nBut TBH I don\u0027t know whether that works for numbers or whether ${} is always required. So maybe you need:\n\n  .imageSize\u003d${100}\n  \nwhich AFAIK is the same as\n\n  .imageSize\u003d\"${100}\"",
+      "parentUuid": "32390ab8_758f4ac5",
+      "revId": "65acf139c82fc96aa22848ab8d7d200b654375f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

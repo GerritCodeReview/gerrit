@@ -90,7 +90,7 @@ export class GrAccountDropdown extends PolymerElement {
     super.disconnectedCallback();
   }
 
-  _getLinks(switchAccountUrl: string, path: string) {
+  _getLinks(switchAccountUrl?: string, path?: string) {
     // Polymer 2: check for undefined
     if (switchAccountUrl === undefined || path === undefined) {
       return undefined;

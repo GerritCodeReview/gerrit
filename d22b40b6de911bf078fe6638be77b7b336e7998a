@@ -22,6 +22,30 @@
       },
       "revId": "d22b40b6de911bf078fe6638be77b7b336e7998a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68818b72_c3acff6d",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-17T10:35:40Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. IncorrectObjectTypeException is needed for the bug. MissingObjectException is needed for the test because the parent is set to ObjectId.zeroId() [1] resulting in missing object.\n\nI couldn\u0027t reproduce the exact exception by setting the parent to EMPTY_TREE_ID, i.e. we don\u0027t have a codepath that does that. EMPTY_TREE_ID was the parent ID as stored in NoteDb for that very old change (from 2012).\n\n[1] https://gerrit.googlesource.com/gerrit/+/bf868477f2063c3a1354403697fa84b5ea39963c/java/com/google/gerrit/server/CommentsUtil.java#394",
+      "parentUuid": "002c4f56_b4fc4135",
+      "range": {
+        "startLine": 109,
+        "startChar": 17,
+        "endLine": 109,
+        "endChar": 70
+      },
+      "revId": "d22b40b6de911bf078fe6638be77b7b336e7998a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

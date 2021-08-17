@@ -73,19 +73,19 @@ export class GrDiffModeSelector extends PolymerElement {
     }
   }
 
-  _computeSideBySideSelected(mode: DiffViewMode) {
+  _computeSideBySideSelected(mode?: DiffViewMode) {
     return mode === DiffViewMode.SIDE_BY_SIDE ? 'selected' : '';
   }
 
-  _computeUnifiedSelected(mode: DiffViewMode) {
+  _computeUnifiedSelected(mode?: DiffViewMode) {
     return mode === DiffViewMode.UNIFIED ? 'selected' : '';
   }
 
-  isSideBySideSelected(mode: DiffViewMode) {
+  isSideBySideSelected(mode?: DiffViewMode) {
     return mode === DiffViewMode.SIDE_BY_SIDE;
   }
 
-  isUnifiedSelected(mode: DiffViewMode) {
+  isUnifiedSelected(mode?: DiffViewMode) {
     return mode === DiffViewMode.UNIFIED;
   }
 

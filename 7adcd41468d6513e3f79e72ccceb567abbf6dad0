@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26630099_8d92f886",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-17T07:40:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9ba0bad_2b17e322",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35375890_3a18f58a",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-08-16T11:57:09Z",
       "side": 1,
       "message": "Does this work? I think all @apply stuff has to rendered in the render() method.",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df33fea9_69b658e3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-17T07:40:01Z",
+      "side": 1,
+      "message": "Updated but it\u0027s still not being applied. I can\u0027t figure out why, the button still has padding where it should be 0 as being set here.\n\nI found this written in comments here but couldn\u0027t find a source. Do you know where this is written?\n\n[1] https://cs.opensource.google/search?q\u003d%22To%20pass%20CSS%20mixins%20for%20@apply%22\u0026sq\u003d",
+      "parentUuid": "35375890_3a18f58a",
       "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92328d14_9d8b51fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-17T07:40:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70b8ddbf_04b6b148",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bbb02c7_5c7ed8e8",
@@ -69,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51673a3d_0d9735bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-17T07:40:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bbb02c7_5c7ed8e8",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "718aadd7_613d08f3",
@@ -82,6 +154,24 @@
       "writtenOn": "2021-08-16T11:57:09Z",
       "side": 1,
       "message": "Not your change, but a gr-button within a gr-button? Does that make sense? 😕",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c148d62d_e1e27f81",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-17T07:40:01Z",
+      "side": 1,
+      "message": "They are next to each other right?\nIt\u0027s \u003cgr-button\u003c/gr-button\u003e \u003cgr-button\u003e\u003c/gr-button\u003e instead of\n\n```\n\u003cgr-button\u003e\n  \u003cgr-button\u003e\n  \u003c/gr-button\u003e\n\u003cgr-button\u003e\n```",
+      "parentUuid": "718aadd7_613d08f3",
       "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

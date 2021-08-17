@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d45d3df9_1e338ffb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-17T15:25:03Z",
+      "side": 1,
+      "message": "Noticed a dangling reference to lib/ba-linkify",
+      "revId": "5a902bd055fb7356b26137b0eded40e658d25bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

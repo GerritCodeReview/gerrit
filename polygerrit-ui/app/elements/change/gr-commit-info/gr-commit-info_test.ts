@@ -15,46 +15,58 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import '../../core/gr-router/gr-router.js';
-import './gr-commit-info.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../../test/common-test-setup-karma';
+import '../../core/gr-router/gr-router';
+import './gr-commit-info';
+import {GrCommitInfo} from './gr-commit-info';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  createChange,
+  createCommit,
+  createServerInfo,
+} from '../../../test/test-data-generators';
+import {CommitId, RepoName} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-commit-info');
 
 suite('gr-commit-info tests', () => {
-  let element;
+  let element: GrCommitInfo;
 
   setup(() => {
     element = basicFixture.instantiate();
   });
 
   test('weblinks use GerritNav interface', () => {
-    const weblinksStub = sinon.stub(GerritNav, '_generateWeblinks')
-        .returns([{name: 'stubb', url: '#s'}]);
-    element.change = {};
-    element.commitInfo = {};
-    element.serverConfig = {};
+    const weblinksStub = sinon
+      .stub(GerritNav, '_generateWeblinks')
+      .returns([{name: 'stubb', url: '#s'}]);
+    element.change = createChange();
+    element.commitInfo = createCommit();
+    element.serverConfig = createServerInfo();
     assert.isTrue(weblinksStub.called);
   });
 
   test('no web link when unavailable', () => {
-    element.commitInfo = {};
-    element.serverConfig = {};
-    element.change = {labels: [], project: ''};
+    element.commitInfo = createCommit();
+    element.serverConfig = createServerInfo();
+    element.change = {...createChange(), labels: {}, project: '' as RepoName};
 
     assert.isNotOk(element._showWebLink);
   });
 
   test('use web link when available', () => {
     const router = document.createElement('gr-router');
-    sinon.stub(GerritNav, '_generateWeblinks').callsFake(
-        router._generateWeblinks.bind(router));
+    sinon
+      .stub(GerritNav, '_generateWeblinks')
+      .callsFake(router._generateWeblinks.bind(router));
 
-    element.change = {labels: [], project: ''};
-    element.commitInfo =
-        {commit: 'commitsha', web_links: [{name: 'gitweb', url: 'link-url'}]};
-    element.serverConfig = {};
+    element.change = {...createChange(), labels: {}, project: '' as RepoName};
+    element.commitInfo = {
+      ...createCommit(),
+      commit: 'commitsha' as CommitId,
+      web_links: [{name: 'gitweb', url: 'link-url'}],
+    };
+    element.serverConfig = createServerInfo();
 
     assert.isOk(element._showWebLink);
     assert.equal(element._webLink, 'link-url');
@@ -62,15 +74,17 @@ suite('gr-commit-info tests', () => {
 
   test('does not relativize web links that begin with scheme', () => {
     const router = document.createElement('gr-router');
-    sinon.stub(GerritNav, '_generateWeblinks').callsFake(
-        router._generateWeblinks.bind(router));
+    sinon
+      .stub(GerritNav, '_generateWeblinks')
+      .callsFake(router._generateWeblinks.bind(router));
 
-    element.change = {labels: [], project: ''};
+    element.change = {...createChange(), labels: {}, project: '' as RepoName};
     element.commitInfo = {
-      commit: 'commitsha',
+      ...createCommit(),
+      commit: 'commitsha' as CommitId,
       web_links: [{name: 'gitweb', url: 'https://link-url'}],
     };
-    element.serverConfig = {};
+    element.serverConfig = createServerInfo();
 
     assert.isOk(element._showWebLink);
     assert.equal(element._webLink, 'https://link-url');
@@ -78,12 +92,14 @@ suite('gr-commit-info tests', () => {
 
   test('ignore web links that are neither gitweb nor gitiles', () => {
     const router = document.createElement('gr-router');
-    sinon.stub(GerritNav, '_generateWeblinks').callsFake(
-        router._generateWeblinks.bind(router));
+    sinon
+      .stub(GerritNav, '_generateWeblinks')
+      .callsFake(router._generateWeblinks.bind(router));
 
-    element.change = {project: 'project-name'};
+    element.change = {...createChange(), project: 'project-name' as RepoName};
     element.commitInfo = {
-      commit: 'commit-sha',
+      ...createCommit(),
+      commit: 'commit-sha' as CommitId,
       web_links: [
         {
           name: 'ignore',
@@ -95,14 +111,15 @@ suite('gr-commit-info tests', () => {
         },
       ],
     };
-    element.serverConfig = {};
+    element.serverConfig = createServerInfo();
 
     assert.isOk(element._showWebLink);
     assert.equal(element._webLink, 'https://link-url');
 
     // Remove gitiles link.
     element.commitInfo = {
-      commit: 'commit-sha',
+      ...createCommit(),
+      commit: 'commit-sha' as CommitId,
       web_links: [
         {
           name: 'ignore',
@@ -114,4 +131,3 @@ suite('gr-commit-info tests', () => {
     assert.isNotOk(element._webLink);
   });
 });
-

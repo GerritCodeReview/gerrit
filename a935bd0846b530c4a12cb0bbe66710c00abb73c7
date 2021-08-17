@@ -16,6 +16,24 @@
       "message": "This broke the `npm run polytest` test.",
       "revId": "a935bd0846b530c4a12cb0bbe66710c00abb73c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0470aec_e50e1dec",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-17T07:38:12Z",
+      "side": 1,
+      "message": "Yeah, sorry. That was expected. Dmitrii will look into bringing this back.\n\nMaybe wait a couple of weeks before looking into template fixes again.",
+      "parentUuid": "d1079c09_358f6ddd",
+      "revId": "a935bd0846b530c4a12cb0bbe66710c00abb73c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -31,29 +31,24 @@ export const htmlTemplate = html`
       width: 20em;
     }
   </style>
-
   <div class="gr-form-styles">
     <div id="form">
       <section>
         <span class="title">Repository name</span>
-        <iron-input autocomplete="on" bind-value="{{_repoConfig.name}}">
-          <input
-            is="iron-input"
-            id="repoNameInput"
-            autocomplete="on"
-            bind-value="{{_repoConfig.name}}"
-          />
+        <iron-input
+          bind-value="[[_convertToString(_repoConfig.name)]]"
+          on-change="_handleRepoName"
+        >
+          <input id="repoNameInput" autocomplete="on" />
         </iron-input>
       </section>
       <section>
         <span class="title">Default Branch</span>
-        <iron-input autocomplete="off" bind-value="{{_defaultBranch}}">
-          <input
-            is="iron-input"
-            id="defaultBranchNameInput"
-            autocomplete="off"
-            bind-value="{{_defaultBranch}}"
-          />
+        <iron-input
+          bind-value="[[_convertToString(_defaultBranch)]]"
+          on-change="_handleBranchName"
+        >
+          <input id="defaultBranchNameInput" autocomplete="off" />
         </iron-input>
       </section>
       <section>

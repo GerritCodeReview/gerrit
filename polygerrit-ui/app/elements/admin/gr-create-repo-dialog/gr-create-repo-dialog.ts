@@ -40,6 +40,13 @@ declare global {
   }
 }
 
+export interface GrCreateRepoDialog {
+  $: {
+    repoNameInput: HTMLInputElement;
+    defaultBranchNameInput: HTMLInputElement;
+  };
+}
+
 @customElement('gr-create-repo-dialog')
 export class GrCreateRepoDialog extends PolymerElement {
   static get template() {
@@ -83,7 +90,7 @@ export class GrCreateRepoDialog extends PolymerElement {
     this._queryGroups = (input: string) => this._getGroupSuggestions(input);
   }
 
-  _computeRepoUrl(repoName: string) {
+  _computeRepoUrl(repoName: RepoName) {
     return getBaseUrl() + '/admin/repos/' + encodeURL(repoName, true);
   }
 
@@ -92,7 +99,7 @@ export class GrCreateRepoDialog extends PolymerElement {
   }
 
   @observe('_repoConfig.name')
-  _updateRepoName(name: string) {
+  _updateRepoName(name: RepoName) {
     this.hasNewRepoName = !!name;
   }
 
@@ -127,5 +134,23 @@ export class GrCreateRepoDialog extends PolymerElement {
       }
       return groups;
     });
+  }
+
+  _handleRepoName() {
+    this.set('_repoConfig.name', this.$.repoNameInput.value as RepoName);
+  }
+
+  _handleBranchName() {
+    this.set('_defaultBranch', this.$.defaultBranchNameInput.value as BranchName);
+  }
+
+  /**
+   * bind-value has type string so we have to convert
+   * anything inputed to string.
+   *
+   * This is so typescript checker doesn't fail.
+   */
+  _convertToString(key?: BranchName | RepoName) {
+    return key !== undefined ? String(key) : '';
   }
 }

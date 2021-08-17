@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0140a417_b81cc71e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-17T09:30:16Z",
+      "side": 1,
+      "message": "Worked but still not sure why. 😕\nAny idea where this is mentioned?",
+      "parentUuid": "b3ee2399_1114fb8e",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "70b8ddbf_04b6b148",
         "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
         "patchSetId": 3
@@ -208,6 +226,24 @@
       "side": 1,
       "message": "I did not notice that. :-)",
       "parentUuid": "c148d62d_e1e27f81",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d171f338_84071c0c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-17T09:30:16Z",
+      "side": 1,
+      "message": "Rewrote the template to make it clearer.",
+      "parentUuid": "3c77517a_ac421cf3",
       "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

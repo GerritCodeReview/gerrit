@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3ee2399_1114fb8e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-17T08:53:59Z",
+      "side": 1,
+      "message": "\u003cstyle\u003e typically has to go into \u003chead\u003e, so maybe for web components it must at least be top-level? Try putting it first in the render() method. Other than that, no idea.",
+      "parentUuid": "df33fea9_69b658e3",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "70b8ddbf_04b6b148",
         "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
         "patchSetId": 3
@@ -172,6 +190,24 @@
       "side": 1,
       "message": "They are next to each other right?\nIt\u0027s \u003cgr-button\u003c/gr-button\u003e \u003cgr-button\u003e\u003c/gr-button\u003e instead of\n\n```\n\u003cgr-button\u003e\n  \u003cgr-button\u003e\n  \u003c/gr-button\u003e\n\u003cgr-button\u003e\n```",
       "parentUuid": "718aadd7_613d08f3",
+      "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c77517a_ac421cf3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-17T08:53:59Z",
+      "side": 1,
+      "message": "I did not notice that. :-)",
+      "parentUuid": "c148d62d_e1e27f81",
       "revId": "7adcd41468d6513e3f79e72ccceb567abbf6dad0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

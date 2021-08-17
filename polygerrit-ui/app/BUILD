@@ -115,7 +115,6 @@ ignore_templates_list = [
     "elements/change-list/gr-change-list-view/gr-change-list-view_html.ts",
     "elements/change-list/gr-change-list/gr-change-list_html.ts",
     "elements/change-list/gr-dashboard-view/gr-dashboard-view_html.ts",
-    "elements/change-list/gr-user-header/gr-user-header_html.ts",
     "elements/change/gr-change-actions/gr-change-actions_html.ts",
     "elements/change/gr-change-metadata/gr-change-metadata_html.ts",
     "elements/change/gr-change-requirements/gr-change-requirements_html.ts",

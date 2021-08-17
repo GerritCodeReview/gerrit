@@ -45,7 +45,7 @@ suite('gr-user-header tests', () => {
       element.userId = null;
       flush(() => {
         flush();
-        assert.isNull(element._accountDetails);
+        assert.isUndefined(element._accountDetails);
         assert.equal(element._status, '');
 
         done();

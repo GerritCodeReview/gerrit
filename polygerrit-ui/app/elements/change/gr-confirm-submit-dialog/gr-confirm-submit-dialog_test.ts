@@ -31,14 +31,14 @@ suite('gr-confirm-submit-dialog tests', () => {
     element._initialised = true;
   });
 
-  test('display', () => {
+  test('display', async () => {
     element.action = {label: 'my-label'};
     element.change = {
       ...createChange(),
       subject: 'my-subject',
       revisions: {},
     };
-    flush();
+    await flush();
     const header = queryAndAssert(element, '.header');
     assert.equal(header.textContent!.trim(), 'my-label');
 

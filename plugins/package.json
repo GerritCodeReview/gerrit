@@ -1,6 +1,6 @@
 {
-    "name": "polygerrit-plugin-dependencies-placeholder",
-    "description": "Gerrit Code Review - Polygerrit plugin dependencies placeholder, expected to be overridden by plugins",
+    "name": "gerrit-plugin-dependencies",
+    "description": "Gerrit Code Review - frontend plugin dependencies, each plugin may depend on a subset of these",
     "browser": true,
     "dependencies": {
       "@polymer/decorators": "^3.0.0",

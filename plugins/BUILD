@@ -10,7 +10,13 @@ load("@npm//@bazel/typescript:index.bzl", "ts_config")
 
 package(default_visibility = ["//visibility:public"])
 
-exports_files(["rollup.config.js"])
+exports_files([
+    ".eslintrc.js",
+    ".eslintignore",
+    ".prettierrc.js",
+    "rollup.config.js",
+    "tsconfig-plugins-base.json",
+])
 
 ts_config(
     name = "plugin-tsconfig",

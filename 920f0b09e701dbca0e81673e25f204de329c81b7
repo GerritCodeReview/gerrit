@@ -70,6 +70,30 @@
       },
       "revId": "920f0b09e701dbca0e81673e25f204de329c81b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "278efedd_4d8f8a87",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-17T17:51:05Z",
+      "side": 1,
+      "message": "Ah, good idea!",
+      "parentUuid": "5146ccbe_8e356f88",
+      "range": {
+        "startLine": 19,
+        "startChar": 16,
+        "endLine": 19,
+        "endChar": 77
+      },
+      "revId": "920f0b09e701dbca0e81673e25f204de329c81b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

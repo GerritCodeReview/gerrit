@@ -45,7 +45,7 @@ export class GrUserHeader extends PolymerElement {
   loggedIn = false;
 
   @property({type: Object})
-  _accountDetails: AccountDetailInfo | null = null;
+  _accountDetails: AccountDetailInfo | undefined;
 
   @property({type: String})
   _status = '';
@@ -54,25 +54,25 @@ export class GrUserHeader extends PolymerElement {
 
   _accountChanged(userId?: AccountId) {
     if (!userId) {
-      this._accountDetails = null;
+      this._accountDetails = undefined;
       this._status = '';
       return;
     }
 
     this.restApiService.getAccountDetails(userId).then(details => {
-      this._accountDetails = details ?? null;
+      this._accountDetails = details ?? undefined;
       this._status = details?.status ?? '';
     });
   }
 
   _computeDetail(
-    accountDetails: AccountDetailInfo | null,
+    accountDetails: AccountDetailInfo | undefined,
     name: keyof AccountDetailInfo
   ) {
-    return accountDetails ? accountDetails[name] : '';
+    return accountDetails ? String(accountDetails[name]) : '';
   }
 
-  _computeHeading(accountDetails: AccountDetailInfo | null) {
+  _computeHeading(accountDetails: AccountDetailInfo | undefined) {
     if (!accountDetails) return '';
     return getDisplayName(undefined, accountDetails);
   }
@@ -81,9 +81,9 @@ export class GrUserHeader extends PolymerElement {
     return status ? '' : 'hide';
   }
 
-  _computeDashboardUrl(accountDetails: AccountDetailInfo | null) {
+  _computeDashboardUrl(accountDetails: AccountDetailInfo | undefined) {
     if (!accountDetails) {
-      return null;
+      return undefined;
     }
     const id = accountDetails._account_id;
     if (id) {
@@ -93,7 +93,7 @@ export class GrUserHeader extends PolymerElement {
     if (email) {
       return GerritNav.getUrlForUserDashboard(email);
     }
-    return null;
+    return undefined;
   }
 
   _computeDashboardLinkClass(showDashboardLink: boolean, loggedIn: boolean) {

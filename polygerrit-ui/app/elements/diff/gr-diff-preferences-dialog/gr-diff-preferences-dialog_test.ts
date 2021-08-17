@@ -15,17 +15,24 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
+import '../../../test/common-test-setup-karma';
+import './gr-diff-preferences-dialog';
+import {GrDiffPreferencesDialog} from './gr-diff-preferences-dialog';
+import {createDefaultDiffPrefs} from '../../../constants/constants';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-diff-preferences-dialog');
 
 suite('gr-diff-preferences-dialog', () => {
-  let element;
+  let element: GrDiffPreferencesDialog;
+
   setup(() => {
     element = basicFixture.instantiate();
   });
+
   test('changes applies only on save', async () => {
     const originalDiffPrefs = {
+      ...createDefaultDiffPrefs(),
       line_wrapping: true,
     };
     element.diffPrefs = originalDiffPrefs;

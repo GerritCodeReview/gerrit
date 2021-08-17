@@ -198,14 +198,14 @@ public class AttentionSetIT extends AbstractDaemonTest {
     AttentionSetInfo attentionSetInfo =
         Iterables.getOnlyElement(change(r).get().attentionSet.values());
     assertThat(attentionSetInfo.reason).isEqualTo(manualReason);
-    assertThat(attentionSetInfo.reasonAccount).isEqualTo(getAccountInfo(user.id()));
+    assertThat(attentionSetInfo.reasonAccount).isNull();
     assertThat(attentionSetInfo.account).isEqualTo(getAccountInfo(admin.id()));
 
     AttentionSetInfo getAttentionSetInfo =
         Iterables.getOnlyElement(
             getAttentionSet.apply(parseChangeResource(r.getChangeId())).value());
     assertThat(getAttentionSetInfo.reason).isEqualTo(manualReason);
-    assertThat(getAttentionSetInfo.reasonAccount).isEqualTo(getAccountInfo(user.id()));
+    assertThat(getAttentionSetInfo.reasonAccount).isNull();
     assertThat(getAttentionSetInfo.account).isEqualTo(getAccountInfo(admin.id()));
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62308093_ac144043",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-17T16:43:29Z",
+      "side": 1,
+      "message": "if you cloned the repo, you can just get the one from the repo itself\n\n  cp resources/com/google/gerrit/server/tools/root/hooks/commit-msg .git/hooks/commit-msg\n  chmod +x .. .git/hooks/commit-msg",
+      "range": {
+        "startLine": 19,
+        "startChar": 16,
+        "endLine": 19,
+        "endChar": 77
+      },
+      "revId": "920f0b09e701dbca0e81673e25f204de329c81b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

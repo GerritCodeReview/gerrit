@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85b39fe7_8eb9e5dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-17T07:36:32Z",
+      "side": 1,
+      "message": "The first line should be a summary with 72 chars max, followed by a blank line:\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#commit-message\n\nBtw, Android has just announced that it is super easy to write a new lint check that surfaces issues in Gerrit. Unfortunately we don\u0027t have the Android infra for gerrit-review/, but that would be something to look into, because these things should really be pointed out by a linter, not a human. :-)",
+      "revId": "a48e3ac321c3b158c7d2d052606d942e9aac4913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6db902f1_f1681faa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-17T07:36:32Z",
+      "side": 1,
+      "message": "Thanks for the addition. I am really surprised that this was missing. Adding Edwin to confirm, because he knows the docs and the getting started instructions better than I do. ",
+      "revId": "a48e3ac321c3b158c7d2d052606d942e9aac4913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

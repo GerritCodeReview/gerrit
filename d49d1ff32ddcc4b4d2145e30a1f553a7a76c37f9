@@ -124,6 +124,24 @@
       "parentUuid": "58a61d18_21315e7b",
       "revId": "d49d1ff32ddcc4b4d2145e30a1f553a7a76c37f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1e651f8_0945143f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-08-17T20:54:45Z",
+      "side": 1,
+      "message": "reverted the question to y/n, and added version in help text for --migrate-draft-to",
+      "parentUuid": "1ee48626_e37aaad9",
+      "revId": "d49d1ff32ddcc4b4d2145e30a1f553a7a76c37f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

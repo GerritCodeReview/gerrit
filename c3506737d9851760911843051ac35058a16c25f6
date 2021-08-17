@@ -22,6 +22,30 @@
       },
       "revId": "c3506737d9851760911843051ac35058a16c25f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed1263c0_c34cb76b",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-17T08:19:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1a30a849_9304d4a3",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 19
+      },
+      "revId": "c3506737d9851760911843051ac35058a16c25f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

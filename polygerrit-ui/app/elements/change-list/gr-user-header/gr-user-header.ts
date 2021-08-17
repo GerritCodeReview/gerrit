@@ -15,27 +15,22 @@
  * limitations under the License.
  */
 
-import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import '../../../styles/dashboard-header-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-user-header_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
 import {AccountDetailInfo, AccountId} from '../../../types/common';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {appContext} from '../../../services/app-context';
+import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property, PropertyValues} from 'lit-element';
 
 @customElement('gr-user-header')
-export class GrUserHeader extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: String, observer: '_accountChanged'})
+export class GrUserHeader extends GrLitElement {
+  @property({type: String})
   userId?: AccountId;
 
   @property({type: Boolean})
@@ -51,6 +46,79 @@ export class GrUserHeader extends PolymerElement {
   _status = '';
 
   private readonly restApiService = appContext.restApiService;
+
+  static get styles() {
+    return [
+      sharedStyles,
+      dashboardHeaderStyles,
+      css`
+        .status.hide,
+        .name.hide,
+        .dashboardLink.hide {
+          display: none;
+        }
+      `,
+    ];
+  }
+
+  render() {
+    return html` <gr-avatar
+        .account="${this._accountDetails}"
+        .imageSize=${100}
+        aria-label="Account avatar"
+      ></gr-avatar>
+      <div class="info">
+        <h1 class="heading-1">${this._computeHeading(this._accountDetails)}</h1>
+        <hr />
+        <div class="status ${this._computeStatusClass(this._status)}">
+          <span>Status:</span> ${this._status}
+        </div>
+        <div>
+          <span>Email:</span>
+          <a href="mailto:${this._computeDetail(this._accountDetails, 'email')}"
+            ><!--
+          -->${this._computeDetail(this._accountDetails, 'email')}</a
+          >
+        </div>
+        <div>
+          <span>Joined:</span>
+          <gr-date-formatter
+            date-str="${this._computeDetail(
+              this._accountDetails,
+              'registered_on'
+            )}"
+          >
+          </gr-date-formatter>
+        </div>
+        <gr-endpoint-decorator name="user-header">
+          <gr-endpoint-param
+            name="accountDetails"
+            value="${this._accountDetails}"
+          >
+          </gr-endpoint-param>
+          <gr-endpoint-param name="loggedIn" value="${this.loggedIn}">
+          </gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </div>
+      <div class="info">
+        <div
+          class="${this._computeDashboardLinkClass(
+            this.showDashboardLink,
+            this.loggedIn
+          )}"
+        >
+          <a href="${this._computeDashboardUrl(this._accountDetails)}"
+            >View dashboard</a
+          >
+        </div>
+      </div>`;
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('userId')) {
+      this._accountChanged(this.userId);
+    }
+  }
 
   _accountChanged(userId?: AccountId) {
     if (!userId) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "457667d0_1610a4ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-17T17:28:01Z",
+      "side": 1,
+      "message": "Change looks good to me overall.\n\n[Optional] Commit message is just not quite clear to me, i.e. I don\u0027t get what \"replacement\" means. I\u0027d just elaborate a bit more in one or two sentences.",
+      "revId": "b8594f52361bd8668b09ebe871813476d6282ff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,13 +22,14 @@ ts_config(
     name = "ts_config",
     src = "tsconfig.json",
     deps = [
-        "//plugins:plugin-tsconfig",
+        "//plugins:tsconfig-plugins-base.json",
     ],
 )
 
 ts_project(
     name = "js_plugin_api_compiled",
     srcs = glob(["**/*.ts"]),
+    incremental = True,
     tsc = "//tools/node_tools:tsc-bin",
     tsconfig = ":ts_config",
 )

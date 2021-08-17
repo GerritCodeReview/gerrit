@@ -16,6 +16,7 @@ package com.google.gerrit.server.util;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
@@ -104,13 +105,14 @@ public class AttentionSetUtil {
    */
   public static AttentionSetInfo createAttentionSetInfo(
       AttentionSetUpdate attentionSetUpdate, AccountLoader accountLoader) {
-    // Only one account is expected in attention set reason. If there are multiple, return first
-    // instead of failing the request.
+    // Only one account is expected in attention set reason. If there are multiple, do not return
+    // anything instead of failing the request.
+    ImmutableSet<Account.Id> accountsInTemplate =
+        AccountTemplateUtil.parseTemplates(attentionSetUpdate.reason());
     AccountInfo reasonAccount =
-        AccountTemplateUtil.parseTemplates(attentionSetUpdate.reason()).stream()
-            .findFirst()
-            .map(accountLoader::get)
-            .orElse(null);
+        accountsInTemplate.size() == 1
+            ? accountLoader.get(Iterables.getOnlyElement(accountsInTemplate))
+            : null;
     return new AttentionSetInfo(
         accountLoader.get(attentionSetUpdate.account()),
         Timestamp.from(attentionSetUpdate.timestamp()),

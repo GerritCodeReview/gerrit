@@ -94,7 +94,7 @@ export class GrCreatePointerDialog extends PolymerElement {
     throw new Error(`Invalid itemDetail: ${this.itemDetail}`);
   }
 
-  _computeHideItemClass(type: RepoDetailView.BRANCHES | RepoDetailView.TAGS) {
+  _computeHideItemClass(type?: RepoDetailView.BRANCHES | RepoDetailView.TAGS) {
     return type === RepoDetailView.BRANCHES ? 'hideItem' : '';
   }
 }

@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "780404f6_e725cea2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-17T13:44:30Z",
+      "side": 1,
+      "message": "Oh yeah, I just learned about the 70 character limit from the git-explained preso yesterday :)\n\nDo you have a bugnizer queue I can add the linter idea to?",
+      "parentUuid": "85b39fe7_8eb9e5dc",
+      "revId": "a48e3ac321c3b158c7d2d052606d942e9aac4913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6db902f1_f1681faa",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

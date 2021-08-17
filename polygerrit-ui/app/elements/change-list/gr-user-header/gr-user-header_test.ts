@@ -15,42 +15,42 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-user-header.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-user-header';
+import {GrUserHeader} from './gr-user-header';
+import {stubRestApi} from '../../../test/test-utils';
+import {AccountId, EmailAddress, Timestamp} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-user-header');
 
 suite('gr-user-header tests', () => {
-  let element;
+  let element: GrUserHeader;
 
   setup(() => {
     element = basicFixture.instantiate();
   });
 
-  test('loads and clears account info', done => {
-    stubRestApi('getAccountDetails')
-        .returns(Promise.resolve({
-          name: 'foo',
-          email: 'bar',
-          status: 'OOO',
-          registered_on: '2015-03-12 18:32:08.000000000',
-        }));
+  test('loads and clears account info', async () => {
+    stubRestApi('getAccountDetails').returns(
+      Promise.resolve({
+        name: 'foo',
+        email: 'bar' as EmailAddress,
+        status: 'OOO',
+        registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+      })
+    );
 
-    element.userId = 'foo.bar@baz';
-    flush(() => {
-      assert.isOk(element._accountDetails);
-      assert.isOk(element._status);
+    element.userId = 10 as AccountId;
+    await flush();
 
-      element.userId = null;
-      flush(() => {
-        flush();
-        assert.isUndefined(element._accountDetails);
-        assert.equal(element._status, '');
+    assert.isOk(element._accountDetails);
+    assert.isOk(element._status);
 
-        done();
-      });
-    });
+    element.userId = undefined;
+    await flush();
+
+    assert.isUndefined(element._accountDetails);
+    assert.equal(element._status, '');
   });
 
   test('_computeDashboardLinkClass', () => {
@@ -60,4 +60,3 @@ suite('gr-user-header tests', () => {
     assert.notInclude(element._computeDashboardLinkClass(true, true), 'hide');
   });
 });
-

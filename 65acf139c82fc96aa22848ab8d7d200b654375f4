@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32390ab8_758f4ac5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-user-header/gr-user-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-17T02:44:11Z",
+      "side": 1,
+      "message": "I\u0027m not sure if i need to do a .imageSize here or weather that is for properties only e.g imageSize\u003d\"${size}\"",
+      "revId": "65acf139c82fc96aa22848ab8d7d200b654375f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

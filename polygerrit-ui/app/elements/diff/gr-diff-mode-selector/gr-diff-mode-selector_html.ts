@@ -37,7 +37,7 @@ export const htmlTemplate = html`
     position-below="[[showTooltipBelow]]"
     class$="[[_computeSideBySideSelected(mode)]]"
     title="Side-by-side diff"
-    aria-pressed="[[isSideBySideSelected(mode)]]"
+    aria-pressed$="[[isSideBySideSelected(mode)]]"
     on-click="_handleSideBySideTap"
   >
     <iron-icon icon="gr-icons:side-by-side"></iron-icon>
@@ -49,7 +49,7 @@ export const htmlTemplate = html`
     position-below="[[showTooltipBelow]]"
     title="Unified diff"
     class$="[[_computeUnifiedSelected(mode)]]"
-    aria-pressed="[[isUnifiedSelected(mode)]]"
+    aria-pressed$="[[isUnifiedSelected(mode)]]"
     on-click="_handleUnifiedTap"
   >
     <iron-icon icon="gr-icons:unified"></iron-icon>

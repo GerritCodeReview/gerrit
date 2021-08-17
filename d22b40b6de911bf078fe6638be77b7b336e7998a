@@ -46,6 +46,30 @@
       },
       "revId": "d22b40b6de911bf078fe6638be77b7b336e7998a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59272408_cea9aff5",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-17T10:37:58Z",
+      "side": 1,
+      "message": "For either exceptions, it\u0027s better to just return an empty context instead of failing the API with 500 internal server errors.",
+      "parentUuid": "68818b72_c3acff6d",
+      "range": {
+        "startLine": 109,
+        "startChar": 17,
+        "endLine": 109,
+        "endChar": 70
+      },
+      "revId": "d22b40b6de911bf078fe6638be77b7b336e7998a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

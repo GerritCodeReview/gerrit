@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "002c4f56_b4fc4135",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-17T10:07:49Z",
+      "side": 1,
+      "message": "do we need both of those exceptions here? The bug shows only IncorrectObjectTypeException is needed.",
+      "range": {
+        "startLine": 109,
+        "startChar": 17,
+        "endLine": 109,
+        "endChar": 70
+      },
+      "revId": "d22b40b6de911bf078fe6638be77b7b336e7998a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

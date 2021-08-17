@@ -69,6 +69,24 @@
       "parentUuid": "44271c37_cd87184f",
       "revId": "ec263c88c011e1cf3462eca2f352e9b6783a0f82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "636b4496_aaa2cc35",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-08-17T00:21:10Z",
+      "side": 1,
+      "message": "I\u0027ve had to revert this as the tests wouldn\u0027t work... but i\u0027ve changed the hint so undefined won\u0027t be passed. The only usage of this i can find is in gr-change-metadata and it protects against this.",
+      "parentUuid": "aec432b4_ae30d580",
+      "revId": "ec263c88c011e1cf3462eca2f352e9b6783a0f82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

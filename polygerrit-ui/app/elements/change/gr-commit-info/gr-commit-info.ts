@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles';
+
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-commit-info_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property, computed} from '@polymer/decorators';
 import {ChangeInfo, CommitInfo, ServerInfo} from '../../../types/common';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,11 +29,7 @@ declare global {
 }
 
 @customElement('gr-commit-info')
-export class GrCommitInfo extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrCommitInfo extends GrLitElement {
   // TODO(TS): can not use `?` here as @computed require dependencies as
   // not optional
   @property({type: Object})
@@ -47,7 +43,48 @@ export class GrCommitInfo extends PolymerElement {
   @property({type: Object})
   serverConfig: ServerInfo | undefined;
 
-  @computed('change', 'commitInfo', 'serverConfig')
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        .container {
+          align-items: center;
+          display: flex;
+        }
+      `,
+    ];
+  }
+
+  render() {
+    return html` <div class="container">
+      <a
+        target="_blank"
+        rel="noopener"
+        href="${this.computeCommitLink(
+          this._webLink,
+          this.change,
+          this.commitInfo,
+          this.serverConfig
+        )}"
+        >${this._computeShortHash(
+          this.change,
+          this.commitInfo,
+          this.serverConfig
+        )}</a
+      >
+      <gr-copy-clipboard
+        hasTooltip=""
+        .buttonTitle="Copy full SHA to clipboard"
+        hideInput=""
+        .text="${this.commitInfo?.commit}"
+      >
+      </gr-copy-clipboard>
+    </div>`;
+  }
+
+  /**
+   * Used only within the tests.
+   */
   get _showWebLink(): boolean {
     if (!this.change || !this.commitInfo || !this.serverConfig) {
       return false;
@@ -61,7 +98,6 @@ export class GrCommitInfo extends PolymerElement {
     return !!weblink && !!weblink.url;
   }
 
-  @computed('change', 'commitInfo', 'serverConfig')
   get _webLink(): string | undefined {
     if (!this.change || !this.commitInfo || !this.serverConfig) {
       return '';

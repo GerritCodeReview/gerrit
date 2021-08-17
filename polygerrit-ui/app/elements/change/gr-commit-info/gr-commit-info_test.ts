@@ -36,13 +36,14 @@ suite('gr-commit-info tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('weblinks use GerritNav interface', () => {
+  test('weblinks use GerritNav interface', async () => {
     const weblinksStub = sinon
       .stub(GerritNav, '_generateWeblinks')
       .returns([{name: 'stubb', url: '#s'}]);
     element.change = createChange();
     element.commitInfo = createCommit();
     element.serverConfig = createServerInfo();
+    await flush();
     assert.isTrue(weblinksStub.called);
   });
 

@@ -16,9 +16,3 @@ filegroup(
     srcs = ["//lib/highlightjs:highlight.min.js"],
     data = ["//lib:LICENSE-highlightjs"],
 )
-
-js_component(
-    name = "ba-linkify",
-    srcs = ["//lib/ba-linkify:ba-linkify.js"],
-    license = "//lib:LICENSE-ba-linkify",
-)

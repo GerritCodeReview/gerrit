@@ -100,7 +100,6 @@ ignore_templates_list = [
     "elements/admin/gr-access-section/gr-access-section_html.ts",
     "elements/admin/gr-admin-view/gr-admin-view_html.ts",
     "elements/admin/gr-create-change-dialog/gr-create-change-dialog_html.ts",
-    "elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog_html.ts",
     "elements/admin/gr-create-repo-dialog/gr-create-repo-dialog_html.ts",
     "elements/admin/gr-group-members/gr-group-members_html.ts",
     "elements/admin/gr-group/gr-group_html.ts",

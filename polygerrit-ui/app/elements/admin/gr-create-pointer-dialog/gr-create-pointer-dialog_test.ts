@@ -15,69 +15,72 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-create-pointer-dialog.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-create-pointer-dialog';
+import {GrCreatePointerDialog} from './gr-create-pointer-dialog';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {BranchName} from '../../../types/common';
+import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
+import {IronInputElement} from '@polymer/iron-input';
 
 const basicFixture = fixtureFromElement('gr-create-pointer-dialog');
 
 suite('gr-create-pointer-dialog tests', () => {
-  let element;
+  let element: GrCreatePointerDialog;
 
-  const ironInput = function(element) {
-    return element.querySelector('iron-input');
-  };
+  const ironInput = (element: Element) =>
+    queryAndAssert<IronInputElement>(element, 'iron-input');
 
   setup(() => {
     element = basicFixture.instantiate();
   });
 
   test('branch created', done => {
-    stubRestApi('createRepoBranch').returns(Promise.resolve({}));
+    stubRestApi('createRepoBranch').returns(Promise.resolve(new Response()));
 
     assert.isFalse(element.hasNewItemName);
 
-    element._itemName = 'test-branch';
-    element.itemDetail = 'branches';
+    element._itemName = 'test-branch' as BranchName;
+    element.itemDetail = 'branches' as RepoDetailView.BRANCHES;
 
     ironInput(element.$.itemNameSection).bindValue = 'test-branch2';
     ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
 
     setTimeout(() => {
       assert.isTrue(element.hasNewItemName);
-      assert.equal(element._itemName, 'test-branch2');
+      assert.equal(element._itemName, 'test-branch2' as BranchName);
       assert.equal(element._itemRevision, 'HEAD');
       done();
     });
   });
 
   test('tag created', done => {
-    stubRestApi('createRepoTag').returns(Promise.resolve({}));
+    stubRestApi('createRepoTag').returns(Promise.resolve(new Response()));
 
     assert.isFalse(element.hasNewItemName);
 
-    element._itemName = 'test-tag';
-    element.itemDetail = 'tags';
+    element._itemName = 'test-tag' as BranchName;
+    element.itemDetail = 'tags' as RepoDetailView.TAGS;
 
     ironInput(element.$.itemNameSection).bindValue = 'test-tag2';
     ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
 
     setTimeout(() => {
       assert.isTrue(element.hasNewItemName);
-      assert.equal(element._itemName, 'test-tag2');
+      assert.equal(element._itemName, 'test-tag2' as BranchName);
       assert.equal(element._itemRevision, 'HEAD');
       done();
     });
   });
 
   test('tag created with annotations', done => {
-    stubRestApi('createRepoTag').returns(() => Promise.resolve({}));
+    stubRestApi('createRepoTag').returns(Promise.resolve(new Response()));
 
     assert.isFalse(element.hasNewItemName);
 
-    element._itemName = 'test-tag';
+    element._itemName = 'test-tag' as BranchName;
     element._itemAnnotation = 'test-message';
-    element.itemDetail = 'tags';
+    element.itemDetail = 'tags' as RepoDetailView.TAGS;
 
     ironInput(element.$.itemNameSection).bindValue = 'test-tag2';
     ironInput(element.$.itemAnnotationSection).bindValue = 'test-message2';
@@ -85,7 +88,7 @@ suite('gr-create-pointer-dialog tests', () => {
 
     setTimeout(() => {
       assert.isTrue(element.hasNewItemName);
-      assert.equal(element._itemName, 'test-tag2');
+      assert.equal(element._itemName, 'test-tag2' as BranchName);
       assert.equal(element._itemAnnotation, 'test-message2');
       assert.equal(element._itemRevision, 'HEAD');
       done();
@@ -93,11 +96,13 @@ suite('gr-create-pointer-dialog tests', () => {
   });
 
   test('_computeHideItemClass returns hideItem if type is branches', () => {
-    assert.equal(element._computeHideItemClass('branches'), 'hideItem');
+    assert.equal(
+      element._computeHideItemClass(RepoDetailView.BRANCHES),
+      'hideItem'
+    );
   });
 
   test('_computeHideItemClass returns strings if not branches', () => {
-    assert.equal(element._computeHideItemClass('tags'), '');
+    assert.equal(element._computeHideItemClass(RepoDetailView.TAGS), '');
   });
 });
-

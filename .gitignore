@@ -32,9 +32,13 @@ js-to-ts.sh
 /node_modules/
 /package-lock.json
 /plugins/*
+!/plugins/.eslintignore
+!/plugins/.eslintrc.js
+!/plugins/.prettierrc.js
 !/plugins/package.json
 !/plugins/rollup.config.js
 !/plugins/tsconfig.json
+!/plugins/tsconfig-plugins-base.json
 !/plugins/yarn.lock
 !/plugins/BUILD
 !/plugins/codemirror-editor

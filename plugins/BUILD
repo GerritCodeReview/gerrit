@@ -18,11 +18,6 @@ exports_files([
     "tsconfig-plugins-base.json",
 ])
 
-ts_config(
-    name = "plugin-tsconfig",
-    src = "tsconfig.json",
-)
-
 genrule2(
     name = "core",
     srcs = ["//plugins/%s:%s.jar" % (n, n) for n in CORE_PLUGINS + CUSTOM_PLUGINS],

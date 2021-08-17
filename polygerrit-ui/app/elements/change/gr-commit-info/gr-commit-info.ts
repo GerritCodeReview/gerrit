@@ -106,3 +106,4 @@ export class GrCommitInfo extends PolymerElement {
     return weblink?.name ?? '';
   }
 }
+

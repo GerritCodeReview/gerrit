@@ -16,31 +16,23 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import './gr-repo-plugin-config.js';
+import {GrRepoPluginConfig} from './gr-repo-plugin-config.js';
 
 const basicFixture = fixtureFromElement('gr-repo-plugin-config');
 
 suite('gr-repo-plugin-config tests', () => {
   let element;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
   test('_computePluginConfigOptions', () => {
-    assert.deepEqual(element._computePluginConfigOptions(), []);
-    assert.deepEqual(element._computePluginConfigOptions({}), []);
-    assert.deepEqual(element._computePluginConfigOptions({base: {}}), []);
+    assert.deepEqual(element._computePluginConfigOptions({config: {}}), []);
     assert.deepEqual(element._computePluginConfigOptions(
-        {base: {config: {}}}), []);
-    assert.deepEqual(element._computePluginConfigOptions(
-        {base: {config: {testKey: 'testInfo'}}}),
+        {config: {testKey: 'testInfo'}}),
     [{_key: 'testKey', info: 'testInfo'}]);
-  });
-
-  test('_computeDisabled', () => {
-    assert.isFalse(element._computeDisabled('true'));
-    assert.isTrue(element._computeDisabled('false'));
   });
 
   test('_handleChange', () => {
@@ -72,12 +64,12 @@ suite('gr-repo-plugin-config tests', () => {
       buildStub = sinon.stub(element, '_buildConfigChangeInfo');
     });
 
-    test('ARRAY type option', () => {
+    test('ARRAY type option', async () => {
       element.pluginData = {
         name: 'testName',
         config: {plugin: {value: 'test', type: 'ARRAY'}},
       };
-      flush();
+      await flush();
 
       const editor = element.shadowRoot
           .querySelector('gr-plugin-config-array-editor');
@@ -87,18 +79,18 @@ suite('gr-repo-plugin-config tests', () => {
       assert.equal(changeStub.lastCall.args[0], 'test');
     });
 
-    test('BOOLEAN type option', () => {
+    test('BOOLEAN type option', async () => {
       element.pluginData = {
         name: 'testName',
         config: {plugin: {value: 'true', type: 'BOOLEAN'}},
       };
-      flush();
+      await flush();
 
       const toggle = element.shadowRoot
           .querySelector('paper-toggle-button');
       assert.ok(toggle);
       toggle.click();
-      flush();
+      await flush();
 
       assert.isTrue(buildStub.called);
       assert.deepEqual(buildStub.lastCall.args, ['false', 'plugin']);
@@ -106,19 +98,19 @@ suite('gr-repo-plugin-config tests', () => {
       assert.isTrue(changeStub.called);
     });
 
-    test('INT/LONG/STRING type option', () => {
+    test('INT/LONG/STRING type option', async () => {
       element.pluginData = {
         name: 'testName',
         config: {plugin: {value: 'test', type: 'STRING'}},
       };
-      flush();
+      await flush();
 
       const input = element.shadowRoot
           .querySelector('input');
       assert.ok(input);
       input.value = 'newTest';
       input.dispatchEvent(new Event('input'));
-      flush();
+      await flush();
 
       assert.isTrue(buildStub.called);
       assert.deepEqual(buildStub.lastCall.args, ['newTest', 'plugin']);
@@ -126,13 +118,13 @@ suite('gr-repo-plugin-config tests', () => {
       assert.isTrue(changeStub.called);
     });
 
-    test('LIST type option', () => {
+    test('LIST type option', async () => {
       const permitted_values = ['test', 'newTest'];
       element.pluginData = {
         name: 'testName',
         config: {plugin: {value: 'test', type: 'LIST', permitted_values}},
       };
-      flush();
+      await flush();
 
       const select = element.shadowRoot
           .querySelector('select');
@@ -140,7 +132,7 @@ suite('gr-repo-plugin-config tests', () => {
       select.value = 'newTest';
       select.dispatchEvent(new Event(
           'change', {bubbles: true, composed: true}));
-      flush();
+      await flush();
 
       assert.isTrue(buildStub.called);
       assert.deepEqual(buildStub.lastCall.args, ['newTest', 'plugin']);

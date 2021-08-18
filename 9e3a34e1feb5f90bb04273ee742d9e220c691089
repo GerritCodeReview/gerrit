@@ -34,6 +34,24 @@
       "parentUuid": "087175e8_f6967787",
       "revId": "9e3a34e1feb5f90bb04273ee742d9e220c691089",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "305f9c85_286c5037",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-18T20:53:56Z",
+      "side": 1,
+      "message": "Yeah, I followed the past examples, but I questioned it. Feel free to send me a review updating https://gerrit.googlesource.com/gitiles/+/HEAD/Documentation/developer-guide.md#Releases if you expect something different.",
+      "parentUuid": "7b1d6fde_9a2b95fe",
+      "revId": "9e3a34e1feb5f90bb04273ee742d9e220c691089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

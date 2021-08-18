@@ -58,7 +58,7 @@ export class GrEditableLabel extends PolymerElement {
    * @event changed
    */
 
-  @property({type: String})
+  @property({type: String, observer: '_updateLabel'})
   labelText = '';
 
   @property({type: Boolean})
@@ -119,6 +119,12 @@ export class GrEditableLabel extends PolymerElement {
     this.cleanups.push(
       addShortcut(this, {key: Key.ESC}, e => this._handleEsc(e))
     );
+  }
+
+  _updateLabel(value?: string) {
+    if (value === 'Add a hashtag') {
+      this._showDropdown();
+    }
   }
 
   _usePlaceholder(value?: string, placeholder?: string) {

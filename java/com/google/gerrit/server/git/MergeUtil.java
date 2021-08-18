@@ -223,9 +223,8 @@ public class MergeUtil {
       int parentIndex,
       boolean ignoreIdenticalTree,
       boolean allowConflicts)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
-          MergeIdenticalTreeException, MergeConflictException, MethodNotAllowedException,
-          InvalidMergeStrategyException {
+      throws IOException, MergeIdenticalTreeException, MergeConflictException,
+          MethodNotAllowedException, InvalidMergeStrategyException {
 
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     m.setBase(originalCommit.getParent(parentIndex));
@@ -247,7 +246,10 @@ public class MergeUtil {
       }
     } else {
       if (!allowConflicts) {
-        throw new MergeConflictException("merge conflict");
+        throw new MergeConflictException(
+            String.format(
+                "merge conflict while merging commits %s and %s",
+                mergeTip.toObjectId(), originalCommit.toObjectId()));
       }
 
       if (!useContentMerge) {

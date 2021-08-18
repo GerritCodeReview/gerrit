@@ -190,7 +190,7 @@ export class GrRepo extends PolymerElement {
             }
 
             // If the user is not an owner, is_owner is not a property.
-            this._readOnly = !access[repo].is_owner;
+            this._readOnly = !access[repo]?.is_owner;
           });
         }
       })

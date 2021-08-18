@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a5c6880_7a98d378",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-18T08:57:07Z",
+      "side": 1,
+      "message": "RBE failure is not related to this change and caused by the delete-project plugin that was converted to typerscript https://gerrit-review.googlesource.com/c/plugins/delete-project/+/311960.",
+      "revId": "6c62b373bfe11987561649f355355ba34c13f758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

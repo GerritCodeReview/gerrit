@@ -60,7 +60,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
    * @event changed
    */
 
-  @property({type: String})
+  @property({type: String, observer: '_updateLabel'})
   labelText = '';
 
   @property({type: Boolean})
@@ -110,6 +110,12 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
       enter: '_handleEnter',
       esc: '_handleEsc',
     };
+  }
+
+  _updateLabel(value?: string) {
+    if (value === 'Add a hashtag') {
+      this._showDropdown();
+    }
   }
 
   _usePlaceholder(value?: string, placeholder?: string) {

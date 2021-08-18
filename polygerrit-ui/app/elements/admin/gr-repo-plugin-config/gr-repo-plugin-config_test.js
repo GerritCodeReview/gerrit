@@ -16,31 +16,23 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import './gr-repo-plugin-config.js';
+import {GrRepoPluginConfig} from './gr-repo-plugin-config.js';
 
 const basicFixture = fixtureFromElement('gr-repo-plugin-config');
 
 suite('gr-repo-plugin-config tests', () => {
   let element;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
   test('_computePluginConfigOptions', () => {
-    assert.deepEqual(element._computePluginConfigOptions(), []);
-    assert.deepEqual(element._computePluginConfigOptions({}), []);
-    assert.deepEqual(element._computePluginConfigOptions({base: {}}), []);
+    assert.deepEqual(element._computePluginConfigOptions({config: {}}), []);
     assert.deepEqual(element._computePluginConfigOptions(
-        {base: {config: {}}}), []);
-    assert.deepEqual(element._computePluginConfigOptions(
-        {base: {config: {testKey: 'testInfo'}}}),
+        {config: {testKey: 'testInfo'}}),
     [{_key: 'testKey', info: 'testInfo'}]);
-  });
-
-  test('_computeDisabled', () => {
-    assert.isFalse(element._computeDisabled('true'));
-    assert.isTrue(element._computeDisabled('false'));
   });
 
   test('_handleChange', () => {

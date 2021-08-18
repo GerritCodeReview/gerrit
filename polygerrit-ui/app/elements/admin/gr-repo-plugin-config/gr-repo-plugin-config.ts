@@ -16,19 +16,16 @@
  */
 import '@polymer/iron-input/iron-input';
 import '@polymer/paper-toggle-button/paper-toggle-button';
-import '../../../styles/gr-form-styles';
-import '../../../styles/gr-subpage-styles';
-import '../../../styles/shared-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-repo-plugin-config_html';
-import {customElement, property} from '@polymer/decorators';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
 import {ConfigParameterInfoType} from '../../../constants/constants';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {
   ConfigParameterInfo,
   PluginParameterToConfigParameterInfoMap,
@@ -60,10 +57,7 @@ export interface PluginConfigChangeDetail {
 }
 
 @customElement('gr-repo-plugin-config')
-export class GrRepoPluginConfig extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrRepoPluginConfig extends GrLitElement {
 
   /**
    * Fired when the plugin config changes.
@@ -74,19 +68,126 @@ export class GrRepoPluginConfig extends PolymerElement {
   @property({type: Object})
   pluginData?: PluginData;
 
-  @property({
-    type: Array,
-    computed: '_computePluginConfigOptions(pluginData.*)',
-  })
-  _pluginConfigOptions!: PluginOption[]; // _computePluginConfigOptions never returns null
+  static get styles() {
+    return [
+      sharedStyles,
+      formStyles,
+      subpageStyles,
+      css`
+        .inherited {
+          color: var(--deemphasized-text-color);
+          margin-left: var(--spacing-m);
+        }
+        section.section:not(.ARRAY) .title {
+          align-items: center;
+          display: flex;
+        }
+        section.section.ARRAY .title {
+          padding-top: var(--spacing-m);
+        }
+      `
+    ]
+  }
 
-  _computePluginConfigOptions(
-    dataRecord: PolymerDeepPropertyChange<PluginData, PluginData>
-  ): PluginOption[] {
-    if (!dataRecord || !dataRecord.base || !dataRecord.base.config) {
-      return [];
+  _renderOptionDetail(option: PluginOption) {
+    if (this._isArray(option.info.type)) {
+      return html`
+        <gr-plugin-config-array-editor
+          on-plugin-config-option-changed=${this._handleArrayChange}
+          plugin-option="${option}"
+        ></gr-plugin-config-array-editor>
+      `;
+    } else if (this._isBoolean(option.info.type)) {
+      return html`
+          <paper-toggle-button
+            checked=${this._computeChecked(option.info.value)}
+            on-change=${this._handleBooleanChange}
+            data-option-key$=${option._key}
+            ?disabled=${option.info.editable}
+            on-click=${this._onTapPluginBoolean}
+          ></paper-toggle-button>
+      `;
+    } else if (this._isList(option.info.type)) {
+      return html`
+          <gr-select
+            bind-value$="${option.info.value}"
+            on-change=${this._handleListChange}
+          >
+            <select
+              data-option-key$=${option._key}
+              ?disabled=${option.info.editable}
+            >
+            ${
+              (option.info.permitted_values || []).map(
+                (value) => html`<option value$="${value}">${value}</option>`
+              )
+            }
+            </select>
+          </gr-select>
+      `;
+    } else if (this._isString(option.info.type)) {
+      return html`
+      <iron-input
+        bind-value="${option.info.value}"
+        on-input=${this._handleStringChange}
+        data-option-key$="${option._key}"
+        ?disabled=${option.info.editable}
+      >
+        <input
+          is="iron-input"
+          value="${option.info.value}"
+          on-input=${this._handleStringChange}
+          data-option-key$="${option._key}"
+          ?disabled=${option.info.editable}
+        />
+    </iron-input>
+    `;
+    } else if (option.info.inherited_value) {
+      return html`
+        <span class="inherited">
+          (Inherited: ${option.info.inherited_value})
+        </span>
+      `;
+    } else {
+      return html``;
     }
-    const config = dataRecord.base.config;
+  }
+  _renderOption(option: PluginOption) {
+    return html`
+        <section class="section ${option.info.type}">
+          <span class="title">
+            <gr-tooltip-content
+              has-tooltip="${option.info.description}"
+              show-icon="${option.info.description}"
+              title="${option.info.description}"
+            >
+              <span>${option.info.display_name}</span>
+            </gr-tooltip-content>
+          </span>
+          <span class="value">${this._renderOptionDetail(option)}</span>
+        </section>
+    `;
+  }
+
+  render() {
+    // Render can be called prior to pluginData being updated.
+    const pluginConfigOptions = this.pluginData ?
+      this._computePluginConfigOptions(this.pluginData) : [];
+    const items = pluginConfigOptions.map(
+      option => this._renderOption(option));
+
+    return html`
+      <div class="gr-form-styles">
+        <fieldset>
+          <h4>${this.pluginData?.name || ''}</h4>
+          ${items}
+        </fieldset>
+      </div>
+    `;
+  }
+
+  _computePluginConfigOptions(pluginData: PluginData) {
+    const config = pluginData.config;
     return Object.keys(config).map(_key => {
       return {_key, info: config[_key]};
     });
@@ -113,16 +214,12 @@ export class GrRepoPluginConfig extends PolymerElement {
     );
   }
 
-  _computeDisabled(editable: string) {
-    return editable === 'false';
-  }
-
   _computeChecked(value = 'false') {
     return JSON.parse(value) as boolean;
   }
 
   _handleStringChange(e: Event) {
-    const el = (dom(e) as EventApi).localTarget as IronInputElement;
+    const el = e.target as IronInputElement;
     // In the template, the data-option-key is assigned to each editor
     const _key = el.getAttribute('data-option-key')!;
     const configChangeInfo = this._buildConfigChangeInfo(el.value, _key);
@@ -130,7 +227,7 @@ export class GrRepoPluginConfig extends PolymerElement {
   }
 
   _handleListChange(e: Event) {
-    const el = (dom(e) as EventApi).localTarget as HTMLOptionElement;
+    const el = e.target as HTMLOptionElement;
     // In the template, the data-option-key is assigned to each editor
     const _key = el.getAttribute('data-option-key')!;
     const configChangeInfo = this._buildConfigChangeInfo(el.value, _key);
@@ -138,7 +235,7 @@ export class GrRepoPluginConfig extends PolymerElement {
   }
 
   _handleBooleanChange(e: Event) {
-    const el = (dom(e) as EventApi).localTarget as PaperToggleButtonElement;
+    const el = e.target as PaperToggleButtonElement;
     // In the template, the data-option-key is assigned to each editor
     const _key = el.getAttribute('data-option-key')!;
     const configChangeInfo = this._buildConfigChangeInfo(

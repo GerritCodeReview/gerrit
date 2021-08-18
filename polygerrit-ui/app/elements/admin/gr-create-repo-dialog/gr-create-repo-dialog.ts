@@ -20,6 +20,8 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {GrSelect} from '../../shared/gr-select/gr-select';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-create-repo-dialog_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
@@ -38,6 +40,15 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-create-repo-dialog': GrCreateRepoDialog;
   }
+}
+
+export interface GrCreateRepoDialog {
+  $: {
+    initialCommit: GrSelect;
+    parentRepo: GrSelect;
+    repoNameInput: HTMLInputElement;
+    rightsInheritFromInput: GrAutocomplete;
+  };
 }
 
 @customElement('gr-create-repo-dialog')

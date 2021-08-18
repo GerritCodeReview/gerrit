@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5688edab_f42cf8e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-18T16:39:04Z",
+      "side": 1,
+      "message": "oh sorry. I changed the commit msg for you, so now you need a +2 from someone :-/ ",
+      "revId": "e6bd3e7e78594dcde59fdce30a6711842c1e5a8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

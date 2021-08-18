@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "324acb98_6f982b6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-18T16:08:23Z",
+      "side": 1,
+      "message": "git tracks this, so no need to repeat in the commit msg.",
+      "revId": "ebd8bb2d6a4383f461c3256af65f3b7fe6552e22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

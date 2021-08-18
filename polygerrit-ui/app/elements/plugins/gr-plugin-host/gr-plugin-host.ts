@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {customElement, property, PropertyValues} from 'lit-element/lit-element.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {customElement, property} from '@polymer/decorators';
 import {ServerInfo} from '../../../types/common';
 
 @customElement('gr-plugin-host')
-export class GrPluginHost extends PolymerElement {
-  @property({type: Object, observer: '_configChanged'})
+export class GrPluginHost extends GrLitElement {
+  @property({type: Object})
   config?: ServerInfo;
 
   _configChanged(config: ServerInfo) {
@@ -35,6 +35,12 @@ export class GrPluginHost extends PolymerElement {
     // Theme should be loaded first for better UX.
     const pluginsPending = themeToLoad.concat(jsPlugins);
     getPluginLoader().loadPlugins(pluginsPending);
+  }
+
+  updated(changedProperties: PropertyValues<GrPluginHost>) {
+    if (changedProperties.has('config') && this.config) {
+      this._configChanged(this.config);
+    }
   }
 }
 

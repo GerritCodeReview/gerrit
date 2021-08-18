@@ -16,6 +16,57 @@
       "message": "Thanks, wasn\u0027t quite sure what to put in the commit-msg given that we specify ^4.3.2",
       "revId": "9e5eaf189cc0fe709a0ae81dff20417b2a21c33e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f44880bf_589181c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-18T21:21:57Z",
+      "side": 1,
+      "message": "I think you also have to update\n\n  tools/node_tools/package.json\n  \nThat is maybe even more relevant, because it defines the `tsc-bin` that is being used for the vital typescript compiles that I know of.",
+      "revId": "9e5eaf189cc0fe709a0ae81dff20417b2a21c33e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "896097c5_ce351a32",
+        "filename": "package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-18T21:21:57Z",
+      "side": 1,
+      "message": "let\u0027s keep this pinned as before",
+      "revId": "9e5eaf189cc0fe709a0ae81dff20417b2a21c33e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "366b085d_b23aa129",
+        "filename": "yarn.lock",
+        "patchSetId": 3
+      },
+      "lineNbr": 10072,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-18T21:21:57Z",
+      "side": 1,
+      "message": "let\u0027s stick to 4.3.2 by pinning, see other comment",
+      "revId": "9e5eaf189cc0fe709a0ae81dff20417b2a21c33e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

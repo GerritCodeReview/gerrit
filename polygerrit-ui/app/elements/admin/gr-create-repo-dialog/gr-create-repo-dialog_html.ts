@@ -36,23 +36,19 @@ export const htmlTemplate = html`
     <div id="form">
       <section>
         <span class="title">Repository name</span>
-        <iron-input autocomplete="on" bind-value="{{_repoConfig.name}}">
+        <iron-input bind-value="{{_repoConfig.name}}">
           <input
-            is="iron-input"
             id="repoNameInput"
             autocomplete="on"
-            bind-value="{{_repoConfig.name}}"
           />
         </iron-input>
       </section>
       <section>
         <span class="title">Default Branch</span>
-        <iron-input autocomplete="off" bind-value="{{_defaultBranch}}">
+        <iron-input bind-value="{{_defaultBranch}}">
           <input
-            is="iron-input"
             id="defaultBranchNameInput"
             autocomplete="off"
-            bind-value="{{_defaultBranch}}"
           />
         </iron-input>
       </section>

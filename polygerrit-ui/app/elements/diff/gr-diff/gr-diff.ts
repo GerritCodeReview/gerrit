@@ -780,15 +780,19 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       const sectionRightBorder = '1px';
 
       // As some of these calculations are done using 'ch' we end up
-      // having <1px difference between ideal and calculated size leading
-      // to lines using the max columns (e.g. 80) to wrap.
-      // Adding 1px as correction to be sure wrapping won't happen in these
+      // having <1px difference between ideal and calculated size for each side
+      // leading to lines using the max columns (e.g. 80) to wrap (decided
+      // exclusively by the browser).This happens even in monospace fonts.
+      // Empirically adding 2px as correction to be sure wrapping won't happen in these
       // cases so it doesn' block further experimentation with the SHRINK_MODE.
+      // This was previously set to 1px but due to to a more aggressive
+      // text wrapping (via word-break: break-all; - check .contextText)
+      // we need to be even more lenient in some cases.
       // If we find another way to avoid this correction we will change it.
-      const correction = '1px';
+      const dontWrapCorrection = '2px';
       stylesToUpdate[
         '--diff-max-width'
-      ] = `calc(${contentWidth} + ${lineNumberWidth} + ${sectionRightBorder} + ${correction})`;
+      ] = `calc(${contentWidth} + ${lineNumberWidth} + ${sectionRightBorder} + ${dontWrapCorrection})`;
     } else {
       stylesToUpdate['--diff-max-width'] = 'none';
     }

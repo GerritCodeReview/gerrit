@@ -104,7 +104,9 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
 
     rollup_bundle(
         name = bundle,
-        srcs = srcs,
+        srcs = srcs + [
+            "@plugins_npm//:node_modules",
+        ],
         entry_point = entry_point,
         format = "iife",
         rollup_bin = "//tools/node_tools:rollup-bin",

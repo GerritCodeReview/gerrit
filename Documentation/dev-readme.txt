@@ -1,6 +1,8 @@
 :linkattrs:
 = Gerrit Code Review: Developer Setup
 
+TEST: DO NOT SUBMIT
+
 To build a developer instance, you'll need link:https://bazel.build/[Bazel,role=external,window=_blank] to
 compile the code, preferably launched with link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank].
 

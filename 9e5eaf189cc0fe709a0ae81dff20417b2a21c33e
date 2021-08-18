@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58c466c9_bbdf07ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-18T20:01:54Z",
+      "side": 1,
+      "message": "Thanks, wasn\u0027t quite sure what to put in the commit-msg given that we specify ^4.3.2",
+      "revId": "9e5eaf189cc0fe709a0ae81dff20417b2a21c33e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

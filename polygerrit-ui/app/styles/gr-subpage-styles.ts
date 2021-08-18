@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import {css} from 'lit-element';
+
 // Mark the file as a module. Otherwise typescript assumes this is a script
 // and $_documentContainer is a global variable.
 // See: https://www.typescriptlang.org/docs/handbook/modules.html
@@ -22,21 +24,25 @@ export {};
 
 const $_documentContainer = document.createElement('template');
 
+export const subpageStyles = css`
+  .main {
+    margin: var(--spacing-l);
+  }
+  .loading {
+    display: none;
+  }
+  #loading.loading {
+    display: block;
+  }
+  #loading:not(.loading) {
+    display: none;
+  }
+`;
+
 $_documentContainer.innerHTML = `<dom-module id="gr-subpage-styles">
   <template>
     <style>
-      .main {
-        margin: var(--spacing-l);
-      }
-      .loading {
-        display: none;
-      }
-      #loading.loading {
-        display: block;
-      }
-      #loading:not(.loading) {
-        display: none;
-      }
+    ${subpageStyles.cssText}
     </style>
   </template>
 </dom-module>`;

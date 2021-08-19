@@ -40,7 +40,7 @@ export class GrEditFileControls extends GrLitElement {
   @property({type: Array})
   _allFileActions = Object.values(GrEditConstants.Actions);
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -56,7 +56,7 @@ export class GrEditFileControls extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     // To pass CSS mixins for @apply to Polymer components, they need to appear
     // in <style> inside the template.
     const customStyle = html`

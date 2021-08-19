@@ -30,7 +30,7 @@ export class GrCustomPluginHeader extends PolymerElement {
   logoUrl = '';
 
   @property({type: String})
-  title = '';
+  override title = '';
 
   static get template() {
     return html`

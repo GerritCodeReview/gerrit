@@ -162,7 +162,7 @@ export class GrAlert extends GrLitElement {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     if (this._boundTransitionEndHandler) {
       this.removeEventListener(
         'transitionend',

@@ -209,7 +209,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     document.removeEventListener('click', this.handleBodyClick);
     this.updateSuggestionsTask?.cancel();
     super.disconnectedCallback();
@@ -219,7 +219,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {
     return this.$.input;
   }
 
-  focus() {
+  override focus() {
     this._nativeInput.focus();
   }
 

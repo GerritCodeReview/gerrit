@@ -27,7 +27,7 @@ export class GrRangedCommentHint extends GrLitElement {
   @property({type: Object})
   range?: CommentRange;
 
-  static get styles() {
+  static override get styles() {
     return [
       grRangedCommentTheme,
       sharedStyles,
@@ -42,7 +42,7 @@ export class GrRangedCommentHint extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     // To pass CSS mixins for @apply to Polymer components, they need to appear
     // in <style> inside the template.
     const customStyle = html`

@@ -137,7 +137,7 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.cursor.unsetCursor();
     super.disconnectedCallback();
   }

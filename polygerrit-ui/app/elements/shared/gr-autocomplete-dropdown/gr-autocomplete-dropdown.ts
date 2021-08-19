@@ -80,10 +80,10 @@ export class GrAutocompleteDropdown extends IronFitMixin(
   isHidden = true;
 
   @property({type: Number})
-  verticalOffset: number | null = null;
+  override verticalOffset: number | null = null;
 
   @property({type: Number})
-  horizontalOffset: number | null = null;
+  override horizontalOffset: number | null = null;
 
   @property({type: Array})
   suggestions: Item[] = [];
@@ -108,7 +108,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.cursor.unsetCursor();
     super.disconnectedCallback();
   }

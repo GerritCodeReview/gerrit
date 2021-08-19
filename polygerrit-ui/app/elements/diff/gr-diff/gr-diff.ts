@@ -181,7 +181,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   isImageDiff?: boolean;
 
   @property({type: Boolean, reflectToAttribute: true})
-  hidden = false;
+  override hidden = false;
 
   @property({type: Boolean})
   noRenderOnPrefsChange?: boolean;
@@ -242,7 +242,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
    * obtained by making the content of the diff table "contentEditable".
    */
   @property({type: Boolean})
-  isContentEditable = isSafari();
+  override isContentEditable = isSafari();
 
   /**
    * Whether the safety check for large diffs when whole-file is set has
@@ -326,7 +326,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.isAttached = false;
     this.renderDiffTableTask?.cancel();
     this._unobserveIncrementalNodes();

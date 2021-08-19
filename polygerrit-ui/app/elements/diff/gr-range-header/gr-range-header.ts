@@ -29,7 +29,7 @@ export class GrRangeHeader extends GrLitElement {
   @property({type: String})
   icon?: string;
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         .row {
@@ -52,7 +52,7 @@ export class GrRangeHeader extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     const icon = this.icon ?? '';
     return html` <div class="row">
       <iron-icon class="icon" .icon=${icon}></iron-icon>

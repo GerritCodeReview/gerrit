@@ -34,7 +34,7 @@ export class GrAvatar extends GrLitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         :host([hidden]) {
@@ -53,13 +53,13 @@ export class GrAvatar extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     this._updateAvatarURL();
     return html``;
   }
 
   /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     Promise.all([
       this._getConfig(),

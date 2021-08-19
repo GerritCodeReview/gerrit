@@ -26,7 +26,7 @@ declare global {
 
 @customElement('gr-key-binding-display')
 export class GrKeyBindingDisplay extends GrLitElement {
-  static get styles() {
+  static override get styles() {
     return [
       css`
         .key {
@@ -43,7 +43,7 @@ export class GrKeyBindingDisplay extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     const items = this.binding.map((binding, index) => [
       index > 0 ? html` or ` : html``,
       this._computeModifiers(binding).map(

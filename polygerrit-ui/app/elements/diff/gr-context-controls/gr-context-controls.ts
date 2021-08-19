@@ -106,7 +106,7 @@ export class GrContextControls extends LitElement {
 
   private disconnected$ = new Subject();
 
-  static styles = css`
+  static override styles = css`
     :host {
       display: flex;
       justify-content: center;
@@ -209,12 +209,12 @@ export class GrContextControls extends LitElement {
     }
   `;
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.setupButtonHoverHandler();
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.disconnected$.next();
   }
 
@@ -527,7 +527,7 @@ export class GrContextControls extends LitElement {
     return !!(this.diff && this.section && this.contextGroups?.length);
   }
 
-  render() {
+  override render() {
     if (!this.hasValidProperties()) {
       console.error('Invalid properties for gr-context-controls!');
       return html`<p>invalid properties</p>`;

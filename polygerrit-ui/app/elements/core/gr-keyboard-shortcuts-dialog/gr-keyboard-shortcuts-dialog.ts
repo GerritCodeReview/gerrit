@@ -82,7 +82,7 @@ export class GrKeyboardShortcutsDialog extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.removeKeyboardShortcutDirectoryListener(
       this.keyboardShortcutDirectoryListener
     );

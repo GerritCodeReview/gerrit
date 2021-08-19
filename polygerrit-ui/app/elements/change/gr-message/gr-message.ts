@@ -135,7 +135,7 @@ export class GrMessage extends PolymerElement {
     reflectToAttribute: true,
     computed: '_computeIsHidden(hideAutomated, isAutomated)',
   })
-  hidden = false;
+  override hidden = false;
 
   @computed('message')
   get isAutomated() {

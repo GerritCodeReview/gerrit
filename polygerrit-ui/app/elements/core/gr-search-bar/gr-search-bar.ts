@@ -239,7 +239,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
-  keyboardShortcuts() {
+  override keyboardShortcuts() {
     return {
       [Shortcut.SEARCH]: '_handleSearch',
     };

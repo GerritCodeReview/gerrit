@@ -114,7 +114,7 @@ export class GrDownloadDialog extends KeyboardShortcutMixin(PolymerElement) {
     this._ensureAttribute('role', 'dialog');
   }
 
-  focus() {
+  override focus() {
     if (this._schemes.length) {
       this.$.downloadCommands.focusOnCopy();
     } else {

@@ -36,7 +36,6 @@ import {
   KeyboardShortcutMixin,
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {FilesExpandedState} from '../gr-file-list-constants';
 import {pluralize} from '../../../utils/string-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
@@ -204,9 +203,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   @property({type: Boolean, observer: '_editModeChanged'})
   editMode?: boolean;
-
-  @property({type: String, notify: true})
-  filesExpanded = FilesExpandedState.NONE;
 
   @property({type: Object})
   _filesByPath?: FileNameToFileInfoMap;
@@ -646,10 +642,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   collapseAllDiffs() {
     this._showInlineDiffs = false;
     this._expandedFiles = [];
-    this.filesExpanded = this._computeExpandedFiles(
-      this._expandedFiles.length,
-      this._files.length
-    );
     this.diffCursor.handleDiffUpdate();
   }
 
@@ -1397,18 +1389,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  private _computeExpandedFiles(
-    expandedCount: number,
-    totalCount: number
-  ): FilesExpandedState {
-    if (expandedCount === 0) {
-      return FilesExpandedState.NONE;
-    } else if (expandedCount === totalCount) {
-      return FilesExpandedState.ALL;
-    }
-    return FilesExpandedState.SOME;
-  }
-
   /**
    * Handle splices to the list of expanded file paths. If there are any new
    * entries in the expanded list, then render each diff corresponding in
@@ -1429,11 +1409,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     if (!record) {
       return;
     } // Happens after "Collapse all" clicked.
-
-    this.filesExpanded = this._computeExpandedFiles(
-      this._expandedFiles.length,
-      this._files.length
-    );
 
     // Find the paths introduced by the new index splices:
     const newFiles = record.indexSplices
@@ -1732,7 +1707,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
    * Returns true if none of the inline diffs have been expanded.
    */
   _noDiffsExpanded() {
-    return this.filesExpanded === FilesExpandedState.NONE;
+    return this._expandedFiles.length === 0;
   }
 
   /**

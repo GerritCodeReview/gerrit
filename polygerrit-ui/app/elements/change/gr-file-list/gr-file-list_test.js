@@ -21,7 +21,6 @@ import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-file-list.js';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
@@ -975,32 +974,6 @@ suite('gr-file-list tests', () => {
       assert.isTrue(diff.clearDiffContent.calledOnce);
     });
 
-    test('filesExpanded value updates to correct enum', () => {
-      element._filesByPath = {
-        'foo.bar': {},
-        'baz.bar': {},
-      };
-      flush();
-      assert.equal(element.filesExpanded,
-          FilesExpandedState.NONE);
-      element.push('_expandedFiles', {path: 'baz.bar'});
-      flush();
-      assert.equal(element.filesExpanded,
-          FilesExpandedState.SOME);
-      element.push('_expandedFiles', {path: 'foo.bar'});
-      flush();
-      assert.equal(element.filesExpanded,
-          FilesExpandedState.ALL);
-      element.collapseAllDiffs();
-      flush();
-      assert.equal(element.filesExpanded,
-          FilesExpandedState.NONE);
-      element.expandAllDiffs();
-      flush();
-      assert.equal(element.filesExpanded,
-          FilesExpandedState.ALL);
-    });
-
     test('_renderInOrder', async () => {
       const reviewStub = sinon.stub(element, '_reviewFile');
       let callCount = 0;
@@ -1672,7 +1645,6 @@ suite('gr-file-list tests', () => {
 
         // This is also called in diffCursor.moveToFirstChunk.
         assert.equal(nextChunkStub.callCount, 1);
-        assert.equal(element.filesExpanded, 'some');
       });
 
       test('n key with some files expanded and shift key', () => {
@@ -1686,7 +1658,6 @@ suite('gr-file-list tests', () => {
 
         // This is also called in diffCursor.moveToFirstChunk.
         assert.equal(nextChunkStub.callCount, 0);
-        assert.equal(element.filesExpanded, 'some');
       });
 
       test('n key without all files expanded and shift key', () => {

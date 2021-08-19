@@ -43,6 +43,48 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0bdb489a_e8c9b790",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-19T13:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7b39e9d_a7021aaa",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4894efec_31fb4033",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-19T13:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "295e9209_3c6a8fde",
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "043b2f8e_ef664b9a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e460480a_0ecbad87",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-19T13:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d904d4c3_4e04ef1c",
+      "range": {
+        "startLine": 206,
+        "startChar": 4,
+        "endLine": 213,
+        "endChar": 24
+      },
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e473d18_65ef2469",
@@ -94,6 +160,30 @@
       "writtenOn": "2021-08-19T09:01:08Z",
       "side": 1,
       "message": "label-util has a constant for CODE_REVIEW, use that\n\nmove this code into the label-util\n\n  export function getCodeReviewLabel(labels: LabelNameToValueMap)",
+      "range": {
+        "startLine": 216,
+        "startChar": 2,
+        "endLine": 226,
+        "endChar": 3
+      },
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "164a0056_2e5c090d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-19T13:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e473d18_65ef2469",
       "range": {
         "startLine": 216,
         "startChar": 2,
@@ -121,6 +211,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "514e3218_e02f18fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-19T13:05:14Z",
+      "side": 1,
+      "message": "Ack. I am planning to reuse this component in submit requirements part. I will maybe make smart component and just ui component.",
+      "parentUuid": "e0a6c31d_bb9738f4",
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da66dc9c_7f60b0dc",
@@ -134,6 +242,24 @@
       "writtenOn": "2021-08-19T09:01:08Z",
       "side": 1,
       "message": "Why? If needed, then maybe use \u003cdiv\u003e, not \u003cspan\u003e.\n\nShould this maybe have a fixed width? Would inline-block be adequate?",
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "378b4977_ab422e7f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-19T13:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da66dc9c_7f60b0dc",
       "revId": "42999b22f0399acc6bf90f340801203bab675545",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -155,6 +281,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "918be615_b9582664",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-19T13:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a4dc1d1_70924072",
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40cd3506_5b5fcc69",
@@ -168,6 +312,24 @@
       "writtenOn": "2021-08-19T09:01:08Z",
       "side": 1,
       "message": "There is a `valueString()` util.",
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17ed29b3_b1f28ad9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-19T13:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40cd3506_5b5fcc69",
       "revId": "42999b22f0399acc6bf90f340801203bab675545",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

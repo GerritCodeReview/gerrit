@@ -355,6 +355,30 @@
       },
       "revId": "42999b22f0399acc6bf90f340801203bab675545",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "288ad139_5abe9acf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-19T15:26:35Z",
+      "side": 1,
+      "message": "Would it be ok to refactor it in next change? There is similar logic in gr-label-info and I would like to clean up all of these.",
+      "parentUuid": "96b6391a_58d9fbc2",
+      "range": {
+        "startLine": 86,
+        "startChar": 3,
+        "endLine": 99,
+        "endChar": 0
+      },
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -436,8 +436,8 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     this.bindShortcut(Shortcut.OPEN_FILE, 'o', 'enter');
     this.bindShortcut(Shortcut.TOGGLE_FILE_REVIEWED, 'r:keyup');
     this.bindShortcut(Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
-    this.bindShortcut(Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
-    this.bindShortcut(Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
+    this.bindShortcut(Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i');
+    this.bindShortcut(Shortcut.TOGGLE_INLINE_DIFF, 'i');
     this.bindShortcut(Shortcut.TOGGLE_BLAME, 'b:keyup');
     this.bindShortcut(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
     this.bindShortcut(Shortcut.OPEN_FILE_LIST, 'f');

@@ -29,6 +29,11 @@ if test ! -f "$1" ; then
   exit 1
 fi
 
+# Do not create a change id for fixup/squash/amend/reword commit
+if git stripspace --strip-comments < "$1" | head -n 1 | grep -qE '^(squash|fixup|amend|reword)!' ; then
+    exit 0
+fi
+
 # Do not create a change id if requested
 if test "false" = "$(git config --bool --get gerrit.createChangeId)" ; then
   exit 0

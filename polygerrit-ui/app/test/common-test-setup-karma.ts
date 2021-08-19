@@ -50,7 +50,7 @@ suiteSetup(() => {
   originalOnBeforeUnload = window.onbeforeunload;
   window.onbeforeunload = function (e: BeforeUnloadEvent) {
     // If a test reloads a page, we can't prevent it.
-    // However we can print earror and the stack trace with assert.fail
+    // However we can print an error and the stack trace with assert.fail
     try {
       throw new Error();
     } catch (e) {
@@ -58,7 +58,7 @@ suiteSetup(() => {
       console.error(e.stack.toString());
     }
     if (originalOnBeforeUnload) {
-      originalOnBeforeUnload.call(this, e);
+      originalOnBeforeUnload.call(window, e);
     }
   };
 });

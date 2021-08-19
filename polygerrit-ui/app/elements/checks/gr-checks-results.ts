@@ -107,7 +107,7 @@ class GrResultRow extends GrLitElement {
     this.subscribe('labels', labels$);
   }
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -284,24 +284,24 @@ class GrResultRow extends GrLitElement {
     ];
   }
 
-  update(changedProperties: PropertyValues) {
+  override update(changedProperties: PropertyValues) {
     if (changedProperties.has('result')) {
       this.isExpandable = !!this.result?.summary && !!this.result?.message;
     }
     super.update(changedProperties);
   }
 
-  focus() {
+  override focus() {
     if (this.nameEl) this.nameEl.focus();
   }
 
-  firstUpdated() {
+  override firstUpdated() {
     const loading = this.shadowRoot?.querySelector('.container');
     assertIsDefined(loading, '"Loading" element');
     whenVisible(loading, () => this.setAttribute('shouldRender', 'true'), 200);
   }
 
-  render() {
+  override render() {
     if (!this.result) return '';
     if (!this.shouldRender) {
       return html`
@@ -547,7 +547,7 @@ class GrResultExpanded extends GrLitElement {
 
   private changeService = appContext.changeService;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -573,7 +573,7 @@ class GrResultExpanded extends GrLitElement {
     this.subscribe('repoConfig', repoConfig$);
   }
 
-  render() {
+  override render() {
     if (!this.result) return '';
     return html`
       ${this.renderFirstPrimaryLink()} ${this.renderOtherPrimaryLinks()}
@@ -750,7 +750,7 @@ export class GrChecksResults extends GrLitElement {
     this.subscribe('someProvidersAreLoading', someProvidersAreLoadingSelected$);
   }
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       spinnerStyles,
@@ -935,7 +935,7 @@ export class GrChecksResults extends GrLitElement {
     ];
   }
 
-  protected updated(changedProperties: PropertyValues) {
+  protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
     if (changedProperties.has('tabState') && this.tabState) {
       const {statusOrCategory, checkName} = this.tabState;
@@ -971,7 +971,7 @@ export class GrChecksResults extends GrLitElement {
     });
   }
 
-  render() {
+  override render() {
     // To pass CSS mixins for @apply to Polymer components, they need to appear
     // in <style> inside the template.
     const style = html`<style>

@@ -71,7 +71,7 @@ import {KnownExperimentId} from '../../services/flags/flags';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends GrLitElement {
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -195,7 +195,7 @@ export class GrChecksRun extends GrLitElement {
   @property()
   shouldRender = false;
 
-  firstUpdated() {
+  override firstUpdated() {
     assertIsDefined(this.chipElement, 'chip element');
     whenVisible(
       this.chipElement,
@@ -204,7 +204,7 @@ export class GrChecksRun extends GrLitElement {
     );
   }
 
-  protected updated(changedProperties: PropertyValues) {
+  protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
 
     // For some reason the browser does not pick up the correct `checked` state
@@ -219,7 +219,7 @@ export class GrChecksRun extends GrLitElement {
     }
   }
 
-  render() {
+  override render() {
     if (!this.shouldRender) return html`<div class="chip">Loading ...</div>`;
 
     const icon = iconForRun(this.run);
@@ -396,7 +396,7 @@ export class GrChecksRuns extends GrLitElement {
     this.subscribe('loginCallback', loginCallbackLatest$);
   }
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -495,7 +495,7 @@ export class GrChecksRuns extends GrLitElement {
     ];
   }
 
-  protected updated(changedProperties: PropertyValues) {
+  protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
     if (changedProperties.has('tabState') && this.tabState) {
       const {statusOrCategory} = this.tabState;
@@ -512,7 +512,7 @@ export class GrChecksRuns extends GrLitElement {
     }
   }
 
-  render() {
+  override render() {
     if (this.collapsed) {
       return html`${this.renderCollapseButton()}`;
     }

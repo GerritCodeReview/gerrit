@@ -65,7 +65,7 @@ export class GrSelect extends PolymerElement {
     this.bindValue = this.nativeSelect.value;
   }
 
-  focus() {
+  override focus() {
     this.nativeSelect.focus();
   }
 

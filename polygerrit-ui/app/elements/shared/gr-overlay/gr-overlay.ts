@@ -63,7 +63,7 @@ export class GrOverlay extends IronOverlayMixin(
 
   private returnFocusTo?: HTMLElement;
 
-  get _focusableNodes() {
+  override get _focusableNodes() {
     if (this.focusableNodes) {
       return this.focusableNodes;
     }
@@ -89,7 +89,7 @@ export class GrOverlay extends IronOverlayMixin(
     );
   }
 
-  open() {
+  override open() {
     this.returnFocusTo = findActiveElement(document, true) ?? undefined;
     window.addEventListener('popstate', this._boundHandleClose);
     return new Promise<void>((resolve, reject) => {
@@ -119,7 +119,7 @@ export class GrOverlay extends IronOverlayMixin(
     }
   }
 
-  _onCaptureFocus(e: Event) {
+  override _onCaptureFocus(e: Event) {
     const hovercardContainer = getHovercardContainer();
     if (hovercardContainer) {
       // Hovercard container is not a child of an overlay.

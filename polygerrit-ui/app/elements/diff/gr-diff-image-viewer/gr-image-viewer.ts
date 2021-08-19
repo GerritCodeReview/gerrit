@@ -171,7 +171,7 @@ export class GrImageViewer extends LitElement {
   // TODO(hermannloose): Make GrLibLoader a singleton.
   private static readonly libLoader = new GrLibLoader();
 
-  static styles = css`
+  static override styles = css`
     :host {
       display: grid;
       grid-template-rows: 1fr auto;
@@ -413,7 +413,7 @@ export class GrImageViewer extends LitElement {
     `;
   }
 
-  render() {
+  override render() {
     const src = this.baseSelected ? this.baseUrl : this.revisionUrl;
 
     const sourceImage = html`
@@ -640,7 +640,7 @@ export class GrImageViewer extends LitElement {
     `;
   }
 
-  firstUpdated() {
+  override firstUpdated() {
     this.resizeObserver.observe(this.imageArea, {box: 'content-box'});
     GrImageViewer.libLoader.getLibrary(RESEMBLEJS_LIBRARY_CONFIG).then(() => {
       this.canHighlightDiffs = true;
@@ -650,14 +650,14 @@ export class GrImageViewer extends LitElement {
 
   // We don't want property changes in updateSizes() to trigger infinite update
   // loops, so we perform this in update() instead of updated().
-  update(changedProperties: PropertyValues) {
+  override update(changedProperties: PropertyValues) {
     if (!this.baseUrl) this.baseSelected = false;
     if (!this.revisionUrl) this.baseSelected = true;
     this.updateSizes();
     super.update(changedProperties);
   }
 
-  updated(changedProperties: PropertyValues) {
+  override updated(changedProperties: PropertyValues) {
     if (
       (changedProperties.has('baseUrl') && this.baseSelected) ||
       (changedProperties.has('revisionUrl') && !this.baseSelected)

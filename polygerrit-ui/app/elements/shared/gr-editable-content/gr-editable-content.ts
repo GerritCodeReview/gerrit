@@ -121,7 +121,7 @@ export class GrEditableContent extends PolymerElement {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.storeTask?.cancel();
     super.disconnectedCallback();
   }

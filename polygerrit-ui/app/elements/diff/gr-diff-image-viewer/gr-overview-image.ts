@@ -93,7 +93,7 @@ export class GrOverviewImage extends LitElement {
     }
   );
 
-  static styles = css`
+  static override styles = css`
     :host {
       --background-color: var(--overview-image-background-color, #000);
       --frame-color: var(--overview-image-frame-color, #f00);
@@ -127,7 +127,7 @@ export class GrOverviewImage extends LitElement {
     }
   `;
 
-  render() {
+  override render() {
     return html`
       <div class="content-box">
         <div
@@ -158,7 +158,7 @@ export class GrOverviewImage extends LitElement {
     `;
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     if (this.isConnected) {
       this.overlay = document.createElement('div');
@@ -194,7 +194,7 @@ export class GrOverviewImage extends LitElement {
     }
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     if (this.overlay) {
       document.body.removeChild(this.overlay);
       this.overlay = undefined;
@@ -202,12 +202,12 @@ export class GrOverviewImage extends LitElement {
     super.disconnectedCallback();
   }
 
-  firstUpdated() {
+  override firstUpdated() {
     this.resizeObserver.observe(this.contentBox);
     this.resizeObserver.observe(this.contentTransform);
   }
 
-  updated(changedProperties: PropertyValues) {
+  override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('frameRect')) {
       this.updateFrameStyle();
     }

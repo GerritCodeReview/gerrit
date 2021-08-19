@@ -212,5 +212,6 @@ export class GrAlert extends GrLitElement {
     if (this._actionCallback) {
       this._actionCallback();
     }
+    this.hide();
   }
 }

@@ -150,7 +150,7 @@ export class GrApplyFixDialog extends PolymerElement {
     this.addEventListener('diff-context-expanded', this.refitOverlay);
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     if (this.refitOverlay) {
       this.removeEventListener('diff-context-expanded', this.refitOverlay);
     }

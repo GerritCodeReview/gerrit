@@ -192,7 +192,7 @@ export class GrMainHeader extends PolymerElement {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.disconnected$.next();
     super.disconnectedCallback();
   }

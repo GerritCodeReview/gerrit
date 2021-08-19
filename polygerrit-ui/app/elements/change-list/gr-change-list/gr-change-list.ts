@@ -142,7 +142,7 @@ export class GrChangeList extends ChangeTableMixin(
 
   private readonly restApiService = appContext.restApiService;
 
-  keyboardShortcuts() {
+  override keyboardShortcuts() {
     return {
       [Shortcut.CURSOR_NEXT_CHANGE]: '_nextChange',
       [Shortcut.CURSOR_PREV_CHANGE]: '_prevChange',
@@ -186,7 +186,7 @@ export class GrChangeList extends ChangeTableMixin(
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.cursor.unsetCursor();
     super.disconnectedCallback();
   }

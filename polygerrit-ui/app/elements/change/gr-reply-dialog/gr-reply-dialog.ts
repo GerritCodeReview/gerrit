@@ -416,7 +416,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.storeTask?.cancel();
     super.disconnectedCallback();
   }
@@ -459,7 +459,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     return draft.length > 0 || draftCommentThreads.base.length > 0;
   }
 
-  focus() {
+  override focus() {
     this._focusOn(FocusTarget.ANY);
   }
 

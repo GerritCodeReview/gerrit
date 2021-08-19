@@ -802,7 +802,11 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       }
 
       shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent) {
-        if (this._disableKeyboardShortcuts) return true;
+        if (
+          this._disableKeyboardShortcuts ||
+          event.detail?.keyboardEvent?.repeat
+        )
+          return true;
         const e = getKeyboardEvent(event);
         // TODO(TS): maybe override the EventApi, narrow it down to Element always
         const target = (dom(e) as EventApi).rootTarget as Element;

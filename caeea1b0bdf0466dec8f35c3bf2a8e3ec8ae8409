@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b208a04_a9e0074b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139951
+      },
+      "writtenOn": "2021-08-19T22:15:38Z",
+      "side": 1,
+      "message": "Apologies about not doing it in the same change as the upgrade to the linter.",
+      "revId": "caeea1b0bdf0466dec8f35c3bf2a8e3ec8ae8409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

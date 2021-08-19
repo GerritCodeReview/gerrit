@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03d67bf2_c370288e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139940
+      },
+      "writtenOn": "2021-08-19T12:45:54Z",
+      "side": 1,
+      "message": "Thank you for working on a fix so quickly!\n\nIIUC, this change disables \"long-pressing\" for all shortcuts. Would it maybe be better to limit this change to the specific problematic shortcuts? For example, long-pressing j/k to move through files (or within a file) is quite useful. WDYT?",
+      "revId": "e69008f182ea7ea3a790a1dad1166a29b88b02ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -47,7 +47,7 @@ export class GrFormattedText extends GrLitElement {
 
   private readonly reporting = appContext.reportingService;
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         :host {
@@ -98,7 +98,7 @@ export class GrFormattedText extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     const nodes = this._computeNodes(this._computeBlocks(this.content));
     return html`<div id="container">${nodes}</div>`;
   }

@@ -150,7 +150,7 @@ export const hovercardBehaviorMixin = dedupingMixin(
         this.addEventListener('mouseleave', this.unlock);
       }
 
-      disconnectedCallback() {
+      override disconnectedCallback() {
         this.cancelShowTask();
         this.cancelHideTask();
         this.unlock();

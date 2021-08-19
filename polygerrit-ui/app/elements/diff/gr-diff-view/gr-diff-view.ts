@@ -289,7 +289,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     };
   }
 
-  keyboardShortcuts() {
+  override keyboardShortcuts() {
     return {
       [Shortcut.LEFT_PANE]: '_handleLeftPane',
       [Shortcut.RIGHT_PANE]: '_handleRightPane',
@@ -368,7 +368,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.disconnected$.next();
     this.cursor.dispose();
     if (this._onRenderHandler) {

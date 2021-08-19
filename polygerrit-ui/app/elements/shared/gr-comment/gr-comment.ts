@@ -302,7 +302,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.fireUpdateTask?.cancel();
     this.storeTask?.cancel();
     this.draftToastTask?.cancel();

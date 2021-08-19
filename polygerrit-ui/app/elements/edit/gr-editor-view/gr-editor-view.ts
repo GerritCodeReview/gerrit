@@ -159,7 +159,7 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.storeTask?.cancel();
     super.disconnectedCallback();
   }

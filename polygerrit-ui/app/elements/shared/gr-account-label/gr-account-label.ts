@@ -105,7 +105,7 @@ export class GrAccountLabel extends GrLitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         :host {
@@ -184,7 +184,7 @@ export class GrAccountLabel extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     const {account, change, highlightAttention, forceAttention, _config} = this;
     if (!account) return;
     const hasAttention =

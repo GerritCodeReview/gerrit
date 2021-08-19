@@ -46,7 +46,7 @@ export class GrCopyClipboard extends GrLitElement {
   @property({type: Boolean})
   hideInput = false;
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         .text {
@@ -86,7 +86,7 @@ export class GrCopyClipboard extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     // To pass CSS mixins for @apply to Polymer components, they need to appear
     // in <style> inside the template.
     const customStyle = html`

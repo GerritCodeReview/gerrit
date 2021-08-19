@@ -73,7 +73,7 @@ export const htmlTemplate = html`
     td.left,
     td.right,
     td.contextLineNum {
-      border-width: var(--line-number-border-width, unset);
+      border-width: var(--line-number-border-width, 0);
       border-style: solid;
       border-color: var(--line-number-border-color, var(--border-color, unset));
     }

@@ -831,7 +831,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
         }
 
         // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
-        let key = `${((e as unknown) as KeyboardEvent).key}:${e.type}`;
+        let key = `${(e as unknown as KeyboardEvent).key}:${e.type}`;
         if (this._inGoKeyMode()) key = 'g+' + key;
         if (this.inVKeyMode()) key = 'v+' + key;
         if (e.shiftKey) key = 'shift+' + key;

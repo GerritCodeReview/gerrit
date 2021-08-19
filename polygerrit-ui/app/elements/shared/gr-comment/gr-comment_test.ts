@@ -386,7 +386,7 @@ suite('gr-comment tests', () => {
       test('update', () => {
         element.comment = {
           ...createComment(),
-          id: ('abc_123' as UrlEncodedCommentId) as UrlEncodedCommentId,
+          id: 'abc_123' as UrlEncodedCommentId as UrlEncodedCommentId,
         };
         sinon.stub(element, '_discardDraft').returns(Promise.resolve({}));
         return element._handleSave(mockEvent)!.then(() => {
@@ -399,7 +399,7 @@ suite('gr-comment tests', () => {
       test('discard', () => {
         element.comment = {
           ...createComment(),
-          id: ('abc_123' as UrlEncodedCommentId) as UrlEncodedCommentId,
+          id: 'abc_123' as UrlEncodedCommentId as UrlEncodedCommentId,
         };
         element.comment = createDraft();
         sinon.stub(element, '_fireDiscard');

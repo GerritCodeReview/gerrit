@@ -278,7 +278,8 @@ declare global {
 @customElement('gr-rest-api-interface')
 export class GrRestApiInterface
   extends PolymerElement
-  implements RestApiService {
+  implements RestApiService
+{
   readonly _cache = siteBasedCache; // Shared across instances.
 
   readonly _sharedFetchPromises = fetchPromisesCache; // Shared across instances.
@@ -512,10 +513,10 @@ export class GrRestApiInterface
 
   getGroupMembers(groupName: GroupId | GroupName): Promise<AccountInfo[]> {
     const encodeName = encodeURIComponent(groupName);
-    return (this._restApiHelper.fetchJSON({
+    return this._restApiHelper.fetchJSON({
       url: `/groups/${encodeName}/members/`,
       anonymizedUrl: '/groups/*/members',
-    }) as unknown) as Promise<AccountInfo[]>;
+    }) as unknown as Promise<AccountInfo[]>;
   }
 
   getIncludedGroup(
@@ -593,12 +594,12 @@ export class GrRestApiInterface
   ): Promise<AccountInfo> {
     const encodeName = encodeURIComponent(groupName);
     const encodeMember = encodeURIComponent(`${groupMember}`);
-    return (this._restApiHelper.send({
+    return this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: `/groups/${encodeName}/members/${encodeMember}`,
       parseResponse: true,
       anonymizedUrl: '/groups/*/members/*',
-    }) as unknown) as Promise<AccountInfo>;
+    }) as unknown as Promise<AccountInfo>;
   }
 
   saveIncludedGroup(
@@ -616,9 +617,9 @@ export class GrRestApiInterface
     };
     return this._restApiHelper.send(req).then(response => {
       if (response?.ok) {
-        return (this.getResponseObject(
+        return this.getResponseObject(
           response
-        ) as unknown) as Promise<GroupInfo>;
+        ) as unknown as Promise<GroupInfo>;
       }
       return undefined;
     });
@@ -836,7 +837,7 @@ export class GrRestApiInterface
     return this._restApiHelper
       .send(req)
       .then(newName =>
-        this._updateCachedAccount({name: (newName as unknown) as string})
+        this._updateCachedAccount({name: newName as unknown as string})
       );
   }
 
@@ -852,7 +853,7 @@ export class GrRestApiInterface
     return this._restApiHelper
       .send(req)
       .then(newName =>
-        this._updateCachedAccount({username: (newName as unknown) as string})
+        this._updateCachedAccount({username: newName as unknown as string})
       );
   }
 
@@ -867,7 +868,7 @@ export class GrRestApiInterface
     };
     return this._restApiHelper.send(req).then(newName =>
       this._updateCachedAccount({
-        display_name: (newName as unknown) as string,
+        display_name: newName as unknown as string,
       })
     );
   }
@@ -884,7 +885,7 @@ export class GrRestApiInterface
     return this._restApiHelper
       .send(req)
       .then(newStatus =>
-        this._updateCachedAccount({status: (newStatus as unknown) as string})
+        this._updateCachedAccount({status: newStatus as unknown as string})
       );
   }
 
@@ -967,7 +968,7 @@ export class GrRestApiInterface
           if (!res) {
             return res;
           }
-          const prefInfo = (res as unknown) as PreferencesInfo;
+          const prefInfo = res as unknown as PreferencesInfo;
           if (this._isNarrowScreen()) {
             // Note that this can be problematic, because the diff will stay
             // unified even after increasing the window width.
@@ -983,22 +984,22 @@ export class GrRestApiInterface
   }
 
   getWatchedProjects() {
-    return (this._fetchSharedCacheURL({
+    return this._fetchSharedCacheURL({
       url: '/accounts/self/watched.projects',
       reportUrlAsIs: true,
-    }) as unknown) as Promise<ProjectWatchInfo[] | undefined>;
+    }) as unknown as Promise<ProjectWatchInfo[] | undefined>;
   }
 
   saveWatchedProjects(
     projects: ProjectWatchInfo[]
   ): Promise<ProjectWatchInfo[]> {
-    return (this._restApiHelper.send({
+    return this._restApiHelper.send({
       method: HttpMethod.POST,
       url: '/accounts/self/watched.projects',
       body: projects,
       parseResponse: true,
       reportUrlAsIs: true,
-    }) as unknown) as Promise<ProjectWatchInfo[]>;
+    }) as unknown as Promise<ProjectWatchInfo[]>;
   }
 
   deleteWatchedProjects(projects: ProjectWatchInfo[]): Promise<Response> {
@@ -1217,10 +1218,10 @@ export class GrRestApiInterface
         };
         return this._restApiHelper.fetchRawJSON(req).then(response => {
           if (response?.status === 304) {
-            return (parsePrefixedJSON(
+            return parsePrefixedJSON(
               // urlWithParams already cached
               this._etags.getCachedPayload(urlWithParams)!
-            ) as unknown) as ChangeInfo;
+            ) as unknown as ChangeInfo;
           }
 
           if (response && !response.ok) {
@@ -1242,11 +1243,9 @@ export class GrRestApiInterface
             }
             this._etags.collect(urlWithParams, response, payload.raw);
             // TODO(TS): Why it is always change info?
-            this._maybeInsertInLookup(
-              (payload.parsed as unknown) as ChangeInfo
-            );
+            this._maybeInsertInLookup(payload.parsed as unknown as ChangeInfo);
 
-            return (payload.parsed as unknown) as ChangeInfo;
+            return payload.parsed as unknown as ChangeInfo;
           });
         });
       }
@@ -1526,11 +1525,11 @@ export class GrRestApiInterface
       `/projects/${encodedRepo}/tags` + `?n=${n}&S=${offset}` + encodedFilter;
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return (this._restApiHelper.fetchJSON({
+    return this._restApiHelper.fetchJSON({
       url,
       errFn,
       anonymizedUrl: '/projects/*/tags',
-    }) as unknown) as Promise<TagInfo[]>;
+    }) as unknown as Promise<TagInfo[]>;
   }
 
   getPlugins(
@@ -1581,13 +1580,13 @@ export class GrRestApiInterface
     projectName: RepoName,
     projectInfo: ProjectAccessInput
   ): Promise<ChangeInfo> {
-    return (this._restApiHelper.send({
+    return this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: `/projects/${encodeURIComponent(projectName)}/access:review`,
       body: projectInfo,
       parseResponse: true,
       anonymizedUrl: '/projects/*/access:review',
-    }) as unknown) as Promise<ChangeInfo>;
+    }) as unknown as Promise<ChangeInfo>;
   }
 
   getSuggestedGroups(
@@ -1880,7 +1879,7 @@ export class GrRestApiInterface
     baseChange?: ChangeId,
     baseCommit?: string
   ) {
-    return (this._restApiHelper.send({
+    return this._restApiHelper.send({
       method: HttpMethod.POST,
       url: '/changes/',
       body: {
@@ -1895,7 +1894,7 @@ export class GrRestApiInterface
       },
       parseResponse: true,
       reportUrlAsIs: true,
-    }) as unknown) as Promise<ChangeInfo | undefined>;
+    }) as unknown as Promise<ChangeInfo | undefined>;
   }
 
   getFileContent(
@@ -1925,7 +1924,7 @@ export class GrRestApiInterface
       // X-FYI-Content-Type header of the response.
       const type = res.headers.get('X-FYI-Content-Type');
       return this.getResponseObject(res).then(content => {
-        const strContent = (content as unknown) as string | null;
+        const strContent = content as unknown as string | null;
         return {content: strContent, type, ok: true};
       });
     });
@@ -2762,28 +2761,28 @@ export class GrRestApiInterface
   }
 
   setChangeTopic(changeNum: NumericChangeId, topic?: string): Promise<string> {
-    return (this._getChangeURLAndSend({
+    return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
       endpoint: '/topic',
       body: {topic},
       parseResponse: true,
       reportUrlAsIs: true,
-    }) as unknown) as Promise<string>;
+    }) as unknown as Promise<string>;
   }
 
   setChangeHashtag(
     changeNum: NumericChangeId,
     hashtag: HashtagsInput
   ): Promise<Hashtag[]> {
-    return (this._getChangeURLAndSend({
+    return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.POST,
       endpoint: '/hashtags',
       body: hashtag,
       parseResponse: true,
       reportUrlAsIs: true,
-    }) as unknown) as Promise<Hashtag[]>;
+    }) as unknown as Promise<Hashtag[]>;
   }
 
   deleteAccountHttpPassword() {
@@ -2795,20 +2794,20 @@ export class GrRestApiInterface
   }
 
   generateAccountHttpPassword(): Promise<Password> {
-    return (this._restApiHelper.send({
+    return this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: '/accounts/self/password.http',
       body: {generate: true},
       parseResponse: true,
       reportUrlAsIs: true,
-    }) as Promise<unknown>) as Promise<Password>;
+    }) as Promise<unknown> as Promise<Password>;
   }
 
   getAccountSSHKeys() {
-    return (this._fetchSharedCacheURL({
+    return this._fetchSharedCacheURL({
       url: '/accounts/self/sshkeys',
       reportUrlAsIs: true,
-    }) as Promise<unknown>) as Promise<SshKeyInfo[] | undefined>;
+    }) as Promise<unknown> as Promise<SshKeyInfo[] | undefined>;
   }
 
   addAccountSSHKey(key: string): Promise<SshKeyInfo> {
@@ -2825,9 +2824,9 @@ export class GrRestApiInterface
         if (!response || (response.status < 200 && response.status >= 300)) {
           return Promise.reject(new Error('error'));
         }
-        return (this.getResponseObject(
+        return this.getResponseObject(
           response
-        ) as unknown) as Promise<SshKeyInfo>;
+        ) as unknown as Promise<SshKeyInfo>;
       })
       .then(obj => {
         if (!obj || !obj.valid) {
@@ -2846,10 +2845,10 @@ export class GrRestApiInterface
   }
 
   getAccountGPGKeys() {
-    return (this._restApiHelper.fetchJSON({
+    return this._restApiHelper.fetchJSON({
       url: '/accounts/self/gpgkeys',
       reportUrlAsIs: true,
-    }) as Promise<unknown>) as Promise<Record<string, GpgKeyInfo>>;
+    }) as Promise<unknown> as Promise<Record<string, GpgKeyInfo>>;
   }
 
   addAccountGPGKey(key: GpgKeysInput) {
@@ -2994,7 +2993,7 @@ export class GrRestApiInterface
     commentID: UrlEncodedCommentId,
     reason: string
   ) {
-    return (this._getChangeURLAndSend({
+    return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.POST,
       patchNum,
@@ -3002,7 +3001,7 @@ export class GrRestApiInterface
       body: {reason},
       parseResponse: true,
       anonymizedEndpoint: '/comments/*/delete',
-    }) as unknown) as Promise<CommentInfo>;
+    }) as unknown as Promise<CommentInfo>;
   }
 
   /**

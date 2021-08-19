@@ -102,7 +102,8 @@ function flushImpl(callback?: () => void): Promise<void> | void {
 self.flush = flushImpl;
 
 class TestFixtureIdProvider {
-  public static readonly instance: TestFixtureIdProvider = new TestFixtureIdProvider();
+  public static readonly instance: TestFixtureIdProvider =
+    new TestFixtureIdProvider();
 
   private fixturesCount = 1;
 
@@ -198,7 +199,7 @@ function fixtureFromElementImpl<T extends keyof HTMLElementTagNameMap>(
 ): TagTestFixture<HTMLElementTagNameMap[T]> {
   const template = document.createElement('template');
   template.innerHTML = `<${tagName}></${tagName}>`;
-  return (fixtureFromTemplate(template) as unknown) as TagTestFixture<
+  return fixtureFromTemplate(template) as unknown as TagTestFixture<
     HTMLElementTagNameMap[T]
   >;
 }

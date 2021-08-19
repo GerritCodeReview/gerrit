@@ -48,7 +48,8 @@ const LOOKUP_QUERY_PATTERNS: RegExp[] = [
 
 const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;
 
-const REPO_QUERY_PATTERN = /^project:\s?("[^"]+"|[^ ]+)(\sstatus\s?:(open|"open"))?$/;
+const REPO_QUERY_PATTERN =
+  /^project:\s?("[^"]+"|[^ ]+)(\sstatus\s?:(open|"open"))?$/;
 
 const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 

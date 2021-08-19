@@ -215,7 +215,7 @@ suite('gr-textarea tests', () => {
     element.$.textarea.selectionEnd = 16;
     element.text = 'test test :tears';
     element._colonIndex = 10;
-    const selectedItem = ({dataset: {value: '😂'}} as unknown) as HTMLElement;
+    const selectedItem = {dataset: {value: '😂'}} as unknown as HTMLElement;
     const event = new CustomEvent<ItemSelectedEvent>('item-selected', {
       detail: {trigger: 'click', selected: selectedItem},
     });

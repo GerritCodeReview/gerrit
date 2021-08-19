@@ -374,16 +374,17 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
 
   constructor() {
     super();
-    this.filterReviewerSuggestion = this._filterReviewerSuggestionGenerator(
-      false
-    );
+    this.filterReviewerSuggestion =
+      this._filterReviewerSuggestionGenerator(false);
     this.filterCCSuggestion = this._filterReviewerSuggestionGenerator(true);
   }
 
   /** @override */
   connectedCallback() {
     super.connectedCallback();
-    ((IronA11yAnnouncer as unknown) as FixIronA11yAnnouncer).requestAvailability();
+    (
+      IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
+    ).requestAvailability();
     this._getAccount().then(account => {
       if (account) this._account = account;
     });

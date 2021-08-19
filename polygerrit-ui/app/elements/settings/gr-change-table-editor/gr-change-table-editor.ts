@@ -65,9 +65,13 @@ export class GrChangeTableEditor extends ChangeTableMixin(PolymerElement) {
    */
   _getDisplayedColumns() {
     if (this.root === null) return [];
-    return (Array.from(
-      this.root.querySelectorAll('.checkboxContainer input:not([name=number])')
-    ) as HTMLInputElement[])
+    return (
+      Array.from(
+        this.root.querySelectorAll(
+          '.checkboxContainer input:not([name=number])'
+        )
+      ) as HTMLInputElement[]
+    )
       .filter(checkbox => checkbox.checked)
       .map(checkbox => checkbox.name);
   }
@@ -90,8 +94,9 @@ export class GrChangeTableEditor extends ChangeTableMixin(PolymerElement) {
    * accordingly.
    */
   _handleNumberCheckboxClick(e: MouseEvent) {
-    this.showNumber = ((dom(e) as EventApi)
-      .rootTarget as HTMLInputElement).checked;
+    this.showNumber = (
+      (dom(e) as EventApi).rootTarget as HTMLInputElement
+    ).checked;
   }
 
   /**

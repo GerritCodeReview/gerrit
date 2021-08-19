@@ -445,7 +445,7 @@ export class GrRepoAccess extends PolymerElement {
     }
 
     this._recursivelyUpdateAddRemoveObj(
-      (this._local as unknown) as PropertyTreeNode,
+      this._local as unknown as PropertyTreeNode,
       addRemoveObj
     );
 
@@ -470,9 +470,11 @@ export class GrRepoAccess extends PolymerElement {
     this.set(['_local', newRef], section);
     flush();
     // Template already instantiated at this point
-    (this.root!.querySelector(
-      'gr-access-section:last-of-type'
-    ) as GrAccessSection).editReference();
+    (
+      this.root!.querySelector(
+        'gr-access-section:last-of-type'
+      ) as GrAccessSection
+    ).editReference();
   }
 
   _getObjforSave(): ProjectAccessInput | undefined {
@@ -486,10 +488,10 @@ export class GrRepoAccess extends PolymerElement {
       fireAlert(this, NOTHING_TO_SAVE);
       return;
     }
-    const obj: ProjectAccessInput = ({
+    const obj: ProjectAccessInput = {
       add: addRemoveObj.add,
       remove: addRemoveObj.remove,
-    } as unknown) as ProjectAccessInput;
+    } as unknown as ProjectAccessInput;
     if (addRemoveObj.parent) {
       obj.parent = addRemoveObj.parent;
     }

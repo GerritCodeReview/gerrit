@@ -108,7 +108,8 @@ export class TestKeyboardShortcutBinder {
   }
 
   _restoreShortcuts() {
-    const bindings = _testOnly_getShortcutManagerInstance()._testOnly_getBindings();
+    const bindings =
+      _testOnly_getShortcutManagerInstance()._testOnly_getBindings();
     bindings.clear();
     this.originalBinding.forEach((value, key) => {
       bindings.set(key, value);

@@ -47,12 +47,12 @@ export class GrDomHooksManager {
   ): HookApi<T> {
     const hookName = this._getHookName(endpointName, moduleName);
     if (!this.hooks[hookName]) {
-      this.hooks[hookName] = (new GrDomHook<T>(
+      this.hooks[hookName] = new GrDomHook<T>(
         hookName,
         moduleName
-      ) as unknown) as GrDomHook<PluginElement>;
+      ) as unknown as GrDomHook<PluginElement>;
     }
-    return (this.hooks[hookName] as unknown) as GrDomHook<T>;
+    return this.hooks[hookName] as unknown as GrDomHook<T>;
   }
 }
 

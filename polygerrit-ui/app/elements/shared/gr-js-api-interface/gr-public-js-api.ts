@@ -222,9 +222,9 @@ export class Plugin implements PluginApi {
   changeActions(): ChangeActionsPluginApi {
     return new GrChangeActionsInterface(
       this,
-      (this.jsApi.getElement(
+      this.jsApi.getElement(
         TargetElement.CHANGE_ACTIONS
-      ) as unknown) as GrChangeActions
+      ) as unknown as GrChangeActions
     );
   }
 

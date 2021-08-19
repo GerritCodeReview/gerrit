@@ -610,7 +610,8 @@ suite('gr-message tests', () => {
           comments: [
             {
               ...createComment(),
-              change_message_id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3' as ChangeMessageId,
+              change_message_id:
+                '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3' as ChangeMessageId,
               patch_set: 1 as PatchSetNum,
               id: 'e365b138_bed65caa' as UrlEncodedCommentId,
               updated: '2020-05-15 13:35:56.000000000' as Timestamp,

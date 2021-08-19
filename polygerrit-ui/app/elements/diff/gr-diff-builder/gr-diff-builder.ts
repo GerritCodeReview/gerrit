@@ -760,11 +760,8 @@ export abstract class GrDiffBuilder {
 
   _buildMoveControls(group: GrDiffGroup) {
     const movedIn = group.adds.length > 0;
-    const {
-      numberOfCells,
-      movedOutIndex,
-      movedInIndex,
-    } = this._getMoveControlsConfig();
+    const {numberOfCells, movedOutIndex, movedInIndex} =
+      this._getMoveControlsConfig();
 
     let controlsClass;
     let descriptionIndex;

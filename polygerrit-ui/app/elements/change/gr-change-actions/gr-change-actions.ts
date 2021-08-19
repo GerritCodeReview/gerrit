@@ -343,7 +343,8 @@ export interface GrChangeActions {
 @customElement('gr-change-actions')
 export class GrChangeActions
   extends PolymerElement
-  implements GrChangeActionsElement {
+  implements GrChangeActionsElement
+{
   static get template() {
     return htmlTemplate;
   }
@@ -1610,7 +1611,7 @@ export class GrChangeActions
     return this.restApiService.getResponseObject(response).then(obj => {
       switch (action.__key) {
         case ChangeActions.REVERT: {
-          const revertChangeInfo: ChangeInfo = (obj as unknown) as ChangeInfo;
+          const revertChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
           this._waitForChangeReachable(revertChangeInfo._number)
             .then(() => this._setReviewOnRevert(revertChangeInfo._number))
             .then(() => {
@@ -1619,7 +1620,7 @@ export class GrChangeActions
           break;
         }
         case RevisionActions.CHERRYPICK: {
-          const cherrypickChangeInfo: ChangeInfo = (obj as unknown) as ChangeInfo;
+          const cherrypickChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
           this._waitForChangeReachable(cherrypickChangeInfo._number).then(
             () => {
               GerritNav.navigateToChange(cherrypickChangeInfo);
@@ -1641,7 +1642,7 @@ export class GrChangeActions
           fireReload(this, true);
           break;
         case ChangeActions.REVERT_SUBMISSION: {
-          const revertSubmistionInfo = (obj as unknown) as RevertSubmissionInfo;
+          const revertSubmistionInfo = obj as unknown as RevertSubmissionInfo;
           if (
             !revertSubmistionInfo.revert_changes ||
             !revertSubmistionInfo.revert_changes.length

@@ -162,7 +162,7 @@ export class GrChangeList extends ChangeTableMixin(
     this.cursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.cursor.focusOnMove = true;
     this.addEventListener('keydown', e =>
-      this._scopedKeydownHandler((e as unknown) as CustomKeyboardEvent)
+      this._scopedKeydownHandler(e as unknown as CustomKeyboardEvent)
     );
   }
 
@@ -180,9 +180,8 @@ export class GrChangeList extends ChangeTableMixin(
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
-        this._dynamicHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-list-header'
-        );
+        this._dynamicHeaderEndpoints =
+          getPluginEndpoints().getDynamicEndpoints('change-list-header');
       });
   }
 

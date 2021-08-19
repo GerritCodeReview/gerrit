@@ -84,7 +84,7 @@ export class CommentsService {
           return;
         }
         this.restApiService.getResponseObject(result).then(obj => {
-          const resComment = (obj as unknown) as DraftInfo;
+          const resComment = obj as unknown as DraftInfo;
           resComment.patch_set = draft.patch_set;
           updateStateAddDraft(resComment);
           updateStateUndoDiscardedDraft(draftID);

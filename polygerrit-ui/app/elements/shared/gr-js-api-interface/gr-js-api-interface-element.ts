@@ -250,7 +250,7 @@ export class GrJsApiInterface implements JsApiService {
   getDiffLayers(path: string) {
     const layers: DiffLayer[] = [];
     for (const cb of this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
-      const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
+      const annotationApi = cb as unknown as GrAnnotationActionsInterface;
       try {
         const layer = annotationApi.createLayer(path);
         if (layer) layers.push(layer);
@@ -264,7 +264,7 @@ export class GrJsApiInterface implements JsApiService {
   disposeDiffLayers(path: string) {
     for (const cb of this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
       try {
-        const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
+        const annotationApi = cb as unknown as GrAnnotationActionsInterface;
         annotationApi.disposeLayer(path);
       } catch (err) {
         this.reporting.error(err);
@@ -285,7 +285,7 @@ export class GrJsApiInterface implements JsApiService {
       .then(() => {
         const providers: GrAnnotationActionsInterface[] = [];
         this._getEventCallbacks(EventType.ANNOTATE_DIFF).forEach(cb => {
-          const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
+          const annotationApi = cb as unknown as GrAnnotationActionsInterface;
           const provider = annotationApi.getCoverageProvider();
           if (provider) providers.push(annotationApi);
         });
@@ -296,7 +296,7 @@ export class GrJsApiInterface implements JsApiService {
   getAdminMenuLinks(): MenuLink[] {
     const links: MenuLink[] = [];
     for (const cb of this._getEventCallbacks(EventType.ADMIN_MENU_LINKS)) {
-      const adminApi = (cb as unknown) as GrAdminApi;
+      const adminApi = cb as unknown as GrAdminApi;
       links.push(...adminApi.getMenuLinks());
     }
     return links;

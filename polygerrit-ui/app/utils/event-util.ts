@@ -32,21 +32,19 @@ export function fireEvent(target: EventTarget, type: string) {
   );
 }
 
-type HTMLElementEventDetailType<
-  K extends keyof HTMLElementEventMap
-> = HTMLElementEventMap[K] extends CustomEvent<infer DT>
-  ? unknown extends DT
-    ? never
-    : DT
-  : never;
+type HTMLElementEventDetailType<K extends keyof HTMLElementEventMap> =
+  HTMLElementEventMap[K] extends CustomEvent<infer DT>
+    ? unknown extends DT
+      ? never
+      : DT
+    : never;
 
-type DocumentEventDetailType<
-  K extends keyof DocumentEventMap
-> = DocumentEventMap[K] extends CustomEvent<infer DT>
-  ? unknown extends DT
-    ? never
-    : DT
-  : never;
+type DocumentEventDetailType<K extends keyof DocumentEventMap> =
+  DocumentEventMap[K] extends CustomEvent<infer DT>
+    ? unknown extends DT
+      ? never
+      : DT
+    : never;
 
 export function fire<K extends keyof DocumentEventMap>(
   target: Document,

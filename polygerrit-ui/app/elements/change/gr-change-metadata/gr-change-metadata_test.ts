@@ -415,7 +415,8 @@ suite('gr-change-metadata tests', () => {
 
       test('_getNonOwnerRole that it does not return committer', () => {
         // Set the committer email to be the same as the owner.
-        change!.revisions.rev1.commit!.committer.email = 'abc@def' as EmailAddress;
+        change!.revisions.rev1.commit!.committer.email =
+          'abc@def' as EmailAddress;
         assert.isNotOk(
           element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER)
         );
@@ -633,14 +634,12 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('_showAddTopic', () => {
-    const changeRecord: ElementPropertyDeepChange<
-      GrChangeMetadata,
-      'change'
-    > = {
-      base: {...createParsedChange()},
-      path: '',
-      value: undefined,
-    };
+    const changeRecord: ElementPropertyDeepChange<GrChangeMetadata, 'change'> =
+      {
+        base: {...createParsedChange()},
+        path: '',
+        value: undefined,
+      };
     assert.isTrue(element._showAddTopic(undefined, false));
     assert.isTrue(element._showAddTopic(changeRecord, false));
     assert.isFalse(element._showAddTopic(changeRecord, true));
@@ -650,14 +649,12 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('_showTopicChip', () => {
-    const changeRecord: ElementPropertyDeepChange<
-      GrChangeMetadata,
-      'change'
-    > = {
-      base: {...createParsedChange()},
-      path: '',
-      value: undefined,
-    };
+    const changeRecord: ElementPropertyDeepChange<GrChangeMetadata, 'change'> =
+      {
+        base: {...createParsedChange()},
+        path: '',
+        value: undefined,
+      };
     assert.isFalse(element._showTopicChip(undefined, false));
     assert.isFalse(element._showTopicChip(changeRecord, false));
     assert.isFalse(element._showTopicChip(changeRecord, true));
@@ -667,14 +664,12 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('_showCherryPickOf', () => {
-    const changeRecord: ElementPropertyDeepChange<
-      GrChangeMetadata,
-      'change'
-    > = {
-      base: {...createParsedChange()},
-      path: '',
-      value: undefined,
-    };
+    const changeRecord: ElementPropertyDeepChange<GrChangeMetadata, 'change'> =
+      {
+        base: {...createParsedChange()},
+        path: '',
+        value: undefined,
+      };
     assert.isFalse(element._showCherryPickOf(undefined));
     assert.isFalse(element._showCherryPickOf(changeRecord));
     changeRecord.base!.cherry_pick_of_change = 123 as NumericChangeId;
@@ -697,7 +692,7 @@ suite('gr-change-metadata tests', () => {
           test: {
             all: [{_account_id: 1 as AccountId, name: 'bojack', value: 1}],
             default_value: 0,
-            values: ([] as unknown) as LabelValueToDescriptionMap,
+            values: [] as unknown as LabelValueToDescriptionMap,
           },
         },
         removable_reviewers: [],
@@ -750,7 +745,7 @@ suite('gr-change-metadata tests', () => {
           test: {
             all: [{_account_id: 1 as AccountId, name: 'bojack', value: 1}],
             default_value: 0,
-            values: ([] as unknown) as LabelValueToDescriptionMap,
+            values: [] as unknown as LabelValueToDescriptionMap,
           },
         },
         removable_reviewers: [],
@@ -807,7 +802,7 @@ suite('gr-change-metadata tests', () => {
           test: {
             all: [{_account_id: 1 as AccountId, name: 'bojack', value: 1}],
             default_value: 0,
-            values: ([] as unknown) as LabelValueToDescriptionMap,
+            values: [] as unknown as LabelValueToDescriptionMap,
           },
         },
         removable_reviewers: [],

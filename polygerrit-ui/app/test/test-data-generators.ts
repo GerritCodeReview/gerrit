@@ -191,7 +191,8 @@ export function createReviewers(): Reviewers {
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
 export const TEST_BRANCH_ID: BranchName = 'test-branch' as BranchName;
 export const TEST_CHANGE_ID: ChangeId = 'TestChangeId' as ChangeId;
-export const TEST_CHANGE_INFO_ID: ChangeInfoId = `${TEST_PROJECT_NAME}~${TEST_BRANCH_ID}~${TEST_CHANGE_ID}` as ChangeInfoId;
+export const TEST_CHANGE_INFO_ID: ChangeInfoId =
+  `${TEST_PROJECT_NAME}~${TEST_BRANCH_ID}~${TEST_CHANGE_ID}` as ChangeInfoId;
 export const TEST_SUBJECT = 'Test subject';
 export const TEST_NUMERIC_CHANGE_ID = 42 as NumericChangeId;
 
@@ -262,9 +263,9 @@ export function createChangeMessage(id = 'cm_id_1'): ChangeMessage {
   };
 }
 
-export function createRevisions(
-  count: number
-): {[revisionId: string]: RevisionInfo} {
+export function createRevisions(count: number): {
+  [revisionId: string]: RevisionInfo;
+} {
   const revisions: {[revisionId: string]: RevisionInfo} = {};
   const revisionDate = TEST_CHANGE_CREATED;
   const revisionIdStart = 1; // The same as getCurrentRevision

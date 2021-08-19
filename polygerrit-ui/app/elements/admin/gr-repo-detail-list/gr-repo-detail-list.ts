@@ -261,7 +261,7 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
   }
 
   _handleEditRevision(e: PolymerDomRepeatEvent<BranchInfo | TagInfo>) {
-    this._revisedRef = (e.model.get('item.revision') as unknown) as GitRef;
+    this._revisedRef = e.model.get('item.revision') as unknown as GitRef;
     this._isEditing = true;
   }
 

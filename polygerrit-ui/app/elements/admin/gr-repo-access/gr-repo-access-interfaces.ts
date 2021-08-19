@@ -72,7 +72,8 @@ export interface EditablePermissionRuleInfo
   extends PermissionRuleInfo,
     PropertyTreeNode {}
 
-export type PermissionAccessSection = PermissionArrayItem<EditableAccessSectionInfo>;
+export type PermissionAccessSection =
+  PermissionArrayItem<EditableAccessSectionInfo>;
 
 export interface NewlyAddedGroupInfo {
   name: string;

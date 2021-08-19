@@ -88,10 +88,10 @@ export class GrButton extends TooltipMixin(PolymerElement) {
     this._initialTabindex = this.getAttribute('tabindex') || '0';
     // TODO(TS): try avoid using unknown
     this.addEventListener('click', e =>
-      this._handleAction((e as unknown) as PolymerEvent)
+      this._handleAction(e as unknown as PolymerEvent)
     );
     this.addEventListener('keydown', e =>
-      this._handleKeydown((e as unknown) as CustomKeyboardEvent)
+      this._handleKeydown(e as unknown as CustomKeyboardEvent)
     );
   }
 

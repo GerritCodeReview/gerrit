@@ -361,7 +361,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     this.fileCursor.cursorTargetClass = 'selected';
     this.fileCursor.focusOnMove = true;
     this.addEventListener('keydown', e =>
-      this._scopedKeydownHandler((e as unknown) as CustomKeyboardEvent)
+      this._scopedKeydownHandler(e as unknown as CustomKeyboardEvent)
     );
   }
 
@@ -379,18 +379,22 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
         this._dynamicHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
           'change-view-file-list-header'
         );
-        this._dynamicContentEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-content'
-        );
-        this._dynamicPrependedHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-header-prepend'
-        );
-        this._dynamicPrependedContentEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-content-prepend'
-        );
-        this._dynamicSummaryEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-file-list-summary'
-        );
+        this._dynamicContentEndpoints =
+          getPluginEndpoints().getDynamicEndpoints(
+            'change-view-file-list-content'
+          );
+        this._dynamicPrependedHeaderEndpoints =
+          getPluginEndpoints().getDynamicEndpoints(
+            'change-view-file-list-header-prepend'
+          );
+        this._dynamicPrependedContentEndpoints =
+          getPluginEndpoints().getDynamicEndpoints(
+            'change-view-file-list-content-prepend'
+          );
+        this._dynamicSummaryEndpoints =
+          getPluginEndpoints().getDynamicEndpoints(
+            'change-view-file-list-summary'
+          );
 
         if (
           this._dynamicHeaderEndpoints.length !==
@@ -435,7 +439,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       // TODO(TS): e is not an instance of CustomKeyboardEvent.
       // However, to fix it we should fix keyboard-shortcut-mixin first
       // The keyboard-shortcut-mixin will be updated in a separate change
-      this._handleOpenFile((e as unknown) as CustomKeyboardEvent);
+      this._handleOpenFile(e as unknown as CustomKeyboardEvent);
     }
   }
 

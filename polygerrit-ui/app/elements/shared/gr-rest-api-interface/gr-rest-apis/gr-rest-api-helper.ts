@@ -86,7 +86,7 @@ export class SiteBasedCache {
       // so that we spare more round trips to the server when the app loads
       // initially.
       Object.entries(window.INITIAL_DATA).forEach(e =>
-        this._cache().set(e[0], (e[1] as unknown) as ParsedJSON)
+        this._cache().set(e[0], e[1] as unknown as ParsedJSON)
       );
     }
   }

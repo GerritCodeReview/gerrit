@@ -722,9 +722,9 @@ export class GrChangeMetadata extends PolymerElement {
     }
     // Cannot use `this.$.ID` syntax because the element exists inside of a
     // dom-if.
-    (this.shadowRoot!.querySelector(
-      '.topicEditableLabel'
-    ) as GrEditableLabel).open();
+    (
+      this.shadowRoot!.querySelector('.topicEditableLabel') as GrEditableLabel
+    ).open();
   }
 
   _getReviewerSuggestionsProvider(change?: ParsedChangeInfo) {

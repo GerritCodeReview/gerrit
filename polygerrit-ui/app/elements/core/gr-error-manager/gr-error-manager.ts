@@ -171,7 +171,9 @@ export class GrErrorManager extends PolymerElement {
       }
     );
 
-    ((IronA11yAnnouncer as unknown) as FixIronA11yAnnouncer).requestAvailability();
+    (
+      IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
+    ).requestAvailability();
   }
 
   /** @override */

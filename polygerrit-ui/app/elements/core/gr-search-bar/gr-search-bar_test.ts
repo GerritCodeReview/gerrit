@@ -241,7 +241,8 @@ suite('gr-search-bar tests', () => {
             ...createServerInfo(),
             change: {
               ...createChangeConfig(),
-              mergeability_computation_behavior: mergeability as MergeabilityComputationBehavior,
+              mergeability_computation_behavior:
+                mergeability as MergeabilityComputationBehavior,
             },
           })
         );

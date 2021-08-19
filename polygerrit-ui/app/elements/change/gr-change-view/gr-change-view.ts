@@ -654,12 +654,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
-        this._dynamicTabHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-tab-header'
-        );
-        this._dynamicTabContentEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-view-tab-content'
-        );
+        this._dynamicTabHeaderEndpoints =
+          getPluginEndpoints().getDynamicEndpoints('change-view-tab-header');
+        this._dynamicTabContentEndpoints =
+          getPluginEndpoints().getDynamicEndpoints('change-view-tab-content');
         if (
           this._dynamicTabContentEndpoints.length !==
           this._dynamicTabHeaderEndpoints.length
@@ -811,9 +809,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    * Changes active primary tab.
    */
   _setActivePrimaryTab(e: SwitchTabEvent) {
-    const primaryTabs = this.shadowRoot!.querySelector<PaperTabsElement>(
-      '#primaryTabs'
-    );
+    const primaryTabs =
+      this.shadowRoot!.querySelector<PaperTabsElement>('#primaryTabs');
     const activeTabName = this._setActiveTab(
       primaryTabs,
       {
@@ -831,12 +828,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         activeTabName
       );
       if (pluginIndex !== -1) {
-        this._selectedTabPluginEndpoint = this._dynamicTabContentEndpoints[
-          pluginIndex
-        ];
-        this._selectedTabPluginHeader = this._dynamicTabHeaderEndpoints[
-          pluginIndex
-        ];
+        this._selectedTabPluginEndpoint =
+          this._dynamicTabContentEndpoints[pluginIndex];
+        this._selectedTabPluginHeader =
+          this._dynamicTabHeaderEndpoints[pluginIndex];
       } else {
         this._selectedTabPluginEndpoint = '';
         this._selectedTabPluginHeader = '';
@@ -1859,10 +1854,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         // TODO(TS): code needs second thought,
         // it might be that nulls were assigned to trigger some bindings
         if (!change.topic) {
-          change.topic = (null as unknown) as undefined;
+          change.topic = null as unknown as undefined;
         }
         if (!change.reviewer_updates) {
-          change.reviewer_updates = (null as unknown) as undefined;
+          change.reviewer_updates = null as unknown as undefined;
         }
         const latestRevisionSha = this._getLatestRevisionSHA(change);
         if (!latestRevisionSha)
@@ -2411,9 +2406,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   _handleFileActionTap(e: CustomEvent<{path: string; action: string}>) {
     e.preventDefault();
-    const controls = this.$.fileListHeader.shadowRoot!.querySelector<GrEditControls>(
-      '#editControls'
-    );
+    const controls =
+      this.$.fileListHeader.shadowRoot!.querySelector<GrEditControls>(
+        '#editControls'
+      );
     if (!controls) throw new Error('Missing edit controls');
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)

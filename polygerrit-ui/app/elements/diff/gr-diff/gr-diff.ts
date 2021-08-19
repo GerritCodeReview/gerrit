@@ -884,9 +884,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     );
     this._setLoading(false);
     this._unobserveIncrementalNodes();
-    this._incrementalNodeObserver = (dom(
-      this
-    ) as PolymerDomWrapper).observeNodes(info => {
+    this._incrementalNodeObserver = (
+      dom(this) as PolymerDomWrapper
+    ).observeNodes(info => {
       const addedThreadEls = info.addedNodes.filter(isThreadEl);
       // Removed nodes do not need to be handled because all this code does is
       // adding a slot for the added thread elements, and the extra slots do

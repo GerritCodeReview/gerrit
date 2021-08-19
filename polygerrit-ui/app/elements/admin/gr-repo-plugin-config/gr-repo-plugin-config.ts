@@ -67,7 +67,7 @@ export class GrRepoPluginConfig extends GrLitElement {
   @property({type: Object})
   pluginData?: PluginData;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       formStyles,
@@ -88,7 +88,7 @@ export class GrRepoPluginConfig extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     // Render can be called prior to pluginData being updated.
     const pluginConfigOptions = this.pluginData
       ? this._computePluginConfigOptions(this.pluginData)

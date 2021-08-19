@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa1ea5cd_56734cbe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-19T19:27:11Z",
+      "side": 1,
+      "message": "This is flex specific, so remove?",
+      "revId": "716cb5480a5f4a0ea85fbe1ac8636bfbed1821c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cb169c0_8dd4d7d5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-19T19:27:11Z",
+      "side": 1,
+      "message": "Aren\u0027t spans without display override inline? Do inline elements have padding and border?",
+      "revId": "716cb5480a5f4a0ea85fbe1ac8636bfbed1821c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

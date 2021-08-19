@@ -24,6 +24,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "295e9209_3c6a8fde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-19T09:01:08Z",
+      "side": 1,
+      "message": "Screenshot would be nice.",
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "043b2f8e_ef664b9a",
@@ -37,6 +54,143 @@
       "writtenOn": "2021-08-19T08:20:06Z",
       "side": 1,
       "message": "Code looks good.",
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d904d4c3_4e04ef1c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-19T09:01:08Z",
+      "side": 1,
+      "message": "There is a util function for that: getApprovalInfo().",
+      "range": {
+        "startLine": 206,
+        "startChar": 4,
+        "endLine": 213,
+        "endChar": 24
+      },
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e473d18_65ef2469",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-19T09:01:08Z",
+      "side": 1,
+      "message": "label-util has a constant for CODE_REVIEW, use that\n\nmove this code into the label-util\n\n  export function getCodeReviewLabel(labels: LabelNameToValueMap)",
+      "range": {
+        "startLine": 216,
+        "startChar": 2,
+        "endLine": 226,
+        "endChar": 3
+      },
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0a6c31d_bb9738f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-19T09:01:08Z",
+      "side": 1,
+      "message": "Optional: I think it would also be worthwhile to consider just passing `account` into the vote chip, but up to you. I am not sure if and where you are planning to reuse the component.",
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da66dc9c_7f60b0dc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-19T09:01:08Z",
+      "side": 1,
+      "message": "Why? If needed, then maybe use \u003cdiv\u003e, not \u003cspan\u003e.\n\nShould this maybe have a fixed width? Would inline-block be adequate?",
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a4dc1d1_70924072",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-19T09:01:08Z",
+      "side": 1,
+      "message": "var(--border-radius);",
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40cd3506_5b5fcc69",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-19T09:01:08Z",
+      "side": 1,
+      "message": "There is a `valueString()` util.",
+      "revId": "42999b22f0399acc6bf90f340801203bab675545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b6391a_58d9fbc2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-19T09:01:08Z",
+      "side": 1,
+      "message": "Can you refactor such that you don\u0027t have so much overlap with the `getLabelStatus` function in label-util?",
+      "range": {
+        "startLine": 86,
+        "startChar": 3,
+        "endLine": 99,
+        "endChar": 0
+      },
       "revId": "42999b22f0399acc6bf90f340801203bab675545",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

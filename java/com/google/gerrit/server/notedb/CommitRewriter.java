@@ -363,8 +363,15 @@ public class CommitRewriter {
     while ((originalCommit = revWalk.next()) != null) {
 
       changeFixProgress.updateAuthorId = parseIdent(originalCommit.getAuthorIdent());
-      PersonIdent fixedAuthorIdent =
-          getFixedIdent(originalCommit.getAuthorIdent(), changeFixProgress.updateAuthorId);
+      PersonIdent fixedAuthorIdent;
+      if (changeFixProgress.updateAuthorId.isPresent()) {
+        fixedAuthorIdent =
+            getFixedIdent(originalCommit.getAuthorIdent(), changeFixProgress.updateAuthorId.get());
+      } else {
+        // Field to parse id from ident. Update by gerrit server or an old/broken change.
+        // Leave as it is.
+        fixedAuthorIdent = originalCommit.getAuthorIdent();
+      }
       Optional<String> fixedCommitMessage = fixedCommitMessage(originalCommit, changeFixProgress);
       String commitMessage =
           fixedCommitMessage.isPresent()
@@ -522,7 +529,7 @@ public class CommitRewriter {
   }
 
   private Optional<String> fixRemoveVoteChangeMessage(
-      Account.Id reviewer, String originalChangeMessage) {
+      Optional<Account.Id> reviewer, String originalChangeMessage) {
     if (Strings.isNullOrEmpty(originalChangeMessage)) {
       return Optional.empty();
     }
@@ -532,7 +539,10 @@ public class CommitRewriter {
       return Optional.of(
           String.format(
               "Removed %s by %s",
-              matcher.group(1), AccountTemplateUtil.getAccountTemplate(reviewer)));
+              matcher.group(1),
+              reviewer
+                  .map(AccountTemplateUtil::getAccountTemplate)
+                  .orElse(DEFAULT_ACCOUNT_REPLACEMENT)));
     }
     return Optional.empty();
   }
@@ -625,7 +635,7 @@ public class CommitRewriter {
   }
 
   private Optional<String> fixCodeOwnersOnReviewChangeMessage(
-      Account.Id reviewer, String originalMessage) {
+      Optional<Account.Id> reviewer, String originalMessage) {
     if (Strings.isNullOrEmpty(originalMessage)) {
       return Optional.empty();
     }
@@ -636,7 +646,10 @@ public class CommitRewriter {
       return Optional.of(
           originalMessage.replace(
                   "approved by " + onCodeOwnerApprovalMatcher.group(1),
-                  "approved by " + AccountTemplateUtil.getAccountTemplate(reviewer))
+                  "approved by "
+                      + reviewer
+                          .map(AccountTemplateUtil::getAccountTemplate)
+                          .orElse(DEFAULT_ACCOUNT_REPLACEMENT))
               + "\n");
     }
 
@@ -646,7 +659,10 @@ public class CommitRewriter {
       return Optional.of(
           originalMessage.replace(
                   "overridden by " + onCodeOwnerOverrideMatcher.group(1),
-                  "overridden by " + AccountTemplateUtil.getAccountTemplate(reviewer))
+                  "overridden by "
+                      + reviewer
+                          .map(AccountTemplateUtil::getAccountTemplate)
+                          .orElse(DEFAULT_ACCOUNT_REPLACEMENT))
               + "\n");
     }
 
@@ -718,7 +734,7 @@ public class CommitRewriter {
       String footerKey = fl.getKey();
       String footerValue = fl.getValue();
       if (footerKey.equalsIgnoreCase(FOOTER_TAG.getName())) {
-        if (footerValue.equals(ChangeMessagesUtil.TAG_MERGED)) {
+        if (footerValue.equals(ChangeMessagesUtil.TAG_MERGED) && !fixedChangeMessage.isPresent()) {
           fixedChangeMessage = fixSubmitChangeMessage(originalChangeMessage);
         }
       } else if (footerKey.equalsIgnoreCase(FOOTER_ASSIGNEE.getName())) {
@@ -730,8 +746,10 @@ public class CommitRewriter {
           fixedAssignee = getFixedIdentString(footerValue);
           fixProgress.assigneeId = fixedAssignee.accountId;
         }
-        fixedChangeMessage =
-            fixAssigneeChangeMessage(oldAssignee, fixProgress.assigneeId, originalChangeMessage);
+        if (!fixedChangeMessage.isPresent()) {
+          fixedChangeMessage =
+              fixAssigneeChangeMessage(oldAssignee, fixProgress.assigneeId, originalChangeMessage);
+        }
         if (fixedAssignee != null && fixedAssignee.fixedIdentString.isPresent()) {
           addFooter(footerLinesBuilder, footerKey, fixedAssignee.fixedIdentString.get());
           anyFootersFixed = true;
@@ -739,7 +757,9 @@ public class CommitRewriter {
         }
       } else if (Arrays.stream(ReviewerStateInternal.values())
           .anyMatch(state -> footerKey.equalsIgnoreCase(state.getFooterKey().getName()))) {
-        fixedChangeMessage = fixReviewerChangeMessage(originalChangeMessage);
+        if (!fixedChangeMessage.isPresent()) {
+          fixedChangeMessage = fixReviewerChangeMessage(originalChangeMessage);
+        }
         FixIdentResult fixedReviewer = getFixedIdentString(footerValue);
         fixProgress.parsedReviewers.putIfAbsent(fixedReviewer.accountId, "");
         if (fixedReviewer.fixedIdentString.isPresent()) {
@@ -761,10 +781,14 @@ public class CommitRewriter {
           String originalIdentString = footerValue.substring(voterIdentStart + 1);
           fixedVoter = getFixedIdentString(originalIdentString);
         }
-        fixedChangeMessage =
-            fixRemoveVoteChangeMessage(
-                fixedVoter == null ? fixProgress.updateAuthorId : fixedVoter.accountId,
-                originalChangeMessage);
+        if (!fixedChangeMessage.isPresent()) {
+          fixedChangeMessage =
+              fixRemoveVoteChangeMessage(
+                  fixedVoter == null
+                      ? fixProgress.updateAuthorId
+                      : Optional.of(fixedVoter.accountId),
+                  originalChangeMessage);
+        }
         if (fixedVoter != null && fixedVoter.fixedIdentString.isPresent()) {
           String fixedLabelVote =
               footerValue.substring(0, voterIdentStart) + " " + fixedVoter.fixedIdentString.get();
@@ -839,18 +863,21 @@ public class CommitRewriter {
   }
 
   private static StringBuilder addFooter(StringBuilder sb, String footer, String value) {
-    sb.append(footer).append(":");
-    if (!Strings.isNullOrEmpty(value)) {
-      sb.append(" ").append(value);
+    if (value == null) {
+      return sb;
     }
+    sb.append(footer).append(":");
+    sb.append(" ").append(value);
     sb.append('\n');
     return sb;
   }
 
-  private Account.Id parseIdent(PersonIdent ident) throws ConfigInvalidException {
-    return NoteDbUtil.parseIdent(ident)
-        .orElseThrow(
-            () -> new ConfigInvalidException("field to parse id: " + ident.getEmailAddress()));
+  private Optional<Account.Id> parseIdent(PersonIdent ident) {
+    Optional<Account.Id> account = NoteDbUtil.parseIdent(ident);
+    if (!account.isPresent()) {
+      logger.atWarning().log("Failed to parse ident %", ident);
+    }
+    return account;
   }
 
   /**
@@ -879,7 +906,12 @@ public class CommitRewriter {
       throws ConfigInvalidException {
     FixIdentResult fixIdentResult = new FixIdentResult();
     PersonIdent originalIdent = RawParseUtils.parsePersonIdent(originalIdentString);
-    fixIdentResult.accountId = parseIdent(originalIdent);
+    // Ident as String is saved in NoteDB footers, if this fails to parse, something is
+    // wrong with the change and we better not touch it.
+    fixIdentResult.accountId =
+        parseIdent(originalIdent)
+            .orElseThrow(
+                () -> new ConfigInvalidException("field to parse id: " + originalIdentString));
     String fixedIdentString =
         ChangeNoteUtil.formatAccountIdentString(
             fixIdentResult.accountId, originalIdent.getEmailAddress());
@@ -954,7 +986,7 @@ public class CommitRewriter {
     Account.Id assigneeId = null;
 
     /** Author of the current commit update. */
-    Account.Id updateAuthorId = null;
+    Optional<Account.Id> updateAuthorId = null;
 
     /**
      * Reviewer accounts parsed so far together with their {@link Account#getName} extracted from

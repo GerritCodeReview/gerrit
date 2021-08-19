@@ -38,7 +38,7 @@ export class GrShellCommand extends GrLitElement {
   @property({type: String})
   tooltip = '';
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -76,7 +76,7 @@ export class GrShellCommand extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     const label = this.label ?? '';
     return html` <label>${label}</label>
       <div class="commandContainer">

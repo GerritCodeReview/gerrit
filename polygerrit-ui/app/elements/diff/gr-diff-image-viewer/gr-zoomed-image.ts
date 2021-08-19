@@ -43,7 +43,7 @@ export class GrZoomedImage extends LitElement {
 
   @state() protected imageStyles: StyleInfo = {};
 
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
     }
@@ -63,7 +63,7 @@ export class GrZoomedImage extends LitElement {
     }
   `;
 
-  render() {
+  override render() {
     return html`
       <div id="clip">
         <div id="transform" style="${styleMap(this.imageStyles)}">
@@ -73,7 +73,7 @@ export class GrZoomedImage extends LitElement {
     `;
   }
 
-  updated(changedProperties: PropertyValues) {
+  override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('scale') || changedProperties.has('frameRect')) {
       this.updateImageStyles();
     }

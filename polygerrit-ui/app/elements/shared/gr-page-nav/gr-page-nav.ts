@@ -58,7 +58,7 @@ export class GrPageNav extends PolymerElement {
     window.addEventListener('scroll', this.bodyScrollHandler);
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     window.removeEventListener('scroll', this.bodyScrollHandler);
     super.disconnectedCallback();
   }

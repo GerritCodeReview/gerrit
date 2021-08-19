@@ -25,7 +25,7 @@ class GrChecksAttempt extends GrLitElement {
   @property()
   run?: CheckRun;
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         .attempt {
@@ -62,7 +62,7 @@ class GrChecksAttempt extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     if (!this.run) return undefined;
     if (this.run.isSingleAttempt) return undefined;
     if (!this.run.attempt) return undefined;

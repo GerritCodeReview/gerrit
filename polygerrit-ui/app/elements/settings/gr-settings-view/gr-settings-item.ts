@@ -30,9 +30,9 @@ export class GrSettingsItem extends GrLitElement {
   anchor?: string;
 
   @property({type: String})
-  title = '';
+  override title = '';
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         :host {
@@ -43,7 +43,7 @@ export class GrSettingsItem extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     const anchor = this.anchor ?? '';
     return html`<h2 id="${anchor}" class="heading-2">${this.title}</h2>`;
   }

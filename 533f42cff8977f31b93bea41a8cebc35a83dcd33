@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b7587b2_96e74860",
+        "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-19T20:37:03Z",
+      "side": 1,
+      "message": "In another pass we can remove these @override comments.",
+      "revId": "533f42cff8977f31b93bea41a8cebc35a83dcd33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

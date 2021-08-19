@@ -81,7 +81,7 @@ export class GrAccountChip extends GrLitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         :host {
@@ -125,7 +125,7 @@ export class GrAccountChip extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     // To pass CSS mixins for @apply to Polymer components, they need to appear
     // in <style> inside the template.
     const customStyle = html`

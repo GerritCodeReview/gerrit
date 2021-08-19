@@ -45,7 +45,7 @@ export abstract class GrLitElement extends LitElement {
     });
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.disconnected$.next();
     super.disconnectedCallback();
   }

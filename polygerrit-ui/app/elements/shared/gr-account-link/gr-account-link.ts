@@ -64,7 +64,7 @@ export class GrAccountLink extends GrLitElement {
   @property({type: Boolean})
   firstName = false;
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         :host {
@@ -82,7 +82,7 @@ export class GrAccountLink extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     if (!this.account) return;
     return html`<span>
       <a href="${this._computeOwnerLink(this.account)}">

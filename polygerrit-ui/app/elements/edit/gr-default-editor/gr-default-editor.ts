@@ -36,7 +36,7 @@ export class GrDefaultEditor extends GrLitElement {
   @property({type: String})
   fileContent = '';
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -59,7 +59,7 @@ export class GrDefaultEditor extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <textarea
       id="textarea"
       value="${this.fileContent}"

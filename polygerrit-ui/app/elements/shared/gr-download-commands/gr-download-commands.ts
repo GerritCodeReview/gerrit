@@ -90,7 +90,7 @@ export class GrDownloadCommands extends PolymerElement {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.disconnected$.next();
     super.disconnectedCallback();
   }

@@ -92,7 +92,7 @@ export class GrDateFormatter extends TooltipMixin(PolymerElement) {
    * native browser tooltip.
    */
   @property({type: Boolean})
-  hasTooltip = false;
+  override hasTooltip = false;
 
   @property({type: Boolean})
   showYesterday = false;
@@ -105,7 +105,7 @@ export class GrDateFormatter extends TooltipMixin(PolymerElement) {
     reflectToAttribute: true,
     computed: '_computeFullDateStr(dateStr, _timeFormat, _dateFormat)',
   })
-  title = '';
+  override title = '';
 
   /** @type {?{short: string, full: string}} */
   @property({type: Object})

@@ -75,7 +75,7 @@ export class GrAccountEntry extends PolymerElement {
     return this.$.input.focusStart;
   }
 
-  focus() {
+  override focus() {
     this.$.input.focus();
   }
 

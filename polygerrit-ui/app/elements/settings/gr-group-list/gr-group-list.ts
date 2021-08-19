@@ -44,7 +44,7 @@ export class GrGroupList extends GrLitElement {
     });
   }
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       formStyles,
@@ -64,7 +64,7 @@ export class GrGroupList extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <div class="gr-form-styles">
       <table id="groups">
         <thead>

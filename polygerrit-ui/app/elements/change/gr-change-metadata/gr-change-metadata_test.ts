@@ -63,8 +63,10 @@ import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {PluginApi} from '../../../api/plugin';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import {stubRestApi} from '../../../test/test-utils';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {ParsedChangeInfo} from '../../../types/types';
+import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 const basicFixture = fixtureFromElement('gr-change-metadata');
 
@@ -713,25 +715,25 @@ suite('gr-change-metadata tests', () => {
       assert.isTrue(element._computeTopicReadOnly(mutable, change));
     });
 
-    test('topic read only hides delete button', () => {
+    test('topic read only hides delete button', async () => {
       element.account = createAccountDetailWithId();
       element.change = change;
-      flush();
-      const button = element!
-        .shadowRoot!.querySelector('gr-linked-chip')!
-        .shadowRoot!.querySelector('gr-button');
-      assert.isTrue(button?.hasAttribute('hidden'));
+      sinon.stub(GerritNav, 'getUrlForTopic').returns('/q/topic:test');
+      await flush();
+      const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
+      const button = queryAndAssert<GrButton>(chip, 'gr-button');
+      assert.isTrue(button.hasAttribute('hidden'));
     });
 
-    test('topic not read only does not hide delete button', () => {
+    test('topic not read only does not hide delete button', async () => {
       element.account = createAccountDetailWithId();
       change.actions!.topic!.enabled = true;
       element.change = change;
-      flush();
-      const button = element!
-        .shadowRoot!.querySelector('gr-linked-chip')!
-        .shadowRoot!.querySelector('gr-button');
-      assert.isFalse(button?.hasAttribute('hidden'));
+      sinon.stub(GerritNav, 'getUrlForTopic').returns('/q/topic:test');
+      await flush();
+      const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
+      const button = queryAndAssert<GrButton>(chip, 'gr-button');
+      assert.isFalse(button.hasAttribute('hidden'));
     });
   });
 
@@ -755,8 +757,8 @@ suite('gr-change-metadata tests', () => {
       };
     });
 
-    test('_computeHashtagReadOnly', () => {
-      flush();
+    test('_computeHashtagReadOnly', async () => {
+      await flush();
       let mutable = false;
       assert.isTrue(element._computeHashtagReadOnly(mutable, change));
       mutable = true;
@@ -767,27 +769,31 @@ suite('gr-change-metadata tests', () => {
       assert.isTrue(element._computeHashtagReadOnly(mutable, change));
     });
 
-    test('hashtag read only hides delete button', () => {
-      flush();
+    test('hashtag read only hides delete button', async () => {
+      await flush();
       element.account = createAccountDetailWithId();
       element.change = change;
-      flush();
-      const button = element!
-        .shadowRoot!.querySelector('gr-linked-chip')!
-        .shadowRoot!.querySelector('gr-button');
-      assert.isTrue(button?.hasAttribute('hidden'));
+      sinon
+        .stub(GerritNav, 'getUrlForHashtag')
+        .returns('/q/hashtag:test+(status:open%20OR%20status:merged)');
+      await flush();
+      const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
+      const button = queryAndAssert<GrButton>(chip, 'gr-button');
+      assert.isTrue(button.hasAttribute('hidden'));
     });
 
-    test('hashtag not read only does not hide delete button', () => {
-      flush();
+    test('hashtag not read only does not hide delete button', async () => {
+      await flush();
       element.account = createAccountDetailWithId();
       change!.actions!.hashtags!.enabled = true;
       element.change = change;
-      flush();
-      const button = element!
-        .shadowRoot!.querySelector('gr-linked-chip')!
-        .shadowRoot!.querySelector('gr-button');
-      assert.isFalse(button?.hasAttribute('hidden'));
+      sinon
+        .stub(GerritNav, 'getUrlForHashtag')
+        .returns('/q/hashtag:test+(status:open%20OR%20status:merged)');
+      await flush();
+      const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
+      const button = queryAndAssert<GrButton>(chip, 'gr-button');
+      assert.isFalse(button.hasAttribute('hidden'));
     });
   });
 
@@ -884,13 +890,15 @@ suite('gr-change-metadata tests', () => {
       });
     });
 
-    test('topic removal', () => {
+    test('topic removal', async () => {
       const newTopic = 'the new topic' as TopicName;
       const setChangeTopicStub = stubRestApi('setChangeTopic').returns(
         Promise.resolve(newTopic)
       );
-      const chip = element.shadowRoot!.querySelector('gr-linked-chip');
-      const remove = chip!.$.remove;
+      sinon.stub(GerritNav, 'getUrlForTopic').returns('/q/topic:the+new+topic');
+      await flush();
+      const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
+      const remove = queryAndAssert(chip, '#remove');
       const topicChangedSpy = sinon.spy();
       element.addEventListener('topic-changed', topicChangedSpy);
       tap(remove);
@@ -903,8 +911,8 @@ suite('gr-change-metadata tests', () => {
       });
     });
 
-    test('changing hashtag', () => {
-      flush();
+    test('changing hashtag', async () => {
+      await flush();
       element._newHashtag = 'new hashtag' as Hashtag;
       const newHashtag: Hashtag[] = ['new hashtag' as Hashtag];
       const setChangeHashtagStub = stubRestApi('setChangeHashtag').returns(
@@ -922,13 +930,13 @@ suite('gr-change-metadata tests', () => {
     });
   });
 
-  test('editTopic', () => {
+  test('editTopic', async () => {
     element.account = createAccountDetailWithId();
     element.change = {
       ...createParsedChange(),
       actions: {topic: {enabled: true}},
     };
-    flush();
+    await flush();
 
     const label = element.shadowRoot!.querySelector(
       '.topicEditableLabel'
@@ -936,7 +944,7 @@ suite('gr-change-metadata tests', () => {
     assert.ok(label);
     const openStub = sinon.stub(label, 'open');
     element.editTopic();
-    flush();
+    await flush();
 
     assert.isTrue(openStub.called);
   });

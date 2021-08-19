@@ -69,15 +69,6 @@ export const htmlTemplate = html`
       background-color: var(--diff-blank-background-color);
     }
 
-    /* Provides the option to add side borders (left and right) to the line number column. */
-    td.left,
-    td.right,
-    td.contextLineNum {
-      border-width: var(--line-number-border-width, unset);
-      border-style: solid;
-      border-color: var(--line-number-border-color, var(--border-color, unset));
-    }
-
     /*
       Context controls break up the table visually, so we set the right border
       on individual sections to leave a gap for the divider.

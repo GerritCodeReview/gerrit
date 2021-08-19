@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-editable-label.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 
 const basicFixture = fixtureFromTemplate(html`
 <gr-editable-label

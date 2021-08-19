@@ -16,7 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {Polymer} from 'polymer-bridges/polymer/lib/legacy/polymer-fn.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 Polymer({

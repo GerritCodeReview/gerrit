@@ -21,7 +21,7 @@ import './gr-messages-list.js';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';
 import {TEST_ONLY} from './gr-messages-list.js';
 import {MessageTag} from '../../../constants/constants.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api.js';
 

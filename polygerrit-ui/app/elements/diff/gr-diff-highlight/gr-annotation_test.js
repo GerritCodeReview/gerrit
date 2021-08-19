@@ -21,8 +21,8 @@ const basicFixture = fixtureFromTemplate(html`
 
 import '../../../test/common-test-setup-karma.js';
 import {GrAnnotation} from './gr-annotation.js';
-import {sanitizeDOMValue, setSanitizeDOMValue} from '@polymer/polymer/lib/utils/settings.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {sanitizeDOMValue, setSanitizeDOMValue} from 'polymer-bridges/polymer/lib/utils/settings.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 
 suite('annotation', () => {
   let str;

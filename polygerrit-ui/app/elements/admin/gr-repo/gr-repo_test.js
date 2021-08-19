@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo.js';
 import {mockPromise} from '../../../test/test-utils.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {PolymerElement} from 'polymer-bridges/polymer/polymer-element.js';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo');

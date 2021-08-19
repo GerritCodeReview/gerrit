@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-menu-editor.js';
-import {flush as flush$0} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {flush as flush$0} from 'polymer-bridges/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-menu-editor');
 

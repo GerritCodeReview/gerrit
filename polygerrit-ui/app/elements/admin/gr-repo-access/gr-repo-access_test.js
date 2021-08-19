@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo-access.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {dom} from 'polymer-bridges/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {toSortedPermissionsArray} from '../../../utils/access-util.js';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';

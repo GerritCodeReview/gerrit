@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-repo-detail-list.js';
 import 'lodash/lodash.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {dom} from 'polymer-bridges/polymer/lib/legacy/polymer.dom.js';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 import {RepoDetailView} from '../../core/gr-navigation/gr-navigation.js';
 

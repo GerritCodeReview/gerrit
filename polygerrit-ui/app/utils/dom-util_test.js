@@ -16,8 +16,8 @@
  */
 import '../test/common-test-setup-karma.js';
 import {strToClassName, getComputedStyleValue, querySelector, querySelectorAll, descendedFromClass, getEventPath} from './dom-util.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {PolymerElement} from 'polymer-bridges/polymer/polymer-element.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 
 class TestEle extends PolymerElement {
   static get is() {

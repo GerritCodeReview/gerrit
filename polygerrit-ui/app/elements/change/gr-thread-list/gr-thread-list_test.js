@@ -17,13 +17,13 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-thread-list.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {dom} from 'polymer-bridges/polymer/lib/legacy/polymer.dom.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {CommentTabState} from '../../../types/events.js';
 import {__testOnly_SortDropdownState} from './gr-thread-list.js';
 import {queryAll} from '../../../test/test-utils.js';
 import {accountOrGroupKey} from '../../../utils/account-util.js';
-import {tap} from '@polymer/iron-test-helpers/mock-interactions';
+import {tap} from 'polymer-bridges/iron-test-helpers/mock-interactions';
 import {createAccountDetailWithId} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-thread-list');

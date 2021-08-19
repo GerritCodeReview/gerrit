@@ -17,7 +17,7 @@
 
 import '../../test/common-test-setup-karma.js';
 import {ListViewMixin} from './gr-list-view-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {PolymerElement} from 'polymer-bridges/polymer/polymer-element.js';
 
 const basicFixture = fixtureFromElement(
     'gr-list-view-mixin-test-element');

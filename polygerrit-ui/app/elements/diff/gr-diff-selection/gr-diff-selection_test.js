@@ -16,7 +16,7 @@
  */
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-selection.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 
 // Splitting long lines in html into shorter rows breaks tests:
 // zero-length text nodes and new lines are not expected in some places

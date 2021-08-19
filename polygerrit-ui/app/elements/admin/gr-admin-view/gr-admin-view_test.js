@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-admin-view.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {dom} from 'polymer-bridges/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {mockPromise, stubBaseUrl, stubRestApi} from '../../../test/test-utils.js';

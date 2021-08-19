@@ -22,7 +22,7 @@ import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {_setHiddenScroll} from '../../../scripts/hiddenscroll.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
-import '@polymer/paper-button/paper-button.js';
+import 'polymer-bridges/paper-button/paper-button.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-diff');

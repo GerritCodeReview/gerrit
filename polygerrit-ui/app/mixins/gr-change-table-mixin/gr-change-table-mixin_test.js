@@ -17,7 +17,7 @@
 
 import '../../test/common-test-setup-karma.js';
 import {ChangeTableMixin} from './gr-change-table-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {PolymerElement} from 'polymer-bridges/polymer/polymer-element.js';
 
 class GrChangeTableMixinTestElement extends
   ChangeTableMixin(PolymerElement) {

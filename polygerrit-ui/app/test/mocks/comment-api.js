@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from 'polymer-bridges/polymer/polymer-element.js';
+import {LegacyElementMixin} from 'polymer-bridges/polymer/lib/legacy/legacy-element-mixin.js';
 
 /**
  * This is an "abstract" class for tests. The descendant must define a template

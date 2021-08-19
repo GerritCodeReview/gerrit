@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-date-formatter.js';
 import {parseDate} from '../../../utils/date-util.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromTemplate(html`

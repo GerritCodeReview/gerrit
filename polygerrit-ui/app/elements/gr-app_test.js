@@ -19,7 +19,7 @@ import '../test/common-test-setup-karma.js';
 import './gr-app.js';
 import {appContext} from '../services/app-context.js';
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 import {stubRestApi} from '../test/test-utils.js';
 
 const basicFixture = fixtureFromTemplate(html`<gr-app id="app"></gr-app>`);

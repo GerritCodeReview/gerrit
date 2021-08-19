@@ -17,8 +17,8 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-tooltip-content.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {dom} from 'polymer-bridges/polymer/lib/legacy/polymer.dom.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 
 const basicFixture = fixtureFromTemplate(html`
 <gr-tooltip-content>

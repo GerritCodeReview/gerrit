@@ -20,11 +20,11 @@ import '../../diff/gr-comment-api/gr-comment-api.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-file-list.js';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {dom} from 'polymer-bridges/polymer/lib/legacy/polymer.dom.js';
 import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 import {
   TestKeyboardShortcutBinder,
   stubRestApi,

@@ -20,8 +20,8 @@ import {
   KeyboardShortcutMixin, Shortcut,
   ShortcutManager, ShortcutSection, SPECIAL_SHORTCUT,
 } from './keyboard-shortcut-mixin.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
+import {PolymerElement} from 'polymer-bridges/polymer/polymer-element.js';
 
 const basicFixture =
     fixtureFromElement('keyboard-shortcut-mixin-test-element');

@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-change-list.js';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
+import {afterNextRender} from 'polymer-bridges/polymer/lib/utils/render-status.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';

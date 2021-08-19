@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'page/page';
+
 
 // Reexport page.js. To make it work, karma, server.go and rollup patch
 // page.js and replace "this" to "window". Otherwise, it can't assign global

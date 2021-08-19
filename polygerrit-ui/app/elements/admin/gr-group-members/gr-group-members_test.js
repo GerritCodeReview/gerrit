@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-members.js';
-import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {dom, flush} from 'polymer-bridges/polymer/lib/legacy/polymer.dom.js';
 import {addListenerForTest, stubBaseUrl, stubRestApi} from '../../../test/test-utils.js';
 import {ItemType} from './gr-group-members.js';
 

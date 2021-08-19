@@ -281,7 +281,7 @@ module.exports = {
       extends: [require.resolve('gts/.eslintrc.json')],
       rules: {
         'no-restricted-imports': ['error', {
-          name: '@polymer/decorators/lib/decorators',
+          name: 'polymer-bridges/decorators/lib/decorators',
           message: 'Use @polymer/decorators instead',
         }],
         '@typescript-eslint/no-explicit-any': 'error',

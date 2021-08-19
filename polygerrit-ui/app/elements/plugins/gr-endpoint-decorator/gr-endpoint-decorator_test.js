@@ -18,7 +18,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-endpoint-decorator.js';
 import '../gr-endpoint-param/gr-endpoint-param.js';
 import '../gr-endpoint-slot/gr-endpoint-slot.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';

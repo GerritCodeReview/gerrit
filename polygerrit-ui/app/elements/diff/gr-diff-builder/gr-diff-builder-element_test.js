@@ -22,13 +22,13 @@ import '../gr-context-controls/gr-context-controls.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff-builder-element.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {flush} from 'polymer-bridges/polymer/lib/legacy/polymer.dom.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 import {DiffViewMode} from '../../../api/diff.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 

@@ -19,8 +19,8 @@ import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {GrPopupInterface} from './gr-popup-interface.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
+import {PolymerElement} from 'polymer-bridges/polymer/polymer-element.js';
 
 class GrUserTestPopupElement extends PolymerElement {
   static get is() { return 'gr-user-test-popup'; }

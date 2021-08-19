@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-hovercard-account.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 import {ReviewerState} from '../../../constants/constants.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 

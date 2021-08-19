@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from 'polymer-bridges/polymer/lib/utils/html-tag.js';
 import {listenOnce} from '../../../test/test-utils.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';

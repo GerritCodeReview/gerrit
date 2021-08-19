@@ -140,10 +140,9 @@ export function updateStateUndoDiscardedDraft(draftID?: string) {
   if (index === -1) {
     throw new Error('discarded draft not found');
   }
-  const draft = drafts.splice(index, 1)[0];
+  drafts.splice(index, 1);
   nextState.discardedDrafts = drafts;
   privateState$.next(nextState);
-  updateStateAddDraft(draft);
 }
 
 export function updateStateAddDraft(draft: DraftInfo) {

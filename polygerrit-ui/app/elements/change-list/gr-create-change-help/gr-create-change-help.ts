@@ -30,7 +30,7 @@ declare global {
 
 @customElement('gr-create-change-help')
 export class GrCreateChangeHelp extends GrLitElement {
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -79,7 +79,7 @@ export class GrCreateChangeHelp extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <div id="graphic">
         <div id="circle">
           <iron-icon id="icon" icon="gr-icons:zeroState"></iron-icon>

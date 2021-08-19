@@ -43,7 +43,7 @@ export class GrCreateCommandsDialog extends GrLitElement {
   @property({type: String})
   branch?: string;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -61,7 +61,7 @@ export class GrCreateCommandsDialog extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <gr-overlay id="commandsOverlay" with-backdrop="">
       <gr-dialog
         id="commandsDialog"

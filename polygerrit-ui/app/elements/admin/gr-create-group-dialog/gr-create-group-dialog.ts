@@ -51,7 +51,7 @@ export class GrCreateGroupDialog extends PolymerElement {
     this.hasNewGroupName = !!name;
   }
 
-  focus() {
+  override focus() {
     this.shadowRoot?.querySelector('input')?.focus();
   }
 

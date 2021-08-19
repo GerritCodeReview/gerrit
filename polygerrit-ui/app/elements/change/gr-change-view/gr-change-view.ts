@@ -556,7 +556,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   private replyDialogResizeObserver?: ResizeObserver;
 
-  keyboardShortcuts() {
+  override keyboardShortcuts() {
     return {
       [Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
       [Shortcut.EMOJI_DROPDOWN]: null, // DOC_ONLY binding
@@ -692,7 +692,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.disconnected$.next();
     document.removeEventListener(
       'visibilitychange',

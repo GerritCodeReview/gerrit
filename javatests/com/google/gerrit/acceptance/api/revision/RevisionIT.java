@@ -629,7 +629,7 @@ public class RevisionIT extends AbstractDaemonTest {
         assertThrows(
             ResourceConflictException.class,
             () -> changeApi.revision(r.getCommit().name()).cherryPickAsInfo(in));
-    assertThat(thrown).hasMessageThat().isEqualTo("Cherry pick failed: merge conflict");
+    assertThat(thrown).hasMessageThat().startsWith("Cherry pick failed: merge conflict");
 
     // Cherry-pick with auto merge should succeed.
     in.allowConflicts = true;

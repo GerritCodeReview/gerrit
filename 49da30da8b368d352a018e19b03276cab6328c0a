@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbf00a11_d1f24171",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-19T19:06:55Z",
+      "side": 1,
+      "message": "Thanks for the deatiled review\n",
+      "revId": "49da30da8b368d352a018e19b03276cab6328c0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "026e2a71_d882e5ce",
@@ -31,6 +48,30 @@
       "writtenOn": "2021-08-19T18:46:08Z",
       "side": 1,
       "message": "Nit: btw. I prefer render function close to top and rendering of items under render(). So code can be read from top level to bottom. But I don\u0027t think we have chosen concrete coding style, yet. We can discuss sometime.",
+      "range": {
+        "startLine": 91,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 28
+      },
+      "revId": "49da30da8b368d352a018e19b03276cab6328c0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "862873a3_fe6121d2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-19T19:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "026e2a71_d882e5ce",
       "range": {
         "startLine": 91,
         "startChar": 10,
@@ -64,6 +105,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cc41f50_3f10d0a5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-19T19:06:55Z",
+      "side": 1,
+      "message": "Good call. I\u0027ll keep the if-then-else branch for now, less nesting.",
+      "parentUuid": "1ac09230_1fe29452",
+      "range": {
+        "startLine": 92,
+        "startChar": 13,
+        "endLine": 92,
+        "endChar": 21
+      },
+      "revId": "49da30da8b368d352a018e19b03276cab6328c0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6ca7b76_7b24030a",
@@ -87,6 +152,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d1f87aa_dfe7f2b3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-19T19:06:55Z",
+      "side": 1,
+      "message": "Oh, nice catch!",
+      "parentUuid": "e6ca7b76_7b24030a",
+      "range": {
+        "startLine": 139,
+        "startChar": 6,
+        "endLine": 144,
+        "endChar": 8
+      },
+      "revId": "49da30da8b368d352a018e19b03276cab6328c0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b2a80a8_952c5894",
@@ -100,6 +189,30 @@
       "writtenOn": "2021-08-19T18:46:08Z",
       "side": 1,
       "message": "Nit: I think this can be inlined to this. \n\n```\n\u003ch4\u003e${this.pluginData?.name || \u0027\u0027}\u003c/h4\u003e\n${pluginConfigOptions.map(option \u003d\u003e this.renderOption(option))}\n```",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 178,
+        "endChar": 17
+      },
+      "revId": "49da30da8b368d352a018e19b03276cab6328c0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2d320a1_195ed236",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-19T19:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b2a80a8_952c5894",
       "range": {
         "startLine": 178,
         "startChar": 12,

@@ -83,7 +83,12 @@ export class CommentsService {
           fireAlert(document, 'Unable to restore draft');
           return;
         }
-        updateStateUndoDiscardedDraft(draftID);
+        this.restApiService.getResponseObject(result).then(obj => {
+          const resComment = (obj as unknown) as DraftInfo;
+          resComment.patch_set = draft.patch_set;
+          updateStateAddDraft(resComment);
+          updateStateUndoDiscardedDraft(draftID);
+        });
       });
   }
 

@@ -73,7 +73,7 @@ export class GrAccountDropdown extends GrLitElement {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     window.removeEventListener('location-change', this.handleLocationChange);
     super.disconnectedCallback();
   }

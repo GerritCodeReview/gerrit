@@ -90,7 +90,7 @@ export class GrSummaryChip extends GrLitElement {
 
   private readonly reporting = appContext.reportingService;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -142,7 +142,7 @@ export class GrSummaryChip extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     const chipClass = `summaryChip font-small ${this.styleType}`;
     const grIcon = this.icon ? `gr-icons:${this.icon}` : '';
     return html`<button class="${chipClass}" @click="${this.handleClick}">
@@ -171,7 +171,7 @@ export class GrChecksChip extends GrLitElement {
   @property()
   text = '';
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -279,7 +279,7 @@ export class GrChecksChip extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     if (!this.text) return;
     if (!this.statusOrCategory) return;
     const icon = iconFor(this.statusOrCategory);
@@ -351,7 +351,7 @@ export class GrChangeSummary extends GrLitElement {
     this.subscribe('loginCallback', loginCallbackLatest$);
   }
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       spinnerStyles,
@@ -596,7 +596,7 @@ export class GrChangeSummary extends GrLitElement {
     e.stopPropagation();
   }
 
-  render() {
+  override render() {
     const commentThreads =
       this.commentThreads?.filter(t => !isRobotThread(t) || hasHumanReply(t)) ??
       [];

@@ -87,7 +87,7 @@ export class GrCreateRepoDialog extends PolymerElement {
     return getBaseUrl() + '/admin/repos/' + encodeURL(repoName, true);
   }
 
-  focus() {
+  override focus() {
     this.shadowRoot?.querySelector('input')?.focus();
   }
 

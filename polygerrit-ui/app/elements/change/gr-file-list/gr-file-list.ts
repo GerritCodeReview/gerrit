@@ -324,7 +324,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     };
   }
 
-  keyboardShortcuts() {
+  override keyboardShortcuts() {
     return {
       [Shortcut.LEFT_PANE]: '_handleLeftPane',
       [Shortcut.RIGHT_PANE]: '_handleRightPane',
@@ -414,7 +414,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.disconnected$.next();
     this.diffCursor.dispose();
     this.fileCursor.unsetCursor();

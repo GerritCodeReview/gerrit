@@ -194,7 +194,7 @@ export class GrDiffHost extends PolymerElement {
   filesWeblinks: FilesWebLinks | {} = {};
 
   @property({type: Boolean, reflectToAttribute: true})
-  hidden = false;
+  override hidden = false;
 
   @property({type: Boolean})
   noRenderOnPrefsChange = false;
@@ -325,7 +325,7 @@ export class GrDiffHost extends PolymerElement {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this.disconnected$.next();
     this.clear();
     super.disconnectedCallback();

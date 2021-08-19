@@ -466,7 +466,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     soyContext.put("coverLetter", getCoverLetter());
     soyContext.put("fromName", getNameFor(fromId));
     soyContext.put("fromEmail", getNameEmailFor(fromId));
-    soyContext.put("diffLines", getDiffTemplateData());
+    soyContext.put("diffLines", getDiffTemplateData(getUnifiedDiff()));
 
     soyContextEmailData.put("unifiedDiff", getUnifiedDiff());
     soyContextEmailData.put("changeDetail", getChangeDetail());
@@ -609,11 +609,14 @@ public abstract class ChangeEmail extends NotificationEmail {
    * Generate a list of maps representing each line of the unified diff. The line maps will have a
    * 'type' key which maps to one of 'common', 'add' or 'remove' and a 'text' key which maps to the
    * line's content.
+   *
+   * @param sourceDiff the unified diff that we're converting to the map.
+   * @return map of 'type' to a line's content.
    */
-  private ImmutableList<ImmutableMap<String, String>> getDiffTemplateData() {
+  protected ImmutableList<ImmutableMap<String, String>> getDiffTemplateData(String sourceDiff) {
     ImmutableList.Builder<ImmutableMap<String, String>> result = ImmutableList.builder();
     Splitter lineSplitter = Splitter.on(System.getProperty("line.separator"));
-    for (String diffLine : lineSplitter.split(getUnifiedDiff())) {
+    for (String diffLine : lineSplitter.split(sourceDiff)) {
       ImmutableMap.Builder<String, String> lineData = ImmutableMap.builder();
       lineData.put("text", diffLine);
 

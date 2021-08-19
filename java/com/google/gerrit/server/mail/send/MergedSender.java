@@ -141,6 +141,8 @@ public class MergedSender extends ReplyToChangeSender {
     soyContextEmailData.put("approvals", getApprovals());
     if (stickyApprovalDiff.isPresent()) {
       soyContextEmailData.put("stickyApprovalDiff", stickyApprovalDiff.get());
+      soyContextEmailData.put(
+          "stickyApprovalDiffHtml", getDiffTemplateData(stickyApprovalDiff.get()));
     }
   }
 }

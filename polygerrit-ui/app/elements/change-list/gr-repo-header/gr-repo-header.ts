@@ -38,7 +38,7 @@ export class GrRepoHeader extends GrLitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       dashboardHeaderStyles,
@@ -66,7 +66,7 @@ export class GrRepoHeader extends GrLitElement {
     </div> `;
   }
 
-  render() {
+  override render() {
     return html` <div class="info">
       <h1 class="heading-1">${this.repo}</h1>
       <hr />
@@ -77,7 +77,7 @@ export class GrRepoHeader extends GrLitElement {
     </div>`;
   }
 
-  updated(changedProperties: PropertyValues) {
+  override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('repo')) {
       this._repoChanged();
     }

@@ -177,7 +177,7 @@ export class GrErrorManager extends PolymerElement {
   }
 
   /** @override */
-  disconnectedCallback() {
+  override disconnectedCallback() {
     this._clearHideAlertHandle();
     document.removeEventListener(
       EventType.SERVER_ERROR,

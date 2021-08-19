@@ -37,7 +37,7 @@ export class GrSubmitRequirements extends GrLitElement {
   @property({type: Boolean})
   mutable?: boolean;
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         :host {
@@ -85,7 +85,7 @@ export class GrSubmitRequirements extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     const submit_requirements = (this.change?.submit_requirements ?? []).filter(
       req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
     );

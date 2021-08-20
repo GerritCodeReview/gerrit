@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10f34490_d8adca2c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-20T07:31:19Z",
+      "side": 1,
+      "message": "That\u0027s true. I had to return flex, because I cannot set line-height on inline block.",
+      "parentUuid": "fa1ea5cd_56734cbe",
+      "revId": "716cb5480a5f4a0ea85fbe1ac8636bfbed1821c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cb169c0_8dd4d7d5",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-08-19T19:27:11Z",
       "side": 1,
       "message": "Aren\u0027t spans without display override inline? Do inline elements have padding and border?",
+      "revId": "716cb5480a5f4a0ea85fbe1ac8636bfbed1821c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dc98252_b77f6af6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-20T07:31:19Z",
+      "side": 1,
+      "message": "I returned flex block.",
+      "parentUuid": "1cb169c0_8dd4d7d5",
       "revId": "716cb5480a5f4a0ea85fbe1ac8636bfbed1821c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

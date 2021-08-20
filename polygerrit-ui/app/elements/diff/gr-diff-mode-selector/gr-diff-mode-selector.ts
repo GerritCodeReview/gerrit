@@ -48,8 +48,7 @@ export class GrDiffModeSelector extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     (
       IronA11yAnnouncer as unknown as FixIronA11yAnnouncer

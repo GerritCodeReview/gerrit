@@ -108,8 +108,7 @@ export class GrDownloadDialog extends KeyboardShortcutMixin(PolymerElement) {
     });
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._ensureAttribute('role', 'dialog');
   }

@@ -154,14 +154,12 @@ export class GrAlert extends GrLitElement {
   @property()
   _actionCallback?: () => void;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._boundTransitionEndHandler = () => this._handleTransitionEnd();
     this.addEventListener('transitionend', this._boundTransitionEndHandler);
   }
 
-  /** @override */
   override disconnectedCallback() {
     if (this._boundTransitionEndHandler) {
       this.removeEventListener(

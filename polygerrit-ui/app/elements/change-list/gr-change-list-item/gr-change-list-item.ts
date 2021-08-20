@@ -122,8 +122,7 @@ export class GrChangeListItem extends ChangeTableMixin(PolymerElement) {
 
   reporting: ReportingService = appContext.reportingService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     getPluginLoader()
       .awaitPluginsLoaded()

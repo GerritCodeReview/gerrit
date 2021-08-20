@@ -884,8 +884,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
         }
       }
 
-      /** @override */
-      connectedCallback() {
+      override connectedCallback() {
         super.connectedCallback();
         this.restApiService.getPreferences().then(prefs => {
           if (prefs?.disable_keyboard_shortcuts) {
@@ -896,7 +895,6 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
         this.enableBindings();
       }
 
-      /** @override */
       override disconnectedCallback() {
         this.destroyVisibilityObserver();
         this.disableBindings();

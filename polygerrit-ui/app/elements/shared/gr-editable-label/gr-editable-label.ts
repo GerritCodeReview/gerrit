@@ -99,8 +99,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Object})
   query: AutocompleteQuery = () => Promise.resolve([]);
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._ensureAttribute('tabindex', '0');
   }

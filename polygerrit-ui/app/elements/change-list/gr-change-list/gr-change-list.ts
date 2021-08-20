@@ -166,16 +166,14 @@ export class GrChangeList extends ChangeTableMixin(
     );
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this.restApiService.getConfig().then(config => {
       this._config = config;
     });
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     getPluginLoader()
       .awaitPluginsLoaded()
@@ -185,7 +183,6 @@ export class GrChangeList extends ChangeTableMixin(
       });
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.cursor.unsetCursor();
     super.disconnectedCallback();

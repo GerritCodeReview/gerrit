@@ -58,14 +58,12 @@ export class GrExternalStyle extends PolymerElement {
     }
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._importAndApply();
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     getPluginLoader()
       .awaitPluginsLoaded()

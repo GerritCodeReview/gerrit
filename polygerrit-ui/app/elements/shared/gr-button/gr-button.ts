@@ -95,8 +95,7 @@ export class GrButton extends TooltipMixin(PolymerElement) {
     );
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._ensureAttribute('role', 'button');
     this._ensureAttribute('tabindex', '0');

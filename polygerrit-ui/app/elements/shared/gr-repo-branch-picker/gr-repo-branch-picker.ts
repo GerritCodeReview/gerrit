@@ -70,16 +70,14 @@ export class GrRepoBranchPicker extends PolymerElement {
     this._repoQuery = input => this._getRepoSuggestions(input);
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     if (this.repo) {
       this.$.repoInput.setText(this.repo);
     }
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._branchDisabled = !this.repo;
   }

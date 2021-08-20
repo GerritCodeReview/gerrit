@@ -162,8 +162,7 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
     this.reporting = appContext.reportingService;
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     if (this.monospace) {
       this.classList.add('monospace');

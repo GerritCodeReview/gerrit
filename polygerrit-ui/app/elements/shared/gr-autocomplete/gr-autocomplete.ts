@@ -203,13 +203,11 @@ export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {
       this.$.input.inputElement) as HTMLInputElement;
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     document.addEventListener('click', this.handleBodyClick);
   }
 
-  /** @override */
   override disconnectedCallback() {
     document.removeEventListener('click', this.handleBodyClick);
     this.updateSuggestionsTask?.cancel();

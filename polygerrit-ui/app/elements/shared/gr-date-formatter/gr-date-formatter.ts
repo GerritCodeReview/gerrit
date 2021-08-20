@@ -129,8 +129,7 @@ export class GrDateFormatter extends TooltipMixin(PolymerElement) {
     super();
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._loadPreferences();
   }

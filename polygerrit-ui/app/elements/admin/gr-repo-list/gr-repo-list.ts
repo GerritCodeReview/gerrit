@@ -86,8 +86,7 @@ export class GrRepoList extends ListViewMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._getCreateRepoCapability();
     fireTitleChange(this, 'Repos');

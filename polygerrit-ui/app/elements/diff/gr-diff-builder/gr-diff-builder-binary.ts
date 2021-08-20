@@ -40,6 +40,5 @@ export class GrDiffBuilderBinary extends GrDiffBuilderUnified {
     return section;
   }
 
-  /** @override */
   override updateRenderPrefs(_renderPrefs: RenderPreferences) {}
 }

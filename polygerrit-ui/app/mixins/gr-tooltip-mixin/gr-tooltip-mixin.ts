@@ -86,7 +86,6 @@ export const TooltipMixin = dedupingMixin(
         this.hideHandler = (e: Event | undefined) => this._handleHideTooltip(e);
       }
 
-      /** @override */
       override disconnectedCallback() {
         // NOTE: if you define your own `detached` in your component
         // then this won't take affect (as its not a class yet)

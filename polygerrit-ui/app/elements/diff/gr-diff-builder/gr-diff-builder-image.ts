@@ -216,7 +216,6 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     section.appendChild(tr);
   }
 
-  /** @override */
   override updateRenderPrefs(renderPrefs: RenderPreferences) {
     const imageViewer = this._outputEl.querySelector(
       'gr-image-viewer'

@@ -141,8 +141,7 @@ export class GrRuleEditor extends PolymerElement {
     this.addEventListener('access-saved', () => this._handleAccessSaved());
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     // Called on ready rather than the observer because when new rules are
     // added, the observer is triggered prior to being ready.
@@ -152,8 +151,7 @@ export class GrRuleEditor extends PolymerElement {
     this._setupValues(this.rule);
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     // Check needed for test purposes.
     if (!this._originalRuleValues && this.rule) {

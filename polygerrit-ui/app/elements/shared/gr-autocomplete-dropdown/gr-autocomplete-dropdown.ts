@@ -107,7 +107,6 @@ export class GrAutocompleteDropdown extends IronFitMixin(
     this.cursor.focusOnMove = true;
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.cursor.unsetCursor();
     super.disconnectedCallback();

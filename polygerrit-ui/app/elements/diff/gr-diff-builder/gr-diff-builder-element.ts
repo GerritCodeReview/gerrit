@@ -166,7 +166,6 @@ export class GrDiffBuilderElement extends PolymerElement {
   @property({type: Object})
   _cancelableRenderPromise: CancelablePromise<unknown> | null = null;
 
-  /** @override */
   override disconnectedCallback() {
     if (this._builder) {
       this._builder.clear();

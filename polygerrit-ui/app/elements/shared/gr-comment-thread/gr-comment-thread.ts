@@ -222,8 +222,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._getLoggedIn().then(loggedIn => {
       this._showActions = loggedIn;

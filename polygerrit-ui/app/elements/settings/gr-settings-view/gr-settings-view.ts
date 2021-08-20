@@ -227,8 +227,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     // Polymer 2: anchor tag won't work on shadow DOM
     // we need to manually calling scrollIntoView when hash changed

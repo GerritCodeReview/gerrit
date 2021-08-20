@@ -89,8 +89,7 @@ export class GrRepoCommands extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._loadRepo();
 

@@ -345,8 +345,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   disconnected$ = new Subject();
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._throttledToggleFileReviewed = throttleWrap(e =>
       this._handleToggleFileReviewed(e as CustomKeyboardEvent)
@@ -367,7 +366,6 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.disconnected$.next();
     this.cursor.dispose();

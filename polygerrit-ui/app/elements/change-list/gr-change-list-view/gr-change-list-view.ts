@@ -118,8 +118,7 @@ export class GrChangeListView extends PolymerElement {
     this.addEventListener('previous-page', () => this._handlePreviousPage());
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._loadPreferences();
   }

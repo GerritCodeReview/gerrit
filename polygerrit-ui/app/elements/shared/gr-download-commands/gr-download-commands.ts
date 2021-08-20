@@ -75,8 +75,7 @@ export class GrDownloadCommands extends PolymerElement {
 
   disconnected$ = new Subject();
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
@@ -89,7 +88,6 @@ export class GrDownloadCommands extends PolymerElement {
     });
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.disconnected$.next();
     super.disconnectedCallback();

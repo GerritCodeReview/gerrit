@@ -127,8 +127,7 @@ export const hovercardBehaviorMixin = dedupingMixin(
 
       private isScheduledToHide?: boolean;
 
-      /** @override */
-      connectedCallback() {
+      override connectedCallback() {
         super.connectedCallback();
         if (!this._target) {
           this._target = this.target;
@@ -157,8 +156,7 @@ export const hovercardBehaviorMixin = dedupingMixin(
         super.disconnectedCallback();
       }
 
-      /** @override */
-      ready() {
+      override ready() {
         super.ready();
         // First, check to see if the container has already been created.
         this.container = getHovercardContainer({createIfNotExists: true});

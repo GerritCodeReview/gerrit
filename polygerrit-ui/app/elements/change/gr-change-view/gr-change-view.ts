@@ -586,8 +586,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   private lastStarredTimestamp?: number;
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     aPluginHasRegistered$.pipe(takeUntil(this.disconnected$)).subscribe(b => {
       this._showChecksTab = b;
@@ -625,8 +624,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener('open-reply-dialog', () => this._openReplyDialog());
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._throttledToggleChangeStar = throttleWrap(e =>
       this._handleToggleChangeStar(e as CustomKeyboardEvent)
@@ -689,7 +687,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     });
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.disconnected$.next();
     document.removeEventListener(

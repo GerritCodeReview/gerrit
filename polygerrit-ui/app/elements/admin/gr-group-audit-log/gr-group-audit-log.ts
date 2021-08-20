@@ -53,14 +53,12 @@ export class GrGroupAuditLog extends ListViewMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     fireTitleChange(this, 'Audit Log');
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._getAuditLogs();
   }

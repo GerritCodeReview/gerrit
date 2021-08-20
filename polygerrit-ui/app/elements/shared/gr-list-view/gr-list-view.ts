@@ -63,7 +63,6 @@ export class GrListView extends PolymerElement {
 
   private reloadTask?: DelayedTask;
 
-  /** @override */
   override disconnectedCallback() {
     this.reloadTask?.cancel();
     super.disconnectedCallback();

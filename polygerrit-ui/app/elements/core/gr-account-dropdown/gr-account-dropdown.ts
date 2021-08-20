@@ -55,8 +55,7 @@ export class GrAccountDropdown extends GrLitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.handleLocationChange();
     window.addEventListener('location-change', this.handleLocationChange);
@@ -72,7 +71,6 @@ export class GrAccountDropdown extends GrLitElement {
     });
   }
 
-  /** @override */
   override disconnectedCallback() {
     window.removeEventListener('location-change', this.handleLocationChange);
     super.disconnectedCallback();

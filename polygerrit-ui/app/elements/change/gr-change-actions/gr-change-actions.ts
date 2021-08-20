@@ -575,8 +575,7 @@ export class GrChangeActions
     );
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this.jsAPI.addElement(TargetElement.CHANGE_ACTIONS, this);
     this.restApiService.getConfig().then(config => {

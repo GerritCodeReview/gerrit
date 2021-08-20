@@ -365,8 +365,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     changeComments$
       .pipe(takeUntil(this.disconnected$))
@@ -417,7 +416,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       });
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.disconnected$.next();
     this.diffCursor.dispose();

@@ -67,21 +67,18 @@ export class GrKeyboardShortcutsDialog extends KeyboardShortcutMixin(
     ) => this._onDirectoryUpdated(d);
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._ensureAttribute('role', 'dialog');
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.addKeyboardShortcutDirectoryListener(
       this.keyboardShortcutDirectoryListener
     );
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.removeKeyboardShortcutDirectoryListener(
       this.keyboardShortcutDirectoryListener

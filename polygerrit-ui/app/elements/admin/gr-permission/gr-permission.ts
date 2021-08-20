@@ -144,8 +144,7 @@ export class GrPermission extends PolymerElement {
     this.addEventListener('access-saved', () => this._handleAccessSaved());
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._setupValues();
   }

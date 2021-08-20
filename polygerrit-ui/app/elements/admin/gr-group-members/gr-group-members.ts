@@ -127,8 +127,7 @@ export class GrGroupMembers extends PolymerElement {
     this._queryIncludedGroup = input => this._getGroupSuggestions(input);
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._loadGroupDetails();
 

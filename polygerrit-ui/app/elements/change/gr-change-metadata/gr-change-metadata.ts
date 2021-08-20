@@ -226,8 +226,7 @@ export class GrChangeMetadata extends PolymerElement {
 
   private readonly flagsService = appContext.flagsService;
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this.queryTopic = (input: string) => this._getTopicSuggestions(input);
     this._isSubmitRequirementsUiEnabled = this.flagsService.isEnabled(

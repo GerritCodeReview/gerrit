@@ -161,14 +161,12 @@ export class GrMainHeader extends PolymerElement {
 
   private readonly disconnected$ = new Subject();
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._ensureAttribute('role', 'banner');
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     // TODO(brohlfs): This just ensures that the userService is instantiated at
     // all. We need the service to manage the model, but we are not making any
     // direct calls. Will need to find a better solution to this problem ...
@@ -191,7 +189,6 @@ export class GrMainHeader extends PolymerElement {
     });
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.disconnected$.next();
     super.disconnectedCallback();

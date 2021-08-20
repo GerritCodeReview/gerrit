@@ -46,8 +46,7 @@ export class GrHttpPassword extends GrLitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.loadData();
   }

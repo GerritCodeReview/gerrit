@@ -58,7 +58,6 @@ export class GrAvatar extends GrLitElement {
     return html``;
   }
 
-  /** @override */
   override connectedCallback() {
     super.connectedCallback();
     Promise.all([

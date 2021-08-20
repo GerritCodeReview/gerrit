@@ -74,8 +74,7 @@ export class GrPluginList extends ListViewMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     fireTitleChange(this, 'Plugins');
   }

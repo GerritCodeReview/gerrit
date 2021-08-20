@@ -85,8 +85,7 @@ export class GrRegistrationDialog extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._ensureAttribute('role', 'dialog');
   }

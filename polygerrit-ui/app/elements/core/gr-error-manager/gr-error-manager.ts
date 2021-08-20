@@ -153,8 +153,7 @@ export class GrErrorManager extends PolymerElement {
 
   private checkLoggedInTask?: DelayedTask;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     document.addEventListener(EventType.SERVER_ERROR, this.handleServerError);
     document.addEventListener(EventType.NETWORK_ERROR, this.handleNetworkError);
@@ -176,7 +175,6 @@ export class GrErrorManager extends PolymerElement {
     ).requestAvailability();
   }
 
-  /** @override */
   override disconnectedCallback() {
     this._clearHideAlertHandle();
     document.removeEventListener(

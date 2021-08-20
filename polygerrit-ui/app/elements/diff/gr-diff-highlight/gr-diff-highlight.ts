@@ -93,7 +93,6 @@ export class GrDiffHighlight extends PolymerElement {
     );
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.selectionChangeTask?.cancel();
     super.disconnectedCallback();

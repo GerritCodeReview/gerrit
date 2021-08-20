@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {PluginApi} from './plugin';
+import {LitStyles, StringStyles} from './styles';
 
 declare global {
   interface Window {
@@ -30,4 +31,6 @@ export interface Gerrit {
     opt_version?: string,
     src?: string
   ): void;
+  stringStyles: StringStyles;
+  litStyles: LitStyles;
 }

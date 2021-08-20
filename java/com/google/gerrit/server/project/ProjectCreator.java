@@ -45,8 +45,10 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.nio.channels.ScatteringByteChannel;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -139,6 +141,8 @@ public class ProjectCreator {
           e);
     } catch (RepositoryNotFoundException badName) {
       throw new BadRequestException("invalid project name: " + nameKey, badName);
+    } catch (RemoteRepositoryException ex){
+      throw new BadRequestException("can not create project: " + nameKey, ex);
     } catch (ConfigInvalidException e) {
       String msg = "Cannot create " + nameKey;
       logger.atSevere().withCause(e).log(msg);

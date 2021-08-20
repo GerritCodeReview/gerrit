@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d807ca7_fc363f38",
+        "filename": ".gitmodules",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-20T22:22:11Z",
+      "side": 1,
+      "message": "wrong url?",
+      "range": {
+        "startLine": 27,
+        "startChar": 25,
+        "endLine": 27,
+        "endChar": 40
+      },
+      "revId": "e17ff548958e5e71c9bdc2082ce0b3cfb32c68a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

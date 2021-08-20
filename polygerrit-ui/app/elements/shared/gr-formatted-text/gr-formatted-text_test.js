@@ -37,9 +37,7 @@ suite('gr-formatted-text tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('parse null undefined and empty', () => {
-    assert.lengthOf(element._computeBlocks(null), 0);
-    assert.lengthOf(element._computeBlocks(undefined), 0);
+  test('parse empty', () => {
     assert.lengthOf(element._computeBlocks(''), 0);
   });
 
@@ -175,6 +173,14 @@ suite('gr-formatted-text tests', () => {
   });
 
   test('bullet list 1', () => {
+    const comment = 'A\n\n* line 1';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 2);
+    assertBlock(result, 0, 'paragraph', 'A\n');
+    assertListBlock(result, 1, 0, 'line 1');
+  });
+
+  test('bullet list 2', () => {
     const comment = 'A\n\n* line 1\n* 2nd line';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
@@ -183,7 +189,7 @@ suite('gr-formatted-text tests', () => {
     assertListBlock(result, 1, 1, '2nd line');
   });
 
-  test('bullet list 2', () => {
+  test('bullet list 3', () => {
     const comment = 'A\n* line 1\n* 2nd line\n\nB';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 3);
@@ -193,7 +199,7 @@ suite('gr-formatted-text tests', () => {
     assertBlock(result, 2, 'paragraph', 'B');
   });
 
-  test('bullet list 3', () => {
+  test('bullet list 4', () => {
     const comment = '* line 1\n* 2nd line\n\nB';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
@@ -202,7 +208,7 @@ suite('gr-formatted-text tests', () => {
     assertBlock(result, 1, 'paragraph', 'B');
   });
 
-  test('bullet list 4', () => {
+  test('bullet list 5', () => {
     const comment = 'To see this bug, you have to:\n' +
         '* Be on IMAP or EAS (not on POP)\n' +
         '* Be very unlucky\n';
@@ -213,7 +219,7 @@ suite('gr-formatted-text tests', () => {
     assertListBlock(result, 1, 1, 'Be very unlucky');
   });
 
-  test('bullet list 5', () => {
+  test('bullet list 6', () => {
     const comment = 'To see this bug,\n' +
         'you have to:\n' +
         '* Be on IMAP or EAS (not on POP)\n' +
@@ -306,6 +312,15 @@ suite('gr-formatted-text tests', () => {
   });
 
   test('quote 1', () => {
+    const comment = '> I\'m happy with quotes!!';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 1);
+    assert.equal(result[0].type, 'quote');
+    assert.lengthOf(result[0].blocks, 1);
+    assertBlock(result[0].blocks, 0, 'paragraph', 'I\'m happy with quotes!!');
+  });
+
+  test('quote 2', () => {
     const comment = '> I\'m happy\n > with quotes!\n\nSee above.';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
@@ -315,7 +330,7 @@ suite('gr-formatted-text tests', () => {
     assertBlock(result, 1, 'paragraph', 'See above.');
   });
 
-  test('quote 2', () => {
+  test('quote 3', () => {
     const comment = 'See this said:\n > a quoted\n > string block\n\nOK?';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 3);
@@ -366,7 +381,7 @@ suite('gr-formatted-text tests', () => {
     assert.equal(result[1].text, '// test code');
   });
 
-  test('not a code', () => {
+  test('not a code block', () => {
     const comment = 'test code\n```// test code';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
@@ -374,7 +389,7 @@ suite('gr-formatted-text tests', () => {
     assert.equal(result[0].text, 'test code\n```// test code');
   });
 
-  test('not a code 2', () => {
+  test('not a code block 2', () => {
     const comment = 'test code\n```\n// test code';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
@@ -382,6 +397,16 @@ suite('gr-formatted-text tests', () => {
     assert.equal(result[0].text, 'test code');
     assert.equal(result[1].type, 'paragraph');
     assert.equal(result[1].text, '```\n// test code');
+  });
+
+  test('not a code block 3', () => {
+    const comment = 'test code\n```';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 2);
+    assert.equal(result[0].type, 'paragraph');
+    assert.equal(result[0].text, 'test code');
+    assert.equal(result[1].type, 'paragraph');
+    assert.equal(result[1].text, '```');
   });
 
   test('mix all 1', () => {

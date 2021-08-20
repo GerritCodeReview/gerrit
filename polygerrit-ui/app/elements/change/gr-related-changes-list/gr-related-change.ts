@@ -47,7 +47,7 @@ export class GrRelatedChange extends GrLitElement {
   @property()
   connectedRevisions?: CommitId[];
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -104,7 +104,7 @@ export class GrRelatedChange extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     const change = this.change;
     if (!change) throw new Error('Missing change');
     const linkClass = this._computeLinkClass(change);

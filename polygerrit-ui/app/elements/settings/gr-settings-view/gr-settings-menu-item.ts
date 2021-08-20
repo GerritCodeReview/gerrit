@@ -31,13 +31,13 @@ export class GrSettingsMenuItem extends GrLitElement {
   href?: string;
 
   @property({type: String})
-  title = '';
+  override title = '';
 
-  static get styles() {
+  static override get styles() {
     return [sharedStyles, pageNavStyles];
   }
 
-  render() {
+  override render() {
     const href = this.href ?? '';
     return html` <div class="navStyles">
       <li><a href="${href}">${this.title}</a></li>

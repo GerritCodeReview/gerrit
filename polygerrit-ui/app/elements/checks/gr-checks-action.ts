@@ -29,12 +29,12 @@ export class GrChecksAction extends GrLitElement {
   @property()
   eventTarget?: EventTarget;
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     checkRequiredProperty(this.action, 'action');
   }
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         :host {
@@ -61,7 +61,7 @@ export class GrChecksAction extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     return html`
       <gr-button
         link

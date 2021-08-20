@@ -316,7 +316,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     });
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     window.removeEventListener('location-change', this.handleLocationChange);
     super.disconnectedCallback();
   }

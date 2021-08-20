@@ -46,7 +46,7 @@ export class GrLinkedText extends GrLitElement {
   @property({type: Object})
   config?: LinkTextParserConfig;
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         :host {
@@ -68,14 +68,14 @@ export class GrLinkedText extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     if (!this.config) {
       return;
     }
     return html`<span id="output">${this.content}</span>`;
   }
 
-  updated() {
+  override updated() {
     if (!this.outputElement || !this.config) return;
     this.outputElement.textContent = '';
     // TODO(TS): mapCommentlinks always has value, remove

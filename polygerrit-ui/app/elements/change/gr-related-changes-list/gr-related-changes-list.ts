@@ -91,7 +91,7 @@ export class GrRelatedChangesList extends GrLitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -138,7 +138,7 @@ export class GrRelatedChangesList extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     const sectionSize = this.sectionSizeFactory(
       this.relatedChanges.length,
       this.submittedTogether?.changes.length || 0,
@@ -668,7 +668,7 @@ export class GrRelatedChangesList extends GrLitElement {
 @customElement('gr-related-collapse')
 export class GrRelatedCollapse extends GrLitElement {
   @property()
-  title = '';
+  override title = '';
 
   @property({type: Boolean})
   showAll = false;
@@ -684,7 +684,7 @@ export class GrRelatedCollapse extends GrLitElement {
 
   private readonly reporting = appContext.reportingService;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -720,7 +720,7 @@ export class GrRelatedCollapse extends GrLitElement {
     ];
   }
 
-  render() {
+  override render() {
     const title = html`<h4 class="title">${this.title}</h4>`;
 
     const collapsible = this.length > this.numChangesWhenCollapsed;

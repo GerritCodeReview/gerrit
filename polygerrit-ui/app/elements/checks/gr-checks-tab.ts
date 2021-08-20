@@ -86,7 +86,7 @@ export class GrChecksTab extends GrLitElement {
     );
   }
 
-  static get styles() {
+  static override get styles() {
     return css`
       :host {
         display: block;
@@ -104,7 +104,7 @@ export class GrChecksTab extends GrLitElement {
     `;
   }
 
-  render() {
+  override render() {
     return html`
       <div class="container">
         <gr-checks-runs
@@ -129,7 +129,7 @@ export class GrChecksTab extends GrLitElement {
     `;
   }
 
-  protected updated(changedProperties: PropertyValues) {
+  protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
     if (changedProperties.has('tabState')) {
       if (this.tabState) {

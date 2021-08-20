@@ -897,7 +897,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       }
 
       /** @override */
-      disconnectedCallback() {
+      override disconnectedCallback() {
         this.destroyVisibilityObserver();
         this.disableBindings();
         super.disconnectedCallback();

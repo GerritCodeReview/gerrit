@@ -50,7 +50,7 @@ export class GrLimitedText extends TooltipMixin(PolymerElement) {
 
   /** Boolean property used by TooltipMixin. */
   @property({type: Boolean})
-  hasTooltip = false;
+  override hasTooltip = false;
 
   /** Boolean property used by TooltipMixin. */
   @property({type: Boolean})

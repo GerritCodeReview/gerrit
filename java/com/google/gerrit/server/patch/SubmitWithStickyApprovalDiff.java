@@ -128,11 +128,23 @@ public class SubmitWithStickyApprovalDiff {
     }
 
     diff.append("The change was submitted with unreviewed changes in the following files:\n\n");
-
-    for (FileDiffOutput fileDiff : modifiedFilesList) {
-      diff.append(
-          getDiffForFile(
-              notes, currentPatchset.id(), latestApprovedPatchsetId, fileDiff, currentUser));
+    TemporaryBuffer.Heap buffer =
+        new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxCumulativeSize), maxCumulativeSize);
+    try (Repository repository = repositoryManager.openRepository(notes.getProjectName());
+        DiffFormatter formatter = new DiffFormatter(buffer)) {
+      formatter.setRepository(repository);
+      formatter.setDetectRenames(true);
+      for (FileDiffOutput fileDiff : modifiedFilesList) {
+        diff.append(
+            getDiffForFile(
+                notes,
+                currentPatchset.id(),
+                latestApprovedPatchsetId,
+                fileDiff,
+                currentUser,
+                formatter,
+                buffer));
+      }
     }
     return diff.toString();
   }
@@ -142,7 +154,9 @@ public class SubmitWithStickyApprovalDiff {
       PatchSet.Id currentPatchsetId,
       PatchSet.Id latestApprovedPatchsetId,
       FileDiffOutput fileDiffOutput,
-      CurrentUser currentUser)
+      CurrentUser currentUser,
+      DiffFormatter formatter,
+      TemporaryBuffer.Heap buffer)
       throws AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException {
     StringBuilder diff =
@@ -178,7 +192,26 @@ public class SubmitWithStickyApprovalDiff {
               "The file %s was renamed to %s\n",
               fileDiffOutput.oldPath().get(), fileDiffOutput.newPath().get()));
     }
-    diff.append(getUnifiedDiff(patchScript, notes));
+    try {
+      formatter.format(
+          ObjectId.fromString(patchScript.getFileInfoA().commitId),
+          ObjectId.fromString(patchScript.getFileInfoB().commitId));
+    } catch (IOException e) {
+      if (JGitText.get().inMemoryBufferLimitExceeded.equals(e.getMessage())) {
+        diff.append("The diff is too large to show. Please review the diff.");
+        diff.append("\n```\n");
+        return diff.toString();
+      }
+      throw e;
+    }
+    // This returns the diff for all the files.
+    List<String> formatterResult =
+        Arrays.stream(RawParseUtils.decode(buffer.toByteArray()).split("\n"))
+            .collect(Collectors.toList());
+    // This filters only the file we need.
+    // TODO(paiking): we can make this more efficient by mapping the files to their respective
+    //  diffs prior to this method, such that we need to go over the diff only once.
+    diff.append(getDiffForFile(patchScript, formatterResult));
     // This line (and the ``` above) are useful for formatting in the web UI.
     diff.append("\n```\n");
     return diff.toString();
@@ -188,63 +221,42 @@ public class SubmitWithStickyApprovalDiff {
    * Show patch set as unified difference for a specific file. We on purpose are not using {@link
    * DiffInfoCreator} since we'd like to get the original git/JGit style diff.
    */
-  public String getUnifiedDiff(PatchScript patchScript, ChangeNotes changeNotes)
-      throws IOException {
-    TemporaryBuffer.Heap buf =
-        new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxCumulativeSize), maxCumulativeSize);
-    try (DiffFormatter fmt = new DiffFormatter(buf);
-        // TODO(paiking): ensure we open the repository only once by opening it in the calling
-        //  method.
-        Repository git = repositoryManager.openRepository(changeNotes.getProjectName())) {
-      fmt.setRepository(git);
-      fmt.setDetectRenames(true);
-      fmt.format(
-          ObjectId.fromString(patchScript.getFileInfoA().commitId),
-          ObjectId.fromString(patchScript.getFileInfoB().commitId));
-      List<String> formatterResult =
-          Arrays.stream(RawParseUtils.decode(buf.toByteArray()).split("\n"))
-              .collect(Collectors.toList());
-      // only return information about the current file, and not about files that are not
-      // relevant. DiffFormatter returns other potential files because of rebases, which we can
-      // ignore.
-      List<String> modifiedFormatterResult = new ArrayList<>();
-      int indexOfFormatterResult = 0;
-      while (formatterResult.size() > indexOfFormatterResult
-          && !formatterResult
-              .get(indexOfFormatterResult)
-              .equals(
-                  String.format(
-                      "diff --git a/%s b/%s",
-                      patchScript.getOldName() != null
-                          ? patchScript.getOldName()
-                          : patchScript.getNewName(),
-                      patchScript.getNewName()))) {
-        indexOfFormatterResult++;
-      }
-      // remove non user friendly information.
-      while (formatterResult.size() > indexOfFormatterResult
-          && !formatterResult.get(indexOfFormatterResult).startsWith("@@")) {
-        indexOfFormatterResult++;
-      }
-      for (; indexOfFormatterResult < formatterResult.size(); indexOfFormatterResult++) {
-        if (formatterResult.get(indexOfFormatterResult).startsWith("diff --git")) {
-          break;
-        }
-        modifiedFormatterResult.add(formatterResult.get(indexOfFormatterResult));
-      }
-      if (modifiedFormatterResult.size() == 0) {
-        // This happens for diffs that are just renames, but we already account for renames.
-        return "";
-      }
-      return modifiedFormatterResult.stream()
-          .filter(s -> !s.equals("\\ No newline at end of file"))
-          .collect(Collectors.joining("\n"));
-    } catch (IOException e) {
-      if (JGitText.get().inMemoryBufferLimitExceeded.equals(e.getMessage())) {
-        return "The diff is too large to show. Please review the diff.";
-      }
-      throw e;
+  public String getDiffForFile(PatchScript patchScript, List<String> formatterResult) {
+    // only return information about the current file, and not about files that are not
+    // relevant. DiffFormatter returns other potential files because of rebases, which we can
+    // ignore.
+    List<String> modifiedFormatterResult = new ArrayList<>();
+    int indexOfFormatterResult = 0;
+    while (formatterResult.size() > indexOfFormatterResult
+        && !formatterResult
+            .get(indexOfFormatterResult)
+            .equals(
+                String.format(
+                    "diff --git a/%s b/%s",
+                    patchScript.getOldName() != null
+                        ? patchScript.getOldName()
+                        : patchScript.getNewName(),
+                    patchScript.getNewName()))) {
+      indexOfFormatterResult++;
     }
+    // remove non user friendly information.
+    while (formatterResult.size() > indexOfFormatterResult
+        && !formatterResult.get(indexOfFormatterResult).startsWith("@@")) {
+      indexOfFormatterResult++;
+    }
+    for (; indexOfFormatterResult < formatterResult.size(); indexOfFormatterResult++) {
+      if (formatterResult.get(indexOfFormatterResult).startsWith("diff --git")) {
+        break;
+      }
+      modifiedFormatterResult.add(formatterResult.get(indexOfFormatterResult));
+    }
+    if (modifiedFormatterResult.size() == 0) {
+      // This happens for diffs that are just renames, but we already account for renames.
+      return "";
+    }
+    return modifiedFormatterResult.stream()
+        .filter(s -> !s.equals("\\ No newline at end of file"))
+        .collect(Collectors.joining("\n"));
   }
 
   private DiffPreferencesInfo createDefaultDiffPreferencesInfo() {

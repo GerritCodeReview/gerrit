@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c53603b_fb1a9be8",
+        "filename": "polygerrit-ui/app/styles/gr-subpage-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-20T21:09:28Z",
+      "side": 0,
+      "message": "The comment no longer applies?",
+      "revId": "9f998305e41a61240bb63767646409104652b038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

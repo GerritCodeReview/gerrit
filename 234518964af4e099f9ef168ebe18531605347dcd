@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d74346c7_6a654083",
+        "filename": "polygerrit-ui/app/api/syles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-20T21:09:28Z",
+      "side": 1,
+      "message": "mv syles.ts styles.ts",
+      "revId": "234518964af4e099f9ef168ebe18531605347dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

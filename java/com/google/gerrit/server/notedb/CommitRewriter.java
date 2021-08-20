@@ -875,7 +875,7 @@ public class CommitRewriter {
   private Optional<Account.Id> parseIdent(PersonIdent ident) {
     Optional<Account.Id> account = NoteDbUtil.parseIdent(ident);
     if (!account.isPresent()) {
-      logger.atWarning().log("Failed to parse ident %", ident);
+      logger.atWarning().log("Failed to parse id %s", ident.getEmailAddress());
     }
     return account;
   }

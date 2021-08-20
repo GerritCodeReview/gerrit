@@ -148,7 +148,7 @@ public class SubmitWithStickyApprovalDiff {
     StringBuilder diff =
         new StringBuilder(
             String.format(
-                "The name of the file: %s\nInsertions: %d, Deletions: %d.\n\n",
+                "```\nThe name of the file: %s\nInsertions: %d, Deletions: %d.\n\n",
                 fileDiffOutput.newPath().isPresent()
                     ? fileDiffOutput.newPath().get()
                     : fileDiffOutput.oldPath().get(),
@@ -178,7 +178,10 @@ public class SubmitWithStickyApprovalDiff {
               "The file %s was renamed to %s\n",
               fileDiffOutput.oldPath().get(), fileDiffOutput.newPath().get()));
     }
-    return diff.append(getUnifiedDiff(patchScript, notes)).toString();
+    diff.append(getUnifiedDiff(patchScript, notes));
+    // This line (and the ``` above) are useful for formatting in the web UI.
+    diff.append("\n```\n");
+    return diff.toString();
   }
 
   /**

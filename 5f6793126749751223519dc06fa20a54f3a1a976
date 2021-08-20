@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64548445_576d18f2",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-20T14:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "363dd913_7fe31c0e",
+      "revId": "5f6793126749751223519dc06fa20a54f3a1a976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13ee2250_726481db",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0b79d76_5926b309",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-20T14:05:22Z",
+      "side": 1,
+      "message": "Good point that we should mention, add to the javadoc of this method.",
+      "parentUuid": "13ee2250_726481db",
+      "revId": "5f6793126749751223519dc06fa20a54f3a1a976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "873b6a92_030e0eeb",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-08-20T13:48:11Z",
       "side": 1,
       "message": "A single rebase is sufficient to ensure it is WAI. Also same for the other two tests.",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 152,
+        "endChar": 58
+      },
+      "revId": "5f6793126749751223519dc06fa20a54f3a1a976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebcd638e_5b19d2c2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitWithStickyApprovalDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-20T14:05:22Z",
+      "side": 1,
+      "message": "I think it\u0027s good to keep this, see updated commit message.",
+      "parentUuid": "873b6a92_030e0eeb",
       "range": {
         "startLine": 149,
         "startChar": 4,

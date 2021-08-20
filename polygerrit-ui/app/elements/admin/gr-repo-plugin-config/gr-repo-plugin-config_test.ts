@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-repo-plugin-config.js';
+import '../../../test/common-test-setup-karma';
+import './gr-repo-plugin-config';
+import {GrRepoPluginConfig} from './gr-repo-plugin-config';
 
 const basicFixture = fixtureFromElement('gr-repo-plugin-config');
 
 suite('gr-repo-plugin-config tests', () => {
-  let element;
+  let element: GrRepoPluginConfig;
 
   setup(async () => {
     element = basicFixture.instantiate();
@@ -29,9 +30,8 @@ suite('gr-repo-plugin-config tests', () => {
   });
 
   test('_computePluginConfigOptions', () => {
-    assert.deepEqual(element._computePluginConfigOptions({config: {}}), []);
     assert.deepEqual(element._computePluginConfigOptions(
-        {config: {testKey: 'testInfo'}}),
+        {config: {_key: 'testInfo'}}),
     [{_key: 'testKey', info: 'testInfo'}]);
   });
 

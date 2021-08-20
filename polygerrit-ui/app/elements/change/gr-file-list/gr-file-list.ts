@@ -908,6 +908,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     if (
       this.shouldSuppressKeyboardShortcut(e) ||
       this.modifierPressed(e) ||
+      e.detail?.keyboardEvent?.repeat ||
       this.fileCursor.index === -1
     ) {
       return;
@@ -918,7 +919,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleToggleAllInlineDiffs(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e) ||
+      e.detail?.keyboardEvent?.repeat
+    ) {
       return;
     }
 

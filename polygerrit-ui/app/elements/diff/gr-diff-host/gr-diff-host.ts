@@ -303,16 +303,14 @@ export class GrDiffHost extends PolymerElement {
     );
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     if (this._canReload()) {
       this.reload();
     }
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
@@ -324,7 +322,6 @@ export class GrDiffHost extends PolymerElement {
       });
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.disconnected$.next();
     this.clear();

@@ -318,14 +318,12 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this.addEventListener('moved-link-clicked', e => this._movedLinkClicked(e));
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._observeNodes();
     this.isAttached = true;
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.isAttached = false;
     this.renderDiffTableTask?.cancel();

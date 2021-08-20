@@ -75,8 +75,7 @@ export class GrSelect extends PolymerElement {
     this.addEventListener('dom-change', () => this._updateValue());
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     // If not set via the property, set bind-value to the element value.
     if (this.bindValue === undefined && this.nativeSelect.options.length > 0) {

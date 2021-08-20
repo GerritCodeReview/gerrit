@@ -285,8 +285,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
 
   private draftToastTask?: DelayedTask;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.restApiService.getAccount().then(account => {
       this._selfAccount = account;
@@ -301,7 +300,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     });
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.fireUpdateTask?.cancel();
     this.storeTask?.cancel();

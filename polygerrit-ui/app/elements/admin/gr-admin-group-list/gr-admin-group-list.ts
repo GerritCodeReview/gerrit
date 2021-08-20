@@ -93,8 +93,7 @@ export class GrAdminGroupList extends ListViewMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._getCreateGroupCapability();
     fireTitleChange(this, 'Groups');

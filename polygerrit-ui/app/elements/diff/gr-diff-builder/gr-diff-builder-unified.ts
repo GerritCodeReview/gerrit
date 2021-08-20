@@ -146,6 +146,5 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
     return null;
   }
 
-  /** @override */
   override updateRenderPrefs(_renderPrefs: RenderPreferences) {}
 }

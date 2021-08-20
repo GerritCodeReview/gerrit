@@ -101,8 +101,7 @@ export class GrCreateChangeDialog extends PolymerElement {
     this._query = (input: string) => this._getRepoBranchesSuggestions(input);
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     if (!this.repoName) return;
 
@@ -116,7 +115,6 @@ export class GrCreateChangeDialog extends PolymerElement {
     });
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.disconnected$.next();
     super.disconnectedCallback();

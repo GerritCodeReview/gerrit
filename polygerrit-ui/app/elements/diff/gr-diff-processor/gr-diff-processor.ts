@@ -117,13 +117,11 @@ export class GrDiffProcessor extends PolymerElement {
 
   private resetIsScrollingTask?: DelayedTask;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     window.addEventListener('scroll', this.handleWindowScroll);
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.resetIsScrollingTask?.cancel();
     this.cancel();

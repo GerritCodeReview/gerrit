@@ -58,7 +58,6 @@ export class GrEndpointDecorator extends PolymerElement {
    */
   _endpointCallBack: (info: ModuleInfo) => void = () => {};
 
-  /** @override */
   override disconnectedCallback() {
     for (const [el, domHook] of this._domHooks) {
       domHook.handleInstanceDetached(el);
@@ -196,8 +195,7 @@ export class GrEndpointDecorator extends PolymerElement {
     });
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._endpointCallBack = (info: ModuleInfo) => this._initModule(info);
     getPluginEndpoints().onNewEndpoint(this.name, this._endpointCallBack);

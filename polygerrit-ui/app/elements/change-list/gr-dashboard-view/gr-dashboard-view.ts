@@ -124,8 +124,7 @@ export class GrDashboardView extends PolymerElement {
     super();
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._loadPreferences();
     this.addEventListener('reload', () => this._reload(this.params));

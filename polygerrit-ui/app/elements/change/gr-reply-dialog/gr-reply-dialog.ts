@@ -379,8 +379,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     this.filterCCSuggestion = this._filterReviewerSuggestionGenerator(true);
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     (
       IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
@@ -409,13 +408,11 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     });
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.storeTask?.cancel();
     super.disconnectedCallback();

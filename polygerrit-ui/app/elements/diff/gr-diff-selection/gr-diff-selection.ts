@@ -76,8 +76,7 @@ export class GrDiffSelection extends PolymerElement {
     addListener(this, 'down', e => this._handleDown(e));
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.classList.add(SelectionClass.RIGHT);
   }

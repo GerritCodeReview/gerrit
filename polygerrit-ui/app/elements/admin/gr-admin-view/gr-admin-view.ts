@@ -173,8 +173,7 @@ export class GrAdminView extends PolymerElement {
 
   private readonly jsAPI = appContext.jsApiService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.reload();
   }

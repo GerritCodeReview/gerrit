@@ -251,8 +251,7 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     document.addEventListener('gr-rpc-log', e => this._handleRpcLog(e));
   }
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._updateLoginUrl();
     this.reporting.appStarted();

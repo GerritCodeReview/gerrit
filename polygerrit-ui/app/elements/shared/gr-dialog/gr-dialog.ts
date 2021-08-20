@@ -68,8 +68,7 @@ export class GrDialog extends PolymerElement {
   @property({type: String})
   confirmTooltip?: string;
 
-  /** @override */
-  ready() {
+  override ready() {
     super.ready();
     this._ensureAttribute('role', 'dialog');
   }

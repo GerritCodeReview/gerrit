@@ -115,12 +115,6 @@ export class GrEditableContent extends PolymerElement {
   // Tests use this so needs to be non private
   storeTask?: DelayedTask;
 
-  /** @override */
-  ready() {
-    super.ready();
-  }
-
-  /** @override */
   override disconnectedCallback() {
     this.storeTask?.cancel();
     super.disconnectedCallback();

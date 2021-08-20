@@ -150,15 +150,13 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
     });
   }
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this._getEditPrefs().then(prefs => {
       this._prefs = prefs;
     });
   }
 
-  /** @override */
   override disconnectedCallback() {
     this.storeTask?.cancel();
     super.disconnectedCallback();

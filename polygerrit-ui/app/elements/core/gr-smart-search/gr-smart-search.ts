@@ -67,8 +67,7 @@ export class GrSmartSearch extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.restApiService.getConfig().then(cfg => {
       this._config = cfg;

@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "903775cb_a7e30463",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T20:07:42Z",
+      "side": 1,
+      "message": "Ccing Chris, because I think it is an interesting change: you learn something and you see how we are in the middle of transitioning to reactive models and services.",
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8151f9eb_7fb548c8",

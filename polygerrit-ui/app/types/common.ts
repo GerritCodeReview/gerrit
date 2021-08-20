@@ -83,7 +83,10 @@ import {
   InheritedBooleanInfo,
   LabelInfo,
   LabelNameToInfoMap,
+  LabelNameToLabelTypeInfoMap,
   LabelNameToValueMap,
+  LabelTypeInfo,
+  LabelTypeInfoValues,
   LabelValueToDescriptionMap,
   MaxObjectSizeLimitInfo,
   NumericChangeId,
@@ -92,6 +95,8 @@ import {
   PluginConfigInfo,
   PluginNameToPluginParametersMap,
   PluginParameterToConfigParameterInfoMap,
+  ProjectInfo,
+  ProjectInfoWithName,
   QuickLabelInfo,
   ReceiveInfo,
   RepoName,
@@ -109,6 +114,7 @@ import {
   Timestamp,
   TimezoneOffset,
   TopicName,
+  UrlEncodedRepoName,
   UserConfigInfo,
   VotingRangeInfo,
   WebLinkInfo,
@@ -165,7 +171,10 @@ export {
   InheritedBooleanInfo,
   LabelInfo,
   LabelNameToInfoMap,
+  LabelNameToLabelTypeInfoMap,
   LabelNameToValueMap,
+  LabelTypeInfo,
+  LabelTypeInfoValues,
   LabelValueToDescriptionMap,
   MaxObjectSizeLimitInfo,
   NumericChangeId,
@@ -174,6 +183,8 @@ export {
   PluginConfigInfo,
   PluginNameToPluginParametersMap,
   PluginParameterToConfigParameterInfoMap,
+  ProjectInfo,
+  ProjectInfoWithName,
   QuickLabelInfo,
   ReceiveInfo,
   RepoName,
@@ -190,6 +201,7 @@ export {
   Timestamp,
   TimezoneOffset,
   TopicName,
+  UrlEncodedRepoName,
   UserConfigInfo,
   VotingRangeInfo,
   isDetailedLabelInfo,
@@ -223,8 +235,6 @@ export const EditPatchSetNum = 'edit' as RevisionPatchSetNum;
 // TODO(TS): This is not correct, it is better to have a separate ApiPatchSetNum
 // without 'parent'.
 export const ParentPatchSetNum = 'PARENT' as BasePatchSetNum;
-
-export type UrlEncodedRepoName = BrandType<string, '_urlEncodedRepoName'>;
 
 export type RobotId = BrandType<string, '_robotId'>;
 
@@ -718,45 +728,7 @@ export interface ContextLine {
   context_line: string;
 }
 
-/**
- * The ProjectInfo entity contains information about a project
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-info
- */
-export interface ProjectInfo {
-  id: UrlEncodedRepoName;
-  // name is not set if returned in a map where the project name is used as
-  // map key
-  name?: RepoName;
-  // ?-<n> if the parent project is not visible (<n> is a number which
-  // is increased for each non-visible project).
-  parent?: RepoName;
-  description?: string;
-  state?: ProjectState;
-  branches?: {[branchName: string]: CommitId};
-  // labels is filled for Create Project and Get Project calls.
-  labels?: LabelNameToLabelTypeInfoMap;
-  // Links to the project in external sites
-  web_links?: WebLinkInfo[];
-}
-
-export interface ProjectInfoWithName extends ProjectInfo {
-  name: RepoName;
-}
-
 export type NameToProjectInfoMap = {[projectName: string]: ProjectInfo};
-export type LabelNameToLabelTypeInfoMap = {[labelName: string]: LabelTypeInfo};
-
-/**
- * The LabelTypeInfo entity contains metadata about the labels that a project
- * has.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#label-type-info
- */
-export interface LabelTypeInfo {
-  values: LabelTypeInfoValues;
-  default_value: number;
-}
-
-export type LabelTypeInfoValues = {[value: string]: string};
 
 export type FilePathToDiffInfoMap = {[path: string]: DiffInfo};
 

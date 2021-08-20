@@ -1202,7 +1202,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       basePatchNum: value.basePatchNum || ParentPatchSetNum,
     };
 
-    this.$.fileList.collapseAllDiffs();
+    // Only collapse diffs if a different change is loaded
+    if (this._changeNum !== value.changeNum) this.$.fileList.collapseAllDiffs();
     this._patchRange = patchRange;
     this.scrollCommentId = value.commentId;
 

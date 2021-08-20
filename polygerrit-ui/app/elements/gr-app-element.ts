@@ -212,7 +212,7 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  keyboardShortcuts() {
+  override keyboardShortcuts() {
     return {
       [Shortcut.OPEN_SHORTCUT_HELP_DIALOG]: '_showKeyboardShortcuts',
       [Shortcut.GO_TO_USER_DASHBOARD]: '_goToUserDashboard',

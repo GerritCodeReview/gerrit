@@ -247,6 +247,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory;
     final OperatorAliasConfig operatorAliasConfig;
     final boolean indexMergeable;
+    final boolean conflictsPredicateEnabled;
     final HasOperandAliasConfig hasOperandAliasConfig;
 
     private final Provider<CurrentUser> self;
@@ -311,6 +312,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           groupMembers,
           operatorAliasConfig,
           MergeabilityComputationBehavior.fromConfig(gerritConfig).includeInIndex(),
+          gerritConfig.getBoolean("change", null, "conflictsPredicateEnabled", true),
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory);
     }
@@ -343,6 +345,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         GroupMembers groupMembers,
         OperatorAliasConfig operatorAliasConfig,
         boolean indexMergeable,
+        boolean conflictsPredicateEnabled,
         HasOperandAliasConfig hasOperandAliasConfig,
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory) {
       this.queryProvider = queryProvider;
@@ -373,6 +376,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.changeIsVisbleToPredicateFactory = changeIsVisbleToPredicateFactory;
       this.operatorAliasConfig = operatorAliasConfig;
       this.indexMergeable = indexMergeable;
+      this.conflictsPredicateEnabled = conflictsPredicateEnabled;
       this.hasOperandAliasConfig = hasOperandAliasConfig;
     }
 
@@ -405,6 +409,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           groupMembers,
           operatorAliasConfig,
           indexMergeable,
+          conflictsPredicateEnabled,
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory);
     }
@@ -710,6 +715,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> conflicts(String value) throws QueryParseException {
+    if (!args.conflictsPredicateEnabled) {
+      throw new QueryParseException("'conflicts:' operator is not supported by server");
+    }
     List<Change> changes = parseChange(value);
     List<Predicate<ChangeData>> or = new ArrayList<>(changes.size());
     for (Change c : changes) {

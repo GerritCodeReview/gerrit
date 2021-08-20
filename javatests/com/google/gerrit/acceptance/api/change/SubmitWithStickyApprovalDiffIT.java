@@ -387,9 +387,9 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
         .isEqualTo(
             "Change has been successfully merged\n\n1 is the latest approved patch-set.\nThe "
-                + "change was submitted with unreviewed changes in the following files:\n\nThe "
-                + "name of the file: file\nInsertions: 1, Deletions: 1.\n\nThe diff is too "
-                + "large to show. Please review the diff.");
+                + "change was submitted with unreviewed changes in the following "
+                + "files:\n\n```\nThe name of the file: file\nInsertions: 1, Deletions: 1.\n\nThe"
+                + " diff is too large to show. Please review the diff.\n```\n");
   }
 
   @Test
@@ -541,6 +541,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         "1 is the latest approved patch-set.\n"
             + "The change was submitted with unreviewed changes in the following files:\n"
             + "\n"
+            + "```\n"
             + String.format("The name of the file: %s\n", file)
             + String.format("Insertions: %d, Deletions: %d.\n\n", insertions, deletions);
 
@@ -548,6 +549,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
       expectedMessage += String.format("The file %s was renamed to %s\n", oldFileName, file);
     }
     expectedMessage += expectedFileDiff;
+    expectedMessage += "\n```\n";
     String expectedChangeMessage = "Change has been successfully merged\n\n" + expectedMessage;
     assertThat(message.trim()).isEqualTo(expectedChangeMessage.trim());
     assertThat(Iterables.getLast(sender.getMessages()).body()).contains(expectedMessage);

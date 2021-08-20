@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9660dd4c_914093be",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-20T14:59:45Z",
+      "side": 1,
+      "message": "NIT: Maybe this annotation can be removed from here and other places.",
+      "range": {
+        "startLine": 219,
+        "startChar": 7,
+        "endLine": 219,
+        "endChar": 15
+      },
+      "revId": "1509bc9128ebbd3e3a3d833a16cdd7ea8a94a940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

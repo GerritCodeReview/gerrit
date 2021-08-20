@@ -15,7 +15,10 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
@@ -26,6 +29,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -93,6 +97,53 @@ public class CommitIT extends AbstractDaemonTest {
 
     assertThat(getIncludedIn(result.getCommit().getId()).branches)
         .containsExactly("master", "test-branch");
+  }
+
+  @Test
+  public void includedInMergedChange_filtersOutNonVisibleBranches() throws Exception {
+    Result baseChange = createAndSubmitChange("refs/for/master");
+
+    createBranch(BranchNameKey.create(project, "test-branch-1"));
+    createBranch(BranchNameKey.create(project, "test-branch-2"));
+    createAndSubmitChange("refs/for/test-branch-1");
+    createAndSubmitChange("refs/for/test-branch-2");
+
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).branches)
+        .containsExactly("master", "test-branch-1", "test-branch-2");
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/test-branch-1").group(REGISTERED_USERS))
+        .update();
+
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).branches)
+        .containsExactly("master", "test-branch-2");
+  }
+
+  @Test
+  public void includedInMergedChange_filtersOutNonVisibleTags() throws Exception {
+    String tagBase = "tag_base";
+    String tagBranch1 = "tag_1";
+
+    Result baseChange = createAndSubmitChange("refs/for/master");
+    createLightWeightTag(tagBase);
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).tags).containsExactly(tagBase);
+
+    createBranch(BranchNameKey.create(project, "test-branch-1"));
+    createAndSubmitChange("refs/for/test-branch-1");
+    createLightWeightTag(tagBranch1);
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).tags)
+        .containsExactly(tagBase, tagBranch1);
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        // Tag permissions are controlled by read permissions on branches. Blocking read permission
+        // on test-branch-1 so that tagBranch1 becomes non-visible
+        .add(block(Permission.READ).ref("refs/heads/test-branch-1").group(REGISTERED_USERS))
+        .update();
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).tags).containsExactly(tagBase);
   }
 
   @Test
@@ -191,5 +242,16 @@ public class CommitIT extends AbstractDaemonTest {
   private static void assertPerson(GitPerson actual, TestAccount expected) {
     assertThat(actual.email).isEqualTo(expected.email());
     assertThat(actual.name).isEqualTo(expected.fullName());
+  }
+
+  private Result createAndSubmitChange(String branch) throws Exception {
+    Result r = createChange(branch);
+    approve(r.getChangeId());
+    gApi.changes().id(r.getChangeId()).current().submit();
+    return r;
+  }
+
+  private void createLightWeightTag(String tagName) throws Exception {
+    pushHead(testRepo, RefNames.REFS_TAGS + tagName, false, false);
   }
 }

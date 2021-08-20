@@ -94,9 +94,9 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
     if (!this.el) {
       const sharedApiElement = appContext.jsApiService;
       this.setEl(
-        (sharedApiElement.getElement(
+        sharedApiElement.getElement(
           TargetElement.CHANGE_ACTIONS
-        ) as unknown) as GrChangeActionsElement
+        ) as unknown as GrChangeActionsElement
       );
     }
     return this.el!;

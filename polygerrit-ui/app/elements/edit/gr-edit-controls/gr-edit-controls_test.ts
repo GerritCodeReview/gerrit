@@ -64,9 +64,8 @@ suite('gr-edit-controls tests', () => {
     setup(() => {
       editDiffStub = sinon.stub(GerritNav, 'getEditUrlForDiff');
       navStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
-      openAutoComplete = element.$.openDialog!.querySelector(
-        'gr-autocomplete'
-      )!;
+      openAutoComplete =
+        element.$.openDialog!.querySelector('gr-autocomplete')!;
     });
 
     test('_isValidPath', () => {
@@ -130,9 +129,8 @@ suite('gr-edit-controls tests', () => {
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
       deleteStub = stubRestApi('deleteFileInChangeEdit');
-      deleteAutocomplete = element.$.deleteDialog!.querySelector(
-        'gr-autocomplete'
-      )!;
+      deleteAutocomplete =
+        element.$.deleteDialog!.querySelector('gr-autocomplete')!;
     });
 
     test('delete', () => {
@@ -215,9 +213,8 @@ suite('gr-edit-controls tests', () => {
     setup(() => {
       navStub = sinon.stub(GerritNav, 'navigateToChange');
       renameStub = stubRestApi('renameFileInChangeEdit');
-      renameAutocomplete = element.$.renameDialog!.querySelector(
-        'gr-autocomplete'
-      )!;
+      renameAutocomplete =
+        element.$.renameDialog!.querySelector('gr-autocomplete')!;
     });
 
     test('rename', () => {

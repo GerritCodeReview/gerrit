@@ -356,7 +356,7 @@ export const grRestApiMock: RestApiService = {
   },
   getRepo(repo: RepoName): Promise<ProjectInfo | undefined> {
     return Promise.resolve({
-      id: (repo as string) as UrlEncodedRepoName,
+      id: repo as string as UrlEncodedRepoName,
       name: repo,
     });
   },

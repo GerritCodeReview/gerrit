@@ -180,8 +180,8 @@ export class GrReviewerUpdatesParser {
     if (isParserBatchWithNonEmptyUpdates(batch)) {
       newUpdates.push(batch);
     }
-    ((this.result
-      .reviewer_updates as unknown) as ParserBatchWithNonEmptyUpdates[]) = newUpdates;
+    (this.result
+      .reviewer_updates as unknown as ParserBatchWithNonEmptyUpdates[]) = newUpdates;
     return newUpdates;
   }
 
@@ -227,15 +227,15 @@ export class GrReviewerUpdatesParser {
    * @see https://gerrit-review.googlesource.com/c/94490/
    */
   _formatUpdates() {
-    const reviewerUpdates = (this.result
-      .reviewer_updates as unknown) as ParserBatchWithNonEmptyUpdates[];
+    const reviewerUpdates = this.result
+      .reviewer_updates as unknown as ParserBatchWithNonEmptyUpdates[];
     for (const update of reviewerUpdates) {
       const groupedReviewers = this._groupUpdatesByMessage(update.updates);
       const newUpdates: {message: string; reviewers: AccountInfo[]}[] = [];
       for (const [message, reviewers] of Object.entries(groupedReviewers)) {
         newUpdates.push({message, reviewers});
       }
-      ((update as unknown) as FormattedReviewerUpdateInfo).updates = newUpdates;
+      (update as unknown as FormattedReviewerUpdateInfo).updates = newUpdates;
     }
   }
 
@@ -245,8 +245,8 @@ export class GrReviewerUpdatesParser {
    * TODO(viktard): Remove when server-side serves reviewer updates like so.
    */
   _advanceUpdates() {
-    const updates = (this.result
-      .reviewer_updates as unknown) as FormattedReviewerUpdateInfo[];
+    const updates = this.result
+      .reviewer_updates as unknown as FormattedReviewerUpdateInfo[];
     const messages = this.result.messages;
     messages.forEach((message, index) => {
       const messageDate = parseDate(message.date).getTime();

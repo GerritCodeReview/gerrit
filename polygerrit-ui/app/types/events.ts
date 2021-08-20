@@ -114,7 +114,8 @@ export type ChangedEvent = CustomEvent<string>;
 export interface ChangeMessageDeletedEventDetail {
   message: ChangeMessage;
 }
-export type ChangeMessageDeletedEvent = CustomEvent<ChangeMessageDeletedEventDetail>;
+export type ChangeMessageDeletedEvent =
+  CustomEvent<ChangeMessageDeletedEventDetail>;
 
 export type CommitEvent = CustomEvent;
 
@@ -131,7 +132,8 @@ export type DropEvent = DragEvent;
 export interface EditableContentSaveEventDetail {
   content: string;
 }
-export type EditableContentSaveEvent = CustomEvent<EditableContentSaveEventDetail>;
+export type EditableContentSaveEvent =
+  CustomEvent<EditableContentSaveEventDetail>;
 
 export interface RpcLogEventDetail {
   status: number | null;

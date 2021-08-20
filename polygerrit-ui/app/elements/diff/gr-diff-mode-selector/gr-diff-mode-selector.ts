@@ -51,7 +51,9 @@ export class GrDiffModeSelector extends PolymerElement {
   /** @override */
   connectedCallback() {
     super.connectedCallback();
-    ((IronA11yAnnouncer as unknown) as FixIronA11yAnnouncer).requestAvailability();
+    (
+      IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
+    ).requestAvailability();
   }
 
   /**

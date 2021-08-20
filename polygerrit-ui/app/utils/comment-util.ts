@@ -367,9 +367,9 @@ export function computeId(comment: UIComment) {
  * TODO(taoalpha): should consider changing BE to send path
  * back within CommentInfo
  */
-export function addPath<T>(
-  comments: {[path: string]: T[]} = {}
-): {[path: string]: Array<T & {path: string}>} {
+export function addPath<T>(comments: {[path: string]: T[]} = {}): {
+  [path: string]: Array<T & {path: string}>;
+} {
   const updatedComments: {[path: string]: Array<T & {path: string}>} = {};
   for (const filePath of Object.keys(comments)) {
     const allCommentsForPath = comments[filePath] || [];

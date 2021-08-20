@@ -673,9 +673,9 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleKeyboardShortcutDialogClose() {
-    (this.shadowRoot!.querySelector(
-      '#keyboardShortcuts'
-    ) as GrOverlay).cancel();
+    (
+      this.shadowRoot!.querySelector('#keyboardShortcuts') as GrOverlay
+    ).cancel();
   }
 
   onOverlayCanceled() {
@@ -686,9 +686,9 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
   _handleAccountDetailUpdate() {
     this.$.mainHeader.reload();
     if (this.params?.view === GerritView.SETTINGS) {
-      (this.shadowRoot!.querySelector(
-        'gr-settings-view'
-      ) as GrSettingsView).reloadAccountDetail();
+      (
+        this.shadowRoot!.querySelector('gr-settings-view') as GrSettingsView
+      ).reloadAccountDetail();
     }
   }
 
@@ -696,9 +696,9 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     // The registration dialog is visible only if this.params is
     // instanceof AppElementJustRegisteredParams
     (this.params as AppElementJustRegisteredParams).justRegistered = false;
-    (this.shadowRoot!.querySelector(
-      '#registrationOverlay'
-    ) as GrOverlay).close();
+    (
+      this.shadowRoot!.querySelector('#registrationOverlay') as GrOverlay
+    ).close();
   }
 
   _goToOpenedChanges() {

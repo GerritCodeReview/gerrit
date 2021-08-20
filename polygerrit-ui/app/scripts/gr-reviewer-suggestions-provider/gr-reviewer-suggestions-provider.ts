@@ -56,7 +56,8 @@ export interface ReviewerSuggestionsProvider {
 }
 
 export class GrReviewerSuggestionsProvider
-  implements ReviewerSuggestionsProvider {
+  implements ReviewerSuggestionsProvider
+{
   static create(
     restApi: RestApiService,
     changeNumber: NumericChangeId,

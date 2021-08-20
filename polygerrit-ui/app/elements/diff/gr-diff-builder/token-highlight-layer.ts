@@ -191,9 +191,7 @@ export class TokenHighlightLayer implements DiffLayer {
     this.notifyForToken(newHighlight, newLineNumber ?? 0);
   }
 
-  findTokenAncestor(
-    el?: EventTarget | Element | null
-  ): {
+  findTokenAncestor(el?: EventTarget | Element | null): {
     token?: string;
     line: number;
   } {

@@ -102,10 +102,11 @@ suite('gr-reply-dialog tests', () => {
   let setDraftCommentStub: sinon.SinonStub;
   let eraseDraftCommentStub: sinon.SinonStub;
 
-  const emptyAccountInfoInputChanges = ([] as unknown) as PolymerDeepPropertyChange<
-    AccountInfoInput[],
-    AccountInfoInput[]
-  >;
+  const emptyAccountInfoInputChanges =
+    [] as unknown as PolymerDeepPropertyChange<
+      AccountInfoInput[],
+      AccountInfoInput[]
+    >;
 
   let lastId = 1;
   const makeAccount = function () {
@@ -129,7 +130,7 @@ suite('gr-reply-dialog tests', () => {
       ...createChange(),
       _number: changeNum,
       owner: {
-        _account_id: (999 as AccountId) as AccountId,
+        _account_id: 999 as AccountId as AccountId,
         display_name: 'Kermit',
       },
       labels: {
@@ -1067,10 +1068,9 @@ suite('gr-reply-dialog tests', () => {
       const value = '+1';
       element.setLabelValue(label, value);
 
-      const labels = (queryAndAssert(
-        element,
-        '#labelScores'
-      ) as GrLabelScores).getLabelValues();
+      const labels = (
+        queryAndAssert(element, '#labelScores') as GrLabelScores
+      ).getLabelValues();
       assert.deepEqual(labels, {
         'Code-Review': 0,
         Verified: 1,
@@ -1173,10 +1173,9 @@ suite('gr-reply-dialog tests', () => {
     observer = overlayObserver('closed');
     const expected = 'Group name has 10 members';
     assert.notEqual(
-      (queryAndAssert(
-        element,
-        'reviewerConfirmationOverlay'
-      ) as GrOverlay).innerText.indexOf(expected),
+      (
+        queryAndAssert(element, 'reviewerConfirmationOverlay') as GrOverlay
+      ).innerText.indexOf(expected),
       -1
     );
     tap(noButton); // close the overlay

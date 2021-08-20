@@ -32,7 +32,7 @@ suite('gr-context-control tests', () => {
 
   setup(async () => {
     element = document.createElement('gr-context-controls');
-    element.diff = ({content: []} as any) as DiffInfo;
+    element.diff = {content: []} as any as DiffInfo;
     element.renderPreferences = {};
     element.section = document.createElement('div');
     blankFixture.instantiate().appendChild(element);
@@ -124,9 +124,9 @@ suite('gr-context-control tests', () => {
 
   function prepareForBlockExpansion(syntaxTree: SyntaxBlock[]) {
     element.renderPreferences!.use_block_expansion = true;
-    element.diff!.meta_b = ({
+    element.diff!.meta_b = {
       syntax_tree: syntaxTree,
-    } as any) as DiffFileMetaInfo;
+    } as any as DiffFileMetaInfo;
   }
 
   test('context control with block expansion at the top', async () => {
@@ -360,12 +360,10 @@ suite('gr-context-control tests', () => {
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
       '.blockExpansion paper-button'
     );
-    const tooltipAbove = blockExpansionButtons[0].querySelector(
-      'paper-tooltip'
-    )!;
-    const tooltipBelow = blockExpansionButtons[1].querySelector(
-      'paper-tooltip'
-    )!;
+    const tooltipAbove =
+      blockExpansionButtons[0].querySelector('paper-tooltip')!;
+    const tooltipBelow =
+      blockExpansionButtons[1].querySelector('paper-tooltip')!;
     assert.equal(
       tooltipAbove.querySelector('.breadcrumbTooltip')!.textContent?.trim(),
       '20 common lines'

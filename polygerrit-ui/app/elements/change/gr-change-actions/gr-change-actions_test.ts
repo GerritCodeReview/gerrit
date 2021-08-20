@@ -1679,9 +1679,8 @@ suite('gr-change-actions tests', () => {
       });
 
       test('is first in list of secondary actions', () => {
-        const approveButton = element.$.secondaryActions.querySelector(
-          'gr-button'
-        );
+        const approveButton =
+          element.$.secondaryActions.querySelector('gr-button');
         assert.equal(approveButton!.getAttribute('data-label'), 'foo+1');
       });
 

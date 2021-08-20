@@ -216,7 +216,8 @@ const RoutePattern = {
   // Matches diff routes using @\d+ to specify a file name (whether or not
   // the project name is included).
   // eslint-disable-next-line max-len
-  DIFF_LEGACY_LINENUM: /^\/c\/((.+)\/\+\/)?(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?\/(.+))?)@[ab]?\d+$/,
+  DIFF_LEGACY_LINENUM:
+    /^\/c\/((.+)\/\+\/)?(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?\/(.+))?)@[ab]?\d+$/,
 
   SETTINGS: /^\/settings\/?/,
   SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,
@@ -1752,7 +1753,7 @@ export class GrRouter extends PolymerElement {
   _handleNewAgreementsRoute(data: PageContextWithQueryMap) {
     data.params['view'] = GerritView.AGREEMENTS;
     // TODO(TS): create valid object
-    this._setParams((data.params as unknown) as AppElementAgreementParam);
+    this._setParams(data.params as unknown as AppElementAgreementParam);
   }
 
   _handleSettingsLegacyRoute(data: PageContextWithQueryMap) {

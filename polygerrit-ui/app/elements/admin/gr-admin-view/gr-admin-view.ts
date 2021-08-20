@@ -400,8 +400,8 @@ export class GrAdminView extends PolymerElement {
     // TODO(TS): The following condition seems always false, because params
     // never has detailType property. Remove it.
     if (
-      ((params as unknown) as AdminSubsectionLink).detailType &&
-      ((params as unknown) as AdminSubsectionLink).detailType !== detailType
+      (params as unknown as AdminSubsectionLink).detailType &&
+      (params as unknown as AdminSubsectionLink).detailType !== detailType
     ) {
       return '';
     }

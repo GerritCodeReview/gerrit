@@ -133,9 +133,10 @@ export class GrLabelScoreRow extends PolymerElement {
     if (side === 'start') {
       return new Array(startPosition);
     }
-    const endPosition = this.labelValues[
-      Number(permittedLabels[label][permittedLabels[label].length - 1])
-    ];
+    const endPosition =
+      this.labelValues[
+        Number(permittedLabels[label][permittedLabels[label].length - 1])
+      ];
     return new Array(Object.keys(this.labelValues).length - endPosition - 1);
   }
 

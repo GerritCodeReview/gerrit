@@ -515,11 +515,13 @@ export class GrContextControls extends LitElement {
   private contextRange() {
     return {
       leftStart: this.contextGroups[0].lineRange.left.start_line,
-      leftEnd: this.contextGroups[this.contextGroups.length - 1].lineRange.left
-        .end_line,
+      leftEnd:
+        this.contextGroups[this.contextGroups.length - 1].lineRange.left
+          .end_line,
       rightStart: this.contextGroups[0].lineRange.right.start_line,
-      rightEnd: this.contextGroups[this.contextGroups.length - 1].lineRange
-        .right.end_line,
+      rightEnd:
+        this.contextGroups[this.contextGroups.length - 1].lineRange.right
+          .end_line,
     };
   }
 

@@ -1041,9 +1041,8 @@ suite('gr-change-view tests', () => {
     const expectedStatuses = [ChangeStates.MERGED, ChangeStates.WIP];
     assert.deepEqual(element._changeStatuses, expectedStatuses);
     flush();
-    const statusChips = element.shadowRoot!.querySelectorAll(
-      'gr-change-status'
-    );
+    const statusChips =
+      element.shadowRoot!.querySelectorAll('gr-change-status');
     assert.equal(statusChips.length, 2);
   });
 
@@ -1459,7 +1458,8 @@ suite('gr-change-view tests', () => {
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
-    const value: AppElementChangeViewParams = createAppElementChangeViewParams();
+    const value: AppElementChangeViewParams =
+      createAppElementChangeViewParams();
     element.params = value;
     await flush();
     assert.isTrue(reloadStub.calledOnce);
@@ -1474,7 +1474,8 @@ suite('gr-change-view tests', () => {
     const recreateSpy = sinon.spy();
     element.addEventListener('recreate-change-view', recreateSpy);
 
-    const value: AppElementChangeViewParams = createAppElementChangeViewParams();
+    const value: AppElementChangeViewParams =
+      createAppElementChangeViewParams();
     element.params = value;
     await flush();
     assert.isFalse(recreateSpy.calledOnce);
@@ -1873,10 +1874,10 @@ suite('gr-change-view tests', () => {
       const div = document.createElement('div');
       element.$.replyDialog.draft = '> quote text\n\n some draft text';
       element.$.replyDialog.quote = '> quote text\n\n';
-      const e = ({
+      const e = {
         target: div,
         preventDefault: sinon.spy(),
-      } as unknown) as MouseEvent;
+      } as unknown as MouseEvent;
       element._handleReplyTap(e);
       assert.equal(
         element.$.replyDialog.draft,

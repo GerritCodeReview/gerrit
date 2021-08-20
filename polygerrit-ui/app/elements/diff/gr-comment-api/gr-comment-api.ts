@@ -552,8 +552,9 @@ export class ChangeComments {
         )
       );
     }
-    const commentThreadCount = threads.filter(thread => !isDraftThread(thread))
-      .length;
+    const commentThreadCount = threads.filter(
+      thread => !isDraftThread(thread)
+    ).length;
     const unresolvedCount = threads.reduce((cnt, thread) => {
       if (isUnresolved(thread)) cnt += 1;
       return cnt;
@@ -627,10 +628,8 @@ export class GrCommentApi extends PolymerElement {
       this.restApiService.getPortedDrafts(changeNum, patchNum),
     ]).then(res => {
       if (!this._changeComments) return;
-      this._changeComments = this._changeComments.cloneWithUpdatedPortedComments(
-        res[0],
-        res[1]
-      );
+      this._changeComments =
+        this._changeComments.cloneWithUpdatedPortedComments(res[0], res[1]);
     });
   }
 }

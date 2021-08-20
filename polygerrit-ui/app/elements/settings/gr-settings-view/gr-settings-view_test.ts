@@ -168,14 +168,18 @@ suite('gr-settings-view tests', () => {
     // Rendered with the expected preferences selected.
     assert.equal(
       Number(
-        (valueOf('Changes per page', 'preferences')!
-          .firstElementChild as GrSelect).bindValue
+        (
+          valueOf('Changes per page', 'preferences')!
+            .firstElementChild as GrSelect
+        ).bindValue
       ),
       preferences.changes_per_page
     );
     assert.equal(
-      (valueOf('Date/time format', 'preferences')!
-        .firstElementChild as GrSelect).bindValue,
+      (
+        valueOf('Date/time format', 'preferences')!
+          .firstElementChild as GrSelect
+      ).bindValue,
       preferences.date_format
     );
     assert.equal(
@@ -184,8 +188,10 @@ suite('gr-settings-view tests', () => {
       preferences.time_format
     );
     assert.equal(
-      (valueOf('Email notifications', 'preferences')!
-        .firstElementChild as GrSelect).bindValue,
+      (
+        valueOf('Email notifications', 'preferences')!
+          .firstElementChild as GrSelect
+      ).bindValue,
       preferences.email_strategy
     );
     assert.equal(
@@ -194,13 +200,17 @@ suite('gr-settings-view tests', () => {
       preferences.email_format
     );
     assert.equal(
-      (valueOf('Default Base For Merges', 'preferences')!
-        .firstElementChild as GrSelect).bindValue,
+      (
+        valueOf('Default Base For Merges', 'preferences')!
+          .firstElementChild as GrSelect
+      ).bindValue,
       preferences.default_base_for_merges
     );
     assert.equal(
-      (valueOf('Show Relative Dates In Changes Table', 'preferences')!
-        .firstElementChild as HTMLInputElement).checked,
+      (
+        valueOf('Show Relative Dates In Changes Table', 'preferences')!
+          .firstElementChild as HTMLInputElement
+      ).checked,
       false
     );
     assert.equal(
@@ -209,27 +219,35 @@ suite('gr-settings-view tests', () => {
       preferences.diff_view
     );
     assert.equal(
-      (valueOf('Show size bars in file list', 'preferences')!
-        .firstElementChild as HTMLInputElement).checked,
+      (
+        valueOf('Show size bars in file list', 'preferences')!
+          .firstElementChild as HTMLInputElement
+      ).checked,
       true
     );
     assert.equal(
-      (valueOf('Publish comments on push', 'preferences')!
-        .firstElementChild as HTMLInputElement).checked,
+      (
+        valueOf('Publish comments on push', 'preferences')!
+          .firstElementChild as HTMLInputElement
+      ).checked,
       false
     );
     assert.equal(
-      (valueOf(
-        'Set new changes to "work in progress" by default',
-        'preferences'
-      )!.firstElementChild as HTMLInputElement).checked,
+      (
+        valueOf(
+          'Set new changes to "work in progress" by default',
+          'preferences'
+        )!.firstElementChild as HTMLInputElement
+      ).checked,
       false
     );
     assert.equal(
-      (valueOf(
-        'Insert Signed-off-by Footer For Inline Edit Changes',
-        'preferences'
-      )!.firstElementChild as HTMLInputElement).checked,
+      (
+        valueOf(
+          'Insert Signed-off-by Footer For Inline Edit Changes',
+          'preferences'
+        )!.firstElementChild as HTMLInputElement
+      ).checked,
       false
     );
 

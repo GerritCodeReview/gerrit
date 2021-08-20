@@ -318,7 +318,7 @@ suite('comment action tests with unresolved thread', () => {
   setup(() => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('saveDiffDraft').returns(
-      Promise.resolve(({
+      Promise.resolve({
         headers: {} as Headers,
         redirected: false,
         status: 200,
@@ -339,10 +339,10 @@ suite('comment action tests with unresolved thread', () => {
               })
           );
         },
-      } as unknown) as Response)
+      } as unknown as Response)
     );
     stubRestApi('deleteDiffDraft').returns(
-      Promise.resolve(({ok: true} as unknown) as Response)
+      Promise.resolve({ok: true} as unknown as Response)
     );
     element = withCommentFixture.instantiate();
     element.patchNum = 1 as PatchSetNum;
@@ -351,7 +351,7 @@ suite('comment action tests with unresolved thread', () => {
       {
         author: {
           name: 'Mr. Peanutbutter',
-          email: ('tenn1sballchaser@aol.com' as EmailAddress) as EmailAddress,
+          email: 'tenn1sballchaser@aol.com' as EmailAddress as EmailAddress,
         },
         id: 'baf0414d_60047215' as UrlEncodedCommentId,
         line: 5,
@@ -379,7 +379,7 @@ suite('comment action tests with unresolved thread', () => {
     assert.notOk(drafts[0].message, 'message should be empty');
     assert.equal(
       drafts[0].in_reply_to,
-      ('baf0414d_60047215' as UrlEncodedCommentId) as UrlEncodedCommentId
+      'baf0414d_60047215' as UrlEncodedCommentId as UrlEncodedCommentId
     );
     assert.isTrue(reportStub.calledOnce);
   });
@@ -398,7 +398,7 @@ suite('comment action tests with unresolved thread', () => {
     assert.equal(drafts[0].message, '> is this a crossover episode!?\n\n');
     assert.equal(
       drafts[0].in_reply_to,
-      ('baf0414d_60047215' as UrlEncodedCommentId) as UrlEncodedCommentId
+      'baf0414d_60047215' as UrlEncodedCommentId as UrlEncodedCommentId
     );
     assert.isTrue(reportStub.calledOnce);
   });
@@ -409,7 +409,7 @@ suite('comment action tests with unresolved thread', () => {
       {
         author: {
           name: 'Mr. Peanutbutter',
-          email: ('tenn1sballchaser@aol.com' as EmailAddress) as EmailAddress,
+          email: 'tenn1sballchaser@aol.com' as EmailAddress as EmailAddress,
         },
         id: 'baf0414d_60047215' as UrlEncodedCommentId,
         path: 'test',
@@ -832,7 +832,7 @@ suite('comment action tests on resolved comments', () => {
   setup(() => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('saveDiffDraft').returns(
-      Promise.resolve(({
+      Promise.resolve({
         ok: true,
         text() {
           return Promise.resolve(
@@ -847,10 +847,10 @@ suite('comment action tests on resolved comments', () => {
               })
           );
         },
-      } as unknown) as Response)
+      } as unknown as Response)
     );
     stubRestApi('deleteDiffDraft').returns(
-      Promise.resolve(({ok: true} as unknown) as Response)
+      Promise.resolve({ok: true} as unknown as Response)
     );
     element = withCommentFixture.instantiate();
     element.patchNum = 1 as PatchSetNum;

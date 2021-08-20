@@ -372,8 +372,10 @@ suite('gr-autocomplete tests', () => {
   test('_focused flag properly triggered', () => {
     flush();
     assert.isFalse(element._focused);
-    const input = queryAndAssert<PaperInputElement>(element, 'paper-input')
-      .inputElement;
+    const input = queryAndAssert<PaperInputElement>(
+      element,
+      'paper-input'
+    ).inputElement;
     MockInteractions.focus(input);
     assert.isTrue(element._focused);
   });

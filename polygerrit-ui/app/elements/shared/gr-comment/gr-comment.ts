@@ -346,7 +346,8 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     if (!editing) return;
     // visibility based on cache this will make sure we only and always show
     // a tip once every Math.max(a day, period between creating comments)
-    const cachedVisibilityOfRespectfulTip = this.storage.getRespectfulTipVisibility();
+    const cachedVisibilityOfRespectfulTip =
+      this.storage.getRespectfulTipVisibility();
     if (!cachedVisibilityOfRespectfulTip) {
       // we still want to show the tip with a probability of 30%
       if (this.getRandomNum(0, 3) >= 1) return;
@@ -484,7 +485,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
 
         this._eraseDraftCommentFromStorage();
         return this.restApiService.getResponseObject(response).then(obj => {
-          const resComment = (obj as unknown) as UIDraft;
+          const resComment = obj as unknown as UIDraft;
           if (!isDraft(this.comment)) throw new Error('Can only save drafts.');
           resComment.__draft = true;
           // Maintain the ephemeral draft ID for identification by other

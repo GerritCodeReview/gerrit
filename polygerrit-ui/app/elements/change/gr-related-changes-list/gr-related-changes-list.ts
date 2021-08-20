@@ -177,8 +177,8 @@ export class GrRelatedChangesList extends GrLitElement {
             html`<div
               class="${classMap({
                 ['relatedChangeLine']: true,
-                ['show-when-collapsed']: relatedChangesMarkersPredicate(index)
-                  .showWhenCollapsed,
+                ['show-when-collapsed']:
+                  relatedChangesMarkersPredicate(index).showWhenCollapsed,
               })}"
             >
               ${this.renderMarkers(
@@ -232,9 +232,8 @@ export class GrRelatedChangesList extends GrLitElement {
             html`<div
               class="${classMap({
                 ['relatedChangeLine']: true,
-                ['show-when-collapsed']: submittedTogetherMarkersPredicate(
-                  index
-                ).showWhenCollapsed,
+                ['show-when-collapsed']:
+                  submittedTogetherMarkersPredicate(index).showWhenCollapsed,
               })}"
             >
               ${this.renderMarkers(
@@ -280,8 +279,8 @@ export class GrRelatedChangesList extends GrLitElement {
             html`<div
               class="${classMap({
                 ['relatedChangeLine']: true,
-                ['show-when-collapsed']: sameTopicMarkersPredicate(index)
-                  .showWhenCollapsed,
+                ['show-when-collapsed']:
+                  sameTopicMarkersPredicate(index).showWhenCollapsed,
               })}"
             >
               ${this.renderMarkers(
@@ -323,8 +322,8 @@ export class GrRelatedChangesList extends GrLitElement {
             html`<div
               class="${classMap({
                 ['relatedChangeLine']: true,
-                ['show-when-collapsed']: mergeConflictsMarkersPredicate(index)
-                  .showWhenCollapsed,
+                ['show-when-collapsed']:
+                  mergeConflictsMarkersPredicate(index).showWhenCollapsed,
               })}"
             >
               ${this.renderMarkers(
@@ -365,8 +364,8 @@ export class GrRelatedChangesList extends GrLitElement {
             html`<div
               class="${classMap({
                 ['relatedChangeLine']: true,
-                ['show-when-collapsed']: cherryPicksMarkersPredicate(index)
-                  .showWhenCollapsed,
+                ['show-when-collapsed']:
+                  cherryPicksMarkersPredicate(index).showWhenCollapsed,
               })}"
             >
               ${this.renderMarkers(

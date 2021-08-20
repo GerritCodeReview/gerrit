@@ -110,12 +110,11 @@ export const latestPatchNum$ = change$.pipe(
  * Note that this selector can emit a patchNum without the change being
  * available!
  */
-export const currentPatchNum$: Observable<
-  PatchSetNum | undefined
-> = changeAndRouterConsistent$.pipe(
-  withLatestFrom(routerPatchNum$, latestPatchNum$),
-  map(
-    ([_, routerPatchNum, latestPatchNum]) => routerPatchNum || latestPatchNum
-  ),
-  distinctUntilChanged()
-);
+export const currentPatchNum$: Observable<PatchSetNum | undefined> =
+  changeAndRouterConsistent$.pipe(
+    withLatestFrom(routerPatchNum$, latestPatchNum$),
+    map(
+      ([_, routerPatchNum, latestPatchNum]) => routerPatchNum || latestPatchNum
+    ),
+    distinctUntilChanged()
+  );

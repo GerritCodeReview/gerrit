@@ -42,9 +42,9 @@ export class GrChangeReplyInterface implements ChangeReplyPluginApi {
   }
 
   get _el(): GrReplyDialog {
-    return (this.sharedApiElement.getElement(
+    return this.sharedApiElement.getElement(
       TargetElement.REPLY_DIALOG
-    ) as unknown) as GrReplyDialog;
+    ) as unknown as GrReplyDialog;
   }
 
   getLabelValue(label: string): string {

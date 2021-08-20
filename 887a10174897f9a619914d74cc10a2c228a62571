@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6491315f_3c2dd261",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-20T14:32:48Z",
+      "side": 1,
+      "message": "This also can be done once. We only need to format once, since it returns the diff for all files. All modified files (line 119) should have the same old/new commit IDs.",
+      "range": {
+        "startLine": 202,
+        "startChar": 6,
+        "endLine": 209,
+        "endChar": 44
+      },
+      "revId": "887a10174897f9a619914d74cc10a2c228a62571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

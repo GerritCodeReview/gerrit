@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f03e129c_f5d34ee7",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T20:17:17Z",
+      "side": 1,
+      "message": "as in other change: What it the strategy for reset? Should get undefined when change number changes, right?",
+      "revId": "4ef466f81bfa150a25679713fc2e1e92d27b0501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d15cefb7_cfa5a65b",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T20:17:17Z",
+      "side": 1,
+      "message": "This makes it apparent that this does not really scale. At some point we need to have a ChangeViewParams object or something. Otherwise the list of parameters will grow too much. (can be postponed of course, but maybe add a TODO then)",
+      "revId": "4ef466f81bfa150a25679713fc2e1e92d27b0501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51f0ae28_bcc8e05b",
+        "filename": "polygerrit-ui/app/services/router/router-service.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T20:17:17Z",
+      "side": 1,
+      "message": "as in other change: maybe `set...`",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "4ef466f81bfa150a25679713fc2e1e92d27b0501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

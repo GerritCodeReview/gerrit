@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07801221_311dc3ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-20T19:57:05Z",
+      "side": 0,
+      "message": "This truthiness check is not needed if the parameter is actually string, but the _computeBlock logic was actually passing in undefined sometimes and using these predicates as a bounds check as well. Now the bounds check is explicit in getLastMatchingIndex and not needed here.",
+      "range": {
+        "startLine": 248,
+        "startChar": 11,
+        "endLine": 248,
+        "endChar": 16
+      },
+      "revId": "167ecf586f96c5abc11f1cf0acb77acc75db9fe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8caabdc3_92a1fb27",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-20T19:57:05Z",
+      "side": 0,
+      "message": "this case was never possible",
+      "range": {
+        "startLine": 322,
+        "startChar": 6,
+        "endLine": 322,
+        "endChar": 80
+      },
+      "revId": "167ecf586f96c5abc11f1cf0acb77acc75db9fe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2c5aa5c_f85f576b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-20T19:57:05Z",
+      "side": 0,
+      "message": "duplicate of code 2",
+      "range": {
+        "startLine": 384,
+        "startChar": 0,
+        "endLine": 393,
+        "endChar": 0
+      },
+      "revId": "167ecf586f96c5abc11f1cf0acb77acc75db9fe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

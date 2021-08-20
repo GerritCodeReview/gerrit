@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54c1f0c8_975526c7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-20T19:57:05Z",
+      "side": 1,
+      "message": "This lets typescript knows what fields will be set based on the block type. This means we only need to narrow on .type instead of handling all the possibly undefined field cases that are actually not possible.\n\n```\nif (block.type \u003d\u003d\u003d \u0027list\u0027) {\n  block.items; // known to exist\n  block.blocks; // Error, known to not exist\n}\n```",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 15
+      },
+      "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da99e209_bb18c091",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-20T19:57:05Z",
+      "side": 1,
+      "message": "this is still public with _ prefix because it\u0027s used for all the tests",
+      "range": {
+        "startLine": 131,
+        "startChar": 2,
+        "endLine": 131,
+        "endChar": 16
+      },
+      "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6aa2ae5_992df845",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-20T19:57:05Z",
+      "side": 1,
+      "message": "For some reason the nextI logic in all these cases was very confusing for me, I hope this extracted method helps even though it\u0027s not functionally very different from the previous.",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 56
+      },
+      "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

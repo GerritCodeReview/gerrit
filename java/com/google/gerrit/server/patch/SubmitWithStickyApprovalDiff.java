@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.diff.DiffInfoCreator;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.git.validators.CommentCumulativeSizeValidator;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -179,12 +181,17 @@ public class SubmitWithStickyApprovalDiff {
     return diff.append(getUnifiedDiff(patchScript, notes)).toString();
   }
 
-  /** Show patch set as unified difference for a specific file. */
+  /**
+   * Show patch set as unified difference for a specific file. We on purpose are not using {@link
+   * DiffInfoCreator} since we'd like to get the original git/JGit style diff.
+   */
   public String getUnifiedDiff(PatchScript patchScript, ChangeNotes changeNotes)
       throws IOException {
     TemporaryBuffer.Heap buf =
         new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxCumulativeSize), maxCumulativeSize);
     try (DiffFormatter fmt = new DiffFormatter(buf);
+        // TODO(paiking): ensure we open the repository only once by opening it in the calling
+        //  method.
         Repository git = repositoryManager.openRepository(changeNotes.getProjectName())) {
       fmt.setRepository(git);
       fmt.setDetectRenames(true);
@@ -194,16 +201,39 @@ public class SubmitWithStickyApprovalDiff {
       List<String> formatterResult =
           Arrays.stream(RawParseUtils.decode(buf.toByteArray()).split("\n"))
               .collect(Collectors.toList());
-
-      // remove non user friendly information.
-      while (formatterResult.size() > 0 && !formatterResult.get(0).startsWith("@@")) {
-        formatterResult.remove(0);
+      // only return information about the current file, and not about files that are not
+      // relevant. DiffFormatter returns other potential files because of rebases, which we can
+      // ignore.
+      List<String> modifiedFormatterResult = new ArrayList<>();
+      int indexOfFormatterResult = 0;
+      while (formatterResult.size() > indexOfFormatterResult
+          && !formatterResult
+              .get(indexOfFormatterResult)
+              .equals(
+                  String.format(
+                      "diff --git a/%s b/%s",
+                      patchScript.getOldName() != null
+                          ? patchScript.getOldName()
+                          : patchScript.getNewName(),
+                      patchScript.getNewName()))) {
+        indexOfFormatterResult++;
       }
-      if (formatterResult.size() == 0) {
+      // remove non user friendly information.
+      while (formatterResult.size() > indexOfFormatterResult
+          && !formatterResult.get(indexOfFormatterResult).startsWith("@@")) {
+        indexOfFormatterResult++;
+      }
+      for (; indexOfFormatterResult < formatterResult.size(); indexOfFormatterResult++) {
+        if (formatterResult.get(indexOfFormatterResult).startsWith("diff --git")) {
+          break;
+        }
+        modifiedFormatterResult.add(formatterResult.get(indexOfFormatterResult));
+      }
+      if (modifiedFormatterResult.size() == 0) {
         // This happens for diffs that are just renames, but we already account for renames.
         return "";
       }
-      return formatterResult.stream()
+      return modifiedFormatterResult.stream()
           .filter(s -> !s.equals("\\ No newline at end of file"))
           .collect(Collectors.joining("\n"));
     } catch (IOException e) {

@@ -450,7 +450,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
     this._loading = true;
 
-    this.collapseAllDiffs();
+    this.resetAllDiffs();
     const promises = [];
 
     promises.push(
@@ -642,12 +642,15 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   collapseAllDiffs() {
-    this._showInlineDiffs = false;
     this._expandedFiles = [];
-    this.filesExpanded = this._computeExpandedFiles(
-      this._expandedFiles.length,
-      this._files.length
-    );
+    this.resetAllDiffs();
+  }
+
+  resetAllDiffs() {
+    // If changeNum changes, then the entire change view is recreated and
+    // _expandedFiles resets back to []
+    this._showInlineDiffs = false;
+    this.filesExpanded = this._computeExpandedFiles(0, this._files.length);
     this.diffCursor.handleDiffUpdate();
   }
 
@@ -1257,7 +1260,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     if (
       filesByPath === undefined ||
       changeComments === undefined ||
-      patchRange === undefined ||
+      patchRange?.basePatchNum === undefined ||
+      patchRange?.patchNum === undefined ||
       reviewed === undefined ||
       loading === undefined
     ) {
@@ -1275,6 +1279,12 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       reviewedFileInfo.isReviewed = reviewedSet.has(filePath);
     }
     this._files = this._normalizeChangeFilesResponse(files);
+    const filesToRender = this._files
+      .filter(file =>
+        this._expandedFiles.some((f: PatchSetFile) => f.path === file.__path)
+      )
+      .map(file => this._computePatchSetFile(file));
+    this._renderInOrder(filesToRender, this.diffs, filesToRender.length);
   }
 
   _computeFilesShown(

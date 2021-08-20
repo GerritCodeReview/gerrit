@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a7f7e6e_28631f7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-20T08:03:05Z",
+      "side": 1,
+      "message": "Can you add a test for this case (two fixes at the same time)?",
+      "revId": "bfe384e0af5338ff61b7290dd64941534a861228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5af9d411_6573a382",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-20T08:03:05Z",
+      "side": 1,
+      "message": "but now instead of overwriting, you\u0027re just only doing the first fix and ignoring the follow-up fixes, no?\n\nIt used to be:\nfixedChangeMessage \u003d X..\nfixedChangeMessage \u003d Y..\n\nSo the result is Y.\n\nBut now it\u0027s:\nfixedChangeMessage \u003d X\nignore Y.\n\nresult is X.\n\nShouldn\u0027t it be some sort of combination of X and Y?\n\nMaybe something like:\n          fixedChangeMessage \u003d fixReviewerChangeMessage(fixedChangeMessage.getOrDefault(originalChangeMessage));",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "bfe384e0af5338ff61b7290dd64941534a861228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.entities.Project;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 /**
  * This exception is thrown if a project cannot be created because a project with the same name in a
@@ -23,12 +22,12 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
  * (e.g. Windows), because in this case the name for the git repository in the file system is
  * already occupied by the existing project.
  */
-public class RepositoryCaseMismatchException extends RepositoryNotFoundException {
+public class RepositoryCaseMismatchException extends RepositoryExistsException {
 
   private static final long serialVersionUID = 1L;
 
   /** @param projectName name of the project that cannot be created */
   public RepositoryCaseMismatchException(Project.NameKey projectName) {
-    super("Name occupied in other case. Project " + projectName.get() + " cannot be created.");
+    super(projectName, "Name occupied in other case.");
   }
 }

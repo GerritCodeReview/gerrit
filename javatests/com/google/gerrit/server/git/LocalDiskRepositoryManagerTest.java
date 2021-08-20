@@ -20,6 +20,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager.Status;
 import com.google.gerrit.server.ioutil.HostPlatform;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -67,6 +68,7 @@ public class LocalDiskRepositoryManagerTest {
     try (Repository repo = repoManager.openRepository(projectA)) {
       assertThat(repo).isNotNull();
     }
+    assertThat(repoManager.getRepositoryStatus(projectA)).isEqualTo(Status.ACTIVE);
     assertThat(repoManager.list()).containsExactly(projectA);
   }
 
@@ -199,7 +201,7 @@ public class LocalDiskRepositoryManagerTest {
   public void testProjectRecreation() throws Exception {
     repoManager.createRepository(Project.nameKey("a"));
     assertThrows(
-        IllegalStateException.class, () -> repoManager.createRepository(Project.nameKey("a")));
+        RepositoryExistsException.class, () -> repoManager.createRepository(Project.nameKey("a")));
   }
 
   @Test
@@ -207,7 +209,8 @@ public class LocalDiskRepositoryManagerTest {
     repoManager.createRepository(Project.nameKey("a"));
     LocalDiskRepositoryManager newRepoManager = new LocalDiskRepositoryManager(site, cfg);
     assertThrows(
-        IllegalStateException.class, () -> newRepoManager.createRepository(Project.nameKey("a")));
+        RepositoryExistsException.class,
+        () -> newRepoManager.createRepository(Project.nameKey("a")));
   }
 
   @Test
@@ -218,6 +221,19 @@ public class LocalDiskRepositoryManagerTest {
       assertThat(repo).isNotNull();
     }
     assertThat(repoManager.list()).containsExactly(projectA);
+  }
+
+  @Test
+  public void testGetRepositoryStatusNameCaseMismatch() throws Exception {
+    assume().that(HostPlatform.isWin32() || HostPlatform.isMac()).isTrue();
+    repoManager.createRepository(Project.nameKey("a"));
+    assertThat(repoManager.getRepositoryStatus(Project.nameKey("A"))).isEqualTo(Status.ACTIVE);
+  }
+
+  @Test
+  public void testGetRepositoryStatusNonExistent() throws Exception {
+    assertThat(repoManager.getRepositoryStatus(Project.nameKey("non-existent")))
+        .isEqualTo(Status.NON_EXISTENT);
   }
 
   @Test
@@ -269,6 +285,12 @@ public class LocalDiskRepositoryManagerTest {
     assertThrows(
         RepositoryNotFoundException.class,
         () -> repoManager.openRepository(Project.nameKey("project%?|<>A")));
+  }
+
+  @Test
+  public void testGetRepoStatusInvalidName() throws Exception {
+    assertThat(repoManager.getRepositoryStatus(Project.nameKey("project%?|<>A")))
+        .isEqualTo(Status.NON_EXISTENT);
   }
 
   @Test

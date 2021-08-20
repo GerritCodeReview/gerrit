@@ -30,6 +30,20 @@ import org.eclipse.jgit.lib.Repository;
  */
 @ImplementedBy(value = LocalDiskRepositoryManager.class)
 public interface GitRepositoryManager {
+
+  /** Status of the repository */
+  enum Status {
+    /** Repository exists and is available on host. */
+    ACTIVE,
+    /** Repository does not exist. */
+    NON_EXISTENT,
+    /** Repository might exist but can not be open. */
+    UNAVAILABLE;
+  }
+
+  /** Get {@link Status} of the repository by name. */
+  Status getRepositoryStatus(Project.NameKey name);
+
   /**
    * Get (or open) a repository by name.
    *
@@ -53,7 +67,7 @@ public interface GitRepositoryManager {
    * @throws IOException the repository cannot be created.
    */
   Repository createRepository(Project.NameKey name)
-      throws RepositoryCaseMismatchException, RepositoryNotFoundException, IOException;
+      throws RepositoryNotFoundException, RepositoryExistsException, IOException;
 
   /** @return set of all known projects, sorted by natural NameKey order. */
   SortedSet<Project.NameKey> list();

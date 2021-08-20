@@ -15,22 +15,24 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-formatted-text.js';
+import '../../../test/common-test-setup-karma';
+import './gr-formatted-text';
+import {GrFormattedText, Block} from './gr-formatted-text';
 
 const basicFixture = fixtureFromElement('gr-formatted-text');
 
 suite('gr-formatted-text tests', () => {
-  let element;
+  let element: GrFormattedText;
 
-  function assertBlock(result, index, type, text) {
+  function assertBlock(result: Block[], index: number, type: string, text?: string) {
     assert.equal(result[index].type, type);
     assert.equal(result[index].text, text);
   }
 
-  function assertListBlock(result, resultIndex, itemIndex, text) {
+  function assertListBlock(result: Block[], resultIndex: number, itemIndex: number, text: string) {
     assert.equal(result[resultIndex].type, 'list');
-    assert.equal(result[resultIndex].items[itemIndex], text);
+    const item = result[resultIndex].items?.[itemIndex];
+    assert.equal(item, text);
   }
 
   setup(() => {
@@ -38,7 +40,6 @@ suite('gr-formatted-text tests', () => {
   });
 
   test('parse null undefined and empty', () => {
-    assert.lengthOf(element._computeBlocks(null), 0);
     assert.lengthOf(element._computeBlocks(undefined), 0);
     assert.lengthOf(element._computeBlocks(''), 0);
   });
@@ -69,8 +70,9 @@ suite('gr-formatted-text tests', () => {
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assert.equal(result[0].type, 'quote');
-    assert.lengthOf(result[0].blocks, 1);
-    assertBlock(result[0].blocks, 0, 'paragraph', 'Quote text');
+    const blocks = result[0].blocks!;
+    assert.lengthOf(blocks, 1);
+    assertBlock(blocks, 0, 'paragraph', 'Quote text');
   });
 
   test('parse quote lead space', () => {
@@ -78,8 +80,9 @@ suite('gr-formatted-text tests', () => {
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assert.equal(result[0].type, 'quote');
-    assert.lengthOf(result[0].blocks, 1);
-    assertBlock(result[0].blocks, 0, 'paragraph', 'Quote text');
+    const blocks = result[0].blocks!;
+    assert.lengthOf(blocks, 1);
+    assertBlock(blocks, 0, 'paragraph', 'Quote text');
   });
 
   test('parse multiline quote', () => {
@@ -87,8 +90,9 @@ suite('gr-formatted-text tests', () => {
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assert.equal(result[0].type, 'quote');
-    assert.lengthOf(result[0].blocks, 1);
-    assertBlock(result[0].blocks, 0, 'paragraph',
+    const blocks = result[0].blocks!;
+    assert.lengthOf(blocks, 1);
+    assertBlock(blocks, 0, 'paragraph',
         'Quote line 1\nQuote line 2\nQuote line 3');
   });
 
@@ -160,8 +164,9 @@ suite('gr-formatted-text tests', () => {
     assertBlock(result, 0, 'paragraph', 'Paragraph\nacross\na\nfew\nlines.\n');
 
     assert.equal(result[1].type, 'quote');
-    assert.lengthOf(result[1].blocks, 1);
-    assertBlock(result[1].blocks, 0, 'paragraph',
+    const secondBlocks = result[1].blocks!;
+    assert.lengthOf(secondBlocks, 1);
+    assertBlock(secondBlocks, 0, 'paragraph',
         'Quote\nacross\nnot many lines.');
 
     assertBlock(result, 2, 'paragraph', 'Another paragraph\n');
@@ -310,8 +315,9 @@ suite('gr-formatted-text tests', () => {
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
     assert.equal(result[0].type, 'quote');
-    assert.lengthOf(result[0].blocks, 1);
-    assertBlock(result[0].blocks, 0, 'paragraph', 'I\'m happy\nwith quotes!');
+    const blocks = result[0].blocks!;
+    assert.lengthOf(blocks, 1);
+    assertBlock(blocks, 0, 'paragraph', 'I\'m happy\nwith quotes!');
     assertBlock(result, 1, 'paragraph', 'See above.');
   });
 
@@ -321,8 +327,9 @@ suite('gr-formatted-text tests', () => {
     assert.lengthOf(result, 3);
     assertBlock(result, 0, 'paragraph', 'See this said:');
     assert.equal(result[1].type, 'quote');
-    assert.lengthOf(result[1].blocks, 1);
-    assertBlock(result[1].blocks, 0, 'paragraph', 'a quoted\nstring block');
+    const secondBlocks = result[1].blocks!;
+    assert.lengthOf(secondBlocks, 1);
+    assertBlock(secondBlocks, 0, 'paragraph', 'a quoted\nstring block');
     assertBlock(result, 2, 'paragraph', 'OK?');
   });
 
@@ -331,11 +338,13 @@ suite('gr-formatted-text tests', () => {
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assert.equal(result[0].type, 'quote');
-    assert.lengthOf(result[0].blocks, 2);
-    assert.equal(result[0].blocks[0].type, 'quote');
-    assert.lengthOf(result[0].blocks[0].blocks, 1);
-    assertBlock(result[0].blocks[0].blocks, 0, 'paragraph', 'prior');
-    assertBlock(result[0].blocks, 1, 'paragraph', 'next');
+    const blocks = result[0].blocks!;
+    assert.lengthOf(blocks, 2);
+    assert.equal(blocks[0].type, 'quote');
+    const blocksBlocks = blocks[0].blocks!;
+    assert.lengthOf(blocksBlocks, 1);
+    assertBlock(blocksBlocks, 0, 'paragraph', 'prior');
+    assertBlock(blocks, 1, 'paragraph', 'next');
   });
 
   test('code 1', () => {

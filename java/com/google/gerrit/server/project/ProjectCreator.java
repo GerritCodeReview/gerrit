@@ -30,6 +30,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -45,8 +46,10 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.nio.channels.ScatteringByteChannel;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -103,7 +106,7 @@ public class ProjectCreator {
   }
 
   public ProjectState createProject(CreateProjectArgs args)
-      throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
+      throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException, PreconditionFailedException {
     final Project.NameKey nameKey = args.getProject();
     try {
       final String head = args.permissionsOnly ? RefNames.REFS_CONFIG : args.branch.get(0);
@@ -139,6 +142,8 @@ public class ProjectCreator {
           e);
     } catch (RepositoryNotFoundException badName) {
       throw new BadRequestException("invalid project name: " + nameKey, badName);
+    } catch (RemoteRepositoryException ex){
+      throw new PreconditionFailedException("can not create project: " + nameKey, ex);
     } catch (ConfigInvalidException e) {
       String msg = "Cannot create " + nameKey;
       logger.atSevere().withCause(e).log(msg);

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a702a51_efa54bf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-20T08:20:15Z",
+      "side": 1,
+      "message": "Yes, the added test is fixSubmitChangeMessageAndFooters (this mimics exactly the case when I noticed the bug, multiple footers (Reviewer, Submitted-with) might require changeMessage fix, but they do not override each other.",
+      "parentUuid": "1a7f7e6e_28631f7c",
+      "revId": "bfe384e0af5338ff61b7290dd64941534a861228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5af9d411_6573a382",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-08-20T08:03:05Z",
       "side": 1,
       "message": "but now instead of overwriting, you\u0027re just only doing the first fix and ignoring the follow-up fixes, no?\n\nIt used to be:\nfixedChangeMessage \u003d X..\nfixedChangeMessage \u003d Y..\n\nSo the result is Y.\n\nBut now it\u0027s:\nfixedChangeMessage \u003d X\nignore Y.\n\nresult is X.\n\nShouldn\u0027t it be some sort of combination of X and Y?\n\nMaybe something like:\n          fixedChangeMessage \u003d fixReviewerChangeMessage(fixedChangeMessage.getOrDefault(originalChangeMessage));",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "bfe384e0af5338ff61b7290dd64941534a861228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b87f0073_24238bc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-20T08:20:15Z",
+      "side": 1,
+      "message": "There is always only one ChangeMessage for a single commit in NoteDb, so single fix for a single change message.\n\nChangeMessage is set by BatchUpdateOps together with some footer lines. The loop iterates footer lines in the same commit and fixes change message based on the footer value/pattern match along the way.\n\nAs soon as fixedChangeMessage is set for commit at some point, it means it won\u0027t match for any other footer (fix was already applied).",
+      "parentUuid": "5af9d411_6573a382",
       "range": {
         "startLine": 13,
         "startChar": 0,

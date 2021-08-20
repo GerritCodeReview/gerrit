@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -31,10 +32,12 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -113,6 +116,182 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
             + "-bla\n"
             + "-deletedEnd\n"
             + "+bla",
+        /* oldFileName= */ null);
+  }
+
+  @Test
+  public void diffChangeMessageOnSubmitWithStickyVote_ignoreDiffFromRebaseAdditions()
+      throws Exception {
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file("file")
+            .content("line1\nline2\nline3\nline4")
+            .create();
+
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("file")
+        .content("line012\nline1\nline2\nline3\nline4")
+        .create();
+
+    // add a reviewer to ensure an email is sent.
+    gApi.changes().id(changeId.get()).addReviewer(user.email());
+
+    testRepo.reset(initial);
+
+    // create 2 unrelated changes and rebase on top of them. Those rebases should be ignored.
+    // The changes add files.
+    Change.Id unrelated =
+        changeOperations.newChange().project(project).file("a").content("a").create();
+    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(unrelated.get()).current().submit();
+    unrelated = changeOperations.newChange().project(project).file("z").content("z").create();
+    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(unrelated.get()).current().submit();
+
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.base = gApi.changes().id(unrelated.get()).current().commit(true).commit;
+    gApi.changes().id(changeId.get()).current().rebase(rebaseInput);
+
+    gApi.changes().id(changeId.get()).current().submit();
+
+    assertDiffChangeMessageAndEmailWithStickyApproval(
+        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        /* file= */ "file",
+        /* insertions= */ 1,
+        /* deletions= */ 0,
+        /* expectedFileDiff= */ "@@ -1,3 +1,4 @@\n"
+            + "+line012\n"
+            + " line1\n"
+            + " line2\n"
+            + " line3",
+        /* oldFileName= */ null);
+  }
+
+  @Test
+  public void diffChangeMessageOnSubmitWithStickyVote_ignoreDiffFromRebaseRenames()
+      throws Exception {
+    Change.Id setup = changeOperations.newChange().project(project).file("a").content("a").create();
+    gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(setup.get()).current().submit();
+
+    setup = changeOperations.newChange().project(project).file("z").content("z").create();
+    gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(setup.get()).current().submit();
+
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file("file")
+            .content("line1\nline2\nline3\nline4")
+            .create();
+
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("file")
+        .content("line012\nline1\nline2\nline3\nline4")
+        .create();
+
+    // add a reviewer to ensure an email is sent.
+    gApi.changes().id(changeId.get()).addReviewer(user.email());
+
+    testRepo.reset(initial);
+
+    // create 2 unrelated changes and rebase on top of them. Those rebases should be ignored.
+    // The changes rename files.
+    Change.Id unrelated =
+        changeOperations.newChange().project(project).file("a").renameTo("aa").create();
+    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(unrelated.get()).current().submit();
+    unrelated = changeOperations.newChange().project(project).file("z").renameTo("zz").create();
+    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(unrelated.get()).current().submit();
+
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.base = gApi.changes().id(unrelated.get()).current().commit(true).commit;
+    gApi.changes().id(changeId.get()).current().rebase(rebaseInput);
+
+    gApi.changes().id(changeId.get()).current().submit();
+
+    assertDiffChangeMessageAndEmailWithStickyApproval(
+        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        /* file= */ "file",
+        /* insertions= */ 1,
+        /* deletions= */ 0,
+        /* expectedFileDiff= */ "@@ -1,3 +1,4 @@\n"
+            + "+line012\n"
+            + " line1\n"
+            + " line2\n"
+            + " line3",
+        /* oldFileName= */ null);
+  }
+
+  @Test
+  public void diffChangeMessageOnSubmitWithStickyVote_ignoreDiffFromRebaseDeletions()
+      throws Exception {
+    Change.Id setup = changeOperations.newChange().project(project).file("a").content("a").create();
+    gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(setup.get()).current().submit();
+
+    setup = changeOperations.newChange().project(project).file("z").content("z").create();
+    gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(setup.get()).current().submit();
+
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file("file")
+            .content("line1\nline2\nline3\nline4")
+            .create();
+
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("file")
+        .content("line012\nline1\nline2\nline3\nline4")
+        .create();
+
+    // add a reviewer to ensure an email is sent.
+    gApi.changes().id(changeId.get()).addReviewer(user.email());
+
+    testRepo.reset(initial);
+    // create 2 unrelated changes and rebase on top of them. Those rebases should be ignored.
+    // The changes delete files.
+    Change.Id unrelated = changeOperations.newChange().project(project).file("a").delete().create();
+    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(unrelated.get()).current().submit();
+    unrelated = changeOperations.newChange().project(project).file("z").delete().create();
+    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(unrelated.get()).current().submit();
+
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.base = gApi.changes().id(unrelated.get()).current().commit(true).commit;
+    gApi.changes().id(changeId.get()).current().rebase(rebaseInput);
+
+    gApi.changes().id(changeId.get()).current().submit();
+
+    assertDiffChangeMessageAndEmailWithStickyApproval(
+        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        /* file= */ "file",
+        /* insertions= */ 1,
+        /* deletions= */ 0,
+        /* expectedFileDiff= */ "@@ -1,3 +1,4 @@\n"
+            + "+line012\n"
+            + " line1\n"
+            + " line2\n"
+            + " line3",
         /* oldFileName= */ null);
   }
 
@@ -208,9 +387,9 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
         .isEqualTo(
             "Change has been successfully merged\n\n1 is the latest approved patch-set.\nThe "
-                + "change was submitted with unreviewed changes in the following files:\n\nThe "
-                + "name of the file: file\nInsertions: 1, Deletions: 1.\n\nThe diff is too "
-                + "large to show. Please review the diff.");
+                + "change was submitted with unreviewed changes in the following "
+                + "files:\n\n```\nThe name of the file: file\nInsertions: 1, Deletions: 1.\n\nThe"
+                + " diff is too large to show. Please review the diff.\n```\n");
   }
 
   @Test
@@ -362,6 +541,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         "1 is the latest approved patch-set.\n"
             + "The change was submitted with unreviewed changes in the following files:\n"
             + "\n"
+            + "```\n"
             + String.format("The name of the file: %s\n", file)
             + String.format("Insertions: %d, Deletions: %d.\n\n", insertions, deletions);
 
@@ -369,6 +549,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
       expectedMessage += String.format("The file %s was renamed to %s\n", oldFileName, file);
     }
     expectedMessage += expectedFileDiff;
+    expectedMessage += "\n```\n";
     String expectedChangeMessage = "Change has been successfully merged\n\n" + expectedMessage;
     assertThat(message.trim()).isEqualTo(expectedChangeMessage.trim());
     assertThat(Iterables.getLast(sender.getMessages()).body()).contains(expectedMessage);

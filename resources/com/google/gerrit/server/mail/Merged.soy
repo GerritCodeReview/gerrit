@@ -26,15 +26,17 @@
   {@param email: ?}
   {@param fromName: ?}
   {$fromName} has submitted this change.
+
   {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
   {\n}
+
+  {$email.stickyApprovalDiff}
+
   Change subject: {$change.subject}{\n}
   ......................................................................{\n}
   {\n}
   {$email.changeDetail}
   {$email.approvals}
-  {\n}
-  {$email.stickyApprovalDiff}
   {\n}
   {if $email.includeDiff}
     {\n}

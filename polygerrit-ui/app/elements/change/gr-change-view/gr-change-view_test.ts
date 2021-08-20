@@ -1389,7 +1389,7 @@ suite('gr-change-view tests', () => {
       .stub(element, '_reloadPatchNumDependentResources')
       .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
     flush();
-    const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
+    const resetStub = sinon.stub(element.$.fileList, 'resetAllDiffs');
 
     const value: AppElementChangeViewParams = {
       ...createAppElementChangeViewParams(),
@@ -1415,7 +1415,7 @@ suite('gr-change-view tests', () => {
     await flush();
     assert.isFalse(reloadStub.calledTwice);
     assert.isTrue(reloadPatchDependentStub.calledOnce);
-    assert.isTrue(collapseStub.calledTwice);
+    assert.isTrue(resetStub.calledTwice);
   });
 
   test('reload ported comments when patchNum changes', async () => {
@@ -1457,7 +1457,7 @@ suite('gr-change-view tests', () => {
     const reloadStub = sinon
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
-    const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
+    const resetStub = sinon.stub(element.$.fileList, 'resetAllDiffs');
     const value: AppElementChangeViewParams =
       createAppElementChangeViewParams();
     element.params = value;
@@ -1467,7 +1467,7 @@ suite('gr-change-view tests', () => {
     element.params = {...value};
     await flush();
     assert.isTrue(reloadStub.calledTwice);
-    assert.isTrue(collapseStub.calledTwice);
+    assert.isTrue(resetStub.calledTwice);
   });
 
   test('do not handle new change numbers', async () => {

@@ -22,7 +22,7 @@ import {css, customElement, html, property} from 'lit-element';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 
-interface Block {
+export interface Block {
   type: string;
   text?: string;
   blocks?: Block[];
@@ -126,7 +126,7 @@ export class GrFormattedText extends GrLitElement {
   _computeBlocks(content?: string): Block[] {
     if (!content) return [];
 
-    const result = [];
+    const result: Block[] = [];
     const lines = content.replace(/[\s\n\r\t]+$/g, '').split('\n');
 
     for (let i = 0; i < lines.length; i++) {

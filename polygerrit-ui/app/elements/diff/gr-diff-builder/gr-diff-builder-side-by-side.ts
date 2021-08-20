@@ -28,7 +28,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    readonly layers: DiffLayer[] = [],
+    layers: DiffLayer[] = [],
     renderPrefs?: RenderPreferences
   ) {
     super(diff, prefs, outputEl, layers, renderPrefs);
@@ -138,5 +138,5 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
   }
 
   /** @override */
-  updateRenderPrefs(_renderPrefs: RenderPreferences) {}
+  override updateRenderPrefs(_renderPrefs: RenderPreferences) {}
 }

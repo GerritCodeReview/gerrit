@@ -30,7 +30,7 @@ export class GrDiffBuilderBinary extends GrDiffBuilderUnified {
     super(diff, prefs, outputEl);
   }
 
-  buildSectionElement(): HTMLElement {
+  override buildSectionElement(): HTMLElement {
     const section = this._createElement('tbody', 'binary-diff');
     const line = new GrDiffLine(GrDiffLineType.BOTH, 'FILE', 'FILE');
     const fileRow = this._createRow(line);
@@ -41,5 +41,5 @@ export class GrDiffBuilderBinary extends GrDiffBuilderUnified {
   }
 
   /** @override */
-  updateRenderPrefs(_renderPrefs: RenderPreferences) {}
+  override updateRenderPrefs(_renderPrefs: RenderPreferences) {}
 }

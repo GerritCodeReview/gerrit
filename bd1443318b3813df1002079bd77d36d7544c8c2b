@@ -80,6 +80,24 @@
       "message": "Can we say also what happens when this is set to false? Would the query fail? Would they silently be discarded by the GUI?",
       "revId": "bd1443318b3813df1002079bd77d36d7544c8c2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff28ac0e_226e02a3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-20T07:57:30Z",
+      "side": 1,
+      "message": "@Marcin can you address this last nit?",
+      "parentUuid": "44a9e884_8dcf1050",
+      "revId": "bd1443318b3813df1002079bd77d36d7544c8c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

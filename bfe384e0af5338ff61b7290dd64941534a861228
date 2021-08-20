@@ -122,6 +122,30 @@
       },
       "revId": "bfe384e0af5338ff61b7290dd64941534a861228",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c283bf4_f43e99fe",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-20T09:46:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "715a519a_ec7fff76",
+      "range": {
+        "startLine": 878,
+        "startChar": 52,
+        "endLine": 878,
+        "endChar": 53
+      },
+      "revId": "bfe384e0af5338ff61b7290dd64941534a861228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

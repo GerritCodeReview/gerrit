@@ -16,6 +16,24 @@
       "message": "It took me a while to understand that updateTokenTask is not relevant anymore when you have already hovered long enough over the element.\n\nMaybe you could add a `this.updateTokenTask?.isActive()` check to make this more explicit. Maybe a guard statement at the beginning of the method even?\n\n  if (!this.updateTokenTask?.isActive()) return;",
       "revId": "ade5cb7dc65762f6360aca2cfdac1fcd1aae5a89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc5d644a_965cbe29",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-20T21:27:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98b7e001_3fe13623",
+      "revId": "ade5cb7dc65762f6360aca2cfdac1fcd1aae5a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

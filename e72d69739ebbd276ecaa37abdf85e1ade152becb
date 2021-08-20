@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "533b5856_3884fe01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T20:06:14Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8151f9eb_7fb548c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T20:06:14Z",
+      "side": 1,
+      "message": "What is the difference between `primaryTab` and `_activeTabs[0]`? Do we need both? If yes, maybe add comments explaining why.",
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bc44b72_89134d20",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T20:06:14Z",
+      "side": 1,
+      "message": "I have started to always use ?? instead of || where possible, because I find it more telling what you want to do. ?? means that you are trying to avoid undefined.",
+      "range": {
+        "startLine": 610,
+        "startChar": 35,
+        "endLine": 610,
+        "endChar": 37
+      },
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "759a2a92_19a9c32a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T20:06:14Z",
+      "side": 1,
+      "message": "Maybe we should call all the reset state functions from common test setup?",
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b38dcfd6_b5fc0da1",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T20:06:14Z",
+      "side": 1,
+      "message": "Just thinking ahead a little bit here: \n\nUltimately we want all the params stuff in here, right?\n\nSo maybe the router state will look like this at some point:\n\n  view?: GerritView;\n  changeViewParams?: ChangeViewParams;\n  diffViewParams?: DiffViewParams;\n  adminViewParams?: AdminViewParams;\n  ...\n  \nThe nice thing about this is that obviously only the changeViewParams are interesting for the currently displayed UI, if the view is GerritView.CHANGE. But the other params would still be kept around. So if the user navigates from one view to another the params would still be around, if the user had already been on that view before.\n\nFeel free to just ack. Just wanted to note down my thoughts.\n\nUpdate:\n\nNow I have realized that you keep `primaryTab` indefinitely. Shouldn\u0027t it maybe reset when the changeNum changes? You could implement such a side effect in the router service: Subscribe to changeNum$ and call updateStatePrimaryTab(undefined). WDYT?",
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0181b8dd_a57bc5f5",
+        "filename": "polygerrit-ui/app/services/router/router-service.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T20:06:14Z",
+      "side": 1,
+      "message": "Maybe rename to `setPrimaryTab`? I think for a service that is more adequate. `updateState...` is better reserved for the model.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 23
+      },
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

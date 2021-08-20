@@ -22,6 +22,30 @@
       },
       "revId": "1509bc9128ebbd3e3a3d833a16cdd7ea8a94a940",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49b25c64_91575f4a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-20T15:05:41Z",
+      "side": 1,
+      "message": "I plan to do this cleanup in a follow-up change.",
+      "parentUuid": "9660dd4c_914093be",
+      "range": {
+        "startLine": 219,
+        "startChar": 7,
+        "endLine": 219,
+        "endChar": 15
+      },
+      "revId": "1509bc9128ebbd3e3a3d833a16cdd7ea8a94a940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

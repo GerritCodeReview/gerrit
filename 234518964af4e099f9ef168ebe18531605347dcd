@@ -16,6 +16,24 @@
       "message": "mv syles.ts styles.ts",
       "revId": "234518964af4e099f9ef168ebe18531605347dcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e222b1c5_bbfb964a",
+        "filename": "polygerrit-ui/app/api/syles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T21:15:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d74346c7_6a654083",
+      "revId": "234518964af4e099f9ef168ebe18531605347dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

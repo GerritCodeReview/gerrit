@@ -16,6 +16,24 @@
       "message": "The comment no longer applies?",
       "revId": "9f998305e41a61240bb63767646409104652b038",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6082eecb_46099e0f",
+        "filename": "polygerrit-ui/app/styles/gr-subpage-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T21:15:42Z",
+      "side": 0,
+      "message": "As soon as you have an `import` or an `export` anywhere in the file you are good.\n\nThis was forgotten to be removed when the first import/export was added, so I am just cleaning up here.",
+      "parentUuid": "1c53603b_fb1a9be8",
+      "revId": "9f998305e41a61240bb63767646409104652b038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

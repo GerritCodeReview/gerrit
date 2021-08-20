@@ -22,6 +22,30 @@
       },
       "revId": "e17ff548958e5e71c9bdc2082ce0b3cfb32c68a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29dbd737_615b150b",
+        "filename": ".gitmodules",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-20T22:23:14Z",
+      "side": 1,
+      "message": "Good point, let me fix it.",
+      "parentUuid": "7d807ca7_fc363f38",
+      "range": {
+        "startLine": 27,
+        "startChar": 25,
+        "endLine": 27,
+        "endChar": 40
+      },
+      "revId": "e17ff548958e5e71c9bdc2082ce0b3cfb32c68a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

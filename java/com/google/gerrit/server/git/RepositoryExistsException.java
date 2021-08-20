@@ -1,4 +1,4 @@
-// Copyright (C) 2011 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,19 +15,23 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.entities.Project;
+import java.io.IOException;
 
-/**
- * This exception is thrown if a project cannot be created because a project with the same name in a
- * different case already exists. This can only happen if the OS has a case insensitive file system
- * (e.g. Windows), because in this case the name for the git repository in the file system is
- * already occupied by the existing project.
- */
-public class RepositoryCaseMismatchException extends RepositoryExistsException {
-
+/** Thrown when trying to create a repository that exist. */
+public class RepositoryExistsException extends IOException {
   private static final long serialVersionUID = 1L;
 
+  /**
+   * @param projectName name of the project that cannot be created
+   * @param reason reason why the project cannot be created
+   */
+  public RepositoryExistsException(Project.NameKey projectName, String reason) {
+    super(
+        String.format("Repository %s exists and cannot be created. %s", projectName.get(), reason));
+  }
+
   /** @param projectName name of the project that cannot be created */
-  public RepositoryCaseMismatchException(Project.NameKey projectName) {
-    super(projectName, "Name occupied in other case.");
+  public RepositoryExistsException(Project.NameKey projectName) {
+    super(String.format("Repository %s exists and cannot be created.", projectName.get()));
   }
 }

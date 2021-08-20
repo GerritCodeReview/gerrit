@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad8c6e48_847a6dce",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-20T14:15:39Z",
+      "side": 1,
+      "message": "nice find btw, done in https://gerrit-review.googlesource.com/c/gerrit/+/315888/1",
+      "parentUuid": "64548445_576d18f2",
+      "revId": "5f6793126749751223519dc06fa20a54f3a1a976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13ee2250_726481db",

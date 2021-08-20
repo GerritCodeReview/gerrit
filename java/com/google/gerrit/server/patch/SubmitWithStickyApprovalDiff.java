@@ -128,11 +128,17 @@ public class SubmitWithStickyApprovalDiff {
     }
 
     diff.append("The change was submitted with unreviewed changes in the following files:\n\n");
-
-    for (FileDiffOutput fileDiff : modifiedFilesList) {
-      diff.append(
-          getDiffForFile(
-              notes, currentPatchset.id(), latestApprovedPatchsetId, fileDiff, currentUser));
+    try (Repository repository = repositoryManager.openRepository(notes.getProjectName())) {
+      for (FileDiffOutput fileDiff : modifiedFilesList) {
+        diff.append(
+            getDiffForFile(
+                notes,
+                currentPatchset.id(),
+                latestApprovedPatchsetId,
+                fileDiff,
+                currentUser,
+                repository));
+      }
     }
     return diff.toString();
   }
@@ -142,7 +148,8 @@ public class SubmitWithStickyApprovalDiff {
       PatchSet.Id currentPatchsetId,
       PatchSet.Id latestApprovedPatchsetId,
       FileDiffOutput fileDiffOutput,
-      CurrentUser currentUser)
+      CurrentUser currentUser,
+      Repository repository)
       throws AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException {
     StringBuilder diff =
@@ -178,7 +185,7 @@ public class SubmitWithStickyApprovalDiff {
               "The file %s was renamed to %s\n",
               fileDiffOutput.oldPath().get(), fileDiffOutput.newPath().get()));
     }
-    diff.append(getUnifiedDiff(patchScript, notes));
+    diff.append(getUnifiedDiff(patchScript, repository));
     // This line (and the ``` above) are useful for formatting in the web UI.
     diff.append("\n```\n");
     return diff.toString();
@@ -188,15 +195,11 @@ public class SubmitWithStickyApprovalDiff {
    * Show patch set as unified difference for a specific file. We on purpose are not using {@link
    * DiffInfoCreator} since we'd like to get the original git/JGit style diff.
    */
-  public String getUnifiedDiff(PatchScript patchScript, ChangeNotes changeNotes)
-      throws IOException {
+  public String getUnifiedDiff(PatchScript patchScript, Repository repository) throws IOException {
     TemporaryBuffer.Heap buf =
         new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxCumulativeSize), maxCumulativeSize);
-    try (DiffFormatter fmt = new DiffFormatter(buf);
-        // TODO(paiking): ensure we open the repository only once by opening it in the calling
-        //  method.
-        Repository git = repositoryManager.openRepository(changeNotes.getProjectName())) {
-      fmt.setRepository(git);
+    try (DiffFormatter fmt = new DiffFormatter(buf)) {
+      fmt.setRepository(repository);
       fmt.setDetectRenames(true);
       fmt.format(
           ObjectId.fromString(patchScript.getFileInfoA().commitId),

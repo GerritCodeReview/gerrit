@@ -33,7 +33,7 @@ import {
   mockPromise,
   query,
 } from '../../../test/test-utils.js';
-import {EditPatchSetNum} from '../../../types/common.js';
+import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {createCommentThreads} from '../../../utils/comment-util.js';
 import {
@@ -1104,7 +1104,7 @@ suite('gr-file-list tests', () => {
       stubRestApi('getLoggedIn').returns(reloadBlocker.then(() => false));
 
       element.changeNum = 123;
-      element.patchRange = {patchNum: 12};
+      element.patchRange = {patchNum: 12, basePatchNum: ParentPatchSetNum};
       element._filesByPath = {'foo.bar': {}};
       element.change = {...createParsedChange(), _number: 123};
 

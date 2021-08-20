@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f894c275_32e09e8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-20T20:23:08Z",
+      "side": 1,
+      "message": "Don\u0027t we generally want to retain the scroll position, no matter where you come from? Going back and forth between change page and diff page keeps the component around, right? Then the change page should look identical when coming back. Did you try that? WDYT?",
+      "revId": "a692698e48214ab4e300b56fa638e25837e38616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

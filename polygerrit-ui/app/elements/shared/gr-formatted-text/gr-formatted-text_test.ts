@@ -17,40 +17,36 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-formatted-text';
-import {GrFormattedText, Block} from './gr-formatted-text';
+import {
+  GrFormattedText,
+  Block,
+  ListBlock,
+  TextBlock,
+  QuoteBlock,
+} from './gr-formatted-text';
 
 const basicFixture = fixtureFromElement('gr-formatted-text');
 
 suite('gr-formatted-text tests', () => {
   let element: GrFormattedText;
 
-  function assertBlock(
-    result: Block[],
-    index: number,
-    type: string,
-    text?: string
-  ) {
-    assert.equal(result[index].type, type);
-    assert.equal(result[index].text, text);
+  function assertBlockText(block: Block, type: string, text: string) {
+    assert.equal(block.type, type);
+    const textBlock = block as TextBlock;
+    assert.equal(textBlock.text, text);
   }
 
-  function assertListBlock(
-    result: Block[],
-    resultIndex: number,
-    itemIndex: number,
-    text: string
-  ) {
-    assert.equal(result[resultIndex].type, 'list');
-    const item = result[resultIndex].items?.[itemIndex];
-    assert.equal(item, text);
+  function assertListItems(block: Block, items: string[]) {
+    assert.equal(block.type, 'list');
+    const listBlock = block as ListBlock;
+    assert.deepEqual(listBlock.items, items);
   }
 
   setup(() => {
     element = basicFixture.instantiate();
   });
 
-  test('parse null undefined and empty', () => {
-    assert.lengthOf(element._computeBlocks(undefined), 0);
+  test('parse empty', () => {
     assert.lengthOf(element._computeBlocks(''), 0);
   });
 
@@ -58,21 +54,21 @@ suite('gr-formatted-text tests', () => {
     const comment = 'Para1';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assertBlock(result, 0, 'paragraph', comment);
+    assertBlockText(result[0], 'paragraph', comment);
   });
 
   test('parse multiline para', () => {
     const comment = 'Para 1\nStill para 1';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assertBlock(result, 0, 'paragraph', comment);
+    assertBlockText(result[0], 'paragraph', comment);
   });
 
   test('parse para break without special blocks', () => {
     const comment = 'Para 1\n\nPara 2\n\nPara 3';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assertBlock(result, 0, 'paragraph', comment);
+    assertBlockText(result[0], 'paragraph', comment);
   });
 
   test('parse quote', () => {
@@ -80,9 +76,9 @@ suite('gr-formatted-text tests', () => {
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assert.equal(result[0].type, 'quote');
-    const blocks = result[0].blocks!;
-    assert.lengthOf(blocks, 1);
-    assertBlock(blocks, 0, 'paragraph', 'Quote text');
+    const quoteBlock = result[0] as QuoteBlock;
+    assert.lengthOf(quoteBlock.blocks, 1);
+    assertBlockText(quoteBlock.blocks[0], 'paragraph', 'Quote text');
   });
 
   test('parse quote lead space', () => {
@@ -90,9 +86,9 @@ suite('gr-formatted-text tests', () => {
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assert.equal(result[0].type, 'quote');
-    const blocks = result[0].blocks!;
-    assert.lengthOf(blocks, 1);
-    assertBlock(blocks, 0, 'paragraph', 'Quote text');
+    const quoteBlock = result[0] as QuoteBlock;
+    assert.lengthOf(quoteBlock.blocks, 1);
+    assertBlockText(quoteBlock.blocks[0], 'paragraph', 'Quote text');
   });
 
   test('parse multiline quote', () => {
@@ -100,11 +96,10 @@ suite('gr-formatted-text tests', () => {
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assert.equal(result[0].type, 'quote');
-    const blocks = result[0].blocks!;
-    assert.lengthOf(blocks, 1);
-    assertBlock(
-      blocks,
-      0,
+    const quoteBlock = result[0] as QuoteBlock;
+    assert.lengthOf(quoteBlock.blocks, 1);
+    assertBlockText(
+      quoteBlock.blocks[0],
       'paragraph',
       'Quote line 1\nQuote line 2\nQuote line 3'
     );
@@ -114,49 +109,42 @@ suite('gr-formatted-text tests', () => {
     const comment = '    Four space indent.';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assertBlock(result, 0, 'pre', comment);
+    assertBlockText(result[0], 'pre', comment);
   });
 
   test('parse one space pre', () => {
     const comment = ' One space indent.\n Another line.';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assertBlock(result, 0, 'pre', comment);
+    assertBlockText(result[0], 'pre', comment);
   });
 
   test('parse tab pre', () => {
     const comment = '\tOne tab indent.\n\tAnother line.\n  Yet another!';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assertBlock(result, 0, 'pre', comment);
+    assertBlockText(result[0], 'pre', comment);
   });
 
   test('parse star list', () => {
     const comment = '* Item 1\n* Item 2\n* Item 3';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assertListBlock(result, 0, 0, 'Item 1');
-    assertListBlock(result, 0, 1, 'Item 2');
-    assertListBlock(result, 0, 2, 'Item 3');
+    assertListItems(result[0], ['Item 1', 'Item 2', 'Item 3']);
   });
 
   test('parse dash list', () => {
     const comment = '- Item 1\n- Item 2\n- Item 3';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assertListBlock(result, 0, 0, 'Item 1');
-    assertListBlock(result, 0, 1, 'Item 2');
-    assertListBlock(result, 0, 2, 'Item 3');
+    assertListItems(result[0], ['Item 1', 'Item 2', 'Item 3']);
   });
 
   test('parse mixed list', () => {
     const comment = '- Item 1\n* Item 2\n- Item 3\n* Item 4';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assertListBlock(result, 0, 0, 'Item 1');
-    assertListBlock(result, 0, 1, 'Item 2');
-    assertListBlock(result, 0, 2, 'Item 3');
-    assertListBlock(result, 0, 3, 'Item 4');
+    assertListItems(result[0], ['Item 1', 'Item 2', 'Item 3', 'Item 4']);
   });
 
   test('parse mixed block types', () => {
@@ -176,64 +164,76 @@ suite('gr-formatted-text tests', () => {
       'Parting words.';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 7);
-    assertBlock(result, 0, 'paragraph', 'Paragraph\nacross\na\nfew\nlines.\n');
+    assertBlockText(
+      result[0],
+      'paragraph',
+      'Paragraph\nacross\na\nfew\nlines.\n'
+    );
 
     assert.equal(result[1].type, 'quote');
-    const secondBlocks = result[1].blocks!;
-    assert.lengthOf(secondBlocks, 1);
-    assertBlock(secondBlocks, 0, 'paragraph', 'Quote\nacross\nnot many lines.');
+    const quoteBlock = result[1] as QuoteBlock;
+    assert.lengthOf(quoteBlock.blocks, 1);
+    assertBlockText(
+      quoteBlock.blocks[0],
+      'paragraph',
+      'Quote\nacross\nnot many lines.'
+    );
 
-    assertBlock(result, 2, 'paragraph', 'Another paragraph\n');
-    assertListBlock(result, 3, 0, 'Series');
-    assertListBlock(result, 3, 1, 'of');
-    assertListBlock(result, 3, 2, 'list');
-    assertListBlock(result, 3, 3, 'items');
-    assertBlock(result, 4, 'paragraph', 'Yet another paragraph\n');
-    assertBlock(result, 5, 'pre', '\tPreformatted text.');
-    assertBlock(result, 6, 'paragraph', 'Parting words.');
+    assertBlockText(result[2], 'paragraph', 'Another paragraph\n');
+    assertListItems(result[3], ['Series', 'of', 'list', 'items']);
+    assertBlockText(result[4], 'paragraph', 'Yet another paragraph\n');
+    assertBlockText(result[5], 'pre', '\tPreformatted text.');
+    assertBlockText(result[6], 'paragraph', 'Parting words.');
   });
 
   test('bullet list 1', () => {
-    const comment = 'A\n\n* line 1\n* 2nd line';
+    const comment = 'A\n\n* line 1';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assertBlock(result, 0, 'paragraph', 'A\n');
-    assertListBlock(result, 1, 0, 'line 1');
-    assertListBlock(result, 1, 1, '2nd line');
+    assertBlockText(result[0], 'paragraph', 'A\n');
+    assertListItems(result[1], ['line 1']);
   });
 
   test('bullet list 2', () => {
-    const comment = 'A\n* line 1\n* 2nd line\n\nB';
+    const comment = 'A\n\n* line 1\n* 2nd line';
     const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 3);
-    assertBlock(result, 0, 'paragraph', 'A');
-    assertListBlock(result, 1, 0, 'line 1');
-    assertListBlock(result, 1, 1, '2nd line');
-    assertBlock(result, 2, 'paragraph', 'B');
+    assert.lengthOf(result, 2);
+    assertBlockText(result[0], 'paragraph', 'A\n');
+    assertListItems(result[1], ['line 1', '2nd line']);
   });
 
   test('bullet list 3', () => {
-    const comment = '* line 1\n* 2nd line\n\nB';
+    const comment = 'A\n* line 1\n* 2nd line\n\nB';
     const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    assertListBlock(result, 0, 0, 'line 1');
-    assertListBlock(result, 0, 1, '2nd line');
-    assertBlock(result, 1, 'paragraph', 'B');
+    assert.lengthOf(result, 3);
+    assertBlockText(result[0], 'paragraph', 'A');
+    assertListItems(result[1], ['line 1', '2nd line']);
+    assertBlockText(result[2], 'paragraph', 'B');
   });
 
   test('bullet list 4', () => {
+    const comment = '* line 1\n* 2nd line\n\nB';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 2);
+    assertListItems(result[0], ['line 1', '2nd line']);
+    assertBlockText(result[1], 'paragraph', 'B');
+  });
+
+  test('bullet list 5', () => {
     const comment =
       'To see this bug, you have to:\n' +
       '* Be on IMAP or EAS (not on POP)\n' +
       '* Be very unlucky\n';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assertBlock(result, 0, 'paragraph', 'To see this bug, you have to:');
-    assertListBlock(result, 1, 0, 'Be on IMAP or EAS (not on POP)');
-    assertListBlock(result, 1, 1, 'Be very unlucky');
+    assertBlockText(result[0], 'paragraph', 'To see this bug, you have to:');
+    assertListItems(result[1], [
+      'Be on IMAP or EAS (not on POP)',
+      'Be very unlucky',
+    ]);
   });
 
-  test('bullet list 5', () => {
+  test('bullet list 6', () => {
     const comment =
       'To see this bug,\n' +
       'you have to:\n' +
@@ -241,37 +241,36 @@ suite('gr-formatted-text tests', () => {
       '* Be very unlucky\n';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assertBlock(result, 0, 'paragraph', 'To see this bug,\nyou have to:');
-    assertListBlock(result, 1, 0, 'Be on IMAP or EAS (not on POP)');
-    assertListBlock(result, 1, 1, 'Be very unlucky');
+    assertBlockText(result[0], 'paragraph', 'To see this bug,\nyou have to:');
+    assertListItems(result[1], [
+      'Be on IMAP or EAS (not on POP)',
+      'Be very unlucky',
+    ]);
   });
 
   test('dash list 1', () => {
     const comment = 'A\n- line 1\n- 2nd line';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assertBlock(result, 0, 'paragraph', 'A');
-    assertListBlock(result, 1, 0, 'line 1');
-    assertListBlock(result, 1, 1, '2nd line');
+    assertBlockText(result[0], 'paragraph', 'A');
+    assertListItems(result[1], ['line 1', '2nd line']);
   });
 
   test('dash list 2', () => {
     const comment = 'A\n- line 1\n- 2nd line\n\nB';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 3);
-    assertBlock(result, 0, 'paragraph', 'A');
-    assertListBlock(result, 1, 0, 'line 1');
-    assertListBlock(result, 1, 1, '2nd line');
-    assertBlock(result, 2, 'paragraph', 'B');
+    assertBlockText(result[0], 'paragraph', 'A');
+    assertListItems(result[1], ['line 1', '2nd line']);
+    assertBlockText(result[2], 'paragraph', 'B');
   });
 
   test('dash list 3', () => {
     const comment = '- line 1\n- 2nd line\n\nB';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assertListBlock(result, 0, 0, 'line 1');
-    assertListBlock(result, 0, 1, '2nd line');
-    assertBlock(result, 1, 'paragraph', 'B');
+    assertListItems(result[0], ['line 1', '2nd line']);
+    assertBlockText(result[1], 'paragraph', 'B');
   });
 
   test('nested list will NOT be recognized', () => {
@@ -279,74 +278,96 @@ suite('gr-formatted-text tests', () => {
     const comment = '- line 1\n  - line with indentation\n- line 2';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 3);
-    assertListBlock(result, 0, 0, 'line 1');
-    assert.equal(result[1].type, 'pre');
-    assertListBlock(result, 2, 0, 'line 2');
+    assertListItems(result[0], ['line 1']);
+    assertBlockText(result[1], 'pre', '  - line with indentation');
+    assertListItems(result[2], ['line 2']);
   });
 
   test('pre format 1', () => {
     const comment = 'A\n  This is pre\n  formatted';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assertBlock(result, 0, 'paragraph', 'A');
-    assertBlock(result, 1, 'pre', '  This is pre\n  formatted');
+    assertBlockText(result[0], 'paragraph', 'A');
+    assertBlockText(result[1], 'pre', '  This is pre\n  formatted');
   });
 
   test('pre format 2', () => {
     const comment = 'A\n  This is pre\n  formatted\n\nbut this is not';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 3);
-    assertBlock(result, 0, 'paragraph', 'A');
-    assertBlock(result, 1, 'pre', '  This is pre\n  formatted');
-    assertBlock(result, 2, 'paragraph', 'but this is not');
+    assertBlockText(result[0], 'paragraph', 'A');
+    assertBlockText(result[1], 'pre', '  This is pre\n  formatted');
+    assertBlockText(result[2], 'paragraph', 'but this is not');
   });
 
   test('pre format 3', () => {
     const comment = 'A\n  Q\n    <R>\n  S\n\nB';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 3);
-    assertBlock(result, 0, 'paragraph', 'A');
-    assertBlock(result, 1, 'pre', '  Q\n    <R>\n  S');
-    assertBlock(result, 2, 'paragraph', 'B');
+    assertBlockText(result[0], 'paragraph', 'A');
+    assertBlockText(result[1], 'pre', '  Q\n    <R>\n  S');
+    assertBlockText(result[2], 'paragraph', 'B');
   });
 
   test('pre format 4', () => {
     const comment = '  Q\n    <R>\n  S\n\nB';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assertBlock(result, 0, 'pre', '  Q\n    <R>\n  S');
-    assertBlock(result, 1, 'paragraph', 'B');
+    assertBlockText(result[0], 'pre', '  Q\n    <R>\n  S');
+    assertBlockText(result[1], 'paragraph', 'B');
   });
 
   test('pre format 5', () => {
     const comment = '  Q\n    <R>\n  S\n \nB';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assertBlock(result, 0, 'pre', '  Q\n    <R>\n  S');
-    assertBlock(result, 1, 'paragraph', ' \nB');
+    assertBlockText(result[0], 'pre', '  Q\n    <R>\n  S');
+    assertBlockText(result[1], 'paragraph', ' \nB');
   });
 
   test('quote 1', () => {
+    const comment = "> I'm happy with quotes!!";
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 1);
+    assert.equal(result[0].type, 'quote');
+    const quoteBlock = result[0] as QuoteBlock;
+    assert.lengthOf(quoteBlock.blocks, 1);
+    assertBlockText(
+      quoteBlock.blocks[0],
+      'paragraph',
+      "I'm happy with quotes!!"
+    );
+  });
+
+  test('quote 2', () => {
     const comment = "> I'm happy\n > with quotes!\n\nSee above.";
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
     assert.equal(result[0].type, 'quote');
-    const blocks = result[0].blocks!;
-    assert.lengthOf(blocks, 1);
-    assertBlock(blocks, 0, 'paragraph', "I'm happy\nwith quotes!");
-    assertBlock(result, 1, 'paragraph', 'See above.');
+    const quoteBlock = result[0] as QuoteBlock;
+    assert.lengthOf(quoteBlock.blocks, 1);
+    assertBlockText(
+      quoteBlock.blocks[0],
+      'paragraph',
+      "I'm happy\nwith quotes!"
+    );
+    assertBlockText(result[1], 'paragraph', 'See above.');
   });
 
-  test('quote 2', () => {
+  test('quote 3', () => {
     const comment = 'See this said:\n > a quoted\n > string block\n\nOK?';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 3);
-    assertBlock(result, 0, 'paragraph', 'See this said:');
+    assertBlockText(result[0], 'paragraph', 'See this said:');
     assert.equal(result[1].type, 'quote');
-    const secondBlocks = result[1].blocks!;
-    assert.lengthOf(secondBlocks, 1);
-    assertBlock(secondBlocks, 0, 'paragraph', 'a quoted\nstring block');
-    assertBlock(result, 2, 'paragraph', 'OK?');
+    const quoteBlock = result[1] as QuoteBlock;
+    assert.lengthOf(quoteBlock.blocks, 1);
+    assertBlockText(
+      quoteBlock.blocks[0],
+      'paragraph',
+      'a quoted\nstring block'
+    );
+    assertBlockText(result[2], 'paragraph', 'OK?');
   });
 
   test('nested quotes', () => {
@@ -354,59 +375,51 @@ suite('gr-formatted-text tests', () => {
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assert.equal(result[0].type, 'quote');
-    const blocks = result[0].blocks!;
-    assert.lengthOf(blocks, 2);
-    assert.equal(blocks[0].type, 'quote');
-    const blocksBlocks = blocks[0].blocks!;
-    assert.lengthOf(blocksBlocks, 1);
-    assertBlock(blocksBlocks, 0, 'paragraph', 'prior');
-    assertBlock(blocks, 1, 'paragraph', 'next');
+    const outerQuoteBlock = result[0] as QuoteBlock;
+    assert.lengthOf(outerQuoteBlock.blocks, 2);
+    assert.equal(outerQuoteBlock.blocks[0].type, 'quote');
+    const nestedQuoteBlock = outerQuoteBlock.blocks[0] as QuoteBlock;
+    assert.lengthOf(nestedQuoteBlock.blocks, 1);
+    assertBlockText(nestedQuoteBlock.blocks[0], 'paragraph', 'prior');
+    assertBlockText(outerQuoteBlock.blocks[1], 'paragraph', 'next');
   });
 
   test('code 1', () => {
     const comment = '```\n// test code\n```';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assert.equal(result[0].type, 'code');
-    assert.equal(result[0].text, '// test code');
+    assertBlockText(result[0], 'code', '// test code');
   });
 
   test('code 2', () => {
     const comment = 'test code\n```// test code```';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assert.equal(result[0].type, 'paragraph');
-    assert.equal(result[0].text, 'test code');
-    assert.equal(result[1].type, 'code');
-    assert.equal(result[1].text, '// test code');
+    assertBlockText(result[0], 'paragraph', 'test code');
+    assertBlockText(result[1], 'code', '// test code');
   });
 
-  test('code 3', () => {
-    const comment = 'test code\n```// test code```';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    assert.equal(result[0].type, 'paragraph');
-    assert.equal(result[0].text, 'test code');
-    assert.equal(result[1].type, 'code');
-    assert.equal(result[1].text, '// test code');
-  });
-
-  test('not a code', () => {
+  test('not a code block', () => {
     const comment = 'test code\n```// test code';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assert.equal(result[0].type, 'paragraph');
-    assert.equal(result[0].text, 'test code\n```// test code');
+    assertBlockText(result[0], 'paragraph', 'test code\n```// test code');
   });
 
-  test('not a code 2', () => {
+  test('not a code block 2', () => {
     const comment = 'test code\n```\n// test code';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assert.equal(result[0].type, 'paragraph');
-    assert.equal(result[0].text, 'test code');
-    assert.equal(result[1].type, 'paragraph');
-    assert.equal(result[1].text, '```\n// test code');
+    assertBlockText(result[0], 'paragraph', 'test code');
+    assertBlockText(result[1], 'paragraph', '```\n// test code');
+  });
+
+  test('not a code block 3', () => {
+    const comment = 'test code\n```';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 2);
+    assertBlockText(result[0], 'paragraph', 'test code');
+    assertBlockText(result[1], 'paragraph', '```');
   });
 
   test('mix all 1', () => {

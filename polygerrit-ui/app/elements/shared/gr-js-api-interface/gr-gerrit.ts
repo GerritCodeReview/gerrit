@@ -31,6 +31,10 @@ import {
 } from '../../../services/gr-event-interface/gr-event-interface';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {Gerrit} from '../../../api/gerrit';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
+import {subpageStyles} from '../../../styles/gr-subpage-styles';
+import {tableStyles} from '../../../styles/gr-table-styles';
 
 /**
  * These are the methods and properties that are exposed explicitly in the
@@ -115,6 +119,20 @@ class GerritImpl implements GerritInternal {
   public readonly Nav = GerritNav;
 
   public readonly Auth = appContext.authService;
+
+  public readonly litStyles = {
+    form: formStyles,
+    menuPage: menuPageStyles,
+    subPage: subpageStyles,
+    table: tableStyles,
+  };
+
+  public readonly stringStyles = {
+    form: formStyles.cssText,
+    menuPage: menuPageStyles.cssText,
+    subPage: subpageStyles.cssText,
+    table: tableStyles.cssText,
+  };
 
   /**
    * @deprecated Use plugin.styles().css(rulesStr) instead. Please, consult

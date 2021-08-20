@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {ProjectInfoWithName, ServerInfo} from './rest-api';
+
 export type RequestPayload = string | object;
 
 export enum HttpMethod {
@@ -31,14 +33,15 @@ export declare interface RestPluginApi {
 
   getVersion(): Promise<string | undefined>;
 
-  /**
-   * Returns a ServerInfo object as defined here:
-   * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#server-info
-   * We neither want to repeat it nor add a dependency on it here.
-   */
-  getConfig(): Promise<unknown>;
+  getConfig(): Promise<ServerInfo | undefined>;
 
   invalidateReposCache(): void;
+
+  getRepos(
+    filter: string,
+    reposPerPage: number,
+    offset?: number
+  ): Promise<ProjectInfoWithName[] | undefined>;
 
   fetch(
     method: HttpMethod,

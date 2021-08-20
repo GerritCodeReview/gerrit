@@ -16,17 +16,23 @@
  */
 import '../gr-linked-text/gr-linked-text';
 import {CommentLinks} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, property} from 'lit-element';
+import {css, customElement, html, property, TemplateResult} from 'lit-element';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 
-export interface Block {
-  type: string;
-  text?: string;
-  blocks?: Block[];
-  items?: string[];
+export type Block = ListBlock | QuoteBlock | TextBlock;
+export interface ListBlock {
+  type: 'list';
+  items: string[];
+}
+export interface QuoteBlock {
+  type: 'quote';
+  blocks: Block[];
+}
+export interface TextBlock {
+  type: 'paragraph' | 'code' | 'pre';
+  text: string;
 }
 
 declare global {
@@ -44,8 +50,6 @@ export class GrFormattedText extends GrLitElement {
 
   @property({type: Boolean, reflect: true})
   noTrailingMargin = false;
-
-  private readonly reporting = appContext.reportingService;
 
   static override get styles() {
     return [
@@ -99,8 +103,9 @@ export class GrFormattedText extends GrLitElement {
   }
 
   override render() {
-    const nodes = this._computeNodes(this._computeBlocks(this.content));
-    return html`<div id="container">${nodes}</div>`;
+    if (!this.content) return;
+    const blocks = this._computeBlocks(this.content);
+    return html`${blocks.map(block => this.renderBlock(block))}`;
   }
 
   /**
@@ -123,9 +128,7 @@ export class GrFormattedText extends GrLitElement {
    *
    * NOTE: Strings appearing in all block objects are NOT escaped.
    */
-  _computeBlocks(content?: string): Block[] {
-    if (!content) return [];
-
+  _computeBlocks(content: string): Block[] {
     const result: Block[] = [];
     const lines = content.replace(/[\s\n\r\t]+$/g, '').split('\n');
 
@@ -134,80 +137,85 @@ export class GrFormattedText extends GrLitElement {
         continue;
       }
 
-      if (this._isCodeMarkLine(lines[i])) {
-        // handle multi-line code
-        let nextI = i + 1;
-        while (!this._isCodeMarkLine(lines[nextI]) && nextI < lines.length) {
-          nextI++;
-        }
-
-        if (this._isCodeMarkLine(lines[nextI])) {
+      if (this.isCodeMarkLine(lines[i])) {
+        const startOfCode = i + 1;
+        const endOfCode = this.getEndOfSection(
+          lines,
+          startOfCode,
+          line => !this.isCodeMarkLine(line)
+        );
+        // If the code extends to the end then there is no closing``` and the
+        // opening``` should not be counted as a multiline code block.
+        const lineAfterCode = lines[endOfCode];
+        if (lineAfterCode && this.isCodeMarkLine(lineAfterCode)) {
           result.push({
             type: 'code',
-            text: lines.slice(i + 1, nextI).join('\n'),
+            // Does not include either of the ``` lines
+            text: lines.slice(startOfCode, endOfCode).join('\n'),
           });
-          i = nextI;
+          i = endOfCode; // advances past the closing```
           continue;
         }
-
-        // otherwise treat it as regular line and continue
-        // check for other cases
       }
-
-      if (this._isSingleLineCode(lines[i])) {
+      if (this.isSingleLineCode(lines[i])) {
         // no guard check as _isSingleLineCode tested on the pattern
         const codeContent = lines[i].match(CODE_MARKER_PATTERN)![2];
         result.push({type: 'code', text: codeContent});
-      } else if (this._isList(lines[i])) {
-        let nextI = i + 1;
-        while (this._isList(lines[nextI])) {
-          nextI++;
-        }
-        result.push(this._makeList(lines.slice(i, nextI)));
-        i = nextI - 1;
-      } else if (this._isQuote(lines[i])) {
-        let nextI = i + 1;
-        while (this._isQuote(lines[nextI])) {
-          nextI++;
-        }
+      } else if (this.isList(lines[i])) {
+        const endOfList = this.getEndOfSection(lines, i + 1, line =>
+          this.isList(line)
+        );
+        result.push(this.makeList(lines.slice(i, endOfList)));
+        i = endOfList - 1;
+      } else if (this.isQuote(lines[i])) {
+        const endOfQuote = this.getEndOfSection(lines, i + 1, line =>
+          this.isQuote(line)
+        );
         const blockLines = lines
-          .slice(i, nextI)
+          .slice(i, endOfQuote)
           .map(l => l.replace(/^[ ]?>[ ]?/, ''));
         result.push({
           type: 'quote',
           blocks: this._computeBlocks(blockLines.join('\n')),
         });
-        i = nextI - 1;
-      } else if (this._isPreFormat(lines[i])) {
-        let nextI = i + 1;
+        i = endOfQuote - 1;
+      } else if (this.isPreFormat(lines[i])) {
         // include pre or all regular lines but stop at next new line
-        while (
-          this._isPreFormat(lines[nextI]) ||
-          (this._isRegularLine(lines[nextI]) &&
-            !this._isWhitespaceLine(lines[nextI]) &&
-            lines[nextI].length)
-        ) {
-          nextI++;
-        }
+        const predicate = (line: string) =>
+          this.isPreFormat(line) ||
+          (this.isRegularLine(line) &&
+            !this.isWhitespaceLine(line) &&
+            line.length > 0);
+        const endOfPre = this.getEndOfSection(lines, i + 1, predicate);
         result.push({
           type: 'pre',
-          text: lines.slice(i, nextI).join('\n'),
+          text: lines.slice(i, endOfPre).join('\n'),
         });
-        i = nextI - 1;
+        i = endOfPre - 1;
       } else {
-        let nextI = i + 1;
-        while (this._isRegularLine(lines[nextI])) {
-          nextI++;
-        }
+        const endOfRegularLines = this.getEndOfSection(lines, i + 1, line =>
+          this.isRegularLine(line)
+        );
         result.push({
           type: 'paragraph',
-          text: lines.slice(i, nextI).join('\n'),
+          text: lines.slice(i, endOfRegularLines).join('\n'),
         });
-        i = nextI - 1;
+        i = endOfRegularLines - 1;
       }
     }
 
     return result;
+  }
+
+  private getEndOfSection(
+    lines: string[],
+    startIndex: number,
+    sectionPredicate: (line: string) => boolean
+  ) {
+    const index = lines
+      .slice(startIndex)
+      .findIndex(line => !sectionPredicate(line));
+    return index === -1 ? lines.length : index + startIndex;
   }
 
   /**
@@ -222,105 +230,78 @@ export class GrFormattedText extends GrLitElement {
    *
    * @param lines The block containing the list.
    */
-  _makeList(lines: string[]) {
-    const items = [];
-    for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
-      line = line.substring(1).trim();
-      items.push(line);
-    }
+  private makeList(lines: string[]): Block {
+    const items = lines.map(line => line.substring(1).trim());
     return {type: 'list', items};
   }
 
-  _isRegularLine(line: string) {
-    // line can not be recognized by existing patterns
-    if (line === undefined) return false;
+  private isRegularLine(line: string): boolean {
     return (
-      !this._isQuote(line) &&
-      !this._isCodeMarkLine(line) &&
-      !this._isSingleLineCode(line) &&
-      !this._isList(line) &&
-      !this._isPreFormat(line)
+      !this.isQuote(line) &&
+      !this.isCodeMarkLine(line) &&
+      !this.isSingleLineCode(line) &&
+      !this.isList(line) &&
+      !this.isPreFormat(line)
     );
   }
 
-  _isQuote(line: string) {
-    return line && (line.startsWith('> ') || line.startsWith(' > '));
+  private isQuote(line: string): boolean {
+    return line.startsWith('> ') || line.startsWith(' > ');
   }
 
-  _isCodeMarkLine(line: string) {
-    return line && line.trim() === '```';
+  private isCodeMarkLine(line: string): boolean {
+    return line.trim() === '```';
   }
 
-  _isSingleLineCode(line: string) {
-    return line && CODE_MARKER_PATTERN.test(line);
+  private isSingleLineCode(line: string): boolean {
+    return CODE_MARKER_PATTERN.test(line);
   }
 
-  _isPreFormat(line: string) {
-    return line && /^[ \t]/.test(line) && !this._isWhitespaceLine(line);
+  private isPreFormat(line: string): boolean {
+    return /^[ \t]/.test(line) && !this.isWhitespaceLine(line);
   }
 
-  _isList(line: string) {
-    return line && /^[-*] /.test(line);
+  private isList(line: string): boolean {
+    return /^[-*] /.test(line);
   }
 
-  _isWhitespaceLine(line: string) {
-    return line && /^\s+$/.test(line);
+  private isWhitespaceLine(line: string): boolean {
+    return /^\s+$/.test(line);
   }
 
-  _makeLinkedText(content = '', isPre?: boolean) {
-    const text = document.createElement('gr-linked-text');
-    text.config = this.config;
-    text.content = content;
-    text.pre = true;
-    if (isPre) {
-      text.classList.add('pre');
+  private renderLinkedText(content: string, isPre?: boolean): TemplateResult {
+    return html`
+      <gr-linked-text
+        class="${isPre ? 'pre' : ''}"
+        .config=${this.config}
+        content=${content}
+        pre
+      ></gr-linked-text>
+    `;
+  }
+
+  private renderBlock(block: Block): TemplateResult {
+    switch (block.type) {
+      case 'paragraph':
+        return html`<p>${this.renderLinkedText(block.text)}</p>`;
+      case 'quote':
+        return html`
+          <blockquote>
+            ${block.blocks.map(subBlock => this.renderBlock(subBlock))}
+          </blockquote>
+        `;
+      case 'code':
+        return html`<code>${block.text}</code>`;
+      case 'pre':
+        return this.renderLinkedText(block.text, true);
+      case 'list':
+        return html`
+          <ul>
+            ${block.items.map(
+              item => html`<li>${this.renderLinkedText(item)}</li>`
+            )}
+          </ul>
+        `;
     }
-    return text;
-  }
-
-  /**
-   * Map an array of block objects to an array of DOM nodes.
-   */
-  _computeNodes(blocks: Block[]): HTMLElement[] {
-    return blocks.map(block => {
-      if (block.type === 'paragraph') {
-        const p = document.createElement('p');
-        p.appendChild(this._makeLinkedText(block.text));
-        return p;
-      }
-
-      if (block.type === 'quote') {
-        const bq = document.createElement('blockquote');
-        for (const node of this._computeNodes(block.blocks || [])) {
-          if (node) bq.appendChild(node);
-        }
-        return bq;
-      }
-
-      if (block.type === 'code') {
-        const code = document.createElement('code');
-        code.textContent = block.text || '';
-        return code;
-      }
-
-      if (block.type === 'pre') {
-        return this._makeLinkedText(block.text, true);
-      }
-
-      if (block.type === 'list') {
-        const ul = document.createElement('ul');
-        const items = block.items || [];
-        for (const item of items) {
-          const li = document.createElement('li');
-          li.appendChild(this._makeLinkedText(item));
-          ul.appendChild(li);
-        }
-        return ul;
-      }
-
-      this.reporting.error(new Error(`Unrecognized block type: ${block.type}`));
-      return document.createElement('span');
-    });
   }
 }

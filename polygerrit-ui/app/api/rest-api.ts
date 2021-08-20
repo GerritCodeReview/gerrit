@@ -739,6 +739,20 @@ export type LabelInfo =
   | DetailedLabelInfo
   | (QuickLabelInfo & DetailedLabelInfo);
 
+export type LabelNameToLabelTypeInfoMap = {[labelName: string]: LabelTypeInfo};
+
+/**
+ * The LabelTypeInfo entity contains metadata about the labels that a project
+ * has.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#label-type-info
+ */
+export interface LabelTypeInfo {
+  values: LabelTypeInfoValues;
+  default_value: number;
+}
+
+export type LabelTypeInfoValues = {[value: string]: string};
+
 // The map maps the values (“-2”, “-1”, " `0`", “+1”, “+2”) to the value descriptions.
 export type LabelValueToDescriptionMap = {[labelValue: string]: string};
 
@@ -804,6 +818,31 @@ export declare interface ProblemInfo {
   message: string;
   status?: ProblemInfoStatus; // Only set if a fix was attempted
   outcome?: string;
+}
+
+/**
+ * The ProjectInfo entity contains information about a project
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-info
+ */
+export interface ProjectInfo {
+  id: UrlEncodedRepoName;
+  // name is not set if returned in a map where the project name is used as
+  // map key
+  name?: RepoName;
+  // ?-<n> if the parent project is not visible (<n> is a number which
+  // is increased for each non-visible project).
+  parent?: RepoName;
+  description?: string;
+  state?: ProjectState;
+  branches?: {[branchName: string]: CommitId};
+  // labels is filled for Create Project and Get Project calls.
+  labels?: LabelNameToLabelTypeInfoMap;
+  // Links to the project in external sites
+  web_links?: WebLinkInfo[];
+}
+
+export interface ProjectInfoWithName extends ProjectInfo {
+  name: RepoName;
 }
 
 /**
@@ -1060,3 +1099,5 @@ export enum SubmitRequirementStatus {
   OVERRIDDEN = 'OVERRIDDEN',
   NOT_APPLICABLE = 'NOT_APPLICABLE',
 }
+
+export type UrlEncodedRepoName = BrandType<string, '_urlEncodedRepoName'>;

@@ -448,7 +448,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
     this._loading = true;
 
-    this.collapseAllDiffs();
     const promises = [];
 
     promises.push(
@@ -1451,6 +1450,14 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     initialCount: number
   ) {
     let iter = 0;
+
+    // renderInOrder is called when a new file is expanded. When user changes
+    // the patchset we do not reset the _expandedFiles property so we can
+    // remember which file was expanded which means the list might include
+    // a file that is not present in this patchset anymore
+    files = files.filter((file: PatchSetFile) =>
+      this._files.some(f => f.__path === file.path)
+    );
 
     for (const file of files) {
       const path = file.path;

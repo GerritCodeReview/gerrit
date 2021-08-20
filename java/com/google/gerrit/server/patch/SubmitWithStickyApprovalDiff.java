@@ -41,6 +41,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -195,15 +196,39 @@ public class SubmitWithStickyApprovalDiff {
           Arrays.stream(RawParseUtils.decode(buf.toByteArray()).split("\n"))
               .collect(Collectors.toList());
 
-      // remove non user friendly information.
-      while (formatterResult.size() > 0 && !formatterResult.get(0).startsWith("@@")) {
-        formatterResult.remove(0);
+      // only return information about the current file, and not about files that are not
+      // relevant. DiffFormatter returns other potential files because of rebases, which we can
+      // ignore.
+      List<String> modifiedFormatterResult = new ArrayList<>();
+      int indexOfFormatterResult = 0;
+      while (formatterResult.size() > indexOfFormatterResult
+          && !formatterResult
+              .get(indexOfFormatterResult)
+              .equals(
+                  String.format(
+                      "diff --git a/%s b/%s",
+                      patchScript.getOldName() != null
+                          ? patchScript.getOldName()
+                          : patchScript.getNewName(),
+                      patchScript.getNewName()))) {
+        indexOfFormatterResult++;
       }
-      if (formatterResult.size() == 0) {
+      // remove non user friendly information.
+      while (formatterResult.size() > indexOfFormatterResult
+          && !formatterResult.get(indexOfFormatterResult).startsWith("@@")) {
+        indexOfFormatterResult++;
+      }
+      for (; indexOfFormatterResult < formatterResult.size(); indexOfFormatterResult++) {
+        if (formatterResult.get(indexOfFormatterResult).startsWith("diff --git")) {
+          break;
+        }
+        modifiedFormatterResult.add(formatterResult.get(indexOfFormatterResult));
+      }
+      if (modifiedFormatterResult.size() == 0) {
         // This happens for diffs that are just renames, but we already account for renames.
         return "";
       }
-      return formatterResult.stream()
+      return modifiedFormatterResult.stream()
           .filter(s -> !s.equals("\\ No newline at end of file"))
           .collect(Collectors.joining("\n"));
     } catch (IOException e) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4968207c_c53a8387",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-08-21T09:25:17Z",
+      "side": 1,
+      "message": "why a \"home-grown\" solution instead of using the regular inter-diff machinery that marks rebase-only chunks (and simply throwing them away)?",
+      "revId": "1e9bb134c18138a3a713774114ffd7cc9fc838c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

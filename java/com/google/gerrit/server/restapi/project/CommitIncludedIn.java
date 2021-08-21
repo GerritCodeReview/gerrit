@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.IncludedIn;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -36,7 +37,8 @@ public class CommitIncludedIn implements RestReadView<CommitResource> {
   }
 
   @Override
-  public Response<IncludedInInfo> apply(CommitResource rsrc) throws RestApiException, IOException {
+  public Response<IncludedInInfo> apply(CommitResource rsrc)
+      throws RestApiException, IOException, PermissionBackendException {
     RevCommit commit = rsrc.getCommit();
     Project.NameKey project = rsrc.getProjectState().getNameKey();
     return Response.ok(includedIn.apply(project, commit.getId().getName()));

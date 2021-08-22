@@ -19,7 +19,8 @@ import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
 import {AccountInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, property} from 'lit-element';
+import {css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 
 @customElement('gr-avatar')
 export class GrAvatar extends GrLitElement {

@@ -20,8 +20,9 @@ import '../gr-icons/gr-icons';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, property} from 'lit-element';
-import {classMap} from 'lit-html/directives/class-map';
+import {css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
+import {classMap} from 'lit/directives/class-map';
 
 @customElement('gr-account-chip')
 export class GrAccountChip extends GrLitElement {

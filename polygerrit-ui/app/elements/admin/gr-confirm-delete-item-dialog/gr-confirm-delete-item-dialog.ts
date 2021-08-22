@@ -17,7 +17,8 @@
 import '../../shared/gr-dialog/gr-dialog';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, property} from 'lit-element';
+import {css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -27,8 +27,9 @@ import {fireEvent} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
 import {ShowAlertEventDetail} from '../../../types/events';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, property, state} from 'lit-element';
-import {classMap} from 'lit-html/directives/class-map';
+import {css, html} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
+import {classMap} from 'lit/directives/class-map';
 import {modifierPressed} from '../../../utils/dom-util';
 
 @customElement('gr-account-label')

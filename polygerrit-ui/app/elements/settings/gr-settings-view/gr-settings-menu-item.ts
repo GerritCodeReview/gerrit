@@ -17,7 +17,8 @@
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {customElement, html, property} from 'lit-element';
+import {html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 
 declare global {
   interface HTMLElementTagNameMap {

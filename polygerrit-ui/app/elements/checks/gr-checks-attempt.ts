@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from 'lit-html';
-import {css, customElement, property} from 'lit-element';
+import {css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {CheckRun} from '../../services/checks/checks-model';
 import {ordinal} from '../../utils/string-util';

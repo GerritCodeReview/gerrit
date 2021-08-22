@@ -28,18 +28,10 @@ import './gr-zoomed-image';
 import {GrLibLoader} from '../../shared/gr-lib-loader/gr-lib-loader';
 import {RESEMBLEJS_LIBRARY_CONFIG} from '../../shared/gr-lib-loader/resemblejs_config';
 
-import {
-  css,
-  customElement,
-  html,
-  LitElement,
-  property,
-  PropertyValues,
-  query,
-  state,
-} from 'lit-element';
-import {classMap} from 'lit-html/directives/class-map';
-import {StyleInfo, styleMap} from 'lit-html/directives/style-map';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {classMap} from 'lit/directives/class-map';
+import {StyleInfo, styleMap} from 'lit/directives/style-map';
 
 import {
   createEvent,

@@ -14,17 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  css,
-  customElement,
-  html,
-  LitElement,
-  property,
-  PropertyValues,
-  query,
-  state,
-} from 'lit-element';
-import {StyleInfo, styleMap} from 'lit-html/directives/style-map';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {StyleInfo, styleMap} from 'lit/directives/style-map';
 import {ImageDiffAction} from '../../../api/diff';
 
 import {createEvent, Dimensions, fitToFrame, Point, Rect} from './util';

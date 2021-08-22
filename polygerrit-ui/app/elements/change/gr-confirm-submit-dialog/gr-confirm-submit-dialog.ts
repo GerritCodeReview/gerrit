@@ -26,7 +26,8 @@ import {pluralize} from '../../../utils/string-util';
 import {CommentThread, isUnresolved} from '../../../utils/comment-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, property, query} from 'lit-element';
+import {css, html} from 'lit';
+import {customElement, property, query} from 'lit/decorators';
 
 @customElement('gr-confirm-submit-dialog')
 export class GrConfirmSubmitDialog extends GrLitElement {

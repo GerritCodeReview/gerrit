@@ -17,7 +17,8 @@
 import {GrLinkTextParser, LinkTextParserConfig} from './link-text-parser';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, property, query} from 'lit-element';
+import {css, html} from 'lit';
+import {customElement, property, query} from 'lit/decorators';
 
 declare global {
   interface HTMLElementTagNameMap {

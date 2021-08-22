@@ -26,7 +26,8 @@ import {appContext} from '../../../services/app-context';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, property, PropertyValues} from 'lit-element';
+import {css, html, PropertyValues} from 'lit';
+import {customElement, property} from 'lit/decorators';
 
 @customElement('gr-user-header')
 export class GrUserHeader extends GrLitElement {

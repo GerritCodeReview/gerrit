@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from 'lit-html';
-import {css, customElement, property, PropertyValues, state} from 'lit-element';
+import {css, html, PropertyValues} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {Action} from '../../api/checks';
 import {

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {css} from 'lit-element';
+import {css} from 'lit';
 
 export const tableStyles = css`
   .genericList {

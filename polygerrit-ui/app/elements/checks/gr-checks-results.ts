@@ -14,19 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from 'lit-html';
-import {classMap} from 'lit-html/directives/class-map';
-import {repeat} from 'lit-html/directives/repeat';
-import {ifDefined} from 'lit-html/directives/if-defined';
-import {
-  css,
-  customElement,
-  property,
-  PropertyValues,
-  query,
-  state,
-  TemplateResult,
-} from 'lit-element';
+import {classMap} from 'lit/directives/class-map';
+import {repeat} from 'lit/directives/repeat';
+import {ifDefined} from 'lit/directives/if-defined';
+import {css, html, PropertyValues, TemplateResult} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
 import {GrLitElement} from '../lit/gr-lit-element';
 import './gr-checks-action';
 import '@polymer/paper-tooltip/paper-tooltip';

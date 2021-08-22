@@ -18,7 +18,8 @@ import '../gr-linked-text/gr-linked-text';
 import {CommentLinks} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, property} from 'lit-element';
+import {css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 

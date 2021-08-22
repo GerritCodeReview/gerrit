@@ -19,9 +19,10 @@ import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import {IronIconElement} from '@polymer/iron-icon';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
-import {classMap} from 'lit-html/directives/class-map';
-import {ifDefined} from 'lit-html/directives/if-defined';
-import {css, customElement, html, property} from 'lit-element';
+import {classMap} from 'lit/directives/class-map';
+import {ifDefined} from 'lit/directives/if-defined';
+import {css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {GrButton} from '../gr-button/gr-button';
 

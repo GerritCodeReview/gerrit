@@ -18,7 +18,8 @@
 import '../gr-account-label/gr-account-label';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
-import {css, customElement, html, property} from 'lit-element';
+import {css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 import {GrLitElement} from '../../lit/gr-lit-element';
 
 @customElement('gr-account-link')

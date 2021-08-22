@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6e9a71a_d1b5f14e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-22T17:59:03Z",
+      "side": 1,
+      "message": "Add a link to https://blog.bazel.build/2021/08/18/bazel-4.2.html ?",
+      "revId": "d5ce512bc9c0b2d7d87bd2ab95c8b89a96e768cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c8c8746_8167e45c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-22T17:59:03Z",
+      "side": 1,
+      "message": "Do you specifically need this on 3.1? It\u0027s EOL. If not, please move to 3.2 using Move Change from the actions menu.",
+      "revId": "d5ce512bc9c0b2d7d87bd2ab95c8b89a96e768cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

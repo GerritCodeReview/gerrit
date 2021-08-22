@@ -27,8 +27,9 @@ import {AccountExternalIdInfo, ServerInfo} from '../../../types/common';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
+import {AuthType} from '../../../constants/constants';
 
-const AUTH = ['OPENID', 'OAUTH'];
+const AUTH = [AuthType.OPENID, AuthType.OAUTH];
 
 export interface GrIdentities {
   $: {
@@ -104,8 +105,8 @@ export class GrIdentities extends PolymerElement {
   }
 
   _computeShowLinkAnotherIdentity(config?: ServerInfo) {
-    if (config?.auth?.git_basic_auth_policy) {
-      return AUTH.includes(config.auth.git_basic_auth_policy.toUpperCase());
+    if (config?.auth?.auth_type) {
+      return AUTH.includes(config.auth.auth_type);
     }
 
     return false;

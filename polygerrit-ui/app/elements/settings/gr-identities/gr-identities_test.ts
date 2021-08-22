@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-identities';
 import {GrIdentities} from './gr-identities';
+import {AuthType} from '../../../constants/constants';
 import {stubRestApi} from '../../../test/test-utils';
 import {ServerInfo} from '../../../types/common';
 import {createServerInfo} from '../../../test/test-data-generators';
@@ -109,19 +110,19 @@ suite('gr-identities tests', () => {
       ...createServerInfo(),
     };
 
-    config.auth.git_basic_auth_policy = 'OAUTH';
+    config.auth.auth_type = AuthType.OAUTH;
     assert.isTrue(element._computeShowLinkAnotherIdentity(config));
 
-    config.auth.git_basic_auth_policy = 'OpenID';
+    config.auth.auth_type = AuthType.OPENID;
     assert.isTrue(element._computeShowLinkAnotherIdentity(config));
 
-    config.auth.git_basic_auth_policy = 'HTTP_LDAP';
+    config.auth.auth_type = AuthType.HTTP_LDAP;
     assert.isFalse(element._computeShowLinkAnotherIdentity(config));
 
-    config.auth.git_basic_auth_policy = 'LDAP';
+    config.auth.auth_type = AuthType.LDAP;
     assert.isFalse(element._computeShowLinkAnotherIdentity(config));
 
-    config.auth.git_basic_auth_policy = 'HTTP';
+    config.auth.auth_type = AuthType.HTTP;
     assert.isFalse(element._computeShowLinkAnotherIdentity(config));
 
     assert.isFalse(element._computeShowLinkAnotherIdentity(undefined));
@@ -131,7 +132,7 @@ suite('gr-identities tests', () => {
     let config: ServerInfo = {
       ...createServerInfo(),
     };
-    config.auth.git_basic_auth_policy = 'OAUTH';
+    config.auth.auth_type = AuthType.OAUTH;
 
     element.serverConfig = config;
 
@@ -140,7 +141,7 @@ suite('gr-identities tests', () => {
     config = {
       ...createServerInfo(),
     };
-    config.auth.git_basic_auth_policy = 'LDAP';
+    config.auth.auth_type = AuthType.LDAP;
     element.serverConfig = config;
 
     assert.isFalse(element._showLinkAnotherIdentity);

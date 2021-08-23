@@ -16,7 +16,6 @@
  */
 
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
-import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {PolymerElement} from '@polymer/polymer';
 import {Constructor} from '../../utils/common-util';
 
@@ -24,45 +23,43 @@ import {Constructor} from '../../utils/common-util';
  * @polymer
  * @mixinFunction
  */
-export const ListViewMixin = dedupingMixin(
-  <T extends Constructor<PolymerElement>>(
-    superClass: T
-  ): T & Constructor<ListViewMixinInterface> => {
-    /**
-     * @polymer
-     * @mixinClass
-     */
-    class Mixin extends superClass {
-      computeLoadingClass(loading: boolean): string {
-        return loading ? 'loading' : '';
-      }
-
-      computeShownItems<T>(items: T[]): T[] {
-        return items.slice(0, 25);
-      }
-
-      getUrl(path: string, item: string) {
-        return getBaseUrl() + path + encodeURL(item, true);
-      }
-
-      getFilterValue<T extends ListViewParams>(params: T): string {
-        if (!params) {
-          return '';
-        }
-        return params.filter || '';
-      }
-
-      getOffsetValue<T extends ListViewParams>(params: T): number {
-        if (params?.offset) {
-          return Number(params.offset);
-        }
-        return 0;
-      }
+export const ListViewMixin = <T extends Constructor<PolymerElement>>(
+  superClass: T
+) => {
+  /**
+   * @polymer
+   * @mixinClass
+   */
+  class Mixin extends superClass {
+    computeLoadingClass(loading: boolean): string {
+      return loading ? 'loading' : '';
     }
 
-    return Mixin;
+    computeShownItems<T>(items: T[]): T[] {
+      return items.slice(0, 25);
+    }
+
+    getUrl(path: string, item: string) {
+      return getBaseUrl() + path + encodeURL(item, true);
+    }
+
+    getFilterValue<T extends ListViewParams>(params: T): string {
+      if (!params) {
+        return '';
+      }
+      return params.filter || '';
+    }
+
+    getOffsetValue<T extends ListViewParams>(params: T): number {
+      if (params?.offset) {
+        return Number(params.offset);
+      }
+      return 0;
+    }
   }
-);
+
+  return Mixin as T & Constructor<ListViewMixinInterface>;
+};
 
 export interface ListViewMixinInterface {
   computeLoadingClass(loading: boolean): string;

@@ -61,8 +61,7 @@ module.exports = function(config) {
   const localDirName = path.resolve(__dirname, '../.ts-out/polygerrit-ui/app');
   const rootDir = runUnderBazel ?
       'polygerrit-ui/app/_pg_with_tests_out/' : localDirName + '/';
-  const testFilesLocationPattern =
-      `${rootDir}**/!(template_test_srcs)/`;
+  const testFilesLocationPattern = `${rootDir}**/`;
   // Use --test-files to specify pattern for a test files.
   // It can be just a file name, without a path:
   // --test-files async-foreach-behavior_test.js

@@ -16,6 +16,23 @@
       "message": "Hey Ben. Please help me with this change, I am not able to understand the CI failure.",
       "revId": "c9c57be3b5e668d7aa517c39cf1313402a49d97d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc7696be_236cec1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-23T06:34:32Z",
+      "side": 1,
+      "message": "Thanks for the contribution. I am looking for a good reviewer. Stay tuned.\n\nThe feature was introduced here: https://gerrit-review.googlesource.com/c/gerrit/+/231452\n\nAdding the original owner CC.",
+      "revId": "c9c57be3b5e668d7aa517c39cf1313402a49d97d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -321,7 +321,7 @@ path:'PATH'::
 +
 Matches any change touching file at 'PATH'. By default exact path
 matching is used, but regular expressions can be enabled by starting
-with `^`.  For example, to match all XML files use `file:^.*\.xml$`.
+with `^`.  For example, to match all XML files use `file:"^.*\.xml$"`.
 The link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
 is used for the evaluation of such patterns.
 +
@@ -331,8 +331,7 @@ anchoring the match to the start of the string.  To match all Java
 files, use `file:^.*\.java`.
 +
 The entire regular expression pattern, including the `^` character,
-should be double quoted when using more complex construction (like
-ones using a bracket expression). For example, to match all XML
+should be double quoted. For example, to match all XML
 files named like 'name1.xml', 'name2.xml', and 'name3.xml' use
 `file:"^name[1-3].xml"`.
 +

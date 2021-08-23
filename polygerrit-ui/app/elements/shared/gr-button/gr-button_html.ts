@@ -169,7 +169,11 @@ export const htmlTemplate = html`
       border-top-color: var(--deemphasized-text-color);
     }
   </style>
-  <paper-button raised="[[!link]]" disabled="[[_disabled]]" tabindex="-1">
+  <paper-button
+    raised="[[!link]]"
+    disabled="[[_disabled]]"
+    tabindex="-1"
+    part="paper-button">
     <template is="dom-if" if="[[loading]]">
       <span class="loadingSpin"></span>
     </template>

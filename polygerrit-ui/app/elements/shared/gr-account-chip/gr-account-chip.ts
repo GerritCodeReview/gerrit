@@ -134,23 +134,21 @@ export class GrAccountChip extends GrLitElement {
         .container {
           --account-label-padding-horizontal: 6px;
         }
-        gr-button.remove,
-        gr-button.remove:hover,
-        gr-button.remove:focus {
-          --gr-button: {
-            border-top-width: 0;
-            border-right-width: 0;
-            border-bottom-width: 0;
-            border-left-width: 0;
-            color: var(--deemphasized-text-color);
-            font-weight: var(--font-weight-normal);
-            height: 0.6em;
-            line-height: 10px;
-            /* This cancels most of the --account-label-padding-horizontal. */
-            margin-left: -4px;
-            padding: 0 2px 0 0;
-            text-decoration: none;
-          }
+        gr-button.remove::part(paper-button),
+        gr-button.remove:hover::part(paper-button),
+        gr-button.remove:focus::part(paper-button) {
+          border-top-width: 0;
+          border-right-width: 0;
+          border-bottom-width: 0;
+          border-left-width: 0;
+          color: var(--deemphasized-text-color);
+          font-weight: var(--font-weight-normal);
+          height: 0.6em;
+          line-height: 10px;
+          /* This cancels most of the --account-label-padding-horizontal. */
+          margin-left: -4px;
+          padding: 0 2px 0 0;
+          text-decoration: none;
         }
       </style>
     `;

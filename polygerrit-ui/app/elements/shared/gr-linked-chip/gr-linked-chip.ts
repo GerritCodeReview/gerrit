@@ -90,22 +90,20 @@ export class GrLinkedChip extends GrLitElement {
     // in <style> inside the template.
     const customStyle = html`
       <style>
-        gr-button.remove,
-        gr-button.remove:hover,
-        gr-button.remove:focus {
-          --gr-button: {
-            border-top-width: 0;
-            border-right-width: 0;
-            border-bottom-width: 0;
-            border-left-width: 0;
-            color: var(--deemphasized-text-color);
-            font-weight: var(--font-weight-normal);
-            height: 0.6em;
-            line-height: 10px;
-            margin-left: var(--spacing-xs);
-            padding: 0;
-            text-decoration: none;
-          }
+        gr-button::part(paper-button),
+        gr-button.remove:hover::part(paper-button),
+        gr-button.remove:focus::part(paper-button) {
+          border-top-width: 0;
+          border-right-width: 0;
+          border-bottom-width: 0;
+          border-left-width: 0;
+          color: var(--deemphasized-text-color);
+          font-weight: var(--font-weight-normal);
+          height: 0.6em;
+          line-height: 10px;
+          margin-left: var(--spacing-xs);
+          padding: 0;
+          text-decoration: none;
         }
       </style>
     `;

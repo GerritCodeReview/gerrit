@@ -203,15 +203,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   // ProjectCache, so this would retain lots more memory.
   @Singleton
   public static class Factory {
-    @Nullable
-    public static StoredConfig getBaseConfig(
+    public static Optional<StoredConfig> getBaseConfig(
         SitePaths sitePaths, AllProjectsName allProjects, Project.NameKey projectName) {
       return projectName.equals(allProjects)
           // Delay loading till onLoad method.
-          ? new FileBasedConfig(
-              sitePaths.etc_dir.resolve(allProjects.get()).resolve(PROJECT_CONFIG).toFile(),
-              FS.DETECTED)
-          : null;
+          ? Optional.of(
+              new FileBasedConfig(
+                  sitePaths.etc_dir.resolve(allProjects.get()).resolve(PROJECT_CONFIG).toFile(),
+                  FS.DETECTED))
+          : Optional.empty();
     }
 
     private final SitePaths sitePaths;
@@ -249,7 +249,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private final StoredConfig baseConfig;
+  private final Optional<StoredConfig> baseConfig;
 
   private Project project;
   private AccountsSection accountsSection;
@@ -355,7 +355,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     requireNonNull(commentLinkSections.remove(name));
   }
 
-  private ProjectConfig(Project.NameKey projectName, @Nullable StoredConfig baseConfig) {
+  private ProjectConfig(Project.NameKey projectName, Optional<StoredConfig> baseConfig) {
     this.projectName = projectName;
     this.baseConfig = baseConfig;
   }
@@ -636,8 +636,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    if (baseConfig != null) {
-      baseConfig.load();
+    if (baseConfig.isPresent()) {
+      baseConfig.get().load();
     }
     readGroupList();
 

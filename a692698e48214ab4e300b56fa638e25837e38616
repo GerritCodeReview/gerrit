@@ -16,6 +16,24 @@
       "message": "Don\u0027t we generally want to retain the scroll position, no matter where you come from? Going back and forth between change page and diff page keeps the component around, right? Then the change page should look identical when coming back. Did you try that? WDYT?",
       "revId": "a692698e48214ab4e300b56fa638e25837e38616",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "495d265f_c1b91fec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T08:33:10Z",
+      "side": 1,
+      "message": "going back and forth, we reset all the properties hence triggering a re-render and the scroll position is lost.",
+      "parentUuid": "f894c275_32e09e8f",
+      "revId": "a692698e48214ab4e300b56fa638e25837e38616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

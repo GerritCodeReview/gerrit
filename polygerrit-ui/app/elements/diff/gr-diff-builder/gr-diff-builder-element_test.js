@@ -53,7 +53,8 @@ suite('gr-diff-builder tests', () => {
   let element;
   let builder;
 
-  const LINE_FEED_HTML = '<span class="style-scope gr-diff br"></span>';
+  const LINE_BREAK_HTML = '<span class="style-scope gr-diff br"></span>';
+  const WBR_HTML = '<wbr class="style-scope gr-diff">';
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -78,59 +79,60 @@ suite('gr-diff-builder tests', () => {
   test('newlines 1', () => {
     let text = 'abcdef';
 
-    assert.equal(builder._formatText(text, 4, 10).innerHTML, text);
+    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML, text);
     text = 'a'.repeat(20);
-    assert.equal(builder._formatText(text, 4, 10).innerHTML,
+    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML,
         'a'.repeat(10) +
-        LINE_FEED_HTML +
+        LINE_BREAK_HTML +
         'a'.repeat(10));
   });
 
   test('newlines 2', () => {
     const text = '<span class="thumbsup">👍</span>';
-    assert.equal(builder._formatText(text, 4, 10).innerHTML,
+    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML,
         '&lt;span clas' +
-        LINE_FEED_HTML +
+        LINE_BREAK_HTML +
         's="thumbsu' +
-        LINE_FEED_HTML +
+        LINE_BREAK_HTML +
         'p"&gt;👍&lt;/span' +
-        LINE_FEED_HTML +
+        LINE_BREAK_HTML +
         '&gt;');
   });
 
   test('newlines 3', () => {
     const text = '01234\t56789';
-    assert.equal(builder._formatText(text, 4, 10).innerHTML,
+    assert.equal(builder._formatText(text, 'NONE', 4, 10).innerHTML,
         '01234' + builder._getTabWrapper(3).outerHTML + '56' +
-        LINE_FEED_HTML +
+        LINE_BREAK_HTML +
         '789');
   });
 
   test('newlines 4', () => {
     const text = '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍';
-    assert.equal(builder._formatText(text, 4, 20).innerHTML,
+    assert.equal(builder._formatText(text, 'NONE', 4, 20).innerHTML,
         '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍' +
-        LINE_FEED_HTML +
+        LINE_BREAK_HTML +
         '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍' +
-        LINE_FEED_HTML +
+        LINE_BREAK_HTML +
         '👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍');
   });
 
-  test('line_length ignored if line_wrapping is true', () => {
+  test('line_length applied with <wbr> if line_wrapping is true', () => {
     builder._prefs = {line_wrapping: true, tab_size: 4, line_length: 50};
     const text = 'a'.repeat(51);
 
     const line = {text, highlights: []};
+    const expected = 'a'.repeat(50) + WBR_HTML + 'a';
     const result = builder._createTextEl(undefined, line).firstChild.innerHTML;
-    assert.equal(result, text);
+    assert.equal(result, expected);
   });
 
-  test('line_length applied if line_wrapping is false', () => {
+  test('line_length applied with line break if line_wrapping is false', () => {
     builder._prefs = {line_wrapping: false, tab_size: 4, line_length: 50};
     const text = 'a'.repeat(51);
 
     const line = {text, highlights: []};
-    const expected = 'a'.repeat(50) + LINE_FEED_HTML + 'a';
+    const expected = 'a'.repeat(50) + LINE_BREAK_HTML + 'a';
     const result = builder._createTextEl(undefined, line).firstChild.innerHTML;
     assert.equal(result, expected);
   });
@@ -173,22 +175,25 @@ suite('gr-diff-builder tests', () => {
   test('text length with tabs and unicode', () => {
     function expectTextLength(text, tabSize, expected) {
       // Formatting to |expected| columns should not introduce line breaks.
-      const result = builder._formatText(text, tabSize, expected);
+      const result = builder._formatText(text, 'NONE', tabSize, expected);
       assert.isNotOk(result.querySelector('.contentText > .br'),
           `  Expected the result of: \n` +
-          `      _formatText(${text}', ${tabSize}, ${expected})\n` +
+          `      _formatText(${text}', 'NONE',  ${tabSize}, ${expected})\n` +
           `  to not contain a br. But the actual result HTML was:\n` +
           `      '${result.innerHTML}'\nwhereupon`);
 
       // Increasing the line limit should produce the same markup.
-      assert.equal(builder._formatText(text, tabSize, Infinity).innerHTML,
+      assert.equal(
+          builder._formatText(text, 'NONE', tabSize, Infinity).innerHTML,
           result.innerHTML);
-      assert.equal(builder._formatText(text, tabSize, expected + 1).innerHTML,
+      assert.equal(
+          builder._formatText(text, 'NONE', tabSize, expected + 1).innerHTML,
           result.innerHTML);
 
       // Decreasing the line limit should introduce line breaks.
       if (expected > 0) {
-        const tooSmall = builder._formatText(text, tabSize, expected - 1);
+        const tooSmall = builder._formatText(text,
+            'NONE', tabSize, expected - 1);
         assert.isOk(tooSmall.querySelector('.contentText > .br'),
             `  Expected the result of: \n` +
             `      _formatText(${text}', ${tabSize}, ${expected - 1})\n` +
@@ -216,7 +221,7 @@ suite('gr-diff-builder tests', () => {
     assert.ok(wrapper);
     assert.equal(wrapper.innerText, '\t');
     assert.equal(
-        builder._formatText(html, tabSize, Infinity).innerHTML,
+        builder._formatText(html, 'NONE', tabSize, Infinity).innerHTML,
         'abc' + wrapper.outerHTML + 'def');
   });
 

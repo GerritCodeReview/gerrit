@@ -16,6 +16,75 @@
       "message": "Martin\\Nasser, can you please have a look as well",
       "revId": "e4882d3309fbae0337c15c6efc6f929780262045",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16ae8f7d_cb79c8d4",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDynamicOptionsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-23T14:29:39Z",
+      "side": 1,
+      "message": "2021?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "e4882d3309fbae0337c15c6efc6f929780262045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06eeb2ba_dad4b579",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDynamicOptionsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-23T14:29:39Z",
+      "side": 1,
+      "message": "This doesn\u0027t define an option like I would expect it to based on the name or the example at https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#command_options",
+      "range": {
+        "startLine": 87,
+        "startChar": 25,
+        "endLine": 87,
+        "endChar": 43
+      },
+      "revId": "e4882d3309fbae0337c15c6efc6f929780262045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "464a7483_e8e86b3d",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/DynamicOptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-23T14:29:39Z",
+      "side": 1,
+      "message": "2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "e4882d3309fbae0337c15c6efc6f929780262045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

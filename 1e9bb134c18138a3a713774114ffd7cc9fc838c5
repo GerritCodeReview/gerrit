@@ -34,6 +34,24 @@
       "parentUuid": "4968207c_c53a8387",
       "revId": "1e9bb134c18138a3a713774114ffd7cc9fc838c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e944b56_41c7d46a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-08-23T09:13:19Z",
+      "side": 1,
+      "message": "\u003e AFAIK DiffFormatter is the regular inter-diff machinery.\n\nit presumably is, but judging by the description you\u0027re not using its full potential.\n\n\u003e Can you provide a code pointer to the code you\u0027re referring to?\n\nnope, i\u0027m just going by observable behavior.",
+      "parentUuid": "dd0299b7_bb511008",
+      "revId": "1e9bb134c18138a3a713774114ffd7cc9fc838c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

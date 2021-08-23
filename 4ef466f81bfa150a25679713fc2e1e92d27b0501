@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f70dc948_f619995a",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T08:15:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f03e129c_f5d34ee7",
+      "revId": "4ef466f81bfa150a25679713fc2e1e92d27b0501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d15cefb7_cfa5a65b",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50d294ef_b3266247",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T08:15:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d15cefb7_cfa5a65b",
+      "revId": "4ef466f81bfa150a25679713fc2e1e92d27b0501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51f0ae28_bcc8e05b",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-08-20T20:17:17Z",
       "side": 1,
       "message": "as in other change: maybe `set...`",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "4ef466f81bfa150a25679713fc2e1e92d27b0501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "210f59ac_dab0a1ec",
+        "filename": "polygerrit-ui/app/services/router/router-service.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T08:15:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51f0ae28_bcc8e05b",
       "range": {
         "startLine": 28,
         "startChar": 2,

@@ -16,6 +16,24 @@
       "message": "why a \"home-grown\" solution instead of using the regular inter-diff machinery that marks rebase-only chunks (and simply throwing them away)?",
       "revId": "1e9bb134c18138a3a713774114ffd7cc9fc838c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd0299b7_bb511008",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-23T08:36:08Z",
+      "side": 1,
+      "message": "AFAIK DiffFormatter is the regular inter-diff machinery. Can you provide a code pointer to the code you\u0027re referring to?",
+      "parentUuid": "4968207c_c53a8387",
+      "revId": "1e9bb134c18138a3a713774114ffd7cc9fc838c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

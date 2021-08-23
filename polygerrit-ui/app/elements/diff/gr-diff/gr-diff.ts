@@ -85,6 +85,7 @@ import {debounce, DelayedTask} from '../../../utils/async-util';
 import {
   DiffContextExpandedEventDetail,
   getResponsiveMode,
+  isResponsive,
 } from '../gr-diff-builder/gr-diff-builder';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
@@ -754,8 +755,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     const stylesToUpdate: {[key: string]: string} = {};
 
     const responsiveMode = getResponsiveMode(prefs, renderPrefs);
-    const responsive =
-      responsiveMode === 'FULL_RESPONSIVE' || responsiveMode === 'SHRINK_ONLY';
+    const responsive = isResponsive(responsiveMode);
     this._diffTableClass = responsive ? 'responsive' : '';
     const lineLimit = `${lineLength}ch`;
     stylesToUpdate['--line-limit-marker'] =

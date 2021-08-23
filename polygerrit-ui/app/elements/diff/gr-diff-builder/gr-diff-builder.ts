@@ -89,6 +89,12 @@ export function getResponsiveMode(
   return 'NONE';
 }
 
+export function isResponsive(responsiveMode: DiffResponsiveMode) {
+  return (
+    responsiveMode === 'FULL_RESPONSIVE' || responsiveMode === 'SHRINK_ONLY'
+  );
+}
+
 export abstract class GrDiffBuilder {
   private readonly _diff: DiffInfo;
 
@@ -513,12 +519,11 @@ export abstract class GrDiffBuilder {
     const {beforeNumber, afterNumber} = line;
     if (beforeNumber !== 'FILE' && beforeNumber !== 'LOST') {
       const responsiveMode = getResponsiveMode(this._prefs, this._renderPrefs);
-      const lineLimit =
-        responsiveMode === 'NONE' ? this._prefs.line_length : Infinity;
       const contentText = this._formatText(
         line.text,
+        responsiveMode,
         this._prefs.tab_size,
-        lineLimit
+        this._prefs.line_length
       );
 
       if (side) {
@@ -544,6 +549,12 @@ export abstract class GrDiffBuilder {
     return td;
   }
 
+  private createLineBreak(responsive: boolean) {
+    return responsive
+      ? this._createElement('wbr')
+      : this._createElement('span', 'br');
+  }
+
   /**
    * Returns a 'div' element containing the supplied |text| as its innerText,
    * with '\t' characters expanded to a width determined by |tabSize|, and the
@@ -554,9 +565,14 @@ export abstract class GrDiffBuilder {
    * @param tabSize The width of each tab stop.
    * @param lineLimit The column after which to wrap lines.
    */
-  _formatText(text: string, tabSize: number, lineLimit: number): HTMLElement {
+  _formatText(
+    text: string,
+    responsiveMode: DiffResponsiveMode,
+    tabSize: number,
+    lineLimit: number
+  ): HTMLElement {
     const contentText = this._createElement('div', 'contentText');
-
+    const responsive = isResponsive(responsiveMode);
     let columnPos = 0;
     let textOffset = 0;
     for (const segment of text.split(REGEX_TAB_OR_SURROGATE_PAIR)) {
@@ -570,7 +586,7 @@ export abstract class GrDiffBuilder {
           contentText.appendChild(
             document.createTextNode(segment.substring(rowStart, rowEnd))
           );
-          contentText.appendChild(this._createElement('span', 'br'));
+          contentText.appendChild(this.createLineBreak(responsive));
           columnPos = 0;
           rowStart = rowEnd;
           rowEnd += lineLimit;
@@ -588,7 +604,7 @@ export abstract class GrDiffBuilder {
           // Append a single '\t' character.
           let effectiveTabSize = tabSize - (columnPos % tabSize);
           if (columnPos + effectiveTabSize > lineLimit) {
-            contentText.appendChild(this._createElement('span', 'br'));
+            contentText.appendChild(this.createLineBreak(responsive));
             columnPos = 0;
             effectiveTabSize = tabSize;
           }
@@ -598,7 +614,7 @@ export abstract class GrDiffBuilder {
         } else {
           // Append a single surrogate pair.
           if (columnPos >= lineLimit) {
-            contentText.appendChild(this._createElement('span', 'br'));
+            contentText.appendChild(this.createLineBreak(responsive));
             columnPos = 0;
           }
           contentText.appendChild(

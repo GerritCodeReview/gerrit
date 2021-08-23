@@ -33,6 +33,23 @@
       "message": "Thanks for the contribution. I am looking for a good reviewer. Stay tuned.\n\nThe feature was introduced here: https://gerrit-review.googlesource.com/c/gerrit/+/231452\n\nAdding the original owner CC.",
       "revId": "c9c57be3b5e668d7aa517c39cf1313402a49d97d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eb444a7_dd95e26f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-23T07:41:06Z",
+      "side": 1,
+      "message": "I think this change is correct, but would want one more person to review it.",
+      "revId": "c9c57be3b5e668d7aa517c39cf1313402a49d97d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

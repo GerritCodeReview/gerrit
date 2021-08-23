@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43582e3d_30cd16f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-23T12:20:32Z",
+      "side": 1,
+      "message": "This comment feels out of place. Is this relevant for the file-list component?",
+      "range": {
+        "startLine": 650,
+        "startChar": 3,
+        "endLine": 651,
+        "endChar": 39
+      },
+      "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f242ee5f_71b5c621",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-23T12:20:32Z",
+      "side": 1,
+      "message": "Maybe just\n\n  this.filesExpanded \u003d FilesExpandedState.NONE;\n  \nBut wait, then don\u0027t you also want to set\n\n  this._expandedFiles \u003d [];\n  \nAnd then what is the difference between `collapseAllDiffs()` and `resetAllDiffs()`? I think the two methods need a comment.\n\nIdeally all those properties would also have a comment. Currently I have a hard time understanding the logic of this component.\n\n  _showInlineDiffs\n  _expandedFiles\n  filesExpanded",
+      "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3e184cf_e5f097f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-23T12:20:32Z",
+      "side": 1,
+      "message": "Why these additional lines? Add a comment?\n\nDo we really want to re-render (incl. reloading the diffs) when `reviewed` or `changeComments` changes?",
+      "range": {
+        "startLine": 1282,
+        "startChar": 4,
+        "endLine": 1287,
+        "endChar": 73
+      },
+      "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

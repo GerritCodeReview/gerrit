@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ca7b362_22b8f92b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-23T22:26:21Z",
+      "side": 1,
+      "message": "Hi Dmitrii,\n\nIt seems you last touched karma.conf.js so maybe you have more history on this? I could not find `template_test_srcs` anywhere.\n\nThanks!",
+      "revId": "1f5f474924da53a7287664e1f678d7936102bed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

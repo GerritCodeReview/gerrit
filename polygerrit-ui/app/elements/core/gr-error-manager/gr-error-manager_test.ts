@@ -487,7 +487,7 @@ suite('gr-error-manager tests', () => {
       assert.include(toast.shadowRoot.textContent, 'second-test');
     });
 
-    test('regular toast should not dismiss auth toast', done => {
+    test('regular toast should not dismiss auth toast', async () => {
       // Set status to AUTHED.
       appContext.authService.authCheck();
       const responseText = Promise.resolve('Authentication required\n');
@@ -509,37 +509,37 @@ suite('gr-error-manager tests', () => {
         })
       );
       assert.equal(fetchStub.callCount, 1);
-      flush(() => {
-        // here needs two flush as there are two chained
-        // promises on server-error handler and flush only flushes one
-        assert.equal(fetchStub.callCount, 2);
-        flush(() => {
-          let toast = toastSpy.lastCall.returnValue;
-          assert.include(toast.shadowRoot.textContent, 'Credentials expired.');
-          assert.include(toast.shadowRoot.textContent, 'Refresh credentials');
+      await flush()
 
-          // fake an alert
-          element.dispatchEvent(
-            new CustomEvent('show-alert', {
-              detail: {
-                message: 'test-alert',
-                action: 'reload',
-              },
-              composed: true,
-              bubbles: true,
-            })
-          );
-          flush(() => {
-            toast = toastSpy.lastCall.returnValue;
-            assert.isOk(toast);
-            assert.include(
-              toast.shadowRoot.textContent,
-              'Credentials expired.'
-            );
-            done();
-          });
-        });
-      });
+      // here needs two flush as there are two chained
+      // promises on server-error handler and flush only flushes one
+      assert.equal(fetchStub.callCount, 2);
+      await flush();
+
+      let toast = toastSpy.lastCall.returnValue;
+      assert.include(toast.shadowRoot.textContent, 'Credentials expired.');
+      assert.include(toast.shadowRoot.textContent, 'Refresh credentials');
+
+      // fake an alert
+      element.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {
+            message: 'test-alert',
+            action: 'reload',
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+
+      await flush();
+      toast = toastSpy.lastCall.returnValue;
+      assert.isOk(toast);
+      assert.include(
+        toast.shadowRoot.textContent,
+        'Credentials expired.'
+      );
+
     });
 
     test('show alert', () => {
@@ -609,7 +609,7 @@ suite('gr-error-manager tests', () => {
       // assert.isTrue(hideStub.calledOnce);
     });
 
-    test('show-error', () => {
+    test('show-error', async () => {
       const openStub = sinon.stub(element.$.errorOverlay, 'open');
       const closeStub = sinon.stub(element.$.errorOverlay, 'close');
       const reportStub = stubReporting('reportErrorDialog');
@@ -622,7 +622,7 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      flush();
+      await flush();
 
       assert.isTrue(openStub.called);
       assert.isTrue(reportStub.called);
@@ -634,12 +634,12 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      flush();
+      await flush();
 
       assert.isTrue(closeStub.called);
     });
 
-    test('reloads when refreshed credentials differ', done => {
+    test('reloads when refreshed credentials differ', async () => {
       const accountPromise = Promise.resolve({
         ...createAccountDetailWithId(1234),
       });
@@ -655,12 +655,11 @@ suite('gr-error-manager tests', () => {
       element._refreshingCredentials = true;
       element._checkSignedIn();
 
-      flush(() => {
-        assert.isFalse(requestCheckStub.called);
-        assert.isFalse(handleRefreshStub.called);
-        assert.isTrue(reloadStub.called);
-        done();
-      });
+      await flush()
+
+      assert.isFalse(requestCheckStub.called);
+      assert.isFalse(handleRefreshStub.called);
+      assert.isTrue(reloadStub.called);
     });
   });
 
@@ -678,7 +677,7 @@ suite('gr-error-manager tests', () => {
       });
     });
 
-    test('refresh loop continues on credential fail', done => {
+    test('refresh loop continues on credential fail', async () => {
       const requestCheckStub = sinon.stub(element, '_requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(
         element,
@@ -689,12 +688,10 @@ suite('gr-error-manager tests', () => {
       element._refreshingCredentials = true;
       element._checkSignedIn();
 
-      flush(() => {
-        assert.isTrue(requestCheckStub.called);
-        assert.isFalse(handleRefreshStub.called);
-        assert.isFalse(reloadStub.called);
-        done();
-      });
+      await flush();
+      assert.isTrue(requestCheckStub.called);
+      assert.isFalse(handleRefreshStub.called);
+      assert.isFalse(reloadStub.called);
     });
   });
 });

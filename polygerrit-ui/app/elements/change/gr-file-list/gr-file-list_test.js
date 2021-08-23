@@ -907,6 +907,7 @@ suite('gr-file-list tests', () => {
       assert.equal(element.shadowRoot
           .querySelector('iron-icon').icon, 'gr-icons:expand-less');
 
+      flush();
       assert.equal(renderSpy.callCount, 1);
       assert.isTrue(element._expandedFiles.some(f => f.path === path));
       element._toggleFileExpanded({path});
@@ -1001,7 +1002,7 @@ suite('gr-file-list tests', () => {
           FilesExpandedState.ALL);
     });
 
-    test('_renderInOrder', async () => {
+    test('renderInOrder', async () => {
       const reviewStub = sinon.stub(element, '_reviewFile');
       let callCount = 0;
       const diffs = [{
@@ -1029,14 +1030,14 @@ suite('gr-file-list tests', () => {
           return Promise.resolve();
         },
       }];
-      element._renderInOrder([
+      element.renderInOrder([
         {path: 'p2'}, {path: 'p1'}, {path: 'p0'},
       ], diffs, 3);
       await flush();
       assert.isFalse(reviewStub.called);
     });
 
-    test('_renderInOrder logged in', async () => {
+    test('renderInOrder logged in', async () => {
       element._loggedIn = true;
       const reviewStub = sinon.stub(element, '_reviewFile');
       let callCount = 0;
@@ -1068,14 +1069,14 @@ suite('gr-file-list tests', () => {
           return Promise.resolve();
         },
       }];
-      element._renderInOrder([
+      element.renderInOrder([
         {path: 'p2'}, {path: 'p1'}, {path: 'p0'},
       ], diffs, 3);
       await flush();
       assert.equal(reviewStub.callCount, 3);
     });
 
-    test('_renderInOrder respects diffPrefs.manual_review', async () => {
+    test('renderInOrder respects diffPrefs.manual_review', async () => {
       element._loggedIn = true;
       element.diffPrefs = {manual_review: true};
       const reviewStub = sinon.stub(element, '_reviewFile');
@@ -1086,11 +1087,11 @@ suite('gr-file-list tests', () => {
         reload() { return Promise.resolve(); },
       }];
 
-      element._renderInOrder([{path: 'p'}], diffs, 1);
+      element.renderInOrder([{path: 'p'}], diffs, 1);
       await flush();
       assert.isFalse(reviewStub.called);
       delete element.diffPrefs.manual_review;
-      element._renderInOrder([{path: 'p'}], diffs, 1);
+      element.renderInOrder([{path: 'p'}], diffs, 1);
       await flush();
       assert.isTrue(reviewStub.called);
       assert.isTrue(reviewStub.calledWithExactly('p', true));
@@ -1651,7 +1652,7 @@ suite('gr-file-list tests', () => {
       let fileRows;
 
       setup(() => {
-        sinon.stub(element, '_renderInOrder').returns(Promise.resolve());
+        sinon.stub(element, 'renderInOrder').returns(Promise.resolve());
         nKeySpy = sinon.spy(element, '_handleNextChunk');
         nextCommentStub = sinon.stub(element.diffCursor,
             'moveToNextCommentThread');

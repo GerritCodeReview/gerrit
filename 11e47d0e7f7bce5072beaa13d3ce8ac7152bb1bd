@@ -16,6 +16,24 @@
       "message": "To use @apply with Lit2, please ensure the `polyfill-support` module is loaded and that the ShadyCSS ApplyShim is loaded. See https://lit.dev/docs/tools/requirements/#loading-polyfills.",
       "revId": "11e47d0e7f7bce5072beaa13d3ce8ac7152bb1bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5a1c177_d7928d5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1140081
+      },
+      "writtenOn": "2021-08-23T23:40:57Z",
+      "side": 1,
+      "message": "Here is a working example of using @apply:\n\nhttps://lit.dev/playground/#project\u003dW3sibmFtZSI6InNpbXBsZS1ncmVldGluZy50cyIsImNvbnRlbnQiOiJpbXBvcnQge2h0bWwsIGNzcywgTGl0RWxlbWVudH0gZnJvbSAnbGl0JztcbmltcG9ydCB7Y3VzdG9tRWxlbWVudCwgcHJvcGVydHl9IGZyb20gJ2xpdC9kZWNvcmF0b3JzLmpzJztcbmltcG9ydCAnaHR0cHM6Ly91bnBrZy5jb20vQHBvbHltZXIvcGFwZXItYnV0dG9uQDMuMC4xL3BhcGVyLWJ1dHRvbi5qcz9tb2R1bGUnO1xuQGN1c3RvbUVsZW1lbnQoJ3NpbXBsZS1ncmVldGluZycpXG5leHBvcnQgY2xhc3MgU2ltcGxlR3JlZXRpbmcgZXh0ZW5kcyBMaXRFbGVtZW50IHtcbiAgc3RhdGljIHN0eWxlcyA9IGNzc2BwIHsgY29sb3I6IGJsdWUgfWA7XG5cbiAgQHByb3BlcnR5KClcbiAgbmFtZSA9ICdTb21lYm9keSc7XG5cbiAgcmVuZGVyKCkge1xuICAgIHJldHVybiBodG1sYFxuICAgICAgICA8c3R5bGU-XG4gICAgICAgICAgOmhvc3Qge1xuICAgICAgICAgICAgZGlzcGxheTogYmxvY2s7XG4gICAgICAgICAgfVxuICAgICAgICAgICAgICAgIFxuICAgICAgICAgIHBhcGVyLWJ1dHRvbiB7XG4gICAgICAgICAgICAtLXBhcGVyLWJ1dHRvbjoge1xuICAgICAgICAgICAgICBjb2xvcjogdmFyKC0tZGVlbXBoYXNpemVkLXRleHQtY29sb3IpO1xuICAgICAgICAgICAgICBmb250LXdlaWdodDogdmFyKC0tZm9udC13ZWlnaHQtbm9ybWFsKTtcbiAgICAgICAgICAgICAgaGVpZ2h0OiAyLjZlbTtcbiAgICAgICAgICAgICAgbGluZS1oZWlnaHQ6IDIwcHg7XG4gICAgICAgICAgICAgIC8qIFRoaXMgY2FuY2VscyBtb3N0IG9mIHRoZSAtLWFjY291bnQtbGFiZWwtcGFkZGluZy1ob3Jpem9udGFsLiAqL1xuICAgICAgICAgICAgICBtYXJnaW4tbGVmdDogLTRweDtcbiAgICAgICAgICAgICAgcGFkZGluZzogMCAycHggMCAwO1xuICAgICAgICAgICAgICB0ZXh0LWRlY29yYXRpb246IG5vbmU7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgfVxuICAgICAgICA8L3N0eWxlPlxuICAgICAgICA8cGFwZXItYnV0dG9uIHJhaXNlZD5QYXBlciBCdXR0b24hPC9wYXBlci1idXR0b24-YDtcbiAgfVxufVxuIn0seyJuYW1lIjoiaW5kZXguaHRtbCIsImNvbnRlbnQiOiI8IURPQ1RZUEUgaHRtbD5cbjxoZWFkPlxuICA8c2NyaXB0IHNyYz1cImh0dHBzOi8vdW5wa2cuY29tL0B3ZWJjb21wb25lbnRzL3dlYmNvbXBvbmVudHNqc0AyLjYuMC93ZWJjb21wb25lbnRzLWJ1bmRsZS5qc1wiPjwvc2NyaXB0PlxuICA8c2NyaXB0IHNyYz1cImh0dHBzOi8vdW5wa2cuY29tL0B3ZWJjb21wb25lbnRzL3NoYWR5Y3NzQDEuMTEuMC9hcHBseS1zaGltLm1pbi5qc1wiPjwvc2NyaXB0PlxuICA8c2NyaXB0IHNyYz1cImh0dHBzOi8vdW5wa2cuY29tL2xpdEAyLjAuMC1yYy4zL3BvbHlmaWxsLXN1cHBvcnQuanNcIj48L3NjcmlwdD5cbiAgPHNjcmlwdCB0eXBlPVwibW9kdWxlXCIgc3JjPVwiLi9zaW1wbGUtZ3JlZXRpbmcuanNcIj48L3NjcmlwdD5cbjwvaGVhZD5cbjxib2R5PlxuICA8c3R5bGU-XG4gICAgc2ltcGxlLWdyZWV0aW5nIHtcbiAgICAgIC0tZGVlbXBoYXNpemVkLXRleHQtY29sb3I6IG9yYW5nZTtcbiAgICAgIC0tZm9udC13ZWlnaHQtbm9ybWFsOiA4MDA7XG4gICAgfVxuICA8L3N0eWxlPlxuICA8c2ltcGxlLWdyZWV0aW5nIG5hbWU9XCJXb3JsZFwiPjwvc2ltcGxlLWdyZWV0aW5nPlxuPC9ib2R5PlxuIn0seyJuYW1lIjoicGFja2FnZS5qc29uIiwiY29udGVudCI6IntcImRlcGVuZGVuY2llc1wiOntcImxpdFwiOlwiXjIuMC4wLXJjLjJcIixcIkBsaXQvcmVhY3RpdmUtZWxlbWVudFwiOlwiXjEuMC4wLXJjLjJcIixcImxpdC1lbGVtZW50XCI6XCJeMy4wLjAtcmMuMlwiLFwibGl0LWh0bWxcIjpcIl4yLjAuMC1yYy4zXCJ9fSJ9XQ",
+      "parentUuid": "039ceb28_ddf5a897",
+      "revId": "11e47d0e7f7bce5072beaa13d3ce8ac7152bb1bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

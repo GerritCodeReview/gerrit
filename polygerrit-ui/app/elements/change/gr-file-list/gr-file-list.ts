@@ -90,6 +90,7 @@ export const DEFAULT_NUM_FILES_SHOWN = 200;
 
 const WARN_SHOW_ALL_THRESHOLD = 1000;
 const LOADING_DEBOUNCE_INTERVAL = 100;
+const RENDER_DEBOUNCE_INTERVAL = 300;
 
 const SIZE_BAR_MAX_WIDTH = 61;
 const SIZE_BAR_GAP_WIDTH = 1;
@@ -278,6 +279,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   loadingTask?: DelayedTask;
 
+  renderInOrderTask?: DelayedTask;
+
   @property({
     type: Boolean,
     computed:
@@ -419,6 +422,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     this.fileCursor.unsetCursor();
     this._cancelDiffs();
     this.loadingTask?.cancel();
+    this.renderInOrderTask?.cancel();
     super.disconnectedCallback();
   }
 
@@ -1463,6 +1467,18 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
+  private _renderInOrder(
+    files: PatchSetFile[],
+    diffElements: GrDiffHost[],
+    initialCount: number
+  ) {
+    this.renderInOrderTask = debounce(
+      this.renderInOrderTask,
+      () => this.renderInOrder(files, diffElements, initialCount),
+      RENDER_DEBOUNCE_INTERVAL
+    );
+  }
+
   /**
    * Given an array of paths and a NodeList of diff elements, render the diff
    * for each path in order, awaiting the previous render to complete before
@@ -1471,7 +1487,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
    * @param initialCount The total number of paths in the pass. This
    * is used to generate log messages.
    */
-  private _renderInOrder(
+  private renderInOrder(
     files: PatchSetFile[],
     diffElements: GrDiffHost[],
     initialCount: number

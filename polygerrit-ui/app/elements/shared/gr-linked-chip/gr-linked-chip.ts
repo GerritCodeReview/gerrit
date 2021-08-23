@@ -89,8 +89,10 @@ export class GrLinkedChip extends GrLitElement {
     // in <style> inside the template.
     const customStyle = html`
       <style>
-        gr-button.remove {
-          --gr-remove-button-style: {
+        gr-button.remove,
+        gr-button.remove:hover,
+        gr-button.remove:focus {
+          --gr-button: {
             border-top-width: 0;
             border-right-width: 0;
             border-bottom-width: 0;
@@ -102,18 +104,6 @@ export class GrLinkedChip extends GrLitElement {
             margin-left: var(--spacing-xs);
             padding: 0;
             text-decoration: none;
-          }
-        }
-
-        gr-button.remove:hover,
-        gr-button.remove:focus {
-          --gr-button: {
-            @apply --gr-remove-button-style;
-          }
-        }
-        gr-button.remove {
-          --gr-button: {
-            @apply --gr-remove-button-style;
           }
         }
       </style>

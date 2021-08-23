@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1ccdd28_210a21e2",
+        "filename": "polygerrit-ui/app/test/common-test-setup-karma.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-23T09:52:27Z",
+      "side": 1,
+      "message": "This is called just once before *all* tests, not once before each test.\n\nI think you want to move this into the `setup()` of polygerrit-ui/app/test/common-test-setup.ts.",
+      "revId": "88641a667482bd42bf78a7dcc5dc7f660e978160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

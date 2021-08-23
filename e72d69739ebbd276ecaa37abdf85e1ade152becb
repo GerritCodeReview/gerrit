@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e457d7f6_75013a46",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T08:15:22Z",
+      "side": 1,
+      "message": "Removed `primaryTab`",
+      "parentUuid": "8151f9eb_7fb548c8",
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8bc44b72_89134d20",
@@ -65,6 +83,30 @@
       "writtenOn": "2021-08-20T20:06:14Z",
       "side": 1,
       "message": "I have started to always use ?? instead of || where possible, because I find it more telling what you want to do. ?? means that you are trying to avoid undefined.",
+      "range": {
+        "startLine": 610,
+        "startChar": 35,
+        "endLine": 610,
+        "endChar": 37
+      },
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0ced7b4_93c7d9cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T08:15:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bc44b72_89134d20",
       "range": {
         "startLine": 610,
         "startChar": 35,
@@ -92,6 +134,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6f8bbb3_49b1c6d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T08:15:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "759a2a92_19a9c32a",
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b38dcfd6_b5fc0da1",
@@ -109,6 +169,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06ae8c0b_7a136c39",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T08:15:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b38dcfd6_b5fc0da1",
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0181b8dd_a57bc5f5",
@@ -122,6 +200,30 @@
       "writtenOn": "2021-08-20T20:06:14Z",
       "side": 1,
       "message": "Maybe rename to `setPrimaryTab`? I think for a service that is more adequate. `updateState...` is better reserved for the model.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 23
+      },
+      "revId": "e72d69739ebbd276ecaa37abdf85e1ade152becb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf4760f0_6f89ec10",
+        "filename": "polygerrit-ui/app/services/router/router-service.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T08:15:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0181b8dd_a57bc5f5",
       "range": {
         "startLine": 22,
         "startChar": 2,

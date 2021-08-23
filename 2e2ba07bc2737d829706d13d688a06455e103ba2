@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5288cd1e_c238b1c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T12:47:59Z",
+      "side": 1,
+      "message": "The main difference between resetAllDiffs() and collapseAllDiffs() is that collapseAllDiffs is setting \n\n```\nthis._expandedFiles \u003d [];\n```\n\nThe list of files that the user has expanded is maintained in _expandedFiles which we only reset if the changeNum changes(this happens automatically, hence the comment otherwise we would need to do this explicitly).",
+      "parentUuid": "43582e3d_30cd16f2",
+      "range": {
+        "startLine": 650,
+        "startChar": 3,
+        "endLine": 651,
+        "endChar": 39
+      },
+      "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f242ee5f_71b5c621",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 7
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b16363a8_225ab5b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T12:47:59Z",
+      "side": 1,
+      "message": "I\u0027ll move some of this into comments but explaining the main difference between the two functions.\n\nThe existing behaviour is that whenever the list of files changes(either by re-rendering the change, or updating the patchset) all the files are collapsed. This was done explicitly in gr-change-view which called collapseAllDiffs().\n\nThe information of whether a file is expanded or not is maintained in the variable _expandedFiles. This is *only* reset if the change number changes otherwise it retains it\u0027s value.\n\nWhen the list of files are calculated in the computeFiles method, we check which one of them were already opened by the user and then render them, hence the addition of this part of the code.\n\n```\nconst filesToRender \u003d this._files\n      .filter(file \u003d\u003e\n        this._expandedFiles.some((f: PatchSetFile) \u003d\u003e f.path \u003d\u003d\u003d file.__path)\n      )\n      .map(file \u003d\u003e this._computePatchSetFile(file));\n    this._renderInOrder(filesToRender, this.diffs, filesToRender.length);\n```\n\ngr-change-view now determines if the change number changed and accordingly decides either to reset the _expandedFiles property(by calling collapseAllDiffs() ) or\nmaintain the list of expanded files(by calling resetAllDiffs() )\n\n\n_showInlineDiffs AFAIK is only used to determine the behaviour of the cursor and is not affecting the behaviour of files rendering.",
+      "parentUuid": "f242ee5f_71b5c621",
+      "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3e184cf_e5f097f7",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 7
@@ -54,6 +96,30 @@
       "writtenOn": "2021-08-23T12:20:32Z",
       "side": 1,
       "message": "Why these additional lines? Add a comment?\n\nDo we really want to re-render (incl. reloading the diffs) when `reviewed` or `changeComments` changes?",
+      "range": {
+        "startLine": 1282,
+        "startChar": 4,
+        "endLine": 1287,
+        "endChar": 73
+      },
+      "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eddd41a3_df93fde2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-23T12:47:59Z",
+      "side": 1,
+      "message": "changeComments changes will result in new files being show because of commentedPaths being used in the calculation for addUnmodifiedFiles.\n\n`reviewed` is not relevant. Let me see if it can be optimised.",
+      "parentUuid": "c3e184cf_e5f097f7",
       "range": {
         "startLine": 1282,
         "startChar": 4,

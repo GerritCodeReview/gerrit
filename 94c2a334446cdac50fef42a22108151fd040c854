@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77b85ba6_558584b3",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-23T08:52:02Z",
+      "side": 1,
+      "message": "This could also be moved upwards. Sorry I think I wasn\u0027t clear.\n\nIn line 137, we loop on modifiedFilesList which are requested for the same two patchsets (current vs. latest approved - line 112), so all the returned files are expected to have the same old/new commit IDs: you could look these up using FileDiffOutput#oldCommitId \u0026 FileDiffOutput#newCommitId of the first entry in the list. Using those commit IDs, you could format the diff only once and pass the formatterResult down to this method.",
+      "range": {
+        "startLine": 209,
+        "startChar": 6,
+        "endLine": 211,
+        "endChar": 68
+      },
+      "revId": "94c2a334446cdac50fef42a22108151fd040c854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

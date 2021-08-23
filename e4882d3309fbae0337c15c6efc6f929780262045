@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8e59f51_fe7fb55a",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDynamicOptionsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-08-23T14:39:41Z",
+      "side": 1,
+      "message": "I happen to copy this file from master branch with slight change, do you think we need it to be 2021 ?",
+      "parentUuid": "16ae8f7d_cb79c8d4",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "e4882d3309fbae0337c15c6efc6f929780262045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06eeb2ba_dad4b579",
         "filename": "java/com/google/gerrit/acceptance/AbstractDynamicOptionsTest.java",
         "patchSetId": 5
@@ -54,6 +78,30 @@
       "writtenOn": "2021-08-23T14:29:39Z",
       "side": 1,
       "message": "This doesn\u0027t define an option like I would expect it to based on the name or the example at https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#command_options",
+      "range": {
+        "startLine": 87,
+        "startChar": 25,
+        "endLine": 87,
+        "endChar": 43
+      },
+      "revId": "e4882d3309fbae0337c15c6efc6f929780262045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d243caa7_8b1af9d7",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDynamicOptionsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-08-23T14:39:41Z",
+      "side": 1,
+      "message": "we don\u0027t have examples defined for BeanParseListener in dev-plugins yet.",
+      "parentUuid": "06eeb2ba_dad4b579",
       "range": {
         "startLine": 87,
         "startChar": 25,

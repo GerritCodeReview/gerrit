@@ -18,7 +18,6 @@ import static com.google.gerrit.server.project.ProjectConfig.ACCESS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
@@ -31,6 +30,7 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -61,11 +61,11 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
   }
 
   private final MetaDataUpdate update;
-  @Nullable private final StoredConfig baseConfig;
+  private final Optional<StoredConfig> baseConfig;
   private Config config;
   private boolean updated;
 
-  private ProjectConfigSchemaUpdate(MetaDataUpdate update, @Nullable StoredConfig baseConfig) {
+  private ProjectConfigSchemaUpdate(MetaDataUpdate update, Optional<StoredConfig> baseConfig) {
     this.update = update;
     this.baseConfig = baseConfig;
   }
@@ -77,8 +77,8 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    if (baseConfig != null) {
-      baseConfig.load();
+    if (baseConfig.isPresent()) {
+      baseConfig.get().load();
     }
     config = readConfig(ProjectConfig.PROJECT_CONFIG, baseConfig);
   }

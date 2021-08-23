@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm.init.api;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -24,6 +23,7 @@ import com.google.gerrit.server.project.GroupList;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -34,7 +34,7 @@ import org.eclipse.jgit.lib.StoredConfig;
 public class AllProjectsConfig extends VersionedMetaDataOnInit {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  @Nullable private final StoredConfig baseConfig;
+  private final Optional<StoredConfig> baseConfig;
   private Config cfg;
   private GroupList groupList;
 
@@ -62,8 +62,8 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    if (baseConfig != null) {
-      baseConfig.load();
+    if (baseConfig.isPresent()) {
+      baseConfig.get().load();
     }
     groupList = readGroupList();
     cfg = readConfig(ProjectConfig.PROJECT_CONFIG, baseConfig);

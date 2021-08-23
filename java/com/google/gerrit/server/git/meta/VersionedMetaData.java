@@ -35,6 +35,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -461,12 +462,12 @@ public abstract class VersionedMetaData {
   }
 
   protected Config readConfig(String fileName) throws IOException, ConfigInvalidException {
-    return readConfig(fileName, null);
+    return readConfig(fileName, Optional.empty());
   }
 
-  protected Config readConfig(String fileName, Config baseConfig)
+  protected Config readConfig(String fileName, Optional<? extends Config> baseConfig)
       throws IOException, ConfigInvalidException {
-    Config rc = new Config(baseConfig);
+    Config rc = new Config(baseConfig.isPresent() ? baseConfig.get() : null);    
     String text = readUTF8(fileName);
     if (!text.isEmpty()) {
       try {

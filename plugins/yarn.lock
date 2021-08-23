@@ -51,11 +51,18 @@ lit-html@^2.0.0-rc.3:
   dependencies:
     "@types/trusted-types" "^1.0.1"
 
-lit@2.0.0-rc.2:
-  version "2.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/lit/-/lit-2.0.0-rc.2.tgz#724a2d621aa098001d73bf7106f3a72b7b5948ef"
-  integrity sha512-BOCuoJR04WaTV8UqTKk09cNcQA10Aq2LCcBOiHuF7TzWH5RNDsbCBP5QM9sLBSotGTXbDug/gFO08jq6TbyEtw==
+lit-html@^2.0.0-rc.4:
+  version "2.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-2.0.0-rc.4.tgz#1015fa8f1f7c8c5b79999ed0bc11c3b79ff1aab5"
+  integrity sha512-WSLGu3vxq7y8q/oOd9I3zxyBELNLLiDk6gAYoKK4PGctI5fbh6lhnO/jVBdy0PV/vTc+cLJCA/occzx3YoNPeg==
+  dependencies:
+    "@types/trusted-types" "^1.0.1"
+
+lit@2.0.0-rc.3:
+  version "2.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-2.0.0-rc.3.tgz#8b6a85268aba287c11125dfe57e88e0bc09beaff"
+  integrity sha512-UZDLWuspl7saA+WvS0e+TE3NdGGE05hOIwUPTWiibs34c5QupcEzpjB/aElt79V9bELQVNbUUwa0Ow7D1Wuszw==
   dependencies:
     "@lit/reactive-element" "^1.0.0-rc.2"
     lit-element "^3.0.0-rc.2"
-    lit-html "^2.0.0-rc.3"
+    lit-html "^2.0.0-rc.4"

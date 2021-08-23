@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "039ceb28_ddf5a897",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1140081
+      },
+      "writtenOn": "2021-08-23T23:39:17Z",
+      "side": 1,
+      "message": "To use @apply with Lit2, please ensure the `polyfill-support` module is loaded and that the ShadyCSS ApplyShim is loaded. See https://lit.dev/docs/tools/requirements/#loading-polyfills.",
+      "revId": "11e47d0e7f7bce5072beaa13d3ce8ac7152bb1bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

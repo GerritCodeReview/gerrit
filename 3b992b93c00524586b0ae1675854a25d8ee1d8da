@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52e1d15a_5e32027e",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-23T09:58:18Z",
+      "side": 1,
+      "message": "Sorry for not commenting on that earlier, but I think it would be nice to document here in more detail what these state properties are about. How should they be used? What can the user expect? When are they reset?\n\nHaving a central model and service also means that we have a central place where we can document how state is meant to be used.",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 40
+      },
+      "revId": "3b992b93c00524586b0ae1675854a25d8ee1d8da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

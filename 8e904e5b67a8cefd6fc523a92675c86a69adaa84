@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d486967_3a489b79",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-24T14:41:31Z",
+      "side": 1,
+      "message": "Does that mean that all of our diff rendering will be 300 ms delayed?\n\nIs this fixing the issue of us fetching diffs twice?",
+      "revId": "8e904e5b67a8cefd6fc523a92675c86a69adaa84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "063d15d0_890b3ce0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1490,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-24T14:41:31Z",
+      "side": 1,
+      "message": "Can you think of better naming maybe? And add comments so the caller knows what the difference is and what they should call.",
+      "revId": "8e904e5b67a8cefd6fc523a92675c86a69adaa84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

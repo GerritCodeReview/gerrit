@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85c248f8_d4c3520e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-24T14:48:19Z",
+      "side": 1,
+      "message": "You can download Change 315864, expand a file and then change the patchset to see the jittery file rendering.\nEvery time changeComments is updated, the file is rendered again. :( \n\nThis is one way I thought of ensuring that the rendering doesn\u0027t happen too many times.",
+      "parentUuid": "6d486967_3a489b79",
+      "revId": "8e904e5b67a8cefd6fc523a92675c86a69adaa84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "063d15d0_890b3ce0",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 2

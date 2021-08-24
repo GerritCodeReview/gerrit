@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {GrLitElement} from '../../lit/gr-lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
 import {
@@ -61,6 +60,7 @@ import {PrimaryTab} from '../../../constants/constants';
 import {ChecksTabState, CommentTabState} from '../../../types/events';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {modifierPressed} from '../../../utils/dom-util';
+import {subscribable, subscribe} from '../../lit/subscribable';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -79,7 +79,7 @@ function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
 }
 
 @customElement('gr-summary-chip')
-export class GrSummaryChip extends GrLitElement {
+export class GrSummaryChip extends LitElement {
   @property()
   icon = '';
 
@@ -169,7 +169,7 @@ export class GrSummaryChip extends GrLitElement {
 }
 
 @customElement('gr-checks-chip')
-export class GrChecksChip extends GrLitElement {
+export class GrChecksChip extends LitElement {
   @property()
   statusOrCategory?: Category | RunStatus;
 
@@ -323,7 +323,8 @@ DETAILS_QUOTA.set(Category.WARNING, 2);
 DETAILS_QUOTA.set(RunStatus.RUNNING, 2);
 
 @customElement('gr-change-summary')
-export class GrChangeSummary extends GrLitElement {
+@subscribable
+export class GrChangeSummary extends LitElement {
   @property({type: Object})
   changeComments?: ChangeComments;
 
@@ -333,18 +334,23 @@ export class GrChangeSummary extends GrLitElement {
   @property({type: Object})
   selfAccount?: AccountInfo;
 
+  @subscribe(allRunsLatestPatchsetLatestAttempt$)
   @property()
   runs: CheckRun[] = [];
 
+  @subscribe(aPluginHasRegistered$)
   @property()
   showChecksSummary = false;
 
+  @subscribe(someProvidersAreLoadingLatest$)
   @property()
   someProvidersAreLoading = false;
 
+  @subscribe(errorMessagesLatest$)
   @property()
   errorMessages: ErrorMessages = {};
 
+  @subscribe(loginCallbackLatest$)
   @property()
   loginCallback?: () => void;
 
@@ -352,11 +358,6 @@ export class GrChangeSummary extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRunsLatestPatchsetLatestAttempt$);
-    this.subscribe('showChecksSummary', aPluginHasRegistered$);
-    this.subscribe('someProvidersAreLoading', someProvidersAreLoadingLatest$);
-    this.subscribe('errorMessages', errorMessagesLatest$);
-    this.subscribe('loginCallback', loginCallbackLatest$);
   }
 
   static override get styles() {

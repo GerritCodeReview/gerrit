@@ -20,8 +20,7 @@ import '../gr-icons/gr-icons';
 import '../gr-limited-text/gr-limited-text';
 import {fireEvent} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 declare global {
@@ -31,7 +30,7 @@ declare global {
 }
 
 @customElement('gr-linked-chip')
-export class GrLinkedChip extends GrLitElement {
+export class GrLinkedChip extends LitElement {
   @property({type: String})
   href = '';
 

@@ -17,14 +17,13 @@
 
 import '../gr-range-header/gr-range-header';
 import {CommentRange} from '../../../types/common';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 
 @customElement('gr-ranged-comment-hint')
-export class GrRangedCommentHint extends GrLitElement {
+export class GrRangedCommentHint extends LitElement {
   @property({type: Object})
   range?: CommentRange;
 

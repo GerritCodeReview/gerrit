@@ -16,6 +16,24 @@
       "message": "Doesn\u0027t change?.status do what you want?",
       "revId": "a3036bc72f2b7e634d832f39a2687f658700857f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec248ba_f7af893c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1816,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-24T18:52:11Z",
+      "side": 1,
+      "message": "For null it checks null?.status !\u003d\u003d Abandoned and returns true(which should return false).\n\nPerhaps I did not understand what you mean fully?",
+      "parentUuid": "850389fc_7cf7420f",
+      "revId": "a3036bc72f2b7e634d832f39a2687f658700857f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

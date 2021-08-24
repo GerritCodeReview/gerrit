@@ -86,7 +86,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
             .valueSerializer(GitModifiedFilesCacheImpl.ValueSerializer.INSTANCE)
             .maximumWeight(10 << 20)
             .weigher(ModifiedFilesWeigher.class)
-            .version(2)
+            .version(3)
             .loader(ModifiedFilesLoader.class);
       }
     };
@@ -208,27 +208,22 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     }
 
     /**
-     * Return the {@code modifiedFiles} input list while merging {@link ChangeType#ADDED} and {@link
-     * ChangeType#DELETED} entries for the same file into a single {@link ChangeType#REWRITE} entry.
+     * Return the {@code modifiedFiles} input list while merging rewritten entries.
      *
-     * <p>Background: In some cases, JGit returns two diff entries (ADDED + DELETED) for the same
-     * file path. This happens e.g. when a file's mode is changed between patchsets, for example
-     * converting a symlink file to a regular file. We identify this case and return a single
-     * modified file with changeType = {@link ChangeType#REWRITE}.
+     * <p>Background: In some cases, JGit returns two diff entries (ADDED/DELETED, RENAMED/DELETED,
+     * etc...) for the same file path. This happens e.g. when a file's mode is changed between
+     * patchsets, for example converting a symlink file to a regular file. We identify this case and
+     * return a single modified file with changeType = {@link ChangeType#REWRITE}.
      */
     private static List<ModifiedFile> mergeRewrittenEntries(List<ModifiedFile> modifiedFiles) {
       List<ModifiedFile> result = new ArrayList<>();
-
-      // Handle ADDED and DELETED entries separately.
       ListMultimap<String, ModifiedFile> byPath = ArrayListMultimap.create();
       modifiedFiles.stream()
-          .filter(ModifiedFilesLoader::isAddedOrDeleted)
           .forEach(
               f -> {
-                if (f.oldPath().isPresent()) {
+                if (ImmutableList.of(ChangeType.DELETED).contains(f.changeType())) {
                   byPath.get(f.oldPath().get()).add(f);
-                }
-                if (f.newPath().isPresent()) {
+                } else {
                   byPath.get(f.newPath().get()).add(f);
                 }
               });
@@ -236,31 +231,12 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
         List<ModifiedFile> entries = byPath.get(path);
         if (entries.size() == 1) {
           result.add(entries.get(0));
-        } else if (entries.size() == 2) {
-          result.add(getAddedEntry(entries).toBuilder().changeType(ChangeType.REWRITE).build());
         } else {
-          // JGit error. Not expected to happen.
-          logger.atWarning().log(
-              "Found %d ADDED and DELETED entries for the same file path: %s."
-                  + " Adding the first entry only to the result.",
-              entries.size(), entries);
-          result.add(entries.get(0));
+          // More than one. Sort w.r.t. Return a single REWRITE entry.
+          result.add(entries.get(0).toBuilder().changeType(ChangeType.REWRITE).build());
         }
       }
-
-      // Add the remaining non ADDED/DELETED entries to the result
-      modifiedFiles.stream().filter(f -> !isAddedOrDeleted(f)).forEach(result::add);
       return result;
-    }
-
-    private static boolean isAddedOrDeleted(ModifiedFile f) {
-      return f.changeType() == ChangeType.ADDED || f.changeType() == ChangeType.DELETED;
-    }
-
-    private static ModifiedFile getAddedEntry(List<ModifiedFile> modifiedFiles) {
-      return modifiedFiles.get(0).changeType() == ChangeType.ADDED
-          ? modifiedFiles.get(0)
-          : modifiedFiles.get(1);
     }
   }
 }

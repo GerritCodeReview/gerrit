@@ -2837,7 +2837,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void symlinkConvertedToRegularFileIsIdentifiedAsRewritten() throws Exception {
+  public void addDeleteByJgit_IsIdentifiedAsRewritten() throws Exception {
     String target = "file.txt";
     String symlink = "link.lnk";
 
@@ -2898,6 +2898,47 @@ public class RevisionDiffIT extends AbstractDaemonTest {
           .linesOfB()
           .containsExactly("Content of the new file named 'symlink'");
     }
+  }
+
+  @Test
+  public void renameDeleteByJgit_IsIdentifiedAsRewritten() throws Exception {
+    String target = "file.txt";
+    String symlink = "link.lnk";
+    PushOneCommit push =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Commit Subject", target, "content")
+            .addSymlink(symlink, target);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    String cId = result.getChangeId();
+    String initialRev = gApi.changes().id(cId).get().currentRevision;
+
+    // Delete both symlink and target with PS2
+    gApi.changes().id(cId).edit().deleteFile(symlink);
+    gApi.changes().id(cId).edit().deleteFile(target);
+    gApi.changes().id(cId).edit().publish();
+
+    // Re-create the symlink as a regular file with PS3
+    gApi.changes().id(cId).edit().modifyFile(symlink, RawInputUtil.create("content"));
+    gApi.changes().id(cId).edit().publish();
+
+    // Changed files: JGit returns two {DELETED/RENAMED} entries for the file.
+    // The diff logic combines both into a single REWRITTEN entry.
+    Map<String, FileInfo> changedFiles = gApi.changes().id(cId).current().files(initialRev);
+    assertThat(changedFiles.keySet()).containsExactly("/COMMIT_MSG", symlink);
+    assertThat(changedFiles.get(symlink).status).isEqualTo('W'); // Rewritten
+
+    // Detailed diff: returns the RENAMED entry, which has a higher priority than the DELETED one.
+    DiffInfo diffInfo = gApi.changes().id(cId).current().file(symlink).diff(initialRev);
+    assertThat(diffInfo)
+        .diffHeader()
+        .containsExactly(
+            "diff --git a/file.txt b/link.lnk",
+            "similarity index 100%",
+            "rename from file.txt",
+            "rename to link.lnk");
+    assertThat(diffInfo.content).hasSize(1);
+    assertThat(diffInfo).content().element(0).commonLines().containsExactly("content");
+    assertThat(diffInfo.changeType).isEqualTo(ChangeType.RENAMED);
   }
 
   @Test

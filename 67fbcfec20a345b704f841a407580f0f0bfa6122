@@ -124,6 +124,24 @@
       "parentUuid": "44ccf2f3_f3647abe",
       "revId": "67fbcfec20a345b704f841a407580f0f0bfa6122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1baabbf5_61a6f4ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-24T11:07:17Z",
+      "side": 1,
+      "message": "you can restore PS2 by fetching that. then do a git commit --am to generate a new SHA and push it.\n\nthen you are back at the state of PS2 and can re-attempt the rebase.",
+      "parentUuid": "4162abc5_27cb1bb1",
+      "revId": "67fbcfec20a345b704f841a407580f0f0bfa6122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

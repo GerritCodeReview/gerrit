@@ -30,9 +30,6 @@ export const htmlTemplate = html`
     }
     gr-diff {
       border: none;
-      --diff-container-styles: {
-        border-bottom: 1px solid var(--border-color);
-      }
     }
     .stickyHeader {
       background-color: var(--view-background-color);

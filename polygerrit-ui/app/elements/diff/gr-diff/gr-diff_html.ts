@@ -51,11 +51,8 @@ export const htmlTemplate = html`
     }
     .diffContainer {
       max-width: var(--diff-max-width, none);
-    }
-    .diffContainer {
       display: flex;
       font-family: var(--monospace-font-family);
-      @apply --diff-container-styles;
     }
     .diffContainer.hiddenscroll {
       margin-bottom: var(--spacing-m);

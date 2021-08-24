@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7aec23ef_f050ee98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-24T08:15:18Z",
+      "side": 1,
+      "message": "Gal, can you please take a careful look at ApprovalInference? This forward merged a fix but that had lots of conflicts that I needed to resolve.",
+      "revId": "67fbcfec20a345b704f841a407580f0f0bfa6122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

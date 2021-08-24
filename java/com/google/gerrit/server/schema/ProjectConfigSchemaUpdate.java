@@ -25,6 +25,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
+import com.google.gerrit.server.project.AllProjectsConfigProvider;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -42,19 +43,22 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
   public static class Factory {
     private final SitePaths sitePaths;
     private final AllProjectsName allProjectsName;
+    private final AllProjectsConfigProvider allProjectsConfigProvider;
 
     @Inject
-    Factory(SitePaths sitePaths, AllProjectsName allProjectsName) {
+    Factory(
+        SitePaths sitePaths,
+        AllProjectsName allProjectsName,
+        AllProjectsConfigProvider allProjectsConfigProvider) {
       this.sitePaths = sitePaths;
       this.allProjectsName = allProjectsName;
+      this.allProjectsConfigProvider = allProjectsConfigProvider;
     }
 
     ProjectConfigSchemaUpdate read(MetaDataUpdate update)
         throws IOException, ConfigInvalidException {
       ProjectConfigSchemaUpdate r =
-          new ProjectConfigSchemaUpdate(
-              update,
-              ProjectConfig.Factory.getBaseConfig(sitePaths, allProjectsName, allProjectsName));
+          new ProjectConfigSchemaUpdate(update, allProjectsConfigProvider.get(allProjectsName));
       r.load(update);
       return r;
     }

@@ -85,7 +85,9 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
+import com.google.gerrit.server.project.AllProjectsConfigProvider;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
+import com.google.gerrit.server.project.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.restapi.RestApiModule;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -196,6 +198,7 @@ public class InMemoryModule extends FactoryModule {
     bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(GerritOptions.class).toInstance(new GerritOptions(false, false));
+    bind(AllProjectsConfigProvider.class).to(FileBasedAllProjectsConfigProvider.class);
     bind(GlobalPluginConfigProvider.class).to(FileBasedGlobalPluginConfigProvider.class);
 
     bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);

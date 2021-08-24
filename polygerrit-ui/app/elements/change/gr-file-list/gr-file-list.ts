@@ -313,6 +313,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
+  private filesRendered: PatchSetFile[] = [];
+
   disconnected$ = new Subject();
 
   get keyBindings() {
@@ -446,6 +448,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     const patchRange = this.patchRange;
 
     this._loading = true;
+    this.filesRendered = [];
 
     const promises = [];
 
@@ -1277,6 +1280,18 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       this._files.length
     );
     this.diffCursor.handleDiffUpdate();
+
+    // Due to changeComments being updated every time a property is updated,
+    // _renderInOrder is called multiple times unnecessarily.
+    // Verify if there is some file that was not rendered previously
+    if (
+      !filesToRender.some(
+        file => !this.filesRendered.some(f => f.path === file.path)
+      )
+    ) {
+      return;
+    }
+    this.filesRendered = filesToRender;
     this._renderInOrder(filesToRender, this.diffs, filesToRender.length);
   }
 

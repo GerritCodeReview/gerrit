@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -36,7 +37,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class ProjectConfigSchemaUpdateTest {
   private static final String ALL_PROJECTS = "All-The-Projects";
 
@@ -64,8 +68,11 @@ public class ProjectConfigSchemaUpdateTest {
     try (Repository repo = new FileRepository(allProjectsRepoFile)) {
       repo.create(true);
     }
+    FileBasedAllProjectsConfigProvider configProvider =
+        new FileBasedAllProjectsConfigProvider(sitePaths);
 
-    factory = new ProjectConfigSchemaUpdate.Factory(sitePaths, new AllProjectsName(ALL_PROJECTS));
+    factory =
+        new ProjectConfigSchemaUpdate.Factory(new AllProjectsName(ALL_PROJECTS), configProvider);
   }
 
   @Test

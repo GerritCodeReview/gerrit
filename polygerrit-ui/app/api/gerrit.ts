@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {PluginApi} from './plugin';
+import {Styles} from './styles';
 
 declare global {
   interface Window {
@@ -30,4 +31,5 @@ export interface Gerrit {
     opt_version?: string,
     src?: string
   ): void;
+  styles: Styles;
 }

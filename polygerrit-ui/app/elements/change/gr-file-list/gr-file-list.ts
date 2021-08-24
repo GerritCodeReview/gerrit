@@ -223,9 +223,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Object, notify: true, observer: '_updateDiffPreferences'})
   diffPrefs?: DiffPreferencesInfo;
 
-  @property({type: Boolean})
-  _showInlineDiffs?: boolean;
-
   @property({type: Number, notify: true})
   numFilesShown: number = DEFAULT_NUM_FILES_SHOWN;
 
@@ -625,8 +622,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   expandAllDiffs() {
-    this._showInlineDiffs = true;
-
     // Find the list of paths that are in the file list, but not in the
     // expanded list.
     const newFiles: PatchSetFile[] = [];
@@ -642,7 +637,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   collapseAllDiffs() {
-    this._showInlineDiffs = false;
     this._expandedFiles = [];
     this.filesExpanded = this._computeExpandedFiles(
       this._expandedFiles.length,
@@ -946,7 +940,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       return;
     }
 
-    if (this._showInlineDiffs) {
+    if (this.filesExpanded === FilesExpandedState.ALL) {
       e.preventDefault();
       this.diffCursor.moveDown();
       this._displayLine = true;
@@ -966,7 +960,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       return;
     }
 
-    if (this._showInlineDiffs) {
+    if (this.filesExpanded === FilesExpandedState.ALL) {
       e.preventDefault();
       this.diffCursor.moveUp();
       this._displayLine = true;
@@ -1016,7 +1010,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     }
     e.preventDefault();
 
-    if (this._showInlineDiffs) {
+    if (this.filesExpanded === FilesExpandedState.ALL) {
       this._openCursorFile();
       return;
     }
@@ -1082,7 +1076,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _toggleInlineDiffs() {
-    if (this._showInlineDiffs) {
+    if (this.filesExpanded === FilesExpandedState.ALL) {
       this.collapseAllDiffs();
     } else {
       this.expandAllDiffs();

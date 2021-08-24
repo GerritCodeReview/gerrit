@@ -59,7 +59,7 @@ reviewurl="$(git config --get gerrit.reviewUrl)"
 if test -n "${reviewurl}" ; then
   if ! git interpret-trailers --parse < "$1" | grep -q '^Link:.*/id/I[0-9a-f]\{40\}$' ; then
     if ! git interpret-trailers \
-          --trailer "Link: ${reviewurl%/}/id/I${random}" < "$1" > "${dest}" ; then
+          --no-divider --trailer "Link: ${reviewurl%/}/id/I${random}" < "$1" > "${dest}" ; then
       echo "cannot insert link footer in $1"
       exit 1
     fi

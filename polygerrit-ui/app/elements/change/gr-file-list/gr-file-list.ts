@@ -250,6 +250,16 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Number})
   _reportinShownFilesIncrement = 0;
 
+  /**
+   * Maintains which files the user has expanded *across* patchsets. When the
+   * user updates the patchset choice, this property is *not* reset.
+   *
+   * If user expands file f1 on Patchset X and then goes to Patchset Y, this
+   * property will maintain f1 even if f1 is not present on Patchset Y.
+   *
+   * The property is reset when the changeNum changes or the user calls
+   * collapseAllDiffs()
+   */
   @property({type: Array})
   _expandedFiles: PatchSetFile[] = [];
 
@@ -312,6 +322,24 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   private readonly reporting = appContext.reportingService;
 
   private readonly restApiService = appContext.restApiService;
+
+  /**
+   * Maintain which files were rendered previously. We store them to ensure
+   * we don't do unnecessary renders since computeFiles() depends on
+   * ChangeComments which triggers the computation when any property changes
+   *
+   * Let's say changeComments.comments is set and the computeFiles() function
+   * computes and rendes files [f1, f2, f3]. In this case we render the 3 files
+   * and the property filesRendered = [f1, f2, f3]
+   * Now if changeComments.robotComments is set and computeFiles() returns the
+   * same 3 files [f1, f2, f3] we see that no new files is supposed to be
+   * rendered and avoid rendering anything.
+   *
+   * The property is reset when patchset/changeNum changes in the reload()
+   * method because we want to recompute the same file's diff when the patchset
+   * changes.
+   */
+  private filesRendered: PatchSetFile[] = [];
 
   disconnected$ = new Subject();
 
@@ -446,6 +474,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     const patchRange = this.patchRange;
 
     this._loading = true;
+    this.filesRendered = [];
 
     const promises = [];
 
@@ -1266,18 +1295,24 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       reviewedFileInfo.isReviewed = reviewedSet.has(filePath);
     }
     this._files = this._normalizeChangeFilesResponse(files);
-    const filesToRender = this._files
-      .filter(file =>
-        this._expandedFiles.some((f: PatchSetFile) => f.path === file.__path)
-      )
-      .map(file => this._computePatchSetFile(file));
 
-    this.filesExpanded = this._computeExpandedFiles(
-      filesToRender.length,
-      this._files.length
-    );
-    this.diffCursor.handleDiffUpdate();
-    this._renderInOrder(filesToRender, this.diffs, filesToRender.length);
+    // Due to changeComments being updated every time a property is updated,
+    // _renderInOrder is called multiple times unnecessarily.
+    // Verify if there is some file that was not rendered previously
+    if (
+      !this._expandedFiles.some(
+        file => !this.filesRendered.some(f => f.path === file.path)
+      )
+    ) {
+      return;
+    }
+    this.filesRendered = [
+      ...this._expandedFiles.filter(f =>
+        this._files.some(file => file.__path === f.path)
+      ),
+    ];
+    // explicitly trigger the expandedFilesChanged observer to trigger a render
+    this._expandedFiles = [...this._expandedFiles];
   }
 
   _computeFilesShown(
@@ -1427,24 +1462,33 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     );
     this._clearCollapsedDiffs(collapsedDiffs);
 
-    if (!record) {
-      return;
-    } // Happens after "Collapse all" clicked.
+    let newFiles: PatchSetFile[] = [];
 
-    this.filesExpanded = this._computeExpandedFiles(
-      this._expandedFiles.length,
-      this._files.length
+    // this._expandedFiles contains files that may not be in this patch range
+    const expandedFiles = this._expandedFiles.filter(f =>
+      this._files.some(file => file.__path === f.path)
     );
 
-    // Find the paths introduced by the new index splices:
-    const newFiles = record.indexSplices
-      .map(splice =>
-        splice.object.slice(splice.index, splice.index + splice.addedCount)
-      )
-      .reduce((acc, paths) => acc.concat(paths), []);
+    if (!record) {
+      // Happens after "Collapse all" clicked.
+      if (!this._expandedFiles.length) return;
+      newFiles = [...expandedFiles];
+    } else {
+      // Find the paths introduced by the new index splices:
+      newFiles = record.indexSplices
+        .map(splice =>
+          splice.object.slice(splice.index, splice.index + splice.addedCount)
+        )
+        .reduce((acc, paths) => acc.concat(paths), []);
 
-    // Required so that the newly created diff view is included in this.diffs.
-    flush();
+      // Required so that the newly created diff view is included in this.diffs.
+      flush();
+    }
+
+    this.filesExpanded = this._computeExpandedFiles(
+      expandedFiles.length,
+      this._files.length
+    );
 
     this.reporting.time(Timing.FILE_EXPAND_ALL);
 

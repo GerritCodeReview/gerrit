@@ -977,6 +977,10 @@ suite('gr-file-list tests', () => {
     });
 
     test('filesExpanded value updates to correct enum', () => {
+      element._files = [
+        {__path: 'foo.bar'},
+        {__path: 'baz.bar'},
+      ];
       element._filesByPath = {
         'foo.bar': {},
         'baz.bar': {},

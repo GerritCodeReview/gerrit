@@ -416,7 +416,7 @@ export class GrDiffHost extends PolymerElement {
     if (
       appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)
     ) {
-      layers.push(new TokenHighlightLayer());
+      layers.push(new TokenHighlightLayer(this));
     }
     layers.push(this.syntaxLayer);
     // Get layers from plugins (if any).

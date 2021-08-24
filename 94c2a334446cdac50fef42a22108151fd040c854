@@ -22,6 +22,30 @@
       },
       "revId": "94c2a334446cdac50fef42a22108151fd040c854",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67def23a_d0c245db",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-24T08:45:05Z",
+      "side": 1,
+      "message": "Thanks, done. I realized I can also be even more efficient and added a TODO for that.",
+      "parentUuid": "77b85ba6_558584b3",
+      "range": {
+        "startLine": 209,
+        "startChar": 6,
+        "endLine": 211,
+        "endChar": 68
+      },
+      "revId": "94c2a334446cdac50fef42a22108151fd040c854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

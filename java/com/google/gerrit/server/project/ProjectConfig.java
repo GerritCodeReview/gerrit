@@ -67,7 +67,6 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.PluginConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
@@ -98,8 +97,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 
 public class ProjectConfig extends VersionedMetaData implements ValidationError.Sink {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -203,28 +200,21 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   // ProjectCache, so this would retain lots more memory.
   @Singleton
   public static class Factory {
-    public static Optional<StoredConfig> getBaseConfig(
-        SitePaths sitePaths, AllProjectsName allProjects, Project.NameKey projectName) {
-      return projectName.equals(allProjects)
-          // Delay loading till onLoad method.
-          ? Optional.of(
-              new FileBasedConfig(
-                  sitePaths.etc_dir.resolve(allProjects.get()).resolve(PROJECT_CONFIG).toFile(),
-                  FS.DETECTED))
-          : Optional.empty();
-    }
-
-    private final SitePaths sitePaths;
-    private final AllProjectsName allProjects;
+    private final AllProjectsName allProjectsName;
+    private final AllProjectsConfigProvider allProjectsConfigProvider;
 
     @Inject
-    Factory(SitePaths sitePaths, AllProjectsName allProjects) {
-      this.sitePaths = sitePaths;
-      this.allProjects = allProjects;
+    Factory(AllProjectsName allProjectsName, AllProjectsConfigProvider allProjectsConfigProvider) {
+      this.allProjectsName = allProjectsName;
+      this.allProjectsConfigProvider = allProjectsConfigProvider;
     }
 
     public ProjectConfig create(Project.NameKey projectName) {
-      return new ProjectConfig(projectName, getBaseConfig(sitePaths, allProjects, projectName));
+      return new ProjectConfig(
+          projectName,
+          projectName.equals(allProjectsName)
+              ? allProjectsConfigProvider.get(allProjectsName)
+              : Optional.empty());
     }
 
     public ProjectConfig read(MetaDataUpdate update) throws IOException, ConfigInvalidException {

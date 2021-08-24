@@ -29,6 +29,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.AllProjectsConfigProvider;
+import com.google.gerrit.server.project.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -57,6 +59,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
   protected void configure() {
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(GlobalPluginConfigProvider.class).to(FileBasedGlobalPluginConfigProvider.class);
+    bind(AllProjectsConfigProvider.class).to(FileBasedAllProjectsConfigProvider.class);
     bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
 
     if (repoManager != null) {

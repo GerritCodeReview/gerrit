@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d397d3ed_04106974",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-24T06:35:49Z",
+      "side": 1,
+      "message": "Needs some getting used to coming from Critique, but Git/Gerrit prefers no full stop at the end of the summary line.",
+      "revId": "cb7020082e94e65e268018c9e6f5fdb7a6dadbab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

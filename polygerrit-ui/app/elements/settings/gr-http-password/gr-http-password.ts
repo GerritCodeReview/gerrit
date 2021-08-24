@@ -21,8 +21,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {appContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query} from 'lit/decorators';
 
 declare global {
@@ -32,7 +31,7 @@ declare global {
 }
 
 @customElement('gr-http-password')
-export class GrHttpPassword extends GrLitElement {
+export class GrHttpPassword extends LitElement {
   @query('#generatedPasswordOverlay')
   generatedPasswordOverlay?: GrOverlay;
 

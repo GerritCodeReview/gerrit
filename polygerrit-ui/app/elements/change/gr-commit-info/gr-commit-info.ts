@@ -19,8 +19,7 @@ import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {ChangeInfo, CommitInfo, ServerInfo} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 declare global {
@@ -30,7 +29,7 @@ declare global {
 }
 
 @customElement('gr-commit-info')
-export class GrCommitInfo extends GrLitElement {
+export class GrCommitInfo extends LitElement {
   // TODO(TS): can not use `?` here as @computed require dependencies as
   // not optional
   @property({type: Object})

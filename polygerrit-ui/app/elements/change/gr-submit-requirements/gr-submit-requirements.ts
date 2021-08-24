@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 import '../gr-submit-requirement-hovercard/gr-submit-requirement-hovercard';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ParsedChangeInfo} from '../../../types/types';
 import {
@@ -33,7 +32,7 @@ import {
 } from '../../../utils/label-util';
 
 @customElement('gr-submit-requirements')
-export class GrSubmitRequirements extends GrLitElement {
+export class GrSubmitRequirements extends LitElement {
   @property({type: Object})
   change?: ParsedChangeInfo;
 

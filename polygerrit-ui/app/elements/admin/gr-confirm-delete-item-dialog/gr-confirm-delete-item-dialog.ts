@@ -16,8 +16,7 @@
  */
 import '../../shared/gr-dialog/gr-dialog';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 declare global {
@@ -27,7 +26,7 @@ declare global {
 }
 
 @customElement('gr-confirm-delete-item-dialog')
-export class GrConfirmDeleteItemDialog extends GrLitElement {
+export class GrConfirmDeleteItemDialog extends LitElement {
   /**
    * Fired when the confirm button is pressed.
    *

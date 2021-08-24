@@ -14,14 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {PropertyValues} from 'lit';
+import {LitElement, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {ServerInfo} from '../../../types/common';
 
 @customElement('gr-plugin-host')
-export class GrPluginHost extends GrLitElement {
+export class GrPluginHost extends LitElement {
   @property({type: Object})
   config?: ServerInfo;
 

@@ -20,8 +20,7 @@ import {GroupInfo, GroupId} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, state} from 'lit/decorators';
 
 declare global {
@@ -30,7 +29,7 @@ declare global {
   }
 }
 @customElement('gr-group-list')
-export class GrGroupList extends GrLitElement {
+export class GrGroupList extends LitElement {
   @state()
   protected _groups: GroupInfo[] = [];
 

@@ -26,15 +26,14 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {fireEvent} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
 import {ShowAlertEventDetail} from '../../../types/events';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {classMap} from 'lit/directives/class-map';
 import {modifierPressed} from '../../../utils/dom-util';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
 
 @customElement('gr-account-label')
-export class GrAccountLabel extends GrLitElement {
+export class GrAccountLabel extends LitElement {
   @property({type: Object})
   account?: AccountInfo;
 

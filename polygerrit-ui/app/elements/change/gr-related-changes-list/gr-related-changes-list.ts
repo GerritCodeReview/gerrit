@@ -19,8 +19,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import {classMap} from 'lit/directives/class-map';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html, nothing, TemplateResult} from 'lit';
+import {css, html, nothing, LitElement, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
@@ -61,7 +60,7 @@ export enum Section {
 }
 
 @customElement('gr-related-changes-list')
-export class GrRelatedChangesList extends GrLitElement {
+export class GrRelatedChangesList extends LitElement {
   @property()
   change?: ParsedChangeInfo;
 
@@ -666,7 +665,7 @@ export class GrRelatedChangesList extends GrLitElement {
 }
 
 @customElement('gr-related-collapse')
-export class GrRelatedCollapse extends GrLitElement {
+export class GrRelatedCollapse extends LitElement {
   @property()
   override title = '';
 

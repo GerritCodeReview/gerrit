@@ -16,8 +16,7 @@
  */
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {html} from 'lit';
+import {html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 declare global {
@@ -27,7 +26,7 @@ declare global {
 }
 
 @customElement('gr-settings-menu-item')
-export class GrSettingsMenuItem extends GrLitElement {
+export class GrSettingsMenuItem extends LitElement {
   @property({type: String})
   href?: string;
 

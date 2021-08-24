@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {css, html, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
-import {GrLitElement} from '../lit/gr-lit-element';
 import {Action} from '../../api/checks';
 import {
   CheckResult,
@@ -36,28 +35,35 @@ import {fireAlert, fireEvent} from '../../utils/event-util';
 import {appContext} from '../../services/app-context';
 import {from, timer} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {subscribable, subscribe} from '../lit/subscribable';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
  * have registered with the Checks Plugin API.
  */
 @customElement('gr-checks-tab')
-export class GrChecksTab extends GrLitElement {
+@subscribable
+export class GrChecksTab extends LitElement {
+  @subscribe(allRunsSelectedPatchset$)
   @property()
   runs: CheckRun[] = [];
 
   @property()
+  @subscribe(allResultsSelected$)
   results: CheckResult[] = [];
 
   @property()
   tabState?: ChecksTabState;
 
+  @subscribe(checksSelectedPatchsetNumber$)
   @property()
   checksPatchsetNumber: PatchSetNumber | undefined = undefined;
 
+  @subscribe(latestPatchNum$)
   @property()
   latestPatchsetNumber: PatchSetNumber | undefined = undefined;
 
+  @subscribe(changeNum$)
   @property()
   changeNum: NumericChangeId | undefined = undefined;
 
@@ -75,11 +81,6 @@ export class GrChecksTab extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRunsSelectedPatchset$);
-    this.subscribe('results', allResultsSelected$);
-    this.subscribe('checksPatchsetNumber', checksSelectedPatchsetNumber$);
-    this.subscribe('latestPatchsetNumber', latestPatchNum$);
-    this.subscribe('changeNum', changeNum$);
 
     this.addEventListener('action-triggered', (e: ActionTriggeredEvent) =>
       this.handleActionTriggered(e.detail.action, e.detail.run)

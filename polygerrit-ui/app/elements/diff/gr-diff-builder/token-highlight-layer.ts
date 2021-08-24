@@ -98,7 +98,7 @@ export class TokenHighlightLayer implements DiffLayer {
 
   constructor() {
     window.addEventListener('click', _ => {
-      this.handleWindowClick();
+      this.handleMouseClick();
     });
   }
 
@@ -165,7 +165,7 @@ export class TokenHighlightLayer implements DiffLayer {
   private handleMouseOut(e: MouseEvent) {
     // If there's no ongoing hover-task, terminate early.
     if (!this.updateTokenTask?.isActive()) return;
-    if (this.interferesWithSelection(e)) return;
+    if (e.buttons > 0 || this.interferesWithSelection()) return;
     const {element} = this.findTokenAncestor(e?.target);
     if (!element) return;
     if (element === this.hoveredElement) {
@@ -177,7 +177,7 @@ export class TokenHighlightLayer implements DiffLayer {
   }
 
   private handleMouseOver(e: MouseEvent) {
-    if (this.interferesWithSelection(e)) return;
+    if (e.buttons > 0 || this.interferesWithSelection()) return;
     const {
       line,
       token: newHighlight,
@@ -195,16 +195,15 @@ export class TokenHighlightLayer implements DiffLayer {
     );
   }
 
-  private interferesWithSelection(e: MouseEvent) {
-    if (e.buttons > 0) return true;
-    if (window.getSelection()?.type === 'Range') return true;
-    return false;
-  }
-
-  private handleWindowClick() {
+  private handleMouseClick() {
+    if (this.interferesWithSelection()) return;
     this.hoveredElement = undefined;
     this.updateTokenTask?.cancel();
     this.updateTokenHighlight(undefined, 0);
+  }
+
+  private interferesWithSelection() {
+    return window.getSelection()?.type === 'Range';
   }
 
   private updateTokenHighlight(
@@ -217,8 +216,6 @@ export class TokenHighlightLayer implements DiffLayer {
     this.currentHighlightLineNumber = newLineNumber;
     this.notifyForToken(oldHighlight, oldLineNumber);
     this.notifyForToken(newHighlight, newLineNumber);
-    // Reset the hovered element.
-    this.hoveredElement = undefined;
   }
 
   findTokenAncestor(el?: EventTarget | Element | null): {

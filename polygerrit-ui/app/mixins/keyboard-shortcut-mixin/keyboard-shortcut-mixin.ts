@@ -99,7 +99,6 @@ shortcuts are.
 import {IronA11yKeysBehavior} from '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
-import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
 import {check, Constructor} from '../../utils/common-util';
@@ -742,337 +741,335 @@ interface IronA11yKeysMixinConstructor {
  * @polymer
  * @mixinFunction
  */
-const InternalKeyboardShortcutMixin = dedupingMixin(
-  <T extends Constructor<PolymerElement> & IronA11yKeysMixinConstructor>(
-    superClass: T
-  ): T & Constructor<KeyboardShortcutMixinInterface> => {
+const InternalKeyboardShortcutMixin = <
+  T extends Constructor<PolymerElement> & IronA11yKeysMixinConstructor
+>(
+  superClass: T
+) => {
+  /**
+   * @polymer
+   * @mixinClass
+   */
+  class Mixin extends superClass {
+    @property({type: Number})
+    _shortcut_go_key_last_pressed: number | null = null;
+
+    @property({type: Number})
+    _shortcut_v_key_last_pressed: number | null = null;
+
+    @property({type: Object})
+    _shortcut_go_table: Map<string, string> = new Map<string, string>();
+
+    @property({type: Object})
+    _shortcut_v_table: Map<string, string> = new Map<string, string>();
+
+    Shortcut = Shortcut;
+
+    ShortcutSection = ShortcutSection;
+
+    private _disableKeyboardShortcuts = false;
+
+    private readonly restApiService = appContext.restApiService;
+
+    private reporting = appContext.reportingService;
+
+    /** Used to disable shortcuts when the element is not visible. */
+    private observer?: IntersectionObserver;
+
     /**
-     * @polymer
-     * @mixinClass
+     * Enabling shortcuts only when the element is visible (see `observer`
+     * above) is a great feature, but often what you want is for the *page* to
+     * be visible, not the specific child element that registers keyboard
+     * shortcuts. An example is the FileList in the ChangeView. So we allow
+     * a broader observer target to be specified here, and fall back to
+     * `this` as the default.
      */
-    class Mixin extends superClass {
-      @property({type: Number})
-      _shortcut_go_key_last_pressed: number | null = null;
+    @property({type: Object})
+    observerTarget: Element = this;
 
-      @property({type: Number})
-      _shortcut_v_key_last_pressed: number | null = null;
+    /** Are shortcuts currently enabled? True only when element is visible. */
+    private bindingsEnabled = false;
 
-      @property({type: Object})
-      _shortcut_go_table: Map<string, string> = new Map<string, string>();
-
-      @property({type: Object})
-      _shortcut_v_table: Map<string, string> = new Map<string, string>();
-
-      Shortcut = Shortcut;
-
-      ShortcutSection = ShortcutSection;
-
-      private _disableKeyboardShortcuts = false;
-
-      private readonly restApiService = appContext.restApiService;
-
-      private reporting = appContext.reportingService;
-
-      /** Used to disable shortcuts when the element is not visible. */
-      private observer?: IntersectionObserver;
-
-      /**
-       * Enabling shortcuts only when the element is visible (see `observer`
-       * above) is a great feature, but often what you want is for the *page* to
-       * be visible, not the specific child element that registers keyboard
-       * shortcuts. An example is the FileList in the ChangeView. So we allow
-       * a broader observer target to be specified here, and fall back to
-       * `this` as the default.
+    modifierPressed(event: CustomKeyboardEvent) {
+      /* We are checking for g/v as modifiers pressed. There are cases such as
+       * pressing v and then /, where we want the handler for / to be triggered.
+       * TODO(dhruvsri): find a way to support that keyboard combination
        */
-      @property({type: Object})
-      observerTarget: Element = this;
+      const e = getKeyboardEvent(event);
+      return (
+        isModifierPressed(e) || !!this._inGoKeyMode() || !!this.inVKeyMode()
+      );
+    }
 
-      /** Are shortcuts currently enabled? True only when element is visible. */
-      private bindingsEnabled = false;
-
-      modifierPressed(event: CustomKeyboardEvent) {
-        /* We are checking for g/v as modifiers pressed. There are cases such as
-         * pressing v and then /, where we want the handler for / to be triggered.
-         * TODO(dhruvsri): find a way to support that keyboard combination
-         */
-        const e = getKeyboardEvent(event);
-        return (
-          isModifierPressed(e) || !!this._inGoKeyMode() || !!this.inVKeyMode()
-        );
+    shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent) {
+      if (this._disableKeyboardShortcuts) return true;
+      const e = getKeyboardEvent(event);
+      // TODO(TS): maybe override the EventApi, narrow it down to Element always
+      const target = (dom(e) as EventApi).rootTarget as Element;
+      const tagName = target.tagName;
+      const type = target.getAttribute('type');
+      if (
+        // Suppress shortcuts on <input> and <textarea>, but not on
+        // checkboxes, because we want to enable workflows like 'click
+        // mark-reviewed and then press ] to go to the next file'.
+        (tagName === 'INPUT' && type !== 'checkbox') ||
+        tagName === 'TEXTAREA' ||
+        // Suppress shortcuts if the key is 'enter'
+        // and target is an anchor or button or paper-tab.
+        (e.keyCode === 13 &&
+          (tagName === 'A' || tagName === 'BUTTON' || tagName === 'PAPER-TAB'))
+      ) {
+        return true;
       }
-
-      shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent) {
-        if (this._disableKeyboardShortcuts) return true;
-        const e = getKeyboardEvent(event);
-        // TODO(TS): maybe override the EventApi, narrow it down to Element always
-        const target = (dom(e) as EventApi).rootTarget as Element;
-        const tagName = target.tagName;
-        const type = target.getAttribute('type');
-        if (
-          // Suppress shortcuts on <input> and <textarea>, but not on
-          // checkboxes, because we want to enable workflows like 'click
-          // mark-reviewed and then press ] to go to the next file'.
-          (tagName === 'INPUT' && type !== 'checkbox') ||
-          tagName === 'TEXTAREA' ||
-          // Suppress shortcuts if the key is 'enter'
-          // and target is an anchor or button or paper-tab.
-          (e.keyCode === 13 &&
-            (tagName === 'A' ||
-              tagName === 'BUTTON' ||
-              tagName === 'PAPER-TAB'))
-        ) {
+      for (let i = 0; e.path && i < e.path.length; i++) {
+        // TODO(TS): narrow this down to Element from EventTarget first
+        if ((e.path[i] as Element).tagName === 'GR-OVERLAY') {
           return true;
         }
-        for (let i = 0; e.path && i < e.path.length; i++) {
-          // TODO(TS): narrow this down to Element from EventTarget first
-          if ((e.path[i] as Element).tagName === 'GR-OVERLAY') {
-            return true;
-          }
-        }
-
-        // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
-        let key = `${(e as unknown as KeyboardEvent).key}:${e.type}`;
-        if (this._inGoKeyMode()) key = 'g+' + key;
-        if (this.inVKeyMode()) key = 'v+' + key;
-        if (e.shiftKey) key = 'shift+' + key;
-        if (e.ctrlKey) key = 'ctrl+' + key;
-        if (e.metaKey) key = 'meta+' + key;
-        if (e.altKey) key = 'alt+' + key;
-        this.reporting.reportInteraction('shortcut-triggered', {
-          key,
-          from: this.nodeName ?? 'unknown',
-        });
-        return false;
       }
 
-      // Alias for getKeyboardEvent.
-      getKeyboardEvent(e: CustomKeyboardEvent) {
-        return getKeyboardEvent(e);
+      // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
+      let key = `${(e as unknown as KeyboardEvent).key}:${e.type}`;
+      if (this._inGoKeyMode()) key = 'g+' + key;
+      if (this.inVKeyMode()) key = 'v+' + key;
+      if (e.shiftKey) key = 'shift+' + key;
+      if (e.ctrlKey) key = 'ctrl+' + key;
+      if (e.metaKey) key = 'meta+' + key;
+      if (e.altKey) key = 'alt+' + key;
+      this.reporting.reportInteraction('shortcut-triggered', {
+        key,
+        from: this.nodeName ?? 'unknown',
+      });
+      return false;
+    }
+
+    // Alias for getKeyboardEvent.
+    getKeyboardEvent(e: CustomKeyboardEvent) {
+      return getKeyboardEvent(e);
+    }
+
+    bindShortcut(shortcut: Shortcut, ...bindings: string[]) {
+      shortcutManager.bindShortcut(shortcut, ...bindings);
+    }
+
+    createTitle(shortcutName: Shortcut, section: ShortcutSection) {
+      const desc = shortcutManager.getDescription(section, shortcutName);
+      const shortcut = shortcutManager.getShortcut(shortcutName);
+      return desc && shortcut ? `${desc} (shortcut: ${shortcut})` : '';
+    }
+
+    _addOwnKeyBindings(shortcut: Shortcut, handler: string) {
+      const bindings = shortcutManager.getBindingsForShortcut(shortcut);
+      if (!bindings) {
+        return;
       }
-
-      bindShortcut(shortcut: Shortcut, ...bindings: string[]) {
-        shortcutManager.bindShortcut(shortcut, ...bindings);
+      if (bindings[0] === SPECIAL_SHORTCUT.DOC_ONLY) {
+        return;
       }
-
-      createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-        const desc = shortcutManager.getDescription(section, shortcutName);
-        const shortcut = shortcutManager.getShortcut(shortcutName);
-        return desc && shortcut ? `${desc} (shortcut: ${shortcut})` : '';
-      }
-
-      _addOwnKeyBindings(shortcut: Shortcut, handler: string) {
-        const bindings = shortcutManager.getBindingsForShortcut(shortcut);
-        if (!bindings) {
-          return;
-        }
-        if (bindings[0] === SPECIAL_SHORTCUT.DOC_ONLY) {
-          return;
-        }
-        if (bindings[0] === SPECIAL_SHORTCUT.GO_KEY) {
-          bindings
-            .slice(1)
-            .forEach(binding => this._shortcut_go_table.set(binding, handler));
-        } else if (bindings[0] === SPECIAL_SHORTCUT.V_KEY) {
-          // for each binding added with the go/v key, we set the handler to be
-          // handleVKeyAction. handleVKeyAction then looks up in th
-          // shortcut_table to see what the relevant handler should be
-          bindings
-            .slice(1)
-            .forEach(binding => this._shortcut_v_table.set(binding, handler));
-        } else {
-          this.addOwnKeyBinding(bindings.join(' '), handler);
-        }
-      }
-
-      override connectedCallback() {
-        super.connectedCallback();
-        this.restApiService.getPreferences().then(prefs => {
-          if (prefs?.disable_keyboard_shortcuts) {
-            this._disableKeyboardShortcuts = true;
-          }
-        });
-        this.createVisibilityObserver();
-        this.enableBindings();
-      }
-
-      override disconnectedCallback() {
-        this.destroyVisibilityObserver();
-        this.disableBindings();
-        super.disconnectedCallback();
-      }
-
-      /**
-       * Creates an intersection observer that enables bindings when the
-       * element is visible and disables them when the element is hidden.
-       */
-      private createVisibilityObserver() {
-        if (!this.hasKeyboardShortcuts()) return;
-        if (this.observer) return;
-        this.observer = new IntersectionObserver(entries => {
-          check(entries.length === 1, 'Expected one observer entry.');
-          const isVisible = entries[0].isIntersecting;
-          if (isVisible) {
-            this.enableBindings();
-          } else {
-            this.disableBindings();
-          }
-        });
-        this.observer.observe(this.observerTarget);
-      }
-
-      private destroyVisibilityObserver() {
-        if (this.observer) this.observer.unobserve(this.observerTarget);
-      }
-
-      /**
-       * Enables all the shortcuts returned by keyboardShortcuts().
-       * This is a private method being called when the element becomes
-       * connected or visible.
-       */
-      private enableBindings() {
-        if (!this.hasKeyboardShortcuts()) return;
-        if (this.bindingsEnabled) return;
-        this.bindingsEnabled = true;
-
-        const shortcuts = new Map<string, string>(
-          Object.entries(this.keyboardShortcuts())
-        );
-        shortcutManager.attachHost(this, shortcuts);
-
-        for (const [key, value] of shortcuts.entries()) {
-          this._addOwnKeyBindings(key as Shortcut, value);
-        }
-
-        // each component that uses this behaviour must be aware if go key is
-        // pressed or not, since it needs to check it as a modifier
-        this.addOwnKeyBinding('g:keydown', '_handleGoKeyDown');
-        this.addOwnKeyBinding('g:keyup', '_handleGoKeyUp');
-
-        // If any of the shortcuts utilized GO_KEY, then they are handled
-        // directly by this behavior.
-        if (this._shortcut_go_table.size > 0) {
-          this._shortcut_go_table.forEach((_, key) => {
-            this.addOwnKeyBinding(key, '_handleGoAction');
-          });
-        }
-
-        this.addOwnKeyBinding('v:keydown', '_handleVKeyDown');
-        this.addOwnKeyBinding('v:keyup', '_handleVKeyUp');
-        if (this._shortcut_v_table.size > 0) {
-          this._shortcut_v_table.forEach((_, key) => {
-            this.addOwnKeyBinding(key, '_handleVAction');
-          });
-        }
-      }
-
-      /**
-       * Disables all the shortcuts returned by keyboardShortcuts().
-       * This is a private method being called when the element becomes
-       * disconnected or invisible.
-       */
-      private disableBindings() {
-        if (!this.bindingsEnabled) return;
-        this.bindingsEnabled = false;
-        if (shortcutManager.detachHost(this)) {
-          this.removeOwnKeyBindings();
-        }
-      }
-
-      private hasKeyboardShortcuts() {
-        return Object.entries(this.keyboardShortcuts()).length > 0;
-      }
-
-      keyboardShortcuts() {
-        return {};
-      }
-
-      addKeyboardShortcutDirectoryListener(listener: ShortcutListener) {
-        shortcutManager.addListener(listener);
-      }
-
-      removeKeyboardShortcutDirectoryListener(listener: ShortcutListener) {
-        shortcutManager.removeListener(listener);
-      }
-
-      _handleVKeyDown(e: CustomKeyboardEvent) {
-        if (this.shouldSuppressKeyboardShortcut(e)) return;
-        this._shortcut_v_key_last_pressed = Date.now();
-      }
-
-      _handleVKeyUp() {
-        setTimeout(() => {
-          this._shortcut_v_key_last_pressed = null;
-        }, V_KEY_TIMEOUT_MS);
-      }
-
-      private inVKeyMode() {
-        return !!(
-          this._shortcut_v_key_last_pressed &&
-          Date.now() - this._shortcut_v_key_last_pressed <= V_KEY_TIMEOUT_MS
-        );
-      }
-
-      _handleVAction(e: CustomKeyboardEvent) {
-        if (
-          !this.inVKeyMode() ||
-          !this._shortcut_v_table.has(e.detail.key) ||
-          this.shouldSuppressKeyboardShortcut(e)
-        ) {
-          return;
-        }
-        e.preventDefault();
-        const handler = this._shortcut_v_table.get(e.detail.key);
-        if (handler) {
-          // TODO(TS): should fix this
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (this as any)[handler](e);
-        }
-      }
-
-      _handleGoKeyDown(e: CustomKeyboardEvent) {
-        if (this.shouldSuppressKeyboardShortcut(e)) return;
-        this._shortcut_go_key_last_pressed = Date.now();
-      }
-
-      _handleGoKeyUp() {
-        // Set go_key_last_pressed to null `GO_KEY_TIMEOUT_MS` after keyup event
-        // so that users can trigger `g + i` by pressing g and i quickly.
-        setTimeout(() => {
-          this._shortcut_go_key_last_pressed = null;
-        }, GO_KEY_TIMEOUT_MS);
-      }
-
-      _inGoKeyMode() {
-        return !!(
-          this._shortcut_go_key_last_pressed &&
-          Date.now() - this._shortcut_go_key_last_pressed <= GO_KEY_TIMEOUT_MS
-        );
-      }
-
-      _handleGoAction(e: CustomKeyboardEvent) {
-        if (
-          !this._inGoKeyMode() ||
-          !this._shortcut_go_table.has(e.detail.key) ||
-          this.shouldSuppressKeyboardShortcut(e)
-        ) {
-          return;
-        }
-        e.preventDefault();
-        const handler = this._shortcut_go_table.get(e.detail.key);
-        if (handler) {
-          // TODO(TS): should fix this
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (this as any)[handler](e);
-        }
+      if (bindings[0] === SPECIAL_SHORTCUT.GO_KEY) {
+        bindings
+          .slice(1)
+          .forEach(binding => this._shortcut_go_table.set(binding, handler));
+      } else if (bindings[0] === SPECIAL_SHORTCUT.V_KEY) {
+        // for each binding added with the go/v key, we set the handler to be
+        // handleVKeyAction. handleVKeyAction then looks up in th
+        // shortcut_table to see what the relevant handler should be
+        bindings
+          .slice(1)
+          .forEach(binding => this._shortcut_v_table.set(binding, handler));
+      } else {
+        this.addOwnKeyBinding(bindings.join(' '), handler);
       }
     }
 
-    return Mixin;
+    override connectedCallback() {
+      super.connectedCallback();
+      this.restApiService.getPreferences().then(prefs => {
+        if (prefs?.disable_keyboard_shortcuts) {
+          this._disableKeyboardShortcuts = true;
+        }
+      });
+      this.createVisibilityObserver();
+      this.enableBindings();
+    }
+
+    override disconnectedCallback() {
+      this.destroyVisibilityObserver();
+      this.disableBindings();
+      super.disconnectedCallback();
+    }
+
+    /**
+     * Creates an intersection observer that enables bindings when the
+     * element is visible and disables them when the element is hidden.
+     */
+    private createVisibilityObserver() {
+      if (!this.hasKeyboardShortcuts()) return;
+      if (this.observer) return;
+      this.observer = new IntersectionObserver(entries => {
+        check(entries.length === 1, 'Expected one observer entry.');
+        const isVisible = entries[0].isIntersecting;
+        if (isVisible) {
+          this.enableBindings();
+        } else {
+          this.disableBindings();
+        }
+      });
+      this.observer.observe(this.observerTarget);
+    }
+
+    private destroyVisibilityObserver() {
+      if (this.observer) this.observer.unobserve(this.observerTarget);
+    }
+
+    /**
+     * Enables all the shortcuts returned by keyboardShortcuts().
+     * This is a private method being called when the element becomes
+     * connected or visible.
+     */
+    private enableBindings() {
+      if (!this.hasKeyboardShortcuts()) return;
+      if (this.bindingsEnabled) return;
+      this.bindingsEnabled = true;
+
+      const shortcuts = new Map<string, string>(
+        Object.entries(this.keyboardShortcuts())
+      );
+      shortcutManager.attachHost(this, shortcuts);
+
+      for (const [key, value] of shortcuts.entries()) {
+        this._addOwnKeyBindings(key as Shortcut, value);
+      }
+
+      // each component that uses this behaviour must be aware if go key is
+      // pressed or not, since it needs to check it as a modifier
+      this.addOwnKeyBinding('g:keydown', '_handleGoKeyDown');
+      this.addOwnKeyBinding('g:keyup', '_handleGoKeyUp');
+
+      // If any of the shortcuts utilized GO_KEY, then they are handled
+      // directly by this behavior.
+      if (this._shortcut_go_table.size > 0) {
+        this._shortcut_go_table.forEach((_, key) => {
+          this.addOwnKeyBinding(key, '_handleGoAction');
+        });
+      }
+
+      this.addOwnKeyBinding('v:keydown', '_handleVKeyDown');
+      this.addOwnKeyBinding('v:keyup', '_handleVKeyUp');
+      if (this._shortcut_v_table.size > 0) {
+        this._shortcut_v_table.forEach((_, key) => {
+          this.addOwnKeyBinding(key, '_handleVAction');
+        });
+      }
+    }
+
+    /**
+     * Disables all the shortcuts returned by keyboardShortcuts().
+     * This is a private method being called when the element becomes
+     * disconnected or invisible.
+     */
+    private disableBindings() {
+      if (!this.bindingsEnabled) return;
+      this.bindingsEnabled = false;
+      if (shortcutManager.detachHost(this)) {
+        this.removeOwnKeyBindings();
+      }
+    }
+
+    private hasKeyboardShortcuts() {
+      return Object.entries(this.keyboardShortcuts()).length > 0;
+    }
+
+    keyboardShortcuts() {
+      return {};
+    }
+
+    addKeyboardShortcutDirectoryListener(listener: ShortcutListener) {
+      shortcutManager.addListener(listener);
+    }
+
+    removeKeyboardShortcutDirectoryListener(listener: ShortcutListener) {
+      shortcutManager.removeListener(listener);
+    }
+
+    _handleVKeyDown(e: CustomKeyboardEvent) {
+      if (this.shouldSuppressKeyboardShortcut(e)) return;
+      this._shortcut_v_key_last_pressed = Date.now();
+    }
+
+    _handleVKeyUp() {
+      setTimeout(() => {
+        this._shortcut_v_key_last_pressed = null;
+      }, V_KEY_TIMEOUT_MS);
+    }
+
+    private inVKeyMode() {
+      return !!(
+        this._shortcut_v_key_last_pressed &&
+        Date.now() - this._shortcut_v_key_last_pressed <= V_KEY_TIMEOUT_MS
+      );
+    }
+
+    _handleVAction(e: CustomKeyboardEvent) {
+      if (
+        !this.inVKeyMode() ||
+        !this._shortcut_v_table.has(e.detail.key) ||
+        this.shouldSuppressKeyboardShortcut(e)
+      ) {
+        return;
+      }
+      e.preventDefault();
+      const handler = this._shortcut_v_table.get(e.detail.key);
+      if (handler) {
+        // TODO(TS): should fix this
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (this as any)[handler](e);
+      }
+    }
+
+    _handleGoKeyDown(e: CustomKeyboardEvent) {
+      if (this.shouldSuppressKeyboardShortcut(e)) return;
+      this._shortcut_go_key_last_pressed = Date.now();
+    }
+
+    _handleGoKeyUp() {
+      // Set go_key_last_pressed to null `GO_KEY_TIMEOUT_MS` after keyup event
+      // so that users can trigger `g + i` by pressing g and i quickly.
+      setTimeout(() => {
+        this._shortcut_go_key_last_pressed = null;
+      }, GO_KEY_TIMEOUT_MS);
+    }
+
+    _inGoKeyMode() {
+      return !!(
+        this._shortcut_go_key_last_pressed &&
+        Date.now() - this._shortcut_go_key_last_pressed <= GO_KEY_TIMEOUT_MS
+      );
+    }
+
+    _handleGoAction(e: CustomKeyboardEvent) {
+      if (
+        !this._inGoKeyMode() ||
+        !this._shortcut_go_table.has(e.detail.key) ||
+        this.shouldSuppressKeyboardShortcut(e)
+      ) {
+        return;
+      }
+      e.preventDefault();
+      const handler = this._shortcut_go_table.get(e.detail.key);
+      if (handler) {
+        // TODO(TS): should fix this
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (this as any)[handler](e);
+      }
+    }
   }
-);
+
+  return Mixin as T & Constructor<KeyboardShortcutMixinInterface>;
+};
 
 // The following doesn't work (IronA11yKeysBehavior crashes):
-// const KeyboardShortcutMixin = dedupingMixin(superClass => {
+// const KeyboardShortcutMixin = superClass => {
 //    class Mixin extends mixinBehaviors([IronA11yKeysBehavior], superClass) {
 //    ...
 //    }

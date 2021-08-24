@@ -88,6 +88,24 @@
       "parentUuid": "c7cf8ad3_7fb18eab",
       "revId": "67fbcfec20a345b704f841a407580f0f0bfa6122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44ccf2f3_f3647abe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-24T10:23:00Z",
+      "side": 1,
+      "message": "Done in the previous change. I\u0027m happy with the current test coverage.",
+      "parentUuid": "28586ce1_08f00244",
+      "revId": "67fbcfec20a345b704f841a407580f0f0bfa6122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

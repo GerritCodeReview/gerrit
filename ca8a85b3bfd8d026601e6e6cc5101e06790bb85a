@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e73fdb8e_d0482354",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019197
+      },
+      "writtenOn": "2021-08-24T17:00:38Z",
+      "side": 1,
+      "message": "A distinction between Markdown and e-mail patch submissions seems needed to really resolve the issue.",
+      "revId": "ca8a85b3bfd8d026601e6e6cc5101e06790bb85a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

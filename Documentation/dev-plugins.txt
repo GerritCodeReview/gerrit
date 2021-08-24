@@ -74,9 +74,9 @@ Plugins may provide optional description information with standard
 manifest fields:
 
 ----
-  Implementation-Title: Example plugin showing examples
-  Implementation-Version: 1.0
-  Implementation-Vendor: Example, Inc.
+Implementation-Title: Example plugin showing examples
+Implementation-Version: 1.0
+Implementation-Vendor: Example, Inc.
 ----
 
 === ApiType
@@ -88,7 +88,7 @@ API will be assumed. This may cause ClassNotFoundExceptions when
 loading a plugin that needs the plugin API.
 
 ----
-  Gerrit-ApiType: plugin
+Gerrit-ApiType: plugin
 ----
 
 === Explicit Registration
@@ -103,9 +103,9 @@ will be performed by scanning all classes in the plugin JAR for
 `@Listen` and `@Export("")` annotations.
 
 ----
-  Gerrit-Module:     tld.example.project.CoreModuleClassName
-  Gerrit-SshModule:  tld.example.project.SshModuleClassName
-  Gerrit-HttpModule: tld.example.project.HttpModuleClassName
+Gerrit-Module:     tld.example.project.CoreModuleClassName
+Gerrit-SshModule:  tld.example.project.SshModuleClassName
+Gerrit-HttpModule: tld.example.project.HttpModuleClassName
 ----
 
 === Batch runtime
@@ -120,7 +120,7 @@ This feature was originally introduced to support plugins during an
 offline reindexing task.
 
 ----
-  Gerrit-BatchModule: tld.example.project.CoreModuleClassName
+Gerrit-BatchModule: tld.example.project.CoreModuleClassName
 ----
 
 In this runtime, only the module designated by `Gerrit-BatchModule` is
@@ -132,7 +132,7 @@ enabled, not `Gerrit-SysModule`.
 A plugin can optionally provide its own plugin name.
 
 ----
-  Gerrit-PluginName: replication
+Gerrit-PluginName: replication
 ----
 
 This is useful for plugins that contribute plugin-owned capabilities that
@@ -218,7 +218,7 @@ be used, as it enables the server to hot-patch an updated plugin
 with no down time.
 
 ----
-  Gerrit-ReloadMode: restart
+Gerrit-ReloadMode: restart
 ----
 
 In either mode ('restart' or 'reload') any plugin or extension can
@@ -261,7 +261,7 @@ contribute their own "init step" to allow configuring the Jira URL,
 credentials and possibly verify connectivity to validate them.
 
 ----
-  Gerrit-InitStep: tld.example.project.MyInitStep
+Gerrit-InitStep: tld.example.project.MyInitStep
 ----
 
 MyInitStep needs to follow the standard Gerrit InitStep syntax
@@ -278,37 +278,37 @@ can get `com.google.gerrit.pgm.init.api.AllProjectsConfig` injected:
 
 [source,java]
 ----
-  public class MyInitStep implements InitStep {
-    private final String pluginName;
-    private final ConsoleUI ui;
-    private final AllProjectsConfig allProjectsConfig;
+public class MyInitStep implements InitStep {
+  private final String pluginName;
+  private final ConsoleUI ui;
+  private final AllProjectsConfig allProjectsConfig;
 
-    @Inject
-    public MyInitStep(@PluginName String pluginName, ConsoleUI ui,
-        AllProjectsConfig allProjectsConfig) {
-      this.pluginName = pluginName;
-      this.ui = ui;
-      this.allProjectsConfig = allProjectsConfig;
-    }
-
-    @Override
-    public void run() throws Exception {
-    }
-
-    @Override
-    public void postRun() throws Exception {
-      ui.message("\n");
-      ui.header(pluginName + " Integration");
-      boolean enabled = ui.yesno(true, "By default enabled for all projects");
-      Config cfg = allProjectsConfig.load().getConfig();
-      if (enabled) {
-        cfg.setBoolean("plugin", pluginName, "enabled", enabled);
-      } else {
-        cfg.unset("plugin", pluginName, "enabled");
-      }
-      allProjectsConfig.save(pluginName, "Initialize " + pluginName + " Integration");
-    }
+  @Inject
+  public MyInitStep(@PluginName String pluginName, ConsoleUI ui,
+      AllProjectsConfig allProjectsConfig) {
+    this.pluginName = pluginName;
+    this.ui = ui;
+    this.allProjectsConfig = allProjectsConfig;
   }
+
+  @Override
+  public void run() throws Exception {
+  }
+
+  @Override
+  public void postRun() throws Exception {
+    ui.message("\n");
+    ui.header(pluginName + " Integration");
+    boolean enabled = ui.yesno(true, "By default enabled for all projects");
+    Config cfg = allProjectsConfig.load().getConfig();
+    if (enabled) {
+      cfg.setBoolean("plugin", pluginName, "enabled", enabled);
+    } else {
+      cfg.unset("plugin", pluginName, "enabled");
+    }
+    allProjectsConfig.save(pluginName, "Initialize " + pluginName + " Integration");
+  }
+}
 ----
 
 Bear in mind that the Plugin's InitStep class will be loaded but
@@ -706,9 +706,12 @@ name will get appended to the annotated name, with an underscore
 in between, leading to the final operator name.  An example
 registration looks like this:
 
-    bind(ChangeOperatorFactory.class)
-       .annotatedWith(Exports.named("sample"))
-       .to(SampleOperator.class);
+[source,java]
+----
+bind(ChangeOperatorFactory.class)
+  .annotatedWith(Exports.named("sample"))
+  .to(SampleOperator.class);
+----
 
 If this is registered in the `myplugin` plugin, then the resulting
 operator will be named `sample_myplugin`.
@@ -736,7 +739,7 @@ public class SampleOperator
 ----
 
 [[search_operands]]
-=== Search Operands ===
+== Search Operands
 
 Plugins can define new search operands to extend change searching.
 Plugin methods implementing search operands (returning a
@@ -748,31 +751,33 @@ ChangeQueryBuilder.ChangeIsOperandFactory).  The specific
 a module's `configure()` method in the plugin.
 
 The new operand, when used in a search would appear as:
-  operatorName:operandName_pluginName
+  `operatorName:operandName_pluginName`
 
 A sample `ChangeHasOperandFactory` class implementing, and registering, a
 new `has:sample_pluginName` operand is shown below:
 
-====
-  public class SampleHasOperand implements ChangeHasOperandFactory {
-    public static class Module extends AbstractModule {
-      @Override
-      protected void configure() {
-        bind(ChangeHasOperandFactory.class)
-            .annotatedWith(Exports.named("sample")
-            .to(SampleHasOperand.class);
-      }
-    }
-
+[source, java]
+----
+public class SampleHasOperand implements ChangeHasOperandFactory {
+  public static class Module extends AbstractModule {
     @Override
-    public Predicate<ChangeData> create(ChangeQueryBuilder builder)
-        throws QueryParseException {
-      return new HasSamplePredicate();
+    protected void configure() {
+      bind(ChangeHasOperandFactory.class)
+          .annotatedWith(Exports.named("sample")
+          .to(SampleHasOperand.class);
     }
-====
+  }
+
+  @Override
+  public Predicate<ChangeData> create(ChangeQueryBuilder builder)
+      throws QueryParseException {
+    return new HasSamplePredicate();
+  }
+}
+----
 
 [[command_options]]
-=== Command Options ===
+== Command Options
 
 Plugins can provide additional options for each of the gerrit ssh and the
 REST API commands by implementing the DynamicBean interface and registering
@@ -801,6 +806,7 @@ public class SshModule extends AbstractModule {
       logger.atSevere().log("Say Hello in the Log %s", arg);
     }
   }
+}
 ----
 
 === Calling Command Options ===
@@ -862,7 +868,7 @@ boolean json;
 ----
 
 [[query_attributes]]
-=== Change Attributes ===
+== Change Attributes
 
 ==== ChangePluginDefinedInfoFactory
 
@@ -938,13 +944,9 @@ public class AttributeFactory implements ChangePluginDefinedInfoFactory {
 }
 ----
 
-Example
+Example:
 ----
-
-ssh -p 29418 localhost gerrit query --myplugin-name--all "change:1" --format json
-
-Output:
-
+$ ssh -p 29418 localhost gerrit query --myplugin-name--all "change:1" --format json
 {
    "url" : "http://localhost:8080/1",
    "plugins" : [
@@ -957,10 +959,7 @@ Output:
     ...
 }
 
-curl http://localhost:8080/changes/1?myplugin-name--all
-
-Output:
-
+$ curl http://localhost:8080/changes/1?myplugin-name--all
 {
   "_number": 1,
   ...
@@ -1112,8 +1111,8 @@ only use the `plugin` subsection with their own name. For example the
 `plugin.helloworld` subsection:
 
 ----
-  [plugin "helloworld"]
-    enabled = true
+[plugin "helloworld"]
+  enabled = true
 ----
 
 Via the `com.google.gerrit.server.config.PluginConfigFactory` class a
@@ -1316,7 +1315,7 @@ origin in the `instanceId` field.
 Here and example of ref-updated JSON event payload with `instanceId`:
 
 [source,json]
----
+----
 {
   "submitter": {
     "name": "Administrator",
@@ -1333,7 +1332,7 @@ Here and example of ref-updated JSON event payload with `instanceId`:
   "eventCreatedOn": 1588849085,
   "instanceId": "instance1"
 }
----
+----
 
 [[capabilities]]
 == Plugin Owned Capabilities
@@ -1552,9 +1551,9 @@ are not found will be ignored.
 Example config:
 ----
 [extension-panels "CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK"]
-        panel = helloworld.change_id
-        panel = myotherplugin
-        panel = myplugin.my_panel_name
+  panel = helloworld.change_id
+  panel = myotherplugin
+  panel = myplugin.my_panel_name
 ----
 
 
@@ -1779,11 +1778,11 @@ Every `UiAction` exposes a REST API endpoint. The endpoint from the example abov
 can be accessed from any REST client, i. e.:
 
 ----
-  curl -X POST -H "Content-Type: application/json" \
+$ curl -X POST -H "Content-Type: application/json" \
     -d '{message: "François", french: true}' \
     --user joe:secret \
     http://host:port/a/changes/1/revisions/1/cookbook~say-hello
-  "Bonjour François from change 1, patch set 1!"
+"Bonjour François from change 1, patch set 1!"
 ----
 
 A special case is to bind an endpoint without a view name.  This is
@@ -1880,7 +1879,6 @@ Plugins define the top menu entries by implementing `TopMenu` interface:
 [source,java]
 ----
 public class MyTopMenuExtension implements TopMenu {
-
   @Override
   public List<MenuEntry> getEntries() {
     return Lists.newArrayList(
@@ -1897,7 +1895,6 @@ entry:
 [source,java]
 ----
 public class MyTopMenuExtension implements TopMenu {
-
   @Override
   public List<MenuEntry> getEntries() {
     return Lists.newArrayList(
@@ -1915,17 +1912,17 @@ E.g. plugins may register an link:#http[HTTP Servlet] to handle project
 specific requests and add an menu item for this:
 
 [source,java]
----
-  new MenuItem("My Screen", "/plugins/myplugin/project/${projectName}");
----
+----
+new MenuItem("My Screen", "/plugins/myplugin/project/${projectName}");
+----
 
 This also enables plugins to provide menu items for project aware
 screens:
 
 [source,java]
----
-  new MenuItem("My Screen", "/x/my-screen/for/${projectName}");
----
+----
+new MenuItem("My Screen", "/x/my-screen/for/${projectName}");
+----
 
 If no Guice modules are declared in the manifest, the top menu extension may use
 auto-registration by providing an `@Listen` annotation:
@@ -2139,7 +2136,6 @@ class MyExternalIdCreator implements AccountExternalIdCreator {
 bind(AccountExternalIdCreator.class)
   .annotatedWith(UniqueAnnotations.create())
   .to(MyExternalIdCreator.class);
-}
 ----
 
 [[download-commands]]
@@ -2206,7 +2202,6 @@ import com.google.gerrit.extensions.webui.WebLinkTarget;
 
 @Listen
 public class MyWeblinkPlugin implements PatchSetWebLink {
-
   private String name = "MyLink";
   private String placeHolderUrlProjectCommit = "http://my.tool.com/project=%s/commit=%s";
   private String imageUrl = "http://placehold.it/16x16.gif";
@@ -2286,7 +2281,6 @@ import static com.google.gerrit.httpd.plugins.LfsPluginServlet.URL_REGEX;
 import com.google.inject.servlet.ServletModule;
 
 public class HttpModule extends ServletModule {
-
   @Override
   protected void configureServlets() {
     serveRegex(URL_REGEX).with(LfsApiServlet.class);
@@ -2297,7 +2291,7 @@ public class HttpModule extends ServletModule {
 import org.eclipse.jgit.lfs.server.s3.S3Repository;
 
 public class S3LargeFileRepository extends S3Repository {
-...
+  ...
 }
 ----
 
@@ -2347,8 +2341,8 @@ setting `plugins.${plugin-name}.metricsPrefix` in the `gerrit.config`
 file. For example:
 
 ----
-  [plugin "my-plugin"]
-    metricsPrefix = my-metrics
+[plugin "my-plugin"]
+  metricsPrefix = my-metrics
 ----
 
 will cause the metrics to be recorded under `my-metrics/${metric-name}`.
@@ -2371,6 +2365,7 @@ Gerrit implements this extension point, but plugins may bind another
 implementation, e.g. one that supports cluster setup with multiple
 primary Gerrit nodes handling write operations.
 
+[source,java]
 ----
 DynamicItem.bind(binder(), AccountPatchReviewStore.class)
     .to(MultiMasterAccountPatchReviewStore.class);
@@ -2592,6 +2587,8 @@ class MyCommandInterceptor implements SshCreateCommandInterceptor {
   @Override
   public String intercept(String in) {
     return pluginName + " mycommand";
+  }
+}
 ----
 
 [[ssh-command-execution-interception]]
@@ -2625,7 +2622,8 @@ public class SshExecuteCommandInterceptorImpl implements SshExecuteCommandInterc
 And then declare it in your SSH module:
 [source, java]
 ----
-  DynamicSet.bind(binder(), SshExecuteCommandInterceptor.class).to(SshExecuteCommandInterceptorImpl.class);
+DynamicSet.bind(binder(), SshExecuteCommandInterceptor.class)
+  .to(SshExecuteCommandInterceptorImpl.class);
 ----
 
 [[pre-submit-evaluator]]

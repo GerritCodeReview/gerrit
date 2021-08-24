@@ -16,6 +16,52 @@
       "message": "Now you should be able to do a `git rebase --rebase-merges`",
       "revId": "f418fecf4974f9e488768a79bdf96d25e2bbf4d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95389d86_46dede86",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-24T12:27:25Z",
+      "side": 1,
+      "message": "Can we call this \u0027modifiedTargetPatchSet\u0027 and \u0027modifiedSourcePatchSet\u0027 to be consistent?",
+      "range": {
+        "startLine": 58,
+        "startChar": 34,
+        "endLine": 58,
+        "endChar": 54
+      },
+      "revId": "f418fecf4974f9e488768a79bdf96d25e2bbf4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a9c8869_8102f645",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-24T12:27:25Z",
+      "side": 1,
+      "message": "Naming is inconsistent (mdifiedFiles1 vs lastPatchSetFile).\n\nThis method is just comparing one list of files against another, so I\u0027d call things fooBarA and fooBarB consistently",
+      "range": {
+        "startLine": 84,
+        "startChar": 21,
+        "endLine": 84,
+        "endChar": 37
+      },
+      "revId": "f418fecf4974f9e488768a79bdf96d25e2bbf4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

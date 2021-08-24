@@ -16,13 +16,24 @@
  */
 
 import '../../test/common-test-setup-karma';
-import {html, customElement} from 'lit-element';
+import {html, customElement, property} from 'lit-element';
 import {GrLitElement} from './gr-lit-element';
+import {Observable, Subject} from 'rxjs';
+import {queryAndAssert} from '../../utils/common-util';
+import {SinonFakeTimers} from 'sinon';
 
 @customElement('test-gr-lit-element')
 export class TestGrLitElement extends GrLitElement {
+
+  @property()
+  value: string = '';
+
+  attach(obs$: Observable<string>) {
+    this.subscribe('value', obs$);
+  }
+
   render() {
-    return html`<span>test</span>`;
+    return html`<span>${this.value}</span>`;
   }
 }
 
@@ -33,8 +44,31 @@ declare global {
 }
 
 suite('gr-lit-element test', () => {
+  let clock: SinonFakeTimers;
+  let el : TestGrLitElement;
+  setup(async () => {
+    el = document.createElement('test-gr-lit-element') as TestGrLitElement;
+    document.body.appendChild(el);
+    clock = sinon.useFakeTimers();
+    await flush();
+  });
+  teardown(() => {
+    clock.restore();
+    document.body.removeChild(el);
+  });
+
   test('is defined', () => {
-    const el = document.createElement('test-gr-lit-element');
     assert.instanceOf(el, TestGrLitElement);
+  });
+
+  test('subscribe rerenders', async () => {
+    assert.instanceOf(el, TestGrLitElement);
+    const subject$ = new Subject<string>();
+    el.attach(subject$);
+    let span = queryAndAssert(el, "span");
+    assert.equal(span.textContent, '');
+    subject$.next("a string")
+    await flush();
+    assert.equal(span.textContent, 'a string');
   });
 });

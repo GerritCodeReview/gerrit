@@ -26,6 +26,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -53,6 +55,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -330,6 +333,14 @@ class ApprovalInference {
           "Unable to copy label because config is invalid. This should have been caught before.");
       return false;
     }
+  }
+
+  private static Map<String, Patch.ChangeType> getFileToChangeType(PatchList ps) {
+    return ps.getPatches().stream()
+        .collect(
+            Collectors.toMap(
+                f -> f.getNewName() != null ? f.getNewName() : f.getOldName(),
+                f -> f.getChangeType()));
   }
 
   private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(

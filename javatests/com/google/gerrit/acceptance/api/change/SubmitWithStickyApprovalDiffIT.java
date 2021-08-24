@@ -419,6 +419,44 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void diffChangeMessageOnSubmitWithStickyVote_addedMultipleFiles() throws Exception {
+    Change.Id changeId = changeOperations.newChange().project(project).create();
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("file")
+        .content("content1\nmore content\nlast content")
+        .create();
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("otherFile")
+        .content("content2\nmore content\nlast content")
+        .create();
+
+    // add a reviewer to ensure an email is sent.
+    gApi.changes().id(changeId.get()).addReviewer(user.email());
+
+    gApi.changes().id(changeId.get()).current().submit();
+
+    assertDiffChangeMessageAndEmailWithStickyApproval(
+        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        /* file1= */ "otherFile",
+        /* insertions1= */ 3,
+        /* deletions1= */ 0,
+        /* expectedFileDiff1= */ "@@ -0,0 +1,3 @@\n+content2\n+more content\n+last content",
+        /* oldFileName1= */ null,
+        /* file2= */ "file",
+        /* insertions2= */ 3,
+        /* deletions2= */ 0,
+        /* expectedFileDiff2= */ "@@ -0,0 +1,3 @@\n+content1\n+more content\n+last content",
+        /* oldFileName2= */ null);
+  }
+
+  @Test
   public void diffChangeMessageOnSubmitWithStickyVote_removedFile() throws Exception {
     Change.Id changeId =
         changeOperations
@@ -537,11 +575,51 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
       int deletions,
       String expectedFileDiff,
       String oldFileName) {
+    assertDiffChangeMessageAndEmailWithStickyApproval(
+        message,
+        file,
+        insertions,
+        deletions,
+        expectedFileDiff,
+        oldFileName,
+        /* file2= */ null,
+        /* insertions2= */ 0,
+        /* deletions2 =
+         */ 0,
+        /* expectedFileDiff2= */ null,
+        /* oldFileName2= */ null);
+  }
+
+  private void assertDiffChangeMessageAndEmailWithStickyApproval(
+      String message,
+      String file1,
+      int insertions1,
+      int deletions1,
+      String expectedFileDiff1,
+      String oldFileName1,
+      String file2,
+      int insertions2,
+      int deletions2,
+      String expectedFileDiff2,
+      String oldFileName2) {
     String expectedMessage =
         "1 is the latest approved patch-set.\n"
             + "The change was submitted with unreviewed changes in the following files:\n"
-            + "\n"
-            + "```\n"
+            + "\n";
+    expectedMessage += fileDiff(expectedFileDiff1, oldFileName1, file1, insertions1, deletions1);
+    expectedMessage += fileDiff(expectedFileDiff2, oldFileName2, file2, insertions2, deletions2);
+    String expectedChangeMessage = "Change has been successfully merged\n\n" + expectedMessage;
+    assertThat(message.trim()).isEqualTo(expectedChangeMessage.trim());
+    assertThat(Iterables.getLast(sender.getMessages()).body()).contains(expectedMessage);
+  }
+
+  private String fileDiff(
+      String expectedFileDiff, String oldFileName, String file, int insertions, int deletions) {
+    if (file == null) {
+      return "";
+    }
+    String expectedMessage =
+        "```\n"
             + String.format("The name of the file: %s\n", file)
             + String.format("Insertions: %d, Deletions: %d.\n\n", insertions, deletions);
 
@@ -550,8 +628,6 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     }
     expectedMessage += expectedFileDiff;
     expectedMessage += "\n```\n";
-    String expectedChangeMessage = "Change has been successfully merged\n\n" + expectedMessage;
-    assertThat(message.trim()).isEqualTo(expectedChangeMessage.trim());
-    assertThat(Iterables.getLast(sender.getMessages()).body()).contains(expectedMessage);
+    return expectedMessage;
   }
 }

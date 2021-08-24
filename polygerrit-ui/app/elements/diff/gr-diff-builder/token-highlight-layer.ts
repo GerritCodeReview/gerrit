@@ -32,6 +32,7 @@ const CSS_TOKEN = 'token';
 const CSS_HIGHLIGHT = 'token-highlight';
 
 const HOVER_DELAY_MS = 200;
+const UNHOVER_DELAY_MS = 50;
 
 const LINE_LENGTH_LIMIT = 500;
 
@@ -94,10 +95,6 @@ export class TokenHighlightLayer implements DiffLayer {
 
   private updateTokenTask?: DelayedTask;
 
-  constructor() {
-    window.addEventListener('click', _ => this.handleWindowClick());
-  }
-
   annotate(
     el: HTMLElement,
     _: HTMLElement,
@@ -132,7 +129,8 @@ export class TokenHighlightLayer implements DiffLayer {
       // These listeners do not have to be cleaned, because listeners are
       // garbage collected along with the element itself once it is not attached
       // to the DOM anymore and no references exist anymore.
-      el.addEventListener('mouseover', e => this.handleMouseOver(e));
+      el.addEventListener('mouseover', this.handleMouseOver);
+      el.addEventListener('mouseout', this.handleMouseOut);
     }
   }
 
@@ -153,7 +151,15 @@ export class TokenHighlightLayer implements DiffLayer {
     numbers.add(Number(lineNumber));
   }
 
-  private handleMouseOver(e: MouseEvent) {
+  private readonly handleMouseOut = (e: MouseEvent) => {
+    if (!this.currentHighlight) return;
+    if (this.interferesWithSelection(e)) return;
+    const el = this.findTokenAncestor(e?.target);
+    if (!el) return;
+    this.updateTokenHighlight(undefined, undefined);
+  };
+
+  private readonly handleMouseOver = (e: MouseEvent) => {
     if (this.interferesWithSelection(e)) return;
     const {line, token} = this.findTokenAncestor(e?.target);
     if (!token) return;
@@ -161,12 +167,8 @@ export class TokenHighlightLayer implements DiffLayer {
     const newHighlight = token;
     if (!newHighlight || newHighlight === oldHighlight) return;
     if (this.countOccurrences(newHighlight) <= 1) return;
-    this.updateTokenTask = debounce(
-      this.updateTokenTask,
-      () => this._updateTokenHighlight(line, newHighlight),
-      HOVER_DELAY_MS
-    );
-  }
+    this.updateTokenHighlight(line, newHighlight);
+  };
 
   private interferesWithSelection(e: MouseEvent) {
     if (e.buttons > 0) return true;
@@ -174,21 +176,22 @@ export class TokenHighlightLayer implements DiffLayer {
     return false;
   }
 
-  private handleWindowClick() {
-    this.updateTokenTask?.cancel();
-    this._updateTokenHighlight(undefined, undefined);
-  }
-
-  private _updateTokenHighlight(
+  private updateTokenHighlight(
     newLineNumber: number | undefined,
     newHighlight: string | undefined
   ) {
-    const oldHighlight = this.currentHighlight;
-    const oldLineNumber = this.currentHighlightLineNumber;
-    this.currentHighlight = newHighlight;
-    this.currentHighlightLineNumber = newLineNumber ?? 0;
-    this.notifyForToken(oldHighlight, oldLineNumber);
-    this.notifyForToken(newHighlight, newLineNumber ?? 0);
+    this.updateTokenTask = debounce(
+      this.updateTokenTask,
+      () => {
+        const oldHighlight = this.currentHighlight;
+        const oldLineNumber = this.currentHighlightLineNumber;
+        this.currentHighlight = newHighlight;
+        this.currentHighlightLineNumber = newLineNumber ?? 0;
+        this.notifyForToken(oldHighlight, oldLineNumber);
+        this.notifyForToken(newHighlight, newLineNumber ?? 0);
+      },
+      newHighlight === undefined ? UNHOVER_DELAY_MS : HOVER_DELAY_MS
+    );
   }
 
   findTokenAncestor(el?: EventTarget | Element | null): {

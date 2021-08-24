@@ -654,17 +654,17 @@ suite('gr-file-list tests', () => {
         });
 
         test('open from selected file', () => {
-          element._showInlineDiffs = false;
+          element._allDiffsExpanded = false;
           assert.deepEqual(interact(), {opened_selected: true});
         });
 
         test('open from diff cursor', () => {
-          element._showInlineDiffs = true;
+          element._allDiffsExpanded = true;
           assert.deepEqual(interact(), {opened_cursor: true});
         });
 
         test('expand when user prefers', () => {
-          element._showInlineDiffs = false;
+          element._allDiffsExpanded = false;
           assert.deepEqual(interact(), {opened_selected: true});
           element._userPrefs = {};
           assert.deepEqual(interact(), {opened_selected: true});
@@ -930,14 +930,14 @@ suite('gr-file-list tests', () => {
       element._filesByPath = {[path]: {}};
       element.expandAllDiffs();
       flush();
-      assert.isTrue(element._showInlineDiffs);
+      assert.isTrue(element._allDiffsExpanded);
       assert.isTrue(reInitStub.calledOnce);
       assert.equal(collapseStub.lastCall.args[0].length, 0);
 
       element.collapseAllDiffs();
       flush();
       assert.equal(element._expandedFiles.length, 0);
-      assert.isFalse(element._showInlineDiffs);
+      assert.isFalse(element._allDiffsExpanded);
       assert.isTrue(cursorUpdateStub.calledOnce);
       assert.equal(collapseStub.lastCall.args[0].length, 1);
     });
@@ -1699,7 +1699,7 @@ suite('gr-file-list tests', () => {
 
         // This is also called in diffCursor.moveToFirstChunk.
         assert.equal(nextChunkStub.callCount, 1);
-        assert.isTrue(element._showInlineDiffs);
+        assert.isTrue(element._allDiffsExpanded);
       });
 
       test('n key without all files expanded and no shift key', () => {
@@ -1712,7 +1712,7 @@ suite('gr-file-list tests', () => {
 
         // This is also called in diffCursor.moveToFirstChunk.
         assert.equal(nextChunkStub.callCount, 0);
-        assert.isTrue(element._showInlineDiffs);
+        assert.isTrue(element._allDiffsExpanded);
       });
     });
 
@@ -1736,7 +1736,7 @@ suite('gr-file-list tests', () => {
           .callsFake(() => false);
       sinon.stub(element, 'modifierPressed')
           .callsFake(() => false);
-      element._showInlineDiffs = true;
+      element._allDiffsExpanded = true;
       const mockEvent = {preventDefault() {}};
 
       element._displayLine = false;

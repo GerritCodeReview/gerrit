@@ -44,6 +44,7 @@ import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.FileInfoJsonModule;
+import com.google.gerrit.server.config.AllProjectsConfigProvider;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersName;
@@ -54,6 +55,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
+import com.google.gerrit.server.config.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.config.FileBasedGlobalPluginConfigProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceIdModule;
@@ -196,6 +198,7 @@ public class InMemoryModule extends FactoryModule {
     bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(GerritOptions.class).toInstance(new GerritOptions(false, false));
+    bind(AllProjectsConfigProvider.class).to(FileBasedAllProjectsConfigProvider.class);
     bind(GlobalPluginConfigProvider.class).to(FileBasedGlobalPluginConfigProvider.class);
 
     bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);

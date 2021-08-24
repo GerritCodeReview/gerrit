@@ -17,6 +17,8 @@ package com.google.gerrit.pgm.init.api;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.server.config.AllProjectsConfigProvider;
+import com.google.gerrit.server.config.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.securestore.testing.InMemorySecureStore;
 import java.io.File;
@@ -76,8 +78,11 @@ public class AllProjectsConfigTest {
     InitFlags flags = new InitFlags(sitePaths, secureStore, ImmutableList.of(), false);
     Section.Factory sections =
         (name, subsection) -> new Section(flags, sitePaths, secureStore, ui, name, subsection);
+    AllProjectsConfigProvider configProvider = new FileBasedAllProjectsConfigProvider(sitePaths);
+
     allProjectsConfig =
-        new AllProjectsConfig(new AllProjectsNameOnInitProvider(sections), sitePaths, flags);
+        new AllProjectsConfig(
+            new AllProjectsNameOnInitProvider(sections), configProvider, sitePaths, flags);
   }
 
   @Test

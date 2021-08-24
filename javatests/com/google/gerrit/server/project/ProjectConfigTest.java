@@ -36,6 +36,7 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -68,7 +69,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class ProjectConfigTest {
   private static final String LABEL_SCORES_CONFIG =
       "  copyAnyScore = "
@@ -113,7 +117,8 @@ public class ProjectConfigTest {
   public void setUp() throws Exception {
     sitePaths = new SitePaths(temporaryFolder.newFolder().toPath());
     Files.createDirectories(sitePaths.etc_dir);
-    factory = new ProjectConfig.Factory(sitePaths, ALL_PROJECTS);
+    factory =
+        new ProjectConfig.Factory(ALL_PROJECTS, new FileBasedAllProjectsConfigProvider(sitePaths));
     db = new InMemoryRepository(new DfsRepositoryDescription("repo"));
     tr = new TestRepository<>(db);
   }
@@ -995,8 +1000,11 @@ public class ProjectConfigTest {
     Path tmp = Files.createTempFile("gerrit_test_", "_site");
     Files.deleteIfExists(tmp);
     SitePaths sitePaths = new SitePaths(tmp);
+    FileBasedAllProjectsConfigProvider allProjectsConfigProvider =
+        new FileBasedAllProjectsConfigProvider(sitePaths);
     byte[] hashedContents =
-        ProjectCacheImpl.allProjectsFileProjectConfigHash(ALL_PROJECTS, sitePaths);
+        ProjectCacheImpl.allProjectsFileProjectConfigHash(
+            allProjectsConfigProvider.get(ALL_PROJECTS));
     assertThat(hashedContents).isEqualTo(new byte[16]); // Empty/absent config
     FileBasedConfig fileBasedConfig =
         new FileBasedConfig(
@@ -1008,7 +1016,9 @@ public class ProjectConfigTest {
             FS.DETECTED);
     fileBasedConfig.setString("plugin", "my-plugin", "key", "value");
     fileBasedConfig.save();
-    hashedContents = ProjectCacheImpl.allProjectsFileProjectConfigHash(ALL_PROJECTS, sitePaths);
+    hashedContents =
+        ProjectCacheImpl.allProjectsFileProjectConfigHash(
+            allProjectsConfigProvider.get(ALL_PROJECTS));
     assertThat(hashedContents)
         .isEqualTo(
             new byte[] {

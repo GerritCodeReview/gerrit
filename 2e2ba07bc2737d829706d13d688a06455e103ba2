@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca73a97d_f5f7fe21",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-24T08:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c991c1f2_002f59af",
+      "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43582e3d_30cd16f2",
@@ -114,6 +132,24 @@
       "side": 1,
       "message": "What I don\u0027t understand is why `filesExpanded` is reset, while `_expandedFiles` is not. I would have expected them to be in sync. I can follow your reasoning of why you don\u0027t want to reste `_expandedFiles` here, but then why is `filesExpanded` reset to `FilesExpandedState.NONE`?",
       "parentUuid": "b16363a8_225ab5b9",
+      "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25350b4b_edb8300a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-24T08:44:28Z",
+      "side": 1,
+      "message": "Yeah, that was an incorrect assignment.\nThe assignment should happen once we know how many files are expanded after the patchset changes and that can only happen once we have computed the new list of files and so the logic should be moved to `computeFiles` and the funnction `resetAllDiffs` can be removed.",
+      "parentUuid": "a48ac8f8_4e26ec80",
       "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

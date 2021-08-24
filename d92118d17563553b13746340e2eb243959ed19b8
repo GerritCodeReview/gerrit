@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a43a322e_d83f5cdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-24T11:52:52Z",
+      "side": 1,
+      "message": "I think we can have in future gr-vote-button and gr-vote without need of voting-styles. But this is good enough for now. ",
+      "revId": "d92118d17563553b13746340e2eb243959ed19b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afa292cb_af96acdd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-24T11:52:52Z",
+      "side": 1,
+      "message": "There is already vote$\u003d on gr-button in polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_html.ts\n\nI was playing with rules in polygerrit-ui/app/styles/gr-voting-styles.ts with something like\n\n:host[vote] paper-button, but it didn\u0027t work",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 19
+      },
+      "revId": "d92118d17563553b13746340e2eb243959ed19b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

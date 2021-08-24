@@ -17,9 +17,6 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
-  <style include="gr-voting-styles">
-    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
-  </style>
   <style include="shared-styles">
     .labelNameCell,
     .buttonsCell,
@@ -48,57 +45,34 @@ export const htmlTemplate = html`
     gr-button {
       min-width: 42px;
       box-sizing: border-box;
-      --gr-button: {
-        background-color: var(
-          --button-background-color,
-          var(--table-header-background-color)
-        );
-        padding: 0 var(--spacing-m);
-        @apply --vote-chip-styles;
-      }
+    }
+    gr-button::part(paper-button) {
+      background-color: var(
+        --button-background-color,
+        var(--table-header-background-color)
+      );
+      padding: 0 var(--spacing-m);
     }
     gr-button.iron-selected[vote='max'] {
       --button-background-color: var(--vote-color-approved);
     }
     gr-button.iron-selected[vote='positive'] {
       --button-background-color: var(--vote-color-recommended);
-      --gr-button: {
-        padding: 0 var(--spacing-m);
-        border-style: solid;
-        border-color: var(--vote-outline-recommended);
-        border-top-left-radius: 1em;
-        border-top-right-radius: 1em;
-        border-bottom-right-radius: 1em;
-        border-bottom-left-radius: 1em;
-        border-top-width: 1px;
-        border-right-width: 1px;
-        border-bottom-width: 1px;
-        border-left-width: 1px;
-        color: var(--chip-color);
-      }
     }
     gr-button.iron-selected[vote='min'] {
       --button-background-color: var(--vote-color-rejected);
     }
     gr-button.iron-selected[vote='negative'] {
       --button-background-color: var(--vote-color-disliked);
-      --gr-button: {
-        padding: 0 var(--spacing-m);
-        border-style: solid;
-        border-color: var(--vote-outline-disliked);
-        border-top-left-radius: 1em;
-        border-top-right-radius: 1em;
-        border-bottom-right-radius: 1em;
-        border-bottom-left-radius: 1em;
-        border-top-width: 1px;
-        border-right-width: 1px;
-        border-bottom-width: 1px;
-        border-left-width: 1px;
-        color: var(--chip-color);
-      }
     }
     gr-button.iron-selected[vote='neutral'] {
       --button-background-color: var(--vote-color-neutral);
+    }
+    gr-button.iron-selected[vote='positive']::part(paper-button) {
+      border-color: var(--vote-outline-recommended);
+    }
+    gr-button.iron-selected[vote='negative']::part(paper-button) {
+      border-color: var(--vote-outline-disliked);
     }
     .placeholder {
       display: inline-block;
@@ -145,6 +119,7 @@ export const htmlTemplate = html`
         <gr-button
           role="radio"
           vote$="[[_computeVoteAttribute(value, index, _items.length)]]"
+          vote-chip
           has-tooltip=""
           data-name$="[[label.name]]"
           data-value$="[[value]]"

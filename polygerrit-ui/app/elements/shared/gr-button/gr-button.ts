@@ -16,6 +16,7 @@
  */
 import '@polymer/paper-button/paper-button';
 import '../../../styles/shared-styles';
+import '../../../styles/gr-voting-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {htmlTemplate} from './gr-button_html';
@@ -41,6 +42,13 @@ export class GrButton extends TooltipMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }
+
+  /**
+   * Should this button be rendered as a vote chip? Then we are applying
+   * the .voteChip class (see gr-voting-styles) to the paper-button.
+   */
+  @property({type: Boolean, reflectToAttribute: true})
+  voteChip = false;
 
   @property({type: Boolean, reflectToAttribute: true})
   downArrow = false;
@@ -79,6 +87,10 @@ export class GrButton extends TooltipMixin(PolymerElement) {
 
   computeAriaDisabled() {
     return this._disabled;
+  }
+
+  computePaperButtonClass(voteChip?: boolean) {
+    return voteChip ? 'voteChip' : '';
   }
 
   private readonly reporting: ReportingService = appContext.reportingService;

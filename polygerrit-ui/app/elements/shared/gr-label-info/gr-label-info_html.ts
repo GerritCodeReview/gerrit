@@ -27,13 +27,13 @@ export const htmlTemplate = html`
     .hidden {
       display: none;
     }
+    /* Note that most of the .voteChip styles are coming from the
+       gr-voting-styles include. */
     .voteChip {
       display: flex;
       justify-content: center;
       margin-right: var(--spacing-s);
       padding: 1px;
-      @apply --vote-chip-styles;
-      border: 1px solid var(--border-color);
     }
     .max {
       background-color: var(--vote-color-approved);

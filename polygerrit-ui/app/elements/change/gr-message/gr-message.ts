@@ -22,7 +22,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../../styles/shared-styles';
-import '../../../styles/gr-voting-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-message_html';
 import {MessageTag, SpecialFilePath} from '../../../constants/constants';

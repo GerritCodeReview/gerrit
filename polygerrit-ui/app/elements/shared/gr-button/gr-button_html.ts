@@ -17,6 +17,9 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
+  <style include="gr-voting-styles">
+    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+  </style>
   <style include="gr-spinner-styles">
     /* general styles for all buttons */
     :host {
@@ -174,6 +177,7 @@ export const htmlTemplate = html`
     disabled="[[_disabled]]"
     tabindex="-1"
     part="paper-button"
+    class$="[[computePaperButtonClass(voteChip)]]"
   >
     <template is="dom-if" if="[[loading]]">
       <span class="loadingSpin"></span>

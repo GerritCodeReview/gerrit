@@ -47,6 +47,7 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -90,6 +91,32 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
       }
     };
   }
+
+  static class ByChangeTypeCmp implements Comparator<GitFileDiff> {
+    static final List<Patch.ChangeType> order =
+        ImmutableList.of(
+            Patch.ChangeType.ADDED,
+            Patch.ChangeType.RENAMED,
+            Patch.ChangeType.MODIFIED,
+            Patch.ChangeType.COPIED,
+            Patch.ChangeType.REWRITE,
+            Patch.ChangeType.DELETED);
+
+    @Override
+    public int compare(GitFileDiff o1, GitFileDiff o2) {
+      int idx1 = priority(o1.changeType());
+      int idx2 = priority(o2.changeType());
+      return idx1 - idx2;
+    }
+
+    private int priority(Patch.ChangeType changeType) {
+      int idx = order.indexOf(changeType);
+      // Return least priority if the element is not in the order list.
+      return idx == -1 ? order.size() : idx;
+    }
+  }
+
+  private static final Comparator<GitFileDiff> CHANGE_TYPE_CMP = new ByChangeTypeCmp();
 
   /** Enum for the supported diff algorithms for the file diff computation. */
   public enum DiffAlgorithm {
@@ -361,8 +388,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
 
   /**
    * Create a single {@link GitFileDiff} with {@link Patch.ChangeType} equals {@link
-   * Patch.ChangeType#REWRITE}, assuming the input list contains two entries with types {@link
-   * Patch.ChangeType#ADDED} and {@link Patch.ChangeType#DELETED}.
+   * Patch.ChangeType#REWRITE}, assuming the input list contains two entries.
    *
    * @param gitDiffs input list of exactly two {@link GitFileDiff} for same file path.
    * @return a single {@link GitFileDiff} with change type equals {@link Patch.ChangeType#REWRITE}.
@@ -377,19 +403,10 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
               "JGit error: found %d dff entries for same file path %s",
               gitDiffs.size(), gitDiffs.get(0).getDefaultPath()));
     }
-    if (!ImmutableSet.of(gitDiffs.get(0).changeType(), gitDiffs.get(1).changeType())
-        .equals(ADDED_AND_DELETED)) {
-      // This is an illegal state. JGit is not supposed to return this, so we throw an exception.
-      throw new DiffNotAvailableException(
-          String.format(
-              "JGit error: unexpected change types %s and %s for same file path %s",
-              gitDiffs.get(0).changeType(),
-              gitDiffs.get(1).changeType(),
-              gitDiffs.get(0).getDefaultPath()));
-    }
-    GitFileDiff addedEntry =
-        gitDiffs.get(0).changeType() == Patch.ChangeType.ADDED ? gitDiffs.get(0) : gitDiffs.get(1);
-    return addedEntry.toBuilder().changeType(Patch.ChangeType.REWRITE).build();
+    // Convert the first entry (w.r.t. to the priority defined by ByChangeTypeCmp#order) to a
+    // REWRITE entry.
+    gitDiffs.sort(CHANGE_TYPE_CMP);
+    return gitDiffs.get(0).toBuilder().changeType(Patch.ChangeType.REWRITE).build();
   }
 
   /** An entity representing the options affecting the diff computation. */

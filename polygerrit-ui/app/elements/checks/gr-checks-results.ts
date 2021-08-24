@@ -17,9 +17,8 @@
 import {classMap} from 'lit/directives/class-map';
 import {repeat} from 'lit/directives/repeat';
 import {ifDefined} from 'lit/directives/if-defined';
-import {css, html, PropertyValues, TemplateResult} from 'lit';
+import {css, html, LitElement, PropertyValues, TemplateResult} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
-import {GrLitElement} from '../lit/gr-lit-element';
 import './gr-checks-action';
 import '@polymer/paper-tooltip/paper-tooltip';
 import {
@@ -73,9 +72,11 @@ import {
   valueString,
 } from '../../utils/label-util';
 import {GerritNav} from '../core/gr-navigation/gr-navigation';
+import {subscribable, subscribe} from '../lit/subscribable';
 
 @customElement('gr-result-row')
-class GrResultRow extends GrLitElement {
+@subscribable
+class GrResultRow extends LitElement {
   @query('td.nameCol div.name')
   nameEl?: HTMLElement;
 
@@ -91,12 +92,12 @@ class GrResultRow extends GrLitElement {
   @property()
   shouldRender = false;
 
+  @subscribe(labels$)
   @property()
   labels?: LabelNameToInfoMap;
 
   constructor() {
     super();
-    this.subscribe('labels', labels$);
   }
 
   static override get styles() {
@@ -530,10 +531,12 @@ class GrResultRow extends GrLitElement {
 }
 
 @customElement('gr-result-expanded')
-class GrResultExpanded extends GrLitElement {
+@subscribable
+class GrResultExpanded extends LitElement {
   @property()
   result?: RunResult;
 
+  @subscribe(repoConfig$)
   @property()
   repoConfig?: ConfigInfo;
 
@@ -558,11 +561,6 @@ class GrResultExpanded extends GrLitElement {
         }
       `,
     ];
-  }
-
-  constructor() {
-    super();
-    this.subscribe('repoConfig', repoConfig$);
   }
 
   override render() {
@@ -670,7 +668,7 @@ CATEGORY_TOOLTIPS.set(
 );
 
 @customElement('gr-checks-results')
-export class GrChecksResults extends GrLitElement {
+export class GrChecksResults extends LitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
@@ -688,21 +686,26 @@ export class GrChecksResults extends GrLitElement {
   @property()
   selectedRuns: string[] = [];
 
+  @subscribe(topLevelActionsSelected$)
   @property()
   actions: Action[] = [];
 
+  @subscribe(topLevelLinksSelected$)
   @property()
   links: Link[] = [];
 
   @property()
   tabState?: ChecksTabState;
 
+  @subscribe(someProvidersAreLoadingSelected$)
   @property()
   someProvidersAreLoading = false;
 
+  @subscribe(checksSelectedPatchsetNumber$)
   @property()
   checksPatchsetNumber: PatchSetNumber | undefined = undefined;
 
+  @subscribe(latestPatchNum$)
   @property()
   latestPatchsetNumber: PatchSetNumber | undefined = undefined;
 
@@ -732,15 +735,6 @@ export class GrChecksResults extends GrLitElement {
   private isSectionExpandedByUser = new Map<Category, boolean>();
 
   private readonly checksService = appContext.checksService;
-
-  constructor() {
-    super();
-    this.subscribe('actions', topLevelActionsSelected$);
-    this.subscribe('links', topLevelLinksSelected$);
-    this.subscribe('checksPatchsetNumber', checksSelectedPatchsetNumber$);
-    this.subscribe('latestPatchsetNumber', latestPatchNum$);
-    this.subscribe('someProvidersAreLoading', someProvidersAreLoadingSelected$);
-  }
 
   static override get styles() {
     return [

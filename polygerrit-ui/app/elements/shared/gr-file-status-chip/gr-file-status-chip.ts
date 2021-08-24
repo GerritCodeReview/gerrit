@@ -18,8 +18,7 @@ import {SpecialFilePath} from '../../../constants/constants';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 const FileStatus = {
@@ -33,7 +32,7 @@ const FileStatus = {
 };
 
 @customElement('gr-file-status-chip')
-export class GrFileStatusChip extends GrLitElement {
+export class GrFileStatusChip extends LitElement {
   @property({type: Object})
   file?: NormalizedFileInfo;
 

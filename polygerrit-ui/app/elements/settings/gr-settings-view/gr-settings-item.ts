@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 declare global {
@@ -26,7 +25,7 @@ declare global {
 }
 
 @customElement('gr-settings-item')
-export class GrSettingsItem extends GrLitElement {
+export class GrSettingsItem extends LitElement {
   @property({type: String})
   anchor?: string;
 

@@ -18,12 +18,11 @@
 import '../gr-account-label/gr-account-label';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {GrLitElement} from '../../lit/gr-lit-element';
 
 @customElement('gr-account-link')
-export class GrAccountLink extends GrLitElement {
+export class GrAccountLink extends LitElement {
   @property({type: String})
   voteableText?: string;
 

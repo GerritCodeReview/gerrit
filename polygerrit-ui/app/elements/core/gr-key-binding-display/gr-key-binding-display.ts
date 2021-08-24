@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 declare global {
@@ -25,7 +24,7 @@ declare global {
 }
 
 @customElement('gr-key-binding-display')
-export class GrKeyBindingDisplay extends GrLitElement {
+export class GrKeyBindingDisplay extends LitElement {
   static override get styles() {
     return [
       css`

@@ -23,8 +23,7 @@ import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ConfigParameterInfoType} from '../../../constants/constants';
 import {
@@ -58,7 +57,7 @@ export interface PluginConfigChangeDetail {
 }
 
 @customElement('gr-repo-plugin-config')
-export class GrRepoPluginConfig extends GrLitElement {
+export class GrRepoPluginConfig extends LitElement {
   /**
    * Fired when the plugin config changes.
    *

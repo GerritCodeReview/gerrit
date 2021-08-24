@@ -19,8 +19,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import {fireEvent} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators';
 
 declare global {
@@ -30,7 +29,7 @@ declare global {
 }
 
 @customElement('gr-create-change-help')
-export class GrCreateChangeHelp extends GrLitElement {
+export class GrCreateChangeHelp extends LitElement {
   static override get styles() {
     return [
       sharedStyles,

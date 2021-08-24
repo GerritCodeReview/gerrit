@@ -25,12 +25,11 @@ import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {pluralize} from '../../../utils/string-util';
 import {CommentThread, isUnresolved} from '../../../utils/comment-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query} from 'lit/decorators';
 
 @customElement('gr-confirm-submit-dialog')
-export class GrConfirmSubmitDialog extends GrLitElement {
+export class GrConfirmSubmitDialog extends LitElement {
   @query('#dialog')
   dialog?: GrDialog;
 

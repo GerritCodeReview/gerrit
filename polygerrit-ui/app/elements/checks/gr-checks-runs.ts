@@ -16,9 +16,8 @@
  */
 import {classMap} from 'lit/directives/class-map';
 import './gr-hovercard-run';
-import {css, html, nothing, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
-import {GrLitElement} from '../lit/gr-lit-element';
 import './gr-checks-attempt';
 import {Action, Link, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
@@ -59,9 +58,10 @@ import {ChecksTabState} from '../../types/events';
 import {charsOnly} from '../../utils/string-util';
 import {appContext} from '../../services/app-context';
 import {KnownExperimentId} from '../../services/flags/flags';
+import {subscribable, subscribe} from '../lit/subscribable';
 
 @customElement('gr-checks-run')
-export class GrChecksRun extends GrLitElement {
+export class GrChecksRun extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
@@ -356,13 +356,15 @@ export class GrChecksRun extends GrLitElement {
 }
 
 @customElement('gr-checks-runs')
-export class GrChecksRuns extends GrLitElement {
+@subscribable
+export class GrChecksRuns extends LitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
   @state()
   filterRegExp = new RegExp('');
 
+  @subscribe(allRunsSelectedPatchset$)
   @property()
   runs: CheckRun[] = [];
 
@@ -383,9 +385,11 @@ export class GrChecksRuns extends GrLitElement {
   tabState?: ChecksTabState;
 
   @property()
+  @subscribe(errorMessagesLatest$)
   errorMessages: ErrorMessages = {};
 
   @property()
+  @subscribe(loginCallbackLatest$)
   loginCallback?: () => void;
 
   private isSectionExpanded = new Map<RunStatus, boolean>();
@@ -394,9 +398,6 @@ export class GrChecksRuns extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRunsSelectedPatchset$);
-    this.subscribe('errorMessages', errorMessagesLatest$);
-    this.subscribe('loginCallback', loginCallbackLatest$);
   }
 
   static override get styles() {

@@ -34,16 +34,6 @@ export const htmlTemplate = html`
     .webLink {
       display: block;
     }
-    /* CSS Mixins should be applied last. */
-    section.assignee {
-      @apply --change-metadata-assignee;
-    }
-    section.strategy {
-      @apply --change-metadata-strategy;
-    }
-    section.topic {
-      @apply --change-metadata-topic;
-    }
     gr-account-chip[disabled],
     gr-linked-chip[disabled] {
       opacity: 0;
@@ -454,7 +444,6 @@ export const htmlTemplate = html`
     <section
       class$="strategy [[_computeDisplayState(_showAllSections, change, _SECTION.STRATEGY)]]"
       hidden$="[[_computeHideStrategy(change)]]"
-      hidden=""
     >
       <span class="title">Strategy</span>
       <span class="value">[[_computeStrategy(change)]]</span>

@@ -327,8 +327,8 @@ public class ProjectConfigTest {
     assertThat(cfg.getValidationErrors()).hasSize(1);
     assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
         .isEqualTo(
-            "project.config: Submit requirement \"code-review\" does not define a submittability expression."
-                + " Skipping this requirement.");
+            "project.config: Submit requirement \"code-review\" does not define a submittability"
+                + " expression. Skipping this requirement.");
   }
 
   @Test
@@ -866,7 +866,9 @@ public class ProjectConfigTest {
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(
-            "[commentlink \"bugzilla\"]\n\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
+            "[commentlink \"bugzilla\"]\n"
+                + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
+                + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
   }
 
   @Test
@@ -891,7 +893,9 @@ public class ProjectConfigTest {
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(
-            "[commentlink \"bugzilla\"]\n\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
+            "[commentlink \"bugzilla\"]\n"
+                + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
+                + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
   }
 
   @Test
@@ -913,7 +917,9 @@ public class ProjectConfigTest {
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(
-            "[commentlink \"bugzilla\"]\n\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
+            "[commentlink \"bugzilla\"]\n"
+                + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
+                + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
   }
 
   @Test
@@ -978,7 +984,9 @@ public class ProjectConfigTest {
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(
-            "[commentlink \"bugzilla\"]\n\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
+            "[commentlink \"bugzilla\"]\n"
+                + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
+                + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
   }
 
   @Test

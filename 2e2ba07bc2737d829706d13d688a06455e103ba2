@@ -214,6 +214,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f233e798_ede787f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-24T12:40:42Z",
+      "side": 1,
+      "message": "_showInlineDiffs was confusing for me as well so I created https://gerrit-review.googlesource.com/c/gerrit/+/316060.",
+      "parentUuid": "51cea4db_752a5b8e",
+      "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3e184cf_e5f097f7",

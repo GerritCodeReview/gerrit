@@ -35,6 +35,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.change.ChangeKindCreator;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -394,14 +395,31 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded()
-      throws Exception {
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded_withoutCopyCondition()
+          throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
           .updateLabelType(
               LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
       u.save();
     }
+    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
+  }
+
+  @Test
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded_withCopyCondition()
+      throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
+      u.save();
+    }
+    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
+  }
+
+  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded()
+      throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);
@@ -421,14 +439,90 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted()
-      throws Exception {
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists_withoutCopyCondition()
+          throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
           .updateLabelType(
               LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
       u.save();
     }
+    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists_withCopyCondition()
+          throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
+      u.save();
+    }
+
+    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
+  }
+
+  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists()
+      throws Exception {
+    // create "existing file" and submit it.
+    String existingFile = "existing file";
+    Change.Id prep =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file(existingFile)
+            .content("content")
+            .create();
+    vote(admin, prep.toString(), 2, 1);
+    gApi.changes().id(prep.get()).current().submit();
+
+    Change.Id changeId = changeOperations.newChange().project(project).create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file(existingFile)
+        .content("new content")
+        .create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // no votes are copied since the list of files changed ("existing file" was added to the
+    // change).
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted_withoutCopyCondition()
+          throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted_withCopyCondition()
+          throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
+      u.save();
+    }
+    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
+  }
+
+  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted()
+      throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);
@@ -443,14 +537,72 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified()
-      throws Exception {
+  public void
+      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified_withoutCopyCondition()
+          throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
           .updateLabelType(
               LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
       u.save();
     }
+    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
+  }
+
+  @Test
+  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified_withCopyCondition()
+      throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
+      u.save();
+    }
+    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
+  }
+
+  private void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified()
+      throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
+    // configured for that label, and list of files didn't change.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+  }
+
+  @TestProjectInput(createEmptyCommit = false)
+  public void
+      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withoutCopyCondition()
+          throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
+  }
+
+  @TestProjectInput(createEmptyCommit = false)
+  public void
+      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withCopyCondition()
+          throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
+      u.save();
+    }
+    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
+  }
+
+  private void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit()
+      throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);
@@ -466,14 +618,79 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed()
-      throws Exception {
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset_withoutCopyCondition()
+          throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
           .updateLabelType(
               LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
       u.save();
     }
+    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset_withCopyCondition()
+          throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
+      u.save();
+    }
+    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
+  }
+
+  private void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset()
+          throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("new file").content("content").create();
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("new file")
+        .content("new content")
+        .create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // Don't copy over votes since ps1->ps2 should copy over, but ps2->ps3 should not.
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed_withoutCopyCondition()
+          throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed_withCopyCondition()
+          throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
+      u.save();
+    }
+    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
+  }
+
+  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed()
+      throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);

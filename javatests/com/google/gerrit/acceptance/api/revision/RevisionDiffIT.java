@@ -2837,7 +2837,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void symlinkConvertedToRegularFileIsIdentifiedAsRewritten() throws Exception {
+  public void addDeleteByJgit_IsIdentifiedAsRewritten() throws Exception {
     String target = "file.txt";
     String symlink = "link.lnk";
 
@@ -2846,58 +2846,74 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         pushFactory
             .create(admin.newIdent(), testRepo, "Commit Subject", target, "content")
             .addSymlink(symlink, target);
-
     PushOneCommit.Result result = push.to("refs/for/master");
     String initialRev = gApi.changes().id(result.getChangeId()).get().currentRevision;
+    String cId = result.getChangeId();
 
-    // Delete the symlink with patchset 2
-    gApi.changes().id(result.getChangeId()).edit().deleteFile(symlink);
-    gApi.changes().id(result.getChangeId()).edit().publish();
+    // Delete the symlink with PS2
+    gApi.changes().id(cId).edit().deleteFile(symlink);
+    gApi.changes().id(cId).edit().publish();
 
-    // Re-add the symlink as a regular file with patchset 3
-    gApi.changes()
-        .id(result.getChangeId())
-        .edit()
-        .modifyFile(symlink, RawInputUtil.create("Content of the new file named 'symlink'"));
-    gApi.changes().id(result.getChangeId()).edit().publish();
+    // Re-add the symlink as a regular file with PS3
+    gApi.changes().id(cId).edit().modifyFile(symlink, RawInputUtil.create("new content"));
+    gApi.changes().id(cId).edit().publish();
 
-    Map<String, FileInfo> changedFiles =
-        gApi.changes().id(result.getChangeId()).current().files(initialRev);
-
+    // Changed files: JGit returns two {DELETED/ADDED} entries for the file.
+    // The diff logic combines both into a single REWRITTEN entry.
+    Map<String, FileInfo> changedFiles = gApi.changes().id(cId).current().files(initialRev);
     assertThat(changedFiles.keySet()).containsExactly("/COMMIT_MSG", symlink);
-
-    // Both old and new diff caches agree that the state is rewritten
     assertThat(changedFiles.get(symlink).status).isEqualTo('W'); // Rewritten
 
-    DiffInfo diffInfo =
-        gApi.changes().id(result.getChangeId()).current().file(symlink).diff(initialRev);
+    // Detailed diff: Old diff cache returns ADDED entry. New Diff Cache returns REWRITE.
+    DiffInfo diffInfo = gApi.changes().id(cId).current().file(symlink).diff(initialRev);
+    assertThat(diffInfo.content).hasSize(1);
+    assertThat(diffInfo).content().element(0).linesOfB().containsExactly("new content");
+    // TODO(ghareeb): remove conditional assertion when new diff cache is fully rolled out.
+    assertThat(diffInfo.changeType)
+        .isEqualTo(useNewDiffCacheGetDiff ? ChangeType.REWRITE : ChangeType.ADDED);
+  }
 
-    // TODO(ghareeb): Remove the else branch when the new diff cache is rolled out as default.
-    if (useNewDiffCacheGetDiff) {
-      // File diff in New diff cache: change type is correctly identified as REWRITTEN
-      assertThat(diffInfo.changeType).isEqualTo(ChangeType.REWRITE);
-      assertThat(diffInfo.content).hasSize(2);
-      assertThat(diffInfo)
-          .content()
-          .element(0)
-          .linesOfB()
-          .containsExactly("Content of the new file named 'symlink'");
-      assertThat(diffInfo).content().element(1).linesOfA().containsExactly("file.txt");
-    } else {
-      // File diff in old diff cache: The diff logic identifies two entries for the file:
-      // 1. One entry as 'DELETED' for the symlink.
-      // 2. Another entry as 'ADDED' for the new regular file.
-      // Since the diff logic returns a single entry, the implementation prioritizes  the 'ADDED'
-      // entry in this case so that the user is able to see the new content that was added to the
-      // file.
-      assertThat(diffInfo.changeType).isEqualTo(ChangeType.ADDED);
-      assertThat(diffInfo.content).hasSize(1);
-      assertThat(diffInfo)
-          .content()
-          .element(0)
-          .linesOfB()
-          .containsExactly("Content of the new file named 'symlink'");
-    }
+  @Test
+  public void renameDeleteByJgit_IsIdentifiedAsRewritten6() throws Exception {
+    String target = "file.txt";
+    String symlink = "link.lnk";
+    PushOneCommit push =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Commit Subject", target, "content")
+            .addSymlink(symlink, target);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    String cId = result.getChangeId();
+    String initialRev = gApi.changes().id(cId).get().currentRevision;
+
+    // Delete both symlink and target with PS2
+    gApi.changes().id(cId).edit().deleteFile(symlink);
+    gApi.changes().id(cId).edit().deleteFile(target);
+    gApi.changes().id(cId).edit().publish();
+
+    // Re-create the symlink as a regular file with PS3
+    gApi.changes().id(cId).edit().modifyFile(symlink, RawInputUtil.create("content"));
+    gApi.changes().id(cId).edit().publish();
+
+    // Changed files: JGit returns two {DELETED/RENAMED} entries for the file.
+    // The diff logic combines both into a single REWRITTEN entry.
+    Map<String, FileInfo> changedFiles = gApi.changes().id(cId).current().files(initialRev);
+    assertThat(changedFiles.keySet()).containsExactly("/COMMIT_MSG", symlink);
+    assertThat(changedFiles.get(symlink).status).isEqualTo('W'); // Rewritten
+
+    // Detailed diff: Old diff cache returns RENAMED entry. New Diff Cache returns REWRITE.
+    DiffInfo diffInfo = gApi.changes().id(cId).current().file(symlink).diff(initialRev);
+    assertThat(diffInfo)
+        .diffHeader()
+        .containsExactly(
+            "diff --git a/file.txt b/link.lnk",
+            "similarity index 100%",
+            "rename from file.txt",
+            "rename to link.lnk");
+    assertThat(diffInfo.content).hasSize(1);
+    assertThat(diffInfo).content().element(0).commonLines().containsExactly("content");
+    // TODO(ghareeb): remove conditional assertion when new diff cache is fully rolled out.
+    assertThat(diffInfo.changeType)
+        .isEqualTo(useNewDiffCacheGetDiff ? ChangeType.REWRITE : ChangeType.RENAMED);
   }
 
   @Test

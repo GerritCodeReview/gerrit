@@ -83,20 +83,20 @@ public final class Patch {
     /** Path is being created/introduced by this patch. */
     ADDED('A'),
 
-    /** Path already exists, and has updated content. */
-    MODIFIED('M'),
-
-    /** Path existed, but is being removed by this patch. */
-    DELETED('D'),
-
     /** Path existed at the source but was moved. */
     RENAMED('R'),
+
+    /** Path already exists, and has updated content. */
+    MODIFIED('M'),
 
     /** Path was copied from the source. */
     COPIED('C'),
 
     /** Sufficient amount of content changed to claim the file was rewritten. */
-    REWRITE('W');
+    REWRITE('W'),
+
+    /** Path existed, but is being removed by this patch. */
+    DELETED('D');
 
     private final char code;
 

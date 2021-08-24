@@ -235,10 +235,10 @@ class PatchScriptBuilder {
         return null;
       case DELETED:
       case MODIFIED:
-      case REWRITE:
         return entry.getNewName();
       case COPIED:
       case RENAMED:
+      case REWRITE:
       default:
         return entry.getOldName();
     }

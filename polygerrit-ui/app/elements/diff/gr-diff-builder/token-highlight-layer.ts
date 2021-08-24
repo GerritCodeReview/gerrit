@@ -92,14 +92,10 @@ export class TokenHighlightLayer implements DiffLayer {
 
   private tokenToLinesRight = new Map<string, Set<number>>();
 
-  private hoveredElement?: Element;
-
   private updateTokenTask?: DelayedTask;
 
   constructor() {
-    window.addEventListener('click', _ => {
-      this.handleWindowClick();
-    });
+    window.addEventListener('click', _ => this.handleWindowClick());
   }
 
   annotate(
@@ -136,12 +132,7 @@ export class TokenHighlightLayer implements DiffLayer {
       // These listeners do not have to be cleaned, because listeners are
       // garbage collected along with the element itself once it is not attached
       // to the DOM anymore and no references exist anymore.
-      el.addEventListener('mouseover', e => {
-        this.handleMouseOver(e);
-      });
-      el.addEventListener('mouseout', e => {
-        this.handleMouseOut(e);
-      });
+      el.addEventListener('mouseover', e => this.handleMouseOver(e));
     }
   }
 
@@ -162,35 +153,17 @@ export class TokenHighlightLayer implements DiffLayer {
     numbers.add(Number(lineNumber));
   }
 
-  private handleMouseOut(e: MouseEvent) {
-    // If there's no ongoing hover-task, terminate early.
-    if (!this.updateTokenTask?.isActive()) return;
-    if (this.interferesWithSelection(e)) return;
-    const {element} = this.findTokenAncestor(e?.target);
-    if (!element) return;
-    if (element === this.hoveredElement) {
-      // If we are moving out of the currently hovered element, cancel the
-      // update task.
-      this.hoveredElement = undefined;
-      this.updateTokenTask?.cancel();
-    }
-  }
-
   private handleMouseOver(e: MouseEvent) {
     if (this.interferesWithSelection(e)) return;
-    const {
-      line,
-      token: newHighlight,
-      element,
-    } = this.findTokenAncestor(e?.target);
-    if (!newHighlight || newHighlight === this.currentHighlight) return;
+    const {line, token} = this.findTokenAncestor(e?.target);
+    if (!token) return;
+    const oldHighlight = this.currentHighlight;
+    const newHighlight = token;
+    if (!newHighlight || newHighlight === oldHighlight) return;
     if (this.countOccurrences(newHighlight) <= 1) return;
-    this.hoveredElement = element;
     this.updateTokenTask = debounce(
       this.updateTokenTask,
-      () => {
-        this.updateTokenHighlight(newHighlight, line);
-      },
+      () => this._updateTokenHighlight(line, newHighlight),
       HOVER_DELAY_MS
     );
   }
@@ -202,44 +175,37 @@ export class TokenHighlightLayer implements DiffLayer {
   }
 
   private handleWindowClick() {
-    this.hoveredElement = undefined;
     this.updateTokenTask?.cancel();
-    this.updateTokenHighlight(undefined, 0);
+    this._updateTokenHighlight(undefined, undefined);
   }
 
-  private updateTokenHighlight(
-    newHighlight: string | undefined,
-    newLineNumber: number
+  private _updateTokenHighlight(
+    newLineNumber: number | undefined,
+    newHighlight: string | undefined
   ) {
     const oldHighlight = this.currentHighlight;
     const oldLineNumber = this.currentHighlightLineNumber;
     this.currentHighlight = newHighlight;
-    this.currentHighlightLineNumber = newLineNumber;
+    this.currentHighlightLineNumber = newLineNumber ?? 0;
     this.notifyForToken(oldHighlight, oldLineNumber);
-    this.notifyForToken(newHighlight, newLineNumber);
-    // Reset the hovered element.
-    this.hoveredElement = undefined;
+    this.notifyForToken(newHighlight, newLineNumber ?? 0);
   }
 
   findTokenAncestor(el?: EventTarget | Element | null): {
     token?: string;
     line: number;
-    element?: Element;
   } {
-    if (!(el instanceof Element))
-      return {line: 0, token: undefined, element: undefined};
+    if (!(el instanceof Element)) return {line: 0, token: undefined};
     if (
       el.classList.contains(CSS_TOKEN) ||
       el.classList.contains(CSS_HIGHLIGHT)
     ) {
       const tkClass = [...el.classList].find(c => c.startsWith('tk-'));
       const line = lineNumberToNumber(getLineNumberByChild(el));
-      if (!line || !tkClass)
-        return {line: 0, token: undefined, element: undefined};
-      return {line, token: tkClass.substring(3), element: el};
+      if (!line || !tkClass) return {line: 0, token: undefined};
+      return {line, token: tkClass.substring(3)};
     }
-    if (el.tagName === 'TD')
-      return {line: 0, token: undefined, element: undefined};
+    if (el.tagName === 'TD') return {line: 0, token: undefined};
     return this.findTokenAncestor(el.parentElement);
   }
 

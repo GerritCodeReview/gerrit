@@ -16,6 +16,8 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.server.project.AllProjectsConfigProvider;
+import com.google.gerrit.server.project.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
@@ -66,6 +68,7 @@ public class GerritServerConfigModule extends AbstractModule {
     bind(Config.class)
         .annotatedWith(GerritServerConfig.class)
         .toProvider(GerritServerConfigProvider.class);
+    bind(AllProjectsConfigProvider.class).to(FileBasedAllProjectsConfigProvider.class);
     bind(GlobalPluginConfigProvider.class).to(FileBasedGlobalPluginConfigProvider.class);
     bind(SecureStore.class).toProvider(SecureStoreProvider.class).in(SINGLETON);
     bind(Boolean.class)

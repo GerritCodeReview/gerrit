@@ -179,6 +179,8 @@ public class CommitRewriter {
       Pattern.compile("Added by (.*) using the hovercard menu");
   private static final Pattern REMOVED_BY_REASON_PATTERN =
       Pattern.compile("Removed by (.*) using the hovercard menu");
+  private static final Pattern REMOVED_BY_ICON_CLICK_REASON_PATTERN =
+      Pattern.compile("Removed by (.*) by clicking the attention icon");
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -693,6 +695,14 @@ public class CommitRewriter {
         && !OK_ACCOUNT_NAME_PATTERN.matcher(removedByReasonMatcher.group(1)).matches()) {
 
       return Optional.of("Removed by someone using the hovercard menu");
+    }
+
+    Matcher removedByIconClickReasonMatcher =
+        REMOVED_BY_ICON_CLICK_REASON_PATTERN.matcher(originalReason);
+    if (removedByIconClickReasonMatcher.matches()
+        && !OK_ACCOUNT_NAME_PATTERN.matcher(removedByIconClickReasonMatcher.group(1)).matches()) {
+
+      return Optional.of("Removed by someone by clicking the attention icon");
     }
     return Optional.empty();
   }

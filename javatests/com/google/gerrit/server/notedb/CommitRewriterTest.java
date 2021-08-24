@@ -726,7 +726,18 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     ChangeUpdate validAttentionSetUpdate = newUpdate(c, changeOwner);
     validAttentionSetUpdate.addToPlannedAttentionSetUpdates(
         AttentionSetUpdate.createForWrite(otherUserId, Operation.REMOVE, "Removed by someone"));
+    validAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+        AttentionSetUpdate.createForWrite(
+            changeOwner.getAccountId(), Operation.ADD, "Added by someone"));
     validAttentionSetUpdate.commit();
+
+    ChangeUpdate invalidRemovedByClickUpdate = newUpdate(c, changeOwner);
+    invalidRemovedByClickUpdate.addToPlannedAttentionSetUpdates(
+        AttentionSetUpdate.createForWrite(
+            changeOwner.getAccountId(),
+            Operation.REMOVE,
+            String.format("Removed by %s by clicking the attention icon", otherUser.getName())));
+    commitsToFix.add(invalidRemovedByClickUpdate.commit());
 
     Ref metaRefBeforeRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
 
@@ -746,6 +757,16 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     Timestamp updateTimestamp = new Timestamp(serverIdent.getWhen().getTime());
     ImmutableList<AttentionSetUpdate> attentionSetUpdatesBeforeRewrite =
         ImmutableList.of(
+            AttentionSetUpdate.createFromRead(
+                invalidRemovedByClickUpdate.getWhen().toInstant(),
+                changeOwner.getAccountId(),
+                Operation.REMOVE,
+                String.format("Removed by %s by clicking the attention icon", otherUser.getName())),
+            AttentionSetUpdate.createFromRead(
+                validAttentionSetUpdate.getWhen().toInstant(),
+                changeOwner.getAccountId(),
+                Operation.ADD,
+                "Added by someone"),
             AttentionSetUpdate.createFromRead(
                 validAttentionSetUpdate.getWhen().toInstant(),
                 otherUserId,
@@ -779,6 +800,16 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     ImmutableList<AttentionSetUpdate> attentionSetUpdatesAfterRewrite =
         ImmutableList.of(
+            AttentionSetUpdate.createFromRead(
+                invalidRemovedByClickUpdate.getWhen().toInstant(),
+                changeOwner.getAccountId(),
+                Operation.REMOVE,
+                "Removed by someone by clicking the attention icon"),
+            AttentionSetUpdate.createFromRead(
+                validAttentionSetUpdate.getWhen().toInstant(),
+                changeOwner.getAccountId(),
+                Operation.ADD,
+                "Added by someone"),
             AttentionSetUpdate.createFromRead(
                 validAttentionSetUpdate.getWhen().toInstant(),
                 otherUserId,
@@ -824,7 +855,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
 
     List<String> commitHistoryDiff = result.fixedRefDiff.get(RefNames.changeMetaRef(c.getId()));
-    assertThat(commitHistoryDiff).hasSize(3);
+    assertThat(commitHistoryDiff).hasSize(4);
     assertThat(commitHistoryDiff.get(0))
         .isEqualTo(
             "@@ -8 +8 @@\n"
@@ -844,6 +875,11 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "-Attention: {\"person_ident\":\"Change Owner \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Other Account replied on the change\"}",
             "+Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by someone using the hovercard menu\"}",
             "+Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Someone replied on the change\"}");
+    assertThat(commitHistoryDiff.get(3))
+        .isEqualTo(
+            "@@ -7 +7 @@\n"
+                + "-Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by Other Account by clicking the attention icon\"}\n"
+                + "+Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by someone by clicking the attention icon\"}\n");
   }
 
   @Test
@@ -882,16 +918,19 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
               Operation.REMOVE,
               String.format("Removed by %s using the hovercard menu", okAccountName)));
       secondAttentionSetUpdate.commit();
-      ChangeUpdate clearAttentionSetUpdate = newUpdate(c, changeOwner);
-      clearAttentionSetUpdate.addToPlannedAttentionSetUpdates(
-          AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.REMOVE, "Clear"));
-      clearAttentionSetUpdate.commit();
-      attentionSetUpdatesBeforeRewrite.add(
-          AttentionSetUpdate.createFromRead(
-              clearAttentionSetUpdate.getWhen().toInstant(),
+      ChangeUpdate thirdAttentionSetUpdate = newUpdate(c, changeOwner);
+      thirdAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+          AttentionSetUpdate.createForWrite(
               changeOwner.getAccountId(),
               Operation.REMOVE,
-              "Clear"),
+              String.format("Removed by %s by clicking the attention icon", okAccountName)));
+      thirdAttentionSetUpdate.commit();
+      attentionSetUpdatesBeforeRewrite.add(
+          AttentionSetUpdate.createFromRead(
+              thirdAttentionSetUpdate.getWhen().toInstant(),
+              changeOwner.getAccountId(),
+              Operation.REMOVE,
+              String.format("Removed by %s by clicking the attention icon", okAccountName)),
           AttentionSetUpdate.createFromRead(
               secondAttentionSetUpdate.getWhen().toInstant(),
               otherUserId,
@@ -907,7 +946,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
               otherUserId,
               Operation.ADD,
               String.format("Added by %s using the hovercard menu", okAccountName)));
-      clearAttentionSetUpdate.getNotes();
     }
 
     ChangeNotes notesBeforeRewrite = newNotes(c);

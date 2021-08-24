@@ -547,6 +547,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
       reply.__editing = true;
     }
 
+    this.commentsService.addDraft(reply);
     this.push('comments', reply);
 
     if (!isEditing) {

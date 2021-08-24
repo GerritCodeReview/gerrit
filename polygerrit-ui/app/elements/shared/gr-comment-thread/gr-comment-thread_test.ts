@@ -603,6 +603,7 @@ suite('comment action tests with unresolved thread', () => {
           message: 'i like you, too',
           in_reply_to: 'sallys_confession' as UrlEncodedCommentId,
           updated: '2015-12-25 15:00:20.396000000' as Timestamp,
+          path: 'abcd',
           unresolved: false,
         },
         {
@@ -610,17 +611,20 @@ suite('comment action tests with unresolved thread', () => {
           in_reply_to: 'nonexistent_comment' as UrlEncodedCommentId,
           message: 'i like you, jack',
           updated: '2015-12-24 15:00:20.396000000' as Timestamp,
+          path: 'abcd',
         },
         {
           id: 'sally_to_dr_finklestein' as UrlEncodedCommentId,
           in_reply_to: 'nonexistent_comment' as UrlEncodedCommentId,
           message: 'i’m running away',
           updated: '2015-10-31 09:00:20.396000000' as Timestamp,
+          path: 'abcd',
         },
         {
           id: 'sallys_defiance' as UrlEncodedCommentId,
           message: 'i will poison you so i can get away',
           updated: '2015-10-31 15:00:20.396000000' as Timestamp,
+          path: 'abcd',
         },
       ];
     });

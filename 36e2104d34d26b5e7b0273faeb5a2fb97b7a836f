@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d20a0950_2bbe6573",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-24T07:16:30Z",
+      "side": 1,
+      "message": "I just quickly checked, since Chris made a great review comments",
+      "revId": "36e2104d34d26b5e7b0273faeb5a2fb97b7a836f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b5a67bd_4205be09",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-24T07:16:30Z",
+      "side": 1,
+      "message": "I think it can be just\n```\nif (!this.content) return;\n```\n\nat least that\u0027s most common pattern now.",
+      "range": {
+        "startLine": 106,
+        "startChar": 30,
+        "endLine": 106,
+        "endChar": 36
+      },
+      "revId": "36e2104d34d26b5e7b0273faeb5a2fb97b7a836f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

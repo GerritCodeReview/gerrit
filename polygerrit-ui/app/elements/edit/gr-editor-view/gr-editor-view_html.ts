@@ -40,14 +40,14 @@ export const htmlTemplate = html`
       font-size: var(--font-size-h3);
       font-weight: var(--font-weight-h3);
       line-height: var(--line-height-h3);
-      --label-style: {
-        text-overflow: initial;
-        white-space: initial;
-        word-break: break-all;
-      }
-      --input-style: {
-        margin-top: var(--spacing-l);
-      }
+    }
+    header gr-editable-label::part(label) {
+      text-overflow: initial;
+      white-space: initial;
+      word-break: break-all;
+    }
+    header gr-editable-label::part(input-container) {
+      margin-top: var(--spacing-l);
     }
     .textareaWrapper {
       border: 1px solid var(--border-color);

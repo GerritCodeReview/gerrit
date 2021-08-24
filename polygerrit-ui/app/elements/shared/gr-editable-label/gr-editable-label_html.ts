@@ -35,7 +35,6 @@ export const htmlTemplate = html`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      @apply --label-style;
     }
     label.editable {
       color: var(--link-color);
@@ -47,7 +46,6 @@ export const htmlTemplate = html`
     .inputContainer {
       background-color: var(--dialog-background-color);
       padding: var(--spacing-m);
-      @apply --input-style;
     }
     .buttons {
       display: flex;
@@ -83,6 +81,7 @@ export const htmlTemplate = html`
       title$="[[_computeLabel(value, placeholder)]]"
       aria-label$="[[_computeLabel(value, placeholder)]]"
       on-click="_showDropdown"
+      part="label"
       >[[_computeLabel(value, placeholder)]]</label
     >
   </template>
@@ -104,7 +103,7 @@ export const htmlTemplate = html`
     on-iron-overlay-canceled="_cancel"
   >
     <div class="dropdown-content" slot="dropdown-content">
-      <div class="inputContainer">
+      <div class="inputContainer" part="input-container">
         <template is="dom-if" if="[[!autocomplete]]">
           <paper-input
             id="input"

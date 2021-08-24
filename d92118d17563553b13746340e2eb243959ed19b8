@@ -20,6 +20,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "97674354_0cbd0911",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-24T21:42:51Z",
+      "side": 1,
+      "message": "Just a very minor nit.",
+      "revId": "d92118d17563553b13746340e2eb243959ed19b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "afa292cb_af96acdd",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
         "patchSetId": 1
@@ -37,6 +54,23 @@
         "endLine": 51,
         "endChar": 19
       },
+      "revId": "d92118d17563553b13746340e2eb243959ed19b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69fec495_ddfca240",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-24T21:42:51Z",
+      "side": 1,
+      "message": "Any reason not to use dash-syntax for the class?",
       "revId": "d92118d17563553b13746340e2eb243959ed19b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

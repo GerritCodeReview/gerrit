@@ -467,7 +467,7 @@ public abstract class VersionedMetaData {
 
   protected Config readConfig(String fileName, Optional<? extends Config> baseConfig)
       throws IOException, ConfigInvalidException {
-    Config rc = new Config(baseConfig.orElseGet(null));
+    Config rc = new Config(baseConfig.isPresent() ? baseConfig.get() : null);
     String text = readUTF8(fileName);
     if (!text.isEmpty()) {
       try {

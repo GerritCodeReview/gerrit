@@ -16,7 +16,6 @@
  */
 import '@polymer/iron-selector/iron-selector';
 import '../../shared/gr-button/gr-button';
-import '../../../styles/gr-voting-styles';
 import '../../../styles/shared-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-label-score-row_html';

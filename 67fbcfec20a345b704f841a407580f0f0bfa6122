@@ -34,6 +34,24 @@
       "parentUuid": "7aec23ef_f050ee98",
       "revId": "67fbcfec20a345b704f841a407580f0f0bfa6122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c1fa2e0_1d1ec7f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-24T08:16:40Z",
+      "side": 1,
+      "message": "yes that\u0027s expected, I\u0027ll take care of that.",
+      "parentUuid": "cee6a009_6b4b4158",
+      "revId": "67fbcfec20a345b704f841a407580f0f0bfa6122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

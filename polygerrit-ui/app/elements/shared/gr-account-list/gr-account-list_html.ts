@@ -38,7 +38,6 @@ export const htmlTemplate = html`
       align-items: center;
       display: flex;
       flex-wrap: wrap;
-      @apply --account-list-style;
     }
   </style>
   <!--

@@ -34,7 +34,6 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.json.OutputFormat;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.AttentionStatusInNoteDb;
@@ -251,13 +250,20 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             .add(
                 writeUpdate(
                     RefNames.changeMetaRef(c.getId()),
+                    // valid change message that should not be overwritten
                     getChangeUpdateBody(
-                        c, /*changeMessage=*/ null, "Reviewer: " + reviewerIdentToFix),
+                        c,
+                        "Removed reviewer <GERRIT_ACCOUNT_1>.",
+                        "Reviewer: " + reviewerIdentToFix),
                     getAuthorIdent(changeOwner.getAccount())))
             .add(
                 writeUpdate(
                     RefNames.changeMetaRef(c.getId()),
-                    getChangeUpdateBody(c, /*changeMessage=*/ null, "CC: " + reviewerIdentToFix),
+                    // valid change message that should not be overwritten
+                    getChangeUpdateBody(
+                        c,
+                        "Removed cc <GERRIT_ACCOUNT_2> with the following votes:\n\n * Code-Review+2 by <GERRIT_ACCOUNT_2>",
+                        "CC: " + reviewerIdentToFix),
                     getAuthorIdent(otherUser.getAccount())))
             .add(
                 writeUpdate(
@@ -303,10 +309,12 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     List<String> commitHistoryDiff = result.fixedRefDiff.get(RefNames.changeMetaRef(c.getId()));
     assertThat(commitHistoryDiff)
         .containsExactly(
-            "@@ -7 +7 @@\n"
+            "@@ -9 +9 @@\n"
                 + "-Reviewer: Other Account <2@gerrit>\n"
                 + "+Reviewer: Gerrit User 2 <2@gerrit>\n",
-            "@@ -7 +7 @@\n" + "-CC: Other Account <2@gerrit>\n" + "+CC: Gerrit User 2 <2@gerrit>\n",
+            "@@ -11 +11 @@\n"
+                + "-CC: Other Account <2@gerrit>\n"
+                + "+CC: Gerrit User 2 <2@gerrit>\n",
             "@@ -9 +9 @@\n"
                 + "-Removed: Other Account <2@gerrit>\n"
                 + "+Removed: Gerrit User 2 <2@gerrit>\n");
@@ -325,7 +333,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             RefNames.changeMetaRef(c.getId()),
             getChangeUpdateBody(
                 c,
-                "Removed reviewer " + otherUser.getAccount().fullName(),
+                String.format("Removed reviewer %s.", otherUser.getAccount().fullName()),
                 "Removed: " + getValidIdentAsString(otherUser.getAccount())),
             getAuthorIdent(changeOwner.getAccount())));
 
@@ -338,7 +346,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             RefNames.changeMetaRef(c.getId()),
             getChangeUpdateBody(
                 c,
-                "Removed cc " + otherUser.getAccount().fullName(),
+                String.format(
+                    "Removed cc %s with the following votes:\n\n * Code-Review+2",
+                    otherUser.getAccount().fullName()),
                 "Removed: " + getValidIdentAsString(otherUser.getAccount())),
             getAuthorIdent(changeOwner.getAccount())));
 
@@ -378,7 +388,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     assertThat(notesBeforeRewrite.getReviewerUpdates()).isEqualTo(expectedReviewerUpdates);
     assertThat(changeMessages(notesBeforeRewrite))
-        .containsExactly("Removed reviewer Other Account", "Removed cc Other Account");
+        .containsExactly(
+            "Removed reviewer Other Account.",
+            "Removed cc Other Account with the following votes:\n\n * Code-Review+2");
     assertThat(notesAfterRewrite.getReviewerUpdates()).isEqualTo(expectedReviewerUpdates);
     assertThat(changeMessages(notesAfterRewrite)).containsExactly("Removed reviewer", "Removed cc");
 
@@ -391,8 +403,12 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     List<String> commitHistoryDiff = result.fixedRefDiff.get(RefNames.changeMetaRef(c.getId()));
     assertThat(commitHistoryDiff)
         .containsExactly(
-            "@@ -6 +6 @@\n" + "-Removed reviewer Other Account\n" + "+Removed reviewer\n",
-            "@@ -6 +6 @@\n" + "-Removed cc Other Account\n" + "+Removed cc\n");
+            "@@ -6 +6 @@\n" + "-Removed reviewer Other Account.\n" + "+Removed reviewer\n",
+            "@@ -6,3 +6 @@\n"
+                + "-Removed cc Other Account with the following votes:\n"
+                + "-\n"
+                + "- * Code-Review+2\n"
+                + "+Removed cc\n");
   }
 
   @Test
@@ -726,7 +742,18 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     ChangeUpdate validAttentionSetUpdate = newUpdate(c, changeOwner);
     validAttentionSetUpdate.addToPlannedAttentionSetUpdates(
         AttentionSetUpdate.createForWrite(otherUserId, Operation.REMOVE, "Removed by someone"));
+    validAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+        AttentionSetUpdate.createForWrite(
+            changeOwner.getAccountId(), Operation.ADD, "Added by someone"));
     validAttentionSetUpdate.commit();
+
+    ChangeUpdate invalidRemovedByClickUpdate = newUpdate(c, changeOwner);
+    invalidRemovedByClickUpdate.addToPlannedAttentionSetUpdates(
+        AttentionSetUpdate.createForWrite(
+            changeOwner.getAccountId(),
+            Operation.REMOVE,
+            String.format("Removed by %s by clicking the attention icon", otherUser.getName())));
+    commitsToFix.add(invalidRemovedByClickUpdate.commit());
 
     Ref metaRefBeforeRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
 
@@ -746,6 +773,16 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     Timestamp updateTimestamp = new Timestamp(serverIdent.getWhen().getTime());
     ImmutableList<AttentionSetUpdate> attentionSetUpdatesBeforeRewrite =
         ImmutableList.of(
+            AttentionSetUpdate.createFromRead(
+                invalidRemovedByClickUpdate.getWhen().toInstant(),
+                changeOwner.getAccountId(),
+                Operation.REMOVE,
+                String.format("Removed by %s by clicking the attention icon", otherUser.getName())),
+            AttentionSetUpdate.createFromRead(
+                validAttentionSetUpdate.getWhen().toInstant(),
+                changeOwner.getAccountId(),
+                Operation.ADD,
+                "Added by someone"),
             AttentionSetUpdate.createFromRead(
                 validAttentionSetUpdate.getWhen().toInstant(),
                 otherUserId,
@@ -779,6 +816,16 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     ImmutableList<AttentionSetUpdate> attentionSetUpdatesAfterRewrite =
         ImmutableList.of(
+            AttentionSetUpdate.createFromRead(
+                invalidRemovedByClickUpdate.getWhen().toInstant(),
+                changeOwner.getAccountId(),
+                Operation.REMOVE,
+                "Removed by someone by clicking the attention icon"),
+            AttentionSetUpdate.createFromRead(
+                validAttentionSetUpdate.getWhen().toInstant(),
+                changeOwner.getAccountId(),
+                Operation.ADD,
+                "Added by someone"),
             AttentionSetUpdate.createFromRead(
                 validAttentionSetUpdate.getWhen().toInstant(),
                 otherUserId,
@@ -824,7 +871,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
 
     List<String> commitHistoryDiff = result.fixedRefDiff.get(RefNames.changeMetaRef(c.getId()));
-    assertThat(commitHistoryDiff).hasSize(3);
+    assertThat(commitHistoryDiff).hasSize(4);
     assertThat(commitHistoryDiff.get(0))
         .isEqualTo(
             "@@ -8 +8 @@\n"
@@ -844,6 +891,11 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "-Attention: {\"person_ident\":\"Change Owner \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Other Account replied on the change\"}",
             "+Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by someone using the hovercard menu\"}",
             "+Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Someone replied on the change\"}");
+    assertThat(commitHistoryDiff.get(3))
+        .isEqualTo(
+            "@@ -7 +7 @@\n"
+                + "-Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by Other Account by clicking the attention icon\"}\n"
+                + "+Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by someone by clicking the attention icon\"}\n");
   }
 
   @Test
@@ -882,16 +934,19 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
               Operation.REMOVE,
               String.format("Removed by %s using the hovercard menu", okAccountName)));
       secondAttentionSetUpdate.commit();
-      ChangeUpdate clearAttentionSetUpdate = newUpdate(c, changeOwner);
-      clearAttentionSetUpdate.addToPlannedAttentionSetUpdates(
-          AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.REMOVE, "Clear"));
-      clearAttentionSetUpdate.commit();
-      attentionSetUpdatesBeforeRewrite.add(
-          AttentionSetUpdate.createFromRead(
-              clearAttentionSetUpdate.getWhen().toInstant(),
+      ChangeUpdate thirdAttentionSetUpdate = newUpdate(c, changeOwner);
+      thirdAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+          AttentionSetUpdate.createForWrite(
               changeOwner.getAccountId(),
               Operation.REMOVE,
-              "Clear"),
+              String.format("Removed by %s by clicking the attention icon", okAccountName)));
+      thirdAttentionSetUpdate.commit();
+      attentionSetUpdatesBeforeRewrite.add(
+          AttentionSetUpdate.createFromRead(
+              thirdAttentionSetUpdate.getWhen().toInstant(),
+              changeOwner.getAccountId(),
+              Operation.REMOVE,
+              String.format("Removed by %s by clicking the attention icon", okAccountName)),
           AttentionSetUpdate.createFromRead(
               secondAttentionSetUpdate.getWhen().toInstant(),
               otherUserId,
@@ -907,7 +962,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
               otherUserId,
               Operation.ADD,
               String.format("Added by %s using the hovercard menu", okAccountName)));
-      clearAttentionSetUpdate.getNotes();
     }
 
     ChangeNotes notesBeforeRewrite = newNotes(c);
@@ -934,19 +988,19 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     invalidMergedMessageUpdate.setChangeMessage(
         "Change has been successfully merged by " + changeOwner.getName());
     invalidMergedMessageUpdate.setTopic("");
-    invalidMergedMessageUpdate.setTag(ChangeMessagesUtil.TAG_MERGED);
+
     commitsToFix.add(invalidMergedMessageUpdate.commit());
     ChangeUpdate invalidCherryPickedMessageUpdate = newUpdate(c, changeOwner);
     invalidCherryPickedMessageUpdate.setChangeMessage(
         "Change has been successfully cherry-picked as e40dc1a50dc7f457a37579e2755374f3e1a5413b by "
             + changeOwner.getName());
-    invalidCherryPickedMessageUpdate.setTag(ChangeMessagesUtil.TAG_MERGED);
+
     commitsToFix.add(invalidCherryPickedMessageUpdate.commit());
     ChangeUpdate invalidRebasedMessageUpdate = newUpdate(c, changeOwner);
     invalidRebasedMessageUpdate.setChangeMessage(
         "Change has been successfully rebased and submitted as e40dc1a50dc7f457a37579e2755374f3e1a5413b by "
             + changeOwner.getName());
-    invalidRebasedMessageUpdate.setTag(ChangeMessagesUtil.TAG_MERGED);
+
     commitsToFix.add(invalidRebasedMessageUpdate.commit());
     ChangeUpdate validSubmitMessageUpdate = newUpdate(c, changeOwner);
     validSubmitMessageUpdate.setChangeMessage(
@@ -1335,8 +1389,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     invalidOnOverrideUpdate.setChangeMessage(
         "Patch Set 1: -Owners-Override\n\n"
             + "(1 comment)\n\n"
-            + "By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by Change Owner:\n"
-            + "   * file3.java\n");
+            + "By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by Change Owner\n");
+
     commitsToFix.add(invalidOnOverrideUpdate.commit());
 
     ChangeUpdate validOnApprovalUpdate = newUpdate(c, changeOwner);
@@ -1349,8 +1403,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     ChangeUpdate validOnOverrideUpdate = newUpdate(c, changeOwner);
     validOnOverrideUpdate.setChangeMessage(
         "Patch Set 1: Owners-Override+1\n\n"
-            + "By voting Owners-Override+1 the code-owners submit requirement is still overridden by <GERRIT_ACCOUNT_1>:\n"
-            + "   * file1.java\n");
+            + "By voting Owners-Override+1 the code-owners submit requirement is still overridden by <GERRIT_ACCOUNT_1>\n");
     validOnOverrideUpdate.commit();
 
     Ref metaRefBeforeRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
@@ -1388,15 +1441,13 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "\n"
                 + "(1 comment)\n"
                 + "\n"
-                + "By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by <GERRIT_ACCOUNT_1>:\n"
-                + "   * file3.java\n",
+                + "By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by <GERRIT_ACCOUNT_1>\n",
             "Patch Set 1: Code-Review-2\n\n"
                 + "By voting Code-Review-2 the following files are no longer explicitly code-owner approved by <GERRIT_ACCOUNT_1>:\n"
                 + "   * file4.java\n",
             "Patch Set 1: Owners-Override+1\n"
                 + "\n"
-                + "By voting Owners-Override+1 the code-owners submit requirement is still overridden by <GERRIT_ACCOUNT_1>:\n"
-                + "   * file1.java\n");
+                + "By voting Owners-Override+1 the code-owners submit requirement is still overridden by <GERRIT_ACCOUNT_1>\n");
 
     Ref metaRefAfterRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
     assertThat(metaRefAfterRewrite.getObjectId()).isNotEqualTo(metaRefBeforeRewrite.getObjectId());
@@ -1417,8 +1468,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "-The listed files are still implicitly approved by Other Account.\n"
                 + "+The listed files are still implicitly approved by <GERRIT_ACCOUNT_2>.\n",
             "@@ -10 +10 @@\n"
-                + "-By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by Change Owner:\n"
-                + "+By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by <GERRIT_ACCOUNT_1>:\n");
+                + "-By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by Change Owner\n"
+                + "+By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by <GERRIT_ACCOUNT_1>\n");
   }
 
   @Test

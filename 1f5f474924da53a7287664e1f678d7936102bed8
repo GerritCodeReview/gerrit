@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c07bb9b_d20ac9a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-24T07:48:09Z",
+      "side": 1,
+      "message": "I am not sure that this is caused by \"!(template_test_srcs)/\" part.\nI tried to run the following command on my machine and it works without the fix:\n  npm run test:single gr-error-manager_test.js\n\nMaybe you tried to run a typescript test like this?\n  npm run test:single access-util_test.ts\n  \nThis doesn\u0027t work, because the pattern must be a .js file, i.e.:\n  npm run test:single access-util_test.js\n  \nThis is expected, because karma runs on top of the compiled code and doesn\u0027t know anything about .ts code/tests. I think it can be improved at line 72 in karma.conf.js (automatically replace .ts with .js)",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "1f5f474924da53a7287664e1f678d7936102bed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9ca7b362_22b8f92b",
@@ -14,6 +37,41 @@
       "writtenOn": "2021-08-23T22:26:21Z",
       "side": 1,
       "message": "Hi Dmitrii,\n\nIt seems you last touched karma.conf.js so maybe you have more history on this? I could not find `template_test_srcs` anywhere.\n\nThanks!",
+      "revId": "1f5f474924da53a7287664e1f678d7936102bed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dee56cb3_0bbc23a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-24T07:48:09Z",
+      "side": 1,
+      "message": "LGTM, but please check my comment on commit message..",
+      "revId": "1f5f474924da53a7287664e1f678d7936102bed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e200f24_2e1f86cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-24T07:48:09Z",
+      "side": 1,
+      "message": "Hi,\nBefore migrating to typescript, the polygerrit had an old template checker. The code for executing template checker was located in the template_test_srcs directory. Later it was removed and replaced by a new template checker (though new template checker was temporary disabled recently by Ben).",
+      "parentUuid": "9ca7b362_22b8f92b",
       "revId": "1f5f474924da53a7287664e1f678d7936102bed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

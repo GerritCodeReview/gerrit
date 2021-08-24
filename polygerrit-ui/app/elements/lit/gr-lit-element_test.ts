@@ -16,26 +16,58 @@
  */
 
 import '../../test/common-test-setup-karma';
-import {html} from 'lit';
-import {customElement} from 'lit/decorators';
-import {GrLitElement} from './gr-lit-element';
+import {LitElement, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
+import {subscribable, subscribe} from './gr-lit-element';
+import {Subject} from 'rxjs';
+import {queryAndAssert} from '../../utils/common-util';
+import {SinonFakeTimers} from 'sinon';
+
+const subject$ = new Subject<string>();
 
 @customElement('test-gr-lit-element')
-export class TestGrLitElement extends GrLitElement {
+@subscribable
+export class TestGrLitElement extends LitElement {
+
+  @subscribe(subject$)
+  @property()
+  value: string = '';
+
   render() {
-    return html`<span>test</span>`;
+    return html`<span>${this.value}</span>`;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'test-gr-lit-element': GrLitElement;
+    'test-gr-lit-element': TestGrLitElement;
   }
 }
 
 suite('gr-lit-element test', () => {
+  let clock: SinonFakeTimers;
+  let el : TestGrLitElement;
+  setup(async () => {
+    el = document.createElement('test-gr-lit-element') as TestGrLitElement;
+    document.body.appendChild(el);
+    clock = sinon.useFakeTimers();
+    await flush();
+  });
+  teardown(() => {
+    clock.restore();
+    document.body.removeChild(el);
+  });
+
   test('is defined', () => {
-    const el = document.createElement('test-gr-lit-element');
     assert.instanceOf(el, TestGrLitElement);
+  });
+
+  test('subscribe rerenders', async () => {
+    assert.instanceOf(el, TestGrLitElement);
+    let span = queryAndAssert(el, "span");
+    assert.equal(span.textContent, '');
+    subject$.next("a string")
+    await flush();
+    assert.equal(span.textContent, 'a string');
   });
 });

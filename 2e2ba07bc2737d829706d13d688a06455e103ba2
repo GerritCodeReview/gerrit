@@ -83,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c514daf7_0e4a11db",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-24T11:15:37Z",
+      "side": 1,
+      "message": "Method removed.",
+      "parentUuid": "5288cd1e_c238b1c5",
+      "range": {
+        "startLine": 650,
+        "startChar": 3,
+        "endLine": 651,
+        "endChar": 39
+      },
+      "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f242ee5f_71b5c621",

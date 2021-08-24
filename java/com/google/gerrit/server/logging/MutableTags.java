@@ -20,7 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
-import com.google.common.flogger.backend.Tags;
+import com.google.common.flogger.context.Tags;
 
 public class MutableTags {
   private final SetMultimap<String, String> tagMap =

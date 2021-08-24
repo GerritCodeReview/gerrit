@@ -19,7 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.flogger.backend.Tags;
+import com.google.common.flogger.context.Tags;
 import com.google.inject.Provider;
 import java.util.List;
 import java.util.concurrent.Callable;

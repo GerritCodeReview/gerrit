@@ -1811,8 +1811,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         this.restApiService.getChange(changeId)
       )
     ).then(changes => {
+      // if a change is deleted then getChanges returns null for that changeId
       changes = changes.filter(
-        change => change?.status !== ChangeStatus.ABANDONED
+        change => change && change.status !== ChangeStatus.ABANDONED
       );
       if (!changes.length) return;
       const submittedRevert = changes.find(

@@ -172,6 +172,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51cea4db_752a5b8e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-24T10:53:09Z",
+      "side": 1,
+      "message": "Yeah, I moved it to computeAllFiles().",
+      "parentUuid": "ce208055_a83477c5",
+      "revId": "2e2ba07bc2737d829706d13d688a06455e103ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3e184cf_e5f097f7",

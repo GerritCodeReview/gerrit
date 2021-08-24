@@ -34,6 +34,24 @@
       "parentUuid": "850389fc_7cf7420f",
       "revId": "a3036bc72f2b7e634d832f39a2687f658700857f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "871548fd_8fbd3cf0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1816,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-24T18:58:13Z",
+      "side": 1,
+      "message": "Oh never mind, for some reason I thought it was equivalent with the old code. Still getting used to this operator :)",
+      "parentUuid": "aec248ba_f7af893c",
+      "revId": "a3036bc72f2b7e634d832f39a2687f658700857f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

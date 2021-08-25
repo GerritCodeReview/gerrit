@@ -73,6 +73,24 @@
       "message": "Any reason not to use dash-syntax for the class?",
       "revId": "d92118d17563553b13746340e2eb243959ed19b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbdc5282_db4110d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-25T08:13:35Z",
+      "side": 1,
+      "message": "Very good point! :-)\n\nI think we are just extremely inconsistent in that regard. We would need to establish a style guide and clean up the many existing camelCase class names.",
+      "parentUuid": "69fec495_ddfca240",
+      "revId": "d92118d17563553b13746340e2eb243959ed19b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

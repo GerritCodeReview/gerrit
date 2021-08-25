@@ -111,17 +111,17 @@ export class GrAccountDropdown extends GrLitElement {
       <gr-dropdown
         link=""
         .items="${this.links}"
-        .top-content="${this.topContent}"
+        .topContent="${this.topContent}"
         @tap-item-shortcuts=${this._handleShortcutsTap}
-        .horizontal-align="right"
+        .horizontalAlign=${'right'}
       >
-        <span ?hidden=${this._hasAvatars}
+        <span ?hidden="${this._hasAvatars}"
           >${this._accountName(this.account)}</span
         >
         <gr-avatar
           .account="${this.account}"
           ?hidden=${!this._hasAvatars}
-          .imageSize="56"
+          .imageSize=${56}
           aria-label="Account avatar"
         ></gr-avatar>
       </gr-dropdown>`;

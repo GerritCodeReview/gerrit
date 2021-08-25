@@ -328,8 +328,9 @@ files named like 'name1.xml', 'name2.xml', and 'name3.xml' use
 +
 Slash ('/') is used path separator.
 +
-More examples:
-* `-file:^path/.*` - changes that do not modify files from `path/`,
+*More examples:*
+
+* `-file:^path/.*` - changes that do not modify files from `path/`.
 * `file:{^~(path/.*)}` - changes that modify files not from `path/` (but may
 contain files from `path/`).
 

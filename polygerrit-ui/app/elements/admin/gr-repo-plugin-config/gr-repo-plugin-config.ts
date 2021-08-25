@@ -113,8 +113,8 @@ class GrRepoPluginConfig extends PolymerElement {
     );
   }
 
-  _computeDisabled(editable: string) {
-    return editable === 'false';
+  _computeDisabled(editable: boolean) {
+    return !editable;
   }
 
   _computeChecked(value = 'false') {

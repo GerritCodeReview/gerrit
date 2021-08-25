@@ -16,6 +16,24 @@
       "message": "nit: leave a comment that the order matters.",
       "revId": "3a0affc8e31558c40066074056ff66c2e70a4877",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "780deb6f_8b6fe6d7",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-25T13:12:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78bca674_89d01e64",
+      "revId": "3a0affc8e31558c40066074056ff66c2e70a4877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

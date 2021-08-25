@@ -35,11 +35,12 @@ public class FilePathAdapter {
       case DELETED:
       case ADDED:
       case MODIFIED:
-      case REWRITE:
         return null;
       case COPIED:
       case RENAMED:
         return oldName.get();
+      case REWRITE:
+        return oldName.isPresent() ? oldName.get() : null;
       default:
         throw new IllegalArgumentException("Unsupported type " + changeType);
     }

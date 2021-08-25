@@ -37,6 +37,8 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
+import java.util.HashSet;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -602,22 +604,38 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
       int deletions2,
       String expectedFileDiff2,
       String oldFileName2) {
-    String expectedMessage =
+    String beginningOfMessage =
         "1 is the latest approved patch-set.\n"
             + "The change was submitted with unreviewed changes in the following files:\n"
             + "\n";
-    expectedMessage += fileDiff(expectedFileDiff1, oldFileName1, file1, insertions1, deletions1);
-    expectedMessage += fileDiff(expectedFileDiff2, oldFileName2, file2, insertions2, deletions2);
-    String expectedChangeMessage = "Change has been successfully merged\n\n" + expectedMessage;
-    assertThat(message.trim()).isEqualTo(expectedChangeMessage.trim());
-    assertThat(Iterables.getLast(sender.getMessages()).body()).contains(expectedMessage);
+    String fileDiff1 = fileDiff(expectedFileDiff1, oldFileName1, file1, insertions1, deletions1);
+    String expectedMessage1 = beginningOfMessage + fileDiff1;
+    String expectedMessage2 = "";
+    Set<String> expectedChangeMessages = new HashSet<>();
+    if (file2 != null) {
+      String fileDiff2 = fileDiff(expectedFileDiff2, oldFileName2, file2, insertions2, deletions2);
+      expectedMessage2 = beginningOfMessage + fileDiff2 + fileDiff1;
+      String expectedChangeMessage2 = "Change has been successfully merged\n\n" + expectedMessage2;
+      expectedMessage1 += fileDiff2;
+      expectedChangeMessages.add(expectedChangeMessage2.trim());
+    }
+    String expectedChangeMessage1 = "Change has been successfully merged\n\n" + expectedMessage1;
+    expectedChangeMessage1 = expectedChangeMessage1.trim();
+    expectedChangeMessages.add(expectedChangeMessage1.trim());
+
+    // The order of appearance in the diff for multiple files is not defined, so check both
+    // possible orders.
+    assertThat(expectedChangeMessages).contains(message.trim());
+    String email = Iterables.getLast(sender.getMessages()).body();
+    if (email.contains(expectedMessage1) || expectedMessage2.isEmpty()) {
+      assertThat(email).contains(expectedMessage1.trim());
+    } else {
+      assertThat(email).contains(expectedMessage2.trim());
+    }
   }
 
   private String fileDiff(
       String expectedFileDiff, String oldFileName, String file, int insertions, int deletions) {
-    if (file == null) {
-      return "";
-    }
     String expectedMessage =
         "```\n"
             + String.format("The name of the file: %s\n", file)

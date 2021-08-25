@@ -31,7 +31,7 @@ const CSS_TOKEN = 'token';
 /** CSS class for the currently hovered token. */
 const CSS_HIGHLIGHT = 'token-highlight';
 
-const HOVER_DELAY_MS = 200;
+export const HOVER_DELAY_MS = 200;
 
 const LINE_LENGTH_LIMIT = 500;
 

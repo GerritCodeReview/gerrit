@@ -27,7 +27,7 @@ declare global {
     grdiff: {
       GrAnnotation: GrAnnotation;
       GrDiffCursor: {new (): GrDiffCursor};
-      TokenHighlightLayer: {new (): DiffLayer};
+      TokenHighlightLayer: {new (container?: HTMLElement): DiffLayer};
     };
   }
 }

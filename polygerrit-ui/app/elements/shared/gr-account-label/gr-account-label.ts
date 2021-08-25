@@ -30,6 +30,7 @@ import {GrLitElement} from '../../lit/gr-lit-element';
 import {css, customElement, html, property, state} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {modifierPressed} from '../../../utils/dom-util';
+import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends GrLitElement {
@@ -338,8 +339,7 @@ export class GrAccountLabel extends GrLitElement {
 
     // We are deliberately updating the UI before making the API call. It is a
     // risk that we are taking to achieve a better UX for 99.9% of the cases.
-    const selfName = getDisplayName(this._config, this._selfAccount);
-    const reason = `Removed by ${selfName} by clicking the attention icon`;
+    const reason = getRemovedByIconClickReason(this._selfAccount, this._config);
     if (this.change.attention_set)
       delete this.change.attention_set[this.account._account_id];
     // For re-evaluation of everything that depends on 'change'.

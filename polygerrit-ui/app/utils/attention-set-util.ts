@@ -76,6 +76,16 @@ export function getReplyByReason(account?: AccountInfo, config?: ServerInfo) {
   return `${getAccountTemplate(account, config)} replied on the change`;
 }
 
+export function getRemovedByIconClickReason(
+  account?: AccountInfo,
+  config?: ServerInfo
+) {
+  return `Removed by ${getAccountTemplate(
+    account,
+    config
+  )} by clicking the attention icon`;
+}
+
 export function getLastUpdate(account?: AccountInfo, change?: ChangeInfo) {
   if (!hasAttention(account, change)) return '';
   const entry = change!.attention_set![account!._account_id!];

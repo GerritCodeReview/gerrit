@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f3df17a_d7ff3788",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-25T17:56:52Z",
+      "side": 1,
+      "message": "This quote block pattern is pretty repeated.\n\nWhat about a assertQuoteBlock that does the assertTextBlock for you?\nAnd if quote blocks can contain things then maybe something like:\nassertQuoteBlock(quoteBlock,\n b \u003d\u003e assertTextBlock(b, \u0027paragraph\u0027, \u0027I\u0027m happy with quotes!!\u0027);\n \n You could make the last part a repeated argument and then \nfunction assertQuoteBlock(block, ...matchers) { \n assert.lengthOf(quoteBlock.blocks, matchers.length)\n quoteBlock.blocks.forEach((b, i) \u003d\u003e matchers[i](b)); \n}",
+      "revId": "7de61276203dbe79f7377c2f226bff9a7302b2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8654cb8e_4bc04acc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-25T17:56:52Z",
+      "side": 1,
+      "message": "assertQuoteBlock(result[0],\n     b \u003d\u003e assertQuoteBlock(b, nb \u003d\u003e asssertTextBlock(nb, ...)),\n     b \u003d\u003e assertTextBlock(b, ...));",
+      "revId": "7de61276203dbe79f7377c2f226bff9a7302b2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

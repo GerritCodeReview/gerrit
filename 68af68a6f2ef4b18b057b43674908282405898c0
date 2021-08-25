@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1026bc73_629fd1a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-25T13:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c5f27bf_306389c8",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "68af68a6f2ef4b18b057b43674908282405898c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75179ff2_a0ca5dbd",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-08-25T12:41:04Z",
       "side": 1,
       "message": "optional: This would be cheaper if the order in the enum would be by priority because then the ordinal number is comparable.",
+      "range": {
+        "startLine": 98,
+        "startChar": 1,
+        "endLine": 103,
+        "endChar": 36
+      },
+      "revId": "68af68a6f2ef4b18b057b43674908282405898c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19d430ce_f7948f35",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-25T13:06:09Z",
+      "side": 1,
+      "message": "Right. Done.",
+      "parentUuid": "75179ff2_a0ca5dbd",
       "range": {
         "startLine": 98,
         "startChar": 1,

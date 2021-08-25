@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cacc88c8_3e1953d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-25T09:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16adbdf3_863ccbf7",
+      "revId": "ce16d159248439b162d9bd3540258bd8ed621039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "619a8569_18a43d69",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-08-25T08:32:09Z",
       "side": 1,
       "message": "What is the difference between filesToRender and expandedFiles?\n\nAll the properties with \"file\" in them need a comment explaining what they are for and how they are different from all the other properties with \"file\" in them.",
+      "range": {
+        "startLine": 1272,
+        "startChar": 0,
+        "endLine": 1276,
+        "endChar": 52
+      },
+      "revId": "ce16d159248439b162d9bd3540258bd8ed621039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "592f74ff_5c495d69",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1276,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-25T09:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "619a8569_18a43d69",
       "range": {
         "startLine": 1272,
         "startChar": 0,
@@ -60,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5b2b4a1_729ae90d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-25T09:44:09Z",
+      "side": 1,
+      "message": "when an individual file is rendered, then _renderInOrder() only takes the extra new file as an argument, so it would have the wrong value.\nThis is only needed in this method so I think it\u0027s fine to keep it here.",
+      "parentUuid": "e285073f_32824381",
+      "revId": "ce16d159248439b162d9bd3540258bd8ed621039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bac7d07f_78f00f92",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 1
@@ -71,6 +131,30 @@
       "writtenOn": "2021-08-25T08:32:09Z",
       "side": 1,
       "message": "There is a substantial amount of duplication with the _expandedFilesChanged observer. It is not clear to me what the exact difference between the two is. Maybe we just update _expandedFiles here and let _expandedFilesChanged handle the rendering?",
+      "range": {
+        "startLine": 1271,
+        "startChar": 3,
+        "endLine": 1295,
+        "endChar": 73
+      },
+      "revId": "ce16d159248439b162d9bd3540258bd8ed621039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52abaaf3_c862cbf4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-25T09:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bac7d07f_78f00f92",
       "range": {
         "startLine": 1271,
         "startChar": 3,

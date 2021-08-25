@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84c4bc54_8f37b562",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitWithStickyApprovalDiffIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-08-25T08:58:00Z",
+      "side": 1,
+      "message": "could this not be made deterministic? eg. sort on file name?\n\nthe base data (git trees) are sorted anyway.",
+      "range": {
+        "startLine": 626,
+        "startChar": 19,
+        "endLine": 626,
+        "endChar": 78
+      },
+      "revId": "5ad8056bc93dc917a67c3fac628e44852ab72ac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

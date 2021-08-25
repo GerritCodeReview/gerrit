@@ -23,7 +23,6 @@ import {
   sortComments,
   UIComment,
   UIRobot,
-  isDraft,
   UIDraft,
 } from '../../../utils/comment-util';
 import {GrCommentThread} from './gr-comment-thread';
@@ -51,6 +50,7 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import {_testOnly_resetState} from '../../../services/comments/comments-model';
+import {SinonStub} from 'sinon';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
 
@@ -314,8 +314,9 @@ suite('gr-comment-thread tests', () => {
 
 suite('comment action tests with unresolved thread', () => {
   let element: GrCommentThread;
-
+  let addDraftServiceStub: SinonStub;
   setup(() => {
+    addDraftServiceStub = stubComments('addDraft');
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('saveDiffDraft').returns(
       Promise.resolve({
@@ -373,12 +374,11 @@ suite('comment action tests with unresolved thread', () => {
     const replyBtn = element.$.replyBtn;
     tap(replyBtn);
     flush();
-
-    const drafts = element._orderedComments.filter(c => isDraft(c));
-    assert.equal(drafts.length, 1);
-    assert.notOk(drafts[0].message, 'message should be empty');
+    const draft = addDraftServiceStub.firstCall.args[0];
+    assert.isOk(draft);
+    assert.notOk(draft.message, 'message should be empty');
     assert.equal(
-      drafts[0].in_reply_to,
+      draft.in_reply_to,
       'baf0414d_60047215' as UrlEncodedCommentId as UrlEncodedCommentId
     );
     assert.isTrue(reportStub.calledOnce);
@@ -393,11 +393,10 @@ suite('comment action tests with unresolved thread', () => {
     tap(quoteBtn);
     flush();
 
-    const drafts = element._orderedComments.filter(c => isDraft(c));
-    assert.equal(drafts.length, 1);
-    assert.equal(drafts[0].message, '> is this a crossover episode!?\n\n');
+    const draft = addDraftServiceStub.firstCall.args[0];
+    assert.equal(draft.message, '> is this a crossover episode!?\n\n');
     assert.equal(
-      drafts[0].in_reply_to,
+      draft.in_reply_to,
       'baf0414d_60047215' as UrlEncodedCommentId as UrlEncodedCommentId
     );
     assert.isTrue(reportStub.calledOnce);
@@ -427,16 +426,12 @@ suite('comment action tests with unresolved thread', () => {
     tap(quoteBtn);
     flush();
 
-    const drafts = element._orderedComments.filter(c => isDraft(c));
-    assert.equal(drafts.length, 1);
+    const draft = addDraftServiceStub.firstCall.args[0];
     assert.equal(
-      drafts[0].message,
+      draft.message,
       '> is this a crossover episode!?\n> It might be!\n\n'
     );
-    assert.equal(
-      drafts[0].in_reply_to,
-      'baf0414d_60047215' as UrlEncodedCommentId
-    );
+    assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
     assert.isTrue(reportStub.calledOnce);
   });
 
@@ -452,14 +447,13 @@ suite('comment action tests with unresolved thread', () => {
     assert.isOk(ackBtn);
     tap(ackBtn!);
     flush(() => {
-      const drafts = element.comments.filter(c => isDraft(c));
-      assert.equal(drafts.length, 1);
-      assert.equal(drafts[0].message, 'Ack');
+      const draft = addDraftServiceStub.firstCall.args[0];
+      assert.equal(draft.message, 'Ack');
       assert.equal(
-        drafts[0].in_reply_to,
+        draft.in_reply_to,
         'baf0414d_60047215' as UrlEncodedCommentId
       );
-      assert.equal(drafts[0].unresolved, false);
+      assert.equal(draft.unresolved, false);
       assert.isTrue(reportStub.calledOnce);
       done();
     });
@@ -476,14 +470,13 @@ suite('comment action tests with unresolved thread', () => {
     assert.isOk(doneBtn);
     tap(doneBtn!);
     flush(() => {
-      const drafts = element.comments.filter(c => isDraft(c));
-      assert.equal(drafts.length, 1);
-      assert.equal(drafts[0].message, 'Done');
+      const draft = addDraftServiceStub.firstCall.args[0];
+      assert.equal(draft.message, 'Done');
       assert.equal(
-        drafts[0].in_reply_to,
+        draft.in_reply_to,
         'baf0414d_60047215' as UrlEncodedCommentId
       );
-      assert.isFalse(drafts[0].unresolved);
+      assert.isFalse(draft.unresolved);
       assert.isTrue(reportStub.calledOnce);
       done();
     });
@@ -510,17 +503,16 @@ suite('comment action tests with unresolved thread', () => {
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
     assert.ok(commentEl);
     commentEl!.addEventListener('create-fix-comment', () => {
-      const drafts = element._orderedComments.filter(c => isDraft(c));
-      assert.equal(drafts.length, 1);
+      const draft = addDraftServiceStub.firstCall.args[0];
       assert.equal(
-        drafts[0].message,
+        draft.message,
         '> is this a crossover episode!?\n\nPlease fix.'
       );
       assert.equal(
-        drafts[0].in_reply_to,
+        draft.in_reply_to,
         'baf0414d_60047215' as UrlEncodedCommentId
       );
-      assert.isTrue(drafts[0].unresolved);
+      assert.isTrue(draft.unresolved);
       done();
     });
     commentEl!.dispatchEvent(
@@ -564,10 +556,12 @@ suite('comment action tests with unresolved thread', () => {
     element.path = '/path/to/file.txt';
     element.comments = [];
     element.addOrEditDraft(1 as LineNumber);
+    const draft = addDraftServiceStub.firstCall.args[0];
+    element.comments = [draft];
     flush();
     const rootId = element.rootId;
     assert.isOk(rootId);
-
+    flush();
     const draftEl = element.root?.querySelectorAll('gr-comment')[0];
     assert.ok(draftEl);
     const deleteDraftStub = stubComments('deleteDraft');
@@ -644,6 +638,8 @@ suite('comment action tests with unresolved thread', () => {
 
     test('comment in_reply_to is either null or most recent comment', () => {
       element._createReplyComment('dummy', true);
+      const draft = addDraftServiceStub.firstCall.args[0];
+      element.comments = [...element.comments, draft];
       flush();
       assert.equal(element._orderedComments.length, 5);
       assert.equal(
@@ -655,6 +651,8 @@ suite('comment action tests with unresolved thread', () => {
     test('resolvable comments', () => {
       assert.isFalse(element.unresolved);
       element._createReplyComment('dummy', true, true);
+      const draft = addDraftServiceStub.firstCall.args[0];
+      element.comments = [...element.comments, draft];
       flush();
       assert.isTrue(element.unresolved);
     });
@@ -703,18 +701,23 @@ suite('comment action tests with unresolved thread', () => {
 
   test('addDraft sets unresolved state correctly', () => {
     let unresolved = true;
+    let draft;
     element.comments = [];
     element.path = 'abcd';
     element.addDraft(undefined, undefined, unresolved);
-    assert.equal(element.comments[0].unresolved, true);
+    draft = addDraftServiceStub.lastCall.args[0];
+    assert.equal(draft.unresolved, true);
 
     unresolved = false; // comment should get added as actually resolved.
     element.comments = [];
     element.addDraft(undefined, undefined, unresolved);
-    assert.equal(element.comments[0].unresolved, false);
+    draft = addDraftServiceStub.lastCall.args[0];
+    assert.equal(draft.unresolved, false);
+
     element.comments = [];
     element.addDraft();
-    assert.equal(element.comments[0].unresolved, true);
+    draft = addDraftServiceStub.lastCall.args[0];
+    assert.equal(draft.unresolved, true);
   });
 
   test('_newDraft with root', () => {
@@ -734,13 +737,16 @@ suite('comment action tests with unresolved thread', () => {
     element.comments = [];
     element.path = 'abcd';
     element.addOrEditDraft(1);
+    const draft = addDraftServiceStub.firstCall.args[0];
+    element.comments = [draft];
+    flush();
     assert.equal(element.comments.length, 1);
     // Mock a submitted comment.
     element.comments[0].id = (element.comments[0] as UIDraft)
       .__draftID as UrlEncodedCommentId;
     delete (element.comments[0] as UIDraft).__draft;
     element.addOrEditDraft(1);
-    assert.equal(element.comments.length, 2);
+    assert.equal(addDraftServiceStub.callCount, 2);
   });
 
   test('unresolved label', () => {

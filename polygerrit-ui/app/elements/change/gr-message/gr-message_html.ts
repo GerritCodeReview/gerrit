@@ -245,13 +245,13 @@ export const htmlTemplate = html`
       <template is="dom-if" if="[[message.message]]">
         <div class="content messageContent">
           <div class="message hideOnOpen">[[_messageContentCollapsed]]</div>
-          <gr-formatted-text
-            noTrailingMargin
-            class="message hideOnCollapsed"
-            content="[[_messageContentExpanded]]"
-            config="[[_projectConfig.commentlinks]]"
-          ></gr-formatted-text>
           <template is="dom-if" if="[[_expanded]]">
+            <gr-formatted-text
+              noTrailingMargin
+              class="message hideOnCollapsed"
+              content="[[_messageContentExpanded]]"
+              config="[[_projectConfig.commentlinks]]"
+            ></gr-formatted-text>
             <template is="dom-if" if="[[_messageContentExpanded]]">
               <div
                 class="replyActionContainer"

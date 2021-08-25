@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc96b701_37121498",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-25T09:27:47Z",
+      "side": 1,
+      "message": "extra?",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 0
+      },
+      "revId": "0445554409de0cc84d501cf1f752bc1395345302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

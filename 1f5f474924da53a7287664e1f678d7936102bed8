@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "16bee60c_b87db9ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-08-25T06:57:30Z",
+      "side": 1,
+      "message": "\u003e\u003e Could you provide context on \"!(template_test_srcs)/\"\nI already wrote some information as an answer to your comment -\nhttps://gerrit-review.googlesource.com/c/gerrit/+/316063/comments/9ca7b362_22b8f92b\nLet me know if you need more information",
+      "parentUuid": "ca1deb65_47c0c7c2",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "1f5f474924da53a7287664e1f678d7936102bed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9ca7b362_22b8f92b",

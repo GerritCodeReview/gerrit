@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c12f61_fe730690",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-25T11:50:39Z",
+      "side": 0,
+      "message": "the bug was present because the entire thread object would update from the model before this line was executed.\n\nSo the reply was added to the model and then via the subscriber to this thread object and then the reply was pushed one more time.\n\nNot really sure why this works in the diff view, perhaps due to the timing issue. :(",
+      "range": {
+        "startLine": 551,
+        "startChar": 4,
+        "endLine": 551,
+        "endChar": 33
+      },
+      "revId": "1a40dd33edb3585de828d53aa6629701fac84b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

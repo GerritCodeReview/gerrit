@@ -28,6 +28,7 @@ import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
 import {CommentsService} from '../services/comments/comments-service';
+export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise extends Promise<unknown> {
   resolve: (value?: unknown) => void;
@@ -45,33 +46,6 @@ export const mockPromise = () => {
 export function isHidden(el: Element | undefined | null) {
   if (!el) return true;
   return getComputedStyle(el).display === 'none';
-}
-
-export function queryAll<E extends Element = Element>(
-  el: Element | undefined,
-  selector: string
-): NodeListOf<E> {
-  if (!el) assert.fail('element not defined');
-  const root = el.shadowRoot ?? el;
-  return root.querySelectorAll<E>(selector);
-}
-
-export function query<E extends Element = Element>(
-  el: Element | undefined,
-  selector: string
-): E | undefined {
-  if (!el) return undefined;
-  const root = el.shadowRoot ?? el;
-  return root.querySelector<E>(selector) ?? undefined;
-}
-
-export function queryAndAssert<E extends Element = Element>(
-  el: Element | undefined,
-  selector: string
-): E {
-  const found = query<E>(el, selector);
-  if (!found) assert.fail(`selector '${selector}' did not match anything'`);
-  return found;
 }
 
 export function isVisible(el: Element) {

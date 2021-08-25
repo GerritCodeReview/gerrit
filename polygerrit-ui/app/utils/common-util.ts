@@ -90,7 +90,16 @@ export function assertIsDefined<T>(
   }
 }
 
-function query<E extends Element = Element>(
+export function queryAll<E extends Element = Element>(
+  el: Element,
+  selector: string
+): NodeListOf<E> {
+  if (!el) throw new Error('element not defined');
+  const root = el.shadowRoot ?? el;
+  return root.querySelectorAll<E>(selector);
+}
+
+export function query<E extends Element = Element>(
   el: Element | undefined,
   selector: string
 ): E | undefined {

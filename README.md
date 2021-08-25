@@ -16,6 +16,7 @@ authorized user to submit changes to the master Git repository, rather
 than requiring all approved changes to be merged in by hand by the project
 maintainer.
 
+
 ## Documentation
 
 For information about how to install and use Gerrit, refer to

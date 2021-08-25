@@ -46,6 +46,30 @@
       },
       "revId": "a05adbcfae468886ed4364c70b052334c80dca41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db5bed81_ba8dd4af",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1392,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-25T14:20:50Z",
+      "side": 0,
+      "message": "got it, checks out, thanks!",
+      "parentUuid": "7498edb0_1d1cc787",
+      "range": {
+        "startLine": 1391,
+        "startChar": 139,
+        "endLine": 1392,
+        "endChar": 34
+      },
+      "revId": "a05adbcfae468886ed4364c70b052334c80dca41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

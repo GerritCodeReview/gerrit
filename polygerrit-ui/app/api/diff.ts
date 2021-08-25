@@ -374,6 +374,7 @@ export declare interface DiffLayer {
    * @param textElement The rendered text of one side of the diff.
    * @param lineNumberElement The rendered line number of one side of the diff.
    * @param line Describes the line that should be annotated.
+   * @param side Which side of the diff is being annotated.
    */
   annotate(
     textElement: HTMLElement,

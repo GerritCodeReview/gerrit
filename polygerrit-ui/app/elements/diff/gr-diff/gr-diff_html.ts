@@ -70,9 +70,7 @@ export const htmlTemplate = html`
     td.left,
     td.right,
     td.contextLineNum {
-      border-width: var(--line-number-border-width, 0);
-      border-style: solid;
-      border-color: var(--line-number-border-color, var(--border-color, unset));
+      box-shadow: var(--line-number-box-shadow, unset);
     }
 
     /*
@@ -112,6 +110,7 @@ export const htmlTemplate = html`
       width: 100%;
       height: 100%;
       background-color: var(--diff-blank-background-color);
+      box-shadow: var(--line-number-box-shadow, unset);
     }
     td.lineNum {
       vertical-align: top;

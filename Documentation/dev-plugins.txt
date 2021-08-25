@@ -821,21 +821,21 @@ a ssh or http request starts and ends when the request completes.
 
 [source, java]
 ----
-  bind(DynamicOptions.DynamicBean.class)
-      .annotatedWith(Exports.named(
-          "com.google.gerrit.plugins.otherplugin.command"))
-      .to(MyOptionsModulesClassNamesProvider.class);
+bind(DynamicOptions.DynamicBean.class)
+    .annotatedWith(Exports.named(
+        "com.google.gerrit.plugins.otherplugin.command"))
+    .to(MyOptionsModulesClassNamesProvider.class);
 
-  static class MyOptionsModulesClassNamesProvider implements DynamicOptions.ModulesClassNamesProvider {
-    {@literal @}Override
-    public String getClassName() {
-      return "com.googlesource.gerrit.plugins.myplugin.CommandOptions";
-    }
-    {@literal @}Override
-    public Iterable<String> getModulesClassNames()() {
-      return "com.googlesource.gerrit.plugins.myplugin.MyOptionsModule";
-    }
+static class MyOptionsModulesClassNamesProvider implements DynamicOptions.ModulesClassNamesProvider {
+  @Override
+  public String getClassName() {
+    return "com.googlesource.gerrit.plugins.myplugin.CommandOptions";
   }
+  @Override
+  public Iterable<String> getModulesClassNames()() {
+    return "com.googlesource.gerrit.plugins.myplugin.MyOptionsModule";
+  }
+}
 ----
 
 === Calling Command Options ===

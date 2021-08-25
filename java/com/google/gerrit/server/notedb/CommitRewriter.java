@@ -19,7 +19,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_PATTERN;
 import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_REGEX;
 
@@ -38,7 +37,6 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.json.OutputFormat;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -156,7 +154,7 @@ public class CommitRewriter {
       Pattern.compile("Assignee changed from: (.*) to: (.*)");
 
   private static final Pattern REMOVED_REVIEWER_PATTERN =
-      Pattern.compile("Removed (cc|reviewer) (.*) .*");
+      Pattern.compile("Removed (cc|reviewer) (.*)(\\.| with the following votes)");
 
   private static final Pattern REMOVED_VOTE_PATTERN = Pattern.compile("Removed (.*) by (.*)");
 
@@ -171,7 +169,7 @@ public class CommitRewriter {
   private static final Pattern ON_CODE_OWNER_APPROVAL_PATTERN =
       Pattern.compile("code-owner approved by (.*):");
   private static final Pattern ON_CODE_OWNER_OVERRIDE_PATTERN =
-      Pattern.compile("code-owners submit requirement .* overridden by (.*):");
+      Pattern.compile("code-owners submit requirement .* overridden by (.*)");
 
   private static final Pattern REPLY_BY_REASON_PATTERN =
       Pattern.compile("(.*) replied on the change");
@@ -179,6 +177,8 @@ public class CommitRewriter {
       Pattern.compile("Added by (.*) using the hovercard menu");
   private static final Pattern REMOVED_BY_REASON_PATTERN =
       Pattern.compile("Removed by (.*) using the hovercard menu");
+  private static final Pattern REMOVED_BY_ICON_CLICK_REASON_PATTERN =
+      Pattern.compile("Removed by (.*) by clicking the attention icon");
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -378,8 +378,23 @@ public class CommitRewriter {
               ? fixedCommitMessage.get()
               : originalCommit.getFullMessage();
       if (options.verifyCommits) {
-        changeFixProgress.isValidAfterFix &=
-            verifyCommit(commitMessage, fixedAuthorIdent, accountsInChange);
+        boolean isCommitValid = verifyCommit(commitMessage, fixedAuthorIdent, accountsInChange);
+        changeFixProgress.isValidAfterFix &= isCommitValid;
+        if (!isCommitValid) {
+          StringBuilder detailedVerificationStatus =
+              new StringBuilder(
+                  String.format(
+                      "Commit %s of ref %s failed verification after fix",
+                      originalCommit.getId(), ref));
+          detailedVerificationStatus.append("\nCommit body:\n");
+          detailedVerificationStatus.append(commitMessage);
+          if (fixedCommitMessage.isPresent()) {
+            detailedVerificationStatus.append("\n was fixed.\n");
+          }
+          detailedVerificationStatus.append("Commit author:\n");
+          detailedVerificationStatus.append(fixedAuthorIdent.toString());
+          logger.atWarning().log(detailedVerificationStatus.toString());
+        }
       }
       boolean needsFix =
           !fixedAuthorIdent.equals(originalCommit.getAuthorIdent())
@@ -520,7 +535,8 @@ public class CommitRewriter {
       return Optional.empty();
     }
     Matcher matcher = REMOVED_REVIEWER_PATTERN.matcher(originalChangeMessage);
-    if (matcher.matches() && !ACCOUNT_TEMPLATE_PATTERN.matcher(matcher.group(2)).matches()) {
+
+    if (matcher.find() && !ACCOUNT_TEMPLATE_PATTERN.matcher(matcher.group(2)).matches()) {
       // Since we do not use change messages for reviewer updates on UI, it does not matter what we
       // rewrite it to.
       return Optional.of(originalChangeMessage.substring(0, matcher.end(1)));
@@ -694,6 +710,14 @@ public class CommitRewriter {
 
       return Optional.of("Removed by someone using the hovercard menu");
     }
+
+    Matcher removedByIconClickReasonMatcher =
+        REMOVED_BY_ICON_CLICK_REASON_PATTERN.matcher(originalReason);
+    if (removedByIconClickReasonMatcher.matches()
+        && !OK_ACCOUNT_NAME_PATTERN.matcher(removedByIconClickReasonMatcher.group(1)).matches()) {
+
+      return Optional.of("Removed by someone by clicking the attention icon");
+    }
     return Optional.empty();
   }
 
@@ -733,11 +757,7 @@ public class CommitRewriter {
     for (FooterLine fl : footerLines) {
       String footerKey = fl.getKey();
       String footerValue = fl.getValue();
-      if (footerKey.equalsIgnoreCase(FOOTER_TAG.getName())) {
-        if (footerValue.equals(ChangeMessagesUtil.TAG_MERGED) && !fixedChangeMessage.isPresent()) {
-          fixedChangeMessage = fixSubmitChangeMessage(originalChangeMessage);
-        }
-      } else if (footerKey.equalsIgnoreCase(FOOTER_ASSIGNEE.getName())) {
+      if (footerKey.equalsIgnoreCase(FOOTER_ASSIGNEE.getName())) {
         Account.Id oldAssignee = fixProgress.assigneeId;
         FixIdentResult fixedAssignee = null;
         if (footerValue.equals("")) {
@@ -837,6 +857,9 @@ public class CommitRewriter {
       addFooter(footerLinesBuilder, footerKey, footerValue);
     }
 
+    if (!fixedChangeMessage.isPresent()) {
+      fixedChangeMessage = fixSubmitChangeMessage(originalChangeMessage);
+    }
     if (!fixedChangeMessage.isPresent()) {
       fixedChangeMessage = fixDeleteChangeMessageCommitMessage(originalChangeMessage);
     }

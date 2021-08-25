@@ -312,7 +312,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     draft.__editing = true;
     draft.unresolved = unresolved === false ? unresolved : true;
     this.commentsService.addDraft(draft);
-    this.push('comments', draft);
   }
 
   _getDiffUrlForPath(
@@ -548,7 +547,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     }
 
     this.commentsService.addDraft(reply);
-    this.push('comments', reply);
 
     if (!isEditing) {
       // Allow the reply to render in the dom-repeat.

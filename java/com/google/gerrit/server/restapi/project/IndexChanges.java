@@ -24,9 +24,9 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.MultiProgressMonitor.TaskKind;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -41,18 +41,18 @@ import org.eclipse.jgit.util.io.NullOutputStream;
 @Singleton
 public class IndexChanges implements RestModifyView<ProjectResource, Input> {
 
-  private final ExperimentFeatures experimentFeatures;
+  private final MultiProgressMonitor.Factory multiProgressMonitorFactory;
   private final Provider<AllChangesIndexer> allChangesIndexerProvider;
   private final ChangeIndexer indexer;
   private final ListeningExecutorService executor;
 
   @Inject
   IndexChanges(
-      ExperimentFeatures experimentFeatures,
+      MultiProgressMonitor.Factory multiProgressMonitorFactory,
       Provider<AllChangesIndexer> allChangesIndexerProvider,
       ChangeIndexer indexer,
       @IndexExecutor(BATCH) ListeningExecutorService executor) {
-    this.experimentFeatures = experimentFeatures;
+    this.multiProgressMonitorFactory = multiProgressMonitorFactory;
     this.allChangesIndexerProvider = allChangesIndexerProvider;
     this.indexer = indexer;
     this.executor = executor;
@@ -62,8 +62,8 @@ public class IndexChanges implements RestModifyView<ProjectResource, Input> {
   public Response.Accepted apply(ProjectResource resource, Input input) {
     Project.NameKey project = resource.getNameKey();
     Task mpt =
-        new MultiProgressMonitor(
-                experimentFeatures, ByteStreams.nullOutputStream(), "Reindexing project")
+        multiProgressMonitorFactory
+            .create(ByteStreams.nullOutputStream(), TaskKind.INDEXING, "Reindexing project")
             .beginSubTask("", MultiProgressMonitor.UNKNOWN);
     AllChangesIndexer allChangesIndexer = allChangesIndexerProvider.get();
     allChangesIndexer.setVerboseOut(NullOutputStream.INSTANCE);

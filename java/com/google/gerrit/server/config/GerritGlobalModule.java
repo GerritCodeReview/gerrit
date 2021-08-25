@@ -130,6 +130,7 @@ import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergedByPushOp;
+import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.ReceivePackInitializer;
@@ -284,6 +285,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeIsVisibleToPredicate.Factory.class);
     factory(DeadlineChecker.Factory.class);
     factory(MergeUtil.Factory.class);
+    factory(MultiProgressMonitor.Factory.class);
     factory(PatchScriptFactory.Factory.class);
     factory(PatchScriptFactoryForAutoFix.Factory.class);
     factory(ProjectState.Factory.class);

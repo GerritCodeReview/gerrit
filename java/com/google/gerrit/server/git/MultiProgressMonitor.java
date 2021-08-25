@@ -24,6 +24,8 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -79,6 +81,11 @@ public class MultiProgressMonitor implements RequestStateProvider {
 
   private static final char[] SPINNER_STATES = new char[] {'-', '\\', '|', '/'};
   private static final char NO_SPINNER = ' ';
+
+  public enum TaskKind {
+    INDEXING,
+    RECEIVE_COMMITS;
+  }
 
   /** Handle for a sub-task. */
   public class Task implements ProgressMonitor {
@@ -149,8 +156,20 @@ public class MultiProgressMonitor implements RequestStateProvider {
     }
   }
 
+  public interface Factory {
+    MultiProgressMonitor create(OutputStream out, TaskKind taskKind, String taskName);
+
+    MultiProgressMonitor create(
+        OutputStream out,
+        TaskKind taskKind,
+        String taskName,
+        long maxIntervalTime,
+        TimeUnit maxIntervalUnit);
+  }
+
   private final ExperimentFeatures experimentFeatures;
   private final OutputStream out;
+  private final TaskKind taskKind;
   private final String taskName;
   private final List<Task> tasks = new CopyOnWriteArrayList<>();
   private int spinnerIndex;
@@ -168,9 +187,13 @@ public class MultiProgressMonitor implements RequestStateProvider {
    * @param out stream for writing progress messages.
    * @param taskName name of the overall task.
    */
-  public MultiProgressMonitor(
-      ExperimentFeatures experimentFeatures, OutputStream out, String taskName) {
-    this(experimentFeatures, out, taskName, 500, MILLISECONDS);
+  @AssistedInject
+  private MultiProgressMonitor(
+      ExperimentFeatures experimentFeatures,
+      @Assisted OutputStream out,
+      @Assisted TaskKind taskKind,
+      @Assisted String taskName) {
+    this(experimentFeatures, out, taskKind, taskName, 500, MILLISECONDS);
   }
 
   /**
@@ -181,14 +204,17 @@ public class MultiProgressMonitor implements RequestStateProvider {
    * @param maxIntervalTime maximum interval between progress messages.
    * @param maxIntervalUnit time unit for progress interval.
    */
-  public MultiProgressMonitor(
+  @AssistedInject
+  private MultiProgressMonitor(
       ExperimentFeatures experimentFeatures,
-      OutputStream out,
-      String taskName,
-      long maxIntervalTime,
-      TimeUnit maxIntervalUnit) {
+      @Assisted OutputStream out,
+      @Assisted TaskKind taskKind,
+      @Assisted String taskName,
+      @Assisted long maxIntervalTime,
+      @Assisted TimeUnit maxIntervalUnit) {
     this.experimentFeatures = experimentFeatures;
     this.out = out;
+    this.taskKind = taskKind;
     this.taskName = taskName;
     maxIntervalNanos = NANOSECONDS.convert(maxIntervalTime, maxIntervalUnit);
   }
@@ -265,9 +291,11 @@ public class MultiProgressMonitor implements RequestStateProvider {
 
         if (deadline > 0 && now > deadline) {
           logger.atFine().log(
-              "deadline exceeded after %sms: (timeout %sms, signaling cancellation)",
+              "deadline exceeded after %sms, signaling cancellation (timeout=%sms, task=%s(%s))",
               MILLISECONDS.convert(now - overallStart, NANOSECONDS),
-              MILLISECONDS.convert(now - deadline, NANOSECONDS));
+              MILLISECONDS.convert(now - deadline, NANOSECONDS),
+              taskKind,
+              taskName);
           deadlineExceeded = true;
 
           // After setting deadlineExceeded = true give the cancellationNanos to react to the
@@ -277,9 +305,11 @@ public class MultiProgressMonitor implements RequestStateProvider {
             workerFuture.cancel(true);
             if (workerFuture.isCancelled()) {
               logger.atWarning().log(
-                  "MultiProgressMonitor worker killed after %sms: (timeout %sms, cancelled)",
+                  "MultiProgressMonitor worker killed after %sms, cancelled (timeout=%sms, task=%s(%s))",
                   MILLISECONDS.convert(now - overallStart, NANOSECONDS),
-                  MILLISECONDS.convert(now - deadline, NANOSECONDS));
+                  MILLISECONDS.convert(now - deadline, NANOSECONDS),
+                  taskKind,
+                  taskName);
             }
             break;
           }
@@ -294,7 +324,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
         if (!done && workerFuture.isDone()) {
           // The worker may not have called end() explicitly, which is likely a
           // programming error.
-          logger.atWarning().log("MultiProgressMonitor worker did not call end() before returning");
+          logger.atWarning().log(
+              "MultiProgressMonitor worker did not call end() before returning (task=%s(%s))",
+              taskKind, taskName);
           end();
         }
       }
@@ -306,7 +338,8 @@ public class MultiProgressMonitor implements RequestStateProvider {
     try {
       return workerFuture.get(maxIntervalNanos, NANOSECONDS);
     } catch (InterruptedException | CancellationException e) {
-      logger.atWarning().withCause(e).log("unable to finish processing");
+      logger.atWarning().withCause(e).log(
+          "unable to finish processing (task=%s(%s))", taskKind, taskName);
       throw new UncheckedExecutionException(e);
     } catch (TimeoutException e) {
       workerFuture.cancel(true);
@@ -412,7 +445,8 @@ public class MultiProgressMonitor implements RequestStateProvider {
         out.flush();
       } catch (IOException e) {
         logger.atWarning().withCause(e).log(
-            "Sending progress to client failed. Stop sending updates for task %s", taskName);
+            "Sending progress to client failed. Stop sending updates for task %s(%s)",
+            taskKind, taskName);
         clientDisconnected = true;
       }
     }
@@ -420,8 +454,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
 
   @Override
   public void checkIfCancelled(OnCancelled onCancelled) {
-    if (!experimentFeatures.isFeatureEnabled(
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_PUSH_CANCELLATION)) {
+    if (taskKind == TaskKind.RECEIVE_COMMITS
+        && !experimentFeatures.isFeatureEnabled(
+            ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_PUSH_CANCELLATION)) {
       return;
     }
 

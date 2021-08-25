@@ -14,7 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+/**
+ * TODO: Get rid of @apply usages in Gerrit. Then get rid of paper- and iron-
+ * components that also use @apply. Then remove the apply-shim.
+ */
+import '@webcomponents/shadycss/apply-shim.min';
 import {safeTypesBridge} from '../utils/safe-types-util';
 import './gr-app-init';
 import './font-roboto-local-loader';

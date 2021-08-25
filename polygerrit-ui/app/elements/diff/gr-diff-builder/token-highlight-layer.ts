@@ -97,10 +97,16 @@ export class TokenHighlightLayer implements DiffLayer {
   private updateTokenTask?: DelayedTask;
 
   constructor(container: HTMLElement = document.documentElement) {
-    container.addEventListener('click', _ => {
+    const handleClick = () => {
       this.handleMouseClick();
-    });
+    };
+    container.addEventListener('click', handleClick);
+    this.detach = () => {
+      container.removeEventListener('click', handleClick);
+    }
   }
+
+  detach: () => void;
 
   annotate(
     el: HTMLElement,

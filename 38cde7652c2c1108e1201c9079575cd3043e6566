@@ -67,6 +67,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "bbbe69b2_2d2a7675",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-25T14:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d08553fc_470c1065",
+      "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "da99e209_bb18c091",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
         "patchSetId": 3
@@ -128,6 +146,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "449f6665_6865060e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-25T14:44:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a2ca086c_05c51638",
+      "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa4db8fe_a5b2ba46",
@@ -141,6 +177,24 @@
       "writtenOn": "2021-08-20T22:20:24Z",
       "side": 1,
       "message": "Have you considered seeing whether the index \u003c lines.length?",
+      "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "055350a9_313a94c1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-25T14:44:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "aa4db8fe_a5b2ba46",
       "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -162,6 +216,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d56b5f2b_039ae164",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-25T14:44:12Z",
+      "side": 1,
+      "message": "This is reasonable to me even though it doesn\u0027t really reduce the +1, -1 adjustments in the main logic.\nHowever if all lines match then I want to return lines.length instead of -1 since although it\u0027s not a valid index, it is a valid end of the half-open range. For this reason I\u0027m trying the name getEndOfSection. WDYT?",
+      "parentUuid": "296cc34f_eba3780b",
+      "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30bff2b9_3b2635a1",
@@ -179,6 +251,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0658ab18_d550087f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-25T14:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30bff2b9_3b2635a1",
+      "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbb95e79_73f11498",
@@ -192,6 +282,24 @@
       "writtenOn": "2021-08-20T22:20:24Z",
       "side": 1,
       "message": "assertListBlock?",
+      "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e3a24c1_0a0402f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-25T14:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbb95e79_73f11498",
       "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

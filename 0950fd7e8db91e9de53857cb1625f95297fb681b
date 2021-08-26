@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7edf88d6_a5c19b3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-26T20:01:53Z",
+      "side": 1,
+      "message": "If this just provides a slot, then maybe this is a generic hovercard, not a submit requirement specific one?",
+      "revId": "0950fd7e8db91e9de53857cb1625f95297fb681b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

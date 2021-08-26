@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77b17a1d_3aef3d56",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-26T15:37:21Z",
+      "side": 1,
+      "message": "Sounds good!",
+      "parentUuid": "03b6604b_bd5664b1",
+      "revId": "7de61276203dbe79f7377c2f226bff9a7302b2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8654cb8e_4bc04acc",

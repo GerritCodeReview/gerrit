@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {SubmitRequirementResultInfo} from '../api/rest-api';
 import {
   AccountInfo,
   ApprovalInfo,
@@ -23,6 +24,7 @@ import {
   LabelNameToInfoMap,
   VotingRangeInfo,
 } from '../types/common';
+import {unique} from './common-util';
 
 // Name of the standard Code-Review label.
 export const CODE_REVIEW = 'Code-Review';
@@ -113,4 +115,20 @@ export function getCodeReviewLabel(
     }
   }
   return;
+}
+
+export function extractAssociatedLabels(
+  requirement: SubmitRequirementResultInfo
+): string[] {
+  const pattern = new RegExp('label[0-9]*:([\\w-]+)', 'g');
+  const labels = [];
+  let match;
+  while (
+    (match = pattern.exec(
+      requirement.submittability_expression_result.expression
+    )) !== null
+  ) {
+    labels.push(match[1]);
+  }
+  return labels.filter(unique);
 }

@@ -16,6 +16,24 @@
       "message": "@nasser, do you know why it fails?",
       "revId": "36cf76bacc2585b38e42433dc2c17f88ba9f17ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82a9c8da_0eab0f21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-26T20:55:14Z",
+      "side": 1,
+      "message": "I just see this in the log[1]:\n\n Error in fail: Target \u0027rbe_jdk11\u0027 failed: use_checked_in_confs was set to \u0027Force\u0027 but no checked-in configs were found. Please check your pin to \u0027@bazel_toolchains\u0027 is up to date, and that you are using a release version of Bazel. You can also explicitly set the version of Bazel to an older version in the \u0027rbe_jdk11\u0027 rbe_autoconfig target which may or may not work with the version you are currently running with.\n \nDid Bazel 4.1 or 4.2 change the default for \u0027use_checked_in_confs\u0027? Do you also need to update @bazel_toolchains?\n\n[1] https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/112458/console",
+      "parentUuid": "49b3c14a_8a7bb5d2",
+      "revId": "36cf76bacc2585b38e42433dc2c17f88ba9f17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

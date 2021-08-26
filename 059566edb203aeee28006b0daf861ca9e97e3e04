@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2452662b_b69ac148",
+        "filename": "java/com/google/gerrit/extensions/common/AccountInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-26T13:34:20Z",
+      "side": 0,
+      "message": "I\u0027d keep this but as a Java class that houses constants for all the tags core Gerrit knows about.\n\n/** Tags are additional properties of an account. These are just tags known to Gerrit core. Plugins might define their own. */\npublic final class Tags {\n  /** Tag indicating that this account is a service user. */\n  public static final String SERVICE_USER \u003d \"SERVICE_USER\";\n}",
+      "range": {
+        "startLine": 31,
+        "startChar": 9,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "059566edb203aeee28006b0daf861ca9e97e3e04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

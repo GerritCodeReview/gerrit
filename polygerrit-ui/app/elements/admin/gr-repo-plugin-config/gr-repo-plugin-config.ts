@@ -149,7 +149,7 @@ export class GrRepoPluginConfig extends GrLitElement {
           ?checked=${this._computeChecked(option.info.value)}
           @change=${this._handleBooleanChange}
           data-option-key=${option._key}
-          ?disabled=${option.info.editable}
+          ?disabled=${!option.info.editable}
           @click=${this._onTapPluginBoolean}
         ></paper-toggle-button>
       `;
@@ -158,7 +158,7 @@ export class GrRepoPluginConfig extends GrLitElement {
         <gr-select value=${option.info.value} @change=${this._handleListChange}>
           <select
             data-option-key=${option._key}
-            ?disabled=${option.info.editable}
+            ?disabled=${!option.info.editable}
           >
             ${(option.info.permitted_values || []).map(
               value => html`<option value="${value}">${value}</option>`
@@ -176,14 +176,14 @@ export class GrRepoPluginConfig extends GrLitElement {
           value=${option.info.value}
           @input=${this._handleStringChange}
           data-option-key="${option._key}"
-          ?disabled=${option.info.editable}
+          ?disabled=${!option.info.editable}
         >
           <input
             is="iron-input"
             value="${option.info.value}"
             @input=${this._handleStringChange}
             data-option-key="${option._key}"
-            ?disabled=${option.info.editable}
+            ?disabled=${!option.info.editable}
           />
         </iron-input>
       `;

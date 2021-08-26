@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24079e7b_7462f587",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-26T00:59:49Z",
+      "side": 1,
+      "message": "Tested on Chrome v92 (CI-test) and I got the following errors:\n��� 3 tests failed\n\nFAILED TESTS:\n  gr-linked-text tests\n    ��� Bug pattern was parsed and linked\n      Chrome Headless 92.0.4515.159 (Linux x86_64)\n    AssertionError: expected \u0027Issue 3650\u0027 to equal \u0027Bug 3650\u0027\n\n      + expected - actual\n\n      -Issue 3650\n      +Bug 3650\n      \n    at Context.\u003canonymous\u003e (polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.ts:120:12)\n\n\n    ��� only {http,https,mailto} protocols are linkified\n      Chrome Headless 92.0.4515.159 (Linux x86_64)\n    AssertionError: expected \u0027mailto:test@google.com\u0027 to equal \u0027http://google.com\u0027\n\n      + expected - actual\n\n      -mailto:test@google.com\n      +http://google.com\n      \n    at Context.\u003canonymous\u003e (polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.ts:325:12)\n\n\n    ��� links without leading whitespace are linkified\n      Chrome Headless 92.0.4515.159 (Linux x86_64)\n    AssertionError: expected \u0027xx abc\u0027 to equal \u0027xx def\u0027\n\n      + expected - actual\n\n      -xx abc\n      +xx def\n      \n    at Context.\u003canonymous\u003e (polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.ts:360:12)\n\n\nI should be able to deploy the Chrome v92-based validation tomorrow on the main Gerrit-CI.",
+      "revId": "0445554409de0cc84d501cf1f752bc1395345302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc96b701_37121498",

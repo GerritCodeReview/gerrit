@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "422fc182_68627a00",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/GetAccountDetailIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-26T17:40:28Z",
+      "side": 1,
+      "message": "I\u0027m not happy with doing it this way. I\u0027d like to only have the tag added during the extension point test and not in any others, but I didn\u0027t see an easy way to do that. Is there a good way to know the specific Account.Id of user or admin accounts that would be availabile in this static module? or other ideas?",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 44
+      },
+      "revId": "9b3f9b720cd5aee9e03fe9b040cd2849d7b40e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

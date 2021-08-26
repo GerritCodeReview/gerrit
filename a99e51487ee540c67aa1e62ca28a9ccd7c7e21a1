@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f739abcf_c12c4ade",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-26T17:40:28Z",
+      "side": 1,
+      "message": "Thanks! Done.",
+      "parentUuid": "4f87d563_eb3b15cc",
+      "revId": "a99e51487ee540c67aa1e62ca28a9ccd7c7e21a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca976591_50ed9e87",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-08-26T13:34:20Z",
       "side": 1,
       "message": "nit: needs JavaDoc",
+      "revId": "a99e51487ee540c67aa1e62ca28a9ccd7c7e21a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13f89f76_dc3f10ed",
+        "filename": "java/com/google/gerrit/server/account/AccountTagProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-26T17:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca976591_50ed9e87",
       "revId": "a99e51487ee540c67aa1e62ca28a9ccd7c7e21a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf616a23_ddbd858a",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-26T17:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32db14b1_0f12d1f1",
+      "range": {
+        "startLine": 66,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "a99e51487ee540c67aa1e62ca28a9ccd7c7e21a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa2a2e69_1b570197",
@@ -71,6 +131,30 @@
       "writtenOn": "2021-08-26T13:34:20Z",
       "side": 1,
       "message": "When you use a DynamicMap, that potentially gives you N implementations of the provider, so you need to loop over them (A plugin endpoint can be implemented 0..N times by installed plugins that then all contribute to the result.)",
+      "range": {
+        "startLine": 166,
+        "startChar": 26,
+        "endLine": 166,
+        "endChar": 44
+      },
+      "revId": "a99e51487ee540c67aa1e62ca28a9ccd7c7e21a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ccf6fd1_6ac88b22",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-26T17:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa2a2e69_1b570197",
       "range": {
         "startLine": 166,
         "startChar": 26,

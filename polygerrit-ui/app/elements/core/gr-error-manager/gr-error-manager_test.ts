@@ -30,6 +30,7 @@ import {
 } from '../../../test/test-data-generators';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {AccountId} from '../../../types/common';
+import {waitUntil} from '../../../test/test-utils'
 
 const basicFixture = fixtureFromElement('gr-error-manager');
 
@@ -515,7 +516,7 @@ suite('gr-error-manager tests', () => {
       // promises on server-error handler and flush only flushes one
       assert.equal(fetchStub.callCount, 2);
       await flush();
-
+      await waitUntil(() => toastSpy.calledOnce);
       let toast = toastSpy.lastCall.returnValue;
       assert.include(toast.shadowRoot.textContent, 'Credentials expired.');
       assert.include(toast.shadowRoot.textContent, 'Refresh credentials');
@@ -533,6 +534,7 @@ suite('gr-error-manager tests', () => {
       );
 
       await flush();
+      assert.isTrue(toastSpy.calledOnce)
       toast = toastSpy.lastCall.returnValue;
       assert.isOk(toast);
       assert.include(toast.shadowRoot.textContent, 'Credentials expired.');

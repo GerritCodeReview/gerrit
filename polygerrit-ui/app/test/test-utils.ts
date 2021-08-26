@@ -218,6 +218,24 @@ export function removeIronOverlayBackdropStyleEl() {
   el.parentNode?.removeChild(el);
 }
 
+export function waitUntil(predicate: (() => boolean), maxMillis: number = 100): Promise<void> {
+  const start = Date.now();
+  let sleep = 1;
+  return new Promise((resolve, reject) => {
+    const waiter = () => {
+      if (predicate()) {
+        return resolve();
+      }
+      if (Date.now() - start >= maxMillis) {
+        return reject();
+      }
+      setTimeout(waiter, sleep);
+      sleep *= 2;
+    };
+    waiter();
+  });
+}
+
 /**
  * Promisify an event callback to simplify async...await tests.
  *

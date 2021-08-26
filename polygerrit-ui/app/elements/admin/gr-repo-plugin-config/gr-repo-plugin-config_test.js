@@ -122,7 +122,9 @@ suite('gr-repo-plugin-config tests', () => {
       const permitted_values = ['test', 'newTest'];
       element.pluginData = {
         name: 'testName',
-        config: {plugin: {value: 'test', type: 'LIST', permitted_values}},
+        config: {plugin:
+          {value: 'test', type: 'LIST', editable: true, permitted_values},
+        },
       };
       await flush();
 

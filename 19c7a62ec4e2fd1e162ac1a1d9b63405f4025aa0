@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3507ec68_01e8eba8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-26T17:12:19Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "1a0ec2f4_7c54304a",
+      "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9c34bb1_ecde43fe",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-08-26T07:30:39Z",
       "side": 1,
       "message": "Maybe rename to `dispatch...`, because you are not just \"making\" the event.",
+      "range": {
+        "startLine": 31,
+        "startChar": 9,
+        "endLine": 31,
+        "endChar": 23
+      },
+      "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4af50291_21f89bfb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-26T17:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c34bb1_ecde43fe",
       "range": {
         "startLine": 31,
         "startChar": 9,
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8070afb_593ddb87",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-26T17:12:19Z",
+      "side": 1,
+      "message": "Good idea!",
+      "parentUuid": "f84448c3_5f97d3a0",
+      "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b61186b4_16997a23",
@@ -92,6 +152,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f05ab830_a249edfc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-26T17:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b61186b4_16997a23",
+      "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7fb9472a_4980a63d",
@@ -105,6 +183,24 @@
       "writtenOn": "2021-08-26T07:45:12Z",
       "side": 1,
       "message": "I assume this 200ms is coming from HOVER_DELAY_MS in token-highlight-layer?\n\nIf so, perhaps consider exporting the value so we don\u0027t have to change the tests if the value changes?",
+      "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1646a1a4_9de2b6b9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-26T17:12:19Z",
+      "side": 1,
+      "message": "Good call",
+      "parentUuid": "7fb9472a_4980a63d",
       "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

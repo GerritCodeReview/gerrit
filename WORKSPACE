@@ -34,11 +34,11 @@ load("//tools:nongoogle.bzl", "TESTCONTAINERS_VERSION", "declare_nongoogle_deps"
 
 http_archive(
     name = "bazel_toolchains",
-    sha256 = "1adf7a8e9901287c644dcf9ca08dd8d67a69df94bedbd57a841490a84dc1e9ed",
-    strip_prefix = "bazel-toolchains-5.0.0",
+    sha256 = "5b6eef36e1f627bf739d3212487c7c31e9f19ce68bcb4d672aa11be1bd6bd2ee",
+    strip_prefix = "bazel-toolchains-5.1.0",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/v5.0.0.tar.gz",
-        "https://github.com/bazelbuild/bazel-toolchains/archive/v5.0.0.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/v5.1.0.tar.gz",
+        "https://github.com/bazelbuild/bazel-toolchains/archive/v5.1.0.tar.gz",
     ],
 )
 
@@ -47,6 +47,7 @@ load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 # Creates a default toolchain config for RBE.
 rbe_autoconfig(
     name = "rbe_jdk11",
+    bazel_version = "4.0.0",
     java_home = "/usr/lib/jvm/11.29.3-ca-jdk11.0.2/reduced",
     use_checked_in_confs = "Force",
 )

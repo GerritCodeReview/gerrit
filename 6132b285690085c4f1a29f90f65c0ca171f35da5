@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e8d2381_89c943a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-26T14:00:53Z",
+      "side": 1,
+      "message": "This is surprising. Are you using v1.7? We check style on all changes and this would mean that style checks are failing on master?",
+      "revId": "6132b285690085c4f1a29f90f65c0ca171f35da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

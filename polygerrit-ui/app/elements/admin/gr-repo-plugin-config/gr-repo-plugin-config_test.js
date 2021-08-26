@@ -67,7 +67,7 @@ suite('gr-repo-plugin-config tests', () => {
     test('ARRAY type option', async () => {
       element.pluginData = {
         name: 'testName',
-        config: {plugin: {value: 'test', type: 'ARRAY'}},
+        config: {plugin: {value: 'test', type: 'ARRAY', editable: true}},
       };
       await flush();
 
@@ -82,7 +82,7 @@ suite('gr-repo-plugin-config tests', () => {
     test('BOOLEAN type option', async () => {
       element.pluginData = {
         name: 'testName',
-        config: {plugin: {value: 'true', type: 'BOOLEAN'}},
+        config: {plugin: {value: 'true', type: 'BOOLEAN', editable: true}},
       };
       await flush();
 
@@ -101,7 +101,7 @@ suite('gr-repo-plugin-config tests', () => {
     test('INT/LONG/STRING type option', async () => {
       element.pluginData = {
         name: 'testName',
-        config: {plugin: {value: 'test', type: 'STRING'}},
+        config: {plugin: {value: 'test', type: 'STRING', editable: true}},
       };
       await flush();
 

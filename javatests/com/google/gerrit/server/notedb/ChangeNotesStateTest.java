@@ -1065,7 +1065,7 @@ public class ChangeNotesStateTest {
             .setChangeId(ID.get())
             .setMergedOnMillis(234567L)
             .setHasMergedOn(true)
-            .setColumns(colsProto.toBuilder())
+            .setColumns(colsProto)
             .build());
   }
 
@@ -1128,7 +1128,7 @@ public class ChangeNotesStateTest {
             .setChangeId(ID.get())
             .setServerId(DEFAULT_SERVER_ID)
             .setHasServerId(true)
-            .setColumns(colsProto.toBuilder())
+            .setColumns(colsProto)
             .build());
   }
 

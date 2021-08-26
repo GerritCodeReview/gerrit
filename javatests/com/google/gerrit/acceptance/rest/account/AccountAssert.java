@@ -39,8 +39,7 @@ public class AccountAssert {
     if (testAccount.tags().isEmpty()) {
       assertThat(accountInfo.tags).isNull();
     } else {
-      assertThat(accountInfo.tags.stream().map(Enum::name).collect(toImmutableList()))
-          .containsExactlyElementsIn(testAccount.tags());
+      assertThat(accountInfo.tags).containsExactlyElementsIn(testAccount.tags());
     }
   }
 

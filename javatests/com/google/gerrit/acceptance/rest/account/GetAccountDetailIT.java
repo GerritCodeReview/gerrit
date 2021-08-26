@@ -56,7 +56,7 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
         .update();
     RestResponse r = adminRestSession.get("/accounts/" + serviceUser.get() + "/detail/");
     AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
-    assertThat(info.tags).containsExactly(AccountInfo.Tag.SERVICE_USER);
+    assertThat(info.tags).containsExactly("SERVICE_USER");
   }
 
   @Test

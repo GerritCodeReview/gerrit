@@ -63,6 +63,7 @@ public class InternalAccountDirectory extends AccountDirectory {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final ServiceUserClassifier serviceUserClassifier;
+  private final AccountTagProvider accountTagProvider;
 
   @Inject
   InternalAccountDirectory(
@@ -71,13 +72,15 @@ public class InternalAccountDirectory extends AccountDirectory {
       IdentifiedUser.GenericFactory userFactory,
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      ServiceUserClassifier serviceUserClassifier) {
+      ServiceUserClassifier serviceUserClassifier,
+      AccountTagProvider accountTagProvider) {
     this.accountCache = accountCache;
     this.avatar = avatar;
     this.userFactory = userFactory;
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.serviceUserClassifier = serviceUserClassifier;
+    this.accountTagProvider = accountTagProvider;
   }
 
   @Override
@@ -160,10 +163,12 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
 
     if (options.contains(FillOptions.TAGS)) {
-      info.tags =
-          serviceUserClassifier.isServiceUser(account.id())
-              ? ImmutableList.of(AccountInfo.Tag.SERVICE_USER)
-              : null;
+      List<String> tags = accountTagProvider.getTags(account.id());
+      tags.addAll(
+        serviceUserClassifier.isServiceUser(account.id())
+          ? ImmutableList.of("SERVICE_USER")
+          : ImmutableList.of());
+      info.tags = tags;
     }
 
     if (options.contains(FillOptions.AVATARS)) {

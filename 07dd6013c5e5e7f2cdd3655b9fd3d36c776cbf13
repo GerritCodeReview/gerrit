@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7855759_c0661672",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-26T07:14:46Z",
+      "side": 1,
+      "message": "Thanks. WaitUntil looks very useful. ",
+      "revId": "07dd6013c5e5e7f2cdd3655b9fd3d36c776cbf13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

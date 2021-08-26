@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03b6604b_bd5664b1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-26T10:25:37Z",
+      "side": 1,
+      "message": "I added a quote block assert that is similar to the rest, but leaving the sub-block assertions outside for now. I am planning to introduce more features next, so I will take another look for a good test pattern then.",
+      "parentUuid": "5f3df17a_d7ff3788",
+      "revId": "7de61276203dbe79f7377c2f226bff9a7302b2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8654cb8e_4bc04acc",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-08-25T17:56:52Z",
       "side": 1,
       "message": "assertQuoteBlock(result[0],\n     b \u003d\u003e assertQuoteBlock(b, nb \u003d\u003e asssertTextBlock(nb, ...)),\n     b \u003d\u003e assertTextBlock(b, ...));",
+      "revId": "7de61276203dbe79f7377c2f226bff9a7302b2c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dedfd7d5_dde02005",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-26T10:25:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8654cb8e_4bc04acc",
       "revId": "7de61276203dbe79f7377c2f226bff9a7302b2c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

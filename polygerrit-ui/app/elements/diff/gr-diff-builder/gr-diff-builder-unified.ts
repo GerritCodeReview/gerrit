@@ -38,6 +38,7 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
       numberOfCells: 3,
       movedOutIndex: 2,
       movedInIndex: 2,
+      lineNumberCols: [0, 1],
     };
   }
 

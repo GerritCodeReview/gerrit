@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b32d62a_9765b36f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-26T14:06:29Z",
+      "side": 1,
+      "message": "Logic is still the same. I refactored the code a bit.",
+      "revId": "5fb2537021f89117908c4dcbd0938bcc0e334990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

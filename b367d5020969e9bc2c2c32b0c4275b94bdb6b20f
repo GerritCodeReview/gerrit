@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cdebb66_e1a59964",
+        "filename": "polygerrit-ui/app/utils/compare-util_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-26T18:25:05Z",
+      "side": 1,
+      "message": "Nit: 2021",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "b367d5020969e9bc2c2c32b0c4275b94bdb6b20f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

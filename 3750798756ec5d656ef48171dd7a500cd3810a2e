@@ -16,6 +16,23 @@
       "message": "Thanks! It looks good, but I would be happy if Dmitrii or Ben can check as well",
       "revId": "3750798756ec5d656ef48171dd7a500cd3810a2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36756526_853b14ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-26T19:27:12Z",
+      "side": 1,
+      "message": "Maybe also change //plugins/tsconfig-plugins-base.json",
+      "revId": "3750798756ec5d656ef48171dd7a500cd3810a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

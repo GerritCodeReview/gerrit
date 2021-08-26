@@ -273,7 +273,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
       exclusive = toBoolean(permission.getExclusiveGroup());
       rules = Maps.newHashMap();
       for (PermissionRule r : permission.getRules()) {
-        rules.put(r.getGroup().getUUID().get(), new PermissionRuleInfo(r));
+        rules.putIfAbsent(r.getGroup().getUUID().get(), new PermissionRuleInfo(r)); // First entry for the group wins
       }
     }
   }

@@ -14,17 +14,19 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.Streams.stream;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Stream.concat;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AccountInfo.Tags;
 import com.google.gerrit.extensions.common.AvatarInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -45,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Singleton
 public class InternalAccountDirectory extends AccountDirectory {
@@ -63,6 +66,7 @@ public class InternalAccountDirectory extends AccountDirectory {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final ServiceUserClassifier serviceUserClassifier;
+  private final DynamicMap<AccountTagProvider> accountTagProviders;
 
   @Inject
   InternalAccountDirectory(
@@ -71,13 +75,15 @@ public class InternalAccountDirectory extends AccountDirectory {
       IdentifiedUser.GenericFactory userFactory,
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      ServiceUserClassifier serviceUserClassifier) {
+      ServiceUserClassifier serviceUserClassifier,
+      DynamicMap<AccountTagProvider> accountTagProviders) {
     this.accountCache = accountCache;
     this.avatar = avatar;
     this.userFactory = userFactory;
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.serviceUserClassifier = serviceUserClassifier;
+    this.accountTagProviders = accountTagProviders;
   }
 
   @Override
@@ -102,7 +108,7 @@ public class InternalAccountDirectory extends AccountDirectory {
 
     Set<FillOptions> fillOptionsWithoutSecondaryEmails =
         Sets.difference(options, EnumSet.of(FillOptions.SECONDARY_EMAILS));
-    Set<Account.Id> ids = Streams.stream(in).map(a -> Account.id(a._accountId)).collect(toSet());
+    Set<Account.Id> ids = stream(in).map(a -> Account.id(a._accountId)).collect(toSet());
     Map<Account.Id, AccountState> accountStates = accountCache.get(ids);
     for (AccountInfo info : in) {
       Account.Id id = Account.id(info._accountId);
@@ -160,10 +166,10 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
 
     if (options.contains(FillOptions.TAGS)) {
-      info.tags =
-          serviceUserClassifier.isServiceUser(account.id())
-              ? ImmutableList.of(AccountInfo.Tag.SERVICE_USER)
-              : null;
+      List<String> tags = getTags(account.id());
+      if (!tags.isEmpty()) {
+        info.tags = tags;
+      }
     }
 
     if (options.contains(FillOptions.AVATARS)) {
@@ -192,6 +198,15 @@ public class InternalAccountDirectory extends AccountDirectory {
         .filter(e -> !e.equals(account.preferredEmail()))
         .sorted()
         .collect(toList());
+  }
+
+  private List<String> getTags(Account.Id id) {
+    Stream<String> tagsFromProviders =
+        stream(accountTagProviders.iterator())
+            .flatMap(accountTagProvider -> accountTagProvider.get().getTags(id).stream());
+    Stream<String> tagsFromServiceUserClassifier =
+        serviceUserClassifier.isServiceUser(id) ? Stream.of(Tags.SERVICE_USER) : Stream.empty();
+    return concat(tagsFromProviders, tagsFromServiceUserClassifier).collect(toList());
   }
 
   private static void addAvatar(

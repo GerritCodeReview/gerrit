@@ -27,6 +27,7 @@ import static com.google.common.net.HttpHeaders.ORIGIN;
 import static com.google.common.net.HttpHeaders.VARY;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
@@ -41,6 +42,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.testing.ConfigSuite;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -206,6 +208,10 @@ public class CorsIT extends AbstractDaemonTest {
 
   @Test
   public void crossDomainPutTopic() throws Exception {
+    // Setting cookies with HttpOnly requires Servlet API 3+ which not all deployments might have
+    // available.
+    assume().that(cookieHasSetHttpOnlyMethod()).isTrue();
+
     Result change = createChange();
     BasicCookieStore cookies = new BasicCookieStore();
     Executor http = Executor.newInstance().use(cookies);
@@ -326,5 +332,15 @@ public class CorsIT extends AbstractDaemonTest {
       assertWithMessage(ACCESS_CONTROL_ALLOW_METHODS).that(allowMethods).isNull();
       assertWithMessage(ACCESS_CONTROL_ALLOW_HEADERS).that(allowHeaders).isNull();
     }
+  }
+
+  private static boolean cookieHasSetHttpOnlyMethod() {
+    Method setHttpOnly = null;
+    try {
+      setHttpOnly = Cookie.class.getMethod("setHttpOnly", boolean.class);
+    } catch (NoSuchMethodException | SecurityException e) {
+      return false;
+    }
+    return setHttpOnly != null;
   }
 }

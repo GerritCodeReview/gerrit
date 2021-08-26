@@ -1199,7 +1199,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       basePatchNum: value.basePatchNum || ParentPatchSetNum,
     };
 
-    this.$.fileList.collapseAllDiffs();
     this._patchRange = patchRange;
     this.scrollCommentId = value.commentId;
 
@@ -1210,6 +1209,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     // If the change has already been loaded and the parameter change is only
     // in the patch range, then don't do a full reload.
     if (this._changeNum !== undefined && patchChanged && patchKnown) {
+      this.$.fileList.collapseAllDiffs();
       if (!patchRange.patchNum) {
         patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
         rightPatchNumChanged = true;
@@ -1220,17 +1220,25 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       return;
     }
 
-    this._initialLoadComplete = false;
-    this._changeNum = value.changeNum;
-    this.loadData(true).then(() => {
-      this._performPostLoadTasks();
-    });
-
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
         this._initActiveTabs(value);
       });
+
+    // If a new change is loaded, then isChangeObsolete() ensures a completely
+    // new view is created and we will have this._changeNum to be undefined
+    // If there is no change in patchset or changeNum, then there is no need
+    // to reload anything and we render the change view component as is
+    if (this._changeNum === value.changeNum) return;
+
+    this.$.fileList.collapseAllDiffs();
+
+    this._initialLoadComplete = false;
+    this._changeNum = value.changeNum;
+    this.loadData(true).then(() => {
+      this._performPostLoadTasks();
+    });
   }
 
   _initActiveTabs(params?: AppElementChangeViewParams) {

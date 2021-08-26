@@ -17,6 +17,7 @@
 
 import '../test/common-test-setup-karma';
 import {
+  extractAssociatedLabels,
   getApprovalInfo,
   getLabelStatus,
   getMaxAccounts,
@@ -32,6 +33,10 @@ import {
   ApprovalInfo,
   DetailedLabelInfo,
 } from '../types/common';
+import {
+  createSubmitRequirementExpressionInfo,
+  createSubmitRequirementResultInfo,
+} from '../test/test-data-generators';
 
 const VALUES_0 = {
   '0': 'neutral',
@@ -185,5 +190,39 @@ suite('label-util', () => {
     assert.equal(getRepresentativeValue(labelInfo), 2);
     labelInfo = {all: [{value: 0}, {value: -2}]};
     assert.equal(getRepresentativeValue(labelInfo), -2);
+  });
+
+  suite('extractAssociatedLabels()', () => {
+    function createSubmitRequirementExpressionInfoWith(expression: string) {
+      return {
+        ...createSubmitRequirementResultInfo(),
+        submittability_expression_result: {
+          ...createSubmitRequirementExpressionInfo(),
+          expression,
+        },
+      };
+    }
+
+    test('1 label', () => {
+      const submitRequirement = createSubmitRequirementExpressionInfoWith(
+        'label:Verified=MAX -label:Verified=MIN'
+      );
+      const labels = extractAssociatedLabels(submitRequirement);
+      assert.deepEqual(labels, ['Verified']);
+    });
+    test('label with number', () => {
+      const submitRequirement = createSubmitRequirementExpressionInfoWith(
+        'label2:verified=MAX'
+      );
+      const labels = extractAssociatedLabels(submitRequirement);
+      assert.deepEqual(labels, ['verified']);
+    });
+    test('2 labels', () => {
+      const submitRequirement = createSubmitRequirementExpressionInfoWith(
+        'label:Verified=MAX -label:Code-Review=MIN'
+      );
+      const labels = extractAssociatedLabels(submitRequirement);
+      assert.deepEqual(labels, ['Verified', 'Code-Review']);
+    });
   });
 });

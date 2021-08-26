@@ -73,6 +73,40 @@
       "message": "Would this be easier to write and read with Lit\u0027s html`` and render() utils?\n\nhttps://lit.dev/docs/libraries/standalone-templates/",
       "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b61186b4_16997a23",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-26T07:45:12Z",
+      "side": 1,
+      "message": "does add?",
+      "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fb9472a_4980a63d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-26T07:45:12Z",
+      "side": 1,
+      "message": "I assume this 200ms is coming from HOVER_DELAY_MS in token-highlight-layer?\n\nIf so, perhaps consider exporting the value so we don\u0027t have to change the tests if the value changes?",
+      "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

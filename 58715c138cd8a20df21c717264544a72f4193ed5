@@ -34,6 +34,23 @@
       "parentUuid": "205d77e7_eb4b5097",
       "revId": "58715c138cd8a20df21c717264544a72f4193ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "491e1d54_adae3152",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-26T19:49:38Z",
+      "side": 1,
+      "message": "Chris, can you have a look?\n\nYou migrated the component to Lit in change 315523.\n\nFYI Change 314244 is what this merge is trying to get into master. It is somewhat obsolete with your Lit migration, but apparently a test is newly failing.",
+      "revId": "58715c138cd8a20df21c717264544a72f4193ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

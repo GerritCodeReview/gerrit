@@ -57,6 +57,7 @@ import {
   RepoName,
   ServerInfo,
   UrlEncodedCommentId,
+  ParentPatchSetNum,
 } from '../../../types/common';
 import {
   AppElement,
@@ -725,12 +726,12 @@ export class GrRouter extends PolymerElement {
     // patches are equal clear the base.
     if (params.patchNum && params.basePatchNum === params.patchNum) {
       needsRedirect = true;
-      params.basePatchNum = null;
+      params.basePatchNum = ParentPatchSetNum;
     } else if (!hasPatchNum) {
       // Regexes set basePatchNum instead of patchNum when only one is
       // specified. Redirect is not needed in this case.
       params.patchNum = params.basePatchNum;
-      params.basePatchNum = null;
+      params.basePatchNum = ParentPatchSetNum;
     }
     return needsRedirect;
   }

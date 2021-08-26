@@ -1,6 +1,74 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dda34c0_99344fff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-26T18:31:34Z",
+      "side": 1,
+      "message": "Thanks for fixing this!",
+      "revId": "b367d5020969e9bc2c2c32b0c4275b94bdb6b20f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da0c8a82_e0665f01",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-26T18:31:34Z",
+      "side": 1,
+      "message": "nit: renderChecksErrors.\n\nAlternatively renderErrorMessages",
+      "revId": "b367d5020969e9bc2c2c32b0c4275b94bdb6b20f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4185bf98_7cf2aef5",
+        "filename": "polygerrit-ui/app/utils/compare-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-26T18:31:34Z",
+      "side": 1,
+      "message": "nit: deepStringMapEqual?\n\nThis only works for string maps.",
+      "revId": "b367d5020969e9bc2c2c32b0c4275b94bdb6b20f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5a991f1_02d884bd",
+        "filename": "polygerrit-ui/app/utils/compare-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-26T18:31:34Z",
+      "side": 1,
+      "message": "nit: This check doesn\u0027t add much because the for-loop below will just be empty.",
+      "revId": "b367d5020969e9bc2c2c32b0c4275b94bdb6b20f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cdebb66_e1a59964",

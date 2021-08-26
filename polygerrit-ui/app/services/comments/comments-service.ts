@@ -31,11 +31,16 @@ import {
   updateStateUndoDiscardedDraft,
   discardedDrafts$,
 } from './comments-model';
+import {StorageService} from '../storage/gr-storage';
+import {assertIsDefined} from '../../utils/common-util';
 
 export class CommentsService {
   private discardedDrafts?: UIDraft[] = [];
 
-  constructor(readonly restApiService: RestApiService) {
+  constructor(
+    readonly restApiService: RestApiService,
+    readonly storageService: StorageService
+  ) {
     discardedDrafts$.subscribe(
       discardedDrafts => (this.discardedDrafts = discardedDrafts)
     );
@@ -76,20 +81,49 @@ export class CommentsService {
     if (!draft) throw new Error('discarded draft not found');
     // delete draft ID since we want to treat this as a new draft creation
     delete draft.id;
-    this.restApiService
+    this.saveDraft(changeNum, patchNum, draft).then(comment => {
+      updateStateAddDraft(comment);
+      updateStateUndoDiscardedDraft(draftID);
+    })
+  }
+
+  saveDraft(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    draft: DraftInfo
+  ) {
+    return this.restApiService
       .saveDiffDraft(changeNum, patchNum, draft)
       .then(result => {
-        if (!result.ok) {
-          fireAlert(document, 'Unable to restore draft');
-          return;
+        if (result.ok) {
+          this.eraseDraftCommentFromStorage(changeNum, patchNum, draft);
+          return this.restApiService.getResponseObject(result).then(obj => {
+            const resComment = obj as unknown as DraftInfo;
+            resComment.patch_set = draft.patch_set;
+            return resComment;
+          });
         }
-        this.restApiService.getResponseObject(result).then(obj => {
-          const resComment = obj as unknown as DraftInfo;
-          resComment.patch_set = draft.patch_set;
-          updateStateAddDraft(resComment);
-          updateStateUndoDiscardedDraft(draftID);
-        });
+        return result;
       });
+  }
+
+  eraseDraftCommentFromStorage(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    draft: DraftInfo
+  ) {
+    // Prevents a race condition in which removing the draft comment occurs
+    // prior to it being saved.
+    this.storeTask?.cancel();
+
+    assertIsDefined(draft?.path, 'comment.path');
+    this.storageService.eraseDraftComment({
+      changeNum,
+      patchNum,
+      path: draft.path,
+      line: draft.line,
+      range: draft.range,
+    });
   }
 
   addDraft(draft: DraftInfo) {

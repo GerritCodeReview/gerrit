@@ -460,11 +460,9 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     fireEvent(this, 'copy-comment-link');
   }
 
-  save(opt_comment?: UIComment) {
-    let comment = opt_comment;
-    if (!comment) {
-      comment = this.comment;
-    }
+  save() {
+    const comment = this.comment;
+    if (!comment) return;
 
     this.set('comment.message', this._messageText);
     this.editing = false;
@@ -480,8 +478,9 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
         if (!response.ok) {
           return;
         }
-
-        this._eraseDraftCommentFromStorage();
+        assertIsDefined(this.changeNum, 'changeNum');
+        assertIsDefined(this.patchNum, 'patchNum');
+        this.commentsService.eraseDraftCommentFromStorage(this.changeNum, this.patchNum, comment);
         return this.restApiService.getResponseObject(response).then(obj => {
           const resComment = obj as unknown as UIDraft;
           if (!isDraft(this.comment)) throw new Error('Can only save drafts.');
@@ -503,22 +502,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       });
 
     return this._xhrPromise;
-  }
-
-  _eraseDraftCommentFromStorage() {
-    // Prevents a race condition in which removing the draft comment occurs
-    // prior to it being saved.
-    this.storeTask?.cancel();
-
-    assertIsDefined(this.comment?.path, 'comment.path');
-    assertIsDefined(this.changeNum, 'changeNum');
-    this.storage.eraseDraftComment({
-      changeNum: this.changeNum,
-      patchNum: this._getPatchNum(),
-      path: this.comment.path,
-      line: this.comment.line,
-      range: this.comment.range,
-    });
   }
 
   _commentChanged(comment: UIComment) {
@@ -802,7 +785,9 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     const timer = this.reporting.getTimer(REPORT_DISCARD_DRAFT);
     this.editing = false;
     this.disabled = true;
-    this._eraseDraftCommentFromStorage();
+    assertIsDefined(this.changeNum, 'change');
+    assertIsDefined(this.patchNum, 'patchNum');
+    this.commentsService.eraseDraftCommentFromStorage(this.changeNum, this.patchNum, this.comment);
 
     if (!this.comment.id) {
       this.disabled = false;
@@ -885,11 +870,10 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       throw new Error('undefined draft or changeNum or patchNum');
     }
     this._showStartRequest();
-    return this.restApiService
-      .saveDiffDraft(this.changeNum, this.patchNum, draft)
+    return this.commentsService
+      .saveDraft(this.changeNum, this.patchNum, draft)
       .then(result => {
         if (result.ok) {
-          // remove
           this._unableToSave = false;
           this.$.container.classList.remove('unableToSave');
           this._showEndRequest();
@@ -969,23 +953,17 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   _handleToggleResolved() {
     this.reporting.recordDraftInteraction();
     this.resolved = !this.resolved;
-    // Modify payload instead of this.comment, as this.comment is passed from
-    // the parent by ref.
-    const payload = this._getEventPayload();
-    if (!payload.comment) {
-      throw new Error('comment not defined in payload');
-    }
-    payload.comment.unresolved = !this.$.resolvedCheckbox.checked;
+    this.comment!.unresolved = !this.$.resolvedCheckbox.checked;
     this.dispatchEvent(
       new CustomEvent('comment-update', {
-        detail: payload,
+        detail: this._getEventPayload(),
         composed: true,
         bubbles: true,
       })
     );
     if (!this.editing) {
       // Save the resolved state immediately.
-      this.save(payload.comment);
+      this.save();
     }
   }
 

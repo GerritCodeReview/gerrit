@@ -180,7 +180,7 @@ export class GrMessage extends PolymerElement {
   @property({
     type: String,
     computed:
-      '_computeMessageContentExpanded(message.message,' +
+      '_computeMessageContentExpanded(_expanded, message.message,' +
       ' message.accounts_in_message,' +
       ' message.tag)',
   })
@@ -240,10 +240,12 @@ export class GrMessage extends PolymerElement {
   }
 
   _computeMessageContentExpanded(
+    expanded: boolean,
     content?: string,
     accountsInMessage?: AccountInfo[],
     tag?: ReviewInputTag
   ) {
+    if (!expanded) return '';
     return this._computeMessageContent(true, content, accountsInMessage, tag);
   }
 
@@ -277,9 +279,11 @@ export class GrMessage extends PolymerElement {
     tag?: ReviewInputTag,
     commentThreads?: CommentThread[]
   ) {
+    // Content is under text-overflow, so it's always shorten
+    const shortenedContent = content?.substring(0, 1000);
     const summary = this._computeMessageContent(
       false,
-      content,
+      shortenedContent,
       accountsInMessage,
       tag
     );

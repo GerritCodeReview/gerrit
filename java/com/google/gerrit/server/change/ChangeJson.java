@@ -98,6 +98,7 @@ import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -509,6 +510,11 @@ public class ChangeJson {
             cache.put(Change.id(info._number), info);
           }
         } catch (RuntimeException e) {
+          Optional<RequestCancelledException> requestCancelledException =
+              RequestCancelledException.getFromCausalChain(e);
+          if (requestCancelledException.isPresent()) {
+            throw e;
+          }
           logger.atWarning().withCause(e).log(
               "Omitting corrupt change %s from results", cd.getId());
         }

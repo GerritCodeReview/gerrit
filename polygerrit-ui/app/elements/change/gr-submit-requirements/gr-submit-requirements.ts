@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '../gr-submit-requirement-hovercard/gr-submit-requirement-hovercard';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {css, customElement, html, property} from 'lit-element';
 import {ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfo,
+  isDetailedLabelInfo,
+  LabelNameToInfoMap,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../../../api/rest-api';
@@ -106,6 +109,9 @@ export class GrSubmitRequirements extends GrLitElement {
     return html`<h3 class="metadata-title">Submit Requirements</h3>
       ${submit_requirements.map(
         requirement => html`<section>
+          <gr-submit-requirement-hovercard
+            >${this.renderLabels(requirement)}
+          </gr-submit-requirement-hovercard>
           <div class="status">${this.renderStatus(requirement.status)}</div>
           <div class="title">
             <gr-limited-text
@@ -114,7 +120,7 @@ export class GrSubmitRequirements extends GrLitElement {
               text="${requirement.name}"
             ></gr-limited-text>
           </div>
-          <div class="value">${this.renderLabels(requirement)}</div>
+          <div class="value">${this.renderVotes(requirement)}</div>
         </section>`
       )}${this.renderFakeControls()}`;
   }
@@ -141,6 +147,24 @@ export class GrSubmitRequirements extends GrLitElement {
       class=${status.toLowerCase()}
       icon="${grIcon}"
     ></iron-icon>`;
+  }
+
+  renderVotes(requirement: SubmitRequirementResultInfo) {
+    const requirementLabels = extractAssociatedLabels(requirement);
+    const labels = this.change?.labels ?? {};
+
+    return Object.keys(labels)
+      .filter(label => requirementLabels.includes(label))
+      .map(label => this.renderLabelVote(label, labels));
+  }
+
+  renderLabelVote(label: string, labels: LabelNameToInfoMap) {
+    const labelInfo = labels[label];
+    if (!isDetailedLabelInfo(labelInfo)) return;
+    return html`<gr-vote-chip
+      .vote="${labelInfo.all?.[0]}"
+      .label="${labelInfo}"
+    ></gr-vote-chip>`;
   }
 
   renderLabels(requirement: SubmitRequirementResultInfo) {

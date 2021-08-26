@@ -43,7 +43,8 @@ import {
   allRunsSelectedPatchset$,
   CheckRun,
   ChecksPatchset,
-  errorMessageLatest$,
+  ErrorMessages,
+  errorMessagesLatest$,
   fakeActions,
   fakeLinks,
   fakeRun0,
@@ -380,7 +381,7 @@ export class GrChecksRuns extends GrLitElement {
   tabState?: ChecksTabState;
 
   @property()
-  errorMessage?: string;
+  errorMessages: ErrorMessages = {};
 
   @property()
   loginCallback?: () => void;
@@ -392,7 +393,7 @@ export class GrChecksRuns extends GrLitElement {
   constructor() {
     super();
     this.subscribe('runs', allRunsSelectedPatchset$);
-    this.subscribe('errorMessage', errorMessageLatest$);
+    this.subscribe('errorMessages', errorMessagesLatest$);
     this.subscribe('loginCallback', loginCallbackLatest$);
   }
 
@@ -469,6 +470,7 @@ export class GrChecksRuns extends GrLitElement {
           padding: var(--spacing-m);
           color: var(--primary-text-color);
           margin-top: var(--spacing-m);
+          max-width: 400px;
         }
         .error {
           display: flex;
@@ -522,7 +524,7 @@ export class GrChecksRuns extends GrLitElement {
         <div class="flex-space"></div>
         ${this.renderTitleButtons()} ${this.renderCollapseButton()}
       </h2>
-      ${this.renderError()} ${this.renderSignIn()}
+      ${this.renderErrors()} ${this.renderSignIn()}
       <input
         id="filterInput"
         type="text"
@@ -536,23 +538,26 @@ export class GrChecksRuns extends GrLitElement {
     `;
   }
 
-  private renderError() {
-    if (!this.errorMessage) return;
-    return html`
-      <div class="error">
-        <div class="left">
-          <iron-icon icon="gr-icons:error"></iron-icon>
-        </div>
-        <div class="right">
-          <div>Error while fetching check results</div>
-          <div>${this.errorMessage}</div>
-        </div>
-      </div>
-    `;
+  private renderErrors() {
+    return Object.entries(this.errorMessages).map(
+      ([plugin, message]) =>
+        html`
+          <div class="error">
+            <div class="left">
+              <iron-icon icon="gr-icons:error"></iron-icon>
+            </div>
+            <div class="right">
+              <div class="message">
+                Error while fetching results for ${plugin}:<br />${message}
+              </div>
+            </div>
+          </div>
+        `
+    );
   }
 
   private renderSignIn() {
-    if (this.errorMessage || !this.loginCallback) return;
+    if (!this.loginCallback) return;
     return html`
       <div class="login">
         <div>

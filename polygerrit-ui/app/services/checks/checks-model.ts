@@ -30,6 +30,7 @@ import {distinctUntilChanged, map} from 'rxjs/operators';
 import {PatchSetNumber} from '../../types/common';
 import {AttemptDetail, createAttemptMap} from './checks-util';
 import {assertIsDefined} from '../../utils/common-util';
+import {deepEqual} from '../../utils/compare-util';
 
 /**
  * The checks model maintains the state of checks for two patchsets: the latest
@@ -182,6 +183,23 @@ export const errorMessageLatest$ = checksLatest$.pipe(
       )?.errorMessage
   ),
   distinctUntilChanged()
+);
+
+export interface ErrorMessages {
+  /* Maps plugin name to error message. */
+  [name: string]: string;
+}
+
+export const errorMessagesLatest$ = checksLatest$.pipe(
+  map(state => {
+    const errorMessages: ErrorMessages = {};
+    for (const providerState of Object.values(state)) {
+      if (providerState.errorMessage === undefined) continue;
+      errorMessages[providerState.pluginName] = providerState.errorMessage;
+    }
+    return errorMessages;
+  }),
+  distinctUntilChanged(deepEqual)
 );
 
 export const loginCallbackLatest$ = checksLatest$.pipe(

@@ -24,7 +24,8 @@ import {
   aPluginHasRegistered$,
   CheckResult,
   CheckRun,
-  errorMessageLatest$,
+  ErrorMessages,
+  errorMessagesLatest$,
   loginCallbackLatest$,
   someProvidersAreLoadingLatest$,
 } from '../../../services/checks/checks-model';
@@ -104,6 +105,10 @@ export class GrSummaryChip extends GrLitElement {
           border-radius: 12px;
           border: 1px solid gray;
           vertical-align: top;
+          /* centered position of 20px chips in 24px line-height inline flow */
+          vertical-align: top;
+          position: relative;
+          top: 2px;
         }
         iron-icon {
           width: var(--line-height-small);
@@ -187,7 +192,10 @@ export class GrChecksChip extends GrLitElement {
             var(--spacing-s);
           border-radius: 12px;
           border: 1px solid gray;
+          /* centered position of 20px chips in 24px line-height inline flow */
           vertical-align: top;
+          position: relative;
+          top: 2px;
         }
         .checksChip .text {
           display: inline-block;
@@ -335,7 +343,7 @@ export class GrChangeSummary extends GrLitElement {
   someProvidersAreLoading = false;
 
   @property()
-  errorMessage?: string;
+  errorMessages: ErrorMessages = {};
 
   @property()
   loginCallback?: () => void;
@@ -347,7 +355,7 @@ export class GrChangeSummary extends GrLitElement {
     this.subscribe('runs', allRunsLatestPatchsetLatestAttempt$);
     this.subscribe('showChecksSummary', aPluginHasRegistered$);
     this.subscribe('someProvidersAreLoading', someProvidersAreLoadingLatest$);
-    this.subscribe('errorMessage', errorMessageLatest$);
+    this.subscribe('errorMessages', errorMessagesLatest$);
     this.subscribe('loginCallback', loginCallbackLatest$);
   }
 
@@ -372,7 +380,8 @@ export class GrChangeSummary extends GrLitElement {
         .login {
           display: flex;
           color: var(--primary-text-color);
-          padding: var(--spacing-s);
+          padding: 0 var(--spacing-s);
+          margin: var(--spacing-xs) 0;
           width: 490px;
         }
         div.error {
@@ -383,8 +392,16 @@ export class GrChangeSummary extends GrLitElement {
           width: 16px;
           height: 16px;
           position: relative;
-          top: 2px;
+          top: 4px;
           margin-right: var(--spacing-s);
+        }
+        div.error .right {
+          overflow: hidden;
+        }
+        div.error .right .message {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         .login {
           justify-content: space-between;
@@ -398,8 +415,8 @@ export class GrChangeSummary extends GrLitElement {
         }
         td.key {
           padding-right: var(--spacing-l);
-          padding-bottom: var(--spacing-m);
-          vertical-align: top;
+          padding-bottom: var(--spacing-s);
+          line-height: calc(var(--line-height-normal) + var(--spacing-s));
         }
         td.value {
           padding-right: var(--spacing-l);
@@ -433,22 +450,25 @@ export class GrChangeSummary extends GrLitElement {
   }
 
   renderChecksError() {
-    if (!this.errorMessage) return;
-    return html`
-      <div class="error zeroState">
-        <div class="left">
-          <iron-icon icon="gr-icons:error"></iron-icon>
-        </div>
-        <div class="right">
-          <div>Error while fetching check results</div>
-          <div>${this.errorMessage}</div>
-        </div>
-      </div>
-    `;
+    return Object.entries(this.errorMessages).map(
+      ([plugin, message]) =>
+        html`
+          <div class="error zeroState">
+            <div class="left">
+              <iron-icon icon="gr-icons:error"></iron-icon>
+            </div>
+            <div class="right">
+              <div class="message" title="${message}">
+                Error while fetching results for ${plugin}: ${message}
+              </div>
+            </div>
+          </div>
+        `
+    );
   }
 
   renderChecksLogin() {
-    if (this.errorMessage || !this.loginCallback) return;
+    if (!this.loginCallback) return;
     return html`
       <div class="login">
         <div class="left">
@@ -466,14 +486,14 @@ export class GrChangeSummary extends GrLitElement {
   }
 
   renderChecksZeroState() {
-    if (this.errorMessage || this.loginCallback) return;
+    if (Object.keys(this.errorMessages).length > 0) return;
+    if (this.loginCallback) return;
     if (this.runs.some(isRunningOrHasCompleted)) return;
     const msg = this.someProvidersAreLoading ? 'Loading results' : 'No results';
     return html`<span role="status" class="loading zeroState">${msg}</span>`;
   }
 
   renderChecksChipForCategory(category: Category) {
-    if (this.errorMessage || this.loginCallback) return;
     const runs = this.runs.filter(run => {
       if (hasResultsOf(run, category)) return true;
       return category === Category.SUCCESS && hasCompletedWithoutResults(run);
@@ -486,7 +506,6 @@ export class GrChangeSummary extends GrLitElement {
   }
 
   renderChecksChipRunning() {
-    if (this.errorMessage || this.loginCallback) return;
     const runs = this.runs.filter(isRunning);
     return this.renderChecksChipsExpanded(runs, RunStatus.RUNNING, () => []);
   }
@@ -616,7 +635,6 @@ export class GrChangeSummary extends GrLitElement {
             <td class="key">Checks</td>
             <td class="value">
               <div class="checksSummary">
-                ${this.renderChecksError()}${this.renderChecksLogin()}
                 ${this.renderChecksZeroState()}${this.renderChecksChipForCategory(
                   Category.ERROR
                 )}${this.renderChecksChipForCategory(
@@ -632,6 +650,7 @@ export class GrChangeSummary extends GrLitElement {
                   class="loadingSpin"
                   ?hidden="${!this.someProvidersAreLoading}"
                 ></span>
+                ${this.renderChecksError()}${this.renderChecksLogin()}
               </div>
             </td>
           </tr>

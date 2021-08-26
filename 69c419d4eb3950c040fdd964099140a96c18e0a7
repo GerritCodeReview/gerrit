@@ -16,6 +16,24 @@
       "message": "Thanks for the review.  +2 isn\u0027t sticky.",
       "revId": "69c419d4eb3950c040fdd964099140a96c18e0a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3005a9b2_9aa07309",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-26T18:12:40Z",
+      "side": 1,
+      "message": "It\u0027s because of the one line change in polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts.\n\nThe logic is as long as no new file is edited, the +2 remains.",
+      "parentUuid": "af05b580_56e989a2",
+      "revId": "69c419d4eb3950c040fdd964099140a96c18e0a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

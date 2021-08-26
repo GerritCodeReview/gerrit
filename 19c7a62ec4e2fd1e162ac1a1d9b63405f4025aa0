@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e188248_6af11878",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-26T07:30:39Z",
+      "side": 1,
+      "message": "Cool, I like that test very much. Thanks! +2 with comments.",
+      "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a0ec2f4_7c54304a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-26T07:30:39Z",
+      "side": 1,
+      "message": "I consider `fixtureFromElement` to be complex Polymer legacy. While this is certainly consistent with all our other tests, I think generally `document.createElement()` will do just fine.\n\nAnd for creating and rendering templates we can maybe just use lit-html: https://lit.dev/docs/libraries/standalone-templates/\n\nJust thoughts ...",
+      "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9c34bb1_ecde43fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-26T07:30:39Z",
+      "side": 1,
+      "message": "Maybe rename to `dispatch...`, because you are not just \"making\" the event.",
+      "range": {
+        "startLine": 31,
+        "startChar": 9,
+        "endLine": 31,
+        "endChar": 23
+      },
+      "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f84448c3_5f97d3a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-26T07:30:39Z",
+      "side": 1,
+      "message": "Would this be easier to write and read with Lit\u0027s html`` and render() utils?\n\nhttps://lit.dev/docs/libraries/standalone-templates/",
+      "revId": "19c7a62ec4e2fd1e162ac1a1d9b63405f4025aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "should this be !triggerVotes.length?\nIf triggerVotes is [] then this condition won\u0027t return true.",
       "revId": "8a96b96397897e2daaca57b876be36c28053ba26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a58b56b8_4cfbb64a",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-26T19:54:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30c9b019_18a41a87",
+      "revId": "8a96b96397897e2daaca57b876be36c28053ba26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

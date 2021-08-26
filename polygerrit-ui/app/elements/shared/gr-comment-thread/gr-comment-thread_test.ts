@@ -315,10 +315,11 @@ suite('gr-comment-thread tests', () => {
 suite('comment action tests with unresolved thread', () => {
   let element: GrCommentThread;
   let addDraftServiceStub: SinonStub;
+  let saveDiffDraftStub: SinonStub;
   setup(() => {
     addDraftServiceStub = stubComments('addDraft');
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-    stubRestApi('saveDiffDraft').returns(
+    saveDiffDraftStub = stubRestApi('saveDiffDraft').returns(
       Promise.resolve({
         headers: {} as Headers,
         redirected: false,
@@ -461,6 +462,7 @@ suite('comment action tests with unresolved thread', () => {
 
   test('done', done => {
     const reportStub = stubReporting('recordDraftInteraction');
+    assert.isFalse(saveDiffDraftStub.called);
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
@@ -478,6 +480,7 @@ suite('comment action tests with unresolved thread', () => {
       );
       assert.isFalse(draft.unresolved);
       assert.isTrue(reportStub.calledOnce);
+      assert.isTrue(saveDiffDraftStub.called);
       done();
     });
   });

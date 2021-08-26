@@ -162,7 +162,7 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (options.contains(FillOptions.TAGS)) {
       info.tags =
           serviceUserClassifier.isServiceUser(account.id())
-              ? ImmutableList.of(AccountInfo.Tag.SERVICE_USER)
+              ? ImmutableList.of("SERVICE_USER")
               : null;
     }
 

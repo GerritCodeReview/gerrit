@@ -168,8 +168,6 @@ public class GetAccess implements RestReadView<ProjectResource> {
       throw new ResourceNotFoundException(rsrc.getName(), e);
     }
 
-    // The following implementation must match the ProjectAccessFactory JSON RPC endpoint.
-
     info.local = new HashMap<>();
     info.ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, GroupInfo> groups = new HashMap<>();
@@ -331,7 +329,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
         }
         AccountGroup.UUID group = r.getGroup().getUUID();
         if (group != null) {
-          pInfo.rules.put(group.get(), info);
+          pInfo.rules.putIfAbsent(group.get(), info); // First entry for the group wins
           loadGroup(groups, group);
         }
       }

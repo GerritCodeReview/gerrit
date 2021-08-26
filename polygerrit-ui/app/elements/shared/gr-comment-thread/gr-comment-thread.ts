@@ -547,13 +547,15 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     }
 
     this.commentsService.addDraft(reply);
-
     if (!isEditing) {
-      // Allow the reply to render in the dom-repeat.
-      setTimeout(() => {
-        const commentEl = this._commentElWithDraftID(reply.__draftID);
-        if (commentEl) commentEl.save();
-      }, 1);
+      assertIsDefined(this.changeNum, 'changeNum');
+      assertIsDefined(this.patchNum, 'patchNum');
+      this.restApiService.saveDiffDraft(this.changeNum, this.patchNum, reply);
+      // // Allow the reply to render in the dom-repeat.
+      // setTimeout(() => {
+      //   const commentEl = this._commentElWithDraftID(reply.__draftID);
+      //   if (commentEl) commentEl.save();
+      // }, 1);
     }
   }
 

@@ -969,13 +969,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   _handleToggleResolved() {
     this.reporting.recordDraftInteraction();
     this.resolved = !this.resolved;
-    // Modify payload instead of this.comment, as this.comment is passed from
-    // the parent by ref.
-    const payload = this._getEventPayload();
-    if (!payload.comment) {
-      throw new Error('comment not defined in payload');
-    }
-    payload.comment.unresolved = !this.$.resolvedCheckbox.checked;
+    this.comment!.unresolved = !this.$.resolvedCheckbox.checked;
     this.dispatchEvent(
       new CustomEvent('comment-update', {
         detail: payload,
@@ -985,7 +979,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     );
     if (!this.editing) {
       // Save the resolved state immediately.
-      this.save(payload.comment);
+      this.save();
     }
   }
 

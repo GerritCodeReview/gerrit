@@ -17,21 +17,41 @@ package com.google.gerrit.acceptance.rest.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfo;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.account.AccountTagProvider;
 import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.inject.Inject;
+import com.google.inject.Module;
+import java.util.List;
 import org.junit.Test;
 
 public class GetAccountDetailIT extends AbstractDaemonTest {
   @Inject private GroupOperations groupOperations;
   @Inject private AccountOperations accountOperations;
+
+  @Override
+  public Module createModule() {
+    return new FactoryModule() {
+      @Override
+      public void configure() {
+        bind(AccountTagProvider.class)
+            .annotatedWith(Exports.named("CustomAccountTagProvider"))
+            .to(CustomAccountTagProvider.class);
+      }
+    };
+  }
 
   @Test
   public void getDetail() throws Exception {
@@ -56,7 +76,14 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
         .update();
     RestResponse r = adminRestSession.get("/accounts/" + serviceUser.get() + "/detail/");
     AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
-    assertThat(info.tags).containsExactly(AccountInfo.Tag.SERVICE_USER);
+    assertThat(info.tags).containsExactly(AccountInfo.Tags.SERVICE_USER);
+  }
+
+  @Test
+  public void getDetailForExtensionPointAccountTag() throws Exception {
+    RestResponse r = userRestSession.get("/accounts/" + user.username() + "/detail/");
+    AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
+    assertThat(info.tags).containsExactly("BASIC_USER");
   }
 
   @Test
@@ -74,5 +101,25 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
     r.assertStatus(200);
     AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
     assertThat(info._accountId).isEqualTo(id.get());
+  }
+
+  private static class CustomAccountTagProvider implements AccountTagProvider {
+    private PermissionBackend permissions;
+
+    @Inject
+    public CustomAccountTagProvider(PermissionBackend permissions) {
+      this.permissions = permissions;
+    }
+
+    @Override
+    public List<String> getTags(Account.Id id) {
+      try {
+        if (!permissions.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)) {
+          return ImmutableList.of("BASIC_USER");
+        }
+      } catch (Exception e) {
+      }
+      return ImmutableList.of();
+    }
   }
 }

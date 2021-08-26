@@ -16,6 +16,24 @@
       "message": "If this just provides a slot, then maybe this is a generic hovercard, not a submit requirement specific one?",
       "revId": "0950fd7e8db91e9de53857cb1625f95297fb681b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76cca65f_a12b25d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-26T20:09:25Z",
+      "side": 1,
+      "message": "Oh, that\u0027s true. But I plan to replace slot with template and do the calculations on hovercard so it will be useful to have this new element.",
+      "parentUuid": "7edf88d6_a5c19b3b",
+      "revId": "0950fd7e8db91e9de53857cb1625f95297fb681b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

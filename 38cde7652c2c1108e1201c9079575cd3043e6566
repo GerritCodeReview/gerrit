@@ -234,6 +234,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfd8fda2_9f15411e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-08-26T19:50:00Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "d56b5f2b_039ae164",
+      "revId": "38cde7652c2c1108e1201c9079575cd3043e6566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30bff2b9_3b2635a1",

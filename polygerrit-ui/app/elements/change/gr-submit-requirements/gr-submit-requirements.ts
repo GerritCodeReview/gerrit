@@ -22,8 +22,8 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../../../api/rest-api';
-import {assertNever} from '../../../utils/common-util';
-import {extractAssociatedLabels} from '../../../utils/change-metadata-util';
+import {assertNever, unique} from '../../../utils/common-util';
+import {extractAssociatedLabels} from '../../../utils/label-util';
 import {Label} from '../gr-change-requirements/gr-change-requirements';
 
 @customElement('gr-submit-requirements')
@@ -116,6 +116,9 @@ export class GrSubmitRequirements extends GrLitElement {
           </div>
           <div class="value">${this.renderLabels(requirement)}</div>
         </section>`
+      )}
+      ${this.renderTriggerVotes(
+        submit_requirements
       )}${this.renderFakeControls()}`;
   }
 
@@ -168,6 +171,30 @@ export class GrSubmitRequirements extends GrLitElement {
         .labelInfo="${label.labelInfo}"
       ></gr-label-info>`
     );
+  }
+
+  renderTriggerVotes(submitReqs: SubmitRequirementResultInfo[]) {
+    const labels = this.change?.labels ?? {};
+    const allLabels = Object.keys(labels);
+    const labelAssociatedWithSubmitReqs = submitReqs
+      .map(req => extractAssociatedLabels(req))
+      .flat()
+      .filter(unique);
+    const triggerVotes = allLabels.filter(
+      label => !labelAssociatedWithSubmitReqs.includes(label)
+    );
+    if (!triggerVotes) return;
+    return html`<h3 class="metadata-title">Trigger Votes</h3>
+      ${triggerVotes.map(
+        label => html`${label}:
+          <gr-label-info
+            .change="${this.change}"
+            .account="${this.account}"
+            .mutable="${this.mutable}"
+            label="${label}"
+            .labelInfo="${labels[label]}"
+          ></gr-label-info>`
+      )}`;
   }
 
   renderFakeControls() {

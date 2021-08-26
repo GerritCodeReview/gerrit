@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.account;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.entities.Account;
@@ -30,17 +31,35 @@ public class AccountAssert {
    * @param testAccount the TestAccount which the provided AccountInfo is expected to match
    * @param accountInfo the AccountInfo that should be asserted
    */
-  public static void assertAccountInfo(TestAccount testAccount, AccountInfo accountInfo) {
+  public static void assertAccountInfo(
+      TestAccount testAccount,
+      AccountInfo accountInfo
+  ) {
+    assertAccountInfo(testAccount, accountInfo, ImmutableList.of());
+  }
+
+  /**
+   * Asserts an AccountInfo for an active account.
+   *
+   * @param testAccount the TestAccount which the provided AccountInfo is expected to match
+   * @param accountInfo the AccountInfo that should be asserted
+   * @param otherTags additional tags expected to be associated with the account
+   */
+  public static void assertAccountInfo(
+      TestAccount testAccount,
+      AccountInfo accountInfo,
+      List<String> otherTags
+    ) {
     assertThat(accountInfo._accountId).isEqualTo(testAccount.id().get());
     assertThat(accountInfo.name).isEqualTo(testAccount.fullName());
     assertThat(accountInfo.displayName).isEqualTo(testAccount.displayName());
     assertThat(accountInfo.email).isEqualTo(testAccount.email());
     assertThat(accountInfo.inactive).isNull();
-    if (testAccount.tags().isEmpty()) {
+    if (testAccount.tags().isEmpty() && otherTags.isEmpty()) {
       assertThat(accountInfo.tags).isNull();
     } else {
-      assertThat(accountInfo.tags.stream().map(Enum::name).collect(toImmutableList()))
-          .containsExactlyElementsIn(testAccount.tags());
+      assertThat(accountInfo.tags)
+          .containsExactlyElementsIn(Iterables.concat(testAccount.tags(), otherTags));
     }
   }
 

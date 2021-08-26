@@ -27,10 +27,13 @@ import java.util.Objects;
  * are defined in {@link AccountDetailInfo}.
  */
 public class AccountInfo {
-  /** Tags are additional properties of an account. */
-  public enum Tag {
+  /**
+   * Tags are additional properties of an account. These are just tags known to Gerrit core.
+   * Plugins may define their own.
+   */
+  public static final class Tags {
     /** Tag indicating that this account is a service user. */
-    SERVICE_USER
+    public static final String SERVICE_USER = "SERVICE_USER";
   }
 
   /** The numeric ID of the account. */
@@ -74,7 +77,7 @@ public class AccountInfo {
   public Boolean inactive;
 
   /** Tags, such as whether this account is a service user. */
-  public List<Tag> tags;
+  public List<String> tags;
 
   public AccountInfo(Integer id) {
     this._accountId = id;

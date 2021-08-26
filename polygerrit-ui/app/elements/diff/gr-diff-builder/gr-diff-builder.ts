@@ -683,6 +683,7 @@ export abstract class GrDiffBuilder {
     numberOfCells: number;
     movedOutIndex: number;
     movedInIndex: number;
+    lineNumberCols: number;
   };
 
   /**
@@ -776,7 +777,7 @@ export abstract class GrDiffBuilder {
 
   _buildMoveControls(group: GrDiffGroup) {
     const movedIn = group.adds.length > 0;
-    const {numberOfCells, movedOutIndex, movedInIndex} =
+    const {numberOfCells, movedOutIndex, movedInIndex, lineNumberCols} =
       this._getMoveControlsConfig();
 
     let controlsClass;
@@ -794,6 +795,9 @@ export abstract class GrDiffBuilder {
     const cells = [...Array(numberOfCells).keys()].map(() =>
       this._createElement('td')
     );
+    lineNumberCols.forEach(index => {
+      cells[index].classList.add('moveControlsLineNumCol');
+    });
 
     const moveRangeHeader = this._createElement('gr-range-header');
     moveRangeHeader.setAttribute('icon', 'gr-icons:move-item');

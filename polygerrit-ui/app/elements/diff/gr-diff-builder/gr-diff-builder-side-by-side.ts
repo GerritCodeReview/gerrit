@@ -39,6 +39,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
       numberOfCells: 4,
       movedOutIndex: 1,
       movedInIndex: 3,
+      lineNumberCols: [0, 2],
     };
   }
 

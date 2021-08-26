@@ -69,6 +69,7 @@ export const htmlTemplate = html`
     /* Provides the option to add side borders (left and right) to the line number column. */
     td.left,
     td.right,
+    td.moveControlsLineNumCol,
     td.contextLineNum {
       box-shadow: var(--line-number-box-shadow, unset);
     }

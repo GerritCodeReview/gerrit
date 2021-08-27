@@ -588,6 +588,46 @@ export const fakeRun4_4: CheckRun = {
   ],
 };
 
+export function fakeRun4CreateAttempts(from: number, to: number): CheckRun[] {
+  const runs: CheckRun[] = [];
+  for (let i = from; i < to; i++) {
+    runs.push(fakeRun4CreateAttempt(i));
+  }
+  return runs;
+}
+
+export function fakeRun4CreateAttempt(attempt: number): CheckRun {
+  return {
+    pluginName: 'f4',
+    internalRunId: 'f4',
+    checkName: 'FAKE Elimination',
+    status: RunStatus.COMPLETED,
+    attempt,
+    isSingleAttempt: false,
+    isLatestAttempt: false,
+    attemptDetails: [],
+    results:
+      attempt % 2 === 0
+        ? [
+            {
+              internalResultId: 'f43r0',
+              category: Category.ERROR,
+              summary:
+                'Without eliminating all the TODOs your change will break!',
+            },
+          ]
+        : [],
+  };
+}
+
+export const fakeRun4Att = [
+  fakeRun4_1,
+  fakeRun4_2,
+  fakeRun4_3,
+  fakeRun4_4,
+  ...fakeRun4CreateAttempts(5, 40),
+];
+
 export const fakeActions: Action[] = [
   {
     name: 'Fake Action 1',

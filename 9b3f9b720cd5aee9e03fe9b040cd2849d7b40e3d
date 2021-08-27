@@ -53,6 +53,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6077054d_d47f4ae2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-27T15:13:22Z",
+      "side": 1,
+      "message": "Thanks. I got this to work after adding the extra flags here: https://github.com/google/google-java-format/releases/tag/v1.10.0\n\nIt \u0027fixed issues\u0027 in \u003e50 other files as well, but I discarded those changes for now.",
+      "parentUuid": "9c033dd8_f5e678e0",
+      "revId": "9b3f9b720cd5aee9e03fe9b040cd2849d7b40e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02b47dbc_69b34cbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-27T15:13:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e329a510_121f9a3e",
+      "revId": "9b3f9b720cd5aee9e03fe9b040cd2849d7b40e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "422fc182_68627a00",
@@ -90,6 +126,30 @@
       "side": 1,
       "message": "You have two options:\n\n1) ISO binding a CustomTagProvider, bind a \n\nAccountTagProvider mockTagProvider \u003d mock(AccountTagProvider.class);\n\nSet the mock up to return an empty list for all tests, but the custom tag test.\n\n2) Factor your CUSTOM_TAG test out into it\u0027s own test class. Test classes are hermetic.\n\n3) resolve the groups of the account ID you get in l.108. If the user is an admin, return ADMIN, otherwise emtpy.\nYou can do that by injecting the PermissionBackend and then checking perm.test(GlobalPermission.ADMINISTRATE_SERVER);\n\nWhen you make API calls, you can use requestScopeOperations.setApiUser({admin,user}.id()); The user will not have the tag present.\n\nI think 3 would be quite elegant and close to real life. But out main test user is the admin, so you would see the tag in other test in this class as well.",
       "parentUuid": "422fc182_68627a00",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 44
+      },
+      "revId": "9b3f9b720cd5aee9e03fe9b040cd2849d7b40e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c0a839a_ade797c1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/GetAccountDetailIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-08-27T15:13:22Z",
+      "side": 1,
+      "message": "Went with #3, but I am returning the custom tag only for the \u0027user\u0027 account so other tests are not affected. If this is an issue let me know.",
+      "parentUuid": "28cd8de2_9d780658",
       "range": {
         "startLine": 109,
         "startChar": 6,

@@ -147,8 +147,11 @@ export interface GrSearchBar {
   };
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-search-bar')
-export class GrSearchBar extends KeyboardShortcutMixin(PolymerElement) {
+export class GrSearchBar extends base {
   static get template() {
     return htmlTemplate;
   }

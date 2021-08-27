@@ -76,8 +76,11 @@ export interface ChangeListToggleReviewedDetail {
 // How many reviewers should be shown with an account-label?
 const PRIMARY_REVIEWERS_COUNT = 2;
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = ChangeTableMixin(PolymerElement);
+
 @customElement('gr-change-list-item')
-export class GrChangeListItem extends ChangeTableMixin(PolymerElement) {
+export class GrChangeListItem extends base {
   static get template() {
     return htmlTemplate;
   }

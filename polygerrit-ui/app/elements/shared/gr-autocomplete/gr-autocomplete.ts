@@ -64,8 +64,11 @@ export interface AutocompleteCommitEventDetail {
 export type AutocompleteCommitEvent =
   CustomEvent<AutocompleteCommitEventDetail>;
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-autocomplete')
-export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {
+export class GrAutocomplete extends base {
   static get template() {
     return htmlTemplate;
   }

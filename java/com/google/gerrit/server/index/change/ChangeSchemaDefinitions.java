@@ -162,7 +162,10 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
    * The computation of {@link ChangeField#LABEL} has changed: We added the non_uploader arg to the
    * label field.
    */
-  static final Schema<ChangeData> V66 = schema(V65, false);
+  @Deprecated static final Schema<ChangeData> V66 = schema(V65, false);
+
+  /** Updated submit records: store the rule name that created the submit record. */
+  static final Schema<ChangeData> V67 = schema(V66, false);
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.
    */

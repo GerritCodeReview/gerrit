@@ -51,6 +51,7 @@ public final class DefaultSubmitRule implements SubmitRule {
   @Override
   public Optional<SubmitRecord> evaluate(ChangeData cd) {
     SubmitRecord submitRecord = new SubmitRecord();
+    submitRecord.ruleName = this.getClass().getSimpleName();
     submitRecord.status = SubmitRecord.Status.OK;
 
     List<LabelType> labelTypes = cd.getLabelTypes().getLabelTypes();

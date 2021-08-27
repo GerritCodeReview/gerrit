@@ -25,9 +25,11 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../../../api/rest-api';
-import {assertNever, unique} from '../../../utils/common-util';
-import {extractAssociatedLabels} from '../../../utils/label-util';
-import {Label} from '../gr-change-requirements/gr-change-requirements';
+import {unique} from '../../../utils/common-util';
+import {
+  extractAssociatedLabels,
+  iconForStatus,
+} from '../../../utils/label-util';
 
 @customElement('gr-submit-requirements')
 export class GrSubmitRequirements extends GrLitElement {
@@ -80,10 +82,10 @@ export class GrSubmitRequirements extends GrLitElement {
           width: var(--line-height-small);
           height: var(--line-height-small);
         }
-        iron-icon.satisfied {
+        iron-icon.check {
           color: var(--success-foreground);
         }
-        iron-icon.unsatisfied {
+        iron-icon.close {
           color: var(--warning-foreground);
         }
         .testing {
@@ -112,8 +114,11 @@ export class GrSubmitRequirements extends GrLitElement {
       ${submit_requirements.map(
         requirement => html`<section>
           <gr-submit-requirement-hovercard
-            >${this.renderLabels(requirement)}
-          </gr-submit-requirement-hovercard>
+            .requirement="${requirement}"
+            .change="${this.change}"
+            .account="${this.account}"
+            .mutable="${this.mutable}"
+          ></gr-submit-requirement-hovercard>
           <div class="status">${this.renderStatus(requirement.status)}</div>
           <div class="title">
             <gr-limited-text
@@ -131,26 +136,10 @@ export class GrSubmitRequirements extends GrLitElement {
   }
 
   renderStatus(status: SubmitRequirementStatus) {
-    let grIcon: string;
-    switch (status) {
-      case SubmitRequirementStatus.SATISFIED:
-        grIcon = 'gr-icons:check';
-        break;
-      case SubmitRequirementStatus.UNSATISFIED:
-        grIcon = 'gr-icons:close';
-        break;
-      case SubmitRequirementStatus.OVERRIDDEN:
-        grIcon = 'gr-icons:warning';
-        break;
-      case SubmitRequirementStatus.NOT_APPLICABLE:
-        grIcon = 'gr-icons:info';
-        break;
-      default:
-        assertNever(status, `Unsupported status: ${status}`);
-    }
+    const icon = iconForStatus(status);
     return html`<iron-icon
-      class=${status.toLowerCase()}
-      icon="${grIcon}"
+      class="${icon}"
+      icon="gr-icons:${icon}"
     ></iron-icon>`;
   }
 
@@ -172,33 +161,6 @@ export class GrSubmitRequirements extends GrLitElement {
           .vote="${approvalInfo}"
           .label="${labelInfo}"
         ></gr-vote-chip>`
-    );
-  }
-
-  renderLabels(requirement: SubmitRequirementResultInfo) {
-    const requirementLabels = extractAssociatedLabels(requirement);
-    const labels = this.change?.labels ?? {};
-
-    const allLabels: Label[] = [];
-
-    for (const label of Object.keys(labels)) {
-      if (requirementLabels.includes(label)) {
-        allLabels.push({
-          labelName: label,
-          icon: '',
-          style: '',
-          labelInfo: labels[label],
-        });
-      }
-    }
-    return allLabels.map(
-      label => html`<gr-label-info
-        .change="${this.change}"
-        .account="${this.account}"
-        .mutable="${this.mutable}"
-        label="${label.labelName}"
-        .labelInfo="${label.labelInfo}"
-      ></gr-label-info>`
     );
   }
 

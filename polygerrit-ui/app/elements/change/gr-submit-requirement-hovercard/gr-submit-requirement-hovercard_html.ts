@@ -23,8 +23,92 @@ export const htmlTemplate = html`
       max-width: 356px;
       padding: var(--spacing-xl) 0 var(--spacing-m) 0;
     }
+    section.label {
+      display: table-row;
+    }
+    .label-title {
+      min-width: 10em;
+      padding: var(--spacing-s) 0 0 0;
+    }
+    .label-value {
+      padding: var(--spacing-s) 0 0 0;
+    }
+    .label-title,
+    .label-value {
+      display: table-cell;
+      vertical-align: top;
+    }
+    .row {
+      display: flex;
+      margin-top: var(--spacing-s);
+    }
+    .title {
+      color: var(--deemphasized-text-color);
+      margin-right: var(--spacing-m);
+    }
+    div.section {
+      margin: 0 var(--spacing-xl) var(--spacing-m) var(--spacing-xl);
+      display: flex;
+    }
+    div.sectionIcon iron-icon {
+      position: relative;
+      top: 2px;
+      width: 20px;
+      height: 20px;
+    }
+    iron-icon.check {
+      color: var(--success-foreground);
+    }
+    iron-icon.close {
+      color: var(--warning-foreground);
+    }
   </style>
   <div id="container" role="tooltip" tabindex="-1">
-    <slot></slot>
+    <div class="section">
+      <div class="sectionIcon">
+        <iron-icon
+          class$="[[computeIcon(requirement.status)]]"
+          icon="gr-icons:[[computeIcon(requirement.status)]]"
+        ></iron-icon>
+      </div>
+      <div class="sectionContent">
+        <h3 class="name heading-3">
+          <span>[[requirement.name]]</span>
+        </h3>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sectionIcon">
+        <iron-icon class="small" icon="gr-icons:info-outline"></iron-icon>
+      </div>
+      <div class="sectionContent">
+        <div class="row">
+          <div class="title">Status</div>
+          <div>[[requirement.status]]</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <template is="dom-repeat" items="[[_labels]]">
+        <section class="label">
+          <div class="label-title">
+            <gr-limited-text
+              class="name"
+              limit="25"
+              text="[[item.labelName]]"
+            ></gr-limited-text>
+          </div>
+          <div class="label-value">
+            <gr-label-info
+              change="{{change}}"
+              account="[[account]]"
+              mutable="[[mutable]]"
+              label="[[item.labelName]]"
+              label-info="[[item.labelInfo]]"
+            ></gr-label-info>
+          </div>
+        </section>
+      </template>
+    </div>
   </div>
 `;

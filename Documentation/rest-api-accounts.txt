@@ -2001,7 +2001,7 @@ of link:rest-api-changes.html#change-info[ChangeInfo] entities.
 --
 
 Star a change with the default label. Changes starred with the default
-label are returned for the search query `is:starred` or `starredby:USER`
+label are returned for the search query `is:starred` or `has:star`
 and automatically notify the user whenever updates are made to the
 change.
 

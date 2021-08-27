@@ -787,24 +787,6 @@ is:visible::
 Magical internal flag to prove the current user has access to read
 the change.  This flag is always added to any query.
 
-starredby:'USER'::
-+
-Matches changes that have been starred by 'USER' with the default label.
-The special case `starredby:self` applies to the caller.
-
-watchedby:'USER'::
-+
-Matches changes that 'USER' has configured watch filters for.
-The special case `watchedby:self` applies to the caller.
-
-draftby:'USER'::
-+
-Matches changes that 'USER' has left unpublished draft comments on.
-Since the drafts are unpublished, it is not possible to see the
-draft text, or even how many drafts there are. The special case
-of `draftby:self` will find changes where the caller has created
-a draft comment.
-
 [[limit]]
 limit:'CNT'::
 +

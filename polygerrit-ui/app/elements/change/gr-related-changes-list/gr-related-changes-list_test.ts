@@ -74,9 +74,9 @@ suite('gr-related-changes-list', () => {
         v: boolean;
       }>
     ) {
-      return instructions
-        .map(inst => Array.from({length: inst.len}, () => inst.v))
-        .reduce((acc, val) => acc.concat(val), []);
+      return instructions.flatMap(inst =>
+        Array.from({length: inst.len}, () => inst.v)
+      );
     }
 
     function checkShowWhenCollapsed(

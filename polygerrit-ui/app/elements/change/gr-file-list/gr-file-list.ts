@@ -1434,11 +1434,9 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     );
 
     // Find the paths introduced by the new index splices:
-    const newFiles = record.indexSplices
-      .map(splice =>
-        splice.object.slice(splice.index, splice.index + splice.addedCount)
-      )
-      .reduce((acc, paths) => acc.concat(paths), []);
+    const newFiles = record.indexSplices.flatMap(splice =>
+      splice.object.slice(splice.index, splice.index + splice.addedCount)
+    );
 
     // Required so that the newly created diff view is included in this.diffs.
     flush();

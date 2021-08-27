@@ -51,7 +51,7 @@ export function readResponsePayload(
     let result;
     try {
       result = parsePrefixedJSON(text);
-    } catch (_) {
+    } catch {
       result = null;
     }
     // TODO(TS): readResponsePayload can assign null to the parsed property if
@@ -179,13 +179,10 @@ export class FetchPromisesCache {
   }
 
   invalidatePrefix(prefix: string) {
-    const newData: FetchPromisesCacheData = {};
-    Object.entries(this.data).forEach(([key, value]) => {
-      if (!key.startsWith(prefix)) {
-        newData[key] = value;
-      }
-    });
-    this.data = newData;
+    const withPrefix = Object.entries(this.data).filter(([key, _]) => 
+      key.startsWith(prefix)
+    );
+    this.data = Object.fromEntries(withPrefix);
   }
 }
 export type FetchParams = {

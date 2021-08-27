@@ -22,6 +22,7 @@ import {customElement, property} from '@polymer/decorators';
 import './gr-checks-action';
 import {CheckRun} from '../../services/checks/checks-model';
 import {
+  AttemptDetail,
   iconFor,
   runActions,
   worstCategory,
@@ -54,6 +55,10 @@ export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
 
   computeAttempt(attempt?: number) {
     return ordinal(attempt);
+  }
+
+  computeAttempts(run?: CheckRun): AttemptDetail[] {
+    return run?.attemptDetails.slice(-8) ?? [];
   }
 
   computeChipIcon(run?: CheckRun) {

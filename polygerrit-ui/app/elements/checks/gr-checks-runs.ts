@@ -51,10 +51,7 @@ import {
   fakeRun1,
   fakeRun2,
   fakeRun3,
-  fakeRun4_1,
-  fakeRun4_2,
-  fakeRun4_3,
-  fakeRun4_4,
+  fakeRun4Att,
   loginCallbackLatest$,
   updateStateSetResults,
 } from '../../services/checks/checks-model';
@@ -657,13 +654,7 @@ export class GrChecksRuns extends GrLitElement {
     updateStateSetResults('f1', [fakeRun1], [], [], ChecksPatchset.LATEST);
     updateStateSetResults('f2', [fakeRun2], [], [], ChecksPatchset.LATEST);
     updateStateSetResults('f3', [fakeRun3], [], [], ChecksPatchset.LATEST);
-    updateStateSetResults(
-      'f4',
-      [fakeRun4_1, fakeRun4_2, fakeRun4_3, fakeRun4_4],
-      [],
-      [],
-      ChecksPatchset.LATEST
-    );
+    updateStateSetResults('f4', fakeRun4Att, [], [], ChecksPatchset.LATEST);
   }
 
   toggle(
@@ -753,11 +744,7 @@ export class GrChecksRuns extends GrLitElement {
         <gr-button link @click="${() => this.toggle('f3', [fakeRun3])}"
           >3</gr-button
         >
-        <gr-button
-          link
-          @click="${() => {
-            this.toggle('f4', [fakeRun4_1, fakeRun4_2, fakeRun4_3, fakeRun4_4]);
-          }}"
+        <gr-button link @click="${() => this.toggle('f4', fakeRun4Att)}}"
           >4</gr-button
         >
         <gr-button link @click="${this.all}">all</gr-button>

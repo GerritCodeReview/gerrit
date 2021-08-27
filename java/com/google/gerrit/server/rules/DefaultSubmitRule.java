@@ -39,6 +39,8 @@ import java.util.Optional;
  */
 @Singleton
 public final class DefaultSubmitRule implements SubmitRule {
+  public static final String RULE_NAME = "Default";
+
   public static class Module extends FactoryModule {
     @Override
     public void configure() {
@@ -51,6 +53,7 @@ public final class DefaultSubmitRule implements SubmitRule {
   @Override
   public Optional<SubmitRecord> evaluate(ChangeData cd) {
     SubmitRecord submitRecord = new SubmitRecord();
+    submitRecord.ruleName = RULE_NAME;
     submitRecord.status = SubmitRecord.Status.OK;
 
     List<LabelType> labelTypes = cd.getLabelTypes().getLabelTypes();

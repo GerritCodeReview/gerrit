@@ -27,6 +27,8 @@ import java.util.Optional;
 
 @Singleton
 public class PrologRule implements SubmitRule {
+  public static final String RULE_NAME = "Prolog";
+
   private final PrologRuleEvaluator.Factory factory;
   private final ProjectCache projectCache;
 
@@ -45,7 +47,9 @@ public class PrologRule implements SubmitRule {
       return Optional.empty();
     }
 
-    return Optional.of(evaluate(cd, PrologOptions.defaultOptions()));
+    SubmitRecord submitRecord = evaluate(cd, PrologOptions.defaultOptions());
+    submitRecord.ruleName = RULE_NAME;
+    return Optional.of(submitRecord);
   }
 
   public SubmitRecord evaluate(ChangeData cd, PrologOptions opts) {

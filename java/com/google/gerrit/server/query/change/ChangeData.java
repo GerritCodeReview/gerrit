@@ -951,7 +951,7 @@ public class ChangeData {
             notes().getSubmitRequirementsResult().stream()
                 .collect(Collectors.toMap(r -> r.submitRequirement(), Function.identity()));
       } else {
-        submitRequirements = submitRequirementsEvaluator.getResults(this);
+        submitRequirements = submitRequirementsEvaluator.evaluateAllRequirements(this);
       }
     }
     return submitRequirements;

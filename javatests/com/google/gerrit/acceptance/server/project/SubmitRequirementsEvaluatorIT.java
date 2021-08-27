@@ -116,7 +116,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "message:\"Fix bug\"",
             /* overrideExpr= */ "");
 
-    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.NOT_APPLICABLE);
   }
 
@@ -128,7 +128,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "message:\"Fix a bug\"",
             /* overrideExpr= */ "");
 
-    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
   }
 
@@ -141,7 +141,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "label:\"code-review=+2\"",
             /* overrideExpr= */ "");
 
-    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.UNSATISFIED);
     assertThat(result.submittabilityExpressionResult().failingAtoms())
         .containsExactly("label:\"code-review=+2\"");
@@ -163,7 +163,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "label:\"code-review=+2\"",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
-    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.OVERRIDDEN);
   }
 
@@ -178,7 +178,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "label:\"code-review=+2\"",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
-    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
     assertThat(result.applicabilityExpressionResult().get().errorMessage().get())
         .isEqualTo("Unsupported operator invalid_field:invalid_value");
@@ -195,7 +195,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "invalid_field:invalid_value",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
-    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
     assertThat(result.submittabilityExpressionResult().errorMessage().get())
         .isEqualTo("Unsupported operator invalid_field:invalid_value");
@@ -209,7 +209,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             /* submittabilityExpr= */ "label:\"code-review=+2\"",
             /* overrideExpr= */ "invalid_field:invalid_value");
 
-    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
     assertThat(result.overrideExpressionResult().get().errorMessage().get())
         .isEqualTo("Unsupported operator invalid_field:invalid_value");

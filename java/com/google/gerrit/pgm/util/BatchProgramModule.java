@@ -79,6 +79,7 @@ import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.approval.ApprovalModule;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -188,6 +189,7 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(TagCache.module());
     modules.add(PureRevertCache.module());
     modules.add(new ApprovalModule());
+    modules.add(SubmitRequirementsEvaluatorImpl.module());
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeIsVisibleToPredicate.Factory.class);

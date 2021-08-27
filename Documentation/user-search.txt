@@ -741,6 +741,15 @@ Matches changes with a +2 code review where the reviewer is jsmith.
 The special "owner" parameter corresponds to the change owner.  Matches
 all changes that have a +2 vote from the change owner.
 
+`label:Code-Review=+2,user=non_uploader`::
+`label:Code-Review=ok,user=non_uploader`::
+`label:Code-Review=+2,non_uploader`::
+`label:Code-Review=ok,non_uploader`::
++
+The special "non_uploader" parameter corresponds to any user who's not the
+uploader of the latest patchset. Matches all changes that have a +2 vote from
+a non upoader.
+
 `label:Code-Review=+1,group=ldap/linux.workflow`::
 +
 Matches changes with a +1 code review where the reviewer is in the

@@ -90,6 +90,15 @@ export class GrChecksRun extends GrLitElement {
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+          flex-shrink: 1;
+        }
+        .middle {
+          /* extra space must go between middle and right */
+          flex-grow: 1;
+          white-space: nowrap;
+        }
+        .middle gr-checks-attempt {
+          margin-left: var(--spacing-s);
         }
         .name {
           font-weight: var(--font-weight-bold);
@@ -149,6 +158,7 @@ export class GrChecksRun extends GrLitElement {
              Alternatively we could have set the vertical padding to 0, but
              that would not have been a nice click target. */
           margin: calc(0px - var(--spacing-s));
+          margin-left: var(--spacing-s);
         }
         .attemptDetails {
           padding-bottom: var(--spacing-s);
@@ -242,6 +252,8 @@ export class GrChecksRun extends GrLitElement {
           <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
+        </div>
+        <div class="middle">
           <gr-checks-attempt .run="${this.run}"></gr-checks-attempt>
           ${this.renderStatusLink()}
         </div>

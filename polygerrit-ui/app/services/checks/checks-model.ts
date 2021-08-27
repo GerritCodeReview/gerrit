@@ -511,7 +511,7 @@ export const fakeRun3: CheckRun = {
 export const fakeRun4_1: CheckRun = {
   pluginName: 'f4',
   internalRunId: 'f4',
-  checkName: 'FAKE Elimination',
+  checkName: 'FAKE Elimination Long Long Long Long Long',
   status: RunStatus.COMPLETED,
   attempt: 1,
   isSingleAttempt: false,
@@ -522,7 +522,7 @@ export const fakeRun4_1: CheckRun = {
 export const fakeRun4_2: CheckRun = {
   pluginName: 'f4',
   internalRunId: 'f4',
-  checkName: 'FAKE Elimination',
+  checkName: 'FAKE Elimination Long Long Long Long Long',
   status: RunStatus.COMPLETED,
   attempt: 2,
   isSingleAttempt: false,
@@ -540,7 +540,7 @@ export const fakeRun4_2: CheckRun = {
 export const fakeRun4_3: CheckRun = {
   pluginName: 'f4',
   internalRunId: 'f4',
-  checkName: 'FAKE Elimination',
+  checkName: 'FAKE Elimination Long Long Long Long Long',
   status: RunStatus.COMPLETED,
   attempt: 3,
   isSingleAttempt: false,
@@ -558,13 +558,13 @@ export const fakeRun4_3: CheckRun = {
 export const fakeRun4_4: CheckRun = {
   pluginName: 'f4',
   internalRunId: 'f4',
-  checkName: 'FAKE Elimination',
+  checkName: 'FAKE Elimination Long Long Long Long Long',
   checkDescription: 'Shows you the possible eliminations.',
   checkLink: 'https://www.google.com',
-  status: RunStatus.RUNNING,
+  status: RunStatus.COMPLETED,
   statusDescription: 'Everything was eliminated already.',
   statusLink: 'https://www.google.com',
-  attempt: 4,
+  attempt: 40,
   scheduledTimestamp: new Date('2021-04-02T03:14:15'),
   startedTimestamp: new Date('2021-04-02T04:24:25'),
   finishedTimestamp: new Date('2021-04-02T04:25:44'),
@@ -586,6 +586,14 @@ export const fakeRun4_4: CheckRun = {
       ],
     },
   ],
+  actions: [
+    {
+      name: 'Re-Run',
+      tooltip: 'More powerful run than before',
+      primary: true,
+      callback: () => Promise.resolve({message: 'fake "re-run" triggered'}),
+    },
+  ],
 };
 
 export function fakeRun4CreateAttempts(from: number, to: number): CheckRun[] {
@@ -600,7 +608,7 @@ export function fakeRun4CreateAttempt(attempt: number): CheckRun {
   return {
     pluginName: 'f4',
     internalRunId: 'f4',
-    checkName: 'FAKE Elimination',
+    checkName: 'FAKE Elimination Long Long Long Long Long',
     status: RunStatus.COMPLETED,
     attempt,
     isSingleAttempt: false,
@@ -624,8 +632,8 @@ export const fakeRun4Att = [
   fakeRun4_1,
   fakeRun4_2,
   fakeRun4_3,
-  fakeRun4_4,
   ...fakeRun4CreateAttempts(5, 40),
+  fakeRun4_4,
 ];
 
 export const fakeActions: Action[] = [

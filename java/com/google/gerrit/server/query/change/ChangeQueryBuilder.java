@@ -202,7 +202,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
   public static final String ARG_ID_OWNER = "owner";
+  public static final String ARG_ID_NON_UPLOADER = "non_uploader";
   public static final Account.Id OWNER_ACCOUNT_ID = Account.id(0);
+  public static final Account.Id NON_UPLOADER_ACCOUNT_ID = Account.id(-1);
 
   public static final String OPERATOR_MERGED_BEFORE = "mergedbefore";
   public static final String OPERATOR_MERGED_AFTER = "mergedafter";
@@ -936,6 +938,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         if (pair.getKey().equalsIgnoreCase(ARG_ID_USER)) {
           if (pair.getValue().equals(ARG_ID_OWNER)) {
             accounts = Collections.singleton(OWNER_ACCOUNT_ID);
+          } else if (pair.getValue().equals(ARG_ID_NON_UPLOADER)) {
+            accounts = Collections.singleton(NON_UPLOADER_ACCOUNT_ID);
           } else {
             accounts = parseAccount(pair.getValue());
           }
@@ -953,6 +957,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         try {
           if (value.equals(ARG_ID_OWNER)) {
             accounts = Collections.singleton(OWNER_ACCOUNT_ID);
+          } else if (value.equals(ARG_ID_NON_UPLOADER)) {
+            accounts = Collections.singleton(NON_UPLOADER_ACCOUNT_ID);
           } else {
             accounts = parseAccount(value);
           }

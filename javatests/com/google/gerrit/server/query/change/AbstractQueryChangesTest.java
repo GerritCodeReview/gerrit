@@ -1160,6 +1160,26 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,owner");
   }
 
+  @Test
+  public void byLabelNonUploader() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    ChangeInserter ins = newChange(repo);
+    Account.Id user1 = createAccount("user1");
+
+    // create a change with "user"
+    Change reviewPlus1Change = insert(repo, ins);
+
+    // add a +1 vote with "user". Query doesn't match since voter is the uploader.
+    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    assertQuery("label:Code-Review=+1,user=non_uploader");
+
+    // add a +1 vote with "user1". Query will match since voter is a non-uploader.
+    requestContext.setContext(newRequestContext(user1));
+    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    assertQuery("label:Code-Review=+1,user=non_uploader", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,non_uploader", reviewPlus1Change);
+  }
+
   private Change[] codeReviewInRange(Map<Integer, Change> changes, int start, int end) {
     int size = 0;
     Change[] range = new Change[end - start + 1];

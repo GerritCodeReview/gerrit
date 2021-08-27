@@ -32,8 +32,12 @@ import {ErrorCallback} from '../../../api/rest';
 interface PluginInfoWithName extends PluginInfo {
   name: string;
 }
+
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = ListViewMixin(PolymerElement);
+
 @customElement('gr-plugin-list')
-export class GrPluginList extends ListViewMixin(PolymerElement) {
+export class GrPluginList extends base {
   static get template() {
     return htmlTemplate;
   }

@@ -67,8 +67,11 @@ export interface DropdownContent {
   bold?: boolean;
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-dropdown')
-export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
+export class GrDropdown extends base {
   static get template() {
     return htmlTemplate;
   }

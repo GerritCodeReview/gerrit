@@ -102,9 +102,12 @@ type DomIf = PolymerElement & {
   restamp: boolean;
 };
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 // TODO(TS): implement AppElement interface from gr-app-types.ts
 @customElement('gr-app-element')
-export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
+export class GrAppElement extends base {
   static get template() {
     return htmlTemplate;
   }

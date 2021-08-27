@@ -52,11 +52,14 @@ export interface ItemSelectedEvent {
   selected: HTMLElement | null;
 }
 
-@customElement('gr-autocomplete-dropdown')
-export class GrAutocompleteDropdown extends IronFitMixin(
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = IronFitMixin(
   KeyboardShortcutMixin(PolymerElement),
   IronFitBehavior as IronFitBehavior
-) {
+);
+
+@customElement('gr-autocomplete-dropdown')
+export class GrAutocompleteDropdown extends base {
   static get template() {
     return htmlTemplate;
   }

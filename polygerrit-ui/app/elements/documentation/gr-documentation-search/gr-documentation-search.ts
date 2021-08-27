@@ -29,8 +29,11 @@ import {DocResult} from '../../../types/common';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = ListViewMixin(PolymerElement);
+
 @customElement('gr-documentation-search')
-export class GrDocumentationSearch extends ListViewMixin(PolymerElement) {
+export class GrDocumentationSearch extends base {
   static get template() {
     return htmlTemplate;
   }

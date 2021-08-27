@@ -36,8 +36,11 @@ import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = ListViewMixin(PolymerElement);
+
 @customElement('gr-group-audit-log')
-export class GrGroupAuditLog extends ListViewMixin(PolymerElement) {
+export class GrGroupAuditLog extends base {
   static get template() {
     return htmlTemplate;
   }

@@ -9,10 +9,13 @@
   ],
   "lint": {
     "rules": ["polymer-3"],
-    "ignoreWarnings": ["deprecated-dom-call"],
+    "ignoreWarnings": [
+      "deprecated-dom-call",
+      "multiple-global-declarations"
+    ],
     "filesToIgnore": [
-        "**/gr-plugin-rest-api.js",
-        "**/.cache/**/gr-plugin-rest-api.js"
+      "**/gr-plugin-rest-api.js",
+      "**/.cache/**/gr-plugin-rest-api.js"
     ]
   }
 }

@@ -80,8 +80,11 @@ export interface GrCommentThread {
   };
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-comment-thread')
-export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
+export class GrCommentThread extends base {
   // KeyboardShortcutMixin Not used in this element rather other elements tests
 
   static get template() {

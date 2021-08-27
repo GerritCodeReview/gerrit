@@ -19,8 +19,10 @@ import '../../test/common-test-setup-karma.js';
 import {ChangeTableMixin} from './gr-change-table-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 
-class GrChangeTableMixinTestElement extends
-  ChangeTableMixin(PolymerElement) {
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = ChangeTableMixin(PolymerElement);
+
+class GrChangeTableMixinTestElement extends base {
   static get is() { return 'gr-change-table-mixin-test-element'; }
 }
 

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fe18137_e886e5d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-27T11:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3be9e123_0c15f655",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "bf4e0dfee4ef3d7f3a8891c8f006972d774084d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "afb9d74b_f998769b",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-08-27T10:54:03Z",
       "side": 1,
       "message": "Let\u0027s not judge that :-)\n\nJust say \"This commit removes these operators.\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 50
+      },
+      "revId": "bf4e0dfee4ef3d7f3a8891c8f006972d774084d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "767af919_9ded2ca7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-27T11:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afb9d74b_f998769b",
       "range": {
         "startLine": 14,
         "startChar": 0,

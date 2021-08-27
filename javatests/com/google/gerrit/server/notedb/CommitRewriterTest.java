@@ -1369,21 +1369,33 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ImmutableList.Builder<ObjectId> commitsToFix = new ImmutableList.Builder<>();
 
-    ChangeUpdate invalidOnApprovalUpdate = newUpdate(c, changeOwner);
-    invalidOnApprovalUpdate.setChangeMessage(
-        "Patch Set 1: Code-Review+2\n\n"
+    ChangeUpdate invalidOnReviewUpdate = newUpdate(c, changeOwner);
+    invalidOnReviewUpdate.setChangeMessage(
+        "Patch Set 1: Any-Label+2 Other-Label+2 Code-Review+2\n\n"
+            + "By voting Code-Review+2 the following files are now code-owner approved by Change Owner:\n"
+            + "   * file1.java\n"
+            + "   * file2.ts\n"
+            + "By voting Any-Label+2 the code-owners submit requirement is overridden by Change Owner\n"
+            + "By voting Other-Label+2 the code-owners submit requirement is still overridden by Change Owner\n");
+    commitsToFix.add(invalidOnReviewUpdate.commit());
+
+    ChangeUpdate invalidOnReviewUpdateAnyOrder = newUpdate(c, changeOwner);
+    invalidOnReviewUpdateAnyOrder.setChangeMessage(
+        "Patch Set 1: Any-Label+2 Other-Label+2 Code-Review+2\n\n"
+            + "By voting Any-Label+2 the code-owners submit requirement is overridden by Change Owner\n"
+            + "By voting Other-Label+2 the code-owners submit requirement is still overridden by Change Owner\n"
             + "By voting Code-Review+2 the following files are now code-owner approved by Change Owner:\n"
             + "   * file1.java\n"
             + "   * file2.ts\n");
-    commitsToFix.add(invalidOnApprovalUpdate.commit());
-    ChangeUpdate invalidOnApprovalMultipleByUpdate = newUpdate(c, otherUser);
-    invalidOnApprovalMultipleByUpdate.setChangeMessage(
+    commitsToFix.add(invalidOnReviewUpdateAnyOrder.commit());
+    ChangeUpdate invalidOnApprovalUpdate = newUpdate(c, otherUser);
+    invalidOnApprovalUpdate.setChangeMessage(
         "Patch Set 1: -Code-Review\n\n"
             + "By removing the Code-Review+2 vote the following files are no longer explicitly code-owner approved by Other Account:\n"
             + "   * file1.java\n"
             + "   * file2.ts\n"
             + "\nThe listed files are still implicitly approved by Other Account.\n");
-    commitsToFix.add(invalidOnApprovalMultipleByUpdate.commit());
+    commitsToFix.add(invalidOnApprovalUpdate.commit());
 
     ChangeUpdate invalidOnOverrideUpdate = newUpdate(c, changeOwner);
     invalidOnOverrideUpdate.setChangeMessage(
@@ -1392,6 +1404,15 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             + "By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by Change Owner\n");
 
     commitsToFix.add(invalidOnOverrideUpdate.commit());
+
+    ChangeUpdate partiallyValidOnReviewUpdate = newUpdate(c, changeOwner);
+    partiallyValidOnReviewUpdate.setChangeMessage(
+        "Patch Set 1: Any-Label+2 Code-Review+2\n\n"
+            + "By voting Code-Review+2 the following files are now code-owner approved by <GERRIT_ACCOUNT_1>:\n"
+            + "   * file1.java\n"
+            + "   * file2.ts\n"
+            + "By voting Any-Label+2 the code-owners submit requirement is overridden by Change Owner\n");
+    commitsToFix.add(partiallyValidOnReviewUpdate.commit());
 
     ChangeUpdate validOnApprovalUpdate = newUpdate(c, changeOwner);
     validOnApprovalUpdate.setChangeMessage(
@@ -1423,11 +1444,18 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     ChangeNotes notesAfterRewrite = newNotes(c);
 
-    assertThat(changeMessages(notesBeforeRewrite)).hasSize(5);
+    assertThat(changeMessages(notesBeforeRewrite)).hasSize(7);
     assertThat(changeMessages(notesAfterRewrite))
         .containsExactly(
-            "Patch Set 1: Code-Review+2\n"
-                + "\n"
+            "Patch Set 1: Any-Label+2 Other-Label+2 Code-Review+2\n\n"
+                + "By voting Code-Review+2 the following files are now code-owner approved by <GERRIT_ACCOUNT_1>:\n"
+                + "   * file1.java\n"
+                + "   * file2.ts\n"
+                + "By voting Any-Label+2 the code-owners submit requirement is overridden by <GERRIT_ACCOUNT_1>\n"
+                + "By voting Other-Label+2 the code-owners submit requirement is still overridden by <GERRIT_ACCOUNT_1>\n",
+            "Patch Set 1: Any-Label+2 Other-Label+2 Code-Review+2\n\n"
+                + "By voting Any-Label+2 the code-owners submit requirement is overridden by <GERRIT_ACCOUNT_1>\n"
+                + "By voting Other-Label+2 the code-owners submit requirement is still overridden by <GERRIT_ACCOUNT_1>\n"
                 + "By voting Code-Review+2 the following files are now code-owner approved by <GERRIT_ACCOUNT_1>:\n"
                 + "   * file1.java\n"
                 + "   * file2.ts\n",
@@ -1442,6 +1470,11 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "(1 comment)\n"
                 + "\n"
                 + "By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by <GERRIT_ACCOUNT_1>\n",
+            "Patch Set 1: Any-Label+2 Code-Review+2\n\n"
+                + "By voting Code-Review+2 the following files are now code-owner approved by <GERRIT_ACCOUNT_1>:\n"
+                + "   * file1.java\n"
+                + "   * file2.ts\n"
+                + "By voting Any-Label+2 the code-owners submit requirement is overridden by <GERRIT_ACCOUNT_1>\n",
             "Patch Set 1: Code-Review-2\n\n"
                 + "By voting Code-Review-2 the following files are no longer explicitly code-owner approved by <GERRIT_ACCOUNT_1>:\n"
                 + "   * file4.java\n",
@@ -1460,6 +1493,18 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         .containsExactly(
             "@@ -8 +8 @@\n"
                 + "-By voting Code-Review+2 the following files are now code-owner approved by Change Owner:\n"
+                + "+By voting Code-Review+2 the following files are now code-owner approved by <GERRIT_ACCOUNT_1>:\n"
+                + "@@ -11,2 +11,2 @@\n"
+                + "-By voting Any-Label+2 the code-owners submit requirement is overridden by Change Owner\n"
+                + "-By voting Other-Label+2 the code-owners submit requirement is still overridden by Change Owner\n"
+                + "+By voting Any-Label+2 the code-owners submit requirement is overridden by <GERRIT_ACCOUNT_1>\n"
+                + "+By voting Other-Label+2 the code-owners submit requirement is still overridden by <GERRIT_ACCOUNT_1>\n",
+            "@@ -8,3 +8,3 @@\n"
+                + "-By voting Any-Label+2 the code-owners submit requirement is overridden by Change Owner\n"
+                + "-By voting Other-Label+2 the code-owners submit requirement is still overridden by Change Owner\n"
+                + "-By voting Code-Review+2 the following files are now code-owner approved by Change Owner:\n"
+                + "+By voting Any-Label+2 the code-owners submit requirement is overridden by <GERRIT_ACCOUNT_1>\n"
+                + "+By voting Other-Label+2 the code-owners submit requirement is still overridden by <GERRIT_ACCOUNT_1>\n"
                 + "+By voting Code-Review+2 the following files are now code-owner approved by <GERRIT_ACCOUNT_1>:\n",
             "@@ -8 +8 @@\n"
                 + "-By removing the Code-Review+2 vote the following files are no longer explicitly code-owner approved by Other Account:\n"
@@ -1469,7 +1514,10 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "+The listed files are still implicitly approved by <GERRIT_ACCOUNT_2>.\n",
             "@@ -10 +10 @@\n"
                 + "-By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by Change Owner\n"
-                + "+By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by <GERRIT_ACCOUNT_1>\n");
+                + "+By removing the Owners-Override+1 vote the code-owners submit requirement is no longer overridden by <GERRIT_ACCOUNT_1>\n",
+            "@@ -11 +11 @@\n"
+                + "-By voting Any-Label+2 the code-owners submit requirement is overridden by Change Owner\n"
+                + "+By voting Any-Label+2 the code-owners submit requirement is overridden by <GERRIT_ACCOUNT_1>\n");
   }
 
   @Test

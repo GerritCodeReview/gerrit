@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
@@ -166,10 +167,12 @@ public class CommitRewriter {
 
   private static final Pattern ON_CODE_OWNER_ADD_REVIEWER_PATTERN =
       Pattern.compile("(.*) who was added as reviewer owns the following files");
-  private static final Pattern ON_CODE_OWNER_APPROVAL_PATTERN =
-      Pattern.compile("code-owner approved by (.*):");
-  private static final Pattern ON_CODE_OWNER_OVERRIDE_PATTERN =
-      Pattern.compile("code-owners submit requirement .* overridden by (.*)");
+  private static final String ON_CODE_OWNER_APPROVAL_REGEX = "code-owner approved by (.*):";
+  private static final String ON_CODE_OWNER_OVERRIDE_REGEX =
+      "code-owners submit requirement .* overridden by (.*)";
+
+  private static final Pattern ON_CODE_OWNER_REVIEW_PATTERN =
+      Pattern.compile(ON_CODE_OWNER_APPROVAL_REGEX + "|" + ON_CODE_OWNER_OVERRIDE_REGEX);
 
   private static final Pattern REPLY_BY_REASON_PATTERN =
       Pattern.compile("(.*) replied on the change");
@@ -656,30 +659,20 @@ public class CommitRewriter {
       return Optional.empty();
     }
 
-    Matcher onCodeOwnerApprovalMatcher = ON_CODE_OWNER_APPROVAL_PATTERN.matcher(originalMessage);
-    if (onCodeOwnerApprovalMatcher.find()
-        && !ACCOUNT_TEMPLATE_PATTERN.matcher(onCodeOwnerApprovalMatcher.group(1)).matches()) {
-      return Optional.of(
-          originalMessage.replace(
-                  "approved by " + onCodeOwnerApprovalMatcher.group(1),
-                  "approved by "
-                      + reviewer
-                          .map(AccountTemplateUtil::getAccountTemplate)
-                          .orElse(DEFAULT_ACCOUNT_REPLACEMENT))
-              + "\n");
-    }
-
-    Matcher onCodeOwnerOverrideMatcher = ON_CODE_OWNER_OVERRIDE_PATTERN.matcher(originalMessage);
-    if (onCodeOwnerOverrideMatcher.find()
-        && !ACCOUNT_TEMPLATE_PATTERN.matcher(onCodeOwnerOverrideMatcher.group(1)).matches()) {
-      return Optional.of(
-          originalMessage.replace(
-                  "overridden by " + onCodeOwnerOverrideMatcher.group(1),
-                  "overridden by "
-                      + reviewer
-                          .map(AccountTemplateUtil::getAccountTemplate)
-                          .orElse(DEFAULT_ACCOUNT_REPLACEMENT))
-              + "\n");
+    Matcher onCodeOwnerReviewMatcher = ON_CODE_OWNER_REVIEW_PATTERN.matcher(originalMessage);
+    while (onCodeOwnerReviewMatcher.find()) {
+      String accountName =
+          firstNonNull(onCodeOwnerReviewMatcher.group(1), onCodeOwnerReviewMatcher.group(2));
+      if (!ACCOUNT_TEMPLATE_PATTERN.matcher(accountName).matches()) {
+        return Optional.of(
+            originalMessage.replace(
+                    "by " + accountName,
+                    "by "
+                        + reviewer
+                            .map(AccountTemplateUtil::getAccountTemplate)
+                            .orElse(DEFAULT_ACCOUNT_REPLACEMENT))
+                + "\n");
+      }
     }
 
     return Optional.empty();

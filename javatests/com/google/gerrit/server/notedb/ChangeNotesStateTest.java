@@ -1035,6 +1035,8 @@ public class ChangeNotesStateTest {
     assertThatSerializedClass(SubmitRecord.class)
         .hasFields(
             ImmutableMap.of(
+                "ruleName",
+                new TypeLiteral<String>() {}.getType(),
                 "status",
                 SubmitRecord.Status.class,
                 "labels",

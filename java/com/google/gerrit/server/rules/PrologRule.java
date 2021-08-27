@@ -45,7 +45,9 @@ public class PrologRule implements SubmitRule {
       return Optional.empty();
     }
 
-    return Optional.of(evaluate(cd, PrologOptions.defaultOptions()));
+    SubmitRecord submitRecord = evaluate(cd, PrologOptions.defaultOptions());
+    submitRecord.ruleName = this.getClass().getSimpleName();
+    return Optional.of(submitRecord);
   }
 
   public SubmitRecord evaluate(ChangeData cd, PrologOptions opts) {

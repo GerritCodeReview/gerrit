@@ -60,6 +60,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
 
     Account.Id uploader = cd.currentPatchSet().uploader();
     SubmitRecord submitRecord = new SubmitRecord();
+    submitRecord.ruleName = this.getClass().getSimpleName();
     submitRecord.status = SubmitRecord.Status.OK;
     submitRecord.labels = new ArrayList<>(labelTypes.size());
     submitRecord.requirements = new ArrayList<>();

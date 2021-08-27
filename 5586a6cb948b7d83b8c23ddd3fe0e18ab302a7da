@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49584b5d_de65d155",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-08-27T14:20:27Z",
+      "side": 1,
+      "message": "Back to PS2. toolchains upgrade should not be done along with this merge.",
+      "revId": "5586a6cb948b7d83b8c23ddd3fe0e18ab302a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -17,14 +17,67 @@
 
 import '../../shared/gr-hovercard/gr-hovercard-shared-style';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {customElement} from '@polymer/decorators';
+import {customElement, property} from '@polymer/decorators';
 import {hovercardBehaviorMixin} from '../../shared/gr-hovercard/gr-hovercard-behavior';
 import {htmlTemplate} from './gr-submit-requirement-hovercard_html';
+import {
+  AccountInfo,
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../../../api/rest-api';
+import {
+  extractAssociatedLabels,
+  iconForStatus,
+} from '../../../utils/label-util';
+import {ParsedChangeInfo} from '../../../types/types';
+import {Label} from '../gr-change-requirements/gr-change-requirements';
 
 @customElement('gr-submit-requirement-hovercard')
 export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
+  }
+
+  @property({type: Object})
+  requirement?: SubmitRequirementResultInfo;
+
+  @property({type: Object})
+  change?: ParsedChangeInfo;
+
+  @property({type: Object})
+  account?: AccountInfo;
+
+  @property({type: Boolean})
+  mutable?: boolean;
+
+  @property({type: Array, computed: 'computeLabels(change, requirement)'})
+  _labels: Label[] = [];
+
+  computeLabels(
+    change?: ParsedChangeInfo,
+    requirement?: SubmitRequirementResultInfo
+  ) {
+    if (!requirement) return [];
+    const requirementLabels = extractAssociatedLabels(requirement);
+    const labels = change?.labels ?? {};
+
+    const allLabels: Label[] = [];
+
+    for (const label of Object.keys(labels)) {
+      if (requirementLabels.includes(label)) {
+        allLabels.push({
+          labelName: label,
+          icon: '',
+          style: '',
+          labelInfo: labels[label],
+        });
+      }
+    }
+    return allLabels;
+  }
+
+  computeIcon(status: SubmitRequirementStatus) {
+    return iconForStatus(status);
   }
 }
 

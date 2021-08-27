@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d24885d_04b91b18",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-27T19:24:37Z",
+      "side": 1,
+      "message": "Just a thought, maybe group the 3 ifs under one if (account !\u003d null)?",
+      "revId": "ffb742164e5cb257222c0f43d470d455643c4b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fee8a51_2c7e35c0",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-27T19:24:37Z",
+      "side": 1,
+      "message": "What\u0027s a \"Marker Account\"? I\u0027m not familiar with that term.",
+      "range": {
+        "startLine": 149,
+        "startChar": 18,
+        "endLine": 149,
+        "endChar": 33
+      },
+      "revId": "ffb742164e5cb257222c0f43d470d455643c4b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

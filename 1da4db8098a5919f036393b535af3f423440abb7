@@ -46,6 +46,30 @@
       },
       "revId": "1da4db8098a5919f036393b535af3f423440abb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8b309d7_540b340e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-27T17:04:14Z",
+      "side": 1,
+      "message": "\u003e The main motivation is really just that - privacy concern. It\u0027s very important for us to make sure there are no such concerns.\n\nHave any users raised this as a concern?\n\n\u003e \n\u003e Are those operators used in any way? If so, we can try to find a solution, while still removing those.\n\nI can check with teams internally to see if any are. Have you checked with others (Luca, SAP, Wikimedia, Eclipse, Ericsson, etc) to see if they have usage?\n\n\u003e \n\u003e The only documented usage is for super-users, but those super users can anyway read the All-Users repository for the information that is queried by those operators.\n\nYes, but operators are much easier to use. We shouldn\u0027t remove helpful APIs and tell admins to inspect internal data instead. Could we limit these operators to admins only to at least continue supporting that use case?",
+      "parentUuid": "767b7c37_d4e42107",
+      "range": {
+        "startLine": 10,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "1da4db8098a5919f036393b535af3f423440abb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

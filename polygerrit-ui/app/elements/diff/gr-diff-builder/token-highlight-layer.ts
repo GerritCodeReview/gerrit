@@ -97,8 +97,8 @@ export class TokenHighlightLayer implements DiffLayer {
   private updateTokenTask?: DelayedTask;
 
   constructor(container: HTMLElement = document.documentElement) {
-    container.addEventListener('click', _ => {
-      this.handleMouseClick();
+    container.addEventListener('click', e => {
+      this.handleContainerClick(e);
     });
   }
 
@@ -137,10 +137,10 @@ export class TokenHighlightLayer implements DiffLayer {
       // garbage collected along with the element itself once it is not attached
       // to the DOM anymore and no references exist anymore.
       el.addEventListener('mouseover', e => {
-        this.handleMouseOver(e);
+        this.handleTokenMouseOver(e);
       });
       el.addEventListener('mouseout', e => {
-        this.handleMouseOut(e);
+        this.handleTokenMouseOut(e);
       });
     }
   }
@@ -162,7 +162,7 @@ export class TokenHighlightLayer implements DiffLayer {
     numbers.add(Number(lineNumber));
   }
 
-  private handleMouseOut(e: MouseEvent) {
+  private handleTokenMouseOut(e: MouseEvent) {
     // If there's no ongoing hover-task, terminate early.
     if (!this.updateTokenTask?.isActive()) return;
     if (e.buttons > 0 || this.interferesWithSelection()) return;
@@ -176,7 +176,7 @@ export class TokenHighlightLayer implements DiffLayer {
     }
   }
 
-  private handleMouseOver(e: MouseEvent) {
+  private handleTokenMouseOver(e: MouseEvent) {
     if (e.buttons > 0 || this.interferesWithSelection()) return;
     const {
       line,
@@ -195,8 +195,13 @@ export class TokenHighlightLayer implements DiffLayer {
     );
   }
 
-  private handleMouseClick() {
+  private handleContainerClick(e: MouseEvent) {
     if (this.interferesWithSelection()) return;
+    // Ignore the click if the click is on a token.
+    // We can't use e.target becauses it gets retargetted to the container as
+    // it's a shadow dom.
+    const {element} = this.findTokenAncestor(e.composedPath()[0]);
+    if (element) return;
     this.hoveredElement = undefined;
     this.updateTokenTask?.cancel();
     this.updateTokenHighlight(undefined, 0);

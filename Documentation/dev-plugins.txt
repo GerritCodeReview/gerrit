@@ -2516,6 +2516,26 @@ public class MyPlugin implements MailFilter {
 }
 ----
 
+
+[[account-tag]]
+== Account Tag Plugins
+
+Gerrit provides an extension point that enables Plugins to supply additional
+tags on an account.
+
+[source, java]
+----
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.account.AccountTagProvider;
+import java.util.List;
+
+public class MyPlugin implements AccountTagProvider {
+  public List<String> getTags(Account.Id id) {
+    // Implement your logic here
+  }
+}
+----
+
 [[ssh-command-creation-interception]]
 == SSH Command Creation Interception
 

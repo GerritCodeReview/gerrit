@@ -92,6 +92,7 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AccountTagProvider;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.EmailExpander;
@@ -431,6 +432,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), ExceptionHook.class).to(ExceptionHookImpl.class);
     DynamicSet.setOf(binder(), MailSoyTemplateProvider.class);
     DynamicSet.setOf(binder(), OnPostReview.class);
+    DynamicMap.mapOf(binder(), AccountTagProvider.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

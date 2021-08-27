@@ -9,12 +9,9 @@
       "updated": "2021-08-27T13:14:31Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/112493/console",
-      "started": "2021-08-27T13:11:05Z",
-      "finished": "2021-08-27T13:37:51Z",
+      "state": "NOT_STARTED",
       "created": "2021-08-27T13:07:51Z",
-      "updated": "2021-08-27T13:35:11Z"
+      "updated": "2021-08-27T13:37:51Z"
     }
   }
 }

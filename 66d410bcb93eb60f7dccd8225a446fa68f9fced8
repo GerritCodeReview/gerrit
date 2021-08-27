@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3898b131_082431c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-27T15:29:56Z",
+      "side": 1,
+      "message": "Thank you for going the extra mile and implementing a tag provider!",
+      "revId": "66d410bcb93eb60f7dccd8225a446fa68f9fced8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

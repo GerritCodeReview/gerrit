@@ -22,6 +22,30 @@
       },
       "revId": "1da4db8098a5919f036393b535af3f423440abb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "767b7c37_d4e42107",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-27T14:05:44Z",
+      "side": 1,
+      "message": "The main motivation is really just that - privacy concern. It\u0027s very important for us to make sure there are no such concerns.\n\nAre those operators used in any way? If so, we can try to find a solution, while still removing those.\n\nThe only documented usage is for super-users, but those super users can anyway read the All-Users repository for the information that is queried by those operators.",
+      "parentUuid": "0d2891ee_ccf793c6",
+      "range": {
+        "startLine": 10,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "1da4db8098a5919f036393b535af3f423440abb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

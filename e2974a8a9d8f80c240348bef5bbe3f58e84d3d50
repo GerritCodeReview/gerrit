@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cfddfc6_be7d18f1",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-27T13:10:36Z",
+      "side": 1,
+      "message": "\"opened\".\n\nI\u0027d add: \"This can for example be the cause when the repository is pending deletion.\"",
+      "range": {
+        "startLine": 40,
+        "startChar": 49,
+        "endLine": 40,
+        "endChar": 50
+      },
+      "revId": "e2974a8a9d8f80c240348bef5bbe3f58e84d3d50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {SubmitRequirementResultInfo} from '../api/rest-api';
+import {
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../api/rest-api';
 import {
   AccountInfo,
   ApprovalInfo,
@@ -24,7 +27,7 @@ import {
   LabelNameToInfoMap,
   VotingRangeInfo,
 } from '../types/common';
-import {unique} from './common-util';
+import {assertNever, unique} from './common-util';
 
 // Name of the standard Code-Review label.
 export const CODE_REVIEW = 'Code-Review';
@@ -131,4 +134,19 @@ export function extractAssociatedLabels(
     labels.push(match[1]);
   }
   return labels.filter(unique);
+}
+
+export function iconForStatus(status: SubmitRequirementStatus) {
+  switch (status) {
+    case SubmitRequirementStatus.SATISFIED:
+      return 'check';
+    case SubmitRequirementStatus.UNSATISFIED:
+      return 'close';
+    case SubmitRequirementStatus.OVERRIDDEN:
+      return 'warning';
+    case SubmitRequirementStatus.NOT_APPLICABLE:
+      return 'info';
+    default:
+      assertNever(status, `Unsupported status: ${status}`);
+  }
 }

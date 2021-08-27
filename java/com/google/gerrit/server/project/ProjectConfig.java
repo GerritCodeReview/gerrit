@@ -64,10 +64,10 @@ import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.config.AllProjectsConfigProvider;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.PluginConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
@@ -98,8 +98,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 
 public class ProjectConfig extends VersionedMetaData implements ValidationError.Sink {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -203,28 +201,21 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   // ProjectCache, so this would retain lots more memory.
   @Singleton
   public static class Factory {
-    @Nullable
-    public static StoredConfig getBaseConfig(
-        SitePaths sitePaths, AllProjectsName allProjects, Project.NameKey projectName) {
-      return projectName.equals(allProjects)
-          // Delay loading till onLoad method.
-          ? new FileBasedConfig(
-              sitePaths.etc_dir.resolve(allProjects.get()).resolve(PROJECT_CONFIG).toFile(),
-              FS.DETECTED)
-          : null;
-    }
-
-    private final SitePaths sitePaths;
-    private final AllProjectsName allProjects;
+    private final AllProjectsName allProjectsName;
+    private final AllProjectsConfigProvider allProjectsConfigProvider;
 
     @Inject
-    Factory(SitePaths sitePaths, AllProjectsName allProjects) {
-      this.sitePaths = sitePaths;
-      this.allProjects = allProjects;
+    Factory(AllProjectsName allProjectsName, AllProjectsConfigProvider allProjectsConfigProvider) {
+      this.allProjectsName = allProjectsName;
+      this.allProjectsConfigProvider = allProjectsConfigProvider;
     }
 
     public ProjectConfig create(Project.NameKey projectName) {
-      return new ProjectConfig(projectName, getBaseConfig(sitePaths, allProjects, projectName));
+      return new ProjectConfig(
+          projectName,
+          projectName.equals(allProjectsName)
+              ? allProjectsConfigProvider.get(allProjectsName)
+              : Optional.empty());
     }
 
     public ProjectConfig read(MetaDataUpdate update) throws IOException, ConfigInvalidException {
@@ -249,7 +240,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private final StoredConfig baseConfig;
+  private final Optional<StoredConfig> baseConfig;
 
   private Project project;
   private AccountsSection accountsSection;
@@ -355,7 +346,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     requireNonNull(commentLinkSections.remove(name));
   }
 
-  private ProjectConfig(Project.NameKey projectName, @Nullable StoredConfig baseConfig) {
+  private ProjectConfig(Project.NameKey projectName, Optional<StoredConfig> baseConfig) {
     this.projectName = projectName;
     this.baseConfig = baseConfig;
   }
@@ -636,8 +627,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    if (baseConfig != null) {
-      baseConfig.load();
+    if (baseConfig.isPresent()) {
+      baseConfig.get().load();
     }
     readGroupList();
 

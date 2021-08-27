@@ -108,7 +108,7 @@ export class Auth implements AuthService {
         // See https://stackoverflow.com/questions/45816743/how-to-solve-this-caution-request-is-not-finished-yet-in-chrome
         try {
           res.clone().text();
-        } catch (error) {
+        } catch {
           // Ignore error
         }
 
@@ -306,7 +306,7 @@ export class Auth implements AuthService {
         // See https://stackoverflow.com/questions/45816743/how-to-solve-this-caution-request-is-not-finished-yet-in-chrome
         try {
           response.clone().text();
-        } catch (error) {
+        } catch {
           // Ignore error
         }
       }

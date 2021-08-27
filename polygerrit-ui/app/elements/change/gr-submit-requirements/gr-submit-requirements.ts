@@ -206,8 +206,7 @@ export class GrSubmitRequirements extends GrLitElement {
     const labels = this.change?.labels ?? {};
     const allLabels = Object.keys(labels);
     const labelAssociatedWithSubmitReqs = submitReqs
-      .map(req => extractAssociatedLabels(req))
-      .reduce((acc, val) => acc.concat(val), [])
+      .flatMap(req => extractAssociatedLabels(req))
       .filter(unique);
     const triggerVotes = allLabels.filter(
       label => !labelAssociatedWithSubmitReqs.includes(label)

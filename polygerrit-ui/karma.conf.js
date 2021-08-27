@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+
 const runUnderBazel = !!process.env["RUNFILES_DIR"];
 const path = require('path');
 

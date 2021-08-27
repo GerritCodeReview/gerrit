@@ -26,8 +26,11 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {ServerInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = ChangeTableMixin(PolymerElement);
+
 @customElement('gr-change-table-editor')
-export class GrChangeTableEditor extends ChangeTableMixin(PolymerElement) {
+export class GrChangeTableEditor extends base {
   static get template() {
     return htmlTemplate;
   }

@@ -112,8 +112,8 @@ import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
-const MSG_LOADING_BLAME = 'Loading blame...';
-const MSG_LOADED_BLAME = 'Blame loaded';
+const LOADING_BLAME = 'Loading blame...';
+const LOADED_BLAME = 'Blame loaded';
 
 // Time in which pressing n key again after the toast navigates to next file
 const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
@@ -140,8 +140,11 @@ export interface GrDiffView {
   };
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-diff-view')
-export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
+export class GrDiffView extends base {
   static get template() {
     return htmlTemplate;
   }
@@ -1664,12 +1667,12 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   _loadBlame() {
     this._isBlameLoading = true;
-    fireAlert(this, MSG_LOADING_BLAME);
+    fireAlert(this, LOADING_BLAME);
     this.$.diffHost
       .loadBlame()
       .then(() => {
         this._isBlameLoading = false;
-        fireAlert(this, MSG_LOADED_BLAME);
+        fireAlert(this, LOADED_BLAME);
       })
       .catch(() => {
         this._isBlameLoading = false;

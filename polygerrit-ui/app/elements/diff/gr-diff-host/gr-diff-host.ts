@@ -93,7 +93,7 @@ import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subject} from 'rxjs';
 import {RenderPreferences} from '../../../api/diff';
 
-const MSG_EMPTY_BLAME = 'No blame information for this diff.';
+const EMPTY_BLAME = 'No blame information for this diff.';
 
 const EVENT_AGAINST_PARENT = 'diff-against-parent';
 const EVENT_ZERO_REBASE = 'rebase-percent-zero';
@@ -569,8 +569,8 @@ export class GrDiffHost extends PolymerElement {
       .getBlame(this.changeNum, this.patchRange.patchNum, this.path, true)
       .then(blame => {
         if (!blame || !blame.length) {
-          fireAlert(this, MSG_EMPTY_BLAME);
-          return Promise.reject(MSG_EMPTY_BLAME);
+          fireAlert(this, EMPTY_BLAME);
+          return Promise.reject(EMPTY_BLAME);
         }
 
         this._blame = blame;

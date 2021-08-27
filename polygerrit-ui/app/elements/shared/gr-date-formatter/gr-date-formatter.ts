@@ -75,8 +75,11 @@ declare global {
   }
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = TooltipMixin(PolymerElement);
+
 @customElement('gr-date-formatter')
-export class GrDateFormatter extends TooltipMixin(PolymerElement) {
+export class GrDateFormatter extends base {
   static get template() {
     return htmlTemplate;
   }

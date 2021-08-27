@@ -38,10 +38,11 @@ interface SectionShortcut {
   shortcuts?: SectionView;
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-keyboard-shortcuts-dialog')
-export class GrKeyboardShortcutsDialog extends KeyboardShortcutMixin(
-  PolymerElement
-) {
+export class GrKeyboardShortcutsDialog extends base {
   static get template() {
     return htmlTemplate;
   }

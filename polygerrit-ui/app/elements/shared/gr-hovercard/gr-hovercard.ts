@@ -18,12 +18,15 @@
 import '../../../styles/shared-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard_html';
-import {hovercardBehaviorMixin} from './gr-hovercard-behavior';
+import {HovercardBehaviorMixin} from './gr-hovercard-behavior';
 import './gr-hovercard-shared-style';
 import {customElement} from '@polymer/decorators';
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = HovercardBehaviorMixin(PolymerElement);
+
 @customElement('gr-hovercard')
-export class GrHovercard extends hovercardBehaviorMixin(PolymerElement) {
+export class GrHovercard extends base {
   static get template() {
     return htmlTemplate;
   }

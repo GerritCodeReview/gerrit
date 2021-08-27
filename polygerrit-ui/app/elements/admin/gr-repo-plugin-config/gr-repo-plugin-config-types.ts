@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /**
- * @fileOverview This file contains interfaces shared between
+ * @fileoverview This file contains interfaces shared between
  * gr-repo-plugin-config.ts and nested editors
  * (e.g. gr-plugin-config-array-editor.ts)
  *

@@ -172,8 +172,11 @@ export type FileNameToReviewedFileInfoMap = {[name: string]: ReviewedFileInfo};
  * @property {number} lines_inserted - fallback to 0 if not present in api
  */
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-file-list')
-export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
+export class GrFileList extends base {
   static get template() {
     return htmlTemplate;
   }

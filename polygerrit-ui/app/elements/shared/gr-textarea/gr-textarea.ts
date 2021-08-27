@@ -85,8 +85,11 @@ declare global {
   }
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-textarea')
-export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
+export class GrTextarea extends base {
   static get template() {
     return htmlTemplate;
   }

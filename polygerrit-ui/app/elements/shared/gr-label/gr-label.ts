@@ -32,8 +32,11 @@ declare global {
   }
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = TooltipMixin(PolymerElement);
+
 @customElement('gr-label')
-export class GrLabel extends TooltipMixin(PolymerElement) {
+export class GrLabel extends base {
   static get template() {
     return htmlTemplate;
   }

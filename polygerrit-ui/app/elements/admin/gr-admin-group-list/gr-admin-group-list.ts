@@ -46,8 +46,11 @@ export interface GrAdminGroupList {
   };
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = ListViewMixin(PolymerElement);
+
 @customElement('gr-admin-group-list')
-export class GrAdminGroupList extends ListViewMixin(PolymerElement) {
+export class GrAdminGroupList extends base {
   static get template() {
     return htmlTemplate;
   }

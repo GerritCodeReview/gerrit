@@ -38,6 +38,8 @@ import java.util.Optional;
  */
 @Singleton
 public class IgnoreSelfApprovalRule implements SubmitRule {
+  public static final String RULE_NAME = "Ignore Self Approval";
+
   public static class Module extends AbstractModule {
     @Override
     public void configure() {
@@ -60,6 +62,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
 
     Account.Id uploader = cd.currentPatchSet().uploader();
     SubmitRecord submitRecord = new SubmitRecord();
+    submitRecord.ruleName = RULE_NAME;
     submitRecord.status = SubmitRecord.Status.OK;
     submitRecord.labels = new ArrayList<>(labelTypes.size());
     submitRecord.requirements = new ArrayList<>();

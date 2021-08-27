@@ -947,12 +947,14 @@ public class ChangeField {
       @Deprecated Map<String, String> data;
     }
 
+    String ruleName;
     SubmitRecord.Status status;
     List<StoredLabel> labels;
     List<StoredRequirement> requirements;
     String errorMessage;
 
     public StoredSubmitRecord(SubmitRecord rec) {
+      this.ruleName = rec.ruleName;
       this.status = rec.status;
       this.errorMessage = rec.errorMessage;
       if (rec.labels != null) {
@@ -984,6 +986,7 @@ public class ChangeField {
 
     public SubmitRecord toSubmitRecord() {
       SubmitRecord rec = new SubmitRecord();
+      rec.ruleName = ruleName;
       rec.status = status;
       rec.errorMessage = errorMessage;
       if (labels != null) {

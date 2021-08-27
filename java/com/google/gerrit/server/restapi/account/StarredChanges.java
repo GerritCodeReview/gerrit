@@ -90,7 +90,7 @@ public class StarredChanges
     return (RestReadView<AccountResource>)
         self -> {
           QueryChanges query = changes.list();
-          query.addQuery("starredby:" + self.getUser().getAccountId().get());
+          query.addQuery("has:star");
           return query.apply(TopLevelResource.INSTANCE);
         };
   }

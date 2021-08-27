@@ -68,6 +68,7 @@ public class SubmitRecord {
     }
   }
 
+  public String ruleName; // Name of the rule that created this submit record
   public Status status;
   public List<Label> labels;
   public List<LegacySubmitRequirement> requirements;
@@ -158,6 +159,7 @@ public class SubmitRecord {
    */
   public SubmitRecord deepCopy() {
     SubmitRecord copy = new SubmitRecord();
+    copy.ruleName = ruleName;
     copy.status = status;
     copy.errorMessage = errorMessage;
     if (labels != null) {

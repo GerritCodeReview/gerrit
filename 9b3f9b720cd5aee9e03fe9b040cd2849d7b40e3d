@@ -20,6 +20,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e329a510_121f9a3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-27T07:39:06Z",
+      "side": 1,
+      "message": "Yes :-)",
+      "parentUuid": "efa01d31_2704697a",
+      "revId": "9b3f9b720cd5aee9e03fe9b040cd2849d7b40e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c033dd8_f5e678e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-27T07:39:06Z",
+      "side": 1,
+      "message": "LGTM minus docs and formatting\n\nYou\u0027ll want to download \"google-java-format\" 1.7 with all deps from the Github page:\n\nhttps://github.com/google/google-java-format/releases/download/google-java-format-1.7/google-java-format-1.7-all-deps.jar\n\nand then run:\n\ngit ls-files | grep java$ | xargs java -jar ~/Downloads/google-java-format-1.7-all-deps.jar -i\n",
+      "revId": "9b3f9b720cd5aee9e03fe9b040cd2849d7b40e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "422fc182_68627a00",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/GetAccountDetailIT.java",
         "patchSetId": 4
@@ -31,6 +66,30 @@
       "writtenOn": "2021-08-26T17:40:28Z",
       "side": 1,
       "message": "I\u0027m not happy with doing it this way. I\u0027d like to only have the tag added during the extension point test and not in any others, but I didn\u0027t see an easy way to do that. Is there a good way to know the specific Account.Id of user or admin accounts that would be availabile in this static module? or other ideas?",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 44
+      },
+      "revId": "9b3f9b720cd5aee9e03fe9b040cd2849d7b40e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28cd8de2_9d780658",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/GetAccountDetailIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-27T07:39:06Z",
+      "side": 1,
+      "message": "You have two options:\n\n1) ISO binding a CustomTagProvider, bind a \n\nAccountTagProvider mockTagProvider \u003d mock(AccountTagProvider.class);\n\nSet the mock up to return an empty list for all tests, but the custom tag test.\n\n2) Factor your CUSTOM_TAG test out into it\u0027s own test class. Test classes are hermetic.\n\n3) resolve the groups of the account ID you get in l.108. If the user is an admin, return ADMIN, otherwise emtpy.\nYou can do that by injecting the PermissionBackend and then checking perm.test(GlobalPermission.ADMINISTRATE_SERVER);\n\nWhen you make API calls, you can use requestScopeOperations.setApiUser({admin,user}.id()); The user will not have the tag present.\n\nI think 3 would be quite elegant and close to real life. But out main test user is the admin, so you would see the tag in other test in this class as well.",
+      "parentUuid": "422fc182_68627a00",
       "range": {
         "startLine": 109,
         "startChar": 6,

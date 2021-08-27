@@ -531,7 +531,7 @@ class GrResultRow extends GrLitElement {
     return html`<div class="tag ${tag.color}">
       <span>${tag.name}</span>
       <paper-tooltip offset="5" fit-to-visible-bounds="true">
-        A category tag for this check result
+        ${tag.tooltip ?? 'A category tag for this check result'}
       </paper-tooltip>
     </div>`;
   }

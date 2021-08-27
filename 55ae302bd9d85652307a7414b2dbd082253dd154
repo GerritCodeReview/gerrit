@@ -16,6 +16,24 @@
       "message": "Maybe use `padding-top` instead? Also below.",
       "revId": "55ae302bd9d85652307a7414b2dbd082253dd154",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43fd1195_6e428784",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-08-27T10:42:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6c56505_91bd16c4",
+      "revId": "55ae302bd9d85652307a7414b2dbd082253dd154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

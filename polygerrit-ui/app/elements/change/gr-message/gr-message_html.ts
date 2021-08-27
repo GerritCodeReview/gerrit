@@ -281,8 +281,8 @@ export const htmlTemplate = html`
             </template>
             <gr-thread-list
               change="[[change]]"
-              hidden$="[[!message.commentThreads.length]]"
-              threads="[[message.commentThreads]]"
+              hidden$="[[!commentThreads.length]]"
+              threads="[[commentThreads]]"
               change-num="[[changeNum]]"
               logged-in="[[_loggedIn]]"
               hide-dropdown

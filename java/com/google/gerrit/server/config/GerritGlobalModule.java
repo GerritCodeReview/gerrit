@@ -184,6 +184,7 @@ import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectNameLockManager;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.approval.ApprovalModule;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -262,6 +263,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(TagCache.module());
     install(PureRevertCache.module());
     install(CommentContextCacheImpl.module());
+    install(SubmitRequirementsEvaluatorImpl.module());
 
     install(new AccessControlModule());
     install(new CmdLineParserModule());

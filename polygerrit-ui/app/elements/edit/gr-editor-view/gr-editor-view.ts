@@ -68,8 +68,11 @@ export interface GrEditorView {
   };
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-editor-view')
-export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
+export class GrEditorView extends base {
   static get template() {
     return htmlTemplate;
   }

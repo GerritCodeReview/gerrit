@@ -18,7 +18,7 @@
 import '../../shared/gr-hovercard/gr-hovercard-shared-style';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
-import {hovercardBehaviorMixin} from '../../shared/gr-hovercard/gr-hovercard-behavior';
+import {HovercardBehaviorMixin} from '../../shared/gr-hovercard/gr-hovercard-behavior';
 import {htmlTemplate} from './gr-submit-requirement-hovercard_html';
 import {
   AccountInfo,
@@ -32,8 +32,11 @@ import {
 import {ParsedChangeInfo} from '../../../types/types';
 import {Label} from '../gr-change-requirements/gr-change-requirements';
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = HovercardBehaviorMixin(PolymerElement);
+
 @customElement('gr-submit-requirement-hovercard')
-export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
+export class GrHovercardRun extends base {
   static get template() {
     return htmlTemplate;
   }

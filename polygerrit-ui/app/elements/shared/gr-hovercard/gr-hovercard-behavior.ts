@@ -81,7 +81,7 @@ const HIDE_DELAY_MS = 500;
  * @polymer
  * @mixinFunction
  */
-export const hovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
+export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
   superClass: T
 ) => {
   /**

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import './gr-checks-styles';
-import {hovercardBehaviorMixin} from '../shared/gr-hovercard/gr-hovercard-behavior';
+import {HovercardBehaviorMixin} from '../shared/gr-hovercard/gr-hovercard-behavior';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-run_html';
 import {customElement, property} from '@polymer/decorators';
@@ -30,8 +30,11 @@ import {durationString, fromNow} from '../../utils/date-util';
 import {RunStatus} from '../../api/checks';
 import {ordinal} from '../../utils/string-util';
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = HovercardBehaviorMixin(PolymerElement);
+
 @customElement('gr-hovercard-run')
-export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
+export class GrHovercardRun extends base {
   static get template() {
     return htmlTemplate;
   }

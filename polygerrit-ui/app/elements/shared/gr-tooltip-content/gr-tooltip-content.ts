@@ -26,11 +26,14 @@ declare global {
   }
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = TooltipMixin(PolymerElement);
+
 /**
  * Transclude anything inside and wrap them to support tooltip functionality.
  */
 @customElement('gr-tooltip-content')
-export class GrTooltipContent extends TooltipMixin(PolymerElement) {
+export class GrTooltipContent extends base {
   static get template() {
     return htmlTemplate;
   }

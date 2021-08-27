@@ -136,8 +136,11 @@ export interface GrSettingsView {
   };
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = ChangeTableMixin(PolymerElement);
+
 @customElement('gr-settings-view')
-export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
+export class GrSettingsView extends base {
   static get template() {
     return htmlTemplate;
   }

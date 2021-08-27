@@ -19,7 +19,7 @@ import '@polymer/iron-icon/iron-icon';
 import '../../../styles/shared-styles';
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';
-import {hovercardBehaviorMixin} from '../gr-hovercard/gr-hovercard-behavior';
+import {HovercardBehaviorMixin} from '../gr-hovercard/gr-hovercard-behavior';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-account_html';
 import {appContext} from '../../../services/app-context';
@@ -45,8 +45,11 @@ import {CURRENT} from '../../../utils/patch-set-util';
 import {isInvolved, isRemovableReviewer} from '../../../utils/change-util';
 import {assertIsDefined} from '../../../utils/common-util';
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = HovercardBehaviorMixin(PolymerElement);
+
 @customElement('gr-hovercard-account')
-export class GrHovercardAccount extends hovercardBehaviorMixin(PolymerElement) {
+export class GrHovercardAccount extends base {
   static get template() {
     return htmlTemplate;
   }

@@ -34,11 +34,14 @@ declare global {
   }
 }
 
-@customElement('gr-overlay')
-export class GrOverlay extends IronOverlayMixin(
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = IronOverlayMixin(
   PolymerElement,
   IronOverlayBehavior as IronOverlayBehavior
-) {
+);
+
+@customElement('gr-overlay')
+export class GrOverlay extends base {
   static get template() {
     return htmlTemplate;
   }

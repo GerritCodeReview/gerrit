@@ -210,8 +210,11 @@ export interface GrMessagesList {
   };
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-messages-list')
-export class GrMessagesList extends KeyboardShortcutMixin(PolymerElement) {
+export class GrMessagesList extends base {
   static get template() {
     return htmlTemplate;
   }

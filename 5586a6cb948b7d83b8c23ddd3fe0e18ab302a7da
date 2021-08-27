@@ -16,6 +16,24 @@
       "message": "Back to PS2. toolchains upgrade should not be done along with this merge.",
       "revId": "5586a6cb948b7d83b8c23ddd3fe0e18ab302a7da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38eee61e_48378271",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-27T16:59:57Z",
+      "side": 1,
+      "message": "\u003e Back to PS2. toolchains upgrade should not be done along with this merge.\n\nWould it make sense to do the toolchains bump on stable-3.2 so that we can bring it with the merge? Then we don\u0027t need this hack to use an older bazel for RBE.",
+      "parentUuid": "49584b5d_de65d155",
+      "revId": "5586a6cb948b7d83b8c23ddd3fe0e18ab302a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

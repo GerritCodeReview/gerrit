@@ -69,8 +69,11 @@ export function getRepresentativeValue(label?: DetailedLabelInfo): number {
   return max > -min ? max : min;
 }
 
-export function getLabelStatus(label?: DetailedLabelInfo): LabelStatus {
-  const value = getRepresentativeValue(label);
+export function getLabelStatus(
+  label?: DetailedLabelInfo,
+  vote?: number
+): LabelStatus {
+  const value = vote ?? getRepresentativeValue(label);
   const range = getVotingRangeOrDefault(label);
   if (value < 0) {
     return value === range.min ? LabelStatus.REJECTED : LabelStatus.DISLIKED;
@@ -79,6 +82,23 @@ export function getLabelStatus(label?: DetailedLabelInfo): LabelStatus {
     return value === range.max ? LabelStatus.APPROVED : LabelStatus.RECOMMENDED;
   }
   return LabelStatus.NEUTRAL;
+}
+
+export function classForLabelStatus(status: LabelStatus) {
+  switch (status) {
+    case LabelStatus.APPROVED:
+      return 'max';
+    case LabelStatus.RECOMMENDED:
+      return 'positive';
+    case LabelStatus.DISLIKED:
+      return 'negative';
+    case LabelStatus.REJECTED:
+      return 'min';
+    case LabelStatus.NEUTRAL:
+      return 'neutral';
+    default:
+      assertNever(status, `Unsupported status: ${status}`);
+  }
 }
 
 export function valueString(value?: number) {

@@ -155,11 +155,20 @@ export class GrSubmitRequirements extends GrLitElement {
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {
     const labelInfo = labels[label];
     if (!isDetailedLabelInfo(labelInfo)) return;
-    return (labelInfo.all ?? []).map(
+    const uniqueApprovals = (labelInfo.all ?? [])
+      .filter(
+        (approvalInfo, index, array) =>
+          index === array.findIndex(other => other.value === approvalInfo.value)
+      )
+      .sort((a, b) => -(a.value ?? 0) + (b.value ?? 0));
+    return uniqueApprovals.map(
       approvalInfo =>
         html`<gr-vote-chip
           .vote="${approvalInfo}"
           .label="${labelInfo}"
+          .more="${(labelInfo.all ?? []).filter(
+            other => other.value === approvalInfo.value
+          ).length > 1}"
         ></gr-vote-chip>`
     );
   }

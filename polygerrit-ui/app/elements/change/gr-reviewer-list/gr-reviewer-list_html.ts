@@ -57,6 +57,10 @@ export const htmlTemplate = html`
       vertical-align: top;
       display: inline-block;
     }
+    gr-vote-chip::part(vote-chip) {
+      width: 16px;
+      height: 16px;
+    }
   </style>
   <div class="container">
     <div>

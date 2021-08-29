@@ -133,6 +133,7 @@ ignore_templates_list = [
     "elements/change/gr-thread-list/gr-thread-list_html.ts",
     "elements/diff/gr-diff-builder/gr-diff-builder-element_html.ts",
     "elements/diff/gr-diff-host/gr-diff-host_html.ts",
+    "elements/diff/gr-diff-mode-selector/gr-diff-mode-selector_html.ts",
     "elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog_html.ts",
     "elements/diff/gr-diff-view/gr-diff-view_html.ts",
     "elements/diff/gr-diff/gr-diff_html.ts",

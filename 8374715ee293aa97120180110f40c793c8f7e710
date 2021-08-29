@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30822355_2435689a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-08-29T06:25:23Z",
+      "side": 1,
+      "message": "https://github.com/bazelbuild/continuous-integration/issues/1160",
+      "revId": "8374715ee293aa97120180110f40c793c8f7e710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

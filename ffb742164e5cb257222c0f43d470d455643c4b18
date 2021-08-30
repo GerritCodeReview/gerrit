@@ -39,6 +39,30 @@
       },
       "revId": "ffb742164e5cb257222c0f43d470d455643c4b18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "821cbedf_60ae3b6b",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-30T08:15:36Z",
+      "side": 1,
+      "message": "I think the name should be changed. For labels, these forms are allowed:\n  * label:$name,user\u003d$someone\n  * label:$name,user\u003downer\n\nNow we also add\n  * label:$name,user\u003dnon_uploader\n  \nWith \"Marker account\" I meant {owner/non-uploader}, i.e. a non user account ID. Maybe isSpecialUser is more clear.",
+      "parentUuid": "8fee8a51_2c7e35c0",
+      "range": {
+        "startLine": 149,
+        "startChar": 18,
+        "endLine": 149,
+        "endChar": 33
+      },
+      "revId": "ffb742164e5cb257222c0f43d470d455643c4b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

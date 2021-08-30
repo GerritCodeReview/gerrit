@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a09de80_0a50da5e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-08-30T07:20:59Z",
+      "side": 1,
+      "message": "Not for this change, but just wondering what the \"clean\" way to handle this is? Maybe the component with the shadow DOM should \"split\" the event and expose a container-click and a token-click event, so that this class which is outside of the component does not need to fiddle with the implementation details of the shadow DOM component?",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 25
+      },
+      "revId": "64766dabdde42bf966b7ae839898608768ce0e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7feea668_318cf11f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-08-30T07:20:59Z",
+      "side": 1,
+      "message": "Might even be worth to add a specific \"double click\" test that ensures that the selection is what we would expect and the press C to comment popover shows up?",
+      "revId": "64766dabdde42bf966b7ae839898608768ce0e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

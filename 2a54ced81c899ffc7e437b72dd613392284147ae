@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5bbeb16_29142e90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-30T11:42:27Z",
+      "side": 1,
+      "message": "Can you please add a few sentences explaining why having this interface is needed/useful?",
+      "revId": "2a54ced81c899ffc7e437b72dd613392284147ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,24 @@
       "message": "Is the limitation mentioned in any docs?",
       "revId": "634b7f42ceee43b08f9b4aea8e50bd7891a663b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3344a0ac_7d73556d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-08-30T15:33:20Z",
+      "side": 1,
+      "message": "Ah, good point. I\u0027ll update it.",
+      "parentUuid": "472fb3c1_cd7c49dd",
+      "revId": "634b7f42ceee43b08f9b4aea8e50bd7891a663b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

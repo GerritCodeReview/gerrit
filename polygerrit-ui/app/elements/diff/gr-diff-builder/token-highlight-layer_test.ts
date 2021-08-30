@@ -251,5 +251,27 @@ suite('token-highlight-layer', () => {
       assert.deepEqual(listener.shift(), [1, 1, Side.LEFT]);
       assert.deepEqual(listener.shift(), [2, 2, Side.RIGHT]);
     });
+
+    test('clicking on word does not clear highlight', async () => {
+      const clock = sinon.useFakeTimers();
+      const line1 = createLine('two words');
+      annotate(line1);
+      const line2 = createLine('three words', 2);
+      annotate(line2, Side.RIGHT, 2);
+      const words1 = queryAndAssert(line1, '.tk-words');
+      assert.isTrue(words1.classList.contains('token'));
+      dispatchMouseEvent(
+        'mouseover',
+        MockInteractions.middleOfNode(words1),
+        words1
+      );
+      assert.equal(listener.pending, 0);
+      clock.tick(HOVER_DELAY_MS);
+      assert.equal(listener.pending, 2);
+      listener.flush();
+      assert.equal(listener.pending, 0);
+      MockInteractions.click(words1);
+      assert.equal(listener.pending, 0);
+    });
   });
 });

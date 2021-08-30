@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a520960_74e8708d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-30T22:56:47Z",
+      "side": 1,
+      "message": "Tested the buggy behavior on a 2.11 test site and confirmed it\u0027s fixed now.",
+      "revId": "854e55ec22dadfc76b1112eb086f0d20dd4a977c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       },
       "revId": "1da4db8098a5919f036393b535af3f423440abb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0521eb58_aae9cc37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-30T11:23:55Z",
+      "side": 1,
+      "message": "\u003e Have any users raised this as a concern?\n\nNo, but in the space of privacy and security, I would like us to make the right decisions in the first place, so that users don\u0027t have to report any concerns to us. Any such report marks a loss of trust in the product.\n\n\u003e I can check with teams internally to see if any are.\n\nThank you, much appreciated.\n\n\u003e Have you checked with others (Luca, SAP, Wikimedia, Eclipse, Ericsson, etc) to see if they have usage?\n\nNo, but we can ask them.\n\n\u003e Yes, but operators are much easier to use. We shouldn\u0027t remove helpful APIs and tell admins to inspect internal data instead.\n\nI think ease of use for admins shouldn\u0027t be an argument to keep these alive.\n\n\u003e Could we limit these operators to admins only to at least continue supporting that use case?\n\nWe could, but is there really a case where you use these operators? If so, what are you using them for?",
+      "parentUuid": "d8b309d7_540b340e",
+      "range": {
+        "startLine": 10,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "1da4db8098a5919f036393b535af3f423440abb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

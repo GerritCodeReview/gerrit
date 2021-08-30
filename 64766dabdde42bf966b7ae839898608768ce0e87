@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d168a9fb_567d694c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-08-30T14:05:05Z",
+      "side": 1,
+      "message": "FYI we are currently holding releases",
+      "revId": "64766dabdde42bf966b7ae839898608768ce0e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6a09de80_0a50da5e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
         "patchSetId": 5
@@ -37,6 +54,24 @@
       "writtenOn": "2021-08-30T07:20:59Z",
       "side": 1,
       "message": "Might even be worth to add a specific \"double click\" test that ensures that the selection is what we would expect and the press C to comment popover shows up?",
+      "revId": "64766dabdde42bf966b7ae839898608768ce0e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cda18bd_7bac0989",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-08-30T14:05:05Z",
+      "side": 1,
+      "message": "Let\u0027s not block on this - it is basically a regression test that is somewhat orthogonal to this fix.",
+      "parentUuid": "7feea668_318cf11f",
       "revId": "64766dabdde42bf966b7ae839898608768ce0e87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

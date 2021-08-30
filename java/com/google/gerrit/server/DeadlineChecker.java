@@ -206,7 +206,7 @@ public class DeadlineChecker implements RequestStateProvider {
     advisoryDeadlines.forEach(
         advisoryDeadline -> {
           if (now > advisoryDeadline.timeout()) {
-            logger.atWarning().log(
+            logger.atFine().log(
                 "advisory deadline %s exceeded (%s)",
                 advisoryDeadline.id(), TIMEOUT_FORMATTER.apply(advisoryDeadline.timeout()));
             cancellationsMetrics.countAdvisoryDeadline(requestInfo, advisoryDeadline.id());

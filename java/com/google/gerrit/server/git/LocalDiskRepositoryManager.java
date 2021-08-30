@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -128,6 +129,29 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   @Override
+  public Status getRepositoryStatus(NameKey name) {
+    if (isUnreasonableName(name)) {
+      return Status.NON_EXISTENT;
+    }
+    Path path = getBasePath(name);
+    File dir = FileKey.resolve(path.resolve(name.get()).toFile(), FS.DETECTED);
+    if (dir == null) {
+      return Status.NON_EXISTENT;
+    }
+    Repository repo;
+    try {
+      // Try to open with mustExist, so that it does not attempt to create a repository.
+      repo = RepositoryCache.open(FileKey.lenient(dir, FS.DETECTED), /*mustExist=*/ true);
+    } catch (RepositoryNotFoundException e) {
+      return Status.NON_EXISTENT;
+    } catch (IOException e) {
+      return Status.UNAVAILABLE;
+    }
+    // If object database does not exist, the repository is unusable
+    return repo.getObjectDatabase().exists() ? Status.ACTIVE : Status.UNAVAILABLE;
+  }
+
+  @Override
   public Repository openRepository(Project.NameKey name) throws RepositoryNotFoundException {
     return openRepository(getBasePath(name), name);
   }
@@ -147,7 +171,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   @Override
   public Repository createRepository(Project.NameKey name)
-      throws RepositoryNotFoundException, RepositoryCaseMismatchException, IOException {
+      throws RepositoryNotFoundException, RepositoryExistsException, IOException {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
@@ -162,8 +186,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       if (!onDiskName.equals(name)) {
         throw new RepositoryCaseMismatchException(name);
       }
-
-      throw new IllegalStateException("Repository already exists: " + name);
+      throw new RepositoryExistsException(name);
     }
 
     // It doesn't exist under any of the standard permutations

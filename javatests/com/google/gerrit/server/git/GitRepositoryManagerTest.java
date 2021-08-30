@@ -36,6 +36,12 @@ public class GitRepositoryManagerTest {
   }
 
   private static class TestGitRepositoryManager implements GitRepositoryManager {
+
+    @Override
+    public Status getRepositoryStatus(NameKey name) {
+      throw new UnsupportedOperationException("Not implemented");
+    }
+
     @Override
     public Repository openRepository(NameKey name) {
       throw new UnsupportedOperationException("Not implemented");

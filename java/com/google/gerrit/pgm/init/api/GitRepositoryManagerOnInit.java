@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
@@ -38,6 +39,18 @@ public class GitRepositoryManagerOnInit implements GitRepositoryManager {
   GitRepositoryManagerOnInit(InitFlags flags, SitePaths site) {
     this.flags = flags;
     this.site = site;
+  }
+
+  @Override
+  public Status getRepositoryStatus(NameKey name) {
+    try {
+      openRepository(name);
+    } catch (RepositoryNotFoundException e) {
+      return Status.NON_EXISTENT;
+    } catch (IOException e) {
+      return Status.UNAVAILABLE;
+    }
+    return Status.ACTIVE;
   }
 
   @Override

@@ -17,6 +17,7 @@ package com.google.gerrit.testing;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.inject.Inject;
@@ -76,6 +77,16 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   @Inject
   public InMemoryRepositoryManager() {
     this.repos = new HashMap<>();
+  }
+
+  @Override
+  public synchronized Status getRepositoryStatus(NameKey name) {
+    try {
+      get(name);
+      return Status.ACTIVE;
+    } catch (RepositoryNotFoundException e) {
+      return Status.NON_EXISTENT;
+    }
   }
 
   @Override

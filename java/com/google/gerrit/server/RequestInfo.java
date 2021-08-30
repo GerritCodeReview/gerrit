@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.logging.TraceContext;
 import java.util.Optional;
@@ -69,10 +70,12 @@ public abstract class RequestInfo {
 
   public static RequestInfo.Builder builder(
       RequestType requestType, CurrentUser callingUser, TraceContext traceContext) {
-    return new AutoValue_RequestInfo.Builder()
-        .requestType(requestType)
-        .callingUser(callingUser)
-        .traceContext(traceContext);
+    return builder().requestType(requestType).callingUser(callingUser).traceContext(traceContext);
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public static RequestInfo.Builder builder() {
+    return new AutoValue_RequestInfo.Builder();
   }
 
   @AutoValue.Builder

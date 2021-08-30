@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d292a585_1037d351",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-30T12:50:46Z",
+      "side": 1,
+      "message": "Missed that. Yes this is a good idea.\n\nDone.",
+      "parentUuid": "6d24885d_04b91b18",
+      "revId": "ffb742164e5cb257222c0f43d470d455643c4b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fee8a51_2c7e35c0",

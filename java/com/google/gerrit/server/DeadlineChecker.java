@@ -96,7 +96,7 @@ public class DeadlineChecker implements RequestStateProvider {
   private final ImmutableList<ServerDeadline> advisoryDeadlines;
 
   /**
-   * Creates a {@code ClientProvidedDeadlineChecker}.
+   * Creates a {@link DeadlineChecker}.
    *
    * <p>No deadline is enforced if the client provided deadline value is {@code null} or {@code 0}.
    *
@@ -123,7 +123,7 @@ public class DeadlineChecker implements RequestStateProvider {
   }
 
   /**
-   * Creates a {@code ClientProvidedDeadlineChecker}.
+   * Creates a {@link DeadlineChecker}.
    *
    * <p>No deadline is enforced if the client provided deadline value is {@code null} or {@code 0}.
    *

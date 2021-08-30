@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2c15658_6c15606f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-30T18:11:17Z",
+      "side": 1,
+      "message": "This change looks good to me. Out of curiosity: what is the benefit of having \u0027is:attention\u0027 and \u0027has:attention\u0027 as aliases of \u0027attention:self\u0027 ?",
+      "revId": "3e35b263f084b56cb6157507c4825082eb4232c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e25fddd4_5666d42b",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-30T18:11:17Z",
+      "side": 1,
+      "message": "nit: You can say that is equivalent to the \u0027attention:self\u0027 query",
+      "revId": "3e35b263f084b56cb6157507c4825082eb4232c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3c33cb0_fd96fa9d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-08-30T18:11:17Z",
+      "side": 1,
+      "message": "nit: You can say that is equivalent to the \u0027attention:self\u0027 query",
+      "revId": "3e35b263f084b56cb6157507c4825082eb4232c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

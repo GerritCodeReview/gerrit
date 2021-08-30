@@ -292,4 +292,13 @@ public class ChangePredicates {
   public static Predicate<ChangeData> comment(String comment) {
     return new ChangeIndexPredicate(ChangeField.COMMENT, comment);
   }
+
+  /**
+   * Returns a predicate that matches changes having a specific submit rule evaluates to a certain
+   * result. Value should be in the form of "$ruleName=$status", with $ruleName equals to the class
+   * name that implements {@link com.google.gerrit.server.rules.SubmitRule}.
+   */
+  public static Predicate<ChangeData> submitRuleStatus(String value) {
+    return new ChangeIndexPredicate(ChangeField.SUBMIT_RULE_RESULT, value);
+  }
 }

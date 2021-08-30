@@ -928,6 +928,19 @@ public class ChangeField {
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
       SubmitRuleOptions.builder().build();
 
+  /** All submit rules results in the form of "$ruleName,$status". */
+  public static final FieldDef<ChangeData, Iterable<String>> SUBMIT_RULE_RESULT =
+      exact("submit_rule_result")
+          .buildRepeatable(
+              cd -> {
+                List<String> result = new ArrayList<>();
+                List<SubmitRecord> submitRecords = cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT);
+                for (SubmitRecord record : submitRecords) {
+                  result.add(record.ruleName + "=" + record.status.name());
+                }
+                return result;
+              });
+
   /**
    * JSON type for storing SubmitRecords.
    *

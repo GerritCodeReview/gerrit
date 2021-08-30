@@ -89,6 +89,7 @@ import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
+import com.google.gerrit.server.rules.FakeSubmitRule;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaCreatorImpl;
@@ -234,6 +235,9 @@ public class InMemoryModule extends FactoryModule {
     install(new DefaultMemoryCacheModule());
     install(new H2CacheModule());
     install(new FakeEmailSender.Module());
+    if (cfg.getBoolean("test", "fakeSubmitRule", false)) {
+      install(new FakeSubmitRule.Module());
+    }
     install(new SignedTokenEmailTokenVerifier.Module());
     install(new GpgModule(cfg));
     install(new LocalMergeSuperSetComputation.Module());

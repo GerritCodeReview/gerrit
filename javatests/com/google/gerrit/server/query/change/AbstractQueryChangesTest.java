@@ -2254,6 +2254,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void bySubmitRuleResult() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChange(repo));
+    assertQuery("has:FakeSubmitRule");
+
+    // Fake submit rule returns true if commit message contains "PASS"
+    HashtagsInput hashtag = new HashtagsInput();
+    hashtag.add = ImmutableSet.of("Pass");
+    gApi.changes().id(change.getId().get()).setHashtags(hashtag);
+    assertQuery("has:FakeSubmitRule", change);
+  }
+
+  @Test
   public void byDraftBy() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));

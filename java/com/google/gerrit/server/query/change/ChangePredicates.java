@@ -49,6 +49,14 @@ public class ChangePredicates {
   }
 
   /**
+   * Returns a predicate that matches changes that return true if the ruleName {@link
+   * com.google.gerrit.server.rules.SubmitRule} is evaluated.
+   */
+  public static Predicate<ChangeData> hasSubmitRule(String ruleName) {
+    return null;
+  }
+
+  /**
    * Returns a predicate that matches changes that are a revert of the provided {@link
    * com.google.gerrit.entities.Change.Id}.
    */

@@ -598,9 +598,9 @@ public class ChangeField {
 
   /** List of labels on the current patch set including change owner votes. */
   public static final FieldDef<ChangeData, Iterable<String>> LABEL =
-      exact("label2").buildRepeatable(cd -> getLabels(cd, true));
+      exact("label2").buildRepeatable(cd -> getLabels(cd));
 
-  private static Iterable<String> getLabels(ChangeData cd, boolean owners) {
+  private static Iterable<String> getLabels(ChangeData cd) {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
     for (PatchSetApproval a : cd.currentApprovals()) {
@@ -608,7 +608,7 @@ public class ChangeField {
         allApprovals.add(formatLabel(a.label(), a.value(), a.accountId()));
         Optional<LabelType> labelType = cd.getLabelTypes().byLabel(a.labelId());
         allApprovals.addAll(getMaxMinAnyLabels(a.label(), a.value(), labelType, a.accountId()));
-        if (owners && cd.change().getOwner().equals(a.accountId())) {
+        if (cd.change().getOwner().equals(a.accountId())) {
           allApprovals.add(formatLabel(a.label(), a.value(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
           allApprovals.addAll(
               getMaxMinAnyLabels(

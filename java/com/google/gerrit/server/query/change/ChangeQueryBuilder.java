@@ -176,7 +176,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_OWNERIN = "ownerin";
   public static final String FIELD_PARENTOF = "parentof";
   public static final String FIELD_PARENTPROJECT = "parentproject";
-  public static final String FIELD_PATH = "path";
   public static final String FIELD_PENDING_REVIEWER = "pendingreviewer";
   public static final String FIELD_PENDING_REVIEWER_BY_EMAIL = "pendingreviewerbyemail";
   public static final String FIELD_PRIVATE = "private";
@@ -184,11 +183,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_PROJECTS = "projects";
   public static final String FIELD_REF = "ref";
   public static final String FIELD_REVIEWEDBY = "reviewedby";
-  public static final String FIELD_REVIEWER = "reviewer";
   public static final String FIELD_REVIEWERIN = "reviewerin";
   public static final String FIELD_STAR = "star";
   public static final String FIELD_STARBY = "starby";
-  public static final String FIELD_STARREDBY = "starredby";
   public static final String FIELD_STARTED = "started";
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_SUBMISSIONID = "submissionid";
@@ -198,7 +195,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_WATCHEDBY = "watchedby";
   public static final String FIELD_WIP = "wip";
   public static final String FIELD_REVERTOF = "revertof";
-  public static final String FIELD_CHERRY_PICK_OF = "cherrypickof";
   public static final String FIELD_CHERRY_PICK_OF_CHANGE = "cherrypickofchange";
   public static final String FIELD_CHERRY_PICK_OF_PATCHSET = "cherrypickofpatchset";
 

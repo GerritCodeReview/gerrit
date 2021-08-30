@@ -609,6 +609,19 @@ link:rest-api-changes.html#submit-record[SubmitRecord]. This operator
 only applies to the top-level status; individual label statuses can be
 searched link:#labels[by label].
 
+[[rule]]
+rule:'SUBMIT_RULE_NAME'::
++
+Changes where 'SUBMIT_RULE_NAME' returns a submit record with status in {OK,
+FORCED}. This means that the submit rule has passed and is not blocking the
+change submission.
+
+rule:'SUBMIT_RULE_NAME'='STATUS'::
++
+Changes where 'SUBMIT_RULE_NAME' returns a submit record with status equals to
+'STATUS'. Valid statuses are in the `status` field of
+link:rest-api-changes.html#submit-record[SubmitRecord].
+
 [[unresolved]]
 unresolved:'RELATION''NUMBER'::
 +

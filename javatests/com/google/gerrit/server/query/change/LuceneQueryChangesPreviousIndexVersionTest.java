@@ -20,6 +20,7 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.IndexConfig;
 import com.google.gerrit.testing.IndexVersions;
 import org.eclipse.jgit.lib.Config;
+import org.junit.Test;
 
 public class LuceneQueryChangesPreviousIndexVersionTest extends LuceneQueryChangesTest {
   @ConfigSuite.Default
@@ -33,4 +34,9 @@ public class LuceneQueryChangesPreviousIndexVersionTest extends LuceneQueryChang
                 IndexConfig.createForLucene())
             .values());
   }
+
+  @Test
+  @Override
+  // Override since previous index version does not contain the submit_rule_result field
+  public void bySubmitRuleResult() throws Exception {}
 }

@@ -292,4 +292,8 @@ public class ChangePredicates {
   public static Predicate<ChangeData> comment(String comment) {
     return new ChangeIndexPredicate(ChangeField.COMMENT, comment);
   }
+
+  public static Predicate<ChangeData> submitRuleStatus(String value) {
+    return new ChangeIndexPredicate(ChangeField.SUBMIT_RULE_RESULT, value);
+  }
 }

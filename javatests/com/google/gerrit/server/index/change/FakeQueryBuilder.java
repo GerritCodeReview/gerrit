@@ -55,6 +55,7 @@ public class FakeQueryBuilder extends ChangeQueryBuilder {
             null,
             new Config(),
             null,
+            null,
             null));
   }
 

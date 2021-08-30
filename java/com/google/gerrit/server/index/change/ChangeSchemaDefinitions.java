@@ -79,6 +79,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.STORED_SUBMIT_RECORD_STRICT,
           ChangeField.SUBMISSIONID,
           ChangeField.SUBMIT_RECORD,
+          ChangeField.SUBMIT_RULE_RESULT,
           ChangeField.TOTAL_COMMENT_COUNT,
           ChangeField.TR,
           ChangeField.UNRESOLVED_COMMENT_COUNT,
@@ -165,7 +166,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V66 = schema(V65, false);
 
   /** Updated submit records: store the rule name that created the submit record. */
-  static final Schema<ChangeData> V67 = schema(V66, false);
+  @Deprecated static final Schema<ChangeData> V67 = schema(V66, false);
+
+  static final Schema<ChangeData> V68 = schema(V67, false);
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.
    */

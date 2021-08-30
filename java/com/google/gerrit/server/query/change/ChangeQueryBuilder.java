@@ -78,8 +78,11 @@ import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.submit.SubmitDryRun;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -87,9 +90,11 @@ import com.google.inject.ProvisionException;
 import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -247,6 +252,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final boolean indexMergeable;
     final boolean conflictsPredicateEnabled;
     final HasOperandAliasConfig hasOperandAliasConfig;
+    final PluginSetContext<SubmitRule> submitRules;
 
     private final Provider<CurrentUser> self;
 
@@ -281,7 +287,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         OperatorAliasConfig operatorAliasConfig,
         @GerritServerConfig Config gerritConfig,
         HasOperandAliasConfig hasOperandAliasConfig,
-        ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory) {
+        ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
+        PluginSetContext<SubmitRule> submitRules) {
       this(
           queryProvider,
           rewriter,
@@ -312,7 +319,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           MergeabilityComputationBehavior.fromConfig(gerritConfig).includeInIndex(),
           gerritConfig.getBoolean("change", null, "conflictsPredicateEnabled", true),
           hasOperandAliasConfig,
-          changeIsVisbleToPredicateFactory);
+          changeIsVisbleToPredicateFactory,
+          submitRules);
     }
 
     private Arguments(
@@ -345,7 +353,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         boolean indexMergeable,
         boolean conflictsPredicateEnabled,
         HasOperandAliasConfig hasOperandAliasConfig,
-        ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory) {
+        ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
+        PluginSetContext<SubmitRule> submitRules) {
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -376,6 +385,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.indexMergeable = indexMergeable;
       this.conflictsPredicateEnabled = conflictsPredicateEnabled;
       this.hasOperandAliasConfig = hasOperandAliasConfig;
+      this.submitRules = submitRules;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -409,7 +419,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           indexMergeable,
           conflictsPredicateEnabled,
           hasOperandAliasConfig,
-          changeIsVisbleToPredicateFactory);
+          changeIsVisbleToPredicateFactory,
+          submitRules);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -585,6 +596,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     if ("unresolved".equalsIgnoreCase(value)) {
       return new IsUnresolvedPredicate();
+    }
+
+    // has:$submitRuleName is also accepted
+    Iterator<PluginSetEntryContext<SubmitRule>> submitRulesItr = args.submitRules.iterator();
+    while (submitRulesItr.hasNext()) {
+      SubmitRule submitRule = submitRulesItr.next().get();
+      String ruleName = submitRule.getClass().getSimpleName();
+      if (value.equals(ruleName)) {
+        return Predicate.or(
+            Arrays.asList(
+                ChangePredicates.submitRuleStatus(ruleName + ",OK"),
+                ChangePredicates.submitRuleStatus(ruleName + ",FORCED")));
+      }
     }
 
     // for plugins the value will be operandName_pluginName

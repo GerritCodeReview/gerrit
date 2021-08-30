@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5070d162_59cd0443",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-08-30T10:01:38Z",
+      "side": 1,
+      "message": "The specs is 2px padding left and right between vote chips and X icon.\nThe size of vote chips should also be smaller inside the user chip, width and height spec of chip vote is 16px x 16px. That also means that there is a 2px padding top and bottom between the vote chips and the user chips border.",
+      "parentUuid": "14a72b05_74ffaa89",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c008fa4e_f49f1380",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -60,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a46e2a9b_b85e10a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-08-30T10:01:38Z",
+      "side": 1,
+      "message": "Font should be Roboto Mono 12px.",
+      "parentUuid": "c008fa4e_f49f1380",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64e16545_fd16a2d9",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.ts",
         "patchSetId": 2
@@ -71,6 +113,24 @@
       "writtenOn": "2021-08-30T08:31:31Z",
       "side": 1,
       "message": "I would prefer:\n\n    gr-vote-chip {\n      --gr-vote-chip-width: 16px;\n      --gr-vote-chip-height: 16px;\n    }",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a4c846a_3616512b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-08-30T10:01:38Z",
+      "side": 1,
+      "message": "Also please not that the vote chips is:\n\n- 16 x 16px in the user chip\n- 18 x 18px next to the submit requirements if only one vote \n- 20 x 20px next to the submit requirements if stacked votes\n\nWith that said, when looking at https://imgur.com/a/kSEE3Nk, I think that with the current proposed specs, the stacked votes and one vote look unbalanced (for example next to the Code-Review submit requirements). We could instead make the one vote (in this case +1) to be 18 x 18px so that the +1 chips looks the same height and width as the +2 chips in the stacked vote. \n\nSo I propose we update to \n- 16 x 16px vote chip in the user chip\n- 18 x 18px vote chip next to the submit requirements if only one vote \n- 20 x 20px vote chip next to the submit requirements if stacked votes (with first vote showing in the stack 18 x 18px)",
+      "parentUuid": "64e16545_fd16a2d9",
       "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

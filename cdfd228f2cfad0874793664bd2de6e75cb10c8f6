@@ -22,6 +22,30 @@
       },
       "revId": "cdfd228f2cfad0874793664bd2de6e75cb10c8f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e4b766b_1b19d98a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-30T17:47:33Z",
+      "side": 1,
+      "message": "I think using a rule operator is a good idea. I also added support for rule:$name\u003d$status to allow for more flexibility.\n\nDone.",
+      "parentUuid": "87b90de0_858daf18",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "cdfd228f2cfad0874793664bd2de6e75cb10c8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

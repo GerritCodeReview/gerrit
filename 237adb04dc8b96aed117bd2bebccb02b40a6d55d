@@ -1,0 +1,214 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14a72b05_74ffaa89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "Delphine, maybe 1 pixel more padding left and right?\n\nDo we want them all with fixed width? Or should they just fit the text in the middle and have some defined padding?",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67a5d9d5_8c218577",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "In the Submit Requirement section the \"no more\" chips have numbers that are off center.",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c008fa4e_f49f1380",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "The font is not Roboto.",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64e16545_fd16a2d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "I would prefer:\n\n    gr-vote-chip {\n      --gr-vote-chip-width: 16px;\n      --gr-vote-chip-height: 16px;\n    }",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35c8094a_a2684321",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "Add a comment.",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae922c02_31e92751",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "Since you are using `width/height` and `padding/border`, maybe add an explicit value for `box-sizing:`.",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24c58755_dd69bb5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "Maybe calc() this based on `--gr-vote-chip-height`.",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "540276d8_3857f78d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "Maybe all the width and height numbers should be either\n\n  --gr-vote-chip-width\n  --gr-vote-chip-height\n  \nor a calc() based on them.",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89bc29db_cee895f7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f17f88d1_7fd637d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "gr-checks-attempt does not need z-index values. Do you really need them here?",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2781113d_0fdcfdc2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "Maybe add\n\n  color: transparent;",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeddff83_49e3c55a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-08-30T08:31:31Z",
+      "side": 1,
+      "message": "Maybe put the .more class on the container and use a\n\n  display: none;\n  \nrule instead? Well, a matter of taste I guess.",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

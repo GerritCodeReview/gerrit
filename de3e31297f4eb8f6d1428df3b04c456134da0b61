@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69123194_703a1a20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-08-30T15:35:56Z",
+      "side": 1,
+      "message": "By the way, when I tried to push without amending by using %base\u003d$(git rev-parse HEAD^), all the commits that were merged in created changes on gerrit. This is obviously not what I meant at all...",
+      "revId": "de3e31297f4eb8f6d1428df3b04c456134da0b61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

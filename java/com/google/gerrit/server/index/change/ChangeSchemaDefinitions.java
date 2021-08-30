@@ -154,9 +154,15 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V64 = schema(V63, false);
 
   /** Added new field for submit requirements. */
+  @Deprecated
   static final Schema<ChangeData> V65 =
       new Schema.Builder<ChangeData>().add(V64).add(ChangeField.STORED_SUBMIT_REQUIREMENTS).build();
 
+  /**
+   * The computation of {@link ChangeField#LABEL} has changed: We added the non_uploader arg to the
+   * label field.
+   */
+  static final Schema<ChangeData> V66 = schema(V65, false);
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.
    */

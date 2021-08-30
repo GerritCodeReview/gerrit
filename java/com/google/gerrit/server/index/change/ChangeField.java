@@ -614,6 +614,13 @@ public class ChangeField {
               getMaxMinAnyLabels(
                   a.label(), a.value(), labelType, ChangeQueryBuilder.OWNER_ACCOUNT_ID));
         }
+        if (!cd.currentPatchSet().uploader().equals(a.accountId())) {
+          allApprovals.add(
+              formatLabel(a.label(), a.value(), ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID));
+          allApprovals.addAll(
+              getMaxMinAnyLabels(
+                  a.label(), a.value(), labelType, ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID));
+        }
         distinctApprovals.add(formatLabel(a.label(), a.value()));
         distinctApprovals.addAll(getMaxMinAnyLabels(a.label(), a.value(), labelType, null));
       }
@@ -735,6 +742,8 @@ public class ChangeField {
   private static String formatAccount(Account.Id accountId) {
     if (ChangeQueryBuilder.OWNER_ACCOUNT_ID.equals(accountId)) {
       return ChangeQueryBuilder.ARG_ID_OWNER;
+    } else if (ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID.equals(accountId)) {
+      return ChangeQueryBuilder.ARG_ID_NON_UPLOADER;
     }
     return Integer.toString(accountId.get());
   }

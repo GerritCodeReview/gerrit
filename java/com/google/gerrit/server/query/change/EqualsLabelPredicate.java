@@ -108,16 +108,23 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       return false;
     }
 
-    if (account != null
-        && !account.equals(approver)
-        && !account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)) {
-      return false;
-    }
+    if (account != null) {
+      // case when account in query is numeric
+      if (!account.equals(approver) && !isMagicUser()) {
+        return false;
+      }
 
-    if (account != null
-        && account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
-        && !cd.change().getOwner().equals(approver)) {
-      return false;
+      // case when account in query = owner
+      if (account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
+          && !cd.change().getOwner().equals(approver)) {
+        return false;
+      }
+
+      // case when account in query = non_uploader
+      if (account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
+          && cd.currentPatchSet().uploader().equals(approver)) {
+        return false;
+      }
     }
 
     IdentifiedUser reviewer = userFactory.create(approver);
@@ -137,6 +144,11 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     } catch (PermissionBackendException | AuthException e) {
       return false;
     }
+  }
+
+  private boolean isMagicUser() {
+    return account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
+        || account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID);
   }
 
   @Override

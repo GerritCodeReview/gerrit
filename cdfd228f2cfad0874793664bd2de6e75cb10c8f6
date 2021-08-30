@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87b90de0_858daf18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-30T16:40:56Z",
+      "side": 1,
+      "message": "Is this guaranteed not to conflict with any other operand name? Maybe a rule_ prefix would help?\n\n has:rule_IgnoreSelfApprovalRule\n \nOr maybe adding a rule: operator (which then lets you specify the status?)?",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "cdfd228f2cfad0874793664bd2de6e75cb10c8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

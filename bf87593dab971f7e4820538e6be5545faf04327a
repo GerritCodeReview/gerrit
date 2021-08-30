@@ -16,6 +16,24 @@
       "message": "Nice. Every `null` gone makes me happy.\n\nCan you also change\n\n  interface PatchRangeParams\n  interface GenerateUrlDiffViewParameters\n  \nto not even allow `null`. And then also remove the null checks\n\n  params.basePatchNum \u003d\u003d\u003d null\n  params.patchNum !\u003d\u003d null\n  \nBonus points for also removing the ? and not allowing either parameter to be undefined.",
       "revId": "bf87593dab971f7e4820538e6be5545faf04327a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "179d3520_9017cfe5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-08-30T14:08:28Z",
+      "side": 1,
+      "message": "I think patchNum can be undefined if you don\u0027t specify anything, then the choice is equivalent to the latest PS uploaded.\nDone the non-bonus part.",
+      "parentUuid": "a2841d82_2c8ef19e",
+      "revId": "bf87593dab971f7e4820538e6be5545faf04327a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

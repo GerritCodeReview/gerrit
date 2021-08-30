@@ -292,4 +292,15 @@ public class ChangePredicates {
   public static Predicate<ChangeData> comment(String comment) {
     return new ChangeIndexPredicate(ChangeField.COMMENT, comment);
   }
+
+  /**
+   * Returns a predicate that matches with changes having a specific submit rule evaluating to a
+   * certain result. Value should be in the form of "$ruleName=$status" with $ruleName equals to
+   * '$plugin_name~$rule_name' and $rule_name equals to the name of the class that implements the
+   * {@link com.google.gerrit.server.rules.SubmitRule}. For gerrit core rules, $ruleName should be
+   * in the form of 'gerrit~$rule_name'.
+   */
+  public static Predicate<ChangeData> submitRuleStatus(String value) {
+    return new ChangeIndexPredicate(ChangeField.SUBMIT_RULE_RESULT, value);
+  }
 }

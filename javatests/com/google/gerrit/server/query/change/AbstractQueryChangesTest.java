@@ -58,6 +58,9 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRecord.Status;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
@@ -80,6 +83,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -118,6 +122,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -129,9 +134,12 @@ import com.google.gerrit.testing.GerritServerTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -142,7 +150,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.TestRepository;
@@ -207,6 +217,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void setUpInjector() throws Exception {
     lifecycle = new LifecycleManager();
     injector = createInjector();
+    injector = injector.createChildInjector(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(SubmitRule.class)
+            .annotatedWith(Exports.named("CustomSubmitRule"))
+            .to(CustomSubmitRule.class);
+      }
+    });
     lifecycle.add(injector);
     injector.injectMembers(this);
     lifecycle.start();
@@ -2254,6 +2272,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void bySubmitRuleResult() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChange(repo));
+
+    assertQuery("has:CustomSubmitRule", change);
+  }
+
+  @Test
   public void byDraftBy() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
@@ -4057,5 +4083,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected Schema<ChangeData> getSchema() {
     return indexes.getSearchIndex().getSchema();
+  }
+
+  @Singleton
+  public static class CustomSubmitRule implements SubmitRule {
+    @Override
+    public Optional<SubmitRecord> evaluate(ChangeData changeData) {
+     SubmitRecord record = new SubmitRecord();
+     record.status = Status.OK;
+     return Optional.of(record);
+    }
   }
 }

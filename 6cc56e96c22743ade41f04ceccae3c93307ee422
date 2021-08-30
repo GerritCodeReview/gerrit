@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a23610d3_9e3977aa",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-30T16:04:24Z",
+      "side": 0,
+      "message": "I meant to put this cleanup into its own change. Let me know if you want a new PS without it.",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 171,
+        "endChar": 90
+      },
+      "revId": "6cc56e96c22743ade41f04ceccae3c93307ee422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

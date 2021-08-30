@@ -17,6 +17,7 @@ java_library(
         "//prolog:gerrit-prolog-common",
     ],
     deps = [
+        "//java/com/google/gerrit/acceptance:lib",
         "//java/com/google/gerrit/acceptance/config",
         "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/common:annotations",

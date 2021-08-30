@@ -78,8 +78,10 @@ import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.submit.SubmitDryRun;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -87,6 +89,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -247,6 +250,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final boolean indexMergeable;
     final boolean conflictsPredicateEnabled;
     final HasOperandAliasConfig hasOperandAliasConfig;
+    final PluginSetContext<SubmitRule> submitRules;
 
     private final Provider<CurrentUser> self;
 
@@ -281,7 +285,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         OperatorAliasConfig operatorAliasConfig,
         @GerritServerConfig Config gerritConfig,
         HasOperandAliasConfig hasOperandAliasConfig,
-        ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory) {
+        ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
+        PluginSetContext<SubmitRule> submitRules) {
       this(
           queryProvider,
           rewriter,
@@ -312,7 +317,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           MergeabilityComputationBehavior.fromConfig(gerritConfig).includeInIndex(),
           gerritConfig.getBoolean("change", null, "conflictsPredicateEnabled", true),
           hasOperandAliasConfig,
-          changeIsVisbleToPredicateFactory);
+          changeIsVisbleToPredicateFactory,
+          submitRules);
     }
 
     private Arguments(
@@ -345,7 +351,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         boolean indexMergeable,
         boolean conflictsPredicateEnabled,
         HasOperandAliasConfig hasOperandAliasConfig,
-        ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory) {
+        ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
+        PluginSetContext<SubmitRule> submitRules) {
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -376,6 +383,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.indexMergeable = indexMergeable;
       this.conflictsPredicateEnabled = conflictsPredicateEnabled;
       this.hasOperandAliasConfig = hasOperandAliasConfig;
+      this.submitRules = submitRules;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -409,7 +417,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           indexMergeable,
           conflictsPredicateEnabled,
           hasOperandAliasConfig,
-          changeIsVisbleToPredicateFactory);
+          changeIsVisbleToPredicateFactory,
+          submitRules);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -562,6 +571,35 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   public Predicate<ChangeData> statusOpen() {
     return ChangeStatusPredicate.open();
+  }
+
+  @Operator
+  public Predicate<ChangeData> rule(String value) throws QueryParseException {
+    String ruleNameArg = value;
+    String statusArg = null;
+    String[] queryArgs = value.split("=");
+    if (queryArgs.length > 2) {
+      throw new QueryParseException(
+          "Invalid query arguments. Correct format is 'rule:<rule_name>=<status>' "
+              + "with <rule_name> in the form of <plugin>~<rule>. For Gerrit core rules, "
+              + "rule name should be specified either as gerrit~<rule> or <rule>.");
+    }
+    if (queryArgs.length == 2) {
+      ruleNameArg = queryArgs[0];
+      statusArg = queryArgs[1];
+    }
+
+    // If ruleName is not prefixed by the plugin name, add the "gerrit~" prefix to it.
+    if (!ruleNameArg.contains("~")) {
+      ruleNameArg = "gerrit~" + ruleNameArg;
+    }
+
+    return statusArg == null
+        ? Predicate.or(
+            Arrays.asList(
+                ChangePredicates.submitRuleStatus(ruleNameArg + "=" + SubmitRecord.Status.OK),
+                ChangePredicates.submitRuleStatus(ruleNameArg + "=" + SubmitRecord.Status.FORCED)))
+        : ChangePredicates.submitRuleStatus(ruleNameArg + "=" + statusArg);
   }
 
   @Operator

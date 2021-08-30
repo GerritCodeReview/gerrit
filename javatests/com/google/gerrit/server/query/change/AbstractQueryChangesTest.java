@@ -42,6 +42,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.common.truth.ThrowableSubject;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
+import com.google.gerrit.acceptance.FakeSubmitRule;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
@@ -174,6 +177,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected IdentifiedUser.GenericFactory userFactory;
   @Inject protected ChangeIndexCollection indexes;
   @Inject protected ChangeIndexer indexer;
+  @Inject protected ExtensionRegistry extensionRegistry;
   @Inject protected IndexConfig indexConfig;
   @Inject protected InMemoryRepositoryManager repoManager;
   @Inject protected Provider<AnonymousUser> anonymousUserProvider;
@@ -2251,6 +2255,48 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("commentby:" + userId.get(), change2, change1);
     assertQuery("commentby:" + user2);
+  }
+
+  @Test
+  public void bySubmitRuleResult() throws Exception {
+    if (getSchemaVersion() < 68) {
+      assertMissingField(ChangeField.SUBMIT_RULE_RESULT);
+      return;
+    }
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(new FakeSubmitRule())) {
+      TestRepository<Repo> repo = createProject("repo");
+      Change change = insert(repo, newChange(repo));
+      assertQuery("rule:gerrit~FakeSubmitRule");
+
+      // FakeSubmitRule returns true if change has one or more hashtags.
+      HashtagsInput hashtag = new HashtagsInput();
+      hashtag.add = ImmutableSet.of("Tag1");
+      gApi.changes().id(change.getId().get()).setHashtags(hashtag);
+      assertQuery("rule:gerrit~FakeSubmitRule", change);
+      assertQuery("rule:gerrit~FakeSubmitRule=OK", change);
+      assertQuery("rule:gerrit~FakeSubmitRule=NOT_READY");
+
+      // The 'gerrit~' prefix can be omitted for core submit rules
+      assertQuery("rule:FakeSubmitRule", change);
+    }
+  }
+
+  @Test
+  public void byNonExistingSubmitRule_ReturnsEmpty() throws Exception {
+    // Some submit rules could be removed from the gerrit.config but there can be records for
+    // merged changes in NoteDb for these rules. We allow querying for non-existent rules to handle
+    // this case.
+    if (getSchemaVersion() < 68) {
+      assertMissingField(ChangeField.SUBMIT_RULE_RESULT);
+      return;
+    }
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(new FakeSubmitRule())) {
+      TestRepository<Repo> repo = createProject("repo");
+      Change change = insert(repo, newChange(repo));
+      assertQuery("rule:non-existent-rule");
+    }
   }
 
   @Test

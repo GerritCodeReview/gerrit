@@ -128,6 +128,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritServerTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
+import com.google.gerrit.testing.RunIfIndexVersionAbove;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -142,6 +143,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -158,7 +160,11 @@ import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 @Ignore
 public abstract class AbstractQueryChangesTest extends GerritServerTests {
@@ -202,6 +208,39 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   private String systemTimeZone;
 
   protected abstract Injector createInjector();
+
+  @Rule
+  public TestRule indexVersionChecker =
+      (base, description) -> {
+        final boolean indexVersionAbove = isIndexVersionAbove(description);
+        return new Statement() {
+          @Override
+          public void evaluate() throws Throwable {
+            if (indexVersionAbove) {
+              base.evaluate();
+            }
+          }
+        };
+      };
+
+  private boolean isIndexVersionAbove(Description description) {
+    Set<String> index = config.getSubsections("index");
+    if (index.size() != 1) {
+      return true;
+    }
+    String indexName = index.iterator().next();
+    Set<String> versionNames = config.getNames("index", indexName, true);
+    if (versionNames.size() != 1) {
+      return true;
+    }
+    String indexVersionName = versionNames.iterator().next();
+    int configuredIndexVersion = config.getInt("index", indexName, indexVersionName, -1);
+    if (configuredIndexVersion == -1) {
+      return true;
+    }
+    RunIfIndexVersionAbove annotation = description.getAnnotation(RunIfIndexVersionAbove.class);
+    return annotation == null ? true : annotation.version() > configuredIndexVersion;
+  }
 
   @Before
   public void setUpInjector() throws Exception {
@@ -2254,6 +2293,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  @GerritConfig(name = "test.fakeSubmitRule", value = "true")
+  @RunIfIndexVersionAbove(version = 67)
+  public void bySubmitRuleResult() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChange(repo));
+    assertQuery("rule:gerrit~FakeSubmitRule");
+
+    // FakeSubmitRule returns true if change has one or more hashtags.
+    HashtagsInput hashtag = new HashtagsInput();
+    hashtag.add = ImmutableSet.of("Tag1");
+    gApi.changes().id(change.getId().get()).setHashtags(hashtag);
+    assertQuery("rule:gerrit~FakeSubmitRule", change);
+    assertQuery("rule:gerrit~FakeSubmitRule=OK", change);
+    assertQuery("rule:gerrit~FakeSubmitRule=NOT_READY");
+  }
+
+  @Test
   public void byHasDraft() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
@@ -2874,6 +2930,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     insert(repo2, ins2);
 
     assertQuery("is:watched");
+    assertQuery("watchedby:self");
 
     List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
     ProjectWatchInfo pwi = new ProjectWatchInfo();
@@ -2887,6 +2944,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     resetUser();
 
     assertQuery("is:watched", change1);
+    assertQuery("watchedby:self", change1);
   }
 
   @Test
@@ -3609,7 +3667,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void selfFailsForAnonymousUser() throws Exception {
-    for (String query : ImmutableList.of("assignee:self", "has:star", "is:starred")) {
+    for (String query : ImmutableList.of("assignee:self", "starredby:self", "is:starred")) {
       assertQuery(query);
       RequestContext oldContext = requestContext.setContext(anonymousUserProvider::get);
 

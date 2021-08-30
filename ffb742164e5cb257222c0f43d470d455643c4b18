@@ -63,6 +63,30 @@
       },
       "revId": "ffb742164e5cb257222c0f43d470d455643c4b18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d625b410_e96e7d96",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-30T11:38:19Z",
+      "side": 1,
+      "message": "Maybe \"isMagicUser\"?",
+      "parentUuid": "821cbedf_60ae3b6b",
+      "range": {
+        "startLine": 149,
+        "startChar": 18,
+        "endLine": 149,
+        "endChar": 33
+      },
+      "revId": "ffb742164e5cb257222c0f43d470d455643c4b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

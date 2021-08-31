@@ -130,7 +130,8 @@ public class CancellationMetrics {
   @VisibleForTesting
   static String redactRequestUri(String requestUri) {
     requireNonNull(requestUri, "requestUri");
-    checkState(!requestUri.startsWith("/a"), "request URI must not start with '/a'");
+    checkState(
+        !requestUri.startsWith("/a/"), "request URI must not start with '/a/': %s", requestUri);
 
     StringBuilder redactedRequestUri = new StringBuilder();
 

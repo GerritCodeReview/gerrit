@@ -28,6 +28,7 @@ public class CancellationMetricsTest {
     assertThat(redact("/changes/123")).isEqualTo("/changes/*");
     assertThat(redact("/changes/123/detail")).isEqualTo("/changes/*/detail");
     assertThat(redact("/changes/123/detail/")).isEqualTo("/changes/*/detail/");
+    assertThat(redact("/accounts/self/capabilities")).isEqualTo("/accounts/*/capabilities");
     assertThat(redact("/foo/123/bar/567")).isEqualTo("/foo/*/bar/*");
     assertThat(redact("/foo/123/bar/567/baz")).isEqualTo("/foo/*/bar/*/baz");
     assertThat(redact("/foo/123/bar/567/baz/")).isEqualTo("/foo/*/bar/*/baz/");

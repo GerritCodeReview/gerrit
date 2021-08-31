@@ -25,6 +25,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AllUsersObjectIdByRefCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.config.AllUsersName;
@@ -225,7 +226,7 @@ public class ProjectResetterTest {
     Ref nonMetaConfig = createRef("refs/heads/master");
 
     try (ProjectResetter resetProject =
-        builder(null, null, null, null, null, null, projectCache)
+        builder(null, null, null, null, null, null, null, projectCache)
             .build(new ProjectResetter.Config().reset(project).reset(project2))) {
       updateRef(nonMetaConfig);
       updateRef(repo2, metaConfig);
@@ -242,7 +243,7 @@ public class ProjectResetterTest {
     ProjectCache projectCache = mock(ProjectCache.class);
 
     try (ProjectResetter resetProject =
-        builder(null, null, null, null, null, null, projectCache)
+        builder(null, null, null, null, null, null, null, projectCache)
             .build(new ProjectResetter.Config().reset(project).reset(project2))) {
       createRef("refs/heads/master");
       createRef(repo2, RefNames.REFS_CONFIG);
@@ -266,7 +267,7 @@ public class ProjectResetterTest {
     createRef(allUsersRepo, RefNames.refsGroups(uuid1));
     Ref ref2 = createRef(allUsersRepo, RefNames.refsGroups(uuid2));
     try (ProjectResetter resetProject =
-        builder(null, null, null, cache, includeCache, indexer, null)
+        builder(null, null, null, null, cache, includeCache, indexer, null)
             .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
       updateRef(allUsersRepo, ref2);
       createRef(allUsersRepo, RefNames.refsGroups(uuid3));
@@ -349,12 +350,13 @@ public class ProjectResetterTest {
   }
 
   private ProjectResetter.Builder builder() {
-    return builder(null, null, null, null, null, null, null);
+    return builder(null, null, null, null, null, null, null, null);
   }
 
   private ProjectResetter.Builder builder(
       @Nullable AccountCreator accountCreator,
       @Nullable AccountCache accountCache,
+      @Nullable AllUsersObjectIdByRefCache usersRefsCache,
       @Nullable AccountIndexer accountIndexer,
       @Nullable GroupCache groupCache,
       @Nullable GroupIncludeCache groupIncludeCache,
@@ -365,6 +367,7 @@ public class ProjectResetterTest {
         new AllUsersName(AllUsersNameProvider.DEFAULT),
         accountCreator,
         accountCache,
+        usersRefsCache,
         accountIndexer,
         groupCache,
         groupIncludeCache,

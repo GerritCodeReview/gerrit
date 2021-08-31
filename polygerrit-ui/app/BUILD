@@ -301,23 +301,3 @@ filegroup(
         ":compile_pg",
     ],
 )
-
-sh_test(
-    name = "polylint_test",
-    size = "large",
-    srcs = ["polylint_test.sh"],
-    args = [
-        "$(location @tools_npm//polymer-cli/bin:polymer)",
-        "$(location polymer.json)",
-    ],
-    data = [
-        "polymer.json",
-        ":polylint-fg",
-        "@tools_npm//polymer-cli/bin:polymer",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
-)

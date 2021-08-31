@@ -54,6 +54,7 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -417,6 +418,69 @@ public class CreateChangeIT extends AbstractDaemonTest {
         .add(block(Permission.FORGE_AUTHOR).ref("refs/*").group(REGISTERED_USERS))
         .update();
     assertCreateFails(input, AuthException.class, "forge author");
+  }
+
+  @Test
+  public void createAuthorAddedAsCcAndNotified() throws Exception {
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.author = new AccountInput();
+    input.author.email = user.email();
+    input.author.name = user.fullName();
+
+    ChangeInfo info = assertCreateSucceeds(input);
+    assertThat(info.reviewers.get(ReviewerState.CC)).hasSize(1);
+    assertThat(Iterables.getOnlyElement(info.reviewers.get(ReviewerState.CC)).email)
+        .isEqualTo(user.email());
+    assertThat(
+            Iterables.getOnlyElement(Iterables.getOnlyElement(sender.getMessages()).rcpt()).email())
+        .isEqualTo(user.email());
+  }
+
+  @Test
+  public void createAuthorAddedAsCcNotNotifiedWithNotifyNone() throws Exception {
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.author = new AccountInput();
+    input.author.email = user.email();
+    input.author.name = user.fullName();
+    input.notify = NotifyHandling.NONE;
+
+    ChangeInfo info = assertCreateSucceeds(input);
+    assertThat(info.reviewers.get(ReviewerState.CC)).hasSize(1);
+    assertThat(Iterables.getOnlyElement(info.reviewers.get(ReviewerState.CC)).email)
+        .isEqualTo(user.email());
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void createWithMergeConflictAuthorAddedAsCcNotNotifiedWithNotifyNone() throws Exception {
+    String fileName = "shared.txt";
+    String sourceBranch = "sourceBranch";
+    String sourceSubject = "source change";
+    String sourceContent = "source content";
+    String targetBranch = "targetBranch";
+    String targetSubject = "target change";
+    String targetContent = "target content";
+    changeInTwoBranches(
+        sourceBranch,
+        sourceSubject,
+        fileName,
+        sourceContent,
+        targetBranch,
+        targetSubject,
+        fileName,
+        targetContent);
+    ChangeInput input = newMergeChangeInput(targetBranch, sourceBranch, "", true);
+    input.workInProgress = true;
+    input.author = new AccountInput();
+    input.author.email = user.email();
+    input.author.name = user.fullName();
+    input.notify = NotifyHandling.NONE;
+    ChangeInfo info = assertCreateSucceeds(input);
+
+    assertThat(info.reviewers.get(ReviewerState.CC)).hasSize(1);
+    assertThat(Iterables.getOnlyElement(info.reviewers.get(ReviewerState.CC)).email)
+        .isEqualTo(user.email());
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test

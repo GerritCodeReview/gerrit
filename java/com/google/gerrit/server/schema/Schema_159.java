@@ -23,7 +23,7 @@ import com.google.inject.Provider;
 /** Migrate draft changes to private or wip changes. */
 public class Schema_159 extends SchemaVersion {
 
-  private enum DraftWorkflowMigrationStrategy {
+  public enum DraftWorkflowMigrationStrategy {
     PRIVATE,
     WORK_IN_PROGRESS
   }
@@ -36,7 +36,13 @@ public class Schema_159 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     DraftWorkflowMigrationStrategy strategy = DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
-    if (ui.yesno(false, "Migrate draft changes to private changes (default is work-in-progress)")) {
+    boolean migrateDraftToPrivate =
+        ui.getDraftMigrationStrategy() == DraftWorkflowMigrationStrategy.PRIVATE;
+    if (ui.yesno(
+        migrateDraftToPrivate,
+        "Migrate draft changes to private changes (default is "
+            + (migrateDraftToPrivate ? "private" : "work-in-progress")
+            + ")")) {
       strategy = DraftWorkflowMigrationStrategy.PRIVATE;
     }
     ui.message(

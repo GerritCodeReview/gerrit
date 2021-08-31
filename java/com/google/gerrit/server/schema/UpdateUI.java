@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.server.schema.Schema_159.DraftWorkflowMigrationStrategy;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import java.util.List;
@@ -39,4 +40,7 @@ public interface UpdateUI {
   boolean isBatch();
 
   void pruneSchema(StatementExecutor e, List<String> pruneList) throws OrmException;
+
+  /** Used for Schema_159 migration. */
+  DraftWorkflowMigrationStrategy getDraftMigrationStrategy();
 }

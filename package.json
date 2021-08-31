@@ -44,6 +44,9 @@
     "type": "git",
     "url": "https://gerrit.googlesource.com/gerrit"
   },
+  "resolutions": {
+    "lodash": "4.17.21"
+  },
   "author": "",
   "license": "Apache-2.0"
 }

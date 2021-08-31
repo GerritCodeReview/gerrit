@@ -45,7 +45,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /** Caches important (but small) account state to avoid database hits. */
@@ -67,14 +67,14 @@ public class AccountCacheImpl implements AccountCache {
 
         bind(AccountCacheImpl.class);
         bind(AccountCache.class).to(AccountCacheImpl.class);
+        install(AllUsersObjectIdByRefCache.module());
       }
     };
   }
 
   private final ExternalIds externalIds;
   private final LoadingCache<CachedAccountDetails.Key, CachedAccountDetails> accountDetailsCache;
-  private final GitRepositoryManager repoManager;
-  private final AllUsersName allUsersName;
+  private final AllUsersObjectIdByRefCache usersRefsCache;
   private final DefaultPreferencesCache defaultPreferenceCache;
 
   @Inject
@@ -82,13 +82,11 @@ public class AccountCacheImpl implements AccountCache {
       ExternalIds externalIds,
       @Named(BYID_AND_REV_NAME)
           LoadingCache<CachedAccountDetails.Key, CachedAccountDetails> accountDetailsCache,
-      GitRepositoryManager repoManager,
-      AllUsersName allUsersName,
+      AllUsersObjectIdByRefCache usersRefsCache,
       DefaultPreferencesCache defaultPreferenceCache) {
     this.externalIds = externalIds;
     this.accountDetailsCache = accountDetailsCache;
-    this.repoManager = repoManager;
-    this.allUsersName = allUsersName;
+    this.usersRefsCache = usersRefsCache;
     this.defaultPreferenceCache = defaultPreferenceCache;
   }
 
@@ -105,31 +103,28 @@ public class AccountCacheImpl implements AccountCache {
   @Override
   public Map<Account.Id, AccountState> get(Set<Account.Id> accountIds) {
     try {
-      try (Repository allUsers = repoManager.openRepository(allUsersName)) {
-        // Get the default preferences for this Gerrit host
-        Ref ref = allUsers.exactRef(RefNames.REFS_USERS_DEFAULT);
-        CachedPreferences defaultPreferences =
-            ref != null
-                ? defaultPreferenceCache.get(ref.getObjectId())
-                : DefaultPreferencesCache.EMPTY;
+      // Get the default preferences for this Gerrit host
+      CachedPreferences defaultPreferences =
+          usersRefsCache
+              .get(RefNames.REFS_USERS_DEFAULT)
+              .map(defaultPreferenceCache::get)
+              .orElse(DefaultPreferencesCache.EMPTY);
 
-        ImmutableMap.Builder<Account.Id, AccountState> result = ImmutableMap.builder();
-        for (Account.Id id : accountIds) {
-          Ref userRef = allUsers.exactRef(RefNames.refsUsers(id));
-          if (userRef == null) {
-            continue;
-          }
-
-          result.put(
-              id,
-              AccountState.forCachedAccount(
-                  accountDetailsCache.get(
-                      CachedAccountDetails.Key.create(id, userRef.getObjectId())),
-                  defaultPreferences,
-                  externalIds));
+      ImmutableMap.Builder<Account.Id, AccountState> result = ImmutableMap.builder();
+      for (Account.Id id : accountIds) {
+        Optional<ObjectId> objectId = usersRefsCache.get(RefNames.refsUsers(id));
+        if (!objectId.isPresent()) {
+          continue;
         }
-        return result.build();
+
+        result.put(
+            id,
+            AccountState.forCachedAccount(
+                accountDetailsCache.get(CachedAccountDetails.Key.create(id, objectId.get())),
+                defaultPreferences,
+                externalIds));
       }
+      return result.build();
     } catch (IOException | ExecutionException e) {
       throw new StorageException(e);
     }

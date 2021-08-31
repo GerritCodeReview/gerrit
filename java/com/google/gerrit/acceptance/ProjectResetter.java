@@ -29,6 +29,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AllUsersObjectIdByRefCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.config.AllUsersName;
@@ -92,6 +93,7 @@ public class ProjectResetter implements AutoCloseable {
     private final AllUsersName allUsersName;
     @Nullable private final AccountCreator accountCreator;
     @Nullable private final AccountCache accountCache;
+    @Nullable private final AllUsersObjectIdByRefCache usersRefsCache;
     @Nullable private final AccountIndexer accountIndexer;
     @Nullable private final GroupCache groupCache;
     @Nullable private final GroupIncludeCache groupIncludeCache;
@@ -104,6 +106,7 @@ public class ProjectResetter implements AutoCloseable {
         AllUsersName allUsersName,
         @Nullable AccountCreator accountCreator,
         @Nullable AccountCache accountCache,
+        @Nullable AllUsersObjectIdByRefCache usersRefsCache,
         @Nullable AccountIndexer accountIndexer,
         @Nullable GroupCache groupCache,
         @Nullable GroupIncludeCache groupIncludeCache,
@@ -113,6 +116,7 @@ public class ProjectResetter implements AutoCloseable {
       this.allUsersName = allUsersName;
       this.accountCreator = accountCreator;
       this.accountCache = accountCache;
+      this.usersRefsCache = usersRefsCache;
       this.accountIndexer = accountIndexer;
       this.groupCache = groupCache;
       this.groupIncludeCache = groupIncludeCache;
@@ -126,6 +130,7 @@ public class ProjectResetter implements AutoCloseable {
           allUsersName,
           accountCreator,
           accountCache,
+          usersRefsCache,
           accountIndexer,
           groupCache,
           groupIncludeCache,
@@ -156,6 +161,7 @@ public class ProjectResetter implements AutoCloseable {
   @Inject private AllUsersName allUsersName;
   @Inject @Nullable private AccountCreator accountCreator;
   @Inject @Nullable private AccountCache accountCache;
+  @Inject @Nullable private AllUsersObjectIdByRefCache usersRefsCache;
   @Inject @Nullable private GroupCache groupCache;
   @Inject @Nullable private GroupIncludeCache groupIncludeCache;
   @Inject @Nullable private GroupIndexer groupIndexer;
@@ -177,6 +183,7 @@ public class ProjectResetter implements AutoCloseable {
       AllUsersName allUsersName,
       @Nullable AccountCreator accountCreator,
       @Nullable AccountCache accountCache,
+      @Nullable AllUsersObjectIdByRefCache usersRefsCache,
       @Nullable AccountIndexer accountIndexer,
       @Nullable GroupCache groupCache,
       @Nullable GroupIncludeCache groupIncludeCache,
@@ -188,6 +195,7 @@ public class ProjectResetter implements AutoCloseable {
     this.allUsersName = allUsersName;
     this.accountCreator = accountCreator;
     this.accountCache = accountCache;
+    this.usersRefsCache = usersRefsCache;
     this.accountIndexer = accountIndexer;
     this.groupCache = groupCache;
     this.groupIndexer = groupIndexer;
@@ -324,6 +332,9 @@ public class ProjectResetter implements AutoCloseable {
     Set<Account.Id> deletedAccounts = accountIds(deletedRefsByProject.get(allUsersName).stream());
     if (accountCreator != null) {
       accountCreator.evict(deletedAccounts);
+    }
+    if (usersRefsCache != null) {
+      usersRefsCache.evictAll();
     }
     if (accountCache != null || accountIndexer != null) {
       Set<Account.Id> modifiedAccounts =

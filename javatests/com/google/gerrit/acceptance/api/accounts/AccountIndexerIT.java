@@ -25,6 +25,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.AllUsersObjectIdByRefCache;
 import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -52,6 +53,7 @@ public class AccountIndexerIT {
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
   @Inject private GitRepositoryManager repoManager;
   @Inject private AllUsersName allUsersName;
+  @Inject private AllUsersObjectIdByRefCache usersRefsCache;
   @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
 
   @Test
@@ -62,7 +64,7 @@ public class AccountIndexerIT {
         accountId, newAccountUpdate().setPreferredEmail(preferredEmail).build());
     assertThat(accountQueryProvider.get().byPreferredEmail(preferredEmail)).isEmpty();
 
-    accountIndexer.index(accountId);
+    refreshAccount(accountId);
     List<AccountState> matchedAccountStates =
         accountQueryProvider.get().byPreferredEmail(preferredEmail);
     assertThat(matchedAccountStates).hasSize(1);
@@ -78,7 +80,7 @@ public class AccountIndexerIT {
         accountId, newAccountUpdate().setPreferredEmail(preferredEmail).build());
     assertThat(accountQueryProvider.get().byPreferredEmail(preferredEmail)).isEmpty();
 
-    accountIndexer.index(accountId);
+    refreshAccount(accountId);
     List<AccountState> matchedAccountStates =
         accountQueryProvider.get().byPreferredEmail(preferredEmail);
     assertThat(matchedAccountStates).hasSize(1);
@@ -93,6 +95,7 @@ public class AccountIndexerIT {
         accountId, newAccountUpdate().setPreferredEmail(preferredEmail).build());
     assertThat(accountQueryProvider.get().byPreferredEmail(preferredEmail)).isEmpty();
 
+    usersRefsCache.evict(accountId);
     accountIndexer.reindexIfStale(accountId);
     List<AccountState> matchedAccountStates =
         accountQueryProvider.get().byPreferredEmail(preferredEmail);
@@ -105,7 +108,7 @@ public class AccountIndexerIT {
     Account.Id accountId = createAccount("foo");
     updateAccountWithoutCacheOrIndex(
         accountId, newAccountUpdate().setPreferredEmail("foo@example.com").build());
-    accountIndexer.index(accountId);
+    refreshAccount(accountId);
 
     boolean reindexed = accountIndexer.reindexIfStale(accountId);
     assertWithMessage("Account should not have been reindexed").that(reindexed).isFalse();
@@ -153,5 +156,10 @@ public class AccountIndexerIT {
       accountConfig.setAccountUpdate(accountUpdate);
       accountConfig.commit(md);
     }
+  }
+
+  private void refreshAccount(Account.Id accountId) {
+    usersRefsCache.evict(accountId);
+    accountIndexer.index(accountId);
   }
 }

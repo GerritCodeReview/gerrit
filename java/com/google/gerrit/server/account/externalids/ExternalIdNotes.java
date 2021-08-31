@@ -37,6 +37,7 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AllUsersObjectIdByRefCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
@@ -120,6 +121,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   public static class Factory implements ExternalIdNotesLoader {
     private final ExternalIdCache externalIdCache;
     private final AccountCache accountCache;
+    private final AllUsersObjectIdByRefCache usersRefsCache;
     private final Provider<AccountIndexer> accountIndexer;
     private final MetricMaker metricMaker;
     private final AllUsersName allUsersName;
@@ -128,11 +130,13 @@ public class ExternalIdNotes extends VersionedMetaData {
     Factory(
         ExternalIdCache externalIdCache,
         AccountCache accountCache,
+        AllUsersObjectIdByRefCache usersRefsCache,
         Provider<AccountIndexer> accountIndexer,
         MetricMaker metricMaker,
         AllUsersName allUsersName) {
       this.externalIdCache = externalIdCache;
       this.accountCache = accountCache;
+      this.usersRefsCache = usersRefsCache;
       this.accountIndexer = accountIndexer;
       this.metricMaker = metricMaker;
       this.allUsersName = allUsersName;
@@ -144,6 +148,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       return new ExternalIdNotes(
               externalIdCache,
               accountCache,
+              usersRefsCache,
               accountIndexer,
               metricMaker,
               allUsersName,
@@ -157,6 +162,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       return new ExternalIdNotes(
               externalIdCache,
               accountCache,
+              usersRefsCache,
               accountIndexer,
               metricMaker,
               allUsersName,
@@ -183,7 +189,7 @@ public class ExternalIdNotes extends VersionedMetaData {
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(
-              externalIdCache, null, null, metricMaker, allUsersName, allUsersRepo)
+              externalIdCache, null, null, null, metricMaker, allUsersName, allUsersRepo)
           .load();
     }
 
@@ -191,7 +197,7 @@ public class ExternalIdNotes extends VersionedMetaData {
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(
-              externalIdCache, null, null, metricMaker, allUsersName, allUsersRepo)
+              externalIdCache, null, null, null, metricMaker, allUsersName, allUsersRepo)
           .load(rev);
     }
   }
@@ -206,6 +212,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(
             new DisabledExternalIdCache(),
+            null,
             null,
             null,
             new DisabledMetricMaker(),
@@ -232,6 +239,7 @@ public class ExternalIdNotes extends VersionedMetaData {
             new DisabledExternalIdCache(),
             null,
             null,
+            null,
             new DisabledMetricMaker(),
             allUsersName,
             allUsersRepo)
@@ -256,6 +264,7 @@ public class ExternalIdNotes extends VersionedMetaData {
             new DisabledExternalIdCache(),
             null,
             null,
+            null,
             new DisabledMetricMaker(),
             allUsersName,
             allUsersRepo)
@@ -264,6 +273,7 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   private final ExternalIdCache externalIdCache;
   @Nullable private final AccountCache accountCache;
+  @Nullable private final AllUsersObjectIdByRefCache usersRefsCache;
   @Nullable private final Provider<AccountIndexer> accountIndexer;
   private final AllUsersName allUsersName;
   private final Counter0 updateCount;
@@ -285,12 +295,14 @@ public class ExternalIdNotes extends VersionedMetaData {
   private ExternalIdNotes(
       ExternalIdCache externalIdCache,
       @Nullable AccountCache accountCache,
+      @Nullable AllUsersObjectIdByRefCache usersRefsCache,
       @Nullable Provider<AccountIndexer> accountIndexer,
       MetricMaker metricMaker,
       AllUsersName allUsersName,
       Repository allUsersRepo) {
     this.externalIdCache = requireNonNull(externalIdCache, "externalIdCache");
     this.accountCache = accountCache;
+    this.usersRefsCache = usersRefsCache;
     this.accountIndexer = accountIndexer;
     this.updateCount =
         metricMaker.newCounter(
@@ -731,11 +743,13 @@ public class ExternalIdNotes extends VersionedMetaData {
       cacheUpdate.execute(externalIdCacheUpdates);
     }
 
+    ObjectId newRev = getRevision();
     externalIdCache.onReplace(
-        oldRev,
-        getRevision(),
-        externalIdCacheUpdates.getRemoved(),
-        externalIdCacheUpdates.getAdded());
+        oldRev, newRev, externalIdCacheUpdates.getRemoved(), externalIdCacheUpdates.getAdded());
+
+    if (usersRefsCache != null) {
+      usersRefsCache.updateExternalIds(newRev);
+    }
 
     if (accountCache != null || accountIndexer != null) {
       for (Account.Id id :
@@ -745,6 +759,9 @@ public class ExternalIdNotes extends VersionedMetaData {
               .map(ExternalId::accountId)
               .filter(i -> !accountsToSkip.contains(i))
               .collect(toSet())) {
+        if (usersRefsCache != null) {
+          usersRefsCache.evict(id);
+        }
         if (accountIndexer != null) {
           accountIndexer.get().index(id);
         }

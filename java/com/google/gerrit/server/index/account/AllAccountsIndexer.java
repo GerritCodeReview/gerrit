@@ -26,6 +26,7 @@ import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AllUsersRefToObjectIdCache;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,15 +51,18 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
   private final ListeningExecutorService executor;
   private final Accounts accounts;
   private final AccountCache accountCache;
+  private final AllUsersRefToObjectIdCache refsCache;
 
   @Inject
   AllAccountsIndexer(
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       Accounts accounts,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      AllUsersRefToObjectIdCache refsCache) {
     this.executor = executor;
     this.accounts = accounts;
     this.accountCache = accountCache;
+    this.refsCache = refsCache;
   }
 
   @Override
@@ -90,6 +94,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
           executor.submit(
               () -> {
                 try {
+                  refsCache.evictAccount(id);
                   Optional<AccountState> a = accountCache.get(id);
                   if (a.isPresent()) {
                     index.replace(a.get());

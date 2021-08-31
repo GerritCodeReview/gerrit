@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.AllUsersRefToObjectIdCache;
 import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -52,6 +53,7 @@ public class AccountIndexerImpl implements AccountIndexer {
   private final AccountCache byIdCache;
   private final PluginSetContext<AccountIndexedListener> indexedListener;
   private final StalenessChecker stalenessChecker;
+  private final AllUsersRefToObjectIdCache refsCache;
   @Nullable private final AccountIndexCollection indexes;
   @Nullable private final AccountIndex index;
 
@@ -60,10 +62,12 @@ public class AccountIndexerImpl implements AccountIndexer {
       AccountCache byIdCache,
       PluginSetContext<AccountIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
+      AllUsersRefToObjectIdCache refsCache,
       @Assisted AccountIndexCollection indexes) {
     this.byIdCache = byIdCache;
     this.indexedListener = indexedListener;
     this.stalenessChecker = stalenessChecker;
+    this.refsCache = refsCache;
     this.indexes = indexes;
     this.index = null;
   }
@@ -73,16 +77,19 @@ public class AccountIndexerImpl implements AccountIndexer {
       AccountCache byIdCache,
       PluginSetContext<AccountIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
+      AllUsersRefToObjectIdCache refsCache,
       @Assisted @Nullable AccountIndex index) {
     this.byIdCache = byIdCache;
     this.indexedListener = indexedListener;
     this.stalenessChecker = stalenessChecker;
+    this.refsCache = refsCache;
     this.indexes = null;
     this.index = index;
   }
 
   @Override
   public void index(Account.Id id) {
+    refsCache.evictAccount(id);
     Optional<AccountState> accountState = byIdCache.get(id);
 
     if (accountState.isPresent()) {

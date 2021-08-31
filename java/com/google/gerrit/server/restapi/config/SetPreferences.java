@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.account.AllUsersRefToObjectIdCache;
 import com.google.gerrit.server.account.StoredPreferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
@@ -41,11 +42,16 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
 
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
+  private final AllUsersRefToObjectIdCache refsCache;
 
   @Inject
-  SetPreferences(Provider<MetaDataUpdate.User> metaDataUpdateFactory, AllUsersName allUsersName) {
+  SetPreferences(
+      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
+      AllUsersName allUsersName,
+      AllUsersRefToObjectIdCache refsCache) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
+    this.refsCache = refsCache;
   }
 
   @Override
@@ -58,6 +64,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       GeneralPreferencesInfo updatedPrefs =
           StoredPreferences.updateDefaultGeneralPreferences(md, input);
+      refsCache.evictPreferences();
       return Response.ok(updatedPrefs);
     }
   }

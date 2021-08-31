@@ -196,7 +196,7 @@ suite('gr-patch-range-select tests', () => {
   });
 
   test('_computeBaseDropdownContent called when changeComments update',
-      done => {
+      async () => {
         element.revisions = [
           {commit: {parents: []}},
           {commit: {parents: []}},
@@ -212,15 +212,14 @@ suite('gr-patch-range-select tests', () => {
         ];
         element.patchNum = 2;
         element.basePatchNum = 'PARENT';
-        flush();
+        await flush();
 
         // Should be recomputed for each available patch
         sinon.stub(element, '_computeBaseDropdownContent');
         assert.equal(element._computeBaseDropdownContent.callCount, 0);
         element.changeComments = new ChangeComments();
-        flush();
+        await flush();
         assert.equal(element._computeBaseDropdownContent.callCount, 1);
-        done();
       });
 
   test('_computePatchDropdownContent called when basePatchNum updates', () => {

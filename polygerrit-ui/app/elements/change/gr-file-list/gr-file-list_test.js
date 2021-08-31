@@ -93,7 +93,7 @@ suite('gr-file-list tests', () => {
   });
 
   suite('basic tests', () => {
-    setup(done => {
+    setup(async () => {
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
@@ -118,7 +118,6 @@ suite('gr-file-list tests', () => {
       };
       saveStub = sinon.stub(element, '_saveReviewedState').callsFake(
           () => Promise.resolve());
-      done();
     });
 
     test('correct number of files are shown', () => {
@@ -942,14 +941,15 @@ suite('gr-file-list tests', () => {
       assert.equal(collapseStub.lastCall.args[0].length, 1);
     });
 
-    test('_expandedFilesChanged', done => {
+    test('_expandedFilesChanged', async () => {
       sinon.stub(element, '_reviewFile');
       const path = 'path/to/my/file.txt';
+      const promise = mockPromise();
       const diffs = [{
         path,
         style: {},
         reload() {
-          done();
+          promise.resolve();
         },
         prefetchDiff() {},
         cancel() {},
@@ -963,6 +963,7 @@ suite('gr-file-list tests', () => {
       }];
       sinon.stub(element, 'diffs').get(() => diffs);
       element.push('_expandedFiles', {path});
+      await promise;
     });
 
     test('_clearCollapsedDiffs', () => {
@@ -1523,7 +1524,7 @@ suite('gr-file-list tests', () => {
       return diffs;
     }
 
-    setup(done => {
+    setup(async () => {
       stubRestApi('getPreferences').returns(Promise.resolve({}));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
@@ -1568,13 +1569,12 @@ suite('gr-file-list tests', () => {
         patchNum: 2,
       };
       sinon.stub(window, 'fetch').callsFake(() => Promise.resolve());
-      flush();
-      done();
+      await flush();
     });
 
     test('cursor with individually opened files', async () => {
       MockInteractions.keyUpOn(element, 73, null, 'i');
-      flush();
+      await flush();
       let diffs = await renderAndGetNewDiffs(0);
       const diffStops = diffs[0].getCursorStops();
 
@@ -1587,13 +1587,13 @@ suite('gr-file-list tests', () => {
       // Tapping content on a line selects the line number.
       MockInteractions.tap(dom(
           diffStops[10]).querySelectorAll('.contentText')[0]);
-      flush();
+      await flush();
       assert.isTrue(diffStops[10].classList.contains('target-row'));
 
       // Keyboard shortcuts are still moving the file cursor, not the diff
       // cursor.
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      flush();
+      await flush();
       assert.isTrue(diffStops[10].classList.contains('target-row'));
       assert.isFalse(diffStops[11].classList.contains('target-row'));
 
@@ -1601,7 +1601,7 @@ suite('gr-file-list tests', () => {
       assert.equal(element.fileCursor.index, 1);
 
       MockInteractions.keyUpOn(element, 73, null, 'i');
-      flush();
+      await flush();
       diffs = await renderAndGetNewDiffs(1);
 
       // Two diffs should be rendered.
@@ -1616,7 +1616,7 @@ suite('gr-file-list tests', () => {
 
     test('cursor with toggle all files', async () => {
       MockInteractions.keyUpOn(element, 73, 'shift', 'i');
-      flush();
+      await flush();
 
       const diffs = await renderAndGetNewDiffs(0);
       const diffStops = diffs[0].getCursorStops();
@@ -1630,13 +1630,13 @@ suite('gr-file-list tests', () => {
       // Tapping content on a line selects the line number.
       MockInteractions.tap(dom(
           diffStops[10]).querySelectorAll('.contentText')[0]);
-      flush();
+      await flush();
       assert.isTrue(diffStops[10].classList.contains('target-row'));
 
       // Keyboard shortcuts are still moving the file cursor, not the diff
       // cursor.
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      flush();
+      await flush();
       assert.isFalse(diffStops[10].classList.contains('target-row'));
       assert.isTrue(diffStops[11].classList.contains('target-row'));
 
@@ -1661,9 +1661,9 @@ suite('gr-file-list tests', () => {
             element.root.querySelectorAll('.row:not(.header-row)');
       });
 
-      test('n key with some files expanded and no shift key', () => {
+      test('n key with some files expanded and no shift key', async () => {
         MockInteractions.keyUpOn(fileRows[0], 73, null, 'i');
-        flush();
+        await flush();
 
         // Handle N key should return before calling diff cursor functions.
         MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
@@ -1675,9 +1675,9 @@ suite('gr-file-list tests', () => {
         assert.equal(element.filesExpanded, 'some');
       });
 
-      test('n key with some files expanded and shift key', () => {
+      test('n key with some files expanded and shift key', async () => {
         MockInteractions.keyUpOn(fileRows[0], 73, null, 'i');
-        flush();
+        await flush();
         assert.equal(nextChunkStub.callCount, 0);
 
         MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
@@ -1689,9 +1689,9 @@ suite('gr-file-list tests', () => {
         assert.equal(element.filesExpanded, 'some');
       });
 
-      test('n key without all files expanded and shift key', () => {
+      test('n key without all files expanded and shift key', async () => {
         MockInteractions.keyUpOn(fileRows[0], 73, 'shift', 'i');
-        flush();
+        await flush();
 
         MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
         assert.isTrue(nKeySpy.called);
@@ -1702,9 +1702,9 @@ suite('gr-file-list tests', () => {
         assert.isTrue(element._showInlineDiffs);
       });
 
-      test('n key without all files expanded and no shift key', () => {
+      test('n key without all files expanded and no shift key', async () => {
         MockInteractions.keyUpOn(fileRows[0], 73, 'shift', 'i');
-        flush();
+        await flush();
 
         MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
         assert.isTrue(nKeySpy.called);
@@ -1716,7 +1716,7 @@ suite('gr-file-list tests', () => {
       });
     });
 
-    test('_openSelectedFile behavior', () => {
+    test('_openSelectedFile behavior', async () => {
       const _filesByPath = element._filesByPath;
       element.set('_filesByPath', {});
       const navStub = sinon.stub(GerritNav, 'navigateToDiff');
@@ -1725,7 +1725,7 @@ suite('gr-file-list tests', () => {
       assert.isFalse(navStub.called);
 
       element.set('_filesByPath', _filesByPath);
-      flush();
+      await flush();
       // Navigates when a file is selected.
       element._openSelectedFile();
       assert.isTrue(navStub.called);
@@ -1753,7 +1753,7 @@ suite('gr-file-list tests', () => {
     });
 
     suite('editMode behavior', () => {
-      test('reviewed checkbox', () => {
+      test('reviewed checkbox', async () => {
         element._reviewFile.restore();
         const saveReviewStub = sinon.stub(element, '_saveReviewedState');
 
@@ -1762,7 +1762,7 @@ suite('gr-file-list tests', () => {
         assert.isTrue(saveReviewStub.calledOnce);
 
         element.editMode = true;
-        flush();
+        await flush();
 
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
         assert.isTrue(saveReviewStub.calledOnce);
@@ -1778,13 +1778,13 @@ suite('gr-file-list tests', () => {
       });
     });
 
-    test('editing actions', () => {
+    test('editing actions', async () => {
       // Edit controls are guarded behind a dom-if initially and not rendered.
       assert.isNotOk(dom(element.root)
           .querySelector('gr-edit-file-controls'));
 
       element.editMode = true;
-      flush();
+      await flush();
 
       // Commit message should not have edit controls.
       const editControls =

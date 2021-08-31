@@ -36,11 +36,9 @@ suite('gr-plugin-popup tests', () => {
     assert.isOk(element);
   });
 
-  test('open uses open() from gr-overlay', done => {
-    element.open().then(() => {
-      assert.isTrue(overlayOpen.called);
-      done();
-    });
+  test('open uses open() from gr-overlay', async () => {
+    await element.open();
+    assert.isTrue(overlayOpen.called);
   });
 
   test('close uses close() from gr-overlay', () => {

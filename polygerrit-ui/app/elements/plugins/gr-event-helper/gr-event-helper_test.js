@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {mockPromise} from '../../../test/test-utils.js';
 
 Polymer({
   is: 'gr-event-helper-some-element',
@@ -47,11 +48,13 @@ suite('gr-event-helper tests', () => {
     instance = plugin.eventHelper(element);
   });
 
-  test('onTap()', done => {
+  test('onTap()', async () => {
+    const promise = mockPromise();
     instance.onTap(() => {
-      done();
+      promise.resolve();
     });
     MockInteractions.tap(element);
+    await promise;
   });
 
   test('onTap() cancel', () => {

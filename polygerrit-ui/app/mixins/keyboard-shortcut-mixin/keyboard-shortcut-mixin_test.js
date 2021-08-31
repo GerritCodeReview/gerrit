@@ -22,6 +22,7 @@ import {
 } from './keyboard-shortcut-mixin.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {mockPromise} from '../../test/test-utils.js';
 
 const basicFixture =
     fixtureFromElement('keyboard-shortcut-mixin-test-element');
@@ -271,69 +272,81 @@ suite('keyboard-shortcut-mixin tests', () => {
     });
   });
 
-  test('doesn’t block kb shortcuts for non-allowed els', done => {
+  test('doesn’t block kb shortcuts for non-allowed els', async () => {
     const divEl = document.createElement('div');
     element.appendChild(divEl);
+    const promise = mockPromise();
     element._handleKey = e => {
       assert.isFalse(element.shouldSuppressKeyboardShortcut(e));
-      done();
+      promise.resolve();
     };
     MockInteractions.keyDownOn(divEl, 75, null, 'k');
+    await promise;
   });
 
-  test('blocks kb shortcuts for input els', done => {
+  test('blocks kb shortcuts for input els', async () => {
     const inputEl = document.createElement('input');
     element.appendChild(inputEl);
+    const promise = mockPromise();
     element._handleKey = e => {
       assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-      done();
+      promise.resolve();
     };
     MockInteractions.keyDownOn(inputEl, 75, null, 'k');
+    await promise;
   });
 
-  test('doesn’t block kb shortcuts for checkboxes', done => {
+  test('doesn’t block kb shortcuts for checkboxes', async () => {
     const inputEl = document.createElement('input');
     inputEl.setAttribute('type', 'checkbox');
     element.appendChild(inputEl);
+    const promise = mockPromise();
     element._handleKey = e => {
       assert.isFalse(element.shouldSuppressKeyboardShortcut(e));
-      done();
+      promise.resolve();
     };
     MockInteractions.keyDownOn(inputEl, 75, null, 'k');
+    await promise;
   });
 
-  test('blocks kb shortcuts for textarea els', done => {
+  test('blocks kb shortcuts for textarea els', async () => {
     const textareaEl = document.createElement('textarea');
     element.appendChild(textareaEl);
+    const promise = mockPromise();
     element._handleKey = e => {
       assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-      done();
+      promise.resolve();
     };
     MockInteractions.keyDownOn(textareaEl, 75, null, 'k');
+    await promise;
   });
 
-  test('blocks kb shortcuts for anything in a gr-overlay', done => {
+  test('blocks kb shortcuts for anything in a gr-overlay', async () => {
     const divEl = document.createElement('div');
     const element =
         overlay.querySelector('keyboard-shortcut-mixin-test-element');
     element.appendChild(divEl);
+    const promise = mockPromise();
     element._handleKey = e => {
       assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-      done();
+      promise.resolve();
     };
     MockInteractions.keyDownOn(divEl, 75, null, 'k');
+    await promise;
   });
 
-  test('blocks enter shortcut on an anchor', done => {
+  test('blocks enter shortcut on an anchor', async () => {
     const anchorEl = document.createElement('a');
     const element =
         overlay.querySelector('keyboard-shortcut-mixin-test-element');
     element.appendChild(anchorEl);
+    const promise = mockPromise();
     element._handleKey = e => {
       assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-      done();
+      promise.resolve();
     };
     MockInteractions.keyDownOn(anchorEl, 13, null, 'enter');
+    await promise;
   });
 
   test('modifierPressed returns accurate values', () => {

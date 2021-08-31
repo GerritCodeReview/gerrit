@@ -37,7 +37,7 @@ suite('gr-thread-list tests', () => {
         .filter(e => e.style.display !== 'none');
   }
 
-  setup(done => {
+  setup(async () => {
     element = basicFixture.instantiate();
     element.changeNum = 123;
     element.change = {
@@ -267,9 +267,7 @@ suite('gr-thread-list tests', () => {
     ];
 
     // use flush to render all (bypass initial-count set on dom-repeat)
-    flush(() => {
-      done();
-    });
+    await flush();
   });
 
   test('draft dropdown item only appears when logged in', () => {
@@ -289,14 +287,13 @@ suite('gr-thread-list tests', () => {
     assert.equal(getVisibleThreads().length, element.threads.length);
   });
 
-  test('show unresolved threads if unresolvedOnly is set', done => {
+  test('show unresolved threads if unresolvedOnly is set', async () => {
     element.unresolvedOnly = true;
-    flush();
+    await flush();
     const unresolvedThreads = element.threads.filter(t => t.comments.some(
         c => c.unresolved
     ));
     assert.equal(getVisibleThreads().length, unresolvedThreads.length);
-    done();
   });
 
   test('showing file name takes visible threads into account', () => {
@@ -646,11 +643,9 @@ suite('gr-thread-list tests', () => {
   });
 
   suite('hideDropdown', () => {
-    setup(done => {
+    setup(async () => {
       element.hideDropdown = true;
-      flush(() => {
-        done();
-      });
+      await flush();
     });
 
     test('toggle buttons are hidden', () => {
@@ -660,11 +655,9 @@ suite('gr-thread-list tests', () => {
   });
 
   suite('empty thread', () => {
-    setup(done => {
+    setup(async () => {
       element.threads = [];
-      flush(() => {
-        done();
-      });
+      await flush();
     });
 
     test('default empty message should show', () => {

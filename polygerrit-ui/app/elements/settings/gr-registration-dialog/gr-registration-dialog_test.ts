@@ -93,38 +93,34 @@ suite('gr-registration-dialog tests', () => {
     return promise;
   }
 
-  test('fires the close event on close', done => {
-    close().then(done);
+  test('fires the close event on close', async () => {
+    await close();
   });
 
-  test('fires the close event on save', done => {
-    close(() =>
+  test('fires the close event on save', async () => {
+    await close(() =>
       MockInteractions.tap(queryAndAssert(element, '#saveButton'))
-    ).then(done);
+    );
   });
 
-  test('saves account details', done => {
-    flush(() => {
-      element.$.name.value = 'new name';
+  test('saves account details', async () => {
+    await flush();
+    element.$.name.value = 'new name';
 
-      element.set('_account.username', '');
-      element._hasUsernameChange = false;
-      assert.isTrue(element._usernameMutable);
+    element.set('_account.username', '');
+    element._hasUsernameChange = false;
+    assert.isTrue(element._usernameMutable);
 
-      element.set('_username', 'new username');
+    element.set('_username', 'new username');
 
-      // Nothing should be committed yet.
-      assert.equal(account.name, 'name');
-      assert.isNotOk(account.username);
+    // Nothing should be committed yet.
+    assert.equal(account.name, 'name');
+    assert.isNotOk(account.username);
 
-      // Save and verify new values are committed.
-      save()
-        .then(() => {
-          assert.equal(account.name, 'new name');
-          assert.equal(account.username, 'new username');
-        })
-        .then(done);
-    });
+    // Save and verify new values are committed.
+    await save();
+    assert.equal(account.name, 'new name');
+    assert.equal(account.username, 'new username');
   });
 
   test('save btn disabled', () => {

@@ -51,7 +51,7 @@ suite('gr-endpoint-decorator', () => {
   let decorationHookWithSlot;
   let replacementHook;
 
-  setup(done => {
+  setup(async () => {
     resetPlugins();
     container = basicFixture.instantiate();
     pluginApi.install(p => plugin = p, '0.1',
@@ -68,7 +68,7 @@ suite('gr-endpoint-decorator', () => {
         'second', 'other-module', {replace: true});
     // Mimic all plugins loaded.
     getPluginLoader().loadPlugins([]);
-    flush(done);
+    await flush();
   });
 
   teardown(() => {
@@ -135,58 +135,52 @@ suite('gr-endpoint-decorator', () => {
         });
   });
 
-  test('late registration', done => {
+  test('late registration', async () => {
     plugin.registerCustomComponent('banana', 'noob-noob');
-    flush(() => {
-      const element =
-          container.querySelector('gr-endpoint-decorator[name="banana"]');
-      const module = Array.from(element.root.children).find(
-          element => element.nodeName === 'NOOB-NOOB');
-      assert.isOk(module);
-      done();
-    });
+    await flush();
+    const element =
+        container.querySelector('gr-endpoint-decorator[name="banana"]');
+    const module = Array.from(element.root.children).find(
+        element => element.nodeName === 'NOOB-NOOB');
+    assert.isOk(module);
   });
 
-  test('two modules', done => {
+  test('two modules', async () => {
     plugin.registerCustomComponent('banana', 'mod-one');
     plugin.registerCustomComponent('banana', 'mod-two');
-    flush(() => {
-      const element =
-          container.querySelector('gr-endpoint-decorator[name="banana"]');
-      const module1 = Array.from(element.root.children).find(
-          element => element.nodeName === 'MOD-ONE');
-      assert.isOk(module1);
-      const module2 = Array.from(element.root.children).find(
-          element => element.nodeName === 'MOD-TWO');
-      assert.isOk(module2);
-      done();
-    });
+    await flush();
+    const element =
+        container.querySelector('gr-endpoint-decorator[name="banana"]');
+    const module1 = Array.from(element.root.children).find(
+        element => element.nodeName === 'MOD-ONE');
+    assert.isOk(module1);
+    const module2 = Array.from(element.root.children).find(
+        element => element.nodeName === 'MOD-TWO');
+    assert.isOk(module2);
   });
 
-  test('late param setup', done => {
+  test('late param setup', async () => {
     const element =
         container.querySelector('gr-endpoint-decorator[name="banana"]');
     const param = element.querySelector('gr-endpoint-param');
     param['value'] = undefined;
     plugin.registerCustomComponent('banana', 'noob-noob');
-    flush(() => {
-      let module = Array.from(element.root.children).find(
-          element => element.nodeName === 'NOOB-NOOB');
-      // Module waits for param to be defined.
-      assert.isNotOk(module);
-      const value = {abc: 'def'};
-      param.value = value;
-      flush(() => {
-        module = Array.from(element.root.children).find(
-            element => element.nodeName === 'NOOB-NOOB');
-        assert.isOk(module);
-        assert.strictEqual(module['someParam'], value);
-        done();
-      });
-    });
+    await flush();
+    let module = Array.from(element.root.children).find(
+        element => element.nodeName === 'NOOB-NOOB');
+    // Module waits for param to be defined.
+    assert.isNotOk(module);
+    const value = {abc: 'def'};
+    param.value = value;
+
+    await flush();
+    module = Array.from(element.root.children).find(
+        element => element.nodeName === 'NOOB-NOOB');
+    assert.isOk(module);
+    assert.strictEqual(module['someParam'], value);
   });
 
-  test('param is bound', done => {
+  test('param is bound', async () => {
     const element =
         container.querySelector('gr-endpoint-decorator[name="banana"]');
     const param = element.querySelector('gr-endpoint-param');
@@ -194,13 +188,11 @@ suite('gr-endpoint-decorator', () => {
     const value2 = {def: 'abc'};
     param.value = value1;
     plugin.registerCustomComponent('banana', 'noob-noob');
-    flush(() => {
-      const module = Array.from(element.root.children).find(
-          element => element.nodeName === 'NOOB-NOOB');
-      assert.strictEqual(module['someParam'], value1);
-      param.value = value2;
-      assert.strictEqual(module['someParam'], value2);
-      done();
-    });
+    await flush();
+    const module = Array.from(element.root.children).find(
+        element => element.nodeName === 'NOOB-NOOB');
+    assert.strictEqual(module['someParam'], value1);
+    param.value = value2;
+    assert.strictEqual(module['someParam'], value2);
   });
 });

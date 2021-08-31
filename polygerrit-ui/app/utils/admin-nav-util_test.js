@@ -27,71 +27,69 @@ suite('gr-admin-nav-behavior tests', () => {
     menuLinkStub = sinon.stub().returns([]);
   });
 
-  const testAdminLinks = (account, options, expected, done) => {
-    getAdminLinks(account,
+  const testAdminLinks = async (account, options, expected) => {
+    const res = await getAdminLinks(account,
         capabilityStub,
         menuLinkStub,
-        options)
-        .then(res => {
-          assert.equal(expected.totalLength, res.links.length);
-          assert.equal(res.links[0].name, 'Repositories');
-          // Repos
-          if (expected.groupListShown) {
-            assert.equal(res.links[1].name, 'Groups');
-          }
+        options);
 
-          if (expected.pluginListShown) {
-            assert.equal(res.links[2].name, 'Plugins');
-            assert.isNotOk(res.links[2].subsection);
-          }
+    assert.equal(expected.totalLength, res.links.length);
+    assert.equal(res.links[0].name, 'Repositories');
+    // Repos
+    if (expected.groupListShown) {
+      assert.equal(res.links[1].name, 'Groups');
+    }
 
-          if (expected.projectPageShown) {
-            assert.isOk(res.links[0].subsection);
-            assert.equal(res.links[0].subsection.children.length, 6);
-          } else {
-            assert.isNotOk(res.links[0].subsection);
-          }
-          // Groups
-          if (expected.groupPageShown) {
-            assert.isOk(res.links[1].subsection);
-            assert.equal(res.links[1].subsection.children.length,
-                expected.groupSubpageLength);
-          } else if ( expected.totalLength > 1) {
-            assert.isNotOk(res.links[1].subsection);
-          }
+    if (expected.pluginListShown) {
+      assert.equal(res.links[2].name, 'Plugins');
+      assert.isNotOk(res.links[2].subsection);
+    }
 
-          if (expected.pluginGeneratedLinks) {
-            for (const link of expected.pluginGeneratedLinks) {
-              const linkMatch = res.links
-                  .find(l => (l.url === link.url && l.name === link.text));
-              assert.isTrue(!!linkMatch);
+    if (expected.projectPageShown) {
+      assert.isOk(res.links[0].subsection);
+      assert.equal(res.links[0].subsection.children.length, 6);
+    } else {
+      assert.isNotOk(res.links[0].subsection);
+    }
+    // Groups
+    if (expected.groupPageShown) {
+      assert.isOk(res.links[1].subsection);
+      assert.equal(res.links[1].subsection.children.length,
+          expected.groupSubpageLength);
+    } else if ( expected.totalLength > 1) {
+      assert.isNotOk(res.links[1].subsection);
+    }
 
-              // External links should open in new tab.
-              if (link.url[0] !== '/') {
-                assert.equal(linkMatch.target, '_blank');
-              } else {
-                assert.isNotOk(linkMatch.target);
-              }
-            }
-          }
+    if (expected.pluginGeneratedLinks) {
+      for (const link of expected.pluginGeneratedLinks) {
+        const linkMatch = res.links
+            .find(l => (l.url === link.url && l.name === link.text));
+        assert.isTrue(!!linkMatch);
 
-          // Current section
-          if (expected.projectPageShown || expected.groupPageShown) {
-            assert.isOk(res.expandedSection);
-            assert.isOk(res.expandedSection.children);
-          } else {
-            assert.isNotOk(res.expandedSection);
-          }
-          if (expected.projectPageShown) {
-            assert.equal(res.expandedSection.name, 'my-repo');
-            assert.equal(res.expandedSection.children.length, 6);
-          } else if (expected.groupPageShown) {
-            assert.equal(res.expandedSection.name, 'my-group');
-            assert.equal(res.expandedSection.children.length,
-                expected.groupSubpageLength);
-          }
-          done();
-        });
+        // External links should open in new tab.
+        if (link.url[0] !== '/') {
+          assert.equal(linkMatch.target, '_blank');
+        } else {
+          assert.isNotOk(linkMatch.target);
+        }
+      }
+    }
+
+    // Current section
+    if (expected.projectPageShown || expected.groupPageShown) {
+      assert.isOk(res.expandedSection);
+      assert.isOk(res.expandedSection.children);
+    } else {
+      assert.isNotOk(res.expandedSection);
+    }
+    if (expected.projectPageShown) {
+      assert.equal(res.expandedSection.name, 'my-repo');
+      assert.equal(res.expandedSection.children.length, 6);
+    } else if (expected.groupPageShown) {
+      assert.equal(res.expandedSection.name, 'my-group');
+      assert.equal(res.expandedSection.children.length,
+          expected.groupSubpageLength);
+    }
   };
 
   suite('logged out', () => {
@@ -106,25 +104,25 @@ suite('gr-admin-nav-behavior tests', () => {
       };
     });
 
-    test('without a specific repo or group', done => {
+    test('without a specific repo or group', async () => {
       let options;
       expected = Object.assign(expected, {
         totalLength: 1,
         projectPageShown: false,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
 
-    test('with a repo', done => {
+    test('with a repo', async () => {
       const options = {repoName: 'my-repo'};
       expected = Object.assign(expected, {
         totalLength: 1,
         projectPageShown: true,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
 
-    test('with plugin generated links', done => {
+    test('with plugin generated links', async () => {
       let options;
       const generatedLinks = [
         {text: 'internal link text', url: '/internal/link/url'},
@@ -136,7 +134,7 @@ suite('gr-admin-nav-behavior tests', () => {
         projectPageShown: false,
         pluginGeneratedLinks: generatedLinks,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
   });
 
@@ -154,17 +152,17 @@ suite('gr-admin-nav-behavior tests', () => {
       capabilityStub.returns(Promise.resolve({}));
     });
 
-    test('without a specific project or group', done => {
+    test('without a specific project or group', async () => {
       let options;
       expected = Object.assign(expected, {
         projectPageShown: false,
         groupListShown: true,
         groupPageShown: false,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
 
-    test('with a repo', done => {
+    test('with a repo', async () => {
       const account = {
         name: 'test-user',
       };
@@ -174,7 +172,7 @@ suite('gr-admin-nav-behavior tests', () => {
         groupListShown: true,
         groupPageShown: false,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
   });
 
@@ -193,25 +191,25 @@ suite('gr-admin-nav-behavior tests', () => {
       };
     });
 
-    test('without a specific repo or group', done => {
+    test('without a specific repo or group', async () => {
       let options;
       expected = Object.assign(expected, {
         projectPageShown: false,
         groupPageShown: false,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
 
-    test('with a repo', done => {
+    test('with a repo', async () => {
       const options = {repoName: 'my-repo'};
       expected = Object.assign(expected, {
         projectPageShown: true,
         groupPageShown: false,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
 
-    test('admin with internal group', done => {
+    test('admin with internal group', async () => {
       const options = {
         groupId: 'a15262',
         groupName: 'my-group',
@@ -224,10 +222,10 @@ suite('gr-admin-nav-behavior tests', () => {
         groupPageShown: true,
         groupSubpageLength: 2,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
 
-    test('group owner with internal group', done => {
+    test('group owner with internal group', async () => {
       const options = {
         groupId: 'a15262',
         groupName: 'my-group',
@@ -240,10 +238,10 @@ suite('gr-admin-nav-behavior tests', () => {
         groupPageShown: true,
         groupSubpageLength: 2,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
 
-    test('non owner or admin with internal group', done => {
+    test('non owner or admin with internal group', async () => {
       const options = {
         groupId: 'a15262',
         groupName: 'my-group',
@@ -256,10 +254,10 @@ suite('gr-admin-nav-behavior tests', () => {
         groupPageShown: true,
         groupSubpageLength: 1,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
 
-    test('admin with external group', done => {
+    test('admin with external group', async () => {
       const options = {
         groupId: 'a15262',
         groupName: 'my-group',
@@ -272,7 +270,7 @@ suite('gr-admin-nav-behavior tests', () => {
         groupPageShown: true,
         groupSubpageLength: 0,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
   });
 
@@ -287,7 +285,7 @@ suite('gr-admin-nav-behavior tests', () => {
       expected = {};
     });
 
-    test('with plugin with capabilities', done => {
+    test('with plugin with capabilities', async () => {
       let options;
       const generatedLinks = [
         {text: 'without capability', url: '/without'},
@@ -300,7 +298,7 @@ suite('gr-admin-nav-behavior tests', () => {
         totalLength: 4,
         pluginGeneratedLinks: generatedLinks,
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
   });
 
@@ -315,7 +313,7 @@ suite('gr-admin-nav-behavior tests', () => {
       expected = {};
     });
 
-    test('with plugin with capabilities', done => {
+    test('with plugin with capabilities', async () => {
       let options;
       const generatedLinks = [
         {text: 'without capability', url: '/without'},
@@ -328,7 +326,7 @@ suite('gr-admin-nav-behavior tests', () => {
         totalLength: 3,
         pluginGeneratedLinks: [generatedLinks[0]],
       });
-      testAdminLinks(account, options, expected, done);
+      await testAdminLinks(account, options, expected);
     });
   });
 });

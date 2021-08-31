@@ -20,7 +20,7 @@ import './gr-change-list-view.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import 'lodash/lodash.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-change-list-view');
 
@@ -38,10 +38,8 @@ suite('gr-change-list-view tests', () => {
     element = basicFixture.instantiate();
   });
 
-  teardown(done => {
-    flush(() => {
-      done();
-    });
+  teardown(async () => {
+    await flush();
   });
 
   test('_computePage', () => {
@@ -126,128 +124,123 @@ suite('gr-change-list-view tests', () => {
     assert.isTrue(showStub.called);
   });
 
-  test('_userId query', done => {
+  test('_userId query', async () => {
     assert.isNull(element._userId);
     element._query = 'owner: foo@bar';
     element._changes = [{owner: {email: 'foo@bar'}}];
-    flush(() => {
-      assert.equal(element._userId, 'foo@bar');
+    await flush();
+    assert.equal(element._userId, 'foo@bar');
 
-      element._query = 'foo bar baz';
-      element._changes = [{owner: {email: 'foo@bar'}}];
-      assert.isNull(element._userId);
-
-      done();
-    });
+    element._query = 'foo bar baz';
+    element._changes = [{owner: {email: 'foo@bar'}}];
+    assert.isNull(element._userId);
   });
 
-  test('_userId query without email', done => {
+  test('_userId query without email', async () => {
     assert.isNull(element._userId);
     element._query = 'owner: foo@bar';
     element._changes = [{owner: {}}];
-    flush(() => {
-      assert.isNull(element._userId);
-      done();
-    });
+    await flush();
+    assert.isNull(element._userId);
   });
 
-  test('_repo query', done => {
+  test('_repo query', async () => {
     assert.isNull(element._repo);
     element._query = 'project: test-repo';
     element._changes = [{owner: {email: 'foo@bar'}, project: 'test-repo'}];
-    flush(() => {
-      assert.equal(element._repo, 'test-repo');
-      element._query = 'foo bar baz';
-      element._changes = [{owner: {email: 'foo@bar'}}];
-      assert.isNull(element._repo);
-      done();
-    });
+    await flush();
+    assert.equal(element._repo, 'test-repo');
+    element._query = 'foo bar baz';
+    element._changes = [{owner: {email: 'foo@bar'}}];
+    assert.isNull(element._repo);
   });
 
-  test('_repo query with open status', done => {
+  test('_repo query with open status', async () => {
     assert.isNull(element._repo);
     element._query = 'project:test-repo status:open';
     element._changes = [{owner: {email: 'foo@bar'}, project: 'test-repo'}];
-    flush(() => {
-      assert.equal(element._repo, 'test-repo');
-      element._query = 'foo bar baz';
-      element._changes = [{owner: {email: 'foo@bar'}}];
-      assert.isNull(element._repo);
-      done();
-    });
+    await flush();
+    assert.equal(element._repo, 'test-repo');
+    element._query = 'foo bar baz';
+    element._changes = [{owner: {email: 'foo@bar'}}];
+    assert.isNull(element._repo);
   });
 
   suite('query based navigation', () => {
     setup(() => {
     });
 
-    teardown(done => {
-      flush(() => {
-        sinon.restore();
-        done();
-      });
+    teardown(async () => {
+      await flush();
+      sinon.restore();
     });
 
-    test('Searching for a change ID redirects to change', done => {
+    test('Searching for a change ID redirects to change', async () => {
       const change = {_number: 1};
       sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
+      const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake(
           (url, opt_patchNum, opt_basePatchNum, opt_isEdit, opt_redirect) => {
             assert.equal(url, change);
             assert.isTrue(opt_redirect);
-            done();
+            promise.resolve();
           });
 
       element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
+      await promise;
     });
 
-    test('Searching for a change num redirects to change', done => {
+    test('Searching for a change num redirects to change', async () => {
       const change = {_number: 1};
       sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
+      const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake(
           (url, opt_patchNum, opt_basePatchNum, opt_isEdit, opt_redirect) => {
             assert.equal(url, change);
             assert.isTrue(opt_redirect);
-            done();
+            promise.resolve();
           });
 
       element.params = {view: GerritNav.View.SEARCH, query: '1'};
+      await promise;
     });
 
-    test('Commit hash redirects to change', done => {
+    test('Commit hash redirects to change', async () => {
       const change = {_number: 1};
       sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
+      const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake(
           (url, opt_patchNum, opt_basePatchNum, opt_isEdit, opt_redirect) => {
             assert.equal(url, change);
             assert.isTrue(opt_redirect);
-            done();
+            promise.resolve();
           });
 
       element.params = {view: GerritNav.View.SEARCH, query: COMMIT_HASH};
+      await promise;
     });
 
-    test('Searching for an invalid change ID searches', () => {
+    test('Searching for an invalid change ID searches', async () => {
       sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([]));
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
       element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
-      flush();
+      await flush();
 
       assert.isFalse(stub.called);
     });
 
-    test('Change ID with multiple search results searches', () => {
+    test('Change ID with multiple search results searches', async () => {
       sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([{}, {}]));
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
       element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
-      flush();
+      await flush();
 
       assert.isFalse(stub.called);
     });

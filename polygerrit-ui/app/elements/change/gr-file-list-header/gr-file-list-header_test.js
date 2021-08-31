@@ -34,10 +34,8 @@ suite('gr-file-list-header tests', () => {
     element = basicFixture.instantiate();
   });
 
-  teardown(done => {
-    flush(() => {
-      done();
-    });
+  teardown(async () => {
+    await flush();
   });
 
   test('Diff preferences hidden when no prefs or diffPrefsDisabled', () => {
@@ -77,21 +75,19 @@ suite('gr-file-list-header tests', () => {
     assert.isTrue(element._collapseAllDiffs.called);
   });
 
-  test('show/hide diffs disabled for large amounts of files', done => {
+  test('show/hide diffs disabled for large amounts of files', async () => {
     const computeSpy = sinon.spy(element, '_fileListActionsVisible');
     element._files = [];
     element.changeNum = '42';
     element.basePatchNum = 'PARENT';
     element.patchNum = '2';
     element.shownFileCount = 1;
-    flush(() => {
-      assert.isTrue(computeSpy.lastCall.returnValue);
-      _.times(element._maxFilesForBulkActions + 1, () => {
-        element.shownFileCount = element.shownFileCount + 1;
-      });
-      assert.isFalse(computeSpy.lastCall.returnValue);
-      done();
+    await flush();
+    assert.isTrue(computeSpy.lastCall.returnValue);
+    _.times(element._maxFilesForBulkActions + 1, () => {
+      element.shownFileCount = element.shownFileCount + 1;
     });
+    assert.isFalse(computeSpy.lastCall.returnValue);
   });
 
   test('fileViewActions are properly hidden', () => {

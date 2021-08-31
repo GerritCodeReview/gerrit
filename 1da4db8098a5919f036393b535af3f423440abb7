@@ -94,6 +94,23 @@
       },
       "revId": "1da4db8098a5919f036393b535af3f423440abb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2e104ec_68b0e2eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-31T12:18:48Z",
+      "side": 1,
+      "message": "Nasser/Luca, do you have any other comments or can we proceed with this change?",
+      "revId": "1da4db8098a5919f036393b535af3f423440abb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

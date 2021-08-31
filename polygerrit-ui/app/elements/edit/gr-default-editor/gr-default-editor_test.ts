@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-default-editor';
 import {GrDefaultEditor} from './gr-default-editor';
-import {queryAndAssert} from '../../../test/test-utils';
+import {mockPromise, queryAndAssert} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-default-editor');
 
@@ -31,13 +31,15 @@ suite('gr-default-editor tests', () => {
     await flush();
   });
 
-  test('fires content-change event', done => {
+  test('fires content-change event', async () => {
     const textarea = queryAndAssert<HTMLTextAreaElement>(element, '#textarea');
+    const promise = mockPromise();
     element.addEventListener('content-change', e => {
       assert.equal((e as CustomEvent).detail.value, 'test');
-      done();
+      promise.resolve();
     });
     textarea.value = 'test';
     textarea.dispatchEvent(new Event('input', {bubbles: true, composed: true}));
+    await promise;
   });
 });

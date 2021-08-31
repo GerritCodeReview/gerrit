@@ -17,7 +17,11 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-group.js';
-import {stubRestApi, addListenerForTest} from '../../../test/test-utils.js';
+import {
+  addListenerForTest,
+  mockPromise,
+  stubRestApi,
+} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-group');
 
@@ -49,17 +53,15 @@ suite('gr-group tests', () => {
         .display === 'none');
   });
 
-  test('default values are populated with internal group', done => {
+  test('default values are populated with internal group', async () => {
     stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
     element.groupId = 1;
-    element._loadGroup().then(() => {
-      assert.isTrue(element._groupIsInternal);
-      assert.isFalse(element.$.visibleToAll.bindValue);
-      done();
-    });
+    await element._loadGroup();
+    assert.isTrue(element._groupIsInternal);
+    assert.isFalse(element.$.visibleToAll.bindValue);
   });
 
-  test('default values with external group', done => {
+  test('default values with external group', async () => {
     const groupExternal = {...group};
     groupExternal.id = 'external-group-id';
     groupStub.restore();
@@ -67,14 +69,12 @@ suite('gr-group tests', () => {
         Promise.resolve(groupExternal));
     stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
     element.groupId = 1;
-    element._loadGroup().then(() => {
-      assert.isFalse(element._groupIsInternal);
-      assert.isFalse(element.$.visibleToAll.bindValue);
-      done();
-    });
+    await element._loadGroup();
+    assert.isFalse(element._groupIsInternal);
+    assert.isFalse(element.$.visibleToAll.bindValue);
   });
 
-  test('rename group', done => {
+  test('rename group', async () => {
     const groupName = 'test-group';
     const groupName2 = 'test-group2';
     element.groupId = 1;
@@ -88,25 +88,22 @@ suite('gr-group tests', () => {
 
     const button = element.$.inputUpdateNameBtn;
 
-    element._loadGroup().then(() => {
-      assert.isTrue(button.hasAttribute('disabled'));
-      assert.isFalse(element.$.Title.classList.contains('edited'));
+    await element._loadGroup();
+    assert.isTrue(button.hasAttribute('disabled'));
+    assert.isFalse(element.$.Title.classList.contains('edited'));
 
-      element.$.groupNameInput.text = groupName2;
+    element.$.groupNameInput.text = groupName2;
 
-      assert.isFalse(button.hasAttribute('disabled'));
-      assert.isTrue(element.$.groupName.classList.contains('edited'));
+    assert.isFalse(button.hasAttribute('disabled'));
+    assert.isTrue(element.$.groupName.classList.contains('edited'));
 
-      element._handleSaveName().then(() => {
-        assert.isTrue(button.hasAttribute('disabled'));
-        assert.isFalse(element.$.Title.classList.contains('edited'));
-        assert.equal(element._groupName, groupName2);
-        done();
-      });
-    });
+    await element._handleSaveName();
+    assert.isTrue(button.hasAttribute('disabled'));
+    assert.isFalse(element.$.Title.classList.contains('edited'));
+    assert.equal(element._groupName, groupName2);
   });
 
-  test('rename group owner', done => {
+  test('rename group owner', async () => {
     const groupName = 'test-group';
     element.groupId = 1;
     element._groupConfig = {
@@ -119,24 +116,21 @@ suite('gr-group tests', () => {
 
     const button = element.$.inputUpdateOwnerBtn;
 
-    element._loadGroup().then(() => {
-      assert.isTrue(button.hasAttribute('disabled'));
-      assert.isFalse(element.$.Title.classList.contains('edited'));
+    await element._loadGroup();
+    assert.isTrue(button.hasAttribute('disabled'));
+    assert.isFalse(element.$.Title.classList.contains('edited'));
 
-      element.$.groupOwnerInput.text = 'testId2';
+    element.$.groupOwnerInput.text = 'testId2';
 
-      assert.isFalse(button.hasAttribute('disabled'));
-      assert.isTrue(element.$.groupOwner.classList.contains('edited'));
+    assert.isFalse(button.hasAttribute('disabled'));
+    assert.isTrue(element.$.groupOwner.classList.contains('edited'));
 
-      element._handleSaveOwner().then(() => {
-        assert.isTrue(button.hasAttribute('disabled'));
-        assert.isFalse(element.$.Title.classList.contains('edited'));
-        done();
-      });
-    });
+    await element._handleSaveOwner();
+    assert.isTrue(button.hasAttribute('disabled'));
+    assert.isFalse(element.$.Title.classList.contains('edited'));
   });
 
-  test('test for undefined group name', done => {
+  test('test for undefined group name', async () => {
     groupStub.restore();
 
     stubRestApi('getGroupConfig').returns(Promise.resolve({}));
@@ -149,16 +143,13 @@ suite('gr-group tests', () => {
 
     // Test that loading shows instead of filling
     // in group details
-    element._loadGroup().then(() => {
-      assert.isTrue(element.$.loading.classList.contains('loading'));
+    await element._loadGroup();
+    assert.isTrue(element.$.loading.classList.contains('loading'));
 
-      assert.isTrue(element._loading);
-
-      done();
-    });
+    assert.isTrue(element._loading);
   });
 
-  test('test fire event', done => {
+  test('test fire event', async () => {
     element._groupConfig = {
       name: 'test-group',
     };
@@ -166,11 +157,8 @@ suite('gr-group tests', () => {
     stubRestApi('saveGroupName').returns(Promise.resolve({status: 200}));
 
     const showStub = sinon.stub(element, 'dispatchEvent');
-    element._handleSaveName()
-        .then(() => {
-          assert.isTrue(showStub.called);
-          done();
-        });
+    await element._handleSaveName();
+    assert.isTrue(showStub.called);
   });
 
   test('_computeGroupDisabled', () => {
@@ -206,7 +194,7 @@ suite('gr-group tests', () => {
     assert.equal(element._computeLoadingClass(false), '');
   });
 
-  test('fires page-error', done => {
+  test('fires page-error', async () => {
     groupStub.restore();
 
     element.groupId = 1;
@@ -214,14 +202,17 @@ suite('gr-group tests', () => {
     const response = {status: 404};
     stubRestApi('getGroupConfig').callsFake((group, errFn) => {
       errFn(response);
+      return Promise.resolve(undefined);
     });
 
+    const promise = mockPromise();
     addListenerForTest(document, 'page-error', e => {
       assert.deepEqual(e.detail.response, response);
-      done();
+      promise.resolve();
     });
 
     element._loadGroup();
+    await promise;
   });
 
   test('uuid', () => {

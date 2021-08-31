@@ -120,7 +120,7 @@ suite('gr-syntax-layer tests', () => {
     assert.isFalse(annotationSpy.called);
   });
 
-  test('process on empty diff does nothing', done => {
+  test('process on empty diff does nothing', async () => {
     element.diff = {
       meta_a: {content_type: 'application/json'},
       meta_b: {content_type: 'application/json'},
@@ -128,17 +128,14 @@ suite('gr-syntax-layer tests', () => {
     };
     const processNextSpy = sinon.spy(element, '_processNextLine');
 
-    const processPromise = element.process();
+    await element.process();
 
-    processPromise.then(() => {
-      assert.isFalse(processNextSpy.called);
-      assert.equal(element.baseRanges.length, 0);
-      assert.equal(element.revisionRanges.length, 0);
-      done();
-    });
+    assert.isFalse(processNextSpy.called);
+    assert.equal(element.baseRanges.length, 0);
+    assert.equal(element.revisionRanges.length, 0);
   });
 
-  test('process for unsupported languages does nothing', done => {
+  test('process for unsupported languages does nothing', async () => {
     element.diff = {
       meta_a: {content_type: 'text/x+objective-cobol-plus-plus'},
       meta_b: {content_type: 'application/not-a-real-language'},
@@ -146,33 +143,27 @@ suite('gr-syntax-layer tests', () => {
     };
     const processNextSpy = sinon.spy(element, '_processNextLine');
 
-    const processPromise = element.process();
+    await element.process();
 
-    processPromise.then(() => {
-      assert.isFalse(processNextSpy.called);
-      assert.equal(element.baseRanges.length, 0);
-      assert.equal(element.revisionRanges.length, 0);
-      done();
-    });
+    assert.isFalse(processNextSpy.called);
+    assert.equal(element.baseRanges.length, 0);
+    assert.equal(element.revisionRanges.length, 0);
   });
 
-  test('process while disabled does nothing', done => {
+  test('process while disabled does nothing', async () => {
     const processNextSpy = sinon.spy(element, '_processNextLine');
     element.enabled = false;
     const loadHLJSSpy = sinon.spy(element, '_loadHLJS');
 
-    const processPromise = element.process();
+    await element.process();
 
-    processPromise.then(() => {
-      assert.isFalse(processNextSpy.called);
-      assert.equal(element.baseRanges.length, 0);
-      assert.equal(element.revisionRanges.length, 0);
-      assert.isFalse(loadHLJSSpy.called);
-      done();
-    });
+    assert.isFalse(processNextSpy.called);
+    assert.equal(element.baseRanges.length, 0);
+    assert.equal(element.revisionRanges.length, 0);
+    assert.isFalse(loadHLJSSpy.called);
   });
 
-  test('process highlight ipsum', done => {
+  test('process highlight ipsum', async () => {
     element.diff.meta_a.content_type = 'application/json';
     element.diff.meta_b.content_type = 'application/json';
 
@@ -180,65 +171,61 @@ suite('gr-syntax-layer tests', () => {
     window.hljs = mockHLJS;
     const highlightSpy = sinon.spy(mockHLJS, 'highlight');
     const processNextSpy = sinon.spy(element, '_processNextLine');
-    const processPromise = element.process();
+    await  element.process();
 
-    processPromise.then(() => {
-      const linesA = diff.meta_a.lines;
-      const linesB = diff.meta_b.lines;
+    const linesA = diff.meta_a.lines;
+    const linesB = diff.meta_b.lines;
 
-      assert.isTrue(processNextSpy.called);
-      assert.equal(element.baseRanges.length, linesA);
-      assert.equal(element.revisionRanges.length, linesB);
+    assert.isTrue(processNextSpy.called);
+    assert.equal(element.baseRanges.length, linesA);
+    assert.equal(element.revisionRanges.length, linesB);
 
-      assert.equal(highlightSpy.callCount, linesA + linesB);
+    assert.equal(highlightSpy.callCount, linesA + linesB);
 
-      // The first line of both sides have a range.
-      let ranges = [element.baseRanges[0], element.revisionRanges[0]];
-      for (const range of ranges) {
-        assert.equal(range.length, 1);
-        assert.equal(range[0].className,
-            'gr-diff gr-syntax gr-syntax-string');
-        assert.equal(range[0].start, 'lorem '.length);
-        assert.equal(range[0].length, 'ipsum'.length);
-      }
-
-      // There are no ranges from ll.1-12 on the left and ll.1-11 on the
-      // right.
-      ranges = element.baseRanges.slice(1, 12)
-          .concat(element.revisionRanges.slice(1, 11));
-
-      for (const range of ranges) {
-        assert.equal(range.length, 0);
-      }
-
-      // There should be another pair of ranges on l.13 for the left and
-      // l.12 for the right.
-      ranges = [element.baseRanges[13], element.revisionRanges[12]];
-
-      for (const range of ranges) {
-        assert.equal(range.length, 1);
-        assert.equal(range[0].className,
-            'gr-diff gr-syntax gr-syntax-string');
-        assert.equal(range[0].start, 32);
-        assert.equal(range[0].length, 'ipsum'.length);
-      }
-
-      // The next group should have a similar instance on either side.
-
-      let range = element.baseRanges[15];
+    // The first line of both sides have a range.
+    let ranges = [element.baseRanges[0], element.revisionRanges[0]];
+    for (const range of ranges) {
       assert.equal(range.length, 1);
-      assert.equal(range[0].className, 'gr-diff gr-syntax gr-syntax-string');
-      assert.equal(range[0].start, 34);
+      assert.equal(range[0].className,
+          'gr-diff gr-syntax gr-syntax-string');
+      assert.equal(range[0].start, 'lorem '.length);
       assert.equal(range[0].length, 'ipsum'.length);
+    }
 
-      range = element.revisionRanges[14];
+    // There are no ranges from ll.1-12 on the left and ll.1-11 on the
+    // right.
+    ranges = element.baseRanges.slice(1, 12)
+        .concat(element.revisionRanges.slice(1, 11));
+
+    for (const range of ranges) {
+      assert.equal(range.length, 0);
+    }
+
+    // There should be another pair of ranges on l.13 for the left and
+    // l.12 for the right.
+    ranges = [element.baseRanges[13], element.revisionRanges[12]];
+
+    for (const range of ranges) {
       assert.equal(range.length, 1);
-      assert.equal(range[0].className, 'gr-diff gr-syntax gr-syntax-string');
-      assert.equal(range[0].start, 35);
+      assert.equal(range[0].className,
+          'gr-diff gr-syntax gr-syntax-string');
+      assert.equal(range[0].start, 32);
       assert.equal(range[0].length, 'ipsum'.length);
+    }
 
-      done();
-    });
+    // The next group should have a similar instance on either side.
+
+    let range = element.baseRanges[15];
+    assert.equal(range.length, 1);
+    assert.equal(range[0].className, 'gr-diff gr-syntax gr-syntax-string');
+    assert.equal(range[0].start, 34);
+    assert.equal(range[0].length, 'ipsum'.length);
+
+    range = element.revisionRanges[14];
+    assert.equal(range.length, 1);
+    assert.equal(range[0].className, 'gr-diff gr-syntax gr-syntax-string');
+    assert.equal(range[0].start, 35);
+    assert.equal(range[0].length, 'ipsum'.length);
   });
 
   test('init calls cancel', () => {

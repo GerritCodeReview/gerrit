@@ -180,7 +180,7 @@ suite('gr-rule-editor tests', () => {
   });
 
   suite('already existing generic rule', () => {
-    setup(done => {
+    setup(async () => {
       element.group = 'Group Name';
       element.permission = 'submit';
       element.rule = {
@@ -195,11 +195,8 @@ suite('gr-rule-editor tests', () => {
       // Typically called on ready since elements will have properties defined
       // by the parent element.
       element._setupValues(element.rule);
-      flush();
-      flush(() => {
-        element.connectedCallback();
-        done();
-      });
+      await flush();
+      element.connectedCallback();
     });
 
     test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -295,7 +292,7 @@ suite('gr-rule-editor tests', () => {
   });
 
   suite('new edit rule', () => {
-    setup(done => {
+    setup(async () => {
       element.group = 'Group Name';
       element.permission = 'editTopicName';
       element.rule = {
@@ -303,12 +300,10 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flush();
+      await flush();
       element.rule.value.added = true;
-      flush(() => {
-        element.connectedCallback();
-        done();
-      });
+      await flush();
+      element.connectedCallback();
     });
 
     test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -348,7 +343,7 @@ suite('gr-rule-editor tests', () => {
   });
 
   suite('already existing rule with labels', () => {
-    setup(done => {
+    setup(async () => {
       element.label = {values: [
         {value: -2, text: 'This shall not be merged'},
         {value: -1, text: 'I would prefer this is not merged as is'},
@@ -369,11 +364,8 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flush();
-      flush(() => {
-        element.connectedCallback();
-        done();
-      });
+      await flush();
+      element.connectedCallback();
     });
 
     test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -406,7 +398,7 @@ suite('gr-rule-editor tests', () => {
   });
 
   suite('new rule with labels', () => {
-    setup(done => {
+    setup(async () => {
       sinon.spy(element, '_setDefaultRuleValues');
       element.label = {values: [
         {value: -2, text: 'This shall not be merged'},
@@ -422,12 +414,10 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flush();
+      await flush();
       element.rule.value.added = true;
-      flush(() => {
-        element.connectedCallback();
-        done();
-      });
+      await flush();
+      element.connectedCallback();
     });
 
     test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -468,7 +458,7 @@ suite('gr-rule-editor tests', () => {
   });
 
   suite('already existing push rule', () => {
-    setup(done => {
+    setup(async () => {
       element.group = 'Group Name';
       element.permission = 'push';
       element.rule = {
@@ -480,11 +470,8 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flush();
-      flush(() => {
-        element.connectedCallback();
-        done();
-      });
+      await flush();
+      element.connectedCallback();
     });
 
     test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -513,7 +500,7 @@ suite('gr-rule-editor tests', () => {
   });
 
   suite('new push rule', () => {
-    setup(done => {
+    setup(async () => {
       element.group = 'Group Name';
       element.permission = 'push';
       element.rule = {
@@ -521,12 +508,10 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flush();
+      await flush();
       element.rule.value.added = true;
-      flush(() => {
-        element.connectedCallback();
-        done();
-      });
+      await flush();
+      element.connectedCallback();
     });
 
     test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -557,7 +542,7 @@ suite('gr-rule-editor tests', () => {
   });
 
   suite('already existing edit rule', () => {
-    setup(done => {
+    setup(async () => {
       element.group = 'Group Name';
       element.permission = 'editTopicName';
       element.rule = {
@@ -569,11 +554,8 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flush();
-      flush(() => {
-        element.connectedCallback();
-        done();
-      });
+      await flush();
+      element.connectedCallback();
     });
 
     test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -590,10 +572,10 @@ suite('gr-rule-editor tests', () => {
       assert.isNotOk(element.root.querySelector('#labelMax'));
     });
 
-    test('modify value', () => {
+    test('modify value', async () => {
       assert.isNotOk(element.rule.value.modified);
       element.$.action.bindValue = false;
-      flush();
+      await flush();
       assert.isTrue(element.rule.value.modified);
 
       // The original value should now differ from the rule values.

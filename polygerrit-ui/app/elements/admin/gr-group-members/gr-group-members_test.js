@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-members.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {addListenerForTest, stubBaseUrl, stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest, mockPromise, stubBaseUrl, stubRestApi} from '../../../test/test-utils.js';
 import {ItemType} from './gr-group-members.js';
 
 const basicFixture = fixtureFromElement('gr-group-members');
@@ -235,42 +235,32 @@ suite('gr-group-members tests', () => {
     assert.isTrue(exceptionThrown);
   });
 
-  test('_getAccountSuggestions empty', done => {
-    element
-        ._getAccountSuggestions('nonexistent').then(accounts => {
-          assert.equal(accounts.length, 0);
-          done();
-        });
+  test('_getAccountSuggestions empty', async () => {
+    const accounts = await element._getAccountSuggestions('nonexistent');
+    assert.equal(accounts.length, 0);
   });
 
-  test('_getAccountSuggestions non-empty', done => {
-    element
-        ._getAccountSuggestions('test-').then(accounts => {
-          assert.equal(accounts.length, 3);
-          assert.equal(accounts[0].name,
-              'test-account <test.account@example.com>');
-          assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
-          assert.equal(accounts[2].name, 'test-git');
-          done();
-        });
+  test('_getAccountSuggestions non-empty', async () => {
+    const accounts = await element._getAccountSuggestions('test-');
+    assert.equal(accounts.length, 3);
+    assert.equal(accounts[0].name,
+        'test-account <test.account@example.com>');
+    assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
+    assert.equal(accounts[2].name, 'test-git');
   });
 
-  test('_getGroupSuggestions empty', done => {
-    element
-        ._getGroupSuggestions('nonexistent').then(groups => {
-          assert.equal(groups.length, 0);
-          done();
-        });
+  test('_getGroupSuggestions empty', async () => {
+    const groups = await element._getGroupSuggestions('nonexistent');
+
+    assert.equal(groups.length, 0);
   });
 
-  test('_getGroupSuggestions non-empty', done => {
-    element
-        ._getGroupSuggestions('test').then(groups => {
-          assert.equal(groups.length, 2);
-          assert.equal(groups[0].name, 'test-admin');
-          assert.equal(groups[1].name, 'test/Administrator (admin)');
-          done();
-        });
+  test('_getGroupSuggestions non-empty', async () => {
+    const groups = await element._getGroupSuggestions('test');
+
+    assert.equal(groups.length, 2);
+    assert.equal(groups[0].name, 'test-admin');
+    assert.equal(groups[1].name, 'test/Administrator (admin)');
   });
 
   test('_computeHideItemClass returns string for admin', () => {
@@ -343,22 +333,24 @@ suite('gr-group-members tests', () => {
     assert.equal(element._computeGroupUrl(url), url);
   });
 
-  test('fires page-error', done => {
+  test('fires page-error', async () => {
     groupStub.restore();
 
     element.groupId = 1;
 
     const response = {status: 404};
-    stubRestApi('getGroupConfig')
-        .callsFake((group, errFn) => {
-          errFn(response);
-        });
+    stubRestApi('getGroupConfig').callsFake((group, errFn) => {
+      errFn(response);
+      return Promise.resolve();
+    });
+    const promise = mockPromise();
     addListenerForTest(document, 'page-error', e => {
       assert.deepEqual(e.detail.response, response);
-      done();
+      promise.resolve();
     });
 
     element._loadGroupDetails();
+    await promise;
   });
 
   test('_computeItemName', () => {

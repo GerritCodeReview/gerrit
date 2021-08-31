@@ -22,7 +22,7 @@ import {
   Block,
   ListBlock,
   TextBlock,
-  QuoteBlock,
+  NestedBlock,
 } from './gr-formatted-text';
 
 const basicFixture = fixtureFromElement('gr-formatted-text');
@@ -42,9 +42,9 @@ suite('gr-formatted-text tests', () => {
     assert.deepEqual(listBlock.items, items);
   }
 
-  function assertQuoteBlock(block: Block): QuoteBlock {
+  function assertQuoteBlock(block: Block): NestedBlock {
     assert.equal(block.type, 'quote');
-    return block as QuoteBlock;
+    return block as NestedBlock;
   }
 
   setup(() => {

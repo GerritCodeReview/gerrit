@@ -19,19 +19,19 @@ import {CommentLinks} from '../../../types/common';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {css, customElement, html, property, TemplateResult} from 'lit-element';
 
-const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
+//const singleLineCodePattern = /^(`{1,3})([^`]+?)\1$/;
 
-export type Block = ListBlock | QuoteBlock | TextBlock;
+export type Block = ListBlock | NestedBlock | TextBlock;
 export interface ListBlock {
   type: 'list';
   items: string[];
 }
-export interface QuoteBlock {
-  type: 'quote';
+export interface NestedBlock {
+  type: 'quote' | 'paragraph';
   blocks: Block[];
 }
 export interface TextBlock {
-  type: 'paragraph' | 'code' | 'pre';
+  type: 'text' | 'full-line-code' | 'inline-code' | 'pre';
   text: string;
 }
 
@@ -55,7 +55,6 @@ export class GrFormattedText extends GrLitElement {
     return [
       css`
         :host {
-          display: block;
           font-family: var(--font-family);
         }
         p,
@@ -83,9 +82,14 @@ export class GrFormattedText extends GrLitElement {
           padding: 0 var(--spacing-m);
         }
         code {
-          display: block;
           white-space: pre-wrap;
           color: var(--deemphasized-text-color);
+        }
+        .full-line-code {
+          display: block;
+        }
+        gr-lined-text {
+          display: inline;
         }
         li {
           list-style-type: disc;
@@ -149,7 +153,7 @@ export class GrFormattedText extends GrLitElement {
         const lineAfterCode = lines[endOfCode];
         if (lineAfterCode && this.isCodeMarkLine(lineAfterCode)) {
           result.push({
-            type: 'code',
+            type: 'full-line-code',
             // Does not include either of the ``` lines
             text: lines.slice(startOfCode, endOfCode).join('\n'),
           });
@@ -157,11 +161,11 @@ export class GrFormattedText extends GrLitElement {
           continue;
         }
       }
-      if (this.isSingleLineCode(lines[i])) {
+      /*if (this.isSingleLineCode(lines[i])) {
         // no guard check as _isSingleLineCode tested on the pattern
-        const codeContent = lines[i].match(CODE_MARKER_PATTERN)![2];
+        const codeContent = lines[i].match(singleLineCodePattern)![2];
         result.push({type: 'code', text: codeContent});
-      } else if (this.isList(lines[i])) {
+      } else*/ if (this.isList(lines[i])) {
         const endOfList = this.getEndOfSection(lines, i + 1, line =>
           this.isList(line)
         );
@@ -196,10 +200,27 @@ export class GrFormattedText extends GrLitElement {
         const endOfRegularLines = this.getEndOfSection(lines, i + 1, line =>
           this.isRegularLine(line)
         );
+        const p = lines.slice(i, endOfRegularLines).join('\n');
+        const regex = /`([^`]*)`/gi;
+        const split = p.split(regex);
         result.push({
           type: 'paragraph',
-          text: lines.slice(i, endOfRegularLines).join('\n'),
+          blocks: split
+            .map((text, index) => {
+              const type = index % 2 === 1 ? 'inline-code' : 'text';
+              return {type: type, text: text} as TextBlock;
+            })
+            .filter(block => {
+              console.log(block.text);
+              return block.text !== '';
+            }),
         });
+        console.log(result);
+
+        // result.push({
+        //   type: 'paragraph',
+        //   text: lines.slice(i, endOfRegularLines).join('\n'),
+        // });
         i = endOfRegularLines - 1;
       }
     }
@@ -254,7 +275,8 @@ export class GrFormattedText extends GrLitElement {
   }
 
   private isSingleLineCode(line: string): boolean {
-    return CODE_MARKER_PATTERN.test(line);
+    return line === 'asdffdsasdfsadf';
+    // return singleLineCodePattern.test(line);
   }
 
   private isPreFormat(line: string): boolean {
@@ -281,17 +303,24 @@ export class GrFormattedText extends GrLitElement {
   }
 
   private renderBlock(block: Block): TemplateResult {
+    console.log(block);
     switch (block.type) {
+      case 'text':
+        return html`<span>${this.renderLinkedText(block.text)}</span>`;
       case 'paragraph':
-        return html`<p>${this.renderLinkedText(block.text)}</p>`;
+        return html`
+          <p>${block.blocks.map(subBlock => this.renderBlock(subBlock))}</p>
+        `;
       case 'quote':
         return html`
           <blockquote>
             ${block.blocks.map(subBlock => this.renderBlock(subBlock))}
           </blockquote>
         `;
-      case 'code':
+      case 'inline-code':
         return html`<code>${block.text}</code>`;
+      case 'full-line-code':
+        return html`<code class="full-line-code">${block.text}</code>`;
       case 'pre':
         return this.renderLinkedText(block.text, true);
       case 'list':

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f72248e_1a64d067",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-08-31T17:33:57Z",
+      "side": 1,
+      "message": "s/Specifies count/Number/ ?\n\nMatches the text in https://gerrit.googlesource.com/gerrit/+/refs/changes/02/316802/1/java/com/google/gerrit/pgm/Reindex.java#55 better",
+      "range": {
+        "startLine": 96,
+        "startChar": 15,
+        "endLine": 96,
+        "endChar": 30
+      },
+      "revId": "0ab81a98acbcad3f4c117d8cf08bce701b7b083c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

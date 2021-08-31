@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64859c79_9a5f1063",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-31T13:43:10Z",
+      "side": 1,
+      "message": "\"is in the attention set of the current user\"",
+      "range": {
+        "startLine": 435,
+        "startChar": 19,
+        "endLine": 435,
+        "endChar": 32
+      },
+      "revId": "58811adbc01023add22fb64a0dc367d7ecfd4100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14c94191_05a89ec7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-08-31T13:43:10Z",
+      "side": 1,
+      "message": "self()?",
+      "range": {
+        "startLine": 672,
+        "startChar": 43,
+        "endLine": 672,
+        "endChar": 56
+      },
+      "revId": "58811adbc01023add22fb64a0dc367d7ecfd4100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

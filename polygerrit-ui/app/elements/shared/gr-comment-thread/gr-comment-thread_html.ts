@@ -143,7 +143,10 @@ export const htmlTemplate = html`
     <h3 class="assistive-tech-only">
       [[_computeAriaHeading(_orderedComments)]]
     </h3>
-    <div class$="[[_computeHostClass(unresolved, isRobotComment)]] comment-box">
+    <div
+      class$="[[_computeHostClass(unresolved, isRobotComment)]] comment-box"
+      tabindex="0"
+    >
       <template
         id="commentList"
         is="dom-repeat"

@@ -8,6 +8,7 @@ java_library(
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/lifecycle",
+        "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/logging",
         "//lib:guava",
         "//lib:jgit",

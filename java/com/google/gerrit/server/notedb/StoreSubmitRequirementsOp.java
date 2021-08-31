@@ -42,7 +42,7 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
     Change change = ctx.getChange();
     ChangeData changeData = changeDataFactory.create(change);
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
-    update.putSubmitRequirementResults(evaluator.getResults(changeData).values());
+    update.putSubmitRequirementResults(evaluator.evaluateAllRequirements(changeData).values());
     return !changeData.submitRequirements().isEmpty();
   }
 }

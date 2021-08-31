@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "885b9061_51833609",
+        "filename": "java/com/google/gerrit/entities/SubmitRecord.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-31T07:14:54Z",
+      "side": 1,
+      "message": "To avoid name clashes, if the submit rule comes from a plugin, should this include the plugin name? If yes, which format should be used to separate plugin name and rule name, \"\u003cpluginName\u003e~\u003cruleName\u003e\"? Maybe it would be better to have a separate pluginName field that is set to \u0027gerrit\u0027 for rules from Gerrit core (see PluginName.GERRIT which is used for views from Gerrit core)?",
+      "range": {
+        "startLine": 71,
+        "startChar": 29,
+        "endLine": 71,
+        "endChar": 77
+      },
+      "revId": "ba6344ac45e754c3ac4531f64172411064744b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

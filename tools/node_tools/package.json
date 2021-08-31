@@ -23,5 +23,8 @@
     "postinstall": "(git apply --reverse --ignore-whitespace launchpad.patch || true) && git apply --ignore-whitespace launchpad.patch"
   },
   "license": "Apache-2.0",
-  "private": true
+  "private": true,
+  "resolutions": {
+    "lodash": "4.17.21"
+  }
 }

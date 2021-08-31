@@ -568,7 +568,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> has(String value) throws QueryParseException {
     value = hasOperandAliases.getOrDefault(value, value);
     if ("star".equalsIgnoreCase(value)) {
-      return starredby(self());
+      return starredBySelf();
     }
 
     if ("stars".equalsIgnoreCase(value)) {
@@ -576,7 +576,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("draft".equalsIgnoreCase(value)) {
-      return draftby(self());
+      return draftBySelf();
     }
 
     if ("edit".equalsIgnoreCase(value)) {
@@ -602,11 +602,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> is(String value) throws QueryParseException {
     if ("starred".equalsIgnoreCase(value)) {
-      return starredby(self());
+      return starredBySelf();
     }
 
     if ("watched".equalsIgnoreCase(value)) {
-      return new IsWatchedByPredicate(args, false);
+      return new IsWatchedByPredicate(args);
     }
 
     if ("visible".equalsIgnoreCase(value)) {
@@ -1016,62 +1016,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return new StarPredicate(self(), label);
   }
 
-  @Operator
-  public Predicate<ChangeData> starredby(String who)
-      throws QueryParseException, IOException, ConfigInvalidException {
-    return starredby(parseAccount(who));
+  private Predicate<ChangeData> starredBySelf() throws QueryParseException {
+    return new StarPredicate(self(), StarredChangesUtil.DEFAULT_LABEL);
   }
 
-  private Predicate<ChangeData> starredby(Set<Account.Id> who) {
-    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(who.size());
-    for (Account.Id id : who) {
-      p.add(starredby(id));
-    }
-    return Predicate.or(p);
-  }
-
-  private Predicate<ChangeData> starredby(Account.Id who) {
-    return new StarPredicate(who, StarredChangesUtil.DEFAULT_LABEL);
-  }
-
-  @Operator
-  public Predicate<ChangeData> watchedby(String who)
-      throws QueryParseException, IOException, ConfigInvalidException {
-    Set<Account.Id> m = parseAccount(who);
-    List<IsWatchedByPredicate> p = Lists.newArrayListWithCapacity(m.size());
-
-    Account.Id callerId;
-    try {
-      CurrentUser caller = args.self.get();
-      callerId = caller.isIdentifiedUser() ? caller.getAccountId() : null;
-    } catch (ProvisionException e) {
-      callerId = null;
-    }
-
-    for (Account.Id id : m) {
-      // Each child IsWatchedByPredicate includes a visibility filter for the
-      // corresponding user, to ensure that predicate subtree only returns
-      // changes visible to that user. The exception is if one of the users is
-      // the caller of this method, in which case visibility is already being
-      // checked at the top level.
-      p.add(new IsWatchedByPredicate(args.asUser(id), !id.equals(callerId)));
-    }
-    return Predicate.or(p);
-  }
-
-  @Operator
-  public Predicate<ChangeData> draftby(String who)
-      throws QueryParseException, IOException, ConfigInvalidException {
-    Set<Account.Id> m = parseAccount(who);
-    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
-    for (Account.Id id : m) {
-      p.add(draftby(id));
-    }
-    return Predicate.or(p);
-  }
-
-  private Predicate<ChangeData> draftby(Account.Id who) {
-    return ChangePredicates.draftBy(who);
+  private Predicate<ChangeData> draftBySelf() throws QueryParseException {
+    return ChangePredicates.draftBy(self());
   }
 
   @Operator

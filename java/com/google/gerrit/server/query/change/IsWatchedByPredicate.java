@@ -36,14 +36,13 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
 
   protected final CurrentUser user;
 
-  public IsWatchedByPredicate(ChangeQueryBuilder.Arguments args, boolean checkIsVisible)
-      throws QueryParseException {
-    super(filters(args, checkIsVisible));
+  public IsWatchedByPredicate(ChangeQueryBuilder.Arguments args) throws QueryParseException {
+    super(filters(args));
     this.user = args.getUser();
   }
 
-  protected static List<Predicate<ChangeData>> filters(
-      ChangeQueryBuilder.Arguments args, boolean checkIsVisible) throws QueryParseException {
+  protected static List<Predicate<ChangeData>> filters(ChangeQueryBuilder.Arguments args)
+      throws QueryParseException {
     List<Predicate<ChangeData>> r = new ArrayList<>();
     ChangeQueryBuilder builder = new ChangeQueryBuilder(args);
     for (ProjectWatchKey w : getWatches(args)) {
@@ -82,8 +81,6 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
     }
     if (r.isEmpty()) {
       return ImmutableList.of(ChangeIndexPredicate.none());
-    } else if (checkIsVisible) {
-      return ImmutableList.of(or(r), builder.isVisible());
     } else {
       return ImmutableList.of(or(r));
     }

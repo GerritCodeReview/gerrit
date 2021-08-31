@@ -33,6 +33,24 @@
       "message": "Sorry, I recommended adding these methods but didn\u0027t realize that it has implications for PermissionAwareReadOnlyRefDatabase which needs adjustment as well :-(",
       "revId": "b13c1a2ee60338b1649d3b03a775d282daaad0da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddeca36a_5d39aa65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-08-31T14:21:50Z",
+      "side": 1,
+      "message": "Thanks!\nThat was actually caught by the tests, added the missing overrides.",
+      "parentUuid": "6e3b6501_03359ddb",
+      "revId": "b13c1a2ee60338b1649d3b03a775d282daaad0da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

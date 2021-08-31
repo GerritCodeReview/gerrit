@@ -24,6 +24,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,8 +34,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
@@ -61,12 +64,22 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
   }
 
   @Override
+  public Collection<String> getConflictingNames(String name) throws IOException {
+    throw new UnsupportedOperationException("PermissionAwareReadOnlyRefDatabase is read-only");
+  }
+
+  @Override
   public RefUpdate newUpdate(String name, boolean detach) {
     throw new UnsupportedOperationException("PermissionAwareReadOnlyRefDatabase is read-only");
   }
 
   @Override
   public RefRename newRename(String fromName, String toName) {
+    throw new UnsupportedOperationException("PermissionAwareReadOnlyRefDatabase is read-only");
+  }
+
+  @Override
+  public BatchRefUpdate newBatchUpdate() {
     throw new UnsupportedOperationException("PermissionAwareReadOnlyRefDatabase is read-only");
   }
 
@@ -148,6 +161,25 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
   }
 
   @Override
+  public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
+      throws IOException {
+    Stream<Ref> refs = getRefs(include).values().stream();
+    for (String exclude : excludes) {
+      refs = refs.filter(r -> !r.getName().startsWith(exclude));
+    }
+    return Collections.unmodifiableList(refs.collect(Collectors.toList()));
+  }
+
+  @Override
+  public List<Ref> getRefsByPrefix(String... prefixes) throws IOException {
+    List<Ref> result = new ArrayList<>();
+    for (String prefix : prefixes) {
+      result.addAll(getRefsByPrefix(prefix));
+    }
+    return Collections.unmodifiableList(result);
+  }
+
+  @Override
   @NonNull
   public Map<String, Ref> exactRef(String... refs) throws IOException {
     Map<String, Ref> result = new HashMap<>(refs.length);
@@ -173,6 +205,11 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
   }
 
   @Override
+  public List<Ref> getRefs() throws IOException {
+    return getRefsByPrefix(ALL);
+  }
+
+  @Override
   @NonNull
   public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
     Set<Ref> unfiltered = super.getTipsWithSha1(id);
@@ -183,5 +220,10 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
       }
     }
     return result;
+  }
+
+  @Override
+  public boolean hasRefs() throws IOException {
+    return !getRefs().isEmpty();
   }
 }

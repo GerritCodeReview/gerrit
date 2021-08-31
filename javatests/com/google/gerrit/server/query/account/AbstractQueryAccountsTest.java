@@ -62,6 +62,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AllUsersObjectIdByRefCache;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -622,6 +623,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("name:" + quote(user1.name), user1);
     assertQuery("name:" + quote(newName));
 
+    injector.getInstance(AllUsersObjectIdByRefCache.class).evict(accountId);
     gApi.accounts().id(user1.username).index();
     assertQuery("name:" + quote(user1.name));
     assertQuery("name:" + quote(newName), user1);

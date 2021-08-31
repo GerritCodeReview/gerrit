@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account.externalids;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.account.AllUsersObjectIdByRefCache.createRefsCache;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -61,7 +62,12 @@ public class ExternalIDCacheLoaderTest {
   public void setUp() throws Exception {
     externalIdCache = CacheBuilder.newBuilder().build();
     repoManager.createRepository(ALL_USERS).close();
-    externalIdReader = new ExternalIdReader(repoManager, ALL_USERS, new DisabledMetricMaker());
+    externalIdReader =
+        new ExternalIdReader(
+            repoManager,
+            ALL_USERS,
+            createRefsCache(ALL_USERS, repoManager),
+            new DisabledMetricMaker());
     externalIdReaderSpy = Mockito.spy(externalIdReader);
     loader = createLoader(true);
   }

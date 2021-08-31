@@ -128,6 +128,7 @@ import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AllUsersObjectIdByRefCache;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -215,6 +216,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private AccountIndexer accountIndexer;
+  @Inject private AllUsersObjectIdByRefCache usersRefsCache;
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
   @Inject private ExternalIds externalIds;
   @Inject private GitReferenceUpdated gitReferenceUpdated;
@@ -2654,6 +2656,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(stalenessChecker.check(accountId).isStale()).isTrue();
 
     // Reindex fixes staleness
+    usersRefsCache.evict(accountId);
     accountIndexer.index(accountId);
     assertThat(stalenessChecker.check(accountId).isStale()).isFalse();
   }

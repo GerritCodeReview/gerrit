@@ -22,6 +22,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
+import com.google.gerrit.server.account.AllUsersObjectIdByRefCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
@@ -66,15 +67,20 @@ public class ExternalIdReader {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final AllUsersObjectIdByRefCache usersRefsCache;
   private boolean failOnLoad = false;
   private final Timer0 readAllLatency;
   private final Timer0 readSingleLatency;
 
   @Inject
   ExternalIdReader(
-      GitRepositoryManager repoManager, AllUsersName allUsersName, MetricMaker metricMaker) {
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName,
+      AllUsersObjectIdByRefCache usersRefsCache,
+      MetricMaker metricMaker) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.usersRefsCache = usersRefsCache;
     this.readAllLatency =
         metricMaker.newTimer(
             "notedb/read_all_external_ids_latency",
@@ -94,10 +100,8 @@ public class ExternalIdReader {
     this.failOnLoad = failOnLoad;
   }
 
-  ObjectId readRevision() throws IOException {
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return readRevision(repo);
-    }
+  ObjectId readRevision() {
+    return usersRefsCache.get(RefNames.REFS_EXTERNAL_IDS).orElse(ObjectId.zeroId());
   }
 
   /** Reads and returns all external IDs. */

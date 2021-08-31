@@ -54,6 +54,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AllUsersObjectIdByRefCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
@@ -95,6 +96,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ExternalIdNotes.Factory externalIdNotesFactory;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private AllUsersObjectIdByRefCache usersRefsCache;
 
   @ConfigSuite.Default
   public static Config partialCacheReloadingEnabled() {
@@ -715,6 +717,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     try (AutoCloseable ctx = createFailOnLoadContext()) {
       // update external ID branch so that external IDs need to be reloaded
       insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id()));
+      usersRefsCache.evict(RefNames.REFS_EXTERNAL_IDS);
 
       assertThrows(IOException.class, () -> externalIds.byAccount(admin.id()));
     }
@@ -727,18 +730,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
     try (AutoCloseable ctx = createFailOnLoadContext()) {
       // update external ID branch so that external IDs need to be reloaded
       insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id()));
+      usersRefsCache.evict(RefNames.REFS_EXTERNAL_IDS);
 
       assertThrows(IOException.class, () -> externalIds.byEmail(admin.email()));
     }
-  }
-
-  @Test
-  public void byAccountUpdateExternalIdsBehindGerritsBack() throws Exception {
-    Set<ExternalId> expectedExternalIds = new HashSet<>(externalIds.byAccount(admin.id()));
-    ExternalId newExtId = ExternalId.create("foo", "bar", admin.id());
-    insertExtIdBehindGerritsBack(newExtId);
-    expectedExternalIds.add(newExtId);
-    assertThat(externalIds.byAccount(admin.id())).containsExactlyElementsIn(expectedExternalIds);
   }
 
   @Test
@@ -909,7 +904,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
       metaDataUpdate.getCommitBuilder().setAuthor(admin.newIdent());
       metaDataUpdate.getCommitBuilder().setCommitter(admin.newIdent());
       extIdNotes.commit(metaDataUpdate);
-      extIdNotes.updateCaches();
     }
   }
 

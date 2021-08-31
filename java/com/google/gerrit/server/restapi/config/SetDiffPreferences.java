@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.account.AllUsersRefToObjectIdCache;
 import com.google.gerrit.server.account.StoredPreferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
@@ -41,12 +42,16 @@ public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPr
 
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
+  private final AllUsersRefToObjectIdCache refsCache;
 
   @Inject
   SetDiffPreferences(
-      Provider<MetaDataUpdate.User> metaDataUpdateFactory, AllUsersName allUsersName) {
+      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
+      AllUsersName allUsersName,
+      AllUsersRefToObjectIdCache refsCache) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
+    this.refsCache = refsCache;
   }
 
   @Override
@@ -62,6 +67,7 @@ public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPr
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       DiffPreferencesInfo updatedPrefs = StoredPreferences.updateDefaultDiffPreferences(md, input);
+      refsCache.evictPreferences();
       return Response.ok(updatedPrefs);
     }
   }

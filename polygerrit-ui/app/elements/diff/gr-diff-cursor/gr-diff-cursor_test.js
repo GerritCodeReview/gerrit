@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {listenOnce} from '../../../test/test-utils.js';
+import {listenOnce, mockPromise} from '../../../test/test-utils.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {GrDiffCursor} from './gr-diff-cursor.js';
@@ -33,7 +33,7 @@ suite('gr-diff-cursor tests', () => {
   let diffElement;
   let diff;
 
-  setup(done => {
+  setup(async () => {
     diffElement = basicFixture.instantiate();
     cursor = new GrDiffCursor();
 
@@ -48,17 +48,19 @@ suite('gr-diff-cursor tests', () => {
       meta: {patchRange: undefined},
     };
     diffElement.path = 'some/path.ts';
+    const promise = mockPromise();
     const setupDone = () => {
       cursor._updateStops();
       cursor.moveToFirstChunk();
       diffElement.removeEventListener('render', setupDone);
-      done();
+      promise.resolve();
     };
     diffElement.addEventListener('render', setupDone);
 
     diff = getMockDiffResponse();
     diffElement.prefs = createDefaultDiffPrefs();
     diffElement.diff = diff;
+    await promise;
   });
 
   test('diff cursor functionality (side-by-side)', () => {
@@ -215,15 +217,17 @@ suite('gr-diff-cursor tests', () => {
   });
 
   suite('unified diff', () => {
-    setup(done => {
+    setup(async () => {
+      const promise = mockPromise();
       // We must allow the diff to re-render after setting the viewMode.
       const renderHandler = function() {
         diffElement.removeEventListener('render', renderHandler);
         cursor.reInitCursor();
-        done();
+        promise.resolve();
       };
       diffElement.addEventListener('render', renderHandler);
       diffElement.viewMode = 'UNIFIED_DIFF';
+      await promise;
     });
 
     test('diff cursor functionality (unified)', () => {
@@ -312,11 +316,12 @@ suite('gr-diff-cursor tests', () => {
   });
 
   suite('moved chunks without line range)', () => {
-    setup(done => {
+    setup(async () => {
+      const promise = mockPromise();
       const renderHandler = function() {
         diffElement.removeEventListener('render', renderHandler);
         cursor.reInitCursor();
-        done();
+        promise.resolve();
       };
       diffElement.addEventListener('render', renderHandler);
       diffElement.diff = {...diff, content: [
@@ -352,6 +357,7 @@ suite('gr-diff-cursor tests', () => {
           ],
         },
       ]};
+      await promise;
     });
 
     test('renders moveControls with simple descriptions', () => {
@@ -363,11 +369,12 @@ suite('gr-diff-cursor tests', () => {
   });
 
   suite('moved chunks (moveDetails)', () => {
-    setup(done => {
+    setup(async () => {
+      const promise = mockPromise();
       const renderHandler = function() {
         diffElement.removeEventListener('render', renderHandler);
         cursor.reInitCursor();
-        done();
+        promise.resolve();
       };
       diffElement.addEventListener('render', renderHandler);
       diffElement.diff = {...diff, content: [
@@ -403,6 +410,7 @@ suite('gr-diff-cursor tests', () => {
           ],
         },
       ]};
+      await promise;
     });
 
     test('renders moveControls with simple descriptions', () => {
@@ -412,37 +420,41 @@ suite('gr-diff-cursor tests', () => {
       assert.equal(movedOut.textContent, 'Moved to lines 2 - 4');
     });
 
-    test('startLineAnchor of movedIn chunk fires events', done => {
+    test('startLineAnchor of movedIn chunk fires events', async () => {
       const [movedIn] = diffElement.root
           .querySelectorAll('.dueToMove .moveControls');
       const [startLineAnchor] = movedIn.querySelectorAll('a');
 
+      const promise = mockPromise();
       const onMovedLinkClicked = e => {
         assert.deepEqual(e.detail, {lineNum: 4, side: 'left'});
-        done();
+        promise.resolve();
       };
       assert.equal(startLineAnchor.textContent, '4');
       startLineAnchor
           .addEventListener('moved-link-clicked', onMovedLinkClicked);
       MockInteractions.click(startLineAnchor);
+      await promise;
     });
 
-    test('endLineAnchor of movedOut fires events', done => {
+    test('endLineAnchor of movedOut fires events', async () => {
       const [, movedOut] = diffElement.root
           .querySelectorAll('.dueToMove .moveControls');
       const [, endLineAnchor] = movedOut.querySelectorAll('a');
 
+      const promise = mockPromise();
       const onMovedLinkClicked = e => {
         assert.deepEqual(e.detail, {lineNum: 4, side: 'right'});
-        done();
+        promise.resolve();
       };
       assert.equal(endLineAnchor.textContent, '4');
       endLineAnchor.addEventListener('moved-link-clicked', onMovedLinkClicked);
       MockInteractions.click(endLineAnchor);
+      await promise;
     });
   });
 
-  test('initialLineNumber not provided', done => {
+  test('initialLineNumber not provided', async () => {
     let scrollBehaviorDuringMove;
     const moveToNumStub = sinon.stub(cursor, 'moveToLineNumber');
     const moveToChunkStub = sinon.stub(cursor, 'moveToFirstChunk')
@@ -450,6 +462,7 @@ suite('gr-diff-cursor tests', () => {
           scrollBehaviorDuringMove = cursor.cursorManager.scrollMode;
         });
 
+    const promise = mockPromise();
     function renderHandler() {
       diffElement.removeEventListener('render', renderHandler);
       cursor.reInitCursor();
@@ -457,19 +470,21 @@ suite('gr-diff-cursor tests', () => {
       assert.isTrue(moveToChunkStub.called);
       assert.equal(scrollBehaviorDuringMove, 'never');
       assert.equal(cursor.cursorManager.scrollMode, 'keep-visible');
-      done();
+      promise.resolve();
     }
     diffElement.addEventListener('render', renderHandler);
     diffElement._diffChanged(getMockDiffResponse());
+    await promise;
   });
 
-  test('initialLineNumber provided', done => {
+  test('initialLineNumber provided', async () => {
     let scrollBehaviorDuringMove;
     const moveToNumStub = sinon.stub(cursor, 'moveToLineNumber')
         .callsFake(() => {
           scrollBehaviorDuringMove = cursor.cursorManager.scrollMode;
         });
     const moveToChunkStub = sinon.stub(cursor, 'moveToFirstChunk');
+    const promise = mockPromise();
     function renderHandler() {
       diffElement.removeEventListener('render', renderHandler);
       cursor.reInitCursor();
@@ -479,13 +494,14 @@ suite('gr-diff-cursor tests', () => {
       assert.equal(moveToNumStub.lastCall.args[1], 'right');
       assert.equal(scrollBehaviorDuringMove, 'keep-visible');
       assert.equal(cursor.cursorManager.scrollMode, 'keep-visible');
-      done();
+      promise.resolve();
     }
     diffElement.addEventListener('render', renderHandler);
     cursor.initialLineNumber = 10;
     cursor.side = 'right';
 
     diffElement._diffChanged(getMockDiffResponse());
+    await promise;
   });
 
   test('getTargetDiffElement', () => {
@@ -502,31 +518,35 @@ suite('gr-diff-cursor tests', () => {
       diffElement.loggedIn = true;
     });
 
-    test('adds new draft for selected line on the left', done => {
+    test('adds new draft for selected line on the left', async () => {
       cursor.moveToLineNumber(2, 'left');
+      const promise = mockPromise();
       diffElement.addEventListener('create-comment', e => {
         const {lineNum, range, side} = e.detail;
         assert.equal(lineNum, 2);
         assert.equal(range, undefined);
         assert.equal(side, 'left');
-        done();
+        promise.resolve();
       });
       cursor.createCommentInPlace();
+      await promise;
     });
 
-    test('adds draft for selected line on the right', done => {
+    test('adds draft for selected line on the right', async () => {
       cursor.moveToLineNumber(4, 'right');
+      const promise = mockPromise();
       diffElement.addEventListener('create-comment', e => {
         const {lineNum, range, side} = e.detail;
         assert.equal(lineNum, 4);
         assert.equal(range, undefined);
         assert.equal(side, 'right');
-        done();
+        promise.resolve();
       });
       cursor.createCommentInPlace();
+      await promise;
     });
 
-    test('creates comment for range if selected', done => {
+    test('creates comment for range if selected', async () => {
       const someRange = {
         start_line: 2,
         start_character: 3,
@@ -537,14 +557,16 @@ suite('gr-diff-cursor tests', () => {
         side: 'right',
         range: someRange,
       };
+      const promise = mockPromise();
       diffElement.addEventListener('create-comment', e => {
         const {lineNum, range, side} = e.detail;
         assert.equal(lineNum, 6);
         assert.equal(range, someRange);
         assert.equal(side, 'right');
-        done();
+        promise.resolve();
       });
       cursor.createCommentInPlace();
+      await promise;
     });
 
     test('ignores call if nothing is selected', () => {
@@ -596,15 +618,13 @@ suite('gr-diff-cursor tests', () => {
     assert.equal(cursor._findRowByNumberAndFile(5, 'left'), row);
   });
 
-  test('expand context updates stops', done => {
+  test('expand context updates stops', async () => {
     sinon.spy(cursor, '_updateStops');
     MockInteractions.tap(diffElement.shadowRoot
         .querySelector('gr-context-controls').shadowRoot
         .querySelector('.showContext'));
-    flush(() => {
-      assert.isTrue(cursor._updateStops.called);
-      done();
-    });
+    await flush();
+    assert.isTrue(cursor._updateStops.called);
   });
 
   test('updates stops when loading changes', () => {

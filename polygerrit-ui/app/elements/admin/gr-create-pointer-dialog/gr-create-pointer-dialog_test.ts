@@ -25,6 +25,10 @@ import {IronInputElement} from '@polymer/iron-input';
 
 const basicFixture = fixtureFromElement('gr-create-pointer-dialog');
 
+function timeout(ms = 0) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 suite('gr-create-pointer-dialog tests', () => {
   let element: GrCreatePointerDialog;
 
@@ -35,7 +39,7 @@ suite('gr-create-pointer-dialog tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('branch created', done => {
+  test('branch created', async () => {
     stubRestApi('createRepoBranch').returns(Promise.resolve(new Response()));
 
     assert.isFalse(element.hasNewItemName);
@@ -46,15 +50,14 @@ suite('gr-create-pointer-dialog tests', () => {
     ironInput(element.$.itemNameSection).bindValue = 'test-branch2';
     ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
 
-    setTimeout(() => {
-      assert.isTrue(element.hasNewItemName);
-      assert.equal(element._itemName, 'test-branch2' as BranchName);
-      assert.equal(element._itemRevision, 'HEAD');
-      done();
-    });
+    await timeout();
+
+    assert.isTrue(element.hasNewItemName);
+    assert.equal(element._itemName, 'test-branch2' as BranchName);
+    assert.equal(element._itemRevision, 'HEAD');
   });
 
-  test('tag created', done => {
+  test('tag created', async () => {
     stubRestApi('createRepoTag').returns(Promise.resolve(new Response()));
 
     assert.isFalse(element.hasNewItemName);
@@ -65,15 +68,13 @@ suite('gr-create-pointer-dialog tests', () => {
     ironInput(element.$.itemNameSection).bindValue = 'test-tag2';
     ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
 
-    setTimeout(() => {
-      assert.isTrue(element.hasNewItemName);
-      assert.equal(element._itemName, 'test-tag2' as BranchName);
-      assert.equal(element._itemRevision, 'HEAD');
-      done();
-    });
+    await timeout();
+    assert.isTrue(element.hasNewItemName);
+    assert.equal(element._itemName, 'test-tag2' as BranchName);
+    assert.equal(element._itemRevision, 'HEAD');
   });
 
-  test('tag created with annotations', done => {
+  test('tag created with annotations', async () => {
     stubRestApi('createRepoTag').returns(Promise.resolve(new Response()));
 
     assert.isFalse(element.hasNewItemName);
@@ -86,13 +87,11 @@ suite('gr-create-pointer-dialog tests', () => {
     ironInput(element.$.itemAnnotationSection).bindValue = 'test-message2';
     ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
 
-    setTimeout(() => {
-      assert.isTrue(element.hasNewItemName);
-      assert.equal(element._itemName, 'test-tag2' as BranchName);
-      assert.equal(element._itemAnnotation, 'test-message2');
-      assert.equal(element._itemRevision, 'HEAD');
-      done();
-    });
+    await timeout();
+    assert.isTrue(element.hasNewItemName);
+    assert.equal(element._itemName, 'test-tag2' as BranchName);
+    assert.equal(element._itemAnnotation, 'test-message2');
+    assert.equal(element._itemRevision, 'HEAD');
   });
 
   test('_computeHideItemClass returns hideItem if type is branches', () => {

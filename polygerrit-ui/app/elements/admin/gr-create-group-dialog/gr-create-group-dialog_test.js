@@ -31,41 +31,33 @@ suite('gr-create-group-dialog tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('name is updated correctly', done => {
+  test('name is updated correctly', async () => {
     assert.isFalse(element.hasNewGroupName);
 
     const inputEl = element.root.querySelector('iron-input');
     inputEl.bindValue = GROUP_NAME;
 
-    setTimeout(() => {
-      assert.isTrue(element.hasNewGroupName);
-      assert.deepEqual(element._name, GROUP_NAME);
-      done();
-    });
+    await new Promise(resolve => setTimeout(resolve));
+    assert.isTrue(element.hasNewGroupName);
+    assert.deepEqual(element._name, GROUP_NAME);
   });
 
-  test('test for redirecting to group on successful creation', done => {
+  test('test for redirecting to group on successful creation', async () => {
     stubRestApi('createGroup').returns(Promise.resolve({status: 201}));
     stubRestApi('getGroupConfig').returns(Promise.resolve({group_id: 551}));
 
     const showStub = sinon.stub(page, 'show');
-    element.handleCreateGroup()
-        .then(() => {
-          assert.isTrue(showStub.calledWith('/admin/groups/551'));
-          done();
-        });
+    await element.handleCreateGroup();
+    assert.isTrue(showStub.calledWith('/admin/groups/551'));
   });
 
-  test('test for unsuccessful group creation', done => {
+  test('test for unsuccessful group creation', async () => {
     stubRestApi('createGroup').returns(Promise.resolve({status: 409}));
     stubRestApi('getGroupConfig').returns(Promise.resolve({group_id: 551}));
 
     const showStub = sinon.stub(page, 'show');
-    element.handleCreateGroup()
-        .then(() => {
-          assert.isFalse(showStub.called);
-          done();
-        });
+    await element.handleCreateGroup();
+    assert.isFalse(showStub.called);
   });
 });
 

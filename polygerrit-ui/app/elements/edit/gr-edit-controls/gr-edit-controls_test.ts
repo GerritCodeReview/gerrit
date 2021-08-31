@@ -402,15 +402,13 @@ suite('gr-edit-controls tests', () => {
     });
   });
 
-  test('openOpenDialog', done => {
-    element.openOpenDialog('test/path.cpp').then(() => {
-      assert.isFalse(element.$.openDialog.hasAttribute('hidden'));
-      assert.equal(
-        element.$.openDialog!.querySelector('gr-autocomplete')!.text,
-        'test/path.cpp'
-      );
-      done();
-    });
+  test('openOpenDialog', async () => {
+    await element.openOpenDialog('test/path.cpp');
+    assert.isFalse(element.$.openDialog.hasAttribute('hidden'));
+    assert.equal(
+      element.$.openDialog!.querySelector('gr-autocomplete')!.text,
+      'test/path.cpp'
+    );
   });
 
   test('_getDialogFromEvent', () => {

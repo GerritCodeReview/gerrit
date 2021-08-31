@@ -751,7 +751,7 @@ suite('gr-diff-builder tests', () => {
     let outputEl;
     let keyLocations;
 
-    setup(done => {
+    setup(async () => {
       const prefs = {
         line_length: 10,
         show_tabs: true,
@@ -786,11 +786,11 @@ suite('gr-diff-builder tests', () => {
         return builder;
       });
       element.diff = {content};
-      element.render(keyLocations, prefs).then(done);
+      await element.render(keyLocations, prefs);
     });
 
-    test('addColumns is called', done => {
-      element.render(keyLocations, {}).then(done);
+    test('addColumns is called', async () => {
+      await element.render(keyLocations, {});
       assert.isTrue(element._builder.addColumns.called);
     });
 
@@ -812,15 +812,13 @@ suite('gr-diff-builder tests', () => {
       assert.strictEqual(sections[1], section[1]);
     });
 
-    test('render-start and render-content are fired', done => {
+    test('render-start and render-content are fired', async () => {
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
-      element.render(keyLocations, {}).then(() => {
-        const firedEventTypes = dispatchEventStub.getCalls()
-            .map(c => c.args[0].type);
-        assert.include(firedEventTypes, 'render-start');
-        assert.include(firedEventTypes, 'render-content');
-        done();
-      });
+      await element.render(keyLocations, {});
+      const firedEventTypes = dispatchEventStub.getCalls()
+          .map(c => c.args[0].type);
+      assert.include(firedEventTypes, 'render-start');
+      assert.include(firedEventTypes, 'render-content');
     });
 
     test('cancel', () => {
@@ -837,7 +835,7 @@ suite('gr-diff-builder tests', () => {
     let prefs;
     let keyLocations;
 
-    setup(done => {
+    setup(async () => {
       element = mockDiffFixture.instantiate();
       diff = getMockDiffResponse();
       element.diff = diff;
@@ -849,10 +847,8 @@ suite('gr-diff-builder tests', () => {
       };
       keyLocations = {left: {}, right: {}};
 
-      element.render(keyLocations, prefs).then(() => {
-        builder = element._builder;
-        done();
-      });
+      await element.render(keyLocations, prefs);
+      builder = element._builder;
     });
 
     test('aria-labels on added line numbers', () => {
@@ -986,34 +982,30 @@ suite('gr-diff-builder tests', () => {
       assert.isTrue(lineNumberEl.classList.contains('right'));
     });
 
-    test('_getLineNumberEl unified left', done => {
+    test('_getLineNumberEl unified left', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations, prefs).then(() => {
-        builder = element._builder;
+      await element.render(keyLocations, prefs);
+      builder = element._builder;
 
-        const contentEl = builder.getContentByLine(5, 'left',
-            element.$.diffTable);
-        const lineNumberEl = builder._getLineNumberEl(contentEl, 'left');
-        assert.isTrue(lineNumberEl.classList.contains('lineNum'));
-        assert.isTrue(lineNumberEl.classList.contains('left'));
-        done();
-      });
+      const contentEl = builder.getContentByLine(5, 'left',
+          element.$.diffTable);
+      const lineNumberEl = builder._getLineNumberEl(contentEl, 'left');
+      assert.isTrue(lineNumberEl.classList.contains('lineNum'));
+      assert.isTrue(lineNumberEl.classList.contains('left'));
     });
 
-    test('_getLineNumberEl unified right', done => {
+    test('_getLineNumberEl unified right', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations, prefs).then(() => {
-        builder = element._builder;
+      await element.render(keyLocations, prefs);
+      builder = element._builder;
 
-        const contentEl = builder.getContentByLine(5, 'right',
-            element.$.diffTable);
-        const lineNumberEl = builder._getLineNumberEl(contentEl, 'right');
-        assert.isTrue(lineNumberEl.classList.contains('lineNum'));
-        assert.isTrue(lineNumberEl.classList.contains('right'));
-        done();
-      });
+      const contentEl = builder.getContentByLine(5, 'right',
+          element.$.diffTable);
+      const lineNumberEl = builder._getLineNumberEl(contentEl, 'right');
+      assert.isTrue(lineNumberEl.classList.contains('lineNum'));
+      assert.isTrue(lineNumberEl.classList.contains('right'));
     });
 
     test('_getNextContentOnSide side-by-side left', () => {
@@ -1040,44 +1032,38 @@ suite('gr-diff-builder tests', () => {
       assert.equal(nextElem.textContent, expectedNextString);
     });
 
-    test('_getNextContentOnSide unified left', done => {
+    test('_getNextContentOnSide unified left', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations, prefs).then(() => {
-        builder = element._builder;
+      await element.render(keyLocations, prefs);
+      builder = element._builder;
 
-        const startElem = builder.getContentByLine(5, 'left',
-            element.$.diffTable);
-        const expectedStartString = diff.content[2].ab[0];
-        const expectedNextString = diff.content[2].ab[1];
-        assert.equal(startElem.textContent, expectedStartString);
+      const startElem = builder.getContentByLine(5, 'left',
+          element.$.diffTable);
+      const expectedStartString = diff.content[2].ab[0];
+      const expectedNextString = diff.content[2].ab[1];
+      assert.equal(startElem.textContent, expectedStartString);
 
-        const nextElem = builder._getNextContentOnSide(startElem,
-            'left');
-        assert.equal(nextElem.textContent, expectedNextString);
-
-        done();
-      });
+      const nextElem = builder._getNextContentOnSide(startElem,
+          'left');
+      assert.equal(nextElem.textContent, expectedNextString);
     });
 
-    test('_getNextContentOnSide unified right', done => {
+    test('_getNextContentOnSide unified right', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations, prefs).then(() => {
-        builder = element._builder;
+      await element.render(keyLocations, prefs);
+      builder = element._builder;
 
-        const startElem = builder.getContentByLine(5, 'right',
-            element.$.diffTable);
-        const expectedStartString = diff.content[1].b[0];
-        const expectedNextString = diff.content[1].b[1];
-        assert.equal(startElem.textContent, expectedStartString);
+      const startElem = builder.getContentByLine(5, 'right',
+          element.$.diffTable);
+      const expectedStartString = diff.content[1].b[0];
+      const expectedNextString = diff.content[1].b[1];
+      assert.equal(startElem.textContent, expectedStartString);
 
-        const nextElem = builder._getNextContentOnSide(startElem,
-            'right');
-        assert.equal(nextElem.textContent, expectedNextString);
-
-        done();
-      });
+      const nextElem = builder._getNextContentOnSide(startElem,
+          'right');
+      assert.equal(nextElem.textContent, expectedNextString);
     });
 
     test('escaping HTML', () => {

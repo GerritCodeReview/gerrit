@@ -51,6 +51,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
 import com.github.rholder.retry.StopStrategies;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -68,6 +69,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -163,6 +165,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -308,6 +311,28 @@ public class AccountIT extends AbstractDaemonTest {
           RefUpdateCounter.projectRef(allUsers, RefNames.REFS_EXTERNAL_IDS),
           RefUpdateCounter.projectRef(allUsers, RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS));
     }
+  }
+
+  @Test
+  @UseLocalDisk
+  public void accountCachePerformaceTest() throws Exception {
+    int numAccounts = 100;
+    int numIterations = 100;
+    Account.Id[] accountIds = new Account.Id[numAccounts];
+
+    for (int i = 0; i < numAccounts; i++) {
+      accountIds[i] = accountCreator.create("account" + i).id();
+    }
+
+    Stopwatch timer = Stopwatch.createStarted();
+    for (int j = 0; j < numIterations; j++) {
+      for (Account.Id id : accountIds) {
+        assertThat(accountCache.get(id).isPresent()).isTrue();
+      }
+    }
+    timer.stop();
+
+    System.out.println("Execution time: " + timer.elapsed(TimeUnit.MILLISECONDS) + " ms");
   }
 
   @Test

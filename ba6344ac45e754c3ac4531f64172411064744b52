@@ -46,6 +46,30 @@
       },
       "revId": "ba6344ac45e754c3ac4531f64172411064744b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd364230_557af3dc",
+        "filename": "java/com/google/gerrit/entities/SubmitRecord.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-31T13:47:28Z",
+      "side": 1,
+      "message": "\u003e Is it better to add a new name() method to the SubmitRule interface\n\u003e instead of using the submit rule class name?\n\nI think using the class name is fine. We could still do this later if anyone sees a need for this. Since it shows up in the UI as part of the predicates, someone might care, but I wouldn\u0027t worry about this now.\n\nMaybe update this comment here to say that the format is \"$pluginName~$SubmitRuleClassName\"?",
+      "parentUuid": "64b13a68_e39b9619",
+      "range": {
+        "startLine": 71,
+        "startChar": 29,
+        "endLine": 71,
+        "endChar": 77
+      },
+      "revId": "ba6344ac45e754c3ac4531f64172411064744b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

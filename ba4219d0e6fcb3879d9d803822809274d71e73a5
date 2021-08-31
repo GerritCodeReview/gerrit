@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61f2f0a5_66c25b41",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-31T13:47:28Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be something like:\n\n  addFooter(msg, FOOTER_RULE_NAME).append(rec.ruleName);\n  \nSo that in NoteDb this becomes a:\n\n  Rule-Name: $RULE_NAME\n  \nline and not a\n\n  Submitted-With: Rule-Name: $RULE_NAME\n  \nline.\n  \nThe latter doesn\u0027t seem to be a valid footer format and also not what the code in ChangeNotesParser expects (it checks that the line starts with \"Rule-Name\").\nAre we missing a test for this?",
+      "range": {
+        "startLine": 734,
+        "startChar": 11,
+        "endLine": 734,
+        "endChar": 91
+      },
+      "revId": "ba4219d0e6fcb3879d9d803822809274d71e73a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2145c62_ed218664",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-08-31T13:47:28Z",
+      "side": 1,
+      "message": "Can this TODO be removed now? Which plugins did a validation can be seen from the rule names now, right?",
+      "revId": "ba4219d0e6fcb3879d9d803822809274d71e73a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

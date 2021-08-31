@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0a89b7f_252df13b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-31T11:10:40Z",
+      "side": 1,
+      "message": "I also realized we need to store the rule name in NoteDb while storing submit records. Done.",
+      "revId": "9ccd508c33e94a0c53e045e8e6f899e35e03ec90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

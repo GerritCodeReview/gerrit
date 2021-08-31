@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56d6d704_4be79007",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-08-31T11:51:52Z",
+      "side": 1,
+      "message": "PermissionAwareReadOnlyRefDatabase needs adaption as well otherwise this might start exposing invisible refs in some paths",
+      "revId": "b13c1a2ee60338b1649d3b03a775d282daaad0da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

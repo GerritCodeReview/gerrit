@@ -91,6 +91,9 @@ public class Init extends BaseInit {
   @Option(name = "--skip-download", usage = "Don't download given library")
   private List<String> skippedDownloads;
 
+  @Option(name = "--reindex-threads", usage = "Number of threads to use for reindex after init")
+  private int reindexThreads = 1;
+
   @Inject Browser browser;
 
   private GerritIndexStatus indexStatus;
@@ -280,7 +283,7 @@ public class Init extends BaseInit {
             "--site-path",
             getSitePath().toString(),
             "--threads",
-            Integer.toString(1),
+            Integer.toString(reindexThreads),
             "--index",
             schemaDef.getName());
     getConsoleUI()

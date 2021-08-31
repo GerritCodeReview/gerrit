@@ -45,6 +45,7 @@ import {
 } from '@polymer/iron-test-helpers/mock-interactions';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {
+  mockPromise,
   stubComments,
   stubReporting,
   stubRestApi,
@@ -235,16 +236,14 @@ suite('gr-comment-thread tests', () => {
       assert.equal(element._hideActions(showActions, robotComment), true);
     });
 
-    test('setting project name loads the project config', done => {
+    test('setting project name loads the project config', async () => {
       const projectName = 'foo/bar/baz' as RepoName;
       const getProjectStub = stubRestApi('getProjectConfig').returns(
         Promise.resolve({} as ConfigInfo)
       );
       element.projectName = projectName;
-      flush(() => {
-        assert.isTrue(getProjectStub.calledWithExactly(projectName as never));
-        done();
-      });
+      await flush();
+      assert.isTrue(getProjectStub.calledWithExactly(projectName as never));
     });
 
     test('optionally show file path', () => {
@@ -436,7 +435,7 @@ suite('comment action tests with unresolved thread', () => {
     assert.isTrue(reportStub.calledOnce);
   });
 
-  test('ack', done => {
+  test('ack', async () => {
     const reportStub = stubReporting('recordDraftInteraction');
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
@@ -447,20 +446,15 @@ suite('comment action tests with unresolved thread', () => {
     const ackBtn = element.shadowRoot?.querySelector('#ackBtn');
     assert.isOk(ackBtn);
     tap(ackBtn!);
-    flush(() => {
-      const draft = addDraftServiceStub.firstCall.args[0];
-      assert.equal(draft.message, 'Ack');
-      assert.equal(
-        draft.in_reply_to,
-        'baf0414d_60047215' as UrlEncodedCommentId
-      );
-      assert.equal(draft.unresolved, false);
-      assert.isTrue(reportStub.calledOnce);
-      done();
-    });
+    await flush();
+    const draft = addDraftServiceStub.firstCall.args[0];
+    assert.equal(draft.message, 'Ack');
+    assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
+    assert.equal(draft.unresolved, false);
+    assert.isTrue(reportStub.calledOnce);
   });
 
-  test('done', done => {
+  test('done', async () => {
     const reportStub = stubReporting('recordDraftInteraction');
     assert.isFalse(saveDiffDraftStub.called);
     element.changeNum = 42 as NumericChangeId;
@@ -471,21 +465,16 @@ suite('comment action tests with unresolved thread', () => {
     const doneBtn = element.shadowRoot?.querySelector('#doneBtn');
     assert.isOk(doneBtn);
     tap(doneBtn!);
-    flush(() => {
-      const draft = addDraftServiceStub.firstCall.args[0];
-      assert.equal(draft.message, 'Done');
-      assert.equal(
-        draft.in_reply_to,
-        'baf0414d_60047215' as UrlEncodedCommentId
-      );
-      assert.isFalse(draft.unresolved);
-      assert.isTrue(reportStub.calledOnce);
-      assert.isTrue(saveDiffDraftStub.called);
-      done();
-    });
+    await flush();
+    const draft = addDraftServiceStub.firstCall.args[0];
+    assert.equal(draft.message, 'Done');
+    assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
+    assert.isFalse(draft.unresolved);
+    assert.isTrue(reportStub.calledOnce);
+    assert.isTrue(saveDiffDraftStub.called);
   });
 
-  test('save', done => {
+  test('save', async () => {
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
     element.path = '/path/to/file.txt';
@@ -494,17 +483,16 @@ suite('comment action tests with unresolved thread', () => {
 
     element.shadowRoot?.querySelector('gr-comment')?._fireSave();
 
-    flush(() => {
-      assert.equal(element.rootId, 'baf0414d_60047215' as UrlEncodedCommentId);
-      done();
-    });
+    await flush();
+    assert.equal(element.rootId, 'baf0414d_60047215' as UrlEncodedCommentId);
   });
 
-  test('please fix', done => {
+  test('please fix', async () => {
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
     assert.ok(commentEl);
+    const promise = mockPromise();
     commentEl!.addEventListener('create-fix-comment', () => {
       const draft = addDraftServiceStub.firstCall.args[0];
       assert.equal(
@@ -516,7 +504,7 @@ suite('comment action tests with unresolved thread', () => {
         'baf0414d_60047215' as UrlEncodedCommentId
       );
       assert.isTrue(draft.unresolved);
-      done();
+      promise.resolve();
     });
     commentEl!.dispatchEvent(
       new CustomEvent('create-fix-comment', {
@@ -525,9 +513,10 @@ suite('comment action tests with unresolved thread', () => {
         bubbles: false,
       })
     );
+    await promise;
   });
 
-  test('discard', done => {
+  test('discard', async () => {
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
     element.path = '/path/to/file.txt';
@@ -540,20 +529,21 @@ suite('comment action tests with unresolved thread', () => {
         'it’s pronouced jiff, not giff'
       )
     );
-    flush();
+    await flush();
 
     const draftEl = element.root?.querySelectorAll('gr-comment')[1];
     assert.ok(draftEl);
     draftEl?._fireSave(); // tell the model about the draft
+    const promise = mockPromise();
     draftEl!.addEventListener('comment-discard', () => {
-      flush();
       assert.isTrue(deleteDraftStub.called);
-      done();
+      promise.resolve();
     });
     draftEl!._fireDiscard();
+    await promise;
   });
 
-  test('discard with a single comment still fires event with previous rootId', done => {
+  test('discard with a single comment still fires event with previous rootId', async () => {
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
     element.path = '/path/to/file.txt';
@@ -568,11 +558,14 @@ suite('comment action tests with unresolved thread', () => {
     const draftEl = element.root?.querySelectorAll('gr-comment')[0];
     assert.ok(draftEl);
     const deleteDraftStub = stubComments('deleteDraft');
+    const promise = mockPromise();
     draftEl!.addEventListener('comment-discard', () => {
       assert.isTrue(deleteDraftStub.called);
-      done();
+      promise.resolve();
     });
     draftEl!._fireDiscard();
+    await promise;
+    assert.isTrue(deleteDraftStub.called);
   });
 
   test('comment-update', () => {

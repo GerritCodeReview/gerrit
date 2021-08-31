@@ -28,7 +28,7 @@ suite('gr-group-list tests', () => {
   let element: GrGroupList;
   let groups: GroupInfo[];
 
-  setup(done => {
+  setup(async () => {
     groups = [
       {
         url: 'some url',
@@ -58,9 +58,8 @@ suite('gr-group-list tests', () => {
 
     element = basicFixture.instantiate();
 
-    element.loadData().then(() => {
-      flush(done);
-    });
+    await element.loadData();
+    await flush();
   });
 
   test('renders', async () => {

@@ -35,7 +35,7 @@ suite('gr-http-password tests', () => {
   let account: AccountDetailInfo;
   let config: ServerInfo;
 
-  setup(done => {
+  setup(async () => {
     account = {...createAccountDetailWithId(), username: 'user name'};
     config = createServerInfo();
 
@@ -43,9 +43,8 @@ suite('gr-http-password tests', () => {
     stubRestApi('getConfig').returns(Promise.resolve(config));
 
     element = basicFixture.instantiate();
-    element.loadData().then(() => {
-      flush(done);
-    });
+    await element.loadData();
+    await flush();
   });
 
   test('generate password', () => {
@@ -76,12 +75,10 @@ suite('gr-http-password tests', () => {
     assert.isNull(element._passwordUrl);
   });
 
-  test('with http_password_url', done => {
+  test('with http_password_url', async () => {
     config.auth.http_password_url = 'http://example.com/';
-    element.loadData().then(() => {
-      assert.isNotNull(element._passwordUrl);
-      assert.equal(element._passwordUrl, config.auth.http_password_url);
-      done();
-    });
+    await element.loadData();
+    assert.isNotNull(element._passwordUrl);
+    assert.equal(element._passwordUrl, config.auth.http_password_url);
   });
 });

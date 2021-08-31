@@ -88,13 +88,11 @@ suite('gr-identities tests', () => {
     assert.isTrue(element.filterIdentities(ids[1]));
   });
 
-  test('delete id', done => {
+  test('delete id', async () => {
     element._idName = 'mailto:gerrit2@example.com';
     const loadDataStub = sinon.stub(element, 'loadData');
-    element._handleDeleteItemConfirm().then(() => {
-      assert.isTrue(loadDataStub.called);
-      done();
-    });
+    await element._handleDeleteItemConfirm();
+    assert.isTrue(loadDataStub.called);
   });
 
   test('_handleDeleteItem opens modal', () => {

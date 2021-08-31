@@ -36,7 +36,7 @@ suite('GrGroupSuggestionsProvider tests', () => {
     provider = new GrGroupSuggestionsProvider(appContext.restApiService);
   });
 
-  test('getSuggestions', done => {
+  test('getSuggestions', async () => {
     const getSuggestedAccountsStub =
         stubRestApi('getSuggestedGroups')
             .returns(Promise.resolve({
@@ -44,12 +44,10 @@ suite('GrGroupSuggestionsProvider tests', () => {
               'Other name': {id: 3, url: 'abcd'},
             }));
 
-    provider.getSuggestions('Some input').then(res => {
-      assert.deepEqual(res, [group1, group2]);
-      assert.isTrue(getSuggestedAccountsStub.calledOnce);
-      assert.equal(getSuggestedAccountsStub.lastCall.args[0], 'Some input');
-      done();
-    });
+    const res = await provider.getSuggestions('Some input');
+    assert.deepEqual(res, [group1, group2]);
+    assert.isTrue(getSuggestedAccountsStub.calledOnce);
+    assert.equal(getSuggestedAccountsStub.lastCall.args[0], 'Some input');
   });
 
   test('makeSuggestionItem', () => {

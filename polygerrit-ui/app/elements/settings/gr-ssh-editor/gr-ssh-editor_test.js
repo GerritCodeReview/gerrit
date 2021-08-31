@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-ssh-editor.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-ssh-editor');
 
@@ -25,7 +25,7 @@ suite('gr-ssh-editor tests', () => {
   let element;
   let keys;
 
-  setup(done => {
+  setup(async () => {
     keys = [{
       seq: 1,
       ssh_public_key: 'ssh-rsa <key 1> comment-one@machine-one',
@@ -46,7 +46,8 @@ suite('gr-ssh-editor tests', () => {
 
     element = basicFixture.instantiate();
 
-    element.loadData().then(() => { flush(done); });
+    await element.loadData();
+    await flush();
   });
 
   test('renders', () => {
@@ -61,7 +62,7 @@ suite('gr-ssh-editor tests', () => {
     assert.equal(cells[0].textContent, keys[1].comment);
   });
 
-  test('remove key', done => {
+  test('remove key', async () => {
     const lastKey = keys[1];
 
     const saveStub = stubRestApi('deleteAccountSSHKey')
@@ -82,13 +83,11 @@ suite('gr-ssh-editor tests', () => {
     assert.isTrue(element.hasUnsavedChanges);
     assert.isFalse(saveStub.called);
 
-    element.save().then(() => {
-      assert.isTrue(saveStub.called);
-      assert.equal(saveStub.lastCall.args[0], lastKey.seq);
-      assert.equal(element._keysToRemove.length, 0);
-      assert.isFalse(element.hasUnsavedChanges);
-      done();
-    });
+    await element.save();
+    assert.isTrue(saveStub.called);
+    assert.equal(saveStub.lastCall.args[0], lastKey.seq);
+    assert.equal(element._keysToRemove.length, 0);
+    assert.isFalse(element.hasUnsavedChanges);
   });
 
   test('show key', () => {
@@ -104,7 +103,7 @@ suite('gr-ssh-editor tests', () => {
     assert.isTrue(openSpy.called);
   });
 
-  test('add key', done => {
+  test('add key', async () => {
     const newKeyString = 'ssh-rsa <key 3> comment-three@machine-three';
     const newKeyObject = {
       seq: 3,
@@ -124,11 +123,12 @@ suite('gr-ssh-editor tests', () => {
     assert.isFalse(element.$.addButton.disabled);
     assert.isFalse(element.$.newKey.disabled);
 
+    const promise = mockPromise();
     element._handleAddKey().then(() => {
       assert.isTrue(element.$.addButton.disabled);
       assert.isFalse(element.$.newKey.disabled);
       assert.equal(element._keys.length, 3);
-      done();
+      promise.resolve();
     });
 
     assert.isTrue(element.$.addButton.disabled);
@@ -136,9 +136,10 @@ suite('gr-ssh-editor tests', () => {
 
     assert.isTrue(addStub.called);
     assert.equal(addStub.lastCall.args[0], newKeyString);
+    await promise;
   });
 
-  test('add invalid key', done => {
+  test('add invalid key', async () => {
     const newKeyString = 'not even close to valid';
 
     const addStub = stubRestApi(
@@ -150,11 +151,12 @@ suite('gr-ssh-editor tests', () => {
     assert.isFalse(element.$.addButton.disabled);
     assert.isFalse(element.$.newKey.disabled);
 
+    const promise = mockPromise();
     element._handleAddKey().then(() => {
       assert.isFalse(element.$.addButton.disabled);
       assert.isFalse(element.$.newKey.disabled);
       assert.equal(element._keys.length, 2);
-      done();
+      promise.resolve();
     });
 
     assert.isTrue(element.$.addButton.disabled);
@@ -162,6 +164,7 @@ suite('gr-ssh-editor tests', () => {
 
     assert.isTrue(addStub.called);
     assert.equal(addStub.lastCall.args[0], newKeyString);
+    await promise;
   });
 });
 

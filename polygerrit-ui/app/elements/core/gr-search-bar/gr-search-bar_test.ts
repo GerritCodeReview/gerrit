@@ -22,6 +22,7 @@ import {GrSearchBar} from './gr-search-bar';
 import {
   TestKeyboardShortcutBinder,
   stubRestApi,
+  mockPromise,
 } from '../../../test/test-utils';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {_testOnly_clearDocsBaseUrlCache} from '../../../utils/url-util';
@@ -47,9 +48,9 @@ suite('gr-search-bar tests', () => {
     TestKeyboardShortcutBinder.pop();
   });
 
-  setup(done => {
+  setup(async () => {
     element = basicFixture.instantiate();
-    flush(done);
+    await flush();
   });
 
   test('value is propagated to _inputVal', () => {
@@ -62,10 +63,11 @@ suite('gr-search-bar tests', () => {
       ? document.activeElement!.shadowRoot.activeElement
       : document.activeElement;
 
-  test('enter in search input fires event', done => {
+  test('enter in search input fires event', async () => {
+    const promise = mockPromise();
     element.addEventListener('handle-search', () => {
       assert.notEqual(getActiveElement(), element.$.searchInput);
-      done();
+      promise.resolve();
     });
     element.value = 'test';
     MockInteractions.pressAndReleaseKeyOn(
@@ -74,6 +76,7 @@ suite('gr-search-bar tests', () => {
       null,
       'enter'
     );
+    await promise;
   });
 
   test('input blurred after commit', () => {
@@ -176,7 +179,7 @@ suite('gr-search-bar tests', () => {
       });
     });
 
-    test('Autocompletes groups', done => {
+    test('Autocompletes groups', async () => {
       sinon
         .stub(element, 'groupSuggestions')
         .callsFake(() =>
@@ -185,13 +188,11 @@ suite('gr-search-bar tests', () => {
             {text: 'ownerin:gerrit'},
           ])
         );
-      element._getSearchSuggestions('ownerin:pol').then(s => {
-        assert.equal(s[0].value, 'ownerin:Polygerrit');
-        done();
-      });
+      const s = await element._getSearchSuggestions('ownerin:pol');
+      assert.equal(s[0].value, 'ownerin:Polygerrit');
     });
 
-    test('Autocompletes projects', done => {
+    test('Autocompletes projects', async () => {
       sinon
         .stub(element, 'projectSuggestions')
         .callsFake(() =>
@@ -201,27 +202,21 @@ suite('gr-search-bar tests', () => {
             {text: 'project:gerrittest'},
           ])
         );
-      element._getSearchSuggestions('project:pol').then(s => {
-        assert.equal(s[0].value, 'project:Polygerrit');
-        done();
-      });
+      const s = await element._getSearchSuggestions('project:pol');
+      assert.equal(s[0].value, 'project:Polygerrit');
     });
 
-    test('Autocompletes simple searches', done => {
-      element._getSearchSuggestions('is:o').then(s => {
-        assert.equal(s[0].name, 'is:open');
-        assert.equal(s[0].value, 'is:open');
-        assert.equal(s[1].name, 'is:owner');
-        assert.equal(s[1].value, 'is:owner');
-        done();
-      });
+    test('Autocompletes simple searches', async () => {
+      const s = await element._getSearchSuggestions('is:o');
+      assert.equal(s[0].name, 'is:open');
+      assert.equal(s[0].value, 'is:open');
+      assert.equal(s[1].name, 'is:owner');
+      assert.equal(s[1].value, 'is:owner');
     });
 
-    test('Does not autocomplete with no match', done => {
-      element._getSearchSuggestions('asdasdasdasd').then(s => {
-        assert.equal(s.length, 0);
-        done();
-      });
+    test('Does not autocomplete with no match', async () => {
+      const s = await element._getSearchSuggestions('asdasdasdasd');
+      assert.equal(s.length, 0);
     });
 
     test('Autocompletes without is:mergable when disabled', async () => {
@@ -235,7 +230,7 @@ suite('gr-search-bar tests', () => {
     'REF_UPDATED_AND_CHANGE_REINDEX',
   ].forEach(mergeability => {
     suite(`mergeability as ${mergeability}`, () => {
-      setup(done => {
+      setup(async () => {
         stubRestApi('getConfig').returns(
           Promise.resolve({
             ...createServerInfo(),
@@ -248,24 +243,22 @@ suite('gr-search-bar tests', () => {
         );
 
         element = basicFixture.instantiate();
-        flush(done);
+        await flush();
       });
 
-      test('Autocompltes with is:mergable when enabled', done => {
-        element._getSearchSuggestions('is:mergeab').then(s => {
-          assert.equal(s.length, 2);
-          assert.equal(s[0].name, 'is:mergeable');
-          assert.equal(s[0].value, 'is:mergeable');
-          assert.equal(s[1].name, '-is:mergeable');
-          assert.equal(s[1].value, '-is:mergeable');
-          done();
-        });
+      test('Autocompltes with is:mergable when enabled', async () => {
+        const s = await element._getSearchSuggestions('is:mergeab');
+        assert.equal(s.length, 2);
+        assert.equal(s[0].name, 'is:mergeable');
+        assert.equal(s[0].value, 'is:mergeable');
+        assert.equal(s[1].name, '-is:mergeable');
+        assert.equal(s[1].value, '-is:mergeable');
       });
     });
   });
 
   suite('doc url', () => {
-    setup(done => {
+    setup(async () => {
       stubRestApi('getConfig').returns(
         Promise.resolve({
           ...createServerInfo(),
@@ -278,7 +271,7 @@ suite('gr-search-bar tests', () => {
 
       _testOnly_clearDocsBaseUrlCache();
       element = basicFixture.instantiate();
-      flush(done);
+      await flush();
     });
 
     test('compute help doc url with correct path', () => {

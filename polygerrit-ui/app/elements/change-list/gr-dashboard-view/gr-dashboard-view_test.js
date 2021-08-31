@@ -22,7 +22,7 @@ import {GerritView} from '../../../services/router/router-model.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {createAccountWithId} from '../../../test/test-data-generators.js';
-import {addListenerForTest, stubRestApi, isHidden} from '../../../test/test-utils.js';
+import {addListenerForTest, stubRestApi, isHidden, mockPromise} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-dashboard-view');
 
@@ -395,21 +395,23 @@ suite('gr-dashboard-view tests', () => {
         'hide');
   });
 
-  test('404 page', done => {
+  test('404 page', async () => {
     const response = {status: 404};
     stubRestApi('getDashboard').callsFake(
         async (project, dashboard, errFn) => {
           errFn(response);
         });
+    const promise = mockPromise();
     addListenerForTest(document, 'page-error', e => {
       assert.strictEqual(e.detail.response, response);
-      paramsChangedPromise.then(done);
+      promise.resolve();
     });
     element.params = {
       view: GerritNav.View.DASHBOARD,
       project: 'project',
       dashboard: 'dashboard',
     };
+    await Promise.all([paramsChangedPromise, promise]);
   });
 
   test('params change triggers dashboardDisplayed()', async () => {
@@ -427,7 +429,7 @@ suite('gr-dashboard-view tests', () => {
     assert.isTrue(element.reporting.dashboardDisplayed.calledOnce);
   });
 
-  test('selectedChangeIndex is derived from the params', () => {
+  test('selectedChangeIndex is derived from the params', async () => {
     stubRestApi('getDashboard').returns(Promise.resolve({
       title: 'title',
       sections: [],
@@ -443,9 +445,8 @@ suite('gr-dashboard-view tests', () => {
     };
     flush();
     sinon.stub(element.reporting, 'dashboardDisplayed');
-    paramsChangedPromise.then(() => {
-      assert.equal(element._selectedChangeIndex, 23);
-    });
+    await paramsChangedPromise;
+    assert.equal(element._selectedChangeIndex, 23);
   });
 });
 

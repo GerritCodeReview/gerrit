@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b9af3c6_02e4c8ac",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesPreviousIndexVersionTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-08-31T11:10:21Z",
+      "side": 1,
+      "message": "Is this the best way to ignore a test that\u0027s not supported with the previous index version? (because we are testing a field that\u0027s added with the latest schema version).\n\nThis also means we can remove this override with the next index upgrade.\n\nI was looking for a test annotation like @fromSchemaVersion(\"Vxx\") but we don\u0027t have that.",
+      "revId": "d18e3ed0c4327fd927fc51b9ea95c5bc760d78e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

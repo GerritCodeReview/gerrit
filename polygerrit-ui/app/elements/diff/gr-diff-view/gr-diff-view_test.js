@@ -678,23 +678,21 @@ suite('gr-diff-view tests', () => {
       assert.isNotOk(args[3]);
     });
 
-    test('A fires an error event when not logged in', done => {
+    test('A fires an error event when not logged in', async () => {
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
       sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      flush(() => {
-        assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
-          'should only work when the user is logged in.');
-        assert.isNull(window.sessionStorage.getItem(
-            'changeView.showReplyDialog'));
-        assert.isTrue(loggedInErrorSpy.called);
-        done();
-      });
+      await flush();
+      assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
+        'should only work when the user is logged in.');
+      assert.isNull(window.sessionStorage.getItem(
+          'changeView.showReplyDialog'));
+      assert.isTrue(loggedInErrorSpy.called);
     });
 
-    test('A navigates to change with logged in', done => {
+    test('A navigates to change with logged in', async () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: 5,
@@ -712,16 +710,15 @@ suite('gr-diff-view tests', () => {
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      flush(() => {
-        assert.isTrue(element.changeViewState.showReplyDialog);
-        assert(changeNavStub.lastCall.calledWithExactly(element._change, 10,
-            5), 'Should navigate to /c/42/5..10');
-        assert.isFalse(loggedInErrorSpy.called);
-        done();
-      });
+      await flush();
+      assert.isTrue(element.changeViewState.showReplyDialog);
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, 10,
+          5), 'Should navigate to /c/42/5..10');
+      assert.isFalse(loggedInErrorSpy.called);
     });
 
-    test('A navigates to change with old patch number with logged in', done => {
+    test('A navigates to change with old patch number with logged in',
+    async () => {
       element._changeNum = '42';
       element._patchRange = {
         basePatchNum: PARENT,
@@ -739,13 +736,11 @@ suite('gr-diff-view tests', () => {
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      flush(() => {
-        assert.isTrue(element.changeViewState.showReplyDialog);
-        assert(changeNavStub.lastCall.calledWithExactly(element._change, 1,
-            PARENT), 'Should navigate to /c/42/1');
-        assert.isFalse(loggedInErrorSpy.called);
-        done();
-      });
+      await flush();
+      assert.isTrue(element.changeViewState.showReplyDialog);
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, 1,
+          PARENT), 'Should navigate to /c/42/1');
+      assert.isFalse(loggedInErrorSpy.called);
     });
 
     test('keyboard shortcuts with patch range', () => {
@@ -860,7 +855,7 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(changeNavStub.calledOnce);
     });
 
-    test('edit should redirect to edit page', done => {
+    test('edit should redirect to edit page', async () => {
       element._loggedIn = true;
       element._path = 't.txt';
       element._patchRange = {
@@ -877,23 +872,21 @@ suite('gr-diff-view tests', () => {
         },
       };
       const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
-      flush(() => {
-        const editBtn = element.shadowRoot
-            .querySelector('.editButton gr-button');
-        assert.isTrue(!!editBtn);
-        MockInteractions.tap(editBtn);
-        assert.isTrue(redirectStub.called);
-        assert.isTrue(redirectStub.lastCall.calledWithExactly(
-            GerritNav.getEditUrlForDiff(
-                element._change,
-                element._path,
-                element._patchRange.patchNum
-            )));
-        done();
-      });
+      await flush();
+      const editBtn = element.shadowRoot
+          .querySelector('.editButton gr-button');
+      assert.isTrue(!!editBtn);
+      MockInteractions.tap(editBtn);
+      assert.isTrue(redirectStub.called);
+      assert.isTrue(redirectStub.lastCall.calledWithExactly(
+          GerritNav.getEditUrlForDiff(
+              element._change,
+              element._path,
+              element._patchRange.patchNum
+          )));
     });
 
-    test('edit should redirect to edit page with line number', done => {
+    test('edit should redirect to edit page with line number', async () => {
       const lineNumber = 42;
       element._loggedIn = true;
       element._path = 't.txt';
@@ -913,21 +906,19 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element.cursor, 'getAddress')
           .returns({number: lineNumber, isLeftSide: false});
       const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
-      flush(() => {
-        const editBtn = element.shadowRoot
-            .querySelector('.editButton gr-button');
-        assert.isTrue(!!editBtn);
-        MockInteractions.tap(editBtn);
-        assert.isTrue(redirectStub.called);
-        assert.isTrue(redirectStub.lastCall.calledWithExactly(
-            GerritNav.getEditUrlForDiff(
-                element._change,
-                element._path,
-                element._patchRange.patchNum,
-                lineNumber
-            )));
-        done();
-      });
+      await flush();
+      const editBtn = element.shadowRoot
+          .querySelector('.editButton gr-button');
+      assert.isTrue(!!editBtn);
+      MockInteractions.tap(editBtn);
+      assert.isTrue(redirectStub.called);
+      assert.isTrue(redirectStub.lastCall.calledWithExactly(
+          GerritNav.getEditUrlForDiff(
+              element._change,
+              element._path,
+              element._patchRange.patchNum,
+              lineNumber
+          )));
     });
 
     function isEditVisibile({loggedIn, changeStatus}) {
@@ -1294,7 +1285,7 @@ suite('gr-diff-view tests', () => {
       assert.isFalse(saveReviewedStub.called);
     });
 
-    test('hash is determined from params', done => {
+    test('hash is determined from params', async () => {
       sinon.stub(element.$.diffHost, 'reload');
       sinon.stub(element, '_initLineOfInterestAndCursor');
 
@@ -1308,10 +1299,8 @@ suite('gr-diff-view tests', () => {
         hash: 10,
       };
 
-      flush(() => {
-        assert.isTrue(element._initLineOfInterestAndCursor.calledOnce);
-        done();
-      });
+      await flush();
+      assert.isTrue(element._initLineOfInterestAndCursor.calledOnce);
     });
 
     test('diff mode selector correctly toggles the diff', () => {
@@ -1360,15 +1349,13 @@ suite('gr-diff-view tests', () => {
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
     });
 
-    test('diff mode selector should be hidden for binary', done => {
+    test('diff mode selector should be hidden for binary', async () => {
       element._diff = {binary: true, content: []};
 
-      flush(() => {
-        const diffModeSelector = element.shadowRoot
-            .querySelector('.diffModeSelector');
-        assert.isTrue(diffModeSelector.classList.contains('hide'));
-        done();
-      });
+      await flush();
+      const diffModeSelector = element.shadowRoot
+          .querySelector('.diffModeSelector');
+      assert.isTrue(diffModeSelector.classList.contains('hide'));
     });
 
     suite('_commitRange', () => {

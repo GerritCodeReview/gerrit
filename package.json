@@ -18,6 +18,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "gts": "^3.1.0",
+    "polymer-cli": "^1.9.11",
     "prettier": "2.3.1",
     "rollup": "^2.45.2",
     "terser": "^5.6.1",

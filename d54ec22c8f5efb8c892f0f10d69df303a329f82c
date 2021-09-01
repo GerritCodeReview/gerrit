@@ -222,6 +222,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c4a14df1_3cde44ec",
+        "filename": "java/com/google/gerrit/server/restapi/config/SetDiffPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-01T20:00:58Z",
+      "side": 1,
+      "message": "I have followed the code that was there prior [1] but it may actually make sense to see of it is still needed in all *Preferences cases here and below\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/260992",
+      "parentUuid": "147da9f2_8927f803",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a00f9c1e_e75bf5e2",
         "filename": "java/com/google/gerrit/server/restapi/config/SetEditPreferences.java",
         "patchSetId": 2

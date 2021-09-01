@@ -14,7 +14,6 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
-import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -23,7 +22,6 @@ import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
-import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -32,7 +30,6 @@ import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
 
 public interface AccountApi {
   AccountInfo get() throws RestApiException;
@@ -66,12 +63,6 @@ public interface AccountApi {
   void starChange(String changeId) throws RestApiException;
 
   void unstarChange(String changeId) throws RestApiException;
-
-  void setStars(String changeId, StarsInput input) throws RestApiException;
-
-  SortedSet<String> getStars(String changeId) throws RestApiException;
-
-  List<ChangeInfo> getStarredChanges() throws RestApiException;
 
   List<GroupInfo> getGroups() throws RestApiException;
 
@@ -217,21 +208,6 @@ public interface AccountApi {
 
     @Override
     public void unstarChange(String changeId) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void setStars(String changeId, StarsInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public SortedSet<String> getStars(String changeId) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public List<ChangeInfo> getStarredChanges() throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -70,7 +70,6 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'has:draft',
   'has:edit',
   'has:star',
-  'has:stars',
   'has:unresolved',
   'hashtag:',
   'inhashtag:',

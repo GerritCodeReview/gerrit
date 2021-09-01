@@ -406,6 +406,8 @@ star, they could be filtered out by '-star:ignore'.
 +
 'star:star' is the same as 'has:star' and 'is:starred'.
 
+only "ignore" and "star" are supported labels.
+
 [[has]]
 has:draft::
 +
@@ -416,11 +418,6 @@ has:star::
 +
 Same as 'is:starred' and 'star:star', true if the change has been
 starred by the current user with the default label.
-
-[[has-stars]]
-has:stars::
-+
-True if the change has been starred by the current user with any label.
 
 has:edit::
 +

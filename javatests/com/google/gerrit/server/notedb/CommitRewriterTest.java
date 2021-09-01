@@ -412,6 +412,41 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void fixReviewerMessageNoReviewerFooter() throws Exception {
+    Change c = newChange();
+
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c, String.format("Removed reviewer %s.", otherUser.getAccount().fullName())),
+        getAuthorIdent(changeOwner.getAccount()));
+
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c,
+            String.format(
+                "Removed cc %s with the following votes:\n\n * Code-Review+2",
+                otherUser.getAccount().fullName())),
+        getAuthorIdent(changeOwner.getAccount()));
+
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    BackfillResult result = rewriter.backfillProject(project, repo, options);
+    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
+
+    List<String> commitHistoryDiff = result.fixedRefDiff.get(RefNames.changeMetaRef(c.getId()));
+    assertThat(commitHistoryDiff)
+        .containsExactly(
+            "@@ -6 +6 @@\n" + "-Removed reviewer Other Account.\n" + "+Removed reviewer\n",
+            "@@ -6,3 +6 @@\n"
+                + "-Removed cc Other Account with the following votes:\n"
+                + "-\n"
+                + "- * Code-Review+2\n"
+                + "+Removed cc\n");
+  }
+
+  @Test
   public void fixLabelFooterIdent() throws Exception {
     Change c = newChange();
     String approverIdentToFix = getAccountIdentToFix(otherUser.getAccount());
@@ -673,9 +708,51 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         RefNames.changeMetaRef(c.getId()),
         getChangeUpdateBody(
             c,
-            /*changeMessage=*/ "Removed Verified+2 by " + changeOwner.getNameEmail(),
+            /*changeMessage=*/ "Removed Verified+2 by " + otherUser.getNameEmail(),
             "Label: -Verified"),
         invalidAuthorIdent);
+
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    BackfillResult result = rewriter.backfillProject(project, repo, options);
+    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
+
+    List<String> commitHistoryDiff = result.fixedRefDiff.get(RefNames.changeMetaRef(c.getId()));
+    // Other Account does not applier in any change updates, replaced with default
+    assertThat(commitHistoryDiff)
+        .containsExactly(
+            "@@ -6 +6 @@\n"
+                + "-Removed Verified+2 by Other Account <other@account.com>\n"
+                + "+Removed Verified+2 by Gerrit Account\n");
+  }
+
+  @Test
+  public void fixRemoveVoteChangeMessageWithNoFooterLabel() throws Exception {
+    Change c = newChange();
+    ChangeUpdate approvalUpdate = newUpdate(c, changeOwner);
+    approvalUpdate.putApproval(VERIFIED, (short) +2);
+
+    approvalUpdate.putApprovalFor(otherUserId, VERIFIED, (short) -1);
+    approvalUpdate.commit();
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+
+        // Even though footer is missing, accounts are matched among the account in change updates.
+        getChangeUpdateBody(
+            c, /*changeMessage=*/ "Removed Verified-1 by " + otherUser.getNameEmail()),
+        getAuthorIdent(changeOwner.getAccount()));
+
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c, /*changeMessage=*/ "Removed Verified+2 by " + changeOwner.getNameEmail()),
+        getAuthorIdent(changeOwner.getAccount()));
+
+    // No rewrite for default
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(c, /*changeMessage=*/ "Removed Verified+2 by Gerrit Account"),
+        getAuthorIdent(changeOwner.getAccount()));
 
     RunOptions options = new RunOptions();
     options.dryRun = false;
@@ -686,8 +763,11 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n"
+                + "-Removed Verified-1 by Other Account <other@account.com>\n"
+                + "+Removed Verified-1 by <GERRIT_ACCOUNT_2>\n",
+            "@@ -6 +6 @@\n"
                 + "-Removed Verified+2 by Change Owner <change@owner.com>\n"
-                + "+Removed Verified+2 by Gerrit Account\n");
+                + "+Removed Verified+2 by <GERRIT_ACCOUNT_1>\n");
   }
 
   @Test
@@ -1676,6 +1756,64 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "@@ -9 +9 @@\n"
                 + "-Assignee:\n"
                 + "+Assignee: \n");
+  }
+
+  @Test
+  public void fixAssigneeChangeMessageNoAssigneeFooter() throws Exception {
+    Change c = newChange();
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(c, "Assignee added: " + changeOwner.getName()),
+        getAuthorIdent(changeOwner.getAccount()));
+
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c,
+            String.format(
+                "Assignee changed from: %s to: %s", changeOwner.getName(), otherUser.getName())),
+        getAuthorIdent(otherUser.getAccount()));
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(c, "Assignee deleted: " + otherUser.getName()),
+        getAuthorIdent(changeOwner.getAccount()));
+    Account reviewer =
+        Account.builder(Account.id(3), TimeUtil.nowTs())
+            .setFullName("Reviewer User")
+            .setPreferredEmail("reviewer@account.com")
+            .build();
+    accountCache.put(reviewer);
+    // Even though account is present in the cache, it won't be used because it does not appear in
+    // the history of this change.
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(c, "Assignee added: " + reviewer.getName()),
+        getAuthorIdent(changeOwner.getAccount()));
+
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(c, "Assignee deleted: Gerrit Account"),
+        getAuthorIdent(changeOwner.getAccount()));
+
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    BackfillResult result = rewriter.backfillProject(project, repo, options);
+    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
+    List<String> commitHistoryDiff = result.fixedRefDiff.get(RefNames.changeMetaRef(c.getId()));
+    assertThat(commitHistoryDiff)
+        .containsExactly(
+            "@@ -6 +6 @@\n"
+                + "-Assignee added: Change Owner\n"
+                + "+Assignee added: <GERRIT_ACCOUNT_1>\n",
+            "@@ -6 +6 @@\n"
+                + "-Assignee changed from: Change Owner to: Other Account\n"
+                + "+Assignee changed from: <GERRIT_ACCOUNT_1> to: <GERRIT_ACCOUNT_2>\n",
+            "@@ -6 +6 @@\n"
+                + "-Assignee deleted: Other Account\n"
+                + "+Assignee deleted: <GERRIT_ACCOUNT_2>\n",
+            "@@ -6 +6 @@\n"
+                + "-Assignee added: Reviewer User\n"
+                + "+Assignee added: Gerrit Account\n");
   }
 
   @Test

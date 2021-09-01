@@ -23,6 +23,9 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.CodedEnum;
 import com.google.gerrit.jgit.diff.ReplaceEdit;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.cache.proto.Cache.IntraLineDiffProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -32,11 +35,10 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.Edit;
 
 public class IntraLineDiff implements Serializable {
-  static final long serialVersionUID = IntraLineDiffKey.serialVersionUID;
-
   public enum Status implements CodedEnum {
     EDIT_LIST('e'),
     DISABLED('D'),
@@ -76,6 +78,51 @@ public class IntraLineDiff implements Serializable {
     // Edits are mutable objects. As we serialize IntraLineDiff asynchronously in H2CacheImpl, we
     // must ensure that its state isn't modified until it was properly stored in the cache.
     return deepCopyEdits(edits);
+  }
+
+  public enum Serializer implements CacheSerializer<IntraLineDiff> {
+    INSTANCE;
+
+    @Override
+    public byte[] serialize(IntraLineDiff diff) {
+      return IntraLineDiffProto.newBuilder()
+          .setStatus(diff.status.name())
+          .addAllEdits(diff.edits.stream().map(e -> editToProto(e)).collect(Collectors.toList()))
+          .build()
+          .toByteArray();
+    }
+
+    private static IntraLineDiffProto.Edit editToProto(Edit edit) {
+      IntraLineDiffProto.Edit.Builder builder =
+          IntraLineDiffProto.Edit.newBuilder()
+              .setBeginA(edit.getBeginA())
+              .setEndA(edit.getEndA())
+              .setBeginB(edit.getBeginB())
+              .setEndB(edit.getEndB());
+      if (edit instanceof ReplaceEdit) {
+        ReplaceEdit r = (ReplaceEdit) edit;
+        builder.addAllEdits(
+            r.getInternalEdits().stream().map(e -> editToProto(e)).collect(Collectors.toList()));
+      }
+      return builder.build();
+    }
+
+    private static Edit protoToEdit(IntraLineDiffProto.Edit proto) {
+      return null;
+    }
+
+    @Override
+    public IntraLineDiff deserialize(byte[] in) {
+      IntraLineDiffProto proto = Protos.parseUnchecked(IntraLineDiffProto.parser(), in);
+      if (proto.getEditsList().isEmpty()) {
+        return new IntraLineDiff(Status.valueOf(proto.getStatus()));
+      }
+      ImmutableList<Edit> edits =
+          proto.getEditsList().stream()
+              .map(e -> new Edit(e.getBeginA(), e.getEndA(), e.getBeginB(), e.getEndB()))
+              .collect(ImmutableList.toImmutableList());
+      return new IntraLineDiff(edits);
+    }
   }
 
   private void writeObject(ObjectOutputStream out) throws IOException {

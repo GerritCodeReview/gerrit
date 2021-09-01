@@ -56,7 +56,10 @@ public class PatchListCacheImpl implements PatchListCache {
         factory(IntraLineLoader.Factory.class);
         persist(INTRA_NAME, IntraLineDiffKey.class, IntraLineDiff.class)
             .maximumWeight(10 << 20)
-            .weigher(IntraLineWeigher.class);
+            .weigher(IntraLineWeigher.class)
+            .version(1)
+            .keySerializer(IntraLineDiffKey.Serializer.INSTANCE)
+            .valueSerializer(IntraLineDiff.Serializer.INSTANCE);
 
         factory(DiffSummaryLoader.Factory.class);
         persist(DIFF_SUMMARY, DiffSummaryKey.class, DiffSummary.class)

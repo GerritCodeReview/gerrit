@@ -14,11 +14,15 @@
 
 package com.google.gerrit.httpd;
 
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -54,6 +58,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
@@ -70,10 +75,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.GitSmartHttpTools;
+import org.eclipse.jgit.http.server.HttpServerText;
 import org.eclipse.jgit.http.server.ServletUtils;
+import org.eclipse.jgit.http.server.UploadPackErrorHandler;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -100,6 +108,23 @@ public class GitOverHttpServlet extends GitServlet {
   private static final String ID_CACHE = "adv_bases";
 
   public static final String URL_REGEX;
+  public static final String GIT_COMMAND_STATUS_HEADER = "X-git-command-status";
+
+  private enum GIT_COMMAND_STATUS {
+    OK(0),
+    FAIL(-1);
+
+    private final int exitStatus;
+
+    GIT_COMMAND_STATUS(int exitStatus) {
+      this.exitStatus = exitStatus;
+    }
+
+    @Override
+    public String toString() {
+      return Integer.toString(exitStatus);
+    }
+  }
 
   static {
     StringBuilder url = new StringBuilder();
@@ -212,12 +237,14 @@ public class GitOverHttpServlet extends GitServlet {
       Resolver resolver,
       UploadFactory upload,
       UploadFilter uploadFilter,
+      GerritUploadPackErrorHandler uploadPackErrorHandler,
       ReceivePackFactory<HttpServletRequest> receive,
       ReceiveFilter receiveFilter) {
     setRepositoryResolver(resolver);
     setAsIsFileService(AsIsFileService.DISABLED);
 
     setUploadPackFactory(upload);
+    setUploadPackErrorHandler(uploadPackErrorHandler);
     addUploadPackFilter(uploadFilter);
 
     setReceivePackFactory(receive);
@@ -454,6 +481,35 @@ public class GitOverHttpServlet extends GitServlet {
 
     @Override
     public void destroy() {}
+  }
+
+  static class GerritUploadPackErrorHandler implements UploadPackErrorHandler {
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+    @Override
+    public void upload(HttpServletRequest req, HttpServletResponse rsp, UploadPackRunnable r)
+        throws IOException {
+      rsp.setHeader(GIT_COMMAND_STATUS_HEADER, GIT_COMMAND_STATUS.FAIL.toString());
+      try {
+        r.upload();
+        rsp.setHeader(GIT_COMMAND_STATUS_HEADER, GIT_COMMAND_STATUS.OK.toString());
+      } catch (ServiceMayNotContinueException e) {
+        if (!e.isOutput() && !rsp.isCommitted()) {
+          rsp.reset();
+          sendError(req, rsp, e.getStatusCode(), e.getMessage());
+        }
+      } catch (Throwable e) {
+        logger.atSevere().withCause(e).log(
+            MessageFormat.format(
+                HttpServerText.get().internalErrorDuringUploadPack,
+                ServletUtils.getRepository(req)));
+        if (!rsp.isCommitted()) {
+          rsp.reset();
+          String msg = e instanceof PackProtocolException ? e.getMessage() : null;
+          sendError(req, rsp, SC_INTERNAL_SERVER_ERROR, msg);
+        }
+      }
+    }
   }
 
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {

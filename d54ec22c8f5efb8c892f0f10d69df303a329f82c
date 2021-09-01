@@ -186,6 +186,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29947ce2_e2402f8a",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-01T20:26:30Z",
+      "side": 1,
+      "message": "Answering myself - the test in question is the only place where it actually happens (on purpose so that index is not automatically called) - I will get rid of cache eviction.",
+      "parentUuid": "092d76bb_de29eb36",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abce3722_aa3c1ec4",
@@ -234,6 +252,24 @@
       "side": 1,
       "message": "I have followed the code that was there prior [1] but it may actually make sense to see of it is still needed in all *Preferences cases here and below\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/260992",
       "parentUuid": "147da9f2_8927f803",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a585dc_726b385a",
+        "filename": "java/com/google/gerrit/server/restapi/config/SetDiffPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-01T20:26:30Z",
+      "side": 1,
+      "message": "Confirmed that this is not needed.",
+      "parentUuid": "c4a14df1_3cde44ec",
       "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

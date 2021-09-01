@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a59a68a0_0ae554bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-01T08:38:08Z",
+      "side": 1,
+      "message": "Focus behavior LGTM, left a comment on updating focus border colors. ",
+      "revId": "9abb10661a3831bf0a3ff311f642b1965f5bf598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97d8a850_0a6899fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-01T08:38:08Z",
+      "side": 1,
+      "message": "Could we also update the focus border colors as part of this change or in a follow-up change? Proposed focus colors are in comment7 on the bug.",
+      "revId": "9abb10661a3831bf0a3ff311f642b1965f5bf598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

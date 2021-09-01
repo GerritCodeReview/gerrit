@@ -1,0 +1,240 @@
+From d430b5d912bebe87529b887f408ee55c82a0e003 Mon Sep 17 00:00:00 2001
+From: Michele Romano <33063403+Mik317@users.noreply.github.com>
+Date: Fri, 26 Jun 2020 20:16:47 +0200
+Subject: [PATCH 1/7] Update version.js
+
+---
+ lib/local/version.js | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/tools/node_tools/node_modules/launchpad/lib/local/version.js b/tools/node_tools/node_modules/launchpad/lib/g/local/version.js
+index 0110a74..2c02bef 100644
+--- a/tools/node_tools/node_modules/launchpad/lib/local/version.js
++++ b/tools/node_tools/node_modules/launchpad/lib/local/version.js
+@@ -6,6 +6,15 @@ var plist = require('plist');
+ var utils = require('./utils');
+ var debug = require('debug')('launchpad:local:version');
+ 
++var validPath = function (filename){
++  var filter = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/;
++  if (filter.test(filename)){
++    console.log('\nInvalid characters inside the path to the browser\n');
++    return
++  }
++  return filename;
++}
++
+ module.exports = function(browser) {
+   if (!browser || !browser.path) {
+     return Q(null);
+@@ -18,7 +27,7 @@ module.exports = function(browser) {
+ 
+     debug('Retrieving version for windows executable', command);
+     // Can't use Q.nfcall here unfortunately because of non 0 exit code
+-    exec(command, function(error, stdout) {
++    exec(command.split(' ')[0], command.split(' ').slice(1), function(error, stdout) {
+       var regex = /ProductVersion:\s*(.*)/;
+       // ShowVer.exe returns a non zero status code even if it works
+       if (typeof stdout === 'string' && regex.test(stdout)) {
+@@ -47,8 +56,8 @@ module.exports = function(browser) {
+   }
+ 
+   // Try executing <browser> --version (everything else)
+-  return Q.nfcall(exec, browser.path + ' --version').then(function(stdout) {
+-    debug('Ran ' + browser.path + ' --version', stdout);
++  return Q.nfcall(exec, validPath(browser.path) + ' --version').then(function(stdout) {
++    debug('Ran ' + validPath(browser.path) + ' --version', stdout);
+     var version = utils.getStdout(stdout);
+     if (version) {
+       browser.version = version;
+
+From 09ce4fab2fd53cab893ceaa3b4d7f997af9b41d8 Mon Sep 17 00:00:00 2001
+From: Michele Romano <33063403+Mik317@users.noreply.github.com>
+Date: Fri, 26 Jun 2020 20:18:35 +0200
+Subject: [PATCH 2/7] Update instance.js
+
+---
+ lib/local/instance.js | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/tools/node_tools/node_modules/launchpad/lib/local/instance.js b/tools/node_tools/node_modules/launchpad/lib/g/local/instance.js
+index 484a866..b49990f 100644
+--- a/tools/node_tools/node_modules/launchpad/lib/local/instance.js
++++ b/tools/node_tools/node_modules/launchpad/lib/local/instance.js
+@@ -5,8 +5,15 @@ var EventEmitter = require('events').EventEmitter;
+ var debug = require('debug')('launchpad:local:instance');
+ var rimraf = require('rimraf');
+ 
++var safe = function (str) {
++   // Avoid quotes makes impossible escape the `multi command` scenario
++   return str.replace(/['"]+/g, '');
++}
++
+ var getProcessId = function (name, callback) {
+ 
++  name = safe(name);
++
+   var commands = {
+     darwin: "ps -clx | grep '" + name + "$' | awk '{print $2}' | head -1",
+     linux: "ps -ax | grep '" + name + "$' | awk '{print $2}' | head -1",
+@@ -90,11 +97,11 @@ Instance.prototype.stop = function (callback) {
+     } catch (error) {}
+   } else {
+     if (this.options.command.indexOf('open') === 0) {
+-      command = 'osascript -e \'tell application "' + self.options.process + '" to quit\'';
++      command = 'osascript -e \'tell application "' + safe(self.options.process) + '" to quit\'';
+       debug('Executing shutdown AppleScript', command);
+       exec(command);
+     } else if (process.platform === 'win32') {
+-      command = 'taskkill /IM ' + (this.options.imageName || path.basename(this.cmd));
++      command = 'taskkill /IM "' + safe(this.options.imageName || path.basename(this.cmd)) + '"';
+       debug('Executing shutdown taskkil', command);
+       exec(command).once('exit', function(data) {
+         self.emit('stop', data);
+
+From d3993fce090ed6ef378c1f0594eff18d125dad1e Mon Sep 17 00:00:00 2001
+From: Michele Romano <33063403+Mik317@users.noreply.github.com>
+Date: Fri, 26 Jun 2020 20:19:17 +0200
+Subject: [PATCH 3/7] Update version.js
+
+---
+ lib/local/version.js | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tools/node_tools/node_modules/launchpad/lib/local/version.js b/tools/node_tools/node_modules/launchpad/lib/g/local/version.js
+index 2c02bef..5eac082 100644
+--- a/tools/node_tools/node_modules/launchpad/lib/local/version.js
++++ b/tools/node_tools/node_modules/launchpad/lib/local/version.js
+@@ -6,6 +6,7 @@ var plist = require('plist');
+ var utils = require('./utils');
+ var debug = require('debug')('launchpad:local:version');
+ 
++// Validate paths supplied by the user in order to avoid "arbitrary command execution"
+ var validPath = function (filename){
+   var filter = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/;
+   if (filter.test(filename)){
+
+From abf3dbcc79e6b338338594ab2dbef834550e8f65 Mon Sep 17 00:00:00 2001
+From: Michele Romano <33063403+Mik317@users.noreply.github.com>
+Date: Mon, 29 Jun 2020 13:32:50 +0200
+Subject: [PATCH 4/7] Update instance.js
+
+---
+ lib/local/instance.js | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/tools/node_tools/node_modules/launchpad/lib/local/instance.js b/tools/node_tools/node_modules/launchpad/lib/g/local/instance.js
+index b49990f..9375d1f 100644
+--- a/tools/node_tools/node_modules/launchpad/lib/local/instance.js
++++ b/tools/node_tools/node_modules/launchpad/lib/local/instance.js
+@@ -1,6 +1,7 @@
+ var path = require('path');
+ var spawn = require("child_process").spawn;
+ var exec = require("child_process").exec;
++var execFile = require("child_process").execFile;
+ var EventEmitter = require('events').EventEmitter;
+ var debug = require('debug')('launchpad:local:instance');
+ var rimraf = require('rimraf');
+@@ -99,11 +100,14 @@ Instance.prototype.stop = function (callback) {
+     if (this.options.command.indexOf('open') === 0) {
+       command = 'osascript -e \'tell application "' + safe(self.options.process) + '" to quit\'';
+       debug('Executing shutdown AppleScript', command);
+-      exec(command);
++      command = command.split(' ');
++      execFile(command[0], command.slice(1));
+     } else if (process.platform === 'win32') {
+-      command = 'taskkill /IM "' + safe(this.options.imageName || path.basename(this.cmd)) + '"';
++      //Adding `"` wasn't safe/functional on Win systems
++      command = 'taskkill /IM ' + (this.options.imageName || path.basename(this.cmd); 
+       debug('Executing shutdown taskkil', command);
+-      exec(command).once('exit', function(data) {
++      command = command.split(' ');
++      execFile(command[0], command.slice(1)).once('exit', function(data) {
+         self.emit('stop', data);
+       });
+     } else {
+
+From 68518b274c9351f799d41ce85f23499ca4a785e9 Mon Sep 17 00:00:00 2001
+From: Michele Romano <33063403+Mik317@users.noreply.github.com>
+Date: Tue, 30 Jun 2020 00:01:31 +0200
+Subject: [PATCH 5/7] Update instance.js
+
+---
+ lib/local/instance.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/node_tools/node_modules/launchpad/lib/local/instance.js b/tools/node_tools/node_modules/launchpad/lib/g/local/instance.js
+index 9375d1f..f157dd4 100644
+--- a/tools/node_tools/node_modules/launchpad/lib/local/instance.js
++++ b/tools/node_tools/node_modules/launchpad/lib/local/instance.js
+@@ -104,7 +104,7 @@ Instance.prototype.stop = function (callback) {
+       execFile(command[0], command.slice(1));
+     } else if (process.platform === 'win32') {
+       //Adding `"` wasn't safe/functional on Win systems
+-      command = 'taskkill /IM ' + (this.options.imageName || path.basename(this.cmd); 
++      command = 'taskkill /IM ' + (this.options.imageName || path.basename(this.cmd)); 
+       debug('Executing shutdown taskkil', command);
+       command = command.split(' ');
+       execFile(command[0], command.slice(1)).once('exit', function(data) {
+
+From e711d07d40d39162ea4bdb1ed344c58f92bfa10b Mon Sep 17 00:00:00 2001
+From: Michele Romano <33063403+Mik317@users.noreply.github.com>
+Date: Fri, 3 Jul 2020 12:30:31 +0200
+Subject: [PATCH 6/7] Update version.js
+
+---
+ lib/local/version.js | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/tools/node_tools/node_modules/launchpad/lib/local/version.js b/tools/node_tools/node_modules/launchpad/lib/g/local/version.js
+index 5eac082..d1403a0 100644
+--- a/tools/node_tools/node_modules/launchpad/lib/local/version.js
++++ b/tools/node_tools/node_modules/launchpad/lib/local/version.js
+@@ -1,5 +1,6 @@
+ var fs = require('fs');
+ var exec = require('child_process').exec;
++var execFile = require('child_process').execFile;
+ var Q = require('q');
+ var path = require('path');
+ var plist = require('plist');
+@@ -8,7 +9,7 @@ var debug = require('debug')('launchpad:local:version');
+ 
+ // Validate paths supplied by the user in order to avoid "arbitrary command execution"
+ var validPath = function (filename){
+-  var filter = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/;
++  var filter = /[`!@#$%^&*()_+\-=\[\]{};':"|,<>?~]/;
+   if (filter.test(filename)){
+     console.log('\nInvalid characters inside the path to the browser\n');
+     return
+@@ -28,7 +29,7 @@ module.exports = function(browser) {
+ 
+     debug('Retrieving version for windows executable', command);
+     // Can't use Q.nfcall here unfortunately because of non 0 exit code
+-    exec(command.split(' ')[0], command.split(' ').slice(1), function(error, stdout) {
++    execFile(command.split(' ')[0], command.split(' ').slice(1), function(error, stdout) {
+       var regex = /ProductVersion:\s*(.*)/;
+       // ShowVer.exe returns a non zero status code even if it works
+       if (typeof stdout === 'string' && regex.test(stdout)) {
+
+From a3ff1804f0aacfb4fa20dad1312427b81280bb3e Mon Sep 17 00:00:00 2001
+From: Michele Romano <33063403+Mik317@users.noreply.github.com>
+Date: Fri, 3 Jul 2020 12:31:31 +0200
+Subject: [PATCH 7/7] Update version.js
+
+---
+ lib/local/version.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/node_tools/node_modules/launchpad/lib/local/version.js b/tools/node_tools/node_modules/launchpad/lib/g/local/version.js
+index d1403a0..d937be4 100644
+--- a/tools/node_tools/node_modules/launchpad/lib/local/version.js
++++ b/tools/node_tools/node_modules/launchpad/lib/local/version.js
+@@ -9,7 +9,7 @@ var debug = require('debug')('launchpad:local:version');
+ 
+ // Validate paths supplied by the user in order to avoid "arbitrary command execution"
+ var validPath = function (filename){
+-  var filter = /[`!@#$%^&*()_+\-=\[\]{};':"|,<>?~]/;
++  var filter = /[`!@#$%^&*()_+\-=\[\]{};'"|,<>?~]/;
+   if (filter.test(filename)){
+     console.log('\nInvalid characters inside the path to the browser\n');
+     return

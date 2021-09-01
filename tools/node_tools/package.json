@@ -19,6 +19,9 @@
     "typescript": "4.3.2"
   },
   "devDependencies": {},
+  "scripts": {
+    "postinstall": "(git apply --reverse --ignore-whitespace launchpad.patch || true) && git apply --ignore-whitespace launchpad.patch"
+  },
   "license": "Apache-2.0",
   "private": true
 }

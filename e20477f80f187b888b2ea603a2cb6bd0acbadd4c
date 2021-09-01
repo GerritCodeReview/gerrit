@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e248d5ac_5ebbac91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-09-01T08:29:59Z",
+      "side": 1,
+      "message": "!!!",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "e20477f80f187b888b2ea603a2cb6bd0acbadd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fde5ff1f_ac8dd093",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-09-01T08:29:59Z",
+      "side": 1,
+      "message": "why not simply extend them into infinity? seems more efficient than an extra hashset.",
+      "range": {
+        "startLine": 14,
+        "startChar": 40,
+        "endLine": 15,
+        "endChar": 27
+      },
+      "revId": "e20477f80f187b888b2ea603a2cb6bd0acbadd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

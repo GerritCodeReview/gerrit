@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4065851_1327b4a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1223,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-01T09:56:23Z",
+      "side": 1,
+      "message": "Why did you move the getPluginLoader()... call up?",
+      "revId": "39a5ae7ae4c58726a3c2ce74d914bf1173d24e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28f50cad_4d8b2f7f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-01T09:56:23Z",
+      "side": 1,
+      "message": "Maybe explain that this can typically happen when coming back from the diff view.",
+      "range": {
+        "startLine": 1231,
+        "startChar": 7,
+        "endLine": 1231,
+        "endChar": 53
+      },
+      "revId": "39a5ae7ae4c58726a3c2ce74d914bf1173d24e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b07c3a3_5f458d29",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-01T09:56:23Z",
+      "side": 1,
+      "message": "End the sentences with full stops.",
+      "range": {
+        "startLine": 1229,
+        "startChar": 4,
+        "endLine": 1232,
+        "endChar": 71
+      },
+      "revId": "39a5ae7ae4c58726a3c2ce74d914bf1173d24e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

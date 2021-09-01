@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
 import com.google.gerrit.extensions.api.accounts.StatusInput;
-import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -37,7 +36,6 @@ import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
-import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -86,13 +84,11 @@ import com.google.gerrit.server.restapi.account.SetEditPreferences;
 import com.google.gerrit.server.restapi.account.SetPreferences;
 import com.google.gerrit.server.restapi.account.SshKeys;
 import com.google.gerrit.server.restapi.account.StarredChanges;
-import com.google.gerrit.server.restapi.account.Stars;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
 
 public class AccountApiImpl implements AccountApi {
   interface Factory {
@@ -115,9 +111,6 @@ public class AccountApiImpl implements AccountApi {
   private final DeleteWatchedProjects deleteWatchedProjects;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
-  private final Stars stars;
-  private final Stars.Get starsGet;
-  private final Stars.Post starsPost;
   private final GetEmails getEmails;
   private final CreateEmail createEmail;
   private final DeleteEmail deleteEmail;
@@ -159,9 +152,6 @@ public class AccountApiImpl implements AccountApi {
       DeleteWatchedProjects deleteWatchedProjects,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
-      Stars stars,
-      Stars.Get starsGet,
-      Stars.Post starsPost,
       GetEmails getEmails,
       CreateEmail createEmail,
       DeleteEmail deleteEmail,
@@ -202,9 +192,6 @@ public class AccountApiImpl implements AccountApi {
     this.deleteWatchedProjects = deleteWatchedProjects;
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
-    this.stars = stars;
-    this.starsGet = starsGet;
-    this.starsPost = starsPost;
     this.getEmails = getEmails;
     this.createEmail = createEmail;
     this.deleteEmail = deleteEmail;
@@ -380,35 +367,6 @@ public class AccountApiImpl implements AccountApi {
       starredChangesDelete.apply(starredChange, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot unstar change", e);
-    }
-  }
-
-  @Override
-  public void setStars(String changeId, StarsInput input) throws RestApiException {
-    try {
-      AccountResource.Star rsrc = stars.parse(account, IdString.fromUrl(changeId));
-      starsPost.apply(rsrc, input);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot post stars", e);
-    }
-  }
-
-  @Override
-  public SortedSet<String> getStars(String changeId) throws RestApiException {
-    try {
-      AccountResource.Star rsrc = stars.parse(account, IdString.fromUrl(changeId));
-      return starsGet.apply(rsrc).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get stars", e);
-    }
-  }
-
-  @Override
-  public List<ChangeInfo> getStarredChanges() throws RestApiException {
-    try {
-      return stars.list().apply(account).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get starred changes", e);
     }
   }
 

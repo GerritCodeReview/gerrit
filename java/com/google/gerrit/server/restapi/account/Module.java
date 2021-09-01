@@ -99,10 +99,6 @@ public class Module extends RestApiModule {
     delete(STARRED_CHANGE_KIND).to(StarredChanges.Delete.class);
     bind(StarredChanges.Create.class);
 
-    child(ACCOUNT_KIND, "stars.changes").to(Stars.class);
-    get(STAR_KIND).to(Stars.Get.class);
-    post(STAR_KIND).to(Stars.Post.class);
-
     get(ACCOUNT_KIND, "external.ids").to(GetExternalIds.class);
     post(ACCOUNT_KIND, "external.ids:delete").to(DeleteExternalIds.class);
 

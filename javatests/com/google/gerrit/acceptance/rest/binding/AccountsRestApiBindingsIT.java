@@ -86,7 +86,6 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/accounts/%s/preferences.edit"),
           RestCall.put("/accounts/%s/preferences.edit"),
           RestCall.get("/accounts/%s/starred.changes"),
-          RestCall.get("/accounts/%s/stars.changes"),
           RestCall.post("/accounts/%s/index"),
           RestCall.get("/accounts/%s/agreements"),
           RestCall.put("/accounts/%s/agreements"),
@@ -141,9 +140,7 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> STAR_ENDPOINTS =
       ImmutableList.of(
           RestCall.put("/accounts/%s/starred.changes/%s"),
-          RestCall.delete("/accounts/%s/starred.changes/%s"),
-          RestCall.get("/accounts/%s/stars.changes/%s"),
-          RestCall.post("/accounts/%s/stars.changes/%s"));
+          RestCall.delete("/accounts/%s/starred.changes/%s"));
 
   @Test
   public void accountEndpoints() throws Exception {

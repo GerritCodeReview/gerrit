@@ -89,6 +89,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67b06603_a9a012cb",
+        "filename": "java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-01T19:49:48Z",
+      "side": 1,
+      "message": "java11 specific - change to\n\n  !object.isPresent()\n\nso that java8 source compatibility is preserved",
+      "range": {
+        "startLine": 116,
+        "startChar": 21,
+        "endLine": 116,
+        "endChar": 30
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17f95f85_21a12d18",
         "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
         "patchSetId": 2
@@ -141,6 +164,24 @@
       "side": 1,
       "message": "We already evict the account SHA1 cache on AllUsersRefToObjectIdCache.java:68. I am not convinced we also need this one.",
       "parentUuid": "1d4c1268_4a536924",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "092d76bb_de29eb36",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-01T19:49:48Z",
+      "side": 1,
+      "message": "LuceneQueryAccountsTest (AbstractQueryAccountsTest.java:801 to be more precise) fails without explicit cache eviction - the problem is that account modification performed there doesn\u0027t result in the event being faired - maybe we should make sure that event is always fired, WDYT?",
+      "parentUuid": "d594118a_47195431",
       "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

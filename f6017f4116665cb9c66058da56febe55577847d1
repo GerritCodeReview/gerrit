@@ -16,6 +16,75 @@
       "message": "Edwin can you help review this? I am a bit swamped this week.",
       "revId": "f6017f4116665cb9c66058da56febe55577847d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bd99f37_2260b8bb",
+        "filename": "java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-01T15:16:52Z",
+      "side": 1,
+      "message": "It seems parsing this commit is not needed, but we could pass the oldCommitId directly into rw.parseTree at line 92?",
+      "range": {
+        "startLine": 85,
+        "startChar": 16,
+        "endLine": 85,
+        "endChar": 87
+      },
+      "revId": "f6017f4116665cb9c66058da56febe55577847d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "456ac3f1_7e6e32f7",
+        "filename": "java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-01T15:16:52Z",
+      "side": 1,
+      "message": "I\u0027m wondering whether we could avoid calling this twice. Would something like this be more readable?\n\n  final Optional\u003cFileDiffOutput\u003e fileDiff \u003d Optional.ofNullable(\n      Iterables.getFirst(modifiedFiles.values(), /* defaultValue\u003d */ null));\n  final Optional\u003cObjectId\u003e aCommitId \u003d fileDiff.map(FileDiffOutput::oldCommitId);\n  final Optional\u003cObjectId\u003e bCommitId \u003d fileDiff.map(FileDiffOutput::newCommitId);\n  if (aCommitId .isPresent()) {\n    aTree \u003d rw.parseTree(aCommitId.get());\n  } else {\n    // Octopus merge with unknown automatic merge result, since the\n    // web UI returns no files to match against, just fail.\n    return engine.fail();\n  }\n  \n  if (!bCommitId.isPresent()) {\n    return engine.fail();\n  } \n  bTree \u003d rw.parseTree(bCommitId.get());\n  ...",
+      "range": {
+        "startLine": 89,
+        "startChar": 31,
+        "endLine": 89,
+        "endChar": 71
+      },
+      "revId": "f6017f4116665cb9c66058da56febe55577847d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18616fee_a3c8eb36",
+        "filename": "java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-01T15:16:52Z",
+      "side": 1,
+      "message": "Line 86-89 look like bCommit can be null now, which means we could run into an NPE here?",
+      "range": {
+        "startLine": 98,
+        "startChar": 14,
+        "endLine": 98,
+        "endChar": 21
+      },
+      "revId": "f6017f4116665cb9c66058da56febe55577847d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

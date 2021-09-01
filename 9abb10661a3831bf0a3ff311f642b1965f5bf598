@@ -33,6 +33,24 @@
       "message": "Could we also update the focus border colors as part of this change or in a follow-up change? Proposed focus colors are in comment7 on the bug.",
       "revId": "9abb10661a3831bf0a3ff311f642b1965f5bf598",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b7f161a_e5c0b684",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-01T12:20:38Z",
+      "side": 1,
+      "message": "Best to create a new bug for it.\nThis is taking the native browser behaviour.",
+      "parentUuid": "97d8a850_0a6899fc",
+      "revId": "9abb10661a3831bf0a3ff311f642b1965f5bf598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

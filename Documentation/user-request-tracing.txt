@@ -148,3 +148,10 @@ Usually only server administrators have access to the logs.
 * permission checks (e.g. which rule is responsible for a deny)
 * timer metrics
 * all other logs
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

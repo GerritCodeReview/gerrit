@@ -70,10 +70,10 @@ suite('token-highlight-layer', () => {
 
   setup(async () => {
     listener = new MockListener();
-    highlighter = new TokenHighlightLayer();
-    highlighter.addListener((...args) => listener.notify(...args));
     container = document.createElement('div');
     document.body.appendChild(container);
+    highlighter = new TokenHighlightLayer(container);
+    highlighter.addListener((...args) => listener.notify(...args));
   });
 
   teardown(() => {
@@ -199,6 +199,30 @@ suite('token-highlight-layer', () => {
       assert.deepEqual(listener.shift(), [2, 2, Side.RIGHT]);
     });
 
+    test('highlighting spans many lines', async () => {
+      const clock = sinon.useFakeTimers();
+      const line1 = createLine('two words');
+      annotate(line1);
+      const line2 = createLine('three words');
+      annotate(line2, Side.RIGHT, 1000);
+      const words1 = queryAndAssert(line1, '.tk-words');
+      assert.isTrue(words1.classList.contains('token'));
+      dispatchMouseEvent(
+        'mouseover',
+        MockInteractions.middleOfNode(words1),
+        words1
+      );
+
+      assert.equal(listener.pending, 0);
+
+      // After a total of HOVER_DELAY_MS ms the hover behavior should trigger.
+      clock.tick(HOVER_DELAY_MS);
+      assert.equal(listener.pending, 2);
+      assert.equal(_testOnly_allTasks.size, 0);
+      assert.deepEqual(listener.shift(), [1, 1, Side.LEFT]);
+      assert.deepEqual(listener.shift(), [1000, 1000, Side.RIGHT]);
+    });
+
     test('highlighting mouse out before delay', async () => {
       const clock = sinon.useFakeTimers();
       const line1 = createLine('two words');
@@ -245,9 +269,7 @@ suite('token-highlight-layer', () => {
       listener.flush();
       assert.equal(listener.pending, 0);
       MockInteractions.click(container);
-      assert.equal(listener.pending, 4);
-      assert.deepEqual(listener.shift(), [1, 1, Side.LEFT]);
-      assert.deepEqual(listener.shift(), [2, 2, Side.RIGHT]);
+      assert.equal(listener.pending, 2);
       assert.deepEqual(listener.shift(), [1, 1, Side.LEFT]);
       assert.deepEqual(listener.shift(), [2, 2, Side.RIGHT]);
     });

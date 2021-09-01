@@ -93,8 +93,9 @@ public class AbstractMailIT extends AbstractDaemonTest {
    * @param f1 Comment on file one.
    * @return A string with all inline comments and the original quoted email.
    */
-  static String newPlaintextBody(String changeURL, String changeMessage, String c1, String f1) {
-    return (changeMessage == null ? "" : changeMessage + "\n")
+  static String newPlaintextBody(
+      String changeURL, String patchsetLevelComment, String c1, String f1) {
+    return (patchsetLevelComment == null ? "" : patchsetLevelComment + "\n")
         + "> Foo Bar has posted comments on this change. (  \n"
         + "> "
         + changeURL

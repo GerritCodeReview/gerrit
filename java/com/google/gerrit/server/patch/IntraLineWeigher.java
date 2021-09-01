@@ -29,6 +29,6 @@ public class IntraLineWeigher implements Weigher<IntraLineDiffKey, IntraLineDiff
         + 8
         + 4
         + 20 // Size of IntraLineDiff, 64 bit JVM
-        + (8 + 16 + 4 * 4) * value.getEdits().size();
+        + (8 + 16 + 4 * 4) * value.edits().size();
   }
 }

@@ -14,29 +14,22 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.gerrit.server.ioutil.BasicSerialization.readEnum;
-import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
-import static java.util.stream.Collectors.toList;
-
+import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.CodedEnum;
 import com.google.gerrit.jgit.diff.ReplaceEdit;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collections;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.cache.proto.Cache.IntraLineDiffProto;
+import com.google.gerrit.server.cache.proto.Cache.IntraLineDiffProto.Status;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.patch.IntraLineDiff.IntraLineEdit.EditType;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.Edit;
 
-public class IntraLineDiff implements Serializable {
-  static final long serialVersionUID = IntraLineDiffKey.serialVersionUID;
-
+@AutoValue
+public abstract class IntraLineDiff {
   public enum Status implements CodedEnum {
     EDIT_LIST('e'),
     DISABLED('D'),
@@ -55,100 +48,176 @@ public class IntraLineDiff implements Serializable {
     }
   }
 
-  private transient Status status;
-  private transient ImmutableList<Edit> edits;
+  public abstract Status status();
 
-  IntraLineDiff(Status status) {
-    this.status = status;
-    this.edits = ImmutableList.of();
+  abstract ImmutableList<IntraLineEdit> intraLineEdits();
+
+  public ImmutableList<Edit> edits() {
+    return intraLineEdits().stream()
+        .map(IntraLineEdit::toJgitEdit)
+        .collect(ImmutableList.toImmutableList());
   }
 
-  IntraLineDiff(List<Edit> edits) {
-    this.status = Status.EDIT_LIST;
-    this.edits = ImmutableList.copyOf(edits);
+  public static IntraLineDiff create(Status status) {
+    return new AutoValue_IntraLineDiff(status, ImmutableList.of());
   }
 
-  public Status getStatus() {
-    return status;
+  @VisibleForTesting
+  public static IntraLineDiff create(List<Edit> edits) {
+    // Store the list of edits as IntraLineEdit(s) to preserve Immutability, since the JGit Edit
+    // class is mutable.
+    return create(
+        edits.stream().map(IntraLineEdit::create).collect(ImmutableList.toImmutableList()));
   }
 
-  public ImmutableList<Edit> getEdits() {
-    // Edits are mutable objects. As we serialize IntraLineDiff asynchronously in H2CacheImpl, we
-    // must ensure that its state isn't modified until it was properly stored in the cache.
-    return deepCopyEdits(edits);
+  static IntraLineDiff create(ImmutableList<IntraLineEdit> intraLineEdits) {
+    return new AutoValue_IntraLineDiff(Status.EDIT_LIST, intraLineEdits);
   }
 
-  private void writeObject(ObjectOutputStream out) throws IOException {
-    writeEnum(out, status);
-    writeVarInt32(out, edits.size());
-    for (Edit e : edits) {
-      writeEdit(out, e);
+  public enum Serializer implements CacheSerializer<IntraLineDiff> {
+    INSTANCE;
 
-      if (e instanceof ReplaceEdit) {
-        ReplaceEdit r = (ReplaceEdit) e;
-        writeVarInt32(out, r.getInternalEdits().size());
-        for (Edit i : r.getInternalEdits()) {
-          writeEdit(out, i);
-        }
-      } else {
-        writeVarInt32(out, 0);
+    @Override
+    public byte[] serialize(IntraLineDiff diff) {
+      return IntraLineDiffProto.newBuilder()
+          .setStatus(IntraLineDiffProto.Status.valueOf(diff.status().name()))
+          .addAllEdits(
+              diff.intraLineEdits().stream()
+                  .map(Serializer::editToProto)
+                  .collect(Collectors.toList()))
+          .build()
+          .toByteArray();
+    }
+
+    @Override
+    public IntraLineDiff deserialize(byte[] in) {
+      IntraLineDiffProto proto = Protos.parseUnchecked(IntraLineDiffProto.parser(), in);
+      // Handle unknown deserialized values. Convert to the default
+      Status status = Status.ERROR; // default
+      if (!proto.getStatus().equals(IntraLineDiffProto.Status.UNRECOGNIZED)) {
+        status = Status.valueOf(proto.getStatus().name());
       }
-    }
-  }
-
-  private void readObject(ObjectInputStream in) throws IOException {
-    status = readEnum(in, Status.values());
-    int editCount = readVarInt32(in);
-    Edit[] editArray = new Edit[editCount];
-    for (int i = 0; i < editCount; i++) {
-      editArray[i] = readEdit(in);
-
-      int innerCount = readVarInt32(in);
-      if (0 < innerCount) {
-        Edit[] inner = new Edit[innerCount];
-        for (int j = 0; j < innerCount; j++) {
-          inner[j] = readEdit(in);
-        }
-        editArray[i] = new ReplaceEdit(editArray[i], asList(inner));
+      if (proto.getEditsList().isEmpty()) {
+        // If edits are empty, IntraLineDiff was created with the IntraLineDiff(Status) constructor
+        // hence use this for deserialization.
+        return IntraLineDiff.create(status);
       }
+      ImmutableList<IntraLineEdit> edits =
+          proto.getEditsList().stream()
+              .map(e -> protoToEdit(e))
+              .collect(ImmutableList.toImmutableList());
+      return IntraLineDiff.create(edits);
     }
-    edits = ImmutableList.copyOf(editArray);
-  }
 
-  private static ImmutableList<Edit> deepCopyEdits(List<Edit> edits) {
-    return edits.stream().map(IntraLineDiff::copy).collect(ImmutableList.toImmutableList());
-  }
-
-  private static Edit copy(Edit edit) {
-    if (edit instanceof ReplaceEdit) {
-      return copy((ReplaceEdit) edit);
+    private static IntraLineDiffProto.Edit editToProto(IntraLineEdit edit) {
+      return IntraLineDiffProto.Edit.newBuilder()
+          .setEditType(IntraLineDiffProto.EditType.valueOf(edit.editType().name()))
+          .setBeginA(edit.beginA())
+          .setEndA(edit.endA())
+          .setBeginB(edit.beginB())
+          .setEndB(edit.endB())
+          .addAllInternalEdits(
+              edit.internalEdits().stream().map(e -> editToProto(e)).collect(Collectors.toList()))
+          .build();
     }
-    return new Edit(edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB());
+
+    private static IntraLineEdit protoToEdit(IntraLineDiffProto.Edit proto) {
+      // Handle unknown deserialized values. Convert to the default
+      EditType editType = EditType.NORMAL; // default
+      if (!proto.getEditType().equals(IntraLineDiffProto.EditType.UNRECOGNIZED)) {
+        editType = EditType.valueOf(proto.getEditType().name());
+      }
+      return IntraLineEdit.builder()
+          .editType(editType)
+          .beginA(proto.getBeginA())
+          .endA(proto.getEndA())
+          .beginB(proto.getBeginB())
+          .endB(proto.getEndB())
+          .internalEdits(
+              proto.getInternalEditsList().stream()
+                  .map(Serializer::protoToEdit)
+                  .collect(ImmutableList.toImmutableList()))
+          .build();
+    }
   }
 
-  private static ReplaceEdit copy(ReplaceEdit edit) {
-    List<Edit> internalEdits =
-        edit.getInternalEdits().stream().map(IntraLineDiff::copy).collect(toList());
-    return new ReplaceEdit(
-        edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB(), internalEdits);
-  }
+  /**
+   * An Immutable representation of the JGit {@link Edit} entity. This entity could either represent
+   * an {@link Edit} or a {@link ReplaceEdit}.
+   *
+   * <p>We define this entity since {@link IntraLineDiff} should be immutable.
+   */
+  @AutoValue
+  abstract static class IntraLineEdit {
+    enum EditType {
+      NORMAL,
+      REPLACE
+    }
 
-  private static void writeEdit(OutputStream out, Edit e) throws IOException {
-    writeVarInt32(out, e.getBeginA());
-    writeVarInt32(out, e.getEndA());
-    writeVarInt32(out, e.getBeginB());
-    writeVarInt32(out, e.getEndB());
-  }
+    abstract EditType editType();
 
-  private static Edit readEdit(InputStream in) throws IOException {
-    int beginA = readVarInt32(in);
-    int endA = readVarInt32(in);
-    int beginB = readVarInt32(in);
-    int endB = readVarInt32(in);
-    return new Edit(beginA, endA, beginB, endB);
-  }
+    abstract int beginA();
 
-  private static List<Edit> asList(Edit[] l) {
-    return Collections.unmodifiableList(Arrays.asList(l));
+    abstract int endA();
+
+    abstract int beginB();
+
+    abstract int endB();
+
+    /**
+     * Contains the list of internal edits if this {@link IntraLineEdit} is of type {@link
+     * EditType#REPLACE}. For edits of type {@link EditType#NORMAL} this list will be empty.
+     */
+    abstract ImmutableList<IntraLineEdit> internalEdits();
+
+    /** Create an {@link IntraLineEdit} from a JGit {@link Edit}. */
+    static IntraLineEdit create(Edit edit) {
+      ImmutableList<IntraLineEdit> internalEdits =
+          edit instanceof ReplaceEdit
+              ? ((ReplaceEdit) edit)
+                  .getInternalEdits().stream()
+                      .map(IntraLineEdit::create)
+                      .collect(ImmutableList.toImmutableList())
+              : ImmutableList.of();
+      return builder()
+          .editType(edit instanceof ReplaceEdit ? EditType.REPLACE : EditType.NORMAL)
+          .beginA(edit.getBeginA())
+          .endA(edit.getEndA())
+          .beginB(edit.getBeginB())
+          .endB(edit.getEndB())
+          .internalEdits(internalEdits)
+          .build();
+    }
+
+    Edit toJgitEdit() {
+      if (editType().equals(EditType.NORMAL)) {
+        return new Edit(beginA(), endA(), beginB(), endB());
+      }
+      List<Edit> internalEdits =
+          internalEdits().stream().map(IntraLineEdit::toJgitEdit).collect(Collectors.toList());
+      return new ReplaceEdit(beginA(), endA(), beginB(), endB(), internalEdits);
+    }
+
+    static IntraLineEdit.Builder builder() {
+      return new AutoValue_IntraLineDiff_IntraLineEdit.Builder();
+    }
+
+    @AutoValue.Builder
+    abstract static class Builder {
+
+      abstract Builder editType(EditType editType);
+
+      abstract Builder beginA(int beginA);
+
+      abstract Builder endA(int endA);
+
+      abstract Builder beginB(int beginB);
+
+      abstract Builder endB(int endB);
+
+      abstract Builder internalEdits(ImmutableList<IntraLineEdit> internalEdits);
+
+      abstract IntraLineEdit build();
+    }
   }
 }

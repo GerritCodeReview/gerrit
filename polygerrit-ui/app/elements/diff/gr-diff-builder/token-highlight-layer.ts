@@ -42,11 +42,10 @@ const TOKEN_COUNT_LIMIT = 10000;
 const TOKEN_OCCURRENCES_LIMIT = 1000;
 
 /**
- * Token highlighting is only useful for code on-screen, so don't bother
- * highlighting tokens that are further away than this threshold from where the
- * user is hovering.
+ * Token highlighting is only useful for code on-screen, so we only highlight
+ * the nearest set of tokens up to this limit.
  */
-const LINE_DISTANCE_THRESHOLD = 100;
+const TOKEN_HIGHLIGHT_LIMIT = 100;
 
 /**
  * When a user hovers over a token in the diff, then this layer makes sure that
@@ -211,18 +210,6 @@ export class TokenHighlightLayer implements DiffLayer {
     return window.getSelection()?.type === 'Range';
   }
 
-  private updateTokenHighlight(
-    newHighlight: string | undefined,
-    newLineNumber: number
-  ) {
-    const oldHighlight = this.currentHighlight;
-    const oldLineNumber = this.currentHighlightLineNumber;
-    this.currentHighlight = newHighlight;
-    this.currentHighlightLineNumber = newLineNumber;
-    this.notifyForToken(oldHighlight, oldLineNumber);
-    this.notifyForToken(newHighlight, newLineNumber);
-  }
-
   findTokenAncestor(el?: EventTarget | Element | null): {
     token?: string;
     line: number;
@@ -252,20 +239,62 @@ export class TokenHighlightLayer implements DiffLayer {
     return (linesLeft?.size ?? 0) + (linesRight?.size ?? 0);
   }
 
+  private updateTokenHighlight(
+    newHighlight: string | undefined,
+    newLineNumber: number
+  ) {
+    if (
+      this.currentHighlight === newHighlight &&
+      this.currentHighlightLineNumber === newLineNumber
+    )
+      return;
+    const oldHighlight = this.currentHighlight;
+    const oldLineNumber = this.currentHighlightLineNumber;
+    this.currentHighlight = newHighlight;
+    this.currentHighlightLineNumber = newLineNumber;
+
+    this.notifyForToken(oldHighlight, oldLineNumber);
+    this.notifyForToken(newHighlight, newLineNumber);
+  }
+
+  getSortedLinesForSide(
+    lineMapping: Map<string, Set<number>>,
+    token: string | undefined,
+    lineNumber: number
+  ): Array<number> {
+    if (!token) return [];
+    const lineSet = lineMapping.get(token);
+    if (!lineSet) return [];
+    const lines = [...lineSet];
+    lines.sort((a, b) => {
+      const da = Math.abs(a - lineNumber);
+      const db = Math.abs(b - lineNumber);
+      // For equal distance, prefer lines later in the file over earlier in the
+      // file. This ensures total ordering.
+      if (da === db) return b - a;
+      // Compare the distance to lineNumber.
+      return da - db;
+    });
+    return lines.slice(0, TOKEN_HIGHLIGHT_LIMIT);
+  }
+
   notifyForToken(token: string | undefined, lineNumber: number) {
-    if (!token) return;
-    const linesLeft = this.tokenToLinesLeft.get(token);
-    linesLeft?.forEach(line => {
-      if (Math.abs(line - lineNumber) < LINE_DISTANCE_THRESHOLD) {
-        this.notifyListeners(line, Side.LEFT);
-      }
-    });
-    const linesRight = this.tokenToLinesRight.get(token);
-    linesRight?.forEach(line => {
-      if (Math.abs(line - lineNumber) < LINE_DISTANCE_THRESHOLD) {
-        this.notifyListeners(line, Side.RIGHT);
-      }
-    });
+    const leftLines = this.getSortedLinesForSide(
+      this.tokenToLinesLeft,
+      token,
+      lineNumber
+    );
+    for (const line of leftLines) {
+      this.notifyListeners(line, Side.LEFT);
+    }
+    const rightLines = this.getSortedLinesForSide(
+      this.tokenToLinesRight,
+      token,
+      lineNumber
+    );
+    for (const line of rightLines) {
+      this.notifyListeners(line, Side.RIGHT);
+    }
   }
 
   addListener(listener: DiffLayerListener) {

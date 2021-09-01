@@ -16,6 +16,24 @@
       "message": "Nice. Thanks.\n\nMedium-term I wonder if it would be safer to have PermissionAwareRefDatabase just inherit from RefDatabase ISO using the DelegateRefDatabase. It seems too easy to forget that when RefDatabase grows a new method, we need to adjust PermissionAwareRefDatabase as well and not just DelegateRefDatabase (where the compiler would help us).",
       "revId": "bf3fea9112d162381de211aa8eaf1b759665ceb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "334332b3_fcd63c46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-01T09:24:03Z",
+      "side": 1,
+      "message": "Same applies to DelegateRefDatabase (if new methods are added to RefDatabase e.g. with default implementations).\n\nLet us rely on the test (that worked this time).",
+      "parentUuid": "e884b6a1_6e3303fd",
+      "revId": "bf3fea9112d162381de211aa8eaf1b759665ceb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

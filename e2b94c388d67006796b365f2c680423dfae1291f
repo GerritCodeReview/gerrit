@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f21708fd_9cb68281",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-01T11:12:57Z",
+      "side": 1,
+      "message": "What is a \"lit2 comment anchor\"? :-)",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 85
+      },
+      "revId": "e2b94c388d67006796b365f2c680423dfae1291f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

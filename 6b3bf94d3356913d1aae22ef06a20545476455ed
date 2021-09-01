@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49bdaeaa_c8f4cf05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-01T12:21:41Z",
+      "side": 1,
+      "message": "There is a merge conflict with master: can you rebase and resolve it?",
+      "revId": "6b3bf94d3356913d1aae22ef06a20545476455ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

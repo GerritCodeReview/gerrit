@@ -1,0 +1,152 @@
+:linkattrs:
+= Request Cancellation and Deadlines
+
+[[motivation]]
+== Motivation
+
+Protect the Gerrit service by aborting requests that were cancelled or for which
+the deadline has exceeded. If these requests are not aborted, it can happen that
+too many of these requests are accumulated so that the server runs out of
+resources (e.g. threads).
+
+[[request-cancellation]]
+== Request Cancellation
+
+If a user cancels a request by disconnecting, ideally Gerrit should detect this
+and abort the request execution to avoid doing unnecessary work. If nobody is
+waiting for the response, Gerrit shouldn't spend resources to compute it.
+
+Detecting cancelled requests is not easily possible with all protocols that a
+client may use. At the moment Gerrit only detects request cancellations for git
+pushes, but not for other request types (in particular cancelled requests are
+not detected for REST calls over HTTP, SSH commands and git clone/fetch).
+
+[[server-side-deadlines]]
+== Server-side deadlines
+
+To limit the maximal execution time for requests, administrators can [configure
+server-side deadlines](config-gerrit.html#deadline.id). If a server-side
+deadline is exceeded by a matching request, the request is automatically
+aborted. In this case the client gets a proper error message informing the user
+about the exceeded deadline.
+
+Clients may override server-side deadlines by setting a
+[deadline](#client-provided-deadline) on the request. This means, if a request
+fails due to an exceeded server-side deadline, the client may repeat the request
+with a higher deadline or no deadline (deadline = 0) to get unblocked.
+
+Server-side deadlines are meant to protect the Gerrit service against resource
+exhaustion due to performence issues with a particular request. E.g. imagine a
+situation where requests for a certain REST endpoint are very slow. If more and
+more of such requests get stuck and are not being aborted, the Gerrit service
+may run out of threads, causing an outage for the entire Gerrit service.
+Server-side deadlines may prevent this because the slow requests get aborted
+after the deadline is exceeded, and hence the server resources are freed up.
+
+In some cases server-side deadlines may also lead to a better user experience,
+as it's better to tell the user that there is a performance issue, that prevents
+the execution of the request, than letting them wait indefinitely.
+
+Finally server-side deadlines can help Site Reliability Engineers (SREs) to
+detect performance issues more reliably and more quicky. For this alerts may be
+setup that are based on the [cancellation metrics](metrics.html#cancellations).
+
+[[receive-timeout]]
+=== Receive Timeout
+
+For git pushes it is possible to configure a [hard
+timeout](config-gerrit.html#receive.timeout). In contrast to server-side
+deadlines this timeout is not overridable by [client-provided
+deadlines](#client-provided-deadlines).
+
+[[client-provided-deadlines]]
+== Client-provided deadlines
+
+Clients can set a deadline on requests to limit the maximal execution time that
+they are willing to wait for a response. If the request doesn't finish within
+this deadline the request is aborted and the client receives an error, with a
+messages telling them that the deadline has been exceeded.
+
+How to set a deadline on a request depends on the request type:
+
+[options="header",cols="1,6"]
+|=======================
+|Request Type   |How to set a deadline?
+|REST over HTTP |Set the [X-Gerrit-Deadline header](rest-api.html#deadline).
+|SSH command    |Set the [deadline option](cmd-index.html#deadline).
+|git push       |Set the [deadline push option](user-upload.html#deadline).
+|git clone/fetch|Not supported.
+|=======================
+
+[[override-server-side-deadline]]
+=== Override server-side deadline
+
+By setting a deadline on a request it is possible to override any [server-side
+deadline](#server-side-deadline), e.g. in order to increase it. Setting the
+deadline to `0` disables any server-side deadline. This allows clients to get
+unblocked if a request has previously failed due to an exceeded deadline.
+
+[NOTE]
+Clients are stronly discouraged to permanently override [server-side
+deadlines](#server-side-deadlines] with a higher deadline or permanently disable
+them by always setting the deadline to `0`. If this becomes necessary the caller
+should get in touch with the Gerrit administrators to increase the server-side
+deadlines or resolve the performance issue in another way.
+
+[NOTE]
+It's not possible for clients to override the [receive
+timeout](#receive-timeout) that is enforced on git push.
+
+[[faqs]]
+== FAQs
+
+[[when-are-requests-aborted]]
+=== How quickly does a request get aborted when it is cancelled or a deadline is exceeded?
+
+In order to know if a request should be aborted, Gerrit needs to explicitly
+check whether the request is cancelled or whether a deadline is exceeded.
+Gerrit does this check at the beginning and end of all performance critical
+steps and sub-steps. This means, the request is only aborted the next time such
+a step starts or finishes, which can also be never (e.g. if the request is stuck
+inside of a step).
+
+[NOTE]
+Technically the check whether a request should be aborted is done whenever the
+execution time of an operation or sub-step is captured, either by a timer
+metric or a `TraceTimer` ('TraceTimer` is the class that logs the execution time
+when the request is being [traced](user-request-tracing.html)).
+
+[[how-are-requests-aborted]]
+=== How does Gerrit abort requests?
+
+The exact response that is returned to the client depends on the request type
+and the cancellation reason:
+
+[options="header",cols="1,3,3"]
+|=======================
+|Request Type   |Cancellation Reason|Response
+|REST over HTTP |Client Disconnected|The response is '499 Client Closed Request'.
+|               |Server-side deadline exceeded|The response is '408 Server Deadline Exceeded'.
+|               |Client-provided deadline exceeded|The response is '408 Client Provided Deadline Exceeded'.
+|SSH command    |Client Disconnected|The error message is 'Client Closed Request'.
+|               |Server-side deadline exceeded|The error message is 'Server Deadline Exceeded'.
+|               |Client-provided deadline exceeded|The error message is 'Client Provided Deadline Exceeded'.
+|git push       |Client Disconnected|The error status is 'Client Closed Request'.
+|               |Server-side deadline exceeded|The error status is 'Server Deadline Exceeded'.
+|               |Client-provided deadline exceeded|The error status is 'Client Provided Deadline Exceeded'.
+|git clone/fetch|Not supported.
+|=======================
+
+This means clients get a proper error message telling the user why the request
+has been aborted.
+
+Errors due to aborted requests are usually not counted as internal server errors,
+but the [cancellation metrics](metrics.html#cancellations) may be used to setup
+alerting for performance issues.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

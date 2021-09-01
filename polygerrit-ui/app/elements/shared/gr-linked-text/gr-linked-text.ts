@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '../../../styles/shared-styles';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-linked-text_html';
 import {GrLinkTextParser, LinkTextParserConfig} from './link-text-parser';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, property, query} from 'lit-element';
+import {customElement, property, observe} from '@polymer/decorators';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -25,10 +27,17 @@ declare global {
   }
 }
 
+export interface GrLinkedText {
+  $: {
+    output: HTMLSpanElement;
+  };
+}
+
 @customElement('gr-linked-text')
-export class GrLinkedText extends GrLitElement {
-  @query('#output')
-  outputElement?: HTMLSpanElement;
+export class GrLinkedText extends PolymerElement {
+  static get template() {
+    return htmlTemplate;
+  }
 
   @property({type: Boolean})
   removeZeroWidthSpace?: boolean;
@@ -37,63 +46,61 @@ export class GrLinkedText extends GrLitElement {
   @property({type: String})
   content: string | null = null;
 
-  @property({type: Boolean, reflect: true})
+  @property({type: Boolean, reflectToAttribute: true})
   pre = false;
 
-  @property({type: Boolean, reflect: true})
+  @property({type: Boolean, reflectToAttribute: true})
   disabled = false;
 
   @property({type: Object})
   config?: LinkTextParserConfig;
 
-  static get styles() {
-    return [
-      css`
-        :host {
-          display: block;
-        }
-        :host([pre]) span {
-          white-space: var(--linked-text-white-space, pre-wrap);
-          word-wrap: var(--linked-text-word-wrap, break-word);
-        }
-        :host([disabled]) a {
-          color: inherit;
-          text-decoration: none;
-          pointer-events: none;
-        }
-        a {
-          color: var(--link-color);
-        }
-      `,
-    ];
-  }
-
-  render() {
+  @observe('content')
+  _contentChanged(content: string | null) {
+    // In the case where the config may not be set (perhaps due to the
+    // request for it still being in flight), set the content anyway to
+    // prevent waiting on the config to display the text.
     if (!this.config) {
       return;
     }
-    return html`<span id="output">${this.content}</span>`;
+    this.$.output.textContent = content;
   }
 
-  updated() {
-    if (!this.outputElement || !this.config) return;
-    this.outputElement.textContent = '';
+  /**
+   * Because either the source text or the linkification config has changed,
+   * the content should be re-parsed.
+   *
+   * @param content The raw, un-linkified source string to parse.
+   * @param config The server config specifying commentLink patterns
+   */
+  @observe('content', 'config')
+  _contentOrConfigChanged(
+    content: string | null,
+    config?: LinkTextParserConfig
+  ) {
+    if (!config) {
+      return;
+    }
+
     // TODO(TS): mapCommentlinks always has value, remove
     if (!GerritNav.mapCommentlinks) return;
-    const config = GerritNav.mapCommentlinks(this.config);
+    config = GerritNav.mapCommentlinks(config);
+    const output = this.$.output;
+    output.textContent = '';
     const parser = new GrLinkTextParser(
       config,
       (text: string | null, href: string | null, fragment?: DocumentFragment) =>
         this._handleParseResult(text, href, fragment),
       this.removeZeroWidthSpace
     );
-    parser.parse(this.content);
+    parser.parse(content);
+
     // Ensure that external links originating from HTML commentlink configs
     // open in a new tab. @see Issue 5567
     // Ensure links to the same host originating from commentlink configs
     // open in the same tab. When target is not set - default is _self
     // @see Issue 4616
-    this.outputElement.querySelectorAll('a').forEach(anchor => {
+    output.querySelectorAll('a').forEach(anchor => {
       if (anchor.hostname === window.location.hostname) {
         anchor.removeAttribute('target');
       } else {
@@ -117,8 +124,7 @@ export class GrLinkedText extends GrLitElement {
     href: string | null,
     fragment?: DocumentFragment
   ) {
-    const output = this.outputElement;
-    if (!output) return;
+    const output = this.$.output;
     if (href) {
       const a = document.createElement('a');
       a.setAttribute('href', href);

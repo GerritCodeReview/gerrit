@@ -14,15 +14,14 @@
 
 package com.google.gerrit.server;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
@@ -33,11 +32,19 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import org.eclipse.jgit.lib.Config;
 
-/** {@link RequestStateProvider} that checks whether a client provided deadline is exceeded. */
+/**
+ * {@link RequestStateProvider} that checks whether a client provided deadline is exceeded.
+ *
+ * <p>Should be registered at most once per request.
+ */
 public class DeadlineChecker implements RequestStateProvider {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -99,7 +106,7 @@ public class DeadlineChecker implements RequestStateProvider {
    * <p>If any of these deadlines is exceeded the request is not be aborted. Instead the {@code
    * cancellation/advisory_deadline_count} metric is incremented and a log is written.
    */
-  private final ImmutableList<ServerDeadline> advisoryDeadlines;
+  private final Map<String, ServerDeadline> advisoryDeadlines;
 
   /**
    * Creates a {@link DeadlineChecker}.
@@ -202,30 +209,37 @@ public class DeadlineChecker implements RequestStateProvider {
         .findFirst();
   }
 
-  private ImmutableList<ServerDeadline> getAdvisoryDeadlines(
+  private Map<String, ServerDeadline> getAdvisoryDeadlines(
       ImmutableList<RequestConfig> deadlineConfigs, RequestInfo requestInfo) {
     return deadlineConfigs.stream()
         .filter(deadlineConfig -> deadlineConfig.matches(requestInfo))
         .map(ServerDeadline::readFrom)
         .filter(ServerDeadline::hasTimeout)
         .filter(ServerDeadline::isAdvisory)
-        .collect(toImmutableList());
+        .collect(toMap(ServerDeadline::id, Function.identity()));
   }
 
   @Override
   public void checkIfCancelled(OnCancelled onCancelled) {
     long now = System.nanoTime();
 
-    advisoryDeadlines.forEach(
-        advisoryDeadline -> {
-          if (now > advisoryDeadline.timeout()) {
-            logger.atFine().log(
-                "advisory deadline exceeded (%s)",
-                getTimeoutFormatter(advisoryDeadline.id() + ".timeout")
-                    .apply(advisoryDeadline.timeout()));
-            cancellationsMetrics.countAdvisoryDeadline(requestInfo, advisoryDeadline.id());
-          }
-        });
+    Set<String> exceededAdvisoryDeadlines = new HashSet<>();
+    advisoryDeadlines
+        .values()
+        .forEach(
+            advisoryDeadline -> {
+              if (now > advisoryDeadline.timeout()) {
+                exceededAdvisoryDeadlines.add(advisoryDeadline.id());
+                logger.atFine().log(
+                    "advisory deadline exceeded (%s)",
+                    getTimeoutFormatter(advisoryDeadline.id() + ".timeout")
+                        .apply(advisoryDeadline.timeout()));
+                cancellationsMetrics.countAdvisoryDeadline(requestInfo, advisoryDeadline.id());
+              }
+            });
+    // remove advisory deadlines which have already been reported as exceeded so that they don't get
+    // reported again for this request
+    exceededAdvisoryDeadlines.forEach(advisoryDeadlines::remove);
 
     if (deadline.isPresent() && now > deadline.get()) {
       onCancelled.onCancel(cancellationReason, getTimeoutFormatter(timeoutName).apply(timeout));

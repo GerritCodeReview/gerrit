@@ -44,7 +44,10 @@ public class PatchListCacheImpl implements PatchListCache {
         factory(IntraLineLoader.Factory.class);
         persist(INTRA_NAME, IntraLineDiffKey.class, IntraLineDiff.class)
             .maximumWeight(10 << 20)
-            .weigher(IntraLineWeigher.class);
+            .weigher(IntraLineWeigher.class)
+            .version(1)
+            .keySerializer(IntraLineDiffKey.Serializer.INSTANCE)
+            .valueSerializer(IntraLineDiff.Serializer.INSTANCE);
 
         factory(DiffSummaryLoader.Factory.class);
         persist(DIFF_SUMMARY, DiffSummaryKey.class, DiffSummary.class)
@@ -88,10 +91,10 @@ public class PatchListCacheImpl implements PatchListCache {
         return intraCache.get(key, intraLoaderFactory.create(key, args));
       } catch (ExecutionException | LargeObjectException e) {
         IntraLineLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
-        return new IntraLineDiff(IntraLineDiff.Status.ERROR);
+        return IntraLineDiff.create(IntraLineDiff.Status.ERROR);
       }
     }
-    return new IntraLineDiff(IntraLineDiff.Status.DISABLED);
+    return IntraLineDiff.create(IntraLineDiff.Status.DISABLED);
   }
 
   @Override

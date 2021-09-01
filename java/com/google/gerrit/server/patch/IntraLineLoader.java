@@ -96,7 +96,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
           key.getBlobA().name(),
           key.getBlobB().name());
       result.cancel(true);
-      return new IntraLineDiff(IntraLineDiff.Status.TIMEOUT);
+      return IntraLineDiff.create(IntraLineDiff.Status.TIMEOUT);
     } catch (ExecutionException e) {
       // If there was an error computing the result, carry it
       // up to the caller so the cache knows this key is invalid.
@@ -263,7 +263,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
       }
     }
 
-    return new IntraLineDiff(edits);
+    return IntraLineDiff.create(edits);
   }
 
   /**

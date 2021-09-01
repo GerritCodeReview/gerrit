@@ -307,9 +307,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       if (d == null) {
         return IntraLineDiffCalculatorResult.FAILURE;
       }
-      switch (d.getStatus()) {
+      switch (d.status()) {
         case EDIT_LIST:
-          return IntraLineDiffCalculatorResult.success(d.getEdits());
+          return IntraLineDiffCalculatorResult.success(d.edits());
 
         case ERROR:
           return IntraLineDiffCalculatorResult.FAILURE;

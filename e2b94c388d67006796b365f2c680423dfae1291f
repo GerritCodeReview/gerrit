@@ -22,6 +22,30 @@
       },
       "revId": "e2b94c388d67006796b365f2c680423dfae1291f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86216811_284c26a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-01T11:17:02Z",
+      "side": 1,
+      "message": "https://github.com/lit/lit/issues/2038",
+      "parentUuid": "f21708fd_9cb68281",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 85
+      },
+      "revId": "e2b94c388d67006796b365f2c680423dfae1291f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,40 +34,32 @@ suite('gr-auth', () => {
       fakeFetch = sinon.stub(window, 'fetch');
     });
 
-    test('auth-check returns 403', done => {
+    test('auth-check returns 403', async () => {
       fakeFetch.returns(Promise.resolve({status: 403}));
-      auth.authCheck().then(authed => {
-        assert.isFalse(authed);
-        assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-        done();
-      });
+      const authed = await auth.authCheck();
+      assert.isFalse(authed);
+      assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
     });
 
-    test('auth-check returns 204', done => {
+    test('auth-check returns 204', async () => {
       fakeFetch.returns(Promise.resolve({status: 204}));
-      auth.authCheck().then(authed => {
-        assert.isTrue(authed);
-        assert.equal(auth.status, Auth.STATUS.AUTHED);
-        done();
-      });
+      const authed = await auth.authCheck();
+      assert.isTrue(authed);
+      assert.equal(auth.status, Auth.STATUS.AUTHED);
     });
 
-    test('auth-check returns 502', done => {
+    test('auth-check returns 502', async () => {
       fakeFetch.returns(Promise.resolve({status: 502}));
-      auth.authCheck().then(authed => {
-        assert.isFalse(authed);
-        assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-        done();
-      });
+      const authed = await auth.authCheck();
+      assert.isFalse(authed);
+      assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
     });
 
-    test('auth-check failed', done => {
+    test('auth-check failed', async () => {
       fakeFetch.returns(Promise.reject(new Error('random error')));
-      auth.authCheck().then(authed => {
-        assert.isFalse(authed);
-        assert.equal(auth.status, Auth.STATUS.ERROR);
-        done();
-      });
+      const authed = await auth.authCheck();
+      assert.isFalse(authed);
+      assert.equal(auth.status, Auth.STATUS.ERROR);
     });
   });
 
@@ -80,129 +72,105 @@ suite('gr-auth', () => {
       fakeFetch = sinon.stub(window, 'fetch');
     });
 
-    test('cache auth-check result', done => {
+    test('cache auth-check result', async () => {
       fakeFetch.returns(Promise.resolve({status: 403}));
-      auth.authCheck().then(authed => {
-        assert.isFalse(authed);
-        assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-        fakeFetch.returns(Promise.resolve({status: 204}));
-        auth.authCheck().then(authed2 => {
-          assert.isFalse(authed);
-          assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-          done();
-        });
-      });
+      const authed = await auth.authCheck();
+      assert.isFalse(authed);
+      assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
+      fakeFetch.returns(Promise.resolve({status: 204}));
+      const authed2 = await auth.authCheck();
+      assert.isFalse(authed2);
+      assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
     });
 
-    test('clearCache should refetch auth-check result', done => {
+    test('clearCache should refetch auth-check result', async () => {
       fakeFetch.returns(Promise.resolve({status: 403}));
-      auth.authCheck().then(authed => {
-        assert.isFalse(authed);
-        assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-        fakeFetch.returns(Promise.resolve({status: 204}));
-        auth.clearCache();
-        auth.authCheck().then(authed2 => {
-          assert.isTrue(authed2);
-          assert.equal(auth.status, Auth.STATUS.AUTHED);
-          done();
-        });
-      });
+      const authed = await auth.authCheck();
+      assert.isFalse(authed);
+      assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
+      fakeFetch.returns(Promise.resolve({status: 204}));
+      auth.clearCache();
+      const authed2 = await auth.authCheck();
+      assert.isTrue(authed2);
+      assert.equal(auth.status, Auth.STATUS.AUTHED);
     });
 
-    test('cache expired on auth-check after certain time', done => {
+    test('cache expired on auth-check after certain time', async () => {
       fakeFetch.returns(Promise.resolve({status: 403}));
-      auth.authCheck().then(authed => {
-        assert.isFalse(authed);
-        assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-        clock.tick(1000 * 10000);
-        fakeFetch.returns(Promise.resolve({status: 204}));
-        auth.authCheck().then(authed2 => {
-          assert.isTrue(authed2);
-          assert.equal(auth.status, Auth.STATUS.AUTHED);
-          done();
-        });
-      });
+      const authed = await auth.authCheck();
+      assert.isFalse(authed);
+      assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
+      clock.tick(1000 * 10000);
+      fakeFetch.returns(Promise.resolve({status: 204}));
+      const authed2 = await auth.authCheck();
+      assert.isTrue(authed2);
+      assert.equal(auth.status, Auth.STATUS.AUTHED);
     });
 
-    test('no cache if auth-check failed', done => {
+    test('no cache if auth-check failed', async () => {
       fakeFetch.returns(Promise.reject(new Error('random error')));
-      auth.authCheck().then(authed => {
-        assert.isFalse(authed);
-        assert.equal(auth.status, Auth.STATUS.ERROR);
-        assert.equal(fakeFetch.callCount, 1);
-        auth.authCheck().then(() => {
-          assert.equal(fakeFetch.callCount, 2);
-          done();
-        });
-      });
+      const authed = await auth.authCheck();
+      assert.isFalse(authed);
+      assert.equal(auth.status, Auth.STATUS.ERROR);
+      assert.equal(fakeFetch.callCount, 1);
+      await auth.authCheck();
+      assert.equal(fakeFetch.callCount, 2);
     });
 
-    test('fire event when switch from authed to unauthed', done => {
+    test('fire event when switch from authed to unauthed', async () => {
       fakeFetch.returns(Promise.resolve({status: 204}));
-      auth.authCheck().then(authed => {
-        assert.isTrue(authed);
-        assert.equal(auth.status, Auth.STATUS.AUTHED);
-        clock.tick(1000 * 10000);
-        fakeFetch.returns(Promise.resolve({status: 403}));
-        const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
-        auth.authCheck().then(authed2 => {
-          assert.isFalse(authed2);
-          assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-          assert.isTrue(emitStub.called);
-          done();
-        });
-      });
+      const authed = await auth.authCheck();
+      assert.isTrue(authed);
+      assert.equal(auth.status, Auth.STATUS.AUTHED);
+      clock.tick(1000 * 10000);
+      fakeFetch.returns(Promise.resolve({status: 403}));
+      const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
+      const authed2 = await auth.authCheck();
+      assert.isFalse(authed2);
+      assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
+      assert.isTrue(emitStub.called);
     });
 
-    test('fire event when switch from authed to error', done => {
+    test('fire event when switch from authed to error', async () => {
       fakeFetch.returns(Promise.resolve({status: 204}));
-      auth.authCheck().then(authed => {
-        assert.isTrue(authed);
-        assert.equal(auth.status, Auth.STATUS.AUTHED);
-        clock.tick(1000 * 10000);
-        fakeFetch.returns(Promise.reject(new Error('random error')));
-        const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
-        auth.authCheck().then(authed2 => {
-          assert.isFalse(authed2);
-          assert.isTrue(emitStub.called);
-          assert.equal(auth.status, Auth.STATUS.ERROR);
-          done();
-        });
-      });
+      const authed = await auth.authCheck();
+      assert.isTrue(authed);
+      assert.equal(auth.status, Auth.STATUS.AUTHED);
+      clock.tick(1000 * 10000);
+      fakeFetch.returns(Promise.reject(new Error('random error')));
+      const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
+      const authed2 = await auth.authCheck();
+      assert.isFalse(authed2);
+      assert.isTrue(emitStub.called);
+      assert.equal(auth.status, Auth.STATUS.ERROR);
     });
 
-    test('no event from non-authed to other status', done => {
+    test('no event from non-authed to other status', async () => {
       fakeFetch.returns(Promise.resolve({status: 403}));
-      auth.authCheck().then(authed => {
-        assert.isFalse(authed);
-        assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-        clock.tick(1000 * 10000);
-        fakeFetch.returns(Promise.resolve({status: 204}));
-        const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
-        auth.authCheck().then(authed2 => {
-          assert.isTrue(authed2);
-          assert.isFalse(emitStub.called);
-          assert.equal(auth.status, Auth.STATUS.AUTHED);
-          done();
-        });
-      });
+      const authed = await auth.authCheck();
+      assert.isFalse(authed);
+      assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
+      clock.tick(1000 * 10000);
+      fakeFetch.returns(Promise.resolve({status: 204}));
+      const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
+      const authed2 = await auth.authCheck();
+      assert.isTrue(authed2);
+      assert.isFalse(emitStub.called);
+      assert.equal(auth.status, Auth.STATUS.AUTHED);
     });
 
-    test('no event from non-authed to other status', done => {
+    test('no event from non-authed to other status', async () => {
       fakeFetch.returns(Promise.resolve({status: 403}));
-      auth.authCheck().then(authed => {
-        assert.isFalse(authed);
-        assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
-        clock.tick(1000 * 10000);
-        fakeFetch.returns(Promise.reject(new Error('random error')));
-        const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
-        auth.authCheck().then(authed2 => {
-          assert.isFalse(authed2);
-          assert.isFalse(emitStub.called);
-          assert.equal(auth.status, Auth.STATUS.ERROR);
-          done();
-        });
-      });
+      const authed = await auth.authCheck();
+      assert.isFalse(authed);
+      assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
+      clock.tick(1000 * 10000);
+      fakeFetch.returns(Promise.reject(new Error('random error')));
+      const emitStub = sinon.stub(appContext.eventEmitter, 'emit');
+      const authed2 = await auth.authCheck();
+      assert.isFalse(authed2);
+      assert.isFalse(emitStub.called);
+      assert.equal(auth.status, Auth.STATUS.ERROR);
     });
   });
 
@@ -211,26 +179,22 @@ suite('gr-auth', () => {
       sinon.stub(window, 'fetch').returns(Promise.resolve({ok: true}));
     });
 
-    test('GET', done => {
-      auth.fetch('/url', {bar: 'bar'}).then(() => {
-        const [url, options] = fetch.lastCall.args;
-        assert.equal(url, '/url');
-        assert.equal(options.credentials, 'same-origin');
-        done();
-      });
+    test('GET', async () => {
+      await auth.fetch('/url', {bar: 'bar'});
+      const [url, options] = fetch.lastCall.args;
+      assert.equal(url, '/url');
+      assert.equal(options.credentials, 'same-origin');
     });
 
-    test('POST', done => {
+    test('POST', async () => {
       sinon.stub(auth, '_getCookie')
           .withArgs('XSRF_TOKEN')
           .returns('foobar');
-      auth.fetch('/url', {method: 'POST'}).then(() => {
-        const [url, options] = fetch.lastCall.args;
-        assert.equal(url, '/url');
-        assert.equal(options.credentials, 'same-origin');
-        assert.equal(options.headers.get('X-Gerrit-Auth'), 'foobar');
-        done();
-      });
+      await auth.fetch('/url', {method: 'POST'});
+      const [url, options] = fetch.lastCall.args;
+      assert.equal(url, '/url');
+      assert.equal(options.credentials, 'same-origin');
+      assert.equal(options.headers.get('X-Gerrit-Auth'), 'foobar');
     });
   });
 
@@ -254,45 +218,36 @@ suite('gr-auth', () => {
       auth.setup(getToken);
     });
 
-    test('base url support', done => {
+    test('base url support', async () => {
       const baseUrl = 'http://foo';
       stubBaseUrl(baseUrl);
-      auth.fetch(baseUrl + '/url', {bar: 'bar'}).then(() => {
-        const [url] = fetch.lastCall.args;
-        assert.equal(url, 'http://foo/a/url?access_token=zbaz');
-        done();
-      });
+      await auth.fetch(baseUrl + '/url', {bar: 'bar'});
+      const [url] = fetch.lastCall.args;
+      assert.equal(url, 'http://foo/a/url?access_token=zbaz');
     });
 
-    test('fetch not signed in', done => {
+    test('fetch not signed in', async () => {
       getToken.returns(Promise.resolve());
-      auth.fetch('/url', {bar: 'bar'}).then(() => {
-        const [url, options] = fetch.lastCall.args;
-        assert.equal(url, '/url');
-        assert.equal(options.bar, 'bar');
-        assert.equal(Object.keys(options.headers).length, 0);
-        done();
-      });
+      await auth.fetch('/url', {bar: 'bar'});
+      const [url, options] = fetch.lastCall.args;
+      assert.equal(url, '/url');
+      assert.equal(options.bar, 'bar');
+      assert.equal(Object.keys(options.headers).length, 0);
     });
 
-    test('fetch signed in', done => {
-      auth.fetch('/url', {bar: 'bar'}).then(() => {
-        const [url, options] = fetch.lastCall.args;
-        assert.equal(url, '/a/url?access_token=zbaz');
-        assert.equal(options.bar, 'bar');
-        done();
-      });
+    test('fetch signed in', async () => {
+      await auth.fetch('/url', {bar: 'bar'});
+      const [url, options] = fetch.lastCall.args;
+      assert.equal(url, '/a/url?access_token=zbaz');
+      assert.equal(options.bar, 'bar');
     });
 
-    test('getToken calls are cached', done => {
-      Promise.all([
-        auth.fetch('/url-one'), auth.fetch('/url-two')]).then(() => {
-        assert.equal(getToken.callCount, 1);
-        done();
-      });
+    test('getToken calls are cached', async () => {
+      await Promise.all([auth.fetch('/url-one'), auth.fetch('/url-two')]);
+      assert.equal(getToken.callCount, 1);
     });
 
-    test('getToken refreshes token', done => {
+    test('getToken refreshes token', async () => {
       sinon.stub(auth, '_isTokenValid');
       auth._isTokenValid
           .onFirstCall().returns(true)
@@ -300,27 +255,21 @@ suite('gr-auth', () => {
           .returns(false)
           .onThirdCall()
           .returns(true);
-      auth.fetch('/url-one')
-          .then(() => {
-            getToken.returns(Promise.resolve(makeToken('bzzbb')));
-            return auth.fetch('/url-two');
-          })
-          .then(() => {
-            const [[firstUrl], [secondUrl]] = fetch.args;
-            assert.equal(firstUrl, '/a/url-one?access_token=zbaz');
-            assert.equal(secondUrl, '/a/url-two?access_token=bzzbb');
-            done();
-          });
+      await auth.fetch('/url-one');
+      getToken.returns(Promise.resolve(makeToken('bzzbb')));
+      await auth.fetch('/url-two');
+
+      const [[firstUrl], [secondUrl]] = fetch.args;
+      assert.equal(firstUrl, '/a/url-one?access_token=zbaz');
+      assert.equal(secondUrl, '/a/url-two?access_token=bzzbb');
     });
 
-    test('signed in token error falls back to anonymous', done => {
+    test('signed in token error falls back to anonymous', async () => {
       getToken.returns(Promise.resolve('rubbish'));
-      auth.fetch('/url', {bar: 'bar'}).then(() => {
-        const [url, options] = fetch.lastCall.args;
-        assert.equal(url, '/url');
-        assert.equal(options.bar, 'bar');
-        done();
-      });
+      await auth.fetch('/url', {bar: 'bar'});
+      const [url, options] = fetch.lastCall.args;
+      assert.equal(url, '/url');
+      assert.equal(options.bar, 'bar');
     });
 
     test('_isTokenValid', () => {
@@ -337,37 +286,33 @@ suite('gr-auth', () => {
       }));
     });
 
-    test('HTTP PUT with content type', done => {
+    test('HTTP PUT with content type', async () => {
       const originalOptions = {
         method: 'PUT',
         headers: new Headers({'Content-Type': 'mail/pigeon'}),
       };
-      auth.fetch('/url', originalOptions).then(() => {
-        assert.isTrue(getToken.called);
-        const [url, options] = fetch.lastCall.args;
-        assert.include(url, '$ct=mail%2Fpigeon');
-        assert.include(url, '$m=PUT');
-        assert.include(url, 'access_token=zbaz');
-        assert.equal(options.method, 'POST');
-        assert.equal(options.headers.get('Content-Type'), 'text/plain');
-        done();
-      });
+      await auth.fetch('/url', originalOptions);
+      assert.isTrue(getToken.called);
+      const [url, options] = fetch.lastCall.args;
+      assert.include(url, '$ct=mail%2Fpigeon');
+      assert.include(url, '$m=PUT');
+      assert.include(url, 'access_token=zbaz');
+      assert.equal(options.method, 'POST');
+      assert.equal(options.headers.get('Content-Type'), 'text/plain');
     });
 
-    test('HTTP PUT without content type', done => {
+    test('HTTP PUT without content type', async () => {
       const originalOptions = {
         method: 'PUT',
       };
-      auth.fetch('/url', originalOptions).then(() => {
-        assert.isTrue(getToken.called);
-        const [url, options] = fetch.lastCall.args;
-        assert.include(url, '$ct=text%2Fplain');
-        assert.include(url, '$m=PUT');
-        assert.include(url, 'access_token=zbaz');
-        assert.equal(options.method, 'POST');
-        assert.equal(options.headers.get('Content-Type'), 'text/plain');
-        done();
-      });
+      await auth.fetch('/url', originalOptions);
+      assert.isTrue(getToken.called);
+      const [url, options] = fetch.lastCall.args;
+      assert.include(url, '$ct=text%2Fplain');
+      assert.include(url, '$m=PUT');
+      assert.include(url, 'access_token=zbaz');
+      assert.equal(options.method, 'POST');
+      assert.equal(options.headers.get('Content-Type'), 'text/plain');
     });
   });
 });

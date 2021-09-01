@@ -76,7 +76,7 @@ suite('gr-included-in-dialog', () => {
     ]);
   });
 
-  test('_computeGroups with .bindValue', done => {
+  test('_computeGroups with .bindValue', async () => {
     queryAndAssert<IronInputElement>(element, '#filterInput')!.bindValue =
       'stable-3.2';
     const includedIn = {branches: [], tags: []} as IncludedInInfo;
@@ -84,14 +84,10 @@ suite('gr-included-in-dialog', () => {
       'master' as BranchName,
       'stable-3.2' as BranchName
     );
-
-    setTimeout(() => {
-      const filterText = element._filterText;
-      assert.deepEqual(element._computeGroups(includedIn, filterText), [
-        {title: 'Branches', items: ['stable-3.2']},
-      ]);
-
-      done();
-    });
+    await flush();
+    const filterText = element._filterText;
+    assert.deepEqual(element._computeGroups(includedIn, filterText), [
+      {title: 'Branches', items: ['stable-3.2']},
+    ]);
   });
 });

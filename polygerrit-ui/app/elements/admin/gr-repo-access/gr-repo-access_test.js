@@ -20,7 +20,11 @@ import './gr-repo-access.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {toSortedPermissionsArray} from '../../../utils/access-util.js';
-import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
+import {
+  addListenerForTest,
+  mockPromise,
+  stubRestApi,
+} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo-access');
 
@@ -238,19 +242,22 @@ suite('gr-repo-access tests', () => {
     assert.equal(element._computeLoadingClass(false), '');
   });
 
-  test('fires page-error', done => {
+  test('fires page-error', async () => {
     const response = {status: 404};
 
     stubRestApi('getRepoAccessRights').callsFake((repoName, errFn) => {
       errFn(response);
+      return Promise.resolve(undefined);
     });
 
+    const promise = mockPromise();
     addListenerForTest(document, 'page-error', e => {
       assert.deepEqual(e.detail.response, response);
-      done();
+      promise.resolve();
     });
 
     element.repo = 'test';
+    await promise;
   });
 
   suite('with defined sections', () => {

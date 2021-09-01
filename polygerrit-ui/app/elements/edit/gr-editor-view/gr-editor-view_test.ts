@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma';
 import {GrEditorView} from './gr-editor-view';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {HttpMethod} from '../../../constants/constants';
-import {stubRestApi, stubStorage} from '../../../test/test-utils';
+import {mockPromise, stubRestApi, stubStorage} from '../../../test/test-utils';
 import {
   EditPatchSetNum,
   NumericChangeId,
@@ -348,14 +348,16 @@ suite('gr-editor-view tests', () => {
     });
   });
 
-  test('_showAlert', done => {
+  test('_showAlert', async () => {
+    const promise = mockPromise();
     element.addEventListener('show-alert', e => {
       assert.deepEqual(e.detail, {message: 'test message'});
       assert.isTrue(e.bubbles);
-      done();
+      promise.resolve();
     });
 
     element._showAlert('test message');
+    await promise;
   });
 
   test('_viewEditInChangeView', () => {

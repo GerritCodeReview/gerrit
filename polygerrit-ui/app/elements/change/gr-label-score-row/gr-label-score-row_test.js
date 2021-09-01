@@ -23,7 +23,7 @@ const basicFixture = fixtureFromElement('gr-label-score-row');
 suite('gr-label-row-score tests', () => {
   let element;
 
-  setup(done => {
+  setup(async () => {
     element = basicFixture.instantiate();
     element.labels = {
       'Code-Review': {
@@ -80,7 +80,7 @@ suite('gr-label-row-score tests', () => {
       value: '+1',
     };
 
-    flush(done);
+    await flush();
   });
 
   function checkAriaCheckedValid() {
@@ -241,7 +241,7 @@ suite('gr-label-row-score tests', () => {
     checkAriaCheckedValid();
   });
 
-  test('without permitted labels', () => {
+  test('without permitted labels', async () => {
     element.permittedLabels = {
       Verified: [
         '-1',
@@ -249,22 +249,22 @@ suite('gr-label-row-score tests', () => {
         '+1',
       ],
     };
-    flush();
+    await flush();
     assert.isOk(element.$.labelSelector);
     assert.isFalse(element.$.labelSelector.hidden);
 
     element.permittedLabels = {};
-    flush();
+    await flush();
     assert.isOk(element.$.labelSelector);
     assert.isTrue(element.$.labelSelector.hidden);
 
     element.permittedLabels = {Verified: []};
-    flush();
+    await flush();
     assert.isOk(element.$.labelSelector);
     assert.isTrue(element.$.labelSelector.hidden);
   });
 
-  test('asymmetrical labels', done => {
+  test('asymmetrical labels', async () => {
     element.permittedLabels = {
       'Code-Review': [
         '-2',
@@ -278,35 +278,32 @@ suite('gr-label-row-score tests', () => {
         '+1',
       ],
     };
-    flush(() => {
-      assert.strictEqual(element.$.labelSelector
-          .items.length, 2);
-      assert.strictEqual(
-          element.root.querySelectorAll('.placeholder').length,
-          3);
+    await flush();
+    assert.strictEqual(element.$.labelSelector
+        .items.length, 2);
+    assert.strictEqual(
+        element.root.querySelectorAll('.placeholder').length,
+        3);
 
-      element.permittedLabels = {
-        'Code-Review': [
-          ' 0',
-          '+1',
-        ],
-        'Verified': [
-          '-2',
-          '-1',
-          ' 0',
-          '+1',
-          '+2',
-        ],
-      };
-      flush(() => {
-        assert.strictEqual(element.$.labelSelector
-            .items.length, 5);
-        assert.strictEqual(
-            element.root.querySelectorAll('.placeholder').length,
-            0);
-        done();
-      });
-    });
+    element.permittedLabels = {
+      'Code-Review': [
+        ' 0',
+        '+1',
+      ],
+      'Verified': [
+        '-2',
+        '-1',
+        ' 0',
+        '+1',
+        '+2',
+      ],
+    };
+    await flush();
+    assert.strictEqual(element.$.labelSelector
+        .items.length, 5);
+    assert.strictEqual(
+        element.root.querySelectorAll('.placeholder').length,
+        0);
   });
 
   test('default_value', () => {

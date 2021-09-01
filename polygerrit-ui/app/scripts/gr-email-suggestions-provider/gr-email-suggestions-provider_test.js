@@ -35,17 +35,15 @@ suite('GrEmailSuggestionsProvider tests', () => {
     provider = new GrEmailSuggestionsProvider(appContext.restApiService);
   });
 
-  test('getSuggestions', done => {
+  test('getSuggestions', async () => {
     const getSuggestedAccountsStub =
         stubRestApi('getSuggestedAccounts').returns(
             Promise.resolve([account1, account2]));
 
-    provider.getSuggestions('Some input').then(res => {
-      assert.deepEqual(res, [account1, account2]);
-      assert.isTrue(getSuggestedAccountsStub.calledOnce);
-      assert.equal(getSuggestedAccountsStub.lastCall.args[0], 'Some input');
-      done();
-    });
+    const res = await provider.getSuggestions('Some input');
+    assert.deepEqual(res, [account1, account2]);
+    assert.isTrue(getSuggestedAccountsStub.calledOnce);
+    assert.equal(getSuggestedAccountsStub.lastCall.args[0], 'Some input');
   });
 
   test('makeSuggestionItem', () => {

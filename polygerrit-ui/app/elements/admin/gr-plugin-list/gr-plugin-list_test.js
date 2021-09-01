@@ -18,7 +18,10 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-plugin-list.js';
 import 'lodash/lodash.js';
-import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
+import {
+  addListenerForTest,
+  mockPromise,
+  stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-plugin-list');
 
@@ -52,52 +55,45 @@ suite('gr-plugin-list tests', () => {
     counter = 0;
   });
 
-  suite('list with plugins', () => {
-    setup(done => {
+  suite('list with plugins', async () => {
+    setup(async () => {
       plugins = _.times(26, pluginGenerator);
       stubRestApi('getPlugins').returns(Promise.resolve(plugins));
-      element._paramsChanged(value).then(() => { flush(done); });
+      await element._paramsChanged(value);
+      await flush();
     });
 
-    test('plugin in the list is formatted correctly', done => {
-      flush(() => {
-        assert.equal(element._plugins[4].id, 'test5');
-        assert.equal(element._plugins[4].index_url, 'plugins/test5/');
-        assert.equal(element._plugins[4].version, 'version-5');
-        assert.equal(element._plugins[4].api_version, 'api-version-5');
-        assert.equal(element._plugins[4].disabled, false);
-        done();
-      });
+    test('plugin in the list is formatted correctly', async () => {
+      await flush();
+      assert.equal(element._plugins[4].id, 'test5');
+      assert.equal(element._plugins[4].index_url, 'plugins/test5/');
+      assert.equal(element._plugins[4].version, 'version-5');
+      assert.equal(element._plugins[4].api_version, 'api-version-5');
+      assert.equal(element._plugins[4].disabled, false);
     });
 
-    test('with and without urls', done => {
-      flush(() => {
-        const names = element.root.querySelectorAll('.name');
-        assert.isOk(names[1].querySelector('a'));
-        assert.equal(names[1].querySelector('a').innerText, 'test1');
-        assert.isNotOk(names[2].querySelector('a'));
-        assert.equal(names[2].innerText, 'test2');
-        done();
-      });
+    test('with and without urls', async () => {
+      await flush();
+      const names = element.root.querySelectorAll('.name');
+      assert.isOk(names[1].querySelector('a'));
+      assert.equal(names[1].querySelector('a').innerText, 'test1');
+      assert.isNotOk(names[2].querySelector('a'));
+      assert.equal(names[2].innerText, 'test2');
     });
 
-    test('versions', done => {
-      flush(() => {
-        const versions = element.root.querySelectorAll('.version');
-        assert.equal(versions[2].innerText, 'version-2');
-        assert.equal(versions[3].innerText, '--');
-        done();
-      });
+    test('versions', async () => {
+      await flush();
+      const versions = element.root.querySelectorAll('.version');
+      assert.equal(versions[2].innerText, 'version-2');
+      assert.equal(versions[3].innerText, '--');
     });
 
-    test('api versions', done => {
-      flush(() => {
-        const apiVersions = element.root.querySelectorAll(
-            '.apiVersion');
-        assert.equal(apiVersions[3].innerText, 'api-version-3');
-        assert.equal(apiVersions[4].innerText, '--');
-        done();
-      });
+    test('api versions', async () => {
+      await flush();
+      const apiVersions = element.root.querySelectorAll(
+          '.apiVersion');
+      assert.equal(apiVersions[3].innerText, 'api-version-3');
+      assert.equal(apiVersions[4].innerText, '--');
     });
 
     test('_shownPlugins', () => {
@@ -106,10 +102,11 @@ suite('gr-plugin-list tests', () => {
   });
 
   suite('list with less then 26 plugins', () => {
-    setup(done => {
+    setup(async () => {
       plugins = _.times(25, pluginGenerator);
       stubRestApi('getPlugins').returns(Promise.resolve(plugins));
-      element._paramsChanged(value).then(() => { flush(done); });
+      await element._paramsChanged(value);
+      await flush();
     });
 
     test('_shownPlugins', () => {
@@ -133,7 +130,7 @@ suite('gr-plugin-list tests', () => {
   });
 
   suite('loading', () => {
-    test('correct contents are displayed', () => {
+    test('correct contents are displayed', async () => {
       assert.isTrue(element._loading);
       assert.equal(element.computeLoadingClass(element._loading), 'loading');
       assert.equal(getComputedStyle(element.$.loading).display, 'block');
@@ -141,30 +138,33 @@ suite('gr-plugin-list tests', () => {
       element._loading = false;
       element._plugins = _.times(25, pluginGenerator);
 
-      flush();
+      await flush();
       assert.equal(element.computeLoadingClass(element._loading), '');
       assert.equal(getComputedStyle(element.$.loading).display, 'none');
     });
   });
 
   suite('404', () => {
-    test('fires page-error', done => {
+    test('fires page-error', async () => {
       const response = {status: 404};
       stubRestApi('getPlugins').callsFake(
           (filter, pluginsPerPage, opt_offset, errFn) => {
             errFn(response);
+            return Promise.resolve(undefined);
           });
 
+      const promise = mockPromise();
       addListenerForTest(document, 'page-error', e => {
         assert.deepEqual(e.detail.response, response);
-        done();
+        promise.resolve();
       });
 
       const value = {
         filter: 'test',
         offset: 25,
       };
-      element._paramsChanged(value);
+      await element._paramsChanged(value);
+      await promise;
     });
   });
 });

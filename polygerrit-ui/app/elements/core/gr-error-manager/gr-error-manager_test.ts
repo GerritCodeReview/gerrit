@@ -63,7 +63,7 @@ suite('gr-error-manager tests', () => {
       });
     });
 
-    test('does not show auth error on 403 by default', done => {
+    test('does not show auth error on 403 by default', async () => {
       const showAuthErrorStub = sinon.stub(element, '_showAuthErrorAlert');
       const responseText = Promise.resolve('server says no.');
       element.dispatchEvent(
@@ -80,13 +80,11 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      flush(() => {
-        assert.isFalse(showAuthErrorStub.calledOnce);
-        done();
-      });
+      await flush();
+      assert.isFalse(showAuthErrorStub.calledOnce);
     });
 
-    test('show auth required for 403 with auth error and not authed before', done => {
+    test('show auth required for 403 with auth error and not authed before', async () => {
       const showAuthErrorStub = sinon.stub(element, '_showAuthErrorAlert');
       const responseText = Promise.resolve('Authentication required\n');
       getLoggedInStub.returns(Promise.resolve(true));
@@ -104,10 +102,8 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      flush(() => {
-        assert.isTrue(showAuthErrorStub.calledOnce);
-        done();
-      });
+      await flush();
+      assert.isTrue(showAuthErrorStub.calledOnce);
     });
 
     test('recheck auth for 403 with auth error if authed before', async () => {
@@ -149,7 +145,7 @@ suite('gr-error-manager tests', () => {
       );
     });
 
-    test('show normal Error', done => {
+    test('show normal Error', async () => {
       const showErrorSpy = sinon.spy(element, '_showErrorDialog');
       const textSpy = sinon.spy(() => Promise.resolve('ZOMG'));
       element.dispatchEvent(
@@ -161,13 +157,9 @@ suite('gr-error-manager tests', () => {
       );
 
       assert.isTrue(textSpy.called);
-      flush(() => {
-        assert.isTrue(showErrorSpy.calledOnce);
-        assert.isTrue(
-          showErrorSpy.lastCall.calledWithExactly('Error 500: ZOMG')
-        );
-        done();
-      });
+      await flush();
+      assert.isTrue(showErrorSpy.calledOnce);
+      assert.isTrue(showErrorSpy.lastCall.calledWithExactly('Error 500: ZOMG'));
     });
 
     test('constructServerErrorMsg', () => {
@@ -207,7 +199,7 @@ suite('gr-error-manager tests', () => {
       );
     });
 
-    test('extract trace id from headers if exists', done => {
+    test('extract trace id from headers if exists', async () => {
       const textSpy = sinon.spy(() => Promise.resolve('500'));
       const headers = new Headers();
       headers.set('X-Gerrit-Trace', 'xxxx');
@@ -224,16 +216,14 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      flush(() => {
-        assert.equal(
-          element.$.errorDialog.text,
-          'Error 500: 500\nTrace Id: xxxx'
-        );
-        done();
-      });
+      await flush();
+      assert.equal(
+        element.$.errorDialog.text,
+        'Error 500: 500\nTrace Id: xxxx'
+      );
     });
 
-    test('suppress TOO_MANY_FILES error', done => {
+    test('suppress TOO_MANY_FILES error', async () => {
       const showAlertStub = sinon.stub(element, '_showAlert');
       const textSpy = sinon.spy(() =>
         Promise.resolve('too many files to find conflicts')
@@ -247,13 +237,11 @@ suite('gr-error-manager tests', () => {
       );
 
       assert.isTrue(textSpy.called);
-      flush(() => {
-        assert.isFalse(showAlertStub.called);
-        done();
-      });
+      await flush();
+      assert.isFalse(showAlertStub.called);
     });
 
-    test('suppress CONFLICTS_OPERATOR_IS_NOT_SUPPORTED error', done => {
+    test('suppress CONFLICTS_OPERATOR_IS_NOT_SUPPORTED error', async () => {
       const showAlertStub = sinon.stub(element, '_showAlert');
       const textSpy = sinon.spy(() =>
         Promise.resolve("'conflicts:' operator is not supported by server")
@@ -267,13 +255,11 @@ suite('gr-error-manager tests', () => {
       );
 
       assert.isTrue(textSpy.called);
-      flush(() => {
-        assert.isFalse(showAlertStub.called);
-        done();
-      });
+      await flush();
+      assert.isFalse(showAlertStub.called);
     });
 
-    test('show network error', done => {
+    test('show network error', async () => {
       const showAlertStub = sinon.stub(element, '_showAlert');
       element.dispatchEvent(
         new CustomEvent('network-error', {
@@ -282,13 +268,11 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      flush(() => {
-        assert.isTrue(showAlertStub.calledOnce);
-        assert.isTrue(
-          showAlertStub.lastCall.calledWithExactly('Server unavailable')
-        );
-        done();
-      });
+      await flush();
+      assert.isTrue(showAlertStub.calledOnce);
+      assert.isTrue(
+        showAlertStub.lastCall.calledWithExactly('Server unavailable')
+      );
     });
 
     test('_canOverride alerts', () => {
@@ -576,7 +560,7 @@ suite('gr-error-manager tests', () => {
       assert.equal(element._lastCredentialCheck, 999999);
     });
 
-    test('refreshes with same credentials', done => {
+    test('refreshes with same credentials', async () => {
       const accountPromise = Promise.resolve({
         ...createAccountDetailWithId(1234),
       });
@@ -592,12 +576,10 @@ suite('gr-error-manager tests', () => {
       element._refreshingCredentials = true;
       element._checkSignedIn();
 
-      flush(() => {
-        assert.isFalse(requestCheckStub.called);
-        assert.isTrue(handleRefreshStub.called);
-        assert.isFalse(reloadStub.called);
-        done();
-      });
+      await flush();
+      assert.isFalse(requestCheckStub.called);
+      assert.isTrue(handleRefreshStub.called);
+      assert.isFalse(reloadStub.called);
     });
 
     test('_showAlert hides existing alerts', () => {

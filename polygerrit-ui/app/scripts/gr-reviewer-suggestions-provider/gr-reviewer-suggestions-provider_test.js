@@ -54,7 +54,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
   let redundantSuggestion3;
   let change;
 
-  setup(done => {
+  setup(async () => {
     owner = makeAccount();
     existingReviewer1 = makeAccount();
     existingReviewer2 = makeAccount();
@@ -78,15 +78,15 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       },
     };
 
-    return flush(done);
+    await flush();
   });
 
   suite('allowAnyUser set to false', () => {
-    setup(done => {
+    setup(async () => {
       provider = GrReviewerSuggestionsProvider.create(
           appContext.restApiService, change._number,
           SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
-      provider.init().then(done);
+      await provider.init();
     });
     suite('stubbed values for _getReviewerSuggestions', () => {
       let getChangeSuggestedReviewersStub;
@@ -165,17 +165,15 @@ suite('GrReviewerSuggestionsProvider tests', () => {
         });
       });
 
-      test('getSuggestions', done => {
-        provider.getSuggestions()
-            .then(reviewers => {
-              // Default is no filtering.
-              assert.equal(reviewers.length, 6);
-              assert.deepEqual(reviewers,
-                  [redundantSuggestion1, redundantSuggestion2,
-                    redundantSuggestion3, suggestion1,
-                    suggestion2, suggestion3]);
-            })
-            .then(done);
+      test('getSuggestions', async () => {
+        const reviewers = await provider.getSuggestions();
+
+        // Default is no filtering.
+        assert.equal(reviewers.length, 6);
+        assert.deepEqual(reviewers,
+            [redundantSuggestion1, redundantSuggestion2,
+              redundantSuggestion3, suggestion1,
+              suggestion2, suggestion3]);
       });
 
       test('getSuggestions short circuits when logged out', () => {
@@ -190,41 +188,37 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       });
     });
 
-    test('getChangeSuggestedReviewers is used', done => {
+    test('getChangeSuggestedReviewers is used', async () => {
       const suggestReviewerStub = stubRestApi('getChangeSuggestedReviewers')
           .returns(Promise.resolve([]));
       const suggestAccountStub = stubRestApi('getSuggestedAccounts')
           .returns(Promise.resolve([]));
 
-      provider.getSuggestions('').then(() => {
-        assert.isTrue(suggestReviewerStub.calledOnce);
-        assert.isTrue(suggestReviewerStub.calledWith(42, ''));
-        assert.isFalse(suggestAccountStub.called);
-        done();
-      });
+      await provider.getSuggestions('');
+      assert.isTrue(suggestReviewerStub.calledOnce);
+      assert.isTrue(suggestReviewerStub.calledWith(42, ''));
+      assert.isFalse(suggestAccountStub.called);
     });
   });
 
   suite('allowAnyUser set to true', () => {
-    setup(done => {
+    setup(async () => {
       provider = GrReviewerSuggestionsProvider.create(
           appContext.restApiService, change._number,
           SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
-      provider.init().then(done);
+      await provider.init();
     });
 
-    test('getSuggestedAccounts is used', done => {
+    test('getSuggestedAccounts is used', async () => {
       const suggestReviewerStub = stubRestApi('getChangeSuggestedReviewers')
           .returns(Promise.resolve([]));
       const suggestAccountStub = stubRestApi('getSuggestedAccounts')
           .returns(Promise.resolve([]));
 
-      provider.getSuggestions('').then(() => {
-        assert.isFalse(suggestReviewerStub.called);
-        assert.isTrue(suggestAccountStub.calledOnce);
-        assert.isTrue(suggestAccountStub.calledWith('cansee:42 '));
-        done();
-      });
+      await provider.getSuggestions('');
+      assert.isFalse(suggestReviewerStub.called);
+      assert.isTrue(suggestAccountStub.calledOnce);
+      assert.isTrue(suggestAccountStub.calledWith('cansee:42 '));
     });
   });
 });

@@ -18,7 +18,11 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo-commands.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
+import {
+  addListenerForTest,
+  mockPromise,
+  stubRestApi,
+} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo-commands');
 
@@ -112,7 +116,7 @@ suite('gr-repo-commands tests', () => {
   });
 
   suite('404', () => {
-    test('fires page-error', done => {
+    test('fires page-error', async () => {
       repoStub.restore();
 
       element.repo = 'test';
@@ -120,13 +124,18 @@ suite('gr-repo-commands tests', () => {
       const response = {status: 404};
       stubRestApi('getProjectConfig').callsFake((repo, errFn) => {
         errFn(response);
+        return Promise.resolve(undefined);
       });
+
+      await flush();
+      const promise = mockPromise();
       addListenerForTest(document, 'page-error', e => {
         assert.deepEqual(e.detail.response, response);
-        done();
+        promise.resolve();
       });
 
       element._loadRepo();
+      await promise;
     });
   });
 });

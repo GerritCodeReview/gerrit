@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-gpg-editor.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-gpg-editor');
 
@@ -25,7 +25,7 @@ suite('gr-gpg-editor tests', () => {
   let element;
   let keys;
 
-  setup(done => {
+  setup(async () => {
     const fingerprint1 = '0192 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B';
     const fingerprint2 = '0196 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B';
     keys = {
@@ -55,7 +55,8 @@ suite('gr-gpg-editor tests', () => {
 
     element = basicFixture.instantiate();
 
-    element.loadData().then(() => { flush(done); });
+    await element.loadData();
+    await flush();
   });
 
   test('renders', () => {
@@ -70,7 +71,7 @@ suite('gr-gpg-editor tests', () => {
     assert.equal(cells[0].textContent, 'AED9B59C');
   });
 
-  test('remove key', done => {
+  test('remove key', async () => {
     const lastKey = keys[Object.keys(keys)[1]];
 
     const saveStub = stubRestApi('deleteAccountGPGKey')
@@ -91,13 +92,11 @@ suite('gr-gpg-editor tests', () => {
     assert.isTrue(element.hasUnsavedChanges);
     assert.isFalse(saveStub.called);
 
-    element.save().then(() => {
-      assert.isTrue(saveStub.called);
-      assert.equal(saveStub.lastCall.args[0], Object.keys(keys)[1]);
-      assert.equal(element._keysToRemove.length, 0);
-      assert.isFalse(element.hasUnsavedChanges);
-      done();
-    });
+    await element.save();
+    assert.isTrue(saveStub.called);
+    assert.equal(saveStub.lastCall.args[0], Object.keys(keys)[1]);
+    assert.equal(element._keysToRemove.length, 0);
+    assert.isFalse(element.hasUnsavedChanges);
   });
 
   test('show key', () => {
@@ -113,7 +112,7 @@ suite('gr-gpg-editor tests', () => {
     assert.isTrue(openSpy.called);
   });
 
-  test('add key', done => {
+  test('add key', async () => {
     const newKeyString =
         '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
         '\nVersion: BCPG v1.52\n\t<key 3>';
@@ -138,11 +137,12 @@ suite('gr-gpg-editor tests', () => {
     assert.isFalse(element.$.addButton.disabled);
     assert.isFalse(element.$.newKey.disabled);
 
+    const promise = mockPromise();
     element._handleAddKey().then(() => {
       assert.isTrue(element.$.addButton.disabled);
       assert.isFalse(element.$.newKey.disabled);
       assert.equal(element._keys.length, 2);
-      done();
+      promise.resolve();
     });
 
     assert.isTrue(element.$.addButton.disabled);
@@ -150,9 +150,10 @@ suite('gr-gpg-editor tests', () => {
 
     assert.isTrue(addStub.called);
     assert.deepEqual(addStub.lastCall.args[0], {add: [newKeyString]});
+    await promise;
   });
 
-  test('add invalid key', done => {
+  test('add invalid key', async () => {
     const newKeyString = 'not even close to valid';
 
     const addStub = stubRestApi(
@@ -164,11 +165,12 @@ suite('gr-gpg-editor tests', () => {
     assert.isFalse(element.$.addButton.disabled);
     assert.isFalse(element.$.newKey.disabled);
 
+    const promise = mockPromise();
     element._handleAddKey().then(() => {
       assert.isFalse(element.$.addButton.disabled);
       assert.isFalse(element.$.newKey.disabled);
       assert.equal(element._keys.length, 2);
-      done();
+      promise.resolve();
     });
 
     assert.isTrue(element.$.addButton.disabled);
@@ -176,6 +178,7 @@ suite('gr-gpg-editor tests', () => {
 
     assert.isTrue(addStub.called);
     assert.deepEqual(addStub.lastCall.args[0], {add: [newKeyString]});
+    await promise;
   });
 });
 

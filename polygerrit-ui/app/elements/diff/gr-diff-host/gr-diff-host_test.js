@@ -23,7 +23,11 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {Side, createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {createChange} from '../../../test/test-data-generators.js';
 import {CoverageType} from '../../../types/types.js';
-import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
+import {
+  addListenerForTest,
+  mockPromise,
+  stubRestApi,
+} from '../../../test/test-utils.js';
 import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
 import {_testOnly_resetState} from '../../../services/comments/comments-model.js';
 
@@ -64,14 +68,13 @@ suite('gr-diff-host tests', () => {
   });
 
   suite('render reporting', () => {
-    test('starts total and content timer on render-start', done => {
+    test('starts total and content timer on render-start', () => {
       element.dispatchEvent(
           new CustomEvent('render-start', {bubbles: true, composed: true}));
       assert.isTrue(element.reporting.time.calledWithExactly(
           'Diff Total Render'));
       assert.isTrue(element.reporting.time.calledWithExactly(
           'Diff Content Render'));
-      done();
     });
 
     test('ends content timer on render-content', () => {
@@ -215,25 +218,23 @@ suite('gr-diff-host tests', () => {
     });
   });
 
-  test('prefetch getDiff', done => {
+  test('prefetch getDiff', async () => {
     const diffRestApiStub = stubRestApi('getDiff')
         .returns(Promise.resolve({content: []}));
     element.changeNum = 123;
     element.patchRange = {basePatchNum: 1, patchNum: 2};
     element.path = 'file.txt';
     element.prefetchDiff();
-    element._getDiff().then(() =>{
-      assert.isTrue(diffRestApiStub.calledOnce);
-      done();
-    });
+    await element._getDiff();
+    assert.isTrue(diffRestApiStub.calledOnce);
   });
 
-  test('_getDiff handles null diff responses', done => {
+  test('_getDiff handles null diff responses', async () => {
     stubRestApi('getDiff').returns(Promise.resolve(null));
     element.changeNum = 123;
     element.patchRange = {basePatchNum: 1, patchNum: 2};
     element.path = 'file.txt';
-    element._getDiff().then(done);
+    await element._getDiff();
   });
 
   test('reload resolves on error', () => {
@@ -311,7 +312,7 @@ suite('gr-diff-host tests', () => {
       };
     });
 
-    test('renders image diffs with same file name', done => {
+    test('renders image diffs with same file name', async () => {
       const mockDiff = {
         meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
         meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
@@ -342,6 +343,7 @@ suite('gr-diff-host tests', () => {
         },
       }));
 
+      const promise = mockPromise();
       const rendered = () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
@@ -377,7 +379,7 @@ suite('gr-diff-host tests', () => {
           leftLoaded = true;
           if (rightLoaded) {
             element.removeEventListener('render', rendered);
-            done();
+            promise.resolve();
           }
         });
 
@@ -390,7 +392,7 @@ suite('gr-diff-host tests', () => {
           rightLoaded = true;
           if (leftLoaded) {
             element.removeEventListener('render', rendered);
-            done();
+            promise.resolve();
           }
         });
       };
@@ -398,9 +400,10 @@ suite('gr-diff-host tests', () => {
       element.addEventListener('render', rendered);
       element.prefs = createDefaultDiffPrefs();
       element.reload();
+      await promise;
     });
 
-    test('renders image diffs with a different file name', done => {
+    test('renders image diffs with a different file name', async () => {
       const mockDiff = {
         meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
         meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg',
@@ -431,6 +434,7 @@ suite('gr-diff-host tests', () => {
         },
       }));
 
+      const promise = mockPromise();
       const rendered = () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
@@ -468,7 +472,7 @@ suite('gr-diff-host tests', () => {
           leftLoaded = true;
           if (rightLoaded) {
             element.removeEventListener('render', rendered);
-            done();
+            promise.resolve();
           }
         });
 
@@ -481,7 +485,7 @@ suite('gr-diff-host tests', () => {
           rightLoaded = true;
           if (leftLoaded) {
             element.removeEventListener('render', rendered);
-            done();
+            promise.resolve();
           }
         });
       };
@@ -489,9 +493,10 @@ suite('gr-diff-host tests', () => {
       element.addEventListener('render', rendered);
       element.prefs = createDefaultDiffPrefs();
       element.reload();
+      await promise;
     });
 
-    test('renders added image', done => {
+    test('renders added image', async () => {
       const mockDiff = {
         meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
           lines: 560},
@@ -517,6 +522,7 @@ suite('gr-diff-host tests', () => {
         },
       }));
 
+      const promise = mockPromise();
       element.addEventListener('render', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
@@ -530,14 +536,15 @@ suite('gr-diff-host tests', () => {
 
         assert.isNotOk(leftImage);
         assert.isOk(rightImage);
-        done();
+        promise.resolve();
       });
 
       element.prefs = createDefaultDiffPrefs();
       element.reload();
+      await promise;
     });
 
-    test('renders removed image', done => {
+    test('renders removed image', async () => {
       const mockDiff = {
         meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg',
           lines: 560},
@@ -563,6 +570,7 @@ suite('gr-diff-host tests', () => {
         revisionImage: null,
       }));
 
+      const promise = mockPromise();
       element.addEventListener('render', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
@@ -576,14 +584,15 @@ suite('gr-diff-host tests', () => {
 
         assert.isOk(leftImage);
         assert.isNotOk(rightImage);
-        done();
+        promise.resolve();
       });
 
       element.prefs = createDefaultDiffPrefs();
       element.reload();
+      await promise;
     });
 
-    test('does not render disallowed image type', done => {
+    test('does not render disallowed image type', async () => {
       const mockDiff = {
         meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg-evil',
           lines: 560},
@@ -611,6 +620,7 @@ suite('gr-diff-host tests', () => {
         revisionImage: null,
       }));
 
+      const promise = mockPromise();
       element.addEventListener('render', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
@@ -619,11 +629,12 @@ suite('gr-diff-host tests', () => {
         const leftImage =
             element.$.diff.$.diffTable.querySelector('td.left img');
         assert.isNotOk(leftImage);
-        done();
+        promise.resolve();
       });
 
       element.prefs = createDefaultDiffPrefs();
       element.reload();
+      await promise;
     });
   });
 

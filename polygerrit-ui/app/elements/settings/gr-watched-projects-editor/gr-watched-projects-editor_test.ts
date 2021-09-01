@@ -28,7 +28,7 @@ const basicFixture = fixtureFromElement('gr-watched-projects-editor');
 suite('gr-watched-projects-editor tests', () => {
   let element: GrWatchedProjectsEditor;
 
-  setup(done => {
+  setup(async () => {
     const projects = [
       {
         project: 'project a',
@@ -69,9 +69,8 @@ suite('gr-watched-projects-editor tests', () => {
 
     element = basicFixture.instantiate();
 
-    element.loadData().then(() => {
-      flush(done);
-    });
+    await element.loadData();
+    await flush();
   });
 
   test('renders', () => {
@@ -102,27 +101,21 @@ suite('gr-watched-projects-editor tests', () => {
     assert.equal(checkedKeys[2], 'notify_all_comments');
   });
 
-  test('_getProjectSuggestions empty', done => {
-    element._getProjectSuggestions('nonexistent').then(projects => {
-      assert.equal(projects.length, 0);
-      done();
-    });
+  test('_getProjectSuggestions empty', async () => {
+    const projects = await element._getProjectSuggestions('nonexistent');
+    assert.equal(projects.length, 0);
   });
 
-  test('_getProjectSuggestions non-empty', done => {
-    element._getProjectSuggestions('the project').then(projects => {
-      assert.equal(projects.length, 1);
-      assert.equal(projects[0].name, 'the project');
-      done();
-    });
+  test('_getProjectSuggestions non-empty', async () => {
+    const projects = await element._getProjectSuggestions('the project');
+    assert.equal(projects.length, 1);
+    assert.equal(projects[0].name, 'the project');
   });
 
-  test('_getProjectSuggestions non-empty with two letter project', done => {
-    element._getProjectSuggestions('th').then(projects => {
-      assert.equal(projects.length, 1);
-      assert.equal(projects[0].name, 'the project');
-      done();
-    });
+  test('_getProjectSuggestions non-empty with two letter project', async () => {
+    const projects = await element._getProjectSuggestions('th');
+    assert.equal(projects.length, 1);
+    assert.equal(projects[0].name, 'the project');
   });
 
   test('_canAddProject', () => {

@@ -46,7 +46,7 @@ suite('gr-menu-editor tests', () => {
     MockInteractions.tap(button);
   }
 
-  setup(done => {
+  setup(async () => {
     element = basicFixture.instantiate();
     menu = [
       {url: '/first/url', name: 'first name', target: '_blank'},
@@ -55,7 +55,7 @@ suite('gr-menu-editor tests', () => {
     ];
     element.set('menuItems', menu);
     flush$0();
-    flush(done);
+    await flush();
   });
 
   test('renders', () => {

@@ -56,27 +56,23 @@ suite('gr-popup-interface tests', () => {
       instance = new GrPopupInterface(plugin);
     });
 
-    test('open', done => {
-      instance.open().then(api => {
-        assert.strictEqual(api, instance);
-        const manual = document.createElement('div');
-        manual.id = 'foobar';
-        manual.innerHTML = 'manual content';
-        api._getElement().appendChild(manual);
-        flush();
-        assert.equal(
-            container.querySelector('#foobar').textContent, 'manual content');
-        done();
-      });
+    test('open', async () => {
+      const api = await instance.open();
+      assert.strictEqual(api, instance);
+      const manual = document.createElement('div');
+      manual.id = 'foobar';
+      manual.innerHTML = 'manual content';
+      api._getElement().appendChild(manual);
+      await flush();
+      assert.equal(
+          container.querySelector('#foobar').textContent, 'manual content');
     });
 
-    test('close', done => {
-      instance.open().then(api => {
-        assert.isTrue(api._getElement().node.opened);
-        api.close();
-        assert.isFalse(api._getElement().node.opened);
-        done();
-      });
+    test('close', async () => {
+      const api = await instance.open();
+      assert.isTrue(api._getElement().node.opened);
+      api.close();
+      assert.isFalse(api._getElement().node.opened);
     });
   });
 
@@ -85,21 +81,16 @@ suite('gr-popup-interface tests', () => {
       instance = new GrPopupInterface(plugin, 'gr-user-test-popup');
     });
 
-    test('open', done => {
-      instance.open().then(api => {
-        assert.isNotNull(
-            container.querySelector('gr-user-test-popup'));
-        done();
-      });
+    test('open', async () => {
+      await instance.open();
+      assert.isNotNull(container.querySelector('gr-user-test-popup'));
     });
 
-    test('close', done => {
-      instance.open().then(api => {
-        assert.isTrue(api._getElement().node.opened);
-        api.close();
-        assert.isFalse(api._getElement().node.opened);
-        done();
-      });
+    test('close', async () => {
+      const api = await instance.open();
+      assert.isTrue(api._getElement().node.opened);
+      api.close();
+      assert.isFalse(api._getElement().node.opened);
     });
   });
 });

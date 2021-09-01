@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-change-list.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {mockPromise, TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {YOUR_TURN} from '../../core/gr-navigation/gr-navigation.js';
 
@@ -149,7 +149,7 @@ suite('gr-change-list basic tests', () => {
         {}, changeTableColumns, labelNames));
   });
 
-  test('keyboard shortcuts', done => {
+  test('keyboard shortcuts', async () => {
     sinon.stub(element, '_computeLabelNames');
     element.sections = [
       {results: new Array(1)},
@@ -161,7 +161,8 @@ suite('gr-change-list basic tests', () => {
       {_number: 1},
       {_number: 2},
     ];
-    flush();
+    await flush();
+    const promise = mockPromise();
     afterNextRender(element, () => {
       const elementItems = element.root.querySelectorAll(
           'gr-change-list-item');
@@ -192,8 +193,9 @@ suite('gr-change-list basic tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
       assert.equal(element.selectedIndex, 0);
 
-      done();
+      promise.resolve();
     });
+    await promise;
   });
 
   test('no changes', () => {
@@ -436,7 +438,7 @@ suite('gr-change-list basic tests', () => {
       element = basicFixture.instantiate();
     });
 
-    test('keyboard shortcuts', done => {
+    test('keyboard shortcuts', async () => {
       element.selectedIndex = 0;
       element.sections = [
         {
@@ -461,7 +463,8 @@ suite('gr-change-list basic tests', () => {
           ],
         },
       ];
-      flush();
+      await flush();
+      const promise = mockPromise();
       afterNextRender(element, () => {
         const elementItems = element.root.querySelectorAll(
             'gr-change-list-item');
@@ -499,8 +502,9 @@ suite('gr-change-list basic tests', () => {
         MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
         assert.equal(change.reviewed, false,
             'Should mark change as unreviewed');
-        done();
+        promise.resolve();
       });
+      await promise;
     });
 
     test('_computeItemHighlight gives false for null account', () => {

@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-create-change-help';
 import {GrCreateChangeHelp} from './gr-create-change-help';
-import {queryAndAssert} from '../../../test/test-utils';
+import {mockPromise, queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
@@ -32,8 +32,10 @@ suite('gr-create-change-help tests', () => {
     await flush();
   });
 
-  test('Create change tap', done => {
-    element.addEventListener('create-tap', () => done());
+  test('Create change tap', async () => {
+    const promise = mockPromise();
+    element.addEventListener('create-tap', () => promise.resolve());
     MockInteractions.tap(queryAndAssert<GrButton>(element, 'gr-button'));
+    await promise;
   });
 });

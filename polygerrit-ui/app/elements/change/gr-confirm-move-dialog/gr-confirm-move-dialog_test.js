@@ -50,26 +50,22 @@ suite('gr-confirm-move-dialog tests', () => {
     assert.equal(element.message, myNewMessage);
   });
 
-  test('_getProjectBranchesSuggestions empty', done => {
-    element._getProjectBranchesSuggestions('nonexistent').then(branches => {
-      assert.equal(branches.length, 0);
-      done();
-    });
+  test('_getProjectBranchesSuggestions empty', async () => {
+    const branches = await element._getProjectBranchesSuggestions(
+        'nonexistent');
+    assert.equal(branches.length, 0);
   });
 
-  test('_getProjectBranchesSuggestions non-empty', done => {
-    element._getProjectBranchesSuggestions('test-branch').then(branches => {
-      assert.equal(branches.length, 1);
-      assert.equal(branches[0].name, 'test-branch');
-      done();
-    });
+  test('_getProjectBranchesSuggestions non-empty', async () => {
+    const branches = await element._getProjectBranchesSuggestions(
+        'test-branch');
+    assert.equal(branches.length, 1);
+    assert.equal(branches[0].name, 'test-branch');
   });
 
-  test('_getProjectBranchesSuggestions input empty string', done => {
-    element._getProjectBranchesSuggestions('').then(branches => {
-      assert.equal(branches.length, 0);
-      done();
-    });
+  test('_getProjectBranchesSuggestions input empty string', async () => {
+    const branches = await element._getProjectBranchesSuggestions('');
+    assert.equal(branches.length, 0);
   });
 });
 

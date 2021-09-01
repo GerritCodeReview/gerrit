@@ -20,7 +20,11 @@ import './gr-repo-detail-list.js';
 import 'lodash/lodash.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
+import {
+  addListenerForTest,
+  mockPromise,
+  stubRestApi,
+} from '../../../test/test-utils.js';
 import {RepoDetailView} from '../../core/gr-navigation/gr-navigation.js';
 
 const basicFixture = fixtureFromElement('gr-repo-detail-list');
@@ -71,7 +75,7 @@ suite('gr-repo-detail-list', () => {
     });
 
     suite('list of repo branches', () => {
-      setup(done => {
+      setup(async () => {
         branches = [{
           ref: 'HEAD',
           revision: 'master',
@@ -82,53 +86,43 @@ suite('gr-repo-detail-list', () => {
           repo: 'test',
           detail: 'branches',
         };
-        element._paramsChanged(params).then(() => { flush(done); });
+        await element._paramsChanged(params);
+        await flush();
       });
 
-      test('test for branch in the list', done => {
-        flush(() => {
-          assert.equal(element._items[2].ref, 'refs/heads/test2');
-          done();
-        });
+      test('test for branch in the list', () => {
+        assert.equal(element._items[2].ref, 'refs/heads/test2');
       });
 
-      test('test for web links in the branches list', done => {
-        flush(() => {
-          assert.equal(element._items[2].web_links[0].url,
-              'https://git.example.org/branch/test;refs/heads/test2');
-          done();
-        });
+      test('test for web links in the branches list', () => {
+        assert.equal(element._items[2].web_links[0].url,
+            'https://git.example.org/branch/test;refs/heads/test2');
       });
 
-      test('test for refs/heads/ being striped from ref', done => {
-        flush(() => {
-          assert.equal(element._stripRefs(element._items[2].ref,
-              element.detailType), 'test2');
-          done();
-        });
+      test('test for refs/heads/ being striped from ref', () => {
+        assert.equal(element._stripRefs(element._items[2].ref,
+            element.detailType), 'test2');
       });
 
       test('_shownItems', () => {
         assert.equal(element._shownItems.length, 25);
       });
 
-      test('Edit HEAD button not admin', done => {
+      test('Edit HEAD button not admin', async () => {
         sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
         stubRestApi('getRepoAccess').returns(
             Promise.resolve({
               test: {is_owner: false},
             }));
-        element._determineIfOwner('test').then(() => {
-          assert.equal(element._isOwner, false);
-          assert.equal(getComputedStyle(dom(element.root)
-              .querySelector('.revisionNoEditing')).display, 'inline');
-          assert.equal(getComputedStyle(dom(element.root)
-              .querySelector('.revisionEdit')).display, 'none');
-          done();
-        });
+        await element._determineIfOwner('test');
+        assert.equal(element._isOwner, false);
+        assert.equal(getComputedStyle(dom(element.root)
+            .querySelector('.revisionNoEditing')).display, 'inline');
+        assert.equal(getComputedStyle(dom(element.root)
+            .querySelector('.revisionEdit')).display, 'none');
       });
 
-      test('Edit HEAD button admin', done => {
+      test('Edit HEAD button admin', async () => {
         const saveBtn = element.root.querySelector('.saveBtn');
         const cancelBtn = element.root.querySelector('.cancelBtn');
         const editBtn = element.root.querySelector('.editBtn');
@@ -143,76 +137,74 @@ suite('gr-repo-detail-list', () => {
               test: {is_owner: true},
             }));
         sinon.stub(element, '_handleSaveRevision');
-        element._determineIfOwner('test').then(() => {
-          assert.equal(element._isOwner, true);
-          // The revision container for non-editing enabled row is not visible.
-          assert.equal(getComputedStyle(revisionNoEditing).display, 'none');
+        await element._determineIfOwner('test');
+        assert.equal(element._isOwner, true);
+        // The revision container for non-editing enabled row is not visible.
+        assert.equal(getComputedStyle(revisionNoEditing).display, 'none');
 
-          // The revision container for editing enabled row is visible.
-          assert.notEqual(getComputedStyle(dom(element.root)
-              .querySelector('.revisionEdit')).display, 'none');
+        // The revision container for editing enabled row is visible.
+        assert.notEqual(getComputedStyle(dom(element.root)
+            .querySelector('.revisionEdit')).display, 'none');
 
-          // The revision and edit button are visible.
-          assert.notEqual(getComputedStyle(revisionWithEditing).display,
-              'none');
-          assert.notEqual(getComputedStyle(editBtn).display, 'none');
+        // The revision and edit button are visible.
+        assert.notEqual(getComputedStyle(revisionWithEditing).display,
+            'none');
+        assert.notEqual(getComputedStyle(editBtn).display, 'none');
 
-          // The input, cancel, and save buttons are not visible.
-          const hiddenElements = dom(element.root)
-              .querySelectorAll('.canEdit .editItem');
+        // The input, cancel, and save buttons are not visible.
+        const hiddenElements = dom(element.root)
+            .querySelectorAll('.canEdit .editItem');
 
-          for (const item of hiddenElements) {
-            assert.equal(getComputedStyle(item).display, 'none');
-          }
+        for (const item of hiddenElements) {
+          assert.equal(getComputedStyle(item).display, 'none');
+        }
 
-          MockInteractions.tap(editBtn);
-          flush();
-          // The revision and edit button are not visible.
-          assert.equal(getComputedStyle(revisionWithEditing).display, 'none');
-          assert.equal(getComputedStyle(editBtn).display, 'none');
+        MockInteractions.tap(editBtn);
+        await flush();
+        // The revision and edit button are not visible.
+        assert.equal(getComputedStyle(revisionWithEditing).display, 'none');
+        assert.equal(getComputedStyle(editBtn).display, 'none');
 
-          // The input, cancel, and save buttons are not visible.
-          for (const item of hiddenElements) {
-            assert.notEqual(getComputedStyle(item).display, 'none');
-          }
+        // The input, cancel, and save buttons are not visible.
+        for (const item of hiddenElements) {
+          assert.notEqual(getComputedStyle(item).display, 'none');
+        }
 
-          // The revised ref was set correctly
-          assert.equal(element._revisedRef, 'master');
+        // The revised ref was set correctly
+        assert.equal(element._revisedRef, 'master');
 
-          assert.isFalse(saveBtn.disabled);
+        assert.isFalse(saveBtn.disabled);
 
-          // Delete the ref.
-          element._revisedRef = '';
-          assert.isTrue(saveBtn.disabled);
+        // Delete the ref.
+        element._revisedRef = '';
+        assert.isTrue(saveBtn.disabled);
 
-          // Change the ref to something else
-          element._revisedRef = 'newRef';
-          element._repo = 'test';
-          assert.isFalse(saveBtn.disabled);
+        // Change the ref to something else
+        element._revisedRef = 'newRef';
+        element._repo = 'test';
+        assert.isFalse(saveBtn.disabled);
 
-          // Save button calls handleSave. since this is stubbed, the edit
-          // section remains open.
-          MockInteractions.tap(saveBtn);
-          assert.isTrue(element._handleSaveRevision.called);
+        // Save button calls handleSave. since this is stubbed, the edit
+        // section remains open.
+        MockInteractions.tap(saveBtn);
+        assert.isTrue(element._handleSaveRevision.called);
 
-          // When cancel is tapped, the edit secion closes.
-          MockInteractions.tap(cancelBtn);
-          flush();
+        // When cancel is tapped, the edit secion closes.
+        MockInteractions.tap(cancelBtn);
+        await flush();
 
-          // The revision and edit button are visible.
-          assert.notEqual(getComputedStyle(revisionWithEditing).display,
-              'none');
-          assert.notEqual(getComputedStyle(editBtn).display, 'none');
+        // The revision and edit button are visible.
+        assert.notEqual(getComputedStyle(revisionWithEditing).display,
+            'none');
+        assert.notEqual(getComputedStyle(editBtn).display, 'none');
 
-          // The input, cancel, and save buttons are not visible.
-          for (const item of hiddenElements) {
-            assert.equal(getComputedStyle(item).display, 'none');
-          }
-          done();
-        });
+        // The input, cancel, and save buttons are not visible.
+        for (const item of hiddenElements) {
+          assert.equal(getComputedStyle(item).display, 'none');
+        }
       });
 
-      test('_handleSaveRevision with invalid rev', done => {
+      test('_handleSaveRevision with invalid rev', async () => {
         const event = {model: {set: sinon.stub()}};
         element._isEditing = true;
         stubRestApi('setRepoHead').returns(
@@ -221,14 +213,12 @@ suite('gr-repo-detail-list', () => {
             })
         );
 
-        element._setRepoHead('test', 'newRef', event).then(() => {
-          assert.isTrue(element._isEditing);
-          assert.isFalse(event.model.set.called);
-          done();
-        });
+        await element._setRepoHead('test', 'newRef', event);
+        assert.isTrue(element._isEditing);
+        assert.isFalse(event.model.set.called);
       });
 
-      test('_handleSaveRevision with valid rev', done => {
+      test('_handleSaveRevision with valid rev', async () => {
         const event = {model: {set: sinon.stub()}};
         element._isEditing = true;
         stubRestApi('setRepoHead').returns(
@@ -237,11 +227,9 @@ suite('gr-repo-detail-list', () => {
             })
         );
 
-        element._setRepoHead('test', 'newRef', event).then(() => {
-          assert.isFalse(element._isEditing);
-          assert.isTrue(event.model.set.called);
-          done();
-        });
+        await element._setRepoHead('test', 'newRef', event);
+        assert.isFalse(element._isEditing);
+        assert.isTrue(event.model.set.called);
       });
 
       test('test _computeItemName', () => {
@@ -251,7 +239,7 @@ suite('gr-repo-detail-list', () => {
     });
 
     suite('list with less then 25 branches', () => {
-      setup(done => {
+      setup(async () => {
         branches = _.times(25, branchGenerator);
         stubRestApi('getRepoBranches').returns(Promise.resolve(branches));
 
@@ -260,7 +248,8 @@ suite('gr-repo-detail-list', () => {
           detail: 'branches',
         };
 
-        element._paramsChanged(params).then(() => { flush(done); });
+        await element._paramsChanged(params);
+        await flush();
       });
 
       test('_shownItems', () => {
@@ -287,16 +276,18 @@ suite('gr-repo-detail-list', () => {
     });
 
     suite('404', () => {
-      test('fires page-error', done => {
+      test('fires page-error', async () => {
         const response = {status: 404};
         stubRestApi('getRepoBranches').callsFake(
             (filter, repo, reposBranchesPerPage, opt_offset, errFn) => {
               errFn(response);
+              return Promise.resolve();
             });
 
+        const promise = mockPromise();
         addListenerForTest(document, 'page-error', e => {
           assert.deepEqual(e.detail.response, response);
-          done();
+          promise.resolve();
         });
 
         const params = {
@@ -306,6 +297,7 @@ suite('gr-repo-detail-list', () => {
           offset: 25,
         };
         element._paramsChanged(params);
+        await promise;
       });
     });
   });
@@ -341,7 +333,7 @@ suite('gr-repo-detail-list', () => {
     });
 
     suite('list of repo tags', () => {
-      setup(done => {
+      setup(async () => {
         tags = _.times(26, tagGenerator);
         stubRestApi('getRepoTags').returns(Promise.resolve(tags));
 
@@ -350,50 +342,37 @@ suite('gr-repo-detail-list', () => {
           detail: 'tags',
         };
 
-        element._paramsChanged(params).then(() => { flush(done); });
+        await element._paramsChanged(params);
+        await flush();
       });
 
-      test('test for tag in the list', done => {
-        flush(() => {
-          assert.equal(element._items[1].ref, 'refs/tags/test2');
-          done();
-        });
+      test('test for tag in the list', async () => {
+        assert.equal(element._items[1].ref, 'refs/tags/test2');
       });
 
-      test('test for tag message in the list', done => {
-        flush(() => {
-          assert.equal(element._items[1].message, 'Annotated tag');
-          done();
-        });
+      test('test for tag message in the list', async () => {
+        assert.equal(element._items[1].message, 'Annotated tag');
       });
 
-      test('test for tagger in the tag list', done => {
+      test('test for tagger in the tag list', async () => {
         const tagger = {
           name: 'Test User',
           email: 'test.user@gmail.com',
           date: '2017-09-19 14:54:00.000000000',
           tz: 540,
         };
-        flush(() => {
-          assert.deepEqual(element._items[1].tagger, tagger);
-          done();
-        });
+
+        assert.deepEqual(element._items[1].tagger, tagger);
       });
 
-      test('test for web links in the tags list', done => {
-        flush(() => {
-          assert.equal(element._items[1].web_links[0].url,
-              'https://git.example.org/tag/test;refs/tags/test2');
-          done();
-        });
+      test('test for web links in the tags list', async () => {
+        assert.equal(element._items[1].web_links[0].url,
+            'https://git.example.org/tag/test;refs/tags/test2');
       });
 
-      test('test for refs/tags/ being striped from ref', done => {
-        flush(() => {
-          assert.equal(element._stripRefs(element._items[1].ref,
-              element.detailType), 'test2');
-          done();
-        });
+      test('test for refs/tags/ being striped from ref', async () => {
+        assert.equal(element._stripRefs(element._items[1].ref,
+            element.detailType), 'test2');
       });
 
       test('_shownItems', () => {
@@ -411,7 +390,7 @@ suite('gr-repo-detail-list', () => {
     });
 
     suite('list with less then 25 tags', () => {
-      setup(done => {
+      setup(async () => {
         tags = _.times(25, tagGenerator);
         stubRestApi('getRepoTags').returns(Promise.resolve(tags));
 
@@ -420,7 +399,8 @@ suite('gr-repo-detail-list', () => {
           detail: 'tags',
         };
 
-        element._paramsChanged(params).then(() => { flush(done); });
+        await element._paramsChanged(params);
+        await flush();
       });
 
       test('_shownItems', () => {
@@ -482,16 +462,18 @@ suite('gr-repo-detail-list', () => {
     });
 
     suite('404', () => {
-      test('fires page-error', done => {
+      test('fires page-error', async () => {
         const response = {status: 404};
         stubRestApi('getRepoTags').callsFake(
             (filter, repo, reposTagsPerPage, opt_offset, errFn) => {
               errFn(response);
+              return Promise.resolve();
             });
 
+        const promise = mockPromise();
         addListenerForTest(document, 'page-error', e => {
           assert.deepEqual(e.detail.response, response);
-          done();
+          promise.resolve();
         });
 
         const params = {
@@ -501,6 +483,7 @@ suite('gr-repo-detail-list', () => {
           offset: 25,
         };
         element._paramsChanged(params);
+        await promise;
       });
     });
 

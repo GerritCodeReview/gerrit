@@ -21,6 +21,7 @@ import {GrRepoDashboards} from './gr-repo-dashboards';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   addListenerForTest,
+  mockPromise,
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
@@ -92,7 +93,7 @@ suite('gr-repo-dashboards tests', () => {
       );
     });
 
-    test('loading, sections, and ordering', done => {
+    test('loading, sections, and ordering', async () => {
       assert.isTrue(element._loading);
       assert.notEqual(
         getComputedStyle(queryAndAssert(element, '#loadingContainer')).display,
@@ -103,29 +104,25 @@ suite('gr-repo-dashboards tests', () => {
         'none'
       );
       element.repo = 'test' as RepoName;
-      flush(() => {
-        assert.equal(
-          getComputedStyle(queryAndAssert(element, '#loadingContainer'))
-            .display,
-          'none'
-        );
-        assert.notEqual(
-          getComputedStyle(queryAndAssert(element, '#dashboards')).display,
-          'none'
-        );
+      await flush();
+      assert.equal(
+        getComputedStyle(queryAndAssert(element, '#loadingContainer')).display,
+        'none'
+      );
+      assert.notEqual(
+        getComputedStyle(queryAndAssert(element, '#dashboards')).display,
+        'none'
+      );
 
-        const dashboard = element._dashboards!;
-        assert.equal(dashboard.length!, 2);
-        assert.equal(dashboard[0].section!, 'custom');
-        assert.equal(dashboard[1].section!, 'default');
+      const dashboard = element._dashboards!;
+      assert.equal(dashboard.length!, 2);
+      assert.equal(dashboard[0].section!, 'custom');
+      assert.equal(dashboard[1].section!, 'default');
 
-        const dashboards = dashboard[0].dashboards;
-        assert.equal(dashboards.length, 2);
-        assert.equal(dashboards[0].id, 'custom:custom1');
-        assert.equal(dashboards[1].id, 'custom:custom2');
-
-        done();
-      });
+      const dashboards = dashboard[0].dashboards;
+      assert.equal(dashboards.length, 2);
+      assert.equal(dashboards[0].id, 'custom:custom1');
+      assert.equal(dashboards[1].id, 'custom:custom2');
     });
   });
 
@@ -148,19 +145,21 @@ suite('gr-repo-dashboards tests', () => {
   });
 
   suite('404', () => {
-    test('fires page-error', done => {
+    test('fires page-error', async () => {
       const response = {status: 404} as Response;
       stubRestApi('getRepoDashboards').callsFake((_repo, errFn) => {
         errFn!(response);
         return Promise.resolve([]);
       });
 
+      const promise = mockPromise();
       addListenerForTest(document, 'page-error', e => {
         assert.deepEqual((e as PageErrorEvent).detail.response, response);
-        done();
+        promise.resolve();
       });
 
       element.repo = 'test' as RepoName;
+      await promise;
     });
   });
 });

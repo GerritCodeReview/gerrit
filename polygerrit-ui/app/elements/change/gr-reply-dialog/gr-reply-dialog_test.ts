@@ -1037,45 +1037,39 @@ suite('gr-reply-dialog tests', () => {
     });
   });
 
-  test('getlabelValue returns value', done => {
-    flush(() => {
-      const el = queryAndAssert(
-        queryAndAssert(element, 'gr-label-scores'),
-        'gr-label-score-row[name="Verified"]'
-      ) as GrLabelScoreRow;
-      el.setSelectedValue('-1');
-      assert.equal('-1', element.getLabelValue('Verified'));
-      done();
-    });
+  test('getlabelValue returns value', async () => {
+    await flush();
+    const el = queryAndAssert(
+      queryAndAssert(element, 'gr-label-scores'),
+      'gr-label-score-row[name="Verified"]'
+    ) as GrLabelScoreRow;
+    el.setSelectedValue('-1');
+    assert.equal('-1', element.getLabelValue('Verified'));
   });
 
-  test('getlabelValue when no score is selected', done => {
-    flush(() => {
-      const el = queryAndAssert(
-        queryAndAssert(element, 'gr-label-scores'),
-        'gr-label-score-row[name="Code-Review"]'
-      ) as GrLabelScoreRow;
-      el.setSelectedValue('-1');
-      assert.strictEqual(element.getLabelValue('Verified'), ' 0');
-      done();
-    });
+  test('getlabelValue when no score is selected', async () => {
+    await flush();
+    const el = queryAndAssert(
+      queryAndAssert(element, 'gr-label-scores'),
+      'gr-label-score-row[name="Code-Review"]'
+    ) as GrLabelScoreRow;
+    el.setSelectedValue('-1');
+    assert.strictEqual(element.getLabelValue('Verified'), ' 0');
   });
 
-  test('setlabelValue', done => {
+  test('setlabelValue', async () => {
     element._account = {_account_id: 1 as AccountId};
-    flush(() => {
-      const label = 'Verified';
-      const value = '+1';
-      element.setLabelValue(label, value);
+    await flush();
+    const label = 'Verified';
+    const value = '+1';
+    element.setLabelValue(label, value);
 
-      const labels = (
-        queryAndAssert(element, '#labelScores') as GrLabelScores
-      ).getLabelValues();
-      assert.deepEqual(labels, {
-        'Code-Review': 0,
-        Verified: 1,
-      });
-      done();
+    const labels = (
+      queryAndAssert(element, '#labelScores') as GrLabelScores
+    ).getLabelValues();
+    assert.deepEqual(labels, {
+      'Code-Review': 0,
+      Verified: 1,
     });
   });
 
@@ -1347,7 +1341,7 @@ suite('gr-reply-dialog tests', () => {
     assert.isTrue(eraseDraftCommentStub.calledWith(location));
   });
 
-  test('400 converts to human-readable server-error', done => {
+  test('400 converts to human-readable server-error', async () => {
     stubRestApi('saveChangeReview').callsFake(
       (_changeNum, _patchNum, _review, errFn) => {
         errFn!(
@@ -1360,34 +1354,35 @@ suite('gr-reply-dialog tests', () => {
       }
     );
 
+    const promise = mockPromise();
     const listener = (event: Event) => {
       if (event.target !== document) return;
       (event as CustomEvent).detail.response.text().then((body: string) => {
         if (body === 'human readable') {
-          done();
+          promise.resolve();
         }
       });
     };
     addListenerForTest(document, 'server-error', listener);
 
-    flush(() => {
-      element.send(false, false);
-    });
+    await flush();
+    element.send(false, false);
+    await promise;
   });
 
-  test('non-json 400 is treated as a normal server-error', done => {
+  test('non-json 400 is treated as a normal server-error', async () => {
     stubRestApi('saveChangeReview').callsFake(
       (_changeNum, _patchNum, _review, errFn) => {
         errFn!(cloneableResponse(400, 'Comment validation error!') as Response);
         return Promise.resolve(new Response());
       }
     );
-
+    const promise = mockPromise();
     const listener = (event: Event) => {
       if (event.target !== document) return;
       (event as CustomEvent).detail.response.text().then((body: string) => {
         if (body === 'Comment validation error!') {
-          done();
+          promise.resolve();
         }
       });
     };
@@ -1395,9 +1390,9 @@ suite('gr-reply-dialog tests', () => {
 
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.
-    flush(() => {
-      element.send(false, false);
-    });
+    await flush();
+    element.send(false, false);
+    await promise;
   });
 
   test('filterReviewerSuggestion', () => {
@@ -1494,29 +1489,30 @@ suite('gr-reply-dialog tests', () => {
     assert.strictEqual(element._chooseFocusTarget(), element.FocusTarget.BODY);
   });
 
-  test('only send labels that have changed', done => {
-    flush(() => {
-      stubSaveReview((review: ReviewInput) => {
-        assert.deepEqual(review?.labels, {
-          'Code-Review': 0,
-          Verified: -1,
-        });
+  test('only send labels that have changed', async () => {
+    await flush();
+    stubSaveReview((review: ReviewInput) => {
+      assert.deepEqual(review?.labels, {
+        'Code-Review': 0,
+        Verified: -1,
       });
-
-      element.addEventListener('send', () => {
-        done();
-      });
-      // Without wrapping this test in flush(), the below two calls to
-      // tap() cause a race in some situations in shadow DOM.
-      // The send button can be tapped before the others, causing the test to
-      // fail.
-      const el = queryAndAssert(
-        queryAndAssert(element, 'gr-label-scores'),
-        'gr-label-score-row[name="Verified"]'
-      ) as GrLabelScoreRow;
-      el.setSelectedValue('-1');
-      tap(queryAndAssert(element, '.send'));
     });
+
+    const promise = mockPromise();
+    element.addEventListener('send', () => {
+      promise.resolve();
+    });
+    // Without wrapping this test in flush(), the below two calls to
+    // tap() cause a race in some situations in shadow DOM.
+    // The send button can be tapped before the others, causing the test to
+    // fail.
+    const el = queryAndAssert(
+      queryAndAssert(element, 'gr-label-scores'),
+      'gr-label-score-row[name="Verified"]'
+    ) as GrLabelScoreRow;
+    el.setSelectedValue('-1');
+    tap(queryAndAssert(element, '.send'));
+    await promise;
   });
 
   test('moving from cc to reviewer', () => {
@@ -1811,14 +1807,14 @@ suite('gr-reply-dialog tests', () => {
     stubSaveReview(() => undefined);
     element.addEventListener('send', () => assert.fail('wrongly called'));
     pressAndReleaseKeyOn(element, 13, null, 'enter');
-    flush();
   });
 
-  test('emit send on ctrl+enter key', done => {
+  test('emit send on ctrl+enter key', async () => {
     stubSaveReview(() => undefined);
-    element.addEventListener('send', () => done());
+    const promise = mockPromise();
+    element.addEventListener('send', () => promise.resolve());
     pressAndReleaseKeyOn(element, 13, 'ctrl', 'enter');
-    flush();
+    await promise;
   });
 
   test('_computeMessagePlaceholder', () => {
@@ -1840,7 +1836,7 @@ suite('gr-reply-dialog tests', () => {
     );
   });
 
-  test('_handle400Error reviewers and CCs', done => {
+  test('_handle400Error reviewers and CCs', async () => {
     const error1 = 'error 1';
     const error2 = 'error 2';
     const error3 = 'error 3';
@@ -1862,49 +1858,48 @@ suite('gr-reply-dialog tests', () => {
           },
         },
       });
+    const promise = mockPromise();
     const listener = (e: Event) => {
       (e as CustomEvent).detail.response.text().then((text: string) => {
         assert.equal(text, [error1, error2, error3].join(', '));
-        done();
+        promise.resolve();
       });
     };
     addListenerForTest(document, 'server-error', listener);
     element._handle400Error(cloneableResponse(400, text) as Response);
+    await promise;
   });
 
-  test('fires height change when the drafts comments load', done => {
+  test('fires height change when the drafts comments load', async () => {
     // Flush DOM operations before binding to the autogrow event so we don't
     // catch the events fired from the initial layout.
-    flush(() => {
-      const autoGrowHandler = sinon.stub();
-      element.addEventListener('autogrow', autoGrowHandler);
-      element.draftCommentThreads = [];
-      flush(() => {
-        assert.isTrue(autoGrowHandler.called);
-        done();
-      });
-    });
+    await flush();
+    const autoGrowHandler = sinon.stub();
+    element.addEventListener('autogrow', autoGrowHandler);
+    element.draftCommentThreads = [];
+    await flush();
+    assert.isTrue(autoGrowHandler.called);
   });
 
   suite('start review and save buttons', () => {
     let sendStub: sinon.SinonStub;
 
-    setup(() => {
+    setup(async () => {
       sendStub = sinon.stub(element, 'send').callsFake(() => Promise.resolve());
       element.canBeStarted = true;
       // Flush to make both Start/Save buttons appear in DOM.
-      flush();
+      await flush();
     });
 
-    test('start review sets ready', () => {
+    test('start review sets ready', async () => {
       tap(queryAndAssert(element, '.send'));
-      flush();
+      await flush();
       assert.isTrue(sendStub.calledWith(true, true));
     });
 
-    test("save review doesn't set ready", () => {
+    test("save review doesn't set ready", async () => {
       tap(queryAndAssert(element, '.save'));
-      flush();
+      await flush();
       assert.isTrue(sendStub.calledWith(true, false));
     });
   });

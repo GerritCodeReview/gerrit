@@ -93,7 +93,7 @@ suite('gr-settings-view tests', () => {
     );
   }
 
-  setup(done => {
+  setup(async () => {
     account = {
       ...createAccountDetailWithId(123),
       name: 'user name',
@@ -126,7 +126,8 @@ suite('gr-settings-view tests', () => {
     element = basicFixture.instantiate();
 
     // Allow the element to render.
-    element._testOnly_loadingPromise?.then(done);
+    if (element._testOnly_loadingPromise)
+      await element._testOnly_loadingPromise;
   });
 
   test('theme changing', () => {
@@ -164,7 +165,7 @@ suite('gr-settings-view tests', () => {
     assert.equal(titleChangedStub.getCall(0).args[0].detail.title, 'Settings');
   });
 
-  test('user preferences', done => {
+  test('user preferences', async () => {
     // Rendered with the expected preferences selected.
     assert.equal(
       Number(
@@ -269,14 +270,12 @@ suite('gr-settings-view tests', () => {
     });
 
     // Save the change.
-    element._handleSavePreferences().then(() => {
-      assert.isFalse(element._prefsChanged);
-      assert.isFalse(element._menuChanged);
-      done();
-    });
+    await element._handleSavePreferences();
+    assert.isFalse(element._prefsChanged);
+    assert.isFalse(element._menuChanged);
   });
 
-  test('publish comments on push', done => {
+  test('publish comments on push', async () => {
     const publishCommentsOnPush = valueOf(
       'Publish comments on push',
       'preferences'
@@ -292,14 +291,12 @@ suite('gr-settings-view tests', () => {
     });
 
     // Save the change.
-    element._handleSavePreferences().then(() => {
-      assert.isFalse(element._prefsChanged);
-      assert.isFalse(element._menuChanged);
-      done();
-    });
+    await element._handleSavePreferences();
+    assert.isFalse(element._prefsChanged);
+    assert.isFalse(element._menuChanged);
   });
 
-  test('set new changes work-in-progress', done => {
+  test('set new changes work-in-progress', async () => {
     const newChangesWorkInProgress = valueOf(
       'Set new changes to "work in progress" by default',
       'preferences'
@@ -315,14 +312,12 @@ suite('gr-settings-view tests', () => {
     });
 
     // Save the change.
-    element._handleSavePreferences().then(() => {
-      assert.isFalse(element._prefsChanged);
-      assert.isFalse(element._menuChanged);
-      done();
-    });
+    await element._handleSavePreferences();
+    assert.isFalse(element._prefsChanged);
+    assert.isFalse(element._menuChanged);
   });
 
-  test('menu', done => {
+  test('menu', async () => {
     assert.isFalse(element._menuChanged);
     assert.isFalse(element._prefsChanged);
 
@@ -349,12 +344,10 @@ suite('gr-settings-view tests', () => {
       return Promise.resolve(new Response());
     });
 
-    element._handleSaveMenu().then(() => {
-      assert.isFalse(element._menuChanged);
-      assert.isFalse(element._prefsChanged);
-      assertMenusEqual(element.prefs.my, element._localMenu);
-      done();
-    });
+    await element._handleSaveMenu();
+    assert.isFalse(element._menuChanged);
+    assert.isFalse(element._prefsChanged);
+    assertMenusEqual(element.prefs.my, element._localMenu);
   });
 
   test('add email validation', () => {
@@ -388,7 +381,7 @@ suite('gr-settings-view tests', () => {
     assert.isFalse(addEmailStub.called);
   });
 
-  test('add email does save valid', done => {
+  test('add email does save valid', async () => {
     const addEmailStub = stubAddAccountEmail(201);
 
     assert.isFalse(element._addingEmail);
@@ -401,13 +394,11 @@ suite('gr-settings-view tests', () => {
     assert.isTrue(addEmailStub.called);
 
     assert.isTrue(addEmailStub.called);
-    addEmailStub.lastCall.returnValue.then(() => {
-      assert.isOk(element._lastSentVerificationEmail);
-      done();
-    });
+    await addEmailStub.lastCall.returnValue;
+    assert.isOk(element._lastSentVerificationEmail);
   });
 
-  test('add email does not set last-email if error', done => {
+  test('add email does not set last-email if error', async () => {
     const addEmailStub = stubAddAccountEmail(500);
 
     assert.isNotOk(element._lastSentVerificationEmail);
@@ -416,10 +407,8 @@ suite('gr-settings-view tests', () => {
     element._handleAddEmailButton();
 
     assert.isTrue(addEmailStub.called);
-    addEmailStub.lastCall.returnValue.then(() => {
-      assert.isNotOk(element._lastSentVerificationEmail);
-      done();
-    });
+    await addEmailStub.lastCall.returnValue;
+    assert.isNotOk(element._lastSentVerificationEmail);
   });
 
   test('emails are loaded without emailToken', () => {
@@ -450,7 +439,7 @@ suite('gr-settings-view tests', () => {
     assert.isTrue(element.prefs.legacycid_in_change_table);
   });
 
-  test('reset menu item back to default', done => {
+  test('reset menu item back to default', async () => {
     const originalMenu = {
       ...createDefaultPreferences(),
       my: [
@@ -471,10 +460,8 @@ suite('gr-settings-view tests', () => {
 
     element.set('_localMenu', updatedMenu);
 
-    element._handleResetMenuButton().then(() => {
-      assertMenusEqual(element._localMenu, originalMenu.my);
-      done();
-    });
+    await element._handleResetMenuButton();
+    assertMenusEqual(element._localMenu, originalMenu.my);
   });
 
   test('test that reset button is called', () => {

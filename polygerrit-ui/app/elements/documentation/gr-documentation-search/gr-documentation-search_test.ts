@@ -47,28 +47,24 @@ suite('gr-documentation-search tests', () => {
   });
 
   suite('list with searches for documentation', () => {
-    setup(done => {
+    setup(async () => {
       documentationSearches = _.times(26, documentationGenerator);
       stubRestApi('getDocumentationSearches').returns(
         Promise.resolve(documentationSearches)
       );
-      element._paramsChanged(value).then(() => {
-        flush(done);
-      });
+      await element._paramsChanged(value);
+      await flush();
     });
 
-    test('test for test repo in the list', done => {
-      flush(() => {
-        assert.equal(
-          element._documentationSearches![0].title,
-          'Gerrit Code Review - REST API Developers Notes1'
-        );
-        assert.equal(
-          element._documentationSearches![0].url,
-          'Documentation/dev-rest-api.html'
-        );
-        done();
-      });
+    test('test for test repo in the list', async () => {
+      assert.equal(
+        element._documentationSearches![0].title,
+        'Gerrit Code Review - REST API Developers Notes1'
+      );
+      assert.equal(
+        element._documentationSearches![0].url,
+        'Documentation/dev-rest-api.html'
+      );
     });
   });
 
@@ -88,14 +84,14 @@ suite('gr-documentation-search tests', () => {
   });
 
   suite('loading', () => {
-    test('correct contents are displayed', () => {
+    test('correct contents are displayed', async () => {
       assert.isTrue(element._loading);
       assert.equal(element.computeLoadingClass(element._loading), 'loading');
       assert.equal(getComputedStyle(element.$.loading).display, 'block');
 
       element._loading = false;
 
-      flush();
+      await flush();
       assert.equal(element.computeLoadingClass(element._loading), '');
       assert.equal(getComputedStyle(element.$.loading).display, 'none');
     });

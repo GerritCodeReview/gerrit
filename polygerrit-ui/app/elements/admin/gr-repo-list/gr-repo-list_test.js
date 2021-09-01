@@ -53,17 +53,16 @@ suite('gr-repo-list tests', () => {
   });
 
   suite('list with repos', () => {
-    setup(done => {
+    setup(async () => {
       repos = _.times(26, repoGenerator);
       stubRestApi('getRepos').returns(Promise.resolve(repos));
-      element._paramsChanged(value).then(() => { flush(done); });
+      await element._paramsChanged(value);
+      await flush();
     });
 
-    test('test for test repo in the list', done => {
-      flush(() => {
-        assert.equal(element._repos[1].id, 'test2');
-        done();
-      });
+    test('test for test repo in the list', async () => {
+      await flush();
+      assert.equal(element._repos[1].id, 'test2');
     });
 
     test('_shownRepos', () => {
@@ -84,10 +83,11 @@ suite('gr-repo-list tests', () => {
   });
 
   suite('list with less then 25 repos', () => {
-    setup(done => {
+    setup(async () => {
       repos = _.times(25, repoGenerator);
       stubRestApi('getRepos').returns(Promise.resolve(repos));
-      element._paramsChanged(value).then(() => { flush(done); });
+      await element._paramsChanged(value);
+      await flush();
     });
 
     test('_shownRepos', () => {
@@ -113,17 +113,15 @@ suite('gr-repo-list tests', () => {
       assert.isTrue(repoStub.lastCall.calledWithExactly('test', 25, 25));
     });
 
-    test('latest repos requested are always set', done => {
+    test('latest repos requested are always set', async () => {
       const repoStub = stubRestApi('getRepos');
       repoStub.withArgs('test').returns(Promise.resolve(repos));
       repoStub.withArgs('filter').returns(Promise.resolve(reposFiltered));
       element._filter = 'test';
 
       // Repos are not set because the element._filter differs.
-      element._getRepos('filter', 25, 0).then(() => {
-        assert.deepEqual(element._repos, []);
-        done();
-      });
+      await element._getRepos('filter', 25, 0);
+      assert.deepEqual(element._repos, []);
     });
 
     test('filter is case insensitive', async () => {

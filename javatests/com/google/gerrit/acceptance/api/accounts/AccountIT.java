@@ -32,7 +32,6 @@ import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithExpiration;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpiration;
 import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
-import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -98,7 +97,6 @@ import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
-import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
@@ -792,126 +790,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void starUnstarChangeWithLabels() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
-    RefUpdateCounter refUpdateCounter = new RefUpdateCounter();
-    try (Registration registration =
-        extensionRegistry.newRegistration().add(accountIndexedCounter).add(refUpdateCounter)) {
-      PushOneCommit.Result r = createChange();
-      String triplet = project.get() + "~master~" + r.getChangeId();
-      refUpdateCounter.clear();
-
-      assertThat(gApi.accounts().self().getStars(triplet)).isEmpty();
-      assertThat(gApi.accounts().self().getStarredChanges()).isEmpty();
-
-      gApi.accounts()
-          .self()
-          .setStars(triplet, new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "red", "blue")));
-      ChangeInfo change = info(triplet);
-      assertThat(change.starred).isTrue();
-      assertThat(change.stars).containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
-      assertThat(gApi.accounts().self().getStars(triplet))
-          .containsExactly("blue", "red", DEFAULT_LABEL)
-          .inOrder();
-      List<ChangeInfo> starredChanges = gApi.accounts().self().getStarredChanges();
-      assertThat(starredChanges).hasSize(1);
-      ChangeInfo starredChange = starredChanges.get(0);
-      assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
-      assertThat(starredChange.starred).isTrue();
-      assertThat(starredChange.stars).containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
-      refUpdateCounter.assertRefUpdateFor(
-          RefUpdateCounter.projectRef(
-              allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
-
-      gApi.accounts()
-          .self()
-          .setStars(
-              triplet,
-              new StarsInput(ImmutableSet.of("yellow"), ImmutableSet.of(DEFAULT_LABEL, "blue")));
-      change = info(triplet);
-      assertThat(change.starred).isNull();
-      assertThat(change.stars).containsExactly("red", "yellow").inOrder();
-      assertThat(gApi.accounts().self().getStars(triplet))
-          .containsExactly("red", "yellow")
-          .inOrder();
-      starredChanges = gApi.accounts().self().getStarredChanges();
-      assertThat(starredChanges).hasSize(1);
-      starredChange = starredChanges.get(0);
-      assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
-      assertThat(starredChange.starred).isNull();
-      assertThat(starredChange.stars).containsExactly("red", "yellow").inOrder();
-      refUpdateCounter.assertRefUpdateFor(
-          RefUpdateCounter.projectRef(
-              allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
-
-      accountIndexedCounter.assertNoReindex();
-
-      requestScopeOperations.setApiUser(user.id());
-      AuthException thrown =
-          assertThrows(
-              AuthException.class,
-              () -> gApi.accounts().id(Integer.toString((admin.id().get()))).getStars(triplet));
-      assertThat(thrown).hasMessageThat().contains("not allowed to get stars of another account");
-    }
-  }
-
-  @Test
-  public void starWithInvalidLabels() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String triplet = project.get() + "~master~" + r.getChangeId();
-    BadRequestException thrown =
-        assertThrows(
-            BadRequestException.class,
-            () ->
-                gApi.accounts()
-                    .self()
-                    .setStars(
-                        triplet,
-                        new StarsInput(
-                            ImmutableSet.of(
-                                DEFAULT_LABEL, "invalid label", "blue", "another invalid label"))));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("invalid labels: another invalid label, invalid label");
-  }
-
-  @Test
-  public void deleteStarLabelsFromChangeWithoutStarLabels() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String triplet = project.get() + "~master~" + r.getChangeId();
-    assertThat(gApi.accounts().self().getStars(triplet)).isEmpty();
-
-    gApi.accounts().self().setStars(triplet, new StarsInput());
-
-    assertThat(gApi.accounts().self().getStars(triplet)).isEmpty();
-  }
-
-  @Test
-  public void starWithDefaultAndIgnoreLabel() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String triplet = project.get() + "~master~" + r.getChangeId();
-    BadRequestException thrown =
-        assertThrows(
-            BadRequestException.class,
-            () ->
-                gApi.accounts()
-                    .self()
-                    .setStars(
-                        triplet,
-                        new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "blue", IGNORE_LABEL))));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains(
-            "The labels "
-                + DEFAULT_LABEL
-                + " and "
-                + IGNORE_LABEL
-                + " are mutually exclusive."
-                + " Only one of them can be set.");
-  }
-
-  @Test
-  public void ignoreChangeBySetStars() throws Exception {
+  public void ignoreChange() throws Exception {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
@@ -929,9 +808,7 @@ public class AccountIT extends AbstractDaemonTest {
       gApi.changes().id(r.getChangeId()).addReviewer(in);
 
       requestScopeOperations.setApiUser(user.id());
-      gApi.accounts()
-          .self()
-          .setStars(r.getChangeId(), new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
+      gApi.changes().id(r.getChangeId()).ignore(true);
 
       sender.clear();
       requestScopeOperations.setApiUser(admin.id());
@@ -951,9 +828,7 @@ public class AccountIT extends AbstractDaemonTest {
       PushOneCommit.Result r = createChange();
 
       requestScopeOperations.setApiUser(user.id());
-      gApi.accounts()
-          .self()
-          .setStars(r.getChangeId(), new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
+      gApi.changes().id(r.getChangeId()).ignore(true);
 
       sender.clear();
       requestScopeOperations.setApiUser(admin.id());

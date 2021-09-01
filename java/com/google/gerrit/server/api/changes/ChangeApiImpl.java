@@ -91,8 +91,6 @@ import com.google.gerrit.server.restapi.change.ListChangeComments;
 import com.google.gerrit.server.restapi.change.ListChangeDrafts;
 import com.google.gerrit.server.restapi.change.ListChangeRobotComments;
 import com.google.gerrit.server.restapi.change.ListReviewers;
-import com.google.gerrit.server.restapi.change.MarkAsReviewed;
-import com.google.gerrit.server.restapi.change.MarkAsUnreviewed;
 import com.google.gerrit.server.restapi.change.Move;
 import com.google.gerrit.server.restapi.change.PostHashtags;
 import com.google.gerrit.server.restapi.change.PostPrivate;
@@ -172,8 +170,6 @@ class ChangeApiImpl implements ChangeApi {
   private final DeletePrivate deletePrivate;
   private final Ignore ignore;
   private final Unignore unignore;
-  private final MarkAsReviewed markAsReviewed;
-  private final MarkAsUnreviewed markAsUnreviewed;
   private final SetWorkInProgress setWip;
   private final SetReadyForReview setReady;
   private final PutMessage putMessage;
@@ -228,8 +224,6 @@ class ChangeApiImpl implements ChangeApi {
       DeletePrivate deletePrivate,
       Ignore ignore,
       Unignore unignore,
-      MarkAsReviewed markAsReviewed,
-      MarkAsUnreviewed markAsUnreviewed,
       SetWorkInProgress setWip,
       SetReadyForReview setReady,
       PutMessage putMessage,
@@ -282,8 +276,6 @@ class ChangeApiImpl implements ChangeApi {
     this.deletePrivate = deletePrivate;
     this.ignore = ignore;
     this.unignore = unignore;
-    this.markAsReviewed = markAsReviewed;
-    this.markAsUnreviewed = markAsUnreviewed;
     this.setWip = setWip;
     this.setReady = setReady;
     this.putMessage = putMessage;
@@ -745,22 +737,6 @@ class ChangeApiImpl implements ChangeApi {
       return stars.isIgnored(change);
     } catch (StorageException e) {
       throw asRestApiException("Cannot check if ignored", e);
-    }
-  }
-
-  @Override
-  public void markAsReviewed(boolean reviewed) throws RestApiException {
-    // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
-    // StarredChangesUtil.
-    try {
-      if (reviewed) {
-        markAsReviewed.apply(change, new Input());
-      } else {
-        markAsUnreviewed.apply(change, new Input());
-      }
-    } catch (StorageException | IllegalLabelException e) {
-      throw asRestApiException(
-          "Cannot mark change as " + (reviewed ? "reviewed" : "unreviewed"), e);
     }
   }
 

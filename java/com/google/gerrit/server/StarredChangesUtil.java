@@ -27,7 +27,6 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
@@ -57,7 +56,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -161,8 +159,6 @@ public class StarredChangesUtil {
 
   public static final String DEFAULT_LABEL = "star";
   public static final String IGNORE_LABEL = "ignore";
-  public static final String REVIEWED_LABEL = "reviewed";
-  public static final String UNREVIEWED_LABEL = "unreviewed";
   public static final ImmutableSortedSet<String> DEFAULT_LABELS =
       ImmutableSortedSet.of(DEFAULT_LABEL);
 
@@ -350,40 +346,6 @@ public class StarredChangesUtil {
     return isIgnoredBy(rsrc.getChange().getId(), rsrc.getUser().asIdentifiedUser().getAccountId());
   }
 
-  private static String getReviewedLabel(Change change) {
-    return getReviewedLabel(change.currentPatchSetId().get());
-  }
-
-  private static String getReviewedLabel(int ps) {
-    return REVIEWED_LABEL + "/" + ps;
-  }
-
-  private static String getUnreviewedLabel(Change change) {
-    return getUnreviewedLabel(change.currentPatchSetId().get());
-  }
-
-  private static String getUnreviewedLabel(int ps) {
-    return UNREVIEWED_LABEL + "/" + ps;
-  }
-
-  public void markAsReviewed(ChangeResource rsrc) throws IllegalLabelException {
-    star(
-        rsrc.getUser().asIdentifiedUser().getAccountId(),
-        rsrc.getProject(),
-        rsrc.getChange().getId(),
-        ImmutableSet.of(getReviewedLabel(rsrc.getChange())),
-        ImmutableSet.of(getUnreviewedLabel(rsrc.getChange())));
-  }
-
-  public void markAsUnreviewed(ChangeResource rsrc) throws IllegalLabelException {
-    star(
-        rsrc.getUser().asIdentifiedUser().getAccountId(),
-        rsrc.getProject(),
-        rsrc.getChange().getId(),
-        ImmutableSet.of(getUnreviewedLabel(rsrc.getChange())),
-        ImmutableSet.of(getReviewedLabel(rsrc.getChange())));
-  }
-
   public static StarRef readLabels(Repository repo, String refName) throws IOException {
     try (TraceTimer traceTimer =
         TraceContext.newTimer(
@@ -422,23 +384,6 @@ public class StarredChangesUtil {
     if (labels.containsAll(ImmutableSet.of(DEFAULT_LABEL, IGNORE_LABEL))) {
       throw new MutuallyExclusiveLabelsException(DEFAULT_LABEL, IGNORE_LABEL);
     }
-
-    Set<Integer> reviewedPatchSets = getStarredPatchSets(labels, REVIEWED_LABEL);
-    Set<Integer> unreviewedPatchSets = getStarredPatchSets(labels, UNREVIEWED_LABEL);
-    Optional<Integer> ps =
-        Sets.intersection(reviewedPatchSets, unreviewedPatchSets).stream().findFirst();
-    if (ps.isPresent()) {
-      throw new MutuallyExclusiveLabelsException(
-          getReviewedLabel(ps.get()), getUnreviewedLabel(ps.get()));
-    }
-  }
-
-  public static Set<Integer> getStarredPatchSets(Set<String> labels, String label) {
-    return labels.stream()
-        .filter(l -> l.startsWith(label + "/"))
-        .filter(l -> Ints.tryParse(l.substring(label.length() + 1)) != null)
-        .map(l -> Integer.valueOf(l.substring(label.length() + 1)))
-        .collect(toSet());
   }
 
   private static void validateLabels(Collection<String> labels) throws InvalidLabelsException {

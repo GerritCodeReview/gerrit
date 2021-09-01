@@ -16,9 +16,7 @@ package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
-import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -32,7 +30,6 @@ import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
@@ -470,7 +467,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // ignore the change
     requestScopeOperations.setApiUser(user.id());
-    gApi.accounts().self().setStars(r.getChangeId(), new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
+    gApi.changes().id(r.getChangeId()).ignore(true);
 
     sender.clear();
 

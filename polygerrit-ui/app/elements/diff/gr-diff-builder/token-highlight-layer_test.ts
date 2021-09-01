@@ -102,7 +102,9 @@ suite('token-highlight-layer', () => {
         <div id=${lineId} class="line-content">${text}</div>
       </div>
     `;
-    render(template, container);
+    const div = document.createElement('div');
+    render(template, div);
+    container.appendChild(div);
     const el = queryAndAssert(container, `#${lineId}`);
     return el as HTMLElement;
   }

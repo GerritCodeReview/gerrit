@@ -32,11 +32,17 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
-/** {@link RequestStateProvider} that checks whether a client provided deadline is exceeded. */
+/**
+ * {@link RequestStateProvider} that checks whether a client provided deadline is exceeded.
+ *
+ * <p>Should be registered at most once per request.
+ */
 public class DeadlineChecker implements RequestStateProvider {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -94,6 +100,9 @@ public class DeadlineChecker implements RequestStateProvider {
    * cancellation/advisory_deadline_count} metric is incremented and a log is written.
    */
   private final ImmutableList<ServerDeadline> advisoryDeadlines;
+
+  /** The advisory deadlines that have been exceeded for this request. */
+  private final Set<String> exceededAdvisoryDeadlines = new HashSet<>();
 
   /**
    * Creates a {@link DeadlineChecker}.
@@ -203,15 +212,20 @@ public class DeadlineChecker implements RequestStateProvider {
   public void checkIfCancelled(OnCancelled onCancelled) {
     long now = System.nanoTime();
 
-    advisoryDeadlines.forEach(
-        advisoryDeadline -> {
-          if (now > advisoryDeadline.timeout()) {
-            logger.atFine().log(
-                "advisory deadline %s exceeded (%s)",
-                advisoryDeadline.id(), TIMEOUT_FORMATTER.apply(advisoryDeadline.timeout()));
-            cancellationsMetrics.countAdvisoryDeadline(requestInfo, advisoryDeadline.id());
-          }
-        });
+    advisoryDeadlines.stream()
+        // filter out advisory deadlines which have already been reported as exceeded so that every
+        // exceeded advisory deadline is only reported once
+        .filter(advisoryDeadline -> !exceededAdvisoryDeadlines.contains(advisoryDeadline.id()))
+        .forEach(
+            advisoryDeadline -> {
+              if (now > advisoryDeadline.timeout()) {
+                exceededAdvisoryDeadlines.add(advisoryDeadline.id());
+                logger.atFine().log(
+                    "advisory deadline %s exceeded (%s)",
+                    advisoryDeadline.id(), TIMEOUT_FORMATTER.apply(advisoryDeadline.timeout()));
+                cancellationsMetrics.countAdvisoryDeadline(requestInfo, advisoryDeadline.id());
+              }
+            });
 
     if (deadline.isPresent() && now > deadline.get()) {
       onCancelled.onCancel(cancellationReason, TIMEOUT_FORMATTER.apply(timeout));

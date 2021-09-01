@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c63947c6_89d4f968",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-01T08:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e248d5ac_5ebbac91",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "e20477f80f187b888b2ea603a2cb6bd0acbadd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fde5ff1f_ac8dd093",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-01T08:29:59Z",
       "side": 1,
       "message": "why not simply extend them into infinity? seems more efficient than an extra hashset.",
+      "range": {
+        "startLine": 14,
+        "startChar": 40,
+        "endLine": 15,
+        "endChar": 27
+      },
+      "revId": "e20477f80f187b888b2ea603a2cb6bd0acbadd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "664ca107_71764abd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-01T08:48:06Z",
+      "side": 1,
+      "message": "Thanks for this suggestion. I think it is even simpler to just drop the exceeded advisory deadlines that have been reported/counted. Setting them to infinity would be more hassle, since these are immutable AutoValue classes, so we can\u0027t easily update their timeout.\n\nDone.",
+      "parentUuid": "fde5ff1f_ac8dd093",
       "range": {
         "startLine": 14,
         "startChar": 40,

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "591a774d_49a04318",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-01T15:38:27Z",
+      "side": 1,
+      "message": "We chatted about it and agreed to leave the format as is, since other footer lines for submit records use a similar format.\n\nThe test in SubmitRuleIT cover this case, namely https://gerrit-review.googlesource.com/c/gerrit/+/316538/12/javatests/com/google/gerrit/acceptance/api/change/SubmitRuleIT.java#55",
+      "parentUuid": "61f2f0a5_66c25b41",
+      "range": {
+        "startLine": 734,
+        "startChar": 11,
+        "endLine": 734,
+        "endChar": 91
+      },
+      "revId": "ba4219d0e6fcb3879d9d803822809274d71e73a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2145c62_ed218664",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-08-31T13:47:28Z",
       "side": 1,
       "message": "Can this TODO be removed now? Which plugins did a validation can be seen from the rule names now, right?",
+      "revId": "ba4219d0e6fcb3879d9d803822809274d71e73a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d67ff5b_765e640d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-01T15:38:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2145c62_ed218664",
       "revId": "ba4219d0e6fcb3879d9d803822809274d71e73a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

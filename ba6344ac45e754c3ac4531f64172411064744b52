@@ -70,6 +70,30 @@
       },
       "revId": "ba6344ac45e754c3ac4531f64172411064744b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dda3822_cd23e6b8",
+        "filename": "java/com/google/gerrit/entities/SubmitRecord.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-01T15:38:27Z",
+      "side": 1,
+      "message": "Done adding a comment.",
+      "parentUuid": "fd364230_557af3dc",
+      "range": {
+        "startLine": 71,
+        "startChar": 29,
+        "endLine": 71,
+        "endChar": 77
+      },
+      "revId": "ba6344ac45e754c3ac4531f64172411064744b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -125,6 +125,92 @@
       "message": "I\u0027m not excited about having to \"get it right\" with these evict* calls. Can we push these to a lower level somehow so that implementers are less likely to miss it?",
       "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d594118a_47195431",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-01T08:58:44Z",
+      "side": 1,
+      "message": "We already evict the account SHA1 cache on AllUsersRefToObjectIdCache.java:68. I am not convinced we also need this one.",
+      "parentUuid": "1d4c1268_4a536924",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abce3722_aa3c1ec4",
+        "filename": "java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-01T08:58:44Z",
+      "side": 1,
+      "message": "We already evict the account SHA1 cache on AllUsersRefToObjectIdCache.java:68. I am not convinced we also need this one.",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "147da9f2_8927f803",
+        "filename": "java/com/google/gerrit/server/restapi/config/SetDiffPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-01T08:58:44Z",
+      "side": 1,
+      "message": "We already evict the account SHA1 cache on AllUsersRefToObjectIdCache.java:68. I am not convinced we also need this one.",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a00f9c1e_e75bf5e2",
+        "filename": "java/com/google/gerrit/server/restapi/config/SetEditPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-01T08:58:44Z",
+      "side": 1,
+      "message": "We already evict the account SHA1 cache on AllUsersRefToObjectIdCache.java:68. I am not convinced we also need this one.",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50b792dd_2a9eb94b",
+        "filename": "java/com/google/gerrit/server/restapi/config/SetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-01T08:58:44Z",
+      "side": 1,
+      "message": "We already evict the account SHA1 cache on AllUsersRefToObjectIdCache.java:68. I am not convinced we also need this one.",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -31,11 +31,11 @@ public class AbstractParserTest {
   protected static final String CHANGE_URL =
       "https://gerrit-review.googlesource.com/c/project/+/123";
 
-  protected static void assertChangeMessage(String message, MailComment comment) {
+  protected static void assertPatchsetComment(String message, MailComment comment) {
     assertThat(comment.fileName).isNull();
     assertThat(comment.message).isEqualTo(message);
     assertThat(comment.inReplyTo).isNull();
-    assertThat(comment.type).isEqualTo(MailComment.CommentType.CHANGE_MESSAGE);
+    assertThat(comment.type).isEqualTo(MailComment.CommentType.PATCHSET_LEVEL);
   }
 
   protected static void assertInlineComment(

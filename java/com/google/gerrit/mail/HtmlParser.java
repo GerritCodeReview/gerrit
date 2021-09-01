@@ -143,7 +143,7 @@ public class HtmlParser {
           if (!Strings.isNullOrEmpty(content)) {
             ParserUtil.appendOrAddNewComment(
                 new MailComment(
-                    content, null, null, MailComment.CommentType.CHANGE_MESSAGE, isLink),
+                    content, null, null, MailComment.CommentType.PATCHSET_LEVEL, isLink),
                 parsedComments);
           }
         } else if (lastEncounteredComment == null) {

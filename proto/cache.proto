@@ -723,3 +723,51 @@ message FileDiffOutputProto {
   ComparisonType comparison_type = 11;
   bool negative = 12;
 }
+
+// Serialized form of com.google.gerrit.server.patch.IntraLineDiffKey
+// Next ID: 4
+message IntraLineDiffKeyProto {
+  // Unique ID identifying a file path at a specific commit (LHS of diff)
+  bytes aId = 1;
+
+  // Unique ID identifying a file path at a specific commit (RHS of diff)
+  bytes bId = 2;
+
+  enum Whitespace {
+      IGNORE_NONE = 0;
+      IGNORE_TRAILING = 1;
+      IGNORE_LEADING_AND_TRAILING = 2;
+      IGNORE_ALL = 3;
+  }
+  Whitespace whitespace = 3;
+}
+
+// Serialized form of com.google.gerrit.server.patch.IntraLineDiff
+// Next ID: 3
+message IntraLineDiffProto {
+  enum EditType {
+    NORMAL = 0;
+    REPLACE = 1;
+  }
+  message Edit {
+    int32 begin_a = 1;
+    int32 end_a = 2;
+    int32 begin_b = 3;
+    int32 end_b = 4;
+
+    EditType edit_type = 5;
+
+    // List of internal edits contained in this edit. This field is populated
+    // only if the edit type = 'REPLACE'.
+    repeated Edit internal_edits = 6;
+
+  }
+  enum Status {
+      EDIT_LIST = 0;
+      DISABLED = 1;
+      TIMEOUT = 2;
+      ERROR = 3;
+  }
+  Status status = 1;
+  repeated Edit edits = 2;
+}

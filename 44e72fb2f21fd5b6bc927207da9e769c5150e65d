@@ -91,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "394a07b2_754c015b",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-02T14:00:54Z",
+      "side": 1,
+      "message": "\u003e But I\u0027m not insisting on this.\n\nBy the way, implementing this would be rather trivial.\nAll ChangeQueryBuilder would need to do is:\n\n  if (queryArgs.length \u003d\u003d 1) {\n    ruleNameArg \u003d \"gerrit\";\n    statusArg \u003d queryArgs[0];\n  }",
+      "parentUuid": "76d47388_535cd8bf",
+      "range": {
+        "startLine": 618,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 25
+      },
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "15fdd704_3a4364b0",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 14

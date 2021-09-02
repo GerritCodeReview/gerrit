@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
@@ -91,7 +92,7 @@ public class MailProcessor {
   private static final ImmutableMap<MailComment.CommentType, CommentForValidation.CommentType>
       MAIL_COMMENT_TYPE_TO_VALIDATION_TYPE =
           ImmutableMap.of(
-              MailComment.CommentType.CHANGE_MESSAGE,
+              MailComment.CommentType.PATCHSET_LEVEL,
                   CommentForValidation.CommentType.CHANGE_MESSAGE,
               MailComment.CommentType.FILE_COMMENT, CommentForValidation.CommentType.FILE_COMMENT,
               MailComment.CommentType.INLINE_COMMENT,
@@ -342,9 +343,6 @@ public class MailProcessor {
           changeMessagesUtil.setChangeMessage(ctx.getUpdate(psId), generateChangeMessage(), tag);
       comments = new ArrayList<>();
       for (MailComment c : parsedComments) {
-        if (c.getType() == MailComment.CommentType.CHANGE_MESSAGE) {
-          continue;
-        }
         comments.add(
             persistentCommentFromMailComment(ctx, c, targetPatchSetForComment(ctx, c, patchSet)));
       }
@@ -359,7 +357,7 @@ public class MailProcessor {
     @Override
     public void postUpdate(PostUpdateContext ctx) throws Exception {
       String patchSetComment = null;
-      if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
+      if (parsedComments.get(0).getType() == MailComment.CommentType.PATCHSET_LEVEL) {
         patchSetComment = parsedComments.get(0).getMessage();
       }
       // Send email notifications
@@ -396,15 +394,7 @@ public class MailProcessor {
 
     private String generateChangeMessage() {
       String changeMsg = "Patch Set " + psId.get() + ":";
-      if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
-        // Add a blank line after Patch Set to follow the default format
-        if (parsedComments.size() > 1) {
-          changeMsg += "\n\n" + numComments(parsedComments.size() - 1);
-        }
-        changeMsg += "\n\n" + parsedComments.get(0).getMessage();
-      } else {
-        changeMsg += "\n\n" + numComments(parsedComments.size());
-      }
+      changeMsg += "\n\n" + numComments(parsedComments.size());
       return changeMsg;
     }
 
@@ -424,7 +414,11 @@ public class MailProcessor {
       // The patch set that this comment is based on is different if this
       // comment was sent in reply to a comment on a previous patch set.
       Side side;
-      if (mailComment.getInReplyTo() != null) {
+      if (mailComment.getType() == MailComment.CommentType.PATCHSET_LEVEL) {
+        fileName = PATCHSET_LEVEL;
+        // Patchset comments do not have side.
+        side = Side.REVISION;
+      } else if (mailComment.getInReplyTo() != null) {
         fileName = mailComment.getInReplyTo().key.filename;
         side = Side.fromShort(mailComment.getInReplyTo().side);
       } else {

@@ -43,7 +43,7 @@ public class TextParserTest extends AbstractParserTest {
     List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(1);
-    assertChangeMessage("Looks good to me", parsedComments.get(0));
+    assertPatchsetComment("Looks good to me", parsedComments.get(0));
   }
 
   @Test
@@ -64,7 +64,7 @@ public class TextParserTest extends AbstractParserTest {
     List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);
-    assertChangeMessage("Looks good to me", parsedComments.get(0));
+    assertPatchsetComment("Looks good to me", parsedComments.get(0));
     assertInlineComment("I have a comment on this.", parsedComments.get(1), comments.get(1));
     assertInlineComment("Also have a comment here.", parsedComments.get(2), comments.get(3));
   }
@@ -87,7 +87,7 @@ public class TextParserTest extends AbstractParserTest {
     List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);
-    assertChangeMessage("Looks good to me", parsedComments.get(0));
+    assertPatchsetComment("Looks good to me", parsedComments.get(0));
     assertFileComment("This is a nice file", parsedComments.get(1), comments.get(1).key.filename);
     assertInlineComment("Also have a comment here.", parsedComments.get(2), comments.get(3));
   }
@@ -138,7 +138,7 @@ public class TextParserTest extends AbstractParserTest {
     List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);
-    assertChangeMessage("Looks good to me", parsedComments.get(0));
+    assertPatchsetComment("Looks good to me", parsedComments.get(0));
     assertFileComment("This is a nice file", parsedComments.get(1), comments.get(1).key.filename);
     assertInlineComment("Also have a comment here.", parsedComments.get(2), comments.get(3));
   }
@@ -161,7 +161,7 @@ public class TextParserTest extends AbstractParserTest {
     List<MailComment> parsedComments = TextParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(2);
-    assertChangeMessage("Looks good to me", parsedComments.get(0));
+    assertPatchsetComment("Looks good to me", parsedComments.get(0));
     assertInlineComment("Comment in reply to file comment", parsedComments.get(1), comments.get(0));
   }
 
@@ -174,7 +174,7 @@ public class TextParserTest extends AbstractParserTest {
     List<MailComment> parsedComments = TextParser.parse(b.build(), defaultComments(), CHANGE_URL);
 
     assertThat(parsedComments).hasSize(1);
-    assertChangeMessage(
+    assertPatchsetComment(
         "Nice change\n\nMy other comment on the same entity", parsedComments.get(0));
   }
 

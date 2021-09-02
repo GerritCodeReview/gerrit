@@ -77,7 +77,7 @@ public class TextParser {
         // This is not a comment, try to advance the file/comment pointers and
         // add previous comment to list if applicable
         if (currentComment != null) {
-          if (currentComment.type == MailComment.CommentType.CHANGE_MESSAGE) {
+          if (currentComment.type == MailComment.CommentType.PATCHSET_LEVEL) {
             currentComment.message = ParserUtil.trimQuotation(currentComment.message);
           }
           if (!Strings.isNullOrEmpty(currentComment.message)) {
@@ -115,7 +115,7 @@ public class TextParser {
           if (lastEncounteredComment == null) {
             if (lastEncounteredFileName == null) {
               // Change message
-              currentComment.type = MailComment.CommentType.CHANGE_MESSAGE;
+              currentComment.type = MailComment.CommentType.PATCHSET_LEVEL;
             } else {
               // File comment not sent in reply to another comment
               currentComment.type = MailComment.CommentType.FILE_COMMENT;

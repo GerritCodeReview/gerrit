@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.mail;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
@@ -97,7 +98,7 @@ public class MailProcessorIT extends AbstractMailIT {
   }
 
   @Test
-  public void parseAndPersistChangeMessage() throws Exception {
+  public void parseAndPersistPatchsetLevelComment() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
     String ts =
@@ -114,8 +115,19 @@ public class MailProcessorIT extends AbstractMailIT {
 
     Collection<ChangeMessageInfo> messages = gApi.changes().id(changeId).get().messages;
     assertThat(messages).hasSize(3);
-    assertThat(Iterables.getLast(messages).message).isEqualTo("Patch Set 1:\n\nTest Message");
+    assertThat(Iterables.getLast(messages).message).isEqualTo("Patch Set 1:\n\n(1 comment)");
     assertThat(Iterables.getLast(messages).tag).isEqualTo("mailMessageId=some id");
+    // Assert comment
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    assertThat(comments).hasSize(3);
+    assertThat(comments.get(0).path).isEqualTo(PATCHSET_LEVEL);
+    assertThat(comments.get(0).message).isEqualTo("Test Message");
+    assertThat(comments.get(0).tag).isEqualTo("mailMessageId=some id");
+    assertThat(comments.get(0).parent).isNull();
+    assertThat(comments.get(0).side).isNull();
+    assertThat(comments.get(0).line).isNull();
+    assertThat(comments.get(0).parent).isNull();
+    assertThat(comments.get(0).inReplyTo).isNull();
   }
 
   @Test

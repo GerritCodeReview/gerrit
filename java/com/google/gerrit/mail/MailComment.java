@@ -20,7 +20,7 @@ import java.util.Objects;
 /** A comment parsed from inbound email */
 public class MailComment {
   public enum CommentType {
-    CHANGE_MESSAGE,
+    PATCHSET_LEVEL,
     FILE_COMMENT,
     INLINE_COMMENT
   }

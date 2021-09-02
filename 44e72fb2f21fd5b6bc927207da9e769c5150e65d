@@ -113,6 +113,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4fd6084_f1823697",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T14:45:32Z",
+      "side": 1,
+      "message": "Ah I got confused.\nYes, it\u0027s nice to have. I updated the documentation and added a test as well.\n(Actually queryArgs.length \u003d\u003d 1 means there is only the rule name, i.e. no status, but we can check that ruleName does not contain ~)\n\n\u003e By the way do you also need to change something in the frontend so that the new \"rule\" operator gets auto-suggested in the search box?\n\nYes I think the code should go to [1]. I\u0027ll add a follow up change.\n\n[1] https://gerrit.googlesource.com/gerrit/+/76d5fc90426953b4cf30e81f7088fa1fe4a916a2/polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts#40",
+      "parentUuid": "394a07b2_754c015b",
+      "range": {
+        "startLine": 618,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 25
+      },
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15fdd704_3a4364b0",

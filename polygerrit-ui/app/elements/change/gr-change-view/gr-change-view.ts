@@ -1203,7 +1203,7 @@ export class GrChangeView extends base {
 
     const patchRange: ChangeViewPatchRange = {
       patchNum: value.patchNum,
-      basePatchNum: value.basePatchNum || ParentPatchSetNum,
+      basePatchNum: value.basePatchNum,
     };
 
     this._patchRange = patchRange;

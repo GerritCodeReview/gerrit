@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9955cc39_1c48b1ab",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-02T17:40:35Z",
+      "side": 1,
+      "message": "This is different from how plugin names are used in operands. For example, if a plugin supplies a \u0027has:\u0027 operand, the syntax is \u0027has:$pluginName_$operandName\u0027. Could rule: use the same syntax to keep it consistent?",
+      "range": {
+        "startLine": 618,
+        "startChar": 1,
+        "endLine": 618,
+        "endChar": 24
+      },
+      "revId": "f0532c7c5144faaafee28485662627c642c08c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

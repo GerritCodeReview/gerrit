@@ -137,6 +137,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e742c620_ba0395e4",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-02T14:53:53Z",
+      "side": 1,
+      "message": "\u003e (Actually queryArgs.length \u003d\u003d 1 means there is only the rule name, i.e. no \n\u003e status, but we can check that ruleName does not contain ~)\n\nOh yes. That\u0027s what I meant. Thanks for addressing this.\n\n\u003e Yes I think the code should go to [1]. I\u0027ll add a follow up change.\n\nSounds good.",
+      "parentUuid": "c4fd6084_f1823697",
+      "range": {
+        "startLine": 618,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 25
+      },
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15fdd704_3a4364b0",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a0ce6df_8eefad31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-02T14:53:53Z",
+      "side": 1,
+      "message": "LGTM, there is only still one nit comment open.",
+      "revId": "581817406d7f7523060f19fa6ff09bb576038fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

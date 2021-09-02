@@ -555,6 +555,7 @@ suite('gr-change-view tests', () => {
       const queryMap = new Map<string, string>();
       queryMap.set('tab', PrimaryTab.FINDINGS);
       // view is required
+      element._changeNum = undefined;
       element.params = {
         ...createAppElementChangeViewParams(),
         ...element.params,
@@ -1345,7 +1346,7 @@ suite('gr-change-view tests', () => {
     const reloadPatchDependentStub = sinon
       .stub(element, '_reloadPatchNumDependentResources')
       .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
-    flush();
+    await flush();
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
 
     const value: AppElementChangeViewParams = {
@@ -1353,9 +1354,12 @@ suite('gr-change-view tests', () => {
       view: GerritView.CHANGE,
       patchNum: 1 as RevisionPatchSetNum,
     };
+    // change is already loaded
+    assert.isOk(element._changeNum);
     element.params = value;
     await flush();
-    assert.isTrue(reloadStub.calledOnce);
+    // Reload is not triggered
+    assert.isFalse(reloadStub.called);
 
     element._initialLoadComplete = true;
     element._change = {
@@ -1370,9 +1374,9 @@ suite('gr-change-view tests', () => {
     value.patchNum = 2 as RevisionPatchSetNum;
     element.params = {...value};
     await flush();
-    assert.isFalse(reloadStub.calledTwice);
+    assert.isFalse(reloadStub.called);
     assert.isTrue(reloadPatchDependentStub.calledOnce);
-    assert.isTrue(collapseStub.calledTwice);
+    assert.isTrue(collapseStub.calledOnce);
   });
 
   test('reload ported comments when patchNum changes', async () => {
@@ -1410,7 +1414,7 @@ suite('gr-change-view tests', () => {
     assert.isTrue(reloadPortedCommentsStub.calledOnce);
   });
 
-  test('reload entire page when patchRange doesnt change', async () => {
+  test('do not reload entire page when patchRange doesnt change', async () => {
     const reloadStub = sinon
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
@@ -1418,13 +1422,15 @@ suite('gr-change-view tests', () => {
     const value: AppElementChangeViewParams =
       createAppElementChangeViewParams();
     element.params = value;
+    // change already loaded
+    assert.isOk(element._changeNum);
     await flush();
-    assert.isTrue(reloadStub.calledOnce);
+    assert.isFalse(reloadStub.calledOnce);
     element._initialLoadComplete = true;
     element.params = {...value};
     await flush();
-    assert.isTrue(reloadStub.calledTwice);
-    assert.isTrue(collapseStub.calledTwice);
+    assert.isFalse(reloadStub.calledTwice);
+    assert.isFalse(collapseStub.calledTwice);
   });
 
   test('do not handle new change numbers', async () => {
@@ -2297,6 +2303,8 @@ suite('gr-change-view tests', () => {
         appContext.reportingService,
         'changeFullyLoaded'
       );
+      // reset so reload is triggered
+      element._changeNum = undefined;
       element.params = {
         ...createAppElementChangeViewParams(),
         changeNum: TEST_NUMERIC_CHANGE_ID,

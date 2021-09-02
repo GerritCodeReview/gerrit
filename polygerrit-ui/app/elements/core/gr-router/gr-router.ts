@@ -57,6 +57,7 @@ import {
   RepoName,
   ServerInfo,
   UrlEncodedCommentId,
+  ParentPatchSetNum,
 } from '../../../types/common';
 import {
   AppElement,
@@ -296,8 +297,8 @@ type GenerateUrlLegacyDiffViewParameters = Omit<
 >;
 
 interface PatchRangeParams {
-  patchNum?: PatchSetNum | null;
-  basePatchNum?: BasePatchSetNum | null;
+  patchNum?: PatchSetNum;
+  basePatchNum?: BasePatchSetNum;
 }
 
 @customElement('gr-router')
@@ -714,23 +715,22 @@ export class GrRouter extends PolymerElement {
    *
    */
   _normalizePatchRangeParams(params: PatchRangeParams) {
-    if (params.basePatchNum === null || params.basePatchNum === undefined) {
+    if (params.basePatchNum === undefined) {
       return false;
     }
-    const hasPatchNum =
-      params.patchNum !== null && params.patchNum !== undefined;
+    const hasPatchNum = params.patchNum !== undefined;
     let needsRedirect = false;
 
     // Diffing a patch against itself is invalid, so if the base and revision
     // patches are equal clear the base.
     if (params.patchNum && params.basePatchNum === params.patchNum) {
       needsRedirect = true;
-      params.basePatchNum = null;
+      params.basePatchNum = ParentPatchSetNum;
     } else if (!hasPatchNum) {
       // Regexes set basePatchNum instead of patchNum when only one is
       // specified. Redirect is not needed in this case.
       params.patchNum = params.basePatchNum;
-      params.basePatchNum = null;
+      params.basePatchNum = ParentPatchSetNum;
     }
     return needsRedirect;
   }

@@ -309,8 +309,8 @@ export interface GenerateUrlDiffViewParameters {
   changeNum: NumericChangeId;
   project: RepoName;
   path?: string;
-  patchNum?: PatchSetNum | null;
-  basePatchNum?: BasePatchSetNum | null;
+  patchNum?: PatchSetNum;
+  basePatchNum?: BasePatchSetNum;
   lineNum?: number | string;
   leftSide?: boolean;
   commentId?: UrlEncodedCommentId;

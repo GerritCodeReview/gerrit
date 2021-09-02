@@ -22,6 +22,7 @@ import {GerritNav} from '../gr-navigation/gr-navigation.js';
 import {stubBaseUrl, stubRestApi, addListenerForTest} from '../../../test/test-utils.js';
 import {_testOnly_RoutePattern} from './gr-router.js';
 import {GerritView} from '../../../services/router/router-model.js';
+import {ParentPatchSetNum} from '../../../types/common.js';
 
 const basicFixture = fixtureFromElement('gr-router');
 
@@ -600,7 +601,7 @@ suite('gr-router tests', () => {
         const params = {basePatchNum: 4, patchNum: 4};
         const needsRedirect = element._normalizePatchRangeParams(params);
         assert.isTrue(needsRedirect);
-        assert.isNotOk(params.basePatchNum);
+        assert.equal(params.basePatchNum, ParentPatchSetNum);
         assert.equal(params.patchNum, 4);
       });
 
@@ -608,7 +609,7 @@ suite('gr-router tests', () => {
         const params = {basePatchNum: 4};
         const needsRedirect = element._normalizePatchRangeParams(params);
         assert.isFalse(needsRedirect);
-        assert.isNotOk(params.basePatchNum);
+        assert.equal(params.basePatchNum, ParentPatchSetNum);
         assert.equal(params.patchNum, 4);
       });
     });

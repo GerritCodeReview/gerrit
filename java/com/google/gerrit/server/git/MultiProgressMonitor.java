@@ -484,7 +484,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
               .map(
                   taskKind == TaskKind.RECEIVE_COMMITS
                       ? getTimeoutFormatter("receive.timeout")
-                      : getTimeoutFormatter())
+                      : getTimeoutFormatter("timeout"))
               .orElse(null));
     }
   }

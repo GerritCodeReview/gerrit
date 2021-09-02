@@ -1185,14 +1185,18 @@ export class GrChangeView extends base {
       this.restApiService.setInProjectLookup(value.changeNum, value.project);
     }
 
+    if (value.basePatchNum === undefined)
+      value.basePatchNum = ParentPatchSetNum;
+    if (value.patchNum === undefined && this._allPatchSets)
+      value.patchNum = computeLatestPatchNum(this._allPatchSets);
+
     const patchChanged =
       this._patchRange &&
       value.patchNum !== undefined &&
-      value.basePatchNum !== undefined &&
       (this._patchRange.patchNum !== value.patchNum ||
         this._patchRange.basePatchNum !== value.basePatchNum);
 
-    let rightPatchNumChanged =
+    const rightPatchNumChanged =
       this._patchRange &&
       value.patchNum !== undefined &&
       this._patchRange.patchNum !== value.patchNum;
@@ -1216,10 +1220,6 @@ export class GrChangeView extends base {
     // in the patch range, then don't do a full reload.
     if (this._changeNum !== undefined && patchChanged && patchKnown) {
       this.$.fileList.collapseAllDiffs();
-      if (!patchRange.patchNum) {
-        patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
-        rightPatchNumChanged = true;
-      }
       this._reloadPatchNumDependentResources(rightPatchNumChanged).then(() => {
         this._sendShowChangeEvent();
       });

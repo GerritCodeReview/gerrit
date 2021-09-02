@@ -16,6 +16,23 @@
       "message": "Fixed merge conflicts",
       "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16dcd73a_017f0078",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 2933,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-02T08:46:30Z",
+      "side": 1,
+      "message": "This predicate has been removed by [1]. Can you please adapt?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/316534",
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

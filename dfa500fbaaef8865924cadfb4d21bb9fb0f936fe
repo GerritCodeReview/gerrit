@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f01f2c8_fd24ca7b",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-02T11:04:47Z",
+      "side": 1,
+      "message": "Should all of the methods in this class be static?\n\nIf so, maybe also add a private constructor to avoid that this class is instantiated.",
+      "revId": "dfa500fbaaef8865924cadfb4d21bb9fb0f936fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7dfa259_34642b43",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-02T11:04:47Z",
+      "side": 1,
+      "message": "Should this be lt.isCanOverride() ?",
+      "range": {
+        "startLine": 56,
+        "startChar": 47,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "dfa500fbaaef8865924cadfb4d21bb9fb0f936fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

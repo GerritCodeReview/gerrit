@@ -16,6 +16,24 @@
       "message": "I propose we replace one attempt result icon with \"... icon\" to signify that there are attempts hidden. See screenshots on the bug. ",
       "revId": "ebbe1d3a7537564bfe19761cb7ad8316ec2e4b04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c765e01f_bd53f11d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-02T13:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52a02908_d077d1f1",
+      "revId": "ebbe1d3a7537564bfe19761cb7ad8316ec2e4b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

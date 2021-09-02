@@ -59,8 +59,12 @@ export interface GrRepoDetailList {
     createNewModal: GrCreatePointerDialog;
   };
 }
+
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = ListViewMixin(PolymerElement);
+
 @customElement('gr-repo-detail-list')
-export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
+export class GrRepoDetailList extends base {
   static get template() {
     return htmlTemplate;
   }

@@ -41,8 +41,11 @@ export interface GrDownloadDialog {
   };
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-download-dialog')
-export class GrDownloadDialog extends KeyboardShortcutMixin(PolymerElement) {
+export class GrDownloadDialog extends base {
   static get template() {
     return htmlTemplate;
   }

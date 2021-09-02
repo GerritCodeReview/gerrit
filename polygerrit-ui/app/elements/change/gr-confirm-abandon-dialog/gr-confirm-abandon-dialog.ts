@@ -35,10 +35,11 @@ declare global {
   }
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-confirm-abandon-dialog')
-export class GrConfirmAbandonDialog extends KeyboardShortcutMixin(
-  PolymerElement
-) {
+export class GrConfirmAbandonDialog extends base {
   static get template() {
     return htmlTemplate;
   }

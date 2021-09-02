@@ -62,13 +62,16 @@ export interface ChangeListSection {
   query?: string;
   results: ChangeInfo[];
 }
+
 export interface GrChangeList {
   $: {};
 }
+
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = ChangeTableMixin(KeyboardShortcutMixin(PolymerElement));
+
 @customElement('gr-change-list')
-export class GrChangeList extends ChangeTableMixin(
-  KeyboardShortcutMixin(PolymerElement)
-) {
+export class GrChangeList extends base {
   static get template() {
     return htmlTemplate;
   }

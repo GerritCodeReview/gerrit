@@ -25,6 +25,9 @@ declare global {
   }
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = TooltipMixin(PolymerElement);
+
 /**
  * The gr-limited-text element is for displaying text with a maximum length
  * (in number of characters) to display. If the length of the text exceeds the
@@ -32,7 +35,7 @@ declare global {
  * and a tooltip containing the full text is enabled.
  */
 @customElement('gr-limited-text')
-export class GrLimitedText extends TooltipMixin(PolymerElement) {
+export class GrLimitedText extends base {
   static get template() {
     return htmlTemplate;
   }

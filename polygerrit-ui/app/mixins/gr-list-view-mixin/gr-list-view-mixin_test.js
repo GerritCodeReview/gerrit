@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import '../../test/common-test-setup-karma.js';
 import {ListViewMixin} from './gr-list-view-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -22,8 +21,10 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 const basicFixture = fixtureFromElement(
     'gr-list-view-mixin-test-element');
 
-class GrListViewMixinTestElement extends
-  ListViewMixin(PolymerElement) {
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = ListViewMixin(PolymerElement);
+
+class GrListViewMixinTestElement extends base {
   static get is() { return 'gr-list-view-mixin-test-element'; }
 }
 

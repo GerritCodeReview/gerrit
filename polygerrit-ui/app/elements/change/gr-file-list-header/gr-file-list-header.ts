@@ -60,8 +60,11 @@ export interface GrFileListHeader {
   };
 }
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-file-list-header')
-export class GrFileListHeader extends KeyboardShortcutMixin(PolymerElement) {
+export class GrFileListHeader extends base {
   static get template() {
     return htmlTemplate;
   }

@@ -27,8 +27,11 @@ import {appContext} from '../../../services/app-context';
 
 const SUGGESTIONS_LIMIT = 15;
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-confirm-move-dialog')
-export class GrConfirmMoveDialog extends KeyboardShortcutMixin(PolymerElement) {
+export class GrConfirmMoveDialog extends base {
   static get template() {
     return htmlTemplate;
   }

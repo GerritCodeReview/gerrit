@@ -200,7 +200,7 @@ const ACCIDENTAL_STARRING_LIMIT_MS = 10 * 1000;
 
 const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
-const MSG_PREFIX = '#message-';
+const PREFIX = '#message-';
 
 const ReloadToastMessage = {
   NEWER_REVISION: 'A newer patch set has been uploaded',
@@ -239,8 +239,11 @@ export interface GrChangeView {
 
 export type ChangeViewPatchRange = Partial<PatchRange>;
 
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = KeyboardShortcutMixin(PolymerElement);
+
 @customElement('gr-change-view')
-export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
+export class GrChangeView extends base {
   static get template() {
     return htmlTemplate;
   }
@@ -1320,7 +1323,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    const hash = MSG_PREFIX + e.detail.id;
+    const hash = PREFIX + e.detail.id;
     const url = GerritNav.getUrlForChange(
       this._change,
       this._patchRange.patchNum,
@@ -1332,8 +1335,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _maybeScrollToMessage(hash: string) {
-    if (hash.startsWith(MSG_PREFIX) && this.messagesList) {
-      this.messagesList.scrollToMessage(hash.substr(MSG_PREFIX.length));
+    if (hash.startsWith(PREFIX) && this.messagesList) {
+      this.messagesList.scrollToMessage(hash.substr(PREFIX.length));
     }
   }
 

@@ -21,7 +21,10 @@ import {TooltipMixin} from './gr-tooltip-mixin.js';
 
 const basicFixture = fixtureFromElement('gr-tooltip-mixin-element');
 
-class GrTooltipMixinTestElement extends TooltipMixin(PolymerElement) {
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = TooltipMixin(PolymerElement);
+
+class GrTooltipMixinTestElement extends base {
   static get is() {
     return 'gr-tooltip-mixin-element';
   }

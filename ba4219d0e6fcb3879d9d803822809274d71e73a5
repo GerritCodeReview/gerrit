@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f68482b8_1cad90dc",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-02T07:57:26Z",
+      "side": 1,
+      "message": "Ack. Thanks for checking!",
+      "parentUuid": "591a774d_49a04318",
+      "range": {
+        "startLine": 734,
+        "startChar": 11,
+        "endLine": 734,
+        "endChar": 91
+      },
+      "revId": "ba4219d0e6fcb3879d9d803822809274d71e73a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2145c62_ed218664",

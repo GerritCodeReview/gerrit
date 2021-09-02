@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fddd5770_fcd431ab",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-02T13:56:36Z",
+      "side": 1,
+      "message": "I guess this should be \u0027~\u0027?\n\nMaybe also here mention the \u0027gerrit~\u0027 for Gerrit rules. I guess no user is aware that Gerrit internally uses \u0027gerrit\u0027 as magic plugin name for rules that are implemented by Gerrit.",
+      "range": {
+        "startLine": 584,
+        "startChar": 57,
+        "endLine": 584,
+        "endChar": 58
+      },
+      "revId": "3d0eecaa8f75497d329391e26395ff5d445cb200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

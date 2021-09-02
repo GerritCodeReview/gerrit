@@ -296,12 +296,14 @@ public class MultiProgressMonitor implements RequestStateProvider {
         long now = System.nanoTime();
 
         if (deadline > 0 && now > deadline) {
-          logger.atFine().log(
-              "deadline exceeded after %sms, signaling cancellation (timeout=%sms, task=%s(%s))",
-              MILLISECONDS.convert(now - overallStart, NANOSECONDS),
-              MILLISECONDS.convert(now - deadline, NANOSECONDS),
-              taskKind,
-              taskName);
+          if (!deadlineExceeded) {
+            logger.atFine().log(
+                "deadline exceeded after %sms, signaling cancellation (timeout=%sms, task=%s(%s))",
+                MILLISECONDS.convert(now - overallStart, NANOSECONDS),
+                MILLISECONDS.convert(now - deadline, NANOSECONDS),
+                taskKind,
+                taskName);
+          }
           deadlineExceeded = true;
 
           // After setting deadlineExceeded = true give the cancellationNanos to react to the

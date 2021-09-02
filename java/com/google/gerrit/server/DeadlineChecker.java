@@ -44,16 +44,6 @@ public class DeadlineChecker implements RequestStateProvider {
   private static String SECTION_DEADLINE = "deadline";
 
   /**
-   * Creates a formatter that formats a timeout as {@code timeout=<TIMEOUT><TIME_UNIT>}.
-   *
-   * <p>If the timeout is 1 minute or greater, minutes is used as a time unit. Otherwise
-   * milliseconds is just as a time unit.
-   */
-  public static Function<Long, String> getTimeoutFormatter() {
-    return getTimeoutFormatter(/* timeoutName= */ "timeout");
-  }
-
-  /**
    * Creates a formatter that formats a timeout as {@code <TIMEOUT_NAME>=<TIMEOUT><TIME_UNIT>}.
    *
    * <p>If the timeout is 1 minute or greater, minutes is used as a time unit. Otherwise
@@ -85,6 +75,7 @@ public class DeadlineChecker implements RequestStateProvider {
   private final CancellationMetrics cancellationsMetrics;
   private final RequestInfo requestInfo;
   private final RequestStateProvider.Reason cancellationReason;
+  private final String timeoutName;
 
   /**
    * Timeout in nanoseconds after which the request should be aborted.
@@ -187,6 +178,13 @@ public class DeadlineChecker implements RequestStateProvider {
         clientedProvidedTimeout.isPresent()
             ? RequestStateProvider.Reason.CLIENT_PROVIDED_DEADLINE_EXCEEDED
             : RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED;
+    this.timeoutName =
+        clientedProvidedTimeout
+            .map(clientTimeout -> "client.timeout")
+            .orElse(
+                serverSideDeadline
+                    .map(serverDeadline -> serverDeadline.id() + ".timeout")
+                    .orElse("timeout"));
     this.timeout =
         clientedProvidedTimeout.orElse(serverSideDeadline.map(ServerDeadline::timeout).orElse(0L));
     this.deadline = timeout > 0 ? Optional.of(start + timeout) : Optional.empty();
@@ -222,14 +220,15 @@ public class DeadlineChecker implements RequestStateProvider {
         advisoryDeadline -> {
           if (now > advisoryDeadline.timeout()) {
             logger.atFine().log(
-                "advisory deadline %s exceeded (%s)",
-                advisoryDeadline.id(), getTimeoutFormatter().apply(advisoryDeadline.timeout()));
+                "advisory deadline exceeded (%s)",
+                getTimeoutFormatter(advisoryDeadline.id() + ".timeout")
+                    .apply(advisoryDeadline.timeout()));
             cancellationsMetrics.countAdvisoryDeadline(requestInfo, advisoryDeadline.id());
           }
         });
 
     if (deadline.isPresent() && now > deadline.get()) {
-      onCancelled.onCancel(cancellationReason, getTimeoutFormatter().apply(timeout));
+      onCancelled.onCancel(cancellationReason, getTimeoutFormatter(timeoutName).apply(timeout));
     }
   }
 

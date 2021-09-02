@@ -1613,7 +1613,7 @@ As said, during ALLOW/DENY processing, rules are tried out one by one.
 For each (permission, ref-pattern, group) only a single rule
 ALLOW/DENY rule is picked. If that first rule is a DENY rule, any
 following ALLOW rules for the same (permission, ref-pattern, group)
-will be ignored, canceling out their effect.
+will be ignored, cancelling out their effect.
 
 DENY is confusing because it only works on a specific (ref-pattern,
 group) pair. The parent project can undo the effect of a DENY rule by

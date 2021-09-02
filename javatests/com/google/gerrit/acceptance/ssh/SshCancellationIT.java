@@ -122,7 +122,7 @@ public class SshCancellationIT extends AbstractDaemonTest {
   @Test
   public void abortIfClientProvidedDeadlineExceeded() throws Exception {
     adminSshSession.exec("gerrit create-project --deadline 1ms " + name("new"));
-    adminSshSession.assertFailure("Client Provided Deadline Exceeded (timeout=1ms)");
+    adminSshSession.assertFailure("Client Provided Deadline Exceeded (client.timeout=1ms)");
   }
 
   @Test
@@ -159,7 +159,7 @@ public class SshCancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   public void clientProvidedDeadlineOverridesServerDeadline() throws Exception {
     adminSshSession.exec("gerrit create-project --deadline 2ms " + name("new"));
-    adminSshSession.assertFailure("Client Provided Deadline Exceeded (timeout=2ms)");
+    adminSshSession.assertFailure("Client Provided Deadline Exceeded (client.timeout=2ms)");
   }
 
   @Test

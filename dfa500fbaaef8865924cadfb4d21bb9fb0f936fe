@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f83a812_425ac7f3",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "7f01f2c8_fd24ca7b",
+      "revId": "dfa500fbaaef8865924cadfb4d21bb9fb0f936fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7dfa259_34642b43",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-09-02T11:04:47Z",
       "side": 1,
       "message": "Should this be lt.isCanOverride() ?",
+      "range": {
+        "startLine": 56,
+        "startChar": 47,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "dfa500fbaaef8865924cadfb4d21bb9fb0f936fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7241907f_51970d3d",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "Nice catch! Yes we can respect the label type here w.r.t overriding.\n\nDone.",
+      "parentUuid": "b7dfa259_34642b43",
       "range": {
         "startLine": 56,
         "startChar": 47,

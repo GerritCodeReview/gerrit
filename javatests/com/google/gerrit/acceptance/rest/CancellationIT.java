@@ -530,7 +530,7 @@ public class CancellationIT extends AbstractDaemonTest {
   public void abortPushIfTimeoutExceeded() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
-    r.assertErrorStatus("Server Deadline Exceeded (timeout=1ms)");
+    r.assertErrorStatus("Server Deadline Exceeded (receive.timeout=1ms)");
   }
 
   @Test
@@ -550,7 +550,7 @@ public class CancellationIT extends AbstractDaemonTest {
   public void receiveTimeoutTakesPrecedence() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
-    r.assertErrorStatus("Server Deadline Exceeded (timeout=1ms)");
+    r.assertErrorStatus("Server Deadline Exceeded (receive.timeout=1ms)");
   }
 
   @Test
@@ -625,7 +625,7 @@ public class CancellationIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     push.setPushOptions(pushOptions);
     PushOneCommit.Result r = push.to("refs/for/master");
-    r.assertErrorStatus("Server Deadline Exceeded (timeout=1ms)");
+    r.assertErrorStatus("Server Deadline Exceeded (receive.timeout=1ms)");
   }
 
   @Test

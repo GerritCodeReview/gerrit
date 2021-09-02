@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -43,20 +44,34 @@ public class DeadlineChecker implements RequestStateProvider {
   private static String SECTION_DEADLINE = "deadline";
 
   /**
-   * Formatter to format a timeout as {@code timeout=<TIMEOUT><TIME_UNIT>}.
+   * Creates a formatter that formats a timeout as {@code timeout=<TIMEOUT><TIME_UNIT>}.
    *
    * <p>If the timeout is 1 minute or greater, minutes is used as a time unit. Otherwise
    * milliseconds is just as a time unit.
    */
-  public static Function<Long, String> TIMEOUT_FORMATTER =
-      timeout -> {
-        String formattedTimeout = MILLISECONDS.convert(timeout, NANOSECONDS) + "ms";
-        long timeoutInMinutes = MINUTES.convert(timeout, NANOSECONDS);
-        if (timeoutInMinutes > 0) {
-          formattedTimeout = timeoutInMinutes + "m";
-        }
-        return String.format("timeout=%s", formattedTimeout);
-      };
+  public static Function<Long, String> getTimeoutFormatter() {
+    return getTimeoutFormatter(/* timeoutName= */ "timeout");
+  }
+
+  /**
+   * Creates a formatter that formats a timeout as {@code <TIMEOUT_NAME>=<TIMEOUT><TIME_UNIT>}.
+   *
+   * <p>If the timeout is 1 minute or greater, minutes is used as a time unit. Otherwise
+   * milliseconds is just as a time unit.
+   *
+   * @param timeoutName the name of the timeout
+   */
+  public static Function<Long, String> getTimeoutFormatter(String timeoutName) {
+    requireNonNull(timeoutName, "timeoutName");
+    return timeout -> {
+      String formattedTimeout = MILLISECONDS.convert(timeout, NANOSECONDS) + "ms";
+      long timeoutInMinutes = MINUTES.convert(timeout, NANOSECONDS);
+      if (timeoutInMinutes > 0) {
+        formattedTimeout = timeoutInMinutes + "m";
+      }
+      return String.format("%s=%s", timeoutName, formattedTimeout);
+    };
+  }
 
   public interface Factory {
     DeadlineChecker create(RequestInfo requestInfo, @Nullable String clientProvidedTimeoutValue)
@@ -208,13 +223,13 @@ public class DeadlineChecker implements RequestStateProvider {
           if (now > advisoryDeadline.timeout()) {
             logger.atFine().log(
                 "advisory deadline %s exceeded (%s)",
-                advisoryDeadline.id(), TIMEOUT_FORMATTER.apply(advisoryDeadline.timeout()));
+                advisoryDeadline.id(), getTimeoutFormatter().apply(advisoryDeadline.timeout()));
             cancellationsMetrics.countAdvisoryDeadline(requestInfo, advisoryDeadline.id());
           }
         });
 
     if (deadline.isPresent() && now > deadline.get()) {
-      onCancelled.onCancel(cancellationReason, TIMEOUT_FORMATTER.apply(timeout));
+      onCancelled.onCancel(cancellationReason, getTimeoutFormatter().apply(timeout));
     }
   }
 

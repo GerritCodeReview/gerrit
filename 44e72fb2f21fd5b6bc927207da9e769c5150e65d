@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ec2e2c8_ba79ad3d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "\u003e Maybe mention that it\u0027s \u0027gerrit~$rule_name\u0027 for Gerrit core submit rules?\nDone.\n\n\u003e Should \u0027$rule_name\u0027 also work and assume \u0027gerrit\u0027 as plugin name?\nmmm I think it\u0027s OK to do. I\u0027d prefer to keep as is to have only one format. Frontend can then extract plugin/rule names easily by splitting on ~.",
+      "parentUuid": "961bc572_3bd07e5f",
+      "range": {
+        "startLine": 618,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 25
+      },
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15fdd704_3a4364b0",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-09-02T10:17:56Z",
       "side": 1,
       "message": "Maybe a bit better:\n\nThe status can be any of the statuses that are documented for the `status` field of\nlink:rest-api-changes.html#submit-record[SubmitRecord].",
+      "range": {
+        "startLine": 623,
+        "startChar": 10,
+        "endLine": 624,
+        "endChar": 55
+      },
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b6425b5_9f2261f9",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15fdd704_3a4364b0",
       "range": {
         "startLine": 623,
         "startChar": 10,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e688ccef_82022283",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "yes you\u0027re right. Done.",
+      "parentUuid": "106bcdb9_512856ee",
+      "range": {
+        "startLine": 297,
+        "startChar": 76,
+        "endLine": 297,
+        "endChar": 85
+      },
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a16b30cb_d6ceb7b5",
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c51c0389_a877a1be",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "Missed that after we reworked the previous change. Thanks for noticing!\n\nDone.",
+      "parentUuid": "a16b30cb_d6ceb7b5",
+      "range": {
+        "startLine": 298,
+        "startChar": 70,
+        "endLine": 299,
+        "endChar": 9
+      },
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "756b05d7_6ae569f8",
@@ -123,6 +219,30 @@
       "writtenOn": "2021-09-02T10:17:56Z",
       "side": 1,
       "message": "Maybe include the expected format here to help users get it right?",
+      "range": {
+        "startLine": 584,
+        "startChar": 36,
+        "endLine": 584,
+        "endChar": 63
+      },
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2967ae2a_7ecd6b52",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "756b05d7_6ae569f8",
       "range": {
         "startLine": 584,
         "startChar": 36,
@@ -180,6 +300,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6367857_9e959f59",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "Nice catch. Yes this is convincing.\n\nI removed this check and adapted the test to return empty for non-existing rules",
+      "parentUuid": "f02a5c03_4dcbc56d",
+      "range": {
+        "startLine": 591,
+        "startChar": 4,
+        "endLine": 595,
+        "endChar": 41
+      },
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a9755e2_b3306569",
@@ -216,6 +360,48 @@
       "writtenOn": "2021-09-02T10:17:56Z",
       "side": 1,
       "message": "This shouldn\u0027t be an internal server error, so rather throw QueryParseException here.",
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de70864f_967ea4ac",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "This is dropped now. Non existing submit rules will not fail the query, but will return empty result instead.",
+      "parentUuid": "8a9755e2_b3306569",
+      "range": {
+        "startLine": 604,
+        "startChar": 40,
+        "endLine": 604,
+        "endChar": 47
+      },
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a6bb6c_bba57f07",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "This is dropped now. Non existing submit rules will not fail the query, but will return empty result instead.",
+      "parentUuid": "afadd35a_57b113a3",
       "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -260,6 +446,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f2f4b27_589403f7",
+        "filename": "java/com/google/gerrit/server/rules/FakeSubmitRule.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "541cff07_61e7317a",
+      "range": {
+        "startLine": 1,
+        "startChar": 8,
+        "endLine": 1,
+        "endChar": 38
+      },
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15aa741c_15fd1b19",
+        "filename": "java/com/google/gerrit/server/rules/FakeSubmitRule.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b966895_61f845ec",
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fea824a_357300bf",
@@ -277,6 +505,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c0e7da7_b335784a",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 2296,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8fea824a_357300bf",
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df9412c2_94a54729",
@@ -290,6 +536,24 @@
       "writtenOn": "2021-09-02T10:17:56Z",
       "side": 1,
       "message": "Instead, can you just use do this:\n\n  if (getSchemaVersion() \u003c 67) {\n    assertMissingField(ChangeField.SUBMIT_RULE_RESULT);\n    return;\n  }\n  \n  // do the test\n  ...",
+      "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6c4bb54_499c26dc",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 2297,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T13:36:47Z",
+      "side": 1,
+      "message": "Nice! Done.\n\nI actually liked using the annotation as it\u0027s more compact, though the implementation of the checker was error prone.",
+      "parentUuid": "df9412c2_94a54729",
       "revId": "44e72fb2f21fd5b6bc927207da9e769c5150e65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

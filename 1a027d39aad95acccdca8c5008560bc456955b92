@@ -16,6 +16,52 @@
       "message": "Edwin can you help review this? I am a bit swamped this week.",
       "revId": "1a027d39aad95acccdca8c5008560bc456955b92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4237b66_8ad6d039",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-02T11:20:20Z",
+      "side": 1,
+      "message": "nit: modified files",
+      "range": {
+        "startLine": 205,
+        "startChar": 60,
+        "endLine": 205,
+        "endChar": 70
+      },
+      "revId": "1a027d39aad95acccdca8c5008560bc456955b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bb69866_5de16d47",
+        "filename": "java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-02T11:20:20Z",
+      "side": 1,
+      "message": "maybe use .findFirst() instead?",
+      "range": {
+        "startLine": 64,
+        "startChar": 12,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "1a027d39aad95acccdca8c5008560bc456955b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

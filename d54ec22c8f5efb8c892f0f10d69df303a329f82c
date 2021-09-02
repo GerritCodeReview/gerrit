@@ -87,6 +87,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b36a5bfd_d5d9e31b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-02T02:50:17Z",
+      "side": 1,
+      "message": "The cache needs also to be used when reading the refs/meta/external-ids form All-users.git in ExternalIdReader.java.\n\nThe current status of this change provides a 2x performance improvement already.\nBy using the cache also in ExternalIdReader.java, you\u0027ll achieve a 200x performance improvement.\n\nWe are still far to recover the v3.1 performance, because of the overhead of creating collections for a single lookup. We could address this second concern in a follow-up change though.",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67b06603_a9a012cb",
@@ -112,6 +129,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78a1ddca_e3f95861",
+        "filename": "java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-02T02:50:17Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "67b06603_a9a012cb",
+      "range": {
+        "startLine": 116,
+        "startChar": 21,
+        "endLine": 116,
+        "endChar": 30
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "587ff56d_1345581c",
+        "filename": "java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-02T02:50:17Z",
+      "side": 1,
+      "message": "This call is actually opening *again* the All-Users.git repository to read the external-ids ref.\n\nWe must also use the AllUsersRefToObjectIdCache in ExternalIdReader.readRevision() in order to avoid the extra read from the physical repository.",
+      "range": {
+        "startLine": 122,
+        "startChar": 25,
+        "endLine": 122,
+        "endChar": 41
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17f95f85_21a12d18",
         "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
         "patchSetId": 2
@@ -123,6 +187,30 @@
       "writtenOn": "2021-08-31T15:29:37Z",
       "side": 1,
       "message": "object_ids?",
+      "range": {
+        "startLine": 38,
+        "startChar": 49,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d123f31a_09dfe4e6",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-02T02:50:17Z",
+      "side": 1,
+      "message": "I believe that all_users_refs would be best: it contains the refs-sha1 entries.",
+      "parentUuid": "17f95f85_21a12d18",
       "range": {
         "startLine": 38,
         "startChar": 49,

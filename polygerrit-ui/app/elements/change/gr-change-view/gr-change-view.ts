@@ -1197,8 +1197,11 @@ export class GrChangeView extends base {
       value.patchNum !== undefined &&
       this._patchRange.patchNum !== value.patchNum;
 
+    // If the change has already been loaded and the patchNum is not specified
+    // in the url, implying it's the latest, then assign the previously
+    // calculated patchNum here.
     const patchRange: ChangeViewPatchRange = {
-      patchNum: value.patchNum,
+      patchNum: value.patchNum || this._patchRange?.patchNum,
       basePatchNum: value.basePatchNum || ParentPatchSetNum,
     };
 

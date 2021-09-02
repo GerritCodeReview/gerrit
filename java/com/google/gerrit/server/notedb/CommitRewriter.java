@@ -214,6 +214,8 @@ public class CommitRewriter {
     try (RevWalk revWalk = new RevWalk(repo);
         ObjectInserter ins = newPackInserter(repo)) {
       BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+      bru.setForceRefLog(true);
+      bru.setRefLogMessage(CommitRewriter.class.getName(), false);
       bru.setAllowNonFastForwards(true);
       for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
         Change.Id changeId = Change.Id.fromRef(ref.getName());

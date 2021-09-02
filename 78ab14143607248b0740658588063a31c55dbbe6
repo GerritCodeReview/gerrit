@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbcb63ec_88020dad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-02T15:08:08Z",
+      "side": 1,
+      "message": "nit: updating screenshot",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "78ab14143607248b0740658588063a31c55dbbe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

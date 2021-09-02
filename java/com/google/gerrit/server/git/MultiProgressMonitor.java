@@ -179,6 +179,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
   private boolean done;
   private boolean clientDisconnected;
   private boolean deadlineExceeded;
+  private boolean forcefulTermination;
   private Optional<Long> timeout = Optional.empty();
 
   private final long maxIntervalNanos;
@@ -308,6 +309,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
           if (now > deadline + cancellationNanos) {
             // The worker didn't react to the cancellation, cancel it forcefully by an interrupt.
             workerFuture.cancel(true);
+            forcefulTermination = true;
             if (workerFuture.isCancelled()) {
               logger.atWarning().log(
                   "MultiProgressMonitor worker killed after %sms, cancelled (timeout=%sms, task=%s(%s))",
@@ -338,7 +340,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
           end();
         }
       }
-      if (deadlineExceeded && taskKind == TaskKind.RECEIVE_COMMITS) {
+      if (deadlineExceeded && !forcefulTermination && taskKind == TaskKind.RECEIVE_COMMITS) {
         cancellationMetrics.countGracefulReceiveTimeout();
       }
       sendDone();

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7473ab08_1cb9be02",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1616,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-09-02T20:34:53Z",
+      "side": 0,
+      "message": "According to [1] this is the American English form, your proposal is the British English form. Not sure if Gerrit documentation uses AE or BE.\n\n[1] https://www.merriam-webster.com/dictionary/canceling",
+      "range": {
+        "startLine": 1616,
+        "startChar": 17,
+        "endLine": 1616,
+        "endChar": 26
+      },
+      "revId": "18daafc326f2c59577d5815917b13a29900ada3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

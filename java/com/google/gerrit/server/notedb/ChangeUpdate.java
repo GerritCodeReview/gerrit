@@ -730,7 +730,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
           msg.append(' ').append(sanitizeFooter(rec.errorMessage));
         }
         msg.append('\n');
-
+        if (rec.ruleName != null) {
+          addFooter(msg, FOOTER_SUBMITTED_WITH).append("Rule-Name: ").append(rec.ruleName);
+          msg.append('\n');
+        }
         if (rec.labels != null) {
           for (SubmitRecord.Label label : rec.labels) {
             // Label names/values are safe to append without sanitizing.
@@ -745,7 +748,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             msg.append('\n');
           }
         }
-        // TODO(maximeg) We might want to list plugins that validated this submission.
       }
     }
 

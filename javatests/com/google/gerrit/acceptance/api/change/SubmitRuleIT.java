@@ -27,6 +27,7 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.Test;
 
 public class SubmitRuleIT extends AbstractDaemonTest {
@@ -39,6 +40,11 @@ public class SubmitRuleIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     approve(r.getChangeId());
     List<SubmitRecord> recordsBeforeSubmission = submitRuleEvaluator.evaluate(r.getChange());
+    assertThat(
+            recordsBeforeSubmission.stream()
+                .map(record -> record.ruleName)
+                .collect(Collectors.toList()))
+        .containsExactly("gerrit~DefaultSubmitRule");
     gApi.changes().id(r.getChangeId()).current().submit();
     // Add a new label that blocks submission if not granted. In case we reevaluate the rules,
     // this would show up as blocking submission.
@@ -57,6 +63,11 @@ public class SubmitRuleIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     approve(r.getChangeId());
     List<SubmitRecord> recordsBeforeSubmission = submitRuleEvaluator.evaluate(r.getChange());
+    assertThat(
+            recordsBeforeSubmission.stream()
+                .map(record -> record.ruleName)
+                .collect(Collectors.toList()))
+        .containsExactly("gerrit~DefaultSubmitRule");
     gApi.changes().id(r.getChangeId()).current().submit();
     // Add a new label that blocks submission if not granted. In case we reevaluate the rules,
     // this would show up as blocking submission.

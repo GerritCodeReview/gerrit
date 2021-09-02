@@ -68,6 +68,8 @@ public class SubmitRecord {
     }
   }
 
+  // Name of the rule that created this submit record, formatted as '$pluginName~$ruleName'
+  public String ruleName;
   public Status status;
   public List<Label> labels;
   public List<LegacySubmitRequirement> requirements;
@@ -158,6 +160,7 @@ public class SubmitRecord {
    */
   public SubmitRecord deepCopy() {
     SubmitRecord copy = new SubmitRecord();
+    copy.ruleName = ruleName;
     copy.status = status;
     copy.errorMessage = errorMessage;
     if (labels != null) {

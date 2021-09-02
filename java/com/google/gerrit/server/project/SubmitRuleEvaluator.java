@@ -125,7 +125,17 @@ public class SubmitRuleEvaluator {
               projectState.hasPrologRules()
                   ? rule -> !(rule.get() instanceof DefaultSubmitRule)
                   : rule -> true)
-          .map(c -> c.call(s -> s.evaluate(cd)))
+          .map(
+              c ->
+                  c.call(
+                      s -> {
+                        Optional<SubmitRecord> evaluate = s.evaluate(cd);
+                        if (evaluate.isPresent()) {
+                          evaluate.get().ruleName =
+                              c.getPluginName() + "~" + s.getClass().getSimpleName();
+                        }
+                        return evaluate;
+                      }))
           .filter(Optional::isPresent)
           .map(Optional::get)
           .collect(toImmutableList());

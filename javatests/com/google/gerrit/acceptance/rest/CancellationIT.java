@@ -373,7 +373,7 @@ public class CancellationIT extends AbstractDaemonTest {
             try {
               Thread.sleep(1000);
             } catch (InterruptedException e) {
-              throw new RuntimeException("interrupted during sleep");
+              throw new RuntimeException("interrupted during sleep", e);
             }
           }
         };

@@ -97,6 +97,77 @@ server-side deadlines or resolve the performance issue in another way.
 It's not possible for clients to override the [receive
 timeout](#receive-timeout) that is enforced on git push.
 
+[[faqs]]
+== FAQs
+
+[[deadline-exceeded-what-to-do]]
+=== My request failed due to an execeeded deadline, what can I do?
+
+To get unblocked, you may repeat the request with deadlines disabled. To do this
+set the deadline to `0` on the request as explained
+[above](#override-server-side-deadline).
+
+If doing this becomes required frequently, please get in touch with the Gerrit
+administrators in order to investigate the performance issue and increase the
+server-side deadline if necessary.
+
+[NOTE]
+Setting deadlines for requests that are done from the Gerrit web UI is not
+possible. If exceeded deadlines occur frequently here, please get in touch with
+the Gerrit administrators in order to investigate the performance issue.
+
+[[push-fails-due-to-exceeded-deadline-but-cannot-be-overridden]]
+=== My git push fails due to an exceeded deadline and I cannot override the deadline, what can I do?
+
+As explained [above](#receive-timeout) a configured receive timeout cannot be
+overridden by clients. If pushes fail due to this timeout, get in touch with the
+Gerrit administrators in order to investigate the performance issue and increase
+the receive timeout if necessary.
+
+[[when-are-requests-aborted]]
+=== How quickly does a request get aborted when it is cancelled or a deadline is exceeded?
+
+In order to know if a request should be aborted, Gerrit needs to explicitly
+check whether the request is cancelled or whether a deadline is exceeded.
+Gerrit does this check at the beginning and end of all performance critical
+steps and sub-steps. This means, the request is only aborted the next time such
+a step starts or finishes, which can also be never (e.g. if the request is stuck
+inside of a step).
+
+[NOTE]
+Technically the check whether a request should be aborted is done whenever the
+execution time of an operation or sub-step is captured, either by a timer
+metric or a `TraceTimer` ('TraceTimer` is the class that logs the execution time
+when the request is being [traced](user-request-tracing.html)).
+
+[[how-are-requests-aborted]]
+=== How does Gerrit abort requests?
+
+The exact response that is returned to the client depends on the request type
+and the cancellation reason:
+
+[options="header",cols="1,3,3"]
+|=======================
+|Request Type   |Cancellation Reason|Response
+|REST over HTTP |Client Disconnected|The response is '499 Client Closed Request'.
+|               |Server-side deadline exceeded|The response is '408 Server Deadline Exceeded'.
+|               |Client-provided deadline exceeded|The response is '408 Client Provided Deadline Exceeded'.
+|SSH command    |Client Disconnected|The error message is 'Client Closed Request'.
+|               |Server-side deadline exceeded|The error message is 'Server Deadline Exceeded'.
+|               |Client-provided deadline exceeded|The error message is 'Client Provided Deadline Exceeded'.
+|git push       |Client Disconnected|The error status is 'Client Closed Request'.
+|               |Server-side deadline exceeded|The error status is 'Server Deadline Exceeded'.
+|               |Client-provided deadline exceeded|The error status is 'Client Provided Deadline Exceeded'.
+|git clone/fetch|Not supported.
+|=======================
+
+This means clients always get a proper error message telling the user why the
+request has been aborted.
+
+Errors due to aborted requests are usually not counted as internal server errors,
+but the [cancellation metrics](metrics.html#cancellations) may be used to setup
+alerting for performance issues.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

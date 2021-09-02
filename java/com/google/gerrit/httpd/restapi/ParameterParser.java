@@ -56,9 +56,18 @@ import org.kohsuke.args4j.CmdLineException;
 
 public class ParameterParser {
   public static final String TRACE_PARAMETER = "trace";
+  public static final String EXPERIMENT_PARAMETER = "experiment";
 
   private static final ImmutableSet<String> RESERVED_KEYS =
-      ImmutableSet.of("pp", "prettyPrint", "strict", "callback", "alt", "fields", TRACE_PARAMETER);
+      ImmutableSet.of(
+          "pp",
+          "prettyPrint",
+          "strict",
+          "callback",
+          "alt",
+          "fields",
+          TRACE_PARAMETER,
+          EXPERIMENT_PARAMETER);
 
   @AutoValue
   public abstract static class QueryParams {

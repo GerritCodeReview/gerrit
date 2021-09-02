@@ -30,6 +30,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.httpd.restapi.ParameterParser;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -80,6 +81,11 @@ public class RestApiServletIT extends AbstractDaemonTest {
   public void restResponseBodyShouldBePrettyfiedWhenPrettyPrintIsOne() throws Exception {
     assertThat(contentWithoutMagicJson(prettyJsonRestResponse("prettyPrint", 1)))
         .containsMatch(ANY_SPACE);
+  }
+
+  @Test
+  public void experimentRequestParamIsReserved() throws Exception {
+    assertRestResponseWithParameters(SC_OK, ParameterParser.EXPERIMENT_PARAMETER, "exp1");
   }
 
   @Test
@@ -413,6 +419,15 @@ public class RestApiServletIT extends AbstractDaemonTest {
 
   private ObjectId getMetaRefSha1(Result change) {
     return change.getChange().notes().getRevision();
+  }
+
+  private RestResponse assertRestResponseWithParameters(int status, String k, String v)
+      throws Exception {
+    RestResponse response =
+        adminRestSession.getWithHeaders(ANY_REST_API + "?" + k + "=" + v, ACCEPT_STAR_HEADER);
+    assertThat(response.getStatusCode()).isEqualTo(status);
+
+    return response;
   }
 
   private RestResponse prettyJsonRestResponse(String ppArgument, int ppValue) throws Exception {

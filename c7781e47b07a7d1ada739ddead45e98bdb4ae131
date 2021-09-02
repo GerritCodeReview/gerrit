@@ -16,6 +16,24 @@
       "message": "I guess documentation for this new parameter will only be added in a follow-up change?",
       "revId": "c7781e47b07a7d1ada739ddead45e98bdb4ae131",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "601c69a2_9c637867",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-02T11:26:52Z",
+      "side": 1,
+      "message": "Yes, right now we just drop this param but it\u0027s unused. We\u0027d need to add two other changes (one upstream, one internally) to enable the experiment.",
+      "parentUuid": "1859e084_7d1baa11",
+      "revId": "c7781e47b07a7d1ada739ddead45e98bdb4ae131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8334cace_47bbadf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-03T22:45:17Z",
+      "side": 1,
+      "message": "[...]\n\u003e \u003e Yes, the HA plugin was already managing this use-case successfully: as a matter of fact there was the eviction method in Gerrit v3.1 and it was removed in v3.2.\n\u003e \n\u003e Was? Will it again with this code as proposed?\n\nYes.\n\n\u003e \u003e What is the underlying issue? Speeding up a ref-to-sha1 lookup into a large repository over a slow storage something 3600x faster?\n\u003e \n\u003e Maybe? Why not? 😊 We do some pretty incredible things sometimes, especially when we understand a problem well enough.\n\nWould you manage to get an NFS filesystem to open a file, read MBs of data and close it, all in nano-seconds, without any caching?\n\n\u003e To that point, do we understand why it\u0027s so much slower?\n\nYes, because the SHA1 of the user\u0027s ref has been put into the account cache key. It wasn\u0027t in v3.1.\n\n\u003e Is it something that can be seen/tested with simple fs tests (not git/jgit)? How would I check this on a filesystem I have?\n\nSee above: you won\u0027t be able to do a network roundtrip in nano-seconds.\nIn v3.1 it did not require any ref-lookup, but in v3.2 it does.",
+      "parentUuid": "02616fca_37d249e1",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "866b5920_7f47e324",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

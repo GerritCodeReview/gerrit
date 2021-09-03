@@ -454,6 +454,11 @@ export const GerritNav = {
 
   mapCommentlinks: uninitializedMapCommentLinks,
 
+  // Explicitly force the change page to reload. Currently the change page does
+  // not refresh if the changeNum and patchRange do not change, hence use this
+  // property to force a reload.
+  forceReload: false,
+
   _checkPatchRange(patchNum?: PatchSetNum, basePatchNum?: BasePatchSetNum) {
     if (basePatchNum && !patchNum) {
       throw new Error('Cannot use base patch number without patch number.');
@@ -658,6 +663,7 @@ export const GerritNav = {
     isEdit?: boolean,
     redirect?: boolean
   ) {
+    this.forceReload = true;
     this._navigate(
       this.getUrlForChange(change, patchNum, basePatchNum, isEdit),
       redirect

@@ -1228,7 +1228,8 @@ export class GrChangeView extends base {
     // If there is no change in patchset or changeNum, such as when user goes
     // to the diff view and then comes back to change page then there is no need
     // to reload anything and we render the change view component as is.
-    if (this._changeNum === value.changeNum) return;
+    if (this._changeNum === value.changeNum && !GerritNav.forceReload) return;
+    GerritNav.forceReload = false;
 
     this.$.fileList.collapseAllDiffs();
 

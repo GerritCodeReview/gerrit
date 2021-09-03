@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-js-api-interface.js';
-import {getPluginNameFromUrl} from './gr-api-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-js-api-interface';
+import {getPluginNameFromUrl} from './gr-api-utils';
 
 suite('gr-api-utils tests', () => {
   suite('test getPluginNameFromUrl', () => {
@@ -32,37 +32,36 @@ suite('gr-api-utils tests', () => {
     test('with random invalid url', () => {
       assert.equal(getPluginNameFromUrl('http://example.com'), null);
       assert.equal(
-          getPluginNameFromUrl('http://example.com/static/a.js'),
-          null
+        getPluginNameFromUrl('http://example.com/static/a.js'),
+        null
       );
     });
 
     test('with valid urls', () => {
       assert.equal(
-          getPluginNameFromUrl('http://example.com/plugins/a.js'),
-          'a'
+        getPluginNameFromUrl('http://example.com/plugins/a.js'),
+        'a'
       );
       assert.equal(
-          getPluginNameFromUrl('http://example.com/plugins/a/static/t.js'),
-          'a'
+        getPluginNameFromUrl('http://example.com/plugins/a/static/t.js'),
+        'a'
       );
     });
 
     test('with gerrit-theme override', () => {
       assert.equal(
-          getPluginNameFromUrl('http://example.com/static/gerrit-theme.js'),
-          'gerrit-theme'
+        getPluginNameFromUrl('http://example.com/static/gerrit-theme.js'),
+        'gerrit-theme'
       );
     });
 
     test('with ASSETS_PATH', () => {
       window.ASSETS_PATH = 'http://cdn.com/2';
       assert.equal(
-          getPluginNameFromUrl(`${window.ASSETS_PATH}/plugins/a.js`),
-          'a'
+        getPluginNameFromUrl(`${window.ASSETS_PATH}/plugins/a.js`),
+        'a'
       );
       window.ASSETS_PATH = undefined;
     });
   });
 });
-

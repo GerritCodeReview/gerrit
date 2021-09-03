@@ -39,6 +39,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangePredicates;
@@ -62,6 +63,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class DeleteDraftComments
@@ -76,6 +78,7 @@ public class DeleteDraftComments
   private final Provider<CommentJson> commentJsonProvider;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
+  private boolean computeFromAllUsersRepository;
 
   @Inject
   DeleteDraftComments(
@@ -87,7 +90,8 @@ public class DeleteDraftComments
       ChangeJson.Factory changeJsonFactory,
       Provider<CommentJson> commentJsonProvider,
       CommentsUtil commentsUtil,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      @GerritServerConfig Config gerritConfig) {
     this.userProvider = userProvider;
     this.batchUpdateFactory = batchUpdateFactory;
     this.queryBuilderProvider = queryBuilderProvider;
@@ -97,6 +101,8 @@ public class DeleteDraftComments
     this.commentJsonProvider = commentJsonProvider;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
+    this.computeFromAllUsersRepository =
+        gerritConfig.getBoolean("index", null, "computeFromAllUsersRepository", false);
   }
 
   @Override
@@ -147,7 +153,8 @@ public class DeleteDraftComments
 
   private Predicate<ChangeData> predicate(Account.Id accountId, DeleteDraftCommentsInput input)
       throws BadRequestException {
-    Predicate<ChangeData> hasDraft = ChangePredicates.draftBy(accountId);
+    Predicate<ChangeData> hasDraft =
+        ChangePredicates.draftBy(computeFromAllUsersRepository, commentsUtil, accountId);
     if (CharMatcher.whitespace().trimFrom(Strings.nullToEmpty(input.query)).isEmpty()) {
       return hasDraft;
     }

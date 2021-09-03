@@ -16,9 +16,8 @@
  */
 import {classMap} from 'lit/directives/class-map';
 import './gr-hovercard-run';
-import {css, html, nothing, PropertyValues} from 'lit';
+import {LitElement, css, html, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
-import {GrLitElement} from '../lit/gr-lit-element';
 import './gr-checks-attempt';
 import {Action, Link, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
@@ -58,9 +57,10 @@ import {ChecksTabState} from '../../types/events';
 import {charsOnly} from '../../utils/string-util';
 import {appContext} from '../../services/app-context';
 import {KnownExperimentId} from '../../services/flags/flags';
+import {subscribe} from '../lit/subscription-controller';
 
 @customElement('gr-checks-run')
-export class GrChecksRun extends GrLitElement {
+export class GrChecksRun extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
@@ -355,7 +355,7 @@ export class GrChecksRun extends GrLitElement {
 }
 
 @customElement('gr-checks-runs')
-export class GrChecksRuns extends GrLitElement {
+export class GrChecksRuns extends LitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
@@ -395,9 +395,9 @@ export class GrChecksRuns extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRunsSelectedPatchset$);
-    this.subscribe('errorMessages', errorMessagesLatest$);
-    this.subscribe('loginCallback', loginCallbackLatest$);
+    subscribe(this, allRunsSelectedPatchset$, x => (this.runs = x));
+    subscribe(this, errorMessagesLatest$, x => (this.errorMessages = x));
+    subscribe(this, loginCallbackLatest$, x => (this.loginCallback = x));
   }
 
   static override get styles() {

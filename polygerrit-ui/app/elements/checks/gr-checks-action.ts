@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {GrLitElement} from '../lit/gr-lit-element';
 import {Action} from '../../api/checks';
 import {checkRequiredProperty} from '../../utils/common-util';
 import {appContext} from '../../services/app-context';
 
 @customElement('gr-checks-action')
-export class GrChecksAction extends GrLitElement {
+export class GrChecksAction extends LitElement {
   @property()
   action!: Action;
 

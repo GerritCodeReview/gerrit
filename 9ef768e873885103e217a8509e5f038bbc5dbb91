@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a27576ba_da75a1bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-03T09:55:39Z",
+      "side": 1,
+      "message": "Introducing global variables should always be the last resort. If at all possible it should be avoided.\n\nIn this case I would suggest something like https://gerrit-review.googlesource.com/c/gerrit/+/317098",
+      "revId": "9ef768e873885103e217a8509e5f038bbc5dbb91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

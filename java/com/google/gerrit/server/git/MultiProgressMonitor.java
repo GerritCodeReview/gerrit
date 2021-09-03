@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.server.DeadlineChecker.TIMEOUT_FORMATTER;
+import static com.google.gerrit.server.DeadlineChecker.getTimeoutFormatter;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
@@ -179,6 +179,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
   private boolean done;
   private boolean clientDisconnected;
   private boolean deadlineExceeded;
+  private boolean forcefulTermination;
   private Optional<Long> timeout = Optional.empty();
 
   private final long maxIntervalNanos;
@@ -295,12 +296,14 @@ public class MultiProgressMonitor implements RequestStateProvider {
         long now = System.nanoTime();
 
         if (deadline > 0 && now > deadline) {
-          logger.atFine().log(
-              "deadline exceeded after %sms, signaling cancellation (timeout=%sms, task=%s(%s))",
-              MILLISECONDS.convert(now - overallStart, NANOSECONDS),
-              MILLISECONDS.convert(now - deadline, NANOSECONDS),
-              taskKind,
-              taskName);
+          if (!deadlineExceeded) {
+            logger.atFine().log(
+                "deadline exceeded after %sms, signaling cancellation (timeout=%sms, task=%s(%s))",
+                MILLISECONDS.convert(now - overallStart, NANOSECONDS),
+                MILLISECONDS.convert(now - deadline, NANOSECONDS),
+                taskKind,
+                taskName);
+          }
           deadlineExceeded = true;
 
           // After setting deadlineExceeded = true give the cancellationNanos to react to the
@@ -308,6 +311,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
           if (now > deadline + cancellationNanos) {
             // The worker didn't react to the cancellation, cancel it forcefully by an interrupt.
             workerFuture.cancel(true);
+            forcefulTermination = true;
             if (workerFuture.isCancelled()) {
               logger.atWarning().log(
                   "MultiProgressMonitor worker killed after %sms, cancelled (timeout=%sms, task=%s(%s))",
@@ -338,7 +342,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
           end();
         }
       }
-      if (deadlineExceeded && taskKind == TaskKind.RECEIVE_COMMITS) {
+      if (deadlineExceeded && !forcefulTermination && taskKind == TaskKind.RECEIVE_COMMITS) {
         cancellationMetrics.countGracefulReceiveTimeout();
       }
       sendDone();
@@ -476,7 +480,12 @@ public class MultiProgressMonitor implements RequestStateProvider {
     } else if (deadlineExceeded) {
       onCancelled.onCancel(
           RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED,
-          timeout.map(TIMEOUT_FORMATTER).orElse(null));
+          timeout
+              .map(
+                  taskKind == TaskKind.RECEIVE_COMMITS
+                      ? getTimeoutFormatter("receive.timeout")
+                      : getTimeoutFormatter("timeout"))
+              .orElse(null));
     }
   }
 }

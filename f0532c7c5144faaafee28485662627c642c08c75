@@ -22,6 +22,30 @@
       },
       "revId": "f0532c7c5144faaafee28485662627c642c08c75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d701fa8_5cc26820",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-03T17:41:55Z",
+      "side": 1,
+      "message": "You\u0027re right. Format is \"has:operandName_pluginName\" though (https://gerrit-review.googlesource.com/Documentation/dev-plugins.html). Same for the \"is\" operator. I\u0027d rather prefer to put the plugin name first (same as in this change), then we could use underscore in all.",
+      "parentUuid": "9955cc39_1c48b1ab",
+      "range": {
+        "startLine": 618,
+        "startChar": 1,
+        "endLine": 618,
+        "endChar": 24
+      },
+      "revId": "f0532c7c5144faaafee28485662627c642c08c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

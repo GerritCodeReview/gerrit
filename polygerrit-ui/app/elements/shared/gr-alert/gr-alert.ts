@@ -18,8 +18,7 @@ import '../gr-button/gr-button';
 import '../../../styles/shared-styles';
 import {getRootElement} from '../../../scripts/rootElement';
 import {ErrorType} from '../../../types/types';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 
@@ -30,7 +29,7 @@ declare global {
 }
 
 @customElement('gr-alert')
-export class GrAlert extends GrLitElement {
+export class GrAlert extends LitElement {
   static get styles() {
     return [
       sharedStyles,

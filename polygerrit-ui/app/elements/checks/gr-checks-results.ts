@@ -17,9 +17,8 @@
 import {classMap} from 'lit/directives/class-map';
 import {repeat} from 'lit/directives/repeat';
 import {ifDefined} from 'lit/directives/if-defined';
-import {css, html, PropertyValues, TemplateResult} from 'lit';
+import {LitElement, css, html, PropertyValues, TemplateResult} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
-import {GrLitElement} from '../lit/gr-lit-element';
 import './gr-checks-action';
 import '@polymer/paper-tooltip/paper-tooltip';
 import {
@@ -74,9 +73,10 @@ import {
 } from '../../utils/label-util';
 import {GerritNav} from '../core/gr-navigation/gr-navigation';
 import {DropdownLink} from '../shared/gr-dropdown/gr-dropdown';
+import {subscribe} from '../lit/subscription-controller';
 
 @customElement('gr-result-row')
-class GrResultRow extends GrLitElement {
+class GrResultRow extends LitElement {
   @query('td.nameCol div.name')
   nameEl?: HTMLElement;
 
@@ -97,7 +97,7 @@ class GrResultRow extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('labels', labels$);
+    subscribe(this, labels$, x => (this.labels = x));
   }
 
   static override get styles() {
@@ -531,7 +531,7 @@ class GrResultRow extends GrLitElement {
 }
 
 @customElement('gr-result-expanded')
-class GrResultExpanded extends GrLitElement {
+class GrResultExpanded extends LitElement {
   @property()
   result?: RunResult;
 
@@ -563,7 +563,7 @@ class GrResultExpanded extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('repoConfig', repoConfig$);
+    subscribe(this, repoConfig$, x => (this.repoConfig = x));
   }
 
   override render() {
@@ -671,7 +671,7 @@ CATEGORY_TOOLTIPS.set(
 );
 
 @customElement('gr-checks-results')
-export class GrChecksResults extends GrLitElement {
+export class GrChecksResults extends LitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
@@ -736,11 +736,19 @@ export class GrChecksResults extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('actions', topLevelActionsSelected$);
-    this.subscribe('links', topLevelLinksSelected$);
-    this.subscribe('checksPatchsetNumber', checksSelectedPatchsetNumber$);
-    this.subscribe('latestPatchsetNumber', latestPatchNum$);
-    this.subscribe('someProvidersAreLoading', someProvidersAreLoadingSelected$);
+    subscribe(this, topLevelActionsSelected$, x => (this.actions = x));
+    subscribe(this, topLevelLinksSelected$, x => (this.links = x));
+    subscribe(
+      this,
+      checksSelectedPatchsetNumber$,
+      x => (this.checksPatchsetNumber = x)
+    );
+    subscribe(this, latestPatchNum$, x => (this.latestPatchsetNumber = x));
+    subscribe(
+      this,
+      someProvidersAreLoadingSelected$,
+      x => (this.someProvidersAreLoading = x)
+    );
   }
 
   static override get styles() {

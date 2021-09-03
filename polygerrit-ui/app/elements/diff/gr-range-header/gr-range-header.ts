@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 /**
@@ -25,7 +24,7 @@ import {customElement, property} from 'lit/decorators';
  * like long comments and moved in/out chunks.
  */
 @customElement('gr-range-header')
-export class GrRangeHeader extends GrLitElement {
+export class GrRangeHeader extends LitElement {
   @property({type: String})
   icon?: string;
 

@@ -16,8 +16,7 @@
  */
 import '../gr-linked-text/gr-linked-text';
 import {CommentLinks} from '../../../types/common';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html, TemplateResult} from 'lit';
+import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
@@ -42,7 +41,7 @@ declare global {
   }
 }
 @customElement('gr-formatted-text')
-export class GrFormattedText extends GrLitElement {
+export class GrFormattedText extends LitElement {
   @property({type: String})
   content?: string;
 

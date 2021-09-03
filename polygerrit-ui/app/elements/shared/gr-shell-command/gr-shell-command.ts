@@ -18,8 +18,7 @@ import '../gr-copy-clipboard/gr-copy-clipboard';
 import {GrCopyClipboard} from '../gr-copy-clipboard/gr-copy-clipboard';
 import {queryAndAssert} from '../../../utils/common-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 declare global {
@@ -29,7 +28,7 @@ declare global {
 }
 
 @customElement('gr-shell-command')
-export class GrShellCommand extends GrLitElement {
+export class GrShellCommand extends LitElement {
   @property({type: String})
   command: string | undefined;
 

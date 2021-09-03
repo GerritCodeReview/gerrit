@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
@@ -27,7 +26,7 @@ import {ChangeStatus} from '../../../constants/constants';
 import {isChangeInfo} from '../../../utils/change-util';
 
 @customElement('gr-related-change')
-export class GrRelatedChange extends GrLitElement {
+export class GrRelatedChange extends LitElement {
   @property()
   change?: ChangeInfo | RelatedChangeAndCommitInfo;
 

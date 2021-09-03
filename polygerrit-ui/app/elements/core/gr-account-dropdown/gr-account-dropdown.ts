@@ -25,8 +25,7 @@ import {
   DropdownLink,
 } from '../../shared/gr-dropdown/gr-dropdown';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
@@ -38,7 +37,7 @@ declare global {
 }
 
 @customElement('gr-account-dropdown')
-export class GrAccountDropdown extends GrLitElement {
+export class GrAccountDropdown extends LitElement {
   @property({type: Object})
   account?: AccountInfo;
 

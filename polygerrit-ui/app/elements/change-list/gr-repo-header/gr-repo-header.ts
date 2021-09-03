@@ -22,12 +22,11 @@ import {WebLinkInfo} from '../../../types/diff';
 import {appContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html, PropertyValues} from 'lit';
+import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 @customElement('gr-repo-header')
-export class GrRepoHeader extends GrLitElement {
+export class GrRepoHeader extends LitElement {
   @property({type: String})
   repo?: RepoName;
 

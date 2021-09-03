@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00daf49a_6b2a774e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-03T16:54:49Z",
+      "side": 1,
+      "message": "I attempted a few ways at making a natural object but I couldn\u0027t get it working.",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 42
+      },
+      "revId": "74f3b1cfb654f6b42a6df803315a575df2bfde73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3298b5e_8ce95ffc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-03T16:54:49Z",
+      "side": 1,
+      "message": "the \u0027reuse dom hooks\u0027 test made a very strange call to register that did not fit the code or the type signature. Besides that call the test was a duplicate of \u0027getDetails all\u0027 so I removed it.",
+      "range": {
+        "startLine": 151,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 5
+      },
+      "revId": "74f3b1cfb654f6b42a6df803315a575df2bfde73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

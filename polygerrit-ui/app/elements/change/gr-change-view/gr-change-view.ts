@@ -2056,8 +2056,9 @@ export class GrChangeView extends base {
   loadData(isLocationChange?: boolean, clearPatchset?: boolean): Promise<void> {
     if (this.isChangeObsolete()) return Promise.resolve();
     if (clearPatchset && this._change) {
-      GerritNav.navigateToChange(this._change);
-      return Promise.resolve();
+      this.$.fileList.collapseAllDiffs();
+      this._patchRange = {patchNum: undefined, basePatchNum: ParentPatchSetNum};
+      this.scrollCommentId = undefined;
     }
     this._loading = true;
     this.reporting.time(Timing.CHANGE_RELOAD);

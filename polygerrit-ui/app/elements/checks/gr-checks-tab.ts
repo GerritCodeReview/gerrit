@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {css, html, PropertyValues} from 'lit';
+import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
-import {GrLitElement} from '../lit/gr-lit-element';
 import {Action} from '../../api/checks';
 import {
   CheckResult,
@@ -36,13 +35,14 @@ import {fireAlert, fireEvent} from '../../utils/event-util';
 import {appContext} from '../../services/app-context';
 import {from, timer} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {subscribe} from '../lit/gr-lit-element';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
  * have registered with the Checks Plugin API.
  */
 @customElement('gr-checks-tab')
-export class GrChecksTab extends GrLitElement {
+export class GrChecksTab extends LitElement {
   @property()
   runs: CheckRun[] = [];
 
@@ -75,11 +75,15 @@ export class GrChecksTab extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRunsSelectedPatchset$);
-    this.subscribe('results', allResultsSelected$);
-    this.subscribe('checksPatchsetNumber', checksSelectedPatchsetNumber$);
-    this.subscribe('latestPatchsetNumber', latestPatchNum$);
-    this.subscribe('changeNum', changeNum$);
+    subscribe(this, allRunsSelectedPatchset$, x => (this.runs = x));
+    subscribe(this, allResultsSelected$, x => (this.results = x));
+    subscribe(
+      this,
+      checksSelectedPatchsetNumber$,
+      x => (this.checksPatchsetNumber = x)
+    );
+    subscribe(this, latestPatchNum$, x => (this.latestPatchsetNumber = x));
+    subscribe(this, changeNum$, x => (this.changeNum = x));
 
     this.addEventListener('action-triggered', (e: ActionTriggeredEvent) =>
       this.handleActionTriggered(e.detail.action, e.detail.run)

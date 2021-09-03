@@ -20,8 +20,7 @@ import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-shell-command/gr-shell-command';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators';
 
 enum Commands {
@@ -37,7 +36,7 @@ declare global {
 }
 
 @customElement('gr-create-commands-dialog')
-export class GrCreateCommandsDialog extends GrLitElement {
+export class GrCreateCommandsDialog extends LitElement {
   @query('#commandsOverlay')
   commandsOverlay?: GrOverlay;
 

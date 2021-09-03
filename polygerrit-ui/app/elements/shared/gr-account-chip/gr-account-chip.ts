@@ -19,13 +19,12 @@ import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {classMap} from 'lit/directives/class-map';
 
 @customElement('gr-account-chip')
-export class GrAccountChip extends GrLitElement {
+export class GrAccountChip extends LitElement {
   /**
    * Fired to indicate a key was pressed while this chip was focused.
    *

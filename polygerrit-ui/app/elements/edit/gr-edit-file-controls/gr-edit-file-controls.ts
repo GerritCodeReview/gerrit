@@ -18,8 +18,7 @@
 import '../../shared/gr-dropdown/gr-dropdown';
 import {GrEditConstants} from '../gr-edit-constants';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 interface EditAction {
@@ -28,7 +27,7 @@ interface EditAction {
 }
 
 @customElement('gr-edit-file-controls')
-export class GrEditFileControls extends GrLitElement {
+export class GrEditFileControls extends LitElement {
   /**
    * Fired when an action in the overflow menu is tapped.
    *

@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ApprovalInfo, LabelInfo} from '../../../api/rest-api';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {getVotingRangeOrDefault, valueString} from '../../../utils/label-util';
-import {GrLitElement} from '../../lit/gr-lit-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,7 +28,7 @@ declare global {
 }
 
 @customElement('gr-vote-chip')
-export class GrVoteChip extends GrLitElement {
+export class GrVoteChip extends LitElement {
   @property({type: Object})
   vote?: ApprovalInfo;
 

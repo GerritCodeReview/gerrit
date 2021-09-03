@@ -14,39 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {LitElement} from 'lit';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {ReactiveController, ReactiveControllerHost} from 'lit';
+import {Observable, Subscription} from 'rxjs';
 
 /**
- * Base class for Gerrit's lit-elements.
+ * Enables components to simply hook up a property with an Observable like so:
  *
- * Adds basic functionality that we want to have available in all Gerrit's
- * components.
+ * subscribe(this, obs$, x => (this.prop = x));
  */
-export abstract class GrLitElement extends LitElement {
-  disconnected$ = new Subject();
+export function subscribe<T>(
+  host: ReactiveControllerHost,
+  obs$: Observable<T>,
+  setProp: (t: T) => void
+) {
+  host.addController(new ReactiveSubscription(obs$, setProp));
+}
 
-  /**
-   * Hooks up an element property with an observable. Apart from subscribing it
-   * makes sure that you are unsubscribed when the component is disconnected.
-   * And it requests a template check when a new value comes in.
-   *
-   * Should be called from connectedCallback() such that you will be
-   * re-subscribed when the component is re-connected.
-   *
-   * TODO: Maybe distinctUntilChanged should be applied to obs$?
-   */
-  subscribe<Key extends keyof this>(prop: Key, obs$: Observable<this[Key]>) {
-    obs$.pipe(takeUntil(this.disconnected$)).subscribe(value => {
-      const oldValue = this[prop];
-      this[prop] = value;
-      this.requestUpdate(prop, oldValue);
-    });
+export class ReactiveSubscription<T> implements ReactiveController {
+  private sub?: Subscription;
+
+  constructor(
+    private readonly obs$: Observable<T>,
+    private readonly setProp: (t: T) => void
+  ) {}
+
+  hostConnected() {
+    this.sub = this.obs$.subscribe(this.setProp);
   }
 
-  override disconnectedCallback() {
-    this.disconnected$.next();
-    super.disconnectedCallback();
+  hostDisconnected() {
+    this.sub?.unsubscribe();
   }
 }

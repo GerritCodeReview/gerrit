@@ -14,9 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {LitElement} from 'lit';
-import {Observable, Subject} from 'rxjs';
+import {LitElement, ReactiveController, ReactiveControllerHost} from 'lit';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+
+export class Sub<T> implements ReactiveController {
+  private sub?: Subscription;
+
+  constructor(
+    host: ReactiveControllerHost,
+    readonly obs$: Observable<T>,
+    readonly setProp: (t: T) => void
+  ) {
+    host.addController(this);
+  }
+
+  hostConnected() {
+    this.sub = this.obs$.subscribe(this.setProp);
+  }
+
+  hostDisconnected() {
+    this.sub?.unsubscribe();
+  }
+}
 
 /**
  * Base class for Gerrit's lit-elements.

@@ -16,7 +16,7 @@
  */
 import {css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {GrLitElement} from '../../lit/gr-lit-element';
+import {GrLitElement, GrState} from '../../lit/gr-lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
 import {
@@ -333,8 +333,7 @@ export class GrChangeSummary extends GrLitElement {
   @property({type: Object})
   selfAccount?: AccountInfo;
 
-  @property()
-  runs: CheckRun[] = [];
+  private runs = new GrState(this, allRunsLatestPatchsetLatestAttempt$);
 
   @property()
   showChecksSummary = false;
@@ -352,7 +351,6 @@ export class GrChangeSummary extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRunsLatestPatchsetLatestAttempt$);
     this.subscribe('showChecksSummary', aPluginHasRegistered$);
     this.subscribe('someProvidersAreLoading', someProvidersAreLoadingLatest$);
     this.subscribe('errorMessages', errorMessagesLatest$);
@@ -488,13 +486,13 @@ export class GrChangeSummary extends GrLitElement {
   renderChecksZeroState() {
     if (Object.keys(this.errorMessages).length > 0) return;
     if (this.loginCallback) return;
-    if (this.runs.some(isRunningOrHasCompleted)) return;
+    if (this.runs.value.some(isRunningOrHasCompleted)) return;
     const msg = this.someProvidersAreLoading ? 'Loading results' : 'No results';
     return html`<span role="status" class="loading zeroState">${msg}</span>`;
   }
 
   renderChecksChipForCategory(category: Category) {
-    const runs = this.runs.filter(run => {
+    const runs = this.runs.value.filter(run => {
       if (hasResultsOf(run, category)) return true;
       return category === Category.SUCCESS && hasCompletedWithoutResults(run);
     });
@@ -506,7 +504,7 @@ export class GrChangeSummary extends GrLitElement {
   }
 
   renderChecksChipRunning() {
-    const runs = this.runs.filter(isRunning);
+    const runs = this.runs.value.filter(isRunning);
     return this.renderChecksChipsExpanded(runs, RunStatus.RUNNING, () => []);
   }
 
@@ -624,10 +622,10 @@ export class GrChangeSummary extends GrLitElement {
     const countUnresolvedComments = unresolvedThreads.length;
     const unresolvedAuthors = this.getAccounts(unresolvedThreads);
     const draftCount = this.changeComments?.computeDraftCount() ?? 0;
-    const hasNonRunningChip = this.runs.some(
+    const hasNonRunningChip = this.runs.value.some(
       run => hasCompletedWithoutResults(run) || hasResults(run)
     );
-    const hasRunningChip = this.runs.some(isRunning);
+    const hasRunningChip = this.runs.value.some(isRunning);
     return html`
       <div>
         <table>

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3b116e7_921abcff",
+        "filename": "polygerrit-ui/app/elements/lit/gr-lit-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-09-03T21:34:00Z",
+      "side": 1,
+      "message": "Should you provide a default value? If not, should value be undefined by default?\n\nOtherwise, if an update happens before a value is provided then the value will be undefined and TypeScript won\u0027t be able to help you",
+      "revId": "2a106a76ddd5fc9825cc405e86a7bf30c66f007e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f940636_1242bff5",
+        "filename": "polygerrit-ui/app/elements/lit/gr-lit-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-09-03T21:34:00Z",
+      "side": 1,
+      "message": "Why the immediate requestUpdate?",
+      "revId": "2a106a76ddd5fc9825cc405e86a7bf30c66f007e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3af4e45d_2021b9af",
+        "filename": "polygerrit-ui/app/elements/lit/gr-lit-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2021-09-03T21:34:00Z",
+      "side": 1,
+      "message": "Is it worth checking for the case that the new value is the same as the previous one? i.e. `if (this.value \u003d\u003d\u003d value) return;`",
+      "revId": "2a106a76ddd5fc9825cc405e86a7bf30c66f007e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

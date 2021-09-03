@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd1beb8f_6d734d2f",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-03T15:08:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ee8cf07_2b60fcd7",
+      "range": {
+        "startLine": 856,
+        "startChar": 50,
+        "endLine": 856,
+        "endChar": 53
+      },
+      "revId": "d6a43cae152569e9ff9cb93d3163aae6e2175257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cb6383e_e750195b",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-03T15:08:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f22be855_c7670853",
+      "range": {
+        "startLine": 856,
+        "startChar": 66,
+        "endLine": 856,
+        "endChar": 67
+      },
+      "revId": "d6a43cae152569e9ff9cb93d3163aae6e2175257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5d440ee_d5b0fae9",
@@ -83,6 +131,54 @@
       "writtenOn": "2021-09-03T11:53:38Z",
       "side": 1,
       "message": "this is a bit strange - and might also have some false positives just cause the name starts with the same letters.\n\nWill exact match not work?",
+      "range": {
+        "startLine": 1002,
+        "startChar": 38,
+        "endLine": 1002,
+        "endChar": 48
+      },
+      "revId": "d6a43cae152569e9ff9cb93d3163aae6e2175257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8ab359d_5e5a398a",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-03T15:08:13Z",
+      "side": 1,
+      "message": "Right, I do not know their email.\nEven if the original message contains \u0027Other Account \u003cother@account.com\u003e\u0027, the email could have changed since the time when commit was originally created.\n\nI am not too concerned about it. If the footers are present we know the replacement exactly. If not, this is a very old change and we hope the original comment is not that interesting now.",
+      "parentUuid": "a5d440ee_d5b0fae9",
+      "range": {
+        "startLine": 1002,
+        "startChar": 26,
+        "endLine": 1002,
+        "endChar": 37
+      },
+      "revId": "d6a43cae152569e9ff9cb93d3163aae6e2175257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a2a5ccf_86dfd486",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-03T15:08:13Z",
+      "side": 1,
+      "message": "This was to handle \u0027Other Account \u003cother@account.com\u003e\u0027 nameEmail.\n\u0027nameEmail\u0027 only appears in delete vote change message, so I added a separate method to extract name for it and will use the exact match here.",
+      "parentUuid": "6e7a2144_118aab39",
       "range": {
         "startLine": 1002,
         "startChar": 38,

@@ -96,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ead97493_fb4c69a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-03T22:30:41Z",
+      "side": 1,
+      "message": "\u003e I\u0027m going to append to my concerns after re-reading this. Caching what object-id a ref resolves to seems like a fundamentally risky choice. This will always break in multi-primary deployments. Won\u0027t that be a problem when users update a preference and don\u0027t see it updated when they land on a different node (or does ha-plugin already handle this somehow?)?\n\nYes, the HA plugin was already managing this use-case successfully: as a matter of fact there was the eviction method in Gerrit v3.1 and it was removed in v3.2.\n\n\u003e I\u0027d prefer we spend more time looking at the problem and see if we can solve the underlying issue.\n\nWhat is the underlying issue? Speeding up a ref-to-sha1 lookup into a large repository over a slow storage something 3600x faster?",
+      "parentUuid": "d3798e9d_123376b4",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "866b5920_7f47e324",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

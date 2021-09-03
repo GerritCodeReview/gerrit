@@ -168,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cfa7b204_d24e3111",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-03T22:53:01Z",
+      "side": 1,
+      "message": "P.S. The expectation from a class that is called \u0027Cache\u0027 is that the information is cached and not re-read from the filesystem every time that a method is called. I won\u0027t generally cache *any* access to refs/sha1 lookups, for the concerns raised by Nasser.\n\nThe problem is that all code in Gerrit (and plugins) that used AccountCache before v3.2 assumed that the call was cheap because the data was cached, which was only partially true, as the v3.2 introduces roundtrip to the repository on disk.",
+      "parentUuid": "8334cace_47bbadf4",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "866b5920_7f47e324",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

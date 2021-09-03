@@ -30,10 +30,6 @@
  * enums =======================================================================
  */
 
-export enum AccountTag {
-  SERVICE_USER = 'SERVICE_USER',
-}
-
 /**
  * The authentication type that is configured on the server.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#auth-info
@@ -237,7 +233,7 @@ export declare interface AccountInfo {
   _more_accounts?: boolean; // not set if false
   status?: string; // status message of the account
   inactive?: boolean; // not set if false
-  tags?: AccountTag[];
+  tags?: string[];
 }
 
 /**

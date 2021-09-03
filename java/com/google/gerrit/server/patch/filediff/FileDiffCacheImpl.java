@@ -97,7 +97,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         persist(DIFF, FileDiffCacheKey.class, FileDiffOutput.class)
             .maximumWeight(10 << 20)
             .weigher(FileDiffWeigher.class)
-            .version(7)
+            .version(8)
             .keySerializer(FileDiffCacheKey.Serializer.INSTANCE)
             .valueSerializer(FileDiffOutput.Serializer.INSTANCE)
             .loader(FileDiffLoader.class);

@@ -22,7 +22,6 @@ import {DiffViewMode} from '../api/diff';
 import {DiffPreferencesInfo} from '../types/diff';
 import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
 import {
-  AccountTag,
   AuthType,
   ChangeStatus,
   ConfigParameterInfoType,
@@ -42,7 +41,6 @@ import {
 } from '../api/rest-api';
 
 export {
-  AccountTag,
   AuthType,
   ChangeStatus,
   ConfigParameterInfoType,
@@ -60,6 +58,10 @@ export {
   RevisionKind,
   SubmitType,
 };
+
+export enum AccountTag {
+  SERVICE_USER = 'SERVICE_USER',
+}
 
 export enum PrimaryTab {
   FILES = 'files',

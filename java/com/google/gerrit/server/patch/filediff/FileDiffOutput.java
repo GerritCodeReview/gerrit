@@ -130,9 +130,16 @@ public abstract class FileDiffOutput implements Serializable {
         .build();
   }
 
+  /**
+   * Create a negative file diff. We use this to cache negative diffs for entries that result in
+   * timeouts.
+   */
   public static FileDiffOutput createNegative(
       String filePath, ObjectId oldCommitId, ObjectId newCommitId) {
-    return empty(filePath, oldCommitId, newCommitId).toBuilder().build();
+    return empty(filePath, oldCommitId, newCommitId)
+        .toBuilder()
+        .negative(Optional.of(true))
+        .build();
   }
 
   /** Returns true if this entity represents an unchanged file between two commits. */

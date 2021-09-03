@@ -29,6 +29,7 @@ export const GrAnnotation = {
    *
    */
   getLength(node: Node) {
+    if (node instanceof Comment) return 0;
     return this.getStringLength(node.textContent || '');
   },
 

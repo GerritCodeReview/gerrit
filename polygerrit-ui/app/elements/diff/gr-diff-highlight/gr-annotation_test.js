@@ -252,6 +252,24 @@ suite('annotation', () => {
           '0<test-wrapper>123456789<span></span>0</test-wrapper>123456789');
     });
 
+    test('handles comment nodes', () => {
+      const container = document.createElement('div');
+      container.appendChild(document.createComment('comment1'));
+      container.appendChild(document.createTextNode('0123456789'));
+      container.appendChild(document.createComment('comment2'));
+      container.appendChild(document.createElement('span'));
+      container.appendChild(document.createTextNode('0123456789'));
+      GrAnnotation.annotateWithElement(
+          container, 1, 10, {tagName: 'test-wrapper'});
+
+      assert.equal(
+          container.innerHTML,
+          '<!--comment1-->' +
+          '0<test-wrapper>123456789' +
+          '<!--comment2-->' +
+          '<span></span>0</test-wrapper>123456789');
+    });
+
     test('sets sanitized attributes', () => {
       const container = document.createElement('div');
       container.textContent = fullText;

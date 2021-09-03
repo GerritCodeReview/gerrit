@@ -1027,7 +1027,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> draftBySelf() throws QueryParseException {
-    return ChangePredicates.draftBy(self());
+    return ChangePredicates.draftBy(args.commentsUtil, self());
   }
 
   @Operator

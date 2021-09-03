@@ -71,7 +71,6 @@ import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
-import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -140,7 +139,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -2380,49 +2378,37 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
 
     assertQuery("has:star", change2, change1);
+    assertQuery("star:star", change2, change1);
 
     requestContext.setContext(newRequestContext(user2));
     assertQuery("has:star");
+    assertQuery("star:star");
   }
 
   @Test
   public void byStar() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo));
+    Change change1 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
     Change change2 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
-    Change change3 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
-    Change change4 = insert(repo, newChange(repo));
+    Change change3 = insert(repo, newChange(repo));
 
-    gApi.accounts()
-        .self()
-        .setStars(
-            change1.getId().toString(),
-            new StarsInput(new HashSet<>(Arrays.asList("red", "blue"))));
-    gApi.accounts()
-        .self()
-        .setStars(
-            change2.getId().toString(),
-            new StarsInput(
-                new HashSet<>(Arrays.asList(StarredChangesUtil.DEFAULT_LABEL, "green", "blue"))));
+    Account.Id user2 =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+    requestContext.setContext(newRequestContext(user2));
 
-    gApi.accounts()
-        .self()
-        .setStars(
-            change4.getId().toString(), new StarsInput(new HashSet<>(Arrays.asList("ignore"))));
-
-    // check labeled stars
-    assertQuery("star:red", change1);
-    assertQuery("star:blue", change2, change1);
-    assertQuery("has:stars", change4, change2, change1);
+    gApi.accounts().self().starChange(change1.getId().toString());
+    gApi.changes().id(change3.getChangeId()).ignore(true);
 
     // check default star
-    assertQuery("has:star", change2);
-    assertQuery("is:starred", change2);
-    assertQuery("star:" + StarredChangesUtil.DEFAULT_LABEL, change2);
+    assertQuery("has:star", change1);
+    assertQuery("is:starred", change1);
+    assertQuery("star:" + StarredChangesUtil.DEFAULT_LABEL, change1);
 
     // check ignored
-    assertQuery("is:ignored", change4);
-    assertQuery("-is:ignored", change3, change2, change1);
+    assertQuery("is:ignored", change3);
+    assertQuery("-is:ignored", change2, change1);
+    assertQuery("star:ignore", change3);
+    assertQuery("-star:ignore", change2, change1);
   }
 
   @Test
@@ -2436,10 +2422,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(change1.getId().toString()).ignore(true);
     assertQuery("is:ignored", change1);
     assertQuery("-is:ignored", change2);
+    assertQuery("star:ignore", change1);
+    assertQuery("-star:ignore", change2);
 
     gApi.changes().id(change1.getId().toString()).ignore(false);
     assertQuery("is:ignored");
     assertQuery("-is:ignored", change2, change1);
+    assertQuery("star:ignore");
+    assertQuery("-star:ignore", change2, change1);
   }
 
   @Test
@@ -3091,8 +3081,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       }
       for (Account.Id ignorerId : ignoredBy) {
         requestContext.setContext(newRequestContext(ignorerId));
-        StarsInput in = new StarsInput(new HashSet<>(Arrays.asList("ignore")));
-        gApi.accounts().self().setStars("" + id, in);
+        gApi.changes().id(change.getChangeId()).ignore(true);
       }
       DraftInput in = new DraftInput();
       in.path = Patch.COMMIT_MSG;
@@ -3655,7 +3644,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void selfFailsForAnonymousUser() throws Exception {
-    for (String query : ImmutableList.of("assignee:self", "has:star", "is:starred")) {
+    for (String query : ImmutableList.of("assignee:self", "has:star", "is:starred", "star:star")) {
       assertQuery(query);
       RequestContext oldContext = requestContext.setContext(anonymousUserProvider::get);
 

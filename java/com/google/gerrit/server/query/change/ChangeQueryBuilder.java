@@ -609,10 +609,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return starredBySelf();
     }
 
-    if ("stars".equalsIgnoreCase(value)) {
-      return new HasStarsPredicate(self());
-    }
-
     if ("draft".equalsIgnoreCase(value)) {
       return draftBySelf();
     }
@@ -715,7 +711,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("ignored".equalsIgnoreCase(value)) {
-      return star("ignore");
+      return ignoredBySelf();
     }
 
     if ("started".equalsIgnoreCase(value)) {
@@ -1051,7 +1047,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> star(String label) throws QueryParseException {
-    return new StarPredicate(self(), label);
+    if ("ignore".equalsIgnoreCase(label)) {
+      return ignoredBySelf();
+    }
+    if ("star".equalsIgnoreCase(label)) {
+      return starredBySelf();
+    }
+    throw new IllegalArgumentException();
+  }
+
+  private Predicate<ChangeData> ignoredBySelf() throws QueryParseException {
+    return new StarPredicate(self(), StarredChangesUtil.IGNORE_LABEL);
   }
 
   private Predicate<ChangeData> starredBySelf() throws QueryParseException {

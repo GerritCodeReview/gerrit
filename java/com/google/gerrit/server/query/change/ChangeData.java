@@ -1102,19 +1102,6 @@ public class ChangeData {
   }
 
   public boolean isReviewedBy(Account.Id accountId) {
-    Collection<String> stars = stars(accountId);
-
-    PatchSet ps = currentPatchSet();
-    if (ps != null) {
-      if (stars.contains(StarredChangesUtil.REVIEWED_LABEL + "/" + ps.number())) {
-        return true;
-      }
-
-      if (stars.contains(StarredChangesUtil.UNREVIEWED_LABEL + "/" + ps.number())) {
-        return false;
-      }
-    }
-
     return reviewedBy().contains(accountId);
   }
 

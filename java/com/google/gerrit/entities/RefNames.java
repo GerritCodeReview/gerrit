@@ -489,7 +489,7 @@ public class RefNames {
     return Integer.parseInt(rest.substring(0, ie));
   }
 
-  static Integer parseRefSuffix(String name) {
+  public static Integer parseRefSuffix(String name) {
     if (name == null) {
       return null;
     }

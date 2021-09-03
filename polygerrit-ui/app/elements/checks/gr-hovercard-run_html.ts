@@ -30,6 +30,9 @@ export const htmlTemplate = html`
       display: flex;
       margin-top: var(--spacing-s);
     }
+    .attempts.row {
+      flex-wrap: wrap;
+    }
     .chipRow {
       display: flex;
       margin-top: var(--spacing-s);
@@ -91,7 +94,7 @@ export const htmlTemplate = html`
       margin-right: var(--spacing-s);
       color: var(--deemphasized-text-color);
       text-align: center;
-      width: 20px;
+      width: 24px;
       font-size: var(--font-size-small);
     }
     div.action {
@@ -151,9 +154,9 @@ export const htmlTemplate = html`
         <iron-icon class="small" icon="gr-icons:arrow-forward"></iron-icon>
       </div>
       <div class="sectionContent">
-        <div hidden$="[[hideAttempts(run)]]" class="row">
+        <div hidden$="[[hideAttempts(run)]]" class="attempts row">
           <div class="title">Attempt</div>
-          <template is="dom-repeat" items="[[run.attemptDetails]]">
+          <template is="dom-repeat" items="[[computeAttempts(run)]]">
             <div>
               <div class="attemptIcon">
                 <iron-icon

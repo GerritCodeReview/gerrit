@@ -44,6 +44,8 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
       <g id="chevron-right"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></g>
       <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
+      <g id="more-horiz"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></g>
+      <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
       <g id="more-vert"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></g>
       <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
       <g id="deleteEdit"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path></g>

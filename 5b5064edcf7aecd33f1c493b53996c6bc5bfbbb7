@@ -22,6 +22,30 @@
       },
       "revId": "5b5064edcf7aecd33f1c493b53996c6bc5bfbbb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44d887e3_2f33eec2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2061,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-03T10:29:13Z",
+      "side": 1,
+      "message": "Setting undefined instead fixes the issue.",
+      "parentUuid": "7128d005_4d564915",
+      "range": {
+        "startLine": 2061,
+        "startChar": 8,
+        "endLine": 2061,
+        "endChar": 60
+      },
+      "revId": "5b5064edcf7aecd33f1c493b53996c6bc5bfbbb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

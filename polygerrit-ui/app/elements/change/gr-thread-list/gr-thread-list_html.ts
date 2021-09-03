@@ -115,7 +115,7 @@ export const htmlTemplate = html`
       </template>
     </div>
   </template>
-  <div id="threads">
+  <div id="threads" part="threads">
     <template
       is="dom-if"
       if="[[_showEmptyThreadsMessage(threads, _displayedThreads, unresolvedOnly)]]"

@@ -299,7 +299,7 @@ export const htmlTemplate = html`
     .show-robot-comments {
       margin: var(--spacing-m);
     }
-    .patchInfo gr-thread-list {
+    .patchInfo gr-thread-list::part(threads) {
       padding: var(--spacing-l);
     }
   </style>

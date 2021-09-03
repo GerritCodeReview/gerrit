@@ -16,6 +16,23 @@
       "message": "Tested the buggy behavior on a 2.11 test site and confirmed it\u0027s fixed now.",
       "revId": "854e55ec22dadfc76b1112eb086f0d20dd4a977c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57cf9a45_a874d205",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-09-03T08:36:25Z",
+      "side": 1,
+      "message": "I think we should prevent this misconfig in the first place, but this fix looks good to me in any case. Thanks",
+      "revId": "854e55ec22dadfc76b1112eb086f0d20dd4a977c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "This fixes only the instances where page is reloaded via the \u0027reload\u0027 event but does not fix the instances where reload is triggered by calling GerritNav.navigateToChange.\n\nA possible user journey that goes through this is:\n\n1. Open change in edit mode. Add a new file and publish the edit.\nExpected: latest patchset is loaded containing the edit\nActual: page reload doesn\u0027t happen since it calls GerritNav.navigateToChange which doesn\u0027t seem to be triggering the reload.\n\nI investigated a bit and it looks tricky to solve. :( \n\nI will rollback the change retaining the change view for now and try and get back to it once I\u0027m back.",
       "revId": "7fdcc9bd4400418a54fc3a33a36f686ce0c9d82a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e66a5118_98df0e4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-03T13:06:41Z",
+      "side": 1,
+      "message": "on hold",
+      "revId": "7fdcc9bd4400418a54fc3a33a36f686ce0c9d82a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

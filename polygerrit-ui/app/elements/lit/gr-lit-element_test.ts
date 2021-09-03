@@ -16,12 +16,11 @@
  */
 
 import '../../test/common-test-setup-karma';
-import {html} from 'lit';
+import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators';
-import {GrLitElement} from './gr-lit-element';
 
 @customElement('test-gr-lit-element')
-export class TestGrLitElement extends GrLitElement {
+export class TestLitElement extends LitElement {
   render() {
     return html`<span>test</span>`;
   }
@@ -29,13 +28,13 @@ export class TestGrLitElement extends GrLitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'test-gr-lit-element': GrLitElement;
+    'test-gr-lit-element': LitElement;
   }
 }
 
 suite('gr-lit-element test', () => {
   test('is defined', () => {
     const el = document.createElement('test-gr-lit-element');
-    assert.instanceOf(el, TestGrLitElement);
+    assert.instanceOf(el, TestLitElement);
   });
 });

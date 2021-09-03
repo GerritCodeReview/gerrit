@@ -104,7 +104,7 @@ export class GrPluginEndpoints {
    * which endpoints to dynamically add to the page.
    */
   registerModule(plugin: PluginApi, opts: Options) {
-    const endpoint = opts.endpoint!;
+    const endpoint = opts.endpoint;
     const dynamicEndpoint = opts.dynamicEndpoint;
     if (dynamicEndpoint) {
       if (!this._dynamicPlugins.has(dynamicEndpoint)) {

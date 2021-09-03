@@ -3245,6 +3245,13 @@ Defaults to `5m`.
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.
 
+[[index.computeFromAllUsersRepository]]index.computeFromAllUsersRepository::
++
+When enabled, we read data from the All-Users repository if able. This is used
+for reading drafts.
++
+Defaults to false.
+
 ==== Lucene configuration
 
 Open and closed changes are indexed in separate indexes named

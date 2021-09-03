@@ -33,6 +33,14 @@ public class ExperimentFeaturesConstants {
   public static final String GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS =
       "GerritBackendRequestFeature__enable_legacy_submit_requirements";
 
+  /**
+   * Allow legacy {@link com.google.gerrit.entities.SubmitRecord}s to be converted and returned as
+   * submit requirements by the {@link
+   * com.google.gerrit.server.project.SubmitRequirementsEvaluator}.
+   */
+  public static final String GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY =
+      "GerritBackendRequestFeature__compute_from_all_users_repository";
+
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES =
       ImmutableSet.of(UI_FEATURE_PATCHSET_COMMENTS);

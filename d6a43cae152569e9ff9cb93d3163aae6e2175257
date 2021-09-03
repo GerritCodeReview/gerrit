@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ee8cf07_2b60fcd7",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-03T11:53:38Z",
+      "side": 1,
+      "message": "or?",
+      "range": {
+        "startLine": 856,
+        "startChar": 50,
+        "endLine": 856,
+        "endChar": 53
+      },
+      "revId": "d6a43cae152569e9ff9cb93d3163aae6e2175257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f22be855_c7670853",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-03T11:53:38Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 856,
+        "startChar": 66,
+        "endLine": 856,
+        "endChar": 67
+      },
+      "revId": "d6a43cae152569e9ff9cb93d3163aae6e2175257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5d440ee_d5b0fae9",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-03T11:53:38Z",
+      "side": 1,
+      "message": "You don\u0027t know the email of the account, right? only the name?\nIf you knew some more information, you could increase the chances of guessing the correct account (by checking emails)",
+      "range": {
+        "startLine": 1002,
+        "startChar": 26,
+        "endLine": 1002,
+        "endChar": 37
+      },
+      "revId": "d6a43cae152569e9ff9cb93d3163aae6e2175257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e7a2144_118aab39",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-03T11:53:38Z",
+      "side": 1,
+      "message": "this is a bit strange - and might also have some false positives just cause the name starts with the same letters.\n\nWill exact match not work?",
+      "range": {
+        "startLine": 1002,
+        "startChar": 38,
+        "endLine": 1002,
+        "endChar": 48
+      },
+      "revId": "d6a43cae152569e9ff9cb93d3163aae6e2175257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

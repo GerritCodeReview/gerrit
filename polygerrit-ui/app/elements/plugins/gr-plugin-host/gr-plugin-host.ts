@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {customElement, property, PropertyValues} from 'lit-element';
+import {PropertyValues} from 'lit';
+import {customElement, property} from 'lit/decorators';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {ServerInfo} from '../../../types/common';
 

@@ -20,7 +20,8 @@ import {ContributorAgreementInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, customElement, html, property, LitElement} from 'lit-element';
+import {css, html, LitElement} from 'lit';
+import {customElement, property} from 'lit/decorators';
 
 @customElement('gr-agreements-list')
 export class GrAgreementsList extends LitElement {

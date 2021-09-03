@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "468ca0d4_71234a50",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-03T20:27:23Z",
+      "side": 1,
+      "message": "I have uploaded a patchset with a MockHook. That seems to work.",
+      "parentUuid": "df9e8cd3_da445778",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 42
+      },
+      "revId": "74f3b1cfb654f6b42a6df803315a575df2bfde73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d3298b5e_8ce95ffc",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints_test.ts",
         "patchSetId": 2

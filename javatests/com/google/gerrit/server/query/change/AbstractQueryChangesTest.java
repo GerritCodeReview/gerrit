@@ -2372,6 +2372,26 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  @GerritConfig(name = "index.computeFromAllUsersRepository", value = "true")
+  public void byHasDraftWithManyDrafts() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change[] changesWithDrafts = new Change[30];
+    for (int i = 0; i < changesWithDrafts.length; i++) {
+      // put the changes in reverse order since this is the order we receive them from the index.
+      changesWithDrafts[changesWithDrafts.length - 1 - i] = insert(repo, newChange(repo));
+      DraftInput in = new DraftInput();
+      in.line = 1;
+      in.message = "nit: trailing whitespace";
+      in.path = Patch.COMMIT_MSG;
+      gApi.changes()
+          .id(changesWithDrafts[changesWithDrafts.length - 1 - i].getId().get())
+          .current()
+          .createDraft(in);
+    }
+    assertQuery("has:draft", changesWithDrafts);
+  }
+
+  @Test
   public void byStarredBy() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -21,12 +23,14 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 /** Predicates that match against {@link ChangeData}. */
 public class ChangePredicates {
@@ -76,8 +80,16 @@ public class ChangePredicates {
    * Returns a predicate that matches changes where the provided {@link
    * com.google.gerrit.entities.Account.Id} has a pending draft comment.
    */
-  public static Predicate<ChangeData> draftBy(Account.Id id) {
-    return new ChangeIndexPredicate(ChangeField.DRAFTBY, id.toString());
+  public static Predicate<ChangeData> draftBy(
+      boolean computeFromAllUsersRepository, CommentsUtil commentsUtil, Account.Id id) {
+    if (!computeFromAllUsersRepository) {
+      return new ChangeIndexPredicate(ChangeField.DRAFTBY, id.toString());
+    }
+    Set<Predicate<ChangeData>> changeIdPredicates =
+        commentsUtil.getChangesWithDrafts(id).stream()
+            .map(ChangePredicates::idStr)
+            .collect(toImmutableSet());
+    return Predicate.or(changeIdPredicates);
   }
 
   /**

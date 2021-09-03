@@ -16,7 +16,7 @@
  */
 import {css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {GrLitElement} from '../../lit/gr-lit-element';
+import {GrLitElement, Sub} from '../../lit/gr-lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
 import {
@@ -352,7 +352,7 @@ export class GrChangeSummary extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRunsLatestPatchsetLatestAttempt$);
+    new Sub(this, allRunsLatestPatchsetLatestAttempt$, x => (this.runs = x));
     this.subscribe('showChecksSummary', aPluginHasRegistered$);
     this.subscribe('someProvidersAreLoading', someProvidersAreLoadingLatest$);
     this.subscribe('errorMessages', errorMessagesLatest$);

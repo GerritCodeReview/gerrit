@@ -66,7 +66,6 @@ import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -2281,41 +2280,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byHasDraftExcludesZombieDrafts() throws Exception {
-    Project.NameKey project = Project.nameKey("repo");
-    TestRepository<Repo> repo = createProject(project.get());
-    Change change = insert(repo, newChange(repo));
-    Change.Id id = change.getId();
-
-    DraftInput in = new DraftInput();
-    in.line = 1;
-    in.message = "nit: trailing whitespace";
-    in.path = Patch.COMMIT_MSG;
-    gApi.changes().id(id.get()).current().createDraft(in);
-
-    assertQuery("has:draft", change);
-    assertQuery("commentby:" + userId);
-
-    try (TestRepository<Repo> allUsers =
-        new TestRepository<>(repoManager.openRepository(allUsersName))) {
-      Ref draftsRef = allUsers.getRepository().exactRef(RefNames.refsDraftComments(id, userId));
-      assertThat(draftsRef).isNotNull();
-
-      ReviewInput rin = ReviewInput.dislike();
-      rin.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
-      gApi.changes().id(id.get()).current().review(rin);
-
-      assertQuery("has:draft");
-      assertQuery("commentby:" + userId, change);
-      assertThat(allUsers.getRepository().exactRef(draftsRef.getName())).isNull();
-
-      // Re-add drafts ref and ensure it gets filtered out during indexing.
-      allUsers.update(draftsRef.getName(), draftsRef.getObjectId());
-      assertThat(allUsers.getRepository().exactRef(draftsRef.getName())).isNotNull();
+  public void byHasDraftWithManyDrafts() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change[] changesWithDrafts = new Change[30];
+    for (int i = 0; i < 10; i++) {
+      changesWithDrafts[i] = insert(repo, newChange(repo));
+      DraftInput in = new DraftInput();
+      in.line = 1;
+      in.message = "nit: trailing whitespace";
+      in.path = Patch.COMMIT_MSG;
+      gApi.changes().id(changesWithDrafts[i].getId().get()).current().createDraft(in);
     }
-
-    indexer.index(project, id);
-    assertQuery("has:draft");
+    assertQuery("has:draft", changesWithDrafts);
   }
 
   @Test

@@ -111,6 +111,7 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -2384,6 +2385,38 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
 
     indexer.index(project, id);
+    assertQuery("has:draft");
+  }
+
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)
+  public void byHasDraftWithManyDrafts() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change[] changesWithDrafts = new Change[30];
+
+    // unrelated change not shown in the result.
+    insert(repo, newChange(repo));
+
+    for (int i = 0; i < changesWithDrafts.length; i++) {
+      // put the changes in reverse order since this is the order we receive them from the index.
+      changesWithDrafts[changesWithDrafts.length - 1 - i] = insert(repo, newChange(repo));
+      DraftInput in = new DraftInput();
+      in.line = 1;
+      in.message = "nit: trailing whitespace";
+      in.path = Patch.COMMIT_MSG;
+      gApi.changes()
+          .id(changesWithDrafts[changesWithDrafts.length - 1 - i].getId().get())
+          .current()
+          .createDraft(in);
+    }
+    assertQuery("has:draft", changesWithDrafts);
+
+    Account.Id user2 =
+        accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
+    requestContext.setContext(newRequestContext(user2));
     assertQuery("has:draft");
   }
 

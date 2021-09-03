@@ -147,7 +147,7 @@ public class DeleteDraftComments
 
   private Predicate<ChangeData> predicate(Account.Id accountId, DeleteDraftCommentsInput input)
       throws BadRequestException {
-    Predicate<ChangeData> hasDraft = ChangePredicates.draftBy(accountId);
+    Predicate<ChangeData> hasDraft = ChangePredicates.draftBy(commentsUtil, accountId);
     if (CharMatcher.whitespace().trimFrom(Strings.nullToEmpty(input.query)).isEmpty()) {
       return hasDraft;
     }

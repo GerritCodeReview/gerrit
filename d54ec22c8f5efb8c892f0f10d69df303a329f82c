@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73588cbe_b0519d09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-03T23:12:53Z",
+      "side": 1,
+      "message": "\"Cache All-Users object ids by ref\" ?",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ae0cd98_896b3f5a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -192,6 +209,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "faf70f69_b96111ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-03T23:12:53Z",
+      "side": 1,
+      "message": "\u003e [...]\n\u003e \u003e \u003e Yes, the HA plugin was already managing this use-case successfully: as a matter of fact there was the eviction method in Gerrit v3.1 and it was removed in v3.2.\n\u003e \u003e \n\u003e \u003e Was? Will it again with this code as proposed?\n\u003e \n\u003e Yes.\n\nOk, so this change is reinstating the account.id-\u003euser-ref-SHA1 (and global preferences-\u003eref-SHA1) lookup cache that was there in 3.1 and the eviction that worked in 3.1 will again be applied (presumably with a change in the ha plugin?) to keep MP setups happy. Did I get that right?\n\n\u003e \n\u003e \u003e \u003e What is the underlying issue? Speeding up a ref-to-sha1 lookup into a large repository over a slow storage something 3600x faster?\n\u003e \u003e \n\u003e \u003e Maybe? Why not? 😊 We do some pretty incredible things sometimes, especially when we understand a problem well enough.\n\u003e \n\u003e Would you manage to get an NFS filesystem to open a file, read MBs of data and close it, all in nano-seconds, without any caching?\n\nAdmittedly unlikely. I\u0027ll let you know if I figure it out though and you can pay me a few millions for it. 😄\n\n\u003e \n\u003e \u003e To that point, do we understand why it\u0027s so much slower?\n\u003e \n\u003e Yes, because the SHA1 of the user\u0027s ref has been put into the account cache key. It wasn\u0027t in v3.1.\n\nSo as you explain below, this is work we didn\u0027t have to do before (and reading in the commit message from [1], it was assumed to be fast by the implementor).\n\n\u003e \n\u003e \u003e Is it something that can be seen/tested with simple fs tests (not git/jgit)? How would I check this on a filesystem I have?\n\u003e \n\u003e See above: you won\u0027t be able to do a network roundtrip in nano-seconds.\n\u003e In v3.1 it did not require any ref-lookup, but in v3.2 it does.\n\nOk. Can we get this summary into an updated commit message please?\n\nIt also seems like the \"in parallel\" bit that\u0027s currently in the commit message is unrelated? This sounds like it would be a problem for sequential access with a sufficiently slow filesystem.",
+      "parentUuid": "8334cace_47bbadf4",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "866b5920_7f47e324",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -296,6 +337,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10a58b7b_8ae89b37",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-03T23:12:53Z",
+      "side": 1,
+      "message": "We usually name maps (and therefore caches) as ValueByKey: AllUsersObjectIdByRefCache",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 39
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17f95f85_21a12d18",
         "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
         "patchSetId": 2
@@ -336,6 +400,53 @@
         "startChar": 49,
         "endLine": 38,
         "endChar": 56
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4d52399_60a2b249",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-03T23:12:53Z",
+      "side": 1,
+      "message": "We\u0027re not billed per-character, so let\u0027s use a long name? all_users_object_id_byref\n\nIt can match the class name then too.",
+      "parentUuid": "d123f31a_09dfe4e6",
+      "range": {
+        "startLine": 38,
+        "startChar": 49,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b3c9d65_d11ccfb9",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-03T23:12:53Z",
+      "side": 1,
+      "message": "ObjectIdByRef (\"Cache\" is unnecessary since we know the type)",
+      "range": {
+        "startLine": 51,
+        "startChar": 57,
+        "endLine": 51,
+        "endChar": 71
       },
       "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

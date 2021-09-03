@@ -14,9 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {LitElement} from 'lit';
+import {LitElement, ReactiveController, ReactiveControllerHost} from 'lit';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+
+export class GrState<T> implements ReactiveController {
+  private disconnected$ = new Subject();
+
+  value!: T;
+
+  constructor(
+    private readonly host: ReactiveControllerHost,
+    private readonly obs$: Observable<T>
+  ) {
+    host.addController(this);
+    host.requestUpdate();
+  }
+
+  hostConnected() {
+    this.obs$.pipe(takeUntil(this.disconnected$)).subscribe(value => {
+      this.value = value;
+      this.host.requestUpdate();
+    });
+  }
+
+  hostDisconnected() {
+    this.disconnected$.next();
+  }
+}
 
 /**
  * Base class for Gerrit's lit-elements.

@@ -251,6 +251,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final OperatorAliasConfig operatorAliasConfig;
     final boolean indexMergeable;
     final boolean conflictsPredicateEnabled;
+    final boolean computeFromAllUsersRepository;
     final HasOperandAliasConfig hasOperandAliasConfig;
     final PluginSetContext<SubmitRule> submitRules;
 
@@ -318,6 +319,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           operatorAliasConfig,
           MergeabilityComputationBehavior.fromConfig(gerritConfig).includeInIndex(),
           gerritConfig.getBoolean("change", null, "conflictsPredicateEnabled", true),
+          gerritConfig.getBoolean("index", null, "computeFromAllUsersRepository", false),
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory,
           submitRules);
@@ -352,6 +354,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         OperatorAliasConfig operatorAliasConfig,
         boolean indexMergeable,
         boolean conflictsPredicateEnabled,
+        boolean computeFromAllUsersRepository,
         HasOperandAliasConfig hasOperandAliasConfig,
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
         PluginSetContext<SubmitRule> submitRules) {
@@ -384,6 +387,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.operatorAliasConfig = operatorAliasConfig;
       this.indexMergeable = indexMergeable;
       this.conflictsPredicateEnabled = conflictsPredicateEnabled;
+      this.computeFromAllUsersRepository = computeFromAllUsersRepository;
       this.hasOperandAliasConfig = hasOperandAliasConfig;
       this.submitRules = submitRules;
     }
@@ -418,6 +422,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           operatorAliasConfig,
           indexMergeable,
           conflictsPredicateEnabled,
+          computeFromAllUsersRepository,
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory,
           submitRules);
@@ -1087,7 +1092,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> draftBySelf() throws QueryParseException {
-    return ChangePredicates.draftBy(self());
+    return ChangePredicates.draftBy(args.computeFromAllUsersRepository, args.commentsUtil, self());
   }
 
   @Operator

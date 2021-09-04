@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe309246_b7a1f80e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-04T02:49:26Z",
+      "side": 1,
+      "message": "Ben, I took your advice and tried to make decorators.\n\nLet me know what you think. This solution is not perfect, it\u0027s missing a few things.\n 1. There\u0027s no type-safety on matching the Observable\u003cT\u003e with the property\n 2. There\u0027s no type-safety to ensure that you can only @subscribe inside of @subscribable\n 3. There\u0027s a gotcha where you need to put @subscribable after @customElement or the test fails.",
+      "revId": "983011d3bc44918bdb4b210fa814ff6c8e0f3812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

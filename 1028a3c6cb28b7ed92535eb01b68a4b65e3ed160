@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0909963e_3beb32b9",
+        "filename": "java/com/google/gerrit/server/DeadlineChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-09-04T11:31:15Z",
+      "side": 1,
+      "message": "that indirection seems excessive. doesn\u0027t the java lib guarantee iterator stability when removing the current element?",
+      "revId": "1028a3c6cb28b7ed92535eb01b68a4b65e3ed160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

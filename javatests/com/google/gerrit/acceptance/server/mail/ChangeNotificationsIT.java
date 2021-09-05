@@ -301,6 +301,32 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     addReviewerToReviewableChange(batch());
   }
 
+  private void addReviewerToIgnoredChange(Adder adder) throws Exception {
+    StagedChange sc = stageReviewableChange();
+    requestScopeOperations.setApiUser(sc.reviewer.id());
+    gApi.changes().id(sc.changeId).ignore(true);
+    TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
+    addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), CC_ON_OWN_COMMENTS, null);
+
+    assertThat(sender)
+        .sent("newchange", sc)
+        .to(reviewer)
+        .cc(sc.owner)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .noOneElse();
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void addReviewerToIgnoredChangeSingly() throws Exception {
+    addReviewerToIgnoredChange(singly());
+  }
+
+  @Test
+  public void addReviewerToIgnoredChangeBatch() throws Exception {
+    addReviewerToIgnoredChange(batch());
+  }
+
   private void addReviewerToReviewableChangeByOwnerCcingSelf(Adder adder) throws Exception {
     StagedChange sc = stageReviewableChange();
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);

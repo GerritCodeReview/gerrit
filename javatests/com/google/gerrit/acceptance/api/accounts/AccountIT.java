@@ -962,11 +962,7 @@ public class AccountIT extends AbstractDaemonTest {
       in.reviewer = user.email();
       gApi.changes().id(r.getChangeId()).addReviewer(in);
       List<Message> messages = sender.getMessages();
-      assertThat(messages).hasSize(1);
-      Message message = messages.get(0);
-      assertThat(message.rcpt()).containsExactly(user.getNameEmail());
-      assertMailReplyTo(message, admin.email());
-      accountIndexedCounter.assertNoReindex();
+      assertThat(messages).hasSize(0);
     }
   }
 

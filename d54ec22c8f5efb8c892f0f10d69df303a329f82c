@@ -233,6 +233,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3819d830_55de5130",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-05T01:19:10Z",
+      "side": 1,
+      "message": "I think that it would be good to include an actual use case that is impacted by this. It is tempting to do all sorts of caching things that would allow certain operation to get sped up by multiple orders of magnitude. However the speed of many low level operations are not impactful if they are being executed along with other operations that take longer anyway. For example, no user would notice a 10ns impact of a single low level call when performing a Rest API call to another continent. It would make this change much more interesting it the commit message gave data about a user facing performance impact of this approach.",
+      "parentUuid": "faf70f69_b96111ad",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2601772_2d585ced",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-05T01:19:10Z",
+      "side": 1,
+      "message": "Can you add some before and after statistics here?",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "866b5920_7f47e324",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -360,6 +401,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d31cd096_751b0312",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-05T01:19:10Z",
+      "side": 1,
+      "message": "This name is probably too specific, i.e. the cache may want to provide different methods with different parameters to get a users info, and this name implies a single way to look things up.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17f95f85_21a12d18",
         "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
         "patchSetId": 2
@@ -448,6 +512,40 @@
         "endLine": 51,
         "endChar": 71
       },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c686e70b_05bf6f29",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-05T01:19:10Z",
+      "side": 1,
+      "message": "This cache is a bit confusing, what is the API, is this method intended to be the primary way to get the objectiId?",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0b03372_63d2b102",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-05T01:19:10Z",
+      "side": 1,
+      "message": "Maybe it makes sense to call a",
       "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

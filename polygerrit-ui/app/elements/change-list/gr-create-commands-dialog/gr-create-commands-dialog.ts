@@ -21,8 +21,7 @@ import '../../shared/gr-shell-command/gr-shell-command';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
-import {customElement, property, query} from 'lit/decorators';
+import {css, customElement, html, property, query} from 'lit-element';
 
 enum Commands {
   CREATE = 'git commit',

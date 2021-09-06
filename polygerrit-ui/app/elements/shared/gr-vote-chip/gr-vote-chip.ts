@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {css, customElement, html, property} from 'lit-element';
 import {ApprovalInfo, LabelInfo} from '../../../api/rest-api';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';

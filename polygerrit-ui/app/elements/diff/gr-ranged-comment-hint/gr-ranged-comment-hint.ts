@@ -18,8 +18,7 @@
 import '../gr-range-header/gr-range-header';
 import {CommentRange} from '../../../types/common';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {css, customElement, html, property} from 'lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 

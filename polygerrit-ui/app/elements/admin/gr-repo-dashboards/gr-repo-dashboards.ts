@@ -23,8 +23,7 @@ import {ErrorCallback} from '../../../api/rest';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {css, customElement, html, property, PropertyValues} from 'lit-element';
 
 interface DashboardRef {
   section: string;

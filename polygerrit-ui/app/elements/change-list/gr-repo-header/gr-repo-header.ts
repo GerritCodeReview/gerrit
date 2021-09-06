@@ -23,8 +23,7 @@ import {appContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {css, customElement, html, property, PropertyValues} from 'lit-element';
 
 @customElement('gr-repo-header')
 export class GrRepoHeader extends GrLitElement {

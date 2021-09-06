@@ -19,8 +19,7 @@ import '../../../styles/shared-styles';
 import {getRootElement} from '../../../scripts/rootElement';
 import {ErrorType} from '../../../types/types';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, css, html} from 'lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 
 declare global {

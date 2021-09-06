@@ -16,8 +16,7 @@
  */
 import '../gr-submit-requirement-hovercard/gr-submit-requirement-hovercard';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {css, customElement, html, property} from 'lit-element';
 import {ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfo,

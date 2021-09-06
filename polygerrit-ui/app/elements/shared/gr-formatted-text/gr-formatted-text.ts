@@ -17,8 +17,7 @@
 import '../gr-linked-text/gr-linked-text';
 import {CommentLinks} from '../../../types/common';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {css, customElement, html, property, TemplateResult} from 'lit-element';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 

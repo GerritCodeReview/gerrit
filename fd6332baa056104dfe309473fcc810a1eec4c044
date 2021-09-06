@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "310d01f4_22fd1844",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-06T12:02:14Z",
+      "side": 1,
+      "message": "AFAIK, Youssef wrote a schema migration to fix these, those the zombies shouldn\u0027t concern anyone anymore.",
+      "range": {
+        "startLine": 477,
+        "startChar": 0,
+        "endLine": 478,
+        "endChar": 62
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d97063f_1c133d64",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-06T12:02:14Z",
+      "side": 1,
+      "message": "I know we did an analysis that shows that this is not an issue for googlesource deployments, but it would be interesting to know from folks at SAP, QC and Gerritforge how much time this operation takes for them, as they are typically on NFS with packed/loose ref storage. They also tend to have a single host for all of their users, ie. more users and more drafts.\n\nIf this turns out to be an issue for them, we\u0027d want to know well before we cut the next stable release, to be able to setup a schema migration.",
+      "range": {
+        "startLine": 494,
+        "startChar": 45,
+        "endLine": 495,
+        "endChar": 89
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

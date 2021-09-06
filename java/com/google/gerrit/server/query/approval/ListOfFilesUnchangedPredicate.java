@@ -48,7 +48,7 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
 
   @Override
   public boolean match(ApprovalContext ctx) {
-    PatchSet targetPatchSet = ctx.changeNotes().getPatchSets().get(ctx.target());
+    PatchSet targetPatchSet = ctx.target();
     PatchSet sourcePatchSet =
         ctx.changeNotes().getPatchSets().get(ctx.patchSetApproval().patchSetId());
 

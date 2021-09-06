@@ -402,6 +402,7 @@ public class ChangeJson {
         submitRequirementExpressionToInfo(
             req.submittabilityExpression(), result.submittabilityExpressionResult());
     info.status = SubmitRequirementResultInfo.Status.valueOf(result.status().toString());
+    info.isLegacy = result.legacy();
     return info;
   }
 

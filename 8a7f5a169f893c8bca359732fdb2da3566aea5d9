@@ -46,6 +46,30 @@
       },
       "revId": "8a7f5a169f893c8bca359732fdb2da3566aea5d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f0e2a05_5fb3a16a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-06T08:08:18Z",
+      "side": 1,
+      "message": "good point, added to the commit message. TL;DR: avoid excessive reindexing for draft comments.",
+      "parentUuid": "e75359c6_08f30ccb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "8a7f5a169f893c8bca359732fdb2da3566aea5d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

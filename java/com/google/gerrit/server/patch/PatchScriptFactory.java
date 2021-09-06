@@ -34,9 +34,10 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.change.FileInfoJsonExperimentImpl;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.logging.Metadata;
@@ -61,12 +62,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
@@ -146,12 +143,12 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       Provider<PatchScriptBuilder> builderFactory,
       PatchListCache patchListCache,
       ChangeEditUtil editReader,
+      ExperimentFeatures experimentFeatures,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       DiffOperations diffOperations,
       Metrics metrics,
       @DiffExecutor ExecutorService executor,
-      @GerritServerConfig Config cfg,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
@@ -177,7 +174,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.diffPrefs = diffPrefs;
     this.currentUser = currentUser;
 
-    this.runNewDiffCache = cfg.getBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", false);
+    this.runNewDiffCache =
+        experimentFeatures.isFeatureEnabled(FileInfoJsonExperimentImpl.NEW_DIFF_CACHE_FEATURE);
 
     changeId = patchSetB.changeId();
   }
@@ -189,12 +187,12 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       Provider<PatchScriptBuilder> builderFactory,
       PatchListCache patchListCache,
       ChangeEditUtil editReader,
+      ExperimentFeatures experimentFeatures,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       DiffOperations diffOperations,
       Metrics metrics,
       @DiffExecutor ExecutorService executor,
-      @GerritServerConfig Config cfg,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted int parentNum,
@@ -220,7 +218,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.diffPrefs = diffPrefs;
     this.currentUser = currentUser;
 
-    this.runNewDiffCache = cfg.getBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", false);
+    this.runNewDiffCache =
+        experimentFeatures.isFeatureEnabled(FileInfoJsonExperimentImpl.NEW_DIFF_CACHE_FEATURE);
 
     changeId = patchSetB.changeId();
     checkArgument(parentNum > 0, "parentNum must be > 0");
@@ -259,14 +258,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           }
           bId = edit.get().getEditCommit();
         }
-        if (runNewDiffCache) {
-          PatchScript patchScript = getPatchScriptWithNewDiffCache(git, aId, bId);
-          // TODO(ghareeb): remove the async run. This is temporarily used to keep sanity checking
-          // the results while rolling out the new diff cache.
-          runOldDiffCacheAsyncAndExportMetrics(git, aId, bId, patchScript);
-          return patchScript;
-        }
-        return getPatchScriptWithOldDiffCache(git, aId, bId);
+        return runNewDiffCache
+            ? getPatchScriptWithNewDiffCache(git, aId, bId)
+            : getPatchScriptWithOldDiffCache(git, aId, bId);
       } catch (PatchListNotAvailableException e) {
         throw new NoSuchChangeException(changeId, e);
       } catch (DiffNotAvailableException e) {
@@ -284,33 +278,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       logger.atSevere().withCause(e).log("Cannot open repository %s", notes.getProjectName());
       throw new NoSuchChangeException(changeId, e);
     }
-  }
-
-  private void runOldDiffCacheAsyncAndExportMetrics(
-      Repository git, ObjectId aId, ObjectId bId, PatchScript expected) {
-    @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError =
-        executor.submit(
-            () -> {
-              try {
-                PatchScript patchScript = getPatchScriptWithOldDiffCache(git, aId, bId);
-                if (areEqualPatchscripts(patchScript, expected)) {
-                  metrics.diffs.increment(Metrics.MATCH);
-                } else {
-                  metrics.diffs.increment(Metrics.MISMATCH);
-                  logger.atWarning().atMostEvery(10, TimeUnit.SECONDS).log(
-                      "Mismatching diff for change %s, old commit ID: %s, new commit ID: %s, file name: %s.",
-                      changeId.toString(), aId, bId, fileName);
-                }
-              } catch (PatchListNotAvailableException | IOException e) {
-                metrics.diffs.increment(Metrics.ERROR);
-                logger.atSevere().atMostEvery(10, TimeUnit.SECONDS).log(
-                    String.format(
-                            "Error computing new diff for change %s, old commit ID: %s, new commit ID: %s.\n",
-                            changeId.toString(), aId, bId)
-                        + ExceptionUtils.getStackTrace(e));
-              }
-            });
   }
 
   private PatchScript getPatchScriptWithOldDiffCache(Repository git, ObjectId aId, ObjectId bId)

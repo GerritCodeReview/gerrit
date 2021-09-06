@@ -93,8 +93,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
 
   private boolean intraline;
-  private boolean useNewDiffCacheListFiles;
-  private boolean useNewDiffCacheGetDiff;
+  private boolean useNewDiffCache;
 
   private ObjectId initialCommit;
   private ObjectId commit1;
@@ -109,11 +108,9 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     baseConfig.setString("cache", "diff_intraline", "timeout", "1 minute");
 
     intraline = baseConfig.getBoolean(TEST_PARAMETER_MARKER, "intraline", false);
-    useNewDiffCacheListFiles =
+    useNewDiffCache =
         Arrays.asList(baseConfig.getStringList("experiments", null, "enabled"))
             .contains(FileInfoJsonExperimentImpl.NEW_DIFF_CACHE_FEATURE);
-    useNewDiffCacheGetDiff =
-        baseConfig.getBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", false);
 
     ObjectId headCommit = testRepo.getRepository().resolve("HEAD");
     initialCommit = headCommit;
@@ -1364,7 +1361,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   public void renamedUnrelatedFileIsIgnored_ForPatchSetDiffWithRebase_WhenEquallyModifiedInBoth()
       throws Exception {
     // TODO(ghareeb): fix this test for the new diff cache implementation
-    assume().that(useNewDiffCacheListFiles).isFalse();
+    assume().that(useNewDiffCache).isFalse();
 
     Function<String, String> contentModification =
         fileContent -> fileContent.replace("1st line\n", "First line\n");
@@ -1457,7 +1454,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   @Test
   public void filesTouchedByPatchSetsAndContainingOnlyRebaseHunksAreIgnored() throws Exception {
     // TODO(ghareeb): fix this test for the new diff cache implementation
-    assume().that(useNewDiffCacheListFiles).isFalse();
+    assume().that(useNewDiffCache).isFalse();
 
     addModifiedPatchSet(
         changeId, FILE_NAME, fileContent -> fileContent.replace("Line 50\n", "Line fifty\n"));
@@ -2870,7 +2867,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("new content");
     // TODO(ghareeb): remove conditional assertion when new diff cache is fully rolled out.
     assertThat(diffInfo.changeType)
-        .isEqualTo(useNewDiffCacheGetDiff ? ChangeType.REWRITE : ChangeType.ADDED);
+        .isEqualTo(useNewDiffCache ? ChangeType.REWRITE : ChangeType.ADDED);
   }
 
   @Test
@@ -2913,7 +2910,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).content().element(0).commonLines().containsExactly("content");
     // TODO(ghareeb): remove conditional assertion when new diff cache is fully rolled out.
     assertThat(diffInfo.changeType)
-        .isEqualTo(useNewDiffCacheGetDiff ? ChangeType.REWRITE : ChangeType.RENAMED);
+        .isEqualTo(useNewDiffCache ? ChangeType.REWRITE : ChangeType.RENAMED);
   }
 
   @Test

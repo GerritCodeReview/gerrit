@@ -285,6 +285,11 @@ public class PatchSetInserter implements BatchUpdateOp {
         throw new BadRequestException(ex.getMessage());
       }
     }
+
+    // Approvals that are being set in the new patch-set during this operation are not available yet
+    // outside of the scope of this method. Only copied approvals are set here.
+    approvalsUtil.byPatchSet(ctx.getNotes(), patchSet).forEach(a -> update.putCopiedApproval(a));
+
     return true;
   }
 

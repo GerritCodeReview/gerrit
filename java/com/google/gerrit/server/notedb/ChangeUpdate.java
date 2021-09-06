@@ -24,6 +24,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHERRY_PICK_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COPIED_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
@@ -52,6 +53,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Table;
+import com.google.common.collect.Table.Cell;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
@@ -61,6 +63,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
@@ -128,6 +131,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final ServiceUserClassifier serviceUserClassifier;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
+  private final List<PatchSetApproval> copiedApprovals = new ArrayList<>();
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<HumanComment> comments = new ArrayList<>();
@@ -271,6 +275,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void removeApprovalFor(Account.Id reviewer, String label) {
     approvals.put(label, reviewer, Optional.empty());
+  }
+
+  /**
+   * We expect the {@code copied} flag of {@code copiedPatchSetApproval} to be set, since this
+   * method is only meant for copied approvals.
+   */
+  public void putCopiedApproval(PatchSetApproval copiedPatchSetApproval) {
+    checkArgument(copiedPatchSetApproval.copied(), "Approval that should be copied is not copied.");
+    copiedApprovals.add(copiedPatchSetApproval);
   }
 
   public void merge(SubmissionId submissionId, Iterable<SubmitRecord> submitRecords) {
@@ -705,18 +718,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     for (Table.Cell<String, Account.Id, Optional<Short>> c : approvals.cellSet()) {
-      addFooter(msg, FOOTER_LABEL);
-      // Label names/values are safe to append without sanitizing.
-      if (!c.getValue().isPresent()) {
-        msg.append('-').append(c.getRowKey());
-      } else {
-        msg.append(LabelVote.create(c.getRowKey(), c.getValue().get()).formatWithEquals());
-      }
-      Account.Id id = c.getColumnKey();
-      if (!id.equals(getAccountId())) {
-        noteUtil.appendAccountIdIdentString(msg.append(' '), id);
-      }
-      msg.append('\n');
+      addLabelFooter(msg, c);
+    }
+    for (PatchSetApproval patchSetApproval : copiedApprovals) {
+      addCopiedLabelFooter(msg, patchSetApproval);
     }
 
     if (submissionId != null) {
@@ -795,6 +800,47 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       throw new StorageException(e);
     }
     return cb;
+  }
+
+  private void addLabelFooter(StringBuilder msg, Cell<String, Account.Id, Optional<Short>> c) {
+    addFooter(msg, FOOTER_LABEL);
+    // Label names/values are safe to append without sanitizing.
+    if (!c.getValue().isPresent()) {
+      msg.append('-').append(c.getRowKey());
+    } else {
+      msg.append(LabelVote.create(c.getRowKey(), c.getValue().get()).formatWithEquals());
+    }
+    Account.Id id = c.getColumnKey();
+    if (!id.equals(getAccountId())) {
+      noteUtil.appendAccountIdIdentString(msg.append(' '), id);
+    }
+    msg.append('\n');
+  }
+
+  private void addCopiedLabelFooter(StringBuilder msg, PatchSetApproval patchSetApproval) {
+    if (patchSetApproval.value() == 0) {
+      // Can only happen if we removed a vote. There is no need to persist removed votes.
+      return;
+    }
+    addFooter(msg, FOOTER_COPIED_LABEL);
+    // Label names/values are safe to append without sanitizing.
+    msg.append(
+        LabelVote.create(patchSetApproval.label(), patchSetApproval.value()).formatWithEquals());
+    Account.Id id = patchSetApproval.accountId();
+    noteUtil.appendAccountIdIdentString(msg.append(' '), id);
+
+    // In the non-copied labels, we don't need to pass the real account id since it's already
+    // in FOOTER_REAL_USER. Here, we want to retain the original real account id.
+    if (patchSetApproval.realAccountId() != null) {
+      noteUtil.appendAccountIdIdentString(msg.append(" ,"), patchSetApproval.realAccountId());
+    }
+
+    // In the non-copied labels, we don't need to pass the tag since it's already in
+    // FOOTER_TAG, but in this chase we want to retain the original tag, and not the current tag.
+    if (patchSetApproval.tag().isPresent()) {
+      msg.append(":\"" + sanitizeFooter(patchSetApproval.tag().get()) + "\"");
+    }
+    msg.append('\n');
   }
 
   private void clearAttentionSet(String reason) {
@@ -992,6 +1038,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public boolean isEmpty() {
     return commitSubject == null
         && approvals.isEmpty()
+        && copiedApprovals.isEmpty()
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()

@@ -375,6 +375,7 @@ public class ChangeNotesStateTest {
                 PatchSetApproval.key(
                     PatchSet.id(ID, 1), Account.id(2001), LabelId.create(LabelId.CODE_REVIEW)))
             .value(1)
+            .tag("tag")
             .granted(new Timestamp(1212L))
             .build();
     Entities.PatchSetApproval psa1 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a1);
@@ -386,11 +387,13 @@ public class ChangeNotesStateTest {
                 PatchSetApproval.key(
                     PatchSet.id(ID, 1), Account.id(2002), LabelId.create(LabelId.VERIFIED)))
             .value(-1)
+            .tag("tag")
+            .copied(true)
             .granted(new Timestamp(3434L))
             .build();
     Entities.PatchSetApproval psa2 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a2);
     ByteString a2Bytes = Protos.toByteString(psa2);
-    assertThat(a2Bytes.size()).isEqualTo(49);
+    assertThat(a2Bytes.size()).isEqualTo(56);
     assertThat(a2Bytes).isNotEqualTo(a1Bytes);
 
     assertRoundTrip(
@@ -980,6 +983,7 @@ public class ChangeNotesStateTest {
                 .put("tag", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("realAccountId", Account.Id.class)
                 .put("postSubmit", boolean.class)
+                .put("copied", boolean.class)
                 .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }

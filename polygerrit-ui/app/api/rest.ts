@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ProjectInfoWithName, ServerInfo} from './rest-api';
+import {
+  AccountCapabilityInfo,
+  AccountDetailInfo,
+  ProjectInfoWithName,
+  ServerInfo,
+} from './rest-api';
 
 export type RequestPayload = string | object;
 
@@ -36,6 +41,12 @@ export declare interface RestPluginApi {
   getConfig(): Promise<ServerInfo | undefined>;
 
   invalidateReposCache(): void;
+
+  getAccount(): Promise<AccountDetailInfo | undefined>;
+
+  getAccountCapabilities(
+    capabilities: string[]
+  ): Promise<AccountCapabilityInfo | undefined>;
 
   getRepos(
     filter: string,

@@ -38,6 +38,7 @@ import {
   ReviewerState,
   RevisionKind,
   SubmitType,
+  UserPriority,
 } from '../api/rest-api';
 
 export {
@@ -57,6 +58,7 @@ export {
   ReviewerState,
   RevisionKind,
   SubmitType,
+  UserPriority,
 };
 
 export enum AccountTag {
@@ -142,15 +144,6 @@ export enum PermissionAction {
   // Special values for global capabilities
   INTERACTIVE = 'INTERACTIVE',
   BATCH = 'BATCH',
-}
-
-/**
- * This capability allows users to use the thread pool reserved for 'Non-Interactive Users'.
- * https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_priority
- */
-export enum UserPriority {
-  BATCH = 'BATCH',
-  INTERACTIVE = 'INTERACTIVE',
 }
 
 /**

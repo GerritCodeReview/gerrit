@@ -27,7 +27,6 @@ import {
   TimeFormat,
   EmailStrategy,
   DefaultBase,
-  UserPriority,
   DiffViewMode,
   DraftsAction,
   NotifyType,
@@ -37,6 +36,8 @@ import {
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {
   AccountId,
+  AccountCapabilityInfo,
+  AccountDetailInfo,
   AccountInfo,
   AccountsConfigInfo,
   ActionInfo,
@@ -97,6 +98,7 @@ import {
   PluginParameterToConfigParameterInfoMap,
   ProjectInfo,
   ProjectInfoWithName,
+  QueryLimitInfo,
   QuickLabelInfo,
   ReceiveInfo,
   RepoName,
@@ -125,6 +127,8 @@ import {DiffInfo, IgnoreWhitespaceType} from './diff';
 
 export {
   AccountId,
+  AccountCapabilityInfo,
+  AccountDetailInfo,
   AccountInfo,
   AccountsConfigInfo,
   ActionInfo,
@@ -185,6 +189,7 @@ export {
   PluginParameterToConfigParameterInfoMap,
   ProjectInfo,
   ProjectInfoWithName,
+  QueryLimitInfo,
   QuickLabelInfo,
   ReceiveInfo,
   RepoName,
@@ -282,14 +287,6 @@ export function isAccount(x: AccountInfo | GroupInfo): x is AccountInfo {
 
 export function isGroup(x: AccountInfo | GroupInfo): x is GroupInfo {
   return (x as GroupInfo).id !== undefined;
-}
-
-/**
- * The AccountDetailInfo entity contains detailed information about an account.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-detail-info
- */
-export interface AccountDetailInfo extends AccountInfo {
-  registered_on: Timestamp;
 }
 
 /**
@@ -1089,41 +1086,6 @@ export interface EmailInfo {
   email: string;
   preferred?: boolean;
   pending_confirmation?: boolean;
-}
-
-/**
- * The CapabilityInfo entity contains information about the global capabilities of a user
- * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#capability-info
- */
-export interface AccountCapabilityInfo {
-  accessDatabase?: boolean;
-  administrateServer?: boolean;
-  createAccount?: boolean;
-  createGroup?: boolean;
-  createProject?: boolean;
-  emailReviewers?: boolean;
-  flushCaches?: boolean;
-  killTask?: boolean;
-  maintainServer?: boolean;
-  priority?: UserPriority;
-  queryLimit?: QueryLimitInfo;
-  runAs?: boolean;
-  runGC?: boolean;
-  streamEvents?: boolean;
-  viewAllAccounts?: boolean;
-  viewCaches?: boolean;
-  viewConnections?: boolean;
-  viewPlugins?: boolean;
-  viewQueue?: boolean;
-}
-
-/**
- * The QueryLimitInfo entity contains information about the Query Limit of a user
- * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-limit-info
- */
-export interface QueryLimitInfo {
-  min: number;
-  max: number;
 }
 
 /**

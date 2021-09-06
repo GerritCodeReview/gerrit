@@ -204,6 +204,15 @@ export enum SubmitType {
 }
 
 /**
+ * This capability allows users to use the thread pool reserved for 'Non-Interactive Users'.
+ * https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_priority
+ */
+export enum UserPriority {
+  BATCH = 'BATCH',
+  INTERACTIVE = 'INTERACTIVE',
+}
+
+/**
  * types and interfaces ========================================================
  */
 
@@ -235,6 +244,41 @@ export declare interface AccountInfo {
   inactive?: boolean; // not set if false
   tags?: string[];
 }
+
+/**
+ * The CapabilityInfo entity contains information about the global capabilities of a user
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#capability-info
+ */
+export interface AccountCapabilityInfo {
+  accessDatabase?: boolean;
+  administrateServer?: boolean;
+  createAccount?: boolean;
+  createGroup?: boolean;
+  createProject?: boolean;
+  emailReviewers?: boolean;
+  flushCaches?: boolean;
+  killTask?: boolean;
+  maintainServer?: boolean;
+  priority?: UserPriority;
+  queryLimit?: QueryLimitInfo;
+  runAs?: boolean;
+  runGC?: boolean;
+  streamEvents?: boolean;
+  viewAllAccounts?: boolean;
+  viewCaches?: boolean;
+  viewConnections?: boolean;
+  viewPlugins?: boolean;
+  viewQueue?: boolean;
+}
+
+/**
+ * The AccountDetailInfo entity contains detailed information about an account.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-detail-info
+ */
+export interface AccountDetailInfo extends AccountInfo {
+  registered_on: Timestamp;
+}
+
 
 /**
  * The AccountsConfigInfo entity contains information about Gerrit configuration
@@ -851,6 +895,15 @@ export interface ProjectInfoWithName extends ProjectInfo {
 export declare interface PushCertificateInfo {
   certificate: string;
   key: GpgKeyInfo;
+}
+
+/**
+ * The QueryLimitInfo entity contains information about the Query Limit of a user
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-limit-info
+ */
+export interface QueryLimitInfo {
+  min: number;
+  max: number;
 }
 
 export declare interface QuickLabelInfo extends LabelCommonInfo {

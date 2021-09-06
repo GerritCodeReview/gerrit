@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0700df7a_489047f0",
+        "filename": "polygerrit-ui/app/elements/lit/gr-lit-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:01:56Z",
+      "side": 1,
+      "message": "Obsolete, because we are now using a @property and its default value.",
+      "parentUuid": "e3b116e7_921abcff",
+      "revId": "2a106a76ddd5fc9825cc405e86a7bf30c66f007e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f940636_1242bff5",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73f76050_dcd432fc",
+        "filename": "polygerrit-ui/app/elements/lit/gr-lit-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:01:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f940636_1242bff5",
+      "revId": "2a106a76ddd5fc9825cc405e86a7bf30c66f007e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3af4e45d_2021b9af",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-09-03T21:34:00Z",
       "side": 1,
       "message": "Is it worth checking for the case that the new value is the same as the previous one? i.e. `if (this.value \u003d\u003d\u003d value) return;`",
+      "revId": "2a106a76ddd5fc9825cc405e86a7bf30c66f007e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b32378a_4f280c18",
+        "filename": "polygerrit-ui/app/elements/lit/gr-lit-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:01:56Z",
+      "side": 1,
+      "message": "I have changed the code to use a property, so I assume the property setter takes care of that.",
+      "parentUuid": "3af4e45d_2021b9af",
       "revId": "2a106a76ddd5fc9825cc405e86a7bf30c66f007e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

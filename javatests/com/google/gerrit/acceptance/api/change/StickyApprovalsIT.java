@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.api.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
@@ -28,6 +29,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static java.util.Comparator.comparing;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
@@ -44,8 +46,10 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -55,6 +59,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
@@ -946,6 +951,140 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // There is a vote both on patchset 1 and on patchset 2, although both votes are Code-Review +2.
     assertThat(r.getChange().approvals().get(PatchSet.id(r.getChange().getId(), 1))).hasSize(1);
     assertThat(r.getChange().approvals().get(PatchSet.id(r.getChange().getId(), 2))).hasSize(1);
+  }
+
+  @Test
+  public void stickyVoteStoredOnUpload() throws Exception {
+    // Code-Review will be sticky.
+    String label = LabelId.CODE_REVIEW;
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
+      u.save();
+    }
+
+    PushOneCommit.Result r = createChange();
+    // Add a new vote.
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    input.tag = "tag";
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Make new patchsets, keeping the Code-Review +2 vote.
+    for (int i = 0; i < 9; i++) {
+      amendChange(r.getChangeId());
+    }
+
+    List<PatchSetApproval> patchSetApprovals =
+        r.getChange().notes().getApprovalsWithCopied().values().stream()
+            .sorted(comparing(a -> a.patchSetId().get()))
+            .collect(toImmutableList());
+
+    for (int i = 0; i < 10; i++) {
+      int patchSet = i + 1;
+      assertThat(patchSetApprovals.get(i).patchSetId().get()).isEqualTo(patchSet);
+      assertThat(patchSetApprovals.get(i).accountId().get()).isEqualTo(admin.id().get());
+      assertThat(patchSetApprovals.get(i).realAccountId().get()).isEqualTo(admin.id().get());
+      assertThat(patchSetApprovals.get(i).label()).isEqualTo(LabelId.CODE_REVIEW);
+      assertThat(patchSetApprovals.get(i).value()).isEqualTo((short) 2);
+      assertThat(patchSetApprovals.get(i).tag().get()).isEqualTo("tag");
+      if (patchSet == 1) {
+        assertThat(patchSetApprovals.get(i).copied()).isFalse();
+      } else {
+        assertThat(patchSetApprovals.get(i).copied()).isTrue();
+      }
+    }
+  }
+
+  @Test
+  public void stickyVoteStoredOnRebase() throws Exception {
+    // Code-Review will be sticky.
+    String label = LabelId.CODE_REVIEW;
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
+      u.save();
+    }
+
+    // Create two changes both with the same parent
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Approve and submit the first change
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    revision.review(ReviewInput.approve().label(LabelId.VERIFIED, 1));
+    revision.submit();
+
+    // Add an approval whose score should be copied.
+    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
+
+    // Rebase the second change
+    gApi.changes().id(r2.getChangeId()).rebase();
+
+    List<PatchSetApproval> patchSetApprovals =
+        r2.getChange().notes().getApprovalsWithCopied().values().stream()
+            .sorted(comparing(a -> a.patchSetId().get()))
+            .collect(toImmutableList());
+
+    assertThat(patchSetApprovals.get(0).patchSetId().get()).isEqualTo(1);
+    assertThat(patchSetApprovals.get(0).label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(patchSetApprovals.get(0).value()).isEqualTo((short) 1);
+    assertThat(patchSetApprovals.get(0).copied()).isFalse();
+
+    assertThat(patchSetApprovals.get(1).patchSetId().get()).isEqualTo(2);
+    assertThat(patchSetApprovals.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(patchSetApprovals.get(1).value()).isEqualTo((short) 1);
+    assertThat(patchSetApprovals.get(1).copied()).isTrue();
+  }
+
+  @Test
+  public void stickyVoteStoredOnUploadWithRealAccount() throws Exception {
+    // Give "user" permission to vote on behalf of other users.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .impersonation(true)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    // Code-Review will be sticky.
+    String label = LabelId.CODE_REVIEW;
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
+      u.save();
+    }
+
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote as user
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
+    input.onBehalfOf = admin.email();
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Make a new patchset, keeping the Code-Review +2 vote.
+    amendChange(r.getChangeId());
+
+    List<PatchSetApproval> patchSetApprovals =
+        r.getChange().notes().getApprovalsWithCopied().values().stream()
+            .sorted(comparing(a -> a.patchSetId().get()))
+            .collect(toImmutableList());
+
+    assertThat(patchSetApprovals.get(0).patchSetId().get()).isEqualTo(1);
+    assertThat(patchSetApprovals.get(0).accountId().get()).isEqualTo(admin.id().get());
+    assertThat(patchSetApprovals.get(0).realAccountId().get()).isEqualTo(user.id().get());
+    assertThat(patchSetApprovals.get(0).label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(patchSetApprovals.get(0).value()).isEqualTo((short) 1);
+    assertThat(patchSetApprovals.get(0).copied()).isFalse();
+
+    assertThat(patchSetApprovals.get(1).patchSetId().get()).isEqualTo(2);
+    assertThat(patchSetApprovals.get(1).accountId().get()).isEqualTo(admin.id().get());
+    assertThat(patchSetApprovals.get(1).realAccountId().get()).isEqualTo(user.id().get());
+    assertThat(patchSetApprovals.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(patchSetApprovals.get(1).value()).isEqualTo((short) 1);
+    assertThat(patchSetApprovals.get(1).copied()).isTrue();
   }
 
   private void assertChangeKindCacheContains(ObjectId prior, ObjectId next) {

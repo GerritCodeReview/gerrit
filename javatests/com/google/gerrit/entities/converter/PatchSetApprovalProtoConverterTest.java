@@ -49,6 +49,7 @@ public class PatchSetApprovalProtoConverterTest {
             .tag("tag-21")
             .realAccountId(Account.id(612))
             .postSubmit(true)
+            .copied(true)
             .build();
 
     Entities.PatchSetApproval proto = protoConverter.toProto(patchSetApproval);
@@ -68,6 +69,7 @@ public class PatchSetApprovalProtoConverterTest {
             .setTag("tag-21")
             .setRealAccountId(Entities.Account_Id.newBuilder().setId(612))
             .setPostSubmit(true)
+            .setCopied(true)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -99,6 +101,7 @@ public class PatchSetApprovalProtoConverterTest {
             .setGranted(987654L)
             // This value can't be unset when our entity class is given.
             .setPostSubmit(false)
+            .setCopied(false)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -115,6 +118,7 @@ public class PatchSetApprovalProtoConverterTest {
             .tag("tag-21")
             .realAccountId(Account.id(612))
             .postSubmit(true)
+            .copied(true)
             .build();
 
     PatchSetApproval convertedPatchSetApproval =
@@ -162,6 +166,7 @@ public class PatchSetApprovalProtoConverterTest {
     assertThat(patchSetApproval.value()).isEqualTo(0);
     assertThat(patchSetApproval.granted()).isEqualTo(new Timestamp(0));
     assertThat(patchSetApproval.postSubmit()).isEqualTo(false);
+    assertThat(patchSetApproval.copied()).isEqualTo(false);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
@@ -176,6 +181,7 @@ public class PatchSetApprovalProtoConverterTest {
                 .put("tag", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("realAccountId", Account.Id.class)
                 .put("postSubmit", boolean.class)
+                .put("copied", boolean.class)
                 .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }

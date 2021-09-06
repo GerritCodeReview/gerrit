@@ -349,6 +349,10 @@ public class ApprovalsUtil {
     return approvalInference.forPatchSet(notes, psId, rw, repoConfig);
   }
 
+  public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet patchSet) {
+    return approvalInference.forPatchSet(notes, patchSet, null, null);
+  }
+
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     return approvalCache.get(notes, psId);
   }

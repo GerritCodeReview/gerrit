@@ -21,6 +21,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHERRY_PICK_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COPIED_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
@@ -413,6 +414,9 @@ class ChangeNotesParser {
     for (String line : commit.getFooterLineValues(FOOTER_LABEL)) {
       parseApproval(psId, accountId, realAccountId, commitTimestamp, line);
     }
+    for (String line : commit.getFooterLineValues(FOOTER_COPIED_LABEL)) {
+      parseCopiedApproval(psId, commitTimestamp, line);
+    }
 
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
       for (String line : commit.getFooterLineValues(state.getFooterKey())) {
@@ -794,6 +798,68 @@ class ChangeNotesParser {
         b.pushCertificate(Optional.of(rn.getPushCert()));
       }
     }
+  }
+
+  private void parseCopiedApproval(PatchSet.Id psId, Timestamp ts, String line)
+      throws ConfigInvalidException {
+    checkFooter(!line.startsWith("-"), FOOTER_COPIED_LABEL, line);
+    PatchSetApproval.Builder psa = parseAddApproval(psId, ts, line);
+    bufferedApprovals.add(psa);
+  }
+
+  private PatchSetApproval.Builder parseAddApproval(PatchSet.Id psId, Timestamp ts, String line)
+      throws ConfigInvalidException {
+    Account.Id accountId, realAccountId = null;
+    String labelVoteStr;
+    String tag = null;
+    int tagStart = line.indexOf(":tag:\"");
+    int s = line.lastIndexOf("\" ");
+    if (s == -1) {
+      s = line.indexOf(' ');
+    }
+    if (tagStart != -1) {
+      // tagStart+6 skips ":tag:\"" to parse the actual tag. Tags are in brackets.
+      tag = line.substring(tagStart + 6, s);
+    }
+
+    // The first account is the accountId, and second (if applicable) is the realAccountId.
+    try {
+      labelVoteStr = line.substring(0, s);
+    } catch (StringIndexOutOfBoundsException ex) {
+      throw new ConfigInvalidException(ex.getMessage(), ex.getCause());
+    }
+    String[] identities = line.substring(s + 1).split(" ,");
+    PersonIdent ident = RawParseUtils.parsePersonIdent(identities[0]);
+    checkFooter(ident != null, FOOTER_COPIED_LABEL, line);
+    accountId = parseIdent(ident);
+
+    if (identities.length > 1) {
+      PersonIdent realIdent = RawParseUtils.parsePersonIdent(identities[1]);
+      checkFooter(realIdent != null, FOOTER_COPIED_LABEL, line);
+      realAccountId = parseIdent(realIdent);
+    }
+
+    LabelVote l;
+    try {
+      l = LabelVote.parseWithEquals(labelVoteStr);
+    } catch (IllegalArgumentException e) {
+      ConfigInvalidException pe = parseException("invalid %s: %s", FOOTER_COPIED_LABEL, line);
+      pe.initCause(e);
+      throw pe;
+    }
+
+    PatchSetApproval.Builder psa =
+        PatchSetApproval.builder()
+            .key(PatchSetApproval.key(psId, accountId, LabelId.create(l.label())))
+            .value(l.value())
+            .granted(ts)
+            .tag(Optional.ofNullable(tag))
+            .copied(true);
+    if (realAccountId != null) {
+      psa.realAccountId(realAccountId);
+    }
+    approvals.putIfAbsent(psa.key(), psa);
+    return psa;
   }
 
   private void parseApproval(

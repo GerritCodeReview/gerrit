@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static java.util.Comparator.comparing;
@@ -336,6 +337,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   // ChangeNotesCache from handlers.
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
+  private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvalsWithCopied;
   private ImmutableSet<Comment.Key> commentKeys;
 
   public ChangeNotes(
@@ -375,9 +377,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
     if (approvals == null) {
-      approvals = ImmutableListMultimap.copyOf(state.approvals());
+      approvals =
+          state.approvals().stream()
+              .filter(e -> !e.getValue().copied())
+              .collect(toImmutableListMultimap(e -> e.getKey(), e -> e.getValue()));
     }
     return approvals;
+  }
+
+  public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovalsWithCopied() {
+    if (approvalsWithCopied == null) {
+      approvalsWithCopied = ImmutableListMultimap.copyOf(state.approvals());
+    }
+    return approvalsWithCopied;
   }
 
   public ReviewerSet getReviewers() {

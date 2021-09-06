@@ -119,6 +119,26 @@ class ApprovalInference {
     }
   }
 
+  Iterable<PatchSetApproval> forPatchSet(
+      ChangeNotes notes, PatchSet ps, @Nullable RevWalk rw, @Nullable Config repoConfig) {
+    ProjectState project;
+    try (TraceTimer traceTimer =
+        TraceContext.newTimer(
+            "Computing labels for patch set",
+            Metadata.builder()
+                .changeId(notes.load().getChangeId().get())
+                .patchSetId(ps.id().get())
+                .build())) {
+      project =
+          projectCache
+              .get(notes.getProjectName())
+              .orElseThrow(illegalState(notes.getProjectName()));
+      Collection<PatchSetApproval> approvals =
+          getForPatchSetWithoutNormalization(notes, project, ps, rw, repoConfig);
+      return labelNormalizer.normalize(notes, approvals).getNormalized();
+    }
+  }
+
   private boolean canCopyBasedOnBooleanLabelConfigs(
       ProjectState project,
       PatchSetApproval psa,
@@ -311,13 +331,13 @@ class ApprovalInference {
   private boolean canCopyBasedOnCopyCondition(
       ChangeNotes changeNotes,
       PatchSetApproval psa,
-      PatchSet.Id psId,
+      PatchSet patchSet,
       LabelType type,
       ChangeKind changeKind) {
     if (!type.getCopyCondition().isPresent()) {
       return false;
     }
-    ApprovalContext ctx = ApprovalContext.create(changeNotes, psa, psId, changeKind);
+    ApprovalContext ctx = ApprovalContext.create(changeNotes, psa, patchSet, changeKind);
     try {
       // Use a request context to run checks as an internal user with expanded visibility. This is
       // so that the output of the copy condition does not depend on who is running the current
@@ -345,15 +365,33 @@ class ApprovalInference {
         project.getNameKey(),
         notes.getProjectName());
 
-    PatchSet ps = notes.load().getPatchSets().get(psId);
-    if (ps == null) {
+    Table<String, Account.Id, PatchSetApproval> resultByUser = HashBasedTable.create();
+    ImmutableList<PatchSetApproval> approvalsForGivenPatchSet =
+        notes.load().getApprovals().get(psId);
+    approvalsForGivenPatchSet.forEach(psa -> resultByUser.put(psa.label(), psa.accountId(), psa));
+
+    PatchSet patchSet = notes.load().getPatchSets().get(psId);
+    if (patchSet == null) {
       return Collections.emptyList();
     }
+    Map.Entry<PatchSet.Id, PatchSet> priorPatchSet = notes.load().getPatchSets().lowerEntry(psId);
+    if (priorPatchSet == null) {
+      return resultByUser.values();
+    }
+    return getForPatchSetWithoutNormalization(notes, project, patchSet, rw, repoConfig);
+  }
 
+  private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(
+      ChangeNotes notes,
+      ProjectState project,
+      PatchSet patchSet,
+      @Nullable RevWalk rw,
+      @Nullable Config repoConfig) {
+    PatchSet.Id psId = patchSet.id();
     // Add approvals on the given patch set to the result
     Table<String, Account.Id, PatchSetApproval> resultByUser = HashBasedTable.create();
     ImmutableList<PatchSetApproval> approvalsForGivenPatchSet =
-        notes.load().getApprovals().get(ps.id());
+        notes.load().getApprovals().get(patchSet.id());
     approvalsForGivenPatchSet.forEach(psa -> resultByUser.put(psa.label(), psa.accountId(), psa));
 
     // Bail out immediately if this is the first patch set. Return only approvals granted on the
@@ -381,18 +419,20 @@ class ApprovalInference {
       return resultByUser.values();
     }
 
-    // Add labels from the previous patch set to the result in case the label isn't already there
-    // and settings as well as change kind allow copying.
-    ChangeKind kind =
+    ChangeKind changeKind =
         changeKindCache.getChangeKind(
             project.getNameKey(),
             rw,
             repoConfig,
             priorPatchSet.getValue().commitId(),
-            ps.commitId());
+            patchSet.commitId());
     logger.atFine().log(
         "change kind for patch set %d of change %d against prior patch set %s is %s",
-        ps.id().get(), ps.id().changeId().get(), priorPatchSet.getValue().id().changeId(), kind);
+        patchSet.id().get(),
+        patchSet.id().changeId().get(),
+        priorPatchSet.getValue().id().changeId(),
+        changeKind);
+
     Map<String, FileDiffOutput> modifiedFiles = null;
     Map<String, FileDiffOutput> modifiedFilesLastPatchSet = null;
     LabelTypes labelTypes = project.getLabelTypes();
@@ -405,7 +445,7 @@ class ApprovalInference {
       if (modifiedFiles == null
           && type.isPresent()
           && type.get().isCopyAllScoresIfListOfFilesDidNotChange()) {
-        modifiedFiles = listModifiedFiles(project, ps);
+        modifiedFiles = listModifiedFiles(project, patchSet);
         modifiedFilesLastPatchSet = listModifiedFiles(project, priorPatchSet.getValue());
       }
       if (!type.isPresent()) {
@@ -421,11 +461,17 @@ class ApprovalInference {
         continue;
       }
       if (!canCopyBasedOnBooleanLabelConfigs(
-              project, psa, ps.id(), kind, type.get(), modifiedFiles, modifiedFilesLastPatchSet)
-          && !canCopyBasedOnCopyCondition(notes, psa, ps.id(), type.get(), kind)) {
+              project,
+              psa,
+              patchSet.id(),
+              changeKind,
+              type.get(),
+              modifiedFiles,
+              modifiedFilesLastPatchSet)
+          && !canCopyBasedOnCopyCondition(notes, psa, patchSet, type.get(), changeKind)) {
         continue;
       }
-      resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
+      resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(patchSet.id()));
     }
     return resultByUser.values();
   }

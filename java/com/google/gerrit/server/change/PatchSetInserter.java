@@ -285,6 +285,9 @@ public class PatchSetInserter implements BatchUpdateOp {
         throw new BadRequestException(ex.getMessage());
       }
     }
+
+    approvalsUtil.byPatchSet(ctx.getNotes(), patchSet).forEach(a -> update.putCopiedApproval(a));
+
     return true;
   }
 

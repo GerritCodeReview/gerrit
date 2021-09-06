@@ -35,6 +35,9 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -52,6 +55,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.Text;
 import com.google.gerrit.server.patch.filediff.EditTransformer.ContextAwareEdit;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -99,12 +103,30 @@ public class PatchListLoader implements Callable<PatchList> {
     PatchListLoader create(PatchListKey key, Project.NameKey project);
   }
 
+  @Singleton
+  static class Metrics {
+    final Counter0 timeouts;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      // TODO(ghareeb): Remove this metric from documentation once this class is deprecated.
+      timeouts =
+          metricMaker.newCounter(
+              "caches/diff/legacy/timeouts",
+              new Description(
+                      "Total number of git file diff computations that resulted in timeouts.")
+                  .setRate()
+                  .setUnit("count"));
+    }
+  }
+
   private final GitRepositoryManager repoManager;
   private final PatchListCache patchListCache;
   private final ThreeWayMergeStrategy mergeStrategy;
   private final ExecutorService diffExecutor;
   private final AutoMerger autoMerger;
   private final PatchListKey key;
+  private final Metrics metrics;
   private final Project.NameKey project;
   private final long timeoutMillis;
 
@@ -115,16 +137,18 @@ public class PatchListLoader implements Callable<PatchList> {
       @GerritServerConfig Config cfg,
       @DiffExecutor ExecutorService de,
       AutoMerger am,
+      Metrics metrics,
       @Assisted PatchListKey k,
       @Assisted Project.NameKey p) {
-    repoManager = mgr;
-    patchListCache = plc;
-    mergeStrategy = MergeUtil.getMergeStrategy(cfg);
-    diffExecutor = de;
-    autoMerger = am;
-    key = k;
-    project = p;
-    timeoutMillis =
+    this.repoManager = mgr;
+    this.patchListCache = plc;
+    this.mergeStrategy = MergeUtil.getMergeStrategy(cfg);
+    this.diffExecutor = de;
+    this.autoMerger = am;
+    this.metrics = metrics;
+    this.key = k;
+    this.project = p;
+    this.timeoutMillis =
         ConfigUtil.getTimeUnit(
             cfg,
             "cache",
@@ -529,6 +553,7 @@ public class PatchListLoader implements Callable<PatchList> {
     try {
       return result.get(timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | TimeoutException e) {
+      metrics.timeouts.increment();
       logger.atWarning().log(
           "%s ms timeout reached for Diff loader in project %s"
               + " on commit %s on path %s comparing %s..%s",

@@ -16,6 +16,24 @@
       "message": "Nice test! I think it would be also interesting to cover the case where a ps5 has the same files as ps1 (as the behaviour of this test is different if votes are copied directly from ps1 to ps5, or if votes are copied from ps1 to ps2, from p2 to ps3, but not from ps3 to ps4). Could you maybe test this too?",
       "revId": "568657a6444d18c8e6aaddda1d8ba136e1459df9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07378416_8666a490",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-06T15:18:48Z",
+      "side": 1,
+      "message": "yea, good idea, done.",
+      "parentUuid": "47d3f8dc_61b62d2c",
+      "revId": "568657a6444d18c8e6aaddda1d8ba136e1459df9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

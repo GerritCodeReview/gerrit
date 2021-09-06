@@ -56,6 +56,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
   }
 
   private ExecutorService sendEmailsExecutor;
+  private AccountTemplateUtil accountTemplateUtil;
   private AttentionSetSender sender;
   private Context ctx;
   private Change change;
@@ -67,6 +68,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
   @Inject
   AttentionSetEmail(
       @SendEmailExecutor ExecutorService executor,
+      AccountTemplateUtil accountTemplateUtil,
       @Assisted AttentionSetSender sender,
       @Assisted Context ctx,
       @Assisted Change change,
@@ -74,6 +76,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
       @Assisted MessageIdGenerator.MessageId messageId,
       @Assisted Account.Id attentionUserId) {
     this.sendEmailsExecutor = executor;
+    this.accountTemplateUtil = accountTemplateUtil;
     this.sender = sender;
     this.ctx = ctx;
     this.change = change;
@@ -97,7 +100,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
       }
       sender.setNotify(ctx.getNotify(change.getId()));
       sender.setAttentionSetUser(attentionUserId);
-      sender.setReason(reason);
+      sender.setReason(accountTemplateUtil.replaceTemplates(reason));
       sender.setMessageId(messageId);
       sender.send();
     } catch (Exception e) {

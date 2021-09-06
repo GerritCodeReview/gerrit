@@ -133,6 +133,7 @@ public class DeleteDraftComments
               cd.project(), p -> batchUpdateFactory.create(p, rsrc.getUser(), now));
       Op op = new Op(humanCommentFormatter, accountId);
       update.addOp(cd.getId(), op);
+      update.addChangeNotToReindex(cd.getId());
       ops.add(op);
     }
 

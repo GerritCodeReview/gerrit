@@ -73,11 +73,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.function.Function;
@@ -386,6 +388,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
   private final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
+  private final Set<Change.Id> changesNotToReindex = new HashSet<>();
 
   private RepoView repoView;
   private BatchRefUpdate batchRefUpdate;
@@ -527,6 +530,11 @@ public class BatchUpdate implements AutoCloseable {
             toMap(entry -> BranchNameKey.create(project, entry.getKey()), Map.Entry::getValue));
   }
 
+  public BatchUpdate addChangeNotToReindex(Change.Id id) {
+    changesNotToReindex.add(id);
+    return this;
+  }
+
   public BatchUpdate addOp(Change.Id id, BatchUpdateOp op) {
     checkArgument(!(op instanceof InsertChangeOp), "use insertChange");
     requireNonNull(op);
@@ -625,6 +633,9 @@ public class BatchUpdate implements AutoCloseable {
       List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>(results.size());
       for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
         Change.Id id = e.getKey();
+        if (changesNotToReindex.contains(id)) {
+          continue;
+        }
         switch (e.getValue()) {
           case UPSERTED:
             indexFutures.add(indexer.indexAsync(project, id));

@@ -16,6 +16,24 @@
       "message": "that indirection seems excessive. doesn\u0027t the java lib guarantee iterator stability when removing the current element?",
       "revId": "1028a3c6cb28b7ed92535eb01b68a4b65e3ed160",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9908c01_619785e4",
+        "filename": "java/com/google/gerrit/server/DeadlineChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-06T06:34:27Z",
+      "side": 1,
+      "message": "No, trying to remove it from the callback throws an exception.",
+      "parentUuid": "0909963e_3beb32b9",
+      "revId": "1028a3c6cb28b7ed92535eb01b68a4b65e3ed160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

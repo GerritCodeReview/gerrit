@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b5f8a6ff_b16c19cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-06T15:28:45Z",
+      "side": 1,
+      "message": "I think it\u0027s good as you did it. Instead of doing injections into the Predicate classes we have the Arguments class in ChangeQueryBuilder and then we just pass the args into the Predicate class if any of the args is needed there.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 37
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cab20d32_f4e72017",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -43,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c93b9da_cf7c1a5f",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-06T15:28:45Z",
+      "side": 1,
+      "message": "Must be https://gerrit-review.googlesource.com/c/gerrit/+/252282",
+      "parentUuid": "310d01f4_22fd1844",
+      "range": {
+        "startLine": 477,
+        "startChar": 0,
+        "endLine": 478,
+        "endChar": 62
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4d97063f_1c133d64",
         "filename": "java/com/google/gerrit/server/CommentsUtil.java",
         "patchSetId": 6
@@ -59,6 +106,29 @@
         "startChar": 45,
         "endLine": 495,
         "endChar": 89
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bed776a_48c0f847",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-06T15:28:45Z",
+      "side": 1,
+      "message": "[optional] I think for other predicates we always just pass in the whole args, you may do here the same.",
+      "range": {
+        "startLine": 1068,
+        "startChar": 36,
+        "endLine": 1068,
+        "endChar": 53
       },
       "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -834,6 +834,65 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void copyWithListOfFilesUnchanged_withoutCopyCondition() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    copyWithListOfFilesUnchanged();
+  }
+
+  @Test
+  public void copyWithListOfFilesUnchanged_withCopyCondition() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
+      u.save();
+    }
+    copyWithListOfFilesUnchanged();
+  }
+
+  private void copyWithListOfFilesUnchanged() throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // Code-Review votes are copied over from ps1-> ps2 since the list of files were unchanged.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("file")
+        .content("very new content")
+        .create();
+    c = detailedChange(changeId.toString());
+
+    // Code-Review votes are copied over from ps1-> ps3 since the list of files were unchanged.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("new file")
+        .content("new content")
+        .create();
+
+    c = detailedChange(changeId.toString());
+    // Code-Review votes are not copied over from ps1-> ps4 since a file was added.
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
   public void deleteStickyVote() throws Exception {
     String label = LabelId.CODE_REVIEW;
     try (ProjectConfigUpdate u = updateProject(project)) {

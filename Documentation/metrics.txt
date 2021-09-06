@@ -76,6 +76,8 @@ objects needing finalization.
 * `caches/disk_cached`: Disk entries used by persistent cache.
 * `caches/disk_hit_ratio`: Disk hit ratio for persistent cache.
 * `caches/refresh_count`: The number of refreshes per cache with an indicator if a reload was necessary.
+* `caches/diff/timeouts`: The number of git file diff computations that resulted in timeouts.
+* `caches/diff/legacy/timeouts`: The number of git file diff computations (using the legacy cache) that resulted in timeouts.
 
 Cache disk metrics are expensive to compute on larger installations and are not
 computed by default. They can be enabled via the

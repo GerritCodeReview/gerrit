@@ -31,6 +31,9 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -92,6 +95,22 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
     };
   }
 
+  @Singleton
+  static class Metrics {
+    final Counter0 timeouts;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      timeouts =
+          metricMaker.newCounter(
+              "caches/diff/timeouts",
+              new Description(
+                      "Total number of git file diff computations that resulted in timeouts.")
+                  .setRate()
+                  .setUnit("count"));
+    }
+  }
+
   /** Enum for the supported diff algorithms for the file diff computation. */
   public enum DiffAlgorithm {
     HISTOGRAM_WITH_FALLBACK_MYERS,
@@ -150,12 +169,14 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
     private final GitRepositoryManager repoManager;
     private final ExecutorService diffExecutor;
     private final long timeoutMillis;
+    private final Metrics metrics;
 
     @Inject
     public Loader(
         @GerritServerConfig Config cfg,
         GitRepositoryManager repoManager,
-        @DiffExecutor ExecutorService de) {
+        @DiffExecutor ExecutorService de,
+        Metrics metrics) {
       this.repoManager = repoManager;
       this.diffExecutor = de;
       this.timeoutMillis =
@@ -166,6 +187,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
               "timeout",
               TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
               TimeUnit.MILLISECONDS);
+      this.metrics = metrics;
     }
 
     @Override
@@ -344,6 +366,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
         return GitFileDiff.create(diffEntry, fileHeader);
       } catch (InterruptedException | TimeoutException e) {
         // If timeout happens, create a negative result
+        metrics.timeouts.increment();
         return GitFileDiff.createNegative(
             AbbreviatedObjectId.fromObjectId(key.oldTree()),
             AbbreviatedObjectId.fromObjectId(key.newTree()),

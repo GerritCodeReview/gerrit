@@ -64,7 +64,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.GetAttentionSet;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
@@ -89,7 +88,6 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Inject private AccountOperations accountOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
-  @Inject private FakeEmailSender email;
   @Inject private TestCommentHelper testCommentHelper;
   @Inject private Provider<InternalChangeQuery> changeQueryProvider;
   @Inject private ProjectOperations projectOperations;
@@ -145,7 +143,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
 
     // Only one email since the second add was ignored.
-    String emailBody = Iterables.getOnlyElement(email.getMessages()).body();
+    String emailBody = Iterables.getOnlyElement(sender.getMessages()).body();
     assertThat(emailBody)
         .contains(
             String.format(
@@ -218,7 +216,6 @@ public class AttentionSetIT extends AbstractDaemonTest {
         ReviewInput.create().addUserToAttentionSet(user.email(), manualReason);
 
     change(r).current().review(reviewInput);
-
     AttentionSetInfo attentionSetInfo = change(r).get().attentionSet.get(user.id().get());
     assertThat(attentionSetInfo.reason).isEqualTo(manualReason);
     assertThat(attentionSetInfo.reasonAccount).isEqualTo(getAccountInfo(user.id()));
@@ -270,7 +267,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
 
     // Only one email since the second remove was ignored.
-    String emailBody = Iterables.getOnlyElement(email.getMessages()).body();
+    String emailBody = Iterables.getOnlyElement(sender.getMessages()).body();
     assertThat(emailBody)
         .contains(
             user.fullName()
@@ -706,7 +703,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
 
     // No emails for adding to attention set were sent.
-    assertThat(email.getMessages()).isEmpty();
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test
@@ -715,7 +712,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // implictly adds the user to the attention set when adding as reviewer
     change(r).addReviewer(user.email());
     requestScopeOperations.setApiUser(user.id());
-    email.clear();
+    sender.clear();
 
     ReviewInput reviewInput =
         ReviewInput.create().removeUserFromAttentionSet(user.email(), "reason");
@@ -728,7 +725,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
 
     // No emails for removing from attention set were sent.
-    assertThat(email.getMessages()).isEmpty();
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test
@@ -1534,6 +1531,45 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
     assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
     assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was added");
+  }
+
+  @Test
+  public void addToAttentionSetEmail_withTemplateReason() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    String templateReason = "Added by " + AccountTemplateUtil.getAccountTemplate(user.id());
+    int accountId =
+        change(r)
+            .addToAttentionSet(new AttentionSetInput(admin.email(), templateReason))
+            ._accountId;
+
+    assertThat(accountId).isEqualTo(admin.id().get());
+    String emailBody = Iterables.getOnlyElement(sender.getMessages()).body();
+    assertThat(emailBody)
+        .contains(
+            String.format(
+                "%s requires the attention of %s to this change.\n The reason is: Added by %s.",
+                user.fullName(), admin.fullName(), user.getNameEmail()));
+  }
+
+  @Test
+  public void removeFromAttentionSetEmail_withTemplateReason() throws Exception {
+    PushOneCommit.Result r = createChange();
+    // implicitly adds the user to the attention set when adding as reviewer
+    change(r).addReviewer(user.email());
+    sender.clear();
+    requestScopeOperations.setApiUser(user.id());
+
+    String templateReason = "Removed by " + AccountTemplateUtil.getAccountTemplate(user.id());
+    change(r).attention(user.id().toString()).remove(new AttentionSetInput(templateReason));
+
+    String emailBody = Iterables.getOnlyElement(sender.getMessages()).body();
+    assertThat(emailBody)
+        .contains(
+            String.format(
+                "%s removed themselves from the attention set of this change.\n"
+                    + " The reason is: Removed by %s.",
+                user.fullName(), user.getNameEmail()));
   }
 
   @Test

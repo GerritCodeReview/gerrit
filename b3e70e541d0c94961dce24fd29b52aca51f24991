@@ -16,6 +16,24 @@
       "message": "Please mention these new metrics in metrics.txt.",
       "revId": "b3e70e541d0c94961dce24fd29b52aca51f24991",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77ae763f_eadc4b40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-06T09:36:00Z",
+      "side": 1,
+      "message": "Thanks for noticing!\n\nDone. Also renamed the new metrics to follow our naming patterns.",
+      "parentUuid": "04a35ae0_e6392e6d",
+      "revId": "b3e70e541d0c94961dce24fd29b52aca51f24991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

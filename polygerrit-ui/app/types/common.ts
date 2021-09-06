@@ -37,6 +37,7 @@ import {
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {
   AccountId,
+  AccountDetailInfo,
   AccountInfo,
   AccountsConfigInfo,
   ActionInfo,
@@ -125,6 +126,7 @@ import {DiffInfo, IgnoreWhitespaceType} from './diff';
 
 export {
   AccountId,
+  AccountDetailInfo,
   AccountInfo,
   AccountsConfigInfo,
   ActionInfo,
@@ -282,14 +284,6 @@ export function isAccount(x: AccountInfo | GroupInfo): x is AccountInfo {
 
 export function isGroup(x: AccountInfo | GroupInfo): x is GroupInfo {
   return (x as GroupInfo).id !== undefined;
-}
-
-/**
- * The AccountDetailInfo entity contains detailed information about an account.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-detail-info
- */
-export interface AccountDetailInfo extends AccountInfo {
-  registered_on: Timestamp;
 }
 
 /**

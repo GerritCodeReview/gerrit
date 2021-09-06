@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogRecord;
@@ -80,6 +81,7 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
    * @return timer context
    */
   public Context<F1, F2, F3> start(F1 fieldValue1, F2 fieldValue2, F3 fieldValue3) {
+    RequestStateContext.abortIfCancelled();
     return new Context<>(this, fieldValue1, fieldValue2, fieldValue3);
   }
 
@@ -116,6 +118,7 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
         fieldValue3,
         durationMs);
     doRecord(fieldValue1, fieldValue2, fieldValue3, value, unit);
+    RequestStateContext.abortIfCancelled();
   }
 
   /**

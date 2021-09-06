@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9547f5e0_0bf43cb7",
+        "filename": "polygerrit-ui/app/elements/lit/subscribable.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:05:37Z",
+      "side": 1,
+      "message": "2021",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "8f7f7772042e7391018740e9cb380b7e7806c6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b3de2f6_691d017f",
+        "filename": "polygerrit-ui/app/elements/lit/subscribable.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:05:37Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 39
+      },
+      "revId": "8f7f7772042e7391018740e9cb380b7e7806c6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35608b13_723cb2a1",
+        "filename": "polygerrit-ui/app/elements/lit/subscribable.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:05:37Z",
+      "side": 1,
+      "message": "Can you use the one exported from common-util?",
+      "revId": "8f7f7772042e7391018740e9cb380b7e7806c6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3476f590_86ec2f35",
+        "filename": "polygerrit-ui/app/elements/lit/subscribable.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:05:37Z",
+      "side": 1,
+      "message": "Add a class comment.",
+      "revId": "8f7f7772042e7391018740e9cb380b7e7806c6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a253a43_5a2993d2",
+        "filename": "polygerrit-ui/app/elements/lit/subscribable.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:05:37Z",
+      "side": 1,
+      "message": "I think you can do without K and just replace it by `keyof O`.",
+      "range": {
+        "startLine": 29,
+        "startChar": 60,
+        "endLine": 29,
+        "endChar": 77
+      },
+      "revId": "8f7f7772042e7391018740e9cb380b7e7806c6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3364a723_287d9ea6",
+        "filename": "polygerrit-ui/app/elements/lit/subscribable.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:05:37Z",
+      "side": 1,
+      "message": "As rictic pointed out in my change: A safeguard\n\n  if (this.host[this.name] \u003d\u003d\u003d value) return;\n  \nprobably makes sense here, although the observables typically come with `distinctUntilChanged`, so hopefully this is a noop most of the time.",
+      "revId": "8f7f7772042e7391018740e9cb380b7e7806c6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57c81887_5bc6409f",
+        "filename": "polygerrit-ui/app/elements/lit/subscribable.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:05:37Z",
+      "side": 1,
+      "message": "Maybe try addressing the TODOs before submitting the change?",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 70
+      },
+      "revId": "8f7f7772042e7391018740e9cb380b7e7806c6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b679e736_b8f0f5ae",
+        "filename": "polygerrit-ui/app/elements/lit/subscribable.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:05:37Z",
+      "side": 1,
+      "message": "I think you can drop this line as rictic pointed out in my change.",
+      "revId": "8f7f7772042e7391018740e9cb380b7e7806c6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf066afb_d2faa8b6",
+        "filename": "polygerrit-ui/app/elements/lit/subscribable.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-06T09:05:37Z",
+      "side": 1,
+      "message": "Maybe just inline this method, or at least make it private. Otherwise the reader (well, I) could think that this method is also called from elsewhere is this setup of multiple subscr... things.",
+      "revId": "8f7f7772042e7391018740e9cb380b7e7806c6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

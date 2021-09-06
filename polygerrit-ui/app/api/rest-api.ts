@@ -237,6 +237,14 @@ export declare interface AccountInfo {
 }
 
 /**
+ * The AccountDetailInfo entity contains detailed information about an account.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-detail-info
+ */
+export interface AccountDetailInfo extends AccountInfo {
+  registered_on: Timestamp;
+}
+
+/**
  * The AccountsConfigInfo entity contains information about Gerrit configuration
  * from the accounts section.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#accounts-config-info

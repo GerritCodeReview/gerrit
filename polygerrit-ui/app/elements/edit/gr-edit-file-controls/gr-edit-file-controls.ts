@@ -19,8 +19,7 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import {GrEditConstants} from '../gr-edit-constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {css, customElement, html, property} from 'lit-element';
 
 interface EditAction {
   label: string;

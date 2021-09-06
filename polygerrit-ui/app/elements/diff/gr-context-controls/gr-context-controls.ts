@@ -31,8 +31,14 @@ import {pluralize} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
 import {DiffInfo} from '../../../types/diff';
 import {assertIsDefined} from '../../../utils/common-util';
-import {css, html, LitElement, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {
+  css,
+  customElement,
+  html,
+  LitElement,
+  property,
+  TemplateResult,
+} from 'lit-element';
 
 import {
   ContextButtonType,

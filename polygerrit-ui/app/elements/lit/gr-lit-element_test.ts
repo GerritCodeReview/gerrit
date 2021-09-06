@@ -16,8 +16,7 @@
  */
 
 import '../../test/common-test-setup-karma';
-import {html} from 'lit';
-import {customElement} from 'lit/decorators';
+import {html, customElement} from 'lit-element';
 import {GrLitElement} from './gr-lit-element';
 
 @customElement('test-gr-lit-element')

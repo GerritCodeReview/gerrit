@@ -20,8 +20,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {ChangeInfo, CommitInfo, ServerInfo} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {css, customElement, html, property} from 'lit-element';
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -24,8 +24,7 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {css, customElement, html, property} from 'lit-element';
 import {ConfigParameterInfoType} from '../../../constants/constants';
 import {
   ConfigParameterInfo,

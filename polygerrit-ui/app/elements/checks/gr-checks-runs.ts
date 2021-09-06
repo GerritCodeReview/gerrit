@@ -14,10 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {classMap} from 'lit/directives/class-map';
+import {html, nothing} from 'lit-html';
+import {classMap} from 'lit-html/directives/class-map';
 import './gr-hovercard-run';
-import {css, html, nothing, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {
+  css,
+  customElement,
+  property,
+  PropertyValues,
+  query,
+  state,
+} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import './gr-checks-attempt';
 import {Action, Link, RunStatus} from '../../api/checks';

@@ -52,6 +52,10 @@ public abstract class LabelVote {
     checkArgument(!Strings.isNullOrEmpty(text), "Empty label vote");
     int e = text.lastIndexOf('=');
     checkArgument(e >= 0, "Label vote missing '=': %s", text);
+    int tagStart = text.indexOf(":tag:\"");
+    if (tagStart != -1) {
+      text = text.substring(0, tagStart);
+    }
     return create(text.substring(0, e), Short.parseShort(text.substring(e + 1)));
   }
 

@@ -39,7 +39,7 @@ public class UserInPredicate extends ApprovalPredicate {
   public boolean match(ApprovalContext ctx) {
     Account.Id accountId;
     if (field == Field.UPLOADER) {
-      PatchSet patchSet = ctx.changeNotes().getPatchSets().get(ctx.target());
+      PatchSet patchSet = ctx.target();
       accountId = patchSet.uploader();
     } else if (field == Field.APPROVER) {
       accountId = ctx.patchSetApproval().accountId();

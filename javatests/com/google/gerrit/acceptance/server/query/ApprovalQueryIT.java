@@ -269,6 +269,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .key(PatchSetApproval.key(psId, approver, LabelId.create("Code-Review")))
             .value(value)
             .build();
-    return ApprovalContext.create(changeNotes, approval, newPsId, changeKind);
+    return ApprovalContext.create(
+        changeNotes, approval, changeNotes.getPatchSets().get(newPsId), changeKind);
   }
 }

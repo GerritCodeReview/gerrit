@@ -132,6 +132,30 @@
       },
       "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22f6c531_697a545f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-06T16:15:22Z",
+      "side": 1,
+      "message": "This method is used in 2 places which have different args, so that doesn\u0027t work.",
+      "parentUuid": "9bed776a_48c0f847",
+      "range": {
+        "startLine": 1068,
+        "startChar": 36,
+        "endLine": 1068,
+        "endChar": 53
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

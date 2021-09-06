@@ -28,8 +28,12 @@ public abstract class ApprovalContext {
   /** Approval on the source patch set to be copied. */
   public abstract PatchSetApproval patchSetApproval();
 
-  /** Target change and patch set for the approval. */
-  public abstract PatchSet.Id target();
+  /**
+   * Target change and patch set for the approval. This must be used instead of getting the PatchSet
+   * from {@link #changeNotes()} because it is possible we are now creating the patch-set, so it
+   * doesn't exist in changeNotes yet.
+   */
+  public abstract PatchSet target();
 
   /** {@link ChangeNotes} of the change in question. */
   public abstract ChangeNotes changeNotes();
@@ -38,18 +42,18 @@ public abstract class ApprovalContext {
   public abstract ChangeKind changeKind();
 
   public static ApprovalContext create(
-      ChangeNotes changeNotes, PatchSetApproval psa, PatchSet.Id id, ChangeKind changeKind) {
+      ChangeNotes changeNotes, PatchSetApproval psa, PatchSet patchSet, ChangeKind changeKind) {
     checkState(
-        psa.patchSetId().changeId().equals(id.changeId()),
+        psa.patchSetId().changeId().equals(patchSet.id().changeId()),
         "approval and target must be the same change. got: %s, %s",
         psa.patchSetId(),
-        id);
+        patchSet.id());
     // TODO(ekempin): Use checkState to verify that psa.patchSetId().get() + 1 == id.get() so that
     // it's ensured that approvals are only copied to the next consecutive patch set. To add back
     // this verification https://gerrit-review.googlesource.com/c/gerrit/+/312633 can be reverted.
     // As explained in the commit message of this change doing this check is only possible if there
     // are no changes with gaps in patch set numbers. Since it's planned to fix-up old changes with
     // gaps in patch set numbers, this todo is a reminder to add back the check once this is done.
-    return new AutoValue_ApprovalContext(psa, id, changeNotes, changeKind);
+    return new AutoValue_ApprovalContext(psa, patchSet, changeNotes, changeKind);
   }
 }

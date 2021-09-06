@@ -514,6 +514,184 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void copiedApprovals() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putCopiedApproval(
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    c.currentPatchSetId(),
+                    changeOwner.getAccountId(),
+                    LabelId.create(LabelId.CODE_REVIEW)))
+            .value(1)
+            .copied(true)
+            .granted(TimeUtil.nowTs())
+            .tag("tag")
+            .realAccountId(otherUserId)
+            .build());
+    update.putApprovalFor(otherUserId, LabelId.CODE_REVIEW, (short) -1);
+    update.commit();
+
+    // Only the non copied approval is reachable by getApprovals.
+    ChangeNotes notes = newNotes(c);
+    PatchSetApproval approval =
+        Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+    assertThat(approval.accountId()).isEqualTo(otherUser.getAccountId());
+    assertThat(approval.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(approval.value()).isEqualTo((short) -1);
+    assertThat(approval.copied()).isFalse();
+
+    // Get approvals with copied gets all of the approvals (including copied).
+    ImmutableList<PatchSetApproval> approvals =
+        notes.getApprovalsWithCopied().get(c.currentPatchSetId()).stream()
+            .sorted(comparing(a -> a.accountId().get()))
+            .collect(toImmutableList());
+    assertThat(approvals).hasSize(2);
+
+    PatchSetApproval copied = approvals.get(0);
+    assertThat(copied.accountId()).isEqualTo(changeOwner.getAccountId());
+    assertThat(copied.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(copied.value()).isEqualTo((short) 1);
+    assertThat(copied.tag()).hasValue("tag");
+    assertThat(copied.accountId()).isEqualTo(changeOwner.getAccountId());
+    assertThat(copied.realAccountId()).isEqualTo(otherUserId);
+    assertThat(copied.copied()).isTrue();
+
+    PatchSetApproval nonCopied = approvals.get(1);
+    assertThat(nonCopied.accountId()).isEqualTo(otherUserId);
+    assertThat(nonCopied.realAccountId()).isEqualTo(otherUserId);
+    assertThat(nonCopied.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(nonCopied.value()).isEqualTo((short) -1);
+  }
+
+  @Test
+  public void copiedApprovalsCanBeRemoved() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putCopiedApproval(
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    c.currentPatchSetId(),
+                    changeOwner.getAccountId(),
+                    LabelId.create(LabelId.CODE_REVIEW)))
+            .value(1)
+            .copied(true)
+            .granted(TimeUtil.nowTs())
+            .build());
+    update.commit();
+
+    update.removeApproval(LabelId.CODE_REVIEW);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    PatchSetApproval approval =
+        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+    assertThat(approval.accountId()).isEqualTo(changeOwner.getAccountId());
+    assertThat(approval.label()).isEqualTo(LabelId.CODE_REVIEW);
+    // The vote got removed since the latest patch-set only has one vote and it's "0". The copied
+    // approval will never have a "0" vote, but it can be overridden by a "0" vote of a
+    // non-copied approval.
+    assertThat(approval.value()).isEqualTo((short) 0);
+    assertThat(approval.copied()).isFalse();
+  }
+
+  @Test
+  public void copiedApprovalsWithStrangeTags() throws Exception {
+    String strangeTag = "!@#$%^\0&*):\" \n: \r\"#$@,. :";
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putCopiedApproval(
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    c.currentPatchSetId(),
+                    changeOwner.getAccountId(),
+                    LabelId.create(LabelId.CODE_REVIEW)))
+            .value(1)
+            .copied(true)
+            .granted(TimeUtil.nowTs())
+            .tag(strangeTag)
+            .build());
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    PatchSetApproval approval =
+        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+    assertThat(approval.accountId()).isEqualTo(changeOwner.getAccountId());
+    assertThat(approval.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(approval.value()).isEqualTo((short) 1);
+    assertThat(approval.tag()).hasValue(NoteDbUtil.sanitizeFooter(strangeTag));
+    assertThat(approval.copied()).isTrue();
+  }
+
+  @Test
+  public void copiedApprovalsPostSubmit() throws Exception {
+    Change c = newChange();
+    SubmissionId submissionId = new SubmissionId(c);
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putCopiedApproval(
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    c.currentPatchSetId(),
+                    changeOwner.getAccountId(),
+                    LabelId.create(LabelId.CODE_REVIEW)))
+            .value(1)
+            .copied(true)
+            .granted(TimeUtil.nowTs())
+            .build());
+    update.putCopiedApproval(
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    c.currentPatchSetId(),
+                    changeOwner.getAccountId(),
+                    LabelId.create(LabelId.VERIFIED)))
+            .value(1)
+            .copied(true)
+            .granted(TimeUtil.nowTs())
+            .build());
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.merge(
+        submissionId,
+        ImmutableList.of(
+            submitRecord(
+                "NOT_READY",
+                null,
+                submitLabel(LabelId.VERIFIED, "OK", changeOwner.getAccountId()),
+                submitLabel(LabelId.CODE_REVIEW, "NEED", null))));
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.putCopiedApproval(
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    c.currentPatchSetId(),
+                    changeOwner.getAccountId(),
+                    LabelId.create(LabelId.CODE_REVIEW)))
+            .value(2)
+            .copied(true)
+            .granted(TimeUtil.nowTs())
+            .build());
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    List<PatchSetApproval> approvals = Lists.newArrayList(notes.getApprovalsWithCopied().values());
+    assertThat(approvals).hasSize(2);
+    assertThat(approvals.get(0).label()).isEqualTo(LabelId.VERIFIED);
+    assertThat(approvals.get(0).value()).isEqualTo((short) 1);
+    assertThat(approvals.get(0).postSubmit()).isFalse();
+    assertThat(approvals.get(1).label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(approvals.get(1).value()).isEqualTo((short) 2);
+    assertThat(approvals.get(1).postSubmit()).isTrue();
+  }
+
+  @Test
   public void multipleReviewers() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);

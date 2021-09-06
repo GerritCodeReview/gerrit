@@ -153,6 +153,43 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void parseCopiedApproval() throws Exception {
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Copied-Label: Label1=+1 Account <1@gerrit>,Other Account <2@Gerrit>\n"
+            + "Copied-Label: Label2=+1 Account <1@gerrit>\n"
+            + "Copied-Label: Label3=+1 Account <1@gerrit>,Other Account <2@Gerrit> :\"tag\"\n"
+            + "Copied-Label: Label4=+1 Account <1@Gerrit> :\"tag with characters %^#@^( *::!\"\n"
+            + "Subject: This is a test change\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Label: -Label1\n"
+            + "Label: -Label4 Account <1@gerrit>\n"
+            + "Subject: This is a test change\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: Label1=X\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: Label1 = 1\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: X+Y\n");
+    assertParseFails(
+        "Update change\n\nPatch-set: 1\nCopied-Label: Label1 Other Account <2@gerrit>\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: -Label!1\n");
+    assertParseFails(
+        "Update change\n\nPatch-set: 1\nCopied-Label: -Label!1 Other Account <2@gerrit>\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: -Label1\n");
+    assertParseFails(
+        "Update change\n\nPatch-set: 1\nCopied-Label: Label1 Other Account <2@gerrit>,Other "
+            + "Account <2@gerrit>,Other Account <2@gerrit> \n");
+    assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: Label1 non-user\n");
+  }
+
+  @Test
   public void parseSubmitRecords() throws Exception {
     assertParseSucceeds(
         "Update change\n"

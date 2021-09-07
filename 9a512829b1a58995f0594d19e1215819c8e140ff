@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae805ab2_0b98c902",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-07T06:55:40Z",
+      "side": 0,
+      "message": "This has broken hovercard action in the new Checks UI:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d14994\n\nWhy did you just remove it?\n\nPlease add me as a reviewer on anything that touches the checks/ directory.",
+      "revId": "9a512829b1a58995f0594d19e1215819c8e140ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

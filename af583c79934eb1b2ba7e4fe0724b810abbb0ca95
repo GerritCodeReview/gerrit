@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c07f17f3_80adb83b",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-07T11:50:23Z",
+      "side": 1,
+      "message": "It seems error-prone to rely on the callers to tell BatchUpdate for which changes indexing should be skipped (callers may forget this call, or accidentally call it when indexing is actually required).\n\nWhether indexing is required should be deducible from the change updates that are being performed, e.g. ChangeUpdate should be able to check if the updates that it is performing requires the change to be reindexed.\n\nAssuming ChangeUpdate can decide whether a change needs to be reindexed NoteDbUpdateManager should be able to iterate over all ChangeUpdates that are being performed to find out which set of changes needs to be reindexed.\n\nChangeHandle in BatchUpdate could then ask its NoteDbUpdateManager to know for which changes it should trigger reindexing.\n\nThis is just one proposal how this could be implemented without relying on the callers to do the right thing. Likely there are also other solutions.\n\nCan you have a look whether it\u0027s feasible to do something like this?",
+      "revId": "af583c79934eb1b2ba7e4fe0724b810abbb0ca95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

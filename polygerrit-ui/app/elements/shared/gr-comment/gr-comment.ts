@@ -128,6 +128,12 @@ export class GrComment extends base {
    */
 
   /**
+   * Fired when a pending comment is edited.
+   *
+   * @event comment-edit
+   */
+
+  /**
    * Fired when this comment is saved.
    *
    * @event comment-save
@@ -551,6 +557,17 @@ export class GrComment extends base {
     return {comment: this.comment, patchNum: this.patchNum};
   }
 
+  _fireEdit() {
+    if (this.comment) this.commentsService.editDraft(this.comment);
+    this.dispatchEvent(
+      new CustomEvent('comment-edit', {
+        detail: this._getEventPayload(),
+        composed: true,
+        bubbles: true,
+      })
+    );
+  }
+
   _fireSave() {
     if (this.comment) this.commentsService.addDraft(this.comment);
     this.dispatchEvent(
@@ -718,6 +735,7 @@ export class GrComment extends base {
     e.preventDefault();
     if (this.comment?.message) this._messageText = this.comment.message;
     this.editing = true;
+    this._fireEdit();
     this.reporting.recordDraftInteraction();
   }
 

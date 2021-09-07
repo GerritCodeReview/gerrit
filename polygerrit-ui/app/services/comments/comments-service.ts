@@ -23,6 +23,7 @@ import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {
   updateStateAddDraft,
   updateStateDeleteDraft,
+  updateStateEditDraft,
   updateStateComments,
   updateStateRobotComments,
   updateStateDrafts,
@@ -94,6 +95,10 @@ export class CommentsService {
 
   addDraft(draft: DraftInfo) {
     updateStateAddDraft(draft);
+  }
+
+  editDraft(draft: DraftInfo) {
+    updateStateEditDraft(draft);
   }
 
   deleteDraft(draft: DraftInfo) {

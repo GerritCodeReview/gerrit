@@ -3,8 +3,7 @@
 
 == Overview
 
-Starting from 2.15 Gerrit accounts are fully stored in
-link:note-db.html[NoteDb].
+Gerrit accounts are stored in link:note-db.html[NoteDb].
 
 The account data consists of a sequence number (account ID), account
 properties (full name, display name, preferred email, registration

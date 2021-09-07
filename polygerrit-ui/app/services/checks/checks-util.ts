@@ -157,7 +157,6 @@ export function iconFor(catStat: Category | RunStatus) {
 export enum PRIMARY_STATUS_ACTIONS {
   RERUN = 'rerun',
   RUN = 'run',
-  CANCEL = 'cancel',
 }
 
 export function toCanonicalAction(action: Action, status: RunStatus) {
@@ -165,20 +164,17 @@ export function toCanonicalAction(action: Action, status: RunStatus) {
   if (status === RunStatus.COMPLETED && (name === 'run' || name === 're-run')) {
     name = PRIMARY_STATUS_ACTIONS.RERUN;
   }
-  if (status === RunStatus.RUNNING && name === 'stop') {
-    name = PRIMARY_STATUS_ACTIONS.CANCEL;
-  }
   return {...action, name};
 }
 
-export function primaryActionName(status: RunStatus) {
+function primaryActionName(status: RunStatus) {
   switch (status) {
     case RunStatus.COMPLETED:
       return PRIMARY_STATUS_ACTIONS.RERUN;
     case RunStatus.RUNNABLE:
       return PRIMARY_STATUS_ACTIONS.RUN;
     case RunStatus.RUNNING:
-      return PRIMARY_STATUS_ACTIONS.CANCEL;
+      return undefined;
     default:
       assertNever(status, `Unsupported status: ${status}`);
   }

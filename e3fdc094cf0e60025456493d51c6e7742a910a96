@@ -22,6 +22,30 @@
       },
       "revId": "e3fdc094cf0e60025456493d51c6e7742a910a96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b1043c0_71165ab7",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-07T13:54:54Z",
+      "side": 1,
+      "message": "Right, done.",
+      "parentUuid": "aa8f403a_8e7cf7be",
+      "range": {
+        "startLine": 6,
+        "startChar": 20,
+        "endLine": 6,
+        "endChar": 25
+      },
+      "revId": "e3fdc094cf0e60025456493d51c6e7742a910a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

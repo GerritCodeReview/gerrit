@@ -4322,37 +4322,43 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void submitRequirement_storedForClosedChanges() throws Exception {
-    configSubmitRequirement(
-        project,
-        SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
-            .setAllowOverrideInChildProjects(false)
-            .build());
+    for (SubmitType submitType : SubmitType.values()) {
+      Project.NameKey project = createProjectForPush(submitType);
+      TestRepository<InMemoryRepository> repo = cloneProject(project);
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("code-review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:code-review=+2"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
 
-    PushOneCommit.Result r = createChange("Add a file", "foo", "content");
-    String changeId = r.getChangeId();
+      PushOneCommit.Result r =
+          createChange(repo, "master", "Add a file", "foo", "content", "topic");
+      String changeId = r.getChangeId();
 
-    voteLabel(changeId, "code-review", 2);
+      voteLabel(changeId, "code-review", 2);
 
-    ChangeInfo change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
 
-    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
-    revision.review(ReviewInput.approve());
-    revision.submit();
+      RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
 
-    ChangeNotes notes = notesFactory.create(project, r.getChange().getId());
+      ChangeNotes notes = notesFactory.create(project, r.getChange().getId());
 
-    SubmitRequirementResult result =
-        notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
-    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
-    assertThat(result.submittabilityExpressionResult().status())
-        .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
-    assertThat(result.submittabilityExpressionResult().expression().expressionString())
-        .isEqualTo("label:code-review=+2");
+      SubmitRequirementResult result =
+          notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
+      assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+      assertThat(result.submittabilityExpressionResult().status())
+          .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+      assertThat(result.submittabilityExpressionResult().expression().expressionString())
+          .isEqualTo("label:code-review=+2");
+    }
   }
 
   @Test
@@ -5125,5 +5131,16 @@ public class ChangeIT extends AbstractDaemonTest {
             results.stream()
                 .map(r -> String.format("%s=%s", r.name, r.status))
                 .collect(toImmutableList())));
+  }
+
+  private Project.NameKey createProjectForPush(SubmitType submitType) throws Exception {
+    Project.NameKey project = projectOperations.newProject().submitType(submitType).create();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(adminGroupUuid()))
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/*").group(adminGroupUuid()))
+        .update();
+    return project;
   }
 }

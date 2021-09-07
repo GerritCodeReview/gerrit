@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -39,9 +38,8 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws Exception {
-    Change change = ctx.getChange();
-    ChangeData changeData = changeDataFactory.create(change);
-    ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
+    ChangeData changeData = changeDataFactory.create(ctx.getProject(), ctx.getChange().getId());
+    ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
     update.putSubmitRequirementResults(evaluator.evaluateAllRequirements(changeData).values());
     return !changeData.submitRequirements().isEmpty();
   }

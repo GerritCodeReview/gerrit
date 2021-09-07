@@ -128,6 +128,12 @@ export class GrComment extends base {
    */
 
   /**
+   * Fired when a pending comment is edited.
+   *
+   * @event comment-edit
+   */
+
+  /**
    * Fired when this comment is saved.
    *
    * @event comment-save
@@ -551,6 +557,17 @@ export class GrComment extends base {
     return {comment: this.comment, patchNum: this.patchNum};
   }
 
+  _fireEdit() {
+    if (this.comment) this.commentsService.editDraft(this.comment);
+    this.dispatchEvent(
+      new CustomEvent('comment-edit', {
+        detail: this._getEventPayload(),
+        composed: true,
+        bubbles: true,
+      })
+    );
+  }
+
   _fireSave() {
     if (this.comment) this.commentsService.addDraft(this.comment);
     this.dispatchEvent(
@@ -662,7 +679,7 @@ export class GrComment extends base {
   }
 
   _messageTextChanged(_: string, oldValue: string) {
-    if (!this.comment || (this.comment && this.comment.id)) {
+    if (!this.comment) {
       return;
     }
 
@@ -718,6 +735,7 @@ export class GrComment extends base {
     e.preventDefault();
     if (this.comment?.message) this._messageText = this.comment.message;
     this.editing = true;
+    this._fireEdit();
     this.reporting.recordDraftInteraction();
   }
 
@@ -749,8 +767,11 @@ export class GrComment extends base {
       this._fireDiscard();
       return;
     }
-    this._messageText = this.comment.message;
+    this.set('comment.__editing', false);
+    if (this.comment) this.commentsService.cancelDraft(this.comment);
     this.editing = false;
+    // Restore the messageText.
+    this._messageText = this.comment.message;
   }
 
   _fireDiscard() {
@@ -952,7 +973,7 @@ export class GrComment extends base {
 
     // Only apply local drafts to comments that haven't been saved
     // remotely, and haven't been given a default message already.
-    if (!comment || comment.id || comment.message || !comment.path) {
+    if (!comment || !comment.path || !isDraft(comment) || !this.editing) {
       return;
     }
 
@@ -965,7 +986,7 @@ export class GrComment extends base {
     });
 
     if (draft) {
-      this.set('comment.message', draft.message);
+      this._messageText = draft.message || '';
     }
   }
 

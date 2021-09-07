@@ -28,8 +28,9 @@ import {
   errorMessagesLatest$,
   loginCallbackLatest$,
   someProvidersAreLoadingLatest$,
+  topLevelActionsLatest$,
 } from '../../../services/checks/checks-model';
-import {Category, RunStatus} from '../../../api/checks';
+import {Action, Category, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
 import {
@@ -351,6 +352,9 @@ export class GrChangeSummary extends GrLitElement {
   @property()
   loginCallback?: () => void;
 
+  @property()
+  actions: Action[] = [];
+
   private showAllChips = new Map<RunStatus | Category, boolean>();
 
   constructor() {
@@ -360,6 +364,7 @@ export class GrChangeSummary extends GrLitElement {
     this.subscribe('someProvidersAreLoading', someProvidersAreLoadingLatest$);
     this.subscribe('errorMessages', errorMessagesLatest$);
     this.subscribe('loginCallback', loginCallbackLatest$);
+    this.subscribe('actions', topLevelActionsLatest$);
   }
 
   static override get styles() {

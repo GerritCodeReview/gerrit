@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "209cb4af_0894deec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-07T13:20:14Z",
+      "side": 1,
+      "message": "Nice. One could actually argue that this is more correct than storing the submit requirements on the rebase patch set, since the pre last patch set is the patch set for which the submit requirements have been evaluated (I think we do not re-evaluate them on the rebase patch set).\n\nMaybe this could be mentioned here too?",
+      "range": {
+        "startLine": 24,
+        "startChar": 30,
+        "endLine": 29,
+        "endChar": 25
+      },
+      "revId": "f679a3d8535950b6f6dacc3b5967d386e872af5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76755ba7_f7af48e3",
+        "filename": "java/com/google/gerrit/server/notedb/StoreSubmitRequirementsOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-07T13:20:14Z",
+      "side": 1,
+      "message": "Please add a comment here, explaining why we are not using ctx.getChange().",
+      "revId": "f679a3d8535950b6f6dacc3b5967d386e872af5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

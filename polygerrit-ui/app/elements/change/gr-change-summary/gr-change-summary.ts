@@ -584,7 +584,9 @@ export class GrChangeSummary extends GrLitElement {
       .text="${text}"
       @click="${handler}"
       @keydown="${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}"
-      >${links.map(
+    >
+      <gr-hovercard-run .run="${run}"></gr-hovercard-run>
+      ${links.map(
         link => html`
           <a
             href="${link.url}"

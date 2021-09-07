@@ -219,7 +219,10 @@ export const htmlTemplate = html`
     </div>
     <template is="dom-repeat" items="[[computeActions(run)]]">
       <div class="action">
-        <gr-checks-action action="[[item]]"></gr-checks-action>
+        <gr-checks-action
+          event-target="[[_target]]"
+          action="[[item]]"
+        ></gr-checks-action>
       </div>
     </template>
   </div>

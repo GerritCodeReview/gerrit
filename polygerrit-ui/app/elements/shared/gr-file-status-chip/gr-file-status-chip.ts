@@ -19,7 +19,8 @@ import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, customElement, html, property} from 'lit-element';
+import {css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 
 const FileStatus = {
   A: 'Added',

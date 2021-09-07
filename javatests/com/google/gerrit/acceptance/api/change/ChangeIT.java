@@ -182,6 +182,7 @@ import com.google.gerrit.server.patch.IntraLineDiff;
 import com.google.gerrit.server.patch.IntraLineDiffKey;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
@@ -4402,6 +4403,60 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
         change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = SubmitRequirementsEvaluatorImpl.ENABLE_LEGACY_REQUIREMENTS)
+  public void submitRequirements_ReturnForLegacySubmitRecords_IfEnabled() throws Exception {
+    configLabel("build-cop-override", LabelFunction.MAX_WITH_BLOCK);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel("build-cop-override")
+                .ref("refs/heads/master")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    // 1. Project has two legacy requirements: Code-Review and bco. Both unsatisfied.
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "build-cop-override", Status.UNSATISFIED, /* isLegacy= */ true);
+
+    // 2. Vote +1 on bco. bco becomes satisfied
+    voteLabel(changeId, "build-cop-override", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "build-cop-override", Status.SATISFIED, /* isLegacy= */ true);
+
+    // 3. Vote +1 on Code-Review. Code-Review becomes satisfied
+    voteLabel(changeId, "Code-Review", 2);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "build-cop-override", Status.SATISFIED, /* isLegacy= */ true);
+
+    // 4. Merge the change. Submit requirements status is presented from NoteDb.
+    gApi.changes().id(changeId).current().submit();
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "build-cop-override", Status.SATISFIED, /* isLegacy= */ true);
   }
 
   @Test

@@ -16,7 +16,10 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
@@ -24,6 +27,7 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateRes
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.inject.AbstractModule;
@@ -31,13 +35,24 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Evaluates submit requirements for different change data. */
 public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvaluator {
+  @VisibleForTesting
+  public static final String ENABLE_LEGACY_REQUIREMENTS =
+      "GerritBackendRequestFeature__enable_legacy_submit_requirements";
+
   private final Provider<ChangeQueryBuilder> changeQueryBuilderProvider;
   private final ProjectCache projectCache;
+  private final SubmitRuleEvaluator.Factory legacyEvaluator;
+  private final ExperimentFeatures experimentFeatures;
 
   public static Module module() {
     return new AbstractModule() {
@@ -52,9 +67,14 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   @Inject
   private SubmitRequirementsEvaluatorImpl(
-      Provider<ChangeQueryBuilder> changeQueryBuilderProvider, ProjectCache projectCache) {
+      Provider<ChangeQueryBuilder> changeQueryBuilderProvider,
+      ProjectCache projectCache,
+      SubmitRuleEvaluator.Factory legacyEvaluator,
+      ExperimentFeatures experimentFeatures) {
     this.changeQueryBuilderProvider = changeQueryBuilderProvider;
     this.projectCache = projectCache;
+    this.legacyEvaluator = legacyEvaluator;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -65,14 +85,11 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   @Override
   public Map<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(ChangeData cd) {
-    ProjectState state = projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
-    Map<String, SubmitRequirement> requirements = state.getSubmitRequirements();
-    ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> result =
-        ImmutableMap.builderWithExpectedSize(requirements.size());
-    for (SubmitRequirement requirement : requirements.values()) {
-      result.put(requirement, evaluateRequirement(requirement, cd));
+    Map<SubmitRequirement, SubmitRequirementResult> result = getRequirements(cd);
+    if (experimentFeatures.isFeatureEnabled(ENABLE_LEGACY_REQUIREMENTS)) {
+      result.putAll(getLegacyRequirements(cd));
     }
-    return result.build();
+    return ImmutableMap.copyOf(result);
   }
 
   @Override
@@ -111,6 +128,34 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     } catch (QueryParseException e) {
       return SubmitRequirementExpressionResult.error(expression, e.getMessage());
     }
+  }
+
+  /** Evaluate and return submit requirements stored in this project's config and its parents. */
+  private Map<SubmitRequirement, SubmitRequirementResult> getRequirements(ChangeData cd) {
+    ProjectState state = projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
+    Map<String, SubmitRequirement> requirements = state.getSubmitRequirements();
+    Map<SubmitRequirement, SubmitRequirementResult> result = new HashMap<>();
+    for (SubmitRequirement requirement : requirements.values()) {
+      result.put(requirement, evaluateRequirement(requirement, cd));
+    }
+    return result;
+  }
+
+  /**
+   * Convert and return legacy submit records (created by label functions and other {@link
+   * com.google.gerrit.server.rules.SubmitRule}s to submit requirement results.
+   */
+  private Map<SubmitRequirement, SubmitRequirementResult> getLegacyRequirements(ChangeData cd) {
+    // We use SubmitRuleOptions.defaults() which does not recompute submit rules for closed changes.
+    // This doesn't have an effect since we never call this class (i.e. to evaluate submit
+    // requirements) for closed changes.
+    List<SubmitRecord> records = legacyEvaluator.create(SubmitRuleOptions.defaults()).evaluate(cd);
+    List<LabelType> labelTypes = cd.getLabelTypes().getLabelTypes();
+    ObjectId commitId = cd.currentPatchSet().commitId();
+    return records.stream()
+        .map(r -> SubmitRequirementsAdapter.createResult(r, labelTypes, commitId))
+        .flatMap(List::stream)
+        .collect(Collectors.toMap(sr -> sr.submitRequirement(), Function.identity()));
   }
 
   /** Evaluate the predicate recursively using change data. */

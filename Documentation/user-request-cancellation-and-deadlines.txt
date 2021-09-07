@@ -168,6 +168,14 @@ Errors due to aborted requests are usually not counted as internal server errors
 but the [cancellation metrics](metrics.html#cancellations) may be used to setup
 alerting for performance issues.
 
+[NOTE]
+During a request, cancellations can occur at any time. This means for non-atomic
+operations, it can happen that the operation is cancelled after some steps have
+already been successfully performed and before all steps have been executed,
+potentially leaving behind an inconsistent state (same as when a request fails
+due to an error). However for important steps, such a NoteDb updates that span
+multiple repositories, Gerrit ensures that they are not torn by cancellations.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

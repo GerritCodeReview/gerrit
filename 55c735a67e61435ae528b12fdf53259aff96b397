@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ce32d8f_3bcd3dc5",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-09-07T12:05:49Z",
+      "side": 1,
+      "message": "Could you add a test for this?",
+      "revId": "55c735a67e61435ae528b12fdf53259aff96b397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

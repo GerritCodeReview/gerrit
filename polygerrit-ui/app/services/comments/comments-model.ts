@@ -165,6 +165,28 @@ export function updateStateAddDraft(draft: DraftInfo) {
   privateState$.next(nextState);
 }
 
+export function updateStateEditDraft(draft: DraftInfo) {
+  const nextState = {...privateState$.getValue()};
+  if (!draft.path) throw new Error('draft path undefined');
+  nextState.drafts = {...nextState.drafts};
+  const drafts = nextState.drafts;
+  if (!drafts[draft.path])
+    throw new Error('draft: trying to edit non-existent draft');
+  drafts[draft.path] = [...drafts[draft.path]];
+  const index = drafts[draft.path].findIndex(
+    d =>
+      (d.__draftID && d.__draftID === draft.__draftID) ||
+      (d.id && d.id === draft.id)
+  );
+  if (index !== -1) {
+    drafts[draft.path][index] = draft;
+  } else {
+    throw new Error('draft: trying to edit non-existent draft');
+  }
+  privateState$.next(nextState);
+}
+
+
 export function updateStateDeleteDraft(draft: DraftInfo) {
   const nextState = {...privateState$.getValue()};
   if (!draft.path) throw new Error('draft path undefined');

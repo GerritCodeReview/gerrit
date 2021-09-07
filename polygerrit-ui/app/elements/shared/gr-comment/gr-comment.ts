@@ -733,6 +733,11 @@ export class GrComment extends base {
 
   _handleEdit(e: Event) {
     e.preventDefault();
+    // Ignore cancels while already saving.
+    if (this.disabled) {
+      return;
+    }
+    if (!isDraft(this.comment)) return;
     if (this.comment?.message) this._messageText = this.comment.message;
     this.editing = true;
     this._fireEdit();
@@ -973,7 +978,7 @@ export class GrComment extends base {
 
     // Only apply local drafts to comments that are drafts and are currently
     // being edited.
-    if (!comment || !comment.path || !isDraft(comment) || !this.editing) {
+    if (!comment || !comment.path || !isDraft(comment) || !comment.__editing) {
       return;
     }
 

@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableSet;
 
 /** Constants for Gerrit {@link ExperimentFeatures} */
 public class ExperimentFeaturesConstants {
-
   /** Features that are known experiments and can be referenced in the code. */
   public static String UI_FEATURE_PATCHSET_COMMENTS = "UiFeature__patchset_comments";
 
@@ -31,6 +30,14 @@ public class ExperimentFeaturesConstants {
    */
   public static final String GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_PUSH_CANCELLATION =
       "GerritBackendRequestFeature__enable_push_cencallation";
+
+  /**
+   * Allow legacy {@link com.google.gerrit.entities.SubmitRecord}s to be converted and returned as
+   * submit requirements by the {@link
+   * com.google.gerrit.server.project.SubmitRequirementsEvaluator}.
+   */
+  public static final String GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_REQUIREMENTS =
+      "GerritBackendRequestFeature__enable_legacy_submit_requirements";
 
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES =

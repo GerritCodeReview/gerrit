@@ -81,6 +81,7 @@ import {
   valueString,
 } from '../../utils/label-util';
 import {GerritNav} from '../core/gr-navigation/gr-navigation';
+import {DropdownLink} from '../shared/gr-dropdown/gr-dropdown';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
@@ -1011,11 +1012,7 @@ export class GrChecksResults extends GrLitElement {
         </div>
         <div class="headerBottomRow">
           <div class="left">${this.renderFilter()}</div>
-          <div class="right">
-            ${this.renderLinks()}
-            <div class="space"></div>
-            ${this.renderActions()}
-          </div>
+          <div class="right">${this.renderLinksAndActions()}</div>
         </div>
       </div>
       <div class="body">
@@ -1026,9 +1023,8 @@ export class GrChecksResults extends GrLitElement {
       </div>`;
   }
 
-  private renderLinks() {
+  private renderLinksAndActions() {
     const links = this.links ?? [];
-    if (links.length === 0) return;
     const primaryLinks = links
       .filter(a => a.primary)
       // Showing the same icons twice without text is super confusing.
@@ -1038,14 +1034,7 @@ export class GrChecksResults extends GrLitElement {
       )
       .slice(0, 4);
     const overflowLinks = links.filter(a => !primaryLinks.includes(a));
-    return html`
-      ${primaryLinks.map(this.renderLink)}
-      ${this.renderOverflowLinks(overflowLinks)}
-    `;
-  }
-
-  private renderOverflowLinks(overflowLinks: Link[]) {
-    const items = overflowLinks.map(link => {
+    const overflowLinkItems = overflowLinks.map(link => {
       return {
         ...link,
         id: link.tooltip,
@@ -1054,18 +1043,27 @@ export class GrChecksResults extends GrLitElement {
         tooltip: undefined,
       };
     });
+
+    const actions = this.actions ?? [];
+    const primaryActions = actions.filter(a => a.primary).slice(0, 2);
+    const overflowActions = actions.filter(a => !primaryActions.includes(a));
+    const overflowActionItems = overflowActions.map(action => {
+      return {...action, id: action.name};
+    });
+    const disabledActions = overflowActionItems
+      .filter(action => action.disabled)
+      .map(action => action.id);
+
     return html`
-      <gr-dropdown
-        id="moreLinks"
-        link=""
-        vertical-offset="32"
-        horizontal-align="right"
-        .items="${items}"
-      >
-        <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
-        </iron-icon>
-        <span id="moreMessage">More</span>
-      </gr-dropdown>
+      ${primaryLinks.map(this.renderLink)}
+      ${primaryLinks.length > 0 && primaryActions.length > 0
+        ? html`<div class="space"></div>`
+        : ''}
+      ${primaryActions.map(this.renderAction)}
+      ${this.renderOverflow(
+        [...overflowLinkItems, ...overflowActionItems],
+        disabledActions
+      )}
     `;
   }
 
@@ -1082,26 +1080,8 @@ export class GrChecksResults extends GrLitElement {
     >`;
   }
 
-  private renderActions() {
-    const actions = this.actions ?? [];
-    if (actions.length === 0) return;
-    const primaryActions = actions.filter(a => a.primary).slice(0, 2);
-    const overflowActions = actions.filter(a => !primaryActions.includes(a));
-    return html`
-      ${this.renderAction(primaryActions[0])}
-      ${this.renderAction(primaryActions[1])}
-      ${this.renderOverflowActions(overflowActions)}
-    `;
-  }
-
-  private renderOverflowActions(overflowActions: Action[]) {
-    const items = overflowActions.map(action => {
-      return {...action, id: action.name};
-    });
-    if (!items || items.length === 0) return;
-    const disabledItems = items
-      .filter(action => action.disabled)
-      .map(action => action.id);
+  private renderOverflow(items: DropdownLink[], disabledIds: string[] = []) {
+    if (items.length === 0) return;
     return html`
       <gr-dropdown
         id="moreActions"
@@ -1110,7 +1090,7 @@ export class GrChecksResults extends GrLitElement {
         horizontal-align="right"
         @tap-item="${this.handleAction}"
         .items="${items}"
-        .disabledIds="${disabledItems}"
+        .disabledIds="${disabledIds}"
       >
         <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
         </iron-icon>
@@ -1120,6 +1100,8 @@ export class GrChecksResults extends GrLitElement {
   }
 
   private handleAction(e: CustomEvent<Action>) {
+    const action = e.detail;
+    if (!action.callback) return;
     fireActionTriggered(this, e.detail);
   }
 

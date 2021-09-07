@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -39,9 +38,18 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws Exception {
-    Change change = ctx.getChange();
-    ChangeData changeData = changeDataFactory.create(change);
-    ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
+    // Create ChangeData using the project/change IDs instead of ctx.getChange(). We do that because
+    // for changes requiring a rebase before submission (e.g. if submit type = RebaseAlways), the
+    // RebaseOp inserts a new patchset that is visible here (via Change#getCurrentPatchset). If we
+    // then try to get ChangeData#currentPatchset it will return null, since it loads patchsets from
+    // NoteDb but tries to find the patchset with the ID of the one just inserted by the rebase op.
+    // Note that this implementation means that, in this case, submit requirement results will be
+    // stored in change notes of the pre last patchset commit. This is fine since submit requirement
+    // results should evaluate to the exact same results for both commits. Additionally, the
+    // pre-last commit is the one for which we displayed the submit requirement results of the last
+    // patchset to the user before it was merged.
+    ChangeData changeData = changeDataFactory.create(ctx.getProject(), ctx.getChange().getId());
+    ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
     update.putSubmitRequirementResults(evaluator.evaluateAllRequirements(changeData).values());
     return !changeData.submitRequirements().isEmpty();
   }

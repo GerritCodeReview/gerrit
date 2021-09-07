@@ -16,6 +16,24 @@
       "message": "There is no plugin known that uses this, so I would prefer to rather remove it from GrPluginRestApi. The Checks plugin was using it at some point, but not anymore.",
       "revId": "1319cf3442e3f8d05982ad23eeb49a4125e3c035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba2097e4_e7c6ae40",
+        "filename": "polygerrit-ui/app/api/rest.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-07T10:12:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "854e8628_46024ba2",
+      "revId": "1319cf3442e3f8d05982ad23eeb49a4125e3c035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

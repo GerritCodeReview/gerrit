@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e2faee6_6c1e57f1",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-09-07T07:54:17Z",
+      "side": 1,
+      "message": "maybe shorter GIT_COMMAND_STATUS_HEADER \u003d \"X-git-command-status\" ?\nI think it\u0027s obvious that a git-command-status returned in an HTTP header is referring to HTTP transport",
+      "range": {
+        "startLine": 111,
+        "startChar": 68,
+        "endLine": 111,
+        "endChar": 98
+      },
+      "revId": "159cc31200de9ca95d9afe271132ec55c6d7e61e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

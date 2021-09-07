@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99b03e89_3bb5bc2b",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-07T21:24:57Z",
+      "side": 1,
+      "message": "Gating this with a config is a good idea IMO for safer rollouts. Once enabled on a host, ChangeInfo#submit_requirements will contain results for all legacy submit records. We can then incrementally substitute label functions or prolog rules with explicit submit requirements in project.config.\n\nTODO:\n* Agree on the config name (hint to the reviewer).\n* Add config name to the documentation.",
+      "range": {
+        "startLine": 74,
+        "startChar": 33,
+        "endLine": 74,
+        "endChar": 52
+      },
+      "revId": "4e0b54c379fc3be575aa1fc982941668100c04a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

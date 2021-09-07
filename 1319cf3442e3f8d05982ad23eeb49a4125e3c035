@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "854e8628_46024ba2",
+        "filename": "polygerrit-ui/app/api/rest.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-07T07:30:42Z",
+      "side": 1,
+      "message": "There is no plugin known that uses this, so I would prefer to rather remove it from GrPluginRestApi. The Checks plugin was using it at some point, but not anymore.",
+      "revId": "1319cf3442e3f8d05982ad23eeb49a4125e3c035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

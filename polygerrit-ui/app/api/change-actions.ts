@@ -72,6 +72,9 @@ export enum RevisionActions {
 export type PrimaryActionKey = ChangeActions | RevisionActions;
 
 export declare interface ChangeActionsPluginApi {
+  // Deprecated. This API method will be removed.
+  ensureEl(): Element;
+
   addPrimaryActionKey(key: PrimaryActionKey): void;
 
   removePrimaryActionKey(key: string): void;

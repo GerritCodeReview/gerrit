@@ -90,7 +90,7 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
    * Ensure GrChangeActionsInterface instance has access to gr-change-actions
    * element and retrieve if the interface was created before element.
    */
-  private ensureEl(): GrChangeActionsElement {
+  ensureEl(): GrChangeActionsElement {
     if (!this.el) {
       const sharedApiElement = appContext.jsApiService;
       this.setEl(

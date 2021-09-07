@@ -22,6 +22,30 @@
       },
       "revId": "159cc31200de9ca95d9afe271132ec55c6d7e61e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "408c32fe_f664f946",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-07T13:03:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e2faee6_6c1e57f1",
+      "range": {
+        "startLine": 111,
+        "startChar": 68,
+        "endLine": 111,
+        "endChar": 98
+      },
+      "revId": "159cc31200de9ca95d9afe271132ec55c6d7e61e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

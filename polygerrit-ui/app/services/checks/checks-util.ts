@@ -274,21 +274,6 @@ declare global {
   }
 }
 
-export function fireActionTriggered(
-  target: EventTarget,
-  action?: Action,
-  run?: CheckRun
-) {
-  if (!action) return;
-  target.dispatchEvent(
-    new CustomEvent('action-triggered', {
-      detail: {action, run},
-      composed: true,
-      bubbles: true,
-    })
-  );
-}
-
 export interface AttemptDetail {
   attempt: number | undefined;
   icon: string;

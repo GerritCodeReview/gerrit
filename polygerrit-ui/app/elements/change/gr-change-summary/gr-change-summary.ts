@@ -28,8 +28,9 @@ import {
   errorMessagesLatest$,
   loginCallbackLatest$,
   someProvidersAreLoadingLatest$,
+  topLevelActionsLatest$,
 } from '../../../services/checks/checks-model';
-import {Category, RunStatus} from '../../../api/checks';
+import {Action, Category, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
 import {
@@ -61,6 +62,7 @@ import {PrimaryTab} from '../../../constants/constants';
 import {ChecksTabState, CommentTabState} from '../../../types/events';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {modifierPressed} from '../../../utils/dom-util';
+import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -351,7 +353,12 @@ export class GrChangeSummary extends GrLitElement {
   @property()
   loginCallback?: () => void;
 
+  @property()
+  actions: Action[] = [];
+
   private showAllChips = new Map<RunStatus | Category, boolean>();
+
+  private checksService = appContext.checksService;
 
   constructor() {
     super();
@@ -360,6 +367,7 @@ export class GrChangeSummary extends GrLitElement {
     this.subscribe('someProvidersAreLoading', someProvidersAreLoadingLatest$);
     this.subscribe('errorMessages', errorMessagesLatest$);
     this.subscribe('loginCallback', loginCallbackLatest$);
+    this.subscribe('actions', topLevelActionsLatest$);
   }
 
   static override get styles() {
@@ -448,8 +456,70 @@ export class GrChangeSummary extends GrLitElement {
           /* Making up for the 2px reduced height above. */
           top: 1px;
         }
+        .actions {
+          margin-left: calc(0px - var(--spacing-m));
+          line-height: var(--line-height-normal);
+        }
+        .actions gr-checks-action,
+        .actions gr-dropdown {
+          vertical-align: top;
+          --padding: 0 var(--spacing-m);
+        }
+        .actions #moreMessage {
+          display: none;
+        }
       `,
     ];
+  }
+
+  private renderActions() {
+    const actions = this.actions ?? [];
+    const summaryActions = actions.filter(a => a.summary).slice(0, 2);
+    if (summaryActions.length === 0) return;
+    const topActions = summaryActions.slice(0, 2);
+    const overflowActions = summaryActions.slice(2).map(action => {
+      return {...action, id: action.name};
+    });
+    const disabledActionIds = overflowActions
+      .filter(action => action.disabled)
+      .map(action => action.id);
+
+    return html`
+      <div class="actions">
+        ${topActions.map(this.renderAction)}
+        ${this.renderOverflow(overflowActions, disabledActionIds)}
+      </div>
+    `;
+  }
+
+  private renderAction(action?: Action) {
+    if (!action) return;
+    return html`<gr-checks-action .action="${action}"></gr-checks-action>`;
+  }
+
+  private handleAction(e: CustomEvent<Action>) {
+    const action = e.detail;
+    if (!action.callback) return;
+    this.checksService.triggerAction(e.detail);
+  }
+
+  private renderOverflow(items: DropdownLink[], disabledIds: string[] = []) {
+    if (items.length === 0) return;
+    return html`
+      <gr-dropdown
+        id="moreActions"
+        link=""
+        vertical-offset="32"
+        horizontal-align="right"
+        @tap-item="${this.handleAction}"
+        .items="${items}"
+        .disabledIds="${disabledIds}"
+      >
+        <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
+        </iron-icon>
+        <span id="moreMessage">More</span>
+      </gr-dropdown>
+    `;
   }
 
   renderErrorMessages() {
@@ -653,7 +723,7 @@ export class GrChangeSummary extends GrLitElement {
                   class="loadingSpin"
                   ?hidden="${!this.someProvidersAreLoading}"
                 ></span>
-                ${this.renderErrorMessages()}${this.renderChecksLogin()}
+                ${this.renderErrorMessages()}${this.renderChecksLogin()}${this.renderActions()}
               </div>
             </td>
           </tr>

@@ -19,7 +19,7 @@ import {customElement, property} from 'lit/decorators';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {Action} from '../../api/checks';
 import {checkRequiredProperty} from '../../utils/common-util';
-import {fireActionTriggered} from '../../services/checks/checks-util';
+import {appContext} from '../../services/app-context';
 
 @customElement('gr-checks-action')
 export class GrChecksAction extends GrLitElement {
@@ -28,6 +28,8 @@ export class GrChecksAction extends GrLitElement {
 
   @property()
   eventTarget?: EventTarget;
+
+  private checksService = appContext.checksService;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -82,7 +84,7 @@ export class GrChecksAction extends GrLitElement {
 
   handleClick(e: Event) {
     e.stopPropagation();
-    fireActionTriggered(this.eventTarget ?? this, this.action);
+    this.checksService.triggerAction(this.action);
   }
 }
 

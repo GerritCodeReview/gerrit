@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import '../test/common-test-setup-karma';
-import {deepEqualStringDict} from './compare-util';
+import {deepEqualStringDict, equalArray} from './compare-util';
 
 suite('compare-utils tests', () => {
   test('deepEqual', () => {
@@ -26,5 +26,18 @@ suite('compare-utils tests', () => {
     assert.isFalse(deepEqualStringDict({}, {x: 'y'}));
     assert.isFalse(deepEqualStringDict({x: 'y'}, {x: 'z'}));
     assert.isFalse(deepEqualStringDict({x: 'y'}, {z: 'y'}));
+  });
+
+  test('equalArray', () => {
+    assert.isTrue(equalArray(undefined, undefined));
+    assert.isTrue(equalArray([], []));
+    assert.isTrue(equalArray([1], [1]));
+    assert.isTrue(equalArray(['a', 'b'], ['a', 'b']));
+
+    assert.isFalse(equalArray(undefined, []));
+    assert.isFalse(equalArray([], undefined));
+    assert.isFalse(equalArray([], [1]));
+    assert.isFalse(equalArray([1], [2]));
+    assert.isFalse(equalArray([1, 2], [1]));
   });
 });

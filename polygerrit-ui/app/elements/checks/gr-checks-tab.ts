@@ -32,10 +32,7 @@ import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {ActionTriggeredEvent} from '../../services/checks/checks-util';
 import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
-import {fireAlert, fireEvent} from '../../utils/event-util';
 import {appContext} from '../../services/app-context';
-import {from, timer} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -139,35 +136,7 @@ export class GrChecksTab extends GrLitElement {
   }
 
   handleActionTriggered(action: Action, run?: CheckRun) {
-    if (!this.changeNum) return;
-    const patchSet = this.checksPatchsetNumber ?? this.latestPatchsetNumber;
-    if (!patchSet) return;
-    const promise = action.callback(
-      this.changeNum,
-      patchSet,
-      run?.attempt,
-      run?.externalId,
-      run?.checkName,
-      action.name
-    );
-    // If plugins return undefined or not a promise, then show no toast.
-    if (!promise?.then) return;
-
-    fireAlert(this, `Triggering action '${action.name}' ...`);
-    from(promise)
-      // If the action takes longer than 5 seconds, then most likely the
-      // user is either not interested or the result not relevant anymore.
-      .pipe(takeUntil(timer(5000)))
-      .subscribe(result => {
-        if (result.errorMessage || result.message) {
-          fireAlert(this, `${result.message ?? result.errorMessage}`);
-        } else {
-          fireEvent(this, 'hide-alert');
-        }
-        if (result.shouldReload) {
-          this.checksService.reloadForCheck(run?.checkName);
-        }
-      });
+    this.checksService.triggerAction(action, run);
   }
 
   handleRunSelected(e: RunSelectedEvent) {

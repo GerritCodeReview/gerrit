@@ -249,6 +249,12 @@ export declare interface Action {
    */
   primary?: boolean;
   /**
+   * Summary actions will get an even more prominent treatment in the UI. They
+   * will show up in the checks summary right below the commit message. This
+   * only affects top-level actions (i.e. actions in FetchResponse).
+   */
+  summary?: boolean;
+  /**
    * Renders the action button in a disabled state. That can be useful for
    * actions that are present most of the time, but sometimes don't apply. Then
    * a grayed out button with a tooltip makes it easier for the user to

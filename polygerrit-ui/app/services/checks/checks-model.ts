@@ -30,7 +30,7 @@ import {distinctUntilChanged, map} from 'rxjs/operators';
 import {PatchSetNumber} from '../../types/common';
 import {AttemptDetail, createAttemptMap} from './checks-util';
 import {assertIsDefined} from '../../utils/common-util';
-import {deepEqualStringDict} from '../../utils/compare-util';
+import {deepEqualStringDict, equalArray} from '../../utils/compare-util';
 
 /**
  * The checks model maintains the state of checks for two patchsets: the latest
@@ -212,6 +212,19 @@ export const loginCallbackLatest$ = checksLatest$.pipe(
   distinctUntilChanged()
 );
 
+export const topLevelActionsLatest$ = checksLatest$.pipe(
+  map(state =>
+    Object.values(state).reduce(
+      (allActions: Action[], providerState: ChecksProviderState) => [
+        ...allActions,
+        ...providerState.actions,
+      ],
+      []
+    )
+  ),
+  distinctUntilChanged<Action[]>(equalArray)
+);
+
 export const topLevelActionsSelected$ = checksSelected$.pipe(
   map(state =>
     Object.values(state).reduce(
@@ -221,19 +234,21 @@ export const topLevelActionsSelected$ = checksSelected$.pipe(
       ],
       []
     )
-  )
+  ),
+  distinctUntilChanged<Action[]>(equalArray)
 );
 
 export const topLevelLinksSelected$ = checksSelected$.pipe(
   map(state =>
     Object.values(state).reduce(
-      (allActions: Link[], providerState: ChecksProviderState) => [
-        ...allActions,
+      (allLinks: Link[], providerState: ChecksProviderState) => [
+        ...allLinks,
         ...providerState.links,
       ],
       []
     )
-  )
+  ),
+  distinctUntilChanged<Link[]>(equalArray)
 );
 
 export const allRunsLatestPatchset$ = checksLatest$.pipe(
@@ -245,7 +260,8 @@ export const allRunsLatestPatchset$ = checksLatest$.pipe(
       ],
       []
     )
-  )
+  ),
+  distinctUntilChanged<CheckRun[]>(equalArray)
 );
 
 export const allRunsSelectedPatchset$ = checksSelected$.pipe(
@@ -257,7 +273,8 @@ export const allRunsSelectedPatchset$ = checksSelected$.pipe(
       ],
       []
     )
-  )
+  ),
+  distinctUntilChanged<CheckRun[]>(equalArray)
 );
 
 export const allRunsLatestPatchsetLatestAttempt$ = allRunsLatestPatchset$.pipe(
@@ -319,7 +336,7 @@ export function updateStateSetProvider(
 export const fakeRun0: CheckRun = {
   pluginName: 'f0',
   internalRunId: 'f0',
-  checkName: 'FAKE Error Finder',
+  checkName: 'FAKE Error Finder Finder Finder',
   labelName: 'Presubmit',
   isSingleAttempt: true,
   isLatestAttempt: true,
@@ -653,6 +670,7 @@ export const fakeActions: Action[] = [
   },
   {
     name: 'Fake Action 3',
+    summary: true,
     primary: false,
     tooltip: 'Tooltip for Fake Action 3',
     callback: () => Promise.resolve({message: 'fake action 3 triggered'}),

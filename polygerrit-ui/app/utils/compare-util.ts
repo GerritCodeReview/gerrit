@@ -26,3 +26,14 @@ export function deepEqualStringDict(
   }
   return true;
 }
+
+export function equalArray(a?: unknown[], b?: unknown[]): boolean {
+  if (a === b) return true;
+  if (a === undefined) return b === undefined;
+  if (b === undefined) return a === undefined;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}

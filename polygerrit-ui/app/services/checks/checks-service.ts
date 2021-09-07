@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {
   catchError,
   filter,
   switchMap,
+  takeUntil,
   takeWhile,
   throttleTime,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
+  Action,
   ChangeData,
   CheckResult,
   CheckRun,
@@ -54,13 +55,14 @@ import {
   Subject,
   timer,
 } from 'rxjs';
-import {ChangeInfo, PatchSetNumber} from '../../types/common';
+import {ChangeInfo, NumericChangeId, PatchSetNumber} from '../../types/common';
 import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {routerPatchNum$} from '../router/router-model';
 import {Execution} from '../../constants/reporting';
+import {fireAlert, fireEvent} from '../../utils/event-util';
 
 export class ChecksService {
   private readonly providers: {[name: string]: ChecksProvider} = {};
@@ -69,11 +71,14 @@ export class ChecksService {
 
   private checkToPluginMap = new Map<string, string>();
 
+  private changeNum?: NumericChangeId;
+
   private latestPatchNum?: PatchSetNumber;
 
   private readonly documentVisibilityChange$ = new BehaviorSubject(undefined);
 
   constructor(readonly reporting: ReportingService) {
+    changeNum$.subscribe(x => (this.changeNum = x));
     checkToPluginMap$.subscribe(map => {
       this.checkToPluginMap = map;
     });
@@ -118,6 +123,39 @@ export class ChecksService {
   updateResult(pluginName: string, run: CheckRun, result: CheckResult) {
     updateStateUpdateResult(pluginName, run, result, ChecksPatchset.LATEST);
     updateStateUpdateResult(pluginName, run, result, ChecksPatchset.SELECTED);
+  }
+
+  triggerAction(action?: Action, run?: CheckRun) {
+    if (!action?.callback) return;
+    if (!this.changeNum) return;
+    const patchSet = run?.patchset ?? this.latestPatchNum;
+    if (!patchSet) return;
+    const promise = action.callback(
+      this.changeNum,
+      patchSet,
+      run?.attempt,
+      run?.externalId,
+      run?.checkName,
+      action.name
+    );
+    // If plugins return undefined or not a promise, then show no toast.
+    if (!promise?.then) return;
+
+    fireAlert(document, `Triggering action '${action.name}' ...`);
+    from(promise)
+      // If the action takes longer than 5 seconds, then most likely the
+      // user is either not interested or the result not relevant anymore.
+      .pipe(takeUntil(timer(5000)))
+      .subscribe(result => {
+        if (result.errorMessage || result.message) {
+          fireAlert(document, `${result.message ?? result.errorMessage}`);
+        } else {
+          fireEvent(document, 'hide-alert');
+        }
+        if (result.shouldReload) {
+          this.reloadForCheck(run?.checkName);
+        }
+      });
   }
 
   register(

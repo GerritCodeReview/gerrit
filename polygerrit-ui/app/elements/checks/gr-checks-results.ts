@@ -41,7 +41,6 @@ import {
 } from '../../services/checks/checks-model';
 import {
   allResults,
-  fireActionTriggered,
   firstPrimaryLink,
   hasCompletedWithoutResults,
   iconFor,
@@ -94,6 +93,8 @@ class GrResultRow extends GrLitElement {
 
   @property()
   labels?: LabelNameToInfoMap;
+
+  private checksService = appContext.checksService;
 
   constructor() {
     super();
@@ -494,7 +495,7 @@ class GrResultRow extends GrLitElement {
   }
 
   private handleAction(e: CustomEvent<Action>) {
-    fireActionTriggered(this, e.detail);
+    this.checksService.triggerAction(e.detail);
   }
 
   private renderAction(action?: Action) {
@@ -1092,9 +1093,7 @@ export class GrChecksResults extends GrLitElement {
   }
 
   private handleAction(e: CustomEvent<Action>) {
-    const action = e.detail;
-    if (!action.callback) return;
-    fireActionTriggered(this, e.detail);
+    this.checksService.triggerAction(e.detail);
   }
 
   private renderAction(action?: Action) {

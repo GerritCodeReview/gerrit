@@ -23,6 +23,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_PATTERN;
 import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_REGEX;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -127,7 +128,7 @@ public class CommitRewriter {
      * Refs that were fixed by the run/ would be fixed if in --dry-run, together with their commit
      * history diff. Diff is empty if --output-diff is false.
      */
-    public Map<String, List<String>> fixedRefDiff = new HashMap<>();
+    public Map<String, List<CommitDiff>> fixedRefDiff = new HashMap<>();
 
     /**
      * Refs that still contain user data after the backfill run. Only filled if --verify-commits,
@@ -137,6 +138,20 @@ public class CommitRewriter {
 
     /** Refs, failed to backfill by the run. */
     public List<String> refsFailedToFix = new ArrayList<>();
+  }
+
+  /** Diff result of a single commit rewrite */
+  @AutoValue
+  public abstract static class CommitDiff {
+    public static CommitDiff create(ObjectId oldSha1, String commitDiff) {
+      return new AutoValue_CommitRewriter_CommitDiff(oldSha1, commitDiff);
+    }
+
+    /** SHA1 of the overwritten commit */
+    public abstract ObjectId oldSha1();
+
+    /** Diff applied to the commit with {@link #oldSha1} */
+    public abstract String diff();
   }
 
   public static final String DEFAULT_ACCOUNT_REPLACEMENT = "Gerrit Account";
@@ -435,7 +450,7 @@ public class CommitRewriter {
             "Expected diff for commit %s of ref %s",
             originalCommit.getId(),
             ref.getName());
-        changeFixProgress.commitDiffs.add(diff);
+        changeFixProgress.commitDiffs.add(CommitDiff.create(originalCommit.getId(), diff));
       }
     }
     return changeFixProgress;
@@ -1088,6 +1103,6 @@ public class CommitRewriter {
      */
     boolean isValidAfterFix = true;
 
-    List<String> commitDiffs = new ArrayList<>();
+    List<CommitDiff> commitDiffs = new ArrayList<>();
   }
 }

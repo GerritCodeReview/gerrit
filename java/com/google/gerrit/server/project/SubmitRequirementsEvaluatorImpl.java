@@ -91,6 +91,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
             : Optional.empty();
 
     return SubmitRequirementResult.builder()
+        .legacy(false)
         .submitRequirement(sr)
         .patchSetCommitId(cd.currentPatchSet().commitId())
         .submittabilityExpressionResult(blockingResult)

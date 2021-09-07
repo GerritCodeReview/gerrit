@@ -41,6 +41,12 @@ public abstract class SubmitRequirementResult {
   /** SHA-1 of the patchset commit ID for which the submit requirement was evaluated. */
   public abstract ObjectId patchSetCommitId();
 
+  /**
+   * Whether this result was created from a legacy {@link SubmitRecord}, or by evaluating a {@link
+   * SubmitRequirement}.
+   */
+  public abstract boolean legacy();
+
   @Memoized
   public Status status() {
     if (assertError(submittabilityExpressionResult())
@@ -108,6 +114,8 @@ public abstract class SubmitRequirementResult {
         Optional<SubmitRequirementExpressionResult> value);
 
     public abstract Builder patchSetCommitId(ObjectId value);
+
+    public abstract Builder legacy(boolean value);
 
     public abstract SubmitRequirementResult build();
   }

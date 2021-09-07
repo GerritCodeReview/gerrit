@@ -684,6 +684,7 @@ public class ChangeNotesStateTest {
             .submitRequirementsResult(
                 ImmutableList.of(
                     SubmitRequirementResult.builder()
+                        .legacy(true)
                         .patchSetCommitId(
                             ObjectId.fromString("26e50c7d315a33a13e5cc00902781fa876bc36cd"))
                         .submitRequirement(
@@ -713,6 +714,7 @@ public class ChangeNotesStateTest {
         newProtoBuilder()
             .addSubmitRequirementResult(
                 SubmitRequirementResultProto.newBuilder()
+                    .setLegacy(true)
                     .setCommit(
                         ObjectIdConverter.create()
                             .toByteString(

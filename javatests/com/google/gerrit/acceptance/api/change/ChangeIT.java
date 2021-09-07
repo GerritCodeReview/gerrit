@@ -4047,12 +4047,14 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "code-review", 2);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4072,19 +4074,22 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     // Requirement is satisfied because there are no votes
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "code-review", -1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     // Requirement is still satisfied because -1 is not the max negative value
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "code-review", -2);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     // Requirement is now unsatisfied because -2 is the max negative value
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4103,12 +4108,14 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "code-review", 1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4134,15 +4141,19 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(2);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
-    assertSubmitRequirementStatus(change.submitRequirements, "verified", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "verified", Status.UNSATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "code-review", 2);
 
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(2);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
-    assertSubmitRequirementStatus(change.submitRequirements, "verified", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "verified", Status.UNSATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4162,7 +4173,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.NOT_APPLICABLE);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.NOT_APPLICABLE, /* isLegacy= */ false);
   }
 
   @Test
@@ -4191,13 +4203,15 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "build-cop-override", 1);
 
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.OVERRIDDEN);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.OVERRIDDEN, /* isLegacy= */ false);
   }
 
   @Test
@@ -4226,17 +4240,20 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "code-review", 1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "code-review", 2);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4254,12 +4271,14 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "code-review", 1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4289,13 +4308,15 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "code-review", 1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     // +1 was enough to fulfill the requirement: override in child project was ignored
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4315,7 +4336,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
 
     RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
     revision.review(ReviewInput.approve());
@@ -4347,13 +4369,15 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "code-review", 2);
 
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
 
     gApi.changes().id(changeId).current().submit();
 
@@ -4369,7 +4393,8 @@ public class ChangeIT extends AbstractDaemonTest {
     // The new "verified" submit requirement is not returned, since this change is closed
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
-    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4396,7 +4421,10 @@ public class ChangeIT extends AbstractDaemonTest {
             .get();
     assertThat(changeInfos).hasSize(1);
     assertSubmitRequirementStatus(
-        changeInfos.get(0).submitRequirements, "code-review", Status.SATISFIED);
+        changeInfos.get(0).submitRequirements,
+        "code-review",
+        Status.SATISFIED,
+        /* isLegacy= */ false);
   }
 
   @Test
@@ -4424,7 +4452,10 @@ public class ChangeIT extends AbstractDaemonTest {
             .get();
     assertThat(changeInfos).hasSize(1);
     assertSubmitRequirementStatus(
-        changeInfos.get(0).submitRequirements, "code-review", Status.SATISFIED);
+        changeInfos.get(0).submitRequirements,
+        "code-review",
+        Status.SATISFIED,
+        /* isLegacy= */ false);
   }
 
   @Test
@@ -4950,9 +4981,12 @@ public class ChangeIT extends AbstractDaemonTest {
   private void assertSubmitRequirementStatus(
       Collection<SubmitRequirementResultInfo> results,
       String requirementName,
-      SubmitRequirementResultInfo.Status status) {
+      SubmitRequirementResultInfo.Status status,
+      boolean isLegacy) {
     for (SubmitRequirementResultInfo result : results) {
-      if (result.name.equals(requirementName) && result.status == status) {
+      if (result.name.equals(requirementName)
+          && result.status == status
+          && result.isLegacy == isLegacy) {
         return;
       }
     }

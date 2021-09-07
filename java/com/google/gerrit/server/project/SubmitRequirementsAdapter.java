@@ -58,6 +58,7 @@ public class SubmitRequirementsAdapter {
               .setAllowOverrideInChildProjects(labelType.isCanOverride());
       result.add(
           SubmitRequirementResult.builder()
+              .legacy(true)
               .submitRequirement(req.build())
               .submittabilityExpressionResult(
                   createExpressionResult(toExpression(atoms), mapStatus(label), atoms))
@@ -79,6 +80,7 @@ public class SubmitRequirementsAdapter {
               .build();
       return ImmutableList.of(
           SubmitRequirementResult.builder()
+              .legacy(true)
               .submitRequirement(sr)
               .submittabilityExpressionResult(
                   createExpressionResult(
@@ -99,6 +101,7 @@ public class SubmitRequirementsAdapter {
               .build();
       result.add(
           SubmitRequirementResult.builder()
+              .legacy(true)
               .submitRequirement(sr)
               .submittabilityExpressionResult(
                   createExpressionResult(

@@ -8162,6 +8162,10 @@ Description of the submit requirement.
 |`status`||
 Status describing the result of evaluating the submit requirement. The status
 is one of (`SATISFIED`, `UNSATISFIED`, `OVERRIDDEN`, `NOT_APPLICABLE`).
+|`is_legacy`||
+If true, this submit requirement result was created from a legacy
+link:#submit-record[SubmitRecord]. Otherwise, it was created by evaluating a
+submit requirement.
 |`applicability_expression_result`|optional|
 A link:#submit-requirement-expression-info[SubmitRequirementExpressionInfo]
 containing the result of evaluating the applicability expression. Not set if the

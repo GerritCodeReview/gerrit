@@ -47,6 +47,9 @@ public class SubmitRequirementResultInfo {
   /** Overall result (status) of evaluating this submit requirement. */
   public Status status;
 
+  /** Whether this result was created from a legacy submit record. */
+  public boolean isLegacy;
+
   /** Result of evaluating the applicability expression. */
   public SubmitRequirementExpressionInfo applicabilityExpressionResult;
 

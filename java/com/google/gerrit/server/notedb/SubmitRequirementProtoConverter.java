@@ -40,6 +40,7 @@ public enum SubmitRequirementProtoConverter
     SubmitRequirementResultProto.Builder builder = SubmitRequirementResultProto.newBuilder();
     builder
         .setSubmitRequirement(SubmitRequirementSerializer.serialize(r.submitRequirement()))
+        .setLegacy(r.legacy())
         .setCommit(ObjectIdConverter.create().toByteString(r.patchSetCommitId()));
     if (r.applicabilityExpressionResult().isPresent()) {
       builder.setApplicabilityExpressionResult(
@@ -60,6 +61,7 @@ public enum SubmitRequirementProtoConverter
   public SubmitRequirementResult fromProto(SubmitRequirementResultProto proto) {
     SubmitRequirementResult.Builder builder =
         SubmitRequirementResult.builder()
+            .legacy(proto.getLegacy())
             .patchSetCommitId(ObjectIdConverter.create().fromByteString(proto.getCommit()))
             .submitRequirement(
                 SubmitRequirementSerializer.deserialize(proto.getSubmitRequirement()));

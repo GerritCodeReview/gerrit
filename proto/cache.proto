@@ -483,7 +483,7 @@ message SubmitRequirementProto {
 }
 
 // Serialized form of com.google.gerrit.entities.SubmitRequirementResult.
-// Next ID: 6
+// Next ID: 7
 message SubmitRequirementResultProto {
   SubmitRequirementProto submit_requirement = 1;
   SubmitRequirementExpressionResultProto applicability_expression_result = 2;
@@ -492,6 +492,9 @@ message SubmitRequirementResultProto {
 
   // Patchset commit ID at which the submit requirements are evaluated.
   bytes commit = 5;
+
+  // Whether this result was created from a legacy submit record.
+  bool legacy = 6;
 }
 
 // Serialized form of com.google.gerrit.entities.SubmitRequirementExpressionResult.

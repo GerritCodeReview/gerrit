@@ -129,6 +129,7 @@ export function createCommentThreads(
     const newThread: CommentThread = {
       comments: [comment],
       patchNum: comment.patch_set,
+      diffSide: Side.LEFT,
       commentSide: comment.side ?? CommentSide.REVISION,
       mergeParentNum: comment.parent,
       path: comment.path,

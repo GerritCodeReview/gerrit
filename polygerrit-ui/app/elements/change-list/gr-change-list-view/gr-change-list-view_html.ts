@@ -66,7 +66,7 @@ export const htmlTemplate = html`
     ></gr-repo-header>
     <gr-user-header
       user-id="[[_userId]]"
-      show-dashboard-link=""
+      showDashboardLink=""
       logged-in="[[_loggedIn]]"
       class$="[[_computeHeaderClass(_userId)]]"
     ></gr-user-header>

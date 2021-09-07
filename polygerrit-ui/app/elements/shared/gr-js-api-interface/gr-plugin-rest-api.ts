@@ -68,11 +68,6 @@ export class GrPluginRestApi implements RestPluginApi {
     return this.restApi.getAccount();
   }
 
-  getAccountCapabilities(capabilities: string[]) {
-    this.reporting.trackApi(this.plugin, 'rest', 'getAccountCapabilities');
-    return this.restApi.getAccountCapabilities(capabilities);
-  }
-
   getRepos(filter: string, reposPerPage: number, offset?: number) {
     this.reporting.trackApi(this.plugin, 'rest', 'getRepos');
     return this.restApi.getRepos(filter, reposPerPage, offset);

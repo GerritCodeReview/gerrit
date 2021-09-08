@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc87dfc4_18da7846",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-08T16:09:17Z",
+      "side": 1,
+      "message": "\u003e It would be better to have different status codes for the two types of failures.\n\nI looked into this, but I am not sure this is possible, to be honest.\n\nSure, some exceptions are easily classifiable to either client or server-side errors.\n\nFor example, when a `ServiceMayNotContinueException e` is caught at[1], we could easily look into the status code by calling `e.getStatusCode()` and generate the command status accordingly.\n\nThis is because the ServiceMayNotContinueException exception encodes the HTTP status within itself so we can uniquely attribute the cause to either the client or the server.\n\nI don\u0027t believe the same apply when a generic Throwable is caught at [2].\nIn this case, I don\u0027t think we can be sure exactly whom to attribute the exception to, the client or the server.\n\nTake for example the case where a client just hits ^C during a git-upload-pack transfer:\n\nIn this scenario, an `EofException caused by a `Broken pipe` is thrown, which just represents a socket communication problem. However, there\u0027s just not enough context to understand that such broken socket was caused by the client hitting ^C (i.e. client-side), rather than other networking issues for example (say, the server outbound connection broke during the streaming *to* the client).\n\nI believe the same is true for other values of `Throwable`, whereby we cannot model a 1 to 1 mapping between the exception and the ultimate cause for it, either client or server.\n\nWDYT?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/changes/42/316942/4/java/com/google/gerrit/httpd/GitOverHttpServlet.java#480\n\n[2] https://gerrit.googlesource.com/gerrit/+/refs/changes/42/316942/4/java/com/google/gerrit/httpd/GitOverHttpServlet.java#485",
+      "parentUuid": "578e469a_af3214eb",
+      "revId": "443a1b22609be5667a46077033c5838f77a19f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "20a82677_fa28b304",
         "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 4
@@ -65,6 +83,30 @@
       "writtenOn": "2021-09-07T22:53:44Z",
       "side": 1,
       "message": "There could actually be different reasons for failure: typically a negative number means a type of failure.",
+      "range": {
+        "startLine": 476,
+        "startChar": 48,
+        "endLine": 476,
+        "endChar": 52
+      },
+      "revId": "443a1b22609be5667a46077033c5838f77a19f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "048e750c_8bda45e2",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-08T16:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20a82677_fa28b304",
       "range": {
         "startLine": 476,
         "startChar": 48,
@@ -88,6 +130,30 @@
       "writtenOn": "2021-09-07T22:53:44Z",
       "side": 1,
       "message": "We use a numeric status on sshd_log: 0 \u003d OK",
+      "range": {
+        "startLine": 479,
+        "startChar": 50,
+        "endLine": 479,
+        "endChar": 52
+      },
+      "revId": "443a1b22609be5667a46077033c5838f77a19f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25476077_915e7e3a",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-08T16:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c110741f_629a433f",
       "range": {
         "startLine": 479,
         "startChar": 50,

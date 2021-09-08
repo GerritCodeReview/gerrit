@@ -125,6 +125,12 @@ export class ChecksService {
     provider: ChecksProvider,
     config: ChecksApiConfig
   ) {
+    if (this.providers[pluginName]) {
+      console.warn(
+        `Plugin '${pluginName}' was trying to register twice as a Checks UI provider. Ignored.`
+      );
+      return;
+    }
     this.providers[pluginName] = provider;
     this.reloadSubjects[pluginName] = new BehaviorSubject<void>(undefined);
     updateStateSetProvider(pluginName, ChecksPatchset.LATEST);

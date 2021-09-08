@@ -16,6 +16,42 @@
       "message": "opt: inline (is this even needed?)",
       "revId": "0661598d52b14bd2bf57689288a3106c3f78237d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba561654_adcba994",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-08T16:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bffb21a9_c77584ed",
+      "revId": "0661598d52b14bd2bf57689288a3106c3f78237d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d254308d_c7eada44",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-08T16:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bffb21a9_c77584ed",
+      "revId": "0661598d52b14bd2bf57689288a3106c3f78237d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

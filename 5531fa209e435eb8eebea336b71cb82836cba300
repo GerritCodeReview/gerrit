@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb257879_8525e98a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-08T09:56:09Z",
+      "side": 1,
+      "message": "I was concerned about the following:\n1) Are we sure the same exception will be hit later?\n2) Can missing request info properties affect execution? I quickly checked it\u0027s used for logging and notifying request listeners?\n\nIs it better to move createRequestInfo to inside the try-catch-block of service(HttpServletRequest, HttpServletResponse)?",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 50
+      },
+      "revId": "5531fa209e435eb8eebea336b71cb82836cba300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

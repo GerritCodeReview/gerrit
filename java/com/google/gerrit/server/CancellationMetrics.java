@@ -100,6 +100,14 @@ public class CancellationMetrics {
         cancellationReason);
   }
 
+  public void countCancelledRequest(
+      RequestInfo.RequestType requestType,
+      String requestUri,
+      RequestStateProvider.Reason cancellationReason) {
+    cancelledRequestsCount.increment(
+        requestType.name(), CancellationMetrics.redactRequestUri(requestUri), cancellationReason);
+  }
+
   @UsedAt(UsedAt.Project.GOOGLE)
   public void countCancelledRequest(
       String requestType,

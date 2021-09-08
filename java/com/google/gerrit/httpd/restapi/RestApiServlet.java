@@ -359,15 +359,11 @@ public class RestApiServlet extends HttpServlet {
     ViewData viewData = null;
 
     try (TraceContext traceContext = enableTracing(req, res)) {
-      List<IdString> path = splitPath(req);
-      RequestInfo requestInfo = createRequestInfo(traceContext, requestUri(req), path);
+      String requestUri = requestUri(req);
 
-      try (RequestStateContext requestStateContext =
-              RequestStateContext.open()
-                  .addRequestStateProvider(
-                      globals.deadlineCheckerFactory.create(
-                          requestInfo, req.getHeader(X_GERRIT_DEADLINE)));
-          PerThreadCache ignored = PerThreadCache.create()) {
+      try (PerThreadCache ignored = PerThreadCache.create()) {
+        List<IdString> path = splitPath(req);
+        RequestInfo requestInfo = createRequestInfo(traceContext, requestUri, path);
         globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
 
         // It's important that the PerformanceLogContext is closed before the response is sent to
@@ -375,8 +371,13 @@ public class RestApiServlet extends HttpServlet {
         // plugins happens before the client sees the response. This is needed for being able to
         // test performance logging from an acceptance test (see
         // TraceIT#performanceLoggingForRestCall()).
-        try (PerformanceLogContext performanceLogContext =
-            new PerformanceLogContext(globals.config, globals.performanceLoggers)) {
+        try (RequestStateContext requestStateContext =
+                RequestStateContext.open()
+                    .addRequestStateProvider(
+                        globals.deadlineCheckerFactory.create(
+                            requestInfo, req.getHeader(X_GERRIT_DEADLINE)));
+            PerformanceLogContext performanceLogContext =
+                new PerformanceLogContext(globals.config, globals.performanceLoggers)) {
           traceRequestData(req);
 
           if (isCorsPreflight(req)) {
@@ -741,7 +742,8 @@ public class RestApiServlet extends HttpServlet {
         if (requestCancelledException.isPresent()) {
           RequestStateProvider.Reason cancellationReason =
               requestCancelledException.get().getCancellationReason();
-          globals.cancellationMetrics.countCancelledRequest(requestInfo, cancellationReason);
+          globals.cancellationMetrics.countCancelledRequest(
+              RequestInfo.RequestType.REST, requestUri, cancellationReason);
           statusCode = getCancellationStatusCode(cancellationReason);
           responseBytes =
               replyError(

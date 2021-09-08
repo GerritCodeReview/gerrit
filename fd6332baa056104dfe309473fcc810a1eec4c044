@@ -177,6 +177,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b94a33d1_afb0bea7",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-08T22:51:12Z",
+      "side": 1,
+      "message": "\u003e I think there\u0027s no prefix search optimization possible with ref files-backend (non-reftable), so this is going to be relatively slow on a site with many users. It\u0027s going to be even slower if using NFS and setting core.trustFolderStat\u003dfalse since then packed-refs will be fully re-read every time this method is called.\n\nThat is *very true*: reading refs with open-source JGit (pre-reftable) is a real pain and is very slow.\n\n\u003e If I\u0027m reading the code right, it should be just as slow as getDraftRefs(), so depending on where that\u0027s used, there could be some real data available from a site like gerrithub.io. @Luca?\n\nJacek is gathering some data and will give an update on the timings.",
+      "parentUuid": "756eb2f8_1901e5ec",
+      "range": {
+        "startLine": 494,
+        "startChar": 45,
+        "endLine": 495,
+        "endChar": 89
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bed776a_48c0f847",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 6

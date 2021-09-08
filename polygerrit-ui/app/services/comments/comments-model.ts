@@ -91,12 +91,16 @@ export const changeComments$ = commentState$.pipe(
   distinctUntilChanged()
 );
 
+function publishState(state: CommentState) {
+  privateState$.next(state);
+}
+
 export function updateStateComments(comments?: {
   [path: string]: CommentInfo[];
 }) {
   const nextState = {...privateState$.getValue()};
   nextState.comments = addPath(comments) || {};
-  privateState$.next(nextState);
+  publishState(nextState);
 }
 
 export function updateStateRobotComments(robotComments?: {
@@ -104,13 +108,13 @@ export function updateStateRobotComments(robotComments?: {
 }) {
   const nextState = {...privateState$.getValue()};
   nextState.robotComments = addPath(robotComments) || {};
-  privateState$.next(nextState);
+  publishState(nextState);
 }
 
 export function updateStateDrafts(drafts?: {[path: string]: DraftInfo[]}) {
   const nextState = {...privateState$.getValue()};
   nextState.drafts = addPath(drafts) || {};
-  privateState$.next(nextState);
+  publishState(nextState);
 }
 
 export function updateStatePortedComments(
@@ -118,19 +122,19 @@ export function updateStatePortedComments(
 ) {
   const nextState = {...privateState$.getValue()};
   nextState.portedComments = portedComments || {};
-  privateState$.next(nextState);
+  publishState(nextState);
 }
 
 export function updateStatePortedDrafts(portedDrafts?: PathToCommentsInfoMap) {
   const nextState = {...privateState$.getValue()};
   nextState.portedDrafts = portedDrafts || {};
-  privateState$.next(nextState);
+  publishState(nextState);
 }
 
 export function updateStateAddDiscardedDraft(draft: DraftInfo) {
   const nextState = {...privateState$.getValue()};
   nextState.discardedDrafts = [...nextState.discardedDrafts, draft];
-  privateState$.next(nextState);
+  publishState(nextState);
 }
 
 export function updateStateUndoDiscardedDraft(draftID?: string) {
@@ -142,7 +146,7 @@ export function updateStateUndoDiscardedDraft(draftID?: string) {
   }
   drafts.splice(index, 1);
   nextState.discardedDrafts = drafts;
-  privateState$.next(nextState);
+  publishState(nextState);
 }
 
 export function updateStateAddDraft(draft: DraftInfo) {
@@ -162,7 +166,7 @@ export function updateStateAddDraft(draft: DraftInfo) {
   } else {
     drafts[draft.path].push(draft);
   }
-  privateState$.next(nextState);
+  publishState(nextState);
 }
 
 export function updateStateEditDraft(draft: DraftInfo) {
@@ -183,7 +187,7 @@ export function updateStateEditDraft(draft: DraftInfo) {
   } else {
     throw new Error('draft: trying to edit non-existent draft');
   }
-  privateState$.next(nextState);
+  publishState(nextState);
 }
 
 
@@ -201,6 +205,6 @@ export function updateStateDeleteDraft(draft: DraftInfo) {
   const discardedDraft = drafts[draft.path][index];
   drafts[draft.path] = [...drafts[draft.path]];
   drafts[draft.path].splice(index, 1);
-  privateState$.next(nextState);
+  publishState(nextState);
   updateStateAddDiscardedDraft(discardedDraft);
 }

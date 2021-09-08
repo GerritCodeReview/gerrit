@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "174a114f_e117b73d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-08T16:19:22Z",
+      "side": 1,
+      "message": "Thanks for cleaning this up!",
+      "revId": "aa2392119f3aea848cb0e8d1adabb2ed6995f2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eb04cfc_4f40de08",
+        "filename": "polygerrit-ui/app/elements/lit/gr-lit-element.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-08T16:19:22Z",
+      "side": 1,
+      "message": "Not sure how to leave a file comment. Maybe rename this file now?\n\nlit/subscribe.ts?\nlit/subscription.ts?\nlit/rxjs-subscribe.ts?",
+      "revId": "aa2392119f3aea848cb0e8d1adabb2ed6995f2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

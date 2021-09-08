@@ -197,6 +197,9 @@ export class GrChecksChip extends GrLitElement {
           position: relative;
           top: 2px;
         }
+        .checksChip:hover .text {
+          max-width: 240px;
+        }
         .checksChip .text {
           display: inline-block;
           max-width: 120px;

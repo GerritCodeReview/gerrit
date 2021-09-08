@@ -1143,7 +1143,7 @@ export class GrFileList extends base {
     // Polymer 2: check for undefined
     if (
       change === undefined ||
-      patchRange === undefined ||
+      !patchRange?.patchNum ||
       path === undefined ||
       editMode === undefined
     ) {

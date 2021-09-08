@@ -16,6 +16,24 @@
       "message": "My top-level issue is that I believe it is impossible to get the type checking to work.\n\n  @subscribe(o$)\n  p: Type;\n  \nI could not find a way to type check that o$ and p have matching types. If my assessment is correct, then I think decorators are a dead end. :-(\n\nTo avoid the additional `.value` in my first suggestion we could avoid this like so: https://gerrit-review.googlesource.com/c/gerrit/+/317095",
       "revId": "2f7492937c842c0b93dd9261e415d4224534d28d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6bb179e_b79b1e11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-08T01:06:25Z",
+      "side": 1,
+      "message": "You are probably right, when I tried to type tighter, it would break.",
+      "parentUuid": "69c15c0a_fdd1a674",
+      "revId": "2f7492937c842c0b93dd9261e415d4224534d28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

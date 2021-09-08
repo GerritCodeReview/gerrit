@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "578e469a_af3214eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-08T00:00:44Z",
+      "side": 1,
+      "message": "It works by saying \"FAIL\" when the command fails because either the client or the server. It would be better to have different status codes for the two type of failures.",
+      "revId": "443a1b22609be5667a46077033c5838f77a19f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20a82677_fa28b304",

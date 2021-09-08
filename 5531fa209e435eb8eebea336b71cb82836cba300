@@ -46,6 +46,30 @@
       },
       "revId": "5531fa209e435eb8eebea336b71cb82836cba300",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56f6ac41_936500cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-08T15:34:13Z",
+      "side": 1,
+      "message": "Thanks for addressing. I also verified that createRequestInfo is placed inside the block.",
+      "parentUuid": "cebed88c_4d7012da",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 50
+      },
+      "revId": "5531fa209e435eb8eebea336b71cb82836cba300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

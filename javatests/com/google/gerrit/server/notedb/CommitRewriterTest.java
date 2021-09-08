@@ -124,6 +124,35 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void outputDiffOff_refsReported() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeMessage("Change has been successfully merged by " + changeOwner.getName());
+    ObjectId commitToFix = update.commit();
+
+    ChangeUpdate updateWithSubject = newUpdate(c, changeOwner);
+    updateWithSubject.setSubjectForCommit("Update with subject");
+    updateWithSubject.commit();
+
+    Ref metaRefBefore = repo.exactRef(RefNames.changeMetaRef(c.getId()));
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    options.outputDiff = false;
+    options.verifyCommits = false;
+    BackfillResult backfillResult = rewriter.backfillProject(project, repo, options);
+    assertThat(backfillResult.fixedRefDiff.keySet())
+        .containsExactly(RefNames.changeMetaRef(c.getId()));
+    Ref metaRefAfter = repo.exactRef(RefNames.changeMetaRef(c.getId()));
+
+    assertThat(metaRefBefore.getObjectId()).isNotEqualTo(metaRefAfter.getObjectId());
+
+    assertFixedCommits(ImmutableList.of(commitToFix), backfillResult, c.getId());
+
+    List<String> commitHistoryDiff = commitHistoryDiff(backfillResult, c.getId());
+    assertThat(commitHistoryDiff).containsExactly("");
+  }
+
+  @Test
   public void fixAuthorIdent() throws Exception {
     Change c = newChange();
     Timestamp when = TimeUtil.nowTs();

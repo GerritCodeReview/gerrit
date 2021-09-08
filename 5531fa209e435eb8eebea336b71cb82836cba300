@@ -22,6 +22,30 @@
       },
       "revId": "5531fa209e435eb8eebea336b71cb82836cba300",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cebed88c_4d7012da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-08T13:37:45Z",
+      "side": 1,
+      "message": "\u003e 1) Are we sure the same exception will be hit later?\n\nPretty sure, if this is a request for a change and that change cannot be parsed, I would be surprised if this request could be successful.\n\n\u003e 2) Can missing request info properties affect execution?\n\nIt\u0027s only used to turn on tracing via configuration and setting a logging tag. Just nice-to-have logic.\n\n\u003e Is it better to move createRequestInfo to inside the try-catch-block\n\u003e of service(HttpServletRequest, HttpServletResponse)?\n\nYes, but RequestInfo was also used in a catch block, where it would then not be available. But I think I found a way to avoid needing RequestInfo in the catch block, so that the creation of RequestInfo can be moved into the try-catch-block now. PTAL.",
+      "parentUuid": "fb257879_8525e98a",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 50
+      },
+      "revId": "5531fa209e435eb8eebea336b71cb82836cba300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

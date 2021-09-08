@@ -67,6 +67,7 @@ import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -1798,15 +1799,32 @@ public class RestApiServlet extends HttpServlet {
       return requestInfo.build();
     }
 
-    RestCollection<?, ?> rootCollection = members.get();
-    String resourceId = path.get(0).get();
-    if (rootCollection instanceof ProjectsCollection) {
-      requestInfo.project(Project.nameKey(resourceId));
-    } else if (rootCollection instanceof ChangesCollection) {
-      Optional<ChangeNotes> changeNotes = globals.changeFinder.findOne(resourceId);
-      if (changeNotes.isPresent()) {
-        requestInfo.project(changeNotes.get().getProjectName());
+    // Fill in optional data into RequestInfo.
+    try {
+      RestCollection<?, ?> rootCollection = members.get();
+      String resourceId = path.get(0).get();
+      if (rootCollection instanceof ProjectsCollection) {
+        requestInfo.project(Project.nameKey(resourceId));
+      } else if (rootCollection instanceof ChangesCollection) {
+        Optional<ChangeNotes> changeNotes = globals.changeFinder.findOne(resourceId);
+        if (changeNotes.isPresent()) {
+          requestInfo.project(changeNotes.get().getProjectName());
+        }
       }
+    } catch (StorageException e) {
+      // A StorageException can happen if parsing the change meta data from NoteDb fails.
+      // Since createRequestInfo(...) is called outside of the try-catch-block in
+      // service(HttpServletRequest, HttpServletResponse) that catches exceptions and returns 500
+      // Internal server error for them, this exception should not be thrown from
+      // this method here (since it would not be caught in RestApiServlet, it wouldn't be captured
+      // by our error metrics and it would depend on the framework how this exception is handled).
+      // In case StorageException happens here, RequestInfo is just missing some optional data,
+      // which is fine. It's almost certain that the same exception will be hit a little later again
+      // at a place where it is properly treated as 500 Internal server error. Hence it is fine to
+      // ignore this exception here.
+      logger.atSevere().withCause(e).log(
+          "Failed to populate optional data in request info (requestUri = %s, path = %s)",
+          requestUri, path);
     }
     return requestInfo.build();
   }

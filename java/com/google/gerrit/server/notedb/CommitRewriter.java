@@ -451,6 +451,9 @@ public class CommitRewriter {
             originalCommit.getId(),
             ref.getName());
         changeFixProgress.commitDiffs.add(CommitDiff.create(originalCommit.getId(), diff));
+      } else if (needsFix) {
+        // Always output old commits SHA1
+        changeFixProgress.commitDiffs.add(CommitDiff.create(originalCommit.getId(), ""));
       }
     }
     return changeFixProgress;

@@ -65,6 +65,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7275ad6b_4b7c4ce2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-08T12:04:27Z",
+      "side": 1,
+      "message": "I will correct spacing later.",
+      "parentUuid": "5070d162_59cd0443",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55d4f175_c84e3a5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-08T12:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67a5d9d5_8c218577",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c008fa4e_f49f1380",
@@ -96,6 +138,24 @@
       "side": 1,
       "message": "Font should be Roboto Mono 12px.",
       "parentUuid": "c008fa4e_f49f1380",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "186ce9a5_ab8dfc64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-08T12:04:27Z",
+      "side": 1,
+      "message": "Yes, it\u0027s roboto. I implemented this screenshot outside of gerrit.",
+      "parentUuid": "a46e2a9b_b85e10a3",
       "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -135,6 +195,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62b08b2f_0ebf6a58",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-08T12:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a4c846a_3616512b",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35c8094a_a2684321",
@@ -148,6 +226,24 @@
       "writtenOn": "2021-08-30T08:31:31Z",
       "side": 1,
       "message": "Add a comment.",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "751ada93_4ca80991",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-08T12:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35c8094a_a2684321",
       "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -169,6 +265,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a173c7e9_3b49cf72",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-08T12:04:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ae922c02_31e92751",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24c58755_dd69bb5e",
@@ -182,6 +296,24 @@
       "writtenOn": "2021-08-30T08:31:31Z",
       "side": 1,
       "message": "Maybe calc() this based on `--gr-vote-chip-height`.",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d3a454_ab5a4aac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-08T12:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24c58755_dd69bb5e",
       "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -203,6 +335,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf039071_29c460d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-08T12:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "540276d8_3857f78d",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89bc29db_cee895f7",
@@ -216,6 +366,24 @@
       "writtenOn": "2021-08-30T08:31:31Z",
       "side": 1,
       "message": "Why?",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c703f3a_84bea590",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-08T12:04:27Z",
+      "side": 1,
+      "message": "Otherwise chip-angle is on top and vote-chip on bottom",
+      "parentUuid": "89bc29db_cee895f7",
       "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -237,6 +405,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d16d7ec_9419e9b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-08T12:04:27Z",
+      "side": 1,
+      "message": "gr-checks-attempt is not colorful, it\u0027s just a border. Here we add color. I couldn\u0027t solve it without z-index.",
+      "parentUuid": "f17f88d1_7fd637d3",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2781113d_0fdcfdc2",
@@ -250,6 +436,24 @@
       "writtenOn": "2021-08-30T08:31:31Z",
       "side": 1,
       "message": "Maybe add\n\n  color: transparent;",
+      "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5c230bc_8f89b972",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-08T12:04:27Z",
+      "side": 1,
+      "message": "This doesn\u0027t work, because color can be --chip-color for positive, negative.",
+      "parentUuid": "2781113d_0fdcfdc2",
       "revId": "237adb04dc8b96aed117bd2bebccb02b40a6d55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

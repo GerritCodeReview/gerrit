@@ -856,6 +856,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8f585c3_a6b0288b",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-09T15:54:33Z",
+      "side": 1,
+      "message": "Sorry, ignore this.",
+      "parentUuid": "f0b03372_63d2b102",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d4c1268_4a536924",

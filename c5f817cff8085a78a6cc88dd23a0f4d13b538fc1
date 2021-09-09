@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd6199ef_db6cb676",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-09T15:54:33Z",
+      "side": 1,
+      "message": "Thanks for adding the use cases where you think this affects things. Can you quantify before and after the performance effect on these use cases? i.e. before it takes Xs to do a git push to master, after it takes Ys to do a git push to master.",
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2951eb02_44670877",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-09T15:54:33Z",
+      "side": 1,
+      "message": "While this seems like a great candidate for caching, I am concerned about the \"correctness\" impact that this may have on operations. I think it would be worth pursuing a per request scope form of caching instead of a time based one. In other words, it would be better to always read this value at least once at the beginning of the request to ensure that it is up-to-date, and then use that value throughout the entire request so that it is not only faster, but consistent throughout the request. We use this technique for many of our plugin predicates. It provides a good balance between data correctness and speed, and I think it might apply well to this problem.",
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "531e2d64_d3ebaa9c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

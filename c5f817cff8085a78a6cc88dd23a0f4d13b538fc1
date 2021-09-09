@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab5c362c_ae13ce6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T18:32:07Z",
+      "side": 1,
+      "message": "It does, but not always. See the related thread at https://gerrit-review.googlesource.com/c/gerrit/+/317099/comment/4d97063f_1c133d64/",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd14a2d2_6e61cf38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T18:32:07Z",
+      "side": 1,
+      "message": "Couple issues here:\n\n1) I don\u0027t think JGit locks for reads\n2) This makes it sound reftable backend specific. Maybe reword to say \"potentially searches all refs for the ref in question\"?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd6199ef_db6cb676",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -73,6 +119,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f4b6f90_94d20d75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T18:32:07Z",
+      "side": 1,
+      "message": "Give the command used here?",
+      "range": {
+        "startLine": 52,
+        "startChar": 9,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "531e2d64_d3ebaa9c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -96,6 +165,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3ea05d1_e2ee5ef3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T18:32:07Z",
+      "side": 1,
+      "message": "access",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 13
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb0b2d8e_c019f5bd",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T18:32:07Z",
+      "side": 1,
+      "message": "usersRefsCache? I know it\u0027s longer, but refsCache seems a little too generic. Same for the other files that aren\u0027t account-specific.",
+      "range": {
+        "startLine": 96,
+        "startChar": 55,
+        "endLine": 96,
+        "endChar": 64
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58cbae62_eb756f73",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T18:32:07Z",
+      "side": 1,
+      "message": "Can you evict just the deleted ones?",
+      "range": {
+        "startLine": 337,
+        "startChar": 16,
+        "endLine": 337,
+        "endChar": 26
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3d810b6_7d5b5ca0",
+        "filename": "java/com/google/gerrit/server/account/AllUsersObjectIdByRefCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T18:32:07Z",
+      "side": 1,
+      "message": "nit: I think you want singular \"object_id\" and singular \"ref\" since neither refers to a collection? (matching class name)",
+      "range": {
+        "startLine": 40,
+        "startChar": 49,
+        "endLine": 40,
+        "endChar": 77
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b980190c_27009195",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
         "patchSetId": 3
@@ -107,6 +268,30 @@
       "writtenOn": "2021-09-09T10:55:04Z",
       "side": 1,
       "message": "the rationale behind the change:\n1. when account gets created it results in 2 ref updates (see line #498 in com.google.gerrit.server.account.AccountsUpdate.commit(Repository, UpdatedAccount))\n* refs/users/XX/YYYYY (account details update)\n* refs/meta/external-ids (external ids update)\n\n2. update to `refs/users/XX/YYYY` results in the account re-index but it happens before the `refs/meta/external-ids` update hence it uses stale data\n\n3. in order to avoid it (and also speed up the reindex) update refs/meta/external-ids cache with the current value of ObjectId - evict(refs/meta/external-ids) would work too but with this move extra reach to repo for ObjectId is avoided until `refs/meta/external-ids` update gets propagated (after reindex).",
+      "range": {
+        "startLine": 750,
+        "startChar": 4,
+        "endLine": 752,
+        "endChar": 5
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f8e99de_9eb4dc05",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T18:32:07Z",
+      "side": 1,
+      "message": "\u003e the rationale behind the change:\n\u003e 1. when account gets created it results in 2 ref updates (see line #498 in com.google.gerrit.server.account.AccountsUpdate.commit(Repository, UpdatedAccount))\n\u003e * refs/users/XX/YYYYY (account details update)\n\u003e * refs/meta/external-ids (external ids update)\n\u003e \n\u003e 2. update to `refs/users/XX/YYYY` results in the account re-index but it happens before the `refs/meta/external-ids` update hence it uses stale data\n\nWhy aren\u0027t those two refs updated atomically? Wouldn\u0027t that solve this issue?",
+      "parentUuid": "b980190c_27009195",
       "range": {
         "startLine": 750,
         "startChar": 4,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "736ace18_a4be94db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-09T10:24:23Z",
+      "side": 1,
+      "message": "Caveat: This will let you say\n`yarn test:single foo_test.ts`\neven if foo_test is not yet migrated from .js to .ts. But I think that is ok.",
+      "revId": "bd2c628461545cee2f8dc9b66d0dc3c02ae36733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

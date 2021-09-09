@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "032637fe_7ecf8b51",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:55:04Z",
+      "side": 0,
+      "message": "this will simply not work and adding eviction in the middle wouldn\u0027t make much sense IMHO...",
+      "range": {
+        "startLine": 736,
+        "startChar": 2,
+        "endLine": 742,
+        "endChar": 3
+      },
+      "revId": "18daafc326f2c59577d5815917b13a29900ada3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

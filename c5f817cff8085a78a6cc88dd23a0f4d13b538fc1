@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b980190c_27009195",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:55:04Z",
+      "side": 1,
+      "message": "the rationale behind the change:\n1. when account gets created it results in 2 ref updates (see line #498 in com.google.gerrit.server.account.AccountsUpdate.commit(Repository, UpdatedAccount))\n* refs/users/XX/YYYYY (account details update)\n* refs/meta/external-ids (external ids update)\n\n2. update to `refs/users/XX/YYYY` results in the account re-index but it happens before the `refs/meta/external-ids` update hence it uses stale data\n\n3. in order to avoid it (and also speed up the reindex) update refs/meta/external-ids cache with the current value of ObjectId - evict(refs/meta/external-ids) would work too but with this move extra reach to repo for ObjectId is avoided until `refs/meta/external-ids` update gets propagated (after reindex).",
+      "range": {
+        "startLine": 750,
+        "startChar": 4,
+        "endLine": 752,
+        "endChar": 5
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

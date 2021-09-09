@@ -16,6 +16,46 @@
       "message": "Since Ben reviewed all changes, I am leaving this change for Ben to review.",
       "revId": "1f3488044029209a3ef469745cac963a04752ac4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7f21ac3_7daa970e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-09T11:14:22Z",
+      "side": 1,
+      "message": "We have a `fire()` util method for that in event-util:\n\n  fire\u003cOpenFixPreviewEventDetail\u003e(this, \u0027comment-edit\u0027, this._getEventPayload());",
+      "revId": "1f3488044029209a3ef469745cac963a04752ac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4993ce68_5f64207b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-09T11:14:22Z",
+      "side": 1,
+      "message": "Should the method also observe changes to `this.editing` then?\n\nOtherwise what happens when `this.editing` changes from false to true? Should getDraftComment() be called or not?\n\nLooking closer this is taken care of by _fireEdit, which makes sure that this.comment will be updated when `editing` changes?",
+      "range": {
+        "startLine": 976,
+        "startChar": 59,
+        "endLine": 976,
+        "endChar": 71
+      },
+      "revId": "1f3488044029209a3ef469745cac963a04752ac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

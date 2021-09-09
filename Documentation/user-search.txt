@@ -527,6 +527,11 @@ is:merge::
 +
 True if the change is a merge commit.
 
+[[cherrypick]]
+is:cherrypick::
++
+True if the change is a cherrypick of another change.
+
 [[status]]
 status:open, status:pending, status:new::
 +

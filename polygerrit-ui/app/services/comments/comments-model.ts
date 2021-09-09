@@ -169,6 +169,24 @@ export function updateStateAddDraft(draft: DraftInfo) {
   publishState(nextState);
 }
 
+export function updateStateCancelDraft(draft: DraftInfo) {
+  const nextState = {...privateState$.getValue()};
+  if (!draft.path) throw new Error('draft path undefined');
+  nextState.drafts = {...nextState.drafts};
+  const drafts = nextState.drafts;
+  if (!drafts[draft.path])
+    throw new Error('draft: trying to edit non-existent draft');
+  drafts[draft.path] = [...drafts[draft.path]];
+  const index = drafts[draft.path].findIndex(
+    d =>
+      (d.__draftID && d.__draftID === draft.__draftID) ||
+      (d.id && d.id === draft.id)
+  );
+  if (index === -1) return;
+  drafts[draft.path][index] = draft;
+  publishState(nextState);
+}
+
 export function updateStateUpdateDraft(draft: DraftInfo) {
   const nextState = {...privateState$.getValue()};
   if (!draft.path) throw new Error('draft path undefined');
@@ -182,11 +200,8 @@ export function updateStateUpdateDraft(draft: DraftInfo) {
       (d.__draftID && d.__draftID === draft.__draftID) ||
       (d.id && d.id === draft.id)
   );
-  if (index !== -1) {
-    drafts[draft.path][index] = draft;
-  } else {
-    throw new Error('draft: trying to edit non-existent draft');
-  }
+  if (index === -1) return;
+  drafts[draft.path][index] = draft;
   publishState(nextState);
 }
 

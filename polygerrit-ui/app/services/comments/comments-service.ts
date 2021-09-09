@@ -22,6 +22,7 @@ import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {
   updateStateAddDraft,
+  updateStateCancelDraft,
   updateStateDeleteDraft,
   updateStateUpdateDraft,
   updateStateComments,
@@ -98,7 +99,7 @@ export class CommentsService {
   }
 
   cancelDraft(draft: DraftInfo) {
-    updateStateUpdateDraft(draft);
+    updateStateCancelDraft(draft);
   }
 
   editDraft(draft: DraftInfo) {

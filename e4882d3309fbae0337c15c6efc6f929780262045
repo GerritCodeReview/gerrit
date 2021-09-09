@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ac35842_434ac176",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDynamicOptionsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-09-09T06:48:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a90a4db1_bb73e079",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "e4882d3309fbae0337c15c6efc6f929780262045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06eeb2ba_dad4b579",
@@ -160,6 +184,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1811e40_6eba747e",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDynamicOptionsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-09-09T06:48:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "24880cbc_f3838817",
+      "range": {
+        "startLine": 87,
+        "startChar": 25,
+        "endLine": 87,
+        "endChar": 43
+      },
+      "revId": "e4882d3309fbae0337c15c6efc6f929780262045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "464a7483_e8e86b3d",
@@ -173,6 +221,30 @@
       "writtenOn": "2021-08-23T14:29:39Z",
       "side": 1,
       "message": "2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "e4882d3309fbae0337c15c6efc6f929780262045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b85c4788_65aafa30",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/DynamicOptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-09-09T06:48:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "464a7483_e8e86b3d",
       "range": {
         "startLine": 1,
         "startChar": 17,

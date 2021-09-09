@@ -672,7 +672,7 @@ export class GrRouter extends PolymerElement {
     if (params.patchNum) {
       range = `${params.patchNum}`;
     }
-    if (params.basePatchNum) {
+    if (params.basePatchNum && params.basePatchNum !== ParentPatchSetNum) {
       range = `${params.basePatchNum}..${range}`;
     }
     return range;

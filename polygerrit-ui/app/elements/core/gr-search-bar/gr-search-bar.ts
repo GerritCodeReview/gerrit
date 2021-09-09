@@ -90,6 +90,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'is:submittable',
   'is:watched',
   'is:wip',
+  'is:cherrypick',
   'label:',
   'mergedafter:',
   'mergedbefore:',

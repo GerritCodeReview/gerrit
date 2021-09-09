@@ -84,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9fb6b863_a7587f52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-09T19:11:39Z",
+      "side": 1,
+      "message": "\u003e These are not all use cases as I believe that there is more... will try to get some numbers for you ;)\n\nI\u0027m not looking for more use cases, I am looking for the primary use case that you feel will be improved by this.",
+      "parentUuid": "c46bd0b5_189779f4",
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2951eb02_44670877",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -113,6 +131,24 @@
       "side": 1,
       "message": "I guess I haven\u0027t expressed myself correct:\nThere were 13 calls to AccountCacheImpl.get (13 x 3 different refs check as explained above) + 1 extra call to `refs/meta/external-ids` - which summed up to overal 40 calls to get refs objects.\n\nNow in terms of `refs/meta/external-ids` correctness - unless you do some behind-the-gerrit thing it should be nicely handled by `onGitReferenceUpdated` in typical cases and extra case is handled in ExternalIdNotes. All the other evictions were added because in IT tests it was expected to do sth behind the scene to end up in stale state... Having said that I\u0027m still open for more suggestions - can you point me to an example of such scope limited cache?\n\nBut IMHO it will still create the bottleneck for the busy servers as scopes will still compete on getting the same ref object ids (`refs/meta/external-ids` and `refs/users/default`) and it is a matter of load then...",
       "parentUuid": "2951eb02_44670877",
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6c439bc_69d38d5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-09T19:11:39Z",
+      "side": 1,
+      "message": "\u003e Now in terms of `refs/meta/external-ids` correctness - unless you do some behind-the-gerrit thing it should be nicely handled by `onGitReferenceUpdated` in typical cases and extra case is handled in ExternalIdNotes. All the other evictions were added because in IT tests it was expected to do sth behind the scene to end up in stale state... \n\nYes, in theory, however evictions are fragile. As others have pointed out, there are also the multi-primary use cases to care about. \n\n\u003e Having said that I\u0027m still open for more suggestions - can you point me to an example of such scope limited cache?\n\nThe examples I am familiar with do not use Guice or Guava for this. Any predicate which sets or looks up data either lazily, or in its constructor is effectively caching via a small scope. The task plugin caches a lot of task data in the TaskTree object which gets created once per query, but then reused for every change.\n\nThis use case might be more complicated, you could try passing a Cache object around to all the places it is used, but using Guice to do this would likely be better. I am imagining using Guice\u0027s @RequestScoped annotation to bind a cache class that represents this cache, and then injecting that cache wherever it is needed. This cache object could probably be as simple as a HashMap which knows how to lookup up values in the AllUsers project on \"misses\" (very similar to what you have, but without guava).\n\n\u003e But IMHO it will still create the bottleneck for the busy servers as scopes will still compete on getting the same ref object ids (`refs/meta/external-ids` and `refs/users/default`) and it is a matter of load then...\n\nThat could be, can you quantify this with numbers such as \"load average drops by X percent with this cache\"?",
+      "parentUuid": "c80309cd_f71fe56e",
       "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

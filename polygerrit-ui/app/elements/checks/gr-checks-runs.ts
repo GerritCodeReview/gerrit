@@ -25,7 +25,6 @@ import {sharedStyles} from '../../styles/shared-styles';
 import {
   AttemptDetail,
   compareByWorstCategory,
-  fireActionTriggered,
   iconFor,
   iconForRun,
   PRIMARY_STATUS_ACTIONS,
@@ -392,6 +391,8 @@ export class GrChecksRuns extends GrLitElement {
 
   private flagService = appContext.flagsService;
 
+  private checksService = appContext.checksService;
+
   constructor() {
     super();
     this.subscribe('runs', allRunsSelectedPatchset$);
@@ -605,7 +606,7 @@ export class GrChecksRuns extends GrLitElement {
         has-tooltip="${runButtonDisabled}"
         ?disabled="${runButtonDisabled}"
         @click="${() => {
-          actions.forEach(action => fireActionTriggered(this, action));
+          actions.forEach(action => this.checksService.triggerAction(action));
         }}"
         >Run Selected</gr-button
       >

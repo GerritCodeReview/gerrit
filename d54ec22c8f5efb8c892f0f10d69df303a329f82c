@@ -321,6 +321,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5e44297_aa94b170",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T11:01:44Z",
+      "side": 1,
+      "message": "I hope that it got answered - feel free to raise it again it the motivation is still not clear ;)",
+      "parentUuid": "3819d830_55de5130",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2601772_2d585ced",

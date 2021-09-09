@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "531e2d64_d3ebaa9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T11:01:44Z",
+      "side": 1,
+      "message": "I forgot to mention that test case was added to AccountIT.java which means that in-memory Git repo is used to back the access to refs... I can imagine that calling it on real git server could result in even higher performance degradation...",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 0
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b980190c_27009195",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
         "patchSetId": 3

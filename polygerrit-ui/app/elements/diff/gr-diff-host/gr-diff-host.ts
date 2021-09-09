@@ -50,7 +50,6 @@ import {
   Base64ImageFile,
   BlameInfo,
   ChangeInfo,
-  CommentRange,
   EditPatchSetNum,
   NumericChangeId,
   ParentPatchSetNum,
@@ -730,14 +729,15 @@ export class GrDiffHost extends PolymerElement {
   }
 
   _threadsChanged(threads: CommentThread[]) {
-    // Currently, the only way this is ever changed here is when the initial
-    // threads are loaded, so it's okay performance wise to clear the threads
-    // and recreate them. If this changes in future, we might want to reuse
-    // some DOM nodes here.
-    this._clearThreads();
+    const threadEls = new Set<Object>();
     for (const thread of threads) {
-      const threadEl = this._createThreadElement(thread);
-      this._attachThreadElement(threadEl);
+      threadEls.add(this._getOrCreateThread(thread));
+    }
+    // Remove all threads that are no longer existing.
+    for (const threadEl of this.getThreadEls()) {
+      if (threadEls.has(threadEl)) continue;
+      const parent = threadEl.parentNode;
+      if (parent) parent.removeChild(threadEl);
     }
     const portedThreadsCount = threads.filter(thread => thread.ported).length;
     const portedThreadsWithoutRange = threads.filter(
@@ -786,14 +786,15 @@ export class GrDiffHost extends PolymerElement {
         ? CommentSide.PARENT
         : CommentSide.REVISION;
     if (!this.canCommentOnPatchSetNum(patchNum)) return;
-    const threadEl = this._getOrCreateThread(
-      patchNum,
-      lineNum,
-      side,
-      commentSide,
+    const threadEl = this._getOrCreateThread({
+      comments: [],
       path,
-      range
-    );
+      diffSide: side,
+      commentSide,
+      patchNum,
+      line: lineNum,
+      range,
+    });
     threadEl.addOrEditDraft(lineNum, range);
 
     this.reporting.recordDraftInteraction();
@@ -829,26 +830,13 @@ export class GrDiffHost extends PolymerElement {
    * Gets or creates a comment thread at a given location.
    * May provide a range, to get/create a range comment.
    */
-  _getOrCreateThread(
-    patchNum: PatchSetNum,
-    lineNum: LineNumber | undefined,
-    diffSide: Side,
-    commentSide: CommentSide,
-    path: string,
-    range?: CommentRange
-  ): GrCommentThread {
-    let threadEl = this._getThreadEl(lineNum, diffSide, range);
+  _getOrCreateThread(thread: CommentThread): GrCommentThread {
+    let threadEl = this._getThreadEl(thread);
     if (!threadEl) {
-      threadEl = this._createThreadElement({
-        comments: [],
-        path,
-        diffSide,
-        commentSide,
-        patchNum,
-        line: lineNum,
-        range,
-      });
+      threadEl = this._createThreadElement(thread);
       this._attachThreadElement(threadEl);
+    } else {
+      this._updateThreadElement(threadEl, thread);
     }
     return threadEl;
   }
@@ -871,6 +859,11 @@ export class GrDiffHost extends PolymerElement {
       'slot',
       `${thread.diffSide}-${thread.line || 'LOST'}`
     );
+    this._updateThreadElement(threadEl, thread);
+    return threadEl;
+  }
+
+  _updateThreadElement(threadEl: GrCommentThread, thread: CommentThread) {
     threadEl.comments = thread.comments;
     threadEl.diffSide = thread.diffSide;
     threadEl.isOnParent = thread.commentSide === CommentSide.PARENT;
@@ -896,34 +889,29 @@ export class GrDiffHost extends PolymerElement {
     else threadEl.lineNum = thread.line !== 'FILE' ? thread.line : undefined;
     threadEl.projectName = this.projectName;
     threadEl.range = thread.range;
-    return threadEl;
   }
 
   /**
    * Gets a comment thread element at a given location.
    * May provide a range, to get a range comment.
    */
-  _getThreadEl(
-    lineNum: LineNumber | undefined,
-    commentSide: Side,
-    range?: CommentRange
-  ): GrCommentThread | null {
+  _getThreadEl(thread: CommentThread): GrCommentThread | null {
     let line: LineInfo;
-    if (commentSide === Side.LEFT) {
-      line = {beforeNumber: lineNum};
-    } else if (commentSide === Side.RIGHT) {
-      line = {afterNumber: lineNum};
+    if (thread.diffSide === Side.LEFT) {
+      line = {beforeNumber: thread.line};
+    } else if (thread.diffSide === Side.RIGHT) {
+      line = {afterNumber: thread.line};
     } else {
-      throw new Error(`Unknown side: ${commentSide}`);
+      throw new Error(`Unknown side: ${thread.diffSide}`);
     }
     function matchesRange(threadEl: GrCommentThread) {
-      return rangesEqual(getRange(threadEl), range);
+      return rangesEqual(getRange(threadEl), thread.range);
     }
 
     const filteredThreadEls = this._filterThreadElsForLocation(
       this.getThreadEls(),
       line,
-      commentSide
+      thread.diffSide
     ).filter(matchesRange);
     return filteredThreadEls.length ? filteredThreadEls[0] : null;
   }

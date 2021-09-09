@@ -187,6 +187,8 @@ suite('gr-comment tests', () => {
         },
         line: 5,
         path: 'test',
+        __editing: true,
+        __draft: true,
       };
       await flush();
       assert.isTrue(loadSpy.called);
@@ -411,6 +413,7 @@ suite('gr-comment tests', () => {
 
     test('edit reports interaction', () => {
       const reportStub = stubReporting('recordDraftInteraction');
+      sinon.stub(element, '_fireEdit');
       element.draft = true;
       flush();
       tap(queryAndAssert(element, '.edit'));
@@ -568,7 +571,7 @@ suite('gr-comment tests', () => {
       };
     });
 
-    test('button visibility states', () => {
+    test('button visibility states', async () => {
       element.showActions = false;
       assert.isTrue(
         queryAndAssert(element, '.humanActions').hasAttribute('hidden')
@@ -586,7 +589,7 @@ suite('gr-comment tests', () => {
       );
 
       element.draft = true;
-      flush();
+      await flush();
       assert.isTrue(
         isVisible(queryAndAssert(element, '.edit')),
         'edit is visible'
@@ -615,7 +618,7 @@ suite('gr-comment tests', () => {
       );
 
       element.editing = true;
-      flush();
+      await flush();
       assert.isFalse(
         isVisible(queryAndAssert(element, '.edit')),
         'edit is not visible'
@@ -645,7 +648,7 @@ suite('gr-comment tests', () => {
 
       element.draft = false;
       element.editing = false;
-      flush();
+      await flush();
       assert.isFalse(
         isVisible(queryAndAssert(element, '.edit')),
         'edit is not visible'
@@ -672,7 +675,7 @@ suite('gr-comment tests', () => {
       element.comment!.id = 'foo' as UrlEncodedCommentId;
       element.draft = true;
       element.editing = true;
-      flush();
+      await flush();
       assert.isTrue(
         isVisible(queryAndAssert(element, '.cancel')),
         'cancel is visible'
@@ -712,14 +715,14 @@ suite('gr-comment tests', () => {
       element.set(['comment', 'robot_run_id'], 'text');
       element.editing = false;
       element.collapsed = false;
-      flush();
+      await flush();
       assert.isTrue(
         queryAndAssert(element, '.robotRun.link').textContent === 'Run Details'
       );
 
       // A robot comment with run ID and url should display a link.
       element.set(['comment', 'url'], '/path/to/run');
-      flush();
+      await flush();
       assert.notEqual(
         getComputedStyle(queryAndAssert(element, '.robotRun.link')).display,
         'none'
@@ -731,7 +734,8 @@ suite('gr-comment tests', () => {
       );
     });
 
-    test('collapsible drafts', () => {
+    test('collapsible drafts', async () => {
+      const fireEditStub = sinon.stub(element, '_fireEdit');
       assert.isTrue(element.collapsed);
       assert.isFalse(
         isVisible(queryAndAssert(element, 'gr-formatted-text')),
@@ -766,9 +770,10 @@ suite('gr-comment tests', () => {
       // When the edit button is pressed, should still see the actions
       // and also textarea
       element.draft = true;
-      flush();
+      await flush();
       tap(queryAndAssert(element, '.edit'));
-      flush();
+      await flush();
+      assert.isTrue(fireEditStub.called);
       assert.isFalse(element.collapsed);
       assert.isFalse(
         isVisible(queryAndAssert(element, 'gr-formatted-text')),
@@ -879,6 +884,7 @@ suite('gr-comment tests', () => {
     });
 
     test('patchset level comment', async () => {
+      const fireEditStub = sinon.stub(element, '_fireEdit');
       const comment = {
         ...element.comment,
         path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
@@ -886,8 +892,9 @@ suite('gr-comment tests', () => {
         range: undefined,
       };
       element.comment = comment;
-      flush();
+      await flush();
       tap(queryAndAssert(element, '.edit'));
+      assert.isTrue(fireEditStub.called);
       assert.isTrue(element.editing);
 
       element._messageText = 'hello world';
@@ -899,10 +906,12 @@ suite('gr-comment tests', () => {
     });
 
     test('draft creation/cancellation', async () => {
+      const fireEditStub = sinon.stub(element, '_fireEdit');
       assert.isFalse(element.editing);
       element.draft = true;
-      flush();
+      await flush();
       tap(queryAndAssert(element, '.edit'));
+      assert.isTrue(fireEditStub.called);
       assert.isTrue(element.editing);
 
       element.comment!.message = '';
@@ -1021,7 +1030,7 @@ suite('gr-comment tests', () => {
 
     test('draft saving/editing', async () => {
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
-
+      const fireEditStub = sinon.stub(element, '_fireEdit');
       const clock: SinonFakeTimers = sinon.useFakeTimers();
       const tickAndFlush = async (repetitions: number) => {
         for (let i = 1; i <= repetitions; i++) {
@@ -1033,6 +1042,7 @@ suite('gr-comment tests', () => {
       element.draft = true;
       await flush();
       tap(queryAndAssert(element, '.edit'));
+      assert.isTrue(fireEditStub.called);
       tickAndFlush(1);
       element._messageText = 'good news, everyone!';
       tickAndFlush(1);
@@ -1078,6 +1088,7 @@ suite('gr-comment tests', () => {
       assert.equal(draft.message, 'saved!');
       assert.isFalse(element.editing);
       tap(queryAndAssert(element, '.edit'));
+      assert.isTrue(fireEditStub.calledTwice);
       element._messageText =
         'You’ll be delivering a package to Chapek 9, ' +
         'a world where humans are killed on sight.';
@@ -1096,15 +1107,15 @@ suite('gr-comment tests', () => {
       dispatchEventStub.restore();
     });
 
-    test('draft prevent save when disabled', () => {
+    test('draft prevent save when disabled', async () => {
       const saveStub = sinon.stub(element, 'save').returns(Promise.resolve());
       element.showActions = true;
       element.draft = true;
-      flush();
+      await flush();
       tap(element.$.header);
       tap(queryAndAssert(element, '.edit'));
       element._messageText = 'good news, everyone!';
-      flush();
+      await flush();
 
       element.disabled = true;
       tap(queryAndAssert(element, '.save'));
@@ -1188,7 +1199,7 @@ suite('gr-comment tests', () => {
       });
     });
 
-    test('cancelling an unsaved draft discards, persists in storage', () => {
+    test('cancelling an unsaved draft discards, persists in storage', async () => {
       const clock: SinonFakeTimers = sinon.useFakeTimers();
       const tickAndFlush = async (repetitions: number) => {
         for (let i = 1; i <= repetitions; i++) {
@@ -1209,7 +1220,7 @@ suite('gr-comment tests', () => {
         ...new Event('click'),
         preventDefault: sinon.stub(),
       });
-      flush();
+      await flush();
       assert.isTrue(discardSpy.called);
       assert.isFalse(eraseStub.called);
     });

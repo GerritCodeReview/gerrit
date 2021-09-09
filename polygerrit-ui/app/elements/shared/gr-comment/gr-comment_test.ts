@@ -568,6 +568,7 @@ suite('gr-comment tests', () => {
         __draftID: 'temp_draft_id',
         path: '/path/to/file',
         line: 5,
+        id: undefined,
       };
     });
 

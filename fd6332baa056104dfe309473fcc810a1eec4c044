@@ -393,6 +393,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8da46767_88b8baac",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-09T18:57:47Z",
+      "side": 1,
+      "message": "Answering to @Han-Wen remark:\n\u003e Still, it looks like JGit tries to be efficient by caching the file in memory as long as it doesn\u0027t change. \n\nThe problem is what you mean by \"efficient\": resolving the call in msec? micros? nanos?\n\nWhen you are on NFS and have set trustFolderStat \u003d false, JGit does a filesystem access (*at least* msec if not sometimes sec-level latency) to check if the file has changed. That is never going to be a \"caching\" behaviour, unfortunately.\n\nWe cannot just rely on JGit being fast in reading refs, because that isn\u0027t the case, even though it tries to cache them in memory (with one filesystem access per call).",
+      "parentUuid": "f757910e_a7c8e96f",
+      "range": {
+        "startLine": 494,
+        "startChar": 45,
+        "endLine": 495,
+        "endChar": 89
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bed776a_48c0f847",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 6

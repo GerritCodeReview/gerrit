@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba193219_31ebaa65",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-09T13:42:11Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "8a3feac6_71fcc925",
+      "revId": "1f3488044029209a3ef469745cac963a04752ac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4993ce68_5f64207b",
@@ -107,6 +125,30 @@
       "side": 1,
       "message": "That\u0027s a good question.  We already have two listeners to editing at the moment.\n\nThere\u0027s too much state updates on this class which makes it really hard to follow what the full causality chain is.\n\nRight now we always get called with _loadLocalDraft whenever the comments-model is changed. In fact more than once per comment.  And yes, fireEdit_ triggers this. \n\nAn alternative would be to look at comment.__editing. Trying that now.",
       "parentUuid": "4993ce68_5f64207b",
+      "range": {
+        "startLine": 976,
+        "startChar": 59,
+        "endLine": 976,
+        "endChar": 71
+      },
+      "revId": "1f3488044029209a3ef469745cac963a04752ac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c83670bb_6094d310",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-09T13:42:11Z",
+      "side": 1,
+      "message": "If you have tested this, I am also fine as is.",
+      "parentUuid": "9f0bafde_1ed37806",
       "range": {
         "startLine": 976,
         "startChar": 59,

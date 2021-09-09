@@ -805,6 +805,12 @@ public class ChangeField {
                 return m ? "1" : "0";
               });
 
+  /** Whether the change is a cherry pick of another change. */
+  public static final FieldDef<ChangeData, String> CHERRY_PICK =
+      exact(ChangeQueryBuilder.FIELD_CHERRYPICK)
+          .stored()
+          .build(cd -> cd.change().getCherryPickOf() != null ? "1" : "0");
+
   /** The number of inserted lines in this change. */
   public static final FieldDef<ChangeData, Integer> ADDED =
       intRange(ChangeQueryBuilder.FIELD_ADDED)

@@ -168,8 +168,14 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V67 = schema(V66, false);
 
   /** Added new field {@link ChangeField#SUBMIT_RULE_RESULT}. */
+  @Deprecated
   static final Schema<ChangeData> V68 =
       new Schema.Builder<ChangeData>().add(V67).add(ChangeField.SUBMIT_RULE_RESULT).build();
+
+  /** Added new field {@link ChangeField#CHERRY_PICK}. */
+  static final Schema<ChangeData> V69 =
+      new Schema.Builder<ChangeData>().add(V68).add(ChangeField.CHERRY_PICK).build();
+
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.
    */

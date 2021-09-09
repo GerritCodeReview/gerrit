@@ -67,11 +67,19 @@ module.exports = function(config) {
   // It can be just a file name, without a path:
   // --test-files async-foreach-behavior_test.js
   // If you specify --test-files without pattern, it gets true value
-  // In this case we ill run all tests (usefull for package.json "debugtest"
+  // In this case we will run all tests (usefull for package.json "debugtest"
   // script)
-  const testFilesPattern = (typeof config.testFiles == 'string') ?
-      testFilesLocationPattern + config.testFiles :
-      testFilesLocationPattern + '*_test.js';
+  // We will convert a .ts argument to .js and fill in .js if no extension is
+  // given.
+  const filePattern =
+    typeof config.testFiles === "string"
+      ? config.testFiles.endsWith(".ts")
+        ? config.testFiles.substr(0, config.testFiles.lastIndexOf(".")) + ".js"
+        : config.testFiles.endsWith(".js")
+        ? config.testFiles
+        : config.testFiles + ".js"
+      : "*_test.js";
+  const testFilesPattern = testFilesLocationPattern + filePattern;
   // Special patch for grep parameters (see details in the grep-patch-karam.js)
   const additionalFiles = runUnderBazel ? [] : ['polygerrit-ui/grep-patch-karma.js'];
   config.set({

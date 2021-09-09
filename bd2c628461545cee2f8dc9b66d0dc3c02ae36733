@@ -16,6 +16,29 @@
       "message": "Caveat: This will let you say\n`yarn test:single foo_test.ts`\neven if foo_test is not yet migrated from .js to .ts. But I think that is ok.",
       "revId": "bd2c628461545cee2f8dc9b66d0dc3c02ae36733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5e27953_1b81664e",
+        "filename": "polygerrit-ui/karma.conf.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-09T11:18:59Z",
+      "side": 1,
+      "message": "I would prefer ifs over ternaries here, but up to you. :-)\n\n  let filePattern \u003d \"*_test.js\";\n  if (typeof config.testFiles \u003d\u003d\u003d \"string\") filePattern \u003d config.testFiles;\n  if (filePattern.endsWith(\".ts\")) {\n    filePattern \u003d filePattern.substr(0, config.testFiles.lastIndexOf(\".\")) + \".js\";\n  }  \n  if (!filePattern.endsWith(\".js\")) filePattern +\u003d \".js\";",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 20
+      },
+      "revId": "bd2c628461545cee2f8dc9b66d0dc3c02ae36733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

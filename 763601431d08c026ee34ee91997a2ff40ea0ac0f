@@ -16,6 +16,24 @@
       "message": "Is it possible to do a git mv so it\u0027s easier to see what the differences are?",
       "revId": "763601431d08c026ee34ee91997a2ff40ea0ac0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e0ceeb4_a6f87e1a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-09T17:31:28Z",
+      "side": 1,
+      "message": "Unfortunately no, a `git mv` is not sufficient. We are still at the mercy of the backend detecting the move automatically depending no how much of the file has changed.\n\nWhat I am typically trying to do is putting the `git mv` in a separate change and then stacking two changes with the same topic, so they are submitted together and the first one does not need verification.",
+      "parentUuid": "d1619ac8_b89fb28e",
+      "revId": "763601431d08c026ee34ee91997a2ff40ea0ac0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

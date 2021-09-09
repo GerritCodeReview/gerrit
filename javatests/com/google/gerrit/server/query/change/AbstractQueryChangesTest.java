@@ -2509,6 +2509,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void cherrypick() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.CHERRY_PICK)).isTrue();
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newCherryPickChange(repo, "foo", change1.currentPatchSetId()));
+
+    assertQuery("is:cherrypick", change2);
+    assertQuery("-is:cherrypick", change1);
+  }
+
+  @Test
   public void merge() throws Exception {
     assume().that(getSchema().hasField(ChangeField.MERGE)).isTrue();
     TestRepository<Repo> repo = createProject("repo");
@@ -3716,12 +3727,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
-    return newChange(repo, null, null, null, null, false, false);
+    return newChange(repo, null, null, null, null, null, false, false);
   }
 
   protected ChangeInserter newChangeForCommit(TestRepository<Repo> repo, RevCommit commit)
       throws Exception {
-    return newChange(repo, commit, null, null, null, false, false);
+    return newChange(repo, commit, null, null, null, null, false, false);
   }
 
   protected ChangeInserter newChangeWithFiles(TestRepository<Repo> repo, String... paths)
@@ -3735,25 +3746,30 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected ChangeInserter newChangeForBranch(TestRepository<Repo> repo, String branch)
       throws Exception {
-    return newChange(repo, null, branch, null, null, false, false);
+    return newChange(repo, null, branch, null, null, null, false, false);
   }
 
   protected ChangeInserter newChangeWithStatus(TestRepository<Repo> repo, Change.Status status)
       throws Exception {
-    return newChange(repo, null, null, status, null, false, false);
+    return newChange(repo, null, null, status, null, null, false, false);
   }
 
   protected ChangeInserter newChangeWithTopic(TestRepository<Repo> repo, String topic)
       throws Exception {
-    return newChange(repo, null, null, null, topic, false, false);
+    return newChange(repo, null, null, null, topic, null, false, false);
   }
 
   protected ChangeInserter newChangeWorkInProgress(TestRepository<Repo> repo) throws Exception {
-    return newChange(repo, null, null, null, null, true, false);
+    return newChange(repo, null, null, null, null, null, true, false);
   }
 
   protected ChangeInserter newChangePrivate(TestRepository<Repo> repo) throws Exception {
-    return newChange(repo, null, null, null, null, false, true);
+    return newChange(repo, null, null, null, null, null, false, true);
+  }
+
+  protected ChangeInserter newCherryPickChange(
+      TestRepository<Repo> repo, String branch, PatchSet.Id cherryPickOf) throws Exception {
+    return newChange(repo, null, branch, null, null, cherryPickOf, false, true);
   }
 
   protected ChangeInserter newChange(
@@ -3762,6 +3778,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       @Nullable String branch,
       @Nullable Change.Status status,
       @Nullable String topic,
+      @Nullable PatchSet.Id cherryPickOf,
       boolean workInProgress,
       boolean isPrivate)
       throws Exception {
@@ -3782,7 +3799,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .setStatus(status)
             .setTopic(topic)
             .setWorkInProgress(workInProgress)
-            .setPrivate(isPrivate);
+            .setPrivate(isPrivate)
+            .setCherryPickOf(cherryPickOf);
     return ins;
   }
 

@@ -182,11 +182,8 @@ export function updateStateUpdateDraft(draft: DraftInfo) {
       (d.__draftID && d.__draftID === draft.__draftID) ||
       (d.id && d.id === draft.id)
   );
-  if (index !== -1) {
-    drafts[draft.path][index] = draft;
-  } else {
-    throw new Error('draft: trying to edit non-existent draft');
-  }
+  if (index === -1) return;
+  drafts[draft.path][index] = draft;
   publishState(nextState);
 }
 

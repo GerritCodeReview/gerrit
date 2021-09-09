@@ -687,33 +687,32 @@ export class GrComment extends base {
       ? this.comment.patch_set
       : this._getPatchNum();
     const {path, line, range} = this.comment;
-    if (path) {
-      this.storeTask = debounce(
-        this.storeTask,
-        () => {
-          const message = this._messageText;
-          if (this.changeNum === undefined) {
-            throw new Error('undefined changeNum');
-          }
-          const commentLocation: StorageLocation = {
-            changeNum: this.changeNum,
-            patchNum,
-            path,
-            line,
-            range,
-          };
+    if (!path) return;
+    this.storeTask = debounce(
+      this.storeTask,
+      () => {
+        const message = this._messageText;
+        if (this.changeNum === undefined) {
+          throw new Error('undefined changeNum');
+        }
+        const commentLocation: StorageLocation = {
+          changeNum: this.changeNum,
+          patchNum,
+          path,
+          line,
+          range,
+        };
 
-          if ((!message || !message.length) && oldValue) {
-            // If the draft has been modified to be empty, then erase the storage
-            // entry.
-            this.storage.eraseDraftComment(commentLocation);
-          } else {
-            this.storage.setDraftComment(commentLocation, message);
-          }
-        },
-        STORAGE_DEBOUNCE_INTERVAL
-      );
-    }
+        if ((!message || !message.length) && oldValue) {
+          // If the draft has been modified to be empty, then erase the storage
+          // entry.
+          this.storage.eraseDraftComment(commentLocation);
+        } else {
+          this.storage.setDraftComment(commentLocation, message);
+        }
+      },
+      STORAGE_DEBOUNCE_INTERVAL
+    );
   }
 
   _handleAnchorClick(e: Event) {
@@ -743,9 +742,7 @@ export class GrComment extends base {
     e.preventDefault();
 
     // Ignore saves started while already saving.
-    if (this.disabled) {
-      return;
-    }
+    if (this.disabled) return;
     const timingLabel = this.comment?.id
       ? REPORT_UPDATE_DRAFT
       : REPORT_CREATE_DRAFT;
@@ -758,20 +755,16 @@ export class GrComment extends base {
 
   _handleCancel(e: Event) {
     e.preventDefault();
-
-    if (
-      !this.comment?.message ||
-      this.comment.message.trim().length === 0 ||
-      !this.comment.id
-    ) {
+    if (!this.comment) return;
+    if (!this.comment.id) {
+      // Ensures we update the discarded draft message before deleting the draft
+      this.set('comment.message', this._messageText);
       this._fireDiscard();
-      return;
+    } else {
+      this.set('comment.__editing', false);
+      this.commentsService.cancelDraft(this.comment);
+      this.editing = false;
     }
-    this.set('comment.__editing', false);
-    if (this.comment) this.commentsService.cancelDraft(this.comment);
-    this.editing = false;
-    // Restore the messageText.
-    this._messageText = this.comment.message;
   }
 
   _fireDiscard() {
@@ -973,7 +966,7 @@ export class GrComment extends base {
 
     // Only apply local drafts to comments that are drafts and are currently
     // being edited.
-    if (!comment || !comment.path || !isDraft(comment) || !this.editing) {
+    if (!comment || !comment.path || !isDraft(comment) || !comment.__editing) {
       return;
     }
 

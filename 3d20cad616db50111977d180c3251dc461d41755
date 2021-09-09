@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a3fb0e8_e2514f73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T15:56:13Z",
+      "side": 1,
+      "message": "@Edwin, fyi on the new schema. Is it fine to submit this or do new schemas require Google-backend magic first?",
+      "revId": "3d20cad616db50111977d180c3251dc461d41755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

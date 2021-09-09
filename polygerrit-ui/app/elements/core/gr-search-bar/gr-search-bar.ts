@@ -77,6 +77,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'is:',
   'is:abandoned',
   'is:assigned',
+  'is:cherrypick',
   'is:closed',
   'is:ignored',
   'is:merge',

@@ -198,6 +198,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_WATCHEDBY = "watchedby";
   public static final String FIELD_WIP = "wip";
   public static final String FIELD_REVERTOF = "revertof";
+  public static final String FIELD_CHERRYPICK = "cherrypick";
   public static final String FIELD_CHERRY_PICK_OF_CHANGE = "cherrypickofchange";
   public static final String FIELD_CHERRY_PICK_OF_PATCHSET = "cherrypickofpatchset";
 
@@ -723,6 +724,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         return new BooleanPredicate(ChangeField.WIP);
       }
       throw new QueryParseException("'is:wip' operator is not supported by change index version");
+    }
+
+    if ("cherrypick".equalsIgnoreCase(value)) {
+      if (args.getSchema().hasField(ChangeField.CHERRY_PICK)) {
+        return new BooleanPredicate(ChangeField.CHERRY_PICK);
+      }
+      throw new QueryParseException(
+          "'is:cherrypick' operator is not supported by change index version");
     }
 
     // for plugins the value will be operandName_pluginName

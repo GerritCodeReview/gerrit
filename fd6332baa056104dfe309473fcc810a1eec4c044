@@ -273,6 +273,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca4e27c4_f47785b6",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T15:31:26Z",
+      "side": 1,
+      "message": "Ok, so the schema migration would rename the refs from \u0027refs/draft-comments/\u003csharded change\u003e/\u003caccount-id\u003e\u0027 to something like \u0027refs/\u003caccount-id\u003e/draft-comments/\u003csharded change\u003e\u0027?\n\nUnfortunately I don\u0027t think that helps because it still relies on a prefix search. Unless I\u0027m misremembering the JGit code, it has no optimizations for prefix searching with the files backend, and while it could have tricks to speed things up with loose refs, I think you\u0027re missing the case where the refs are packed. You\u0027re not looking at only files in a subdir then, you\u0027re also opening and reading the entire packed-refs file. That\u0027s about 12MB for us and I suspect larger for sites with more users/drafts. I think that\u0027s the real cost/overhead here for files backend.",
+      "parentUuid": "1971feb9_80000b20",
+      "range": {
+        "startLine": 494,
+        "startChar": 45,
+        "endLine": 495,
+        "endChar": 89
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bed776a_48c0f847",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 6

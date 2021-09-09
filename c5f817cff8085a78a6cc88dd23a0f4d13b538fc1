@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c46bd0b5_189779f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T17:55:46Z",
+      "side": 1,
+      "message": "These are not all use cases as I believe that there is more... will try to get some numbers for you ;)",
+      "parentUuid": "fd6199ef_db6cb676",
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2951eb02_44670877",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2021-09-09T15:54:33Z",
       "side": 1,
       "message": "While this seems like a great candidate for caching, I am concerned about the \"correctness\" impact that this may have on operations. I think it would be worth pursuing a per request scope form of caching instead of a time based one. In other words, it would be better to always read this value at least once at the beginning of the request to ensure that it is up-to-date, and then use that value throughout the entire request so that it is not only faster, but consistent throughout the request. We use this technique for many of our plugin predicates. It provides a good balance between data correctness and speed, and I think it might apply well to this problem.",
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c80309cd_f71fe56e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T17:55:46Z",
+      "side": 1,
+      "message": "I guess I haven\u0027t expressed myself correct:\nThere were 13 calls to AccountCacheImpl.get (13 x 3 different refs check as explained above) + 1 extra call to `refs/meta/external-ids` - which summed up to overal 40 calls to get refs objects.\n\nNow in terms of `refs/meta/external-ids` correctness - unless you do some behind-the-gerrit thing it should be nicely handled by `onGitReferenceUpdated` in typical cases and extra case is handled in ExternalIdNotes. All the other evictions were added because in IT tests it was expected to do sth behind the scene to end up in stale state... Having said that I\u0027m still open for more suggestions - can you point me to an example of such scope limited cache?\n\nBut IMHO it will still create the bottleneck for the busy servers as scopes will still compete on getting the same ref object ids (`refs/meta/external-ids` and `refs/users/default`) and it is a matter of load then...",
+      "parentUuid": "2951eb02_44670877",
       "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

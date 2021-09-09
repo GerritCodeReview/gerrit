@@ -417,6 +417,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b17f2f36_da01e825",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T19:20:44Z",
+      "side": 1,
+      "message": "I agree those are going to be similar. I know the smaller host we upgraded from 2.11-\u003e3.2 earlier this year (currently) uses trustFolderStat\u003dfalse and had performance regressions, at least some of which are still open issues. This has likely just been a problem for a while, but it\u0027s probably showing up in the All-Users case because the Gerrit design produces many refs in that repo. I\u0027m surprised there wasn\u0027t more discussion/concern back in 2.15 when this happened, but maybe caches there covered it up?\n\nIn general, JGit could certainly be smarter about how it deals with packed-refs (for example, leveraging knowledge of sort order to search without reading the whole file). For NFS specifically, I had some patches a couple years ago that tried to force directory attributes to refresh so we could trust them instead of re-reading packed-refs, but I stopped progress due to some other priorities.\n\nAs excited as I am about reftable, I\u0027m also not sure it solves the problem. Directory attributes are still cached on NFS and the largest reftable file likely won\u0027t be any smaller on disk than the current packed-refs file. Does that code have tricks to avoid reading the whole file?\n\nI\u0027m hoping to start some very intensive performance QA in about 6 months and I\u0027m expecting to find problems in this general area. It\u0027s also possible we\u0027ll have to solve some of those sooner to get our schema migration + notedb migration + offline reindex time down under 4 hours. Thinking of that, a new schema migration that renames 1000s of refs is not going to be very quick. Avoiding that would be preferred.",
+      "parentUuid": "f757910e_a7c8e96f",
+      "range": {
+        "startLine": 494,
+        "startChar": 45,
+        "endLine": 495,
+        "endChar": 89
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bed776a_48c0f847",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 6

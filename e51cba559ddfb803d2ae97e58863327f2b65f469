@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "715ffdb5_9617b103",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T03:59:36Z",
+      "side": 1,
+      "message": "Should this note that \u0027cherrypick\u0027 here is limited to only changes created using the WebUI or REST API (and not created by locally running \u0027git cherry-pick\u0027 and then pushing to Gerrit)?",
+      "revId": "e51cba559ddfb803d2ae97e58863327f2b65f469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "946b642a_f5344036",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T03:59:36Z",
+      "side": 1,
+      "message": "I think this needs to be @Deprecated now (see it being added in https://gerrit-review.googlesource.com/c/gerrit/+/316662/18/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java)",
+      "revId": "e51cba559ddfb803d2ae97e58863327f2b65f469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4b9175c_6a2a16d3",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2519,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T03:59:36Z",
+      "side": 1,
+      "message": "Do we need all these changes for the test?",
+      "range": {
+        "startLine": 2517,
+        "startChar": 0,
+        "endLine": 2519,
+        "endChar": 97
+      },
+      "revId": "e51cba559ddfb803d2ae97e58863327f2b65f469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e6e6089_637f0814",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-09T03:59:36Z",
+      "side": 1,
+      "message": "add in alpha order",
+      "revId": "e51cba559ddfb803d2ae97e58863327f2b65f469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

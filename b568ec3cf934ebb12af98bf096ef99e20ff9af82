@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaa61bea_551acc0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-09T18:10:48Z",
+      "side": 1,
+      "message": "+1 to support the overall idea. I\u0027m surprised we didn\u0027t have this operator before.",
+      "revId": "b568ec3cf934ebb12af98bf096ef99e20ff9af82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

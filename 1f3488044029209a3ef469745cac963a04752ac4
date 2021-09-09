@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f736c19d_8eb6ddcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-09T13:34:40Z",
+      "side": 1,
+      "message": "Thanks, PTAL",
+      "revId": "1f3488044029209a3ef469745cac963a04752ac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7f21ac3_7daa970e",
@@ -37,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8a3feac6_71fcc925",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-09T13:34:40Z",
+      "side": 1,
+      "message": "This doesn\u0027t type correctly.\n\n```\nType \u0027OpenFixPreviewEventDetail\u0027 does not satisfy the constraint \u0027keyof HTMLElementEventMap\u0027.\n```\n\nPropose keeping this as is and then fixing it for all fire calls in a follow-up?",
+      "parentUuid": "e7f21ac3_7daa970e",
+      "revId": "1f3488044029209a3ef469745cac963a04752ac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4993ce68_5f64207b",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 5
@@ -48,6 +83,30 @@
       "writtenOn": "2021-09-09T11:14:22Z",
       "side": 1,
       "message": "Should the method also observe changes to `this.editing` then?\n\nOtherwise what happens when `this.editing` changes from false to true? Should getDraftComment() be called or not?\n\nLooking closer this is taken care of by _fireEdit, which makes sure that this.comment will be updated when `editing` changes?",
+      "range": {
+        "startLine": 976,
+        "startChar": 59,
+        "endLine": 976,
+        "endChar": 71
+      },
+      "revId": "1f3488044029209a3ef469745cac963a04752ac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f0bafde_1ed37806",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-09T13:34:40Z",
+      "side": 1,
+      "message": "That\u0027s a good question.  We already have two listeners to editing at the moment.\n\nThere\u0027s too much state updates on this class which makes it really hard to follow what the full causality chain is.\n\nRight now we always get called with _loadLocalDraft whenever the comments-model is changed. In fact more than once per comment.  And yes, fireEdit_ triggers this. \n\nAn alternative would be to look at comment.__editing. Trying that now.",
+      "parentUuid": "4993ce68_5f64207b",
       "range": {
         "startLine": 976,
         "startChar": 59,

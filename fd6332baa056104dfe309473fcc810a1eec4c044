@@ -297,6 +297,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c61cf2b_20012bb5",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-09T16:00:45Z",
+      "side": 1,
+      "message": "\u003eyou\u0027re also opening and reading the entire packed-refs file. \n\n(spends some time reading JGit and CGit)  \n\n\u0026@%\u0026@% I hate the loose/packed packed ref DB.\n\n\u003e You\u0027re not looking at only files in a subdir then, you\u0027re also opening and reading the entire packed-refs file. That\u0027s about 12MB for us and I suspect larger for sites with more users/drafts. I think that\u0027s the real cost/overhead here for files backend.\n\nthe packed refs is cached in memory, see here:\n\nhttps://gerrit.googlesource.com/jgit/+/1cbfea9ece03b40669377a7f858218f6994562ea/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java#144\n\nIt would only get overwritten for transactions (which don\u0027t happen often), I think?\n\nStill, it looks like JGit tries to be efficient by caching the file in memory as long as it doesn\u0027t change. I thought we had a RepositoryCache to avoid opening and closing repositories all the time? That is also why I don\u0027t quite understand why it makes sense to build a caching layer on top of the repository (which is what Jacek is doing.)\n\n(CGit mmaps the file, so it can find place to start reading using binary search, avoiding the reads to begin with)",
+      "parentUuid": "ca4e27c4_f47785b6",
+      "range": {
+        "startLine": 494,
+        "startChar": 45,
+        "endLine": 495,
+        "endChar": 89
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bed776a_48c0f847",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 6

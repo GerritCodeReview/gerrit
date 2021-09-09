@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f669c64a_e8da305e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-09T21:28:56Z",
+      "side": 1,
+      "message": "I would favor taking advantage of the existing jgit caching instead of adding an extra layer in Gerrit. If we need to make it better, we can always add an Ref.evict() method to jgit. Having a generic jgit evict which responds to ref updates from the HA plugin would help all repositories, not just AllUsers.",
+      "parentUuid": "ab5c362c_ae13ce6f",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

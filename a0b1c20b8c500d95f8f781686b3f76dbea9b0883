@@ -16,6 +16,24 @@
       "message": "Reuse updateStateUpdateDraft?",
       "revId": "a0b1c20b8c500d95f8f781686b3f76dbea9b0883",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b0aaf7a_7c871beb",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-09T20:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b610753a_6e6e6858",
+      "revId": "a0b1c20b8c500d95f8f781686b3f76dbea9b0883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

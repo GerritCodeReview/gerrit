@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a632b007_fca1849b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73588cbe_b0519d09",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ae0cd98_896b3f5a",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50a0284c_72aa3c1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ae0cd98_896b3f5a",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ede7b902_950709cc",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-08-31T15:29:37Z",
       "side": 1,
       "message": "nit: cheap?",
+      "range": {
+        "startLine": 12,
+        "startChar": 30,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3438246_6acb500e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ede7b902_950709cc",
       "range": {
         "startLine": 12,
         "startChar": 30,
@@ -272,6 +338,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44efb424_5a4fe169",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2601772_2d585ced",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "866b5920_7f47e324",
@@ -285,6 +369,24 @@
       "writtenOn": "2021-08-31T15:29:37Z",
       "side": 1,
       "message": "Nit: Put this line just above or below the Change-Id: footer",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c406b0a3_ff5af4c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "866b5920_7f47e324",
       "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -353,6 +455,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "240e6aff_0264cd8e",
+        "filename": "java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78a1ddca_e3f95861",
+      "range": {
+        "startLine": 116,
+        "startChar": 21,
+        "endLine": 116,
+        "endChar": 30
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "587ff56d_1345581c",
@@ -366,6 +492,30 @@
       "writtenOn": "2021-09-02T02:50:17Z",
       "side": 1,
       "message": "This call is actually opening *again* the All-Users.git repository to read the external-ids ref.\n\nWe must also use the AllUsersRefToObjectIdCache in ExternalIdReader.readRevision() in order to avoid the extra read from the physical repository.",
+      "range": {
+        "startLine": 122,
+        "startChar": 25,
+        "endLine": 122,
+        "endChar": 41
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1010a55_75c64214",
+        "filename": "java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "587ff56d_1345581c",
       "range": {
         "startLine": 122,
         "startChar": 25,
@@ -417,6 +567,54 @@
         "startChar": 13,
         "endLine": 37,
         "endChar": 40
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcc8ccb7_b7b9212a",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "There is only one method to get object id - get by ref (string)",
+      "parentUuid": "d31cd096_751b0312",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66f3a636_ce410805",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10a58b7b_8ae89b37",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 39
       },
       "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -493,6 +691,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ce07cd9_7ac631bc",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d123f31a_09dfe4e6",
+      "range": {
+        "startLine": 38,
+        "startChar": 49,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b3c9d65_d11ccfb9",
@@ -506,6 +728,30 @@
       "writtenOn": "2021-09-03T23:12:53Z",
       "side": 1,
       "message": "ObjectIdByRef (\"Cache\" is unnecessary since we know the type)",
+      "range": {
+        "startLine": 51,
+        "startChar": 57,
+        "endLine": 51,
+        "endChar": 71
+      },
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a30f2f5b_5fe625d8",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b3c9d65_d11ccfb9",
       "range": {
         "startLine": 51,
         "startChar": 57,
@@ -535,6 +781,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34b9531f_86ef8bd3",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Yes it is. Can you elaborate, I\u0027m not sure if I follow what you meant, sorry :/",
+      "parentUuid": "c686e70b_05bf6f29",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f0b03372_63d2b102",
         "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
         "patchSetId": 2
@@ -546,6 +810,24 @@
       "writtenOn": "2021-09-05T01:19:10Z",
       "side": 1,
       "message": "Maybe it makes sense to call a",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76056f60_65dfb666",
+        "filename": "java/com/google/gerrit/server/account/AllUsersRefToObjectIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "It looks like the unfinished sentence to me - Can you add more details? Thanks in advance.",
+      "parentUuid": "f0b03372_63d2b102",
       "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -638,6 +920,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e992d56f_49bf97c6",
+        "filename": "java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abce3722_aa3c1ec4",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "147da9f2_8927f803",
@@ -708,6 +1008,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bca5943_07fd9f57",
+        "filename": "java/com/google/gerrit/server/restapi/config/SetEditPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a00f9c1e_e75bf5e2",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50b792dd_2a9eb94b",
@@ -721,6 +1039,24 @@
       "writtenOn": "2021-09-01T08:58:44Z",
       "side": 1,
       "message": "We already evict the account SHA1 cache on AllUsersRefToObjectIdCache.java:68. I am not convinced we also need this one.",
+      "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c84abaf_131d7d5e",
+        "filename": "java/com/google/gerrit/server/restapi/config/SetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-09T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50b792dd_2a9eb94b",
       "revId": "d54ec22c8f5efb8c892f0f10d69df303a329f82c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

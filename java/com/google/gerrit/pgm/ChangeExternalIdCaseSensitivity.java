@@ -65,6 +65,9 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
   @Option(name = "--dryrun", usage = "Do a dryrun of the migration.")
   private boolean dryrun;
 
+  @Option(name = "--no-reindex", usage = "Do not reindex accounts.")
+  private boolean noReindex;
+
   private final LifecycleManager manager = new LifecycleManager();
   private final TextProgressMonitor monitor = new TextProgressMonitor();
 
@@ -147,7 +150,7 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
     if (!dryrun) {
       updateGerritConfig();
 
-      exitCode = reindexAccounts();
+      exitCode = noReindex ? 0 : reindexAccounts();
     } else {
       exitCode = 0;
     }

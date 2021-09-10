@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82e50547_bc7990f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-09-10T20:07:57Z",
+      "side": 1,
+      "message": "It is:\n\n  /** Number of changes that contain attention set. */\n  public static final FieldDef\u003cChangeData, Integer\u003e ATTENTION_SET_USERS_COUNT \u003d\n      integer(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS)\n          .buildRepeatable(cd -\u003e additionsOnly(cd.attentionSet().size()));",
+      "parentUuid": "9ee4a97c_bc111416",
+      "revId": "3e35b263f084b56cb6157507c4825082eb4232c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e25fddd4_5666d42b",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 9

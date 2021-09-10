@@ -27,7 +27,7 @@ import {
   ErrorMessages,
   errorMessagesLatest$,
   loginCallbackLatest$,
-  someProvidersAreLoadingLatest$,
+  someProvidersAreLoadingFirstTime$,
   topLevelActionsLatest$,
 } from '../../../services/checks/checks-model';
 import {Action, Category, RunStatus} from '../../../api/checks';
@@ -364,7 +364,10 @@ export class GrChangeSummary extends GrLitElement {
     super();
     this.subscribe('runs', allRunsLatestPatchsetLatestAttempt$);
     this.subscribe('showChecksSummary', aPluginHasRegistered$);
-    this.subscribe('someProvidersAreLoading', someProvidersAreLoadingLatest$);
+    this.subscribe(
+      'someProvidersAreLoading',
+      someProvidersAreLoadingFirstTime$
+    );
     this.subscribe('errorMessages', errorMessagesLatest$);
     this.subscribe('loginCallback', loginCallbackLatest$);
     this.subscribe('actions', topLevelActionsLatest$);

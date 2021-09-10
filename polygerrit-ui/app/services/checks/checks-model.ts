@@ -86,6 +86,13 @@ export type RunResult = CheckRun & CheckResult;
 interface ChecksProviderState {
   pluginName: string;
   loading: boolean;
+  /**
+   * Allows to distinguish whether loading:true is the *first* time of loading
+   * something for this provider. Or just a subsequent background update.
+   * Note that this is initially true even before loading is being set to true,
+   * so you may want to check loading && firstTimeLoad.
+   */
+  firstTimeLoad: boolean;
   /** Presence of errorMessage implicitly means that the provider is in ERROR state. */
   errorMessage?: string;
   /** Presence of loginCallback implicitly means that the provider is in NOT_LOGGED_IN state. */
@@ -158,6 +165,15 @@ export const checksSelected$ = checksState$.pipe(
 
 export const aPluginHasRegistered$ = checksLatest$.pipe(
   map(state => Object.keys(state).length > 0),
+  distinctUntilChanged()
+);
+
+export const someProvidersAreLoadingFirstTime$ = checksLatest$.pipe(
+  map(state =>
+    Object.values(state).some(
+      provider => provider.loading && provider.firstTimeLoad
+    )
+  ),
   distinctUntilChanged()
 );
 
@@ -322,6 +338,7 @@ export function updateStateSetProvider(
   pluginState[pluginName] = {
     pluginName,
     loading: false,
+    firstTimeLoad: true,
     runs: [],
     actions: [],
     links: [],
@@ -758,6 +775,7 @@ export function updateStateSetError(
   pluginState[pluginName] = {
     ...pluginState[pluginName],
     loading: false,
+    firstTimeLoad: false,
     errorMessage,
     loginCallback: undefined,
     runs: [],
@@ -776,6 +794,7 @@ export function updateStateSetNotLoggedIn(
   pluginState[pluginName] = {
     ...pluginState[pluginName],
     loading: false,
+    firstTimeLoad: false,
     errorMessage: undefined,
     loginCallback,
     runs: [],
@@ -802,6 +821,7 @@ export function updateStateSetResults(
   pluginState[pluginName] = {
     ...pluginState[pluginName],
     loading: false,
+    firstTimeLoad: false,
     errorMessage: undefined,
     loginCallback: undefined,
     runs: runs.map(run => {

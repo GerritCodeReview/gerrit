@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c291effa_71615ced",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-10T14:03:26Z",
+      "side": 1,
+      "message": "Maybe easier to explain is the comparison to the attention set field:\n  public static final FieldDef\u003cChangeData, Iterable\u003cInteger\u003e\u003e ATTENTION_SET_USERS \u003d\n      integer(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS)\n          .buildRepeatable(ChangeField::getAttentionSetUserIds);\n\n\nFrom a storage perspective, we store keys \u003d user ids and values \u003d changes. But this is not useful to implement is:attention, since we need to know how many different users have attention on the change. For that, we should store \"key\" \u003d number of users with attention, value \u003d change.\n\n  public static final FieldDef\u003cChangeData, Integer\u003e ATTENTION_SET_USERS_COUNT \u003d\n      integer(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS)\n          .buildRepeatable(cd - \u003e additionsOnly(cd.attentionSet().size());\n          \nNow you can go to ChangePredicates and create a predicate almost identical to attentionSet(Account.Id):\n\n  public static Predicate\u003cChangeData\u003e attentionSetCount(int count) {\n    return new ChangeIndexPredicate(ChangeField.ATTENTION_SET_USERS_COUNT, /* count\u003d */ 0);\n  }\n  \n  \nBtw, ATTENTION_SET_FULL can\u0027t be utilized since it includes users that used to be in the attention set, and are no longer.\n\nNote: this will require a schema/index migration, but I don\u0027t see a way to implement it otherwise.\n\nAnyway, if you need more help feel free to ask for a VC.",
+      "parentUuid": "95cf1c75_81c0a8a8",
+      "revId": "3e35b263f084b56cb6157507c4825082eb4232c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e25fddd4_5666d42b",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 9

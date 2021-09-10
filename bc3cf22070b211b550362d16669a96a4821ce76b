@@ -22,6 +22,30 @@
       },
       "revId": "bc3cf22070b211b550362d16669a96a4821ce76b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4332c883_f888b001",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-10T13:40:09Z",
+      "side": 1,
+      "message": "Done.\nThe SHA1-sum contains all the information of the single elements and is thus well suited to create the hashCode",
+      "parentUuid": "8016a3e7_ae050df3",
+      "range": {
+        "startLine": 229,
+        "startChar": 36,
+        "endLine": 229,
+        "endChar": 40
+      },
+      "revId": "bc3cf22070b211b550362d16669a96a4821ce76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

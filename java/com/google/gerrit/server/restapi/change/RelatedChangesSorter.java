@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
@@ -266,8 +267,9 @@ class RelatedChangesSorter {
       return psId().changeId();
     }
 
+    @Memoized
     @Override
-    public final int hashCode() {
+    public int hashCode() {
       return Objects.hash(patchSet().id(), commit());
     }
 

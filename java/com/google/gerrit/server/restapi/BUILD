@@ -36,5 +36,6 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//lib/errorprone:annotations",
     ],
 )

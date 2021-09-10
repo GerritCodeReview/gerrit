@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f44f31c2_f342b57e",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-09-10T13:40:33Z",
+      "side": 1,
+      "message": "SHA1 of this object will never change. Compute it once, at the object construction time, and store it as an instance member. This will also reduce memory allocation when performing operations on collections storing ExternalId.Key objects.",
+      "revId": "bc3cf22070b211b550362d16669a96a4821ce76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8016a3e7_ae050df3",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
         "patchSetId": 12

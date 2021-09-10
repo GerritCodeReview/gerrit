@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a097e9a2_56878846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-10T13:22:39Z",
+      "side": 1,
+      "message": "\u003e I believe it does (at least this is the place where I have ended up y-day when I was debugging to prepare this descripton :))\n\u003e org.eclipse.jgit.internal.storage.reftable.ReftableDatabase.exactRef(String)\n\nIt seems like you\u0027re looking at the reftable code. The generic RefDatabase implementation (for stable-3.2 jgit) is at https://gerrit.googlesource.com/jgit/+/73f8acdc5c97e068143c86765995c4fb6923ee91/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java#313 and does not have any locking.\n\nI am surprised that reftable locks on reads, but that seems like a different discussion.\n\nSince the reftable backend and the files backend are often going to have different behavior (as one would expect), we probably need to consider both when dealing with any kind of git ref issue, but especially for anything related to performance.",
+      "parentUuid": "0e3721b9_f64fed62",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd6199ef_db6cb676",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

@@ -15,6 +15,7 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
 import com.google.gerrit.common.Nullable;
 
 /** Represents an address (name + email) in an email message. */
@@ -66,8 +67,9 @@ public abstract class Address {
 
   public abstract String email();
 
+  @Memoized
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return email().hashCode();
   }
 

@@ -22,8 +22,7 @@ import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
-import {GrLitElement} from '../../lit/gr-lit-element';
-import {css, html, PropertyValues} from 'lit';
+import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
 interface DashboardRef {
@@ -32,7 +31,7 @@ interface DashboardRef {
 }
 
 @customElement('gr-repo-dashboards')
-export class GrRepoDashboards extends GrLitElement {
+export class GrRepoDashboards extends LitElement {
   @property({type: String})
   repo?: RepoName;
 

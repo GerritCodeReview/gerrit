@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b999c48_99a4c3ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-10T15:14:50Z",
+      "side": 1,
+      "message": "Thanks for putting this together, some minor nits.",
+      "revId": "69a969b9ec0869cfabc2af9e96c71bec545f6d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ced0e48_26279126",
+        "filename": "polygerrit-ui/app/api/BUILD_for_publishing_api_only",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-10T15:14:50Z",
+      "side": 1,
+      "message": "Consider making this a shell script rather.",
+      "revId": "69a969b9ec0869cfabc2af9e96c71bec545f6d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "015198fb_63436104",
+        "filename": "polygerrit-ui/app/api/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-10T15:14:50Z",
+      "side": 1,
+      "message": "they -\u003e the",
+      "revId": "69a969b9ec0869cfabc2af9e96c71bec545f6d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0240722_cc918f8e",
+        "filename": "polygerrit-ui/app/api/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-10T15:14:50Z",
+      "side": 1,
+      "message": "This sentence doesn\u0027t make sense for me when combined with the next sentence.\n\nIs it independent or should we rely on the Gerrit instance release version info?",
+      "revId": "69a969b9ec0869cfabc2af9e96c71bec545f6d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a275ed6c_0662a066",
+        "filename": "polygerrit-ui/app/api/package.json",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-10T15:14:50Z",
+      "side": 1,
+      "message": "Trailing empty line.",
+      "revId": "69a969b9ec0869cfabc2af9e96c71bec545f6d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -25,17 +25,18 @@ import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto.ExternalId
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import java.util.stream.Stream;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Cache value containing all external IDs. */
 @AutoValue
 public abstract class AllExternalIds {
   static AllExternalIds create(Stream<ExternalId> externalIds) {
-    ImmutableMap.Builder<ExternalId.Key, ExternalId> byKey = ImmutableMap.builder();
+    ImmutableMap.Builder<ObjectId, ExternalId> byKey = ImmutableMap.builder();
     ImmutableSetMultimap.Builder<Account.Id, ExternalId> byAccount = ImmutableSetMultimap.builder();
     ImmutableSetMultimap.Builder<String, ExternalId> byEmail = ImmutableSetMultimap.builder();
     externalIds.forEach(
         id -> {
-          byKey.put(id.key(), id);
+          byKey.put(id.key().sha1(), id);
           byAccount.put(id.accountId(), id);
           if (!Strings.isNullOrEmpty(id.email())) {
             byEmail.put(id.email(), id);
@@ -45,7 +46,7 @@ public abstract class AllExternalIds {
     return new AutoValue_AllExternalIds(byKey.build(), byAccount.build(), byEmail.build());
   }
 
-  public abstract ImmutableMap<ExternalId.Key, ExternalId> byKey();
+  public abstract ImmutableMap<ObjectId, ExternalId> byKey();
 
   public abstract ImmutableSetMultimap<Account.Id, ExternalId> byAccount();
 

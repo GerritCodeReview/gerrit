@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "95cf1c75_81c0a8a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-09-10T13:27:12Z",
+      "side": 1,
+      "message": "Thanks, i\u0027m still not sure what to do.\n\nI\u0027ve had a look at\n\n```\n  public static final FieldDef\u003cChangeData, Integer\u003e UNRESOLVED_COMMENT_COUNT \u003d//\n      intRange(ChangeQueryBuilder.FIELD_UNRESOLVED_COMMENT_COUNT)\n          .build(\n              ChangeData::unresolvedCommentCount,\n              (cd, field) -\u003e cd.setUnresolvedCommentCount(field));\n```\n\nbut i\u0027m not sure how i do the equivalent for attention.",
+      "parentUuid": "fc577122_955566f6",
+      "revId": "3e35b263f084b56cb6157507c4825082eb4232c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e25fddd4_5666d42b",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 9

@@ -39,6 +39,30 @@
       },
       "revId": "4e0b54c379fc3be575aa1fc982941668100c04a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e07183b6_f28c58a1",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-10T10:01:29Z",
+      "side": 1,
+      "message": "Guarding this rollout sounds good.\n\nWe used to use configs for this in the past, but I thought nowadays we prefer using experiment flags, don\u0027t we?\n\nIf this stays a config, I would propose to name this parameter something like \"change.enableLegacySubmitRequirements\" (1. make use of the existing \"change\" section so that we do not need to add yet another section, 2. use camelCase for config parameter names).\n\nIIUC this is only a temporary config parameter that will be dropped later when all submit requirements have been migrated? If yes, we may omit the documentation, since its only relevant for our internal rollout.",
+      "parentUuid": "99b03e89_3bb5bc2b",
+      "range": {
+        "startLine": 74,
+        "startChar": 33,
+        "endLine": 74,
+        "endChar": 52
+      },
+      "revId": "4e0b54c379fc3be575aa1fc982941668100c04a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

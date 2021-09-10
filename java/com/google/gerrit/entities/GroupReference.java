@@ -17,6 +17,7 @@ package com.google.gerrit.entities;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
 import com.google.gerrit.common.Nullable;
 
 /** Describes a group within a projects {@link AccessSection}s. */
@@ -78,8 +79,9 @@ public abstract class GroupReference implements Comparable<GroupReference> {
     return "?";
   }
 
+  @Memoized
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return uuid(this).hashCode();
   }
 

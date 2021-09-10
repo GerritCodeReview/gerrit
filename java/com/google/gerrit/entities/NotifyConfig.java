@@ -15,6 +15,7 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
@@ -106,8 +107,9 @@ public abstract class NotifyConfig implements Comparable<NotifyConfig> {
     return getName().compareTo(o.getName());
   }
 
+  @Memoized
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return getName().hashCode();
   }
 

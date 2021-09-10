@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -301,8 +302,9 @@ public abstract class ExternalId implements Serializable {
         && Objects.equals(password(), o.password());
   }
 
+  @Memoized
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return Objects.hash(key(), accountId(), isCaseInsensitive(), email(), password());
   }
 

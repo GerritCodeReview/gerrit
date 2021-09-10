@@ -11,6 +11,7 @@ _java_ -jar gerrit.war _ChangeExternalIdCaseSensitivity_
   -d <SITE_PATH>
   [--batch]
   [--dryrun]
+  [--no-reindex]
 --
 
 == DESCRIPTION
@@ -36,6 +37,14 @@ external IDs case insensitive and if set to `true` to case sensitive.
 
 --dryrun::
     Whether to perform the conversion without persisting it.
+
+--no-reindex::
+    Whether to skip the reindexing of accounts. In most cases offline reindexing
+    accounts is not required, since index entries of migrated accounts will be
+    invalidated and reindexed online. This will reduce the migration time considerably.
+    CAREFUL: If the migration leads to user JohnDoe getting an external ID that
+    previously belonged to johndoe whose account was deleted and not yet removed from the
+    index, the indexed data will not match the data in NoteDB!
 
 == CONTEXT
 This command can only be run offline with direct access to the server's

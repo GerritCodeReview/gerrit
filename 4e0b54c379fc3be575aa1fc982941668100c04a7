@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "503233a3_3e68692b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-10T09:32:50Z",
+      "side": 1,
+      "message": "Edwin, friendly ping. This change is ready for review.",
+      "revId": "4e0b54c379fc3be575aa1fc982941668100c04a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99b03e89_3bb5bc2b",

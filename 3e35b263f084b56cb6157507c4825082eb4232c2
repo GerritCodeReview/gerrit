@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ee4a97c_bc111416",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-10T19:41:22Z",
+      "side": 1,
+      "message": "I don\u0027t know without seeing the code but it looks like you implemented:\nFieldDef\u003cChangeData, Iterable\u003cInteger\u003e\u003e instead of:\nFieldDef\u003cChangeData, Integer\u003e\n\nJust a guess based on the exception.",
+      "parentUuid": "678fd1d3_ec9ac0d8",
+      "revId": "3e35b263f084b56cb6157507c4825082eb4232c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e25fddd4_5666d42b",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 9

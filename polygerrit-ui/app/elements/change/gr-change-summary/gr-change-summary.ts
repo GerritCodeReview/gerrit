@@ -27,7 +27,7 @@ import {
   ErrorMessages,
   errorMessagesLatest$,
   loginCallbackLatest$,
-  someProvidersAreLoadingLatest$,
+  someProvidersAreLoadingFirstTime$,
   topLevelActionsLatest$,
 } from '../../../services/checks/checks-model';
 import {Action, Category, RunStatus} from '../../../api/checks';
@@ -366,7 +366,7 @@ export class GrChangeSummary extends LitElement {
     subscribe(this, aPluginHasRegistered$, x => (this.showChecksSummary = x));
     subscribe(
       this,
-      someProvidersAreLoadingLatest$,
+      someProvidersAreLoadingFirstTime$,
       x => (this.someProvidersAreLoading = x)
     );
     subscribe(this, errorMessagesLatest$, x => (this.errorMessages = x));

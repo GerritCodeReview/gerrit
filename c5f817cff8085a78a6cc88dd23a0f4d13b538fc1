@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68db5a29_7a688c44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-10T16:16:24Z",
+      "side": 1,
+      "message": "\u003e\u003e I would favor taking advantage of the existing jgit caching instead of adding an extra layer in Gerrit. \n\u003e\n\u003e I agree 100% that we should have a caching of refs in place in the OpenSource version of JGit, similarly to what the Google\u0027s fork has. Is there anyone at Google that can contribute that?\n\nIt does, trustFolderStat \u003d True\n\n\u003e Should we just revert the offending change that caused the problem instead?\n\nDoes turning on caching (trustFolderStat \u003d True) for this repo make this a non-issue?",
+      "parentUuid": "6205427f_610cb316",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

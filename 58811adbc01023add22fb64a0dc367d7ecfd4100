@@ -45,6 +45,30 @@
       },
       "revId": "58811adbc01023add22fb64a0dc367d7ecfd4100",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34af2a1e_241a70c6",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-09-10T20:08:37Z",
+      "side": 1,
+      "message": "Removed self.",
+      "parentUuid": "14c94191_05a89ec7",
+      "range": {
+        "startLine": 672,
+        "startChar": 43,
+        "endLine": 672,
+        "endChar": 56
+      },
+      "revId": "58811adbc01023add22fb64a0dc367d7ecfd4100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

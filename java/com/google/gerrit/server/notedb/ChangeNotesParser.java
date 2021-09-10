@@ -904,6 +904,10 @@ class ChangeNotesParser {
         }
       } else {
         checkFooter(rec != null, FOOTER_SUBMITTED_WITH, line);
+        if (line.startsWith("Rule-Name")) {
+          // This is just added for forward compatibility. Ignore this field.
+          continue;
+        }
         SubmitRecord.Label label = new SubmitRecord.Label();
         if (rec.labels == null) {
           rec.labels = new ArrayList<>();

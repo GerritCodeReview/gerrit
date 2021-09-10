@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "465ebfc2_130cde33",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-09-10T13:19:25Z",
+      "side": 1,
+      "message": "Strictly speaking, this is not anymore byKey but bySHA1.\n\nThe code in this change is technically correct but it exposes the internals of\nusing sha1 instead of the key in many places.\n\nThe follow up change introduces case-insensitive usernames which also means case\ninsensitive externalIds (their equals and hashCode behave case-insensitive).\nI wonder why is that not enough? I also found a bug in the follow-up change with\nthe hashCode implementation for case-insensitive keys. Maybe that bug made you\nbelieve that the fix you are doing in this change is necessary?",
+      "revId": "58c18f0930bfce398ad0db18206df786818097f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

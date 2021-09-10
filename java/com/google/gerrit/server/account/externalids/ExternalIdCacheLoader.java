@@ -222,7 +222,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
       Map<ObjectId, ObjectId> additions,
       Set<ObjectId> removals)
       throws IOException {
-    ImmutableMap.Builder<ExternalId.Key, ExternalId> byKey = ImmutableMap.builder();
+    ImmutableMap.Builder<ObjectId, ExternalId> byKey = ImmutableMap.builder();
     ImmutableSetMultimap.Builder<Account.Id, ExternalId> byAccount = ImmutableSetMultimap.builder();
     ImmutableSetMultimap.Builder<String, ExternalId> byEmail = ImmutableSetMultimap.builder();
 
@@ -232,7 +232,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
         continue;
       }
 
-      byKey.put(externalId.key(), externalId);
+      byKey.put(externalId.key().sha1(), externalId);
       byAccount.put(externalId.accountId(), externalId);
       if (externalId.email() != null) {
         byEmail.put(externalId.email(), externalId);
@@ -255,7 +255,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
           continue;
         }
 
-        byKey.put(parsedExternalId.key(), parsedExternalId);
+        byKey.put(parsedExternalId.key().sha1(), parsedExternalId);
         byAccount.put(parsedExternalId.accountId(), parsedExternalId);
         if (parsedExternalId.email() != null) {
           byEmail.put(parsedExternalId.email(), parsedExternalId);

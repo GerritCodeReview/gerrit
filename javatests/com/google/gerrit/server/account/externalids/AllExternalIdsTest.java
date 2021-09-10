@@ -110,7 +110,7 @@ public class AllExternalIdsTest {
         .hasAutoValueMethods(
             ImmutableMap.of(
                 "byKey",
-                new TypeLiteral<ImmutableMap<ExternalId.Key, ExternalId>>() {}.getType(),
+                new TypeLiteral<ImmutableMap<ObjectId, ExternalId>>() {}.getType(),
                 "byAccount",
                 new TypeLiteral<ImmutableSetMultimap<Account.Id, ExternalId>>() {}.getType(),
                 "byEmail",

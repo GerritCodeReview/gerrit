@@ -75,7 +75,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   @Override
   public Optional<ExternalId> byKey(ExternalId.Key key) throws IOException {
-    return Optional.ofNullable(get().byKey().get(key));
+    return Optional.ofNullable(get().byKey().get(key.sha1()));
   }
 
   @Override

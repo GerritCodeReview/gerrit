@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "678fd1d3_ec9ac0d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-09-10T19:20:08Z",
+      "side": 1,
+      "message": "I\u0027m seeing:\n\n```\njava/com/google/gerrit/server/index/change/ChangeField.java:348: error: incompatible types: no instance(s) of type variable(s) I exist so that FieldDef\u003cI,Iterable\u003cInteger\u003e\u003e conforms to FieldDef\u003cChangeData,Integer\u003e\n          .buildRepeatable(cd -\u003e additionsOnly(cd.attentionSet().size()));\n                          ^\n  where I,T are type-variables:\n    I extends Object declared in method \u003cI\u003ebuildRepeatable(Getter\u003cI,Iterable\u003cT\u003e\u003e)\n    T extends Object declared in class Builder\njava/com/google/gerrit/server/query/change/ChangePredicates.java:47: error: incompatible types: int cannot be converted to String\n    return new ChangeIndexPredicate(ChangeField.ATTENTION_SET_USERS_COUNT, count);\n                                         \n```",
+      "parentUuid": "c291effa_71615ced",
+      "revId": "3e35b263f084b56cb6157507c4825082eb4232c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e25fddd4_5666d42b",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 9

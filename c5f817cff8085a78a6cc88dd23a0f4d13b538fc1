@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e3721b9_f64fed62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-10T06:08:39Z",
+      "side": 1,
+      "message": "I believe it does (at least this is the place where I have ended up y-day when I was debugging to prepare this descripton :))\norg.eclipse.jgit.internal.storage.reftable.ReftableDatabase.exactRef(String)\n\nand here is the code in question:\n\t@Nullable\n\tpublic Ref exactRef(String name) throws IOException {\n\t\tlock.lock();\n\t\ttry {\n\t\t\tReftable table \u003d reader();\n\t\t\tRef ref \u003d table.exactRef(name);\n\t\t\tif (ref !\u003d null \u0026\u0026 ref.isSymbolic()) {\n\t\t\t\treturn table.resolve(ref);\n\t\t\t}\n\t\t\treturn ref;\n\t\t} finally {\n\t\t\tlock.unlock();\n\t\t}\n\t}",
+      "parentUuid": "fd14a2d2_6e61cf38",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd6199ef_db6cb676",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -202,6 +226,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71ad1a2c_91a27edd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-10T06:08:39Z",
+      "side": 1,
+      "message": "Luca added a small method to `AccountIT` (https://gerrit-review.googlesource.com/c/gerrit/+/316763)\n\n  @Test\n  @UseLocalDisk\n  public void accountCachePerformaceTest() throws Exception {\n    int numAccounts \u003d 100;\n    int numIterations \u003d 100;\n    Account.Id[] accountIds \u003d new Account.Id[numAccounts];\n\n    for (int i \u003d 0; i \u003c numAccounts; i++) {\n      accountIds[i] \u003d accountCreator.create(\"account\" + i).id();\n    }\n\n    Stopwatch timer \u003d Stopwatch.createStarted();\n    for (int j \u003d 0; j \u003c numIterations; j++) {\n      for (Account.Id id : accountIds) {\n        assertThat(accountCache.get(id).isPresent()).isTrue();\n      }\n    }\n    timer.stop();\n\n    System.out.println(\"Execution time: \" + timer.elapsed(TimeUnit.MILLISECONDS) + \" ms\");\n  }\n\nAnd I\u0027m calling it with:\n  bazel test --test_output\u003dstreamed --test_filter\u003dcom.google.gerrit.acceptance.api.accounts.AccountIT.accountCachePerformaceTest //javatests/com/google/gerrit/acceptance/api/accounts:api_account\n\nNot sure if it should be a part of the commit message yet I have described of what is happening there above statement you refer to...",
+      "parentUuid": "7f4b6f90_94d20d75",
+      "range": {
+        "startLine": 52,
+        "startChar": 9,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "531e2d64_d3ebaa9c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -213,6 +261,30 @@
       "writtenOn": "2021-09-09T11:01:44Z",
       "side": 1,
       "message": "I forgot to mention that test case was added to AccountIT.java which means that in-memory Git repo is used to back the access to refs... I can imagine that calling it on real git server could result in even higher performance degradation...",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 0
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc7b4915_e51771e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-10T06:08:39Z",
+      "side": 1,
+      "message": "Nvm - missed the `@UseLocalDisk` annotation in test that is used to get the numbers - IOW these are real numbers from having All-Users on a local SSD disk",
+      "parentUuid": "531e2d64_d3ebaa9c",
       "range": {
         "startLine": 52,
         "startChar": 0,
@@ -294,6 +366,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12a07e76_5e2c3e5d",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-10T06:08:39Z",
+      "side": 1,
+      "message": "deleted ones + \u0027refs/users/default\u0027 + \u0027refs/meta/external-ids\u0027 I believe it is cleaner this way and cannot be worse than what we have now :D",
+      "parentUuid": "58cbae62_eb756f73",
+      "range": {
+        "startLine": 337,
+        "startChar": 16,
+        "endLine": 337,
+        "endChar": 26
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b3d810b6_7d5b5ca0",
         "filename": "java/com/google/gerrit/server/account/AllUsersObjectIdByRefCache.java",
         "patchSetId": 3
@@ -352,6 +448,30 @@
       "side": 1,
       "message": "\u003e the rationale behind the change:\n\u003e 1. when account gets created it results in 2 ref updates (see line #498 in com.google.gerrit.server.account.AccountsUpdate.commit(Repository, UpdatedAccount))\n\u003e * refs/users/XX/YYYYY (account details update)\n\u003e * refs/meta/external-ids (external ids update)\n\u003e \n\u003e 2. update to `refs/users/XX/YYYY` results in the account re-index but it happens before the `refs/meta/external-ids` update hence it uses stale data\n\nWhy aren\u0027t those two refs updated atomically? Wouldn\u0027t that solve this issue?",
       "parentUuid": "b980190c_27009195",
+      "range": {
+        "startLine": 750,
+        "startChar": 4,
+        "endLine": 752,
+        "endChar": 5
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a51f4ddd_453bb549",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-10T06:08:39Z",
+      "side": 1,
+      "message": "They are updated atomically but ref updates resulting from it (damn I should have phrased it differently - now I see it :D) are sent sequentially one-by-one hence the issue and solution that I have applied...",
+      "parentUuid": "6f8e99de_9eb4dc05",
       "range": {
         "startLine": 750,
         "startChar": 4,

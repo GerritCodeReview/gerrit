@@ -167,7 +167,7 @@ public class CommitRewriter {
       Pattern.compile("Change has been successfully (.*) by (.*)");
 
   private static final Pattern ON_CODE_OWNER_ADD_REVIEWER_PATTERN =
-      Pattern.compile("(.*) who was added as reviewer owns the following files");
+      Pattern.compile("(.*)\\,? who was added as reviewer owns the following files");
   private static final Pattern ON_CODE_OWNER_APPROVAL_PATTERN =
       Pattern.compile("code-owner approved by (.*):");
   private static final Pattern ON_CODE_OWNER_OVERRIDE_PATTERN =

@@ -1307,6 +1307,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -6 +6 @@\n"
                 + "-Reviewer User who was added as reviewer owns the following files:\n"
                 + "+Gerrit Account, who was added as reviewer owns the following files:\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test

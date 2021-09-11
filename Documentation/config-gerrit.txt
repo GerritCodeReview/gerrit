@@ -2661,7 +2661,7 @@ Sample Lucene index configuration:
   maxBufferedDocs = 500
   maxThreadCount = 10
   maxMergeCount = 100
-  enableIOThrottle = false
+  enableAutoIOThrottle = false
 
 ----
 

@@ -156,7 +156,7 @@ suite('gr-comment tests', () => {
       });
     });
 
-    test('message is not retrieved from storage when other edits', async () => {
+    test('message is not retrieved from storage when missing path', async () => {
       const storageStub = stubStorage('getDraftComment');
       const loadSpy = sinon.spy(element, '_loadLocalDraft');
 
@@ -174,7 +174,30 @@ suite('gr-comment tests', () => {
       assert.isFalse(storageStub.called);
     });
 
-    test('message is retrieved from storage when no other edits', async () => {
+    test('message is not retrieved from storage when message present',
+    async () => {
+      const storageStub = stubStorage('getDraftComment');
+      const loadSpy = sinon.spy(element, '_loadLocalDraft');
+
+      element.changeNum = 1 as NumericChangeId;
+      element.patchNum = 1 as PatchSetNum;
+      element.comment = {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com' as EmailAddress,
+        },
+        message: 'This is a message',
+        line: 5,
+        path: 'test',
+        __editing: true,
+        __draft: true,
+      };
+      await flush();
+      assert.isTrue(loadSpy.called);
+      assert.isFalse(storageStub.called);
+    });
+
+    test('message is retrieved from storage for drafts in edit', async () => {
       const storageStub = stubStorage('getDraftComment');
       const loadSpy = sinon.spy(element, '_loadLocalDraft');
 

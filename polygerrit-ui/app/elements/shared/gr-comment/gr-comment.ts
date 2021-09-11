@@ -679,7 +679,10 @@ export class GrComment extends base {
   }
 
   _messageTextChanged(_: string, oldValue: string) {
-    if (!this.comment) {
+    // Only store comments that are being edited in local storage.
+    if (!this.comment ||
+      (this.comment.id &&
+        (!isDraft(this.comment) || !this.comment.__editing))) {
       return;
     }
 
@@ -966,7 +969,13 @@ export class GrComment extends base {
 
     // Only apply local drafts to comments that are drafts and are currently
     // being edited.
-    if (!comment || !comment.path || !isDraft(comment) || !comment.__editing) {
+    if (
+      !comment ||
+      !comment.path ||
+      comment.message ||
+      !isDraft(comment) ||
+      !comment.__editing
+    ) {
       return;
     }
 

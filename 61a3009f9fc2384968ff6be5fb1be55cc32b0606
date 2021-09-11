@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92b54123_b7289dc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1140605
+      },
+      "writtenOn": "2021-09-11T19:05:18Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/317254",
+      "revId": "61a3009f9fc2384968ff6be5fb1be55cc32b0606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

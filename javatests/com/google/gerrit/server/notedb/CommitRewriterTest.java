@@ -150,6 +150,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     List<String> commitHistoryDiff = commitHistoryDiff(backfillResult, c.getId());
     assertThat(commitHistoryDiff).containsExactly("");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -212,6 +215,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(commitHistoryDiff).hasSize(1);
     assertThat(commitHistoryDiff.get(0)).contains("-author Change Owner <1@gerrit>");
     assertThat(commitHistoryDiff.get(0)).contains("+author Gerrit User 1 <1@gerrit>");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -272,6 +278,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -9 +9 @@\n"
                 + "-Real-user: Other Account <2@gerrit>\n"
                 + "+Real-user: Gerrit User 2 <2@gerrit>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -352,6 +361,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -9 +9 @@\n"
                 + "-Removed: Other Account <2@gerrit>\n"
                 + "+Removed: Gerrit User 2 <2@gerrit>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -444,6 +456,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "-\n"
                 + "- * Code-Review+2\n"
                 + "+Removed cc\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -479,6 +494,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "-\n"
                 + "- * Code-Review+2\n"
                 + "+Removed cc\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -610,6 +628,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -7 +7 @@\n"
                 + "-Label: -Verified Change Owner <1@gerrit>\n"
                 + "+Label: -Verified Gerrit User 1 <1@gerrit>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -730,6 +751,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -6 +6 @@\n"
                 + "-Removed Verified+2 by Change Owner <change@owner.com>\n"
                 + "+Removed Verified+2 by <GERRIT_ACCOUNT_1>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -761,6 +785,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -6 +6 @@\n"
                 + "-Removed Verified+2 by Other Account <other@account.com>\n"
                 + "+Removed Verified+2 by Gerrit Account\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -804,6 +831,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -6 +6 @@\n"
                 + "-Removed Verified+2 by Change Owner <change@owner.com>\n"
                 + "+Removed Verified+2 by <GERRIT_ACCOUNT_1>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1013,6 +1043,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -7 +7 @@\n"
                 + "-Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by Other Account by clicking the attention icon\"}\n"
                 + "+Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by someone by clicking the attention icon\"}\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1095,6 +1128,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(notesBeforeRewrite.getMetaId()).isEqualTo(notesAfterRewrite.getMetaId());
     assertThat(metaRefBefore.getObjectId()).isEqualTo(metaRefAfter.getObjectId());
     assertThat(backfillResult.fixedRefDiff).isEmpty();
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1173,6 +1209,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -6 +6 @@\n"
                 + "-Change has been successfully rebased and submitted as e40dc1a50dc7f457a37579e2755374f3e1a5413b by Change Owner\n"
                 + "+Change has been successfully rebased and submitted as e40dc1a50dc7f457a37579e2755374f3e1a5413b\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1219,6 +1258,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "@@ -15 +15 @@\n"
                 + "-Submitted-with: OK: Code-Review: Change Owner <1@gerrit>\n"
                 + "+Submitted-with: OK: Code-Review: Gerrit User 1 <1@gerrit>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1291,6 +1333,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "@@ -12 +12 @@\n"
                 + "-Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
                 + "+Submitted-with: OK: Verified: Gerrit User 1 <1@gerrit>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1363,6 +1408,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -6 +6 @@\n"
                 + "-Change message removed by: Change Owner\n"
                 + "+Change message removed\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1482,6 +1530,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -6 +6 @@\n"
                 + "-Reviewer User who was added as reviewer owns the following files:\n"
                 + "+Gerrit Account, who was added as reviewer owns the following files:\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1640,6 +1691,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -11 +11 @@\n"
                 + "-By voting Any-Label+2 the code-owners submit requirement is overridden by Change Owner\n"
                 + "+By voting Any-Label+2 the code-owners submit requirement is overridden by <GERRIT_ACCOUNT_1>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1706,6 +1760,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -9 +9 @@\n"
                 + "-Assignee: Change Owner <1@gerrit>\n"
                 + "+Assignee: Gerrit User 1 <1@gerrit>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1801,6 +1858,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "@@ -9 +9 @@\n"
                 + "-Assignee:\n"
                 + "+Assignee: \n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1859,6 +1919,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             "@@ -6 +6 @@\n"
                 + "-Assignee added: Reviewer User\n"
                 + "+Assignee added: Gerrit Account\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   @Test
@@ -1924,6 +1987,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "@@ -9 +9 @@\n"
                 + "-Assignee: Other Account <2@gerrit>\n"
                 + "+Assignee: Gerrit User 2 <2@gerrit>");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
   private RevCommit writeUpdate(String metaRef, String body, PersonIdent author) throws Exception {

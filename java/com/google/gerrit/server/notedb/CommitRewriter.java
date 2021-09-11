@@ -642,7 +642,9 @@ public class CommitRewriter {
 
     Matcher onAddReviewerMatcher = ON_CODE_OWNER_ADD_REVIEWER_PATTERN.matcher(originalMessage);
     if (!onAddReviewerMatcher.find()
-        || NON_REPLACE_ACCOUNT_PATTERN.matcher(onAddReviewerMatcher.group(1)).matches()) {
+        || NON_REPLACE_ACCOUNT_PATTERN
+            .matcher(normalizeOnCodeOwnerAddReviewerMatch(onAddReviewerMatcher.group(1)))
+            .matches()) {
       return Optional.empty();
     }
 
@@ -651,7 +653,7 @@ public class CommitRewriter {
     onAddReviewerMatcher.reset();
     StringBuffer sb = new StringBuffer();
     while (onAddReviewerMatcher.find()) {
-      String reviewerName = onAddReviewerMatcher.group(1);
+      String reviewerName = normalizeOnCodeOwnerAddReviewerMatch(onAddReviewerMatcher.group(1));
       String replacementName =
           getPossibleAccountReplacement(changeFixProgress, Optional.empty(), reviewerName);
       onAddReviewerMatcher.appendReplacement(
@@ -660,6 +662,14 @@ public class CommitRewriter {
     onAddReviewerMatcher.appendTail(sb);
     sb.append("\n");
     return Optional.of(sb.toString());
+  }
+
+  private String normalizeOnCodeOwnerAddReviewerMatch(String reviewerMatch) {
+    String reviewerName = reviewerMatch;
+    if (reviewerName.charAt(reviewerName.length() - 1) == ',') {
+      reviewerName = reviewerName.substring(0, reviewerName.length() - 1);
+    }
+    return reviewerName;
   }
 
   private Optional<String> fixCodeOwnersOnReviewChangeMessage(

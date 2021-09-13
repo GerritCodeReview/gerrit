@@ -33,6 +33,8 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -72,6 +74,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   private final ExecutorService sendEmailExecutor;
   private final ChangeMerged changeMerged;
   private final MessageIdGenerator messageIdGenerator;
+  private final RetryHelper retryHelper;
 
   private final PatchSet.Id psId;
   private final SubmissionId submissionId;
@@ -93,6 +96,7 @@ public class MergedByPushOp implements BatchUpdateOp {
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       ChangeMerged changeMerged,
       MessageIdGenerator messageIdGenerator,
+      RetryHelper retryHelper,
       @Assisted RequestScopePropagator requestScopePropagator,
       @Assisted PatchSet.Id psId,
       @Assisted SubmissionId submissionId,
@@ -105,6 +109,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     this.sendEmailExecutor = sendEmailExecutor;
     this.changeMerged = changeMerged;
     this.messageIdGenerator = messageIdGenerator;
+    this.retryHelper = retryHelper;
     this.requestScopePropagator = requestScopePropagator;
     this.submissionId = submissionId;
     this.psId = psId;
@@ -186,18 +191,29 @@ public class MergedByPushOp implements BatchUpdateOp {
                   @Override
                   public void run() {
                     try {
-                      // The stickyApprovalDiff is always empty here since this is not supported
-                      // for direct pushes.
-                      MergedSender emailSender =
-                          mergedSenderFactory.create(
-                              ctx.getProject(),
-                              psId.changeId(),
-                              /* stickyApprovalDiff= */ Optional.empty());
-                      emailSender.setFrom(ctx.getAccountId());
-                      emailSender.setPatchSet(patchSet, info);
-                      emailSender.setMessageId(
-                          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-                      emailSender.send();
+                      retryHelper
+                          .action(
+                              ActionType.SEND_EMAIL,
+                              "sendMergedEmail",
+                              () -> {
+                                // The stickyApprovalDiff is always empty here since this is not
+                                // supported
+                                // for direct pushes.
+                                MergedSender emailSender =
+                                    mergedSenderFactory.create(
+                                        ctx.getProject(),
+                                        psId.changeId(),
+                                        /* stickyApprovalDiff= */ Optional.empty());
+                                emailSender.setFrom(ctx.getAccountId());
+                                emailSender.setPatchSet(patchSet, info);
+                                emailSender.setMessageId(
+                                    messageIdGenerator.fromChangeUpdate(
+                                        ctx.getRepoView(), patchSet.id()));
+                                emailSender.send();
+                                return null;
+                              })
+                          .retryWithTrace(Exception.class::isInstance)
+                          .call();
                     } catch (Exception e) {
                       logger.atSevere().withCause(e).log(
                           "Cannot send email for submitted patch set %s", psId);

@@ -174,6 +174,10 @@ public class CommitRewriter {
 
   private static final Pattern REMOVED_VOTE_PATTERN = Pattern.compile("Removed (.*) by (.*)");
 
+  private static final String REMOVED_VOTES_CHANGE_MESSAGE_START = "Removed the following votes:";
+  private static final Pattern REMOVED_VOTES_CHANGE_MESSAGE_PATTERN =
+      Pattern.compile("\\* (.*) by (.*)");
+
   private static final Pattern REMOVED_CHANGE_MESSAGE_PATTERN =
       Pattern.compile("Change message removed by: (.*)(\nReason: .*)?");
 
@@ -600,6 +604,34 @@ public class CommitRewriter {
     return Optional.empty();
   }
 
+  private Optional<String> fixRemoveVotesChangeMessage(
+      ChangeFixProgress changeFixProgress, String originalChangeMessage) {
+    if (Strings.isNullOrEmpty(originalChangeMessage)
+        || !originalChangeMessage.startsWith(REMOVED_VOTES_CHANGE_MESSAGE_START)) {
+      return Optional.empty();
+    }
+    String[] lines = originalChangeMessage.split("\\r?\\n");
+    StringBuilder fixedLines = new StringBuilder();
+    for (int i = 1; i < lines.length; i++) {
+      if (lines[i].isEmpty()) {
+        continue;
+      }
+      Matcher matcher = REMOVED_VOTES_CHANGE_MESSAGE_PATTERN.matcher(lines[i]);
+      if (matcher.matches() && !NON_REPLACE_ACCOUNT_PATTERN.matcher(matcher.group(2)).matches()) {
+        fixedLines.append(
+            String.format(
+                "* %s by %s\n",
+                matcher.group(1),
+                getPossibleAccountReplacement(
+                    changeFixProgress, Optional.empty(), getNameFromNameEmail(matcher.group(2)))));
+      }
+    }
+    if (fixedLines.length() == 0) {
+      return Optional.empty();
+    }
+    return Optional.of(REMOVED_VOTES_CHANGE_MESSAGE_START + "\n" + fixedLines);
+  }
+
   private Optional<String> fixDeleteChangeMessageCommitMessage(String originalChangeMessage) {
     if (Strings.isNullOrEmpty(originalChangeMessage)) {
       return Optional.empty();
@@ -885,6 +917,9 @@ public class CommitRewriter {
     // getPossibleAccountReplacement)
     if (!fixedChangeMessage.isPresent()) {
       fixedChangeMessage = fixReviewerChangeMessage(originalChangeMessage);
+    }
+    if (!fixedChangeMessage.isPresent()) {
+      fixedChangeMessage = fixRemoveVotesChangeMessage(fixProgress, originalChangeMessage);
     }
     if (!fixedChangeMessage.isPresent()) {
       fixedChangeMessage =

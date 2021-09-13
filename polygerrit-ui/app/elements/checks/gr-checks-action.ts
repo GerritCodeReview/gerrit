@@ -43,20 +43,13 @@ export class GrChecksAction extends LitElement {
           white-space: nowrap;
         }
         gr-button {
-          /* It is not fully understood why this is needed, but otherwise the
-             paper-tooltip may render under some iron-icons of the content
-             below. Maybe this has to do with a z-index:0 setting for
-             paper-button, such that a stacking context is created. And the high
-             z-index of the paper-tooltip will then only be interpreted within
-             that stacking context. */
-          z-index: 1;
           --padding: var(--spacing-s) var(--spacing-m);
         }
-        gr-button paper-tooltip {
+        paper-tooltip {
           text-transform: none;
           text-align: center;
           white-space: normal;
-          width: 200px;
+          max-width: 200px;
         }
       `,
     ];
@@ -71,13 +64,17 @@ export class GrChecksAction extends LitElement {
         @click="${(e: Event) => this.handleClick(e)}"
       >
         ${this.action.name}
-        <paper-tooltip
-          ?hidden="${!this.action.tooltip}"
-          offset="5"
-          fit-to-visible-bounds="true"
-          >${this.action.tooltip}</paper-tooltip
-        >
       </gr-button>
+      ${this.renderTooltip()}
+    `;
+  }
+
+  private renderTooltip() {
+    if (!this.action.tooltip) return;
+    return html`
+      <paper-tooltip offset="5" fit-to-visible-bounds="true">
+        ${this.action.tooltip}
+      </paper-tooltip>
     `;
   }
 

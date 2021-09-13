@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@gerritcodereview/typescript-api@3.4.2":
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.4.2.tgz#79e8ff336608cbf18e651bfa9541d7bdead5e1f9"
-  integrity sha512-iqHd6G43pV4Wk5iNw95AQmWUBuIrY+dvQ1Ne8ZYkOwRhdruh4BAPhMtsmqWDlcVQbfcwZD5F2zFkGB4J4htggw==
+"@gerritcodereview/typescript-api@3.4.4":
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.4.4.tgz#9f09687038088dd7edd3b4e30d249502eb21bfbc"
+  integrity sha512-MAiQwntcQ59b92yYDsVIXj3oBbAB4C7HELkLFFbYs4ZjzC43XqqtR9VF0dh5OUC8wzFZttgUiOmGehk9edpPuw==
 
 "@lit/reactive-element@^1.0.0-rc.2":
   version "1.0.0-rc.2"

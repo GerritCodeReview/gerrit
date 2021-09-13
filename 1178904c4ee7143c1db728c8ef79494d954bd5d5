@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f70cc335_9cc646d7",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-09-13T09:57:08Z",
+      "side": 1,
+      "message": "Oh, I fear this was my fault, right?...",
+      "revId": "1178904c4ee7143c1db728c8ef79494d954bd5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26681a5f_010cdeb6",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-09-13T13:14:53Z",
+      "side": 1,
+      "message": "This is cryptic and not visible in the --help output of this command. I propose to make an explicit option for this case:\n\n  --delete-all-external-ids",
+      "range": {
+        "startLine": 112,
+        "startChar": 36,
+        "endLine": 112,
+        "endChar": 39
+      },
+      "revId": "c14fa1317700bd5e005f6c5ebab56a0f0b2a92c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

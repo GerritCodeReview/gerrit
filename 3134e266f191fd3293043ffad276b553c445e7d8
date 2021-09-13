@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c43bd0eb_e47dd40b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-13T22:30:03Z",
+      "side": 1,
+      "message": "What\u0027s the value of these class names? They feel duplicative with the h2/h3. Would it be possible to update our CSS rules to ensure that h3 and \u0027heading-3\u0027 are styled similarly?",
+      "revId": "3134e266f191fd3293043ffad276b553c445e7d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abc49db3_aaf2d2bf",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-13T22:30:03Z",
+      "side": 1,
+      "message": "Change this to h3?",
+      "revId": "3134e266f191fd3293043ffad276b553c445e7d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

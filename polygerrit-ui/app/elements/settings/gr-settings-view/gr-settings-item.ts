@@ -16,6 +16,7 @@
  */
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {formStyles} from '../../../styles/gr-form-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,6 +34,7 @@ export class GrSettingsItem extends LitElement {
 
   static override get styles() {
     return [
+      formStyles,
       css`
         :host {
           display: block;

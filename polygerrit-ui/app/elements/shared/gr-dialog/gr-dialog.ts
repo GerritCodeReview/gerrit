@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import '../gr-button/gr-button';
+import '../../../styles/gr-font-styles';
 import '../../../styles/shared-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-dialog_html';

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '../../../styles/gr-font-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-download-commands/gr-download-commands';
 import {PolymerElement} from '@polymer/polymer/polymer-element';

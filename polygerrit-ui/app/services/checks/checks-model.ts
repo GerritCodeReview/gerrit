@@ -623,7 +623,7 @@ export const fakeRun4_4: CheckRun = {
   actions: [
     {
       name: 'Re-Run',
-      tooltip: 'More powerful run than before',
+      tooltip: 'small',
       primary: true,
       callback: () => Promise.resolve({message: 'fake "re-run" triggered'}),
     },

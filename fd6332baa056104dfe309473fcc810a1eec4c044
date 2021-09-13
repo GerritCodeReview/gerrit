@@ -441,6 +441,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c246359_85ce19d4",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-13T13:05:24Z",
+      "side": 1,
+      "message": "\u003e [reftable] Does that code have tricks to avoid reading the whole file?\n\nreftable is an indexed format. It needs log_{blocksize}(#refs) reads to read the final data; you can tweak the blocksize to reduce the number of accesses if reads are expensive. It never reads the entire file, except when you iterate over the entire ref space.\n\n\u003e In general, JGit could certainly be smarter about how it deals with packed-refs (for example, leveraging knowledge of sort order to search without reading the whole file). \n\nAFAICT, Java supports mmap\u0027d files, (https://howtodoinjava.com/java/nio/memory-mapped-files-mappedbytebuffer/), so you could use the exact same trick used in CGit to avoid reading the entire file. Would still be good to see how much time the file reading costs vs. doing the directory reads, though.\n\n\u003eThe problem is what you mean by \"efficient\": resolving the call in msec? micros? nanos?\n\u003e\n\u003eWhen you are on NFS and have set trustFolderStat \u003d false, JGit does a filesystem access (*at least* msec if not sometimes sec-level latency) to check if the file has changed. That is never going to be a \"caching\" behaviour, unfortunately.\n\nJGit does this trickery this to account for other processes that write into the same storage. \n\nI think Jacek is trying to introduce a cache that is triggered by ref updates from inside Gerrit, but that only works if Gerrit is the only process writing into repository. If you know that to be the case, I think you could simply also stop overriding trustFolderStat for that repository? I am assuming that in a single-writer (ie. Gerrit) scenario, the same process gets a consistent result from reading back its own writes.",
+      "parentUuid": "b17f2f36_da01e825",
+      "range": {
+        "startLine": 494,
+        "startChar": 45,
+        "endLine": 495,
+        "endChar": 89
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bed776a_48c0f847",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 6

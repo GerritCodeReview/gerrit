@@ -73,6 +73,7 @@ import {
 import {GerritNav} from '../core/gr-navigation/gr-navigation';
 import {DropdownLink} from '../shared/gr-dropdown/gr-dropdown';
 import {subscribe} from '../lit/subscription-controller';
+import {fontStyles} from '../../styles/gr-font-styles';
 
 @customElement('gr-result-row')
 class GrResultRow extends LitElement {
@@ -756,6 +757,7 @@ export class GrChecksResults extends LitElement {
     return [
       sharedStyles,
       spinnerStyles,
+      fontStyles,
       css`
         :host {
           display: block;

@@ -16,6 +16,7 @@
  */
 
 import '@polymer/iron-icon/iron-icon';
+import '../../../styles/gr-font-styles';
 import '../../../styles/shared-styles';
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';

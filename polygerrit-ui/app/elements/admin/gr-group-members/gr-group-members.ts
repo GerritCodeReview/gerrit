@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../../styles/gr-font-styles';
 import '../../../styles/gr-form-styles';
 import '../../../styles/gr-subpage-styles';
 import '../../../styles/gr-table-styles';

@@ -21,6 +21,7 @@ import {fireEvent} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement} from 'lit/decorators';
+import {fontStyles} from '../../../styles/gr-font-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,6 +34,7 @@ export class GrCreateChangeHelp extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      fontStyles,
       css`
         :host {
           display: block;

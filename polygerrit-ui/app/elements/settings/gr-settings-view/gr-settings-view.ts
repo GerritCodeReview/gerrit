@@ -16,6 +16,7 @@
  */
 import '@polymer/iron-input/iron-input';
 import '@polymer/paper-toggle-button/paper-toggle-button';
+import '../../../styles/gr-font-styles';
 import '../../../styles/gr-form-styles';
 import '../../../styles/gr-menu-page-styles';
 import '../../../styles/gr-page-nav-styles';

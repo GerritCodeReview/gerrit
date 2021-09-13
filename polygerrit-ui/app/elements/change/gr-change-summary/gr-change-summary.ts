@@ -63,6 +63,7 @@ import {ChecksTabState, CommentTabState} from '../../../types/events';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {modifierPressed} from '../../../utils/dom-util';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
+import {fontStyles} from '../../../styles/gr-font-styles';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -96,6 +97,7 @@ export class GrSummaryChip extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      fontStyles,
       css`
         .summaryChip {
           color: var(--chip-color);

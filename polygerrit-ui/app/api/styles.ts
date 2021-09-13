@@ -34,6 +34,7 @@ export interface Style {
 }
 
 export interface Styles {
+  font: Style;
   form: Style;
   menuPage: Style;
   subPage: Style;

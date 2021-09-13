@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import '../../../styles/gr-font-styles';
 import '../../shared/gr-hovercard/gr-hovercard-shared-style';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';

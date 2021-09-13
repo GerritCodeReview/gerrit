@@ -58,6 +58,7 @@ import {charsOnly} from '../../utils/string-util';
 import {appContext} from '../../services/app-context';
 import {KnownExperimentId} from '../../services/flags/flags';
 import {subscribe} from '../lit/subscription-controller';
+import {fontStyles} from '../../styles/gr-font-styles';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
@@ -403,6 +404,7 @@ export class GrChecksRuns extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      fontStyles,
       css`
         :host {
           display: block;

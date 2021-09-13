@@ -465,6 +465,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f19ddd52_fc756310",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-13T13:11:00Z",
+      "side": 1,
+      "message": "\u003e there wasn\u0027t more discussion/concern back in 2.15 when this happened, but maybe caches there covered it up?\n\nhindsight is 20/20, but in retrospect, it\u0027s not obvious to me that account \u0026 group data should have been migrated to Git in the first place: since the storage is in a separate repository, you never get atomic updates wrt updates to the code repos, which was the primary motivation for NoteDb. In exchange, we now have to worry about lots of limitations of the \"database\" in our account system.",
+      "parentUuid": "1c246359_85ce19d4",
+      "range": {
+        "startLine": 494,
+        "startChar": 45,
+        "endLine": 495,
+        "endChar": 89
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bed776a_48c0f847",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 6

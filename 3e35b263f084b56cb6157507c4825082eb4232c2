@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "95d1c1fd_7d9ef90f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-13T06:46:10Z",
+      "side": 1,
+      "message": "Looks like it should be \"build\" instead of \"buildRepeatable\"\n  /** Number of changes that contain attention set. */\n  public static final FieldDef\u003cChangeData, Integer\u003e ATTENTION_SET_USERS_COUNT \u003d\n      integer(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS)\n          .build(cd -\u003e additionsOnly(cd.attentionSet().size()));\n          \nThere might be other syntax errors though, I didn\u0027t compile it :-)",
+      "parentUuid": "82e50547_bc7990f5",
+      "revId": "3e35b263f084b56cb6157507c4825082eb4232c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e25fddd4_5666d42b",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 9

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1888c1c_e3eeeacc",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-09-13T23:29:00Z",
+      "side": 1,
+      "message": "I\u0027ve changed how it works since you commented. Going to close this as resolved.",
+      "parentUuid": "64859c79_9a5f1063",
+      "range": {
+        "startLine": 435,
+        "startChar": 19,
+        "endLine": 435,
+        "endChar": 32
+      },
+      "revId": "58811adbc01023add22fb64a0dc367d7ecfd4100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14c94191_05a89ec7",

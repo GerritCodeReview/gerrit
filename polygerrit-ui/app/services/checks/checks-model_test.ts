@@ -20,6 +20,7 @@ import {
   _testOnly_getState,
   _testOnly_resetState,
   ChecksPatchset,
+  updateStateSetLoading,
   updateStateSetProvider,
   updateStateSetResults,
   updateStateUpdateResult,
@@ -45,34 +46,55 @@ const RUNS: CheckRun[] = [
   },
 ];
 
+function current() {
+  return _testOnly_getState().pluginStateLatest[PLUGIN_NAME];
+}
+
 suite('checks-model tests', () => {
   test('updateStateSetProvider', () => {
     _testOnly_resetState();
     updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
-    const state = _testOnly_getState().pluginStateLatest[PLUGIN_NAME];
-    assert.deepEqual(state, {
+    assert.deepEqual(current(), {
       pluginName: PLUGIN_NAME,
       loading: false,
+      firstTimeLoad: true,
       runs: [],
       actions: [],
       links: [],
     });
   });
 
+  test('loading and first time load', () => {
+    _testOnly_resetState();
+    updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
+    assert.isFalse(current().loading);
+    assert.isTrue(current().firstTimeLoad);
+    updateStateSetLoading(PLUGIN_NAME, ChecksPatchset.LATEST);
+    assert.isTrue(current().loading);
+    assert.isTrue(current().firstTimeLoad);
+    updateStateSetResults(PLUGIN_NAME, RUNS, [], [], ChecksPatchset.LATEST);
+    assert.isFalse(current().loading);
+    assert.isFalse(current().firstTimeLoad);
+    updateStateSetLoading(PLUGIN_NAME, ChecksPatchset.LATEST);
+    assert.isTrue(current().loading);
+    assert.isFalse(current().firstTimeLoad);
+    updateStateSetResults(PLUGIN_NAME, RUNS, [], [], ChecksPatchset.LATEST);
+    assert.isFalse(current().loading);
+    assert.isFalse(current().firstTimeLoad);
+  });
+
   test('updateStateSetResults', () => {
     _testOnly_resetState();
     updateStateSetResults(PLUGIN_NAME, RUNS, [], [], ChecksPatchset.LATEST);
-    const state = _testOnly_getState().pluginStateLatest[PLUGIN_NAME];
-    assert.lengthOf(state.runs, 1);
-    assert.lengthOf(state.runs[0].results!, 1);
+    assert.lengthOf(current().runs, 1);
+    assert.lengthOf(current().runs[0].results!, 1);
   });
 
   test('updateStateUpdateResult', () => {
     _testOnly_resetState();
     updateStateSetResults(PLUGIN_NAME, RUNS, [], [], ChecksPatchset.LATEST);
-    let state = _testOnly_getState().pluginStateLatest[PLUGIN_NAME];
     assert.equal(
-      state.runs[0].results![0].summary,
+      current().runs[0].results![0].summary,
       RUNS[0]!.results![0].summary
     );
     const result = RUNS[0].results![0];
@@ -83,9 +105,8 @@ suite('checks-model tests', () => {
       updatedResult,
       ChecksPatchset.LATEST
     );
-    state = _testOnly_getState().pluginStateLatest[PLUGIN_NAME];
-    assert.lengthOf(state.runs, 1);
-    assert.lengthOf(state.runs[0].results!, 1);
-    assert.equal(state.runs[0].results![0].summary, 'new');
+    assert.lengthOf(current().runs, 1);
+    assert.lengthOf(current().runs[0].results!, 1);
+    assert.equal(current().runs[0].results![0].summary, 'new');
   });
 });

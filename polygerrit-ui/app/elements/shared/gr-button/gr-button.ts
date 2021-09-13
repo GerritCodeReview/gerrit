@@ -84,12 +84,12 @@ export class GrButton extends base {
   @property({
     computed: 'computeAriaDisabled(disabled, loading)',
     reflectToAttribute: true,
-    type: Boolean,
+    type: String,
   })
-  ariaDisabled!: boolean;
+  ariaDisabled!: string;
 
   computeAriaDisabled() {
-    return this._disabled;
+    return this._disabled ? 'true' : 'false';
   }
 
   computePaperButtonClass(voteChip?: boolean) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "225b1e8c_dd5a44af",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-13T07:08:25Z",
+      "side": 1,
+      "message": "Can we add a test for this in ChangeNotesParserTest?",
+      "revId": "c877edcd317ca13811bc58f733538bb7ed155b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

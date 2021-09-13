@@ -32,7 +32,7 @@ class RepoCommandLow extends Polymer.Element {
         margin-bottom: var(--spacing-xxl);
       }
       </style>
-      <h3>Plugin Bork</h3>
+      <h3 class="heading-3">Plugin Bork</h3>
       <gr-button on-click="_handleCommandTap">Bork</gr-button>
     `;
   }

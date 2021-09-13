@@ -63,7 +63,7 @@ export const htmlTemplate = html`
               class="cell"
               colspan$="[[_computeColspan(changeSection, visibleChangeTableColumns, labelNames)]]"
             >
-              <h2>
+              <h2 class="heading-3">
                 <a
                   href$="[[_sectionHref(changeSection.query)]]"
                   class="section-title"

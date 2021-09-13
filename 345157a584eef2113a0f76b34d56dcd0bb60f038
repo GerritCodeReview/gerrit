@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f866a888_afcc2abe",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-09-13T10:21:53Z",
+      "side": 1,
+      "message": "This must have already been set in gerrit.config? If not, then the site was not running case insensitive usernames.\n\nI believe that an explicit option for the conversion direction would be cleaner and easier to use than tweaking the gerrit.config before running this program:\n\n  $ java -jar gerrit.war ChangeExternalIdCaseSensitivity --to_case_sensitive\n  \n  $ java -jar gerrit.war ChangeExternalIdCaseSensitivity --to_case_insensitive",
+      "range": {
+        "startLine": 51,
+        "startChar": 44,
+        "endLine": 51,
+        "endChar": 77
+      },
+      "revId": "345157a584eef2113a0f76b34d56dcd0bb60f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a493df9_a2f6cc26",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-09-13T10:21:53Z",
+      "side": 1,
+      "message": "This method name is now inconsistent with its usage as now in the line 147 we may pass true or false.",
+      "revId": "345157a584eef2113a0f76b34d56dcd0bb60f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

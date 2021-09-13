@@ -49,12 +49,12 @@ export const htmlTemplate = html`
   </style>
   <gr-overlay id="diffPrefsOverlay" with-backdrop="">
     <div role="dialog" aria-labelledby="diffPreferencesTitle">
-      <h1
-        class$="diffHeader [[_computeHeaderClass(_diffPrefsChanged)]]"
+      <h3
+        class$="heading-3 diffHeader [[_computeHeaderClass(_diffPrefsChanged)]]"
         id="diffPreferencesTitle"
       >
         Diff Preferences
-      </h1>
+      </h3>
       <gr-diff-preferences
         id="diffPreferences"
         diff-prefs="{{_editableDiffPrefs}}"

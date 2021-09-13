@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cb115ae_8a182eb9",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-09-13T11:44:07Z",
+      "side": 1,
+      "message": "This check is inconsistent with the documentation which says:\n\n  ADMINISTRATE_SERVER OR (MAINTAIN_SERVER AND MODIFY_ACCOUNT)",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 9
+      },
+      "revId": "2178e755420a2c26da851fcf0c3315be4ab3ad52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

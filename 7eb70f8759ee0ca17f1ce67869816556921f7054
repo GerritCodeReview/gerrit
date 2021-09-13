@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bad8c011_dfea1b3a",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-13T09:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff0ba42_c2bd6046",
+      "revId": "7eb70f8759ee0ca17f1ce67869816556921f7054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d30f2834_8cd69f5c",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f42a6d53_2655d561",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-13T09:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d30f2834_8cd69f5c",
+      "revId": "7eb70f8759ee0ca17f1ce67869816556921f7054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14b8e4e3_83d9988a",
@@ -48,6 +84,42 @@
       "writtenOn": "2021-09-13T08:33:50Z",
       "side": 1,
       "message": "nit/opt: Extract these lines to something like \"assertSecondRunIsNoOp\"?",
+      "revId": "7eb70f8759ee0ca17f1ce67869816556921f7054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8def2472_1e84c1bd",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1990,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-13T09:14:36Z",
+      "side": 1,
+      "message": "Ack, I will keep it, so it is explicit this is the second run.",
+      "parentUuid": "14b8e4e3_83d9988a",
+      "revId": "7eb70f8759ee0ca17f1ce67869816556921f7054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cabc717_844f9447",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1990,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-13T09:14:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "14b8e4e3_83d9988a",
       "revId": "7eb70f8759ee0ca17f1ce67869816556921f7054",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

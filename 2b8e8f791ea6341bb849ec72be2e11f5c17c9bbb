@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1da0b9b7_ddf59b0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-13T11:57:35Z",
+      "side": 1,
+      "message": "Thanks for adding the shell-script! Minor suggestion added",
+      "revId": "2b8e8f791ea6341bb849ec72be2e11f5c17c9bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcb785e9_9d6e199b",
+        "filename": "polygerrit-ui/app/api/publish.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-13T11:57:35Z",
+      "side": 1,
+      "message": "Proposal: Make this a cp not a move and set a trap for exit to delete it?\n\nSomething like\n\nfunction cleanup() {\n  rm $-f {api_path}/BUILD\n}\ntrap cleanup EXIT",
+      "revId": "2b8e8f791ea6341bb849ec72be2e11f5c17c9bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

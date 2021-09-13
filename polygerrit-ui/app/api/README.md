@@ -1,23 +1,25 @@
-# API
+# Gerrit TypeScript Plugin API
 
-In this folder, we declare the API of various parts of the Gerrit webclient.
-There are two primary use cases for this:
+This package contains the types for developing browser plugins for the
+Gerrit Code Review web application. General documentation for plugin
+developers can be found at
+[gerrit-review.googlesource.com](https://gerrit-review.googlesource.com/Documentation/pg-plugin-dev.html).
 
-* apps that embed our diff viewer, gr-diff
-* Gerrit plugins that need to access some part of Gerrit to extend it
+The `.ts` files only contain types, interfaces and enums, and thus the compiled
+`.js` files only contain the enums. For JavaScript plugins this package is not
+really useful or necessary, but it also serves as the source of truth for
+what plugin APIs are actually supported.
 
-Both may be built as a separate bundle, but would like to type check against
-the same types the Gerrit/gr-diff bundle uses. For this reason, this folder
-should contain only types, with the exception of enums, where having the
-value side is deemed an acceptable duplication.
+Versioning of this API matches the MAJOR and MINOR versions of the general
+Gerrit releases, but the PATCH version is independent. When you are building
+a plugin for Gerrit x.y.z, then you should use the API package x.y.n, where
+n is the highest available patch version of the API. Patch versions will only
+contain additions and fixes, minor versions may include API removals.
 
 All types in here should use the `declare` keyword to prevent bundlers from
 renaming fields, which would break communication across separately built
-bundles. Again enums are the exception, because their keys are not referenced
+bundles. enums are the exception, because their keys are not referenced
 across bundles, and values will not be renamed by bundlers as they are strings.
 
-This API is used by other apps embedding gr-diff and any breaking changes
+This API is also used by other apps embedding gr-diff and any breaking changes
 should be discussed with the Gerrit core team and properly versioned.
-
-Gerrit types should either directly use or extend these types, so that
-breaking changes to the implementation require changes to these files.

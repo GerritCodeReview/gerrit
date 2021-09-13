@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5430e335_4bb97648",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-09-13T08:55:58Z",
+      "side": 1,
+      "message": "Actually my previous comment is not strictly related to this change as the sha1 method already existed before this change and computed the sha1 every time it was invoked.\n\nAn example of how to use @AutoValue with @Memoized is given in this change:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/317614",
+      "parentUuid": "f44f31c2_f342b57e",
+      "revId": "bc3cf22070b211b550362d16669a96a4821ce76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8016a3e7_ae050df3",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
         "patchSetId": 12

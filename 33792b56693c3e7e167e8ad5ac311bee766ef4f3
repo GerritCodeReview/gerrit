@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f422b4ca_ed9ef941",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-13T20:26:42Z",
+      "side": 1,
+      "message": "nit: s/by/by the/",
+      "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d815cee_f36c0a6f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-13T20:26:42Z",
+      "side": 1,
+      "message": "Note the other examples now start at column 0.",
+      "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aef2a96_7961d4c9",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-13T20:26:42Z",
+      "side": 1,
+      "message": "s/by/by the/",
+      "range": {
+        "startLine": 834,
+        "startChar": 9,
+        "endLine": 834,
+        "endChar": 12
+      },
+      "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "835aa68b_897a3920",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-13T20:26:42Z",
+      "side": 1,
+      "message": "Start at column 0",
+      "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

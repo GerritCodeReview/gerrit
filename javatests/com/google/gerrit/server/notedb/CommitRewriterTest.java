@@ -837,6 +837,67 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void fixRemoveVotesChangeMessage() throws Exception {
+    Change c = newChange();
+    ChangeUpdate approvalUpdate = newUpdate(c, changeOwner);
+    approvalUpdate.putApproval(VERIFIED, (short) +2);
+
+    approvalUpdate.putApprovalFor(otherUserId, VERIFIED, (short) -1);
+    approvalUpdate.commit();
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+
+        // Even though footer is missing, accounts are matched among the account in change updates.
+        getChangeUpdateBody(
+            c,
+            /*changeMessage=*/ "Removed the following votes:\n"
+                + String.format("* Verified-1 by %s\n", otherUser.getNameEmail())),
+        getAuthorIdent(changeOwner.getAccount()));
+
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c,
+            /*changeMessage=*/ "Removed the following votes:\n"
+                + String.format("* Verified+2 by %s\n", changeOwner.getNameEmail())
+                + String.format("* Verified-1 by %s\n", changeOwner.getNameEmail())
+                + String.format("* Code-Review by %s\n", otherUser.getNameEmail())),
+        getAuthorIdent(changeOwner.getAccount()));
+
+    // No rewrite for default
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c,
+            /*changeMessage=*/ "Removed the following votes:\n"
+                + "* Verified+2 by Gerrit Account\n"
+                + "* Verified-1 by <GERRIT_ACCOUNT_2>\n"),
+        getAuthorIdent(changeOwner.getAccount()));
+
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    BackfillResult result = rewriter.backfillProject(project, repo, options);
+    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
+
+    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    assertThat(commitHistoryDiff)
+        .containsExactly(
+            "@@ -7 +7 @@\n"
+                + "-* Verified-1 by Other Account <other@account.com>\n"
+                + "+* Verified-1 by <GERRIT_ACCOUNT_2>\n",
+            "@@ -7,3 +7,3 @@\n"
+                + "-* Verified+2 by Change Owner <change@owner.com>\n"
+                + "-* Verified-1 by Change Owner <change@owner.com>\n"
+                + "-* Code-Review by Other Account <other@account.com>\n"
+                + "+* Verified+2 by <GERRIT_ACCOUNT_1>\n"
+                + "+* Verified-1 by <GERRIT_ACCOUNT_1>\n"
+                + "+* Code-Review by <GERRIT_ACCOUNT_2>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
+  }
+
+  @Test
   public void fixAttentionFooter() throws Exception {
     Change c = newChange();
     ImmutableList.Builder<ObjectId> commitsToFix = new ImmutableList.Builder<>();

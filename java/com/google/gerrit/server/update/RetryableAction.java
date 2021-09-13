@@ -57,6 +57,7 @@ public class RetryableAction<T> {
     PLUGIN_UPDATE,
     REST_READ_REQUEST,
     REST_WRITE_REQUEST,
+    SEND_EMAIL,
   }
 
   @FunctionalInterface

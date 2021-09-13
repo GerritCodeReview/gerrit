@@ -43,6 +43,7 @@ import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -86,7 +87,6 @@ public class EmailArguments {
   final AllProjectsName allProjectsName;
   final List<String> sshAddresses;
   final SitePaths site;
-
   final Provider<ChangeQueryBuilder> queryBuilder;
   final ChangeData.Factory changeDataFactory;
   final Provider<SoySauce> soySauce;
@@ -97,6 +97,7 @@ public class EmailArguments {
   final boolean addInstanceNameInSubject;
   final Provider<String> instanceNameProvider;
   final Provider<CurrentUser> currentUserProvider;
+  final RetryHelper retryHelper;
 
   @Inject
   EmailArguments(
@@ -129,7 +130,8 @@ public class EmailArguments {
       OutgoingEmailValidator validator,
       @GerritInstanceName Provider<String> instanceNameProvider,
       @GerritServerConfig Config cfg,
-      Provider<CurrentUser> currentUserProvider) {
+      Provider<CurrentUser> currentUserProvider,
+      RetryHelper retryHelper) {
     this.server = server;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
@@ -158,8 +160,8 @@ public class EmailArguments {
     this.accountQueryProvider = accountQueryProvider;
     this.validator = validator;
     this.instanceNameProvider = instanceNameProvider;
-
     this.addInstanceNameInSubject = cfg.getBoolean("sendemail", "addInstanceNameInSubject", false);
     this.currentUserProvider = currentUserProvider;
+    this.retryHelper = retryHelper;
   }
 }

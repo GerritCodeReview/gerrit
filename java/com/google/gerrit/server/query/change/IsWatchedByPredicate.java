@@ -81,9 +81,8 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
     }
     if (r.isEmpty()) {
       return ImmutableList.of(ChangeIndexPredicate.none());
-    } else {
-      return ImmutableList.of(or(r));
     }
+    return ImmutableList.of(or(r));
   }
 
   protected static Collection<ProjectWatchKey> getWatches(ChangeQueryBuilder.Arguments args)

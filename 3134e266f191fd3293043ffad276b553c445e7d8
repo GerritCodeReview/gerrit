@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3067b63f_3e6bf4d6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-14T17:23:31Z",
+      "side": 1,
+      "message": "Yeah, maybe we could do this:\n\nWe already have font-normal and font-small. So we could rename:\n\nheading-1 -\u003e font-title\nheading-1 -\u003e font-heading\nheading-1 -\u003e font-subheading\n\nOr some such? WDYT?\n\nAnyway, submitting this change ...",
+      "parentUuid": "dc8f1898_14491851",
+      "revId": "3134e266f191fd3293043ffad276b553c445e7d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abc49db3_aaf2d2bf",

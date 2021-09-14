@@ -132,6 +132,9 @@ public class SubmitRequirementsAdapter {
         return ImmutableList.of(String.format(String.format("-label:%s=MIN", lt.getName())));
       case MAX_NO_BLOCK:
         return ImmutableList.of(String.format(String.format("label:%s=MAX", lt.getName())));
+      case NO_BLOCK:
+      case NO_OP:
+      case PATCH_SET_LOCK:
       default:
         return ImmutableList.of();
     }

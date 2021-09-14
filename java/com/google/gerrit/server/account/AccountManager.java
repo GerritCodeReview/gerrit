@@ -114,7 +114,7 @@ public class AccountManager {
   public Optional<Account.Id> lookup(String externalId) throws AccountException {
     try {
       return externalIds.get(ExternalId.Key.parse(externalId)).map(ExternalId::accountId);
-    } catch (IOException | ConfigInvalidException e) {
+    } catch (IOException e) {
       throw new AccountException("Cannot lookup account " + externalId, e);
     }
   }

@@ -53,7 +53,7 @@ public class ExternalIds {
   }
 
   /** Returns the specified external ID. */
-  public Optional<ExternalId> get(ExternalId.Key key) throws IOException, ConfigInvalidException {
+  public Optional<ExternalId> get(ExternalId.Key key) throws IOException {
     return externalIdCache.byKey(key);
   }
 

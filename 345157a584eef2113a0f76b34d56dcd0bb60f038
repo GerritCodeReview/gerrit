@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2425a656_30330038",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:35Z",
+      "side": 1,
+      "message": "You commented differently here: https://gerrit-review.googlesource.com/c/gerrit/+/301742/18\n\nThe thing is that the tool requires the configuration to be set as expected, otherwise some checks when loading external IDs will fail and an Exception is thrown. Since this is the case, the direction of the migration is anyway determined by the configuration.",
+      "parentUuid": "f866a888_afcc2abe",
+      "range": {
+        "startLine": 51,
+        "startChar": 44,
+        "endLine": 51,
+        "endChar": 77
+      },
+      "revId": "345157a584eef2113a0f76b34d56dcd0bb60f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4a493df9_a2f6cc26",
         "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
         "patchSetId": 10
@@ -37,6 +61,24 @@
       "writtenOn": "2021-09-13T10:21:53Z",
       "side": 1,
       "message": "This method name is now inconsistent with its usage as now in the line 147 we may pass true or false.",
+      "revId": "345157a584eef2113a0f76b34d56dcd0bb60f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ea0018c_35daa2ed",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a493df9_a2f6cc26",
       "revId": "345157a584eef2113a0f76b34d56dcd0bb60f038",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

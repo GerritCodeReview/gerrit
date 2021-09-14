@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64b7c012_f72800fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-14T11:17:58Z",
+      "side": 1,
+      "message": "I did a bit of testing with locally started Gerrit app and here are the results.\n\n1. download the latest stable-3.1 (gerrit-3.1.16)\n* bootstrap site and create test_repo\n* push one-liner for review\n* push 200 one-liners, one-by-one for review (in for loop) to repo took 1m 7s\n* view open changes in UI\n* view open changes with the following curl\ncurl -w \"@$HOME/.curl-format.txt\"  -v -s http://localhost:8091/changes/\\?O\\\u003d81\\\u0026S\\\u003d0\\\u0026n\\\u003d25\\\u0026q\\\u003dstatus%3Aopen\n     time_namelookup:  0.000826s\n        time_connect:  0.001015s\n     time_appconnect:  0.000000s\n    time_pretransfer:  0.001069s\n       time_redirect:  0.000000s\n  time_starttransfer:  0.015318s\n                     ----------\n          time_total:  0.016775s\n\n2. download the latest stable-3.2 (gerrit-3.2.12)\n* bootstrap site and create test_repo\n* push one-liner for review\n* push 200 one-liners, one-by-one for review (in for loop) to repo took 1m 21s\n* view open changes in UI\n* view open changes with the following curl\ncurl -w \"@$HOME/.curl-format.txt\"  -v -s http://localhost:8091/changes/?O\u003d881\u0026S\u003d0\u0026n\u003d25\u0026q\u003dstatus%3Aopen%20-is%3Awip\n     time_namelookup:  0.000798s\n        time_connect:  0.000961s\n     time_appconnect:  0.000000s\n    time_pretransfer:  0.001021s\n       time_redirect:  0.000000s\n  time_starttransfer:  0.026635s\n                     ----------\n          time_total:  0.027209s\n\n3. use stable-3.2 (gerrit-3.2.12) with `core.trustFolderStat true` in `${GERRIT_ETC_DIR}/jgit.config`\n* bootstrap site and create test_repo\n* push one-liner for review\n* push 200 one-liners, one-by-one for review (in for loop) to repo took 1m 11s\n* view open changes in UI\n* view open changes with the following curl\ncurl -w \"@$HOME/.curl-format.txt\"  -v -s http://localhost:8091/changes/?O\u003d881\u0026S\u003d0\u0026n\u003d25\u0026q\u003dstatus%3Aopen%20-is%3Awip\n     time_namelookup:  0.000951s\n        time_connect:  0.001128s\n     time_appconnect:  0.000000s\n    time_pretransfer:  0.001177s\n       time_redirect:  0.000000s\n  time_starttransfer:  0.040785s\n                     ----------\n          time_total:  0.041317s\n\nsubsequent calls reduced the time to\n     time_namelookup:  0.000906s\n        time_connect:  0.001088s\n     time_appconnect:  0.000000s\n    time_pretransfer:  0.001138s\n       time_redirect:  0.000000s\n  time_starttransfer:  0.023022s\n                     ----------\n          time_total:  0.023785s\n\n4. use stable-3.2 (gerrit-3.2.12) with this change\n* bootstrap site and create test_repo\n* push one-liner for review\n* push 200 one-liners, one-by-one for review (in for loop) to repo took 1m 11s\n* view open changes in UI\n* view open changes with the following curl\ncurl -w \"@$HOME/.curl-format.txt\"  -v -s http://localhost:8091/changes/\\?O\\\u003d881\\\u0026S\\\u003d0\\\u0026n\\\u003d25\\\u0026q\\\u003dstatus%3Aopen%20-is%3Awip\n     time_namelookup:  0.000904s\n        time_connect:  0.001086s\n     time_appconnect:  0.000000s\n    time_pretransfer:  0.001143s\n       time_redirect:  0.000000s\n  time_starttransfer:  0.016510s\n                     ----------\n          time_total:  0.017913s\n\nTo sum it up: in this simple sequential scenario `push for review over ssh` for `stable-3.2` was comparable with `stable-3.1` and `stable-3.2` with cache only when `core.trustFolderStat true`. However it was still bitten by them in sheer single-threaded open-changes view by ~32%. If I have a bit of time I will try to add some concurrency (another thread pushing constantly to a different repo in the same time) to the picture. If you thinks about better scenario don\u0027t hesitate to suggest it :D",
+      "parentUuid": "68db5a29_7a688c44",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -157,6 +181,30 @@
       "side": 1,
       "message": "\u003e I believe it does (at least this is the place where I have ended up y-day when I was debugging to prepare this descripton :))\n\u003e org.eclipse.jgit.internal.storage.reftable.ReftableDatabase.exactRef(String)\n\nIt seems like you\u0027re looking at the reftable code. The generic RefDatabase implementation (for stable-3.2 jgit) is at https://gerrit.googlesource.com/jgit/+/73f8acdc5c97e068143c86765995c4fb6923ee91/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java#313 and does not have any locking.\n\nI am surprised that reftable locks on reads, but that seems like a different discussion.\n\nSince the reftable backend and the files backend are often going to have different behavior (as one would expect), we probably need to consider both when dealing with any kind of git ref issue, but especially for anything related to performance.",
       "parentUuid": "0e3721b9_f64fed62",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a64adb8f_a94363a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-14T11:17:58Z",
+      "side": 1,
+      "message": "I have started `stable-3.2` and connected with debug and here is the content of the debug:\n\n0. org.eclipse.jgit.lib.Repository.exactRef(String)\n1. org.eclipse.jgit.internal.storage.file.RefDirectory.readAndResolve(String, RefList\u003cRef\u003e)\n2. org.eclipse.jgit.internal.storage.file.RefDirectory.readRef(String, RefList\u003cRef\u003e)\n\nIOW it seems that you were right by default it should end up in File operations, but I\u0027m not sure if that better or worse :D",
+      "parentUuid": "a097e9a2_56878846",
       "range": {
         "startLine": 16,
         "startChar": 0,
@@ -390,6 +438,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91c61525_e37c312f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-14T11:17:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3ea05d1_e2ee5ef3",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 13
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb0b2d8e_c019f5bd",
@@ -403,6 +475,30 @@
       "writtenOn": "2021-09-09T18:32:07Z",
       "side": 1,
       "message": "usersRefsCache? I know it\u0027s longer, but refsCache seems a little too generic. Same for the other files that aren\u0027t account-specific.",
+      "range": {
+        "startLine": 96,
+        "startChar": 55,
+        "endLine": 96,
+        "endChar": 64
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdb4777c_5df143ea",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-14T11:17:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb0b2d8e_c019f5bd",
       "range": {
         "startLine": 96,
         "startChar": 55,
@@ -473,6 +569,30 @@
       "writtenOn": "2021-09-09T18:32:07Z",
       "side": 1,
       "message": "nit: I think you want singular \"object_id\" and singular \"ref\" since neither refers to a collection? (matching class name)",
+      "range": {
+        "startLine": 40,
+        "startChar": 49,
+        "endLine": 40,
+        "endChar": 77
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aaf3dbb_37055c91",
+        "filename": "java/com/google/gerrit/server/account/AllUsersObjectIdByRefCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-14T11:17:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3d810b6_7d5b5ca0",
       "range": {
         "startLine": 40,
         "startChar": 49,

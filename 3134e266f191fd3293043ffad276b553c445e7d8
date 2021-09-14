@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc8f1898_14491851",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-14T11:24:49Z",
+      "side": 1,
+      "message": "Thank you for the explanation.  I wonder if we can come up with better names so this feels less duplicative (and less weird in having h2 with heading-3), but I can\u0027t think of any at the moment.",
+      "parentUuid": "06f38198_33badccb",
+      "revId": "3134e266f191fd3293043ffad276b553c445e7d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abc49db3_aaf2d2bf",

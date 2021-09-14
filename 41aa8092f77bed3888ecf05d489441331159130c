@@ -221,6 +221,24 @@
       "parentUuid": "fc256dde_e88f2864",
       "revId": "41aa8092f77bed3888ecf05d489441331159130c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "127331e3_1ec6507c",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-09-14T15:05:27Z",
+      "side": 1,
+      "message": "\u003e When I started implementing that tool, I copied the code of LocalUsernamesToLowerCase, since it is very similar. That is where this is coming from. So you know a better way to run reindexing here?\n\nProbably not worth the effort. As I wrote this is only noticing but not a reason to give -1.",
+      "parentUuid": "d426ccbe_795f097d",
+      "revId": "41aa8092f77bed3888ecf05d489441331159130c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

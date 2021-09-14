@@ -4454,8 +4454,7 @@ and assumes milliseconds if not specified.
 [[retry.retryWithTraceOnFailure]]retry.retryWithTraceOnFailure::
 +
 Whether Gerrit should automatically retry operations on failure with tracing
-enabled. The automatically generated traces can help with debugging. Please
-note that only some of the REST endpoints support automatic retry.
+enabled. The automatically generated traces can help with debugging.
 +
 By default this is set to false.
 

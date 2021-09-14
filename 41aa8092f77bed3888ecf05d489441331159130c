@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "734d31a0_fa62df8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d26a415_f9e562ce",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "41aa8092f77bed3888ecf05d489441331159130c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2934e157_fdfa2195",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-09-13T10:14:20Z",
       "side": 1,
       "message": "On the first reading this looked like a typo. Checking the code, I see that this is actually correct. I think that it would be clearer if written like this:\n\n  whether Gerrit already uses case insensitive usernames, in which case the\n  migration will not be performed. Only if this option is set to `false`, the\n  migration will be performed.",
+      "revId": "41aa8092f77bed3888ecf05d489441331159130c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e852b430_a28d77c0",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2934e157_fdfa2195",
       "revId": "41aa8092f77bed3888ecf05d489441331159130c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -60,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a76c4dc6_2bf677bb",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:25Z",
+      "side": 1,
+      "message": "That does not work, since the tool itself is dependent on the state of the configuration option. There would be exception, because the ExternalID.Key.sha1() is not as expected according to the configuration.",
+      "parentUuid": "392a6205_b887bc4e",
+      "revId": "41aa8092f77bed3888ecf05d489441331159130c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "edee84e1_61ed2ece",
         "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
         "patchSetId": 10
@@ -71,6 +131,24 @@
       "writtenOn": "2021-09-13T10:14:20Z",
       "side": 1,
       "message": "Starting the LifecycleListeners should be done as late as possible i.e. just before starting the migration (line 125).",
+      "revId": "41aa8092f77bed3888ecf05d489441331159130c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fb2bc68_4d1b6e84",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edee84e1_61ed2ece",
       "revId": "41aa8092f77bed3888ecf05d489441331159130c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +170,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ced24568_0f0de8e0",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "364fe12f_2b6bf5ba",
+      "revId": "41aa8092f77bed3888ecf05d489441331159130c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc256dde_e88f2864",
@@ -105,6 +201,24 @@
       "writtenOn": "2021-09-13T10:14:20Z",
       "side": 1,
       "message": "Note that this creates a new/separated Guice environment for the Reindex program and is not (re)using already existing Guice environment which was created for this program. Only noticing... not a reason for CR-1.",
+      "revId": "41aa8092f77bed3888ecf05d489441331159130c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d426ccbe_795f097d",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:25Z",
+      "side": 1,
+      "message": "When I started implementing that tool, I copied the code of LocalUsernamesToLowerCase, since it is very similar. That is where this is coming from. So you know a better way to run reindexing here?",
+      "parentUuid": "fc256dde_e88f2864",
       "revId": "41aa8092f77bed3888ecf05d489441331159130c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

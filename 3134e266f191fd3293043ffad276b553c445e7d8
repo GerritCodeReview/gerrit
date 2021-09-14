@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6898c90a_dbfa35be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-14T08:45:56Z",
+      "side": 1,
+      "message": "I took a look at the change on my machine, not sure if it is DevHelper acting up but I see that checks chips have more height and the icon and text are misaligned. Do you see the same on your machine?",
+      "revId": "3134e266f191fd3293043ffad276b553c445e7d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c43bd0eb_e47dd40b",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands_html.ts",
         "patchSetId": 1

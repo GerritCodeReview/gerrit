@@ -630,7 +630,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = createChange(repo, johnDoe);
     Change change2 = createChange(repo, john);
     Change change3 = createChange(repo, doeSmith);
-    Change change4 = createChange(repo, selfName);
+    createChange(repo, selfName);
 
     // Only email address.
     assertQuery(searchOperator + "john.doe@example.com", change1);
@@ -2292,7 +2292,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     try (Registration registration =
         extensionRegistry.newRegistration().add(new FakeSubmitRule())) {
       TestRepository<Repo> repo = createProject("repo");
-      Change change = insert(repo, newChange(repo));
+      insert(repo, newChange(repo));
       assertQuery("rule:non-existent-rule");
     }
   }

@@ -548,8 +548,8 @@ public class RetryHelper {
    * @param retryer the retryer
    * @param listener metric listener
    * @return the result of executing the action
-   * @throws Throwable any error or exception that made the action fail, callers are expected to
-   *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
+   * @throws Exception any exception that made the action fail, callers are expected to catch and
+   *     inspect this exception to decide carefully whether it should be re-thrown
    */
   private <T> T executeWithTimeoutCount(
       String actionType,

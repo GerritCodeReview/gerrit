@@ -381,11 +381,13 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
   }
 
   /**
-   * Create a single {@link GitFileDiff} with {@link Patch.ChangeType} equals {@link
-   * Patch.ChangeType#REWRITE}, assuming the input list contains two entries.
+   * Create a single {@link GitFileDiff} with {@link com.google.gerrit.entities.Patch.ChangeType}
+   * equals {@link com.google.gerrit.entities.Patch.ChangeType#REWRITE}, assuming the input list
+   * contains two entries.
    *
    * @param gitDiffs input list of exactly two {@link GitFileDiff} for same file path.
-   * @return a single {@link GitFileDiff} with change type equals {@link Patch.ChangeType#REWRITE}.
+   * @return a single {@link GitFileDiff} with change type equals {@link
+   *     com.google.gerrit.entities.Patch.ChangeType#REWRITE}.
    * @throws DiffNotAvailableException if input list contains git diffs with change types other than
    *     {ADDED, DELETED}. This is a JGit error.
    */

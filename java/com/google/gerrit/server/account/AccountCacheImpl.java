@@ -45,7 +45,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -144,7 +143,7 @@ public class AccountCacheImpl implements AccountCache {
           .get(ExternalId.Key.create(SCHEME_USERNAME, username))
           .map(e -> get(e.accountId()))
           .orElseGet(Optional::empty);
-    } catch (IOException | ConfigInvalidException e) {
+    } catch (IOException e) {
       logger.atWarning().withCause(e).log("Cannot load AccountState for username %s", username);
       return Optional.empty();
     }

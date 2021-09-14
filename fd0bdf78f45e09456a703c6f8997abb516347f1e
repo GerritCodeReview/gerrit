@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7d73b7e_37c6a504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-09-14T09:43:24Z",
+      "side": 1,
+      "message": "This will break existing sites... unless we also add a migration which adds:\n\n  readRefLog /refs/* ProjectOwners\n  \nto All-Projects.",
+      "revId": "fd0bdf78f45e09456a703c6f8997abb516347f1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d8664642_99b3312b",

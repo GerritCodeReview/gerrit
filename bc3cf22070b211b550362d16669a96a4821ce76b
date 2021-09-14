@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "235004e0_108a394a",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:00Z",
+      "side": 1,
+      "message": "Done in a separate change further up the change series",
+      "parentUuid": "5430e335_4bb97648",
+      "revId": "bc3cf22070b211b550362d16669a96a4821ce76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8016a3e7_ae050df3",

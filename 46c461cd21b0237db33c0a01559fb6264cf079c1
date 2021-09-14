@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0f4ae232_8f7b11ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:00Z",
+      "side": 1,
+      "message": "In the community survey a lot of concerns were raised to make this mandatory. Thus, it was decided by the ESC to leave it optional.",
+      "parentUuid": "2d147c72_0bae7859",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "46c461cd21b0237db33c0a01559fb6264cf079c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d945e356_9a498c77",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -119,6 +143,24 @@
       "writtenOn": "2021-05-14T01:01:02Z",
       "side": 1,
       "message": "Removing myself as reviewer because of lack of bandwidth to review thoroughly this massive change :-(\nI trust Saša on this.",
+      "revId": "46c461cd21b0237db33c0a01559fb6264cf079c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91c28f89_dbe55b70",
+        "filename": "java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3283657_a00dbec5",
       "revId": "46c461cd21b0237db33c0a01559fb6264cf079c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

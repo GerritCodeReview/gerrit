@@ -4456,7 +4456,7 @@ and assumes milliseconds if not specified.
 Whether Gerrit should automatically retry operations on failure with tracing
 enabled. The automatically generated traces can help with debugging.
 +
-By default this is set to false.
+By default this is set to true.
 
 [[rules]]
 === Section rules

@@ -250,7 +250,7 @@ public class RetryHelper {
                 MILLISECONDS),
             WaitStrategies.randomWait(50, MILLISECONDS));
     this.overwriteDefaultRetryerStrategySetup = overwriteDefaultRetryerStrategySetup;
-    this.retryWithTraceOnFailure = cfg.getBoolean("retry", "retryWithTraceOnFailure", false);
+    this.retryWithTraceOnFailure = cfg.getBoolean("retry", "retryWithTraceOnFailure", true);
   }
 
   /**

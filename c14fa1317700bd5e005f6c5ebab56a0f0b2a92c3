@@ -22,6 +22,30 @@
       },
       "revId": "c14fa1317700bd5e005f6c5ebab56a0f0b2a92c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51d71575_f4a39f6b",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-14T14:08:57Z",
+      "side": 1,
+      "message": "Ack, however look at for example `--delete-ssh-key`. There it is done in the same way. I don\u0027t think we should have multiple different ways of doing things in a single command.",
+      "parentUuid": "26681a5f_010cdeb6",
+      "range": {
+        "startLine": 112,
+        "startChar": 36,
+        "endLine": 112,
+        "endChar": 39
+      },
+      "revId": "c14fa1317700bd5e005f6c5ebab56a0f0b2a92c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

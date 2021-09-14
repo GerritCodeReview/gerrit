@@ -37,6 +37,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "592c3fed_e3ddb951",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-14T14:33:30Z",
+      "side": 1,
+      "message": "Thanks for sharing.",
+      "revId": "d92118d17563553b13746340e2eb243959ed19b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "afa292cb_af96acdd",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
         "patchSetId": 1

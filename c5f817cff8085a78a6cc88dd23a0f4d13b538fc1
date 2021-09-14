@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d70eb78_f7196367",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-14T15:58:13Z",
+      "side": 1,
+      "message": "\u003e I did a bit of testing with locally started Gerrit app and here are the results.\n\nThanks for all the data below!\n\nCan you give us some more info about your setup?\n\n* What kind of disk was used for the repos?\n* If NFS, what does the network connection look like (are you in the same datacenter? ping time? etc)?\n* If local, SSD or spinning?\n* Was any repacking done in any repo before or after pushing the changes (either manual or scheduled)?\n* How many times did you repeat the curl get changes command for each test (i.e. was this an average or a single time for each)?\n* What did you do for \u0027bootstrap site\u0027? I\u0027d guess this is a little more than \u0027gerrit.war init\u0027? Are you creating multiple users?\n\n[snip]\n\n\u003e 3. use stable-3.2 (gerrit-3.2.12) with `core.trustFolderStat true` in `${GERRIT_ETC_DIR}/jgit.config`\n\nWhat was the value of core.trustFolderStat for the other tests? The default value is true. Were there any other jgit or gerrit settings that you had non-default values for?\n\n[snip]\n\n\u003e To sum it up: in this simple sequential scenario `push for review over ssh` for `stable-3.2` was comparable with `stable-3.1` and `stable-3.2` with cache only when `core.trustFolderStat true`. However it was still bitten by them in sheer single-threaded open-changes view by ~32%. If I have a bit of time I will try to add some concurrency (another thread pushing constantly to a different repo in the same time) to the picture. If you thinks about better scenario don\u0027t hesitate to suggest it :D\n\nI like the simplicity of the scenario. Simple is really nice for reproducing issues, thanks.",
+      "parentUuid": "64b7c012_f72800fe",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

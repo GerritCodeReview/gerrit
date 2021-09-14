@@ -16,6 +16,24 @@
       "message": "That\u0027s nice, but this only works for this specific email 😞\nIs there a way to implement it generically on top of OutgoingEmail or something like that?",
       "revId": "fb4fa295b39804af18ff8b260e7d11e9bfa361e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4e19403_39781002",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-14T13:39:03Z",
+      "side": 1,
+      "message": "Thanks!! Yes, doing this inside of OutgoingEmail makes much more sense.\nSomehow I thought that this is the only place where we catch and ignore exceptions during email sending, but we do this almost always when sending an email.\n\nDone.",
+      "parentUuid": "51e04112_4066eb14",
+      "revId": "fb4fa295b39804af18ff8b260e7d11e9bfa361e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

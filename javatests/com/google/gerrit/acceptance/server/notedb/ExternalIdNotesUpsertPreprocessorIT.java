@@ -24,7 +24,6 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.server.ServerInitiated;
-import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
@@ -50,7 +49,6 @@ public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemon
   @Inject private Sequences sequences;
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
-  @Inject private Accounts accounts;
 
   public static class Module extends AbstractModule {
     @Override

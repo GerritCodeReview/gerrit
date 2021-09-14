@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "767fdcb7_43b91dd9",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-09-14T05:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f422b4ca_ed9ef941",
+      "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d815cee_f36c0a6f",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-09-13T20:26:42Z",
       "side": 1,
       "message": "Note the other examples now start at column 0.",
+      "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "590fccce_0f8754e0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-09-14T05:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d815cee_f36c0a6f",
       "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2fc00bb_72faa7d2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-09-14T05:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aef2a96_7961d4c9",
+      "range": {
+        "startLine": 834,
+        "startChar": 9,
+        "endLine": 834,
+        "endChar": 12
+      },
+      "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "835aa68b_897a3920",
@@ -71,6 +131,24 @@
       "writtenOn": "2021-09-13T20:26:42Z",
       "side": 1,
       "message": "Start at column 0",
+      "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc7e6236_434017ef",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-09-14T05:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "835aa68b_897a3920",
       "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -121,6 +199,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45e642b1_342e8cdd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/DynamicOptionsBeanParseListenerIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-09-14T05:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a67307de_bc97356f",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 60
+      },
+      "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1193e91b_adc6d545",
@@ -134,6 +236,30 @@
       "writtenOn": "2021-09-13T21:56:16Z",
       "side": 1,
       "message": "Move outside the try?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 60
+      },
+      "revId": "33792b56693c3e7e167e8ad5ac311bee766ef4f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e51a3873_f3ec0270",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/DynamicOptionsBeanParseListenerIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-09-14T05:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1193e91b_adc6d545",
       "range": {
         "startLine": 37,
         "startChar": 0,

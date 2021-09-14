@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -190,6 +191,7 @@ public abstract class ExternalId implements Serializable {
      * notes branch.
      */
     @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
+    @Memoized
     public ObjectId sha1() {
       String keyString = isCaseInsensitive() ? get().toLowerCase(Locale.US) : get();
       return ObjectId.fromRaw(Hashing.sha1().hashString(keyString, UTF_8).asBytes());
@@ -225,7 +227,8 @@ public abstract class ExternalId implements Serializable {
     }
 
     @Override
-    public final int hashCode() {
+    @Memoized
+    public int hashCode() {
       return Objects.hash(sha1());
     }
 
@@ -302,7 +305,8 @@ public abstract class ExternalId implements Serializable {
   }
 
   @Override
-  public final int hashCode() {
+  @Memoized
+  public int hashCode() {
     return Objects.hash(key(), accountId(), isCaseInsensitive(), email(), password());
   }
 
@@ -320,7 +324,8 @@ public abstract class ExternalId implements Serializable {
    * </pre>
    */
   @Override
-  public final String toString() {
+  @Memoized
+  public String toString() {
     Config c = new Config();
     writeToConfig(c);
     return c.toText();

@@ -16,6 +16,24 @@
       "message": "Can we add a test for this in ChangeNotesParserTest?",
       "revId": "c877edcd317ca13811bc58f733538bb7ed155b7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31f57b63_ffc151ca",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-14T11:48:24Z",
+      "side": 1,
+      "message": "Done. I also verified my modified test is failing without the change in ChangeNotesParser.",
+      "parentUuid": "225b1e8c_dd5a44af",
+      "revId": "c877edcd317ca13811bc58f733538bb7ed155b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

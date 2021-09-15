@@ -41,7 +41,6 @@ import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../gr-diff-builder/token-highlight-layer';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 export interface GrApplyFixDialog {
   $: {
@@ -99,11 +98,7 @@ export class GrApplyFixDialog extends PolymerElement {
   })
   _disableApplyFixButton = false;
 
-  layers = appContext.flagsService.isEnabled(
-    KnownExperimentId.TOKEN_HIGHLIGHTING
-  )
-    ? [new TokenHighlightLayer(this)]
-    : [];
+  layers = [new TokenHighlightLayer(this)];
 
   private refitOverlay?: () => void;
 

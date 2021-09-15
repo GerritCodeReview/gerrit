@@ -125,6 +125,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, newChange(project, changeId), true, null).load();
     }
 
+    public ChangeNotes create(Repository repository, Project.NameKey project, Change.Id changeId) {
+      checkArgument(project != null, "project is required");
+      return new ChangeNotes(args, newChange(project, changeId), true, null).load(repository);
+    }
+
     /**
      * Create change notes for a change that was loaded from index. This method should only be used
      * when database access is harmful and potentially stale data from the index is acceptable.

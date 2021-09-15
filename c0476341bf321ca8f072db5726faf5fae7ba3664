@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff5c4871_1c29e159",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-15T10:26:25Z",
+      "side": 1,
+      "message": "I think @state is only in lit, this is polymer.",
+      "parentUuid": "30f792f0_597ba0bd",
+      "range": {
+        "startLine": 130,
+        "startChar": 3,
+        "endLine": 130,
+        "endChar": 11
+      },
+      "revId": "c0476341bf321ca8f072db5726faf5fae7ba3664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2036a967_a2499ceb",
@@ -60,6 +84,30 @@
       "writtenOn": "2021-09-15T10:19:58Z",
       "side": 1,
       "message": "test this feature?",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 59
+      },
+      "revId": "c0476341bf321ca8f072db5726faf5fae7ba3664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "934a7b03_8ee62a20",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-15T10:26:25Z",
+      "side": 1,
+      "message": "Do you mean to write unit test?",
+      "parentUuid": "2036a967_a2499ceb",
       "range": {
         "startLine": 171,
         "startChar": 0,

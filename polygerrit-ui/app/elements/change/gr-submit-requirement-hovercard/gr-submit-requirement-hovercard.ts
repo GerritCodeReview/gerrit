@@ -16,12 +16,14 @@
  */
 import '../../../styles/gr-font-styles';
 import '../../shared/gr-hovercard/gr-hovercard-shared-style';
+import '../../shared/gr-button/gr-button';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {HovercardBehaviorMixin} from '../../shared/gr-hovercard/gr-hovercard-behavior';
 import {htmlTemplate} from './gr-submit-requirement-hovercard_html';
 import {
   AccountInfo,
+  SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../../../api/rest-api';
@@ -53,6 +55,9 @@ export class GrHovercardRun extends base {
   @property({type: Boolean})
   mutable?: boolean;
 
+  @property({type: Boolean})
+  expanded = false;
+
   @property({type: Array, computed: 'computeLabels(change, requirement)'})
   _labels: Label[] = [];
 
@@ -81,6 +86,16 @@ export class GrHovercardRun extends base {
 
   computeIcon(status: SubmitRequirementStatus) {
     return iconForStatus(status);
+  }
+
+  renderCondition(expression?: SubmitRequirementExpressionInfo) {
+    if (!expression) return '';
+
+    return expression.expression;
+  }
+
+  _handleShowConditions() {
+    this.expanded = true;
   }
 }
 

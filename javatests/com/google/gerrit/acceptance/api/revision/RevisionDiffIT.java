@@ -1322,7 +1322,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addedUnrelatedFileIsIgnored_ForPatchSetDiffWithRebase() throws Exception {
+  public void addedUnrelatedFileIsIgnored_forPatchSetDiffWithRebase() throws Exception {
     ObjectId commit2 = addCommit(commit1, "file_added_in_another_commit.txt", "Some file content");
 
     rebaseChangeOn(changeId, commit2);
@@ -1334,7 +1334,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void removedUnrelatedFileIsIgnored_ForPatchSetDiffWithRebase() throws Exception {
+  public void removedUnrelatedFileIsIgnored_forPatchSetDiffWithRebase() throws Exception {
     ObjectId commit2 = addCommitRemovingFiles(commit1, FILE_NAME2);
 
     rebaseChangeOn(changeId, commit2);
@@ -1346,7 +1346,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void renamedUnrelatedFileIsIgnored_ForPatchSetDiffWithRebase() throws Exception {
+  public void renamedUnrelatedFileIsIgnored_forPatchSetDiffWithRebase() throws Exception {
     ObjectId commit2 = addCommitRenamingFile(commit1, FILE_NAME2, "a_new_file_name.txt");
 
     rebaseChangeOn(changeId, commit2);
@@ -1358,7 +1358,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void renamedUnrelatedFileIsIgnored_ForPatchSetDiffWithRebase_WhenEquallyModifiedInBoth()
+  public void renamedUnrelatedFileIsIgnored_forPatchSetDiffWithRebase_whenEquallyModifiedInBoth()
       throws Exception {
     // TODO(ghareeb): fix this test for the new diff cache implementation
     assume().that(useNewDiffCache).isFalse();
@@ -1384,7 +1384,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void renamedUnrelatedFileIsIgnored_ForPatchSetDiffWithRebase_WhenModifiedDuringRebase()
+  public void renamedUnrelatedFileIsIgnored_forPatchSetDiffWithRebase_whenModifiedDuringRebase()
       throws Exception {
     String renamedFilePath = "renamed_some_file.txt";
     ObjectId commit2 =
@@ -2176,7 +2176,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rebaseHunkInRenamedFileIsIdentified_WhenFileIsRenamedDuringRebase() throws Exception {
+  public void rebaseHunkInRenamedFileIsIdentified_whenFileIsRenamedDuringRebase() throws Exception {
     String renamedFilePath = "renamed_some_file.txt";
     ObjectId commit2 =
         addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 1\n", "Line one\n"));
@@ -2205,7 +2205,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rebaseHunkInRenamedFileIsIdentified_WhenFileIsRenamedInPatchSets() throws Exception {
+  public void rebaseHunkInRenamedFileIsIdentified_whenFileIsRenamedInPatchSets() throws Exception {
     String renamedFilePath = "renamed_some_file.txt";
     gApi.changes().id(changeId).edit().renameFile(FILE_NAME, renamedFilePath);
     gApi.changes().id(changeId).edit().publish();
@@ -2244,7 +2244,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void renamedFileWithOnlyRebaseHunksIsIdentified_WhenRenamedBetweenPatchSets()
+  public void renamedFileWithOnlyRebaseHunksIsIdentified_whenRenamedBetweenPatchSets()
       throws Exception {
     String newFilePath1 = "renamed_some_file.txt";
     gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath1);
@@ -2279,7 +2279,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void renamedFileWithOnlyRebaseHunksIsIdentified_WhenRenamedForRebaseAndForPatchSets()
+  public void renamedFileWithOnlyRebaseHunksIsIdentified_whenRenamedForRebaseAndForPatchSets()
       throws Exception {
     String newFilePath1 = "renamed_some_file.txt";
     gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath1);
@@ -2834,7 +2834,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addDeleteByJgit_IsIdentifiedAsRewritten() throws Exception {
+  public void addDeleteByJgit_isIdentifiedAsRewritten() throws Exception {
     String target = "file.txt";
     String symlink = "link.lnk";
 
@@ -2871,7 +2871,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void renameDeleteByJgit_IsIdentifiedAsRewritten6() throws Exception {
+  public void renameDeleteByJgit_isIdentifiedAsRewritten6() throws Exception {
     String target = "file.txt";
     String symlink = "link.lnk";
     PushOneCommit push =

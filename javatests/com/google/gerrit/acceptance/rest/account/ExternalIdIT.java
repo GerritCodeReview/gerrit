@@ -194,7 +194,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteExternalIdOfOtherUserUnderOwnAccount_UnprocessableEntity() throws Exception {
+  public void deleteExternalIdOfOtherUserUnderOwnAccount_unprocessableEntity() throws Exception {
     List<AccountExternalIdInfo> extIds = gApi.accounts().self().getExternalIds();
     requestScopeOperations.setApiUser(user.id());
     UnprocessableEntityException thrown =

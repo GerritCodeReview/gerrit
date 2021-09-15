@@ -102,12 +102,12 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createProjectHttpWhenProjectAlreadyExists_Conflict() throws Exception {
+  public void createProjectHttpWhenProjectAlreadyExists_conflict() throws Exception {
     adminRestSession.put("/projects/" + allProjects.get()).assertConflict();
   }
 
   @Test
-  public void createProjectHttpWhenProjectAlreadyExists_PreconditionFailed() throws Exception {
+  public void createProjectHttpWhenProjectAlreadyExists_preconditionFailed() throws Exception {
     adminRestSession
         .putWithHeaders(
             "/projects/" + allProjects.get(), new BasicHeader(HttpHeaders.IF_NONE_MATCH, "*"))
@@ -140,7 +140,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   @UseLocalDisk
-  public void createProjectHttpWithUnreasonableName_BadRequest() throws Exception {
+  public void createProjectHttpWithUnreasonableName_badRequest() throws Exception {
     ImmutableList<String> forbiddenStrings =
         ImmutableList.of(
             "/../", "/./", "//", ".git/", "?", "%", "*", ":", "<", ">", "|", "$", "/+", "~");
@@ -153,14 +153,14 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createProjectHttpWithNameMismatch_BadRequest() throws Exception {
+  public void createProjectHttpWithNameMismatch_badRequest() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("otherName");
     adminRestSession.put("/projects/" + name("someName"), in).assertBadRequest();
   }
 
   @Test
-  public void createProjectHttpWithInvalidRefName_BadRequest() throws Exception {
+  public void createProjectHttpWithInvalidRefName_badRequest() throws Exception {
     ProjectInput in = new ProjectInput();
     in.branches = Collections.singletonList(name("invalid ref name"));
     adminRestSession.put("/projects/" + name("newProject"), in).assertBadRequest();

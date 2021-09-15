@@ -52,14 +52,14 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void flushAll_Forbidden() throws Exception {
+  public void flushAll_forbidden() throws Exception {
     userRestSession
         .post("/config/server/caches/", new PostCaches.Input(FLUSH_ALL))
         .assertForbidden();
   }
 
   @Test
-  public void flushAll_BadRequest() throws Exception {
+  public void flushAll_badRequest() throws Exception {
     adminRestSession
         .post("/config/server/caches/", new PostCaches.Input(FLUSH_ALL, Arrays.asList("projects")))
         .assertBadRequest();

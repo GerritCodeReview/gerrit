@@ -425,7 +425,7 @@ public class CommentContextIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void commentContextReturnsCorrectContentType_Java() throws Exception {
+  public void commentContextReturnsCorrectContentType_java() throws Exception {
     String javaContent =
         "public class Main {\n"
             + " public static void main(String[]args){\n"
@@ -448,7 +448,7 @@ public class CommentContextIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void commentContextReturnsCorrectContentType_Cpp() throws Exception {
+  public void commentContextReturnsCorrectContentType_cpp() throws Exception {
     String cppContent =
         "#include <iostream>\n"
             + "\n"

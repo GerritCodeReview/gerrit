@@ -2281,7 +2281,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byNonExistingSubmitRule_ReturnsEmpty() throws Exception {
+  public void byNonExistingSubmitRule_returnsEmpty() throws Exception {
     // Some submit rules could be removed from the gerrit.config but there can be records for
     // merged changes in NoteDb for these rules. We allow querying for non-existent rules to handle
     // this case.

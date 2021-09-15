@@ -1266,13 +1266,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushForMasterWithApprovals_MissingLabel() throws Exception {
+  public void pushForMasterWithApprovals_missingLabel() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%l=Verify");
     r.assertErrorStatus("label \"Verify\" is not a configured label");
   }
 
   @Test
-  public void pushForMasterWithApprovals_ValueOutOfRange() throws Exception {
+  public void pushForMasterWithApprovals_valueOutOfRange() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%l=Code-Review-3");
     r.assertErrorStatus("label \"Code-Review\": -3 is not a valid value");
   }

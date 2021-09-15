@@ -281,7 +281,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rebaseEditWithConflictsRest_Conflict() throws Exception {
+  public void rebaseEditWithConflictsRest_conflict() throws Exception {
     PatchSet currentPatchSet = getCurrentPatchSet(changeId2);
     createEmptyEditFor(changeId2);
     gApi.changes().id(changeId2).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));

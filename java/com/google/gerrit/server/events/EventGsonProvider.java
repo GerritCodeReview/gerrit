@@ -18,6 +18,8 @@ import com.google.common.base.Supplier;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.change.ChangeKeyAdapter;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Provider;
@@ -31,6 +33,8 @@ public class EventGsonProvider implements Provider<Gson> {
         .registerTypeAdapter(Supplier.class, new SupplierDeserializer())
         .registerTypeAdapter(Change.Key.class, new ChangeKeyAdapter())
         .registerTypeAdapter(Project.NameKey.class, new ProjectNameKeyAdapter())
+        .registerTypeAdapter(AllUsersName.class, new ProjectNameKeyAdapter())
+        .registerTypeAdapter(AllProjectsName.class, new ProjectNameKeyAdapter())
         .create();
   }
 }

@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17952eb3_c12629b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-15T15:37:15Z",
+      "side": 1,
+      "message": "thanks for measuring! these numbers aren\u0027t that convincing, though. \n\nFor adding extra complexity, we\u0027d want to see an order of magnitude speed increase? This is a factor 2 at best.\n\nIf the packed/loose-ref is a performance concern, the simplest thing I can think of is trying to use mmap\u0027d I/O for the packed-refs file. That would cut down on reading I/O.",
+      "parentUuid": "56ab2df2_d62b145c",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -253,6 +277,30 @@
       "side": 1,
       "message": "I have started `stable-3.2` and connected with debug and here is the content of the debug:\n\n0. org.eclipse.jgit.lib.Repository.exactRef(String)\n1. org.eclipse.jgit.internal.storage.file.RefDirectory.readAndResolve(String, RefList\u003cRef\u003e)\n2. org.eclipse.jgit.internal.storage.file.RefDirectory.readRef(String, RefList\u003cRef\u003e)\n\nIOW it seems that you were right by default it should end up in File operations, but I\u0027m not sure if that better or worse :D",
       "parentUuid": "a097e9a2_56878846",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49b3365a_e1a4539e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-15T15:37:15Z",
+      "side": 1,
+      "message": "the lock is here Java mutex. Reftable locks on read because the RefDatabase has to be thread-safe, and it uses a single byte[] block for reading.\n\nFile locks are expensive, but mutexes are cheap.",
+      "parentUuid": "a64adb8f_a94363a5",
       "range": {
         "startLine": 16,
         "startChar": 0,

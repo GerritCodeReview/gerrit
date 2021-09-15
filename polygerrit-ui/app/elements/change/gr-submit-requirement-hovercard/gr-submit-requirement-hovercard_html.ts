@@ -43,7 +43,6 @@ export const htmlTemplate = html`
     }
     .row {
       display: flex;
-      margin-top: var(--spacing-s);
     }
     .title {
       color: var(--deemphasized-text-color);
@@ -53,17 +52,36 @@ export const htmlTemplate = html`
       margin: 0 var(--spacing-xl) var(--spacing-m) var(--spacing-xl);
       display: flex;
     }
+    div.sectionIcon {
+      flex: 0 0 30px;
+    }
     div.sectionIcon iron-icon {
       position: relative;
       top: 2px;
       width: 20px;
       height: 20px;
     }
+    .condition {
+      background-color: var(--gray-background);
+      padding: var(--spacing-m);
+      flex-grow: 1;
+    }
+    .expression {
+      color: var(--gray-foreground);
+    }
     iron-icon.check {
       color: var(--success-foreground);
     }
     iron-icon.close {
       color: var(--warning-foreground);
+    }
+    .showConditions iron-icon {
+      color: inherit;
+    }
+    div.showConditions {
+      border-top: 1px solid var(--border-color);
+      margin-top: var(--spacing-m);
+      padding: var(--spacing-m) var(--spacing-xl) 0;
     }
   </style>
   <div id="container" role="tooltip" tabindex="-1">
@@ -113,5 +131,59 @@ export const htmlTemplate = html`
         </section>
       </template>
     </div>
+    <template is="dom-if" if="[[!expanded]]">
+      <div class="showConditions">
+        <gr-button
+          link=""
+          class="showConditions"
+          on-click="_handleShowConditions"
+        >
+          View condition
+          <iron-icon icon="gr-icons:expand-more"></iron-icon
+        ></gr-button>
+      </div>
+    </template>
+    <template is="dom-if" if="[[expanded]]">
+      <div class="section">
+        <div class="sectionIcon">
+          <iron-icon icon="gr-icons:description"></iron-icon>
+        </div>
+        <div class="sectionContent">[[requirement.description]]</div>
+      </div>
+      <div class="section">
+        <div class="sectionIcon"></div>
+        <div class="sectionContent condition">
+          Blocking condition:<br />
+          <span class="expression">
+            [[renderCondition(requirement.submittability_expression_result)]]
+          </span>
+        </div>
+      </div>
+      <template
+        is="dom-if"
+        if="[[requirement.applicability_expression_result]]"
+      >
+        <div class="section">
+          <div class="sectionIcon"></div>
+          <div class="sectionContent condition">
+            Application condition:<br />
+            <span class="expression">
+              [[renderCondition(requirement.applicability_expression_result)]]
+            </span>
+          </div>
+        </div>
+      </template>
+      <template is="dom-if" if="[[requirement.override_expression_result]]">
+        <div class="section">
+          <div class="sectionIcon"></div>
+          <div class="sectionContent condition">
+            Override condition:<br />
+            <span class="expression">
+              [[renderCondition(requirement.override_expression_result)]]
+            </span>
+          </div>
+        </div>
+      </template>
+    </template>
   </div>
 `;

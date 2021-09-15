@@ -4410,7 +4410,7 @@ public class ChangeIT extends AbstractDaemonTest {
       value =
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
-  public void submitRequirements_ReturnForLegacySubmitRecords_IfEnabled() throws Exception {
+  public void submitRequirements_returnForLegacySubmitRecords_ifEnabled() throws Exception {
     configLabel("build-cop-override", LabelFunction.MAX_WITH_BLOCK);
     projectOperations
         .project(project)

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99385bba_84b412be",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-15T12:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec2ed677_579d15f6",
+      "range": {
+        "startLine": 330,
+        "startChar": 18,
+        "endLine": 330,
+        "endChar": 35
+      },
+      "revId": "c0476341bf321ca8f072db5726faf5fae7ba3664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30f792f0_597ba0bd",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "yeah picker control should obey preference, and changing checkbox should update preference. It will be nice to already have tests for example if preferences is changed to a rxjs model and we don\u0027t want regression",
       "parentUuid": "934a7b03_8ee62a20",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 59
+      },
+      "revId": "c0476341bf321ca8f072db5726faf5fae7ba3664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f16d1488_41c6429e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-15T12:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f490e2b_f5ff1d83",
       "range": {
         "startLine": 171,
         "startChar": 0,

@@ -360,9 +360,7 @@ export class GrCommentThread extends base {
   _getLayers(diff?: DiffInfo) {
     if (!diff) return [];
     const layers = [];
-    if (this.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)) {
-      layers.push(new TokenHighlightLayer(this));
-    }
+    layers.push(new TokenHighlightLayer(this));
     layers.push(this.syntaxLayer);
     return layers;
   }

@@ -16,6 +16,24 @@
       "message": "Sorry to raise this only now. \n\nActually we wanted to avoid adding a defaultBranch config option in Gerrit, since a config option for this already exists in git. So the idea was to just read the default branch from the git config instead of having our own config parameter (see discussion at [1]). By now Jgit should have support for this option. Do you think it would be worth considering to drop this setting in favour of the git config setting? I think then we would need to configure this in etc/jgit.config [2].\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13025\n[2] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#jgitConfig",
       "revId": "714fbff92bc94673f558ff62df6aaf0575a66538",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c776a2e_b3671366",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2125,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-15T14:08:39Z",
+      "side": 1,
+      "message": "If we do this, would we have to create a jgit.config for all hosts that use gerrit.defaultBranch option? Or is it populated in some other way?",
+      "parentUuid": "2e3f168f_34570635",
+      "revId": "714fbff92bc94673f558ff62df6aaf0575a66538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

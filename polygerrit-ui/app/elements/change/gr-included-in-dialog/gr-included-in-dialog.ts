@@ -16,6 +16,7 @@
  */
 import '@polymer/iron-input/iron-input';
 import '../../../styles/shared-styles';
+import '../../../styles/gr-font-styles';
 import '../../shared/gr-button/gr-button';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-included-in-dialog_html';

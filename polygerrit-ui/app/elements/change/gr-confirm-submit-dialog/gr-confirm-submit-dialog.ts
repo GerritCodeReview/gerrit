@@ -27,6 +27,7 @@ import {CommentThread, isUnresolved} from '../../../utils/comment-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators';
+import {fontStyles} from '../../../styles/gr-font-styles';
 
 @customElement('gr-confirm-submit-dialog')
 export class GrConfirmSubmitDialog extends LitElement {
@@ -60,6 +61,7 @@ export class GrConfirmSubmitDialog extends LitElement {
   static get styles() {
     return [
       sharedStyles,
+      fontStyles,
       css`
         #dialog {
           min-width: 40em;

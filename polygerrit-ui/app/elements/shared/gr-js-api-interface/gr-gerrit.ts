@@ -31,6 +31,7 @@ import {
 } from '../../../services/gr-event-interface/gr-event-interface';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {Gerrit} from '../../../api/gerrit';
+import {fontStyles} from '../../../styles/gr-font-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
@@ -121,6 +122,7 @@ class GerritImpl implements GerritInternal {
   public readonly Auth = appContext.authService;
 
   public readonly styles = {
+    font: fontStyles,
     form: formStyles,
     menuPage: menuPageStyles,
     subPage: subpageStyles,

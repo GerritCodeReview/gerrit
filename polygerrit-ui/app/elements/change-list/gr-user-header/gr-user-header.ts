@@ -25,6 +25,7 @@ import {getDisplayName} from '../../../utils/display-name-util';
 import {appContext} from '../../../services/app-context';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {fontStyles} from '../../../styles/gr-font-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
 
@@ -51,6 +52,7 @@ export class GrUserHeader extends LitElement {
     return [
       sharedStyles,
       dashboardHeaderStyles,
+      fontStyles,
       css`
         .status.hide,
         .name.hide,

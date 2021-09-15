@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import './gr-checks-styles';
+import '../../styles/gr-font-styles';
 import {HovercardBehaviorMixin} from '../shared/gr-hovercard/gr-hovercard-behavior';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-run_html';

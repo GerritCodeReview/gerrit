@@ -21,6 +21,7 @@ import {RepoName} from '../../../types/common';
 import {WebLinkInfo} from '../../../types/diff';
 import {appContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {fontStyles} from '../../../styles/gr-font-styles';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
@@ -42,6 +43,7 @@ export class GrRepoHeader extends LitElement {
     return [
       sharedStyles,
       dashboardHeaderStyles,
+      fontStyles,
       css`
         .browse {
           display: inline-block;

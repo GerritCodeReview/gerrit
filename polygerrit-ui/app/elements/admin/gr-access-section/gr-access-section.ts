@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import '@polymer/iron-input/iron-input';
+import '../../../styles/gr-font-styles';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';

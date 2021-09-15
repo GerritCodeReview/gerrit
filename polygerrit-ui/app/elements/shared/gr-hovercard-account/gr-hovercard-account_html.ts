@@ -18,6 +18,9 @@ import '../gr-hovercard/gr-hovercard-shared-style';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
+  <style include="gr-font-styles">
+    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+  </style>
   <style include="gr-hovercard-shared-style">
     .top,
     .attention,

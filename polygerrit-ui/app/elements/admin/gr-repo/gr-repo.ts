@@ -20,6 +20,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-download-commands/gr-download-commands';
 import '../../shared/gr-select/gr-select';
+import '../../../styles/gr-font-styles';
 import '../../../styles/gr-form-styles';
 import '../../../styles/gr-subpage-styles';
 import '../../../styles/shared-styles';

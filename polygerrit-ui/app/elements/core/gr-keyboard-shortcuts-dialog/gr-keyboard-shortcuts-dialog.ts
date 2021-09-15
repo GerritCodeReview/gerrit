@@ -17,6 +17,7 @@
 import '../../shared/gr-button/gr-button';
 import '../gr-key-binding-display/gr-key-binding-display';
 import '../../../styles/shared-styles';
+import '../../../styles/gr-font-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-keyboard-shortcuts-dialog_html';
 import {

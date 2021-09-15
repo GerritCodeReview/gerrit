@@ -14,15 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {css} from 'lit';
-
-// Mark the file as a module. Otherwise typescript assumes this is a script
-// and $_documentContainer is a global variable.
-// See: https://www.typescriptlang.org/docs/handbook/modules.html
-export {};
-
-const $_documentContainer = document.createElement('template');
 
 export const sharedStyles = css`
   /* CSS reset */
@@ -176,36 +168,6 @@ export const sharedStyles = css`
     border-spacing: 0;
   }
 
-  /* Fonts */
-
-  .font-normal {
-    font-size: var(--font-size-normal);
-    font-weight: var(--font-weight-normal);
-    line-height: var(--line-height-normal);
-  }
-  .font-small {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-normal);
-    line-height: var(--line-height-small);
-  }
-  .heading-1 {
-    font-family: var(--header-font-family);
-    font-size: var(--font-size-h1);
-    font-weight: var(--font-weight-h1);
-    line-height: var(--line-height-h1);
-  }
-  .heading-2 {
-    font-family: var(--header-font-family);
-    font-size: var(--font-size-h2);
-    font-weight: var(--font-weight-h2);
-    line-height: var(--line-height-h2);
-  }
-  .heading-3 {
-    font-family: var(--header-font-family);
-    font-size: var(--font-size-h3);
-    font-weight: var(--font-weight-h3);
-    line-height: var(--line-height-h3);
-  }
   iron-icon {
     color: var(--deemphasized-text-color);
     vertical-align: top;
@@ -261,9 +223,6 @@ export const sharedStyles = css`
     /** This is needed for firefox */
     --iron-autogrow-textarea_-_white-space: pre-wrap;
   }
-  strong {
-    font-weight: var(--font-weight-bold);
-  }
 
   .assistive-tech-only {
     user-select: none;
@@ -303,6 +262,7 @@ export const sharedStyles = css`
   /** END: loading spiner */
 `;
 
+const $_documentContainer = document.createElement('template');
 $_documentContainer.innerHTML = `<dom-module id="shared-styles">
   <template>
     <style>
@@ -310,5 +270,4 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
     </style>
   </template>
 </dom-module>`;
-
 document.head.appendChild($_documentContainer.content);

@@ -17,6 +17,9 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
+  <style include="gr-font-styles">
+    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+  </style>
   <style include="shared-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
@@ -36,11 +39,11 @@ export const htmlTemplate = html`
     <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
       <h2 id="options" class="heading-2">Command</h2>
       <div id="form">
-        <h3>Create change</h3>
+        <h3 class="heading-3">Create change</h3>
         <gr-button loading="[[_creatingChange]]" on-click="_createNewChange">
           Create change
         </gr-button>
-        <h3>Edit repo config</h3>
+        <h3 class="heading-3">Edit repo config</h3>
         <gr-button
           id="editRepoConfig"
           loading="[[_editingConfig]]"
@@ -48,7 +51,7 @@ export const htmlTemplate = html`
         >
           Edit repo config
         </gr-button>
-        <h3 hidden="[[!_repoConfig.actions.gc.enabled]]">
+        <h3 class="heading-3" hidden="[[!_repoConfig.actions.gc.enabled]]">
           [[_repoConfig.actions.gc.label]]
         </h3>
         <gr-button

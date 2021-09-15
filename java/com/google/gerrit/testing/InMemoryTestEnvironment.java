@@ -46,6 +46,7 @@ public final class InMemoryTestEnvironment implements MethodRule {
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private SchemaCreator schemaCreator;
   @Inject private ThreadLocalRequestContext requestContext;
+  @Inject private AuthRequest.Factory authRequestFactory;
 
   private LifecycleManager lifecycle;
 
@@ -99,7 +100,8 @@ public final class InMemoryTestEnvironment implements MethodRule {
     schemaCreator.create();
 
     // The first user is added to the "Administrators" group. See AccountManager#create().
-    setApiUser(accountManager.authenticate(AuthRequest.forUser("admin")).getAccountId());
+    setApiUser(
+        accountManager.authenticate(authRequestFactory.createForUser("admin")).getAccountId());
 
     // Inject target members after setting API user, so it can @Inject request-scoped objects if it
     // wants.

@@ -18,6 +18,8 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -29,6 +31,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -56,17 +59,20 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
   private final AccountManager accountManager;
   private final ExternalIds externalIds;
   private final Provider<CurrentUser> self;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
   DeleteExternalIds(
       PermissionBackend permissionBackend,
       AccountManager accountManager,
       ExternalIds externalIds,
-      Provider<CurrentUser> self) {
+      Provider<CurrentUser> self,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     this.permissionBackend = permissionBackend;
     this.accountManager = accountManager;
     this.externalIds = externalIds;
     this.self = self;
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   @Override
@@ -87,15 +93,24 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
     List<ExternalId> toDelete = new ArrayList<>();
     Optional<ExternalId.Key> last = resource.getUser().getLastLoginExternalIdKey();
     for (String externalIdStr : extIds) {
-      ExternalId id = externalIdMap.get(ExternalId.Key.parse(externalIdStr));
+      ExternalId id = externalIdMap.get(externalIdKeyFactory.parse(externalIdStr));
 
       if (id == null) {
         throw new UnprocessableEntityException(
             String.format("External id %s does not exist", externalIdStr));
       }
 
-      if ((!id.isScheme(SCHEME_USERNAME))
-          && (!last.isPresent() || (!last.get().equals(id.key())))) {
+      if (!last.isPresent() || !last.get().equals(id.key())) {
+        if (id.isScheme(SCHEME_USERNAME)) {
+          if (self.get().hasSameAccountId(resource.getUser())) {
+            throw new AuthException("User cannot delete its own externalId in 'username:' scheme");
+          }
+          permissionBackend
+              .currentUser()
+              .checkAny(
+                  ImmutableSet.of(
+                      GlobalPermission.ADMINISTRATE_SERVER, GlobalPermission.MAINTAIN_SERVER));
+        }
         toDelete.add(id);
       } else {
         throw new ResourceConflictException(

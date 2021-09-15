@@ -69,6 +69,24 @@
       "parentUuid": "bbf42bbe_50f67ec2",
       "revId": "048713af33f725b2f92e349ed8f10740a9b2e463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c91656a8_52bd1038",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-15T14:04:08Z",
+      "side": 1,
+      "message": "With the original bug fixed, does not appear we need to disable eTag any more. I will clean up the flag.",
+      "parentUuid": "832aafe3_e13e2542",
+      "revId": "048713af33f725b2f92e349ed8f10740a9b2e463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

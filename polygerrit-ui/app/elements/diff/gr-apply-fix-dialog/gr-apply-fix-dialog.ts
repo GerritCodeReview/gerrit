@@ -99,11 +99,7 @@ export class GrApplyFixDialog extends PolymerElement {
   })
   _disableApplyFixButton = false;
 
-  layers = appContext.flagsService.isEnabled(
-    KnownExperimentId.TOKEN_HIGHLIGHTING
-  )
-    ? [new TokenHighlightLayer(this)]
-    : [];
+  layers = [new TokenHighlightLayer(this)];
 
   private refitOverlay?: () => void;
 

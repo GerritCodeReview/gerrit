@@ -46,6 +46,30 @@
       },
       "revId": "7f339b6be14ef83302092fe71927b9b737d8e337",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59aec63a_f518301d",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-15T07:26:27Z",
+      "side": 1,
+      "message": "The problem here is that the call() method throws Exception, but from the send() message we can only throw EmailException (and RuntimeExceptions). That\u0027s why we have to catch Exception and convert/wrap it into an exception that we are allowed to throw. This is what we do at l. 118, wrap the exception into EmailException. However wrapping is not needed if the caught exception is already an EmailException or a RuntimeException. In this case we can directly rethrow the caught exception. This is what we do at l. 116 (rethrow the exception if it is a RuntimeException aka unchecked exception) and l. 117 (rethrow the exception if it is an EmailException).",
+      "parentUuid": "684bf20f_1858fa3e",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 0
+      },
+      "revId": "7f339b6be14ef83302092fe71927b9b737d8e337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

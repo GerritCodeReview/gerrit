@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "503ba74e_61eef30a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-15T12:47:49Z",
+      "side": 1,
+      "message": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts(214,20): error TS6133: \u0027flagsService\u0027 is declared but its value is never read.\n[1,011 / 1,160] Building proto/libcache_proto-speed.jar (1 source jar);",
+      "range": {
+        "startLine": 214,
+        "startChar": 2,
+        "endLine": 214,
+        "endChar": 58
+      },
+      "revId": "c921a3b4aed5e51062bcd43bf3dcc1e58bd8d8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

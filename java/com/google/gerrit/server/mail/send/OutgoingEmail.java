@@ -18,6 +18,7 @@ import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailSt
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.template.soy.jbcsrc.api.SoySauce;
@@ -99,6 +101,25 @@ public abstract class OutgoingEmail {
    * @throws EmailException
    */
   public void send() throws EmailException {
+    try {
+      args.retryHelper
+          .action(
+              ActionType.SEND_EMAIL,
+              "sendEmail",
+              () -> {
+                sendImpl();
+                return null;
+              })
+          .retryWithTrace(Exception.class::isInstance)
+          .call();
+    } catch (Exception e) {
+      Throwables.throwIfUnchecked(e);
+      Throwables.throwIfInstanceOf(e, EmailException.class);
+      throw new EmailException("sending email failed", e);
+    }
+  }
+
+  private void sendImpl() throws EmailException {
     if (!args.emailSender.isEnabled()) {
       // Server has explicitly disabled email sending.
       //

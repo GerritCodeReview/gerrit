@@ -637,10 +637,10 @@ class ReceiveCommits {
                 tracePushOption.isPresent(),
                 tracePushOption.orElse(null),
                 (tagName, traceId) -> addMessage(tagName + ": " + traceId));
-        TraceTimer traceTimer =
-            newTimer("processCommands", Metadata.builder().resourceCount(commandCount));
         PerformanceLogContext performanceLogContext =
-            new PerformanceLogContext(config, performanceLoggers)) {
+            new PerformanceLogContext(config, performanceLoggers);
+        TraceTimer traceTimer =
+            newTimer("processCommands", Metadata.builder().resourceCount(commandCount))) {
       RequestInfo requestInfo =
           RequestInfo.builder(RequestInfo.RequestType.GIT_RECEIVE, user, traceContext)
               .project(project.getNameKey())

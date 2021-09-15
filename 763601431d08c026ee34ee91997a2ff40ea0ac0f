@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14f5ff69_730179e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-15T13:00:18Z",
+      "side": 1,
+      "message": "What is the status here? Ben cannot +2 since he is the Uploader now?",
+      "revId": "763601431d08c026ee34ee91997a2ff40ea0ac0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d1619ac8_b89fb28e",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints_test.ts",
         "patchSetId": 3
@@ -32,6 +49,24 @@
       "side": 1,
       "message": "Unfortunately no, a `git mv` is not sufficient. We are still at the mercy of the backend detecting the move automatically depending no how much of the file has changed.\n\nWhat I am typically trying to do is putting the `git mv` in a separate change and then stacking two changes with the same topic, so they are submitted together and the first one does not need verification.",
       "parentUuid": "d1619ac8_b89fb28e",
+      "revId": "763601431d08c026ee34ee91997a2ff40ea0ac0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c006d29_e0b36045",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-15T13:00:18Z",
+      "side": 1,
+      "message": "Yeah I did git mv as the first step and it does not always work 😞\n\nThe main change is renaming foo/bar/zaz/a-place to more explanatory decorate/style/replace/my-endpoint, and then formatting.",
+      "parentUuid": "5e0ceeb4_a6f87e1a",
       "revId": "763601431d08c026ee34ee91997a2ff40ea0ac0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

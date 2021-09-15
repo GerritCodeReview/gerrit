@@ -22,6 +22,7 @@ import {HovercardBehaviorMixin} from '../../shared/gr-hovercard/gr-hovercard-beh
 import {htmlTemplate} from './gr-submit-requirement-hovercard_html';
 import {
   AccountInfo,
+  SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../../../api/rest-api';
@@ -81,6 +82,12 @@ export class GrHovercardRun extends base {
 
   computeIcon(status: SubmitRequirementStatus) {
     return iconForStatus(status);
+  }
+
+  renderCondition(expression?: SubmitRequirementExpressionInfo) {
+    if (!expression) return '';
+
+    return expression.expression;
   }
 }
 

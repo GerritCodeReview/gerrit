@@ -53,11 +53,21 @@ export const htmlTemplate = html`
       margin: 0 var(--spacing-xl) var(--spacing-m) var(--spacing-xl);
       display: flex;
     }
+    div.sectionIcon {
+      flex: 0 0 30px;
+    }
     div.sectionIcon iron-icon {
       position: relative;
       top: 2px;
       width: 20px;
       height: 20px;
+    }
+    .condition {
+      background-color: var(--gray-background);
+      flex-grow: 1;
+    }
+    .expression {
+      color: var(--gray-foreground);
     }
     iron-icon.check {
       color: var(--success-foreground);
@@ -112,6 +122,41 @@ export const htmlTemplate = html`
           </div>
         </section>
       </template>
+    </div>
+    <div class="section">
+      <div class="sectionIcon">
+        <iron-icon icon="gr-icons:description"></iron-icon>
+      </div>
+      <div class="sectionContent">
+        [[requirement.description]]
+      </div>
+    </div>
+    <div class="section">
+      <div class="sectionIcon"></div>
+      <div class="sectionContent condition">
+        Blocking condition:<br/>
+        <span class="expression">
+         [[renderCondition(requirement.submittability_expression_result)]]
+         </span>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sectionIcon"></div>
+      <div class="sectionContent condition">
+        Application condition:<br/>
+        <span class="expression">
+        [[renderCondition(requirement.applicability_expression_result)]]
+        </span>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sectionIcon"></div>
+      <div class="sectionContent condition">
+        Overide condition:<br/>
+        <span class="expression">
+        [[renderCondition(requirement.override_expression_result)]]
+        </span>
+      </div>
     </div>
   </div>
 `;

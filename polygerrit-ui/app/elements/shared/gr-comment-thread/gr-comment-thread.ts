@@ -54,7 +54,6 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences} from '../../../api/diff';
 import {
@@ -212,8 +211,6 @@ export class GrCommentThread extends base {
 
   private readonly reporting = appContext.reportingService;
 
-  private readonly flagsService = appContext.flagsService;
-
   private readonly commentsService = appContext.commentsService;
 
   readonly storage = appContext.storageService;
@@ -360,9 +357,7 @@ export class GrCommentThread extends base {
   _getLayers(diff?: DiffInfo) {
     if (!diff) return [];
     const layers = [];
-    if (this.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)) {
-      layers.push(new TokenHighlightLayer(this));
-    }
+    layers.push(new TokenHighlightLayer(this));
     layers.push(this.syntaxLayer);
     return layers;
   }

@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1fb5bc7a_9901303d",
+        "filename": "java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-15T14:56:26Z",
+      "side": 1,
+      "message": "Comment removed by: Youssef Elghareeb; Reason: This was added for testing.",
+      "revId": "f6017f4116665cb9c66058da56febe55577847d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7bd99f37_2260b8bb",
         "filename": "java/gerrit/PRED_commit_edits_2.java",
         "patchSetId": 10
@@ -31,6 +48,30 @@
       "writtenOn": "2021-09-01T15:16:52Z",
       "side": 1,
       "message": "It seems parsing this commit is not needed, but we could pass the oldCommitId directly into rw.parseTree at line 92?",
+      "range": {
+        "startLine": 85,
+        "startChar": 16,
+        "endLine": 85,
+        "endChar": 87
+      },
+      "revId": "f6017f4116665cb9c66058da56febe55577847d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "098b8a31_2f10f14f",
+        "filename": "java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-15T14:56:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bd99f37_2260b8bb",
       "range": {
         "startLine": 85,
         "startChar": 16,
@@ -64,6 +105,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "408faf8d_324b1cad",
+        "filename": "java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-15T14:56:26Z",
+      "side": 1,
+      "message": "Done. I reworked this part.\n\n+1 to that actually. I don\u0027t like that I have to get the first element of the diff map to retrieve old/new IDs, especially that old/new IDs are same for all files. It\u0027d have been better if the output was wrapped in an Autovalue that contains old ID, new ID, and the diff map.\n\nNote: the octopus merge part no longer holds: if a diff is requested for octopus merge, we return a diff list with commit message and merge list only. So we\u0027ll still be able to get the old/new commit IDs.",
+      "parentUuid": "456ac3f1_7e6e32f7",
+      "range": {
+        "startLine": 89,
+        "startChar": 31,
+        "endLine": 89,
+        "endChar": 71
+      },
+      "revId": "f6017f4116665cb9c66058da56febe55577847d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18616fee_a3c8eb36",
@@ -77,6 +142,30 @@
       "writtenOn": "2021-09-01T15:16:52Z",
       "side": 1,
       "message": "Line 86-89 look like bCommit can be null now, which means we could run into an NPE here?",
+      "range": {
+        "startLine": 98,
+        "startChar": 14,
+        "endLine": 98,
+        "endChar": 21
+      },
+      "revId": "f6017f4116665cb9c66058da56febe55577847d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33d51e09_e4955d01",
+        "filename": "java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-15T14:56:26Z",
+      "side": 1,
+      "message": "This **should** never happen, but I agree this is vulnerable to NPE.\n\nDone (guarded with a condition).",
+      "parentUuid": "18616fee_a3c8eb36",
       "range": {
         "startLine": 98,
         "startChar": 14,

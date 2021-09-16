@@ -34,6 +34,7 @@ import java.util.Optional;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.patch.FileHeader;
 
 /**
@@ -120,7 +121,10 @@ public abstract class GitFileDiff {
   /** The file name at the new git tree identified by {@link #newId()} */
   public abstract Optional<String> newPath();
 
-  /** The 20 bytes SHA-1 object ID of the old git tree of the diff. */
+  /**
+   * The 20 bytes SHA-1 object ID of the old git tree of the diff, or {@link ObjectId#zeroId()} if
+   * {@link #newId()} was a root git tree (i.e. has no parents).
+   */
   public abstract AbbreviatedObjectId oldId();
 
   /** The 20 bytes SHA-1 object ID of the new git tree of the diff. */

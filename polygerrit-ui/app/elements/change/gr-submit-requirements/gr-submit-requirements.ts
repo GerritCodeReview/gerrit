@@ -30,6 +30,8 @@ import {
   extractAssociatedLabels,
   iconForStatus,
 } from '../../../utils/label-util';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import { sharedStyles } from '../../../styles/shared-styles';
 
 @customElement('gr-submit-requirements')
 export class GrSubmitRequirements extends LitElement {
@@ -44,43 +46,20 @@ export class GrSubmitRequirements extends LitElement {
 
   static override get styles() {
     return [
+      fontStyles,
+      sharedStyles,
       css`
-        :host {
-          display: table;
-          width: 100%;
-        }
         .metadata-title {
-          font-size: 100%;
           font-weight: var(--font-weight-bold);
           color: var(--deemphasized-text-color);
           padding-left: var(--metadata-horizontal-padding);
-        }
-        section {
-          display: table-row;
-        }
-        .title {
-          min-width: 10em;
-          padding: var(--spacing-s) 0 0 0;
-        }
-        .value {
-          padding: var(--spacing-s) 0 0 0;
-        }
-        .title,
-        .status {
-          display: table-cell;
-          vertical-align: top;
-        }
-        .value {
-          display: inline-flex;
-        }
-        .status {
-          width: var(--line-height-small);
-          padding: var(--spacing-s) var(--spacing-m) 0
-            var(--requirements-horizontal-padding);
+          margin: 0 0 var(--spacing-s);
+          border-top: 1px solid var(--border-color);
+          padding-top: var(--spacing-s);
         }
         iron-icon {
-          width: var(--line-height-small);
-          height: var(--line-height-small);
+          width: var(--line-height-normal, 20px);
+          height: var(--line-height-normal, 20px);
         }
         iron-icon.check {
           color: var(--success-foreground);
@@ -102,6 +81,17 @@ export class GrSubmitRequirements extends LitElement {
         .testing:hover * {
           visibility: visible;
         }
+        .requirements,
+        section.votes {
+          margin-left: var(--spacing-l);
+        }
+        gr-limited-text.name {
+          font-weight: var(--font-weight-bold);
+          font-size: var(--font-size-normal);
+        }
+        td {
+          padding: var(--spacing-s);
+        }
       `,
     ];
   }
@@ -110,25 +100,46 @@ export class GrSubmitRequirements extends LitElement {
     const submit_requirements = (this.change?.submit_requirements ?? []).filter(
       req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
     );
-    return html`<h3 class="metadata-title">Submit Requirements</h3>
+    return html` <h2
+        class="metadata-title heading-3"
+        id="submit-requirements-caption"
+      >
+        Submit Requirements
+      </h2>
+      <table class="requirements" aria-labelledby="submit-requirements-caption">
+        <thead hidden>
+          <tr>
+            <th>Status</th>
+            <th>Name</th>
+            <th>Votes</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${submit_requirements.map(
+            requirement => html`<tr id="requirement-${requirement.name}">
+              <td>${this.renderStatus(requirement.status)}</td>
+              <td class="name">
+                <gr-limited-text
+                  class="name"
+                  limit="25"
+                  .text="${requirement.name}"
+                ></gr-limited-text>
+              </td>
+              <td>${this.renderVotes(requirement)}</td>
+            </tr>`
+          )}
+        </tbody>
+      </table>
       ${submit_requirements.map(
-        requirement => html`<section>
+        requirement => html`
           <gr-submit-requirement-hovercard
+            for="requirement-${requirement.name}"
             .requirement="${requirement}"
             .change="${this.change}"
             .account="${this.account}"
             .mutable="${this.mutable}"
           ></gr-submit-requirement-hovercard>
-          <div class="status">${this.renderStatus(requirement.status)}</div>
-          <div class="title">
-            <gr-limited-text
-              class="name"
-              limit="25"
-              text="${requirement.name}"
-            ></gr-limited-text>
-          </div>
-          <div class="value">${this.renderVotes(requirement)}</div>
-        </section>`
+        `
       )}
       ${this.renderTriggerVotes(
         submit_requirements
@@ -140,6 +151,8 @@ export class GrSubmitRequirements extends LitElement {
     return html`<iron-icon
       class="${icon}"
       icon="gr-icons:${icon}"
+      role="img"
+      aria-label="${status.toLowerCase()}"
     ></iron-icon>`;
   }
 
@@ -183,17 +196,19 @@ export class GrSubmitRequirements extends LitElement {
       label => !labelAssociatedWithSubmitReqs.includes(label)
     );
     if (!triggerVotes.length) return;
-    return html`<h3 class="metadata-title">Trigger Votes</h3>
-      ${triggerVotes.map(
-        label => html`${label}:
-          <gr-label-info
-            .change="${this.change}"
-            .account="${this.account}"
-            .mutable="${this.mutable}"
-            label="${label}"
-            .labelInfo="${labels[label]}"
-          ></gr-label-info>`
-      )}`;
+    return html`<h3 class="metadata-title heading-3">Trigger Votes</h3>
+      <section class="votes">
+        ${triggerVotes.map(
+          label => html`${label}:
+            <gr-label-info
+              .change="${this.change}"
+              .account="${this.account}"
+              .mutable="${this.mutable}"
+              label="${label}"
+              .labelInfo="${labels[label]}"
+            ></gr-label-info>`
+        )}
+      </section>`;
   }
 
   renderFakeControls() {

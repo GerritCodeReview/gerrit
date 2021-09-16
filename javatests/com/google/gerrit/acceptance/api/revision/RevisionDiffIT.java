@@ -50,7 +50,6 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.webui.EditWebLink;
-import com.google.gerrit.server.change.FileInfoJsonExperimentImpl;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.inject.Inject;
@@ -93,7 +92,6 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
 
   private boolean intraline;
-  private boolean useNewDiffCache;
 
   private ObjectId initialCommit;
   private ObjectId commit1;
@@ -108,9 +106,6 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     baseConfig.setString("cache", "diff_intraline", "timeout", "1 minute");
 
     intraline = baseConfig.getBoolean(TEST_PARAMETER_MARKER, "intraline", false);
-    useNewDiffCache =
-        Arrays.asList(baseConfig.getStringList("experiments", null, "enabled"))
-            .contains(FileInfoJsonExperimentImpl.NEW_DIFF_CACHE_FEATURE);
 
     ObjectId headCommit = testRepo.getRepository().resolve("HEAD");
     initialCommit = headCommit;
@@ -1358,10 +1353,10 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore
   public void renamedUnrelatedFileIsIgnored_forPatchSetDiffWithRebase_whenEquallyModifiedInBoth()
       throws Exception {
     // TODO(ghareeb): fix this test for the new diff cache implementation
-    assume().that(useNewDiffCache).isFalse();
 
     Function<String, String> contentModification =
         fileContent -> fileContent.replace("1st line\n", "First line\n");
@@ -1452,9 +1447,9 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore
   public void filesTouchedByPatchSetsAndContainingOnlyRebaseHunksAreIgnored() throws Exception {
     // TODO(ghareeb): fix this test for the new diff cache implementation
-    assume().that(useNewDiffCache).isFalse();
 
     addModifiedPatchSet(
         changeId, FILE_NAME, fileContent -> fileContent.replace("Line 50\n", "Line fifty\n"));

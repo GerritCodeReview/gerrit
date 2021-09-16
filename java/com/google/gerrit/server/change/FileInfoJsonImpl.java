@@ -32,12 +32,12 @@ import java.util.Map;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Implementation of {@link FileInfoJson} using the new diff cache {@link DiffOperations}. */
-public class FileInfoJsonNewImpl implements FileInfoJson {
+/** Implementation of {@link FileInfoJson} using {@link DiffOperations}. */
+public class FileInfoJsonImpl implements FileInfoJson {
   private final DiffOperations diffs;
 
   @Inject
-  FileInfoJsonNewImpl(DiffOperations diffOperations) {
+  FileInfoJsonImpl(DiffOperations diffOperations) {
     this.diffs = diffOperations;
   }
 

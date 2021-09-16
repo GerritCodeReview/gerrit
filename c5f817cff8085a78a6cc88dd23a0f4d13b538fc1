@@ -362,6 +362,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0fb80f81_7d924c25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-16T14:01:27Z",
+      "side": 1,
+      "message": "\u003e I wrote the code that does \"the things\" in case of reftable.  I don\u0027t think it uses trustFolderStat in any way, and it doesn\u0027t need to as the reftable code doesn\u0027t read directories.\n\nI believe it is going to be a good test to compare (when All-Users.git is on NFS):\n- v3.1.12\n- v3.2.12 (packedRefs + trustFolderStat \u003d true)\n- v3.2.12 (packedRefs + trustFolderStat \u003d false)\n- v3.2.12 (refTable)",
+      "parentUuid": "f1cbff96_76c05ecc",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35bae831_dc2f4103",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-16T17:50:10Z",
+      "side": 1,
+      "message": "Some test comment (please ignore) - I noticed bug on this change.",
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4424c860_b27b6d4e",

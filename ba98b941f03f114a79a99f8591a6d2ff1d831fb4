@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57f7517c_e5d86ef5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-16T18:20:44Z",
+      "side": 1,
+      "message": "nit: s/AllUserName/AllUsersName/ (everywhere below too)",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "ba98b941f03f114a79a99f8591a6d2ff1d831fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02feacb3_8b38d134",
+        "filename": "java/com/google/gerrit/server/events/EventGsonProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-16T18:20:44Z",
+      "side": 1,
+      "message": "Some googling [1] suggests we shouldn\u0027t need to do this if the caller doing toJson() specifies these as Project.NameKey.class. Do you know where that\u0027s happening?\n\nIf we\u0027re not passing a class to toJson (as seen in the tests), then using a TypeAdaptorFactory would probably be better [2]? That\u0027s maybe not a change we\u0027d want on a stable branch, so perhaps this change would be fine as-is and then use TypeAdaptorFactory on master?\n\n[1] https://stackoverflow.com/questions/5800433/polymorphism-with-gson/8683689\n[2] https://stackoverflow.com/questions/22307382/how-do-i-implement-typeadapterfactory-in-gson",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 80
+      },
+      "revId": "ba98b941f03f114a79a99f8591a6d2ff1d831fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

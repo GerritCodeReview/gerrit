@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.OK;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_REASON;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -114,6 +115,28 @@ public abstract class AbstractForcePush extends AbstractDaemonTest {
         .add(allow(Permission.DELETE).ref("refs/*").group(adminGroupUuid()).force(true))
         .update();
     assertDeleteRef(OK);
+  }
+
+  @Test
+  public void forcePushSendsEmail() throws Exception {
+    // create a change
+    PushOneCommit push1 =
+        pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");
+    PushOneCommit.Result r = push1.to("refs/for/master");
+    r.assertOkStatus();
+
+    // Add reviewer to receive notifications
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+    sender.clear();
+
+    // direct submit the change
+    PushOneCommit.Result r1 = push1.to("refs/heads/master");
+    r1.assertOkStatus();
+
+    // email received
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
+        .contains("has submitted this change");
   }
 
   private void assertDeleteRef(RemoteRefUpdate.Status expectedStatus) throws Exception {

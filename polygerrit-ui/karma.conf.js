@@ -22,6 +22,7 @@ function getModulesDir() {
   if(runUnderBazel) {
     // Run under bazel
     return [
+      `external/plugins_npm/node_modules`,
       `external/ui_npm/node_modules`,
       `external/ui_dev_npm/node_modules`
     ];
@@ -58,11 +59,11 @@ function runInIde() {
 }
 
 module.exports = function(config) {
-  const localDirName = path.resolve(__dirname, '../.ts-out/polygerrit-ui/app');
-  const rootDir = runUnderBazel ?
-      'polygerrit-ui/app/_pg_with_tests_out/' : localDirName + '/';
-  const testFilesLocationPattern =
-      `${rootDir}**/!(template_test_srcs)/`;
+  let root = config.root;
+  if (!root) {
+    console.warn(`--root argument not set. Falling back to __dirname.`)
+    root = path.resolve(__dirname) + '/';
+  }
   // Use --test-files to specify pattern for a test files.
   // It can be just a file name, without a path:
   // --test-files async-foreach-behavior_test.js
@@ -83,7 +84,9 @@ module.exports = function(config) {
   } else {
     filePattern = '*_test.js';
   }
-  const testFilesPattern = testFilesLocationPattern + filePattern;
+  const testFilesPattern = root + '**/' + filePattern;
+
+  console.info(`Karma test file pattern: ${testFilesPattern}`)
   // Special patch for grep parameters (see details in the grep-patch-karam.js)
   const additionalFiles = runUnderBazel ? [] : ['polygerrit-ui/grep-patch-karma.js'];
   config.set({

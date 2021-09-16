@@ -1,5 +1,6 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary")
 load("//tools/bzl:genrule2.bzl", "genrule2")
+load("//tools/bzl:js.bzl", "karma_test")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -33,8 +34,6 @@ go_binary(
     ],
 )
 
-# Define a karma+plugins binary to run karma-mocha tests.
-# Can be reused multiple time, if there are multiple karma test rules
 sh_binary(
     name = "karma_bin",
     srcs = ["@ui_dev_npm//:node_modules/karma/bin/karma"],
@@ -49,26 +48,8 @@ sh_binary(
     ],
 )
 
-# Run all tests in one.
-# TODO(dmfilippov): allow parallel tests for karma - either on the bazel level
-# or on the karma level. For now single sh_test is enough.
-sh_test(
+karma_test(
     name = "karma_test",
-    size = "enormous",
     srcs = ["karma_test.sh"],
-    args = [
-        "$(location :karma_bin)",
-        "$(location karma.conf.js)",
-    ],
-    data = [
-        "karma.conf.js",
-        ":karma_bin",
-        "//polygerrit-ui/app:test-srcs-fg",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "karma",
-        "local",
-        "manual",
-    ],
+    data = ["//polygerrit-ui/app:test-srcs-fg"],
 )

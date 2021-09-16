@@ -16,6 +16,29 @@
       "message": "any more feedback for this change?",
       "revId": "672a995f1d94563e28899381bfdd79a4b9a58083",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9cb2bfb_bd17daa4",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-09-16T16:03:40Z",
+      "side": 1,
+      "message": "Is this new field propagated to the AuditLog as well?\n\nIf so it should be easy to add an assertion here [1] to make sure the field is correctly populated.\n\nIf not, should we propagate it, even in a follow-up change.\n\n[1]: https://github.com/GerritCodeReview/gerrit/blob/14aa087f9c530341f0783dd7869b08bd88bf5846/javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java#L114",
+      "range": {
+        "startLine": 56,
+        "startChar": 32,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "672a995f1d94563e28899381bfdd79a4b9a58083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

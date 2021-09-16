@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2bd27076_e4437a1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-16T12:50:16Z",
+      "side": 1,
+      "message": "Yes, I would like feedback on UI some parts are not done here - like votes.\n\n1. Could you please explain, what do you mean by line separation? There is a border top which I thought is like line. Btw. design of button is almost same as in hovercard for check run.\n\n2. there are no application and override condition. Should I hide this information when these conditions are not defined? We could discuss what to do in this case.",
+      "parentUuid": "bc4affbf_182b7ed8",
+      "revId": "d7a495553370e654e1d3b020f1cd9820d0036893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58152479_4d1e3e7c",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
         "patchSetId": 4
@@ -31,6 +49,30 @@
       "writtenOn": "2021-09-16T11:33:35Z",
       "side": 1,
       "message": "Override",
+      "range": {
+        "startLine": 174,
+        "startChar": 10,
+        "endLine": 174,
+        "endChar": 17
+      },
+      "revId": "d7a495553370e654e1d3b020f1cd9820d0036893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf06f955_73066005",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-16T12:50:16Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "58152479_4d1e3e7c",
       "range": {
         "startLine": 174,
         "startChar": 10,

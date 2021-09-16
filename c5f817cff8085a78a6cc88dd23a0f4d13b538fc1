@@ -290,6 +290,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "95895529_90afb883",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-16T10:46:19Z",
+      "side": 1,
+      "message": "\u003e\u003eit uses whatever Java does (a mmap\u0027d file would work well here too). The OS/NFS-client still has a local page cache for NFS, doesn\u0027t it? So the performance should better (the file is kept open, so you only have syscall overhead).\n\n\u003eNot with trust folder stat set to false: it will go to the network to check the actual status of the files, not the cached one.\n\nthat seems unlikely, as FileInputStream is a Java class, and trustFolderStat is a JGit feature. How would FileInputStream know about trustFolderStat ?",
+      "parentUuid": "bfc9c7cf_3e84697d",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

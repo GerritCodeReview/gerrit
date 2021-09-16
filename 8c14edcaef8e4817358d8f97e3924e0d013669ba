@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d763dbc_750ab7b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-16T21:45:11Z",
+      "side": 1,
+      "message": "I like this solution, but now I wonder if this is going to break anyone depending on the current behavior. Was this a behavior that changed 3.1-\u003e3.2?",
+      "revId": "8c14edcaef8e4817358d8f97e3924e0d013669ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

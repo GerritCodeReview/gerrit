@@ -37,7 +37,10 @@ import org.eclipse.jgit.lib.ObjectId;
 public abstract class FileDiffOutput implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  /** The 20 bytes SHA-1 object ID of the old git commit used in the diff. */
+  /**
+   * The 20 bytes SHA-1 object ID of the old git commit used in the diff, or {@link
+   * ObjectId#zeroId()} if {@link #newCommitId()} was a root commit.
+   */
   public abstract ObjectId oldCommitId();
 
   /** The 20 bytes SHA-1 object ID of the new git commit used in the diff. */

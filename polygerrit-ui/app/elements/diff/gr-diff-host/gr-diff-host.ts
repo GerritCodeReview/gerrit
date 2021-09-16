@@ -412,7 +412,11 @@ export class GrDiffHost extends PolymerElement {
 
   private _getLayers(path: string): DiffLayer[] {
     const layers = [];
-    layers.push(new TokenHighlightLayer(this));
+    if (
+      appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)
+    ) {
+      layers.push(new TokenHighlightLayer(this));
+    }
     layers.push(this.syntaxLayer);
     // Get layers from plugins (if any).
     layers.push(...this.jsAPI.getDiffLayers(path));

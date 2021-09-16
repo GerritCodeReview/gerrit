@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb1ca6f8_c667ffd6",
+        "filename": "java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-16T13:18:42Z",
+      "side": 1,
+      "message": "Marking resolved.",
+      "parentUuid": "1fb5bc7a_9901303d",
+      "revId": "f6017f4116665cb9c66058da56febe55577847d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bd99f37_2260b8bb",

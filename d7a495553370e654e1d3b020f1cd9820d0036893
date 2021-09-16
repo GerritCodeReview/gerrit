@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc4affbf_182b7ed8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-16T11:33:35Z",
+      "side": 1,
+      "message": "Would you like some feedback on UI design yet or is this change more about the behavior?\n\nFor UI design, there is a line separation between the hovercard content and button \"view conditions\" but happy to review UI in a follow-up change.\n\nIn https://imgur.com/a/xHoW4qI, why is there no information on application condition and override condition?",
+      "revId": "d7a495553370e654e1d3b020f1cd9820d0036893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58152479_4d1e3e7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-16T11:33:35Z",
+      "side": 1,
+      "message": "Override",
+      "range": {
+        "startLine": 174,
+        "startChar": 10,
+        "endLine": 174,
+        "endChar": 17
+      },
+      "revId": "d7a495553370e654e1d3b020f1cd9820d0036893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

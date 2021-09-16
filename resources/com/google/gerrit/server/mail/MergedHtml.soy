@@ -32,9 +32,11 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
     </p>
   {/if}
 
-  {call mailTemplate.UnifiedDiff}
-    {param diffLines: $email.stickyApprovalDiffHtml /}
-  {/call}
+  {if $email.stickyApprovalDiffHtml}
+    {call mailTemplate.UnifiedDiff}
+      {param diffLines: $email.stickyApprovalDiffHtml /}
+    {/call}
+  {/if}
 
   <div style="white-space:pre-wrap">{$email.approvals}</div>
 

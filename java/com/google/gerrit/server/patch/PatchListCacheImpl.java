@@ -129,12 +129,6 @@ public class PatchListCacheImpl implements PatchListCache {
     return get(change, patchSet, null);
   }
 
-  @Override
-  public ObjectId getOldId(Change change, PatchSet patchSet, Integer parentNum)
-      throws PatchListNotAvailableException {
-    return get(change, patchSet, parentNum).getOldId();
-  }
-
   private PatchList get(Change change, PatchSet patchSet, Integer parentNum)
       throws PatchListNotAvailableException {
     Project.NameKey project = change.getProject();

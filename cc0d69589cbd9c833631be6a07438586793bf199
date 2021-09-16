@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78dedacc_76acac87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-16T13:11:41Z",
+      "side": 1,
+      "message": "The verification was successful but the checks API timed out:\nGerrit review change 317853/2 checks {gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928\u003dSUCCESSFUL} ()\n[Pipeline] }\n[Pipeline] // stage\n[Pipeline] }\n[Pipeline] // parallel\n[Pipeline] }\n[Pipeline] // node\n[Pipeline] End of Pipeline\nhudson.remoting.ProxyException: java.net.ConnectException: Connection timed out (Connection timed out)",
+      "revId": "cc0d69589cbd9c833631be6a07438586793bf199",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

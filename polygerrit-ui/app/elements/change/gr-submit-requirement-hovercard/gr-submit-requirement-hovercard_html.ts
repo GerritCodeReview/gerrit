@@ -96,7 +96,7 @@ export const htmlTemplate = html`
         <section class="label">
           <div class="label-title">
             <gr-limited-text
-              class="name"
+              class="requirement-name"
               limit="25"
               text="[[item.labelName]]"
             ></gr-limited-text>

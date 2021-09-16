@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d09ee3d3_57d166f0",
+        "filename": "java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-16T06:23:23Z",
+      "side": 1,
+      "message": "better:\n\n  this.diff \u003d diffElement.orElse(FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));\n  \nor you may even make this a single line:\n\n    this.diff \u003d modifiedFiles.values().stream().filter(f -\u003e f.newPath().get().equals(fileName)).findFirst().orElse(FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 83
+      },
+      "revId": "9a766e6c1948d528e3ce70da994496a9fb6de717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

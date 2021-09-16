@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dce3fc5a_67b74f06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-16T17:48:37Z",
+      "side": 1,
+      "message": "In overall, LGTM, except few small comments. Also, I didn\u0027t go too deep with paths - I assume you tested them.",
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4424c860_b27b6d4e",
@@ -54,6 +71,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf82f95d_2a10a9a7",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-16T17:48:37Z",
+      "side": 1,
+      "message": "nit:\nNot sure, if this parameter is needed - it is only used as a prefix for other names.\nIIUC, your idea is:\ngerrit_js_bundle(name \u003d \"karma_test_bundle\", ..., plugin_name \u003d \"code-owners\")\n\nWithout plugin_name you can replace it with\ngerrit_js_bundle(name \u003d \"code_owners_karma_test_bundle\")",
+      "range": {
+        "startLine": 86,
+        "startChar": 51,
+        "endLine": 86,
+        "endChar": 62
+      },
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14e752f3_96fd6bcc",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 1
@@ -65,6 +105,29 @@
       "writtenOn": "2021-09-16T11:55:39Z",
       "side": 1,
       "message": "extremely what? The suspense is killing me 😄",
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e70cc695_0dbf8b67",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-16T17:48:37Z",
+      "side": 1,
+      "message": "I think, you can keep this sh_binary outside of this rule and then reference it by the full path (like we do with rollup-bin: https://gerrit.googlesource.com/gerrit/+/be2917514e7feb2c204541dd79d8b7a74942b616/tools/node_tools/BUILD#10\nhttps://gerrit.googlesource.com/gerrit/+/be2917514e7feb2c204541dd79d8b7a74942b616/polygerrit-ui/app/rules.bzl#28\n).\n\nWhen the current implementation (each call to karma_test creates own rule), bazel will create each time a separate environment to run a script (links the same npm packages, etc...)\n\nBtw, I am not 100% sure that my suggestion will work - there can be a problem with relative\\absolute path, but I think its worth to try.",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 180,
+        "endChar": 5
+      },
       "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

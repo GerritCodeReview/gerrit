@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79d4a40b_e84e9588",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-16T20:56:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57f7517c_e5d86ef5",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "ba98b941f03f114a79a99f8591a6d2ff1d831fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02feacb3_8b38d134",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-16T18:20:44Z",
       "side": 1,
       "message": "Some googling [1] suggests we shouldn\u0027t need to do this if the caller doing toJson() specifies these as Project.NameKey.class. Do you know where that\u0027s happening?\n\nIf we\u0027re not passing a class to toJson (as seen in the tests), then using a TypeAdaptorFactory would probably be better [2]? That\u0027s maybe not a change we\u0027d want on a stable branch, so perhaps this change would be fine as-is and then use TypeAdaptorFactory on master?\n\n[1] https://stackoverflow.com/questions/5800433/polymorphism-with-gson/8683689\n[2] https://stackoverflow.com/questions/22307382/how-do-i-implement-typeadapterfactory-in-gson",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 80
+      },
+      "revId": "ba98b941f03f114a79a99f8591a6d2ff1d831fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6593719b_c354cc65",
+        "filename": "java/com/google/gerrit/server/events/EventGsonProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-16T20:56:19Z",
+      "side": 1,
+      "message": "\u003e Some googling [1] suggests we shouldn\u0027t need to do this if the caller doing toJson() specifies these as Project.NameKey.class. Do you know where that\u0027s happening?\n\nI don\u0027t think there is an explicit json serialization of Project.NameKey as such, but rather serialization of objects that _have_ Project.NameKey (or their polymorphic AllUsersName and AllProjectsName) as a field (I am thinking all *Events familiy for example).\n\n\u003e \n\u003e If we\u0027re not passing a class to toJson (as seen in the tests), then using a TypeAdaptorFactory would probably be better [2]? That\u0027s maybe not a change we\u0027d want on a stable branch, so perhaps this change would be fine as-is and then use TypeAdaptorFactory on master?\n\nThanks for the pointers Nasser, I had started providing a generic implementation of the adapter, but then realized the change was going to be more invasive than I wanted.\n\nI think using the `registerTypeHierarchyAdapter()` is exactly what we want in this context [3] and it provides a cleaner solution.\nThanks for the pointer!\n\n\u003e \n\u003e [1] https://stackoverflow.com/questions/5800433/polymorphism-with-gson/8683689\n\u003e [2] https://stackoverflow.com/questions/22307382/how-do-i-implement-typeadapterfactory-in-gson\n\n[3]https://www.javadoc.io/doc/com.google.code.gson/gson/2.6.2/com/google/gson/GsonBuilder.html#registerTypeHierarchyAdapter-java.lang.Class-java.lang.Object-",
+      "parentUuid": "02feacb3_8b38d134",
       "range": {
         "startLine": 36,
         "startChar": 0,

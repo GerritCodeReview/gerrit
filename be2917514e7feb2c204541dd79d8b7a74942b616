@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4df084d2_be3fbacf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-16T11:55:39Z",
+      "side": 1,
+      "message": "Thanks for putting this together!\n",
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4424c860_b27b6d4e",
+        "filename": "package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-16T11:55:39Z",
+      "side": 1,
+      "message": "Why is compile:local no longer necessary?\n\nAdditionally, how hard would it be to have test:debug have a tsc watcher for iterative development?",
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba915d1f_18347cce",
+        "filename": "polygerrit-ui/karma_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-16T11:55:39Z",
+      "side": 1,
+      "message": "Do we still need template_test_srcs?",
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14e752f3_96fd6bcc",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-16T11:55:39Z",
+      "side": 1,
+      "message": "extremely what? The suspense is killing me 😄",
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -83,7 +83,7 @@ def polygerrit_plugin(name, app, plugin_name = None):
         srcs = [plugin_name + ".js"],
     )
 
-def gerrit_js_bundle(name, entry_point, srcs = []):
+def gerrit_js_bundle(name, entry_point, srcs = [], plugin_name = None):
     """Produces a Gerrit JavaScript bundle archive.
 
     This rule bundles and minifies the javascript files of a frontend plugin and
@@ -96,11 +96,15 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
       name: Rule name.
       srcs: Plugin sources.
       entry_point: Plugin entry_point.
+      plugin_name: The name of the plugin. Can typically be unset. Then it will
+        default to the rule name.
     """
 
-    bundle = name + "-bundle"
-    minified = name + ".min"
-    main = name + ".js"
+    if not plugin_name:
+        plugin_name = name
+    bundle = plugin_name + "-bundle"
+    minified = plugin_name + ".min"
+    main = plugin_name + ".js"
 
     rollup_bundle(
         name = bundle,
@@ -124,7 +128,7 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
     )
 
     native.genrule(
-        name = name + "_rename_js",
+        name = plugin_name + "_rename_js",
         srcs = [minified],
         outs = [main],
         cmd = "cp $< $@",
@@ -141,4 +145,52 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
             "cd $$TMP",
             "zip -Drq $$ROOT/$@ -g .",
         ]),
+    )
+
+def karma_test(name, srcs, data):
+    """Creates a Karma binary and test target.
+
+    It can be used both for the main Gerrit js bundle, but also for plugins. So
+    it should be extremely to add Karma test capabilities for new plugins.
+
+    We are sharing on karma.conf.js file. If you want to customize that, then
+    consider using command line arguments that the config file can process, see
+    the "root" argument for example.
+
+    Args:
+      name: The name of the test rule. The binary rule's name is `${name}_bin`.
+      srcs: The shell script to invoke, where you can set command line
+        arguments for Karma and its config.
+      data: The bundle of JavaScript files with the tests included.
+    """
+
+    bin_name = name + "_bin"
+    native.sh_binary(
+        name = bin_name,
+        srcs = ["@ui_dev_npm//:node_modules/karma/bin/karma"],
+        data = [
+            "@ui_dev_npm//@open-wc/karma-esm",
+            "@ui_dev_npm//chai",
+            "@ui_dev_npm//karma-chrome-launcher",
+            "@ui_dev_npm//karma-mocha",
+            "@ui_dev_npm//karma-mocha-reporter",
+            "@ui_dev_npm//karma/bin:karma",
+            "@ui_dev_npm//mocha",
+        ],
+    )
+
+    native.sh_test(
+        name = name,
+        size = "enormous",
+        srcs = srcs,
+        args = [
+            "$(location " + bin_name + ")",
+            "$(location //polygerrit-ui:karma.conf.js)",
+        ],
+        data = data + [
+            "//polygerrit-ui:karma.conf.js",
+            ":" + bin_name,
+        ],
+        # Should not run sandboxed.
+        tags = ["karma", "local", "manual"],
     )

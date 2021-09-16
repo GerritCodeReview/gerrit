@@ -170,6 +170,26 @@ public class DeadlineChecker implements RequestStateProvider {
     Optional<ServerDeadline> serverSideDeadline =
         getServerSideDeadline(deadlineConfigs, requestInfo);
     Optional<Long> clientedProvidedTimeout = parseTimeout(clientProvidedTimeoutValue);
+    logDeadlines(serverSideDeadline, clientedProvidedTimeout);
+
+    this.cancellationReason =
+        clientedProvidedTimeout.isPresent()
+            ? RequestStateProvider.Reason.CLIENT_PROVIDED_DEADLINE_EXCEEDED
+            : RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED;
+    this.timeoutName =
+        clientedProvidedTimeout
+            .map(clientTimeout -> "client.timeout")
+            .orElse(
+                serverSideDeadline
+                    .map(serverDeadline -> serverDeadline.id() + ".timeout")
+                    .orElse("timeout"));
+    this.timeout =
+        clientedProvidedTimeout.orElse(serverSideDeadline.map(ServerDeadline::timeout).orElse(0L));
+    this.deadline = timeout > 0 ? Optional.of(start + timeout) : Optional.empty();
+  }
+
+  private void logDeadlines(
+      Optional<ServerDeadline> serverSideDeadline, Optional<Long> clientedProvidedTimeout) {
     if (serverSideDeadline.isPresent()) {
       if (clientedProvidedTimeout.isPresent()) {
         logger.atFine().log(
@@ -185,21 +205,11 @@ public class DeadlineChecker implements RequestStateProvider {
             TimeUnit.MILLISECONDS.convert(
                 serverSideDeadline.get().timeout(), TimeUnit.NANOSECONDS));
       }
+    } else if (clientedProvidedTimeout.isPresent()) {
+      logger.atFine().log(
+          "applying client provided deadline (timeout = %sms)",
+          TimeUnit.MILLISECONDS.convert(clientedProvidedTimeout.get(), TimeUnit.NANOSECONDS));
     }
-    this.cancellationReason =
-        clientedProvidedTimeout.isPresent()
-            ? RequestStateProvider.Reason.CLIENT_PROVIDED_DEADLINE_EXCEEDED
-            : RequestStateProvider.Reason.SERVER_DEADLINE_EXCEEDED;
-    this.timeoutName =
-        clientedProvidedTimeout
-            .map(clientTimeout -> "client.timeout")
-            .orElse(
-                serverSideDeadline
-                    .map(serverDeadline -> serverDeadline.id() + ".timeout")
-                    .orElse("timeout"));
-    this.timeout =
-        clientedProvidedTimeout.orElse(serverSideDeadline.map(ServerDeadline::timeout).orElse(0L));
-    this.deadline = timeout > 0 ? Optional.of(start + timeout) : Optional.empty();
   }
 
   private Optional<ServerDeadline> getServerSideDeadline(

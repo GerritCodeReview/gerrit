@@ -1817,6 +1817,10 @@ public class RestApiServlet extends HttpServlet {
     logger.atFinest().log(
         "Received REST request: %s %s (parameters: %s)",
         req.getMethod(), req.getRequestURI(), getParameterNames(req));
+    Optional.ofNullable(req.getHeader(X_GERRIT_DEADLINE))
+        .ifPresent(
+            clientProvidedDeadline ->
+                logger.atFine().log("%s = %s", X_GERRIT_DEADLINE, clientProvidedDeadline));
     logger.atFinest().log("Calling user: %s", globals.currentUser.get().getLoggableName());
     logger.atFinest().log(
         "Groups: %s", lazy(() -> globals.currentUser.get().getEffectiveGroups().getKnownGroups()));

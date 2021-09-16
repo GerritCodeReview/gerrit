@@ -266,6 +266,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bfc9c7cf_3e84697d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-16T10:37:59Z",
+      "side": 1,
+      "message": "\u003e \u003e Would the open-source version of reftable do the same?\n\u003e \n\u003e See https://gerrit.googlesource.com/jgit/+/211900aafd137061b1f12286bb1a24d495423aca/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java#163\n\ncool, will have a look, thanks.\n\n\u003e it uses whatever Java does (a mmap\u0027d file would work well here too). The OS/NFS-client still has a local page cache for NFS, doesn\u0027t it? So the performance should better (the file is kept open, so you only have syscall overhead).\n\nNot with trust folder stat set to false: it will go to the network to check the actual status of the files, not the cached one.",
+      "parentUuid": "df0194aa_f5f24fa4",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

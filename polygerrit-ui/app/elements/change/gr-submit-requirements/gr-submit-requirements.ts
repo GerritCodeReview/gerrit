@@ -45,42 +45,16 @@ export class GrSubmitRequirements extends LitElement {
   static override get styles() {
     return [
       css`
-        :host {
-          display: table;
-          width: 100%;
-        }
         .metadata-title {
           font-size: 100%;
           font-weight: var(--font-weight-bold);
           color: var(--deemphasized-text-color);
           padding-left: var(--metadata-horizontal-padding);
-        }
-        section {
-          display: table-row;
-        }
-        .title {
-          min-width: 10em;
-          padding: var(--spacing-s) 0 0 0;
-        }
-        .value {
-          padding: var(--spacing-s) 0 0 0;
-        }
-        .title,
-        .status {
-          display: table-cell;
-          vertical-align: top;
-        }
-        .value {
-          display: inline-flex;
-        }
-        .status {
-          width: var(--line-height-small);
-          padding: var(--spacing-s) var(--spacing-m) 0
-            var(--requirements-horizontal-padding);
+          margin: 0 0 var(--spacing-s);
         }
         iron-icon {
-          width: var(--line-height-small);
-          height: var(--line-height-small);
+          width: var(--line-height-normal, 20px);
+          height: var(--line-height-normal, 20px);
         }
         iron-icon.check {
           color: var(--success-foreground);
@@ -102,6 +76,9 @@ export class GrSubmitRequirements extends LitElement {
         .testing:hover * {
           visibility: visible;
         }
+        .requirements {
+          margin-left: var(--spacing-l);
+        }
       `,
     ];
   }
@@ -110,26 +87,40 @@ export class GrSubmitRequirements extends LitElement {
     const submit_requirements = (this.change?.submit_requirements ?? []).filter(
       req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
     );
-    return html`<h3 class="metadata-title">Submit Requirements</h3>
-      ${submit_requirements.map(
-        requirement => html`<section>
-          <gr-submit-requirement-hovercard
-            .requirement="${requirement}"
-            .change="${this.change}"
-            .account="${this.account}"
-            .mutable="${this.mutable}"
-          ></gr-submit-requirement-hovercard>
-          <div class="status">${this.renderStatus(requirement.status)}</div>
-          <div class="title">
-            <gr-limited-text
-              class="name"
-              limit="25"
-              text="${requirement.name}"
-            ></gr-limited-text>
-          </div>
-          <div class="value">${this.renderVotes(requirement)}</div>
-        </section>`
-      )}
+    return html` <h3 class="metadata-title" id="submit-requirements-caption">Submit Requirements</h3>
+        <table class="requirements" aria-labelledby="submit-requirements-caption">
+          <thead hidden>
+            <tr>
+              <th>Status</th>
+              <th>Name</th>
+              <th>Votes</th>
+            </tr>
+          </thead>
+          <tbody>
+          ${submit_requirements.map(
+            requirement => html`<tr id="requirement-${requirement.name}">
+              <td>${this.renderStatus(requirement.status)}</td>
+              <td>
+                <gr-limited-text
+                  class="name"
+                  limit="25"
+                  text="${requirement.name}"
+                ></gr-limited-text>
+              </td>
+              <td>${this.renderVotes(requirement)}</td>
+            </tr>`
+          )}
+        </tbody>
+      </table>
+      ${submit_requirements.map(requirement => html`
+      <gr-submit-requirement-hovercard
+          for="requirement-${requirement.name}"
+          .requirement="${requirement}"
+          .change="${this.change}"
+          .account="${this.account}"
+          .mutable="${this.mutable}"
+        ></gr-submit-requirement-hovercard>
+      `)}
       ${this.renderTriggerVotes(
         submit_requirements
       )}${this.renderFakeControls()}`;
@@ -140,6 +131,8 @@ export class GrSubmitRequirements extends LitElement {
     return html`<iron-icon
       class="${icon}"
       icon="gr-icons:${icon}"
+      role="img"
+      aria-label="${status.toLowerCase()}"
     ></iron-icon>`;
   }
 

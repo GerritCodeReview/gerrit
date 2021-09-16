@@ -61,6 +61,11 @@ public abstract class FileDiffOutput implements Serializable {
    */
   public abstract Optional<String> newPath();
 
+  /** Return {@link #oldPath()} if it's present or {@link #newPath()} otherwise. */
+  public String getDefaultPath() {
+    return oldPath().isPresent() ? oldPath().get() : newPath().get();
+  }
+
   /** The change type of the underlying file, e.g. added, deleted, renamed, etc... */
   public abstract Patch.ChangeType changeType();
 

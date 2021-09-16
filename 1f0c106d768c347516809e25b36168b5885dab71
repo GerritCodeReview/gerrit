@@ -22,6 +22,30 @@
       },
       "revId": "1f0c106d768c347516809e25b36168b5885dab71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4cab15b_1396f508",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-16T08:51:17Z",
+      "side": 1,
+      "message": "True. I will look into the possibility to reindex single accounts. The AccountIndexer might work for that. This will require some Guice magic. If that works, this should speed up things as well. Otherwise it is not possible to decide, whether an offline reindexing is required, I think.",
+      "parentUuid": "46d0fed6_eb177abe",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 62
+      },
+      "revId": "1f0c106d768c347516809e25b36168b5885dab71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

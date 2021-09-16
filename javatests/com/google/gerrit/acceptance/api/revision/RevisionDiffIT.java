@@ -2865,13 +2865,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo = gApi.changes().id(cId).current().file(symlink).diff(initialRev);
     assertThat(diffInfo.content).hasSize(1);
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("new content");
-    // TODO(ghareeb): remove conditional assertion when new diff cache is fully rolled out.
-    assertThat(diffInfo.changeType)
-        .isEqualTo(useNewDiffCache ? ChangeType.REWRITE : ChangeType.ADDED);
+    assertThat(diffInfo.changeType).isEqualTo(ChangeType.REWRITE);
   }
 
   @Test
-  public void renameDeleteByJgit_isIdentifiedAsRewritten6() throws Exception {
+  public void renameDeleteByJgit_isIdentifiedAsRewritten() throws Exception {
     String target = "file.txt";
     String symlink = "link.lnk";
     PushOneCommit push =
@@ -2908,9 +2906,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             "rename to link.lnk");
     assertThat(diffInfo.content).hasSize(1);
     assertThat(diffInfo).content().element(0).commonLines().containsExactly("content");
-    // TODO(ghareeb): remove conditional assertion when new diff cache is fully rolled out.
-    assertThat(diffInfo.changeType)
-        .isEqualTo(useNewDiffCache ? ChangeType.REWRITE : ChangeType.RENAMED);
+    assertThat(diffInfo.changeType).isEqualTo(ChangeType.REWRITE);
   }
 
   @Test

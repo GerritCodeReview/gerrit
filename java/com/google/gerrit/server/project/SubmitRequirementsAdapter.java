@@ -70,7 +70,7 @@ public class SubmitRequirementsAdapter {
 
   private static List<SubmitRequirementResult> createFromCustomSubmitRecord(
       SubmitRecord record, ObjectId psCommitId) {
-    if (record.labels.isEmpty()) {
+    if (record.labels == null || record.labels.isEmpty()) {
       SubmitRequirement sr =
           SubmitRequirement.builder()
               .setName(record.ruleName)

@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
@@ -72,7 +73,7 @@ public class SubmitRequirementsAdapterTest {
   }
 
   @Test
-  public void defaultSubmitRule_WithLabelsAllPass() {
+  public void defaultSubmitRule_withLabelsAllPass() {
     SubmitRecord submitRecord =
         createSubmitRecord(
             "gerrit~DefaultSubmitRule",
@@ -100,7 +101,7 @@ public class SubmitRequirementsAdapterTest {
   }
 
   @Test
-  public void defaultSubmitRule_WithLabelsAllNeed() {
+  public void defaultSubmitRule_withLabelsAllNeed() {
     SubmitRecord submitRecord =
         createSubmitRecord(
             "gerrit~DefaultSubmitRule",
@@ -128,7 +129,7 @@ public class SubmitRequirementsAdapterTest {
   }
 
   @Test
-  public void customSubmitRule_NoLabels_WithStatusOk() {
+  public void customSubmitRule_noLabels_withStatusOk() {
     SubmitRecord submitRecord =
         createSubmitRecord("gerrit~IgnoreSelfApprovalRule", Status.OK, Arrays.asList());
 
@@ -145,7 +146,24 @@ public class SubmitRequirementsAdapterTest {
   }
 
   @Test
-  public void customSubmitRule_NoLabels_WithStatusNotReady() {
+  public void customSubmitRule_nullLabels_withStatusOk() {
+    SubmitRecord submitRecord =
+        createSubmitRecord("gerrit~IgnoreSelfApprovalRule", Status.OK, /* labels= */ null);
+
+    List<SubmitRequirementResult> requirements =
+        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+
+    assertThat(requirements).hasSize(1);
+    assertResult(
+        requirements.get(0),
+        /* reqName= */ "gerrit~IgnoreSelfApprovalRule",
+        /* submitExpression= */ "rule:gerrit~IgnoreSelfApprovalRule",
+        SubmitRequirementResult.Status.SATISFIED,
+        SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
+  public void customSubmitRule_noLabels_withStatusNotReady() {
     SubmitRecord submitRecord =
         createSubmitRecord("gerrit~IgnoreSelfApprovalRule", Status.NOT_READY, Arrays.asList());
 
@@ -162,7 +180,7 @@ public class SubmitRequirementsAdapterTest {
   }
 
   @Test
-  public void customSubmitRule_WithLabels() {
+  public void customSubmitRule_withLabels() {
     SubmitRecord submitRecord =
         createSubmitRecord(
             "gerrit~PrologRule",
@@ -203,7 +221,7 @@ public class SubmitRequirementsAdapterTest {
   }
 
   private SubmitRecord createSubmitRecord(
-      String ruleName, SubmitRecord.Status status, List<Label> labels) {
+      String ruleName, SubmitRecord.Status status, @Nullable List<Label> labels) {
     SubmitRecord record = new SubmitRecord();
     record.ruleName = ruleName;
     record.status = status;

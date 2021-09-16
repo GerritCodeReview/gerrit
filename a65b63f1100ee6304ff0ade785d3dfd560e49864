@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bf2affb_6424df15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-16T09:02:05Z",
+      "side": 1,
+      "message": "Do you mean \"direct\"? (force push means a non-fastforward merge,e.g. resetting a branch to an older commit)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "a65b63f1100ee6304ff0ade785d3dfd560e49864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3f396db_e426affe",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractForcePush.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-16T09:02:05Z",
+      "side": 1,
+      "message": "Force push should not be needed for this test case.",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 25
+      },
+      "revId": "a65b63f1100ee6304ff0ade785d3dfd560e49864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

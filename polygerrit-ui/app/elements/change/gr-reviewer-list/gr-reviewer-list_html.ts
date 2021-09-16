@@ -58,8 +58,8 @@ export const htmlTemplate = html`
       display: inline-block;
     }
     gr-vote-chip {
-      --gr-vote-chip-width: 16px;
-      --gr-vote-chip-height: 16px;
+      --gr-vote-chip-width: 14px;
+      --gr-vote-chip-height: 14px;
     }
   </style>
   <div class="container">

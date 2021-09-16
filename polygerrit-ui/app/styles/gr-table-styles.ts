@@ -17,6 +17,10 @@
 import {css} from 'lit';
 
 export const tableStyles = css`
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
   .genericList {
     background-color: var(--background-color-primary);
     border-collapse: collapse;

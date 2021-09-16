@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 
 /** Provides a cached list of {@link PatchListEntry}. */
@@ -30,17 +28,6 @@ public interface PatchListCache {
    */
   @Deprecated
   PatchList get(PatchListKey key, Project.NameKey project) throws PatchListNotAvailableException;
-
-  /**
-   * Returns the patch list - list of modified files - between two commits.
-   *
-   * @param change entity containing all change data.
-   * @param patchSet single revision of a {@link Change}.
-   * @return patch list containing the modified files between two commits.
-   * @deprecated use {@link DiffOperations} instead.
-   */
-  @Deprecated
-  PatchList get(Change change, PatchSet patchSet) throws PatchListNotAvailableException;
 
   IntraLineDiff getIntraLineDiff(IntraLineDiffKey key, IntraLineDiffArgs args);
 

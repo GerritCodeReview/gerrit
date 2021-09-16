@@ -34,6 +34,24 @@
       "parentUuid": "a8b9bf23_679e2d5c",
       "revId": "d072ca5648f44b21ee9a1bd881f5cd4beaef3fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bae554f_914edf44",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-16T10:56:26Z",
+      "side": 1,
+      "message": "There are many other exceptions where we don\u0027t want to retry.\n\nI think we should identify exceptions one by one on which retrying makes sense (temporary errors) and then retry only on those. This is the approach that we are following with our internal GerritExceptionHook class (see class javadoc and shouldRetry method).",
+      "parentUuid": "e01068d9_67ff49dd",
+      "revId": "d072ca5648f44b21ee9a1bd881f5cd4beaef3fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

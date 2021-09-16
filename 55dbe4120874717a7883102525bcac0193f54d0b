@@ -22,6 +22,30 @@
       },
       "revId": "55dbe4120874717a7883102525bcac0193f54d0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4ecb277_0990b343",
+        "filename": "java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-16T12:49:46Z",
+      "side": 1,
+      "message": "Thanks for pointing this out!\n\nI checked the implementation: in this case we set oldCommitId to the special ObjectId.zeroId() (worth adding to the javadocs of FileDiffOutput#oldCommitId - Done in I3cdead5acb8f).\n\nI adapted this part to handle this case.\n\nNote: It would be better (from API design POV) if oldCommitId is made optional to make this behaviour more explicit, hence callers can quickly detect and handle properly.",
+      "parentUuid": "c7bcc70d_c4383ed4",
+      "range": {
+        "startLine": 85,
+        "startChar": 41,
+        "endLine": 85,
+        "endChar": 64
+      },
+      "revId": "55dbe4120874717a7883102525bcac0193f54d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

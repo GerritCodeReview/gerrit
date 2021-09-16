@@ -39,6 +39,30 @@
       },
       "revId": "672a995f1d94563e28899381bfdd79a4b9a58083",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcf1d288_515237a9",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-16T16:39:47Z",
+      "side": 1,
+      "message": "The AuditEvent already contains the entire HTTP response, any plugin interested in surfacing this information could already get it from there.\n\nI think (if this change gets merged), that something we could do for example to the audit-log plugin.",
+      "parentUuid": "c9cb2bfb_bd17daa4",
+      "range": {
+        "startLine": 56,
+        "startChar": 32,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "672a995f1d94563e28899381bfdd79a4b9a58083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

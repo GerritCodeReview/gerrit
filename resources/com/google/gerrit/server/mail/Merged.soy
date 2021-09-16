@@ -30,7 +30,7 @@
   {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
   {\n}
 
-  {$email.stickyApprovalDiff}
+  {if $email.stickyApprovalDiff} ( {$email.stickyApprovalDiff} ){/if}
 
   Change subject: {$change.subject}{\n}
   ......................................................................{\n}

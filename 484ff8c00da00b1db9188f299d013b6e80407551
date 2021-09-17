@@ -16,6 +16,24 @@
       "message": "Any way to change the shell script so we can use it for these as well? Then we avoid the --root.  I think test-files is an optional argument and you could simply -- and then the extra arguments.",
       "revId": "484ff8c00da00b1db9188f299d013b6e80407551",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5f65665_18771f3f",
+        "filename": "package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-17T13:44:11Z",
+      "side": 1,
+      "message": "Avoid the `--root`? But that is required I think, because the shell script by default picks up compiled files from where Bazel has compiled them to, while the npm scripts depend on where `compile:local` (and server.go) puts them.\n\nAnyway, let me submit this. We can optimize this further in separate changes. :-)",
+      "parentUuid": "b4488bdc_dbad9454",
+      "revId": "484ff8c00da00b1db9188f299d013b6e80407551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

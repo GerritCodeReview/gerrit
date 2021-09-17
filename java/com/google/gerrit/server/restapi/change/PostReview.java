@@ -80,6 +80,10 @@ import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
+import com.google.gerrit.metrics.Counter1;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -151,6 +155,23 @@ import org.eclipse.jgit.lib.ObjectId;
 public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  @Singleton
+  private static class Metrics {
+    final Counter1<String> draftHandling;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      draftHandling =
+          metricMaker.newCounter(
+              "change/post_review/draft_handling",
+              new Description(
+                      "Total number of draft handling option (KEEP, PUBLISH, PUBLISH_ALL_REVISIONS) selected by users while posting a review.")
+                  .setRate()
+                  .setUnit("count"),
+              Field.ofString("type", Metadata.Builder::eventType).build());
+    }
+  }
+
   private static final String ERROR_ADDING_REVIEWER = "error adding reviewer";
   public static final String ERROR_WIP_READY_MUTUALLY_EXCLUSIVE =
       "work_in_progress and ready are mutually exclusive";
@@ -170,6 +191,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
   private final ReviewerModifier reviewerModifier;
+  private final Metrics metrics;
   private final ModifyReviewersEmail modifyReviewersEmail;
   private final NotifyResolver notifyResolver;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
@@ -196,6 +218,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
       ReviewerModifier reviewerModifier,
+      Metrics metrics,
       ModifyReviewersEmail modifyReviewersEmail,
       NotifyResolver notifyResolver,
       @GerritServerConfig Config gerritConfig,
@@ -218,6 +241,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.email = email;
     this.commentAdded = commentAdded;
     this.reviewerModifier = reviewerModifier;
+    this.metrics = metrics;
     this.modifyReviewersEmail = modifyReviewersEmail;
     this.notifyResolver = notifyResolver;
     this.workInProgressOpFactory = workInProgressOpFactory;
@@ -252,6 +276,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     logger.atFine().log("strict label checking is %s", (strictLabels ? "enabled" : "disabled"));
 
+    metrics.draftHandling.increment(input.drafts == null? "N/A" : input.drafts.name());
     input.drafts = firstNonNull(input.drafts, DraftHandling.KEEP);
     logger.atFine().log("draft handling = %s", input.drafts);
 

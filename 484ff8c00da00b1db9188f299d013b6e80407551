@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4488bdc_dbad9454",
+        "filename": "package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-17T12:53:35Z",
+      "side": 1,
+      "message": "Any way to change the shell script so we can use it for these as well? Then we avoid the --root.  I think test-files is an optional argument and you could simply -- and then the extra arguments.",
+      "revId": "484ff8c00da00b1db9188f299d013b6e80407551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

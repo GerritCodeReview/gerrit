@@ -1143,6 +1143,7 @@ export interface PreferencesInfo {
   default_base_for_merges: DefaultBase;
   publish_comments_on_push?: boolean;
   disable_keyboard_shortcuts?: boolean;
+  disable_token_highlighting?: boolean;
   work_in_progress_by_default?: boolean;
   // The email_format doesn't mentioned in doc, but exists in Java class GeneralPreferencesInfo
   email_format?: EmailFormat;

@@ -1343,6 +1343,7 @@ link:#preferences-input[PreferencesInput] entity.
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
     "disable_keyboard_shortcuts": true,
+    "disable_token_highlighting": true,
     "diff_view": "SIDE_BY_SIDE",
     "mute_common_path_prefixes": true,
     "my": [
@@ -1394,6 +1395,7 @@ link:#preferences-info[PreferencesInfo] entity.
     "diff_view": "SIDE_BY_SIDE",
     "publish_comments_on_push": true,
     "disable_keyboard_shortcuts": true,
+    "disable_token_highlighting": true,
     "work_in_progress_by_default": true,
     "mute_common_path_prefixes": true,
     "my": [
@@ -2704,6 +2706,8 @@ list when the change screen is opened for a merge commit.
 Allowed values are `AUTO_MERGE` and `FIRST_PARENT`.
 |`disable_keyboard_shortcuts`     |not set if `false`|
 Whether to disable all keyboard shortcuts.
+|`disable_token_highlighting`     [not set if `false`]
+Whether to disable token highlighting on hover.
 |`publish_comments_on_push`     |not set if `false`|
 Whether to link:user-upload.html#publish-comments[publish draft comments] on
 push by default.

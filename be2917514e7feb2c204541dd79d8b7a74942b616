@@ -86,6 +86,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ee5c7e6_751dfda8",
+        "filename": "package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-17T09:19:21Z",
+      "side": 1,
+      "message": "I am moving this to a different change. Unrelated.\n\nBut yeah, you would typically have a watcher running anyway, so the additional compile step just takes time.",
+      "parentUuid": "4424c860_b27b6d4e",
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba915d1f_18347cce",
@@ -99,6 +117,24 @@
       "writtenOn": "2021-09-16T11:55:39Z",
       "side": 1,
       "message": "Do we still need template_test_srcs?",
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "409f103d_17a18d9f",
+        "filename": "polygerrit-ui/karma_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-17T09:19:21Z",
+      "side": 1,
+      "message": "Good point. It seems no. Removed.",
+      "parentUuid": "ba915d1f_18347cce",
       "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -126,6 +162,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da5b0fe6_158358fe",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-17T09:19:21Z",
+      "side": 1,
+      "message": "Reverted.",
+      "parentUuid": "cf82f95d_2a10a9a7",
+      "range": {
+        "startLine": 86,
+        "startChar": 51,
+        "endLine": 86,
+        "endChar": 62
+      },
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14e752f3_96fd6bcc",
@@ -143,6 +203,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81dc554f_974767a9",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-17T09:19:21Z",
+      "side": 1,
+      "message": "\"easy\" of course. :-)",
+      "parentUuid": "14e752f3_96fd6bcc",
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e70cc695_0dbf8b67",
@@ -156,6 +234,30 @@
       "writtenOn": "2021-09-16T17:48:37Z",
       "side": 1,
       "message": "I think, you can keep this sh_binary outside of this rule and then reference it by the full path (like we do with rollup-bin: https://gerrit.googlesource.com/gerrit/+/be2917514e7feb2c204541dd79d8b7a74942b616/tools/node_tools/BUILD#10\nhttps://gerrit.googlesource.com/gerrit/+/be2917514e7feb2c204541dd79d8b7a74942b616/polygerrit-ui/app/rules.bzl#28\n).\n\nWhen the current implementation (each call to karma_test creates own rule), bazel will create each time a separate environment to run a script (links the same npm packages, etc...)\n\nBtw, I am not 100% sure that my suggestion will work - there can be a problem with relative\\absolute path, but I think its worth to try.",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 180,
+        "endChar": 5
+      },
+      "revId": "be2917514e7feb2c204541dd79d8b7a74942b616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e2eb040_73800037",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-17T09:19:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e70cc695_0dbf8b67",
       "range": {
         "startLine": 168,
         "startChar": 4,

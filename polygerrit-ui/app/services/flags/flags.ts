@@ -25,6 +25,7 @@ export interface FlagsService {
  */
 export enum KnownExperimentId {
   NEW_IMAGE_DIFF_UI = 'UiFeature__new_image_diff_ui',
+  TOKEN_HIGHLIGHTING = 'UiFeature__token_highlighting',
   CHECKS_DEVELOPER = 'UiFeature__checks_developer',
   NEW_REPLY_DIALOG = 'UiFeature__new_reply_dialog',
   SUBMIT_REQUIREMENTS_UI = 'UiFeature__submit_requirements_ui',

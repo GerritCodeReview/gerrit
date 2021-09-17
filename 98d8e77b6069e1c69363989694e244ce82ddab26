@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb4c8368_c2421708",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-17T11:21:44Z",
+      "side": 1,
+      "message": "On a related note, I feel Nano is too precise for time representation. Maybe micros or millis are going to be better.",
+      "revId": "98d8e77b6069e1c69363989694e244ce82ddab26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

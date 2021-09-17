@@ -16,6 +16,34 @@
 
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test")
 
+def plugin_eslint():
+    """ Convenience wrapper macro of eslint() for Gerrit js plugins
+
+    Args:
+        name: name of the rule
+    """
+    eslint(
+        name = "lint",
+        srcs = native.glob(["**/*.ts"]),
+        config = ".eslintrc.js",
+        data = [
+            "tsconfig.json",
+            "//plugins:.eslintrc.js",
+            "//plugins:.prettierrc.js",
+            "//plugins:tsconfig-plugins-base.json",
+        ],
+        extensions = [".ts"],
+        ignore = "//plugins:.eslintignore",
+        plugins = [
+            "@npm//eslint-config-google",
+            "@npm//eslint-plugin-html",
+            "@npm//eslint-plugin-import",
+            "@npm//eslint-plugin-jsdoc",
+            "@npm//eslint-plugin-prettier",
+            "@npm//gts",
+        ],
+    )
+
 def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = []):
     """ Macro to define eslint rules for files.
 
@@ -87,7 +115,7 @@ def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = [])
             "*_test_require_patch.js",
             "--ignore-pattern",
             "*_test_loader.js",
-            "./", # Relative to the config file location
+            "./",  # Relative to the config file location
         ],
         # Should not run sandboxed.
         tags = [

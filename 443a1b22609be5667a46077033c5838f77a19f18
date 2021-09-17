@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48d99065_dd2ccaa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-17T18:11:08Z",
+      "side": 1,
+      "message": "\u003e I believe the issue is really when the response *IS* already committed and the code cannot send an error (see L481 and L490). In that case we would need to \"encode a reason\", but that can easily be a follow-up change.\n\ngotcha\n\n\u003e My only proposal was just to use a numeric rather than a string here, similar to what sshd_log does. WDYT?\n\nYep, this is done.",
+      "parentUuid": "cdb888ae_a6be342b",
+      "revId": "443a1b22609be5667a46077033c5838f77a19f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20a82677_fa28b304",

@@ -104,6 +104,30 @@
       },
       "revId": "672a995f1d94563e28899381bfdd79a4b9a58083",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20bec087_93d45bf4",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-17T18:11:08Z",
+      "side": 1,
+      "message": "\u003e The audit is a native feature isn\u0027t a plugin. The question from @Ponch can be rephrased as \"is the command-status included in the audit record as well?\"\u003e\n\nYep exactly, Just to clarify:\n- The AuditRecord is an object defined in the audit-sl4j plugin[1]  \n- The AuditEvent is native (and subclassed by HttpAuditEvent, SSHAuditEvent, ...) object [2]\n\nWhat I meant with my reply is that the AuditEvent (the native one), already contains the entire HTTP response[3], so in this context, the command-status is already retrievable by anyone interested.\n\nDoes that answer your question @ponch, @luca?\n\n[1]https://gerrit.googlesource.com/plugins/audit-sl4j/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/auditsl4j/AuditRecord.java\n\n[2]https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/AuditEvent.java\n\n[3]https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/httpd/GitOverHttpServlet.java#448",
+      "parentUuid": "7808036d_a2faf316",
+      "range": {
+        "startLine": 56,
+        "startChar": 32,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "672a995f1d94563e28899381bfdd79a4b9a58083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

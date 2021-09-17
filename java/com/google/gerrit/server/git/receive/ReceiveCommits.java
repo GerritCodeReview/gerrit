@@ -627,7 +627,7 @@ class ReceiveCommits {
   ReceiveCommitsResult processCommands(
       Collection<ReceiveCommand> commands, MultiProgressMonitor progress) throws StorageException {
     checkState(!used, "Tried to re-use a ReceiveCommits objects that is single-use only");
-    long start = System.nanoTime();
+    long start = TimeUtil.nowNanos();
     parsePushOptions();
     String clientProvidedDeadlineValue =
         Iterables.getLast(pushOptions.get("deadline"), /* defaultValue= */ null);

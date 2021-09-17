@@ -63,6 +63,30 @@
       },
       "revId": "672a995f1d94563e28899381bfdd79a4b9a58083",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7808036d_a2faf316",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-17T17:51:45Z",
+      "side": 1,
+      "message": "The audit is a native feature isn\u0027t a plugin. The question from @Ponch can be rephrased as \"is the command-status included in the audit record as well?\"",
+      "parentUuid": "bcf1d288_515237a9",
+      "range": {
+        "startLine": 56,
+        "startChar": 32,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "672a995f1d94563e28899381bfdd79a4b9a58083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

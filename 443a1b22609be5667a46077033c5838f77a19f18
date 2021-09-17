@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cdb888ae_a6be342b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-17T17:51:45Z",
+      "side": 1,
+      "message": "I believe the issue is really when the response *IS* already committed and the code cannot send an error (see L481 and L490). In that case we would need to \"encode a reason\", but that can easily be a follow-up change.\n\nMy only proposal was just to use a numeric rather than a string here, similar to what sshd_log does. WDYT?",
+      "parentUuid": "bc87dfc4_18da7846",
+      "revId": "443a1b22609be5667a46077033c5838f77a19f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "20a82677_fa28b304",
         "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 4

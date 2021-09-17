@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4c99dcc8_7de0a8aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-17T12:57:53Z",
+      "side": 1,
+      "message": "1. Ah yes LGTM with the border. I forgot that the specs were with no border when hovercard is expanded, so on this LGTM.\n\n2. I think that we should not show them if they are not defined so that we only show relevant info.",
+      "parentUuid": "2bd27076_e4437a1f",
+      "revId": "d7a495553370e654e1d3b020f1cd9820d0036893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58152479_4d1e3e7c",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
         "patchSetId": 4

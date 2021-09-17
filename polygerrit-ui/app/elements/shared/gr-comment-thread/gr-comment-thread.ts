@@ -204,6 +204,9 @@ export class GrCommentThread extends base {
   @property({type: Object})
   _selfAccount?: AccountDetailInfo;
 
+  @property({type: Boolean})
+  disableTokenHighlighting = false;
+
   get keyBindings() {
     return {
       'e shift+e': '_handleEKey',
@@ -227,6 +230,11 @@ export class GrCommentThread extends base {
     this.addEventListener('comment-update', e =>
       this._handleCommentUpdate(e as CustomEvent)
     );
+    appContext.restApiService.getPreferences().then(prefs => {
+      if (prefs?.disable_token_highlighting) {
+        this.disableTokenHighlighting = prefs.disable_token_highlighting;
+      }
+    });
   }
 
   override connectedCallback() {
@@ -360,7 +368,10 @@ export class GrCommentThread extends base {
   _getLayers(diff?: DiffInfo) {
     if (!diff) return [];
     const layers = [];
-    if (this.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)) {
+    if (
+      this.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING) &&
+      !this.disableTokenHighlighting
+    ) {
       layers.push(new TokenHighlightLayer(this));
     }
     layers.push(this.syntaxLayer);

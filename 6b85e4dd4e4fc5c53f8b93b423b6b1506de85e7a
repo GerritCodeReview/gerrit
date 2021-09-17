@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc32d536_4b5c5e7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-17T18:17:31Z",
+      "side": 1,
+      "message": "I cannot find the update of Documentation/logs.txt with the extra field. Did I miss it anywhere?",
+      "revId": "6b85e4dd4e4fc5c53f8b93b423b6b1506de85e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

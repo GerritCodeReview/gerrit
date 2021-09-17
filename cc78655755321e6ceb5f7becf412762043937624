@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad0c21c2_a4dd223f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-17T13:09:53Z",
+      "side": 1,
+      "message": "For the votes size, according to the specs (see specs called \"Other components\"):\n- In the Submit requirements: 20x20 px\n- In the user chip: 16x16 px (the vote is currently  20x20 px in the user chip and looks too big, that is why I propose 16x16 px vote in the user chip)",
+      "revId": "cc78655755321e6ceb5f7becf412762043937624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a16e469e_f2bd820b",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-17T13:09:53Z",
+      "side": 1,
+      "message": "--font-size-normal",
+      "range": {
+        "startLine": 86,
+        "startChar": 25,
+        "endLine": 86,
+        "endChar": 39
+      },
+      "revId": "cc78655755321e6ceb5f7becf412762043937624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

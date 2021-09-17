@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4b8b6eb_99608816",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-17T13:51:44Z",
+      "side": 1,
+      "message": "Note to self: do we really need this cache? The computation is lightweight and the heavy lifting is done in PatchListLoader (previously), DiffOperations (currently) which this cache wraps. I\u0027d go for dropping or maybe discuss with non-google contributors first.",
+      "revId": "3f7d7fc9b695a26cd408b1d35aa7c7259d4da0eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

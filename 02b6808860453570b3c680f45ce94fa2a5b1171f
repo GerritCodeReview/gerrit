@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "636b3f73_476f44a0",
+        "filename": "package.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-17T12:12:15Z",
+      "side": 1,
+      "message": "Where is karma_test_bin defined?",
+      "revId": "02b6808860453570b3c680f45ce94fa2a5b1171f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5798b784_35018558",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-17T13:11:58Z",
+      "side": 1,
+      "message": "Also we\u0027ll need to add borders between Change info and Submit requirements and Trigger votes ",
+      "revId": "cc78655755321e6ceb5f7becf412762043937624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a16e469e_f2bd820b",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
         "patchSetId": 3

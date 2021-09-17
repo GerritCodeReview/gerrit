@@ -16,18 +16,11 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.entities.Project;
 
-/** Provides a cached list of {@link PatchListEntry}. */
+/**
+ * Provides a cached list of intra-line and summary diffs. Use {@link DiffOperations} to compute
+ * detailed file diffs.
+ */
 public interface PatchListCache {
-  /**
-   * Returns the patch list - list of modified files - between two commits.
-   *
-   * @param key identifies the old / new commits.
-   * @param project name key identifying a specific git project (repository).
-   * @return patch list containing the modified files between two commits.
-   * @deprecated use {@link DiffOperations} instead.
-   */
-  @Deprecated
-  PatchList get(PatchListKey key, Project.NameKey project) throws PatchListNotAvailableException;
 
   IntraLineDiff getIntraLineDiff(IntraLineDiffKey key, IntraLineDiffArgs args);
 

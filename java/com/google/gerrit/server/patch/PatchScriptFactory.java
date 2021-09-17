@@ -229,7 +229,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
                 notes.getProjectName(), bId, parentNum, fileName, diffPrefs.ignoreWhitespace)
             : diffOperations.getModifiedFile(
                 notes.getProjectName(), aId, bId, fileName, diffPrefs.ignoreWhitespace);
-    return newBuilder().toPatchScriptNew(git, fileDiffOutput);
+    return newBuilder().toPatchScript(git, fileDiffOutput);
   }
 
   private Optional<ObjectId> getAId() {

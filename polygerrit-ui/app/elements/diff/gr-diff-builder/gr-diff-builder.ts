@@ -572,6 +572,7 @@ export abstract class GrDiffBuilder {
     lineLimit: number
   ): HTMLElement {
     const contentText = this._createElement('div', 'contentText');
+    contentText.ariaLabel = text;
     const responsive = isResponsive(responsiveMode);
     let columnPos = 0;
     let textOffset = 0;

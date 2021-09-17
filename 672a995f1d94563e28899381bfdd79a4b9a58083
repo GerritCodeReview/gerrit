@@ -128,6 +128,30 @@
       },
       "revId": "672a995f1d94563e28899381bfdd79a4b9a58083",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "925b79c4_eb3d6c19",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-17T18:15:52Z",
+      "side": 1,
+      "message": "Yes, it does answer it. Thanks.",
+      "parentUuid": "20bec087_93d45bf4",
+      "range": {
+        "startLine": 56,
+        "startChar": 32,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "672a995f1d94563e28899381bfdd79a4b9a58083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

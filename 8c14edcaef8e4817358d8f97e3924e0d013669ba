@@ -34,6 +34,24 @@
       "parentUuid": "2d763dbc_750ab7b2",
       "revId": "8c14edcaef8e4817358d8f97e3924e0d013669ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fb56d01_e7f15a95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-17T19:50:57Z",
+      "side": 1,
+      "message": "\u003e TLDR; I don\u0027t believe so.\n\n+1\n\n\u003e \n\u003e Project.NameKey, alongside other key types (such as PatchSet.Id, Change.Key, Change.Id, Branch.NameKey, etc) were always serialized as strings.\n\u003e \n\u003e In fact, this behaviour broke with the refactoring brought in by autovalue-keys [1].\n\u003e When that happened, Issue 10776 arose [2] and it was ultimately fixed in [3].\n\u003e \n\u003e I believe [3] just didn\u0027t take into consideration that Project.NameKey (contrary to *all* other key type classes) had subclasses, which is what we are rectifying now with this change.\n\u003e \n\u003e Change [4] was introduced to cover any regression regarding this, so have some decent level of confidence this is not breaking anyone.\n\nMake sense. Should we also be adding AllUsersName/AllProjectsName cases to javatests/com/google/gerrit/server/events/EventJsonTest.java? Seems like that would have caught this in the first place.\n\nInterestingly [2] mentions using auto-value-gson, which I did introduce on stable-3.4, so perhaps there\u0027s improvements/simplifications we can add on top of this there.\n\n\u003e \n\u003e [1]https://gerrit-review.googlesource.com/q/topic:%22autovalue-keys%22+(status:open%20OR%20status:merged))\n\u003e [2]https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d10776\n\u003e [3]https://gerrit-review.googlesource.com/c/gerrit/+/222306\n\u003e [4]https://gerrit-review.googlesource.com/c/gerrit/+/222732",
+      "parentUuid": "87a85b35_1d09309f",
+      "revId": "8c14edcaef8e4817358d8f97e3924e0d013669ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

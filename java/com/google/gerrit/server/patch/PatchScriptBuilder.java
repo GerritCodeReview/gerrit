@@ -71,28 +71,8 @@ class PatchScriptBuilder {
     intralineDiffCalculator = calculator;
   }
 
-  /** Convert into {@link PatchScript} using the old diff cache output. */
-  PatchScript toPatchScriptOld(Repository git, PatchList list, PatchListEntry content)
-      throws IOException {
-
-    PatchFileChange change =
-        new PatchFileChange(
-            content.getEdits(),
-            content.getEditsDueToRebase(),
-            content.getHeaderLines(),
-            content.getOldName(),
-            content.getNewName(),
-            content.getChangeType(),
-            content.getPatchType());
-    SidesResolver sidesResolver = new SidesResolver(git, list.getComparisonType());
-    ResolvedSides sides =
-        resolveSides(
-            git, sidesResolver, oldName(change), newName(change), list.getOldId(), list.getNewId());
-    return build(sides.a, sides.b, change);
-  }
-
   /** Convert into {@link PatchScript} using the new diff cache output. */
-  PatchScript toPatchScriptNew(Repository git, FileDiffOutput content) throws IOException {
+  PatchScript toPatchScript(Repository git, FileDiffOutput content) throws IOException {
     PatchFileChange change =
         new PatchFileChange(
             content.edits().stream().map(TaggedEdit::jgitEdit).collect(toImmutableList()),

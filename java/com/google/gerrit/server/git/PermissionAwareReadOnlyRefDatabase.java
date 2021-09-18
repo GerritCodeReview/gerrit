@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toMap;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -127,10 +128,12 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
   public List<Ref> getRefsByPrefix(String prefix) throws IOException {
     Map<String, Ref> coarseRefs;
     int lastSlash = prefix.lastIndexOf('/');
-    if (lastSlash == -1) {
-      coarseRefs = getRefs(ALL);
-    } else {
+    if (lastSlash > -1) {
       coarseRefs = getRefs(prefix.substring(0, lastSlash + 1));
+    } else if (prefix.equals(RefNames.HEAD)) {
+      coarseRefs = getRefs(RefNames.HEAD);
+    } else {
+      coarseRefs = getRefs(ALL);
     }
 
     List<Ref> result;

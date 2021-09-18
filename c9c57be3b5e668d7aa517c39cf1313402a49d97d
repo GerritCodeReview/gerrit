@@ -67,6 +67,23 @@
       "message": "LGTM",
       "revId": "c9c57be3b5e668d7aa517c39cf1313402a49d97d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9034e1c_24914a8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015087
+      },
+      "writtenOn": "2021-09-18T18:22:52Z",
+      "side": 1,
+      "message": "Hey. A kind reminder about this change. It has two +1 reviews and no unresolved comments. Link another identity is an essential feature for installations using multiple providers for OAuth (+OpenID) and we at OpenOCD project would like to have this working out of the box.",
+      "revId": "c9c57be3b5e668d7aa517c39cf1313402a49d97d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

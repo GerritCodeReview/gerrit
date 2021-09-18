@@ -34,6 +34,8 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -41,6 +43,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import java.io.File;
 import java.net.InetSocketAddress;
+import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.junit.BeforeClass;
@@ -259,6 +262,62 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       assertThat(outAnonymousLsRemote).doesNotContain(RefNames.REFS_CONFIG);
       assertThat(outAnonymousLsRemote).contains(visibleChangeNumberRef);
       assertThat(outAnonymousLsRemote).contains(visibleChangeNumberMetaRef);
+    }
+  }
+
+  @Test
+  public void testGitWireProtocolV2ShowsOnlyHead() throws Exception {
+    try (ServerContext ctx = startServer()) {
+      ctx.getInjector().injectMembers(this);
+      String url = config.getString("gerrit", null, "canonicalweburl");
+
+      // Create project
+      Project.NameKey showHeadProject = Project.nameKey("show-head-only");
+      ProjectInput pi = new ProjectInput();
+      pi.name = showHeadProject.get();
+      pi.createEmptyCommit = true;
+      List<BranchInfo> branches = gApi.projects().create(pi).branches().get();
+
+      String headRevision =
+          branches.stream().filter(b -> b.ref.equals(RefNames.HEAD)).findAny().get().revision;
+      String headSha1 =
+          branches.stream()
+              .filter(b -> b.ref.equals(RefNames.REFS_HEADS + headRevision))
+              .findAny()
+              .get()
+              .revision;
+
+      // Set protocol.version=2 in target repository
+      execute(
+          ImmutableList.of("git", "config", "protocol.version", "2"),
+          sitePaths
+              .site_path
+              .resolve("git")
+              .resolve(showHeadProject.get() + Constants.DOT_GIT)
+              .toFile());
+
+      // Set up project permission to allow reading all refs
+      projectOperations
+          .project(showHeadProject)
+          .forUpdate()
+          .add(allow(Permission.READ).ref("refs/*").group(SystemGroupBackend.ANONYMOUS_USERS))
+          .update();
+
+      // Fetch HEAD using git wire protocol v2 over HTTP
+      execute(GIT_INIT);
+
+      String outFetchRef =
+          execute(
+              ImmutableList.<String>builder()
+                  .add(GIT_FETCH)
+                  .add(url + "/" + showHeadProject.get())
+                  .add(RefNames.HEAD)
+                  .build(),
+              ImmutableMap.of("GIT_TRACE_PACKET", "1"));
+
+      assertThat(outFetchRef).contains("git< version 2");
+      assertThat(outFetchRef).containsMatch(String.format("fetch< %s %s", headSha1, RefNames.HEAD));
+      assertThat(outFetchRef).doesNotContainMatch("fetch< [a-f0-9]+ refs/");
     }
   }
 

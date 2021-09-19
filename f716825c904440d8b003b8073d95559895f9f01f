@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aa069a5_7ac75f0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-09-19T09:46:01Z",
+      "side": 1,
+      "message": "where are those places and why isn\u0027t the new method now used there ?",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "f716825c904440d8b003b8073d95559895f9f01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41abf937_c0e83110",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-09-19T09:46:01Z",
+      "side": 1,
+      "message": "I think it does not open another Repository since Repository instances are cached by RepositoryCache and if you open a cached Repository you get the existing instance held by the cache. I guess the overhead you want to eliminate are the checks done by FileKey.isGitRepository() ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 44
+      },
+      "revId": "f716825c904440d8b003b8073d95559895f9f01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

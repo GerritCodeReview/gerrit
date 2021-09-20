@@ -101,7 +101,7 @@ public class ProjectBasicAuthFilterTest {
     req = new FakeHttpServletRequest("gerrit.example.com", 80, "", "");
     res = new FakeHttpServletResponse();
 
-    extIdKeyFactory = new ExternalIdKeyFactory(authConfig);
+    extIdKeyFactory = new ExternalIdKeyFactory(new ExternalIdKeyFactory.ConfigImpl(authConfig));
     extIdFactory = new ExternalIdFactory(extIdKeyFactory);
     authRequestFactory = new AuthRequest.Factory(extIdKeyFactory);
     pwdVerifier = new PasswordVerifier(extIdKeyFactory);

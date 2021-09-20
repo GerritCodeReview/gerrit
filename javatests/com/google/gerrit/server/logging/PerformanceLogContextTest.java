@@ -34,6 +34,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
@@ -110,9 +111,10 @@ public class PerformanceLogContextTest {
 
   @Test
   public void
-      traceTimersInsidePerformanceLogContextDoNotCreatePerformanceLogIfNoPerformanceLoggers() {
+      traceTimersInsidePerformanceLogContextDoNotCreatePerformanceLogIfNoPerformanceLoggers()
+          throws Exception {
     // Remove test performance logger so that there are no registered performance loggers.
-    performanceLoggerRegistrationHandle.remove();
+    removeAllPerformanceLoggers();
 
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
@@ -277,9 +279,10 @@ public class PerformanceLogContextTest {
 
   @Test
   public void
-      timerMetricssInsidePerformanceLogContextDoNotCreatePerformanceLogIfNoPerformanceLoggers() {
-    // Remove test performance logger so that there are no registered performance loggers.
-    performanceLoggerRegistrationHandle.remove();
+      timerMetricssInsidePerformanceLogContextDoNotCreatePerformanceLogIfNoPerformanceLoggers()
+          throws Exception {
+    // Remove all performance loggers so that there are no registered performance loggers.
+    removeAllPerformanceLoggers();
 
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
@@ -367,6 +370,12 @@ public class PerformanceLogContextTest {
     ImmutableList<PerformanceLogEntry> logEntries() {
       return ImmutableList.copyOf(logEntries);
     }
+  }
+
+  private void removeAllPerformanceLoggers() throws Exception {
+    java.lang.reflect.Field itemsField = DynamicSet.class.getDeclaredField("items");
+    itemsField.setAccessible(true);
+    ((CopyOnWriteArrayList<?>) itemsField.get(performanceLoggers)).clear();
   }
 
   @AutoValue

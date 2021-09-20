@@ -31,6 +31,11 @@ that ultimately timed out
 * `cancellation/receive_timeout_count`: Number of requests that are cancelled
   because link:config.html#receive.timeout[receive.timout] is exceeded
 
+[[performance]]
+=== Performance
+
+* `performance/operations`: Latency of performing operations
+
 === Pushes
 
 * `receivecommits/changes`: histogram of number of changes processed

@@ -85,6 +85,7 @@ import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.ExceptionHookImpl;
 import com.google.gerrit.server.ExternalUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PerformanceMetrics;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.TraceRequestListener;
 import com.google.gerrit.server.account.AccountCacheImpl;
@@ -431,6 +432,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), SubmitRule.class);
     DynamicSet.setOf(binder(), QuotaEnforcer.class);
     DynamicSet.setOf(binder(), PerformanceLogger.class);
+    DynamicSet.bind(binder(), PerformanceLogger.class).to(PerformanceMetrics.class);
     DynamicSet.setOf(binder(), RequestListener.class);
     DynamicSet.bind(binder(), RequestListener.class).to(TraceRequestListener.class);
     DynamicSet.setOf(binder(), ChangeETagComputation.class);

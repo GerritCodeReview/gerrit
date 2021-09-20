@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc944320_b1c1e0d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-20T06:28:24Z",
+      "side": 1,
+      "message": "Is it worth maintaining a feature that is disabled by default? Will users find the option and try it out? I forgot, did we discuss this in the UX meeting?",
+      "revId": "e37fd72ac9acaaa6085cc72c7b06101a7e84d2f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

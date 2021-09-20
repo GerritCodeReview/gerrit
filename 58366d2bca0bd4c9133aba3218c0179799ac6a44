@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a278cecb_d432efe3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-20T16:35:35Z",
+      "side": 1,
+      "message": "Hey Chris and Ben. We want to add some external behavior whenever a token gets highlighted - starting with some metrics on how often that happens. Of course, I can add tests for related scenarios but what do you think about going in this direction?",
+      "revId": "58366d2bca0bd4c9133aba3218c0179799ac6a44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

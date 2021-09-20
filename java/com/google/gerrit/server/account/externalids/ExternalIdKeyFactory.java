@@ -16,15 +16,37 @@ package com.google.gerrit.server.account.externalids;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.inject.ImplementedBy;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class ExternalIdKeyFactory {
+  @ImplementedBy(ConfigImpl.class)
+  public interface Config {
+    boolean isUserNameCaseInsensitive();
+  }
+
+  // Default implementation. Internally in google we are using different implementation
+  @Singleton
+  public static class ConfigImpl implements Config {
+    private final boolean isUserNameCaseInsensitive;
+
+    @Inject
+    public ConfigImpl(AuthConfig authConfig) {
+      this.isUserNameCaseInsensitive = authConfig.isUserNameCaseInsensitive();
+    }
+
+    @Override
+    public boolean isUserNameCaseInsensitive() {
+      return isUserNameCaseInsensitive;
+    }
+  }
+
   private final boolean isUserNameCaseInsensitive;
 
   @Inject
-  public ExternalIdKeyFactory(AuthConfig authConfig) {
+  public ExternalIdKeyFactory(Config authConfig) {
     this.isUserNameCaseInsensitive = authConfig.isUserNameCaseInsensitive();
   }
 

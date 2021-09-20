@@ -56,6 +56,54 @@
       },
       "revId": "cc78655755321e6ceb5f7becf412762043937624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a63aab6d_5d103931",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T08:57:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a16e469e_f2bd820b",
+      "range": {
+        "startLine": 86,
+        "startChar": 25,
+        "endLine": 86,
+        "endChar": 39
+      },
+      "revId": "cc78655755321e6ceb5f7becf412762043937624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "586d90ef_e20430fa",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T08:57:08Z",
+      "side": 1,
+      "message": "In mocks - it was 20px height for font and h3 on my machine is 20px height. Normal is 16px height. \n\nBut I changed it to normal.",
+      "parentUuid": "a16e469e_f2bd820b",
+      "range": {
+        "startLine": 86,
+        "startChar": 25,
+        "endLine": 86,
+        "endChar": 39
+      },
+      "revId": "cc78655755321e6ceb5f7becf412762043937624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

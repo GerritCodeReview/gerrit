@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f135c6f_fee1cb27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-20T15:37:00Z",
+      "side": 1,
+      "message": "I was thinking of a Flume that writes a single commit on top of all existing metadata with the copied votes (if appropriate).\n\nOnce we have finished this migration, we can drop the old code. Maybe it makes sense to do the migration in 3.5 timeframe, and drop the code for 3.6, so people can do the migration while their server is online.\n\nMaybe it\u0027s not appreciably less complex than rewriting the whole metadata, though. It does avoid the impression that the votes were copied in this way during the review (which is untrue due to rule changes, right?)",
+      "parentUuid": "67173113_028f0619",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 7
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b35d0e20_aceae94c",

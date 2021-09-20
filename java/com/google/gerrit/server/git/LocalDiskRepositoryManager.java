@@ -33,8 +33,10 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -108,6 +110,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private final Path basePath;
+  private final Map<Project.NameKey, FileKey> repositoriesKeys = new ConcurrentHashMap<>();
 
   @Inject
   LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
@@ -134,15 +137,24 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   private Repository openRepository(Path path, Project.NameKey name)
       throws RepositoryNotFoundException {
-    if (isUnreasonableName(name)) {
-      throw new RepositoryNotFoundException("Invalid name: " + name);
-    }
-    FileKey loc = FileKey.lenient(path.resolve(name.get()).toFile(), FS.DETECTED);
     try {
+      if (basePath.equals(path)) {
+        return RepositoryCache.open(
+            repositoriesKeys.computeIfAbsent(name, (nameKey) -> resolveFileKey(basePath, nameKey)));
+      }
+
+      if (isUnreasonableName(name)) {
+        throw new RepositoryNotFoundException("Invalid name: " + name);
+      }
+      FileKey loc = resolveFileKey(path, name);
       return RepositoryCache.open(loc);
     } catch (IOException e) {
       throw new RepositoryNotFoundException("Cannot open repository " + name, e);
     }
+  }
+
+  private FileKey resolveFileKey(Path path, Project.NameKey name) {
+    return FileKey.lenient(path.resolve(name.get()).toFile(), FS.DETECTED);
   }
 
   @Override

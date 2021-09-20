@@ -18,10 +18,7 @@ package com.google.gerrit.server.patch;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheBackend;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -122,27 +119,6 @@ public class PatchListCacheImpl implements PatchListCache {
       }
       throw e;
     }
-  }
-
-  @Override
-  public PatchList get(Change change, PatchSet patchSet) throws PatchListNotAvailableException {
-    return get(change, patchSet, null);
-  }
-
-  @Override
-  public ObjectId getOldId(Change change, PatchSet patchSet, Integer parentNum)
-      throws PatchListNotAvailableException {
-    return get(change, patchSet, parentNum).getOldId();
-  }
-
-  private PatchList get(Change change, PatchSet patchSet, Integer parentNum)
-      throws PatchListNotAvailableException {
-    Project.NameKey project = change.getProject();
-    ObjectId b = patchSet.commitId();
-    if (parentNum != null) {
-      return get(PatchListKey.againstParentNum(parentNum, b, Whitespace.IGNORE_NONE), project);
-    }
-    return get(PatchListKey.againstDefaultBase(b, Whitespace.IGNORE_NONE), project);
   }
 
   @Override

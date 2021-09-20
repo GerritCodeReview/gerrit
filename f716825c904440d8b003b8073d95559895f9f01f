@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fdbb45d6_531f7093",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-20T20:34:49Z",
+      "side": 1,
+      "message": "E.g. ProjectControl.filter. I am working on the git-refs-filter module that would use the change status as condition for filtering.",
+      "parentUuid": "7aa069a5_7ac75f0e",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "f716825c904440d8b003b8073d95559895f9f01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "41abf937_c0e83110",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -43,6 +67,47 @@
         "endLine": 14,
         "endChar": 44
       },
+      "revId": "f716825c904440d8b003b8073d95559895f9f01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d4df351_1c19b216",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-20T20:34:49Z",
+      "side": 1,
+      "message": "\u003e I think it does not open another Repository since Repository instances are cached by RepositoryCache and if you open a cached Repository you get the existing instance held by the cache.\n\nPoint taken: I should replace \u0027Repository\u0027 with \u0027RepositoryCache.FileKey\u0027.\n\n\u003e I guess the overhead you want to eliminate are the checks done by FileKey.isGitRepository() ?\n\nThe creation of a FileKey is expensive because it requires a series of filesystem accesses needed by RepositoryCache.resolve. It may end up executing the \u0027isGitRepository\u0027 3 times for a repository that has been already opened and verified.",
+      "parentUuid": "41abf937_c0e83110",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 44
+      },
+      "revId": "f716825c904440d8b003b8073d95559895f9f01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b318511f_b22256b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-20T20:34:49Z",
+      "side": 1,
+      "message": "Instead of passing an existing repository object, I could introduce a caching of FileKeys in JGit. Would you be opened to have that change on JGit?\n\nTo me, it looks easier and simpler to just pass the Repository instance if the it is already known to the caller, rather than having to cache that information in JGit.\n\nHowever, both solutions should work.",
       "revId": "f716825c904440d8b003b8073d95559895f9f01f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

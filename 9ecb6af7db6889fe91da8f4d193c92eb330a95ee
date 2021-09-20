@@ -16,6 +16,24 @@
       "message": "Thanks for the detailed description!\n\nSo the problem happened because the local change at the test was used. Now that we use the global change (defined at the class level) and drop time resetting at the test, we ensure the change is always created at timestamp 0, i.e. before anything else done at the test level (including additional steps due to deadline).",
       "revId": "9ecb6af7db6889fe91da8f4d193c92eb330a95ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad4e6469_f512cadd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-20T07:17:13Z",
+      "side": 0,
+      "message": "The change creation is not exactly happening at timestamp 0 (the actual timestamp depends on how often the current time is retrieved before the change creation is done since each access to the clock increases the clock by the configured clock step), but now it\u0027s guaranteed that the change creation happens before the creation of the robot comments.",
+      "parentUuid": "45d129fc_9d47e81c",
+      "revId": "9ecb6af7db6889fe91da8f4d193c92eb330a95ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

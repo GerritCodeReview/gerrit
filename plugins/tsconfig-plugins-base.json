@@ -34,6 +34,15 @@
     "incremental": true,
     "experimentalDecorators": true,
 
-    "allowUmdGlobalAccess": true
+    "allowUmdGlobalAccess": true,
+
+    "typeRoots": [
+      /* typeRoots for Bazel */
+      "../external/ui_dev_npm/node_modules/@types",
+      "../external/plugins_npm/node_modules/@types",
+      /* typeRoots for IDE */
+      "../polygerrit-ui/node_modules/@types",
+      "../plugins/node_modules/@types"
+    ]
   },
 }

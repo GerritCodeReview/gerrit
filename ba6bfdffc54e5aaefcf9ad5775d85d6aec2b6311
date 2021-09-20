@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff604f4f_e8ca8684",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-20T10:37:40Z",
+      "side": 1,
+      "message": "Is it really important to the design to have 3px padding?\n\nCan we maybe agree on either s or m padding?",
+      "range": {
+        "startLine": 92,
+        "startChar": 25,
+        "endLine": 92,
+        "endChar": 68
+      },
+      "revId": "ba6bfdffc54e5aaefcf9ad5775d85d6aec2b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c315dca5_9a227953",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-20T10:37:40Z",
+      "side": 1,
+      "message": "nit: `.text` instead of `text`\n\nI think it is nicer to not rely on attribute conversion, but generally try to set properties directly.",
+      "range": {
+        "startLine": 127,
+        "startChar": 18,
+        "endLine": 127,
+        "endChar": 22
+      },
+      "revId": "ba6bfdffc54e5aaefcf9ad5775d85d6aec2b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c106c55d_64499250",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T08:50:31Z",
+      "side": 1,
+      "message": "Updated screenshots",
+      "revId": "79d04c7f4a89f84ecc875dc9e23745fce3e51a8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bad3ed8_7fdf231b",
@@ -14,6 +31,30 @@
       "writtenOn": "2021-09-20T06:36:10Z",
       "side": 1,
       "message": "Why does it need a basis and how is that calculated?\nI understand `0 0`, but maybe then just have the icon specify a width and a margin instead of controlling the 30px from the outside?",
+      "range": {
+        "startLine": 57,
+        "startChar": 16,
+        "endLine": 57,
+        "endChar": 20
+      },
+      "revId": "79d04c7f4a89f84ecc875dc9e23745fce3e51a8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87d9ee2a_afbf88b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T08:50:31Z",
+      "side": 1,
+      "message": "I am trying to be consist with run hovercard\nhttps://gerrit-review.googlesource.com/c/gerrit/+/304076/5/polygerrit-ui/app/elements/checks/gr-hovercard-run_html.ts#53",
+      "parentUuid": "4bad3ed8_7fdf231b",
       "range": {
         "startLine": 57,
         "startChar": 16,
@@ -41,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0439f761_5f3c5519",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T08:50:31Z",
+      "side": 1,
+      "message": "Consistent with https://gerrit-review.googlesource.com/c/gerrit/+/304076/5/polygerrit-ui/app/elements/checks/gr-hovercard-run_html.ts#64",
+      "parentUuid": "5eb3ff6d_8b4b1183",
+      "revId": "79d04c7f4a89f84ecc875dc9e23745fce3e51a8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca2e260e_7a693fa0",
@@ -58,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f362963f_a35efae6",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T08:50:31Z",
+      "side": 1,
+      "message": "Consistent with https://gerrit-review.googlesource.com/c/gerrit/+/304076/5/polygerrit-ui/app/elements/checks/gr-hovercard-run_html.ts#64",
+      "parentUuid": "ca2e260e_7a693fa0",
+      "revId": "79d04c7f4a89f84ecc875dc9e23745fce3e51a8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53e10604_eb49b532",
@@ -71,6 +148,30 @@
       "writtenOn": "2021-09-17T12:57:53Z",
       "side": 1,
       "message": "The \"info\" icon is not horizontally aligned with \"Status Satisfied\"",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 19
+      },
+      "revId": "79d04c7f4a89f84ecc875dc9e23745fce3e51a8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0a03e41_9e3033a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T08:50:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53e10604_eb49b532",
       "range": {
         "startLine": 56,
         "startChar": 2,
@@ -104,6 +205,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9c1d619_6909d752",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T08:50:31Z",
+      "side": 1,
+      "message": "Thanks, added 8px padding",
+      "parentUuid": "f87fa4e5_70184bad",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 52
+      },
+      "revId": "79d04c7f4a89f84ecc875dc9e23745fce3e51a8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42c735ef_e74093ea",
@@ -117,6 +242,24 @@
       "writtenOn": "2021-09-20T06:36:10Z",
       "side": 1,
       "message": "Isn\u0027t that dealt with by `text-transform: uppercase` in `gr-button`?",
+      "revId": "79d04c7f4a89f84ecc875dc9e23745fce3e51a8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d225c92_cc674215",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T08:50:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42c735ef_e74093ea",
       "revId": "79d04c7f4a89f84ecc875dc9e23745fce3e51a8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

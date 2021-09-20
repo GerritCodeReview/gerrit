@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "636e7bc7_49302e83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-09-20T21:36:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fdbb45d6_531f7093",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "f716825c904440d8b003b8073d95559895f9f01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41abf937_c0e83110",
@@ -97,6 +121,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3f3b0123_a92c8e3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-09-20T21:36:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6d4df351_1c19b216",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 44
+      },
+      "revId": "f716825c904440d8b003b8073d95559895f9f01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b318511f_b22256b9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -125,6 +173,24 @@
       "writtenOn": "2021-09-20T21:07:48Z",
       "side": 1,
       "message": "@Matthias see a different approach with Change-Id: Id25d766aa6",
+      "revId": "f716825c904440d8b003b8073d95559895f9f01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf19657a_930ad387",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-09-20T21:36:30Z",
+      "side": 1,
+      "message": "I agree, passing the Repository instance seems the best way to avoid this overhead",
+      "parentUuid": "b318511f_b22256b9",
       "revId": "f716825c904440d8b003b8073d95559895f9f01f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

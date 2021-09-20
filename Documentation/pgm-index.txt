@@ -41,6 +41,9 @@ link:pgm-LocalUsernamesToLowerCase.html[LocalUsernamesToLowerCase]::
 link:pgm-ChangeExternalIdCaseSensitivity.html[ChangeExternalIdCaseSensitivity]::
     Convert external IDs to be case insensitive.
 
+link:pgm-FindDuplicateUsernames.html[FindDuplicateUsernames]::
+	Find accounts that have usernames that are only different in their capitalization.
+
 link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb]::
 	Migrates AccountPatchReviewDb from one database backend to another.
 

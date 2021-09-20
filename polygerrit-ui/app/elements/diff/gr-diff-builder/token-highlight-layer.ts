@@ -48,6 +48,15 @@ const TOKEN_OCCURRENCES_LIMIT = 1000;
 const TOKEN_HIGHLIGHT_LIMIT = 100;
 
 /**
+ * Listens to changes in token highlighting - when a new token starts or stoped being highlighted.
+ */
+type TokenHighlightedListener = (
+  newHighlight: string | undefined,
+  newLineNumber: number,
+  hoveredElement?: HTMLElement
+) => void;
+
+/**
  * When a user hovers over a token in the diff, then this layer makes sure that
  * all occurrences of this token are annotated with the 'token-highlight' css
  * class. And removes that class when the user moves the mouse away from the
@@ -64,6 +73,9 @@ export class TokenHighlightLayer implements DiffLayer {
 
   /** The currently highlighted token. */
   private currentHighlight?: string;
+
+  /** Trigger when a new token starts or stoped being highlighted.*/
+  private readonly tokenHighlightedListener?: TokenHighlightedListener;
 
   /**
    * The line of the currently highlighted token. We store this in order to
@@ -91,11 +103,15 @@ export class TokenHighlightLayer implements DiffLayer {
 
   private tokenToLinesRight = new Map<string, Set<number>>();
 
-  private hoveredElement?: Element;
+  private hoveredElement?: HTMLElement;
 
   private updateTokenTask?: DelayedTask;
 
-  constructor(container: HTMLElement = document.documentElement) {
+  constructor(
+    container: HTMLElement = document.documentElement,
+    tokenHighlightedListener?: TokenHighlightedListener
+  ) {
+    this.tokenHighlightedListener = tokenHighlightedListener;
     container.addEventListener('click', e => {
       this.handleContainerClick(e);
     });
@@ -188,7 +204,7 @@ export class TokenHighlightLayer implements DiffLayer {
     this.updateTokenTask = debounce(
       this.updateTokenTask,
       () => {
-        this.updateTokenHighlight(newHighlight, line);
+        this.updateTokenHighlight(newHighlight, line, element);
       },
       HOVER_DELAY_MS
     );
@@ -203,19 +219,19 @@ export class TokenHighlightLayer implements DiffLayer {
     if (element) return;
     this.hoveredElement = undefined;
     this.updateTokenTask?.cancel();
-    this.updateTokenHighlight(undefined, 0);
+    this.updateTokenHighlight(undefined, 0, undefined);
   }
 
   private interferesWithSelection() {
     return window.getSelection()?.type === 'Range';
   }
 
-  findTokenAncestor(el?: EventTarget | Element | null): {
+  findTokenAncestor(el?: EventTarget | HTMLElement | null): {
     token?: string;
     line: number;
-    element?: Element;
+    element?: HTMLElement;
   } {
-    if (!(el instanceof Element))
+    if (!(el instanceof HTMLElement))
       return {line: 0, token: undefined, element: undefined};
     if (
       el.classList.contains(CSS_TOKEN) ||
@@ -241,7 +257,8 @@ export class TokenHighlightLayer implements DiffLayer {
 
   private updateTokenHighlight(
     newHighlight: string | undefined,
-    newLineNumber: number
+    newLineNumber: number,
+    newHoveredElement: HTMLElement | undefined
   ) {
     if (
       this.currentHighlight === newHighlight &&
@@ -253,6 +270,13 @@ export class TokenHighlightLayer implements DiffLayer {
     this.currentHighlight = newHighlight;
     this.currentHighlightLineNumber = newLineNumber;
 
+    if (this.tokenHighlightedListener) {
+      this.tokenHighlightedListener(
+        newHighlight,
+        newLineNumber,
+        newHoveredElement
+      );
+    }
     this.notifyForToken(oldHighlight, oldLineNumber);
     this.notifyForToken(newHighlight, newLineNumber);
   }

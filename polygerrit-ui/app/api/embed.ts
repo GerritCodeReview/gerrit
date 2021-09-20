@@ -27,7 +27,16 @@ declare global {
     grdiff: {
       GrAnnotation: GrAnnotation;
       GrDiffCursor: {new (): GrDiffCursor};
-      TokenHighlightLayer: {new (container?: HTMLElement): DiffLayer};
+      TokenHighlightLayer: {
+        new (
+          container?: HTMLElement,
+          listener?: (
+            newHighlight: string | undefined,
+            newLineNumber: number,
+            hoveredElement?: HTMLElement
+          ) => void
+        ): DiffLayer;
+      };
     };
   }
 }

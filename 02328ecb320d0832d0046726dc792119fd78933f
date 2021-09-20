@@ -70,6 +70,30 @@
       },
       "revId": "02328ecb320d0832d0046726dc792119fd78933f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e95ee123_3fce95d0",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-20T21:27:08Z",
+      "side": 1,
+      "message": "@Nasser I could not find any existing tests for this class: can you point me where should I add the extra test?",
+      "parentUuid": "65a37f9d_3867b4dd",
+      "range": {
+        "startLine": 132,
+        "startChar": 19,
+        "endLine": 132,
+        "endChar": 34
+      },
+      "revId": "02328ecb320d0832d0046726dc792119fd78933f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

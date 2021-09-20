@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {SinonStubbedMember} from 'sinon/pkg/sinon-esm';
+import {SinonStubbedMember} from 'sinon';
 import {PluginApi} from '../../../api/plugin';
 import {ChangeStatus} from '../../../constants/constants';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';

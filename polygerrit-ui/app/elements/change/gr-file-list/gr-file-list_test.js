@@ -43,7 +43,6 @@ import {
   createParsedChange,
   createRevision,
 } from '../../../test/test-data-generators.js';
-import sinon from 'sinon/pkg/sinon-esm';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {queryAndAssert} from '../../../utils/common-util.js';
 

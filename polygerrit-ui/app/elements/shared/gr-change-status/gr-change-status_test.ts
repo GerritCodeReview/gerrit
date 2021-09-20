@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import sinon from 'sinon/pkg/sinon-esm';
 import '../../../test/common-test-setup-karma';
 import {createChange} from '../../../test/test-data-generators';
 import './gr-change-status';

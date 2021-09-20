@@ -2,7 +2,6 @@
   "extends": "./tsconfig_bazel.json",
   "compilerOptions": {
     "typeRoots": [
-      "./test/@types",
       "../../external/ui_dev_npm/node_modules/@polymer/iron-test-helpers",
       "../../external/ui_npm/node_modules/@types",
       "../../external/ui_dev_npm/node_modules/@types"

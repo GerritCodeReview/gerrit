@@ -23,7 +23,6 @@ import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {getPluginLoader} from './gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
-import sinon from 'sinon/pkg/sinon-esm';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {appContext} from '../../../services/app-context.js';
 

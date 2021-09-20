@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f17701b2_e5d19097",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T08:24:13Z",
+      "side": 1,
+      "message": "Tested with voice over and it works.\n\nIt\u0027s similar fix as I did for dashboard - 289888: A11y - fix and improve label when navigating dashboard | https://gerrit-review.googlesource.com/c/gerrit/+/289888\n",
+      "revId": "b1cb2505bf64c515b21851d704de87360ad03609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,7 @@ import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.server.util.git.DelegateSystemReader;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 import java.util.function.LongSupplier;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -33,6 +34,10 @@ public class TimeUtil {
     // We should rather use Instant.now(Clock).toEpochMilli() instead but this would require some
     // changes in our testing code as we wouldn't have clock steps anymore.
     return currentMillisSupplier.getAsLong();
+  }
+
+  public static long nowNanos() {
+    return TimeUnit.NANOSECONDS.convert(TimeUtil.nowMs(), TimeUnit.MILLISECONDS);
   }
 
   public static Instant now() {

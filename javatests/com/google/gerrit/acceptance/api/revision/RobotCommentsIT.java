@@ -156,15 +156,15 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @UseClockStep
   @Test
   public void addedRobotCommentsAreLinkedToChangeMessages() throws Exception {
-    TestTimeUtil.resetWithClockStep(0, TimeUnit.SECONDS);
-    createChange();
-    /* Advancing the time after creating the change so that the first robot comment is not in the same timestamp as with the change creation */
+    // Advancing the time after creating the change so that the first robot comment is not in the
+    // same timestamp as with the change creation.
     TestTimeUtil.incrementClock(10, TimeUnit.SECONDS);
 
     RobotCommentInput c1 = TestCommentHelper.createRobotCommentInput(FILE_NAME);
     RobotCommentInput c2 = TestCommentHelper.createRobotCommentInput(FILE_NAME);
     RobotCommentInput c3 = TestCommentHelper.createRobotCommentInput(FILE_NAME);
-    /* Give the robot comments identifiable names for testing */
+
+    // Give the robot comments identifiable names for testing
     c1.message = "robot comment 1";
     c2.message = "robot comment 2";
     c3.message = "robot comment 3";

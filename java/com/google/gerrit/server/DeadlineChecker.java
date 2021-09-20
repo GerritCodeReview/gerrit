@@ -30,6 +30,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.HashSet;
@@ -134,7 +135,7 @@ public class DeadlineChecker implements RequestStateProvider {
     this(
         serverConfig,
         cancellationsMetrics,
-        System.nanoTime(),
+        TimeUtil.nowNanos(),
         requestInfo,
         clientProvidedTimeoutValue);
   }
@@ -236,7 +237,7 @@ public class DeadlineChecker implements RequestStateProvider {
 
   @Override
   public void checkIfCancelled(OnCancelled onCancelled) {
-    long now = System.nanoTime();
+    long now = TimeUtil.nowNanos();
 
     Set<String> exceededAdvisoryDeadlines = new HashSet<>();
     advisoryDeadlines

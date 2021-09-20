@@ -22,6 +22,30 @@
       },
       "revId": "02328ecb320d0832d0046726dc792119fd78933f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0b81cf7_f76f3e19",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-20T18:20:59Z",
+      "side": 1,
+      "message": "We should also add tests there and here for this.",
+      "parentUuid": "07e5b1d5_c60cc97c",
+      "range": {
+        "startLine": 132,
+        "startChar": 19,
+        "endLine": 132,
+        "endChar": 34
+      },
+      "revId": "02328ecb320d0832d0046726dc792119fd78933f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

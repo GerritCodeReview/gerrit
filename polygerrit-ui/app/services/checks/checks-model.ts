@@ -353,7 +353,7 @@ export function updateStateSetProvider(
 export const fakeRun0: CheckRun = {
   pluginName: 'f0',
   internalRunId: 'f0',
-  checkName: 'FAKE Error Finder Finder Finder',
+  checkName: 'FAKE Error Finder Finder Finder Finder Finder Finder Finder',
   labelName: 'Presubmit',
   isSingleAttempt: true,
   isLatestAttempt: true,

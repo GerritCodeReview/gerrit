@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2dd2fbbe_f419514f",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T14:19:21Z",
+      "side": 1,
+      "message": "By default each td has padding 2px on right and left, so there is 4px gap between 2 tds.\n\nBut in mock, gap between submit requirement name and votes is 8px; So I just want to add 4px to 2px that is default. \n\nHow do you recommend to proceed in this case. 4px by default and 8px between name and vote?",
+      "parentUuid": "ff604f4f_e8ca8684",
+      "range": {
+        "startLine": 92,
+        "startChar": 25,
+        "endLine": 92,
+        "endChar": 68
+      },
+      "revId": "ba6bfdffc54e5aaefcf9ad5775d85d6aec2b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c315dca5_9a227953",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-20T10:37:40Z",
       "side": 1,
       "message": "nit: `.text` instead of `text`\n\nI think it is nicer to not rely on attribute conversion, but generally try to set properties directly.",
+      "range": {
+        "startLine": 127,
+        "startChar": 18,
+        "endLine": 127,
+        "endChar": 22
+      },
+      "revId": "ba6bfdffc54e5aaefcf9ad5775d85d6aec2b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71b3c359_03152157",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-20T14:19:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c315dca5_9a227953",
       "range": {
         "startLine": 127,
         "startChar": 18,

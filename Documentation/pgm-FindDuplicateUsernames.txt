@@ -1,0 +1,50 @@
+= FindDuplicateUsernames
+
+== NAME
+FindDuplicateUsernames - Find accounts that have usernames that are only different
+in their capitalization.
+
+== SYNOPSIS
+[verse]
+--
+_java_ -jar gerrit.war _FindDuplicateUsernames_
+  -d <SITE_PATH>
+  [--delete]
+--
+
+== DESCRIPTION
+Tool to find accounts that have usernames that are only different in their
+capitalization. Having no such duplicates is a prerequisite to migrate to case
+insensitive username handling.
+Optionally allows to interactively delete accounts until the duplication is resolved.
+Note, that this is not a complete deletion of those accounts. The accounts will
+be made inactive and all external IDs of those accounts will be deleted. These
+accounts will not be accessible anymore afterwards.
+
+== OPTIONS
+
+-d::
+--site-path::
+    Path of the Gerrit site
+
+--delete::
+    Whether an interactive prompt should be shown that allows to delete accounts
+    that have duplicated usernames.
+
+== CONTEXT
+This command can only be run offline with direct access to the server's
+site.
+
+== EXAMPLES
+To list all accounts with duplicated usernames:
+
+----
+    $ java -jar gerrit.war FindDuplicateUsernames -d site_path
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

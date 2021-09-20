@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "02eb11cd_a841e6d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "Once we will have all approvals (including copied) cached/indexed, I think we won\u0027t need them in NoteDb and the backfilling won\u0027t be necessary?\nIs it because they won\u0027t persist next time we drop caches/re-index changes excluding the evaluation path?\n\nI think it would make sense to have a one-off migration in that case.",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 7
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b35d0e20_aceae94c",
@@ -14,6 +37,305 @@
       "writtenOn": "2021-09-15T18:31:35Z",
       "side": 1,
       "message": "Hey, do you want to take the first look on this change?",
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e08e0d0_2df83860",
+        "filename": "java/com/google/gerrit/entities/PatchSetApproval.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "This will be set to the timestamp of patch set upload for the copied commits, right? Do you know how it is used?\nLooks like now the sticky vote (non-copy) has the timestamp of the original vote?",
+      "range": {
+        "startLine": 59,
+        "startChar": 28,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "072b4739_3df79b67",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "Could this just\n\n    PatchSet patchSet \u003d notes.load().getPatchSets().get(psId);\n    if (patchSet \u003d\u003d null) {\n      return Collections.emptyList();\n    }\n    return forPatchSet(notes, patchSet, rw, repoConfig);\n\nto avoid duplication?",
+      "range": {
+        "startLine": 102,
+        "startChar": 29,
+        "endLine": 103,
+        "endChar": 95
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d50c1279_23ba2407",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "could this just call getForPatchSetWithoutNormalization(notes, project, patchSet, rw, repoConfig)?\n\nOr I guess it will be unused if you apply my previous comment.\n\n(At least none of the test failed when I changes the calls).",
+      "range": {
+        "startLine": 381,
+        "startChar": 11,
+        "endLine": 381,
+        "endChar": 45
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af106245_8a8810b8",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "Not sure, but could you, please, double-check: should copied approvals also be persisted in\n* ChangeInserter[1]\n* SubmitStrategyOp[2]\n?\n\n[1]https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/ChangeInserter.java#466\n[2]https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/submit/SubmitStrategyOp.java#346",
+      "range": {
+        "startLine": 289,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 97
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d6bc69b_d020fa26",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "Since this method is only used in tests for now, can you, please, add a TODO/doc describing the plan to use it in index/cache?",
+      "range": {
+        "startLine": 388,
+        "startChar": 62,
+        "endLine": 388,
+        "endChar": 84
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a234e28b_265dc49f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "Could you add a comment it is impossible to remove copied approval and why?",
+      "range": {
+        "startLine": 805,
+        "startChar": 4,
+        "endLine": 805,
+        "endChar": 66
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "812b5a37_ae40e83a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "nit: since this is quite different from parseAddAproval, maybe rename to parseCopyApproval?",
+      "range": {
+        "startLine": 810,
+        "startChar": 35,
+        "endLine": 810,
+        "endChar": 51
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d0c6a8e_2dd48d83",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "I find it hard to read parsing logic of some of the footers.\nI think it would be helpful to have examples for the new methods.\n\nCould you add a comment with an example of a full footer value here?",
+      "range": {
+        "startLine": 821,
+        "startChar": 8,
+        "endLine": 821,
+        "endChar": 59
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a867ac3b_7124331b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "A nit on the format/alternative suggestion: \n\nNow for regular votes we have the format:\nLabel: Label-Name\u003d-1 Gerrit User x \u003c123@server_id\u003e\n\nWe could just have\nCopy-Label: Label-Name\u003d-1 Gerrit User x \u003c123@server_id\u003e: Gerrit User x \u003c123@server_id\u003e: TAG\n\nCopy-Label: Label-Name\u003d-1 Gerrit User x \u003c123@server_id\u003e: : \nCopy-Label: Label-Name\u003d-1 Gerrit User x \u003c123@server_id\u003e: : TAG\nCopy-Label: Label-Name\u003d-1 Gerrit User x \u003c123@server_id\u003e: Gerrit User x \u003c123@server_id\u003e: \n\nThat would save us some duplication: we just reuse the parsing for \u0027regular\u0027 label part and parse the remaining information if present. This will also save from any trouble with special characters in tag (everything remaining after the second \u0027:\u0027 is tag.\n\nAlso to me it looks a bit more readable.\n\nMaybe I am missing something and there are other advantages to the storage format you went for?",
+      "range": {
+        "startLine": 816,
+        "startChar": 14,
+        "endLine": 816,
+        "endChar": 36
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22fa0db6_162c1215",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "Could you add a comment why the tag and realAuthor are only persisted for copied votes, but not for the regular ones?\n\nI guess for regular approval it is parsed from the commit where it was persisted, and for the copy it is not possible?",
+      "range": {
+        "startLine": 826,
+        "startChar": 46,
+        "endLine": 826,
+        "endChar": 51
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3de925e5_5a006e69",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "Unless it is covered by other IT, can you, please, add a test for deleting the sticky vote via API?",
+      "range": {
+        "startLine": 957,
+        "startChar": 14,
+        "endLine": 957,
+        "endChar": 38
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "737e8a36_f2bf12c4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "nit: Here and other tests:\ncan you, please, extract it to \nPatchSetApproval nonCopied \u003d patchSetApprovals.get(0)\nPatchSetApproval copied \u003d patchSetApprovals.get(1)",
+      "range": {
+        "startLine": 1027,
+        "startChar": 15,
+        "endLine": 1027,
+        "endChar": 39
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e86a8c8_17e30ea2",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-20T07:58:39Z",
+      "side": 1,
+      "message": "Can you, please, add a test that notes.getApprovals() does not contain a removed approval?",
+      "range": {
+        "startLine": 567,
+        "startChar": 14,
+        "endLine": 567,
+        "endChar": 41
+      },
       "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

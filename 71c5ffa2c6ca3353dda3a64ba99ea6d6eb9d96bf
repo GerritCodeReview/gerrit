@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e85297ab_31232203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-20T09:18:08Z",
+      "side": 1,
+      "message": "isn\u0027t there a middle road, where we compute the final vote for submitted changes once, add on top to the metadata? That might be slightly less invasive than rewriting all of the metadata.",
+      "parentUuid": "02eb11cd_a841e6d6",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 7
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b35d0e20_aceae94c",

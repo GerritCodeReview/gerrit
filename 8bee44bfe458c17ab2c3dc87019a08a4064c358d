@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9a0dc8b_cef82c3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-20T14:34:49Z",
+      "side": 1,
+      "message": "thanks Marija for the great review :)\nI\u0027m adding @ekempin as well since I\u0027m out tomorrow. Could you take a look as well?",
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

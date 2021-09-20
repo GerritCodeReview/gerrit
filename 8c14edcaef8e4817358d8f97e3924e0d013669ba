@@ -106,6 +106,24 @@
       "parentUuid": "7c528045_9a478146",
       "revId": "8c14edcaef8e4817358d8f97e3924e0d013669ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c73e639_da537a94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-20T15:35:44Z",
+      "side": 1,
+      "message": "I am reluctant in adding these tests.\n\nThere are no events in Gerrit at the moment that use directly AllUsersName or AllProjectsName: all ProjectEvent instances will cast constructor parameters as Project.NameKey, so they will be serialized correctly.\n\nThe problem here is that EventGsonProvider is a public API and as such it is used to serialize objects that might be defined *outside* gerrit core.\n\nThis is the case for example the issue was raised in (specifically, affecting high-availability plugin).\n\nFor now, I will merge this change, as it is been approved.\n\nI am happy to follow up this with additional tests (either on the Gerrit or high-availability side) to test this further, if necessary.",
+      "parentUuid": "e3d04e17_78c17d87",
+      "revId": "8c14edcaef8e4817358d8f97e3924e0d013669ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

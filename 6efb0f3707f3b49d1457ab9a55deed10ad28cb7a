@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4445873e_8c78bb00",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-21T12:21:26Z",
+      "side": 1,
+      "message": "Should this only be set for the MAX case? \n\nI think the ignoreSelfApproval flag should not affect vetos.\nIf I read the new condition correctly, submit would wrongly be possible if there is a veto from the uploader (aka self veto)?",
+      "range": {
+        "startLine": 133,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 94
+      },
+      "revId": "6efb0f3707f3b49d1457ab9a55deed10ad28cb7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faf64dfe_f13844a2",
+        "filename": "javatests/com/google/gerrit/server/project/SubmitRequirementsAdapterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-21T12:21:26Z",
+      "side": 1,
+      "message": "nit: too long line, here and in l. 177 below, can you please wrap at 100 chars?",
+      "revId": "6efb0f3707f3b49d1457ab9a55deed10ad28cb7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "919e6cf3_c8c6db34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-21T07:48:40Z",
+      "side": 1,
+      "message": "@Matthias WDYT about this way to avoid recalculating the FileKey?",
+      "revId": "02b620a8ff3d8023c2f7b969c55f9f2f6bd33697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

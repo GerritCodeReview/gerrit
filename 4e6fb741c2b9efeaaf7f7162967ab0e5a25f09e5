@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0734ecac_13828e5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-21T09:43:49Z",
+      "side": 1,
+      "message": "LGTM in general, however, I am not convinced it is needed.\n\nIn our AuthConfig we would not have isUserNameCaseInsensitive setting? Or is to be double-safe we don\u0027t accidentally turn in on?",
+      "revId": "4e6fb741c2b9efeaaf7f7162967ab0e5a25f09e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

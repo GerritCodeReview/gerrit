@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
@@ -30,23 +31,38 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 public class PerformanceMetrics implements PerformanceLogger {
   private static final String OPERATION_LATENCY_METRIC_NAME = "performance/operations";
+  private static final String OPERATION_COUNT_METRIC_NAME = "performance/operations_count";
 
   public final Timer3<String, String, String> operationsLatency;
+  public final Counter2<String, String> operationsCounter;
 
   @Inject
   PerformanceMetrics(MetricMaker metricMaker) {
+    Field<String> operationNameField =
+        Field.ofString(
+                "operation_name",
+                (metadataBuilder, fieldValue) -> metadataBuilder.operationName(fieldValue))
+            .build();
+    Field<String> changeIdentifierField =
+        Field.ofString("change_identifier", (metadataBuilder, fieldValue) -> {}).build();
+    Field<String> traceIdField =
+        Field.ofString("trace_id", (metadataBuilder, fieldValue) -> {}).build();
+
     this.operationsLatency =
         metricMaker.newTimer(
             OPERATION_LATENCY_METRIC_NAME,
             new Description("Latency of performing operations")
                 .setCumulative()
                 .setUnit(Description.Units.MILLISECONDS),
-            Field.ofString(
-                    "operation_name",
-                    (metadataBuilder, fieldValue) -> metadataBuilder.operationName(fieldValue))
-                .build(),
-            Field.ofString("change_identifier", (metadataBuilder, fieldValue) -> {}).build(),
-            Field.ofString("trace_id", (metadataBuilder, fieldValue) -> {}).build());
+            operationNameField,
+            changeIdentifierField,
+            traceIdField);
+    this.operationsCounter =
+        metricMaker.newCounter(
+            OPERATION_COUNT_METRIC_NAME,
+            new Description("Number of performed operations").setRate(),
+            operationNameField,
+            traceIdField);
   }
 
   @Override
@@ -57,20 +73,20 @@ public class PerformanceMetrics implements PerformanceLogger {
   @Override
   public void log(String operation, long durationMs, @Nullable Metadata metadata) {
     if (OPERATION_LATENCY_METRIC_NAME.equals(operation)) {
-      // Recording the metric below triggers writing a performance log entry. If we are called for
-      // this performance log entry we must abort to avoid an endless loop.
+      // Recording the timer metric below triggers writing a performance log entry. If we are called
+      // for this performance log entry we must abort to avoid an endless loop.
       // In practice this should not happen since PerformanceLoggers are only called on close() of
       // the PerformanceLogContext, and hence the performance log that gets written by the metric
       // below gets ignored.
       return;
     }
 
+    String traceId = TraceContext.getTraceId().orElse("");
+
     operationsLatency.record(
-        operation,
-        formatChangeIdentifier(metadata),
-        TraceContext.getTraceId().orElse(""),
-        durationMs,
-        TimeUnit.MILLISECONDS);
+        operation, formatChangeIdentifier(metadata), traceId, durationMs, TimeUnit.MILLISECONDS);
+
+    operationsCounter.increment(operation, traceId);
   }
 
   private String formatChangeIdentifier(@Nullable Metadata metadata) {

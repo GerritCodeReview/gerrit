@@ -35,6 +35,7 @@ that ultimately timed out
 === Performance
 
 * `performance/operations`: Latency of performing operations
+* `performance/operations_count`: Number of performed operations
 
 === Pushes
 

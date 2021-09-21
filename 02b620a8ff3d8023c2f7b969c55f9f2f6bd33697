@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "54d7ca3d_f8b23757",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-21T17:29:55Z",
+      "side": 1,
+      "message": "True, let me benchmark the cost of FileKey.lenient() vs. opening a cached Repository object. You are right that \"expensive\" is a relative term and we should indicate to what we are comparing with.",
+      "parentUuid": "92edca03_5a8ec596",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "02b620a8ff3d8023c2f7b969c55f9f2f6bd33697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "919e6cf3_c8c6db34",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-09-21T15:09:29Z",
       "side": 1,
       "message": "Including this in the try means it will be caught again below on line 152.",
+      "range": {
+        "startLine": 142,
+        "startChar": 8,
+        "endLine": 142,
+        "endChar": 71
+      },
+      "revId": "02b620a8ff3d8023c2f7b969c55f9f2f6bd33697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd10cd3e_bcda6597",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-21T17:29:55Z",
+      "side": 1,
+      "message": "Good catch, thanks.",
+      "parentUuid": "bb0f1ede_443500a2",
       "range": {
         "startLine": 142,
         "startChar": 8,

@@ -123,15 +123,18 @@ public class SubmitRequirementsAdapter {
   }
 
   private static ImmutableList<String> toExpressionAtomList(LabelType lt) {
+    String ignoreSelfApproval = lt.isIgnoreSelfApproval() ? ",user=NON_UPLOADER" : "";
     switch (lt.getFunction()) {
       case MAX_WITH_BLOCK:
         return ImmutableList.of(
-            String.format("label:%s=MAX", lt.getName()),
-            String.format("-label:%s=MIN", lt.getName()));
+            String.format("label:%s=MAX", lt.getName()) + ignoreSelfApproval,
+            String.format("-label:%s=MIN", lt.getName()) + ignoreSelfApproval);
       case ANY_WITH_BLOCK:
-        return ImmutableList.of(String.format(String.format("-label:%s=MIN", lt.getName())));
+        return ImmutableList.of(
+            String.format(String.format("-label:%s=MIN", lt.getName())) + ignoreSelfApproval);
       case MAX_NO_BLOCK:
-        return ImmutableList.of(String.format(String.format("label:%s=MAX", lt.getName())));
+        return ImmutableList.of(
+            String.format(String.format("label:%s=MAX", lt.getName())) + ignoreSelfApproval);
       case NO_BLOCK:
       case NO_OP:
       case PATCH_SET_LOCK:

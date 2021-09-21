@@ -251,7 +251,7 @@ suite('gr-diff-highlight', () => {
     };
 
     const emulateSelection = (startNode, startOffset, endNode, endOffset) => {
-      const selection = window.getSelection();
+      const selection = document.getSelection();
       const range = document.createRange();
       range.setStart(startNode, startOffset);
       range.setEnd(endNode, endOffset);
@@ -281,7 +281,7 @@ suite('gr-diff-highlight', () => {
 
     teardown(() => {
       contentStubs = null;
-      window.getSelection().removeAllRanges();
+      document.getSelection().removeAllRanges();
     });
 
     test('single first line', () => {
@@ -389,7 +389,7 @@ suite('gr-diff-highlight', () => {
     test('collapsed', () => {
       const content = stubContent(138, 'left');
       emulateSelection(content.firstChild, 5, content.firstChild, 5);
-      assert.isOk(window.getSelection().getRangeAt(0).startContainer);
+      assert.isOk(document.getSelection().getRangeAt(0).startContainer);
       assert.isFalse(!!element.selectedRange);
     });
 
@@ -556,7 +556,7 @@ suite('gr-diff-highlight', () => {
           content.querySelectorAll('hl')[3], 0,
           content.querySelectorAll('span')[1], 0);
       const spyCall = spy.getCall(0);
-      const range = window.getSelection().getRangeAt(0);
+      const range = document.getSelection().getRangeAt(0);
       assert.notDeepEqual(spyCall.returnValue, range);
     });
 

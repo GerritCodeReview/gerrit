@@ -207,7 +207,7 @@ export class TokenHighlightLayer implements DiffLayer {
   }
 
   private interferesWithSelection() {
-    return window.getSelection()?.type === 'Range';
+    return document.getSelection()?.type === 'Range';
   }
 
   findTokenAncestor(el?: EventTarget | Element | null): {

@@ -17,6 +17,7 @@ package com.google.gerrit.server.permissions;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
@@ -126,22 +127,22 @@ public class SectionSortCache {
 
     public abstract List<String> patterns();
 
-    public abstract int cachedHashCode();
-
     static EntryKey create(String refName, List<AccessSection> sections) {
-      int hc = refName.hashCode();
       List<String> patterns = new ArrayList<>(sections.size());
       for (AccessSection s : sections) {
-        String n = s.getName();
-        patterns.add(n);
-        hc = hc * 31 + n.hashCode();
+        patterns.add(s.getName());
       }
-      return new AutoValue_SectionSortCache_EntryKey(refName, ImmutableList.copyOf(patterns), hc);
+      return new AutoValue_SectionSortCache_EntryKey(refName, ImmutableList.copyOf(patterns));
     }
 
+    @Memoized
     @Override
-    public final int hashCode() {
-      return cachedHashCode();
+    public int hashCode() {
+      int hc = ref().hashCode();
+      for (String n : patterns()) {
+        hc = hc * 31 + n.hashCode();
+      }
+      return hc;
     }
   }
 

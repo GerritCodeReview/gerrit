@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "92edca03_5a8ec596",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-21T15:09:29Z",
+      "side": 1,
+      "message": "I think we need to start being more rigorous with our performance qualifications. What does expensive mean here? I think this is likely a good change, but let\u0027s make sure we can come back to it later and understand how it was evaluated and potentially re-evaluate it if other factors change (maybe JGit changes FileKey implementations or something).",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "02b620a8ff3d8023c2f7b969c55f9f2f6bd33697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "919e6cf3_c8c6db34",
@@ -14,6 +37,75 @@
       "writtenOn": "2021-09-21T07:48:40Z",
       "side": 1,
       "message": "@Matthias WDYT about this way to avoid recalculating the FileKey?",
+      "revId": "02b620a8ff3d8023c2f7b969c55f9f2f6bd33697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb0f1ede_443500a2",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-21T15:09:29Z",
+      "side": 1,
+      "message": "Including this in the try means it will be caught again below on line 152.",
+      "range": {
+        "startLine": 142,
+        "startChar": 8,
+        "endLine": 142,
+        "endChar": 71
+      },
+      "revId": "02b620a8ff3d8023c2f7b969c55f9f2f6bd33697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68196de0_359ff1eb",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-21T15:09:29Z",
+      "side": 1,
+      "message": "So... this is correct, but it\u0027s also misleading. This method only has one caller, and it always passes the basePath as path. Maybe collapse this method into that caller so that you can skip this check? Or take some other approach, but we should 1) always be able to use this new cache, and 2) only have one call each to resolveFileKey() and RepositoryCache.open().",
+      "range": {
+        "startLine": 145,
+        "startChar": 6,
+        "endLine": 145,
+        "endChar": 34
+      },
+      "revId": "02b620a8ff3d8023c2f7b969c55f9f2f6bd33697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a315da9_45185845",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-21T15:09:29Z",
+      "side": 1,
+      "message": "This looks like new logic that wasn\u0027t required to get a FileKey before. Do we need it? If we do, this looks like the wrong layer for it. Project.NameKey should have a method for this.\n\nAnd I just looked at what FileKey.lenient() does... it handles exactly this issue of the directory passed either exactly matching or missing a .git. If we\u0027re going to handle .git ourselves, we should use FileKey.exact().",
+      "range": {
+        "startLine": 158,
+        "startChar": 4,
+        "endLine": 159,
+        "endChar": 93
+      },
       "revId": "02b620a8ff3d8023c2f7b969c55f9f2f6bd33697",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

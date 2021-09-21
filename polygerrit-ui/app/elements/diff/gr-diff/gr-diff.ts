@@ -391,11 +391,10 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     // document.getSelection() cannot reference the actual DOM elements making
     // up the diff in Safari because they are in the shadow DOM of the gr-diff
     // element. This takes the shadow DOM selection if one exists.
-    return this.root instanceof ShadowRoot && this.root.getSelection
-      ? this.root.getSelection()
-      : isSafari()
-      ? getContentEditableRange()
-      : document.getSelection();
+    return this.root instanceof ShadowRoot && (this.root as any).getSelection ?
+        (this.root as any).getSelection() :
+        isSafari() ? getContentEditableRange() :
+                     document.getSelection();
   }
 
   _observeNodes() {

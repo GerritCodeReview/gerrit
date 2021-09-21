@@ -17,7 +17,7 @@
 import {isSafari, findActiveElement} from './dom-util';
 
 const SUPPORTS_SHADOW_SELECTION =
-  typeof window.ShadowRoot.prototype.getSelection === 'function';
+    typeof (window.ShadowRoot.prototype as any).getSelection === 'function';
 const SUPPORTS_BEFORE_INPUT =
   typeof (window.InputEvent.prototype as InputEventExtended).getTargetRanges ===
   'function';

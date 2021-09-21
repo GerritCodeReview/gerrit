@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "657c08ec_60fc889a",
+        "filename": "java/com/google/gerrit/server/RequestInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-21T14:45:59Z",
+      "side": 1,
+      "message": "nit: can be set to package private for now.",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 97,
+        "endChar": 8
+      },
+      "revId": "6231bca19fc9f93ea69110de440691eee79ffb5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -46,6 +46,16 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     element.project = 'test-project';
   });
 
+  test('with missing newline', () => {
+    element.changeStatus = 'MERGED';
+    element.commitMessage = 'message';
+    element.commitNum = '123';
+    element.branch = 'master';
+    flush();
+    const expectedMessage = 'message\n(cherry picked from commit 123)';
+    assert.equal(element.message, expectedMessage);
+  });
+
   test('with merged change', () => {
     element.changeStatus = 'MERGED';
     element.commitMessage = 'message\n';

@@ -277,6 +277,10 @@ public class TraceContext implements AutoCloseable {
         .findFirst();
   }
 
+  public static Optional<String> getTag(String tagName) {
+    return LoggingContext.getInstance().getTagsAsMap().get(tagName).stream().findFirst();
+  }
+
   public TraceContext enableAclLogging() {
     if (stopAclLoggingOnClose) {
       return this;

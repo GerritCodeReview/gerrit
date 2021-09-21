@@ -15,7 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.metrics.Counter2;
+import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
@@ -34,7 +34,7 @@ public class PerformanceMetrics implements PerformanceLogger {
   private static final String OPERATION_COUNT_METRIC_NAME = "performance/operations_count";
 
   public final Timer3<String, String, String> operationsLatency;
-  public final Counter2<String, String> operationsCounter;
+  public final Counter3<String, String, String> operationsCounter;
 
   @Inject
   PerformanceMetrics(MetricMaker metricMaker) {
@@ -47,6 +47,8 @@ public class PerformanceMetrics implements PerformanceLogger {
         Field.ofString("change_identifier", (metadataBuilder, fieldValue) -> {}).build();
     Field<String> traceIdField =
         Field.ofString("trace_id", (metadataBuilder, fieldValue) -> {}).build();
+    Field<String> requestField =
+        Field.ofString("request", (metadataBuilder, fieldValue) -> {}).build();
 
     this.operationsLatency =
         metricMaker.newTimer(
@@ -62,7 +64,8 @@ public class PerformanceMetrics implements PerformanceLogger {
             OPERATION_COUNT_METRIC_NAME,
             new Description("Number of performed operations").setRate(),
             operationNameField,
-            traceIdField);
+            traceIdField,
+            requestField);
   }
 
   @Override
@@ -86,7 +89,8 @@ public class PerformanceMetrics implements PerformanceLogger {
     operationsLatency.record(
         operation, formatChangeIdentifier(metadata), traceId, durationMs, TimeUnit.MILLISECONDS);
 
-    operationsCounter.increment(operation, traceId);
+    String requestTag = TraceContext.getTag(TraceRequestListener.TAG_REQUEST).orElse("");
+    operationsCounter.increment(operation, traceId, requestTag);
   }
 
   private String formatChangeIdentifier(@Nullable Metadata metadata) {

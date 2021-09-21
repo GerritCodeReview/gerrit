@@ -27,7 +27,7 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {IronInputElement} from '@polymer/iron-input';
-import {SinonStubbedMember} from 'sinon/pkg/sinon-esm';
+import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 const basicFixture = fixtureFromElement('gr-account-info');

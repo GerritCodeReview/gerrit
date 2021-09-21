@@ -54,7 +54,7 @@ import {
 } from '../../../types/common';
 import {ActionType} from '../../../api/change-actions';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
-import {SinonFakeTimers} from 'sinon/pkg/sinon-esm';
+import {SinonFakeTimers} from 'sinon';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';

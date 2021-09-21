@@ -70,7 +70,6 @@ ts_project(
         [
             "**/*.js",
             "**/*.ts",
-            "test/@types/*.d.ts",
         ],
         exclude = [
             "node_modules/**",

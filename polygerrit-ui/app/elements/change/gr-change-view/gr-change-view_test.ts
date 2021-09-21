@@ -90,7 +90,7 @@ import {
 } from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {AppElementChangeViewParams} from '../../gr-app-types';
-import {SinonFakeTimers, SinonStubbedMember} from 'sinon/pkg/sinon-esm';
+import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {CommentThread, UIRobot} from '../../../utils/comment-util';
@@ -445,7 +445,7 @@ suite('gr-change-view tests', () => {
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[0], element._change);
     assert.equal(args[1], 10 as PatchSetNum);
-    assert.equal(args[2], 1 as PatchSetNum);
+    assert.equal(args[2], 1 as BasePatchSetNum);
   });
 
   test('_handleDiffBaseAgainstLeft', () => {
@@ -483,7 +483,7 @@ suite('gr-change-view tests', () => {
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[1], 10 as PatchSetNum);
-    assert.equal(args[2], 3 as PatchSetNum);
+    assert.equal(args[2], 3 as BasePatchSetNum);
   });
 
   test('_handleDiffBaseAgainstLatest', () => {

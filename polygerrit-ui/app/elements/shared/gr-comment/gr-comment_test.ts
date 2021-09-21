@@ -52,7 +52,7 @@ import {
   createFixSuggestionInfo,
 } from '../../../test/test-data-generators';
 import {Timer} from '../../../services/gr-reporting/gr-reporting';
-import {SinonFakeTimers, SinonStubbedMember} from 'sinon/pkg/sinon-esm';
+import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
 import {CreateFixCommentEvent} from '../../../types/events';
 import {DraftInfo, UIRobot} from '../../../utils/comment-util';
 import {MockTimer} from '../../../services/gr-reporting/gr-reporting_mock';

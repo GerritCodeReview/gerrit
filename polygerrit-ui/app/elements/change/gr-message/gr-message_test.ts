@@ -51,7 +51,7 @@ import {
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {CommentSide} from '../../../constants/constants';
-import {SinonStubbedMember} from 'sinon/pkg/sinon-esm';
+import {SinonStubbedMember} from 'sinon';
 
 const basicFixture = fixtureFromElement('gr-message');
 

@@ -24,6 +24,7 @@ import {AvatarInfo} from '../../../types/common';
 import {
   createAccountWithEmail,
   createAccountWithId,
+  createServerInfo,
 } from '../../../test/test-data-generators';
 
 const basicFixture = fixtureFromElement('gr-avatar');
@@ -116,9 +117,11 @@ suite('gr-avatar tests', () => {
 
   suite('config set', () => {
     setup(() => {
-      stub('gr-avatar', '_getConfig').callsFake(() =>
-        Promise.resolve({plugin: {has_avatars: true}})
-      );
+      const config = {
+        ...createServerInfo(),
+        plugin: {has_avatars: true, js_resource_paths: []},
+      };
+      stub('gr-avatar', '_getConfig').returns(Promise.resolve(config));
       element = basicFixture.instantiate();
     });
 
@@ -154,9 +157,11 @@ suite('gr-avatar tests', () => {
     let element: GrAvatar;
 
     setup(() => {
-      stub('gr-avatar', '_getConfig').callsFake(() =>
-        Promise.resolve({plugin: {has_avatars: true}})
-      );
+      const config = {
+        ...createServerInfo(),
+        plugin: {has_avatars: true, js_resource_paths: []},
+      };
+      stub('gr-avatar', '_getConfig').returns(Promise.resolve(config));
 
       element = basicFixture.instantiate();
     });
@@ -182,7 +187,7 @@ suite('gr-avatar tests', () => {
     let element: GrAvatar;
 
     setup(() => {
-      stub('gr-avatar', '_getConfig').callsFake(() => Promise.resolve({}));
+      stub('gr-avatar', '_getConfig').returns(Promise.resolve(undefined));
 
       element = basicFixture.instantiate();
     });

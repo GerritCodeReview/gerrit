@@ -39,7 +39,13 @@
     "incremental": true,
     "experimentalDecorators": true,
 
-    "allowUmdGlobalAccess": true
+    "allowUmdGlobalAccess": true,
+
+    /* typeRoots for IDE (see tsconfig_bazel.json for Bazel) */
+    "typeRoots": [
+      "node_modules/@types",
+      "../node_modules/@types"
+    ]
   },
   // With the * pattern (without an extension), only supported files
   // are included. The supported files are .ts, .tsx, .d.ts.

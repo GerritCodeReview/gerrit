@@ -198,15 +198,15 @@ export class GrDiffSelection extends PolymerElement {
     if (!diffHosts.length) return window.getSelection();
 
     const curDiffHost = diffHosts.find(diffHost => {
-      if (!diffHost?.shadowRoot?.getSelection) return false;
-      const selection = diffHost.shadowRoot.getSelection();
+      if ((!diffHost?.shadowRoot as any).getSelection) return false;
+      const selection = (diffHost.shadowRoot as any).getSelection();
       // Pick the one with valid selection:
       // https://developer.mozilla.org/en-US/docs/Web/API/Selection/type
       return selection && selection.type !== 'None';
     });
 
     return curDiffHost
-      ? curDiffHost.shadowRoot!.getSelection()
+      ? (curDiffHost.shadowRoot as any).getSelection()
       : window.getSelection();
   }
 

@@ -257,7 +257,7 @@ export function findActiveElement(
 export function isSafari() {
   return (
     /^((?!chrome|android).)*safari/i.test(navigator.userAgent) ||
-    (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+    (/iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream)
   );
 }
 

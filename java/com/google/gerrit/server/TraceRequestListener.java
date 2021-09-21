@@ -28,6 +28,9 @@ import org.eclipse.jgit.lib.Config;
  */
 @Singleton
 public class TraceRequestListener implements RequestListener {
+  public static String TAG_REQUEST = "request";
+
+  private static String TAG_PROJECT = "project";
   private static String SECTION_TRACING = "tracing";
 
   private final ImmutableList<RequestConfig> traceConfigs;
@@ -39,7 +42,8 @@ public class TraceRequestListener implements RequestListener {
 
   @Override
   public void onRequest(RequestInfo requestInfo) {
-    requestInfo.project().ifPresent(p -> requestInfo.traceContext().addTag("project", p));
+    requestInfo.traceContext().addTag(TAG_REQUEST, requestInfo.formatForLogging());
+    requestInfo.project().ifPresent(p -> requestInfo.traceContext().addTag(TAG_PROJECT, p));
     traceConfigs.stream()
         .filter(traceConfig -> traceConfig.matches(requestInfo))
         .forEach(

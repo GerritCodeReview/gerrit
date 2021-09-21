@@ -14,7 +14,12 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
+
 import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
+import com.google.common.base.Splitter;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.logging.TraceContext;
@@ -55,6 +60,16 @@ public abstract class RequestInfo {
    */
   public abstract Optional<String> requestUri();
 
+  /**
+   * Redacted request URI.
+   *
+   * <p>Request URI where resource IDs are replaced by '*'.
+   */
+  @Memoized
+  public Optional<String> redactedRequestUri() {
+    return requestUri().map(RequestInfo::redactRequestUri);
+  }
+
   /** The user that has sent the request. */
   public abstract CurrentUser callingUser();
 
@@ -67,6 +82,67 @@ public abstract class RequestInfo {
    * exists (e.g. if a user made a request for a project that doesn't exist).
    */
   public abstract Optional<Project.NameKey> project();
+
+  @Memoized
+  public String formatForLogging() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(requestType());
+    redactedRequestUri().ifPresent(redactedRequestUri -> sb.append(' ').append(redactedRequestUri));
+    return sb.toString();
+  }
+
+  /**
+   * Redacts resource IDs from the given request URI.
+   *
+   * <p>resource IDs in the request URI are replaced with '*'.
+   *
+   * @param requestUri a REST URI that has path segments that alternate between view name and
+   *     resource IDs (e.g. "/<view>", "/<view>/<id>", "/<view>/<id>/<view>",
+   *     "/<view>/<id>/<view>/<id>", "/<view>/<id>/<view>/<id>/<view>" etc.), must be given without
+   *     the '/a' prefix
+   * @return the redacted request URI
+   */
+  static String redactRequestUri(String requestUri) {
+    requireNonNull(requestUri, "requestUri");
+    checkState(
+        !requestUri.startsWith("/a/"), "request URI must not start with '/a/': %s", requestUri);
+
+    StringBuilder redactedRequestUri = new StringBuilder();
+
+    boolean hasLeadingSlash = false;
+    boolean hasTrailingSlash = false;
+    if (requestUri.startsWith("/")) {
+      hasLeadingSlash = true;
+      requestUri = requestUri.substring(1);
+    }
+    if (requestUri.endsWith("/")) {
+      hasTrailingSlash = true;
+      requestUri = requestUri.substring(0, requestUri.length() - 1);
+    }
+
+    boolean idPathSegment = false;
+    for (String pathSegment : Splitter.on('/').split(requestUri)) {
+      if (!idPathSegment) {
+        redactedRequestUri.append("/" + pathSegment);
+        idPathSegment = true;
+      } else {
+        redactedRequestUri.append("/");
+        if (!pathSegment.isEmpty()) {
+          redactedRequestUri.append("*");
+        }
+        idPathSegment = false;
+      }
+    }
+
+    if (!hasLeadingSlash) {
+      redactedRequestUri.deleteCharAt(0);
+    }
+    if (hasTrailingSlash) {
+      redactedRequestUri.append('/');
+    }
+
+    return redactedRequestUri.toString();
+  }
 
   public static RequestInfo.Builder builder(
       RequestType requestType, CurrentUser callingUser, TraceContext traceContext) {

@@ -95,7 +95,9 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
             new Description("Total number of external ID cache reloads from Git.")
                 .setRate()
                 .setUnit("updates"),
-            Field.ofBoolean("partial", Metadata.Builder::partial).build());
+            Field.ofBoolean("partial", Metadata.Builder::partial)
+                .description("Whether the reload was partial.")
+                .build());
     this.reloadDifferential =
         metricMaker.newTimer(
             "notedb/external_id_partial_read_latency",

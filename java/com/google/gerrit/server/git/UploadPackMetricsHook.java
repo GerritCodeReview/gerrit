@@ -45,7 +45,9 @@ public class UploadPackMetricsHook implements PostUploadHook {
   @Inject
   UploadPackMetricsHook(MetricMaker metricMaker) {
     Field<Operation> operationField =
-        Field.ofEnum(Operation.class, "operation", Metadata.Builder::gitOperation).build();
+        Field.ofEnum(Operation.class, "operation", Metadata.Builder::gitOperation)
+            .description("The name of the operation (CLONE, FETCH).")
+            .build();
     requestCount =
         metricMaker.newCounter(
             "git/upload-pack/request_count",

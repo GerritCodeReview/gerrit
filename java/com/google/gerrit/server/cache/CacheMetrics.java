@@ -35,7 +35,9 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class CacheMetrics {
   private static final Field<String> F_NAME =
-      Field.ofString("cache_name", Metadata.Builder::cacheName).build();
+      Field.ofString("cache_name", Metadata.Builder::cacheName)
+          .description("The name of the cache.")
+          .build();
 
   @Inject
   public CacheMetrics(

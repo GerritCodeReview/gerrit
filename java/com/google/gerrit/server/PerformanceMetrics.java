@@ -42,13 +42,24 @@ public class PerformanceMetrics implements PerformanceLogger {
         Field.ofString(
                 "operation_name",
                 (metadataBuilder, fieldValue) -> metadataBuilder.operationName(fieldValue))
+            .description("The operation that was performed.")
             .build();
     Field<String> changeIdentifierField =
-        Field.ofString("change_identifier", (metadataBuilder, fieldValue) -> {}).build();
+        Field.ofString("change_identifier", (metadataBuilder, fieldValue) -> {})
+            .description(
+                "The ID of the change for which the operation was performed"
+                    + " (format = '<project>~<numeric-change-id>').")
+            .build();
     Field<String> traceIdField =
-        Field.ofString("trace_id", (metadataBuilder, fieldValue) -> {}).build();
+        Field.ofString("trace_id", (metadataBuilder, fieldValue) -> {})
+            .description("The ID of the trace if tracing was done.")
+            .build();
     Field<String> requestField =
-        Field.ofString("request", (metadataBuilder, fieldValue) -> {}).build();
+        Field.ofString("request", (metadataBuilder, fieldValue) -> {})
+            .description(
+                "The request for which the operation was performed"
+                    + " (format = '<request-type> <redacted-request-uri>').")
+            .build();
 
     this.operationsLatency =
         metricMaker.newTimer(

@@ -96,6 +96,7 @@ public class ChangeFinder {
                 .setRate()
                 .setUnit("requests"),
             Field.ofEnum(ChangeIdType.class, "change_id_type", Metadata.Builder::changeIdType)
+                .description("The type of the change identifier.")
                 .build());
   }
 

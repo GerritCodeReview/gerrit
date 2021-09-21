@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "32f299be_02e64985",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-21T13:16:15Z",
+      "side": 1,
+      "message": "\u003e **and** a MIN from non-uploaders is blocking. \n\nExactly. I think that a MIN from the uploader should also be blocking (even if ignoreSelfApproval is true, as the name ignoreSelfApproval says this is only about ignoring self approvals, but not about ignoring self vetos, is it?).",
+      "parentUuid": "23da35c3_3a8d49ac",
+      "range": {
+        "startLine": 133,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 94
+      },
+      "revId": "6efb0f3707f3b49d1457ab9a55deed10ad28cb7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "faf64dfe_f13844a2",
         "filename": "javatests/com/google/gerrit/server/project/SubmitRequirementsAdapterTest.java",
         "patchSetId": 2

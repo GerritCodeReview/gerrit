@@ -16,6 +16,23 @@
       "message": "LGTM in general, however, I am not convinced it is needed.\n\nIn our AuthConfig we would not have isUserNameCaseInsensitive setting? Or is to be double-safe we don\u0027t accidentally turn in on?",
       "revId": "4e6fb741c2b9efeaaf7f7162967ab0e5a25f09e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "521f0158_92d98ad2",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-09-21T11:04:15Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be easier to instead of using AuthConfig or this interface to just read the option directly from the GerritServerConfig? This option is only required three times of which two are in tests. It might be fine to directly use `cfg.getBoolean(\"auth\", \"userNameCaseInsensitive\", false)` here. There are some other options that are in the `auth`-section and not in AuthConfig. Or wouldn\u0027t this help in your case?",
+      "revId": "4e6fb741c2b9efeaaf7f7162967ab0e5a25f09e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

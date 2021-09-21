@@ -14,11 +14,6 @@
 
 package com.google.gerrit.server;
 
-import static com.google.common.base.Preconditions.checkState;
-import static java.util.Objects.requireNonNull;
-
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Splitter;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Counter3;
@@ -87,17 +82,13 @@ public class CancellationMetrics {
 
   public void countAdvisoryDeadline(RequestInfo requestInfo, String deadlineId) {
     advisoryDeadlineCount.increment(
-        requestInfo.requestType(),
-        requestInfo.requestUri().map(CancellationMetrics::redactRequestUri).orElse(""),
-        deadlineId);
+        requestInfo.requestType(), requestInfo.redactedRequestUri().orElse(""), deadlineId);
   }
 
   public void countCancelledRequest(
       RequestInfo requestInfo, RequestStateProvider.Reason cancellationReason) {
     cancelledRequestsCount.increment(
-        requestInfo.requestType(),
-        requestInfo.requestUri().map(CancellationMetrics::redactRequestUri).orElse(""),
-        cancellationReason);
+        requestInfo.requestType(), requestInfo.redactedRequestUri().orElse(""), cancellationReason);
   }
 
   public void countCancelledRequest(
@@ -105,7 +96,7 @@ public class CancellationMetrics {
       String requestUri,
       RequestStateProvider.Reason cancellationReason) {
     cancelledRequestsCount.increment(
-        requestType.name(), CancellationMetrics.redactRequestUri(requestUri), cancellationReason);
+        requestType.name(), RequestInfo.redactRequestUri(requestUri), cancellationReason);
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
@@ -122,59 +113,5 @@ public class CancellationMetrics {
 
   public void countForcefulReceiveTimeout() {
     receiveTimeoutCount.increment("forceful");
-  }
-
-  /**
-   * Redacts resource IDs from the given request URI.
-   *
-   * <p>resource IDs in the request URI are replaced with '*'.
-   *
-   * @param requestUri a REST URI that has path segments that alternate between view name and
-   *     resource IDs (e.g. "/<view>", "/<view>/<id>", "/<view>/<id>/<view>",
-   *     "/<view>/<id>/<view>/<id>", "/<view>/<id>/<view>/<id>/<view>" etc.), must be given without
-   *     the '/a' prefix
-   * @return the redacted request URI
-   */
-  @VisibleForTesting
-  static String redactRequestUri(String requestUri) {
-    requireNonNull(requestUri, "requestUri");
-    checkState(
-        !requestUri.startsWith("/a/"), "request URI must not start with '/a/': %s", requestUri);
-
-    StringBuilder redactedRequestUri = new StringBuilder();
-
-    boolean hasLeadingSlash = false;
-    boolean hasTrailingSlash = false;
-    if (requestUri.startsWith("/")) {
-      hasLeadingSlash = true;
-      requestUri = requestUri.substring(1);
-    }
-    if (requestUri.endsWith("/")) {
-      hasTrailingSlash = true;
-      requestUri = requestUri.substring(0, requestUri.length() - 1);
-    }
-
-    boolean idPathSegment = false;
-    for (String pathSegment : Splitter.on('/').split(requestUri)) {
-      if (!idPathSegment) {
-        redactedRequestUri.append("/" + pathSegment);
-        idPathSegment = true;
-      } else {
-        redactedRequestUri.append("/");
-        if (!pathSegment.isEmpty()) {
-          redactedRequestUri.append("*");
-        }
-        idPathSegment = false;
-      }
-    }
-
-    if (!hasLeadingSlash) {
-      redactedRequestUri.deleteCharAt(0);
-    }
-    if (hasTrailingSlash) {
-      redactedRequestUri.append('/');
-    }
-
-    return redactedRequestUri.toString();
   }
 }

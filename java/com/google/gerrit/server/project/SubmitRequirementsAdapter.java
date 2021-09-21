@@ -24,6 +24,7 @@ import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -123,15 +124,18 @@ public class SubmitRequirementsAdapter {
   }
 
   private static ImmutableList<String> toExpressionAtomList(LabelType lt) {
+    String ignoreSelfApproval =
+        lt.isIgnoreSelfApproval() ? ",user=" + ChangeQueryBuilder.ARG_ID_NON_UPLOADER : "";
     switch (lt.getFunction()) {
       case MAX_WITH_BLOCK:
         return ImmutableList.of(
-            String.format("label:%s=MAX", lt.getName()),
+            String.format("label:%s=MAX", lt.getName()) + ignoreSelfApproval,
             String.format("-label:%s=MIN", lt.getName()));
       case ANY_WITH_BLOCK:
         return ImmutableList.of(String.format(String.format("-label:%s=MIN", lt.getName())));
       case MAX_NO_BLOCK:
-        return ImmutableList.of(String.format(String.format("label:%s=MAX", lt.getName())));
+        return ImmutableList.of(
+            String.format(String.format("label:%s=MAX", lt.getName())) + ignoreSelfApproval);
       case NO_BLOCK:
       case NO_OP:
       case PATCH_SET_LOCK:

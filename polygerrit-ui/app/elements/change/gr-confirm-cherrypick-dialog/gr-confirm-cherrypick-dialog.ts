@@ -298,6 +298,9 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
     let newMessage = commitMessage;
 
     if (changeStatus === 'MERGED') {
+      if (!newMessage.endsWith('\n')) {
+        newMessage += '\n';
+      }
       newMessage += '(cherry picked from commit ' + commitNum.toString() + ')';
     }
     this.message = newMessage;

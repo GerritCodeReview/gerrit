@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0022ef4f_727c2097",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-21T11:16:03Z",
+      "side": 1,
+      "message": "\u003e  Why are you applying 24px line-height to the name?\nBecause in mock, height of row is 28px (24px + 2 top padding + 2 bottom padding)\n\n\u003e  I don\u0027t see a reason why the gap between icon and name should not be 8px. \nelphine, can we have gap 8px between icon and name, and votes and button (like add code-owner). Or should we have 4px everywhere?",
+      "parentUuid": "027c5d04_bec0e998",
+      "range": {
+        "startLine": 92,
+        "startChar": 25,
+        "endLine": 92,
+        "endChar": 68
+      },
+      "revId": "ba6bfdffc54e5aaefcf9ad5775d85d6aec2b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3beac33c_6cbc5727",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
         "patchSetId": 5

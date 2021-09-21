@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af99dd6d_64234949",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-21T10:19:28Z",
+      "side": 1,
+      "message": "Can you add something about \"why?\" to the commit message?",
+      "revId": "893465922661d54e5e367e0577ab2debad73c574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e62153ec_aec57779",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-21T10:19:28Z",
+      "side": 1,
+      "message": "Did you consider just firing a browser event here instead?",
+      "revId": "893465922661d54e5e367e0577ab2debad73c574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -69,6 +69,24 @@
       "parentUuid": "e62153ec_aec57779",
       "revId": "893465922661d54e5e367e0577ab2debad73c574",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c703f62a_e287da0a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-21T14:24:41Z",
+      "side": 1,
+      "message": "Marking this as \"solved\" as I would rather keep this behavior but I\u0027m glad to replace it to a DOM event if we come to the conclusion it would be better in the end.",
+      "parentUuid": "4a250c8b_e2e3a164",
+      "revId": "893465922661d54e5e367e0577ab2debad73c574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

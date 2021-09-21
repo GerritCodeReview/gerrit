@@ -92,6 +92,10 @@ const styleSheet = safeStyleSheet`
     --green-50: #e6f4ea;
     --green-tonal: #2c553a;
     --gray-900: #202124;
+    --gray-900-04: #2021240a;
+    --gray-900-08: #20212414;
+    --gray-900-10: #2021241a;
+    --gray-900-12: #2021241f;
     --gray-800: #3c4043;
     --gray-800-12: #3c40431f;
     --gray-800-38: #3c404361;
@@ -160,9 +164,9 @@ const styleSheet = safeStyleSheet`
 
     --gray-foreground: var(--gray-700);
     --gray-background: var(--gray-100);
-    --gray-background-hover: linear-gradient(var(--gray-700-04), var(--gray-700-04)), var(--gray-100);
-    --gray-background-focus: linear-gradient(var(--gray-700-12), var(--gray-700-12)), var(--gray-100);
-    --gray-ripple: var(--gray-700-10);
+    --gray-background-hover: linear-gradient(var(--gray-900-04), var(--gray-900-04)), var(--gray-100);
+    --gray-background-focus: linear-gradient(var(--gray-900-12), var(--gray-900-12)), var(--gray-100);
+    --gray-ripple: var(--gray-900-10);
 
     --disabled-foreground: var(--gray-800-38);
     --disabled-background: var(--gray-800-12);

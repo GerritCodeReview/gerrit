@@ -306,6 +306,15 @@ export class GrChecksChip extends LitElement {
         .checksChip.timelapse iron-icon {
           color: var(--gray-foreground);
         }
+        .link {
+          margin: calc(0px - var(--spacing-l));
+          padding: var(--spacing-l);
+          /* fully rounded */
+          border-radius: 20px;
+        }
+        .link:hover {
+          background: var(--gray-900-08);
+        }
       `,
     ];
   }
@@ -348,6 +357,7 @@ export class GrChecksChip extends LitElement {
     return this.links.map(
       link => html`
         <a
+          class="link"
           href="${link.url}"
           target="_blank"
           @click="${this.onLinkClick}"

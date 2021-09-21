@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eec1d754_5e680de7",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-21T18:11:32Z",
+      "side": 1,
+      "message": "I realized that I did spec 6px padding in the spec.\nI think --spacing-m would make the chips too wide, especially with adding Waldo chip + vote chip + \"X\" if viewer of the change.\nI would like to keep the current --spacing-s for the user chip like we have today.\n\nBut --spacing-s would not work well visually with the vote chip\u0027s corner. Having either a --spacing-m or different corners would work better. I have create \"mocks specs\"for the 3 option, I\u0027ll tag both of you in the specs.",
+      "parentUuid": "0022ef4f_727c2097",
+      "range": {
+        "startLine": 92,
+        "startChar": 25,
+        "endLine": 92,
+        "endChar": 68
+      },
+      "revId": "ba6bfdffc54e5aaefcf9ad5775d85d6aec2b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3beac33c_6cbc5727",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
         "patchSetId": 5

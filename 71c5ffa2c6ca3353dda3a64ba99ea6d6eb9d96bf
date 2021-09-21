@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8a1f642_3c5e765f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-21T15:03:52Z",
+      "side": 1,
+      "message": "+1 for turning it off at some point and dropping the computation on read.\nAlso, +1 to the suggestion of a single commit on top of the existing metadata.\n\u003e\u003e Old changes will not have any copied votes.\nThis is somewhat undesired, because it is user visible:\n* for submitted changes it will look like the change was submitted without votes\n* for pending changes the vote will need to be re-applied.",
+      "parentUuid": "7f135c6f_fee1cb27",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 7
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b35d0e20_aceae94c",
@@ -610,6 +634,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52906af7_ca1ea223",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-21T15:03:52Z",
+      "side": 1,
+      "message": "Maybe at least change the ordering, so that the optional info is at the end? If we quote \u003cTAG\u003e, we don\u0027t actually need :tag:.\nAnother argument to use \u0027: \u0027 as a separator is to follow the similar logic as other change footers (e.g. SUBMITTED_WITH).\nI will keep my suggestion:\nCopied-Label:\u003cLABEL\u003e\u003dVOTE \u003cGerrit Account\u003e: \u003cGerrit Real Account\u003e: \"\u003cTAG\u003e\"\n but we can await other review\u0027s opinion",
+      "parentUuid": "cd3507e0_9c04206e",
+      "range": {
+        "startLine": 816,
+        "startChar": 14,
+        "endLine": 816,
+        "endChar": 36
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22fa0db6_162c1215",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 1
@@ -810,6 +858,30 @@
       "side": 1,
       "message": "I can\u0027t, because it will always contain it. The way we mark removal is by setting the latest patch-set with \"0\" vote.\nAdded a comment.",
       "parentUuid": "7e86a8c8_17e30ea2",
+      "range": {
+        "startLine": 567,
+        "startChar": 14,
+        "endLine": 567,
+        "endChar": 41
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec00b941_2c05ebf1",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-21T15:03:52Z",
+      "side": 1,
+      "message": "Optional: contains approval with \u00270\u0027 value?",
+      "parentUuid": "fe077086_1d640bbf",
       "range": {
         "startLine": 567,
         "startChar": 14,

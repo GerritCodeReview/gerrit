@@ -16,6 +16,161 @@
       "message": "thanks Marija for the great review :)\nI\u0027m adding @ekempin as well since I\u0027m out tomorrow. Could you take a look as well?",
       "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c32f6d13_92207c93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-21T15:03:52Z",
+      "side": 1,
+      "message": "LGTM with open discussion on storage format,let\u0027s have another review opinion on this?",
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a9be698_9c6dfb96",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-21T15:03:52Z",
+      "side": 1,
+      "message": "missing \u0027,\u0027 here.",
+      "range": {
+        "startLine": 803,
+        "startChar": 75,
+        "endLine": 803,
+        "endChar": 76
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae11ba81_c57e6ec6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-21T15:03:52Z",
+      "side": 1,
+      "message": "nit: missing space?",
+      "range": {
+        "startLine": 803,
+        "startChar": 33,
+        "endLine": 803,
+        "endChar": 34
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac50a608_a0d4c29d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-21T15:03:52Z",
+      "side": 1,
+      "message": "nit: they are removed the same way as ...",
+      "range": {
+        "startLine": 809,
+        "startChar": 52,
+        "endLine": 810,
+        "endChar": 83
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a979b94c_49145d52",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-21T15:03:52Z",
+      "side": 1,
+      "message": "nit: assertion that the vote exists on the new patch set?",
+      "range": {
+        "startLine": 1111,
+        "startChar": 4,
+        "endLine": 1111,
+        "endChar": 33
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b196f2fe_3da6a541",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-21T15:03:52Z",
+      "side": 1,
+      "message": "assertion for a label that contains \u0027tag\u0027 part in it?",
+      "range": {
+        "startLine": 178,
+        "startChar": 28,
+        "endLine": 178,
+        "endChar": 35
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1984d686_c8bce094",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-21T15:03:52Z",
+      "side": 1,
+      "message": "assertion for -Label1 failing for copy approvals?",
+      "range": {
+        "startLine": 195,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 90
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

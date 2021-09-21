@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4faea892_342e9373",
+        "filename": "java/com/google/gerrit/server/PerformanceMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-21T09:59:15Z",
+      "side": 1,
+      "message": "nit: this",
+      "range": {
+        "startLine": 56,
+        "startChar": 21,
+        "endLine": 56,
+        "endChar": 24
+      },
+      "revId": "40044d42c4a6fc06ba473de9358d85e85794f30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

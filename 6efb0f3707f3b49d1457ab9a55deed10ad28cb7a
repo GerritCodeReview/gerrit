@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "23da35c3_3a8d49ac",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-21T12:50:04Z",
+      "side": 1,
+      "message": "MAX_WITH_BLOCK is translated to:\n  label:$label\u003dMAX,user\u003dnon_uploader -label:$label\u003dMIN,user\u003dnon_uploader\n  \nThe non_uploader arg in both min/max predicates means that uploader votes will be filtered out. But still a MAX from non-uploaders is required, **and** a MIN from non-uploaders is blocking. Same goes for ANY_WITH_BLOCK.\n\n\n\n\u003e label:$label\u003dMIN,user\u003dnon_uploader\n\nmeans: match with changes having a min vote from a non_uploader. Hence negation means match with changes that don\u0027t have a min vote from a non_uploader.\nIf a non_uploader voted -2, `label:$label\u003dMIN,user\u003dnon_uploader` will be true, \u0027-label:$label\u003dMIN,user\u003dnon_uploader\u0027 will be false for this change and the change will be blocked.\n\nUpdate: If uploader votes -2, their vote is going to be filtered out and will not override the second part of the expression. Am I missing something?\n\nI can try this scenario with an IT to make sure it works as I want it to be.",
+      "parentUuid": "4445873e_8c78bb00",
+      "range": {
+        "startLine": 133,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 94
+      },
+      "revId": "6efb0f3707f3b49d1457ab9a55deed10ad28cb7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "faf64dfe_f13844a2",
         "filename": "javatests/com/google/gerrit/server/project/SubmitRequirementsAdapterTest.java",
         "patchSetId": 2

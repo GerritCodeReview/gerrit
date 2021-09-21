@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
 
-public class CancellationMetricsTest {
+public class RequestInfoTest {
   @Test
   public void redactRequestUri() throws Exception {
     // test with valid request URIs
@@ -52,6 +52,6 @@ public class CancellationMetricsTest {
   }
 
   public static String redact(String uri) {
-    return CancellationMetrics.redactRequestUri(uri);
+    return RequestInfo.redactRequestUri(uri);
   }
 }

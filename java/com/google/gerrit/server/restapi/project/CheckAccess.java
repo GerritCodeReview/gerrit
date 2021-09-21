@@ -95,7 +95,6 @@ public class CheckAccess implements RestReadView<ProjectResource> {
       } catch (AuthException e) {
         return Response.ok(
             createInfo(
-                traceContext,
                 HttpServletResponse.SC_FORBIDDEN,
                 String.format("user %s cannot see project %s", match, rsrc.getName())));
       }
@@ -126,7 +125,6 @@ public class CheckAccess implements RestReadView<ProjectResource> {
         } catch (AuthException e) {
           return Response.ok(
               createInfo(
-                  traceContext,
                   HttpServletResponse.SC_FORBIDDEN,
                   String.format(
                       "user %s lacks permission %s for %s in project %s",
@@ -141,15 +139,15 @@ public class CheckAccess implements RestReadView<ProjectResource> {
           }
         }
       }
-      return Response.ok(createInfo(traceContext, HttpServletResponse.SC_OK, message));
+      return Response.ok(createInfo(HttpServletResponse.SC_OK, message));
     }
   }
 
-  private AccessCheckInfo createInfo(TraceContext traceContext, int statusCode, String message) {
+  private AccessCheckInfo createInfo(int statusCode, String message) {
     AccessCheckInfo info = new AccessCheckInfo();
     info.status = statusCode;
     info.message = message;
-    info.debugLogs = traceContext.getAclLogRecords();
+    info.debugLogs = TraceContext.getAclLogRecords();
     if (info.debugLogs.isEmpty()) {
       info.debugLogs =
           ImmutableList.of("Found no rules that apply, so defaulting to no permission");

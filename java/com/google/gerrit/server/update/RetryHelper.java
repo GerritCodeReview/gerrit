@@ -479,7 +479,7 @@ public class RetryHelper {
                   }
 
                   String cause = formatCause(t);
-                  if (!traceContext.isTracing()) {
+                  if (!TraceContext.isTracing()) {
                     String traceId = "retry-on-failure-" + new RequestId();
                     traceContext.addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
                     logger.atWarning().withCause(t).log(

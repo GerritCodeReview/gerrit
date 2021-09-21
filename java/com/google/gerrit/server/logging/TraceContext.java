@@ -268,11 +268,11 @@ public class TraceContext implements AutoCloseable {
     return this;
   }
 
-  public boolean isTracing() {
+  public static boolean isTracing() {
     return LoggingContext.getInstance().isLoggingForced();
   }
 
-  public Optional<String> getTraceId() {
+  public static Optional<String> getTraceId() {
     return LoggingContext.getInstance().getTagsAsMap().get(RequestId.Type.TRACE_ID.name()).stream()
         .findFirst();
   }
@@ -286,11 +286,11 @@ public class TraceContext implements AutoCloseable {
     return this;
   }
 
-  public boolean isAclLoggingEnabled() {
+  public static boolean isAclLoggingEnabled() {
     return LoggingContext.getInstance().isAclLogging();
   }
 
-  public ImmutableList<String> getAclLogRecords() {
+  public static ImmutableList<String> getAclLogRecords() {
     return LoggingContext.getInstance().getAclLogRecords();
   }
 

@@ -768,13 +768,12 @@ public class RestApiServlet extends HttpServlet {
             }
           } else {
             res.reset();
-            traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
+            TraceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
 
             if (status.isPresent()) {
-              responseBytes = reply(req, res, e, status.get(), getUserMessages(traceContext, e));
+              responseBytes = reply(req, res, e, status.get(), getUserMessages(e));
             } else {
-              responseBytes =
-                  replyInternalServerError(req, res, e, getUserMessages(traceContext, e));
+              responseBytes = replyInternalServerError(req, res, e, getUserMessages(e));
             }
           }
         }
@@ -984,7 +983,7 @@ public class RestApiServlet extends HttpServlet {
       throws Exception {
     RetryableAction<T> retryableAction = globals.retryHelper.action(actionType, caller, action);
     AtomicReference<Optional<String>> traceId = new AtomicReference<>(Optional.empty());
-    if (!traceContext.isTracing()) {
+    if (!TraceContext.isTracing()) {
       // enable automatic retry with tracing in case of non-recoverable failure
       retryableAction
           .retryWithTrace(t -> !(t instanceof RestApiException))
@@ -1876,9 +1875,9 @@ public class RestApiServlet extends HttpServlet {
         .findFirst();
   }
 
-  private ImmutableList<String> getUserMessages(TraceContext traceContext, Throwable err) {
+  private ImmutableList<String> getUserMessages(Throwable err) {
     return globals.exceptionHooks.stream()
-        .flatMap(h -> h.getUserMessages(err, traceContext.getTraceId().orElse(null)).stream())
+        .flatMap(h -> h.getUserMessages(err, TraceContext.getTraceId().orElse(null)).stream())
         .collect(toImmutableList());
   }
 

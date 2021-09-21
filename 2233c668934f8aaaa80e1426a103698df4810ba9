@@ -16,6 +16,24 @@
       "message": "This method seems unused. Can we remove it?",
       "revId": "2233c668934f8aaaa80e1426a103698df4810ba9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9ab314f_a31dbea4",
+        "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-21T10:10:51Z",
+      "side": 1,
+      "message": "Yes, done in the predecessor change:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/318476",
+      "parentUuid": "acf7cf14_bf0a44ca",
+      "revId": "2233c668934f8aaaa80e1426a103698df4810ba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

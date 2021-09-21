@@ -70,6 +70,30 @@
       },
       "revId": "eac146867589d183f03cd53fde7655f7a0af8ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5497662_207901b5",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-21T14:48:25Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/318484",
+      "parentUuid": "d10d84d4_1beb028e",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 64
+      },
+      "revId": "eac146867589d183f03cd53fde7655f7a0af8ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

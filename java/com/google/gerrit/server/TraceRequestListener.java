@@ -28,7 +28,8 @@ import org.eclipse.jgit.lib.Config;
  */
 @Singleton
 public class TraceRequestListener implements RequestListener {
-  private static String TAG_REQUEST = "request";
+  public static String TAG_REQUEST = "request";
+
   private static String TAG_PROJECT = "project";
   private static String SECTION_TRACING = "tracing";
 

@@ -33,6 +33,24 @@
       "message": "This could be out of date if a new hover started but hasn\u0027t completed yet.",
       "revId": "58366d2bca0bd4c9133aba3218c0179799ac6a44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "754d0329_b253d100",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-21T09:59:30Z",
+      "side": 1,
+      "message": "Reusing the same element at the time of scheduling the debounce. I hope this is more stable?",
+      "parentUuid": "77d237d5_e4985906",
+      "revId": "58366d2bca0bd4c9133aba3218c0179799ac6a44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

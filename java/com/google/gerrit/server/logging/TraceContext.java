@@ -286,10 +286,6 @@ public class TraceContext implements AutoCloseable {
     return this;
   }
 
-  public boolean isAclLoggingEnabled() {
-    return LoggingContext.getInstance().isAclLogging();
-  }
-
   public ImmutableList<String> getAclLogRecords() {
     return LoggingContext.getInstance().getAclLogRecords();
   }

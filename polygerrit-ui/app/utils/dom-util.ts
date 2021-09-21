@@ -227,7 +227,7 @@ export function strToClassName(str = '', prefix = 'generated_') {
 // document.activeElement is not enough, because it's not getting activeElement
 // without looking inside of shadow roots. This will find best activeElement.
 export function findActiveElement(
-  root: DocumentOrShadowRoot | null,
+  root: Document | ShadowRoot | null,
   ignoreDialogs?: boolean
 ): HTMLElement | null {
   if (root === null) {
@@ -257,7 +257,7 @@ export function findActiveElement(
 export function isSafari() {
   return (
     /^((?!chrome|android).)*safari/i.test(navigator.userAgent) ||
-    (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+    /iPad|iPhone|iPod/.test(navigator.userAgent)
   );
 }
 

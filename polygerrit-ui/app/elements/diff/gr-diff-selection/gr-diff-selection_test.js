@@ -247,7 +247,7 @@ suite('gr-diff-selection', () => {
     element.classList.add('selected-left');
     element.classList.remove('selected-right');
 
-    const selection = window.getSelection();
+    const selection = document.getSelection();
     selection.removeAllRanges();
     const range = document.createRange();
     range.setStart(element.querySelector('div.contentText').firstChild, 3);
@@ -261,7 +261,7 @@ suite('gr-diff-selection', () => {
     element.classList.add('selected-left');
     element.classList.add('selected-comment');
     element.classList.remove('selected-right');
-    const selection = window.getSelection();
+    const selection = document.getSelection();
     selection.removeAllRanges();
     const range = document.createRange();
     range.setStart(
@@ -277,7 +277,7 @@ suite('gr-diff-selection', () => {
     element.classList.add('selected-left');
     element.classList.add('selected-comment');
     element.classList.remove('selected-right');
-    const selection = window.getSelection();
+    const selection = document.getSelection();
     selection.removeAllRanges();
     const range = document.createRange();
     const nodes = element.querySelectorAll('.gr-formatted-text *');
@@ -307,7 +307,7 @@ suite('gr-diff-selection', () => {
     element.classList.add('selected-right');
     element.classList.remove('selected-left');
 
-    const selection = window.getSelection();
+    const selection = document.getSelection();
     selection.removeAllRanges();
     const range = document.createRange();
     range.setStart(
@@ -329,7 +329,7 @@ suite('gr-diff-selection', () => {
     };
     element.classList.add('selected-left');
     element.classList.remove('selected-right');
-    const selection = window.getSelection();
+    const selection = document.getSelection();
     selection.removeAllRanges();
     const range = document.createRange();
     range.setStart(element.querySelector('div.contentText').firstChild, 3);
@@ -348,7 +348,7 @@ suite('gr-diff-selection', () => {
       element.classList.add('selected-left');
       element.classList.add('selected-comment');
       element.classList.remove('selected-right');
-      selection = window.getSelection();
+      selection = document.getSelection();
       selection.removeAllRanges();
       range = document.createRange();
       nodes = element.querySelectorAll('.gr-formatted-text *');

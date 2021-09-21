@@ -100,18 +100,22 @@ public class AutoMerger {
       MetricMaker metricMaker,
       @GerritServerConfig Config cfg,
       @GerritPersonIdent Provider<PersonIdent> gerritIdentProvider) {
+    Field<OperationType> operationTypeField =
+        Field.ofEnum(OperationType.class, "type", Metadata.Builder::operationName)
+            .description("The type of the operation (CACHE_LOAD, IN_MEMORY_WRITE, ON_DISK_WRITE).")
+            .build();
     this.counter =
         metricMaker.newCounter(
             "git/auto-merge/num_operations",
             new Description("AutoMerge computations").setRate().setUnit("auto merge computations"),
-            Field.ofEnum(OperationType.class, "type", Metadata.Builder::operationName).build());
+            operationTypeField);
     this.latency =
         metricMaker.newTimer(
             "git/auto-merge/latency",
             new Description("AutoMerge computation latency")
                 .setCumulative()
                 .setUnit("milliseconds"),
-            Field.ofEnum(OperationType.class, "type", Metadata.Builder::operationName).build());
+            operationTypeField);
     this.save = cacheAutomerge(cfg);
     this.gerritIdentProvider = gerritIdentProvider;
     this.configuredMergeStrategy = MergeUtil.getMergeStrategy(cfg);

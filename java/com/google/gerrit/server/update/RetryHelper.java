@@ -121,7 +121,9 @@ public class RetryHelper {
     @Inject
     Metrics(MetricMaker metricMaker) {
       Field<String> actionTypeField =
-          Field.ofString("action_type", Metadata.Builder::actionType).build();
+          Field.ofString("action_type", Metadata.Builder::actionType)
+              .description("The type of the action that was retried.")
+              .build();
       Field<String> operationNameField =
           Field.ofString("operation_name", Metadata.Builder::operationName)
               .description("The name of the operation that was retried.")

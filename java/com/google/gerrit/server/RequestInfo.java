@@ -83,6 +83,14 @@ public abstract class RequestInfo {
    */
   public abstract Optional<Project.NameKey> project();
 
+  @Memoized
+  public String formatForLogging() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(requestType());
+    redactedRequestUri().ifPresent(redactedRequestUri -> sb.append(' ').append(redactedRequestUri));
+    return sb.toString();
+  }
+
   /**
    * Redacts resource IDs from the given request URI.
    *

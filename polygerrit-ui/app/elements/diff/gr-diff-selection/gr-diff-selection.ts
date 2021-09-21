@@ -195,7 +195,7 @@ export class GrDiffSelection extends PolymerElement {
 
   _getSelection() {
     const diffHosts = querySelectorAll(document.body, 'gr-diff');
-    if (!diffHosts.length) return window.getSelection();
+    if (!diffHosts.length) return document.getSelection();
 
     const curDiffHost = diffHosts.find(diffHost => {
       if (!diffHost?.shadowRoot?.getSelection) return false;
@@ -205,9 +205,9 @@ export class GrDiffSelection extends PolymerElement {
       return selection && selection.type !== 'None';
     });
 
-    return curDiffHost
-      ? curDiffHost.shadowRoot!.getSelection()
-      : window.getSelection();
+    return curDiffHost?.shadowRoot?.getSelection
+      ? curDiffHost.shadowRoot.getSelection()
+      : document.getSelection();
   }
 
   /**

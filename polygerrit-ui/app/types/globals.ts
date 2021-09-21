@@ -75,4 +75,8 @@ declare global {
     lineNumber?: number; // non-standard property
     columnNumber?: number; // non-standard property
   }
+
+  interface ShadowRoot {
+    getSelection?: () => Selection | null;
+  }
 }

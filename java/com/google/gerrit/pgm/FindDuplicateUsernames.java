@@ -15,12 +15,15 @@
 package com.google.gerrit.pgm;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.IndexType;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -28,10 +31,11 @@ import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
-import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.SetInactiveFlag;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
@@ -46,10 +50,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.db.GroupDbModule;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
-import com.google.gerrit.server.restapi.account.DeleteActive;
-import com.google.gerrit.server.restapi.account.DeleteExternalIds;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -73,6 +74,7 @@ import org.kohsuke.args4j.Option;
  * sums used as note names.
  */
 public class FindDuplicateUsernames extends SiteProgram {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Option(name = "--delete", usage = "Show option to delete duplicates.")
   private boolean delete;
@@ -87,10 +89,9 @@ public class FindDuplicateUsernames extends SiteProgram {
   @Inject private AllUsersName allUsersName;
   @Inject private ExternalIdNotes.FactoryNoReindex externalIdNotesFactory;
   @Inject private ExternalIds externalIds;
-  @Inject private DeleteExternalIds deleteExternalIds;
-  @Inject private IdentifiedUser.GenericFactory userFactory;
-  @Inject private DeleteActive deleteActive;
+  @Inject private SetInactiveFlag setInactiveFlag;
   @Inject @ServerInitiated protected Provider<AccountsUpdate> accountsUpdate;
+  @Inject private AccountManager accountManager;
 
   @Override
   public int run() throws Exception {
@@ -130,23 +131,40 @@ public class FindDuplicateUsernames extends SiteProgram {
           return 0;
         }
 
-        ui.message("\n\nDuplicated usernames found:\n");
+        if (delete) {
+          ui.message(
+              "\n\n=====================================================================\n\n"
+                  + "For each set of duplicated usernames, please select accounts to"
+                  + " delete until only one account is left. An account can be selected"
+                  + " by typing its account ID.\nUse `skip` to skip the decision and `cancel`"
+                  + " to additionally revert decisions for the current set of accounts.\n"
+                  + "`?` can be used to show all options."
+                  + "\n\n=====================================================================\n\n");
+        }
+
+        ui.message("\n\nDuplicated usernames found:\n\n");
+        ArrayList<ExternalId> toDelete = new ArrayList<>();
 
         for (Map.Entry<String, List<ExternalId>> dupExtid : duplicateExtIds.entrySet()) {
-          ui.message("\n-----------------------------------------------------\n");
           Map<String, ExternalId> ids =
-              dupExtid.getValue().stream().collect(Collectors.toMap(e -> e.key().id(), e -> e));
+              dupExtid.getValue().stream()
+                  .collect(Collectors.toMap(e -> e.accountId().toString(), e -> e));
           HashSet<String> answers = new HashSet<>();
           for (Map.Entry<String, ExternalId> entry : ids.entrySet()) {
-            ui.message("\t- %s (%s)\n", entry.getKey(), entry.getValue().accountId());
+            ui.message("\t* %s (%s)\n", entry.getValue().key().id(), entry.getKey());
             answers.add(entry.getKey());
           }
 
           if (delete) {
-            List<String> answer = getAccountsToDelete(answers);
-            for (String id : answer) {
-              deleteAccount(ids.get(id));
-            }
+            toDelete.addAll(
+                getAccountsToDelete(answers).stream().map(id -> ids.get(id)).collect(toList()));
+          }
+          ui.message("\n");
+        }
+
+        if (delete && !toDelete.isEmpty() && getConfirmationForDeletion(toDelete)) {
+          for (ExternalId id : toDelete) {
+            deleteAccount(id.accountId());
           }
         }
       }
@@ -173,7 +191,6 @@ public class FindDuplicateUsernames extends SiteProgram {
     modules.add(SshKeyCacheImpl.module());
     modules.add(new AuditModule());
     modules.add(new GroupDbModule());
-    //    modules.add(new com.google.gerrit.server.restapi.account.Module());
     modules.add(new BatchProgramModule(dbInjector));
     modules.add(
         new FactoryModule() {
@@ -204,8 +221,8 @@ public class FindDuplicateUsernames extends SiteProgram {
     answers.add("skip");
     answers.add("cancel");
     List<String> toDelete = new ArrayList<>();
-    while (answers.size() >= 3) {
-      String answer = ui.readString("Which of the account should be deleted", answers, null);
+    while (answers.size() > 3) {
+      String answer = ui.readString("skip", answers, "\nWhich of the account should be deleted");
       if (answer.equals("skip")) {
         return toDelete;
       } else if (answer.equals("cancel")) {
@@ -217,19 +234,48 @@ public class FindDuplicateUsernames extends SiteProgram {
     return toDelete;
   }
 
-  private void deleteAccount(ExternalId externalId)
-      throws IOException, RestApiException, ConfigInvalidException, PermissionBackendException {
-    AccountResource rsrc = new AccountResource(userFactory.create(externalId.accountId()));
-    deleteActive.apply(rsrc, null);
-
-    List<String> ids =
-        externalIds.byAccount(externalId.accountId()).stream()
-            .map(e -> e.key().get())
-            .collect(toList());
-    if (ids.isEmpty()) {
-      throw new ResourceNotFoundException("Account has no external Ids");
+  private boolean getConfirmationForDeletion(ArrayList<ExternalId> toDelete) {
+    ui.message("\nThe following accounts are marked for deletion: \n\n");
+    for (ExternalId extId : toDelete) {
+      ui.message("\t* %s (%s)\n", extId.key().id(), extId.accountId());
     }
-    deleteExternalIds.apply(rsrc, ids);
+    return ui.yesno(false, "\nDo you want to continue with deleting these accounts?");
+  }
+
+  private void deleteAccount(Account.Id accountId) {
+    try {
+      deactivateAccount(accountId);
+    } catch (RestApiException | IOException | ConfigInvalidException e) {
+      logger.atSevere().withCause(e).log("Failed to deactivate account. Will not delete account.");
+    }
+    try {
+      deleteExternalIds(accountId);
+    } catch (IOException | ConfigInvalidException | AccountException e) {
+      logger.atSevere().withCause(e).log("Failed to delete the account's external IDs.");
+    }
+  }
+
+  private void deactivateAccount(Account.Id accountId)
+      throws RestApiException, IOException, ConfigInvalidException {
+    try {
+      setInactiveFlag.deactivate(accountId);
+    } catch (ResourceConflictException e) {
+      logger.atInfo().log("Account %s already inactive.", accountId);
+    }
+    logger.atInfo().log("Account %s is now inactive.", accountId);
+  }
+
+  private void deleteExternalIds(Account.Id accountId)
+      throws IOException, ConfigInvalidException, AccountException {
+    Set<ExternalId.Key> ids =
+        externalIds.byAccount(accountId).stream().map(e -> e.key()).collect(toSet());
+    if (ids.isEmpty()) {
+      logger.atInfo().log("Account %s has no external Ids", accountId);
+      return;
+    }
+
+    accountManager.unlink(accountId, ids);
+    logger.atInfo().log("All external IDs of Account %s have been deleted", accountId);
   }
 
   private String getLowerCaseKey(ExternalId extId) {

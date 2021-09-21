@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acc4fb0c_9c05a11b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-21T11:22:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af99dd6d_64234949",
+      "revId": "893465922661d54e5e367e0577ab2debad73c574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e62153ec_aec57779",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-09-21T10:19:28Z",
       "side": 1,
       "message": "Did you consider just firing a browser event here instead?",
+      "revId": "893465922661d54e5e367e0577ab2debad73c574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a250c8b_e2e3a164",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-21T11:22:00Z",
+      "side": 1,
+      "message": "I considered that. This would indeed be another possibility, but I still believe this is better because:\n- TokenHighlightLayer is not created internally in gr-diff, but in gr-diff-host (and equivalents). Therefore it is already in a way exposed behavior controlled by the gr-diff client.\n- Here we notify both events - when a token getshighlighted and when it stops being highlighted. While the first is easy to associate to a specific HTMLElement, the second might be trickier: We could even trigger an event in the previously selected HTMLElement for the token, but I\u0027m not sure if we can guarantee it is still available in the page (e.g. a file got closed in the CL Page?). I would mostly like to avoid potential edge cases in this area if we don\u0027t have to. \n\nDoes that make sense? I could try to change it into a DOM event but I personally don\u0027t believe it\u0027s worth it taken these bullet points into account.",
+      "parentUuid": "e62153ec_aec57779",
       "revId": "893465922661d54e5e367e0577ab2debad73c574",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

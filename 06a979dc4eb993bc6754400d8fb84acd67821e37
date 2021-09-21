@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94f545f5_de0c2cd6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-21T12:50:03Z",
+      "side": 1,
+      "message": "oops... I see this apparently doesn\u0027t work - like I\u0027m literally receiving false for a `el instanceof HTMLElement` when el is a div (`.contextText`)\n\nI\u0027m not sure exactly why.. I wonder if it a similar error like \nhere: https://github.com/ampproject/amphtml/issues/26424\n\nAnyway... returning it to regular Element as it was before.",
+      "range": {
+        "startLine": 234,
+        "startChar": 9,
+        "endLine": 234,
+        "endChar": 36
+      },
+      "revId": "06a979dc4eb993bc6754400d8fb84acd67821e37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -345,9 +345,16 @@ public class ProjectCacheImpl implements ProjectCache {
       refreshCounter =
           metricMaker.newCounter(
               "caches/refresh_count",
-              new Description("count").setRate(),
-              Field.ofString("cache", Metadata.Builder::className).build(),
-              Field.ofBoolean("outdated", Metadata.Builder::outdated).build());
+              new Description(
+                      "The number of refreshes per cache with an indicator if a reload was"
+                          + " necessary.")
+                  .setRate(),
+              Field.ofString("cache", Metadata.Builder::className)
+                  .description("The name of the cache.")
+                  .build(),
+              Field.ofBoolean("outdated", Metadata.Builder::outdated)
+                  .description("Whether the cache entry was outdated on reload.")
+                  .build());
       this.allProjectsName = allProjectsName;
       this.allProjectsConfigProvider = allProjectsConfigProvider;
     }

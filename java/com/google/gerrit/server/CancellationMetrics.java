@@ -43,7 +43,7 @@ public class CancellationMetrics {
                 .build(),
             Field.ofString("request_uri", Metadata.Builder::restViewName)
                 .description(
-                    "The URI of the request to which the advisory deadline applied"
+                    "The redacted URI of the request to which the advisory deadline applied"
                         + " (only set for request_type = REST).")
                 .build(),
             Field.ofString("deadline_id", (metadataBuilder, resolveAllUsers) -> {})
@@ -59,7 +59,7 @@ public class CancellationMetrics {
                 .build(),
             Field.ofString("request_uri", Metadata.Builder::restViewName)
                 .description(
-                    "The URI of the request that was cancelled"
+                    "The redacted URI of the request that was cancelled"
                         + " (only set for request_type = REST).")
                 .build(),
             Field.ofEnum(

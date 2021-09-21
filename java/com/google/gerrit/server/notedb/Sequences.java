@@ -112,8 +112,11 @@ public class Sequences {
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
             Field.ofEnum(SequenceType.class, "sequence", Metadata.Builder::noteDbSequenceType)
+                .description("The sequence from which IDs were retrieved.")
                 .build(),
-            Field.ofBoolean("multiple", Metadata.Builder::multiple).build());
+            Field.ofBoolean("multiple", Metadata.Builder::multiple)
+                .description("Whether more than one ID was retrieved.")
+                .build());
   }
 
   public int nextAccountId() {

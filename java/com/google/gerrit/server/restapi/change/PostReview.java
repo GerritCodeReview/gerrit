@@ -170,7 +170,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                           + "selected by users while posting a review.")
                   .setRate()
                   .setUnit("count"),
-              Field.ofString("type", Metadata.Builder::eventType).build());
+              Field.ofString("type", Metadata.Builder::eventType)
+                  .description(
+                      "The type of the draft handling option"
+                          + " (KEEP, PUBLISH, PUBLISH_ALL_REVISIONS).")
+                  .build());
     }
   }
 

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "027c5d04_bec0e998",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-21T10:08:34Z",
+      "side": 1,
+      "message": "First of all you probably want to set `border-spacing: 0` for the table. Feel free to add a common style file for such basic common css specs.\n\nThen consider just using `padding: var(--spacing-s)` for all cells. I don\u0027t see a reason why the gap between icon and name should not be 8px. And the height of each cell should always be 20px plus 8px padding. Why are you applying 24px line-height to the name?",
+      "parentUuid": "2dd2fbbe_f419514f",
+      "range": {
+        "startLine": 92,
+        "startChar": 25,
+        "endLine": 92,
+        "endChar": 68
+      },
+      "revId": "ba6bfdffc54e5aaefcf9ad5775d85d6aec2b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3beac33c_6cbc5727",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
         "patchSetId": 5

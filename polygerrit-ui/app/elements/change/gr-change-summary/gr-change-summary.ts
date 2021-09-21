@@ -30,7 +30,7 @@ import {
   someProvidersAreLoadingFirstTime$,
   topLevelActionsLatest$,
 } from '../../../services/checks/checks-model';
-import {Action, Category, RunStatus} from '../../../api/checks';
+import {Action, Category, Link, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
 import {
@@ -180,6 +180,9 @@ export class GrChecksChip extends LitElement {
   @property()
   text = '';
 
+  @property()
+  links: Link[] = [];
+
   static override get styles() {
     return [
       fontStyles,
@@ -187,6 +190,8 @@ export class GrChecksChip extends LitElement {
       css`
         :host {
           display: inline-block;
+          position: relative;
+          white-space: nowrap;
         }
         .checksChip {
           color: var(--chip-color);
@@ -202,8 +207,16 @@ export class GrChecksChip extends LitElement {
           position: relative;
           top: 2px;
         }
-        .checksChip:hover .text {
-          max-width: 240px;
+        .checksChip.hoverFullLength {
+          position: absolute;
+          z-index: 1;
+          display: none;
+        }
+        .checksChip.hoverFullLength .text {
+          max-width: 400px;
+        }
+        :host(:hover) .checksChip.hoverFullLength {
+          display: inline-block;
         }
         .checksChip .text {
           display: inline-block;
@@ -308,19 +321,50 @@ export class GrChecksChip extends LitElement {
       ariaLabel = `${this.text} ${label} ${type}${plural}`;
     }
     const chipClass = `checksChip font-small ${icon}`;
+    const chipClassFullLength = `${chipClass} hoverFullLength`;
     const grIcon = `gr-icons:${icon}`;
+    // 15 is roughly the number of chars for the chip exceeding its 120px width.
     return html`
-      <div
-        class="${chipClass}"
-        role="link"
-        tabindex="0"
-        aria-label="${ariaLabel}"
-      >
-        <iron-icon icon="${grIcon}"></iron-icon>
+      ${this.text.length > 15
+        ? html` ${this.renderChip(chipClassFullLength, ariaLabel, grIcon)}`
+        : ''}
+      ${this.renderChip(chipClass, ariaLabel, grIcon)}
+    `;
+  }
+
+  private renderChip(clazz: string, ariaLabel: string, icon: string) {
+    return html`
+      <div class="${clazz}" role="link" tabindex="0" aria-label="${ariaLabel}">
+        <iron-icon icon="${icon}"></iron-icon>
         <div class="text">${this.text}</div>
-        <slot></slot>
+        ${this.renderLinks()}
       </div>
     `;
+  }
+
+  private renderLinks() {
+    return this.links.map(
+      link => html`
+        <a
+          href="${link.url}"
+          target="_blank"
+          @click="${this.onLinkClick}"
+          @keydown="${this.onLinkKeyDown}"
+          aria-label="Link to check details"
+          ><iron-icon class="launch" icon="gr-icons:launch"></iron-icon
+        ></a>
+      `
+    );
+  }
+
+  private onLinkKeyDown(e: KeyboardEvent) {
+    // Prevents onChipKeyDown() from reacting to <a> link keyboard events.
+    e.stopPropagation();
+  }
+
+  private onLinkClick(e: MouseEvent) {
+    // Prevents onChipClick() from reacting to <a> link clicks.
+    e.stopPropagation();
   }
 }
 
@@ -660,37 +704,16 @@ export class GrChangeSummary extends LitElement {
     return html`<gr-checks-chip
       .statusOrCategory="${statusOrCategory}"
       .text="${text}"
+      .links="${links}"
       @click="${handler}"
       @keydown="${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}"
-      >${links.map(
-        link => html`
-          <a
-            href="${link.url}"
-            target="_blank"
-            @click="${this.onLinkClick}"
-            @keydown="${this.onLinkKeyDown}"
-            aria-label="Link to check details"
-            ><iron-icon class="launch" icon="gr-icons:launch"></iron-icon
-          ></a>
-        `
-      )}
-    </gr-checks-chip>`;
+    ></gr-checks-chip>`;
   }
 
   private onChipClick(state: ChecksTabState) {
     fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
       checksTab: state,
     });
-  }
-
-  private onLinkKeyDown(e: KeyboardEvent) {
-    // Prevents onConChipKeyDown() from reacting to <a> link keyboard events.
-    e.stopPropagation();
-  }
-
-  private onLinkClick(e: MouseEvent) {
-    // Prevents onChipClick() from reacting to <a> link clicks.
-    e.stopPropagation();
   }
 
   override render() {

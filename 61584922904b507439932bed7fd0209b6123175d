@@ -16,6 +16,24 @@
       "message": "Sorry, I made a mistake in the original CL here. The `!` should be out of the bracket.",
       "revId": "61584922904b507439932bed7fd0209b6123175d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "728235de_3ad9e10e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-22T08:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ef8b503_0e9f0473",
+      "revId": "61584922904b507439932bed7fd0209b6123175d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

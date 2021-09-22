@@ -16,6 +16,24 @@
       "message": "Lint doesn\u0027t pass",
       "revId": "83a69efbbd838a20e4c1e702d16a26933b5500f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46a0e56b_e2161f41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-22T08:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "387a9e42_f4b53f66",
+      "revId": "83a69efbbd838a20e4c1e702d16a26933b5500f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -737,6 +737,10 @@ Instead of a numeric vote, you can provide a label status corresponding
 to one of the fields in the
 link:rest-api-changes.html#submit-record[SubmitRecord] REST API entity.
 
+`label:Code-Review\<=-1`::
++
+Matches changes with either a -1, -2, or any lower score.
+
 `label:Code-Review=MAX`::
 +
 Matches changes with label voted with the highest possible score.
@@ -786,10 +790,6 @@ a non upoader.
 +
 Matches changes with a +1 code review where the reviewer is in the
 ldap/linux.workflow group.
-
-`label:Code-Review\<=-1`::
-+
-Matches changes with either a -1, -2, or any lower score.
 
 `is:open label:Code-Review+2 label:Verified+1 NOT label:Verified-1 NOT label:Code-Review-2`::
 `is:open label:Code-Review=ok label:Verified=ok`::

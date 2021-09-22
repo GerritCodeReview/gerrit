@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
@@ -34,17 +35,36 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
   protected final ProjectCache projectCache;
   protected final PermissionBackend permissionBackend;
   protected final IdentifiedUser.GenericFactory userFactory;
+  /** label name to be matched. */
   protected final String label;
+
+  /** Expected vote value for the label. */
   protected final int expVal;
+
+  /**
+   * Number of times the vote value should occur. Null means count >= 1. Both {@link #count} and
+   * {@link #countOp} are null or non-null together.
+   */
+  @Nullable protected final Integer count;
+
+  @Nullable PredicateArgs.Operator countOp;
+
+  /** Account ID that has voted on the label. */
   protected final Account.Id account;
+
   protected final AccountGroup.UUID group;
 
   public EqualsLabelPredicate(
       LabelPredicate.Args args, String label, int expVal, Account.Id account) {
-    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
+    super(
+        ChangeField.LABEL,
+        ChangeField.formatLabel(
+            label, expVal, account, args.count, args.countOp == null ? null : args.countOp.op));
     this.permissionBackend = args.permissionBackend;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
+    this.count = args.count;
+    this.countOp = args.countOp;
     this.group = args.group;
     this.label = label;
     this.expVal = expVal;
@@ -73,18 +93,37 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     }
 
     boolean hasVote = false;
+    int matchingVotes = 0;
     object.setStorageConstraint(ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;
         if (match(object, p.value(), p.accountId())) {
-          return true;
+          matchingVotes += 1;
         }
       }
     }
 
     if (!hasVote && expVal == 0) {
       return true;
+    }
+
+    if (count == null) {
+      // No count argument supplied in query. Match if a at least one approval matches.
+      return matchingVotes >= 1;
+    }
+
+    switch (countOp) {
+      case EQUAL:
+        return matchingVotes == count;
+      case GREATER_EQUAL:
+        return matchingVotes >= count;
+      case GREATER:
+        return matchingVotes > count;
+      case LESS:
+        return matchingVotes < count && matchingVotes >= 1;
+      case LESS_EQUAL:
+        return matchingVotes <= count && matchingVotes >= 1;
     }
 
     return false;

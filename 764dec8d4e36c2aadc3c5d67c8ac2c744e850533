@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed12130_12da74ef",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/CancellationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-22T11:10:36Z",
+      "side": 1,
+      "message": "Can we add a third test with a exclude pattern that matches the project name. In this case, the deadline should not be applied, AFAIU?\n\nUpdate: I see the test below.",
+      "revId": "764dec8d4e36c2aadc3c5d67c8ac2c744e850533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

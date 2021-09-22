@@ -106,6 +106,8 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../api/rest-api';
+import {RunResult} from '../services/checks/checks-model';
+import {Category, RunStatus} from '../api/checks';
 
 export function dateToTimestamp(date: Date): Timestamp {
   const nanosecondSuffix = '.000000000';
@@ -686,5 +688,21 @@ export function createSubmitRequirementResultInfo(): SubmitRequirementResultInfo
     name: 'Verified',
     status: SubmitRequirementStatus.SATISFIED,
     submittability_expression_result: createSubmitRequirementExpressionInfo(),
+  };
+}
+
+export function createRunResult(): RunResult {
+  return {
+    attemptDetails: [],
+    category: Category.INFO,
+    checkName: 'test-name',
+    internalResultId: 'test-internal-result-id',
+    internalRunId: 'test-internal-run-id',
+    isLatestAttempt: true,
+    isSingleAttempt: true,
+    pluginName: 'test-plugin-name',
+    status: RunStatus.COMPLETED,
+    summary: 'This is the test summary.',
+    message: 'This is the test message.',
   };
 }

@@ -28,7 +28,6 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.account.externalids.testing.ExternalIdTestUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -57,14 +56,20 @@ public class ExternalIDCacheLoaderTest {
   private GitRepositoryManager repoManager = new InMemoryRepositoryManager();
   private ExternalIdReader externalIdReader;
   private ExternalIdReader externalIdReaderSpy;
-  private AuthConfig authConfig;
+
   private ExternalIdFactory externalIdFactory;
 
   @Before
   public void setUp() throws Exception {
-    authConfig = Mockito.mock(AuthConfig.class);
-    Mockito.when(authConfig.isUserNameCaseInsensitive()).thenReturn(false);
-    externalIdFactory = new ExternalIdFactory(new ExternalIdKeyFactory(authConfig));
+    externalIdFactory =
+        new ExternalIdFactory(
+            new ExternalIdKeyFactory(
+                new ExternalIdKeyFactory.Config() {
+                  @Override
+                  public boolean isUserNameCaseInsensitive() {
+                    return false;
+                  }
+                }));
     externalIdCache = CacheBuilder.newBuilder().build();
     repoManager.createRepository(ALL_USERS).close();
     externalIdReader =

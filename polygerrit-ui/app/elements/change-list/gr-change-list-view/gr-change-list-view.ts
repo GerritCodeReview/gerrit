@@ -39,6 +39,7 @@ import {ChangeListViewState} from '../../../types/types';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
+import {RELOAD_DASHBOARD_INTERVAL_MS} from '../gr-dashboard-view/gr-dashboard-view';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -112,22 +113,37 @@ export class GrChangeListView extends PolymerElement {
 
   private reporting = appContext.reportingService;
 
+  private lastVisibleTimestampMs = 0;
+
   constructor() {
     super();
     this.addEventListener('next-page', () => this._handleNextPage());
     this.addEventListener('previous-page', () => this._handlePreviousPage());
-    this.addEventListener('reload', () => {
-      this._loading = true;
-      this._getChanges().then(changes => {
-        this._changes = changes || [];
-        this._loading = false;
-      });
+    this.addEventListener('reload', () => this.reload());
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        if (
+          Date.now() - this.lastVisibleTimestampMs >
+          RELOAD_DASHBOARD_INTERVAL_MS
+        )
+          this.reload();
+      } else {
+        this.lastVisibleTimestampMs = Date.now();
+      }
     });
   }
 
   override connectedCallback() {
     super.connectedCallback();
     this._loadPreferences();
+  }
+
+  reload() {
+    this._loading = true;
+    this._getChanges().then(changes => {
+      this._changes = changes || [];
+      this._loading = false;
+    });
   }
 
   _paramsChanged(value: AppElementParams) {

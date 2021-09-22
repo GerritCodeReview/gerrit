@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f84fcbd7_bd707e74",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-22T08:20:50Z",
+      "side": 0,
+      "message": "Nice. Thanks for removing!",
+      "revId": "c734c59db9aabcf83b9835d2a19924b4c14673a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

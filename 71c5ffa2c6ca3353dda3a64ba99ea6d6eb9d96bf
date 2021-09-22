@@ -706,6 +706,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf7070c4_a7fd9d1f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-22T10:25:03Z",
+      "side": 1,
+      "message": "Copied-Label: \u003cLABEL\u003e\u003dVOTE \u003cGerrit Account\u003e ,\u003cGerrit Real Account\u003e ::\"\u003cTAG\u003e\"\n\nSorry, I am still confused, why :: is needed before \"TAG\"? Why not use same delimiter (either \u0027,\u0027 or \u0027:\u0027)  between all section?\nYou woild be searching for first occurrence of \u0027:\"\u0027 for Tag presence anyway?",
+      "parentUuid": "bc58ac80_32870fa3",
+      "range": {
+        "startLine": 816,
+        "startChar": 14,
+        "endLine": 816,
+        "endChar": 36
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22fa0db6_162c1215",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 1

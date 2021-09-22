@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0de47e4d_cd59dcd8",
+        "filename": "java/com/google/gerrit/server/DeadlineChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-22T12:57:46Z",
+      "side": 1,
+      "message": "not a Java expert, but weren\u0027t we supposed to be using JSR-310 for time/duration these days? Just using \u0027long\u0027 is prone to misinterpretation.",
+      "revId": "d283e70e44774c4f5cce07be8225ac567d01b484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

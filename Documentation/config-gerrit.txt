@@ -5340,12 +5340,26 @@ By default, unset (all request types are matched).
 [[tracing.traceid.requestUriPattern]]tracing.<trace-id>.requestUriPattern::
 +
 Regular expression to match request URIs for which request tracing
-should be always enabled. Request URIs are only available for REST
-requests. Request URIs never include the '/a' prefix.
+should be enabled except if they match
+link:tracing.traceid.excludedRequestUriPattern[excludedRequestUriPattern].
+Request URIs are only available for REST requests. Request URIs never include
+the '/a' prefix.
 +
 May be specified multiple times.
 +
 By default, unset (all request URIs are matched).
+
+[[tracing.traceid.excludedRequestUriPattern]]tracing.<trace-id>.excludedRequestUriPattern::
++
+Regular expression to match request URIs for which request tracing
+should not be enabled even if they match
+link:#tracing.traceid.requestUriPattern[requestUriPattern].
+Request URIs are only available for REST requests. Request URIs never include
+the '/a' prefix.
++
+May be specified multiple times.
++
+By default, unset (no request URIs are excluded).
 
 [[tracing.traceid.account]]tracing.<trace-id>.account::
 +
@@ -5413,13 +5427,26 @@ By default, unset (all request types are matched).
 
 [[deadline.id.requestUriPattern]]deadline.<id>.requestUriPattern::
 +
-Regular expression to match request URIs to which the deadline applies. Request
+Regular expression to match request URIs to which the deadline applies except if
+they match
+link:#deadline.id.excludedRequestUriPattern[excludedRequestUriPattern]. Request
 URIs are only available for REST requests. Request URIs never include the '/a'
 prefix.
 +
 May be specified multiple times.
 +
 By default, unset (all request URIs are matched).
+
+[[deadline.id.excludedRequestUriPattern]]deadline.<id>.excludedRequestUriPattern::
++
+Regular expression to match request URIs to which the deadline should not be
+applied even if they match
+link:#deadline.id.requestUriPattern[requestUriPattern]. Request URIs are only
+available for REST requests. Request URIs never include the '/a' prefix.
++
+May be specified multiple times.
++
+By default, unset (no request URIs are excluded).
 
 [[deadline.id.account]]deadline.<id>.account::
 +

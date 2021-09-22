@@ -41,6 +41,7 @@ public abstract class RequestConfig {
         RequestConfig.Builder requestConfig = RequestConfig.builder(cfg, section, id);
         requestConfig.requestTypes(parseRequestTypes(cfg, section, id));
         requestConfig.requestUriPatterns(parseRequestUriPatterns(cfg, section, id));
+        requestConfig.excludedRequestUriPatterns(parseExcludedRequestUriPatterns(cfg, section, id));
         requestConfig.accountIds(parseAccounts(cfg, section, id));
         requestConfig.projectPatterns(parseProjectPatterns(cfg, section, id));
         requestConfigs.add(requestConfig.build());
@@ -59,6 +60,11 @@ public abstract class RequestConfig {
   private static ImmutableSet<Pattern> parseRequestUriPatterns(
       Config cfg, String section, String id) throws ConfigInvalidException {
     return parsePatterns(cfg, section, id, "requestUriPattern");
+  }
+
+  private static ImmutableSet<Pattern> parseExcludedRequestUriPatterns(
+      Config cfg, String section, String id) throws ConfigInvalidException {
+    return parsePatterns(cfg, section, id, "excludedRequestUriPattern");
   }
 
   private static ImmutableSet<Account.Id> parseAccounts(Config cfg, String section, String id)
@@ -115,6 +121,9 @@ public abstract class RequestConfig {
   /** pattern matching request URIs */
   abstract ImmutableSet<Pattern> requestUriPatterns();
 
+  /** pattern matching request URIs to be excluded */
+  abstract ImmutableSet<Pattern> excludedRequestUriPatterns();
+
   /** accounts IDs matching calling user */
   abstract ImmutableSet<Account.Id> accountIds();
 
@@ -152,6 +161,13 @@ public abstract class RequestConfig {
           .noneMatch(p -> p.matcher(requestInfo.requestUri().get()).matches())) {
         return false;
       }
+    }
+
+    // If the request URI matches an excluded request URI pattern, then the request is not matched.
+    if (requestInfo.requestUri().isPresent()
+        && excludedRequestUriPatterns().stream()
+            .anyMatch(p -> p.matcher(requestInfo.requestUri().get()).matches())) {
+      return false;
     }
 
     // If in the request config accounts are set and none of them matches, then the request is not
@@ -199,6 +215,8 @@ public abstract class RequestConfig {
     abstract Builder requestTypes(ImmutableSet<String> requestTypes);
 
     abstract Builder requestUriPatterns(ImmutableSet<Pattern> requestUriPatterns);
+
+    abstract Builder excludedRequestUriPatterns(ImmutableSet<Pattern> excludedRequestUriPatterns);
 
     abstract Builder accountIds(ImmutableSet<Account.Id> accountIds);
 

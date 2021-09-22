@@ -16,9 +16,8 @@
  */
 import '../gr-label-score-row/gr-label-score-row';
 import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-label-scores_html';
-import {customElement, property} from '@polymer/decorators';
+import {LitElement, css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
   LabelNameToValueMap,
@@ -33,21 +32,14 @@ import {
   Label,
   LabelValuesMap,
 } from '../gr-label-score-row/gr-label-score-row';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {appContext} from '../../../services/app-context';
 import {labelCompare} from '../../../utils/label-util';
 import {Execution} from '../../../constants/reporting';
+import {ChangeStatus} from '../../../constants/constants';
 
 @customElement('gr-label-scores')
-export class GrLabelScores extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: Array, computed: '_computeLabels(change.labels.*, account)'})
-  _labels: Label[] = [];
-
-  @property({type: Object, observer: '_computeColumns'})
+export class GrLabelScores extends LitElement {
+  @property({type: Object})
   permittedLabels?: LabelNameToValueMap;
 
   @property({type: Object})
@@ -56,10 +48,62 @@ export class GrLabelScores extends PolymerElement {
   @property({type: Object})
   account?: AccountInfo;
 
-  @property({type: Object})
-  _labelValues?: LabelValuesMap;
-
   private readonly reporting = appContext.reportingService;
+
+  static override get styles() {
+    return [
+      css`
+        .scoresTable {
+          display: table;
+          width: 100%;
+        }
+        .mergedMessage,
+        .abandonedMessage {
+          font-style: italic;
+          text-align: center;
+          width: 100%;
+        }
+        gr-label-score-row:hover {
+          background-color: var(--hover-background-color);
+        }
+        gr-label-score-row {
+          display: table-row;
+        }
+        gr-label-score-row.no-access {
+          display: none;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    const labels = this._computeLabels();
+    const labelValues = this._computeColumns();
+    return html`<div class="scoresTable">
+        ${labels.map(
+          label => html`<gr-label-score-row
+            class="${this.computeLabelAccessClass(label.name)}"
+            .label="${label}"
+            .name="${label.name}"
+            .labels="${this.change?.labels}"
+            .permittedLabels="${this.permittedLabels}"
+            .labelValues="${labelValues}"
+          ></gr-label-score-row>`
+        )}
+      </div>
+      <div
+        class="mergedMessage"
+        ?hidden=${this.change?.status !== ChangeStatus.MERGED}
+      >
+        Because this change has been merged, votes may not be decreased.
+      </div>
+      <div
+        class="abandonedMessage"
+        ?hidden=${this.change?.status !== ChangeStatus.ABANDONED}
+      >
+        Because this change has been abandoned, you cannot vote.
+      </div>`;
+  }
 
   getLabelValues(includeDefaults = true): LabelNameToValuesMap {
     const labels: LabelNameToValuesMap = {};
@@ -79,7 +123,7 @@ export class GrLabelScores extends PolymerElement {
 
       if (selectedVal === undefined) continue;
 
-      const defValNum = this._getDefaultValue(this.change.labels, label);
+      const defValNum = this.getDefaultValue(label);
       if (includeDefaults || selectedVal !== defValNum) {
         labels[label] = selectedVal;
       }
@@ -87,7 +131,7 @@ export class GrLabelScores extends PolymerElement {
     return labels;
   }
 
-  _getStringLabelValue(
+  private getStringLabelValue(
     labels: LabelNameToInfoMap,
     labelName: string,
     numberValue?: number
@@ -108,25 +152,26 @@ export class GrLabelScores extends PolymerElement {
     return stringVal;
   }
 
-  _getDefaultValue(labels?: LabelNameToInfoMap, labelName?: string) {
+  private getDefaultValue(labelName?: string) {
+    const labels = this.change?.labels;
     if (!labelName || !labels?.[labelName]) return undefined;
     const labelInfo = labels[labelName] as DetailedLabelInfo;
     return labelInfo.default_value;
   }
 
-  _getVoteForAccount(
-    labels: LabelNameToInfoMap | undefined,
-    labelName: string,
-    account?: AccountInfo
-  ): string | null {
+  _getVoteForAccount(labelName: string): string | null {
+    const labels = this.change?.labels;
     if (!labels) return null;
     const votes = labels[labelName] as DetailedLabelInfo;
     if (votes.all && votes.all.length > 0) {
       for (let i = 0; i < votes.all.length; i++) {
-        // TODO(TS): Replace == with === and check code can assign string to _account_id instead of number
-        // eslint-disable-next-line eqeqeq
-        if (account && votes.all[i]._account_id == account._account_id) {
-          return this._getStringLabelValue(
+        if (
+          this.account &&
+          // TODO(TS): Replace == with === and check code can assign string to _account_id instead of number
+          // eslint-disable-next-line eqeqeq
+          votes.all[i]._account_id == this.account._account_id
+        ) {
+          return this.getStringLabelValue(
             labels,
             labelName,
             votes.all[i].value
@@ -137,32 +182,26 @@ export class GrLabelScores extends PolymerElement {
     return null;
   }
 
-  _computeLabels(
-    labelRecord: PolymerDeepPropertyChange<
-      LabelNameToInfoMap,
-      LabelNameToInfoMap
-    >,
-    account?: AccountInfo
-  ): Label[] {
-    if (!account) return [];
-    if (!labelRecord?.base) return [];
-    const labelsObj = labelRecord.base;
+  _computeLabels(): Label[] {
+    if (!this.account) return [];
+    const labelsObj = this.change?.labels;
+    if (!labelsObj) return [];
     return Object.keys(labelsObj)
       .sort(labelCompare)
       .map(key => {
         return {
           name: key,
-          value: this._getVoteForAccount(labelsObj, key, this.account),
+          value: this._getVoteForAccount(key),
         };
       });
   }
 
-  _computeColumns(permittedLabels?: LabelNameToValueMap) {
-    if (!permittedLabels) return;
-    const labels = Object.keys(permittedLabels);
+  _computeColumns() {
+    if (!this.permittedLabels) return;
+    const labels = Object.keys(this.permittedLabels);
     const values: Set<number> = new Set();
     for (const label of labels) {
-      for (const value of permittedLabels[label]) {
+      for (const value of this.permittedLabels[label]) {
         values.add(Number(value));
       }
     }
@@ -173,23 +212,14 @@ export class GrLabelScores extends PolymerElement {
     for (let i = 0; i < orderedValues.length; i++) {
       labelValues[orderedValues[i]] = i;
     }
-    this._labelValues = labelValues;
+    return labelValues;
   }
 
-  _changeIsMerged(changeStatus: string) {
-    return changeStatus === 'MERGED';
-  }
+  private computeLabelAccessClass(label?: string) {
+    if (!this.permittedLabels || !label) return '';
 
-  _computeLabelAccessClass(
-    label?: string,
-    permittedLabels?: LabelNameToValueMap
-  ) {
-    if (!permittedLabels || !label) {
-      return '';
-    }
-
-    return hasOwnProperty(permittedLabels, label) &&
-      permittedLabels[label].length
+    return hasOwnProperty(this.permittedLabels, label) &&
+      this.permittedLabels[label].length
       ? 'access'
       : 'no-access';
   }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b67231e4_70b4b5a6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-22T11:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c62e70a_e6ec6d32",
+      "revId": "29c08ab663e2692f1c67a1c85399a0e0fb389532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f369a2ba_6800bed2",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-09-22T08:54:04Z",
       "side": 1,
       "message": "Move this to api/diff.ts and use that type in embed.ts.",
+      "revId": "29c08ab663e2692f1c67a1c85399a0e0fb389532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b38e779a_7466d9a5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-22T11:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f369a2ba_6800bed2",
       "revId": "29c08ab663e2692f1c67a1c85399a0e0fb389532",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

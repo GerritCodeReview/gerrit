@@ -1186,6 +1186,92 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,non_uploader", reviewPlus1Change);
   }
 
+  @Test
+  public void byLabelMultipleVotes() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    ChangeInserter ins = newChange(repo);
+    Account.Id user1 = createAccount("user1");
+
+    // create a change with "user" (uploader) and add a +1 vote.
+    Change reviewPlus1Change = insert(repo, ins);
+    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    assertQuery("label:Code-Review=+1,count=2");
+
+    // add a +1 vote with "user1". Query will match since there are two +1 votes now.
+    requestContext.setContext(newRequestContext(user1));
+    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    assertQuery("label:Code-Review=+1,count=2", reviewPlus1Change);
+  }
+
+  @Test
+  public void byLabelMultipleVotes_notAllowedWithUserArg() throws Exception {
+    // Disallow using the "user=" argument in conjunction with the "count=" argument. This is to
+    // reduce unnecessary complexity.
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+1,user=non_uploader,count=2"));
+    assertThat(exception).hasCauseThat().isInstanceOf(QueryParseException.class);
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("Cannot use the 'count' argument in conjunction with the 'user' argument");
+  }
+
+  @Test
+  public void byLabelMultipleVotes_notAllowedWithGroupArg() throws Exception {
+    // Disallow using the "group=" argument in conjunction with the "count=" argument. This is to
+    // reduce unnecessary complexity.
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+1,group=gerrit,count=2"));
+    assertThat(exception).hasCauseThat().isInstanceOf(QueryParseException.class);
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("Cannot use the 'count' argument in conjunction with the 'group' argument");
+  }
+
+  @Test
+  public void byLabelMultipleVotes_withInvalidCountValue() throws Exception {
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class, () -> assertQuery("label:Code-Review=+1,count=user"));
+    assertThat(exception).hasCauseThat().isInstanceOf(QueryParseException.class);
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("Invalid count argument. Value should be an integer");
+  }
+
+  @Test
+  public void byLabelMultipleVotes_withIgnoreSelfApprovalEquivalentQuery() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    ChangeInserter ins = newChange(repo);
+    Account.Id user1 = createAccount("user1");
+    Account.Id user2 = createAccount("user2");
+
+    // create a change with "user" (uploader) and add a +1 vote.
+    Change reviewPlus1Change = insert(repo, ins);
+    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    assertQuery("label:Code-Review=+1,count=2");
+
+    // add a +1 vote with another user (user1).
+    requestContext.setContext(newRequestContext(user1));
+    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    assertQuery("label:Code-Review=+1,count=2", reviewPlus1Change);
+
+    // requiring two +1 votes where is coming from uploader is still not fulfilled.
+    assertQuery(
+        "(label:Code-Review=+1,count=3 label:Code-Review=+1,owner)"
+            + " OR (label:Code-Review=+1,count=2 -label:Code-Review=+1,owner)");
+    // Add a third vote from a non-uploader. Now query is matching.
+    requestContext.setContext(newRequestContext(user2));
+    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    assertQuery(
+        "(label:Code-Review=+1,count=3 label:Code-Review=+1,owner)"
+            + " OR (label:Code-Review=+1,count=2 -label:Code-Review=+1,owner)",
+        reviewPlus1Change);
+  }
+
   private Change[] codeReviewInRange(Map<Integer, Change> changes, int start, int end) {
     int size = 0;
     Change[] range = new Change[end - start + 1];

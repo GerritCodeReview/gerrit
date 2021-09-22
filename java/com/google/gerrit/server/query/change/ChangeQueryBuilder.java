@@ -208,6 +208,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String ARG_ID_GROUP = "group";
   public static final String ARG_ID_OWNER = "owner";
   public static final String ARG_ID_NON_UPLOADER = "non_uploader";
+  public static final String ARG_COUNT = "count";
   public static final Account.Id OWNER_ACCOUNT_ID = Account.id(0);
   public static final Account.Id NON_UPLOADER_ACCOUNT_ID = Account.id(-1);
 
@@ -973,6 +974,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       throws QueryParseException, IOException, ConfigInvalidException {
     Set<Account.Id> accounts = null;
     AccountGroup.UUID group = null;
+    Integer count = null;
 
     // Parse for:
     // label:Code-Review=1,user=jsmith or
@@ -983,12 +985,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     // Special case: votes by owners can be tracked with ",owner":
     // label:Code-Review+2,owner
     // label:Code-Review+2,user=owner
+    // label:Code-Review+1,count=2
     List<String> splitReviewer = Lists.newArrayList(Splitter.on(',').limit(2).split(name));
     name = splitReviewer.get(0); // remove all but the vote piece, e.g.'CodeReview=1'
 
     if (splitReviewer.size() == 2) {
       // process the user/group piece
       PredicateArgs lblArgs = new PredicateArgs(splitReviewer.get(1));
+
+      // Disallow using the "count=" arg in conjunction with the "user=" or "group=" args. to avoid
+      // unnecessary complexity.
+      assertDisjunctive(lblArgs, ARG_COUNT, ARG_ID_USER);
+      assertDisjunctive(lblArgs, ARG_COUNT, ARG_ID_GROUP);
 
       for (Map.Entry<String, String> pair : lblArgs.keyValue.entrySet()) {
         if (pair.getKey().equalsIgnoreCase(ARG_ID_USER)) {
@@ -1001,6 +1009,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           }
         } else if (pair.getKey().equalsIgnoreCase(ARG_ID_GROUP)) {
           group = parseGroup(pair.getValue()).getUUID();
+        } else if (pair.getKey().equalsIgnoreCase(ARG_COUNT)) {
+          try {
+            count = Integer.parseInt(pair.getValue());
+          } catch (NumberFormatException e) {
+            throw new QueryParseException("Invalid count argument. Value should be an integer", e);
+          }
         } else {
           throw new QueryParseException("Invalid argument identifier '" + pair.getKey() + "'");
         }
@@ -1049,7 +1063,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       }
     }
 
-    return new LabelPredicate(args, name, accounts, group);
+    return new LabelPredicate(args, name, accounts, group, count);
+  }
+
+  /** Assert that keys {@code k1} and {@code k2} do not exist in {@code labelArgs} together. */
+  private void assertDisjunctive(PredicateArgs labelArgs, String k1, String k2)
+      throws QueryParseException {
+    Map<String, String> keyValArgs = labelArgs.keyValue;
+    if (keyValArgs.containsKey(k1) && keyValArgs.containsKey(k2)) {
+      throw new QueryParseException(
+          String.format(
+              "Cannot use the '%s' argument in conjunction with the '%s' argument", k1, k2));
+    }
   }
 
   private static boolean isInt(String s) {

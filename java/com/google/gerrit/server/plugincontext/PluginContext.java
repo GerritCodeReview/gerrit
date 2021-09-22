@@ -121,11 +121,17 @@ public class PluginContext<T> {
     @Inject
     PluginMetrics(MetricMaker metricMaker) {
       Field<String> pluginNameField =
-          Field.ofString("plugin_name", Metadata.Builder::pluginName).build();
+          Field.ofString("plugin_name", Metadata.Builder::pluginName)
+              .description("The name of the plugin.")
+              .build();
       Field<String> classNameField =
-          Field.ofString("class_name", Metadata.Builder::className).build();
+          Field.ofString("class_name", Metadata.Builder::className)
+              .description("The class of the plugin that was invoked.")
+              .build();
       Field<String> exportValueField =
-          Field.ofString("export_value", Metadata.Builder::exportValue).build();
+          Field.ofString("export_value", Metadata.Builder::exportValue)
+              .description("The export name under which the invoked class is registered.")
+              .build();
 
       this.latency =
           metricMaker.newTimer(

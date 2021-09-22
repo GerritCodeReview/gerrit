@@ -184,7 +184,9 @@ public class JGitMetricModule extends MetricModule {
                         + "having most data in the cache.")
                 .setGauge()
                 .setUnit("byte"),
-            Field.ofString("repository_name", Metadata.Builder::projectName).build());
+            Field.ofString("repository_name", Metadata.Builder::projectName)
+                .description("The name of the repository.")
+                .build());
     metrics.newTrigger(
         repoEnt,
         () -> {

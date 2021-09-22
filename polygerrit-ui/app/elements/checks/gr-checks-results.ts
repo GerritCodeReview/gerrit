@@ -54,7 +54,7 @@ import {assertIsDefined, check} from '../../utils/common-util';
 import {modifierPressed, toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
-import {isAttemptSelected} from './gr-checks-util';
+import {isAttemptSelected, matches} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {
   ConfigInfo,
@@ -1185,11 +1185,8 @@ export class GrChecksResults extends LitElement {
     );
     const isSelection = this.selectedRuns.length > 0;
     const selected = all.filter(result => this.isRunSelected(result));
-    const filtered = selected.filter(
-      result =>
-        this.filterRegExp.test(result.checkName) ||
-        this.filterRegExp.test(result.summary) ||
-        this.filterRegExp.test(result.message ?? '')
+    const filtered = selected.filter(result =>
+      matches(result, this.filterRegExp)
     );
     let expanded = this.isSectionExpanded.get(category);
     const expandedByUser = this.isSectionExpandedByUser.get(category) ?? false;

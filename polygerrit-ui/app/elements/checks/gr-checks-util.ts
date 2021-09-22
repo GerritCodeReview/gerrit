@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {CheckRun} from '../../services/checks/checks-model';
+import {CheckRun, RunResult} from '../../services/checks/checks-model';
 
 export interface AttemptSelectedEventDetail {
   checkName: string;
@@ -83,5 +83,14 @@ export function isAttemptSelected(
   const selected = selectedAttempts.get(run.checkName);
   return (
     (selected === undefined && run.isLatestAttempt) || selected === run.attempt
+  );
+}
+
+export function matches(result: RunResult, regExp: RegExp) {
+  return (
+    regExp.test(result.checkName) ||
+    regExp.test(result.summary) ||
+    (result.tags ?? []).some(tag => regExp.test(tag.name)) ||
+    regExp.test(result.message ?? '')
   );
 }

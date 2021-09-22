@@ -16,6 +16,24 @@
       "message": "not a Java expert, but weren\u0027t we supposed to be using JSR-310 for time/duration these days? Just using \u0027long\u0027 is prone to misinterpretation.",
       "revId": "d283e70e44774c4f5cce07be8225ac567d01b484",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "577007ac_7f4ef8f3",
+        "filename": "java/com/google/gerrit/server/DeadlineChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T13:15:36Z",
+      "side": 1,
+      "message": "Yes, you are right. I actually have changing this already on my TODO list.",
+      "parentUuid": "0de47e4d_cd59dcd8",
+      "revId": "d283e70e44774c4f5cce07be8225ac567d01b484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

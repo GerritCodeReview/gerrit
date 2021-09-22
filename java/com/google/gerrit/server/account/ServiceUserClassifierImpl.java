@@ -76,7 +76,7 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
               .get(toTraverse.remove(0))
               .orElseThrow(() -> new IllegalStateException("invalid subgroup"));
       if (seen.contains(currentGroup.getGroupUUID())) {
-        logger.atWarning().log(
+        logger.atFine().log(
             "Skipping %s because it's a cyclic subgroup", currentGroup.getGroupUUID());
         continue;
       }

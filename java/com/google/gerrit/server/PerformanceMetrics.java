@@ -32,9 +32,12 @@ import java.util.concurrent.TimeUnit;
 public class PerformanceMetrics implements PerformanceLogger {
   private static final String OPERATION_LATENCY_METRIC_NAME = "performance/operations";
   private static final String OPERATION_COUNT_METRIC_NAME = "performance/operations_count";
+  private static final String PLUGIN_OPERATION_COUNT_METRIC_NAME =
+      "performance/plugin_operations_count";
 
   public final Timer3<String, String, String> operationsLatency;
   public final Counter3<String, String, String> operationsCounter;
+  public final Counter3<String, String, String> pluginOperationsCounter;
 
   @Inject
   PerformanceMetrics(MetricMaker metricMaker) {
@@ -60,6 +63,11 @@ public class PerformanceMetrics implements PerformanceLogger {
                 "The request for which the operation was performed"
                     + " (format = '<request-type> <redacted-request-uri>').")
             .build();
+    Field<String> pluginField =
+        Field.ofString(
+                "plugin", (metadataBuilder, fieldValue) -> metadataBuilder.pluginName(fieldValue))
+            .description("The name of the plugin that performed the operation.")
+            .build();
 
     this.operationsLatency =
         metricMaker.newTimer(
@@ -77,6 +85,13 @@ public class PerformanceMetrics implements PerformanceLogger {
             operationNameField,
             traceIdField,
             requestField);
+    this.pluginOperationsCounter =
+        metricMaker.newCounter(
+            PLUGIN_OPERATION_COUNT_METRIC_NAME,
+            new Description("Number of performed operations by plugin").setRate(),
+            operationNameField,
+            pluginField,
+            traceIdField);
   }
 
   @Override
@@ -102,6 +117,9 @@ public class PerformanceMetrics implements PerformanceLogger {
 
     String requestTag = TraceContext.getTag(TraceRequestListener.TAG_REQUEST).orElse("");
     operationsCounter.increment(operation, traceId, requestTag);
+
+    TraceContext.getPluginTag()
+        .ifPresent(pluginName -> pluginOperationsCounter.increment(operation, pluginName, traceId));
   }
 
   private String formatChangeIdentifier(@Nullable Metadata metadata) {

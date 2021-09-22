@@ -17,11 +17,12 @@
       "updated": "2021-09-22T08:20:43Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/40%252F318240%252F8/1/console",
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/1130/console",
       "started": "2021-09-22T08:00:41Z",
+      "finished": "2021-09-22T08:27:25Z",
       "created": "2021-09-22T07:57:37Z",
-      "updated": "2021-09-22T07:57:37Z"
+      "updated": "2021-09-22T08:24:21Z"
     }
   }
 }

@@ -116,6 +116,13 @@ export class GrChangeListView extends PolymerElement {
     super();
     this.addEventListener('next-page', () => this._handleNextPage());
     this.addEventListener('previous-page', () => this._handlePreviousPage());
+    this.addEventListener('reload', () => {
+      this._loading = true;
+      this._getChanges().then(changes => {
+        this._changes = changes || [];
+        this._loading = false;
+      });
+    });
   }
 
   override connectedCallback() {

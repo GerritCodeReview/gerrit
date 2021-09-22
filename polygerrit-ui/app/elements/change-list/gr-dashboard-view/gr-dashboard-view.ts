@@ -56,7 +56,7 @@ import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
-const RELOAD_DASHBOARD_INTERVAL_MS = 10 * 1000;
+export const RELOAD_DASHBOARD_INTERVAL_MS = 10 * 1000;
 
 export interface GrDashboardView {
   $: {

@@ -495,15 +495,18 @@ suite('gr-thread-list tests', () => {
   test('tapping single author chips', () => {
     element.account = createAccountDetailWithId(1);
     flush();
-    const chips = queryAll(element, 'gr-account-label');
-    const authors = Array.from(chips).map(
+    const chips = Array.from(queryAll(element, 'gr-account-label'));
+    const authors = chips.map(
         chip => accountOrGroupKey(chip.account))
         .sort();
     assert.deepEqual(authors, [1, 1000000, 1000001, 1000002, 1000003]);
     assert.equal(element.threads.length, 9);
     assert.equal(element._displayedThreads.length, 9);
 
-    tap(chips[0]); // accountId 1000001
+    // accountId 1000001
+    const chip = chips.find(chip => chip.account._account_id === 1000001);
+
+    tap(chip);
     flush();
 
     assert.equal(element.threads.length, 9);
@@ -511,7 +514,7 @@ suite('gr-thread-list tests', () => {
     assert.equal(element._displayedThreads[0].comments[0].author._account_id,
         1000001);
 
-    tap(chips[0]); // tapping again resets
+    tap(chip); // tapping again resets
     flush();
     assert.equal(element.threads.length, 9);
     assert.equal(element._displayedThreads.length, 9);
@@ -520,10 +523,10 @@ suite('gr-thread-list tests', () => {
   test('tapping multiple author chips', () => {
     element.account = createAccountDetailWithId(1);
     flush();
-    const chips = queryAll(element, 'gr-account-label');
+    const chips = Array.from(queryAll(element, 'gr-account-label'));
 
-    tap(chips[0]); // accountId 1000001
-    tap(chips[2]); // accountId 1000002
+    tap(chips.find(chip => chip.account._account_id === 1000001));
+    tap(chips.find(chip => chip.account._account_id === 1000002));
     flush();
 
     assert.equal(element.threads.length, 9);

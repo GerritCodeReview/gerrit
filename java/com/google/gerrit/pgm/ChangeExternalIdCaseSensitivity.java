@@ -27,6 +27,7 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -157,8 +158,15 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
   private void recomputeExternalIdNoteId(ExternalIdNotes extIdNotes, ExternalId extId)
       throws DuplicateKeyException, IOException {
     if (extId.isScheme(SCHEME_GERRIT) || extId.isScheme(SCHEME_USERNAME)) {
-      ExternalId.Key updatedKey =
-          ExternalId.Key.create(extId.key().scheme(), extId.key().id(), !isUserNameCaseInsensitive);
+      ExternalIdKeyFactory keyFactory =
+          new ExternalIdKeyFactory(
+              new ExternalIdKeyFactory.Config() {
+                @Override
+                public boolean isUserNameCaseInsensitive() {
+                  return !isUserNameCaseInsensitive;
+                }
+              });
+      ExternalId.Key updatedKey = keyFactory.create(extId.key().scheme(), extId.key().id());
       if (!extId.key().sha1().getName().equals(updatedKey.sha1().getName())) {
         logger.atInfo().log("Converting note name of external ID: %s", extId.key());
         ExternalId updatedExtId =

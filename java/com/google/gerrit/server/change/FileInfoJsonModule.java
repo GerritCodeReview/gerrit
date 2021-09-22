@@ -20,7 +20,6 @@ public class FileInfoJsonModule extends AbstractModule {
 
   @Override
   public void configure() {
-    // Binding to the experimental implementation to enable gradual rollout of the new diff cache.
-    bind(FileInfoJson.class).to(FileInfoJsonExperimentImpl.class);
+    bind(FileInfoJson.class).to(FileInfoJsonImpl.class);
   }
 }

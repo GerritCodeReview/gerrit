@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cc2df2d_62e8b615",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-22T09:56:04Z",
+      "side": 1,
+      "message": "Done. \n\n  * I removed the \"user\u003dnon_uploader\" from the min predicate.\n  * Updated the commit message.\n  * Added an IT in ChangeIT to assert the behaviour when expression is equivalent to the max with block case.",
+      "parentUuid": "f2465670_8c7391c3",
+      "range": {
+        "startLine": 133,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 94
+      },
+      "revId": "6efb0f3707f3b49d1457ab9a55deed10ad28cb7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "faf64dfe_f13844a2",
@@ -109,6 +133,24 @@
       "writtenOn": "2021-09-21T12:21:26Z",
       "side": 1,
       "message": "nit: too long line, here and in l. 177 below, can you please wrap at 100 chars?",
+      "revId": "6efb0f3707f3b49d1457ab9a55deed10ad28cb7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ef9f9fc_6ce4f41f",
+        "filename": "javatests/com/google/gerrit/server/project/SubmitRequirementsAdapterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-22T09:56:04Z",
+      "side": 1,
+      "message": "Done. No longer long.",
+      "parentUuid": "faf64dfe_f13844a2",
       "revId": "6efb0f3707f3b49d1457ab9a55deed10ad28cb7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

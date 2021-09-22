@@ -16,9 +16,8 @@
  */
 import '../gr-label-score-row/gr-label-score-row';
 import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-label-scores_html';
-import {customElement, property} from '@polymer/decorators';
+import {LitElement, css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
   LabelNameToValueMap,
@@ -33,21 +32,15 @@ import {
   Label,
   LabelValuesMap,
 } from '../gr-label-score-row/gr-label-score-row';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {appContext} from '../../../services/app-context';
 import {labelCompare} from '../../../utils/label-util';
 import {Execution} from '../../../constants/reporting';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {ChangeStatus} from '../../../constants/constants';
 
 @customElement('gr-label-scores')
-export class GrLabelScores extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: Array, computed: '_computeLabels(change.labels.*, account)'})
-  _labels: Label[] = [];
-
-  @property({type: Object, observer: '_computeColumns'})
+export class GrLabelScores extends LitElement {
+  @property({type: Object})
   permittedLabels?: LabelNameToValueMap;
 
   @property({type: Object})
@@ -60,6 +53,64 @@ export class GrLabelScores extends PolymerElement {
   _labelValues?: LabelValuesMap;
 
   private readonly reporting = appContext.reportingService;
+
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        .scoresTable {
+          display: table;
+          width: 100%;
+        }
+        .message {
+          font-style: italic;
+          text-align: center;
+          width: 100%;
+        }
+        gr-label-score-row:hover {
+          background-color: var(--hover-background-color);
+        }
+        gr-label-score-row {
+          display: table-row;
+        }
+        gr-label-score-row.no-access {
+          display: none;
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const labels = this._computeLabels(this.change?.labels, this.account);
+    const labelValues = this._computeColumns(this.permittedLabels);
+    return html`<div class="scoresTable">
+        ${labels.map(
+          label => html`<gr-label-score-row
+            class="${this._computeLabelAccessClass(
+              label.name,
+              this.permittedLabels
+            )}"
+            .label="${label}"
+            .name="${label.name}"
+            .labels="${this.change?.labels}"
+            .permittedLabels="${this.permittedLabels}"
+            .labelValues="${labelValues}"
+          ></gr-label-score-row>`
+        )}
+      </div>
+      <div
+        class="message"
+        ?hidden=${this.change?.status !== ChangeStatus.MERGED}
+      >
+        Because this change has been merged, votes may not be decreased.
+      </div>
+      <div
+        class="message"
+        ?hidden=${this.change?.status !== ChangeStatus.ABANDONED}
+      >
+        Because this change has been abandoned, you cannot vote.
+      </div>`;
+  }
 
   getLabelValues(includeDefaults = true): LabelNameToValuesMap {
     const labels: LabelNameToValuesMap = {};
@@ -138,15 +189,11 @@ export class GrLabelScores extends PolymerElement {
   }
 
   _computeLabels(
-    labelRecord: PolymerDeepPropertyChange<
-      LabelNameToInfoMap,
-      LabelNameToInfoMap
-    >,
+    labelsObj?: LabelNameToInfoMap,
     account?: AccountInfo
   ): Label[] {
     if (!account) return [];
-    if (!labelRecord?.base) return [];
-    const labelsObj = labelRecord.base;
+    if (!labelsObj) return [];
     return Object.keys(labelsObj)
       .sort(labelCompare)
       .map(key => {
@@ -173,11 +220,7 @@ export class GrLabelScores extends PolymerElement {
     for (let i = 0; i < orderedValues.length; i++) {
       labelValues[orderedValues[i]] = i;
     }
-    this._labelValues = labelValues;
-  }
-
-  _changeIsMerged(changeStatus: string) {
-    return changeStatus === 'MERGED';
+    return labelValues;
   }
 
   _computeLabelAccessClass(

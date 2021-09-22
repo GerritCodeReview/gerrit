@@ -193,6 +193,24 @@
       "parentUuid": "b318511f_b22256b9",
       "revId": "f716825c904440d8b003b8073d95559895f9f01f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f349621_89fcc310",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-22T19:53:41Z",
+      "side": 1,
+      "message": "I tried the approach of storing the FileKey on the LocalDiskRepositoryManager (see Change-Id: Id25d766aa) and it is definitely more complicated than just passing the Repository object when already known.",
+      "parentUuid": "cf19657a_930ad387",
+      "revId": "f716825c904440d8b003b8073d95559895f9f01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -87,7 +87,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
 
     try {
       MagicLabelVote mlv = MagicLabelVote.parseWithEquals(v);
-      return ImmutableList.of(new MagicLabelPredicate(args, mlv));
+      return ImmutableList.of(magicLabelPredicate(args, mlv));
     } catch (IllegalArgumentException e) {
       // Try next format.
     }
@@ -153,6 +153,17 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     List<Predicate<ChangeData>> r = new ArrayList<>();
     for (Account.Id a : args.accounts) {
       r.add(new EqualsLabelPredicate(args, label, expVal, a));
+    }
+    return or(r);
+  }
+
+  protected static Predicate<ChangeData> magicLabelPredicate(Args args, MagicLabelVote mlv) {
+    if (args.accounts == null || args.accounts.isEmpty()) {
+      return new MagicLabelPredicate(args, mlv, /* account= */ null);
+    }
+    List<Predicate<ChangeData>> r = new ArrayList<>();
+    for (Account.Id a : args.accounts) {
+      r.add(new MagicLabelPredicate(args, mlv, a));
     }
     return or(r);
   }

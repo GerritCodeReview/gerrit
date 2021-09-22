@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
@@ -28,9 +29,12 @@ import java.util.Optional;
 public class MagicLabelPredicate extends ChangeIndexPredicate {
   protected final LabelPredicate.Args args;
   private final MagicLabelVote magicLabelVote;
+  private final Account.Id account;
 
-  public MagicLabelPredicate(LabelPredicate.Args args, MagicLabelVote magicLabelVote) {
+  public MagicLabelPredicate(
+      LabelPredicate.Args args, MagicLabelVote magicLabelVote, Account.Id account) {
     super(ChangeField.LABEL, magicLabelVote.formatLabel());
+    this.account = account;
     this.args = args;
     this.magicLabelVote = magicLabelVote;
   }
@@ -83,7 +87,7 @@ public class MagicLabelPredicate extends ChangeIndexPredicate {
   }
 
   private EqualsLabelPredicate numericPredicate(String label, short value) {
-    return new EqualsLabelPredicate(args, label, value, /* account= */ null);
+    return new EqualsLabelPredicate(args, label, value, account);
   }
 
   protected static LabelType type(LabelTypes types, String toFind) {

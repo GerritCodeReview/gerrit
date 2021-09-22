@@ -192,6 +192,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3017e167_9fca1fce",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-09-22T14:01:11Z",
+      "side": 1,
+      "message": "Agreed that the Change info should be aligned with Submit Requirements, I\u0027m ok with this being in a follow-up change.\n\nSGTM to make 8px everywhere.",
+      "parentUuid": "a314ff76_5b8d4874",
+      "range": {
+        "startLine": 92,
+        "startChar": 25,
+        "endLine": 92,
+        "endChar": 68
+      },
+      "revId": "ba6bfdffc54e5aaefcf9ad5775d85d6aec2b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3beac33c_6cbc5727",

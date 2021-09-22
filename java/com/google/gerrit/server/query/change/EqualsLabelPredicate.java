@@ -34,9 +34,18 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
   protected final ProjectCache projectCache;
   protected final PermissionBackend permissionBackend;
   protected final IdentifiedUser.GenericFactory userFactory;
+  /** label name to be matched. */
   protected final String label;
+
+  /** Expected vote value for the label. */
   protected final int expVal;
+
+  /** Number of times the vote value should occur. */
+  protected final int count;
+
+  /** Account ID that has voted on the label. */
   protected final Account.Id account;
+
   protected final AccountGroup.UUID group;
 
   public EqualsLabelPredicate(
@@ -45,6 +54,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     this.permissionBackend = args.permissionBackend;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
+    this.count = args.count;
     this.group = args.group;
     this.label = label;
     this.expVal = expVal;
@@ -73,12 +83,13 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     }
 
     boolean hasVote = false;
+    int matchingVotes = 0;
     object.setStorageConstraint(ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;
         if (match(object, p.value(), p.accountId())) {
-          return true;
+          matchingVotes += 1;
         }
       }
     }
@@ -87,7 +98,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       return true;
     }
 
-    return false;
+    return matchingVotes >= count;
   }
 
   protected static LabelType type(LabelTypes types, String toFind) {

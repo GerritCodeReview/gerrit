@@ -40,6 +40,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     protected final String value;
     protected final Set<Account.Id> accounts;
     protected final AccountGroup.UUID group;
+    protected final int count;
 
     protected Args(
         ProjectCache projectCache,
@@ -47,13 +48,15 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
         IdentifiedUser.GenericFactory userFactory,
         String value,
         Set<Account.Id> accounts,
-        AccountGroup.UUID group) {
+        AccountGroup.UUID group,
+        int count) {
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
       this.userFactory = userFactory;
       this.value = value;
       this.accounts = accounts;
       this.group = group;
+      this.count = count;
     }
   }
 
@@ -75,10 +78,18 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       ChangeQueryBuilder.Arguments a,
       String value,
       Set<Account.Id> accounts,
-      AccountGroup.UUID group) {
+      AccountGroup.UUID group,
+      int count) {
     super(
         predicates(
-            new Args(a.projectCache, a.permissionBackend, a.userFactory, value, accounts, group)));
+            new Args(
+                a.projectCache,
+                a.permissionBackend,
+                a.userFactory,
+                value,
+                accounts,
+                group,
+                count)));
     this.value = value;
   }
 

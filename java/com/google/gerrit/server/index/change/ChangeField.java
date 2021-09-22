@@ -33,6 +33,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -90,6 +91,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -608,44 +610,99 @@ public class ChangeField {
   private static Iterable<String> getLabels(ChangeData cd) {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
+    Table<String, Short, Integer> voteCounts = HashBasedTable.create();
     for (PatchSetApproval a : cd.currentApprovals()) {
       if (a.value() != 0 && !a.isLegacySubmit()) {
-        allApprovals.add(formatLabel(a.label(), a.value(), a.accountId()));
+        increment(voteCounts, a.label(), a.value());
         Optional<LabelType> labelType = cd.getLabelTypes().byLabel(a.labelId());
+
+        allApprovals.add(formatLabel(a.label(), a.value(), a.accountId()));
         allApprovals.addAll(getMaxMinAnyLabels(a.label(), a.value(), labelType, a.accountId()));
-        if (cd.change().getOwner().equals(a.accountId())) {
-          allApprovals.add(formatLabel(a.label(), a.value(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
-          allApprovals.addAll(
-              getMaxMinAnyLabels(
-                  a.label(), a.value(), labelType, ChangeQueryBuilder.OWNER_ACCOUNT_ID));
-        }
-        if (!cd.currentPatchSet().uploader().equals(a.accountId())) {
-          allApprovals.add(
-              formatLabel(a.label(), a.value(), ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID));
-          allApprovals.addAll(
-              getMaxMinAnyLabels(
-                  a.label(), a.value(), labelType, ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID));
-        }
+        addLabelsForOwners(allApprovals, a, cd, labelType);
+        addLabelsForNonUploader(allApprovals, a, cd, labelType);
         distinctApprovals.add(formatLabel(a.label(), a.value()));
-        distinctApprovals.addAll(getMaxMinAnyLabels(a.label(), a.value(), labelType, null));
+        distinctApprovals.addAll(
+            getMaxMinAnyLabels(a.label(), a.value(), labelType, /* accountId= */ null));
       }
     }
     allApprovals.addAll(distinctApprovals);
+    addLabelsWithCount(voteCounts, allApprovals, cd);
     return allApprovals;
+  }
+
+  private static void increment(Table<String, Short, Integer> table, String k1, short k2) {
+    if (!table.contains(k1, k2)) {
+      table.put(k1, k2, 1);
+    } else {
+      int val = table.get(k1, k2);
+      table.put(k1, k2, val + 1);
+    }
+  }
+
+  private static void addLabelsForOwners(
+      Set<String> allApprovals, PatchSetApproval a, ChangeData cd, Optional<LabelType> labelType) {
+    if (cd.change().getOwner().equals(a.accountId())) {
+      allApprovals.add(formatLabel(a.label(), a.value(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
+      allApprovals.addAll(
+          getMaxMinAnyLabels(a.label(), a.value(), labelType, ChangeQueryBuilder.OWNER_ACCOUNT_ID));
+    }
+  }
+
+  private static void addLabelsForNonUploader(
+      Set<String> allApprovals, PatchSetApproval a, ChangeData cd, Optional<LabelType> labelType) {
+    if (!cd.currentPatchSet().uploader().equals(a.accountId())) {
+      allApprovals.add(
+          formatLabel(a.label(), a.value(), ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID));
+      allApprovals.addAll(
+          getMaxMinAnyLabels(
+              a.label(), a.value(), labelType, ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID));
+    }
+  }
+
+  private static void addLabelsWithCount(
+      Table<String, Short, Integer> voteCounts, Set<String> allApprovals, ChangeData cd) {
+    for (String label : voteCounts.rowMap().keySet()) {
+      Optional<LabelType> labelType = cd.getLabelTypes().byLabel(label);
+      Map<Short, Integer> row = voteCounts.row(label);
+      for (short vote : row.keySet()) {
+        int count = row.get(vote);
+        // If a vote is present n times, it's also present n-1, n-2, ... 1 times. Make sure to add
+        // records in the index for all these occurrences.
+        IntStream.range(1, count + 1)
+            .forEach(
+                j -> {
+                  // Add format `label:code-review=+1,count=$cnt`
+                  allApprovals.add(formatLabel(label, vote, /* count= */ j));
+                  // Add format `label:code-review=MAX,count=$cnt`
+                  allApprovals.addAll(
+                      getMaxMinAnyLabels(
+                          label, vote, labelType, /* accountId= */ null, /* count= */ j));
+                });
+      }
+    }
   }
 
   private static List<String> getMaxMinAnyLabels(
       String label, short labelVal, Optional<LabelType> labelType, @Nullable Account.Id accountId) {
+    return getMaxMinAnyLabels(label, labelVal, labelType, accountId, /* count= */ -1);
+  }
+
+  private static List<String> getMaxMinAnyLabels(
+      String label,
+      short labelVal,
+      Optional<LabelType> labelType,
+      @Nullable Account.Id accountId,
+      int count) {
     List<String> labels = new ArrayList<>();
     if (labelType.isPresent()) {
       if (labelVal == labelType.get().getMaxPositive()) {
-        labels.add(formatLabel(label, MagicLabelValue.MAX.name(), accountId));
+        labels.add(formatLabel(label, MagicLabelValue.MAX.name(), accountId, count));
       }
       if (labelVal == labelType.get().getMaxNegative()) {
-        labels.add(formatLabel(label, MagicLabelValue.MIN.name(), accountId));
+        labels.add(formatLabel(label, MagicLabelValue.MIN.name(), accountId, count));
       }
     }
-    labels.add(formatLabel(label, MagicLabelValue.ANY.name(), accountId));
+    labels.add(formatLabel(label, MagicLabelValue.ANY.name(), accountId, count));
     return labels;
   }
 
@@ -723,25 +780,36 @@ public class ChangeField {
                       decodeProtos(field, PatchSetApprovalProtoConverter.INSTANCE)));
 
   public static String formatLabel(String label, int value) {
-    return formatLabel(label, value, null);
+    return formatLabel(label, value, null, /* count= */ -1);
+  }
+
+  public static String formatLabel(String label, int value, int count) {
+    return formatLabel(label, value, null, count);
   }
 
   public static String formatLabel(String label, int value, Account.Id accountId) {
+    return formatLabel(label, value, accountId, /* count= */ -1);
+  }
+
+  public static String formatLabel(String label, int value, Account.Id accountId, int count) {
     return label.toLowerCase()
         + (value >= 0 ? "+" : "")
         + value
-        + (accountId != null ? "," + formatAccount(accountId) : "");
+        + (accountId != null ? "," + formatAccount(accountId) : "")
+        + (count != -1 ? ",count=" + count : "");
   }
 
   public static String formatLabel(String label, String value) {
-    return formatLabel(label, value, null);
+    return formatLabel(label, value, null, /* count= */ -1);
   }
 
-  public static String formatLabel(String label, String value, @Nullable Account.Id accountId) {
+  public static String formatLabel(
+      String label, String value, @Nullable Account.Id accountId, int count) {
     return label.toLowerCase()
         + "="
         + value
-        + (accountId != null ? "," + formatAccount(accountId) : "");
+        + (accountId != null ? "," + formatAccount(accountId) : "")
+        + (count != -1 ? ",count=" + count : "");
   }
 
   private static String formatAccount(Account.Id accountId) {

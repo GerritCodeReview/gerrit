@@ -16,6 +16,235 @@
       "message": "fixed a minor test error",
       "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26a65c04_85e1b96d",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T10:22:55Z",
+      "side": 1,
+      "message": "Just \"patchset\" as it\u0027s possible that the provided patch set id is for a non-current patch set?",
+      "range": {
+        "startLine": 103,
+        "startChar": 13,
+        "endLine": 103,
+        "endChar": 28
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33f8008a_c7d5be1c",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T10:22:55Z",
+      "side": 1,
+      "message": "nit: please annotate the null arguments with a comment for better readability",
+      "range": {
+        "startLine": 353,
+        "startChar": 58,
+        "endLine": 353,
+        "endChar": 68
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68f4b162_8bc54c17",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T10:22:55Z",
+      "side": 1,
+      "message": "I think this is doing the right thing, but I\u0027m wondering if this deserves a comment. approvalsUtil.byPatchSet is returning all approvals of the patch set, but update.putCopiedApprovals is only accepting copied approvals (it throws IllegalStateException for non-copied approvals). I guess this works because the patch set is newly created and at this point nobody could have voted on it yet, so that all existing approvals must have been copied?",
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0ddf5ea_8bbd557a",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T10:22:55Z",
+      "side": 1,
+      "message": "same as in PatchSetInserter, maybe put a comment here",
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0671717_7017446a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T10:22:55Z",
+      "side": 1,
+      "message": "Maybe add a javadoc here that says that the result doesn\u0027t include copied approvals, and that using this method means that callers need to compute the copied approvals on their own?",
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b158b79_492aaf5b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T10:22:55Z",
+      "side": 1,
+      "message": "maybe add javadoc that documents that the given patchSetApproval is expected to have the copied flag set",
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9776bb05_89157601",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T10:22:55Z",
+      "side": 1,
+      "message": "addLabelFooter?",
+      "range": {
+        "startLine": 801,
+        "startChar": 15,
+        "endLine": 801,
+        "endChar": 30
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90c8ef33_1690925f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T10:22:55Z",
+      "side": 1,
+      "message": "addCopiedLabelFooter?",
+      "range": {
+        "startLine": 816,
+        "startChar": 15,
+        "endLine": 816,
+        "endChar": 36
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2264bae_44bb9076",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T10:22:55Z",
+      "side": 1,
+      "message": "Could you rephrase this? I\u0027m not sure I understand this.",
+      "range": {
+        "startLine": 828,
+        "startChar": 4,
+        "endLine": 829,
+        "endChar": 95
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66903cf8_babff574",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T10:22:55Z",
+      "side": 1,
+      "message": "Why is this needed here but not when storing non-copied approvals?\nIs this because for normal approvals the tag is already stored as a separate footer in the same NoteDb commit and hence doesn\u0027t need to persisted for each approval again? and for copied approvals we want to retain the original tag which can be different from the tag of this NoteDb commit? \nMaybe add a comment.",
+      "range": {
+        "startLine": 833,
+        "startChar": 4,
+        "endLine": 835,
+        "endChar": 5
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57268203_9bf57722",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T10:22:55Z",
+      "side": 1,
+      "message": "Is this correct? \nChangeUpdate seems to append the tag last (after account and real account) [1] (also see l. 178 below). Am I reading this wrong?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/318135/3/java/com/google/gerrit/server/notedb/ChangeUpdate.java#834",
+      "range": {
+        "startLine": 139,
+        "startChar": 15,
+        "endLine": 139,
+        "endChar": 50
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

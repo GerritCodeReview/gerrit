@@ -69,7 +69,18 @@ public class SubmitRequirementsAdapterTest {
             .setFunction(LabelFunction.ANY_WITH_BLOCK)
             .build();
 
-    labelTypes = Arrays.asList(codeReview, verified, codeStyle);
+    LabelType ignoreSelfApprovalLabel =
+        LabelType.builder(
+                "ISA-Label",
+                ImmutableList.of(
+                    LabelValue.create((short) 1, "Looks good to me"),
+                    LabelValue.create((short) 0, "No score"),
+                    LabelValue.create((short) -1, "I would prefer this is not merged as is")))
+            .setFunction(LabelFunction.MAX_WITH_BLOCK)
+            .setIgnoreSelfApproval(true)
+            .build();
+
+    labelTypes = Arrays.asList(codeReview, verified, codeStyle, ignoreSelfApprovalLabel);
   }
 
   @Test
@@ -126,6 +137,46 @@ public class SubmitRequirementsAdapterTest {
         /* submitExpression= */ "label:Verified=MAX",
         SubmitRequirementResult.Status.UNSATISFIED,
         SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void defaultSubmitRule_withLabelStatusNeed_labelHasIgnoreSelfApproval() throws Exception {
+    SubmitRecord submitRecord =
+        createSubmitRecord(
+            "gerrit~DefaultSubmitRule",
+            Status.NOT_READY,
+            Arrays.asList(createLabel("ISA-Label", Label.Status.NEED)));
+
+    List<SubmitRequirementResult> requirements =
+        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+
+    assertThat(requirements).hasSize(1);
+    assertResult(
+        requirements.get(0),
+        /* reqName= */ "ISA-Label",
+        /* submitExpression= */ "label:ISA-Label=MAX,user=non_uploader -label:ISA-Label=MIN",
+        SubmitRequirementResult.Status.UNSATISFIED,
+        SubmitRequirementExpressionResult.Status.FAIL);
+  }
+
+  @Test
+  public void defaultSubmitRule_withLabelStatusOk_labelHasIgnoreSelfApproval() throws Exception {
+    SubmitRecord submitRecord =
+        createSubmitRecord(
+            "gerrit~DefaultSubmitRule",
+            Status.OK,
+            Arrays.asList(createLabel("ISA-Label", Label.Status.OK)));
+
+    List<SubmitRequirementResult> requirements =
+        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+
+    assertThat(requirements).hasSize(1);
+    assertResult(
+        requirements.get(0),
+        /* reqName= */ "ISA-Label",
+        /* submitExpression= */ "label:ISA-Label=MAX,user=non_uploader -label:ISA-Label=MIN",
+        SubmitRequirementResult.Status.SATISFIED,
+        SubmitRequirementExpressionResult.Status.PASS);
   }
 
   @Test

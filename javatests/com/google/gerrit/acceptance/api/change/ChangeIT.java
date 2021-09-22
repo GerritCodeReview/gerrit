@@ -4059,6 +4059,46 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirement_withLabelEqualsMax_fromNonUploader() throws Exception {
+    configLabel("my-label", LabelFunction.NO_OP); // label function has no effect
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("my-label").ref("refs/heads/master").group(REGISTERED_USERS).range(-1, 1))
+        .update();
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("my-label")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:my-label=MAX,user=non_uploader"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "my-label", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    // Voting with a max vote as the uploader will not satisfy the submit requirement.
+    voteLabel(changeId, "my-label", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "my-label", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    // Voting as a non-uploader will satisfy the submit requirement.
+    requestScopeOperations.setApiUser(user.id());
+    voteLabel(changeId, "my-label", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "my-label", Status.SATISFIED, /* isLegacy= */ false);
+  }
+
+  @Test
   public void submitRequirement_withLabelEqualsMinBlockingSubmission() throws Exception {
     configSubmitRequirement(
         project,
@@ -4091,6 +4131,54 @@ public class ChangeIT extends AbstractDaemonTest {
     // Requirement is now unsatisfied because -2 is the max negative value
     assertSubmitRequirementStatus(
         change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+  }
+
+  @Test
+  public void submitRequirement_withMaxWithBlock_ignoringSelfApproval() throws Exception {
+    configLabel("my-label", LabelFunction.MAX_WITH_BLOCK);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("my-label").ref("refs/heads/master").group(REGISTERED_USERS).range(-1, 1))
+        .update();
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("my-label")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create(
+                    "label:my-label=MAX,user=non_uploader -label:my-label=MIN"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    // Create the change as admin
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // Admin (a.k.a uploader) adds a -1 min vote. This is going to block submission.
+    voteLabel(changeId, "my-label", -1);
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "my-label", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    // user (i.e. non_uploader) votes 1. Requirement is still blocking because of -1 of uploader.
+    requestScopeOperations.setApiUser(user.id());
+    voteLabel(changeId, "my-label", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "my-label", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    // Admin (a.k.a uploader) removes -1. Now requirement is fulfilled.
+    requestScopeOperations.setApiUser(admin.id());
+    voteLabel(changeId, "my-label", 0);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "my-label", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test

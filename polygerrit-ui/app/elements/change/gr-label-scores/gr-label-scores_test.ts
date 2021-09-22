@@ -127,8 +127,8 @@ suite('gr-label-scores tests', () => {
   });
 
   test('_computeColumns', () => {
-    element._computeColumns(element.permittedLabels);
-    assert.deepEqual(element._labelValues, {
+    const labelValues = element._computeColumns(element.permittedLabels);
+    assert.deepEqual(labelValues, {
       '-2': 0,
       '-1': 1,
       '0': 2,
@@ -161,7 +161,7 @@ suite('gr-label-scores tests', () => {
   });
 
   test('changes in label score are reflected in _labels', () => {
-    element.change = {
+    const change = {
       ...createChange(),
       labels: {
         'Code-Review': {
@@ -186,15 +186,32 @@ suite('gr-label-scores tests', () => {
         },
       },
     };
-    assert.deepEqual(element._labels, [
+    element.change = change;
+    let labels = element._computeLabels(
+      element.change?.labels,
+      element.account
+    );
+    assert.deepEqual(labels, [
       {name: 'Code-Review', value: null},
       {name: 'Verified', value: null},
     ]);
-    element.set(
-      ['change', 'labels', 'Verified', 'all'],
-      [{_account_id: accountId, value: 1}]
-    );
-    assert.deepEqual(element._labels, [
+    element.change = {
+      ...change,
+      labels: {
+        ...change.labels,
+        Verified: {
+          ...change.labels.Verified,
+          all: [
+            {
+              _account_id: accountId,
+              value: 1,
+            },
+          ],
+        },
+      },
+    };
+    labels = element._computeLabels(element.change?.labels, element.account);
+    assert.deepEqual(labels, [
       {name: 'Code-Review', value: null},
       {name: 'Verified', value: '+1'},
     ]);

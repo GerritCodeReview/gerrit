@@ -33,7 +33,14 @@ public class MagicLabelPredicate extends ChangeIndexPredicate {
 
   public MagicLabelPredicate(
       LabelPredicate.Args args, MagicLabelVote magicLabelVote, Account.Id account) {
-    super(ChangeField.LABEL, magicLabelVote.formatLabel());
+    super(
+        ChangeField.LABEL,
+        ChangeField.formatLabel(
+            magicLabelVote.label(),
+            magicLabelVote.value().name(),
+            account,
+            args.count,
+            args.countOp == null ? null : args.countOp.op));
     this.account = account;
     this.args = args;
     this.magicLabelVote = magicLabelVote;

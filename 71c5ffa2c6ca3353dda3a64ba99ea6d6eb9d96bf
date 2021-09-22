@@ -728,6 +728,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "501f2b1a_22699682",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "you\u0027re right, my logic was that one \":\" is not enough, but we have :\" which is enough.",
+      "parentUuid": "bf7070c4_a7fd9d1f",
+      "range": {
+        "startLine": 816,
+        "startChar": 14,
+        "endLine": 816,
+        "endChar": 36
+      },
+      "revId": "71c5ffa2c6ca3353dda3a64ba99ea6d6eb9d96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22fa0db6_162c1215",

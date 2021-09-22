@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "494bf203_06ccf2ae",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26a65c04_85e1b96d",
+      "range": {
+        "startLine": 103,
+        "startChar": 13,
+        "endLine": 103,
+        "endChar": 28
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33f8008a_c7d5be1c",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-09-22T10:22:55Z",
       "side": 1,
       "message": "nit: please annotate the null arguments with a comment for better readability",
+      "range": {
+        "startLine": 353,
+        "startChar": 58,
+        "endLine": 353,
+        "endChar": 68
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d33ecd53_29e8324c",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33f8008a_c7d5be1c",
       "range": {
         "startLine": 353,
         "startChar": 58,
@@ -81,6 +129,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a844f648_0b910949",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68f4b162_8bc54c17",
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0ddf5ea_8bbd557a",
@@ -94,6 +160,24 @@
       "writtenOn": "2021-09-22T10:22:55Z",
       "side": 1,
       "message": "same as in PatchSetInserter, maybe put a comment here",
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4de0dba9_ac38a257",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0ddf5ea_8bbd557a",
       "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -115,6 +199,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf77923c_9b3cfe0a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0671717_7017446a",
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b158b79_492aaf5b",
@@ -132,6 +234,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e17756f_a984ceec",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b158b79_492aaf5b",
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9776bb05_89157601",
@@ -145,6 +265,30 @@
       "writtenOn": "2021-09-22T10:22:55Z",
       "side": 1,
       "message": "addLabelFooter?",
+      "range": {
+        "startLine": 801,
+        "startChar": 15,
+        "endLine": 801,
+        "endChar": 30
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14f2ce43_a5b57969",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9776bb05_89157601",
       "range": {
         "startLine": 801,
         "startChar": 15,
@@ -178,6 +322,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa2800a_e95c7b70",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90c8ef33_1690925f",
+      "range": {
+        "startLine": 816,
+        "startChar": 15,
+        "endLine": 816,
+        "endChar": 36
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2264bae_44bb9076",
@@ -191,6 +359,30 @@
       "writtenOn": "2021-09-22T10:22:55Z",
       "side": 1,
       "message": "Could you rephrase this? I\u0027m not sure I understand this.",
+      "range": {
+        "startLine": 828,
+        "startChar": 4,
+        "endLine": 829,
+        "endChar": 95
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b9067dc_2c53c9af",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2264bae_44bb9076",
       "range": {
         "startLine": 828,
         "startChar": 4,
@@ -224,6 +416,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a95464c_4ebda607",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "yes :)",
+      "parentUuid": "66903cf8_babff574",
+      "range": {
+        "startLine": 833,
+        "startChar": 4,
+        "endLine": 835,
+        "endChar": 5
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57268203_9bf57722",
@@ -237,6 +453,30 @@
       "writtenOn": "2021-09-22T10:22:55Z",
       "side": 1,
       "message": "Is this correct? \nChangeUpdate seems to append the tag last (after account and real account) [1] (also see l. 178 below). Am I reading this wrong?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/318135/3/java/com/google/gerrit/server/notedb/ChangeUpdate.java#834",
+      "range": {
+        "startLine": 139,
+        "startChar": 15,
+        "endLine": 139,
+        "endChar": 50
+      },
+      "revId": "4c2f4771978850abf5a6b0a9f5ba34dbb1094da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d4ee4c4_5434ee13",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T11:38:03Z",
+      "side": 1,
+      "message": "yep that was the failed test. I unnecessarily duplicated the test, now it\u0027s all in parseCopiedApproval test.",
+      "parentUuid": "57268203_9bf57722",
       "range": {
         "startLine": 139,
         "startChar": 15,

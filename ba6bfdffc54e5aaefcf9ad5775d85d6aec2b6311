@@ -120,6 +120,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "308e7598_768cc3ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-22T08:00:28Z",
+      "side": 1,
+      "message": "1. added `border-spacing: 0` by adding shared-styles - it didn\u0027t change gaps horizontally only it changed vertical gaps\n\n2. made 8px everywhere - we can revisit this decision later, I want to unblock this change\n\n3. remove line-height, with padding and size, it\u0027s still 28px.",
+      "parentUuid": "eec1d754_5e680de7",
+      "range": {
+        "startLine": 92,
+        "startChar": 25,
+        "endLine": 92,
+        "endChar": 68
+      },
+      "revId": "ba6bfdffc54e5aaefcf9ad5775d85d6aec2b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3beac33c_6cbc5727",

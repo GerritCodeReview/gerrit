@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "891cf9b5_6b750c02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-22T16:31:49Z",
+      "side": 1,
+      "message": "Why wouldn\u0027t they use \u003e for that case? We support that for label vote values. And then you don\u0027t have to do the strange trick below for exactly 2.",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 25,
+        "endChar": 25
+      },
+      "revId": "9dd09c10f3d016e9681e4f209df881393964fad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "732e9a51_baea35ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-22T19:06:13Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/318543",
+      "parentUuid": "d179a6d5_76044a82",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 55
+      },
+      "revId": "66367b6cb33865af5a069b70e242352f4f0d4bec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "283dfa74_13985ead",

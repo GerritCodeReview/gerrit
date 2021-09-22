@@ -1186,6 +1186,45 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,non_uploader", reviewPlus1Change);
   }
 
+  @Test
+  public void byLabelMultipleVotes() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    ChangeInserter ins = newChange(repo);
+    Account.Id user1 = createAccount("user1");
+    Account.Id user2 = createAccount("user2");
+
+    // create a change with "user"
+    Change reviewPlus1Change = insert(repo, ins);
+
+    // add a +1 vote with "user". Query does not match since we need two +1 votes.
+    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    assertQuery("label:Code-Review=+1,count=2");
+
+    // add a +1 vote with "user1". Query will match since there are two +1 votes now.
+    requestContext.setContext(newRequestContext(user1));
+    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    assertQuery("label:Code-Review=+1,count=2", reviewPlus1Change);
+
+    // Disallow using the "user=" argument in conjunction with the "count=" argument. This is to
+    // reduce unnecessary complexity.
+    assertThrows(
+        BadRequestException.class,
+        () -> assertQuery("label:Code-Review=+1,user=non_uploader,count=2"));
+
+    // You can still require two +2 votes where neither is coming from the uploader using this
+    // Workaround.
+    assertQuery(
+        "(label:Code-Review=+1,count=3 label:Code-Review=+1,owner)"
+            + " OR (label:Code-Review=+1,count=2 -label:Code-Review=+1,owner)");
+    // Add a third vote from non-uploader
+    requestContext.setContext(newRequestContext(user2));
+    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    assertQuery(
+        "(label:Code-Review=+1,count=3 label:Code-Review=+1,owner)"
+            + " OR (label:Code-Review=+1,count=2 -label:Code-Review=+1,owner)",
+        reviewPlus1Change);
+  }
+
   private Change[] codeReviewInRange(Map<Integer, Change> changes, int start, int end) {
     int size = 0;
     Change[] range = new Change[end - start + 1];

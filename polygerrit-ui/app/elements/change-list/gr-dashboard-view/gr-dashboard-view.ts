@@ -54,9 +54,9 @@ import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-
 import {DashboardViewState} from '../../../types/types';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
+import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
-const RELOAD_DASHBOARD_INTERVAL_MS = 10 * 1000;
 
 export interface GrDashboardView {
   $: {
@@ -122,12 +122,9 @@ export class GrDashboardView extends PolymerElement {
 
   constructor() {
     super();
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this._loadPreferences();
     this.addEventListener('reload', () => this._reload(this.params));
+    // We are not currently verifying if the view is actually visible. We rely
+    // on gr-app-element to restamp the component if view changes
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         if (
@@ -139,6 +136,11 @@ export class GrDashboardView extends PolymerElement {
         this.lastVisibleTimestampMs = Date.now();
       }
     });
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this._loadPreferences();
   }
 
   _loadPreferences() {

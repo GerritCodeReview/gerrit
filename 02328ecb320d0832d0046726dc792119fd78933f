@@ -118,6 +118,30 @@
       },
       "revId": "02328ecb320d0832d0046726dc792119fd78933f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54589cda_e27939b6",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-22T21:42:59Z",
+      "side": 1,
+      "message": "I tried to add on RefAdvertisementIT.java but it won\u0027t work because it relies on Git protocol v2. This fix is specific to Git protocol v2, hence I added a specific use-case to the corresponding test suite.",
+      "parentUuid": "3e5fe86f_8d9db350",
+      "range": {
+        "startLine": 132,
+        "startChar": 19,
+        "endLine": 132,
+        "endChar": 34
+      },
+      "revId": "02328ecb320d0832d0046726dc792119fd78933f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

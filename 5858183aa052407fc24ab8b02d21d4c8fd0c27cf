@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "12d0a2a7_0caedfcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-22T11:57:52Z",
+      "side": 1,
+      "message": "Test1",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "5858183aa052407fc24ab8b02d21d4c8fd0c27cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "89f4771d_82847bf4",
@@ -48,6 +71,24 @@
       "writtenOn": "2021-06-02T09:24:53Z",
       "side": 1,
       "message": "Why not do this here? Can we consistently add this or not in all code paths?",
+      "revId": "5858183aa052407fc24ab8b02d21d4c8fd0c27cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cfb2b0e_1efae0d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-22T11:57:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5f000ef_59aaf868",
       "revId": "5858183aa052407fc24ab8b02d21d4c8fd0c27cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

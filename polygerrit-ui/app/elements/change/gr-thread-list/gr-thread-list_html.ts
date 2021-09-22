@@ -102,9 +102,9 @@ export const htmlTemplate = html`
         items="[[getCommentsDropdownEntires(threads, loggedIn)]]"
       >
       </gr-dropdown-list>
-      <template is="dom-if" if="[[threads.length]]">
+      <template is="dom-if" if="[[_displayedThreads.length]]">
         <span class="author-text">From:</span>
-        <template is="dom-repeat" items="[[getCommentAuthors(threads, account)]]">
+        <template is="dom-repeat" items="[[getCommentAuthors(_displayedThreads, account)]]">
           <gr-account-label
             account="[[item]]"
             on-click="handleAccountClicked"

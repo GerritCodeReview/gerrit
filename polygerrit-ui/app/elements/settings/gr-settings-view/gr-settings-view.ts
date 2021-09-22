@@ -85,6 +85,7 @@ const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'diff_view',
   'publish_comments_on_push',
   'disable_keyboard_shortcuts',
+  'disable_token_highlighting',
   'work_in_progress_by_default',
   'default_base_for_merges',
   'signed_off_by',
@@ -124,6 +125,7 @@ export interface GrSettingsView {
     showSizeBarsInFileList: HTMLInputElement;
     publishCommentsOnPush: HTMLInputElement;
     disableKeyboardShortcuts: HTMLInputElement;
+    disableTokenHighlighting: HTMLInputElement;
     relativeDateInChangeTable: HTMLInputElement;
     changesPerPageSelect: HTMLInputElement;
     dateTimeFormatSelect: HTMLInputElement;
@@ -405,6 +407,13 @@ export class GrSettingsView extends base {
     this.set(
       '_localPrefs.disable_keyboard_shortcuts',
       this.$.disableKeyboardShortcuts.checked
+    );
+  }
+
+  _handleDisableTokenHighlightingChanged() {
+    this.set(
+      '_localPrefs.disable_token_highlighting',
+      this.$.disableTokenHighlighting.checked
     );
   }
 

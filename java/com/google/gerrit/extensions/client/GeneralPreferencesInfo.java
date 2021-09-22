@@ -148,6 +148,7 @@ public class GeneralPreferencesInfo {
   public DefaultBase defaultBaseForMerges;
   public Boolean publishCommentsOnPush;
   public Boolean disableKeyboardShortcuts;
+  public Boolean disableTokenHighlighting;
   public Boolean workInProgressByDefault;
   public List<MenuItem> my;
   public List<String> changeTable;
@@ -207,6 +208,7 @@ public class GeneralPreferencesInfo {
     p.defaultBaseForMerges = DefaultBase.FIRST_PARENT;
     p.publishCommentsOnPush = false;
     p.disableKeyboardShortcuts = false;
+    p.disableTokenHighlighting = false;
     p.workInProgressByDefault = false;
     return p;
   }

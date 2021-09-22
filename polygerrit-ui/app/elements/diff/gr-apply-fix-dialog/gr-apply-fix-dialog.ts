@@ -38,7 +38,7 @@ import {isRobot} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {appContext} from '../../../services/app-context';
 import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
-import {ParsedChangeInfo} from '../../../types/types';
+import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../gr-diff-builder/token-highlight-layer';
 import {KnownExperimentId} from '../../../services/flags/flags';
@@ -99,15 +99,24 @@ export class GrApplyFixDialog extends PolymerElement {
   })
   _disableApplyFixButton = false;
 
-  layers = appContext.flagsService.isEnabled(
-    KnownExperimentId.TOKEN_HIGHLIGHTING
-  )
-    ? [new TokenHighlightLayer(this)]
-    : [];
+  @property({type: Array})
+  layers: DiffLayer[] = [];
 
   private refitOverlay?: () => void;
 
   private readonly restApiService = appContext.restApiService;
+
+  constructor() {
+    super();
+    this.restApiService.getPreferences().then(prefs => {
+      if (
+        !prefs?.disable_token_highlighting &&
+        appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)
+      ) {
+        this.layers = [new TokenHighlightLayer(this)];
+      }
+    });
+  }
 
   /**
    * Given robot comment CustomEvent object, fetch diffs associated

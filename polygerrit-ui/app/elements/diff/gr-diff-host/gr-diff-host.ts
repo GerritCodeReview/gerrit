@@ -223,6 +223,9 @@ export class GrDiffHost extends PolymerElement {
   @property({type: Boolean})
   _loggedIn = false;
 
+  @property({type: Boolean})
+  disableTokenHighlighting = false;
+
   @property({type: String})
   _errorMessage: string | null = null;
 
@@ -300,6 +303,11 @@ export class GrDiffHost extends PolymerElement {
     this.addEventListener('diff-context-expanded', event =>
       this._handleDiffContextExpanded(event)
     );
+    appContext.restApiService.getPreferences().then(prefs => {
+      if (prefs?.disable_token_highlighting) {
+        this.disableTokenHighlighting = prefs.disable_token_highlighting;
+      }
+    });
   }
 
   override ready() {
@@ -413,7 +421,8 @@ export class GrDiffHost extends PolymerElement {
   private _getLayers(path: string): DiffLayer[] {
     const layers = [];
     if (
-      appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)
+      appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING) &&
+      !this.disableTokenHighlighting
     ) {
       layers.push(new TokenHighlightLayer(this));
     }

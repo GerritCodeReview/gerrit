@@ -309,6 +309,19 @@ export const htmlTemplate = html`
           </span>
         </section>
         <section>
+          <label for="disableTokenHighlighting" class="title"
+            >Disable token highlighting on hover</label
+          >
+          <span class="value">
+            <input
+              id="disableTokenHighlighting"
+              type="checkbox"
+              checked$="[[_localPrefs.disable_token_highlighting]]"
+              on-change="_handleDisableTokenHighlightingChanged"
+            />
+          </span>
+        </section>
+        <section>
           <label for="insertSignedOff" class="title">
             Insert Signed-off-by Footer For Inline Edit Changes
           </label>

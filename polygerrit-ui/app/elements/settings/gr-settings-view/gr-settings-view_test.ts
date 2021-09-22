@@ -244,6 +244,13 @@ suite('gr-settings-view tests', () => {
     );
     assert.equal(
       (
+        valueOf('Disable token highlighting on hover', 'preferences')!
+          .firstElementChild as HTMLInputElement
+      ).checked,
+      false
+    );
+    assert.equal(
+      (
         valueOf(
           'Insert Signed-off-by Footer For Inline Edit Changes',
           'preferences'

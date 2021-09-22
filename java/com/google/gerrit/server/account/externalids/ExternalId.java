@@ -191,6 +191,7 @@ public abstract class ExternalId implements Serializable {
      * notes branch.
      */
     @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
+    @Memoized
     public ObjectId sha1() {
       String keyString = isCaseInsensitive() ? get().toLowerCase(Locale.US) : get();
       return ObjectId.fromRaw(Hashing.sha1().hashString(keyString, UTF_8).asBytes());
@@ -226,7 +227,8 @@ public abstract class ExternalId implements Serializable {
     }
 
     @Override
-    public final int hashCode() {
+    @Memoized
+    public int hashCode() {
       return Objects.hash(sha1());
     }
 
@@ -322,7 +324,8 @@ public abstract class ExternalId implements Serializable {
    * </pre>
    */
   @Override
-  public final String toString() {
+  @Memoized
+  public String toString() {
     Config c = new Config();
     writeToConfig(c);
     return c.toText();

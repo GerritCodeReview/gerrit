@@ -26,6 +26,7 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -42,11 +43,13 @@ class InitAuth implements InitStep {
   private final Section ldap;
   private final Section receive;
   private final InitFlags flags;
+  private final SitePaths site;
 
   @Inject
-  InitAuth(InitFlags flags, ConsoleUI ui, Section.Factory sections) {
+  InitAuth(InitFlags flags, ConsoleUI ui, final SitePaths site, Section.Factory sections) {
     this.flags = flags;
     this.ui = ui;
+    this.site = site;
     this.auth = sections.get("auth", null);
     this.ldap = sections.get("ldap", null);
     this.receive = sections.get(RECEIVE, null);
@@ -62,6 +65,10 @@ class InitAuth implements InitStep {
     }
 
     initSignedPush();
+
+    if (site.isNew) {
+      initUserNameCaseSensitivity();
+    }
   }
 
   private void initAuthType() {
@@ -155,5 +162,10 @@ class InitAuth implements InitStep {
     boolean def = flags.cfg.getBoolean(RECEIVE, ENABLE_SIGNED_PUSH, false);
     boolean enable = ui.yesno(def, "Enable signed push support");
     receive.set("enableSignedPush", Boolean.toString(enable));
+  }
+
+  private void initUserNameCaseSensitivity() {
+    boolean enableCaseInsensitivity = ui.yesno(true, "Use case insensitive usernames");
+    auth.set("userNameCaseInsensitive", Boolean.toString(enableCaseInsensitivity));
   }
 }

@@ -16,6 +16,24 @@
       "message": "Can we add a third test with a exclude pattern that matches the project name. In this case, the deadline should not be applied, AFAIU?\n\nUpdate: I see the test below.",
       "revId": "764dec8d4e36c2aadc3c5d67c8ac2c744e850533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68183ca3_e9c6000f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/CancellationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-22T12:20:08Z",
+      "side": 1,
+      "message": "Yes, it\u0027s tested below :)",
+      "parentUuid": "8ed12130_12da74ef",
+      "revId": "764dec8d4e36c2aadc3c5d67c8ac2c744e850533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

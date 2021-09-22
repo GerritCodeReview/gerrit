@@ -232,6 +232,32 @@ public class CancellationIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(
+      name = "deadline.default.excludedRequestUriPattern",
+      value = "/projects/non-matching")
+  public void abortIfServerDeadlineExceeded_excludedRequestUriPattern() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent())
+        .isEqualTo("Server Deadline Exceeded\n\ndefault.timeout=1ms");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.requestUriPattern", value = "/projects/.*")
+  @GerritConfig(
+      name = "deadline.default.excludedRequestUriPattern",
+      value = "/projects/non-matching")
+  public void abortIfServerDeadlineExceeded_requestUriPatternAndExcludedRequestUriPattern()
+      throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
+    assertThat(response.getEntityContent())
+        .isEqualTo("Server Deadline Exceeded\n\ndefault.timeout=1ms");
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.projectPattern", value = ".*new.*")
   public void abortIfServerDeadlineExceeded_projectPattern() throws Exception {
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
@@ -262,6 +288,24 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.requestUriPattern", value = "/changes/.*")
   public void nonMatchingServerDeadlineIsIgnored_requestUriPattern() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.excludedRequestUriPattern", value = "/projects/.*")
+  public void nonMatchingServerDeadlineIsIgnored_excludedRequestUriPattern() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.requestUriPattern", value = "/projects/.*")
+  @GerritConfig(name = "deadline.default.excludedRequestUriPattern", value = "/projects/.*new")
+  public void nonMatchingServerDeadlineIsIgnored_requestUriPatternAndExcludedRequestUriPattern()
+      throws Exception {
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -334,6 +378,14 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.requestUriPattern", value = "][")
   public void invalidServerDeadlineIsIgnored_invalidRequestUriPattern() throws Exception {
+    RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
+    response.assertCreated();
+  }
+
+  @Test
+  @GerritConfig(name = "deadline.default.timeout", value = "1ms")
+  @GerritConfig(name = "deadline.default.excludedRequestUriPattern", value = "][")
+  public void invalidServerDeadlineIsIgnored_invalidExcludedRequestUriPattern() throws Exception {
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }

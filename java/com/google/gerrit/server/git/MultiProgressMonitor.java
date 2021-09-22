@@ -24,7 +24,6 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -469,12 +468,6 @@ public class MultiProgressMonitor implements RequestStateProvider {
 
   @Override
   public void checkIfCancelled(OnCancelled onCancelled) {
-    if (taskKind == TaskKind.RECEIVE_COMMITS
-        && !experimentFeatures.isFeatureEnabled(
-            ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_PUSH_CANCELLATION)) {
-      return;
-    }
-
     if (clientDisconnected) {
       onCancelled.onCancel(RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* message= */ null);
     } else if (deadlineExceeded) {

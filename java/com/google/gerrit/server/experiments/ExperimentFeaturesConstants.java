@@ -26,13 +26,6 @@ public class ExperimentFeaturesConstants {
       "GerritBackendRequestFeature__remove_revision_etag";
 
   /**
-   * Whether git pushes are cancelled if the client disconnects or the configured receive.timeout is
-   * exceeded.
-   */
-  public static final String GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_PUSH_CANCELLATION =
-      "GerritBackendRequestFeature__enable_push_cencallation";
-
-  /**
    * Allow legacy {@link com.google.gerrit.entities.SubmitRecord}s to be converted and returned as
    * submit requirements by the {@link
    * com.google.gerrit.server.project.SubmitRequirementsEvaluator}.

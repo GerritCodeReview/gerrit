@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9f3a913_b5a88782",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-22T12:38:08Z",
+      "side": 1,
+      "message": "I believe we add \"override\" keyword here now:\n```\noverride render() {\n```",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 8
+      },
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24bf18f2_b8effba4",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-22T12:38:08Z",
+      "side": 1,
+      "message": "Is there any better names for these local vars and compute methods? Everything is called labels and it\u0027s hard to tell when they are not used right.",
+      "range": {
+        "startLine": 84,
+        "startChar": 10,
+        "endLine": 85,
+        "endChar": 21
+      },
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f5a3254_a89a74e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-22T12:38:08Z",
+      "side": 1,
+      "message": "we should add unit tests for these messages",
+      "range": {
+        "startLine": 100,
+        "startChar": 12,
+        "endLine": 112,
+        "endChar": 14
+      },
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f66ddbc_89213c87",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-22T12:38:08Z",
+      "side": 1,
+      "message": "I think we should have \n```await flush()```\nwhen changing element like the other tests unless we prove that it is not necessary to prevent flakes. WDYT?",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 28
+      },
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

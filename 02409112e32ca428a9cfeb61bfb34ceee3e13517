@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4386b384_2fdfbb69",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-22T09:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a55e557f_95a697b2",
+      "revId": "02409112e32ca428a9cfeb61bfb34ceee3e13517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a192de7_611eb939",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-09-22T09:42:20Z",
       "side": 1,
       "message": "Can you just remove and inherit this?",
+      "revId": "02409112e32ca428a9cfeb61bfb34ceee3e13517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0747d70_ef6746e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-22T09:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a192de7_611eb939",
       "revId": "02409112e32ca428a9cfeb61bfb34ceee3e13517",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

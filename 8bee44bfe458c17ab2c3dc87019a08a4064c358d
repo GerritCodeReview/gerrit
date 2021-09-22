@@ -81,6 +81,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3938c2c_461daf66",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T07:37:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae11ba81_c57e6ec6",
+      "range": {
+        "startLine": 803,
+        "startChar": 33,
+        "endLine": 803,
+        "endChar": 34
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e1ee5f6_07924916",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T07:37:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a9be698_9c6dfb96",
+      "range": {
+        "startLine": 803,
+        "startChar": 75,
+        "endLine": 803,
+        "endChar": 76
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac50a608_a0d4c29d",
@@ -94,6 +142,30 @@
       "writtenOn": "2021-09-21T15:03:52Z",
       "side": 1,
       "message": "nit: they are removed the same way as ...",
+      "range": {
+        "startLine": 809,
+        "startChar": 52,
+        "endLine": 810,
+        "endChar": 83
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "169f85f6_dfe60b8b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T07:37:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac50a608_a0d4c29d",
       "range": {
         "startLine": 809,
         "startChar": 52,
@@ -127,6 +199,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfdf1714_d3878f36",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T07:37:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a979b94c_49145d52",
+      "range": {
+        "startLine": 1111,
+        "startChar": 4,
+        "endLine": 1111,
+        "endChar": 33
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b196f2fe_3da6a541",
@@ -150,6 +246,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2cd04ae_21bb4f81",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T07:37:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b196f2fe_3da6a541",
+      "range": {
+        "startLine": 178,
+        "startChar": 28,
+        "endLine": 178,
+        "endChar": 35
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bb3b39b_9e0e9473",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T07:37:15Z",
+      "side": 1,
+      "message": "I removed the \"tag\" from the line, and \u0027:\u0027 are not a legal part of a label name, so I think that\u0027s not needed anymore?",
+      "parentUuid": "b196f2fe_3da6a541",
+      "range": {
+        "startLine": 178,
+        "startChar": 28,
+        "endLine": 178,
+        "endChar": 35
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1984d686_c8bce094",
@@ -163,6 +307,30 @@
       "writtenOn": "2021-09-21T15:03:52Z",
       "side": 1,
       "message": "assertion for -Label1 failing for copy approvals?",
+      "range": {
+        "startLine": 195,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 90
+      },
+      "revId": "8bee44bfe458c17ab2c3dc87019a08a4064c358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f953ff4e_f199edba",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-22T07:37:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1984d686_c8bce094",
       "range": {
         "startLine": 195,
         "startChar": 4,

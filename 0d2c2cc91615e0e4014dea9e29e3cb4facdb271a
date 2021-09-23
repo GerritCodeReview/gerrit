@@ -22,6 +22,30 @@
       },
       "revId": "0d2c2cc91615e0e4014dea9e29e3cb4facdb271a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b26ed695_0da87545",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-23T10:09:52Z",
+      "side": 0,
+      "message": "I checked - change is coming from change-view -\u003e reply-dialog, they are no modifications in change.\n\nReply dialog remembers last selected even if it is closed and reopen.",
+      "parentUuid": "13d2d582_84bf9abc",
+      "range": {
+        "startLine": 47,
+        "startChar": 52,
+        "endLine": 47,
+        "endChar": 67
+      },
+      "revId": "0d2c2cc91615e0e4014dea9e29e3cb4facdb271a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

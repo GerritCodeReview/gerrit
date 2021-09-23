@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "853d2950_f1309f73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-23T15:53:32Z",
+      "side": 1,
+      "message": "Same comment here about what qualifies as expensive. How are we measuring this?\n\nThat said, other than this being on a stable branch, I don\u0027t know if you really have to justify avoiding repeated work with more of an explanation than that, unless the refactor isn\u0027t clean. I\u0027m happy to approve changes that clearly avoid extra work, and on a stable branch we just need some justification that it\u0027s appropriate to do there. The problem here is the claim that this is expensive. If you say that, I\u0027m going to make you prove it 😊 If you say it\u0027s extra work, that can be obvious from the code.",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "548c47453320b03039e2efbfebf377f570719b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5ae0883_87aa7258",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-23T15:53:32Z",
+      "side": 1,
+      "message": "There\u0027s lots of callers of load() still. Are we worried about them?",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 15
+      },
+      "revId": "548c47453320b03039e2efbfebf377f570719b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

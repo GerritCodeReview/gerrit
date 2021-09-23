@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
+import '../../../styles/gr-font-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-label-info/gr-label-info';

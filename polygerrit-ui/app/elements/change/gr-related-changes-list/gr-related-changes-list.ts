@@ -40,6 +40,7 @@ import {
   isChangeInfo,
 } from '../../../utils/change-util';
 import {Interaction} from '../../../constants/reporting';
+import {fontStyles} from '../../../styles/gr-font-styles';
 
 /** What is the maximum number of shown changes in collapsed list? */
 const DEFALT_NUM_CHANGES_WHEN_COLLAPSED = 3;
@@ -686,9 +687,9 @@ export class GrRelatedCollapse extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      fontStyles,
       css`
         .title {
-          font-weight: var(--font-weight-bold);
           color: var(--deemphasized-text-color);
           padding-left: var(--metadata-horizontal-padding);
         }
@@ -720,7 +721,7 @@ export class GrRelatedCollapse extends LitElement {
   }
 
   override render() {
-    const title = html`<h4 class="title">${this.title}</h4>`;
+    const title = html`<h3 class="title heading-3">${this.title}</h3>`;
 
     const collapsible = this.length > this.numChangesWhenCollapsed;
     this.collapsed = !this.showAll && collapsible;

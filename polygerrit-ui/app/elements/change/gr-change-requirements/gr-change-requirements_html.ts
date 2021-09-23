@@ -17,6 +17,9 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
+  <style include="gr-font-styles">
+    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+  </style>
   <style include="shared-styles">
     :host {
       display: table;
@@ -104,7 +107,7 @@ export const htmlTemplate = html`
       padding-left: 0;
     }
   </style>
-  <h3 class="metadata-title">Submit requirements</h3>
+  <h3 class="metadata-title heading-3">Submit requirements</h3>
   <template is="dom-repeat" items="[[_requirements]]">
     <gr-endpoint-decorator
       class="submit-requirement-endpoints"

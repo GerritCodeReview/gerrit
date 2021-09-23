@@ -69,9 +69,6 @@ default_java_toolchain(
 # enabled. This warnings list is originally based on:
 # https://github.com/bazelbuild/BUILD_file_generator/blob/master/tools/bazel_defs/java.bzl
 # However, feel free to add any additional errors. Thus far they have all been pretty useful.
-# TODO(davido): Enable ImmutableAnnotationChecker again when these issues are fixed:
-# https://github.com/google/error-prone/issues/1348
-# https://github.com/bazelbuild/bazel/issues/9378
 java_package_configuration(
     name = "error_prone",
     javacopts = [
@@ -99,7 +96,7 @@ java_package_configuration(
         "-Xep:FunctionalInterfaceClash:ERROR",
         "-Xep:FutureReturnValueIgnored:ERROR",
         "-Xep:GetClassOnEnum:ERROR",
-        "-Xep:ImmutableAnnotationChecker:OFF",
+        "-Xep:ImmutableAnnotationChecker:ERROR",
         "-Xep:ImmutableEnumChecker:ERROR",
         "-Xep:IncompatibleModifiers:ERROR",
         "-Xep:InjectOnConstructorOfAbstractClass:ERROR",

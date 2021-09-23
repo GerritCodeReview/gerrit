@@ -237,7 +237,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
     private Collection<String> reviewed(RevisionResource resource) throws AuthException {
       CurrentUser user = self.get();
-      if (!(user.isIdentifiedUser())) {
+      if (!user.isIdentifiedUser()) {
         throw new AuthException("Authentication required");
       }
 

@@ -2480,7 +2480,7 @@ class ReceiveCommits {
         replace.groups = ImmutableList.copyOf(groups.get(replace.newCommitId));
       }
       for (UpdateGroupsRequest update : updateGroups) {
-        update.groups = ImmutableList.copyOf((groups.get(update.commit)));
+        update.groups = ImmutableList.copyOf(groups.get(update.commit));
       }
       logger.atFine().log("Finished updating groups from GroupCollector");
       return newChanges;

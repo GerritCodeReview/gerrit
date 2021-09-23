@@ -437,7 +437,7 @@ java_package_configuration(
         # "-Xep:UnnecessaryLambda:WARN",
         "-Xep:UnnecessaryMethodInvocationMatcher:ERROR",
         "-Xep:UnnecessaryMethodReference:ERROR",
-        # "-Xep:UnnecessaryParentheses:WARN",
+        "-Xep:UnnecessaryParentheses:ERROR",
         "-Xep:UnnecessaryTypeArgument:ERROR",
         "-Xep:UnrecognisedJavadocTag:ERROR",
         "-Xep:UnsafeFinalization:ERROR",

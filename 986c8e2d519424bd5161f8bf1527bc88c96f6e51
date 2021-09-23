@@ -566,6 +566,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a2a5a69_5c0f1592",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-23T20:22:17Z",
+      "side": 1,
+      "message": "But you already have tests doing that. Limit your tests to their stated purpose. Other tests will fail if enabling protocol v2 doesn\u0027t work.",
+      "parentUuid": "d793ec89_ee435430",
+      "range": {
+        "startLine": 308,
+        "startChar": 6,
+        "endLine": 308,
+        "endChar": 57
+      },
+      "revId": "986c8e2d519424bd5161f8bf1527bc88c96f6e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "12967910_0f052950",
         "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
         "patchSetId": 8

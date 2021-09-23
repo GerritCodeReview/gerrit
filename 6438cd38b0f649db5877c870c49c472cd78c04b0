@@ -16,6 +16,24 @@
       "message": "Why is this an issue for us here, but not for all the other classes that use com.google.inject.Inject?",
       "revId": "6438cd38b0f649db5877c870c49c472cd78c04b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "750eea76_08f543ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-23T07:39:50Z",
+      "side": 1,
+      "message": "Other classes are used only with Guice and internally uses only within site/host. ExternalIdKeyFactory and ExternalIdFactory must be available (in internal google code) earlier, before site/host is known.",
+      "parentUuid": "2e1d8b21_4de39f29",
+      "revId": "6438cd38b0f649db5877c870c49c472cd78c04b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

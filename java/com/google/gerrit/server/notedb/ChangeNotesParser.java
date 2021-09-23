@@ -55,6 +55,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.FormatMethod;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
@@ -1172,6 +1173,7 @@ class ChangeNotesParser {
     }
     if (!missing.isEmpty()) {
       throw parseException(
+          "%s",
           "Missing footers: " + missing.stream().map(FooterKey::getName).collect(joining(", ")));
     }
   }
@@ -1205,6 +1207,7 @@ class ChangeNotesParser {
     return pending != null && pending.commitId().isPresent();
   }
 
+  @FormatMethod
   private ConfigInvalidException parseException(String fmt, Object... args) {
     return ChangeNotes.parseException(id, fmt, args);
   }

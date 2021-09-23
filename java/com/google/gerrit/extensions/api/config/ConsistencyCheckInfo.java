@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.config;
 
+import com.google.errorprone.annotations.FormatMethod;
 import java.util.List;
 import java.util.Objects;
 
@@ -80,10 +81,12 @@ public class ConsistencyCheckInfo {
       return status.name() + ": " + message;
     }
 
+    @FormatMethod
     public static ConsistencyProblemInfo warning(String fmt, Object... args) {
       return new ConsistencyProblemInfo(Status.WARNING, String.format(fmt, args));
     }
 
+    @FormatMethod
     public static ConsistencyProblemInfo error(String fmt, Object... args) {
       return new ConsistencyProblemInfo(Status.ERROR, String.format(fmt, args));
     }

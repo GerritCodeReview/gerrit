@@ -36,6 +36,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.FormatMethod;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -90,6 +91,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   public static final Ordering<ChangeMessage> MESSAGE_BY_TIME =
       Ordering.from(comparing(ChangeMessage::getWrittenOn));
 
+  @FormatMethod
   public static ConfigInvalidException parseException(
       Change.Id changeId, String fmt, Object... args) {
     return new ConfigInvalidException("Change " + changeId + ": " + String.format(fmt, args));

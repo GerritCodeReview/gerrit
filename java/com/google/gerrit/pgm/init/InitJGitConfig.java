@@ -53,7 +53,8 @@ class InitJGitConfig implements InitStep {
             ConfigConstants.CONFIG_RECEIVE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOGC, false);
         jgitConfig.save();
         ui.error(
-            "Auto-configured \"receive.autogc = false\" to disable auto-gc after git-receive-pack.");
+            "Auto-configured \"receive.autogc = false\" to disable auto-gc after"
+                + " git-receive-pack.");
       } else if (jgitConfig.getBoolean(
           ConfigConstants.CONFIG_RECEIVE_SECTION, ConfigConstants.CONFIG_KEY_AUTOGC, true)) {
         ui.error(
@@ -72,12 +73,9 @@ class InitJGitConfig implements InitStep {
                 ConfigConstants.CONFIG_PROTOCOL_SECTION, null, ConfigConstants.CONFIG_KEY_VERSION);
         if (!TransferConfig.ProtocolVersion.V2.version().equals(version)) {
           ui.error(
-              String.format(
-                  "HINT: JGit option \"%s.%s = %s\". It's recommended to activate git\n"
-                      + "wire protocol version 2 to improve git fetch performance.",
-                  ConfigConstants.CONFIG_PROTOCOL_SECTION,
-                  ConfigConstants.CONFIG_KEY_VERSION,
-                  version));
+              "HINT: JGit option \"%s.%s = %s\". It's recommended to activate git\n"
+                  + "wire protocol version 2 to improve git fetch performance.",
+              ConfigConstants.CONFIG_PROTOCOL_SECTION, ConfigConstants.CONFIG_KEY_VERSION, version);
         }
       }
     } catch (IOException e) {

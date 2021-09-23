@@ -22,6 +22,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.FormatMethod;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
@@ -138,8 +139,7 @@ public class GroupsNoteDbConsistencyChecker {
     Optional<Ref> maybeRef =
         refs.stream().filter(r -> r.getName().equals(RefNames.REFS_GROUPNAMES)).findFirst();
     if (!maybeRef.isPresent()) {
-      String msg = String.format("ref %s does not exist", RefNames.REFS_GROUPNAMES);
-      result.problems.add(error(msg));
+      result.problems.add(error("ref %s does not exist", RefNames.REFS_GROUPNAMES));
       return;
     }
     Ref ref = maybeRef.get();
@@ -280,6 +280,7 @@ public class GroupsNoteDbConsistencyChecker {
     }
   }
 
+  @FormatMethod
   public static void logConsistencyProblemAsWarning(String fmt, Object... args) {
     logConsistencyProblem(warning(fmt, args));
   }

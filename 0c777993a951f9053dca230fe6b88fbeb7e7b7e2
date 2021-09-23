@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8ad26cb_9494f0fe",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-23T09:26:29Z",
+      "side": 1,
+      "message": "Should be changed now.",
+      "range": {
+        "startLine": 803,
+        "startChar": 64,
+        "endLine": 803,
+        "endChar": 66
+      },
+      "revId": "0c777993a951f9053dca230fe6b88fbeb7e7b7e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

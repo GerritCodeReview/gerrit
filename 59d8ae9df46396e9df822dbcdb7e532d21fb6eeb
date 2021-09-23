@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d48e71d2_2dd97994",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-23T09:26:29Z",
+      "side": 1,
+      "message": "Doesn\u0027t changing this require a corresponding change in ChangeUpdate and in the tests?",
+      "parentUuid": "575c9aaa_dced4f56",
+      "range": {
+        "startLine": 826,
+        "startChar": 80,
+        "endLine": 826,
+        "endChar": 82
+      },
+      "revId": "59d8ae9df46396e9df822dbcdb7e532d21fb6eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "86a85866_e3ab6572",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 5

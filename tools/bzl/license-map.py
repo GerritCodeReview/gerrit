@@ -196,7 +196,7 @@ updates of mirror servers, or realtime backups.
         print("[[%s_license]]" % safename)
         print("----")
         license_text = data.license_text
-        print(data.license_text.rstrip("\r\n"))
+#         print(data.license_text.rstrip("\r\n"))
         print()
         print("----")
         print()

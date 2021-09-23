@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "367a4fbe_69e6dadd",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-23T10:50:29Z",
+      "side": 1,
+      "message": "Ah, my complaint was not about the space, just thought the space should be after the comma, instead of being in front of the comma. But without space is also fine.",
+      "parentUuid": "cd2702a7_8441acac",
+      "range": {
+        "startLine": 803,
+        "startChar": 64,
+        "endLine": 803,
+        "endChar": 66
+      },
+      "revId": "0c777993a951f9053dca230fe6b88fbeb7e7b7e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56d7669d_a67ab07b",

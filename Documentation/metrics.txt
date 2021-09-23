@@ -118,6 +118,15 @@ The following metrics are reported.
 ** `type`:
    type of push (create/replace, autoclose, normal)
 * `receivecommits/timeout`: rate of push timeouts
+* `receivecommits/ps_revision_missing`: errors due to patch set revision missing
+* `receivecommits/push_count`: number of pushes
+** `kind`:
+   The push kind (direct vs. magic).
+** `project`:
+   The name of the project for which the push is done.
+** `type`:
+   The type of the update (CREATE, UPDATE, CREATE/UPDATE, UPDATE_NONFASTFORWARD,
+   DELETE).
 
 === Process
 

@@ -102,7 +102,9 @@ import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.ChangeUtil;
@@ -323,6 +325,7 @@ class ReceiveCommits {
   @Singleton
   private static class Metrics {
     private final Counter0 psRevisionMissing;
+    private final Counter3<String, String, String> pushCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -330,6 +333,23 @@ class ReceiveCommits {
           metricMaker.newCounter(
               "receivecommits/ps_revision_missing",
               new Description("errors due to patch set revision missing"));
+      pushCount =
+          metricMaker.newCounter(
+              "receivecommits/push_count",
+              new Description("number of pushes"),
+              Field.ofString("kind", (metadataBuilder, fieldValue) -> {})
+                  .description("The push kind (direct vs. magic).")
+                  .build(),
+              Field.ofString(
+                      "project",
+                      (metadataBuilder, fieldValue) -> metadataBuilder.projectName(fieldValue))
+                  .description("The name of the project for which the push is done.")
+                  .build(),
+              Field.ofString("type", (metadataBuilder, fieldValue) -> {})
+                  .description(
+                      "The type of the update (CREATE, UPDATE, CREATE/UPDATE,"
+                          + " UPDATE_NONFASTFORWARD, DELETE).")
+                  .build());
     }
   }
 
@@ -727,6 +747,13 @@ class ReceiveCommits {
       return;
     }
 
+    if (!magicCommands.isEmpty()) {
+      metrics.pushCount.increment("magic", project.getName(), getUpdateType(magicCommands));
+    }
+    if (!regularCommands.isEmpty()) {
+      metrics.pushCount.increment("direct", project.getName(), getUpdateType(regularCommands));
+    }
+
     try {
       if (!regularCommands.isEmpty()) {
         handleRegularCommands(regularCommands, progress);
@@ -775,6 +802,15 @@ class ReceiveCommits {
     logger.atFine().log(
         "Command results: %s",
         lazy(() -> commands.stream().map(ReceiveCommits::commandToString).collect(joining(","))));
+  }
+
+  private String getUpdateType(List<ReceiveCommand> commands) {
+    return commands.stream()
+        .map(ReceiveCommand::getType)
+        .map(ReceiveCommand.Type::name)
+        .distinct()
+        .sorted()
+        .collect(joining("/"));
   }
 
   private void sendErrorMessages() {

@@ -113,6 +113,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88e13fb0_dfc1469f",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-23T09:31:07Z",
+      "side": 1,
+      "message": "This is added functionality and not just a lit conversion change, so in a sense this is making coverage go down. If you feel this is too simple to be a regression risk and will not become more complicated, then sure we don\u0027t need a test. However, if adding a test for a simple case is a significant timesink then maybe that is a problem itself.",
+      "parentUuid": "6901cffa_ba91f654",
+      "range": {
+        "startLine": 100,
+        "startChar": 12,
+        "endLine": 112,
+        "endChar": 14
+      },
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7031a43e_99eca89c",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
         "patchSetId": 2

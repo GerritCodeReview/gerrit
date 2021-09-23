@@ -22,6 +22,98 @@
       },
       "revId": "0c777993a951f9053dca230fe6b88fbeb7e7b7e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56d7669d_a67ab07b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-23T09:28:13Z",
+      "side": 1,
+      "message": "Looks like we need a test for tag and real author at the same time after all.",
+      "range": {
+        "startLine": 1089,
+        "startChar": 14,
+        "endLine": 1089,
+        "endChar": 53
+      },
+      "revId": "0c777993a951f9053dca230fe6b88fbeb7e7b7e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15ee48f0_7692bc73",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-23T09:28:13Z",
+      "side": 1,
+      "message": "Nit: I think the test is out of date: we now only put Gerrit User 123 \u003c123@gerrit\u003e",
+      "range": {
+        "startLine": 163,
+        "startChar": 39,
+        "endLine": 163,
+        "endChar": 46
+      },
+      "revId": "0c777993a951f9053dca230fe6b88fbeb7e7b7e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d334edbe_3c7c1d87",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-23T09:28:13Z",
+      "side": 1,
+      "message": "shouldn\u0027t this test be updated or the parsing logic changed to fail such cases?",
+      "range": {
+        "startLine": 165,
+        "startChar": 83,
+        "endLine": 165,
+        "endChar": 96
+      },
+      "revId": "0c777993a951f9053dca230fe6b88fbeb7e7b7e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae3156d3_96c76ef0",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-23T09:28:13Z",
+      "side": 1,
+      "message": "can you add a test for \u0027real author\u0027?",
+      "range": {
+        "startLine": 601,
+        "startChar": 14,
+        "endLine": 601,
+        "endChar": 44
+      },
+      "revId": "0c777993a951f9053dca230fe6b88fbeb7e7b7e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

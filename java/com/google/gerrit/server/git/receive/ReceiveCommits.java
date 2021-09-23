@@ -102,7 +102,7 @@ import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.metrics.Counter0;
-import com.google.gerrit.metrics.Counter2;
+import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
@@ -325,7 +325,7 @@ class ReceiveCommits {
   @Singleton
   private static class Metrics {
     private final Counter0 psRevisionMissing;
-    private final Counter2<String, String> pushCount;
+    private final Counter3<String, String, String> pushCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -344,6 +344,11 @@ class ReceiveCommits {
                       "project",
                       (metadataBuilder, fieldValue) -> metadataBuilder.projectName(fieldValue))
                   .description("The name of the project for which the push is done.")
+                  .build(),
+              Field.ofString("type", (metadataBuilder, fieldValue) -> {})
+                  .description(
+                      "The type of the update (CREATE, UPDATE, CREATE/UPDATE,"
+                          + " UPDATE_NONFASTFORWARD, DELETE).")
                   .build());
     }
   }
@@ -743,10 +748,10 @@ class ReceiveCommits {
     }
 
     if (!magicCommands.isEmpty()) {
-      metrics.pushCount.increment("magic", project.getName());
+      metrics.pushCount.increment("magic", project.getName(), getUpdateType(magicCommands));
     }
     if (!regularCommands.isEmpty()) {
-      metrics.pushCount.increment("direct", project.getName());
+      metrics.pushCount.increment("direct", project.getName(), getUpdateType(regularCommands));
     }
 
     try {
@@ -797,6 +802,15 @@ class ReceiveCommits {
     logger.atFine().log(
         "Command results: %s",
         lazy(() -> commands.stream().map(ReceiveCommits::commandToString).collect(joining(","))));
+  }
+
+  private String getUpdateType(List<ReceiveCommand> commands) {
+    return commands.stream()
+        .map(ReceiveCommand::getType)
+        .map(ReceiveCommand.Type::name)
+        .distinct()
+        .sorted()
+        .collect(joining("/"));
   }
 
   private void sendErrorMessages() {

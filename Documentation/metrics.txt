@@ -124,6 +124,9 @@ The following metrics are reported.
    The push kind (direct vs. magic).
 ** `project`:
    The name of the project for which the push is done.
+** `type`:
+   The type of the update (CREATE, UPDATE, CREATE/UPDATE, UPDATE_NONFASTFORWARD,
+   DELETE).
 
 === Process
 

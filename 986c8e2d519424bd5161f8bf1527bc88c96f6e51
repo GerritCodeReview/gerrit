@@ -161,6 +161,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "cfd72870_b36576c6",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T17:49:17Z",
+      "side": 1,
+      "message": "I re-read the code more carefully and getRefsByPrefix() depends on the deprecated getRefs() at L100. The getRefs() at L100 isn\u0027t buggy because if you pass HEAD will correctly extract the refs that start with HEAD as expected.\n\nThe bug is just in getRefsByPrefix() that when called with HEAD was triggering a getRefs(ALL).",
+      "parentUuid": "04243d63_beead5cf",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 42
+      },
+      "revId": "986c8e2d519424bd5161f8bf1527bc88c96f6e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "beb66939_94853ae0",
         "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
         "patchSetId": 8

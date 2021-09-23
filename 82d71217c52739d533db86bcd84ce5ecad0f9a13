@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "542b75b7_be99bff8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T22:39:05Z",
+      "side": 1,
+      "message": "\u003e If you want to do a tiny bit of that future proofing now, instead of layering these methods like you\u0027ve done (which, yes, I suggested) you could copy code from PermissionAwareReadOnlyRefDatabase.getRefs() into PermissionAwareReadOnlyRefDatabase.getRefsByPrefix() so that it gets the ACL filtering logic now. \n\nYeah and do the delegation on the other way around. Agreed.\ngetRefs() would go and it\u0027s best to avoid putting too much logic there.",
+      "parentUuid": "2879a175_e6d47357",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "82d71217c52739d533db86bcd84ce5ecad0f9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3f921c6_575b789c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2021-09-23T22:34:52Z",
       "side": 1,
       "message": "I\u0027m worried about our test coverage here. Given that https://gerrit-review.googlesource.com/c/gerrit/+/318693 passed CI and I would expect it to not be doing any ACL filtering, it\u0027s hard to trust that we\u0027re doing ACL filtering correctly in this change (I think we are, but tests are better). Can we add some tests and/or confirm that some tests do fail if ACL filtering isn\u0027t done?\n\nAlso, why is this on 3.3 and not 3.2?",
+      "revId": "82d71217c52739d533db86bcd84ce5ecad0f9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "398b7992_148099e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T22:39:05Z",
+      "side": 1,
+      "message": "\u003e I\u0027m worried about our test coverage here. Given that https://gerrit-review.googlesource.com/c/gerrit/+/318693 passed CI and I would expect it to not be doing any ACL filtering, it\u0027s hard to trust that we\u0027re doing ACL filtering correctly in this change (I think we are, but tests are better). Can we add some tests and/or confirm that some tests do fail if ACL filtering isn\u0027t done?\n\nI\u0027ll just upload a change that comments out the filtering logic and upload with a [DO NOT MERGE] comment ... and let\u0027s wait for the blast :-)\n\nIf that passes the CI, then we have a *big* problem of test coverage.\n\n\u003e Also, why is this on 3.3 and not 3.2?\n\nTrue, can be moved to stable-3.2.",
+      "parentUuid": "f3f921c6_575b789c",
       "revId": "82d71217c52739d533db86bcd84ce5ecad0f9a13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

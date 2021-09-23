@@ -450,7 +450,7 @@ java_package_configuration(
         "-Xep:UnusedNestedClass:ERROR",
         # "-Xep:UnusedVariable:WARN",
         "-Xep:UseBinds:ERROR",
-        # "-Xep:UseCorrectAssertInTests:WARN",
+        "-Xep:UseCorrectAssertInTests:ERROR",
         "-Xep:VarTypeName:ERROR",
         "-Xep:VariableNameSameAsType:ERROR",
         "-Xep:WaitNotInLoop:ERROR",

@@ -21,7 +21,7 @@ import {Side} from '../../../api/diff';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 import {HOVER_DELAY_MS, TokenHighlightLayer} from './token-highlight-layer';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {html, render} from 'lit-html';
+import {html, render} from 'lit';
 import {_testOnly_allTasks} from '../../../utils/async-util';
 import {queryAndAssert} from '../../../test/test-utils';
 

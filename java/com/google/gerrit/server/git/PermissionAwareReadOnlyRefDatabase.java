@@ -120,13 +120,15 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
       return Collections.emptyList();
     }
 
-    Collection<Ref> result;
-    try {
-      result = forProject.filter(refs, getDelegate(), RefFilterOptions.defaults());
-    } catch (PermissionBackendException e) {
-      throw new IOException("", e);
-    }
-    return result.stream().collect(Collectors.toList());
+    return refs;
+
+    //    Collection<Ref> result;
+    //    try {
+    //      result = forProject.filter(refs, getDelegate(), RefFilterOptions.defaults());
+    //    } catch (PermissionBackendException e) {
+    //      throw new IOException("", e);
+    //    }
+    //    return result.stream().collect(Collectors.toList());
   }
 
   @Override

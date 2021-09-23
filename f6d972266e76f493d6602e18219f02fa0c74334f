@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3e18b47_7698361e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-23T18:31:42Z",
+      "side": 1,
+      "message": "No, it\u0027s not. We\u0027re not calling JGit\u0027s getRefs() in any of these code paths.",
+      "parentUuid": "d31a2214_2379ca84",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "f6d972266e76f493d6602e18219f02fa0c74334f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "cb1f90c0_5e20d6c8",

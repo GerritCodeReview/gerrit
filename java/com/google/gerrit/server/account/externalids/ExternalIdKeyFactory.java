@@ -28,7 +28,11 @@ public class ExternalIdKeyFactory {
     boolean isUserNameCaseInsensitive();
   }
 
-  // Default implementation. Internally in google we are using different implementation
+  /**
+   * Default implementation {@link Config}
+   *
+   * <p>Internally in google we are using different implementation.
+   */
   @Singleton
   public static class ConfigImpl implements Config {
     private final boolean isUserNameCaseInsensitive;

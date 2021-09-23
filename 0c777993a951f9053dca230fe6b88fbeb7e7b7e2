@@ -166,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68b2ec43_06306b8a",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-23T11:50:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c3cf875a_ef1d88db",
+      "range": {
+        "startLine": 163,
+        "startChar": 39,
+        "endLine": 163,
+        "endChar": 46
+      },
+      "revId": "0c777993a951f9053dca230fe6b88fbeb7e7b7e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d334edbe_3c7c1d87",
@@ -213,6 +237,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6febd291_77c3d139",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-23T11:50:01Z",
+      "side": 1,
+      "message": "No, I was actually just confused why it does not. Looks like ident from \u0027Other Account \u003c2@Gerrit\u003e :\u0027 can still be parsed (ignoreing everything after the right \u0027\u003e\u0027).\n\nSince that is ok, it\u0027s ok if the test does not fail.",
+      "parentUuid": "cdfde7d4_a12b93b9",
+      "range": {
+        "startLine": 165,
+        "startChar": 83,
+        "endLine": 165,
+        "endChar": 96
+      },
+      "revId": "0c777993a951f9053dca230fe6b88fbeb7e7b7e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae3156d3_96c76ef0",
@@ -250,6 +298,30 @@
       "side": 1,
       "message": "I set all the fields (real author, tag) in the first test. Is that good enough?",
       "parentUuid": "ae3156d3_96c76ef0",
+      "range": {
+        "startLine": 601,
+        "startChar": 14,
+        "endLine": 601,
+        "endChar": 44
+      },
+      "revId": "0c777993a951f9053dca230fe6b88fbeb7e7b7e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c38839d5_c7ecf367",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-23T11:50:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e443e256_44cb980a",
       "range": {
         "startLine": 601,
         "startChar": 14,

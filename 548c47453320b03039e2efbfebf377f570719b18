@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7679152_fd4b7a50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T17:08:24Z",
+      "side": 1,
+      "message": "\u003e Same comment here about what qualifies as expensive. How are we measuring this?\n\nThe definition of what \"expensive means\" is at L10-L12 of the commit message. This can be easily measured using the JGit\u0027s benchmark classes.\n\n\u003e That said, other than this being on a stable branch, I don\u0027t know if you really have to justify avoiding repeated work with more of an explanation than that, unless the refactor isn\u0027t clean. I\u0027m happy to approve changes that clearly avoid extra work, and on a stable branch we just need some justification that it\u0027s appropriate to do there. The problem here is the claim that this is expensive. If you say that, I\u0027m going to make you prove it 😊 If you say it\u0027s extra work, that can be obvious from the code.\n\nIf you consider a use-case of filtering 1M refs of a mono-repo, using for instance the git-refs-filter, resolving a FileKey 1M times implies spending 1M times a time that can be of the order of msecs, causing an overhead of thousands of seconds (several minutes).\n\nAll that computation is unnecessary because the permission backend works on a Repository object in memory: there is no need to reopen what is already opened in memory.\n\nHope that makes sense to you.",
+      "parentUuid": "853d2950_f1309f73",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "548c47453320b03039e2efbfebf377f570719b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5ae0883_87aa7258",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-23T15:53:32Z",
       "side": 1,
       "message": "There\u0027s lots of callers of load() still. Are we worried about them?",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 15
+      },
+      "revId": "548c47453320b03039e2efbfebf377f570719b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbfce8dc_34512180",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T17:08:24Z",
+      "side": 1,
+      "message": "I am planning to move as many as possible to the load at L144. I prefer to make small steps and moving the calls in a follow-up change.",
+      "parentUuid": "a5ae0883_87aa7258",
       "range": {
         "startLine": 135,
         "startChar": 11,

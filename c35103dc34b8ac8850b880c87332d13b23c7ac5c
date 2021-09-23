@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72d53019_e2330416",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-23T21:02:14Z",
+      "side": 1,
+      "message": "I\u0027d like a careful review of this. I removed a comment that at least according to testing doesn\u0027t matter and additionally doesn\u0027t seem to be actually true.\n\nThis reduces page load from 40+s to \u003c6s.",
+      "revId": "c35103dc34b8ac8850b880c87332d13b23c7ac5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

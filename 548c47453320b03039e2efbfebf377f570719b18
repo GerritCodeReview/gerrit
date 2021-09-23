@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f25abd4d_4f913186",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-23T18:28:46Z",
+      "side": 1,
+      "message": "My point was that you could delete this whole paragraph and the message would be fine and the change justified. \"Don\u0027t do extra work\" and a description of that \"extra work\" makes for a sufficiently compelling justification.",
+      "parentUuid": "b7679152_fd4b7a50",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "548c47453320b03039e2efbfebf377f570719b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a5ae0883_87aa7258",
         "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
         "patchSetId": 4
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "I am planning to move as many as possible to the load at L144. I prefer to make small steps and moving the calls in a follow-up change.",
       "parentUuid": "a5ae0883_87aa7258",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 15
+      },
+      "revId": "548c47453320b03039e2efbfebf377f570719b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eb42639_72a54661",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-23T18:28:46Z",
+      "side": 1,
+      "message": "Ok, can you add that plan to your commit message?",
+      "parentUuid": "bbfce8dc_34512180",
       "range": {
         "startLine": 135,
         "startChar": 11,

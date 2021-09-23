@@ -118,22 +118,22 @@ public class GitwebCgiConfig {
     this.logoPng = null;
   }
 
-  /** @return local path to the CGI executable; null if we shouldn't execute. */
+  /** Returns local path to the CGI executable; null if we shouldn't execute. */
   public Path getGitwebCgi() {
     return cgi;
   }
 
-  /** @return local path of the {@code gitweb.css} matching the CGI. */
+  /** Returns local path of the {@code gitweb.css} matching the CGI. */
   public Path getGitwebCss() {
     return css;
   }
 
-  /** @return local path of the {@code gitweb.js} for the CGI. */
+  /** Returns local path of the {@code gitweb.js} for the CGI. */
   public Path getGitwebJs() {
     return js;
   }
 
-  /** @return local path of the {@code git-logo.png} for the CGI. */
+  /** Returns local path of the {@code git-logo.png} for the CGI. */
   public Path getGitLogoPng() {
     return logoPng;
   }

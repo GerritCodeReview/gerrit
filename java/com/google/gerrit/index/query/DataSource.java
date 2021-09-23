@@ -15,12 +15,12 @@
 package com.google.gerrit.index.query;
 
 public interface DataSource<T> {
-  /** @return an estimate of the number of results from {@link #read()}. */
+  /** Returns an estimate of the number of results from {@link #read()}. */
   int getCardinality();
 
-  /** @return read from the database and return the results. */
+  /** Returns read from the database and return the results. */
   ResultSet<T> read();
 
-  /** @return read from the database and return the raw results. */
+  /** Returns read from the database and return the raw results. */
   ResultSet<FieldBundle> readRaw();
 }

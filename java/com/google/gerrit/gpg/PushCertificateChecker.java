@@ -154,8 +154,11 @@ public abstract class PushCertificateChecker {
   protected abstract Repository getRepository() throws IOException;
 
   /**
+   * Specifies whether this repository should be closed before returning froms {@link
+   * #check(PushCertificate)}
+   *
    * @param repo a repository previously returned by {@link #getRepository()}.
-   * @return whether this repository should be closed before returning from {@link
+   * @return true if this repository should be closed before returning from {@link
    *     #check(PushCertificate)}.
    */
   protected abstract boolean shouldClose(Repository repo);

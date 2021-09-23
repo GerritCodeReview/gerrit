@@ -35,9 +35,10 @@ import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 public interface ModifiedFilesCache {
 
   /**
+   * Returns the list of {@link ModifiedFile}s between the 2 git commits identified by the key
+   *
    * @param key used to identify two git commits and contains other attributes to control the diff
    *     calculation.
-   * @return the list of {@link ModifiedFile}s between the 2 git commits identified by the key.
    * @throws DiffNotAvailableException the supplied commits IDs of the key do no exist, are not IDs
    *     of a commit, or an exception occurred while reading a pack file.
    */

@@ -95,7 +95,7 @@ public abstract class Permission implements Comparable<Permission> {
     LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
   }
 
-  /** @return true if the name is recognized as a permission name. */
+  /** Returns true if the name is recognized as a permission name. */
   public static boolean isPermission(String varName) {
     return isLabel(varName) || isLabelAs(varName) || NAMES_LC.contains(varName.toLowerCase());
   }
@@ -104,22 +104,22 @@ public abstract class Permission implements Comparable<Permission> {
     return isLabel(varName) || isLabelAs(varName);
   }
 
-  /** @return true if the permission name is actually for a review label. */
+  /** Returns true if the permission name is actually for a review label. */
   public static boolean isLabel(String varName) {
     return varName.startsWith(LABEL) && LABEL.length() < varName.length();
   }
 
-  /** @return true if the permission is for impersonated review labels. */
+  /** Returns true if the permission is for impersonated review labels. */
   public static boolean isLabelAs(String var) {
     return var.startsWith(LABEL_AS) && LABEL_AS.length() < var.length();
   }
 
-  /** @return permission name for the given review label. */
+  /** Returns permission name for the given review label. */
   public static String forLabel(String labelName) {
     return LABEL + labelName;
   }
 
-  /** @return permission name to apply a label for another user. */
+  /** Returns permission name to apply a label for another user. */
   public static String forLabelAs(String labelName) {
     return LABEL_AS + labelName;
   }

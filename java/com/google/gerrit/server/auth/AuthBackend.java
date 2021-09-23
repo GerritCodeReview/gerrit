@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 @ExtensionPoint
 public interface AuthBackend {
 
-  /** @return an identifier that uniquely describes the backend. */
+  /** Returns an identifier that uniquely describes the backend. */
   String getDomain();
 
   /**

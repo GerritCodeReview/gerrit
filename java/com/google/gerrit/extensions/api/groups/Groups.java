@@ -47,7 +47,7 @@ public interface Groups {
   /** Create a new group. */
   GroupApi create(GroupInput input) throws RestApiException;
 
-  /** @return new request for listing groups. */
+  /** Returns new request for listing groups. */
   ListRequest list();
 
   /**

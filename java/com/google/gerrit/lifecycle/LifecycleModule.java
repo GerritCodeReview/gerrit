@@ -24,13 +24,16 @@ import java.lang.annotation.Annotation;
 /** Module to support registering a unique LifecyleListener. */
 public abstract class LifecycleModule extends FactoryModule {
   /**
-   * @return a unique listener binding.
-   *     <p>To create a listener binding use:
-   *     <pre>
+   * Returns a unique listener binding.
+   *
+   * <p>To create a listener binding use:
+   *
+   * <pre>
    * listener().to(MyListener.class);
    * </pre>
-   *     where {@code MyListener} is a {@link Singleton} implementing the {@link LifecycleListener}
-   *     interface.
+   *
+   * where {@code MyListener} is a {@link Singleton} implementing the {@link LifecycleListener}
+   * interface.
    */
   protected LinkedBindingBuilder<LifecycleListener> listener() {
     final Annotation id = UniqueAnnotations.create();

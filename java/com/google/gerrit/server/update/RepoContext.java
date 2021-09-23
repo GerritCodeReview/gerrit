@@ -22,9 +22,9 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 /** Context for performing the {@link BatchUpdateOp#updateRepo} phase. */
 public interface RepoContext extends Context {
   /**
-   * @return inserter for writing to the repo. Callers should not flush; the walk returned by {@link
-   *     #getRevWalk()} is able to read back objects inserted by this inserter without flushing
-   *     first.
+   * Returns inserter for writing to the repo. Callers should not flush; the walk returned by {@link
+   * #getRevWalk()} is able to read back objects inserted by this inserter without flushing first.
+   *
    * @throws IOException if an error occurred opening the repo.
    */
   ObjectInserter getInserter() throws IOException;

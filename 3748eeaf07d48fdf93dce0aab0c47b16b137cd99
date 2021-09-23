@@ -16,6 +16,24 @@
       "message": "There are other callers to submit rules such as the \"submit\" code path or \"SubmitRequirementsEvaluator\", but we can add those callers later if needed.",
       "revId": "3748eeaf07d48fdf93dce0aab0c47b16b137cd99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "361fcf2c_b166c6be",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-23T10:02:07Z",
+      "side": 1,
+      "message": "The targets are not the potential callers, but the first class that a caller would invoke to trigger the submit rule evaluation.\n\nFor the submit code path identifying the caller already works, since MergeOp calls ChangeData which is listed as target below. The caller would be recorded as:\n\n  com.google.gerrit.server.submit.MergeOp.getSubmitRecords(MergeOp.java:353)\n  \nSubmitRequirementsEvaluator is invoked in 2 places from ChangeData (already covered) and StoreSubmitRequirementsOp (not covered yet since it invokes SubmitRequirementsEvaluator directly without going through ChangeData). To cover the call in StoreSubmitRequirementsOp, I\u0027ve added SubmitRequirementsEvaluatorImpl as a target now. Thanks for pointing this out.\n\nBy the way I noticed that switching on GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS means that submit rules will be evaluated twice when a change is indexed (once for the SUBMIT_RECORD field and once for the STORED_SUBMIT_REQUIREMENTS field). Might be worth to investigate if this can be avoided.",
+      "parentUuid": "d90a0967_5357c9db",
+      "revId": "3748eeaf07d48fdf93dce0aab0c47b16b137cd99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

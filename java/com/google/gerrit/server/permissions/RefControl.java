@@ -364,7 +364,8 @@ class RefControl {
     }
 
     return new PermissionRange(
-        permissionName, Math.max(voteMin, blockAllowMin), Math.min(voteMax, blockAllowMax));
+        permissionName,
+        /* min= */Math.max(voteMin, blockAllowMin), /* max= */Math.min(voteMax, blockAllowMax));
   }
 
   private boolean isBlocked(String permissionName, boolean isChangeOwner, boolean withForce) {

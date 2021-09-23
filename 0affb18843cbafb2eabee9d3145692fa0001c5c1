@@ -70,6 +70,30 @@
       },
       "revId": "0affb18843cbafb2eabee9d3145692fa0001c5c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bce75a8_0015a945",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T22:08:35Z",
+      "side": 0,
+      "message": "We were *both* wrong after all? :o)\nCan we find an agreement on https://gerrit-review.googlesource.com/c/gerrit/+/318694 instead?",
+      "parentUuid": "a541945d_4b62ed2f",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 127,
+        "endChar": 70
+      },
+      "revId": "0affb18843cbafb2eabee9d3145692fa0001c5c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -48,8 +48,8 @@
         {\n}
       {/if}
 
-      {for $line in $comment.lines}
-        {if isFirst($line)}
+      {for $line, $index in $comment.lines}
+        {if $index == 0}
           {if $comment.startLine != 0}
             {$comment.link}
           {/if}

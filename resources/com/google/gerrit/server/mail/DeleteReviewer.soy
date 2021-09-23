@@ -26,8 +26,8 @@
   {@param email: ?}
   {@param fromName: ?}
   {$fromName} has removed{sp}
-  {for $reviewerName in $email.reviewerNames}
-    {if not isFirst($reviewerName)},{sp}{/if}
+  {for $reviewerName, $index in $email.reviewerNames}
+    {if $index > 0},{sp}{/if}
     {$reviewerName}
   {/for}{sp}
   from this change.{sp}

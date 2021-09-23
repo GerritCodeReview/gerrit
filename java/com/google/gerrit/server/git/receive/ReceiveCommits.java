@@ -102,7 +102,9 @@ import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.ChangeUtil;
@@ -323,6 +325,7 @@ class ReceiveCommits {
   @Singleton
   private static class Metrics {
     private final Counter0 psRevisionMissing;
+    private final Counter2<String, String> pushCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -330,6 +333,18 @@ class ReceiveCommits {
           metricMaker.newCounter(
               "receivecommits/ps_revision_missing",
               new Description("errors due to patch set revision missing"));
+      pushCount =
+          metricMaker.newCounter(
+              "receivecommits/push_count",
+              new Description("number of pushes"),
+              Field.ofString("kind", (metadataBuilder, fieldValue) -> {})
+                  .description("The push kind (direct vs. magic).")
+                  .build(),
+              Field.ofString(
+                      "project",
+                      (metadataBuilder, fieldValue) -> metadataBuilder.projectName(fieldValue))
+                  .description("The name of the project for which the push is done.")
+                  .build());
     }
   }
 
@@ -725,6 +740,13 @@ class ReceiveCommits {
     if (!magicCommands.isEmpty() && !regularCommands.isEmpty()) {
       rejectRemaining(commands, "cannot combine normal pushes and magic pushes");
       return;
+    }
+
+    if (!magicCommands.isEmpty()) {
+      metrics.pushCount.increment("magic", project.getName());
+    }
+    if (!regularCommands.isEmpty()) {
+      metrics.pushCount.increment("direct", project.getName());
     }
 
     try {

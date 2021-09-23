@@ -22,6 +22,30 @@
       },
       "revId": "9dd09c10f3d016e9681e4f209df881393964fad7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bb27111_3de4bd57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-23T07:59:57Z",
+      "side": 1,
+      "message": "If a change has four code-review+1, then it also has three/two/one code-review+1. i.e. four votes is a superset of 3/2/1. I think it\u0027s confusing if a user queries changes with two code-review+1 votes and doesn\u0027t get a match for a change having 3/4/... votes, WDYT?\nWe have the \u003e operator with the label vote itself. Exact matching there with \u0027\u003d\u0027 makes sense.\n\nPoint (2) is solving a different issue, which is requiring n votes that don\u0027t include a vote from the uploader. We could add support for it using a query like:\n  label:code-review\u003d+1,user\u003dnon_uploader,count\u003d2\n  \nWe can do it but the indexing logic in ChangeField is going to be more complicated (see it is already is), since we are generating all possible permutations of the label format.",
+      "parentUuid": "891cf9b5_6b750c02",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 25,
+        "endChar": 25
+      },
+      "revId": "9dd09c10f3d016e9681e4f209df881393964fad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

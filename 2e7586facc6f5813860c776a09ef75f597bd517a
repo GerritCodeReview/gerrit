@@ -22,6 +22,30 @@
       },
       "revId": "2e7586facc6f5813860c776a09ef75f597bd517a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ead050f4_3a598a2b",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T18:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "101b75b3_1164b0fb",
+      "range": {
+        "startLine": 395,
+        "startChar": 28,
+        "endLine": 395,
+        "endChar": 37
+      },
+      "revId": "2e7586facc6f5813860c776a09ef75f597bd517a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1892a017_e8d681d1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-23T08:55:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e0e6811_6fec2302",
+      "range": {
+        "startLine": 803,
+        "startChar": 88,
+        "endLine": 803,
+        "endChar": 90
+      },
+      "revId": "59d8ae9df46396e9df822dbcdb7e532d21fb6eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a09a483_abb8d76b",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b0f04a0_b52603c4",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-23T08:55:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a09a483_abb8d76b",
+      "range": {
+        "startLine": 823,
+        "startChar": 56,
+        "endLine": 823,
+        "endChar": 69
+      },
+      "revId": "59d8ae9df46396e9df822dbcdb7e532d21fb6eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f919437e_27f8615a",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-09-23T06:48:34Z",
       "side": 1,
       "message": "Why \" ,\" rather than \", \"?",
+      "range": {
+        "startLine": 826,
+        "startChar": 80,
+        "endLine": 826,
+        "endChar": 82
+      },
+      "revId": "59d8ae9df46396e9df822dbcdb7e532d21fb6eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "575c9aaa_dced4f56",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-23T08:55:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f919437e_27f8615a",
       "range": {
         "startLine": 826,
         "startChar": 80,

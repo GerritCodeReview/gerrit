@@ -47,6 +47,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -1199,6 +1200,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
   public void cherryPickSetsReadyChangeOnNewPatchset() throws Exception {
     PushOneCommit.Result result = pushTo("refs/for/master");
     CherryPickInput input = new CherryPickInput();

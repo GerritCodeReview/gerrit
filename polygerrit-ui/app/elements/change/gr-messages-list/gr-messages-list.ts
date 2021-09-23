@@ -90,27 +90,19 @@ function getMessageId(x: CombinedMessage): ChangeMessageId | undefined {
  */
 function computeThreads(
   message: CombinedMessage,
-  changeComments?: ChangeComments
+  allThreadsForChange: CommentThread[]
 ): CommentThread[] {
-  if (message._index === undefined || changeComments === undefined) {
+  if (message._index === undefined) {
     return [];
   }
   const messageId = getMessageId(message);
-  return changeComments.getAllThreadsForChange().filter(thread =>
-    thread.comments
-      .map(comment => {
-        // collapse all by default
-        comment.collapsed = true;
-        return comment;
-      })
-      .some(comment => {
-        const condition = comment.change_message_id === messageId;
-        // Since getAllThreadsForChange() always returns a new copy of
-        // all comments we can modify them here without worrying about
-        // polluting other threads.
-        comment.collapsed = !condition;
-        return condition;
-      })
+  return allThreadsForChange.filter(thread =>
+    thread.comments.some(comment => {
+      const condition = comment.change_message_id === messageId;
+      if (!condition) return false;
+      comment.collapsed = !condition;
+      return condition;
+    })
   );
 }
 
@@ -198,7 +190,6 @@ function computeIsImportant(
 }
 
 export const TEST_ONLY = {
-  computeThreads,
   computeTag,
   computeRevision,
   computeIsImportant,
@@ -355,14 +346,23 @@ export class GrMessagesList extends base {
         mDate = null;
       }
     }
-    combinedMessages.forEach(m => {
-      if (m.expanded === undefined) {
-        m.expanded = false;
+
+    const allThreadsForChange = changeComments.getAllThreadsForChange();
+    // collapse all by default
+    for (const thread of allThreadsForChange) {
+      for (const comment of thread.comments) {
+        comment.collapsed = true;
       }
-      m.commentThreads = computeThreads(m, changeComments);
-      m._revision_number = computeRevision(m, combinedMessages);
-      m.tag = computeTag(m);
-    });
+    }
+
+    for (const message of combinedMessages) {
+      if (message.expanded === undefined) {
+        message.expanded = false;
+      }
+      message.commentThreads = computeThreads(message, allThreadsForChange);
+      message._revision_number = computeRevision(message, combinedMessages);
+      message.tag = computeTag(message);
+    }
     // computeIsImportant() depends on tags and revision numbers already being
     // updated for all messages, so we have to compute this in its own forEach
     // loop.
@@ -370,10 +370,6 @@ export class GrMessagesList extends base {
       m.isImportant = computeIsImportant(m, combinedMessages);
     });
     return combinedMessages;
-  }
-
-  getCommentThreads(message: CombinedMessage, changeComments?: ChangeComments) {
-    return computeThreads(message, changeComments);
   }
 
   _updateExpandedStateOfAllMessages(exp: boolean) {

@@ -20,14 +20,24 @@
  * limitations under the License.
  */
 
-import {DiffLayer, GrAnnotation, GrDiffCursor} from './diff';
+import {
+  DiffLayer,
+  GrAnnotation,
+  GrDiffCursor,
+  TokenHighlightedListener,
+} from './diff';
 
 declare global {
   interface Window {
     grdiff: {
       GrAnnotation: GrAnnotation;
       GrDiffCursor: {new (): GrDiffCursor};
-      TokenHighlightLayer: {new (container?: HTMLElement): DiffLayer};
+      TokenHighlightLayer: {
+        new (
+          container?: HTMLElement,
+          listener?: TokenHighlightedListener
+        ): DiffLayer;
+      };
     };
   }
 }

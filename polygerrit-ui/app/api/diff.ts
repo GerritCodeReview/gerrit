@@ -209,6 +209,18 @@ export declare interface DiffPreferencesInfo {
   line_wrapping?: boolean;
 }
 
+/**
+ * Listens to changes in token highlighting - when a new token starts or stopped being highlighted.
+ * Examples:
+ * - Token highlighted: ('myFunctionName', 12, [Element]).
+ * - Token unhighlighted: (undefined, 0, undefined).
+ */
+export type TokenHighlightedListener = (
+  newHighlight: string | undefined,
+  newLineNumber: number,
+  hoveredElement?: Element
+) => void;
+
 export declare interface ImageDiffPreferences {
   automatic_blink?: boolean;
 }

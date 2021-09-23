@@ -66,12 +66,22 @@ suite('token-highlight-layer', () => {
   let container: HTMLElement;
   let listener: MockListener;
   let highlighter: TokenHighlightLayer;
+  let tokenHighlightingCalls: any[] = [];
+
+  function tokenHighlightedListener(
+    newHighlight: string | undefined,
+    newLineNumber: number,
+    hoveredElement?: Element
+  ) {
+    tokenHighlightingCalls.push({newHighlight, newLineNumber, hoveredElement});
+  }
 
   setup(async () => {
     listener = new MockListener();
+    tokenHighlightingCalls = [];
     container = document.createElement('div');
     document.body.appendChild(container);
-    highlighter = new TokenHighlightLayer(container);
+    highlighter = new TokenHighlightLayer(container, tokenHighlightedListener);
     highlighter.addListener((...args) => listener.notify(...args));
   });
 
@@ -249,6 +259,37 @@ suite('token-highlight-layer', () => {
       clock.tick(HOVER_DELAY_MS - 100);
       assert.equal(listener.pending, 0);
       assert.equal(_testOnly_allTasks.size, 0);
+    });
+
+    test('triggers listener for applying and clearing highlighting', async () => {
+      const clock = sinon.useFakeTimers();
+      const line1 = createLine('two words');
+      annotate(line1);
+      const line2 = createLine('three words', 2);
+      annotate(line2, Side.RIGHT, 2);
+      const words1 = queryAndAssert(line1, '.tk-words');
+      assert.isTrue(words1.classList.contains('token'));
+      dispatchMouseEvent(
+        'mouseover',
+        MockInteractions.middleOfNode(words1),
+        words1
+      );
+      assert.equal(tokenHighlightingCalls.length, 0);
+      clock.tick(HOVER_DELAY_MS);
+      assert.equal(tokenHighlightingCalls.length, 1);
+      assert.deepEqual(tokenHighlightingCalls[0], {
+        newHighlight: 'words',
+        newLineNumber: 1,
+        hoveredElement: words1,
+      });
+
+      MockInteractions.click(container);
+      assert.equal(tokenHighlightingCalls.length, 2);
+      assert.deepEqual(tokenHighlightingCalls[1], {
+        newHighlight: undefined,
+        newLineNumber: 0,
+        hoveredElement: undefined,
+      });
     });
 
     test('clicking clears highlight', async () => {

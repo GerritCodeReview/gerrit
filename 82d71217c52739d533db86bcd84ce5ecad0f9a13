@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2879a175_e6d47357",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-23T22:34:52Z",
+      "side": 1,
+      "message": "Can you reword this slightly to be a little less specific on the solution and more specific on the methods/classes? There could be several good solutions.\n\n TODO: RefDatabase.getRefs() is deprecated and will be removed in the\n future. When that happens, someone might also remove\n PermissionAwareReadOnlyRefDatabase.getRefs() because it overrides it, but\n we need to ensure that the filtering logic currently in\n PermissionAwareReadOnlyRefDatabase.getRefs() still happens in\n PermissionAwareReadOnlyRefDatabase.getRefsByPrefix().\n\nHowever, I\u0027d also be ok with you removing this paragraph completely. It seems a bit unrelated to this change since PermissionAwareReadOnlyRefDatabase.getRefsByPrefix() was already using PermissionAwareReadOnlyRefDatabase.getRefs() and would have already been impacted by the removal of RefDatabase.getRefs().\n\nThinking ahead to addressing the TODO, it might be good to upload something on master that marks PermissionAwareReadOnlyRefDatabase.getRefs() @Deprecated or removes/blocks it and then copies/moves the ACL filtering logic to PermissionAwareReadOnlyRefDatabase.getRefsByPrefix().\n\nIf you want to do a tiny bit of that future proofing now, instead of layering these methods like you\u0027ve done (which, yes, I suggested) you could copy code from PermissionAwareReadOnlyRefDatabase.getRefs() into PermissionAwareReadOnlyRefDatabase.getRefsByPrefix() so that it gets the ACL filtering logic now. Then it would make sense to explain why you\u0027re doing that with a comment in the message like this one. We could then follow up with a change on master that removes/blocks/errors PermissionAwareReadOnlyRefDatabase.getRefs(). If you don\u0027t want to do that, that\u0027s fine, but then please remove or reword the TODO.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "82d71217c52739d533db86bcd84ce5ecad0f9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3f921c6_575b789c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-23T22:34:52Z",
+      "side": 1,
+      "message": "I\u0027m worried about our test coverage here. Given that https://gerrit-review.googlesource.com/c/gerrit/+/318693 passed CI and I would expect it to not be doing any ACL filtering, it\u0027s hard to trust that we\u0027re doing ACL filtering correctly in this change (I think we are, but tests are better). Can we add some tests and/or confirm that some tests do fail if ACL filtering isn\u0027t done?\n\nAlso, why is this on 3.3 and not 3.2?",
+      "revId": "82d71217c52739d533db86bcd84ce5ecad0f9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

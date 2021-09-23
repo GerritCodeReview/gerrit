@@ -304,3 +304,5 @@ export function createDefaultEditPrefs(): EditPreferencesInfo {
     theme: 'DEFAULT',
   };
 }
+
+export const RELOAD_DASHBOARD_INTERVAL_MS = 10 * 1000;

@@ -207,6 +207,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ebb3bf9_c160d108",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-23T18:20:35Z",
+      "side": 1,
+      "message": "I dug into this more, and I\u0027m more convinced this is the wrong change. This class seems to be unnecessarily duplicating code from JGit. JGit\u0027s org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java:getRefsByPrefix(String prefix) has almost identical code to this. When this class was first written, JGit didn\u0027t have that code. Why are we still duplicating it? Obviously we need to keep doing the filtering that\u0027s done on line 108, but I don\u0027t see any value in this class\u0027 getRefsByPrefix() over getRefs().\n\nThen that leads me to say, if after you remove this getRefsByPrefix() and use getRefs(), you find that RefDatabase\u0027s getRefsByPrefix() doesn\u0027t handle HEAD correctly, fix it in JGit.",
+      "parentUuid": "4ec83731_e7757817",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 42
+      },
+      "revId": "986c8e2d519424bd5161f8bf1527bc88c96f6e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "beb66939_94853ae0",

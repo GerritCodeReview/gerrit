@@ -83,7 +83,7 @@ java_package_configuration(
         "-Xep:AlwaysThrows:ERROR",
         "-Xep:AmbiguousMethodReference:ERROR",
         "-Xep:AnnotateFormatMethod:ERROR",
-        # "-Xep:ArgumentSelectionDefectChecker:WARN",
+        "-Xep:ArgumentSelectionDefectChecker:ERROR",
         "-Xep:ArrayAsKeyOfSetOrMap:ERROR",
         "-Xep:ArrayEquals:ERROR",
         "-Xep:ArrayFillIncompatibleType:ERROR",

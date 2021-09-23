@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e1d8b21_4de39f29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-23T05:59:45Z",
+      "side": 1,
+      "message": "Why is this an issue for us here, but not for all the other classes that use com.google.inject.Inject?",
+      "revId": "6438cd38b0f649db5877c870c49c472cd78c04b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

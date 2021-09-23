@@ -134,7 +134,7 @@ public abstract class AbstractChangeNotes<T> {
     return changeId;
   }
 
-  /** @return revision of the metadata that was loaded. */
+  /** Returns revision of the metadata that was loaded. */
   public ObjectId getRevision() {
     return revision;
   }
@@ -210,12 +210,12 @@ public abstract class AbstractChangeNotes<T> {
   protected abstract void loadDefaults();
 
   /**
-   * @return the NameKey for the project where the notes should be stored, which is not necessarily
+   * Returns the NameKey for the project where the notes should be stored, which is not necessarily
    *     the same as the change's project.
    */
   public abstract Project.NameKey getProjectName();
 
-  /** @return name of the reference storing this configuration. */
+  /** Returns name of the reference storing this configuration. */
   protected abstract String getRefName();
 
   /** Set up the metadata, parsing any state from the loaded revision. */

@@ -118,7 +118,7 @@ public class AccountManager {
     this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
-  /** @return user identified by this external identity string */
+  /** Returns a user identified by this external identity string */
   public Optional<Account.Id> lookup(String externalId) throws AccountException {
     try {
       return externalIds.get(externalIdKeyFactory.parse(externalId)).map(ExternalId::accountId);

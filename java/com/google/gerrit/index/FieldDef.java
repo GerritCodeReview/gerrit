@@ -138,17 +138,17 @@ public final class FieldDef<I, T> {
     return name;
   }
 
-  /** @return name of the field. */
+  /** Returns name of the field. */
   public String getName() {
     return name;
   }
 
-  /** @return type of the field; for repeatable fields, the inner type, not the iterable type. */
+  /** Returns type of the field; for repeatable fields, the inner type, not the iterable type. */
   public FieldType<?> getType() {
     return type;
   }
 
-  /** @return whether the field should be stored in the index. */
+  /** Returns whether the field should be stored in the index. */
   public boolean isStored() {
     return stored;
   }
@@ -203,7 +203,7 @@ public final class FieldDef<I, T> {
     return false;
   }
 
-  /** @return whether the field is repeatable. */
+  /** Returns whether the field is repeatable. */
   public boolean isRepeatable() {
     return repeatable;
   }

@@ -159,7 +159,7 @@ public abstract class Predicate<T> {
     return (Matchable<T>) this;
   }
 
-  /** @return a cost estimate to run this predicate, higher figures cost more. */
+  /** Returns a cost estimate to run this predicate, higher figures cost more. */
   public int estimateCost() {
     if (!isMatchable()) {
       return 1;

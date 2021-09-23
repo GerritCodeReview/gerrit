@@ -64,7 +64,7 @@ public abstract class SiteProgram extends AbstractProgram {
     this.sitePath = sitePath.normalize();
   }
 
-  /** @return the site path specified on the command line. */
+  /** Returns the site path specified on the command line. */
   protected Path getSitePath() {
     return sitePath;
   }
@@ -76,12 +76,12 @@ public abstract class SiteProgram extends AbstractProgram {
     }
   }
 
-  /** @return provides database connectivity and site path. */
+  /** Provides database connectivity and site path. */
   protected Injector createDbInjector() {
     return createDbInjector(false);
   }
 
-  /** @return provides database connectivity and site path. */
+  /** Provides database connectivity and site path. */
   protected Injector createDbInjector(boolean enableMetrics) {
     List<Module> modules = new ArrayList<>();
 

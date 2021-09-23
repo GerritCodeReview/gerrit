@@ -121,19 +121,39 @@ public abstract class GroupDelta {
   @AutoValue.Builder
   public abstract static class Builder {
 
-    /** @see #getName() */
+    /**
+     * Defines the new name of the group
+     *
+     * See {@link #getName}.
+     */
     public abstract Builder setName(AccountGroup.NameKey name);
 
-    /** @see #getDescription() */
+    /**
+     * Defines the new description of the group
+     *
+     * See {@link #getDescription()}}
+     */
     public abstract Builder setDescription(String description);
 
-    /** @see #getOwnerGroupUUID() */
+    /**
+     * Defines the new owner of the group
+     *
+     * See {@link #getOwnerGroupUUID()}
+     */
     public abstract Builder setOwnerGroupUUID(AccountGroup.UUID ownerGroupUUID);
 
-    /** @see #getVisibleToAll() */
+    /**
+     * Defines the new state of the 'visibleToAll' flag of the group
+     *
+     * See {@link #getVisibleToAll()}
+     */
     public abstract Builder setVisibleToAll(boolean visibleToAll);
 
-    /** @see #getMemberModification() */
+    /**
+     * Set {@link MemberModification} for the prospective {@link GroupDelta}
+     *
+     * See {@link #getMemberModification()}
+     */
     public abstract Builder setMemberModification(MemberModification memberModification);
 
     /**
@@ -146,7 +166,11 @@ public abstract class GroupDelta {
      */
     public abstract MemberModification getMemberModification();
 
-    /** @see #getSubgroupModification() */
+    /**
+     * Set {@link SubgroupModification} for the prospective {@link GroupDelta}
+     *
+     * See {@link #getSubgroupModification()}
+     */
     public abstract Builder setSubgroupModification(SubgroupModification subgroupModification);
 
     /**
@@ -159,7 +183,11 @@ public abstract class GroupDelta {
      */
     public abstract SubgroupModification getSubgroupModification();
 
-    /** @see #getUpdatedOn() */
+    /**
+     * Defines the {@code Timestamp} to be used for the NoteDb commits of the update. If not
+     * specified, the current {@code Timestamp} when creating the commit will be used.
+     *
+     * See {@link #getUpdatedOn()} */
     public abstract Builder setUpdatedOn(Timestamp timestamp);
 
     public abstract GroupDelta build();

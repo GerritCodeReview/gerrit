@@ -560,32 +560,32 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     groupList.renameGroup(uuid, newName);
   }
 
-  /** @return the group reference, if the group is used by at least one rule. */
+  /** Returns the group reference, if the group is used by at least one rule. */
   public GroupReference getGroup(AccountGroup.UUID uuid) {
     return groupList.byUUID(uuid);
   }
 
   /**
-   * @return the group reference corresponding to the specified group name if the group is used by
-   *     at least one rule or plugin value.
+   * Returns the group reference corresponding to the specified group name if the group is used by
+   * at least one rule or plugin value.
    */
   public GroupReference getGroup(String groupName) {
     return groupList.byName(groupName);
   }
 
   /**
-   * @return the project's rules.pl ObjectId, if present in the branch. Null if it doesn't exist.
+   * Returns the project's rules.pl ObjectId, if present in the branch. Null if it doesn't exist.
    */
   public ObjectId getRulesId() {
     return rulesId;
   }
 
-  /** @return the maxObjectSizeLimit configured on this project, or zero if not configured. */
+  /** Returns the maxObjectSizeLimit configured on this project, or zero if not configured. */
   public long getMaxObjectSizeLimit() {
     return maxObjectSizeLimit;
   }
 
-  /** @return the checkReceivedObjects for this project, default is true. */
+  /** Returns the checkReceivedObjects for this project, default is true. */
   public boolean getCheckReceivedObjects() {
     return checkReceivedObjects;
   }

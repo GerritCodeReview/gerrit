@@ -103,7 +103,7 @@ public abstract class CurrentUser {
     return Optional.empty();
   }
 
-  /** @return unique name of the user for logging, never {@code null} */
+  /** Returns unique name of the user for logging, never {@code null} */
   public String getLoggableName() {
     return getUserName().orElseGet(() -> getClass().getSimpleName());
   }

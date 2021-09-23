@@ -29,10 +29,18 @@ public interface FileApi {
   /** Diff against the revision's parent version of the file. */
   DiffInfo diff() throws RestApiException;
 
-  /** @param base revision id of the revision to be used as the diff base */
+  /**
+   * Diff against the specified base
+   *
+   * @param base revision id of the revision to be used as the diff base
+   */
   DiffInfo diff(String base) throws RestApiException;
 
-  /** @param parent 1-based parent number to diff against */
+  /**
+   * Diff against the specified parent
+   *
+   * @param parent 1-based parent number to diff against
+   */
   DiffInfo diff(int parent) throws RestApiException;
 
   /**

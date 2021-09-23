@@ -134,7 +134,7 @@ public class Schema<T> {
     return fields;
   }
 
-  /** @return all fields in this schema where {@link FieldDef#isStored()} is true. */
+  /** Returns all fields in this schema where {@link FieldDef#isStored()} is true. */
   public final ImmutableMap<String, FieldDef<T, ?>> getStoredFields() {
     return storedFields;
   }

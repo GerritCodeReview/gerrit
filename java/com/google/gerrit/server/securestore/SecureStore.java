@@ -148,10 +148,10 @@ public abstract class SecureStore {
    */
   public abstract void unset(String section, String subsection, String name);
 
-  /** @return list of stored entries. */
+  /** Returns list of stored entries. */
   public abstract Iterable<EntryKey> list();
 
-  /** @return <code>true</code> if currently loaded values are outdated */
+  /** Returns <code>true</code> if currently loaded values are outdated */
   public abstract boolean isOutdated();
 
   /** Reload the values */

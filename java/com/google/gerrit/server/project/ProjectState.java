@@ -138,7 +138,7 @@ public class ProjectState {
   }
 
   /**
-   * @return cached computation of all global capabilities. This should only be invoked on the state
+   * Returns cached computation of all global capabilities. This should only be invoked on the state
    *     from {@link ProjectCache#getAllProjects()}. Null on any other project.
    */
   public CapabilityCollection getCapabilityCollection() {
@@ -316,9 +316,9 @@ public class ProjectState {
   }
 
   /**
-   * @return all {@link AccountGroup}'s to which the owner privilege for 'refs/*' is assigned for
-   *     this project (the local owners), if there are no local owners the local owners of the
-   *     nearest parent project that has local owners are returned
+   * Returns all {@link AccountGroup}'s to which the owner privilege for 'refs/*' is assigned for
+   * this project (the local owners), if there are no local owners the local owners of the nearest
+   * parent project that has local owners are returned
    */
   public Set<AccountGroup.UUID> getOwners() {
     for (ProjectState p : tree()) {
@@ -330,10 +330,10 @@ public class ProjectState {
   }
 
   /**
-   * @return all {@link AccountGroup}'s that are allowed to administrate the complete project. This
-   *     includes all groups to which the owner privilege for 'refs/*' is assigned for this project
-   *     (the local owners) and all groups to which the owner privilege for 'refs/*' is assigned for
-   *     one of the parent projects (the inherited owners).
+   * Returns all {@link AccountGroup}'s that are allowed to administrate the complete project. This
+   * includes all groups to which the owner privilege for 'refs/*' is assigned for this project (the
+   * local owners) and all groups to which the owner privilege for 'refs/*' is assigned for one of
+   * the parent projects (the inherited owners).
    */
   public Set<AccountGroup.UUID> getAllOwners() {
     Set<AccountGroup.UUID> result = new HashSet<>();
@@ -346,16 +346,16 @@ public class ProjectState {
   }
 
   /**
-   * @return an iterable that walks through this project and then the parents of this project.
-   *     Starts from this project and progresses up the hierarchy to All-Projects.
+   * Returns an iterable that walks through this project and then the parents of this project.
+   * Starts from this project and progresses up the hierarchy to All-Projects.
    */
   public Iterable<ProjectState> tree() {
     return () -> new ProjectHierarchyIterator(projectCache, allProjectsName, ProjectState.this);
   }
 
   /**
-   * @return an iterable that walks in-order from All-Projects through the project hierarchy to this
-   *     project.
+   * Returns an iterable that walks in-order from All-Projects through the project hierarchy to this
+   * project.
    */
   public Iterable<ProjectState> treeInOrder() {
     List<ProjectState> projects = Lists.newArrayList(tree());
@@ -364,7 +364,7 @@ public class ProjectState {
   }
 
   /**
-   * @return an iterable that walks through the parents of this project. Starts from the immediate
+   * Returns an iterable that walks through the parents of this project. Starts from the immediate
    *     parent of this project and progresses up the hierarchy to All-Projects.
    */
   public FluentIterable<ProjectState> parents() {

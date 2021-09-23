@@ -175,28 +175,28 @@ public class ToolsCatalog {
       return type;
     }
 
-    /** @return the preferred UNIX file mode, e.g. {@code 0755}. */
+    /** Returns the preferred UNIX file mode, e.g. {@code 0755}. */
     public int getMode() {
       return mode;
     }
 
-    /** @return path of the entry, relative to the catalog root. */
+    /** Returns path of the entry, relative to the catalog root. */
     public String getPath() {
       return path;
     }
 
-    /** @return name of the entry, within its parent directory. */
+    /** Returns the name of the entry, within its parent directory. */
     public String getName() {
       final int s = path.lastIndexOf('/');
       return s < 0 ? path : path.substring(s + 1);
     }
 
-    /** @return collection of entries below this one, if this is a directory. */
+    /** Returns collection of entries below this one, if this is a directory. */
     public List<Entry> getChildren() {
       return Collections.unmodifiableList(children);
     }
 
-    /** @return a copy of the file's contents. */
+    /** Returns a copy of the file's contents. */
     public byte[] getBytes() {
       byte[] data = read(getPath());
 

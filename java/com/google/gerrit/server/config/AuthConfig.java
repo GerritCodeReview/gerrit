@@ -229,7 +229,7 @@ public class AuthConfig {
     return trustContainerAuth;
   }
 
-  /** @return true if users with Run As capability can impersonate others. */
+  /** Returns true if users with Run As capability can impersonate others. */
   public boolean isRunAsEnabled() {
     return enableRunAs;
   }

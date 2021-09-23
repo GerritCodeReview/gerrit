@@ -22,9 +22,9 @@ public abstract class RefResource extends ProjectResource {
     super(projectState, user);
   }
 
-  /** @return the ref's name */
+  /** Returns the ref's name */
   public abstract String getRef();
 
-  /** @return the ref's revision */
+  /** Returns the ref's revision */
   public abstract String getRevision();
 }

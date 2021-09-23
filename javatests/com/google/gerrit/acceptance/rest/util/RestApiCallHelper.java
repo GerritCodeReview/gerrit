@@ -29,13 +29,13 @@ import org.junit.Ignore;
 /** Helper to execute REST API calls using the HTTP client. */
 @Ignore
 public class RestApiCallHelper {
-  /** @see #execute(RestSession, List, BeforeRestCall, String...) */
+  /** See {@link #execute(RestSession, List, BeforeRestCall, String...)} */
   public static void execute(RestSession restSession, List<RestCall> restCalls, String... args)
       throws Exception {
     execute(restSession, restCalls, () -> {}, args);
   }
 
-  /** @see #execute(RestSession, List, BeforeRestCall, String...) */
+  /** See {@link #execute(RestSession, RestCall, String...)} */
   public static void execute(
       RestSession restSession,
       List<RestCall> restCalls,

@@ -17,7 +17,7 @@ package com.google.gerrit.extensions.api.config;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 
 public interface Config {
-  /** @return An API for getting server related configurations. */
+  /** Returns an API for getting server related configurations. */
   Server server();
 
   /**

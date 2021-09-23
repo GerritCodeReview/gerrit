@@ -36,7 +36,7 @@ import com.google.inject.name.Named;
 import com.google.protobuf.ByteString;
 import java.util.concurrent.ExecutionException;
 
-/** @see ApprovalCache */
+/** Implementation of the {@link ApprovalCache} interface */
 public class ApprovalCacheImpl implements ApprovalCache {
   private static final String CACHE_NAME = "approvals";
 

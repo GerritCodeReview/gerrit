@@ -38,7 +38,6 @@ import org.junit.Test;
 public abstract class AbstractIndexTests extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
 
-  /** @param injector injector */
   public void configureIndex(Injector injector) {}
 
   @Test

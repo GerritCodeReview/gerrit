@@ -22,8 +22,9 @@ import java.util.Properties;
 public interface GarbageCollectorListener {
   interface Event extends ProjectEvent {
     /**
-     * @return Properties describing the result of the garbage collection performed by JGit.
-     * @see org.eclipse.jgit.api.GarbageCollectCommand#call()
+     * Returns properties describing the result of the garbage collection performed by JGit.
+     *
+     * <p>See {@link org.eclipse.jgit.api.GarbageCollectCommand#call }
      */
     Properties getStatistics();
   }

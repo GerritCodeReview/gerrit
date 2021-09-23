@@ -76,8 +76,8 @@ public interface OnSubmitValidationListener {
     }
 
     /**
-     * @return a map from ref to commands covering all ref operations to be performed on this
-     *     repository as part of the ongoing submit operation.
+     * Returns a map from ref to commands covering all ref operations to be performed on this
+     * repository as part of the ongoing submit operation.
      */
     public ImmutableMap<String, ReceiveCommand> getCommands() {
       return commands;

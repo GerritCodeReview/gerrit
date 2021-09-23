@@ -55,17 +55,17 @@ public class RequestMetricsFilter implements Filter {
       startedMemory = threadMxBean.getCurrentThreadAllocatedBytes();
     }
 
-    /** @return total CPU time in milliseconds for executing request */
+    /** Returns total CPU time in milliseconds for executing request */
     public long getTotalCpuTime() {
       return (threadMxBean.getCurrentThreadCpuTime() - startedTotalCpu) / 1_000_000;
     }
 
-    /** @return CPU time in user mode in milliseconds for executing request */
+    /** Returns CPU time in user mode in milliseconds for executing request */
     public long getUserCpuTime() {
       return (threadMxBean.getCurrentThreadUserTime() - startedUserCpu) / 1_000_000;
     }
 
-    /** @return memory allocated in bytes for executing request */
+    /** Returns memory allocated in bytes for executing request */
     public long getAllocatedMemory() {
       return startedMemory == -1
           ? -1

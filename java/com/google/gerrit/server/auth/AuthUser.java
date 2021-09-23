@@ -52,18 +52,18 @@ public class AuthUser {
     this.username = username;
   }
 
-  /** @return the globally unique identifier. */
+  /** Returns the globally unique identifier. */
   public final UUID getUUID() {
     return uuid;
   }
 
-  /** @return the backend specific user name, or null if one does not exist. */
+  /** Returns the backend specific user name, or null if one does not exist. */
   @Nullable
   public final String getUsername() {
     return username;
   }
 
-  /** @return {@code true} if {@link #getUsername()} is not null. */
+  /** Returns {@code true} if {@link #getUsername()} is not null. */
   public final boolean hasUsername() {
     return getUsername() != null;
   }

@@ -37,7 +37,7 @@ public abstract class ConsoleUI {
     return new Die("aborted by user");
   }
 
-  /** @return true if this is a batch UI that has no user interaction. */
+  /** Returns true if this is a batch UI that has no user interaction. */
   public abstract boolean isBatch();
 
   /** Display a header message before a series of prompts. */

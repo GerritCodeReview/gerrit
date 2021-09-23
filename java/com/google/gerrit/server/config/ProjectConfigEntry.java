@@ -206,16 +206,18 @@ public class ProjectConfigEntry {
   }
 
   /**
+   * Returns whether the project is editable
+   *
    * @param project project state.
-   * @return whether the project is editable.
    */
   public boolean isEditable(ProjectState project) {
     return true;
   }
 
   /**
+   * Returns any warning associated with the project
+   *
    * @param project project state.
-   * @return any warning associated with the project.
    */
   public String getWarning(ProjectState project) {
     return null;

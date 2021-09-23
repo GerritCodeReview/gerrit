@@ -69,7 +69,7 @@ public interface ChangeContext extends Context {
    */
   void deleteChange();
 
-  /** @return change corresponding to {@link #getNotes()}. */
+  /** Returns change corresponding to {@link #getNotes()}. */
   default Change getChange() {
     return requireNonNull(getNotes().getChange());
   }

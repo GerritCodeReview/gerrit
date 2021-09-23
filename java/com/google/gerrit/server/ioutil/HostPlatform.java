@@ -21,7 +21,7 @@ public final class HostPlatform {
   private static final boolean win32 = compute("windows");
   private static final boolean mac = compute("mac");
 
-  /** @return true if this JVM is running on a Windows platform. */
+  /** Returns true if this JVM is running on a Windows platform. */
   public static boolean isWin32() {
     return win32;
   }

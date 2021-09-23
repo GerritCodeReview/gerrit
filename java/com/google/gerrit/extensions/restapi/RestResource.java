@@ -26,7 +26,7 @@ public interface RestResource {
 
   /** A resource with a last modification date. */
   public interface HasLastModified {
-    /** @return time for the Last-Modified header. HTTP truncates the header value to seconds. */
+    /** Returns time for the Last-Modified header. HTTP truncates the header value to seconds. */
     Timestamp getLastModified();
   }
 

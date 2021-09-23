@@ -143,7 +143,7 @@ public final class ChangeInfoDiffer {
     }
   }
 
-  /** @return {@code null} if nothing has been added to {@code oldCollection} */
+  /** Returns {@code null} if nothing has been added to {@code oldCollection} */
   private static ImmutableList<?> getAddedForCollection(
       Collection<?> oldCollection, Collection<?> newCollection) {
     ImmutableList<?> notInOldCollection = getAdditions(oldCollection, newCollection);
@@ -165,7 +165,7 @@ public final class ChangeInfoDiffer {
     return duplicatesMap.values().stream().flatMap(Collection::stream).collect(toImmutableList());
   }
 
-  /** @return {@code null} if nothing has been added to {@code oldMap} */
+  /** Returns {@code null} if nothing has been added to {@code oldMap} */
   private static ImmutableMap<Object, Object> getAddedForMap(Map<?, ?> oldMap, Map<?, ?> newMap) {
     ImmutableMap.Builder<Object, Object> additionsBuilder = ImmutableMap.builder();
     for (Map.Entry<?, ?> entry : newMap.entrySet()) {

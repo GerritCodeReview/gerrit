@@ -32,10 +32,10 @@ public abstract class ModifiedFilesCacheKey {
   /** A specific git project / repository. */
   public abstract Project.NameKey project();
 
-  /** @return the old commit ID used in the git tree diff */
+  /** Returns the old commit ID used in the git tree diff */
   public abstract ObjectId aCommit();
 
-  /** @return the new commit ID used in the git tree diff */
+  /** Returns the new commit ID used in the git tree diff */
   public abstract ObjectId bCommit();
 
   /**

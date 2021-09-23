@@ -89,8 +89,9 @@ public class MessageIdGenerator {
   }
 
   /**
-   * @param accountId Create a {@link MessageId} as a result of an account update.
-   * @return MessageId that depends on the account id.
+   * Create a {@link MessageId} as a result of an account update
+   *
+   * @return {@link MessageId} that depends on the account id.
    */
   public MessageId fromAccountUpdate(Account.Id accountId) {
     String userRef = RefNames.refsUsers(accountId);

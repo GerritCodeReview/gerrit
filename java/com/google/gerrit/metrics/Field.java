@@ -102,19 +102,19 @@ public abstract class Field<T> {
         .metadataMapper(metadataMapper);
   }
 
-  /** @return name of this field within the metric. */
+  /** Returns name of this field within the metric. */
   public abstract String name();
 
-  /** @return type of value used within the field. */
+  /** Returns type of value used within the field. */
   public abstract Class<T> valueType();
 
-  /** @return mapper that maps a field value to a field in the {@link Metadata} class. */
+  /** Returns mapper that maps a field value to a field in the {@link Metadata} class. */
   public abstract BiConsumer<Metadata.Builder, T> metadataMapper();
 
-  /** @return description text for the field explaining its range of values. */
+  /** Returns description text for the field explaining its range of values. */
   public abstract Optional<String> description();
 
-  /** @return formatter to format field values. */
+  /** Returns formatter to format field values. */
   public abstract Function<T, String> formatter();
 
   @AutoValue.Builder

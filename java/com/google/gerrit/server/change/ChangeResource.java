@@ -140,7 +140,7 @@ public class ChangeResource implements RestResource, HasETag {
     return changeData.getId();
   }
 
-  /** @return true if {@link #getUser()} is the change's owner. */
+  /** Returns true if {@link #getUser()} is the change's owner. */
   public boolean isUserOwner() {
     Account.Id owner = getChange().getOwner();
     return user.isIdentifiedUser() && user.asIdentifiedUser().getAccountId().equals(owner);

@@ -19,7 +19,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 
-/* Marker on {@link Boolean} indicating whether Gerrit is run as a read-only replica. */
+/** Marker on {@link Boolean} indicating whether Gerrit is run as a read-only replica. */
 @Retention(RUNTIME)
 @BindingAnnotation
 public @interface GerritIsReplica {}

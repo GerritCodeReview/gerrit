@@ -140,17 +140,17 @@ public class PatchList implements Serializable {
     return Collections.unmodifiableList(Arrays.asList(patches));
   }
 
-  /** @return the comparison type */
+  /** Returns the comparison type */
   public ComparisonType getComparisonType() {
     return comparisonType;
   }
 
-  /** @return total number of new lines added. */
+  /** Returns total number of new lines added. */
   public int getInsertions() {
     return insertions;
   }
 
-  /** @return total number of lines removed. */
+  /** Returns total number of lines removed. */
   public int getDeletions() {
     return deletions;
   }

@@ -77,10 +77,11 @@ public class LabelNormalizer {
   }
 
   /**
+   * Returns copies of approvals normalized to the defined ranges for the label type. Approvals for
+   * unknown labels are not included in the output
+   *
    * @param notes change notes containing the given approvals.
    * @param approvals list of approvals.
-   * @return copies of approvals normalized to the defined ranges for the label type. Approvals for
-   *     unknown labels are not included in the output.
    */
   public Result normalize(ChangeNotes notes, Collection<PatchSetApproval> approvals) {
     List<PatchSetApproval> unchanged = Lists.newArrayListWithCapacity(approvals.size());

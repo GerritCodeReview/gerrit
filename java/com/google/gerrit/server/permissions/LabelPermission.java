@@ -71,12 +71,12 @@ public class LabelPermission implements ChangePermissionOrLabel {
     this.name = LabelType.checkName(name);
   }
 
-  /** @return {@code SELF} or {@code ON_BEHALF_OF} (or labelAs). */
+  /** Returns {@code SELF} or {@code ON_BEHALF_OF} (or labelAs). */
   public ForUser forUser() {
     return forUser;
   }
 
-  /** @return name of the label, e.g. {@code "Code-Review"}. */
+  /** Returns name of the label, e.g. {@code "Code-Review"}. */
   public String label() {
     return name;
   }
@@ -199,17 +199,17 @@ public class LabelPermission implements ChangePermissionOrLabel {
       this.label = requireNonNull(label, "LabelVote");
     }
 
-    /** @return {@code SELF} or {@code ON_BEHALF_OF} (or labelAs). */
+    /** Returns {@code SELF} or {@code ON_BEHALF_OF} (or labelAs). */
     public ForUser forUser() {
       return forUser;
     }
 
-    /** @return name of the label, e.g. {@code "Code-Review"}. */
+    /** Returns name of the label, e.g. {@code "Code-Review"}. */
     public String label() {
       return label.label();
     }
 
-    /** @return specific value of the label, e.g. 1 or 2. */
+    /** Returns specific value of the label, e.g. 1 or 2. */
     public short value() {
       return label.value();
     }

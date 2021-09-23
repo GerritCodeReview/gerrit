@@ -24,6 +24,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d44ac263_cd320489",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T18:29:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89484e2e_50ef7247",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "f6d972266e76f493d6602e18219f02fa0c74334f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee0410b7_8225fa47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T18:29:26Z",
+      "side": 1,
+      "message": "Done.\n\nYes, it is explained in the paragraph but possibly not very explicitly. Let me rephrase it.",
+      "parentUuid": "89484e2e_50ef7247",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "f6d972266e76f493d6602e18219f02fa0c74334f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac2c80f5_ac52425d",
@@ -37,6 +85,30 @@
       "writtenOn": "2021-09-23T18:21:23Z",
       "side": 1,
       "message": "There\u0027s no deprecated getRefs being used here. See https://gerrit-review.googlesource.com/c/gerrit/+/250952",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "f6d972266e76f493d6602e18219f02fa0c74334f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d31a2214_2379ca84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T18:29:26Z",
+      "side": 1,
+      "message": "I believe JGit has been updated since then and it is now deprecated.",
+      "parentUuid": "ac2c80f5_ac52425d",
       "range": {
         "startLine": 21,
         "startChar": 12,

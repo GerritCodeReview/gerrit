@@ -233,6 +233,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1ac9f0ca_a4e9550b",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T18:29:26Z",
+      "side": 1,
+      "message": "Needs fixing in both. I\u0027ve posted the JGit fix: https://git.eclipse.org/r/c/jgit/jgit/+/185640",
+      "parentUuid": "3ebb3bf9_c160d108",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 42
+      },
+      "revId": "986c8e2d519424bd5161f8bf1527bc88c96f6e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "beb66939_94853ae0",
         "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
         "patchSetId": 8

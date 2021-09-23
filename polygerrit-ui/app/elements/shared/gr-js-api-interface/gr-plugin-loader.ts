@@ -106,6 +106,7 @@ export class PluginLoader {
     plugins.forEach(path => {
       const url = this._urlFor(path, window.ASSETS_PATH);
       const pluginKey = this._getPluginKeyFromUrl(url);
+      console.log('Loading: ', path, url, pluginKey);
       // Skip if already installed.
       if (this._plugins.has(pluginKey)) return;
       this._plugins.set(pluginKey, {

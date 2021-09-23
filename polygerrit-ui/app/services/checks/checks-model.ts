@@ -546,7 +546,7 @@ export const fakeRun4_1: CheckRun = {
   pluginName: 'f4',
   internalRunId: 'f4',
   checkName: 'FAKE Elimination Long Long Long Long Long',
-  status: RunStatus.COMPLETED,
+  status: RunStatus.RUNNABLE,
   attempt: 1,
   isSingleAttempt: false,
   isLatestAttempt: false,

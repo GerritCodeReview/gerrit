@@ -146,9 +146,6 @@ public class ChangeEditUtil {
    * @param edit change edit to publish
    * @param notify Notify handling that defines to whom email notifications should be sent after the
    *     change edit is published.
-   * @throws IOException
-   * @throws UpdateException
-   * @throws RestApiException
    */
   public void publish(
       BatchUpdate.Factory updateFactory,
@@ -209,7 +206,6 @@ public class ChangeEditUtil {
    * Delete change edit.
    *
    * @param edit change edit to delete
-   * @throws IOException
    */
   public void delete(ChangeEdit edit) throws IOException {
     Change change = edit.getChange();

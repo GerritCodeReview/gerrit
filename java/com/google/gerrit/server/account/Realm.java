@@ -56,14 +56,7 @@ public interface Realm {
    */
   Account.Id lookup(String accountName) throws IOException;
 
-  /**
-   * Returns true if the account is active.
-   *
-   * @throws NamingException
-   * @throws LoginException
-   * @throws AccountException
-   * @throws IOException
-   */
+  /** Returns true if the account is active. */
   default boolean isActive(@SuppressWarnings("unused") String username)
       throws LoginException, NamingException, AccountException, IOException {
     return true;

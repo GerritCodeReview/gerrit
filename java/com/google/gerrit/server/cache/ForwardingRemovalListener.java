@@ -25,9 +25,6 @@ import com.google.inject.assistedinject.Assisted;
 /**
  * This listener dispatches removal events to all other RemovalListeners attached via the DynamicSet
  * API.
- *
- * @param <K>
- * @param <V>
  */
 @SuppressWarnings("rawtypes")
 public class ForwardingRemovalListener<K, V> implements RemovalListener<K, V> {

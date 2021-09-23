@@ -1434,7 +1434,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
    * Assert that refs seen by a non-admin user match the expected refs.
    *
    * @param expectedRefs expected refs.
-   * @throws Exception
    */
   private void assertUploadPackRefs(String... expectedRefs) throws Exception {
     assertRefs(project, user, true, expectedRefs);

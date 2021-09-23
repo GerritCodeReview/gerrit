@@ -40,7 +40,6 @@ public class PredicateArgs {
    * name]}.
    *
    * @param args arguments to be parsed
-   * @throws QueryParseException
    */
   PredicateArgs(String args) throws QueryParseException {
     positional = new ArrayList<>();

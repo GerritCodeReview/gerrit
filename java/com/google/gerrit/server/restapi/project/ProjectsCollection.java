@@ -105,7 +105,6 @@ public class ProjectsCollection
    * @throws RestApiException thrown if the project ID cannot be resolved or if the project is not
    *     visible to the calling user
    * @throws IOException thrown when there is an error.
-   * @throws PermissionBackendException
    */
   public ProjectResource parse(String id)
       throws RestApiException, IOException, PermissionBackendException {
@@ -121,7 +120,6 @@ public class ProjectsCollection
    * @throws RestApiException thrown if the project ID cannot be resolved or if the project is not
    *     visible to the calling user and checkVisibility is true.
    * @throws IOException thrown when there is an error.
-   * @throws PermissionBackendException
    */
   public ProjectResource parse(String id, boolean checkAccess)
       throws RestApiException, IOException, PermissionBackendException {

@@ -324,7 +324,6 @@ public interface ChangeApi {
    * Get hashtags on a change.
    *
    * @return hashtags
-   * @throws RestApiException
    */
   Set<String> getHashtags() throws RestApiException;
 
@@ -359,7 +358,6 @@ public interface ChangeApi {
    *
    * @return comments in a map keyed by path; comments have the {@code revision} field set to
    *     indicate their patch set.
-   * @throws RestApiException
    * @deprecated Callers should use {@link #commentsRequest()} instead
    */
   @Deprecated
@@ -372,7 +370,6 @@ public interface ChangeApi {
    *
    * @return comments as a list; comments have the {@code revision} field set to indicate their
    *     patch set.
-   * @throws RestApiException
    * @deprecated Callers should use {@link #commentsRequest()} instead
    */
   @Deprecated
@@ -393,7 +390,6 @@ public interface ChangeApi {
    *
    * @return robot comments in a map keyed by path; robot comments have the {@code revision} field
    *     set to indicate their patch set.
-   * @throws RestApiException
    */
   Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException;
 
@@ -402,7 +398,6 @@ public interface ChangeApi {
    *
    * @return drafts in a map keyed by path; comments have the {@code revision} field set to indicate
    *     their patch set.
-   * @throws RestApiException
    */
   default Map<String, List<CommentInfo>> drafts() throws RestApiException {
     return draftsRequest().get();
@@ -413,7 +408,6 @@ public interface ChangeApi {
    *
    * @return drafts as a list; comments have the {@code revision} field set to indicate their patch
    *     set.
-   * @throws RestApiException
    */
   default List<CommentInfo> draftsAsList() throws RestApiException {
     return draftsRequest().getAsList();
@@ -443,7 +437,6 @@ public interface ChangeApi {
    * Get all messages of a change with detailed account info.
    *
    * @return a list of messages sorted by their creation time.
-   * @throws RestApiException
    */
   List<ChangeMessageInfo> messages() throws RestApiException;
 
@@ -466,7 +459,6 @@ public interface ChangeApi {
      *
      * @return comments in a map keyed by path; comments have the {@code revision} field set to
      *     indicate their patch set.
-     * @throws RestApiException
      */
     public abstract Map<String, List<CommentInfo>> get() throws RestApiException;
 

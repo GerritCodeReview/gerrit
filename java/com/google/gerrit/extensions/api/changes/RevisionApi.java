@@ -160,7 +160,6 @@ public interface RevisionApi {
    *
    * @param format the format of the archive
    * @return the archive as {@link BinaryResult}
-   * @throws RestApiException
    */
   BinaryResult getArchive(ArchiveFormat format) throws RestApiException;
 

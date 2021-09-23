@@ -46,6 +46,30 @@
       },
       "revId": "0affb18843cbafb2eabee9d3145692fa0001c5c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a541945d_4b62ed2f",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-23T22:01:23Z",
+      "side": 0,
+      "message": "\u003e \u003e I don\u0027t think it\u0027s safe to remove this public method on a stable branch.\n\u003e \n\u003e This isn\u0027t part of the public interface of the class, but just an overridden method. There isn\u0027t any direct reference to it but only through the JGit\u0027s public abstract class, which hasn\u0027t change.\n\u003e \n\u003e \u003e It\u0027s also likely not desired because this probably also breaks ACL ref filtering for anything using getRefsByPrefix() since it will go directly to the DelegateRefDatabase method now.\n\u003e \n\u003e There isn\u0027t any getRefsByPrefix in DelegatedRefDatabase. It will go instead to the default implementation in the abstract RefDatabase.java.\n\nBut like I said, that doesn\u0027t do any ACL filtering and that\u0027s the whole purpose of this class, right? It\u0027s a little shocking that this patchset passes tests...\n\n\u003e \n\u003e However, it is clear to me why this method was copied\u0026pasted: it would now go in a a loop because:\n\u003e 1. getRefsByPrefix() \u003d\u003e calls getRefs()\n\u003e 2. getRefs() is overridden in PermissionsAwareReadonlyRefDatabase()\n\u003e 3. overridden getRefs() would call getRefsByPrefix() \n\u003e \n\u003e 1. 2. and 3. will lead to a stack overflow.\n\nBut it didn\u0027t overflow, the tests passed. So I think your 1, 2, 3 isn\u0027t accurate. Add some debug logs that show it?",
+      "parentUuid": "e46cf5d9_8074d2e8",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 127,
+        "endChar": 70
+      },
+      "revId": "0affb18843cbafb2eabee9d3145692fa0001c5c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

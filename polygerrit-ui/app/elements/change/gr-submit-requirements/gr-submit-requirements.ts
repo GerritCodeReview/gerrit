@@ -128,12 +128,12 @@ export class GrSubmitRequirements extends LitElement {
     const submit_requirements = (this.change?.submit_requirements ?? []).filter(
       req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
     );
-    return html` <h2
+    return html` <h3
         class="metadata-title heading-3"
         id="submit-requirements-caption"
       >
         Submit Requirements
-      </h2>
+      </h3>
       <table class="requirements" aria-labelledby="submit-requirements-caption">
         <thead hidden>
           <tr>

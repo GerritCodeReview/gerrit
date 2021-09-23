@@ -22,22 +22,22 @@ import java.util.Set;
 public class GroupDescription {
   /** The Basic information required to be exposed by any Group. */
   public interface Basic {
-    /** @return the non-null UUID of the group. */
+    /** Returns the non-null UUID of the group. */
     AccountGroup.UUID getGroupUUID();
 
-    /** @return the non-null name of the group. */
+    /** Returns the non-null name of the group. */
     String getName();
 
     /**
-     * @return optional email address to send to the group's members. If provided, Gerrit will use
-     *     this email address to send change notifications to the group.
+     * Returns optional email address to send to the group's members. If provided, Gerrit will use
+     * this email address to send change notifications to the group.
      */
     @Nullable
     String getEmailAddress();
 
     /**
-     * @return optional URL to information about the group. Typically a URL to a web page that
-     *     permits users to apply to join the group, or manage their membership.
+     * Returns optional URL to information about the group. Typically a URL to a web page that
+     * permits users to apply to join the group, or manage their membership.
      */
     @Nullable
     String getUrl();

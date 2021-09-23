@@ -71,23 +71,23 @@ public class CommentSender extends ReplyToChangeSender {
     public PatchFile fileData;
     public List<Comment> comments = new ArrayList<>();
 
-    /** @return a web link to a comment for a change. */
+    /** Returns a web link to a comment for a change. */
     public String getCommentLink(String uuid) {
       return args.urlFormatter.get().getInlineCommentView(change, uuid).orElse(null);
     }
 
-    /** @return a web link to the comment tab view of a change. */
+    /** Returns a web link to the comment tab view of a change. */
     public String getCommentsTabLink() {
       return args.urlFormatter.get().getCommentsTabView(change).orElse(null);
     }
 
-    /** @return a web link to the findings tab view of a change. */
+    /** Returns a web link to the findings tab view of a change. */
     public String getFindingsTabLink() {
       return args.urlFormatter.get().getFindingsTabView(change).orElse(null);
     }
 
     /**
-     * @return A title for the group, i.e. "Commit Message", "Merge List", or "File [[filename]]".
+     * Returns a title for the group, i.e. "Commit Message", "Merge List", or "File [[filename]]".
      */
     public String getTitle() {
       if (Patch.COMMIT_MSG.equals(filename)) {
@@ -180,8 +180,8 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   /**
-   * @return a list of FileCommentGroup objects representing the inline comments grouped by the
-   *     file.
+   * Returns a list of FileCommentGroup objects representing the inline comments grouped by the
+   * file.
    */
   private List<CommentSender.FileCommentGroup> getGroupedInlineComments(Repository repo) {
     List<CommentSender.FileCommentGroup> groups = new ArrayList<>();
@@ -267,7 +267,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   /**
-   * @return the lines of file content in fileData that are encompassed by range on the given side.
+   * Returns the lines of file content in fileData that are encompassed by range on the given side.
    */
   private List<String> getLinesByRange(Comment.Range range, PatchFile fileData, short side) {
     List<String> lines = new ArrayList<>();
@@ -330,9 +330,9 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   /**
-   * @return a shortened version of the given comment's message. Will be shortened to 100 characters
-   *     or the first line, or following the last period within the first 100 characters, whichever
-   *     is shorter. If the message is shortened, an ellipsis is appended.
+   * Returns a shortened version of the given comment's message. Will be shortened to 100 characters
+   * or the first line, or following the last period within the first 100 characters, whichever is
+   * shorter. If the message is shortened, an ellipsis is appended.
    */
   protected static String getShortenedCommentMessage(String message) {
     int threshold = 100;
@@ -368,8 +368,8 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   /**
-   * @return grouped inline comment data mapped to data structures that are suitable for passing
-   *     into Soy.
+   * Returns grouped inline comment data mapped to data structures that are suitable for passing
+   * into Soy.
    */
   private List<Map<String, Object>> getCommentGroupsTemplateData(Repository repo) {
     List<Map<String, Object>> commentGroups = new ArrayList<>();

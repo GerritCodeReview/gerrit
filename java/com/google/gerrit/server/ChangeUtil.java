@@ -53,7 +53,7 @@ public class ChangeUtil {
   public static final Ordering<PatchSet> PS_ID_ORDER =
       Ordering.from(comparingInt(PatchSet::number));
 
-  /** @return a new unique identifier for change message entities. */
+  /** Returns a new unique identifier for change message entities. */
   public static String messageUuid() {
     byte[] buf = new byte[8];
     UUID_RANDOM.nextBytes(buf);

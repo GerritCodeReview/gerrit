@@ -160,7 +160,7 @@ public class MetaDataUpdate implements AutoCloseable {
       return create(name, null);
     }
 
-    /** @see User#create(Project.NameKey, IdentifiedUser, BatchRefUpdate) */
+    /** See {@link User#create(Project.NameKey, IdentifiedUser, BatchRefUpdate)} */
     public MetaDataUpdate create(Project.NameKey name, BatchRefUpdate batch)
         throws RepositoryNotFoundException, IOException {
       Repository repo = mgr.openRepository(name);
@@ -234,7 +234,7 @@ public class MetaDataUpdate implements AutoCloseable {
     this.closeRepository = closeRepository;
   }
 
-  /** @return batch in which to run the update, or {@code null} for no batch. */
+  /** Returns batch in which to run the update, or {@code null} for no batch. */
   BatchRefUpdate getBatch() {
     return batch;
   }

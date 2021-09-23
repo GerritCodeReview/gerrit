@@ -26,12 +26,12 @@ public abstract class DownloadScheme {
    */
   public abstract String getUrl(String project);
 
-  /** @return whether this scheme requires authentication */
+  /** Returns whether this scheme requires authentication */
   public abstract boolean isAuthRequired();
 
-  /** @return whether this scheme supports authentication */
+  /** Returns whether this scheme supports authentication */
   public abstract boolean isAuthSupported();
 
-  /** @return whether the download scheme is enabled */
+  /** Returns whether the download scheme is enabled */
   public abstract boolean isEnabled();
 }

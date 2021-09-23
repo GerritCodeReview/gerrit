@@ -18,6 +18,6 @@ public interface Matchable<T> {
   /** Does this predicate match this object? */
   boolean match(T object);
 
-  /** @return a cost estimate to run this predicate, higher figures cost more. */
+  /** Returns a cost estimate to run this predicate, higher figures cost more. */
   int getCost();
 }

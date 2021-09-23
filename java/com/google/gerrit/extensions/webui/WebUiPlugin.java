@@ -44,7 +44,7 @@ public abstract class WebUiPlugin {
 
   private String pluginName;
 
-  /** @return installed name of the plugin that provides this UI feature. */
+  /** Returns installed name of the plugin that provides this UI feature. */
   public final String getPluginName() {
     return pluginName;
   }
@@ -54,7 +54,7 @@ public abstract class WebUiPlugin {
     this.pluginName = pluginName;
   }
 
-  /** @return path to initialization script within the plugin's JAR. */
+  /** Returns path to initialization script within the plugin's JAR. */
   public abstract String getJavaScriptResourcePath();
 
   @Override

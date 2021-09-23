@@ -24,6 +24,8 @@ public interface PluginsDistribution {
 
   public interface Processor {
     /**
+     * Processes the plugin
+     *
      * @param pluginName the name of the plugin (without the .jar extension)
      * @param in the content of the plugin .jar file. Implementors don't have to close this stream.
      * @throws IOException implementations will typically propagate any IOException caused by

@@ -62,7 +62,7 @@ public class RemoveReviewerControl {
     checkRemoveReviewer(notes, currentUser, reviewer, 0);
   }
 
-  /** @return true if the user is allowed to remove this reviewer. */
+  /** Returns true if the user is allowed to remove this reviewer. */
   public boolean testRemoveReviewer(
       ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
       throws PermissionBackendException {

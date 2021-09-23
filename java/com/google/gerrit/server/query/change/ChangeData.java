@@ -728,7 +728,7 @@ public class ChangeData {
     this.attentionSet = attentionSet;
   }
 
-  /** @return patches for the change, in patch set ID order. */
+  /** Returns patches for the change, in patch set ID order. */
   public Collection<PatchSet> patchSets() {
     if (patchSets == null) {
       patchSets = psUtil.byChange(notes());
@@ -741,7 +741,7 @@ public class ChangeData {
     this.patchSets = patchSets;
   }
 
-  /** @return patch with the given ID, or null if it does not exist. */
+  /** Returns patch with the given ID, or null if it does not exist. */
   public PatchSet patchSet(PatchSet.Id psId) {
     if (currentPatchSet != null && currentPatchSet.id().equals(psId)) {
       return currentPatchSet;
@@ -755,8 +755,8 @@ public class ChangeData {
   }
 
   /**
-   * @return all patch set approvals for the change, keyed by ID, ordered by timestamp within each
-   *     patch set.
+   * Returns all patch set approvals for the change, keyed by ID, ordered by timestamp within each
+   * patch set.
    */
   public ListMultimap<PatchSet.Id, PatchSetApproval> approvals() {
     if (allApprovals == null) {
@@ -1199,8 +1199,8 @@ public class ChangeData {
   }
 
   /**
-   * @return {@code null} if {@code revertOf} is {@code null}; true if the change is a pure revert;
-   *     false otherwise.
+   * Returns {@code null} if {@code revertOf} is {@code null}; true if the change is a pure revert;
+   * false otherwise.
    */
   @Nullable
   public Boolean isPureRevert() {

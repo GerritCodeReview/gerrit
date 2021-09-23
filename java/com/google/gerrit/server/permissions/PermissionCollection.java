@@ -277,8 +277,8 @@ public class PermissionCollection {
   }
 
   /**
-   * @return true if a "${username}" pattern might need to be expanded to build this collection,
-   *     making the results user specific.
+   * Returns true if a "${username}" pattern might need to be expanded to build this collection,
+   * making the results user specific.
    */
   public boolean isUserSpecific() {
     return perUser;

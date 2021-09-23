@@ -45,6 +45,8 @@ public class EmailReviewComments implements Runnable, RequestContext {
     // TODO(dborowitz/wyatta): Rationalize these arguments so HTML and text templates are operating
     // on the same set of inputs.
     /**
+     * Creates handle for sending email
+     *
      * @param notify setting for handling notification.
      * @param notes change notes.
      * @param patchSet patch set corresponding to the top-level op
@@ -57,7 +59,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
      *     contents should *not* include a "Patch set N" header or "(M comments)" footer, as these
      *     will be added automatically in soy in a structured way.
      * @param labels labels applied as part of this review operation.
-     * @return handle for sending email.
      */
     EmailReviewComments create(
         NotifyResolver.Result notify,

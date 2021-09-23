@@ -46,7 +46,7 @@ public class PermissionRange implements Comparable<PermissionRange> {
       defaultMax = max;
     }
 
-    /** @return all values between {@link #getMin()} and {@link #getMax()} */
+    /** Returns all values between {@link #getMin()} and {@link #getMax()} */
     public List<Integer> getValuesAsList() {
       ArrayList<Integer> r = new ArrayList<>(getRangeSize());
       for (int i = min; i <= max; i++) {
@@ -55,7 +55,7 @@ public class PermissionRange implements Comparable<PermissionRange> {
       return r;
     }
 
-    /** @return number of values between {@link #getMin()} and {@link #getMax()} */
+    /** Returns number of values between {@link #getMin()} and {@link #getMax()} */
     public int getRangeSize() {
       return max - min;
     }

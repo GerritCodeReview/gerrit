@@ -100,7 +100,7 @@ public abstract class VersionedMetaData {
   protected ObjectInserter inserter;
   protected DirCache newTree;
 
-  /** @return name of the reference storing this configuration. */
+  /** Returns name of the reference storing this configuration. */
   protected abstract String getRefName();
 
   /** Set up the metadata, parsing any state from the loaded revision. */
@@ -116,7 +116,7 @@ public abstract class VersionedMetaData {
   protected abstract boolean onSave(CommitBuilder commit)
       throws IOException, ConfigInvalidException;
 
-  /** @return revision of the metadata that was loaded. */
+  /** Returns revision of the metadata that was loaded. */
   @Nullable
   public ObjectId getRevision() {
     return ObjectIds.copyOrNull(revision);

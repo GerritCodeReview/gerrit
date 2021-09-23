@@ -31,8 +31,8 @@ public class RequestUtil {
   }
 
   /**
-   * @return the same value as {@link HttpServletRequest#getPathInfo()}, but without decoding
-   *     URL-encoded characters.
+   * Returns the same value as {@link HttpServletRequest#getPathInfo()}, but without decoding
+   * URL-encoded characters.
    */
   public static String getEncodedPathInfo(HttpServletRequest req) {
     // CS IGNORE LineLength FOR NEXT 3 LINES. REASON: URL.

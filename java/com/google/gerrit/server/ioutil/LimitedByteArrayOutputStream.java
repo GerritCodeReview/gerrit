@@ -57,7 +57,7 @@ public class LimitedByteArrayOutputStream extends OutputStream {
     buffer.write(b, off, len);
   }
 
-  /** @return a newly allocated byte array with contents of the buffer. */
+  /** Returns a newly allocated byte array with contents of the buffer. */
   public byte[] toByteArray() {
     return buffer.toByteArray();
   }

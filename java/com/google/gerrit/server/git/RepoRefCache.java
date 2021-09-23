@@ -46,7 +46,7 @@ public class RepoRefCache implements RefCache {
     return id;
   }
 
-  /** @return an unmodifiable view of the refs that have been cached by this instance. */
+  /** Returns an unmodifiable view of the refs that have been cached by this instance. */
   public Map<String, Optional<ObjectId>> getCachedRefs() {
     return Collections.unmodifiableMap(ids);
   }

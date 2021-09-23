@@ -73,7 +73,7 @@ public interface GitRepositoryManager {
   Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryExistsException, IOException;
 
-  /** @return set of all known projects, sorted by natural NameKey order. */
+  /** Returns set of all known projects, sorted by natural NameKey order. */
   SortedSet<Project.NameKey> list();
 
   /**

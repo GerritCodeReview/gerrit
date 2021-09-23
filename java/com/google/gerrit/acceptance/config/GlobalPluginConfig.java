@@ -28,12 +28,12 @@ public @interface GlobalPluginConfig {
   /** Name of the plugin, corresponding to {@code $site/etc/@pluginName.config}. */
   String pluginName();
 
-  /** @see GerritConfig#name() */
+  /** See {@link GerritConfig#name()} */
   String name();
 
-  /** @see GerritConfig#value() */
+  /** See {@link GerritConfig#value()} */
   String value() default "";
 
-  /** @see GerritConfig#values() */
+  /** See {@link GerritConfig#values()} */
   String[] values() default "";
 }

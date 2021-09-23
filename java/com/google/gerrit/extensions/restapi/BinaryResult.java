@@ -63,7 +63,7 @@ public abstract class BinaryResult implements Closeable {
   private boolean base64;
   private String attachmentName;
 
-  /** @return the MIME type of the result, for HTTP clients. */
+  /** Returns the MIME type of the result, for HTTP clients. */
   public String getContentType() {
     Charset enc = getCharacterEncoding();
     if (enc != null) {
@@ -100,7 +100,7 @@ public abstract class BinaryResult implements Closeable {
     return this;
   }
 
-  /** @return length in bytes of the result; -1 if not known. */
+  /** Returns length in bytes of the result; -1 if not known. */
   public long getContentLength() {
     return contentLength;
   }
@@ -111,7 +111,7 @@ public abstract class BinaryResult implements Closeable {
     return this;
   }
 
-  /** @return true if this result can be gzip compressed to clients. */
+  /** Returns true if this result can be gzip compressed to clients. */
   public boolean canGzip() {
     return gzip;
   }
@@ -122,7 +122,7 @@ public abstract class BinaryResult implements Closeable {
     return this;
   }
 
-  /** @return true if the result must be base64 encoded. */
+  /** Returns true if the result must be base64 encoded. */
   public boolean isBase64() {
     return base64;
   }

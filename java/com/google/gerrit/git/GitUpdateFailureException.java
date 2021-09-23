@@ -46,12 +46,12 @@ public class GitUpdateFailureException extends IOException {
             .collect(toImmutableList());
   }
 
-  /** @return the names of the refs for which the update failed. */
+  /** Returns the names of the refs for which the update failed. */
   public ImmutableList<String> getFailedRefs() {
     return failures.stream().map(GitUpdateFailure::ref).collect(toImmutableList());
   }
 
-  /** @return the failures that caused this exception. */
+  /** Returns the failures that caused this exception. */
   @UsedAt(UsedAt.Project.GOOGLE)
   public ImmutableList<GitUpdateFailure> getFailures() {
     return failures;

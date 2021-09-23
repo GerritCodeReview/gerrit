@@ -42,10 +42,10 @@ public interface ProjectCache {
     return () -> new NoSuchProjectException(nameKey);
   }
 
-  /** @return the parent state for all projects on this server. */
+  /** Returns the parent state for all projects on this server. */
   ProjectState getAllProjects();
 
-  /** @return the project state of the project storing meta data for all users. */
+  /** Returns the project state of the project storing meta data for all users. */
   ProjectState getAllUsers();
 
   /**
@@ -84,12 +84,12 @@ public interface ProjectCache {
    */
   void remove(Project.NameKey name);
 
-  /** @return sorted iteration of projects. */
+  /** Returns sorted iteration of projects. */
   ImmutableSortedSet<Project.NameKey> all();
 
   /**
-   * @return estimated set of relevant groups extracted from hot project access rules. If the cache
-   *     is cold or too small for the entire project set of the server, this set may be incomplete.
+   * Returns estimated set of relevant groups extracted from hot project access rules. If the cache
+   * is cold or too small for the entire project set of the server, this set may be incomplete.
    */
   Set<AccountGroup.UUID> guessRelevantGroupUUIDs();
 

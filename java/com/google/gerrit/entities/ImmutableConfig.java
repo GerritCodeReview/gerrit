@@ -51,27 +51,27 @@ public class ImmutableConfig {
     return cfg;
   }
 
-  /** @see Config#getSections() */
+  /** See {@link Config#getSections()} */
   public Set<String> getSections() {
     return cfg.getSections();
   }
 
-  /** @see Config#getNames(String) */
+  /** See {@link Config#getNames(String)} */
   public Set<String> getNames(String section) {
     return cfg.getNames(section);
   }
 
-  /** @see Config#getNames(String, String) */
+  /** See {@link Config#getNames(String, String)} */
   public Set<String> getNames(String section, String subsection) {
     return cfg.getNames(section, subsection);
   }
 
-  /** @see Config#getStringList(String, String, String) */
+  /** See {@link Config#getStringList(String, String, String)} */
   public String[] getStringList(String section, String subsection, String name) {
     return cfg.getStringList(section, subsection, name);
   }
 
-  /** @see Config#getSubsections(String) */
+  /** See {@link Config#getSubsections(String)} */
   public Set<String> getSubsections(String section) {
     return cfg.getSubsections(section);
   }

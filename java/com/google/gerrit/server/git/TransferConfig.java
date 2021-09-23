@@ -52,7 +52,7 @@ public class TransferConfig {
     packConfig.fromConfig(cfg);
   }
 
-  /** @return configured timeout, in seconds. 0 if the timeout is infinite. */
+  /** Returns configured timeout, in seconds. 0 if the timeout is infinite. */
   public int getTimeout() {
     return timeout;
   }

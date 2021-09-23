@@ -118,7 +118,7 @@ public class ChainedReceiveCommands implements RefCache {
     }
   }
 
-  /** @return an unmodifiable view of commands. */
+  /** Returns an unmodifiable view of commands. */
   public Map<String, ReceiveCommand> getCommands() {
     return Collections.unmodifiableMap(commands);
   }

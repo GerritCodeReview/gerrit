@@ -52,7 +52,7 @@ public abstract class AccessSection implements Comparable<AccessSection> {
     return new AutoValue_AccessSection.Builder().setName(name).setPermissions(ImmutableList.of());
   }
 
-  /** @return true if the name is likely to be a valid reference section name. */
+  /** Returns true if the name is likely to be a valid reference section name. */
   public static boolean isValidRefSectionName(String name) {
     return name.startsWith("refs/") || name.startsWith("^refs/");
   }

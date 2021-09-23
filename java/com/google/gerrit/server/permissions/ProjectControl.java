@@ -154,8 +154,8 @@ class ProjectControl {
   }
 
   /**
-   * @return {@code Capable.OK} if the user can upload to at least one reference. Does not check
-   *     Contributor Agreements.
+   * Returns {@code Capable.OK} if the user can upload to at least one reference. Does not check
+   * Contributor Agreements.
    */
   boolean canPushToAtLeastOneRef() {
     return canPerformOnAnyRef(Permission.PUSH)

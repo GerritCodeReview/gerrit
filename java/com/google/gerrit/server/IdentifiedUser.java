@@ -343,15 +343,15 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   /**
-   * @return the user's user name; null if one has not been selected/assigned or if the user name is
-   *     empty.
+   * Returns the user's user name; null if one has not been selected/assigned or if the user name is
+   * empty.
    */
   @Override
   public Optional<String> getUserName() {
     return state().userName();
   }
 
-  /** @return unique name of the user for logging, never {@code null} */
+  /** Returns unique name of the user for logging, never {@code null} */
   @Override
   public String getLoggableName() {
     return getUserName()

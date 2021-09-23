@@ -293,7 +293,6 @@ public class GerritServer implements AutoCloseable {
    * @param baseConfig default config values; merged with config from {@code desc} and then written
    *     into {@code site/etc/gerrit.config}.
    * @param site temp directory where site will live.
-   * @throws Exception
    */
   public static void init(Description desc, Config baseConfig, Path site) throws Exception {
     checkArgument(!desc.memory(), "can't initialize site path for in-memory test: %s", desc);
@@ -347,7 +346,6 @@ public class GerritServer implements AutoCloseable {
    * @param testSysModule additional Guice module to use.
    * @param testSshModule additional Guice module to use.
    * @return started server.
-   * @throws Exception
    */
   public static GerritServer initAndStart(
       TemporaryFolder temporaryFolder,
@@ -384,7 +382,6 @@ public class GerritServer implements AutoCloseable {
    * @param additionalArgs additional command-line arguments for the daemon program; only allowed if
    *     the test is not in-memory.
    * @return started server.
-   * @throws Exception
    */
   public static GerritServer start(
       Description desc,

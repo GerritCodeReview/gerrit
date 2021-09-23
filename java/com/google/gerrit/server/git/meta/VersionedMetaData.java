@@ -110,8 +110,6 @@ public abstract class VersionedMetaData {
    * Save any changes to the metadata in a commit.
    *
    * @return true if the commit should proceed, false to abort.
-   * @throws IOException
-   * @throws ConfigInvalidException
    */
   protected abstract boolean onSave(CommitBuilder commit)
       throws IOException, ConfigInvalidException;
@@ -130,8 +128,6 @@ public abstract class VersionedMetaData {
    *
    * @param projectName the name of the project
    * @param db repository to access.
-   * @throws IOException
-   * @throws ConfigInvalidException
    */
   public void load(Project.NameKey projectName, Repository db)
       throws IOException, ConfigInvalidException {
@@ -152,8 +148,6 @@ public abstract class VersionedMetaData {
    * @param projectName the name of the project
    * @param db repository to access.
    * @param id revision to load.
-   * @throws IOException
-   * @throws ConfigInvalidException
    */
   public void load(Project.NameKey projectName, Repository db, @Nullable ObjectId id)
       throws IOException, ConfigInvalidException {
@@ -176,8 +170,6 @@ public abstract class VersionedMetaData {
    * @param projectName the name of the project
    * @param walk open walk to access to access.
    * @param id revision to load.
-   * @throws IOException
-   * @throws ConfigInvalidException
    */
   public void load(Project.NameKey projectName, RevWalk walk, ObjectId id)
       throws IOException, ConfigInvalidException {

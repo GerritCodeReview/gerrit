@@ -95,11 +95,7 @@ public abstract class OutgoingEmail {
     this.messageId = messageId;
   }
 
-  /**
-   * Format and enqueue the message for delivery.
-   *
-   * @throws EmailException
-   */
+  /** Format and enqueue the message for delivery. */
   public void send() throws EmailException {
     try {
       args.retryHelper
@@ -185,7 +181,8 @@ public abstract class OutgoingEmail {
             // drop them from the recipient lists, but only if the user is not being impersonated.
             //
             logger.atFine().log(
-                "Not CCing email sender %s because the email strategy of this user is not %s but %s",
+                "Not CCing email sender %s because the email strategy of this user is not %s but"
+                    + " %s",
                 fromUser.get().account().id(),
                 CC_ON_OWN_COMMENTS,
                 senderPrefs != null ? senderPrefs.getEmailStrategy() : null);
@@ -546,7 +543,6 @@ public abstract class OutgoingEmail {
    * Returns whether this email is visible to the given account
    *
    * @param to account.
-   * @throws PermissionBackendException
    */
   protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
     return true;

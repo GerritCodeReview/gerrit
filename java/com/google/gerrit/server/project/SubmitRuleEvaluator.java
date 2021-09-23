@@ -146,7 +146,6 @@ public class SubmitRuleEvaluator {
    * Evaluate the submit type rules to get the submit type.
    *
    * @return record from the evaluated rules.
-   * @param cd
    */
   public SubmitTypeRecord getSubmitType(ChangeData cd) {
     try (Timer0.Context ignored = submitTypeEvaluationLatency.start()) {

@@ -78,7 +78,7 @@ public class SectionSortCacheTest {
     // Cache preserves relative order (reference equality) for identical elements
     AccessSection[] expected = {sectionBClone, sectionB, sectionA, sectionAClone, sectionA};
     for (int i = 0; i < sorted.size(); i++) {
-      assert (sorted.get(i) == expected[i]);
+      assertThat(sorted.get(i)).isSameInstanceAs(expected[i]);
     }
   }
 }

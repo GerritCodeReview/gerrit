@@ -989,10 +989,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         error(
             ValidationError.create(
                 PROJECT_CONFIG,
-                (String.format(
+                String.format(
                     "Submit requirement \"%s\" does not define a submittability expression."
                         + " Skipping this requirement.",
-                    name))));
+                    name)));
         continue;
       }
 

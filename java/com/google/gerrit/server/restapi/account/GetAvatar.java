@@ -55,12 +55,12 @@ public class GetAvatar implements RestReadView<AccountResource> {
   public Response.Redirect apply(AccountResource rsrc) throws ResourceNotFoundException {
     AvatarProvider impl = avatarProvider.get();
     if (impl == null) {
-      throw (new ResourceNotFoundException()).caching(CacheControl.PUBLIC(1, TimeUnit.DAYS));
+      throw new ResourceNotFoundException().caching(CacheControl.PUBLIC(1, TimeUnit.DAYS));
     }
 
     String url = impl.getUrl(rsrc.getUser(), size);
     if (Strings.isNullOrEmpty(url)) {
-      throw (new ResourceNotFoundException()).caching(CacheControl.PUBLIC(1, TimeUnit.HOURS));
+      throw new ResourceNotFoundException().caching(CacheControl.PUBLIC(1, TimeUnit.HOURS));
     }
     return Response.redirect(url);
   }

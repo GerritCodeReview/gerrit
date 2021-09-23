@@ -141,7 +141,7 @@ public abstract class LabelType {
   }
 
   public static LabelType.Builder builder(String name, List<LabelValue> valueList) {
-    return (new AutoValue_LabelType.Builder())
+    return new AutoValue_LabelType.Builder()
         .setName(name)
         .setValues(valueList)
         .setDefaultValue((short) 0)

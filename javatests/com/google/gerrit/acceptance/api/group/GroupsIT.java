@@ -606,7 +606,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(group.name).isEqualTo(anonymousUsersGroup.getName());
 
     group = gApi.groups().id(anonymousUsersGroup.getName()).get();
-    assertThat(group.id).isEqualTo(Url.encode((anonymousUsersGroup.getUUID().get())));
+    assertThat(group.id).isEqualTo(Url.encode(anonymousUsersGroup.getUUID().get()));
   }
 
   @Test
@@ -614,7 +614,7 @@ public class GroupsIT extends AbstractDaemonTest {
     GroupReference anonymousUsersGroup = systemGroupBackend.getGroup(ANONYMOUS_USERS);
     GroupInfo group = gApi.groups().id("Anonymous Users").get();
     assertThat(group.name).isEqualTo(anonymousUsersGroup.getName());
-    assertThat(group.id).isEqualTo(Url.encode((anonymousUsersGroup.getUUID().get())));
+    assertThat(group.id).isEqualTo(Url.encode(anonymousUsersGroup.getUUID().get()));
   }
 
   @Test

@@ -368,6 +368,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   }
 
   private static String toRfcAddressString(AccountInfo info) {
-    return (Address.create(info.name, info.email)).toString();
+    return Address.create(info.name, info.email).toString();
   }
 }

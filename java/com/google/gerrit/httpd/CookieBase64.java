@@ -75,7 +75,7 @@ class CookieBase64 {
         out.append(enc[(inBuff >>> 18)]);
         out.append(enc[(inBuff >>> 12) & 0x3f]);
         out.append(enc[(inBuff >>> 6) & 0x3f]);
-        out.append(enc[(inBuff) & 0x3f]);
+        out.append(enc[inBuff & 0x3f]);
         break;
 
       case 2:

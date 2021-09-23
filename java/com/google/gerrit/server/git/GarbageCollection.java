@@ -152,7 +152,7 @@ public class GarbageCollection {
     }
 
     logGcInfo(projectName, "gc config: " + b.toString());
-    logGcInfo(projectName, "pack config: " + (new PackConfig(repo)).toString());
+    logGcInfo(projectName, "pack config: " + new PackConfig(repo).toString());
   }
 
   private static String formatConfigValues(Config config, String section, String subsection) {

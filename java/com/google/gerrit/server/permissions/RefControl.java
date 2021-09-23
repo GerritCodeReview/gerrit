@@ -364,7 +364,9 @@ class RefControl {
     }
 
     return new PermissionRange(
-        permissionName, Math.max(voteMin, blockAllowMin), Math.min(voteMax, blockAllowMax));
+        permissionName,
+        /* min= */ Math.max(voteMin, blockAllowMin),
+        /* max= */ Math.min(voteMax, blockAllowMax));
   }
 
   private boolean isBlocked(String permissionName, boolean isChangeOwner, boolean withForce) {
@@ -560,7 +562,8 @@ class RefControl {
             break;
           case FORGE_COMMITTER:
             pde.setAdvice(
-                "You need 'Forge Committer' rights to push commits with another user as committer.");
+                "You need 'Forge Committer' rights to push commits with another user as"
+                    + " committer.");
             break;
           case FORGE_SERVER:
             pde.setAdvice(
@@ -702,7 +705,8 @@ class RefControl {
         if (resolvedRef == null) {
           return false;
         }
-        return projectControl.asForProject()
+        return projectControl
+            .asForProject()
             .filter(
                 ImmutableList.of(resolvedRef), repo, PermissionBackend.RefFilterOptions.defaults())
             .stream()

@@ -40,6 +40,7 @@ public class ChangeNoteUtil {
   static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
   static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   static final FooterKey FOOTER_LABEL = new FooterKey("Label");
+  static final FooterKey FOOTER_COPIED_LABEL = new FooterKey("Copied-Label");
   static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
   static final FooterKey FOOTER_PATCH_SET_DESCRIPTION = new FooterKey("Patch-set-description");
   static final FooterKey FOOTER_PRIVATE = new FooterKey("Private");

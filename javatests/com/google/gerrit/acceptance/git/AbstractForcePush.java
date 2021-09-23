@@ -35,7 +35,7 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
 
 public abstract class AbstractForcePush extends AbstractDaemonTest {
-  @Inject private ProjectOperations projectOperations;
+  @Inject protected ProjectOperations projectOperations;
 
   @Test
   public void forcePushNotAllowed() throws Exception {

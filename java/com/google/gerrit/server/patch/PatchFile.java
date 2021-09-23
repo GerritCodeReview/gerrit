@@ -117,7 +117,6 @@ public class PatchFile {
    * @param line the line number to extract (1 based; 1 is the first line).
    * @return the string version of the file line.
    * @throws IOException the patch or complete file content cannot be read.
-   * @throws NoSuchEntityException
    */
   public String getLine(int file, int line) throws IOException, NoSuchEntityException {
     switch (file) {

@@ -201,9 +201,6 @@ public class ReviewerModifier {
    * @return handle describing the addition operation. If the {@code op} field is present, this
    *     operation may be added to a {@code BatchUpdate}. Otherwise, the {@code error} field
    *     contains information about an error that occurred
-   * @throws IOException
-   * @throws PermissionBackendException
-   * @throws ConfigInvalidException
    */
   public ReviewerModification prepare(
       ChangeNotes notes, CurrentUser user, ReviewerInput input, boolean allowGroup)

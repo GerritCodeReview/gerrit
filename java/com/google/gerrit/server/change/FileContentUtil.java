@@ -76,8 +76,6 @@ public class FileContentUtil {
    * @param parent A 1-based parent index to get the content from instead. Null if the content
    *     should be obtained from {@code revstr} instead.
    * @return Content of the file as {@code BinaryResult}.
-   * @throws ResourceNotFoundException
-   * @throws IOException
    */
   public BinaryResult getContent(
       ProjectState project, ObjectId revstr, String path, @Nullable Integer parent)

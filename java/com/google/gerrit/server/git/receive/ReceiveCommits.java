@@ -2882,8 +2882,6 @@ class ReceiveCommits {
      * </ul>
      *
      * @return whether the new commit is valid
-     * @throws IOException
-     * @throws PermissionBackendException
      */
     boolean validateNewPatchSet() throws IOException, PermissionBackendException {
       try (TraceTimer traceTimer = newTimer("validateNewPatchSet")) {

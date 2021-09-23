@@ -206,7 +206,6 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    *
    * @param pub the public SSH key to be added
    * @return the new SSH key
-   * @throws InvalidSshKeyException
    */
   private AccountSshKey addKey(String pub) throws InvalidSshKeyException {
     checkLoaded();

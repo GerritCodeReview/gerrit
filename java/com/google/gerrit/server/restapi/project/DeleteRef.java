@@ -86,8 +86,6 @@ public class DeleteRef {
    *
    * @param projectState the {@code ProjectState} of the project containing the target ref.
    * @param ref the ref to be deleted.
-   * @throws IOException
-   * @throws ResourceConflictException
    */
   public void deleteSingleRef(ProjectState projectState, String ref)
       throws IOException, ResourceConflictException, AuthException, PermissionBackendException {
@@ -100,8 +98,6 @@ public class DeleteRef {
    * @param projectState the {@code ProjectState} of the project containing the target ref.
    * @param ref the ref to be deleted.
    * @param prefix the prefix of the ref.
-   * @throws IOException
-   * @throws ResourceConflictException
    */
   public void deleteSingleRef(ProjectState projectState, String ref, @Nullable String prefix)
       throws IOException, ResourceConflictException, AuthException, PermissionBackendException {
@@ -161,9 +157,6 @@ public class DeleteRef {
    * @param projectState the {@code ProjectState} of the project whose refs are to be deleted.
    * @param refsToDelete the refs to be deleted.
    * @param prefix the prefix to add to abbreviated refs, eg. "refs/heads/".
-   * @throws IOException
-   * @throws ResourceConflictException
-   * @throws PermissionBackendException
    */
   public void deleteMultipleRefs(
       ProjectState projectState, ImmutableSet<String> refsToDelete, String prefix)

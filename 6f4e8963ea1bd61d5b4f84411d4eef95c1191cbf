@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "244a282e_b2fe2d27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-23T12:31:55Z",
+      "side": 1,
+      "message": "Comment removed by: Youssef Elghareeb; Reason: Incomplete change message",
+      "revId": "6f4e8963ea1bd61d5b4f84411d4eef95c1191cbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "797569df_0751bfbe",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-23T12:31:55Z",
+      "side": 1,
+      "message": "Add a nullable annotation.",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 13
+      },
+      "revId": "6f4e8963ea1bd61d5b4f84411d4eef95c1191cbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1f56e62_3a0ed5ef",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-23T12:31:55Z",
+      "side": 1,
+      "message": "nit: where none",
+      "range": {
+        "startLine": 1262,
+        "startChar": 30,
+        "endLine": 1262,
+        "endChar": 35
+      },
+      "revId": "6f4e8963ea1bd61d5b4f84411d4eef95c1191cbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

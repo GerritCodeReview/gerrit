@@ -29,9 +29,9 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
     {if $email.reviewerNames or $email.removedReviewerNames}
       {if $email.reviewerNames}
         {$fromName} would like{sp}
-        {for $reviewerName in $email.reviewerNames}
-          {if not isFirst($reviewerName)}
-            {if isLast($reviewerName)}{sp}and{else},{/if}{sp}
+        {for $reviewerName, $index in $email.reviewerNames}
+          {if $index > 0}
+            {if $index == length($email.reviewerNames) - 1}{sp}and{else},{/if}{sp}
           {/if}
           {$reviewerName}
         {/for}{sp}
@@ -44,9 +44,9 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
           {$fromName}{sp}
           <strong>
             removed{sp}
-            {for $reviewerName in $email.removedReviewerNames}
-              {if not isFirst($reviewerName)}
-                {if isLast($reviewerName)}{sp}and{else},{/if}{sp}
+            {for $reviewerName, $index in $email.removedReviewerNames}
+              {if $index > 0}
+                {if $index == length($email.removedReviewerNames) - 1}{sp}and{else},{/if}{sp}
               {/if}
               {$reviewerName}
             {/for}

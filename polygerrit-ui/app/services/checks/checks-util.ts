@@ -167,6 +167,19 @@ export function toCanonicalAction(action: Action, status: RunStatus) {
   return {...action, name};
 }
 
+export function headerForStatus(status: RunStatus) {
+  switch (status) {
+    case RunStatus.COMPLETED:
+      return 'Completed';
+    case RunStatus.RUNNABLE:
+      return 'Not run';
+    case RunStatus.RUNNING:
+      return 'Running';
+    default:
+      assertNever(status, `Unsupported status: ${status}`);
+  }
+}
+
 function primaryActionName(status: RunStatus) {
   switch (status) {
     case RunStatus.COMPLETED:

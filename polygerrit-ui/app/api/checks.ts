@@ -144,8 +144,8 @@ export declare interface CheckRun {
    * attempt. Every run has its own attempt numbering, so attempt 3 of run A is
    * not directly related to attempt 3 of run B.
    *
-   * RUNNABLE runs must use `undefined` as attempt.
-   * COMPLETED and RUNNING runs must use an attempt number >=0.
+   * The attempt number must be >=0. Only if you have just one RUNNABLE attempt,
+   * then you can leave it undefined.
    *
    * TBD: Optionally providing aggregate information about former attempts will
    * probably be a useful feature, but we are deferring the exact data modeling
@@ -184,7 +184,8 @@ export declare interface CheckRun {
 
   /**
    * RUNNABLE:  Not run (yet). Mostly useful for runs that the user can trigger
-   *            (see actions). Cannot contain results.
+   *            (see actions) and for indicating that a check was not run at a
+   *            later attempt. Cannot contain results.
    * RUNNING:   Subsumes "scheduled".
    * COMPLETED: The attempt of the run has finished. Does not indicate at all
    *            whether the run was successful or not. Outcomes can and should

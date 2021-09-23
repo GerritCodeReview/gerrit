@@ -16,7 +16,7 @@
  */
 import {classMap} from 'lit/directives/class-map';
 import './gr-hovercard-run';
-import {LitElement, css, html, nothing, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import './gr-checks-attempt';
 import {Action, Link, RunStatus} from '../../api/checks';
@@ -24,6 +24,7 @@ import {sharedStyles} from '../../styles/shared-styles';
 import {
   AttemptDetail,
   compareByWorstCategory,
+  headerForStatus,
   iconFor,
   iconForRun,
   PRIMARY_STATUS_ACTIONS,
@@ -276,16 +277,20 @@ export class GrChecksRun extends LitElement {
     const checkNameId = charsOnly(this.run.checkName).toLowerCase();
     const id = `attempt-${detail.attempt}`;
     const icon = detail.icon;
+    const wasNotRun = icon === iconFor(RunStatus.RUNNABLE);
     return html`<div class="attemptDetail">
       <input
         type="radio"
         id="${id}"
         name="${`${checkNameId}-attempt-choice`}"
         ?checked="${this.isSelected(detail)}"
+        ?disabled="${!this.isSelected(detail) && wasNotRun}"
         @change="${() => this.handleAttemptChange(detail)}"
       />
       <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
-      <label for="${id}">Attempt ${detail.attempt}</label>
+      <label for="${id}">
+        Attempt ${detail.attempt}${wasNotRun ? ' (not run)' : ''}
+      </label>
     </div>`;
   }
 
@@ -698,7 +703,7 @@ export class GrChecksRuns extends LitElement {
           @click="${() => this.toggleExpanded(status)}"
         >
           <iron-icon class="expandIcon" icon="${icon}"></iron-icon>
-          <h3 class="heading-3">${status.toLowerCase()}</h3>
+          <h3 class="heading-3">${headerForStatus(status)}</h3>
         </div>
         <div class="sectionRuns">${runs.map(run => this.renderRun(run))}</div>
       </div>

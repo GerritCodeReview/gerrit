@@ -24,13 +24,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public interface GroupApi {
-  /** @return group info with no {@code ListGroupsOption}s set. */
+  /** Returns group info with no {@code ListGroupsOption}s set. */
   GroupInfo get() throws RestApiException;
 
-  /** @return group info with all {@code ListGroupsOption}s set. */
+  /** Returns group info with all {@code ListGroupsOption}s set. */
   GroupInfo detail() throws RestApiException;
 
-  /** @return group name. */
+  /** Returns group name. */
   String name() throws RestApiException;
 
   /**
@@ -41,7 +41,7 @@ public interface GroupApi {
    */
   void name(String name) throws RestApiException;
 
-  /** @return owning group info. */
+  /** Returns owning group info. */
   GroupInfo owner() throws RestApiException;
 
   /**
@@ -52,7 +52,7 @@ public interface GroupApi {
    */
   void owner(String owner) throws RestApiException;
 
-  /** @return group description. */
+  /** Returns group description. */
   String description() throws RestApiException;
 
   /**
@@ -63,7 +63,7 @@ public interface GroupApi {
    */
   void description(String description) throws RestApiException;
 
-  /** @return group options. */
+  /** Returns group options. */
   GroupOptionsInfo options() throws RestApiException;
 
   /**

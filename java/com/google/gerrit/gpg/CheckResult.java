@@ -62,22 +62,22 @@ public class CheckResult {
     this.problems = problems;
   }
 
-  /** @return whether the result has status {@link Status#OK} or better. */
+  /** Returns whether the result has status {@link Status#OK} or better. */
   public boolean isOk() {
     return status.compareTo(Status.OK) >= 0;
   }
 
-  /** @return whether the result has status {@link Status#TRUSTED} or better. */
+  /** Returns whether the result has status {@link Status#TRUSTED} or better. */
   public boolean isTrusted() {
     return status.compareTo(Status.TRUSTED) >= 0;
   }
 
-  /** @return the status enum value associated with the object. */
+  /** Returns the status enum value associated with the object. */
   public Status getStatus() {
     return status;
   }
 
-  /** @return any problems encountered during checking. */
+  /** Returns any problems encountered during checking. */
   public List<String> getProblems() {
     return problems;
   }

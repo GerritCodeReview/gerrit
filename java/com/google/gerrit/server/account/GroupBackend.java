@@ -26,7 +26,7 @@ import java.util.Collection;
 /** Implementations of GroupBackend provide lookup and membership accessors to a group system. */
 @ExtensionPoint
 public interface GroupBackend {
-  /** @return {@code true} if the backend can operate on the UUID. */
+  /** Returns {@code true} if the backend can operate on the UUID. */
   boolean handles(AccountGroup.UUID uuid);
 
   /**
@@ -38,12 +38,12 @@ public interface GroupBackend {
   @Nullable
   GroupDescription.Basic get(AccountGroup.UUID uuid);
 
-  /** @return suggestions for the group name sorted by name. */
+  /** Returns suggestions for the group name sorted by name. */
   Collection<GroupReference> suggest(String name, @Nullable ProjectState project);
 
-  /** @return the group membership checker for the backend. */
+  /** Returns the group membership checker for the backend. */
   GroupMembership membershipsOf(CurrentUser user);
 
-  /** @return {@code true} if the group with the given UUID is visible to all registered users. */
+  /** Returns {@code true} if the group with the given UUID is visible to all registered users. */
   boolean isVisibleToAll(AccountGroup.UUID uuid);
 }

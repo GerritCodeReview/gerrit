@@ -48,7 +48,7 @@ public abstract class BooleanCondition {
 
   BooleanCondition() {}
 
-  /** @return evaluate the condition and return its value. */
+  /** Evaluates the condition and return its value. */
   public abstract boolean value();
 
   /**

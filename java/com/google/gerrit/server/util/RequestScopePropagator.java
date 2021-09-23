@@ -160,7 +160,11 @@ public abstract class RequestScopePropagator {
     };
   }
 
-  /** @see #wrap(Callable) */
+  /**
+   * Ensures that the current request state is available when the passed in Callable is invoked
+   *
+   * <p>See {@link #wrap(Callable)}
+   */
   protected abstract <T> Callable<T> wrapImpl(Callable<T> callable);
 
   protected <T> Callable<T> context(RequestContext context, Callable<T> callable) {

@@ -37,7 +37,7 @@ public interface GroupIncludeCache {
    */
   Collection<AccountGroup.UUID> parentGroupsOf(AccountGroup.UUID groupId);
 
-  /** @return set of any UUIDs that are not internal groups. */
+  /** Returns set of any UUIDs that are not internal groups. */
   Collection<AccountGroup.UUID> allExternalMembers();
 
   void evictGroupsWithMember(Account.Id memberId);

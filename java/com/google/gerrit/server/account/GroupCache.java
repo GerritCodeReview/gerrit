@@ -103,6 +103,10 @@ public interface GroupCache {
    */
   void evict(AccountGroup.UUID groupUuid);
 
-  /** @see #evict(AccountGroup.UUID) */
+  /**
+   * Removes the association of the given UUIDs with groups
+   *
+   * <p>See {@link #evict(AccountGroup.UUID)}
+   */
   void evict(Collection<AccountGroup.UUID> groupUuid);
 }

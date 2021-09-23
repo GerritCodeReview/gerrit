@@ -38,7 +38,11 @@ public interface Accounts {
    */
   AccountApi id(String id) throws RestApiException;
 
-  /** @see #id(String) */
+  /**
+   * Look up an account by ID. #id(String)
+   *
+   * <p>See #id(String)
+   */
   AccountApi id(int id) throws RestApiException;
 
   /**

@@ -34,19 +34,19 @@ public abstract class QueryResult<T> {
     return new AutoValue_QueryResult<>(query, predicate, ImmutableList.copyOf(entities), more);
   }
 
-  /** @return the original query string, or null if the query was created programmatically. */
+  /** Returns the original query string, or null if the query was created programmatically. */
   @Nullable
   public abstract String query();
 
-  /** @return the predicate after all rewriting and other modification by the query subsystem. */
+  /** Returns the predicate after all rewriting and other modification by the query subsystem. */
   public abstract Predicate<T> predicate();
 
-  /** @return the query results. */
+  /** Returns the query results. */
   public abstract ImmutableList<T> entities();
 
   /**
-   * @return whether the query could be retried with a higher start/limit to produce more results.
-   *     Never true if {@link #entities()} is empty.
+   * Returns whether the query could be retried with a higher start/limit to produce more results.
+   * Never true if {@link #entities()} is empty.
    */
   public abstract boolean more();
 }

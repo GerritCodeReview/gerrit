@@ -101,27 +101,27 @@ public abstract class IndexConfig {
   }
 
   /**
-   * @return maximum limit supported by the underlying index, or limited for performance reasons.
+   * Returns maximum limit supported by the underlying index, or limited for performance reasons.
    */
   public abstract int maxLimit();
 
   /**
-   * @return maximum number of pages (limit / start) supported by the underlying index, or limited
-   *     for performance reasons.
+   * Returns maximum number of pages (limit / start) supported by the underlying index, or limited
+   * for performance reasons.
    */
   public abstract int maxPages();
 
   /**
-   * @return maximum number of total index query terms supported by the underlying index, or limited
-   *     for performance reasons.
+   * Returns maximum number of total index query terms supported by the underlying index, or limited
+   * for performance reasons.
    */
   public abstract int maxTerms();
 
-  /** @return index type. */
+  /** Returns index type. */
   public abstract String type();
 
   /**
-   * @return whether different subsets of changes may be stored in different physical sub-indexes.
+   * Returns whether different subsets of changes may be stored in different physical sub-indexes.
    */
   public abstract boolean separateChangeSubIndexes();
 }

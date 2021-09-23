@@ -29,7 +29,7 @@ public class GitwebType {
   private char pathSeparator = '/';
   private boolean urlEncode = true;
 
-  /** @return name displayed in links. */
+  /** Returns name displayed in links. */
   public String getLinkName() {
     return name;
   }
@@ -43,7 +43,7 @@ public class GitwebType {
     this.name = name;
   }
 
-  /** @return parameterized string for the branch URL. */
+  /** Returns parameterized string for the branch URL. */
   public String getBranch() {
     return branch;
   }
@@ -57,7 +57,7 @@ public class GitwebType {
     branch = str;
   }
 
-  /** @return parameterized string for the tag URL. */
+  /** Returns parameterized string for the tag URL. */
   public String getTag() {
     return tag;
   }
@@ -71,7 +71,7 @@ public class GitwebType {
     tag = str;
   }
 
-  /** @return parameterized string for the file URL. */
+  /** Returns parameterized string for the file URL. */
   public String getFile() {
     return file;
   }
@@ -85,7 +85,7 @@ public class GitwebType {
     file = str;
   }
 
-  /** @return parameterized string for the file history URL. */
+  /** Returns parameterized string for the file history URL. */
   public String getFileHistory() {
     return fileHistory;
   }
@@ -99,7 +99,7 @@ public class GitwebType {
     fileHistory = str;
   }
 
-  /** @return parameterized string for the project URL. */
+  /** Returns parameterized string for the project URL. */
   public String getProject() {
     return project;
   }
@@ -113,7 +113,7 @@ public class GitwebType {
     project = str;
   }
 
-  /** @return parameterized string for the revision URL. */
+  /** Returns parameterized string for the revision URL. */
   public String getRevision() {
     return revision;
   }
@@ -127,7 +127,7 @@ public class GitwebType {
     revision = str;
   }
 
-  /** @return parameterized string for the root tree URL. */
+  /** Returns parameterized string for the root tree URL. */
   public String getRootTree() {
     return rootTree;
   }
@@ -141,7 +141,7 @@ public class GitwebType {
     rootTree = str;
   }
 
-  /** @return path separator used for branch and project names. */
+  /** Returns path separator used for branch and project names. */
   public char getPathSeparator() {
     return pathSeparator;
   }
@@ -155,7 +155,7 @@ public class GitwebType {
     this.pathSeparator = separator;
   }
 
-  /** @return whether to URL encode path segments. */
+  /** Returns whether to URL encode path segments. */
   public boolean getUrlEncode() {
     return urlEncode;
   }

@@ -165,17 +165,17 @@ public class GlobalCapability {
     }
   }
 
-  /** @return all valid capability names. */
+  /** Returns all valid capability names. */
   public static Collection<String> getAllNames() {
     return Collections.unmodifiableList(NAMES_ALL);
   }
 
-  /** @return true if the name is recognized as a capability name. */
+  /** Returns true if the name is recognized as a capability name. */
   public static boolean isGlobalCapability(String varName) {
     return NAMES_LC.contains(varName.toLowerCase());
   }
 
-  /** @return true if the capability should have a range attached. */
+  /** Returns true if the capability should have a range attached. */
   public static boolean hasRange(String varName) {
     for (String n : RANGE_NAMES) {
       if (n.equalsIgnoreCase(varName)) {
@@ -189,7 +189,7 @@ public class GlobalCapability {
     return Collections.unmodifiableList(Arrays.asList(RANGE_NAMES));
   }
 
-  /** @return the valid range for the capability if it has one, otherwise null. */
+  /** Returns the valid range for the capability if it has one, otherwise null. */
   public static PermissionRange.WithDefaults getRange(String varName) {
     if (QUERY_LIMIT.equalsIgnoreCase(varName)) {
       return new PermissionRange.WithDefaults(

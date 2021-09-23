@@ -492,7 +492,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.cherryPickOf = Optional.empty();
   }
 
-  /** @return the tree id for the updated tree */
+  /** Returns the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, IOException {
     if (submitRequirementResults.isEmpty() && comments.isEmpty() && pushCert == null) {

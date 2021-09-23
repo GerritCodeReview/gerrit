@@ -22,6 +22,30 @@
       },
       "revId": "0affb18843cbafb2eabee9d3145692fa0001c5c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e46cf5d9_8074d2e8",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T21:15:49Z",
+      "side": 0,
+      "message": "\u003e I don\u0027t think it\u0027s safe to remove this public method on a stable branch.\n\nThis isn\u0027t part of the public interface of the class, but just an overridden method. There isn\u0027t any direct reference to it but only through the JGit\u0027s public abstract class, which hasn\u0027t change.\n\n\u003e It\u0027s also likely not desired because this probably also breaks ACL ref filtering for anything using getRefsByPrefix() since it will go directly to the DelegateRefDatabase method now.\n\nThere isn\u0027t any getRefsByPrefix in DelegatedRefDatabase. It will go instead to the default implementation in the abstract RefDatabase.java.\n\nHowever, it is clear to me why this method was copied\u0026pasted: it would now go in a a loop because:\n1. getRefsByPrefix() \u003d\u003e calls getRefs()\n2. getRefs() is overridden in PermissionsAwareReadonlyRefDatabase()\n3. overridden getRefs() would call getRefsByPrefix() \n\n1. 2. and 3. will lead to a stack overflow.",
+      "parentUuid": "160cd9d2_1ee72dae",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 127,
+        "endChar": 70
+      },
+      "revId": "0affb18843cbafb2eabee9d3145692fa0001c5c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -91,6 +91,24 @@
       "parentUuid": "d5f000ef_59aaf868",
       "revId": "5858183aa052407fc24ab8b02d21d4c8fd0c27cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36d6190b_1ba7c5e8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-09-23T07:42:22Z",
+      "side": 1,
+      "message": "I don\u0027t understand how this is \"done\": You add the style scope for `annotateElement` but not for `wrapInHighlight`, which makes this API inconsistent, no?",
+      "parentUuid": "3cfb2b0e_1efae0d5",
+      "revId": "5858183aa052407fc24ab8b02d21d4c8fd0c27cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

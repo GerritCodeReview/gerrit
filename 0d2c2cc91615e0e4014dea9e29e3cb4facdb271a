@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13d2d582_84bf9abc",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-23T06:14:46Z",
+      "side": 0,
+      "message": "I am not sure whether it was important to observer `change.labels.*`, but I think with your new Lit code you would not even react to a change to `change.labels`. So please have another look whether this is still working as intended.\n\nMaybe it is time for a label-model with dedicated selectors for what you want to watch.",
+      "range": {
+        "startLine": 47,
+        "startChar": 52,
+        "endLine": 47,
+        "endChar": 67
+      },
+      "revId": "0d2c2cc91615e0e4014dea9e29e3cb4facdb271a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

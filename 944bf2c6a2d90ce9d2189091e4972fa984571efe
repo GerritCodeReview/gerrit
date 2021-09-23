@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4b03532_42a0e4f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-23T06:14:46Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9f3a913_b5a88782",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
         "patchSetId": 2
@@ -66,6 +83,167 @@
         "endLine": 112,
         "endChar": 14
       },
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6901cffa_ba91f654",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-23T06:14:46Z",
+      "side": 1,
+      "message": "TBH, I am not sure whether this is a valuable unit test. Also, I don\u0027t think we should impose this on lit conversion changes, but instead keep the effort separate to increase test coverage.",
+      "parentUuid": "8f5a3254_a89a74e4",
+      "range": {
+        "startLine": 100,
+        "startChar": 12,
+        "endLine": 112,
+        "endChar": 14
+      },
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7031a43e_99eca89c",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-23T06:14:46Z",
+      "side": 1,
+      "message": "Remove all underscores and make all methods (apart from render() and getLabelValues()) private.",
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ce40b1f_ac170950",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-23T06:14:46Z",
+      "side": 1,
+      "message": "Remove parameter. You can just use `this.`.",
+      "range": {
+        "startLine": 162,
+        "startChar": 19,
+        "endLine": 162,
+        "endChar": 47
+      },
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cc2b04d_511e3a14",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-23T06:14:46Z",
+      "side": 1,
+      "message": "Remove parameter. You can just use `this.`.",
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdf01ff2_0b9c4aaa",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-23T06:14:46Z",
+      "side": 1,
+      "message": "Remove parameter. You can just use `this.`.",
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71d019ce_68d85694",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-23T06:14:46Z",
+      "side": 1,
+      "message": "Remove parameters. You can just use `this.`.",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 25
+      },
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18bcc575_50e736fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-23T06:14:46Z",
+      "side": 1,
+      "message": "Remove parameter. You can just use `this.`.",
+      "range": {
+        "startLine": 207,
+        "startChar": 18,
+        "endLine": 207,
+        "endChar": 33
+      },
+      "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78ab7056_eac902d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-23T06:14:46Z",
+      "side": 1,
+      "message": "Remove parameter. You can just use `this.`.",
       "revId": "944bf2c6a2d90ce9d2189091e4972fa984571efe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

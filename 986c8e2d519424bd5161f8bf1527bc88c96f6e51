@@ -185,6 +185,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4ec83731_e7757817",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T17:52:05Z",
+      "side": 1,
+      "message": "I\u0027ve clarified in the commit message the reason why the fix is on getRefsByPrefix and not in getRefs.",
+      "parentUuid": "cfd72870_b36576c6",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 42
+      },
+      "revId": "986c8e2d519424bd5161f8bf1527bc88c96f6e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "beb66939_94853ae0",
         "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
         "patchSetId": 8
@@ -196,6 +220,30 @@
       "writtenOn": "2021-09-23T15:41:41Z",
       "side": 1,
       "message": "nit for future cleanup: Seems this pattern is repeated a lot in this file, might be nice to have a helper.\n\nAnd maybe even a dedicated setProtocolV2() since that\u0027s a common use for it.",
+      "range": {
+        "startLine": 282,
+        "startChar": 10,
+        "endLine": 286,
+        "endChar": 23
+      },
+      "revId": "986c8e2d519424bd5161f8bf1527bc88c96f6e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d71d302e_b10d9e02",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T17:52:05Z",
+      "side": 1,
+      "message": "Sure, good idea. Let me address that in a follow-up change.",
+      "parentUuid": "beb66939_94853ae0",
       "range": {
         "startLine": 282,
         "startChar": 10,

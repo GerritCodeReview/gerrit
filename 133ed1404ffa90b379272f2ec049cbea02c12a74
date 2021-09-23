@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1a17c53_9288bd02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-23T06:07:09Z",
+      "side": 1,
+      "message": "How is the list of files computed for merge commits?\nDoes it a do a comparison against the first parent or the auto merge?",
+      "range": {
+        "startLine": 11,
+        "startChar": 61,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "133ed1404ffa90b379272f2ec049cbea02c12a74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

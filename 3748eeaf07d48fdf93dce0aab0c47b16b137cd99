@@ -34,6 +34,24 @@
       "parentUuid": "d90a0967_5357c9db",
       "revId": "3748eeaf07d48fdf93dce0aab0c47b16b137cd99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24a741ad_79bd6672",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-23T10:12:25Z",
+      "side": 1,
+      "message": "Thanks for explaining!\n\n\u003e By the way I noticed that switching on GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS means that submit rules will be evaluated twice when a change is indexed (once for the SUBMIT_RECORD field and once for the STORED_SUBMIT_REQUIREMENTS field). Might be worth to investigate if this can be avoided.\n\nThanks for pointing out. I filed b/200921636 for tracking.",
+      "parentUuid": "361fcf2c_b166c6be",
+      "revId": "3748eeaf07d48fdf93dce0aab0c47b16b137cd99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

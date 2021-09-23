@@ -145,6 +145,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "94a10c43_a03c5a60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T18:34:56Z",
+      "side": 1,
+      "message": "I know, my statement is that JGit\u0027s getRefs() is deprecated: amended.",
+      "parentUuid": "f3e18b47_7698361e",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "f6d972266e76f493d6602e18219f02fa0c74334f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cb1f90c0_5e20d6c8",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 10

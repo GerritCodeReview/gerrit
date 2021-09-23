@@ -303,6 +303,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3225bf1_0a1da031",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-23T20:21:19Z",
+      "side": 1,
+      "message": "Can you please stop marking this resolved until I agree? It\u0027s hard to track which comments are still ongoing when you do that.\n\n\u003e \u003e Good to see the JGit change. That should be a dependency of this change. \n\u003e \n\u003e Can you elaborate on why it should be a dependency?\n\u003e \n\u003e Would this change work if merged before the JGit one? Yes.\n\u003e JGit already returns the correct result today, even without the JGit fix.\n\u003e \n\u003e Would the JGit change work if merged before this one? Yes.\n\u003e JGit change makes sense as performance optimisation with or without the Gerrit change.\n\u003e \n\u003e Therefore, this change and the JGit change can be merged in any order. \n\u003e Can you highlight the breakage caused by merging this change before the JGit one?\n\nThere\u0027s no breakage. You\u0027re adding code here that doesn\u0027t belong here. It\u0027s the wrong change. JGit owns this behavior and therefore it is responsible for fixing it. Elaborated below.\n\n\u003e \n\u003e \u003e I\u0027m not seeing a compelling reason to not delete this getRefsByPrefix() method (maybe we can\u0027t completely delete it because that would break anyone overriding it, but replacing all the code inside it with calling JGit\u0027s getRefsByPrefix() or this class\u0027 getRefs()).\n\u003e \n\u003e I can give you that compelling reason: the getRefsByPrefix() is going to stay as a method and, sooner or later, will have to be reintroduced if we remove it now.\n\nIndependent of any fix you\u0027re trying to make, I think it would be correct to delete all the code from PermissionAwareReadOnlyRefDatabase.getRefsByPrefix() and just call PermissionAwareReadOnlyRefDatabase.getRefs() like this:\n\n  @Override\n  public List\u003cRef\u003e getRefsByPrefix(String prefix) throws IOException {\n    getRefs(prefix);\n  }\n\nThat is a correct thing to do because PermissionAwareReadOnlyRefDatabase.getRefs() calls RefDatabase.getRefsByPrefix() which *is exactly a copy of PermissionAwareReadOnlyRefDatabase.getRefsByPrefix()* as you can find at https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/stable-5.9/org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java#394 and which I\u0027ve pasted here for easy comparison:\n\n public List\u003cRef\u003e getRefsByPrefix(String prefix) throws IOException {\n         Map\u003cString, Ref\u003e coarseRefs;\n         int lastSlash \u003d prefix.lastIndexOf(\u0027/\u0027);\n         if (lastSlash \u003d\u003d -1) {\n                 coarseRefs \u003d getRefs(ALL);\n         } else {\n                 coarseRefs \u003d getRefs(prefix.substring(0, lastSlash + 1));\n         }\n\n         List\u003cRef\u003e result;\n         if (lastSlash + 1 \u003d\u003d prefix.length()) {\n                 result \u003d coarseRefs.values().stream().collect(toList());\n         } else {\n                 String p \u003d prefix.substring(lastSlash + 1);\n                 result \u003d coarseRefs.entrySet().stream()\n                                 .filter(e -\u003e e.getKey().startsWith(p))\n                                 .map(e -\u003e e.getValue())\n                                 .collect(toList());\n         }\n         return Collections.unmodifiableList(result);\n }\n\nThe current logic from PermissionAwareReadOnlyRefDatabase.getRefsByPrefix() is effectively:\n\n * check prefix slash location\n * call PermissionAwareReadOnlyRefDatabase.getRefs()\n   * call RefDatabase.getRefsByPrefix()\n     * check prefix slash location\n     * call RefDatabase.getRefs()\n     * filter to matching prefix\n   * filter using ACLs\n * filter to matching prefix\n\nThere\u0027s no reason for us to be doing the filter to prefix bits twice, so we should stop. It\u0027s also more complicated than it needs to be, and more code to maintain in Gerrit than we should have. I\u0027m suggesting it should be:\n\n * call PermissionAwareReadOnlyRefDatabase.getRefs()\n   * call RefDatabase.getRefsByPrefix()\n     * check prefix slash location\n     * call RefDatabase.getRefs()\n     * filter to matching prefix\n   * filter using ACLs\n\nAfter doing that replacement, you likely still have this issue with HEAD. That then needs to be resolved with the fix in JGit RefDatabase.getRefsByPrefix() that you\u0027ve started on at https://git.eclipse.org/r/c/jgit/jgit/+/185640\n\n\u003e \n\u003e getRefs() is deprecated in the JGit domain and sooner or later would have to be removed.\n\nI really don\u0027t understand why you keep talking about JGit\u0027s getRefs(). That is not used anywhere in here, nor am I suggesting it should be. Is there something I\u0027m missing?",
+      "parentUuid": "315cdd8d_be047797",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 42
+      },
+      "revId": "986c8e2d519424bd5161f8bf1527bc88c96f6e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "beb66939_94853ae0",

@@ -11,6 +11,9 @@ from collections import defaultdict
 from sys import stdout, stderr
 import xml.etree.ElementTree as ET
 
+import os; import locale
+locale.setlocale(category=locale.LC_ALL, locale="en_US.UTF-8")
+
 DO_NOT_DISTRIBUTE = "//lib:LICENSE-DO_NOT_DISTRIBUTE"
 
 LICENSE_PREFIX = "//lib:LICENSE-"
@@ -196,7 +199,7 @@ updates of mirror servers, or realtime backups.
         print("[[%s_license]]" % safename)
         print("----")
         license_text = data.license_text
-        print(data.license_text.rstrip("\r\n"))
+#         print(data.license_text.rstrip("\r\n"))
         print()
         print("----")
         print()

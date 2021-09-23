@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-label-scores';
-import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {isHidden, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrLabelScores} from './gr-label-scores';
 import {AccountId} from '../../../types/common';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
@@ -25,6 +25,7 @@ import {
   createAccountWithId,
   createChange,
 } from '../../../test/test-data-generators';
+import {ChangeStatus} from '../../../constants/constants';
 
 const basicFixture = fixtureFromElement('gr-label-scores');
 
@@ -116,19 +117,12 @@ suite('gr-label-scores tests', () => {
 
   test('_getVoteForAccount', () => {
     const labelName = 'Code-Review';
-    assert.strictEqual(
-      element._getVoteForAccount(
-        element.change!.labels,
-        labelName,
-        element.account
-      ),
-      '+1'
-    );
+    assert.strictEqual(element._getVoteForAccount(labelName), '+1');
   });
 
   test('_computeColumns', () => {
-    element._computeColumns(element.permittedLabels);
-    assert.deepEqual(element._labelValues, {
+    const labelValues = element._computeColumns();
+    assert.deepEqual(labelValues, {
       '-2': 0,
       '-1': 1,
       '0': 2,
@@ -137,31 +131,8 @@ suite('gr-label-scores tests', () => {
     });
   });
 
-  test('_computeLabelAccessClass undefined case', () => {
-    assert.strictEqual(
-      element._computeLabelAccessClass(undefined, undefined),
-      ''
-    );
-    assert.strictEqual(element._computeLabelAccessClass('', undefined), '');
-    assert.strictEqual(element._computeLabelAccessClass(undefined, {}), '');
-  });
-
-  test('_computeLabelAccessClass has access', () => {
-    assert.strictEqual(
-      element._computeLabelAccessClass('foo', {foo: ['']}),
-      'access'
-    );
-  });
-
-  test('_computeLabelAccessClass no access', () => {
-    assert.strictEqual(
-      element._computeLabelAccessClass('zap', {foo: ['']}),
-      'no-access'
-    );
-  });
-
-  test('changes in label score are reflected in _labels', () => {
-    element.change = {
+  test('changes in label score are reflected in _labels', async () => {
+    const change = {
       ...createChange(),
       labels: {
         'Code-Review': {
@@ -186,17 +157,62 @@ suite('gr-label-scores tests', () => {
         },
       },
     };
-    assert.deepEqual(element._labels, [
+    element.change = change;
+    await flush();
+    let labels = element._computeLabels();
+    assert.deepEqual(labels, [
       {name: 'Code-Review', value: null},
       {name: 'Verified', value: null},
     ]);
-    element.set(
-      ['change', 'labels', 'Verified', 'all'],
-      [{_account_id: accountId, value: 1}]
-    );
-    assert.deepEqual(element._labels, [
+    element.change = {
+      ...change,
+      labels: {
+        ...change.labels,
+        Verified: {
+          ...change.labels.Verified,
+          all: [
+            {
+              _account_id: accountId,
+              value: 1,
+            },
+          ],
+        },
+      },
+    };
+    await flush();
+    labels = element._computeLabels();
+    assert.deepEqual(labels, [
       {name: 'Code-Review', value: null},
       {name: 'Verified', value: '+1'},
     ]);
+  });
+  suite('message', () => {
+    test('shown when change is abandoned', async () => {
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.ABANDONED,
+      };
+      await flush();
+      assert.isFalse(isHidden(queryAndAssert(element, '.abandonedMessage')));
+      assert.isTrue(isHidden(queryAndAssert(element, '.mergedMessage')));
+    });
+    test('shown when change is merged', async () => {
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.MERGED,
+      };
+      await flush();
+      assert.isFalse(isHidden(queryAndAssert(element, '.mergedMessage')));
+      assert.isTrue(isHidden(queryAndAssert(element, '.abandonedMessage')));
+    });
+    test('do not show for new', async () => {
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.NEW,
+      };
+      await flush();
+      assert.isTrue(isHidden(queryAndAssert(element, '.mergedMessage')));
+      assert.isTrue(isHidden(queryAndAssert(element, '.abandonedMessage')));
+    });
   });
 });

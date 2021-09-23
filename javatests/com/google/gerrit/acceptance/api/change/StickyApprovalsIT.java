@@ -31,6 +31,7 @@ import static com.google.gerrit.server.project.testing.TestLabels.value;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -49,6 +50,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
@@ -899,6 +901,52 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // ps4.
     assertVotes(c, admin, 0, 0);
     assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void copyWithListOfFilesUnchangedButAddedMergeList() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
+      u.save();
+    }
+    Change.Id parent1ChangeId = changeOperations.newChange().create();
+    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id dummyParentChangeId = changeOperations.newChange().create();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+
+    Map<String, FileInfo> changedFilesFirstPatchset =
+        gApi.changes().id(changeId.get()).current().files();
+
+    assertThat(changedFilesFirstPatchset.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST");
+
+    // Make a Code-Review vote that should be sticky.
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .parent()
+        .patchset(PatchSet.id(dummyParentChangeId, 1))
+        .create();
+
+    Map<String, FileInfo> changedFilesSecondPatchset =
+        gApi.changes().id(changeId.get()).current().files();
+
+    // Only "/MERGE_LIST" was removed.
+    assertThat(changedFilesSecondPatchset.keySet()).containsExactly("/COMMIT_MSG");
+    ApprovalInfo approvalInfo =
+        Iterables.getOnlyElement(
+            gApi.changes().id(changeId.get()).current().votes().get(LabelId.CODE_REVIEW));
+    assertThat(approvalInfo._accountId).isEqualTo(admin.id().get());
+    assertThat(approvalInfo.value).isEqualTo(2);
   }
 
   @Test

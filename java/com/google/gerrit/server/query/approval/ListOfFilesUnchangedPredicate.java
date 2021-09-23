@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.approval;
 
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -27,8 +28,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -77,13 +80,16 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
    */
   public boolean match(
       Map<String, FileDiffOutput> modifiedFiles1, Map<String, FileDiffOutput> modifiedFiles2) {
-    if (modifiedFiles1.size() != modifiedFiles2.size()) {
-      return false;
-    }
-    for (String file : modifiedFiles1.keySet()) {
+    Set<String> allFiles = new HashSet<>();
+    allFiles.addAll(modifiedFiles1.keySet());
+    allFiles.addAll(modifiedFiles2.keySet());
+    for (String file : allFiles) {
+      if (Patch.isMagic(file)) {
+        continue;
+      }
       FileDiffOutput fileDiffOutput1 = modifiedFiles1.get(file);
       FileDiffOutput fileDiffOutput2 = modifiedFiles2.get(file);
-      if (fileDiffOutput2 == null) {
+      if (fileDiffOutput1 == null || fileDiffOutput2 == null) {
         return false;
       }
       if (!fileDiffOutput2.changeType().equals(fileDiffOutput1.changeType())) {

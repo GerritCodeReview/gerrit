@@ -181,7 +181,6 @@ public class TextParserTest extends AbstractParserTest {
   /**
    * Create a plaintext message body with the specified comments.
    *
-   * @param changeMessage
    * @param c1 Comment in reply to first inline comment.
    * @param c2 Comment in reply to second inline comment.
    * @param c3 Comment in reply to third inline comment.

@@ -30,7 +30,7 @@ public class TextParser {
   /**
    * Parses comments from plaintext email.
    *
-   * @param email @param email the message as received from the email service
+   * @param email the message as received from the email service
    * @param comments list of {@link HumanComment}s previously persisted on the change that caused
    *     the original notification email to be sent out. Ordering must be the same as in the
    *     outbound email

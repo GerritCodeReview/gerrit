@@ -176,7 +176,6 @@ public abstract class HtmlParserTest extends AbstractParserTest {
   /**
    * Create an html message body with the specified comments.
    *
-   * @param changeMessage
    * @param c1 Comment in reply to first comment.
    * @param c2 Comment in reply to second comment.
    * @param c3 Comment in reply to third comment.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d90a0967_5357c9db",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-23T08:35:18Z",
+      "side": 1,
+      "message": "There are other callers to submit rules such as the \"submit\" code path or \"SubmitRequirementsEvaluator\", but we can add those callers later if needed.",
+      "revId": "3748eeaf07d48fdf93dce0aab0c47b16b137cd99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

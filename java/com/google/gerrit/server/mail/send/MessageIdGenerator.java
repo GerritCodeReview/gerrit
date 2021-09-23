@@ -58,8 +58,6 @@ public class MessageIdGenerator {
   /**
    * Create a {@link MessageId} as a result of a change update.
    *
-   * @param repoView
-   * @param patchsetId
    * @return MessageId that depends on the patchset.
    */
   public MessageId fromChangeUpdate(RepoView repoView, PatchSet.Id patchsetId) {
@@ -114,8 +112,6 @@ public class MessageIdGenerator {
    * Create a {@link MessageId} from a reason, Account.Id, and timestamp.
    *
    * @param reason for performing this account update
-   * @param accountId
-   * @param timestamp
    * @return MessageId that depends on the reason, accountId, and timestamp.
    */
   public MessageId fromReasonAccountIdAndTimestamp(

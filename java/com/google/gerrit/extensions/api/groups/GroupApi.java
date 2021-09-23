@@ -37,7 +37,6 @@ public interface GroupApi {
    * Set group name.
    *
    * @param name new name.
-   * @throws RestApiException
    */
   void name(String name) throws RestApiException;
 
@@ -48,7 +47,6 @@ public interface GroupApi {
    * Set group owner.
    *
    * @param owner identifier of new group owner.
-   * @throws RestApiException
    */
   void owner(String owner) throws RestApiException;
 
@@ -59,7 +57,6 @@ public interface GroupApi {
    * Set group decsription.
    *
    * @param description new description.
-   * @throws RestApiException
    */
   void description(String description) throws RestApiException;
 
@@ -70,7 +67,6 @@ public interface GroupApi {
    * Set group options.
    *
    * @param options new options.
-   * @throws RestApiException
    */
   void options(GroupOptionsInfo options) throws RestApiException;
 
@@ -78,7 +74,6 @@ public interface GroupApi {
    * List group members, non-recursively.
    *
    * @return group members.
-   * @throws RestApiException
    */
   List<AccountInfo> members() throws RestApiException;
 
@@ -87,7 +82,6 @@ public interface GroupApi {
    *
    * @param recursive whether to recursively included groups.
    * @return group members.
-   * @throws RestApiException
    */
   List<AccountInfo> members(boolean recursive) throws RestApiException;
 
@@ -96,7 +90,6 @@ public interface GroupApi {
    *
    * @param members list of member identifiers, in any format accepted by {@link
    *     com.google.gerrit.extensions.api.accounts.Accounts#id(String)}
-   * @throws RestApiException
    */
   void addMembers(List<String> members) throws RestApiException;
 
@@ -105,7 +98,6 @@ public interface GroupApi {
    *
    * @param members list of member identifiers, in any format accepted by {@link
    *     com.google.gerrit.extensions.api.accounts.Accounts#id(String)}
-   * @throws RestApiException
    */
   default void addMembers(String... members) throws RestApiException {
     addMembers(Arrays.asList(members));
@@ -116,7 +108,6 @@ public interface GroupApi {
    *
    * @param members list of member identifiers, in any format accepted by {@link
    *     com.google.gerrit.extensions.api.accounts.Accounts#id(String)}
-   * @throws RestApiException
    */
   void removeMembers(List<String> members) throws RestApiException;
 
@@ -125,7 +116,6 @@ public interface GroupApi {
    *
    * @param members list of member identifiers, in any format accepted by {@link
    *     com.google.gerrit.extensions.api.accounts.Accounts#id(String)}
-   * @throws RestApiException
    */
   default void removeMembers(String... members) throws RestApiException {
     removeMembers(Arrays.asList(members));
@@ -135,7 +125,6 @@ public interface GroupApi {
    * Lists the subgroups of this group.
    *
    * @return the found subgroups
-   * @throws RestApiException
    */
   List<GroupInfo> includedGroups() throws RestApiException;
 
@@ -143,7 +132,6 @@ public interface GroupApi {
    * Adds subgroups to this group.
    *
    * @param groups list of group identifiers, in any format accepted by {@link Groups#id(String)}
-   * @throws RestApiException
    */
   void addGroups(List<String> groups) throws RestApiException;
 
@@ -151,7 +139,6 @@ public interface GroupApi {
    * Adds subgroups to this group.
    *
    * @param groups list of group identifiers, in any format accepted by {@link Groups#id(String)}
-   * @throws RestApiException
    */
   default void addGroups(String... groups) throws RestApiException {
     addGroups(Arrays.asList(groups));
@@ -161,7 +148,6 @@ public interface GroupApi {
    * Removes subgroups from this group.
    *
    * @param groups list of group identifiers, in any format accepted by {@link Groups#id(String)}
-   * @throws RestApiException
    */
   void removeGroups(List<String> groups) throws RestApiException;
 
@@ -169,7 +155,6 @@ public interface GroupApi {
    * Removes subgroups from this group.
    *
    * @param groups list of group identifiers, in any format accepted by {@link Groups#id(String)}
-   * @throws RestApiException
    */
   default void removeGroups(String... groups) throws RestApiException {
     removeGroups(Arrays.asList(groups));
@@ -179,7 +164,6 @@ public interface GroupApi {
    * Returns the audit log of the group.
    *
    * @return list of audit events of the group.
-   * @throws RestApiException
    */
   List<? extends GroupAuditEventInfo> auditLog() throws RestApiException;
 
@@ -188,7 +172,6 @@ public interface GroupApi {
    *
    * <p>Only supported for internal groups.
    *
-   * @throws RestApiException
    */
   void index() throws RestApiException;
 

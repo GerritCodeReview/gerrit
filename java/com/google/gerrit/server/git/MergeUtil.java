@@ -512,9 +512,6 @@ public class MergeUtil {
    *   <li>Change-Id
    * </ul>
    *
-   * @param n
-   * @param notes
-   * @param psId
    * @return new message
    */
   private String createDetailedCommitMessage(RevCommit n, ChangeNotes notes, PatchSet.Id psId) {
@@ -630,10 +627,6 @@ public class MergeUtil {
    * Plugins implementing {@link ChangeMessageModifier} can modify the resulting commit message
    * arbitrarily.
    *
-   * @param n
-   * @param mergeTip
-   * @param notes
-   * @param id
    * @return new message
    */
   public String createCommitMessageOnSubmit(

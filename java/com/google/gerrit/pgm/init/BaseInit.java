@@ -164,7 +164,6 @@ public class BaseInit extends SiteProgram {
    * Invoked before site init is called.
    *
    * @param init initializer instance.
-   * @throws Exception
    */
   protected boolean beforeInit(SiteInit init) throws Exception {
     return false;
@@ -174,7 +173,6 @@ public class BaseInit extends SiteProgram {
    * Invoked after site init is called.
    *
    * @param run completed run instance.
-   * @throws Exception
    */
   protected void afterInit(SiteRun run) throws Exception {}
 

@@ -97,8 +97,6 @@ public abstract class OutgoingEmail {
 
   /**
    * Format and enqueue the message for delivery.
-   *
-   * @throws EmailException
    */
   public void send() throws EmailException {
     try {
@@ -546,7 +544,6 @@ public abstract class OutgoingEmail {
    * Returns whether this email is visible to the given account
    *
    * @param to account.
-   * @throws PermissionBackendException
    */
   protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
     return true;

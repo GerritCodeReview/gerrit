@@ -1426,7 +1426,6 @@ public class RestApiServlet extends HttpServlet {
    * @param config config parameters for the JSON formatting
    * @param result the object that should be formatted as JSON
    * @return the length of the response
-   * @throws IOException
    */
   public static long replyJson(
       @Nullable HttpServletRequest req,
@@ -1970,7 +1969,6 @@ public class RestApiServlet extends HttpServlet {
    *     set to {@code true} if the reply may contain sensitive data
    * @param text the text reply
    * @return the length of the response
-   * @throws IOException
    */
   static long replyText(
       @Nullable HttpServletRequest req, HttpServletResponse res, boolean allowTracing, String text)

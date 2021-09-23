@@ -110,8 +110,6 @@ public abstract class MailReceiver implements LifecycleListener {
    * requestDeletion will enqueue an email for deletion and delete it the next time we connect to
    * the email server. This does not guarantee deletion as the Gerrit instance might fail before we
    * connect to the email server.
-   *
-   * @param messageId
    */
   public void requestDeletion(String messageId) {
     pendingDeletion.add(messageId);

@@ -82,7 +82,7 @@ java_package_configuration(
         "-Xep:AlmostJavadoc:ERROR",
         "-Xep:AlwaysThrows:ERROR",
         "-Xep:AmbiguousMethodReference:ERROR",
-        # "-Xep:AnnotateFormatMethod:WARN",
+        "-Xep:AnnotateFormatMethod:ERROR",
         # "-Xep:ArgumentSelectionDefectChecker:WARN",
         "-Xep:ArrayAsKeyOfSetOrMap:ERROR",
         "-Xep:ArrayEquals:ERROR",

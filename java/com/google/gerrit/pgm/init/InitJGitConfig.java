@@ -72,12 +72,11 @@ class InitJGitConfig implements InitStep {
                 ConfigConstants.CONFIG_PROTOCOL_SECTION, null, ConfigConstants.CONFIG_KEY_VERSION);
         if (!TransferConfig.ProtocolVersion.V2.version().equals(version)) {
           ui.error(
-              String.format(
-                  "HINT: JGit option \"%s.%s = %s\". It's recommended to activate git\n"
-                      + "wire protocol version 2 to improve git fetch performance.",
-                  ConfigConstants.CONFIG_PROTOCOL_SECTION,
-                  ConfigConstants.CONFIG_KEY_VERSION,
-                  version));
+              "HINT: JGit option \"%s.%s = %s\". It's recommended to activate git\n"
+                  + "wire protocol version 2 to improve git fetch performance.",
+              ConfigConstants.CONFIG_PROTOCOL_SECTION,
+              ConfigConstants.CONFIG_KEY_VERSION,
+              version);
         }
       }
     } catch (IOException e) {

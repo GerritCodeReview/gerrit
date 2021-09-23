@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec69f577_b94af923",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-23T11:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a918476_ce0b5478",
+      "range": {
+        "startLine": 42,
+        "startChar": 65,
+        "endLine": 42,
+        "endChar": 82
+      },
+      "revId": "6cafb058fbf019d4956e1dffb009ed79147d7318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e21af8f7_a2570d0d",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-09-23T06:32:27Z",
       "side": 1,
       "message": "Good that this is done in the constructor instead of in `connectedCallback()`, because that runs the risk of repeatedly adding event listeners. Can you fix gr-dashboard-view?",
+      "revId": "6cafb058fbf019d4956e1dffb009ed79147d7318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eea3fca0_cec5c008",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-23T11:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e21af8f7_a2570d0d",
       "revId": "6cafb058fbf019d4956e1dffb009ed79147d7318",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf98fd91_a9627102",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-23T11:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a565e33_5085682f",
+      "revId": "6cafb058fbf019d4956e1dffb009ed79147d7318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4aef1b6_f594b290",
@@ -71,6 +131,24 @@
       "writtenOn": "2021-09-23T06:32:27Z",
       "side": 1,
       "message": "Maybe add\n\n  if (this._loading) return;",
+      "revId": "6cafb058fbf019d4956e1dffb009ed79147d7318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "380e475d_afc32771",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-23T11:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4aef1b6_f594b290",
       "revId": "6cafb058fbf019d4956e1dffb009ed79147d7318",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

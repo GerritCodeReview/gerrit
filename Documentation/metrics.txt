@@ -118,6 +118,7 @@ The following metrics are reported.
 ** `type`:
    type of push (create/replace, autoclose, normal)
 * `receivecommits/timeout`: rate of push timeouts
+* `receivecommits/ps_revision_missing`: errors due to patch set revision missing
 
 === Process
 

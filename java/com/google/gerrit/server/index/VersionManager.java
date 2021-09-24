@@ -107,7 +107,6 @@ public abstract class VersionManager implements LifecycleListener {
    * @param name index name
    * @param force start re-index
    * @return true if started, otherwise false.
-   * @throws ReindexerAlreadyRunningException
    */
   public synchronized boolean startReindexer(String name, boolean force)
       throws ReindexerAlreadyRunningException {
@@ -125,7 +124,6 @@ public abstract class VersionManager implements LifecycleListener {
    *
    * @param name index name
    * @return true if index was activated, otherwise false.
-   * @throws ReindexerAlreadyRunningException
    */
   public synchronized boolean activateLatestIndex(String name)
       throws ReindexerAlreadyRunningException {

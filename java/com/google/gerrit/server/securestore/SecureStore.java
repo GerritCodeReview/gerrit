@@ -39,13 +39,7 @@ public abstract class SecureStore {
     public final String section;
     public final String subsection;
 
-    /**
-     * Creates EntryKey.
-     *
-     * @param section
-     * @param subsection
-     * @param name
-     */
+    /** Creates EntryKey */
     public EntryKey(String section, String subsection, String name) {
       this.name = name;
       this.section = section;
@@ -57,9 +51,6 @@ public abstract class SecureStore {
    * Extract decrypted value of stored property from SecureStore or {@code null} when property was
    * not found.
    *
-   * @param section
-   * @param subsection
-   * @param name
    * @return decrypted String value or {@code null} if not found
    */
   public final String get(String section, String subsection, String name) {
@@ -74,10 +65,6 @@ public abstract class SecureStore {
    * Extract decrypted value of stored plugin config property from SecureStore or {@code null} when
    * property was not found.
    *
-   * @param pluginName
-   * @param section
-   * @param subsection
-   * @param name
    * @return decrypted String value or {@code null} if not found
    */
   public final String getForPlugin(
@@ -93,10 +80,6 @@ public abstract class SecureStore {
    * Extract list of plugin config values from SecureStore and decrypt every value in that list, or
    * {@code null} when property was not found.
    *
-   * @param pluginName
-   * @param section
-   * @param subsection
-   * @param name
    * @return decrypted list of string values or {@code null}
    */
   public abstract String[] getListForPlugin(
@@ -106,9 +89,6 @@ public abstract class SecureStore {
    * Extract list of values from SecureStore and decrypt every value in that list or {@code null}
    * when property was not found.
    *
-   * @param section
-   * @param subsection
-   * @param name
    * @return decrypted list of string values or {@code null}
    */
   public abstract String[] getList(String section, String subsection, String name);
@@ -118,9 +98,6 @@ public abstract class SecureStore {
    *
    * <p>This method is responsible for encrypting value and storing it.
    *
-   * @param section
-   * @param subsection
-   * @param name
    * @param value plain text value
    */
   public final void set(String section, String subsection, String name, String value) {
@@ -132,26 +109,19 @@ public abstract class SecureStore {
    *
    * <p>This method is responsible for encrypting all values in the list and storing them.
    *
-   * @param section
-   * @param subsection
-   * @param name
    * @param values list of plain text values
    */
   public abstract void setList(String section, String subsection, String name, List<String> values);
 
   /**
    * Remove value for given {@code section}, {@code subsection} and {@code name} from SecureStore.
-   *
-   * @param section
-   * @param subsection
-   * @param name
    */
   public abstract void unset(String section, String subsection, String name);
 
-  /** @return list of stored entries. */
+  /** Returns list of stored entries. */
   public abstract Iterable<EntryKey> list();
 
-  /** @return <code>true</code> if currently loaded values are outdated */
+  /** Returns <code>true</code> if currently loaded values are outdated */
   public abstract boolean isOutdated();
 
   /** Reload the values */

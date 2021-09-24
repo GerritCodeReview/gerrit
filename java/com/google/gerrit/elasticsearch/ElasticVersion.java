@@ -45,7 +45,6 @@ public enum ElasticVersion {
    *
    * @param version for which to return an ElasticVersion
    * @return the corresponding ElasticVersion if supported
-   * @throws UnsupportedVersion
    */
   public static ElasticVersion forVersion(String version) {
     for (ElasticVersion value : ElasticVersion.values()) {

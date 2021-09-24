@@ -52,8 +52,8 @@ public class MergeTip {
   }
 
   /**
-   * @return the initial tip of the branch before the merge operation started; may be null,
-   *     indicating a previously unborn branch.
+   * Returns the initial tip of the branch before the merge operation started; may be null,
+   * indicating a previously unborn branch.
    */
   public CodeReviewCommit getInitialTip() {
     return initialTip;
@@ -82,8 +82,8 @@ public class MergeTip {
   }
 
   /**
-   * @return The current tip of the current merge operation; may be null, indicating an unborn
-   *     branch.
+   * Returns The current tip of the current merge operation; may be null, indicating an unborn
+   * branch.
    */
   @Nullable
   public CodeReviewCommit getCurrentTip() {

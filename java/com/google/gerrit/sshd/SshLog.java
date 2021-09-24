@@ -92,7 +92,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
     }
   }
 
-  /** @return true if a change in state has occurred */
+  /** Returns true if a change in state has occurred */
   public boolean enableLogging() {
     synchronized (lock) {
       if (async == null) {
@@ -112,7 +112,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
     }
   }
 
-  /** @return true if a change in state has occurred */
+  /** Returns true if a change in state has occurred */
   public boolean disableLogging() {
     synchronized (lock) {
       if (async != null) {

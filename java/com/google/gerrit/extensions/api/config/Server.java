@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.webui.TopMenu;
 import java.util.List;
 
 public interface Server {
-  /** @return Version of server. */
+  /** Returns version of server. */
   String getVersion() throws RestApiException;
 
   ServerInfo getInfo() throws RestApiException;

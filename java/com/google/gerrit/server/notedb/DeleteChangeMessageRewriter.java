@@ -110,7 +110,6 @@ public class DeleteChangeMessageRewriter implements NoteDbRewriter {
    * @param commitMessage the full commit message of the new commit.
    * @param inserter the {@code ObjectInserter} for the rewrite process.
    * @return the {@code objectId} of the new commit.
-   * @throws IOException
    */
   private ObjectId rewriteOneCommit(
       RevCommit originalCommit,

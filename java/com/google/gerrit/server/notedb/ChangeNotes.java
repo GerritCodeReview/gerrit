@@ -37,6 +37,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.FormatMethod;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -91,6 +92,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   public static final Ordering<ChangeMessage> MESSAGE_BY_TIME =
       Ordering.from(comparing(ChangeMessage::getWrittenOn));
 
+  @FormatMethod
   public static ConfigInvalidException parseException(
       Change.Id changeId, String fmt, Object... args) {
     return new ConfigInvalidException("Change " + changeId + ": " + String.format(fmt, args));
@@ -407,17 +409,17 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.reviewers();
   }
 
-  /** @return reviewers that do not currently have a Gerrit account and were added by email. */
+  /** Returns reviewers that do not currently have a Gerrit account and were added by email. */
   public ReviewerByEmailSet getReviewersByEmail() {
     return state.reviewersByEmail();
   }
 
-  /** @return reviewers that were modified during this change's current WIP phase. */
+  /** Returns reviewers that were modified during this change's current WIP phase. */
   public ReviewerSet getPendingReviewers() {
     return state.pendingReviewers();
   }
 
-  /** @return reviewers by email that were modified during this change's current WIP phase. */
+  /** Returns reviewers by email that were modified during this change's current WIP phase. */
   public ReviewerByEmailSet getPendingReviewersByEmail() {
     return state.pendingReviewersByEmail();
   }
@@ -447,8 +449,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   /**
-   * @return an ImmutableSet of Account.Ids of all users that have been assigned to this change. The
-   *     order of the set is the order in which they were assigned.
+   * Returns an ImmutableSet of Account.Ids of all users that have been assigned to this change. The
+   * order of the set is the order in which they were assigned.
    */
   public ImmutableSet<Account.Id> getPastAssignees() {
     return Lists.reverse(state.assigneeUpdates()).stream()
@@ -459,37 +461,37 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   /**
-   * @return an ImmutableList of AssigneeStatusUpdate of all the updates to the assignee field to
-   *     this change. The order of the list is from most recent updates to least recent.
+   * Returns an ImmutableList of AssigneeStatusUpdate of all the updates to the assignee field to
+   * this change. The order of the list is from most recent updates to least recent.
    */
   public ImmutableList<AssigneeStatusUpdate> getAssigneeUpdates() {
     return state.assigneeUpdates();
   }
 
-  /** @return a ImmutableSet of all hashtags for this change sorted in alphabetical order. */
+  /** Returns an ImmutableSet of all hashtags for this change sorted in alphabetical order. */
   public ImmutableSet<String> getHashtags() {
     return ImmutableSortedSet.copyOf(state.hashtags());
   }
 
-  /** @return a list of all users who have ever been a reviewer on this change. */
+  /** Returns a list of all users who have ever been a reviewer on this change. */
   public ImmutableList<Account.Id> getAllPastReviewers() {
     return state.allPastReviewers();
   }
 
   /**
-   * @return submit records stored during the most recent submit; only for changes that were
-   *     actually submitted.
+   * Returns submit records stored during the most recent submit; only for changes that were
+   * actually submitted.
    */
   public ImmutableList<SubmitRecord> getSubmitRecords() {
     return state.submitRecords();
   }
 
-  /** @return all change messages, in chronological order, oldest first. */
+  /** Returns all change messages, in chronological order, oldest first. */
   public ImmutableList<ChangeMessage> getChangeMessages() {
     return state.changeMessages();
   }
 
-  /** @return inline comments on each revision. */
+  /** Returns inline comments on each revision. */
   public ImmutableListMultimap<ObjectId, HumanComment> getHumanComments() {
     return state.publishedComments();
   }
@@ -509,7 +511,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.updateCount();
   }
 
-  /** @return {@link Optional} value of time when the change was merged. */
+  /** Returns {@link Optional} value of time when the change was merged. */
   public Optional<Timestamp> getMergedOn() {
     return Optional.ofNullable(state.mergedOn());
   }

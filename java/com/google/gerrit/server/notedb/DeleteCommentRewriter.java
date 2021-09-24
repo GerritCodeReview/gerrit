@@ -191,8 +191,6 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
    * @param putInComments the comments put in by this commit.
    * @param deletedComments the comments deleted by this commit.
    * @return the {@code objectId} of the new commit.
-   * @throws IOException
-   * @throws ConfigInvalidException
    */
   private ObjectId rewriteCommit(
       RevCommit originalCommit,

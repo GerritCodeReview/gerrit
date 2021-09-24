@@ -133,27 +133,27 @@ public class Description {
     return this;
   }
 
-  /** @return true if the metric value never changes after startup. */
+  /** Returns true if the metric value never changes after startup. */
   public boolean isConstant() {
     return TRUE_VALUE.equals(annotations.get(CONSTANT));
   }
 
-  /** @return true if the metric may be interpreted as a rate over time. */
+  /** Returns true if the metric may be interpreted as a rate over time. */
   public boolean isRate() {
     return TRUE_VALUE.equals(annotations.get(RATE));
   }
 
-  /** @return true if the metric is an instantaneous sample. */
+  /** Returns true if the metric is an instantaneous sample. */
   public boolean isGauge() {
     return TRUE_VALUE.equals(annotations.get(GAUGE));
   }
 
-  /** @return true if the metric accumulates over the lifespan of the process. */
+  /** Returns true if the metric accumulates over the lifespan of the process. */
   public boolean isCumulative() {
     return TRUE_VALUE.equals(annotations.get(CUMULATIVE));
   }
 
-  /** @return the suggested field ordering. */
+  /** Returns the suggested field ordering. */
   public FieldOrdering getFieldOrdering() {
     String o = annotations.get(FIELD_ORDERING);
     return o != null ? FieldOrdering.valueOf(o) : FieldOrdering.AT_END;
@@ -187,7 +187,7 @@ public class Description {
     return u;
   }
 
-  /** @return immutable copy of all annotations (configurable properties). */
+  /** Returns an immutable copy of all annotations (configurable properties). */
   public ImmutableMap<String, String> getAnnotations() {
     return ImmutableMap.copyOf(annotations);
   }

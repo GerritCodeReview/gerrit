@@ -40,9 +40,7 @@ public interface OAuthServiceProvider {
    * After establishing of secure communication channel, this method supossed to access the
    * protected resoure and retrieve the username.
    *
-   * @param token
    * @return OAuth user information
-   * @throws IOException
    */
   OAuthUserInfo getUserInfo(OAuthToken token) throws IOException;
 

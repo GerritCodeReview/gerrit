@@ -278,7 +278,6 @@ public class ApprovalsUtil {
    * @param ps patch set being approved.
    * @param user user adding approvals.
    * @param approvals approvals to add.
-   * @throws RestApiException
    */
   public Iterable<PatchSetApproval> addApprovalsForNewPatchSet(
       ChangeUpdate update,

@@ -42,12 +42,12 @@ public enum OutputFormat {
    */
   JSON_COMPACT;
 
-  /** @return true when the format is either JSON or JSON_COMPACT. */
+  /** Returns true when the format is either JSON or JSON_COMPACT. */
   public boolean isJson() {
     return this == JSON_COMPACT || this == JSON;
   }
 
-  /** @return a new Gson instance configured according to the format. */
+  /** Returns a new Gson instance configured according to the format. */
   public GsonBuilder newGsonBuilder() {
     if (!isJson()) {
       throw new IllegalStateException(String.format("%s is not JSON", this));
@@ -63,7 +63,7 @@ public enum OutputFormat {
     return gb;
   }
 
-  /** @return a new Gson instance configured according to the format. */
+  /** Returns a new Gson instance configured according to the format. */
   public Gson newGson() {
     return newGsonBuilder().create();
   }

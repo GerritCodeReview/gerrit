@@ -114,7 +114,7 @@ public class SshSession {
     identity.setAccessPath(path);
   }
 
-  /** @return {@code true} if the authentication did not succeed. */
+  /** Returns {@code true} if the authentication did not succeed. */
   boolean isAuthenticationError() {
     return authError != null;
   }

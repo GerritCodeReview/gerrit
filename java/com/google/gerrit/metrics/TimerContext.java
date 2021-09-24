@@ -29,7 +29,7 @@ abstract class TimerContext implements AutoCloseable {
    */
   public abstract void record(long elapsed);
 
-  /** @return the start time in system time nanoseconds. */
+  /** Returns the start time in system time nanoseconds. */
   public long getStartTime() {
     return startNanos;
   }

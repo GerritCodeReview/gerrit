@@ -282,7 +282,6 @@ public class ConfigUtil {
    * @param sub subsection
    * @param s instance of class with config values
    * @param defaults instance of class with default values
-   * @throws ConfigInvalidException
    */
   public static <T> void storeSection(Config cfg, String section, String sub, T s, T defaults)
       throws ConfigInvalidException {
@@ -341,7 +340,6 @@ public class ConfigUtil {
    * @param i instance to merge during the load. When present, the boolean fields are not nullified
    *     when their values are false
    * @return loaded instance
-   * @throws ConfigInvalidException
    */
   public static <T> T loadSection(Config cfg, String section, String sub, T s, T defaults, T i)
       throws ConfigInvalidException {

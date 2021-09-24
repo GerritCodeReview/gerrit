@@ -135,19 +135,19 @@ class RefControl {
     return hasReadPermissionOnRef;
   }
 
-  /** @return true if this user can add a new patch set to this ref */
+  /** Returns true if this user can add a new patch set to this ref */
   boolean canAddPatchSet() {
     return projectControl
         .controlForRef(MagicBranch.NEW_CHANGE + refName)
         .canPerform(Permission.ADD_PATCH_SET);
   }
 
-  /** @return true if this user can rebase changes on this ref */
+  /** Returns true if this user can rebase changes on this ref */
   boolean canRebase() {
     return canPerform(Permission.REBASE);
   }
 
-  /** @return true if this user can submit patch sets to this ref */
+  /** Returns true if this user can submit patch sets to this ref */
   boolean canSubmit(boolean isChangeOwner) {
     if (RefNames.REFS_CONFIG.equals(refName)) {
       // Always allow project owners to submit configuration changes.
@@ -160,12 +160,12 @@ class RefControl {
     return canPerform(Permission.SUBMIT, isChangeOwner, false);
   }
 
-  /** @return true if this user can force edit topic names. */
+  /** Returns true if this user can force edit topic names. */
   boolean canForceEditTopicName() {
     return canPerform(Permission.EDIT_TOPIC_NAME, false, true);
   }
 
-  /** @return true if this user can delete changes. */
+  /** Returns true if this user can delete changes. */
   boolean canDeleteChanges(boolean isChangeOwner) {
     return canPerform(Permission.DELETE_CHANGES)
         || (isChangeOwner && canPerform(Permission.DELETE_OWN_CHANGES, isChangeOwner, false));
@@ -201,12 +201,12 @@ class RefControl {
     return canPerform(Permission.REVERT);
   }
 
-  /** @return true if this user can submit merge patch sets to this ref */
+  /** Returns true if this user can submit merge patch sets to this ref */
   private boolean canUploadMerges() {
     return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE);
   }
 
-  /** @return true if the user can update the reference as a fast-forward. */
+  /** Returns true if the user can update the reference as a fast-forward. */
   private boolean canUpdate() {
     if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
       // Pushing requires being at least project owner, in addition to push.
@@ -225,7 +225,7 @@ class RefControl {
     return canPerform(Permission.PUSH);
   }
 
-  /** @return true if the user can rewind (force push) the reference. */
+  /** Returns true if the user can rewind (force push) the reference. */
   private boolean canForceUpdate() {
     if (canPushWithForce()) {
       return true;
@@ -281,7 +281,7 @@ class RefControl {
     }
   }
 
-  /** @return true if this user can forge the author line in a commit. */
+  /** Returns true if this user can forge the author line in a commit. */
   private boolean canForgeAuthor() {
     if (canForgeAuthor == null) {
       canForgeAuthor = canPerform(Permission.FORGE_AUTHOR);
@@ -289,7 +289,7 @@ class RefControl {
     return canForgeAuthor;
   }
 
-  /** @return true if this user can forge the committer line in a commit. */
+  /** Returns true if this user can forge the committer line in a commit. */
   private boolean canForgeCommitter() {
     if (canForgeCommitter == null) {
       canForgeCommitter = canPerform(Permission.FORGE_COMMITTER);
@@ -297,7 +297,7 @@ class RefControl {
     return canForgeCommitter;
   }
 
-  /** @return true if this user can forge the server on the committer line. */
+  /** Returns true if this user can forge the server on the committer line. */
   private boolean canForgeGerritServerIdentity() {
     return canPerform(Permission.FORGE_SERVER);
   }
@@ -364,7 +364,9 @@ class RefControl {
     }
 
     return new PermissionRange(
-        permissionName, Math.max(voteMin, blockAllowMin), Math.min(voteMax, blockAllowMax));
+        permissionName,
+        /* min= */ Math.max(voteMin, blockAllowMin),
+        /* max= */ Math.min(voteMax, blockAllowMax));
   }
 
   private boolean isBlocked(String permissionName, boolean isChangeOwner, boolean withForce) {
@@ -560,7 +562,8 @@ class RefControl {
             break;
           case FORGE_COMMITTER:
             pde.setAdvice(
-                "You need 'Forge Committer' rights to push commits with another user as committer.");
+                "You need 'Forge Committer' rights to push commits with another user as"
+                    + " committer.");
             break;
           case FORGE_SERVER:
             pde.setAdvice(

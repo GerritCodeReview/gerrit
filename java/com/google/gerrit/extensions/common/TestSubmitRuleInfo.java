@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class TestSubmitRuleInfo {
-  /** @see com.google.gerrit.entities.SubmitRecord.Status */
+  /** See {@link com.google.gerrit.entities.SubmitRecord.Status} */
   public String status;
 
   public String errorMessage;

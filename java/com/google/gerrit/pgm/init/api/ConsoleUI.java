@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm.init.api;
 
+import com.google.errorprone.annotations.FormatMethod;
+import com.google.errorprone.annotations.FormatString;
 import com.google.gerrit.common.Die;
 import java.io.Console;
 import java.util.EnumSet;
@@ -37,7 +39,7 @@ public abstract class ConsoleUI {
     return new Die("aborted by user");
   }
 
-  /** @return true if this is a batch UI that has no user interaction. */
+  /** Returns true if this is a batch UI that has no user interaction. */
   public abstract boolean isBatch();
 
   /** Display a header message before a series of prompts. */
@@ -75,6 +77,7 @@ public abstract class ConsoleUI {
   public abstract String password(String fmt, Object... args);
 
   /** Display an error message on the system stderr. */
+  @FormatMethod
   public void error(String format, Object... args) {
     System.err.println(String.format(format, args));
     System.err.flush();
@@ -97,6 +100,7 @@ public abstract class ConsoleUI {
     }
 
     @Override
+    @FormatMethod
     public boolean yesno(Boolean def, String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       for (; ; ) {
@@ -135,7 +139,8 @@ public abstract class ConsoleUI {
     }
 
     @Override
-    public String readString(String def, String fmt, Object... args) {
+    @FormatMethod
+    public String readString(String def, @FormatString String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       String r;
       if (def != null) {
@@ -154,7 +159,9 @@ public abstract class ConsoleUI {
     }
 
     @Override
-    public String readString(String def, Set<String> allowedValues, String fmt, Object... args) {
+    @FormatMethod
+    public String readString(
+        String def, Set<String> allowedValues, @FormatString String fmt, Object... args) {
       for (; ; ) {
         String r = readString(def, fmt, args);
         if (allowedValues.contains(r.toLowerCase())) {
@@ -171,6 +178,7 @@ public abstract class ConsoleUI {
     }
 
     @Override
+    @FormatMethod
     public String password(String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       for (; ; ) {
@@ -195,6 +203,7 @@ public abstract class ConsoleUI {
     }
 
     @Override
+    @FormatMethod
     public <T extends Enum<?>, A extends EnumSet<? extends T>> T readEnum(
         T def, A options, String fmt, Object... args) {
       final String prompt = String.format(fmt, args);

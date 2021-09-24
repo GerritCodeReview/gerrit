@@ -51,7 +51,7 @@ public class AccountLimits {
     user = currentUser;
   }
 
-  /** @return which priority queue the user's tasks should be submitted to. */
+  /** Returns which priority queue the user's tasks should be submitted to. */
   public QueueProvider.QueueType getQueueType() {
     // If a non-generic group (that is not Anonymous Users or Registered Users)
     // grants us INTERACTIVE permission, use the INTERACTIVE queue even if
@@ -99,7 +99,7 @@ public class AccountLimits {
     return getRange(GlobalCapability.QUERY_LIMIT).getMax();
   }
 
-  /** @return true if the user has a permission rule specifying the range. */
+  /** Returns true if the user has a permission rule specifying the range. */
   public boolean hasExplicitRange(String permission) {
     return GlobalCapability.hasRange(permission) && !getRules(permission).isEmpty();
   }

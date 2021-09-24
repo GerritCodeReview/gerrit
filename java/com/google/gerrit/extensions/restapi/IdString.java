@@ -36,17 +36,17 @@ public class IdString {
     urlEncoded = s;
   }
 
-  /** @return the decoded value of the string. */
+  /** Returns the decoded value of the string. */
   public String get() {
     return Url.decode(urlEncoded);
   }
 
-  /** @return true if the string is the empty string. */
+  /** Returns true if the string is the empty string. */
   public boolean isEmpty() {
     return urlEncoded.isEmpty();
   }
 
-  /** @return the original URL encoding supplied by the client. */
+  /** Returns the original URL encoding supplied by the client. */
   public String encoded() {
     return urlEncoded;
   }

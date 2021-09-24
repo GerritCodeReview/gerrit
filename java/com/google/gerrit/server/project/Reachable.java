@@ -55,9 +55,9 @@ public class Reachable {
   }
 
   /**
-   * @return true if a commit is reachable from a given set of refs. This method enforces
-   *     permissions on the given set of refs and performs a reachability check. Tags are not
-   *     filtered separately and will only be returned if reachable by a provided ref.
+   * Returns true if a commit is reachable from a given set of refs. This method enforces
+   * permissions on the given set of refs and performs a reachability check. Tags are not filtered
+   * separately and will only be returned if reachable by a provided ref.
    */
   public boolean fromRefs(
       Project.NameKey project, Repository repo, RevCommit commit, List<Ref> refs) {

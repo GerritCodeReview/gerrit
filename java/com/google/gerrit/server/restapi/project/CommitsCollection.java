@@ -116,14 +116,14 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   }
 
   /**
-   * @return true if {@code commit} is visible to the caller and {@code commit} is reachable from
-   *     the given branch.
+   * Returns true if {@code commit} is visible to the caller and {@code commit} is reachable from
+   * the given branch.
    */
   public boolean canRead(ProjectState state, Repository repo, RevCommit commit, Ref ref) {
     return reachable.fromRefs(state.getNameKey(), repo, commit, ImmutableList.of(ref));
   }
 
-  /** @return true if {@code commit} is visible to the caller. */
+  /** Returns true if {@code commit} is visible to the caller. */
   public boolean canRead(ProjectState state, Repository repo, RevCommit commit) throws IOException {
     Project.NameKey project = state.getNameKey();
     if (indexes.getSearchIndex() == null) {

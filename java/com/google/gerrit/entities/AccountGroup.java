@@ -54,7 +54,7 @@ public final class AccountGroup {
       return uuid();
     }
 
-    /** @return true if the UUID is for a group managed within Gerrit. */
+    /** Returns true if the UUID is for a group managed within Gerrit. */
     public boolean isInternalGroup() {
       return get().matches("^[0-9a-f]{40}$");
     }

@@ -1181,7 +1181,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
    * @param branchB name of second branch to create
    * @param fileB name of file to commit to branchB
    * @return A {@code Map} of branchName => commit result.
-   * @throws Exception
    */
   private Map<String, Result> changeInTwoBranches(
       String branchA, String fileA, String branchB, String fileB) throws Exception {
@@ -1201,7 +1200,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
    * @param fileB name of file to commit to branchB
    * @param contentB file content to commit to branchB
    * @return A {@code Map} of branchName => commit result.
-   * @throws Exception
    */
   private Map<String, Result> changeInTwoBranches(
       String branchA,

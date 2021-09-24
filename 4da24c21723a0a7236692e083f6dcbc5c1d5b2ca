@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7349ccd7_aed9a7e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-24T18:20:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "200e780c_81b3fdcc",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "4da24c21723a0a7236692e083f6dcbc5c1d5b2ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5dcb67a0_8b3259ba",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -90,6 +114,30 @@
       "writtenOn": "2021-08-04T10:42:30Z",
       "side": 1,
       "message": "Comment removed by: Dmitrii Filippov; Reason: test",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 27
+      },
+      "revId": "4da24c21723a0a7236692e083f6dcbc5c1d5b2ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "089c8196_c083a94d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-24T18:20:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "610ab909_5d4b3ca7",
       "range": {
         "startLine": 29,
         "startChar": 8,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30763fea_e35f54fc",
+        "filename": "javatests/com/google/gerrit/server/project/SubmitRequirementsAdapterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-24T14:54:08Z",
+      "side": 1,
+      "message": "The submit record is NOT_READY, but we have two {OK, REJECT} labels. Before this fix, the two labels were mapped to SRs with status\u003dUNSATISFIED, while the first one should have been mapped to a status\u003dSATISFIED.\n\nThis change fixes this bug.",
+      "revId": "5198ad832ba7c869f9be686717084b3e6f43edce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

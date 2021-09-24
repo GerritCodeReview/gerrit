@@ -49,6 +49,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {DomRepeat} from '@polymer/polymer/lib/elements/dom-repeat';
 import {getVotingRange} from '../../../utils/label-util';
 import {FormattedReviewerUpdateInfo} from '../../../types/types';
+import {commentThreads$} from '../../../services/comments/comments-model';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -90,13 +91,13 @@ function getMessageId(x: CombinedMessage): ChangeMessageId | undefined {
  */
 function computeThreads(
   message: CombinedMessage,
-  changeComments?: ChangeComments
+  commentThreads?: CommentThread[]
 ): CommentThread[] {
-  if (message._index === undefined || changeComments === undefined) {
+  if (message._index === undefined || commentThreads === undefined) {
     return [];
   }
   const messageId = getMessageId(message);
-  return changeComments.getAllThreadsForChange().filter(thread =>
+  return commentThreads.filter(thread =>
     thread.comments
       .map(comment => {
         // collapse all by default
@@ -252,17 +253,25 @@ export class GrMessagesList extends base {
   @property({type: Boolean, observer: '_observeShowAllActivity'})
   _showAllActivity = false;
 
+  @property({type: Array})
+  commentThreads: CommentThread[] = [];
+
   @property({
     type: Array,
     computed:
       '_computeCombinedMessages(messages, reviewerUpdates, ' +
-      'changeComments)',
+      'commentThreads)',
     observer: '_combinedMessagesChanged',
   })
   _combinedMessages: CombinedMessage[] = [];
 
   @property({type: Object, computed: '_computeLabelExtremes(labels.*)'})
   _labelExtremes: {[labelName: string]: VotingRangeInfo} = {};
+
+  constructor() {
+    super();
+    commentThreads$.subscribe(threads => (this.commentThreads = threads));
+  }
 
   private readonly reporting = appContext.reportingService;
 
@@ -317,12 +326,12 @@ export class GrMessagesList extends base {
   _computeCombinedMessages(
     messages?: ChangeMessageInfo[],
     reviewerUpdates?: FormattedReviewerUpdateInfo[],
-    changeComments?: ChangeComments
+    commentThreads?: CommentThread[]
   ) {
     if (
       messages === undefined ||
       reviewerUpdates === undefined ||
-      changeComments === undefined
+      commentThreads === undefined
     )
       return [];
 
@@ -359,7 +368,7 @@ export class GrMessagesList extends base {
       if (m.expanded === undefined) {
         m.expanded = false;
       }
-      m.commentThreads = computeThreads(m, changeComments);
+      m.commentThreads = computeThreads(m, commentThreads);
       m._revision_number = computeRevision(m, combinedMessages);
       m.tag = computeTag(m);
     });
@@ -372,8 +381,11 @@ export class GrMessagesList extends base {
     return combinedMessages;
   }
 
-  getCommentThreads(message: CombinedMessage, changeComments?: ChangeComments) {
-    return computeThreads(message, changeComments);
+  getCommentThreads(
+    message: CombinedMessage,
+    commentThreads?: CommentThread[]
+  ) {
+    return computeThreads(message, commentThreads);
   }
 
   _updateExpandedStateOfAllMessages(exp: boolean) {

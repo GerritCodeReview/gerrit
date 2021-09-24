@@ -6,7 +6,7 @@
     "@bazel/rollup": "^3.5.0",
     "@bazel/terser": "^3.5.0",
     "@bazel/typescript": "^3.5.0",
-    "twinkie": "^1.1.2"
+    "twinkie": "^1.1.3"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.29.0",
@@ -35,7 +35,6 @@
     "polylint": "npm run safe_bazelisk test polygerrit-ui/app:polylint_test",
     "test:debug": "npm run compile:local && npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --root '.ts-out/polygerrit-ui/app/' --browsers ChromeDev --no-single-run --test-files",
     "test:single": "npm run compile:local && npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --root '.ts-out/polygerrit-ui/app/' --test-files",
-    "postinstall": "(git apply --reverse --ignore-whitespace twinkie.patch || true) && git apply --ignore-whitespace twinkie.patch",
     "polytest": "npm run safe_bazelisk test //polygerrit-ui/app:validate_polymer_templates",
     "polytest:dev": "rm -rf ./polygerrit-ui/app/tmpl_out && npm run safe_bazelisk build //polygerrit-ui/app:template_test_tar && mkdir ./polygerrit-ui/app/tmpl_out && tar -xf bazel-bin/polygerrit-ui/app/template_test_tar.tar -C ./polygerrit-ui/app/tmpl_out"
   },
@@ -44,7 +43,8 @@
     "url": "https://gerrit.googlesource.com/gerrit"
   },
   "resolutions": {
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "twinkie/typescript": "4.3.2"
   },
   "author": "",
   "license": "Apache-2.0"

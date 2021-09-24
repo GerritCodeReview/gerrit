@@ -26,7 +26,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
@@ -63,8 +62,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Utility functions to manipulate patchset approvals.
@@ -343,26 +340,12 @@ public class ApprovalsUtil {
     return notes.load().getApprovals();
   }
 
-  public Iterable<PatchSetApproval> byPatchSet(
-      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
-    return approvalInference.forPatchSet(notes, psId, rw, repoConfig);
-  }
-
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet patchSet) {
     return approvalInference.forPatchSet(notes, patchSet, /* rw= */ null, /* repoConfig= */ null);
   }
 
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     return approvalCache.get(notes, psId);
-  }
-
-  public Iterable<PatchSetApproval> byPatchSetUser(
-      ChangeNotes notes,
-      PatchSet.Id psId,
-      Account.Id accountId,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig) {
-    return filterApprovals(byPatchSet(notes, psId, rw, repoConfig), accountId);
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(

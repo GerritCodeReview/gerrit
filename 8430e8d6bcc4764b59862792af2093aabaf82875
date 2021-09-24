@@ -46,6 +46,30 @@
       },
       "revId": "8430e8d6bcc4764b59862792af2093aabaf82875",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e4dc12b_348e4c00",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-24T20:15:30Z",
+      "side": 0,
+      "message": "Fixed this with a notifyPath inside of the controller.",
+      "parentUuid": "f716c045_1a309720",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 70
+      },
+      "revId": "8430e8d6bcc4764b59862792af2093aabaf82875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "Seeing if +2\u0027ing myself will work.",
       "revId": "94166b0fa3626ec3d78e55ca3d8b3281ec9f475a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "101df6d5_02971cec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-24T15:05:13Z",
+      "side": 1,
+      "message": "It didn\u0027t, ignoreSelfApproval is respected even with labels served from Prolog.",
+      "revId": "94166b0fa3626ec3d78e55ca3d8b3281ec9f475a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cb1b73c_fd677116",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-24T09:07:13Z",
+      "side": 1,
+      "message": "Explanation of what we do below:\n\nLet\u0027s assume we have a change having three +1 votes of a kind (e.g. code-review), we generate all the following permutations and store them in index:\n  * label:code-review\u003d+1,count\u003e1\n  * label:code-review\u003d+1,count\u003e\u003d1\n  * label:code-review\u003d+1,count\u003e2\n  * label:code-review\u003d+1,count\u003e\u003d2\n  * label:code-review\u003d+1,count\u003d3\n  * label:code-review\u003d+1,count\u003c\u003d3\n  * label:code-review\u003d+1,count\u003e\u003d3\n  * label:code-review\u003d+1,count\u003c4\n  * label:code-review\u003d+1,count\u003c\u003d4\n  * label:code-review\u003d+1,count\u003c5\n  * label:code-review\u003d+1,count\u003c\u003d5\n  \nFor the \u003c \u0026 \u003c\u003d operators, since we can continue to infinity (i.e. this change also matches with `label:code-review\u003d+1,count\u003d100k`), we cap the formats that we generate to a max. We put a max of \"5\" (inclusive) since this reasonable (it\u0027s very unlikely that a user would want to run a query using the \u003c or \u003c\u003d with a count greater than 5).\n\nNote that this is different from querying a change having 100 count with `label:code-review\u003d1\u003ecount\u003e3`. This query will match.",
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c111eb7_ca99670a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-24T07:06:15Z",
+      "side": 1,
+      "message": "cool!",
+      "revId": "9d0f82c37f18a4ce08323df849c36328218ff2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abe11307_5baa7ce2",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupCreation.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-24T07:06:15Z",
+      "side": 1,
+      "message": "copy paste error",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 11
+      },
+      "revId": "9d0f82c37f18a4ce08323df849c36328218ff2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6f8194c_d92bc786",
+        "filename": "plugins/replication",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-24T07:06:15Z",
+      "side": 1,
+      "message": "is that intentional? (could be yes, just making sure).",
+      "revId": "9d0f82c37f18a4ce08323df849c36328218ff2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -53,7 +53,7 @@ export class GrHovercardRun extends base {
   account?: AccountInfo;
 
   @property({type: Boolean})
-  mutable?: boolean;
+  mutable = false;
 
   @property({type: Boolean})
   expanded = false;

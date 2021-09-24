@@ -26,7 +26,7 @@ export class GrChecksAction extends LitElement {
   action!: Action;
 
   @property()
-  eventTarget?: EventTarget;
+  eventTarget: HTMLElement | null = null;
 
   private checksService = appContext.checksService;
 

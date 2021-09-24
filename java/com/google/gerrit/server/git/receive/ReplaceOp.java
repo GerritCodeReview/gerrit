@@ -407,8 +407,7 @@ public class ReplaceOp implements BatchUpdateOp {
     return input;
   }
 
-  private String insertChangeMessage(ChangeUpdate update, ChangeContext ctx, String reviewMessage)
-      throws IOException {
+  private String insertChangeMessage(ChangeUpdate update, ChangeContext ctx, String reviewMessage) {
     String approvalMessage =
         ApprovalsUtil.renderMessageWithApprovals(
             patchSetId.get(), approvals, scanLabels(ctx, approvals));
@@ -452,18 +451,13 @@ public class ReplaceOp implements BatchUpdateOp {
     }
   }
 
-  private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx, Map<String, Short> approvals)
-      throws IOException {
+  private Map<String, PatchSetApproval> scanLabels(
+      ChangeContext ctx, Map<String, Short> approvals) {
     Map<String, PatchSetApproval> current = new HashMap<>();
     // We optimize here and only retrieve current when approvals provided
     if (!approvals.isEmpty()) {
       for (PatchSetApproval a :
-          approvalsUtil.byPatchSetUser(
-              ctx.getNotes(),
-              priorPatchSetId,
-              ctx.getAccountId(),
-              ctx.getRevWalk(),
-              ctx.getRepoView().getConfig())) {
+          approvalsUtil.byPatchSetUser(ctx.getNotes(), priorPatchSetId, ctx.getAccountId())) {
         if (a.isLegacySubmit()) {
           continue;
         }

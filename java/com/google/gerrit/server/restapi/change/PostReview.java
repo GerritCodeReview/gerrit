@@ -1531,18 +1531,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private Map<String, PatchSetApproval> scanLabels(
-        ProjectState projectState, ChangeContext ctx, List<PatchSetApproval> del)
-        throws IOException {
+        ProjectState projectState, ChangeContext ctx, List<PatchSetApproval> del) {
       LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes());
       Map<String, PatchSetApproval> current = new HashMap<>();
 
       for (PatchSetApproval a :
-          approvalsUtil.byPatchSetUser(
-              ctx.getNotes(),
-              psId,
-              user.getAccountId(),
-              ctx.getRevWalk(),
-              ctx.getRepoView().getConfig())) {
+          approvalsUtil.byPatchSetUser(ctx.getNotes(), psId, user.getAccountId())) {
         if (a.isLegacySubmit()) {
           continue;
         }

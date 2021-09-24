@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a352fba1_5b7a8ebb",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-24T12:27:20Z",
+      "side": 1,
+      "message": "better: exactly two",
+      "range": {
+        "startLine": 758,
+        "startChar": 21,
+        "endLine": 758,
+        "endChar": 24
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d8f18bd_c5b4de61",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-24T12:27:20Z",
+      "side": 1,
+      "message": "better: can",
+      "range": {
+        "startLine": 759,
+        "startChar": 6,
+        "endLine": 759,
+        "endChar": 11
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9cb1b73c_fd677116",
@@ -14,6 +60,110 @@
       "writtenOn": "2021-09-24T09:07:13Z",
       "side": 1,
       "message": "Explanation of what we do below:\n\nLet\u0027s assume we have a change having three +1 votes of a kind (e.g. code-review), we generate all the following permutations and store them in index:\n  * label:code-review\u003d+1,count\u003e1\n  * label:code-review\u003d+1,count\u003e\u003d1\n  * label:code-review\u003d+1,count\u003e2\n  * label:code-review\u003d+1,count\u003e\u003d2\n  * label:code-review\u003d+1,count\u003d3\n  * label:code-review\u003d+1,count\u003c\u003d3\n  * label:code-review\u003d+1,count\u003e\u003d3\n  * label:code-review\u003d+1,count\u003c4\n  * label:code-review\u003d+1,count\u003c\u003d4\n  * label:code-review\u003d+1,count\u003c5\n  * label:code-review\u003d+1,count\u003c\u003d5\n  \nFor the \u003c \u0026 \u003c\u003d operators, since we can continue to infinity (i.e. this change also matches with `label:code-review\u003d+1,count\u003d100k`), we cap the formats that we generate to a max. We put a max of \"5\" (inclusive) since this reasonable (it\u0027s very unlikely that a user would want to run a query using the \u003c or \u003c\u003d with a count greater than 5).\n\nNote that this is different from querying a change having 100 count with `label:code-review\u003d1\u003ecount\u003e3`. This query will match.",
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eb5d0c6_e0ffff61",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-24T12:27:20Z",
+      "side": 1,
+      "message": "Thanks, makes sense to me.",
+      "parentUuid": "9cb1b73c_fd677116",
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "444ab225_9b0a9339",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-24T12:27:20Z",
+      "side": 1,
+      "message": "nit: add \u0027/* accountId\u003d */\u0027",
+      "range": {
+        "startLine": 825,
+        "startChar": 37,
+        "endLine": 825,
+        "endChar": 41
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ada777a8_11d250f7",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-24T12:27:20Z",
+      "side": 1,
+      "message": "Looks like @Nullable was accidentally removed here.",
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9c75ca9_b50f4f36",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-24T12:27:20Z",
+      "side": 1,
+      "message": "Why? I was expecting that null means that count \u003e\u003d 1 matches. Looking at l. 112/113 it seems this is what is actually implemented, so I guess only this comment here needs to be updated?",
+      "range": {
+        "startLine": 45,
+        "startChar": 50,
+        "endLine": 45,
+        "endChar": 70
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e8d78e7_0f9e9243",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-24T12:27:20Z",
+      "side": 1,
+      "message": "Why is this needed? Shouldn\u0027t count\u003c1 matches changes with no count?",
+      "range": {
+        "startLine": 124,
+        "startChar": 37,
+        "endLine": 124,
+        "endChar": 59
+      },
       "revId": "374434474fede5a2517d998efec8106b70559721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

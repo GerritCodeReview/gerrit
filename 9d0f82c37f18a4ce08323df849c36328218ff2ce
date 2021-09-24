@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "faa12c33_65039533",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupCreation.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-24T07:57:05Z",
+      "side": 1,
+      "message": "I think this is a cat:) Thanks for noticing 😊",
+      "parentUuid": "abe11307_5baa7ce2",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 11
+      },
+      "revId": "9d0f82c37f18a4ce08323df849c36328218ff2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6f8194c_d92bc786",
@@ -54,6 +78,24 @@
       "writtenOn": "2021-09-24T07:06:15Z",
       "side": 1,
       "message": "is that intentional? (could be yes, just making sure).",
+      "revId": "9d0f82c37f18a4ce08323df849c36328218ff2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "030f73f8_d3e74e9f",
+        "filename": "plugins/replication",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-24T07:57:05Z",
+      "side": 1,
+      "message": "Yes, there are fixes in plugins. Without fixes the build fails.",
+      "parentUuid": "a6f8194c_d92bc786",
       "revId": "9d0f82c37f18a4ce08323df849c36328218ff2ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

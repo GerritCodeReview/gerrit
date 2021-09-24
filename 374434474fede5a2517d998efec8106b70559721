@@ -304,6 +304,30 @@
       },
       "revId": "374434474fede5a2517d998efec8106b70559721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3e3064a_5b5dddd4",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-24T13:05:50Z",
+      "side": 1,
+      "message": "Correction: In ChangeField we don\u0027t generate formats if ChangeData has no votes for a label. See the `voteCounts` table [1]: this table contains counts for all {label, voteValue} combinations if there is at least one occurrence.\n\nThe behaviour is still matching with EqualsLabelPredicate.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/318541/5/java/com/google/gerrit/server/index/change/ChangeField.java#671",
+      "parentUuid": "62e98c58_30271a93",
+      "range": {
+        "startLine": 124,
+        "startChar": 37,
+        "endLine": 124,
+        "endChar": 59
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

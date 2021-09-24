@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9348c26_3d99b9cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-24T22:37:17Z",
+      "side": 1,
+      "message": "@Chris any idea on why a merge that doesn\u0027t include PolyGerrit changes could break the PolyGerrit tests?",
+      "revId": "72d88d3db230179c389c369eba7cc3d8822d7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

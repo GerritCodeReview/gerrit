@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.MoreCollectors;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Label;
@@ -32,14 +33,20 @@ import org.eclipse.jgit.lib.ObjectId;
  * com.google.gerrit.entities.SubmitRequirementResult}s.
  */
 public class SubmitRequirementsAdapter {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private SubmitRequirementsAdapter() {}
 
   public static List<SubmitRequirementResult> createResult(
       SubmitRecord record, List<LabelType> labelTypes, ObjectId psCommitId) {
+    List<SubmitRequirementResult> results;
     if (record.ruleName.equals("gerrit~DefaultSubmitRule")) {
-      return createFromDefaultSubmitRecord(record.labels, labelTypes, psCommitId);
+      results = createFromDefaultSubmitRecord(record.labels, labelTypes, psCommitId);
+    } else {
+      results = createFromCustomSubmitRecord(record, psCommitId);
     }
-    return createFromCustomSubmitRecord(record, psCommitId);
+    logger.atFine().log("Converted submit record %s to submit requirements %s", record, results);
+    return results;
   }
 
   private static List<SubmitRequirementResult> createFromDefaultSubmitRecord(

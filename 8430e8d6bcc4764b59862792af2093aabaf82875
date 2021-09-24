@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f693fc6_5f1884c1",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-24T07:51:47Z",
+      "side": 0,
+      "message": "This won\u0027t work since the line was explicitly added to fix the issues described in Change 311956.",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 70
+      },
+      "revId": "8430e8d6bcc4764b59862792af2093aabaf82875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

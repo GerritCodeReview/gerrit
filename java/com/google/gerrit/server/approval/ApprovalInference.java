@@ -99,13 +99,12 @@ class ApprovalInference {
    * Returns all approvals that apply to the given patch set. Honors direct and indirect (approval
    * on parents) approvals.
    */
-  Iterable<PatchSetApproval> forPatchSet(
-      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
+  Iterable<PatchSetApproval> forPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     PatchSet patchset = notes.getPatchSets().get(psId);
     if (patchset == null) {
       return Collections.emptyList();
     }
-    return forPatchSet(notes, patchset, rw, repoConfig);
+    return forPatchSet(notes, patchset, /* revWalk= */ null, /* repoConfig= */ null);
   }
 
   Iterable<PatchSetApproval> forPatchSet(

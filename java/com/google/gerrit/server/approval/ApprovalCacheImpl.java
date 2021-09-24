@@ -107,11 +107,7 @@ public class ApprovalCacheImpl implements ApprovalCache {
                   Project.nameKey(key.getProject()),
                   changeId,
                   ObjectIdCacheSerializer.INSTANCE.deserialize(key.getId().toByteArray())),
-              PatchSet.id(changeId, key.getPatchSetId()),
-              null
-              /* revWalk= */ ,
-              null
-              /* repoConfig= */ ));
+              PatchSet.id(changeId, key.getPatchSetId())));
     }
   }
 

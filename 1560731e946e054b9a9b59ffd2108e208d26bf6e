@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5156a20_21d41b5a",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-09-24T07:08:51Z",
+      "side": 1,
+      "message": "unrelated - this looks fine without this modification.",
+      "range": {
+        "startLine": 566,
+        "startChar": 20,
+        "endLine": 566,
+        "endChar": 33
+      },
+      "revId": "1560731e946e054b9a9b59ffd2108e208d26bf6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

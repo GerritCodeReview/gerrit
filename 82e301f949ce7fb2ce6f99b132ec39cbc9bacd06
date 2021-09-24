@@ -16,6 +16,29 @@
       "message": "Cool stuff @Chris 👍",
       "revId": "82e301f949ce7fb2ce6f99b132ec39cbc9bacd06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d8794e2_bba473ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-24T08:52:42Z",
+      "side": 1,
+      "message": "can we use a better variable name? perhaps a name that reflects what condition it\u0027s checking instead of the generic \"condition\"?",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 21
+      },
+      "revId": "82e301f949ce7fb2ce6f99b132ec39cbc9bacd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

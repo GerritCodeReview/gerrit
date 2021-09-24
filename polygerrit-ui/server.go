@@ -41,7 +41,7 @@ import (
 )
 
 var (
-	plugins    = flag.String("plugins", "", "comma seperated plugin paths to serve")
+	plugins    = flag.String("plugins", "app/plugins", "Path to serve plugins from")
 	port       = flag.String("port", "localhost:8081", "address to serve HTTP requests on")
 	host       = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
 	scheme     = flag.String("scheme", "https", "URL scheme")
@@ -97,16 +97,9 @@ func main() {
 	http.HandleFunc("/static/", handleProxy)
 	http.HandleFunc("/accounts/self/detail", handleAccountDetail)
 
-	if len(*plugins) > 0 {
-		http.Handle("/plugins/", http.StripPrefix("/plugins/",
-			http.FileServer(http.Dir("../plugins"))))
-		log.Println("Local plugins from", "../plugins")
-	} else {
-		http.HandleFunc("/plugins/", handleProxy)
-		// Serve local plugins from `plugins_`
-		http.Handle("/plugins_/", http.StripPrefix("/plugins_/",
-			http.FileServer(http.Dir("../plugins"))))
-	}
+	http.Handle("/plugins/", http.StripPrefix("/plugins/",
+		http.FileServer(http.Dir(*plugins))))
+	log.Println("Local plugins from: ", *plugins)
 	log.Println("Serving on port", *port)
 	log.Fatal(http.ListenAndServe(*port, &server{}))
 }

@@ -92,7 +92,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
@@ -105,6 +107,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
+import com.google.gerrit.server.extensions.events.ReviewerAdded;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -187,6 +190,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final BatchUpdate.Factory updateFactory;
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeData.Factory changeDataFactory;
+  private final AccountCache accountCache;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final CommentsUtil commentsUtil;
@@ -206,6 +210,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final PluginSetContext<CommentValidator> commentValidators;
   private final PluginSetContext<OnPostReview> onPostReviews;
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
+  private final ReviewerAdded reviewerAdded;
   private final boolean strictLabels;
   private final boolean publishPatchSetLevelComment;
 
@@ -214,6 +219,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       BatchUpdate.Factory updateFactory,
       ChangeResource.Factory changeResourceFactory,
       ChangeData.Factory changeDataFactory,
+      AccountCache accountCache,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       CommentsUtil commentsUtil,
@@ -233,10 +239,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       PermissionBackend permissionBackend,
       PluginSetContext<CommentValidator> commentValidators,
       PluginSetContext<OnPostReview> onPostReviews,
-      ReplyAttentionSetUpdates replyAttentionSetUpdates) {
+      ReplyAttentionSetUpdates replyAttentionSetUpdates,
+      ReviewerAdded reviewerAdded) {
     this.updateFactory = updateFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
+    this.accountCache = accountCache;
     this.commentsUtil = commentsUtil;
     this.publishCommentUtil = publishCommentUtil;
     this.psUtil = psUtil;
@@ -256,6 +264,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.commentValidators = commentValidators;
     this.onPostReviews = onPostReviews;
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
+    this.reviewerAdded = reviewerAdded;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
     this.publishPatchSetLevelComment =
         gerritConfig.getBoolean("event", "comment-added", "publishPatchSetLevelComment", true);
@@ -371,6 +380,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       logger.atFine().log("adding reviewer additions");
       for (ReviewerModification reviewerResult : reviewerResults) {
         reviewerResult.op.suppressEmail(); // Send a single batch email below.
+        reviewerResult.op.suppressEvent(); // Send events below, if possible as batch.
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
         if (!ccOrReviewer && reviewerResult.reviewers.contains(account)) {
           logger.atFine().log("calling user is explicitly added as reviewer or CC");
@@ -386,6 +396,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         ReviewerModification selfAddition =
             reviewerModifier.ccCurrentUser(revision.getUser(), revision);
         selfAddition.op.suppressEmail();
+        selfAddition.op.suppressEvent();
         bu.addOp(revision.getChange().getId(), selfAddition.op);
       }
 
@@ -433,8 +444,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         reviewerResult.gatherResults(cd);
       }
 
-      // Sending from AddReviewersOp was suppressed so we can send a single batch email here.
+      // Sending emails and events from ReviewersOps was suppressed so we can send a single batch
+      // email/event here.
       batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
+      batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
     }
 
     return Response.ok(output);
@@ -510,6 +523,35 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           removedByEmail,
           notify);
     }
+  }
+
+  private void batchReviewerEvents(
+      CurrentUser user,
+      ChangeData cd,
+      PatchSet patchSet,
+      List<ReviewerModification> reviewerModifications,
+      Timestamp when) {
+    List<AccountState> newlyAddedReviewers = new ArrayList<>();
+
+    // There are no events for CCs and reviewers added/deleted by email.
+    for (ReviewerModification modification : reviewerModifications) {
+      Result reviewerAdditionResult = modification.op.getResult();
+      if (modification.state() == ReviewerState.REVIEWER) {
+        newlyAddedReviewers.addAll(
+            reviewerAdditionResult.addedReviewers().stream()
+                .map(psa -> psa.accountId())
+                .map(accountId -> accountCache.get(accountId))
+                .flatMap(Streams::stream)
+                .collect(toList()));
+      } else if (modification.state() == ReviewerState.REMOVED) {
+        // There is no batch event for reviewer removals, hence fire the event for each
+        // modification that deleted a reviewer immediately.
+        modification.op.sendEvent();
+      }
+    }
+
+    // Fire a batch event for all newly added reviewers.
+    reviewerAdded.fire(cd, patchSet, newlyAddedReviewers, user.asIdentifiedUser().state(), when);
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)

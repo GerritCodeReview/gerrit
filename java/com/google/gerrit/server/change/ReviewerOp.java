@@ -32,6 +32,8 @@ import java.util.Optional;
 
 public class ReviewerOp implements BatchUpdateOp {
   protected boolean sendEmail = true;
+  protected boolean sendEvent = true;
+  protected Runnable eventSender = () -> {};
   protected PatchSet patchSet;
   protected Result opResult;
 
@@ -40,6 +42,14 @@ public class ReviewerOp implements BatchUpdateOp {
   // rewritten.
   public void suppressEmail() {
     this.sendEmail = false;
+  }
+
+  public void suppressEvent() {
+    this.sendEvent = false;
+  }
+
+  public void sendEvent() {
+    eventSender.run();
   }
 
   void setPatchSet(PatchSet patchSet) {

@@ -113,7 +113,7 @@ public class SubmitRequirementsAdapter {
               .submittabilityExpressionResult(
                   createExpressionResult(
                       sr.submittabilityExpression(),
-                      mapStatus(record),
+                      mapStatus(label),
                       ImmutableList.of(expressionString)))
               .patchSetCommitId(psCommitId)
               .build());

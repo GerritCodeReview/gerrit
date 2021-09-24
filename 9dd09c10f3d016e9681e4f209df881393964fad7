@@ -70,6 +70,30 @@
       },
       "revId": "9dd09c10f3d016e9681e4f209df881393964fad7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9cfb2b9_cfc97e47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-24T15:09:00Z",
+      "side": 1,
+      "message": "Thank you 😊",
+      "parentUuid": "64874031_cb166153",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 25,
+        "endChar": 25
+      },
+      "revId": "9dd09c10f3d016e9681e4f209df881393964fad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

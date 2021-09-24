@@ -328,6 +328,30 @@
       },
       "revId": "374434474fede5a2517d998efec8106b70559721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a364d75_2ef4618b",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-24T15:09:00Z",
+      "side": 1,
+      "message": "I think we should be less magical. If the user wants \u003c 3 \u0026\u0026 \u003e\u003d1, they can do that themselves by using two operators in their query (\"label:Code-Review+1,count\u003c3 label:Code-Review+1,count\u003e\u003d1\")?\n\nThough it would be more ergonomic if they could use count multiple times in the operator like \"label:Code-Review+1,count\u003e\u003d1,count\u003c3\". That seems like it might be an especially invasive change to make though (I doubt any operators currently support an arg showing up multiple times). I would 100% support it if you could figure out how to do it.",
+      "parentUuid": "f3e3064a_5b5dddd4",
+      "range": {
+        "startLine": 124,
+        "startChar": 37,
+        "endLine": 124,
+        "endChar": 59
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

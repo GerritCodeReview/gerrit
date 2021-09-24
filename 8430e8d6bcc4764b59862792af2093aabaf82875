@@ -22,6 +22,30 @@
       },
       "revId": "8430e8d6bcc4764b59862792af2093aabaf82875",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f716c045_1a309720",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-24T18:03:14Z",
+      "side": 0,
+      "message": "I don\u0027t understand why this won\u0027t work, I\u0027m keeping the line.  I\u0027m just using something that\u0027s already computed instead of recomputing it.",
+      "parentUuid": "8f693fc6_5f1884c1",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 70
+      },
+      "revId": "8430e8d6bcc4764b59862792af2093aabaf82875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cd91b74_171ddcc2",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-24T12:52:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a352fba1_5b7a8ebb",
+      "range": {
+        "startLine": 758,
+        "startChar": 21,
+        "endLine": 758,
+        "endChar": 24
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d8f18bd_c5b4de61",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-24T12:27:20Z",
       "side": 1,
       "message": "better: can",
+      "range": {
+        "startLine": 759,
+        "startChar": 6,
+        "endLine": 759,
+        "endChar": 11
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "592158e9_ba330eec",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-24T12:52:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d8f18bd_c5b4de61",
       "range": {
         "startLine": 759,
         "startChar": 6,
@@ -105,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a682138d_f0f4b72f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-24T12:52:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "444ab225_9b0a9339",
+      "range": {
+        "startLine": 825,
+        "startChar": 37,
+        "endLine": 825,
+        "endChar": 41
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ada777a8_11d250f7",
@@ -118,6 +190,24 @@
       "writtenOn": "2021-09-24T12:27:20Z",
       "side": 1,
       "message": "Looks like @Nullable was accidentally removed here.",
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c15e789_3232560f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-24T12:52:53Z",
+      "side": 1,
+      "message": "Right, nice for noticing!\n\nDone.",
+      "parentUuid": "ada777a8_11d250f7",
       "revId": "374434474fede5a2517d998efec8106b70559721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -145,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8781df54_358cd20b",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-24T12:52:53Z",
+      "side": 1,
+      "message": "Ah, good catch! right. If null then any count should just match.\n\nDone.",
+      "parentUuid": "d9c75ca9_b50f4f36",
+      "range": {
+        "startLine": 45,
+        "startChar": 50,
+        "endLine": 45,
+        "endChar": 70
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e8d78e7_0f9e9243",
@@ -158,6 +272,30 @@
       "writtenOn": "2021-09-24T12:27:20Z",
       "side": 1,
       "message": "Why is this needed? Shouldn\u0027t count\u003c1 matches changes with no count?",
+      "range": {
+        "startLine": 124,
+        "startChar": 37,
+        "endLine": 124,
+        "endChar": 59
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62e98c58_30271a93",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-24T12:52:53Z",
+      "side": 1,
+      "message": "Well I added this part after I observed the behaviour with tests. If we omit `matchingVotes \u003e\u003d 1` then any query with \"count \u003c x\" will match will all changes, which will make searching useless. If a user would like to see changes with \"label:cr\u003d+1,count\u003c3\", it makes sense to show them changes having at least one cr+1. WDYT?\n\nThis is also matching what we do in ChangeField. See [1] where we generate the permutations starting from 1 not 0.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/318541/5/java/com/google/gerrit/server/index/change/ChangeField.java#678",
+      "parentUuid": "5e8d78e7_0f9e9243",
       "range": {
         "startLine": 124,
         "startChar": 37,

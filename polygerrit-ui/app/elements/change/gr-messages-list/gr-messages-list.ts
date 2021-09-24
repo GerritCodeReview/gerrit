@@ -49,6 +49,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {DomRepeat} from '@polymer/polymer/lib/elements/dom-repeat';
 import {getVotingRange} from '../../../utils/label-util';
 import {FormattedReviewerUpdateInfo} from '../../../types/types';
+import {changeComments$} from '../../../services/comments/comments-model';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -81,37 +82,6 @@ function isChangeMessageInfo(x: CombinedMessage): x is ChangeMessageInfo {
 
 function getMessageId(x: CombinedMessage): ChangeMessageId | undefined {
   return isChangeMessageInfo(x) ? x.id : undefined;
-}
-
-/**
- * Computes message author's comments for this change message. The backend
- * sets comment.change_message_id for matching, so this computation is fairly
- * straightforward.
- */
-function computeThreads(
-  message: CombinedMessage,
-  changeComments?: ChangeComments
-): CommentThread[] {
-  if (message._index === undefined || changeComments === undefined) {
-    return [];
-  }
-  const messageId = getMessageId(message);
-  return changeComments.getAllThreadsForChange().filter(thread =>
-    thread.comments
-      .map(comment => {
-        // collapse all by default
-        comment.collapsed = true;
-        return comment;
-      })
-      .some(comment => {
-        const condition = comment.change_message_id === messageId;
-        // Since getAllThreadsForChange() always returns a new copy of
-        // all comments we can modify them here without worrying about
-        // polluting other threads.
-        comment.collapsed = !condition;
-        return condition;
-      })
-  );
 }
 
 /**
@@ -198,7 +168,6 @@ function computeIsImportant(
 }
 
 export const TEST_ONLY = {
-  computeThreads,
   computeTag,
   computeRevision,
   computeIsImportant,
@@ -252,6 +221,9 @@ export class GrMessagesList extends base {
   @property({type: Boolean, observer: '_observeShowAllActivity'})
   _showAllActivity = false;
 
+  @property({type: Array})
+  commentThreads: CommentThread[] = [];
+
   @property({
     type: Array,
     computed:
@@ -265,6 +237,44 @@ export class GrMessagesList extends base {
   _labelExtremes: {[labelName: string]: VotingRangeInfo} = {};
 
   private readonly reporting = appContext.reportingService;
+
+  constructor() {
+    super();
+    changeComments$.subscribe(() => (this.commentThreads = []));
+  }
+
+  /**
+   * Computes message author's comments for this change message. The backend
+   * sets comment.change_message_id for matching, so this computation is fairly
+   * straightforward.
+   */
+  computeThreads(
+    message: CombinedMessage,
+    changeComments?: ChangeComments
+  ): CommentThread[] {
+    if (message._index === undefined || changeComments === undefined) {
+      return [];
+    }
+    const messageId = getMessageId(message);
+    if (!this.commentThreads.length)
+      this.commentThreads = changeComments.getAllThreadsForChange();
+    return this.commentThreads.filter(thread =>
+      thread.comments
+        .map(comment => {
+          // collapse all by default
+          comment.collapsed = true;
+          return comment;
+        })
+        .some(comment => {
+          const condition = comment.change_message_id === messageId;
+          // Since getAllThreadsForChange() always returns a new copy of
+          // all comments we can modify them here without worrying about
+          // polluting other threads.
+          comment.collapsed = !condition;
+          return condition;
+        })
+    );
+  }
 
   scrollToMessage(messageID: string) {
     const selector = `[data-message-id="${messageID}"]`;
@@ -359,7 +369,7 @@ export class GrMessagesList extends base {
       if (m.expanded === undefined) {
         m.expanded = false;
       }
-      m.commentThreads = computeThreads(m, changeComments);
+      m.commentThreads = this.computeThreads(m, changeComments);
       m._revision_number = computeRevision(m, combinedMessages);
       m.tag = computeTag(m);
     });
@@ -373,7 +383,7 @@ export class GrMessagesList extends base {
   }
 
   getCommentThreads(message: CombinedMessage, changeComments?: ChangeComments) {
-    return computeThreads(message, changeComments);
+    return this.computeThreads(message, changeComments);
   }
 
   _updateExpandedStateOfAllMessages(exp: boolean) {

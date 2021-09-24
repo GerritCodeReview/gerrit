@@ -46,6 +46,30 @@
       },
       "revId": "9dd09c10f3d016e9681e4f209df881393964fad7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64874031_cb166153",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-24T08:41:01Z",
+      "side": 1,
+      "message": "Done.\n\nI reworked the implementation such that count\u003dx does exact matching and also added support for \u003e,\u003c,\u003e\u003d,\u003c\u003d operators.\n\nUpdated the commit message.",
+      "parentUuid": "9bb27111_3de4bd57",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 25,
+        "endChar": 25
+      },
+      "revId": "9dd09c10f3d016e9681e4f209df881393964fad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

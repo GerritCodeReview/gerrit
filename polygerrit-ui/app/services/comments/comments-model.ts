@@ -91,6 +91,10 @@ export const changeComments$ = commentState$.pipe(
   distinctUntilChanged()
 );
 
+export const commentThreads$ = changeComments$.pipe(
+  map(changeComments => changeComments.getAllThreadsForChange())
+);
+
 function publishState(state: CommentState) {
   privateState$.next(state);
 }

@@ -31,7 +31,7 @@ import {GrLabel} from '../gr-label/gr-label';
 import {GrAccountLink} from '../gr-account-link/gr-account-link';
 import {
   createAccountWithIdNameAndEmail,
-  createChange,
+  createParsedChange,
 } from '../../../test/test-data-generators';
 import {LabelInfo} from '../../../types/common';
 
@@ -46,7 +46,7 @@ suite('gr-label-info tests', () => {
 
     // Needed to trigger computed bindings.
     element.account = {};
-    element.change = {...createChange(), labels: {}};
+    element.change = {...createParsedChange(), labels: {}};
   });
 
   suite('remove reviewer votes', () => {
@@ -60,7 +60,7 @@ suite('gr-label-info tests', () => {
       sinon.stub(element, '_computeValueTooltip').returns('');
       element.account = account;
       element.change = {
-        ...createChange(),
+        ...createParsedChange(),
         labels: {'Code-Review': label},
       };
       element.labelInfo = label;

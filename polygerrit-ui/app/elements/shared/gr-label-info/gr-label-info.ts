@@ -39,6 +39,7 @@ import {
 import {GrButton} from '../gr-button/gr-button';
 import {getVotingRangeOrDefault} from '../../../utils/label-util';
 import {appContext} from '../../../services/app-context';
+import {ParsedChangeInfo} from '../../../types/types';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -72,7 +73,7 @@ export class GrLabelInfo extends PolymerElement {
   label = '';
 
   @property({type: Object})
-  change?: ChangeInfo;
+  change?: ParsedChangeInfo;
 
   @property({type: Object})
   account?: AccountInfo;

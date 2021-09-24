@@ -145,17 +145,19 @@ ignore_templates_list = [
     "elements/shared/gr-list-view/gr-list-view_html.ts",
 ]
 
+sources_for_template_checking = glob(
+    [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
+        ".ts",
+    ]],
+    exclude = [
+        "**/*_test.ts",
+    ] + ignore_templates_list,
+)
+
 # Transform templates into a .ts files.
 templates_srcs = transform_polymer_templates(
     name = "template_test",
-    srcs = glob(
-        [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
-            ".ts",
-        ]],
-        exclude = [
-            "**/*_test.ts",
-        ] + ignore_templates_list,
-    ),
+    srcs = sources_for_template_checking,
     out_tsconfig = "tsconfig_template_test.json",
     tsconfig = "tsconfig_bazel.json",
     deps = [
@@ -165,50 +167,25 @@ templates_srcs = transform_polymer_templates(
     ],
 )
 
-# Compile transformed templates together with the polygerrit source. If
-# templates don't have problem, then the compilation ends without error.
-# Otherwise, the typescript compiler reports the error.
-# Note, that the compile_ts macro creates build rules. If the build succeed,
-# the macro creates the file compile_template_test.success. The
-# 'validate_polymer_templates' rule tests existence of the file.
-#
-# TODO: Re-instantiate this rule. It broke when switching to ts_project with
-# ERROR: //polygerrit-ui/app:compile_template_test srcs cannot be a mix of
-#        generated files and source files since this would prevent giving a
-#        single rootDir to the TypeScript compiler
-# Also, the emitJS feature of compile_ts has to be re-created in some form.
-#ts_project(
-#    name = "compile_template_test",
-#    srcs = templates_srcs + glob(
-#        [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
-#            ".ts",
-#        ]],
-#        exclude = [
-#            "**/*_test.ts",
-#        ] + ignore_templates_list,
-#    ),
-#    allow_js = True,
-#    out_dir = "_pg_template_test_out",
-#    # Should not run sandboxed.
-#    tags = [
-#        "local",
-#        "manual",
-#    ],
-#    tsc = "//tools/node_tools:tsc-bin",
-#    tsconfig = "tsconfig_template_test.json",
-#)
-#
-# This rule allows to run polymer template checker with bazel test command.
-# For details - see compile_template_test rule.
-#
-# TODO: Re-instantiate this test. It broke when switching
-#       'compile_template_test'to ts_project, see above. ts_project does not
-#       create '.success' files.
-#sh_test(
-#    name = "validate_polymer_templates",
-#    srcs = [":empty_test.sh"],
-#    data = ["compile_template_test.success"],
-#)
+sh_test(
+    name = "validate_polymer_templates",
+    srcs = [":compile_generated_templates.sh"],
+    args = [
+        "$(location //tools/node_tools:tsc-bin)",
+        "$(location tsconfig_template_test.json)",
+    ],
+    data = [
+        "tsconfig_template_test.json",
+        "tsconfig_bazel.json",
+        "tsconfig.json",
+        "//tools/node_tools:tsc-bin",
+        "@ui_npm//:node_modules",
+    ] + templates_srcs + sources_for_template_checking,
+    tags = [
+        "local",
+        "manual",
+    ],
+)
 
 polygerrit_bundle(
     name = "polygerrit_ui",

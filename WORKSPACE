@@ -922,7 +922,6 @@ load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
 
 yarn_install(
     name = "npm",
-    data = ["//:twinkie.patch"],
     frozen_lockfile = False,
     package_json = "//:package.json",
     package_path = "",

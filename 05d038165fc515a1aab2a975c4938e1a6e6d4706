@@ -152,6 +152,23 @@
       "message": "APPROVED",
       "revId": "05d038165fc515a1aab2a975c4938e1a6e6d4706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad887bf_93cd1ca8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1140605
+      },
+      "writtenOn": "2021-09-25T12:15:08Z",
+      "side": 1,
+      "message": "Release 2.16-rc3",
+      "revId": "05d038165fc515a1aab2a975c4938e1a6e6d4706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -458,6 +458,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "01c27547_e24dda0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-26T12:33:00Z",
+      "side": 1,
+      "message": "@Nasser, @Luca\n\nHere [1] is the simple test script and performance comparison of vanilla 3.2.12 version vs this change.\nTLDR; cache offers `2-4` times better performance for account-heavy operations using the same amount of resources and we are talking about really simple setup where Gerrit runs on local SSD and NFS and trustFolderStat is not even involved.\nI hope that it rationalises the benefit caching All-Users refs :) having said that I\u0027m open for discussion and different ideas on how to improve both code and test scenario.\n\n[1] https://gist.github.com/geminicaprograms/b2cae199793f0f2b18759a803000447f",
+      "parentUuid": "56ab2df2_d62b145c",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

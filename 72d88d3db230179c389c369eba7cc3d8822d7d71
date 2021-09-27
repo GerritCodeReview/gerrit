@@ -34,6 +34,23 @@
       "parentUuid": "f9348c26_3d99b9cb",
       "revId": "72d88d3db230179c389c369eba7cc3d8822d7d71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3f5683a_38498220",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-09-27T19:37:48Z",
+      "side": 1,
+      "message": "I have called the failing tests in my local env and they seem to be flaky as they were both failing and successful for this change and `stable-3.3` correspondingly...\n\nHere is the successful output of the change in question:\n\n$ bazel test --cache_test_results\u003dNO //polygerrit-ui:karma_test [±72d88d3db2 ●]\nINFO: Invocation ID: d4675b15-b917-4721-ac02-00ee3f72df4b\nDEBUG: /private/var/tmp/_bazel_jacek.centkowski/38f86b3eaa18bbae9960c40669a79a22/external/bazel_toolchains/rules/rbe_repo/version_check.bzl:68:14: \nCurrent running Bazel is ahead of bazel-toolchains repo. Please update your pin to bazel-toolchains repo in your WORKSPACE file.\nDEBUG: /private/var/tmp/_bazel_jacek.centkowski/38f86b3eaa18bbae9960c40669a79a22/external/bazel_toolchains/rules/rbe_repo/checked_in.bzl:125:14: rbe_jdk11 not using checked in configs; Bazel version 4.2.0 was picked/selected but no checked in config was found in map {\"0.20.0\": [\"8.0.0\"], \"0.21.0\": [\"8.0.0\"], \"0.22.0\": [\"8.0.0\", \"9.0.0\"], \"0.23.0\": [\"8.0.0\", \"9.0.0\"], \"0.23.1\": [\"8.0.0\", \"9.0.0\"], \"0.23.2\": [\"9.0.0\"], \"0.24.0\": [\"9.0.0\"], \"0.24.1\": [\"9.0.0\"], \"0.25.0\": [\"9.0.0\"], \"0.25.1\": [\"9.0.0\"], \"0.25.2\": [\"9.0.0\"], \"0.26.0\": [\"9.0.0\"], \"0.26.1\": [\"9.0.0\"], \"0.27.0\": [\"9.0.0\"], \"0.27.1\": [\"9.0.0\"], \"0.28.0\": [\"9.0.0\"], \"0.28.1\": [\"9.0.0\"], \"0.29.0\": [\"9.0.0\"], \"0.29.1\": [\"9.0.0\", \"10.0.0\"], \"1.0.0\": [\"9.0.0\", \"10.0.0\"], \"1.0.1\": [\"10.0.0\"], \"1.1.0\": [\"10.0.0\"], \"1.2.0\": [\"10.0.0\"], \"1.2.1\": [\"10.0.0\"], \"2.0.0\": [\"10.0.0\"], \"2.1.0\": [\"10.0.0\"], \"2.1.1\": [\"10.0.0\", \"11.0.0\"], \"2.2.0\": [\"11.0.0\"], \"3.0.0\": [\"11.0.0\"], \"3.1.0\": [\"11.0.0\"], \"3.2.0\": [\"11.0.0\"], \"3.3.0\": [\"11.0.0\"], \"3.3.1\": [\"11.0.0\"], \"3.4.1\": [\"11.0.0\"], \"3.5.0\": [\"11.0.0\"], \"3.5.1\": [\"11.0.0\"], \"3.6.0\": [\"11.0.0\"], \"3.7.0\": [\"11.0.0\"], \"3.7.1\": [\"11.0.0\"], \"3.7.2\": [\"11.0.0\"], \"4.0.0\": [\"11.0.0\"]}\nINFO: Analyzed target //polygerrit-ui:karma_test (0 packages loaded, 0 targets configured).\nINFO: Found 1 test target...\nTarget //polygerrit-ui:karma_test up-to-date:\n  bazel-bin/polygerrit-ui/karma_test\nINFO: Elapsed time: 79.437s, Critical Path: 77.93s\nINFO: 2 processes: 2 local.\nINFO: Build completed successfully, 2 total actions\n//polygerrit-ui:karma_test                                               PASSED in 77.2s\n\nExecuted 1 out of 1 test: 1 test passes.\nINFO: Build completed successfully, 2 total actions",
+      "revId": "72d88d3db230179c389c369eba7cc3d8822d7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

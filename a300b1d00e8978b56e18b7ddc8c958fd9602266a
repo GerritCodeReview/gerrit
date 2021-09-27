@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "505f7915_188a78d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1141260
+      },
+      "writtenOn": "2021-09-27T03:39:52Z",
+      "side": 1,
+      "message": "https://chromium.googlesource.com/infra/infra/+/main/appengine/monorail/doc/userguide/README.md",
+      "revId": "a300b1d00e8978b56e18b7ddc8c958fd9602266a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

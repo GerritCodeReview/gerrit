@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9bf30e8_ee0d038e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-27T17:31:03Z",
+      "side": 1,
+      "message": "I had a look at this, but the CommitRewriter makes it hard to drop the NoteDb parts of assignee (we\u0027d want to cleanup metadata in Assignee before we drop all the code related to assignee).",
+      "revId": "574af59dd6c9a0101190632b2556593bac8cd8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32768f54_ee29bf7b",

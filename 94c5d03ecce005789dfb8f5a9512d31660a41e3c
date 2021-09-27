@@ -94,6 +94,30 @@
       },
       "revId": "94c5d03ecce005789dfb8f5a9512d31660a41e3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "465754b7_62894c78",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-27T14:14:09Z",
+      "side": 1,
+      "message": "Forgot to mention that we can also not just move this code that we have here now into ReviewerDeleted, as this class is in the extensions package that should probably not depend on server classes such as ReviewerModifier.",
+      "parentUuid": "66d4d53f_a1e8ea35",
+      "range": {
+        "startLine": 547,
+        "startChar": 0,
+        "endLine": 549,
+        "endChar": 0
+      },
+      "revId": "94c5d03ecce005789dfb8f5a9512d31660a41e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

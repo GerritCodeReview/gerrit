@@ -166,11 +166,7 @@ export class GrSubmitRequirements extends LitElement {
     );
 
     const everyAssociatedLabelsIsWithoutVotes = associatedLabels.every(
-      label => {
-        const labelInfo = allLabels[label];
-        if (!isDetailedLabelInfo(labelInfo)) return true;
-        return !hasVotes(labelInfo);
-      }
+      label => !hasVotes(allLabels[label])
     );
     if (everyAssociatedLabelsIsWithoutVotes) return html`No votes`;
 
@@ -206,9 +202,9 @@ export class GrSubmitRequirements extends LitElement {
     const labelAssociatedWithSubmitReqs = submitReqs
       .flatMap(req => extractAssociatedLabels(req))
       .filter(unique);
-    const triggerVotes = allLabels.filter(
-      label => !labelAssociatedWithSubmitReqs.includes(label)
-    );
+    const triggerVotes = allLabels
+      .filter(label => !labelAssociatedWithSubmitReqs.includes(label))
+      .filter(label => hasVotes(labels[label]));
     if (!triggerVotes.length) return;
     return html`<h3 class="metadata-title heading-3">Trigger Votes</h3>
       <section class="votes">

@@ -49,6 +49,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e04c2fa9_76a5cffe",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-27T10:45:17Z",
+      "side": 1,
+      "message": "If we go for `app/plugins`, then maybe add an entry to `.gitignore`?",
+      "revId": "7a1fd3faf9ff495810dccf9297d60fbd685d9620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6c24f96_4fc84032",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-27T10:45:17Z",
+      "side": 1,
+      "message": "What is the advantage of `app/plugins` compared to `../plugins`?",
+      "range": {
+        "startLine": 44,
+        "startChar": 38,
+        "endLine": 44,
+        "endChar": 49
+      },
+      "revId": "7a1fd3faf9ff495810dccf9297d60fbd685d9620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d1a5734_a98bf633",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-27T10:45:17Z",
+      "side": 1,
+      "message": "There nothing plugin specific about this, so I have often \"abused\" the plugins/ directory for generally anything that I would like the Dev Helper to point to, e.g. gr-app.js built in google3 or other stuff.\n\nSo maybe it would be an option to just point to a directory with a name such as `locallyServedStuff`. Then you don\u0027t really the `plugins/` dir at all.",
+      "revId": "7a1fd3faf9ff495810dccf9297d60fbd685d9620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5f5381d_df51162f",
         "filename": "polygerrit-ui/server.go",
         "patchSetId": 1

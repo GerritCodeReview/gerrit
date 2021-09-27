@@ -16,6 +16,24 @@
       "message": "unsubscribe ",
       "revId": "fdab24e1f8d2e39b7a83ff7a62f362ef197b47cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5988dd70_48e629f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1141286
+      },
+      "writtenOn": "2021-09-27T09:48:37Z",
+      "side": 1,
+      "message": "Unsubscribe",
+      "tag": "mailMessageId\u003d\u003cCAOxsj0XvXdkQr-Kn4pifZ99fJF4hCtTPo9Pt2WuSv07BKn+HZA@mail.gmail.com\u003e",
+      "revId": "fdab24e1f8d2e39b7a83ff7a62f362ef197b47cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

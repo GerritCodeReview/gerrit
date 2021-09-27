@@ -46,6 +46,30 @@
       },
       "revId": "94c5d03ecce005789dfb8f5a9512d31660a41e3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f05ff8de_69b716a4",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-27T10:57:20Z",
+      "side": 1,
+      "message": "Can we better add a ReviewerDeleted#fire that accepts a list of removed users and just delegates the call to the existing one-by-one method? We will then be hiding this detail from here.",
+      "parentUuid": "feea80db_8f5998cd",
+      "range": {
+        "startLine": 547,
+        "startChar": 0,
+        "endLine": 549,
+        "endChar": 0
+      },
+      "revId": "94c5d03ecce005789dfb8f5a9512d31660a41e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

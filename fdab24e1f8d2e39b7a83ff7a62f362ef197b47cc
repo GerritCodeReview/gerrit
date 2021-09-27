@@ -1,137 +1,21 @@
 {
-  "comments": [],
-  "submitRequirementResults": [
+  "comments": [
     {
-      "submitRequirement": {
-        "name": "Code-Review",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "unresolved": false,
+      "key": {
+        "uuid": "3af2e036_809d03f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
       },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Review\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
+      "lineNbr": 0,
+      "author": {
+        "id": 1141286
       },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -39115551,
-        "w2": -120396901,
-        "w3": 2055470970,
-        "w4": 1660117743,
-        "w5": 427509708
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "Code-Style",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Style\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -39115551,
-        "w2": -120396901,
-        "w3": 2055470970,
-        "w4": 1660117743,
-        "w5": 427509708
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "Verified",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Verified\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Verified\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -39115551,
-        "w2": -120396901,
-        "w3": 2055470970,
-        "w4": 1660117743,
-        "w5": 427509708
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "checks~ChecksSubmitRule",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "rule:checks~ChecksSubmitRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "rule:checks~ChecksSubmitRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "checks~ChecksSubmitRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -39115551,
-        "w2": -120396901,
-        "w3": 2055470970,
-        "w4": 1660117743,
-        "w5": 427509708
-      },
-      "legacy": true
+      "writtenOn": "2021-09-27T09:42:25Z",
+      "side": 1,
+      "message": "unsubscribe ",
+      "revId": "fdab24e1f8d2e39b7a83ff7a62f362ef197b47cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,29 @@
       "message": "Thanks for putting this into place 😊",
       "revId": "8941858b5ce9825d8d810fe4dd6407a4cb68359a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4a774cb_a7cfca68",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-27T11:00:14Z",
+      "side": 1,
+      "message": "I see `url` was change to `name`. Name is probably ok/enough.",
+      "range": {
+        "startLine": 213,
+        "startChar": 18,
+        "endLine": 213,
+        "endChar": 22
+      },
+      "revId": "8941858b5ce9825d8d810fe4dd6407a4cb68359a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

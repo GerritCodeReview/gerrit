@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "50592241_291c4aa3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1141286
+      },
+      "writtenOn": "2021-09-27T09:47:01Z",
+      "side": 1,
+      "message": "unsubscribe ",
+      "revId": "5198ad832ba7c869f9be686717084b3e6f43edce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "30763fea_e35f54fc",
         "filename": "javatests/com/google/gerrit/server/project/SubmitRequirementsAdapterTest.java",
         "patchSetId": 1
@@ -16,140 +33,6 @@
       "message": "The submit record is NOT_READY, but we have two {OK, REJECT} labels. Before this fix, the two labels were mapped to SRs with status\u003dUNSATISFIED, while the first one should have been mapped to a status\u003dSATISFIED.\n\nThis change fixes this bug.",
       "revId": "5198ad832ba7c869f9be686717084b3e6f43edce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
-    }
-  ],
-  "submitRequirementResults": [
-    {
-      "submitRequirement": {
-        "name": "Code-Review",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Review\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": 1368960387,
-        "w2": 732416105,
-        "w3": -104961945,
-        "w4": 386419518,
-        "w5": 1866722766
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "Code-Style",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Style\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": 1368960387,
-        "w2": 732416105,
-        "w3": -104961945,
-        "w4": 386419518,
-        "w5": 1866722766
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "Verified",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Verified\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Verified\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": 1368960387,
-        "w2": 732416105,
-        "w3": -104961945,
-        "w4": 386419518,
-        "w5": 1866722766
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "checks~ChecksSubmitRule",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "rule:checks~ChecksSubmitRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "rule:checks~ChecksSubmitRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "checks~ChecksSubmitRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": 1368960387,
-        "w2": 732416105,
-        "w3": -104961945,
-        "w4": 386419518,
-        "w5": 1866722766
-      },
-      "legacy": true
     }
   ]
 }

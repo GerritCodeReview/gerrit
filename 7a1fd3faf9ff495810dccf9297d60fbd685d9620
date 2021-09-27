@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0b12221_0d991f75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-27T09:16:22Z",
+      "side": 1,
+      "message": "We use yarn on our team instead of npm, so I think this command would be:\n```\nyarn start -- --plugins\u003d../plugins\n```\nThe behavior is the same in this case, but for other commands it\u0027s not so I think it\u0027s best for all docs to have the yarn commands.\n\nAlso we decided against markdown in the commit message so maybe the `` is not working as you intended",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "7a1fd3faf9ff495810dccf9297d60fbd685d9620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2092a8af_6c65adf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-27T09:16:22Z",
+      "side": 1,
+      "message": "Will we be able to also change the default rules of FE Helper extension to reflect this? Or they don\u0027t look for plugins_ ?\n\nIt might be nice to have some kind of PSA in the newsletter or gerrit mailing list that devs will need to update their helper rules to avoid confusion.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 35
+      },
+      "revId": "7a1fd3faf9ff495810dccf9297d60fbd685d9620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5f5381d_df51162f",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-09-27T09:16:22Z",
+      "side": 1,
+      "message": "Is there a reason to not support multiple paths anymore? It is nice when developing plugins that do not live inside Gerrit, such as google-internal ones, to be able to point to the normal plugins folder as well as the internal bazel output folder. Otherwise we need to copy from output folder to gerrit/plugins after every build.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 46
+      },
+      "revId": "7a1fd3faf9ff495810dccf9297d60fbd685d9620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

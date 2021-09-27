@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2334b758_3b69f544",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-27T15:10:31Z",
+      "side": 1,
+      "message": "Do you mean the other way around? Show only votes trigger votes?",
+      "revId": "d22bc01ff38b2c438ebe80765c7098d436626bb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf70da2_9fdf1994",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-27T15:10:31Z",
+      "side": 1,
+      "message": "Maybe add a `: boolean` return type here, such that the compiler will complain about the `return;` below.",
+      "range": {
+        "startLine": 125,
+        "startChar": 45,
+        "endLine": 125,
+        "endChar": 48
+      },
+      "revId": "d22bc01ff38b2c438ebe80765c7098d436626bb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

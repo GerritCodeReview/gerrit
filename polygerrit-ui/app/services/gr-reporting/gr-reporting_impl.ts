@@ -636,6 +636,18 @@ export class GrReporting implements ReportingService {
     );
   }
 
+  pluginsFailed(pluginsList?: string[]) {
+    if (!pluginsList || pluginsList.length === 0) return;
+    this.reporter(
+      LIFECYCLE.TYPE,
+      LIFECYCLE.CATEGORY.PLUGINS_INSTALLED,
+      LifeCycle.PLUGINS_FAILED,
+      undefined,
+      {pluginsList: pluginsList || []},
+      true
+    );
+  }
+
   /**
    * Reset named Timing.
    */

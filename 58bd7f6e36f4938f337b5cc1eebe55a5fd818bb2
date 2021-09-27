@@ -52,6 +52,29 @@
       "parentUuid": "87f3f90b_73f8af5d",
       "revId": "58bd7f6e36f4938f337b5cc1eebe55a5fd818bb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7d38bfc_efe60d7c",
+        "filename": "resources/com/google/gerrit/server/mail/NewChangeHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1128710
+      },
+      "writtenOn": "2021-09-27T17:38:45Z",
+      "side": 1,
+      "message": "here\u0027s the problem. this \u003c should be \u003d\u003d",
+      "range": {
+        "startLine": 49,
+        "startChar": 27,
+        "endLine": 49,
+        "endChar": 28
+      },
+      "revId": "58bd7f6e36f4938f337b5cc1eebe55a5fd818bb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -675,6 +675,9 @@ export class GrComment extends base {
 
   @observe('comment.message')
   _commentMessageChanged(message: string) {
+    // if user is editing the comment, then we do not want to overwrite it with
+    // the stale message
+    if (this.editing) return;
     this._messageText = message || '';
   }
 

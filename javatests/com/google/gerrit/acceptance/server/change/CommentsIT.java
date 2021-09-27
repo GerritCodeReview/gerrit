@@ -224,12 +224,14 @@ public class CommentsIT extends AbstractDaemonTest {
     String ps1 = result.getCommit().name();
 
     CommentInput comment =
-        CommentsUtil.newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+        CommentsUtil.newCommentWithOnlyMandatoryFields(
+            PATCHSET_LEVEL, "The change looks good, LGTM");
     CommentsUtil.addComments(gApi, changeId, ps1, comment);
 
     String emailBody = Iterables.getOnlyElement(email.getMessages()).body();
     assertThat(emailBody).contains("Patchset");
     assertThat(emailBody).doesNotContain("/PATCHSET_LEVEL");
+    assertThat(emailBody).contains("The change looks good, LGTM");
   }
 
   @Test

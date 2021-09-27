@@ -62,6 +62,11 @@ public class PatchFile {
             .findFirst()
             .orElse(FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));
 
+    if (Patch.PATCHSET_LEVEL.equals(fileName)) {
+      aTree = null;
+      bTree = null;
+      return;
+    }
     try (ObjectReader reader = repo.newObjectReader();
         RevWalk rw = new RevWalk(reader)) {
       final RevCommit bCommit = rw.parseCommit(diff.newCommitId());
@@ -143,7 +148,7 @@ public class PatchFile {
   private Text load(ObjectId tree, String path)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
           IOException {
-    if (path == null) {
+    if (path == null || Patch.PATCHSET_LEVEL.equals(path)) {
       return Text.EMPTY;
     }
     final TreeWalk tw = TreeWalk.forPath(repo, path, tree);

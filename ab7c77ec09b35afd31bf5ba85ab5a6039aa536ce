@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45e3dc4c_de6cf2dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-27T10:38:19Z",
+      "side": 1,
+      "message": "No worries. I\u0027m also excited that this will enable new workflow and happy to receive all of your feedback! 😊",
+      "parentUuid": "bf9f97db_be96d8b0",
+      "revId": "ab7c77ec09b35afd31bf5ba85ab5a6039aa536ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cf6a3ae_997ea42a",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a881f7_25cd7cad",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-27T10:38:19Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. I moved this refactoring to a previous change.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/318975",
+      "parentUuid": "7cf6a3ae_997ea42a",
+      "revId": "ab7c77ec09b35afd31bf5ba85ab5a6039aa536ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12418391_3d1c8317",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-09-24T15:09:00Z",
       "side": 1,
       "message": "I\u0027m trying to make sure I understand exactly what\u0027s needed for this new count functionality. I hadn\u0027t looked at getLabels() before, so I didn\u0027t even realize everything we were already storing as \"labels\".\n\nIf I\u0027m getting this right, it looks like you\u0027re adding a label index field for every count permutation? So if there were two Code-Review+1 votes, we\u0027d get fields like:\n\n Code-Review 1 1 \u003e\u003d\n Code-Review 1 1 \u003e\n Code-Review 1 2 \u003d\n Code-Review 1 2 \u003e\u003d\n Code-Review 1 2 \u003c\u003d\n Code-Review 1 3 \u003c\u003d\n Code-Review 1 3 \u003c\n Code-Review 1 4 \u003c\u003d\n Code-Review 1 4 \u003c\n Code-Review 1 5 \u003c\u003d\n Code-Review 1 5 \u003c\n Code-Review 1 6 \u003c\u003d\n Code-Review 1 6 \u003c\n \nIs that correct?\n\nIf yes, that seems like we\u0027re going to add *a lot* of fields. Especially on a host with many labels configured. I don\u0027t know enough about Lucene yet to know what kind of impact that will have. Is this going to be ok?\n\nIf not ok, do we have another approach we could consider? Like some way we could have the index do more of this work for us? Ideally it would be some way that lets us support group\u003d, since I think that would be especially valuable (count would apply to only votes from users in that group).",
+      "range": {
+        "startLine": 668,
+        "startChar": 30,
+        "endLine": 668,
+        "endChar": 50
+      },
+      "revId": "ab7c77ec09b35afd31bf5ba85ab5a6039aa536ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa6bfa37_4216f898",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-27T10:38:19Z",
+      "side": 1,
+      "message": "\u003e Is that correct?\n\nYes, this is exactly what we\u0027re doing here. When we search using the index, we generate the field value using this same format (see [1]) then it get matched with the permutation that we stored in the index.\n\n\u003e If yes, that seems like we\u0027re going to add *a lot* of fields. Especially on a host with many labels configured. I don\u0027t know enough about Lucene yet to know what kind of impact that will have. Is this going to be ok?\n\nWe are doing the following optimizations to avoid having this field to grow in size:\n  1) We are storing the count up to a limit: 6.\n  2) We avoid combining the count with {group, user} args to cut off these extra permutations.\n  \nI believe it\u0027s OK to have these few extra records.\n\n\u003e do we have another approach we could consider?\n\nWe could store exact matching records in the index, i.e. only this one:\n  * Code-Review 1 2 \u003d\n\nThen a query with count \u003e x would translate to an or\u0027ed query of (count\u003dx+1 OR count\u003dx+2 ... or count\u003dMAX_THAT_WE_CONFIGURE) that we pass to the index. This is what we do with the \u003e/\u003c with the label votes.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/318541/6/java/com/google/gerrit/server/query/change/MagicLabelPredicate.java#37",
+      "parentUuid": "12418391_3d1c8317",
       "range": {
         "startLine": 668,
         "startChar": 30,
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "163c7e88_b40ca85a",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-27T10:38:19Z",
+      "side": 1,
+      "message": "I think you meant \"if we start this at 0\".\n\nYes, partially. But we also need to add code for unvoted labels, since the voteCounts map here only contains entries for approval votes that we saw. I added support for that and adjusted the tests to reflect the new behaviour.",
+      "parentUuid": "9bb9f850_7f4f5286",
+      "range": {
+        "startLine": 678,
+        "startChar": 24,
+        "endLine": 678,
+        "endChar": 25
+      },
+      "revId": "ab7c77ec09b35afd31bf5ba85ab5a6039aa536ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29bde17a_110eb5c9",
@@ -94,6 +178,24 @@
       "writtenOn": "2021-09-24T15:09:00Z",
       "side": 1,
       "message": "Make public since it\u0027s used in keyValue? Plugins providing operators probably need visibility to it.",
+      "revId": "ab7c77ec09b35afd31bf5ba85ab5a6039aa536ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "176bd4c9_8939fe0d",
+        "filename": "java/com/google/gerrit/server/query/change/PredicateArgs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-27T10:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29bde17a_110eb5c9",
       "revId": "ab7c77ec09b35afd31bf5ba85ab5a6039aa536ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

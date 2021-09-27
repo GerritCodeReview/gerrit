@@ -352,6 +352,30 @@
       },
       "revId": "374434474fede5a2517d998efec8106b70559721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de9e4cfe_ad5779ba",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-09-27T10:38:19Z",
+      "side": 1,
+      "message": "Done.\n\nI adjusted the predicate so that count\u003cx also matches with count \u003d 0. For now users can use \n\"label:Code-Review+1,count\u003c3 label:Code-Review+1,count\u003e\u003d1\"\n\nWe can add support for the more compact multi-count query in the future or in a follow up change.",
+      "parentUuid": "8a364d75_2ef4618b",
+      "range": {
+        "startLine": 124,
+        "startChar": 37,
+        "endLine": 124,
+        "endChar": 59
+      },
+      "revId": "374434474fede5a2517d998efec8106b70559721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

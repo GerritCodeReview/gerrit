@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a53face3_05ea0667",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-27T11:03:36Z",
+      "side": 1,
+      "message": "Name this into a variable that has a clear name.\n\nconst meaningful_name \u003d labels.every ...\nif (meaningful_name) ...\n\nThis could also be changed into an inverted condition with\nlabels.some( ... hasVotes(labelInfo)\n\nAnd then you\u0027d have\n\nif (!meaningful_name) return html`No votes`;\n\nI prefer this because I prefer having booleans that target the main body of the function so it would be !boolean for the early exit.",
+      "revId": "a1a1c745a0bf8facd69f4f14a2a0959037f1ce98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

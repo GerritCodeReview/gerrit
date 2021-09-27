@@ -3698,18 +3698,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     TestRepository<Repo> repo = createProject("repo");
     Change change = insert(repo, newChange(repo));
-    AssigneeInput ain = new AssigneeInput();
-    ain.assignee = user2.toString();
-    gApi.changes().id(change.getId().get()).setAssignee(ain);
+    ReviewInput rIn = new ReviewInput();
+    gApi.changes().id(change.getId().get()).addReviewer(user2.toString());
 
     RequestContext adminContext = requestContext.setContext(newRequestContext(user2));
-    assertQuery("assignee:self", change);
+    assertQuery("reviewer:self", change);
 
     requestContext.setContext(adminContext);
     gApi.accounts().id(user2.get()).setActive(false);
 
     requestContext.setContext(newRequestContext(user2));
-    assertQuery("assignee:self", change);
+    assertQuery("reviewer:self", change);
   }
 
   @Test

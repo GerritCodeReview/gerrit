@@ -22,6 +22,30 @@
       },
       "revId": "94c5d03ecce005789dfb8f5a9512d31660a41e3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "feea80db_8f5998cd",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-27T06:47:02Z",
+      "side": 1,
+      "message": "Just because nobody implemented this a batch event for this yet :) \nThe current event only accepts a single reviewer [1] and changing this is out of scope for this change.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/extensions/events/ReviewerDeleted.java#53",
+      "parentUuid": "dbdccfc1_a840bb43",
+      "range": {
+        "startLine": 547,
+        "startChar": 0,
+        "endLine": 549,
+        "endChar": 0
+      },
+      "revId": "94c5d03ecce005789dfb8f5a9512d31660a41e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

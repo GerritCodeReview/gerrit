@@ -17,6 +17,23 @@
       "tag": "mailMessageId\u003d\u003cCAOxsj0UZSLUK_tiK_hD+eHjWJ6+ejS_NuJDjLCxjB\u003dyCwEthQA@mail.gmail.com\u003e",
       "revId": "2940649a69f516e2c72ae3cf75d250240d5f3c87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b70d6d6_f6dce9f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1141286
+      },
+      "writtenOn": "2021-09-27T08:55:35Z",
+      "side": 1,
+      "message": "unsubscribe ",
+      "revId": "2940649a69f516e2c72ae3cf75d250240d5f3c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

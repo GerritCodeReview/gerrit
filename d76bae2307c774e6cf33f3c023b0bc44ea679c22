@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20a20c30_4b2c116b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-27T20:07:31Z",
+      "side": 1,
+      "message": "@Dmitrii could you help out understanding why this test is flaky? It fails very often on stable-3.3",
+      "revId": "d76bae2307c774e6cf33f3c023b0bc44ea679c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

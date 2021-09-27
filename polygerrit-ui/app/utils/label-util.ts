@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {
+  isQuickLabelInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../api/rest-api';
@@ -121,11 +122,17 @@ export function getApprovalInfo(
   return label.all?.filter(x => x._account_id === account._account_id)[0];
 }
 
-export function hasVotes(labelInfo: DetailedLabelInfo) {
-  return (labelInfo.all ?? []).some(
-    approval =>
-      getLabelStatus(labelInfo, approval.value) !== LabelStatus.NEUTRAL
-  );
+export function hasVotes(labelInfo: LabelInfo): boolean {
+  if (isDetailedLabelInfo(labelInfo)) {
+    return (labelInfo.all ?? []).some(
+      approval =>
+        getLabelStatus(labelInfo, approval.value) !== LabelStatus.NEUTRAL
+    );
+  }
+  if (isQuickLabelInfo(labelInfo)) {
+    return !!labelInfo.rejected || !!labelInfo.approved;
+  }
+  return false;
 }
 
 export function labelCompare(labelName1: string, labelName2: string) {

@@ -28,6 +28,7 @@ import {
 import {unique} from '../../../utils/common-util';
 import {
   extractAssociatedLabels,
+  hasVotes,
   iconForStatus,
 } from '../../../utils/label-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -159,11 +160,23 @@ export class GrSubmitRequirements extends LitElement {
 
   renderVotes(requirement: SubmitRequirementResultInfo) {
     const requirementLabels = extractAssociatedLabels(requirement);
-    const labels = this.change?.labels ?? {};
+    const allLabels = this.change?.labels ?? {};
+    const associatedLabels = Object.keys(allLabels).filter(label =>
+      requirementLabels.includes(label)
+    );
 
-    return Object.keys(labels)
-      .filter(label => requirementLabels.includes(label))
-      .map(label => this.renderLabelVote(label, labels));
+    const everyAssociatedLabelsIsWithoutVotes = associatedLabels.every(
+      label => {
+        const labelInfo = allLabels[label];
+        if (!isDetailedLabelInfo(labelInfo)) return true;
+        return !hasVotes(labelInfo);
+      }
+    );
+    if (everyAssociatedLabelsIsWithoutVotes) return html`No votes`;
+
+    return associatedLabels.map(label =>
+      this.renderLabelVote(label, allLabels)
+    );
   }
 
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {

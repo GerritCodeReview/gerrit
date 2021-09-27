@@ -121,6 +121,13 @@ export function getApprovalInfo(
   return label.all?.filter(x => x._account_id === account._account_id)[0];
 }
 
+export function hasVotes(labelInfo: DetailedLabelInfo) {
+  return (labelInfo.all ?? []).some(
+    approval =>
+      getLabelStatus(labelInfo, approval.value) !== LabelStatus.NEUTRAL
+  );
+}
+
 export function labelCompare(labelName1: string, labelName2: string) {
   if (labelName1 === CODE_REVIEW && labelName2 === CODE_REVIEW) return 0;
   if (labelName1 === CODE_REVIEW) return -1;

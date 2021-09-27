@@ -31,6 +31,7 @@ import {
   iconForStatus,
 } from '../../../utils/label-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {charsOnly} from '../../../utils/string-util';
 
 @customElement('gr-submit-requirements')
 export class GrSubmitRequirements extends LitElement {
@@ -117,7 +118,9 @@ export class GrSubmitRequirements extends LitElement {
         </thead>
         <tbody>
           ${submit_requirements.map(
-            requirement => html`<tr id="requirement-${requirement.name}">
+            requirement => html`<tr
+              id="requirement-${charsOnly(requirement.name)}"
+            >
               <td>${this.renderStatus(requirement.status)}</td>
               <td class="name">
                 <gr-limited-text
@@ -134,7 +137,7 @@ export class GrSubmitRequirements extends LitElement {
       ${submit_requirements.map(
         requirement => html`
           <gr-submit-requirement-hovercard
-            for="requirement-${requirement.name}"
+            for="requirement-${charsOnly(requirement.name)}"
             .requirement="${requirement}"
             .change="${this.change}"
             .account="${this.account}"

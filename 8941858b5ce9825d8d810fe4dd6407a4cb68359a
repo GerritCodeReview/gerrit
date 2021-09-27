@@ -39,6 +39,30 @@
       },
       "revId": "8941858b5ce9825d8d810fe4dd6407a4cb68359a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21f4185b_1d464364",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-27T11:03:48Z",
+      "side": 1,
+      "message": "Yes, that was a deliberate change.",
+      "parentUuid": "d4a774cb_a7cfca68",
+      "range": {
+        "startLine": 213,
+        "startChar": 18,
+        "endLine": 213,
+        "endChar": 22
+      },
+      "revId": "8941858b5ce9825d8d810fe4dd6407a4cb68359a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "@Chris any idea on why a merge that doesn\u0027t include PolyGerrit changes could break the PolyGerrit tests?",
       "revId": "72d88d3db230179c389c369eba7cc3d8822d7d71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa3eda24_6815725a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-27T06:32:31Z",
+      "side": 1,
+      "message": "Looks like the tests are failing because there is a \"backend error\" [1], but from the log I can\u0027t tell which REST call actually failed.\n\n[1] https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/112630/console",
+      "parentUuid": "f9348c26_3d99b9cb",
+      "revId": "72d88d3db230179c389c369eba7cc3d8822d7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

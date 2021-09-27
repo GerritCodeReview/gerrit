@@ -123,7 +123,10 @@ export class PluginLoader {
     });
 
     this.awaitPluginsLoaded().then(() => {
-      this._getReporting().pluginsLoaded(this._getAllInstalledPluginNames());
+      const loaded = this.getPluginsByState(PluginState.LOADED);
+      const failed = this.getPluginsByState(PluginState.LOAD_FAILED);
+      this._getReporting().pluginsLoaded(loaded.map(p => p.name));
+      this._getReporting().pluginsFailed(failed.map(p => p.name));
     });
   }
 
@@ -140,14 +143,8 @@ export class PluginLoader {
     return url.pathname && url.pathname.endsWith(suffix);
   }
 
-  _getAllInstalledPluginNames() {
-    const installedPlugins = [];
-    for (const plugin of this._plugins.values()) {
-      if (plugin.state === PluginState.LOADED) {
-        installedPlugins.push(plugin.name);
-      }
-    }
-    return installedPlugins;
+  private getPluginsByState(state: PluginState) {
+    return [...this._plugins.values()].filter(p => p.state === state);
   }
 
   install(
@@ -190,16 +187,9 @@ export class PluginLoader {
     }
   }
 
-  // The polygerrit uses version of sinon where you can't stub getter,
-  // declare it as a function here
   arePluginsLoaded() {
-    // As the size of plugins is relatively small,
-    // so the performance of this check should be reasonable
     if (!this._pluginListLoaded) return false;
-    for (const plugin of this._plugins.values()) {
-      if (plugin.state === PluginState.PENDING) return false;
-    }
-    return true;
+    return this.getPluginsByState(PluginState.PENDING).length === 0;
   }
 
   _checkIfCompleted() {
@@ -214,15 +204,14 @@ export class PluginLoader {
   }
 
   _timeout() {
-    const pendingPlugins = [];
-    for (const plugin of this._plugins.values()) {
-      if (plugin.state === PluginState.PENDING) {
-        this._updatePluginState(plugin.url, PluginState.LOAD_FAILED);
-        this._checkIfCompleted();
-        pendingPlugins.push(plugin.url);
-      }
+    const pending = this.getPluginsByState(PluginState.PENDING);
+    for (const plugin of pending) {
+      this._updatePluginState(plugin.url, PluginState.LOAD_FAILED);
     }
-    return `Timeout when loading plugins: ${pendingPlugins.join(',')}`;
+    this._checkIfCompleted();
+    return `Timeout when loading plugins: ${pending
+      .map(p => p.name)
+      .join(',')}`;
   }
 
   _failToLoad(message: string, pluginUrl?: string) {
@@ -252,6 +241,7 @@ export class PluginLoader {
         plugin: null,
       });
     }
+    console.info(`Plugin ${key} ${state}`);
     return this._plugins.get(key)!;
   }
 
@@ -259,7 +249,6 @@ export class PluginLoader {
     const pluginObj = this._updatePluginState(url, PluginState.LOADED);
     pluginObj.plugin = plugin;
     this._getReporting().pluginLoaded(plugin.getPluginName() || url);
-    console.info(`Plugin ${plugin.getPluginName() || url} installed.`);
     this._checkIfCompleted();
   }
 

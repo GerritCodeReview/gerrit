@@ -70,6 +70,30 @@
       },
       "revId": "94c5d03ecce005789dfb8f5a9512d31660a41e3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66d4d53f_a1e8ea35",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-09-27T14:09:08Z",
+      "side": 1,
+      "message": "Good idea, but unfortunately this is not easily possible. The problem is that the event does not only need to know the removed user, but also a bunch of other parameters, e.g. the old and new approvals, which we have not available here.",
+      "parentUuid": "f05ff8de_69b716a4",
+      "range": {
+        "startLine": 547,
+        "startChar": 0,
+        "endLine": 549,
+        "endChar": 0
+      },
+      "revId": "94c5d03ecce005789dfb8f5a9512d31660a41e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

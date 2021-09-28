@@ -30,7 +30,6 @@ import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-detail-list_html';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {encodeURL} from '../../../utils/url-util';
 import {customElement, property} from '@polymer/decorators';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -49,6 +48,7 @@ import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
 import {firePageError} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
+import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
@@ -60,11 +60,8 @@ export interface GrRepoDetailList {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ListViewMixin(PolymerElement);
-
 @customElement('gr-repo-detail-list')
-export class GrRepoDetailList extends base {
+export class GrRepoDetailList extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -155,8 +152,8 @@ export class GrRepoDetailList extends base {
 
     this.detailType = params.detail;
 
-    this._filter = this.getFilterValue(params);
-    this._offset = this.getOffsetValue(params);
+    this._filter = params?.filter ?? '';
+    this._offset = Number(params?.offset ?? 0);
     if (!this.detailType)
       return Promise.reject(new Error('undefined detailType'));
 
@@ -394,6 +391,14 @@ export class GrRepoDetailList extends base {
 
   _computeHideTagger(tagger?: GitPersonInfo) {
     return tagger ? '' : 'hide';
+  }
+
+  computeLoadingClass(loading: boolean) {
+    return loading ? 'loading' : '';
+  }
+
+  computeShownItems(items: BranchInfo[] | TagInfo[]) {
+    return items.slice(0, SHOWN_ITEMS_COUNT);
   }
 }
 

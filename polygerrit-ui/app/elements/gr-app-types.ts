@@ -52,20 +52,21 @@ export interface AppElementGroupParams {
   groupId: GroupId;
 }
 
-export interface AppElementAdminParams {
+export interface ListViewParams {
+  filter?: string | null;
+  offset?: number | string;
+}
+
+export interface AppElementAdminParams extends ListViewParams {
   view: GerritView.ADMIN;
   adminView: string;
-  offset?: string | number;
-  filter?: string | null;
   openCreateModal?: boolean;
 }
 
-export interface AppElementRepoParams {
+export interface AppElementRepoParams extends ListViewParams {
   view: GerritView.REPO;
   detail?: RepoDetailView;
   repo: RepoName;
-  offset?: string | number;
-  filter?: string | null;
 }
 
 export interface AppElementDocSearchParams {

@@ -1541,6 +1541,47 @@ entity is returned that results for the consistency checks.
   }
 ----
 
+[[commits-included-in]]
+=== Get Commits Included In Refs
+--
+'GET /projects/link:#project-name[\{project-name\}]/commits:in'
+--
+
+Gets refs in which the specified commits were merged into. Returns a map of commits
+to sets of full ref names.
+
+One or more `commit` query parameters are required and each specifies a
+commit-id (SHA-1 in 40 digit hex representation). Commits which do not exist or
+are not reachable from visible specified refs will not be contained in the map.
+
+One or more `ref` query parameters are required and each specifies a full ref name.
+Refs which are not visible to the calling user according to the project's read
+permissions and refs which do not exist will be filtered out from the result.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commits:in?commit=a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96&commit=6d2a3adb10e844c33617fc948dbeb88e868d396e&ref=refs/heads/master&ref=refs/heads/branch1 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96": [
+      "refs/heads/master"
+    ],
+    "6d2a3adb10e844c33617fc948dbeb88e868d396e": [
+      "refs/heads/branch1",
+      "refs/heads/master"
+    ]
+  }
+
+----
+
 [[branch-endpoints]]
 == Branch Endpoints
 

@@ -34,6 +34,7 @@ import {Gerrit} from '../../../api/gerrit';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 
@@ -125,6 +126,7 @@ class GerritImpl implements GerritInternal {
     font: fontStyles,
     form: formStyles,
     menuPage: menuPageStyles,
+    spinner: spinnerStyles,
     subPage: subpageStyles,
     table: tableStyles,
   };

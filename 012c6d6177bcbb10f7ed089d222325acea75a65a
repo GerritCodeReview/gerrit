@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e3de606_7124462d",
+        "filename": "polygerrit-ui/app/utils/list-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-28T12:56:51Z",
+      "side": 1,
+      "message": "Hmmm, what about just inlining all of these?\n\n25 could be moved to constants.",
+      "revId": "012c6d6177bcbb10f7ed089d222325acea75a65a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

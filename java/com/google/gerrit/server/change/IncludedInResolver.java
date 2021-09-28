@@ -38,14 +38,26 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-/** Resolve in which tags and branches a commit is included. */
+/** Resolve in which tags and branches (or) refs a commit is included. */
 public class IncludedInResolver {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /** Resolve in which tags and branches a commit is included. */
   public static Result resolve(Repository repo, RevWalk rw, RevCommit commit) throws IOException {
     RevFlag flag = newFlag(rw);
     try {
       return new IncludedInResolver(repo, rw, commit, flag).resolve();
+    } finally {
+      rw.disposeFlag(flag);
+    }
+  }
+
+  /** Resolve in which refs a commit is included. */
+  public static ImmutableList<Ref> resolve(
+      Repository repo, RevWalk rw, RevCommit commit, List<Ref> refs) throws IOException {
+    RevFlag flag = newFlag(rw);
+    try {
+      return new IncludedInResolver(repo, rw, commit, flag).resolve(refs);
     } finally {
       rw.disposeFlag(flag);
     }
@@ -84,6 +96,12 @@ public class IncludedInResolver {
     return new AutoValue_IncludedInResolver_Result(
         getMatchingRefNames(allMatchingTagsAndBranches, branches),
         getMatchingRefNames(allMatchingTagsAndBranches, tags));
+  }
+
+  private ImmutableList<Ref> resolve(List<Ref> refs) throws IOException {
+    parseCommits(refs);
+    Set<String> matchingRefs = includedIn(tipsByCommitTime, 0);
+    return getMatchingRefNames(matchingRefs, refs);
   }
 
   /** Resolves which tip refs include the target commit. */

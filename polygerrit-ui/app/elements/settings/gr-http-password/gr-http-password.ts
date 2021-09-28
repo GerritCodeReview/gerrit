@@ -75,7 +75,7 @@ export class GrHttpPassword extends LitElement {
     return Promise.all(promises);
   }
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       formStyles,
@@ -113,7 +113,7 @@ export class GrHttpPassword extends LitElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <div class="gr-form-styles">
         <div ?hidden=${this._passwordUrl}>
           <section>

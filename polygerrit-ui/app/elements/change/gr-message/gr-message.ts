@@ -209,7 +209,7 @@ export class GrMessage extends PolymerElement {
     this.addEventListener('click', e => this._handleClick(e));
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.restApiService.getConfig().then(config => {
       this.config = config;

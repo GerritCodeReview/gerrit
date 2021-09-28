@@ -150,7 +150,7 @@ export class GrApplyFixDialog extends PolymerElement {
     });
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.refitOverlay = () => {
       // re-center the dialog as content changed

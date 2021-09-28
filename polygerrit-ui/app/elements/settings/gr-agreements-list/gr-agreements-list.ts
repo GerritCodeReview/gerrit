@@ -41,7 +41,7 @@ export class GrAgreementsList extends LitElement {
     });
   }
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -71,7 +71,7 @@ export class GrAgreementsList extends LitElement {
     `;
   }
 
-  render() {
+  override render() {
     return html` <div class="gr-form-styles">
       <table id="agreements">
         <thead>

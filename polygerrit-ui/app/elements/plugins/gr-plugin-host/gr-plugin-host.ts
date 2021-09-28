@@ -37,7 +37,7 @@ export class GrPluginHost extends LitElement {
     getPluginLoader().loadPlugins(pluginsPending);
   }
 
-  updated(changedProperties: PropertyValues<GrPluginHost>) {
+  override updated(changedProperties: PropertyValues<GrPluginHost>) {
     if (changedProperties.has('config') && this.config) {
       this._configChanged(this.config);
     }

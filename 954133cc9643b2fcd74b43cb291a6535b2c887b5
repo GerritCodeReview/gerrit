@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c1d4bb1_28114490",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-28T15:40:37Z",
+      "side": 1,
+      "message": "Would it make sense for a +2 potentially count as a +1 also?",
+      "revId": "954133cc9643b2fcd74b43cb291a6535b2c887b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

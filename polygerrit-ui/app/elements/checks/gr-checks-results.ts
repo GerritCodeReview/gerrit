@@ -279,11 +279,10 @@ class GrResultRow extends LitElement {
     ];
   }
 
-  override update(changedProperties: PropertyValues) {
+  override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('result')) {
       this.isExpandable = !!this.result?.summary && !!this.result?.message;
     }
-    super.update(changedProperties);
   }
 
   override focus() {
@@ -978,6 +977,7 @@ export class GrChecksResults extends LitElement {
   override render() {
     // To pass CSS mixins for @apply to Polymer components, they need to appear
     // in <style> inside the template.
+    /* eslint-disable lit/prefer-static-styles */
     const style = html`<style>
       .headerTopRow .right .goToLatest gr-button {
         --gr-button: {

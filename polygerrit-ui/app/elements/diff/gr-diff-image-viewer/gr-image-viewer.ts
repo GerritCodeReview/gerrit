@@ -579,6 +579,7 @@ export class GrImageViewer extends LitElement {
 
     // To pass CSS mixins for @apply to Polymer components, they need to appear
     // in <style> inside the template.
+    /* eslint-disable lit/prefer-static-styles */
     const customStyle = html`
       <style>
         paper-item {
@@ -648,7 +649,9 @@ export class GrImageViewer extends LitElement {
   // We don't want property changes in updateSizes() to trigger infinite update
   // loops, so we perform this in update() instead of updated().
   override update(changedProperties: PropertyValues) {
+    // eslint-disable-next-line lit/no-property-change-update
     if (!this.baseUrl) this.baseSelected = false;
+    // eslint-disable-next-line lit/no-property-change-update
     if (!this.revisionUrl) this.baseSelected = true;
     this.updateSizes();
     super.update(changedProperties);

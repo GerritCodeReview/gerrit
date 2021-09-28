@@ -95,7 +95,7 @@ export class GrAccountLink extends LitElement {
           ?hideStatus=${this.hideStatus}
           ?firstName=${this.firstName}
           .voteableText=${this.voteableText}
-          part="gr-account-link-text => gr-account-label-text"
+          exportparts="gr-account-label-text: gr-account-link-text"
         >
         </gr-account-label>
       </a>

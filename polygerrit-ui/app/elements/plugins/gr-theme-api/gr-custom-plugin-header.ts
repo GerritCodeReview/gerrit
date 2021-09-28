@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* eslint-disable lit/no-legacy-template-syntax,lit/prefer-static-styles */
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {customElement, property} from '@polymer/decorators';

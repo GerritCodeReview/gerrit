@@ -96,6 +96,7 @@ export class GrAlert extends LitElement {
   render() {
     // To pass CSS mixins for @apply to Polymer components, they need to appear
     // in <style> inside the template.
+    /* eslint-disable lit/prefer-static-styles */
     const style = html`<style>
       .action {
         --gr-button: {

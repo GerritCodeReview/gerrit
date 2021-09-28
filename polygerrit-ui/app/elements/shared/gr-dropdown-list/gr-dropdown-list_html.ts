@@ -123,6 +123,7 @@ export const htmlTemplate = html`
     class="dropdown-trigger"
     on-click="_showDropdownTapHandler"
     slot="dropdown-trigger"
+    no-uppercase
   >
     <span id="triggerText">[[text]]</span>
     <gr-copy-clipboard

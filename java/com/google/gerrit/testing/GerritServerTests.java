@@ -26,7 +26,6 @@ import org.junit.runners.model.Statement;
 @RunWith(ConfigSuite.class)
 public class GerritServerTests {
   @ConfigSuite.Parameter public Config config;
-  @ConfigSuite.Name private String configName;
 
   @Rule
   public TestRule testRunner =

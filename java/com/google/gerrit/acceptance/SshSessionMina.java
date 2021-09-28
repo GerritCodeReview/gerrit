@@ -107,13 +107,11 @@ public class SshSessionMina extends SshSession {
   @Override
   public int execAndReturnStatus(String command) throws Exception {
     Process process = getMinaSession().exec(command, 0);
-    InputStream in = process.getInputStream();
     InputStream err = process.getErrorStream();
 
     Scanner s = new Scanner(err, UTF_8.name()).useDelimiter("\\A");
     error = s.hasNext() ? s.next() : null;
 
-    s = new Scanner(in, UTF_8.name()).useDelimiter("\\A");
     try {
       return process.exitValue();
     } catch (IllegalThreadStateException e) {

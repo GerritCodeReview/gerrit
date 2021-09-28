@@ -842,7 +842,7 @@ public class ProjectIT extends AbstractDaemonTest {
     String otherLink = "https://other.example.com";
     input = new ConfigInput();
     addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, otherLink);
-    info = setConfig(child, input);
+    setConfig(child, input);
 
     expected = new HashMap<>();
     expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, otherLink));
@@ -866,7 +866,7 @@ public class ProjectIT extends AbstractDaemonTest {
     String otherLink = "https://other.example.com";
     input = new ConfigInput();
     addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, otherLink);
-    info = setConfig(project, input);
+    setConfig(project, input);
 
     expected = new HashMap<>();
     expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, otherLink));
@@ -888,7 +888,7 @@ public class ProjectIT extends AbstractDaemonTest {
 
     input = new ConfigInput();
     addCommentLink(input, BUGZILLA, null);
-    info = setConfig(project, input);
+    setConfig(project, input);
 
     expected = new HashMap<>();
     expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));

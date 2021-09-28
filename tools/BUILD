@@ -448,7 +448,7 @@ java_package_configuration(
         "-Xep:UnusedException:ERROR",
         # "-Xep:UnusedMethod:WARN",
         "-Xep:UnusedNestedClass:ERROR",
-        # "-Xep:UnusedVariable:WARN",
+        "-Xep:UnusedVariable:ERROR",
         "-Xep:UseBinds:ERROR",
         "-Xep:UseCorrectAssertInTests:ERROR",
         "-Xep:VarTypeName:ERROR",

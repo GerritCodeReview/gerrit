@@ -1367,29 +1367,19 @@ suite('gr-router tests', () => {
         assert.isTrue(redirectStub.calledWithExactly('/c/12345'));
       });
 
-      test('_handleChangeLegacyRoute', () => {
-        const normalizeRouteStub = sinon.stub(element,
-            '_normalizeLegacyRouteParams');
+      test('_handleChangeLegacyRoute', async () => {
+        stubRestApi('getFromProjectLookup').returns(Promise.resolve('project'));
         const ctx = {
           params: [
             1234, // 0 Change number
-            null, // 1 Unused
-            null, // 2 Unused
-            6, // 3 Base patch number
-            null, // 4 Unused
-            9, // 5 Patch number
+            'comment/6789',
           ],
           querystring: '',
         };
         element._handleChangeLegacyRoute(ctx);
-        assert.isTrue(normalizeRouteStub.calledOnce);
-        assert.deepEqual(normalizeRouteStub.lastCall.args[0], {
-          changeNum: 1234,
-          basePatchNum: 6,
-          patchNum: 9,
-          view: GerritView.CHANGE,
-          querystring: '',
-        });
+        await flush();
+        assert.isTrue(redirectStub.calledWithExactly('/c/project/+/1234' +
+            '/comment/6789'));
       });
 
       test('_handleDiffLegacyRoute', () => {

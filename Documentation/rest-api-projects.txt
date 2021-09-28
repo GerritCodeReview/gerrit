@@ -2584,6 +2584,36 @@ read permissions are filtered out from the result.
   }
 ----
 
+[[get-included-in-refs]]
+=== Get Included In Refs
+--
+'GET /projects/link:#project-name[\{project-name\}]/commits/link:#commit-id[\{commit-id\}]/inrefs'
+--
+
+Returns a subset of refs from the refs supplied by the user in which a commit
+was merged into or it was tagged with. As result a list of unshortened refs are
+returned.
+
+Refs that are not visible to the calling user according to the project's
+read permissions are filtered out from the result.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96/inrefs?ref=refs/heads/master&ref=refs/heads/branch1 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    "refs/heads/master"
+  ]
+----
+
 [[get-content-from-commit]]
 === Get Content
 --

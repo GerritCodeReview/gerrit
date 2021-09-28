@@ -27,10 +27,12 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.restapi.change.CherryPickCommit;
 import com.google.gerrit.server.restapi.project.CommitIncludedIn;
+import com.google.gerrit.server.restapi.project.CommitIncludedInRefs;
 import com.google.gerrit.server.restapi.project.FilesInCommitCollection;
 import com.google.gerrit.server.restapi.project.GetCommit;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Collection;
 import java.util.Map;
 
 public class CommitApiImpl implements CommitApi {
@@ -42,6 +44,7 @@ public class CommitApiImpl implements CommitApi {
   private final GetCommit getCommit;
   private final CherryPickCommit cherryPickCommit;
   private final CommitIncludedIn includedIn;
+  private final CommitIncludedInRefs includedInRefs;
   private final CommitResource commitResource;
   private final FilesInCommitCollection.ListFiles listFiles;
 
@@ -51,12 +54,14 @@ public class CommitApiImpl implements CommitApi {
       GetCommit getCommit,
       CherryPickCommit cherryPickCommit,
       CommitIncludedIn includedIn,
+      CommitIncludedInRefs includedInRefs,
       FilesInCommitCollection.ListFiles listFiles,
       @Assisted CommitResource commitResource) {
     this.changes = changes;
     this.getCommit = getCommit;
     this.cherryPickCommit = cherryPickCommit;
     this.includedIn = includedIn;
+    this.includedInRefs = includedInRefs;
     this.listFiles = listFiles;
     this.commitResource = commitResource;
   }
@@ -85,6 +90,16 @@ public class CommitApiImpl implements CommitApi {
       return includedIn.apply(commitResource).value();
     } catch (Exception e) {
       throw asRestApiException("Could not extract IncludedIn data", e);
+    }
+  }
+
+  @Override
+  public Collection<String> includedInRefs(Collection<String> refs) throws RestApiException {
+    try {
+      includedInRefs.addRefs(refs);
+      return includedInRefs.apply(commitResource).value();
+    } catch (Exception e) {
+      throw asRestApiException("Could not extract IncludedInRefs data", e);
     }
   }
 

@@ -16,9 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
-import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedSet;
@@ -91,7 +89,7 @@ public class IncludedIn {
       allTagsAndBranches.addAll(branches);
 
       Set<String> allMatchingTagsAndBranches =
-          rw.getMergedInto(rev, getSortedRefs(allTagsAndBranches, rw)).stream()
+          rw.getMergedInto(rev, IncludedInUtil.getSortedRefs(allTagsAndBranches, rw)).stream()
               .map(Ref::getName)
               .collect(Collectors.toSet());
 
@@ -146,21 +144,6 @@ public class IncludedIn {
         .filter(r -> matchingRefs.contains(r.getName()))
         .distinct()
         .collect(toImmutableList());
-  }
-
-  private List<Ref> getSortedRefs(List<Ref> refs, RevWalk revWalk) {
-    return refs.stream()
-        .sorted(
-            comparing(
-                ref -> {
-                  try {
-                    return revWalk.parseCommit(ref.getObjectId()).getCommitTime();
-                  } catch (IOException e) {
-                    // Ignore and continue to sort
-                  }
-                  return 0;
-                }))
-        .collect(toList());
   }
 
   private ImmutableSortedSet<String> sortedShortNames(Collection<String> refs) {

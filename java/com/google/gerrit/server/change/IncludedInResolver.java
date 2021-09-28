@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -38,14 +41,26 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-/** Resolve in which tags and branches a commit is included. */
+/** Resolve in which tags and branches (or) refs the commits are included. */
 public class IncludedInResolver {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /** Resolve in which tags and branches a commit is included. */
   public static Result resolve(Repository repo, RevWalk rw, RevCommit commit) throws IOException {
     RevFlag flag = newFlag(rw);
     try {
-      return new IncludedInResolver(repo, rw, commit, flag).resolve();
+      return new IncludedInResolver(repo, rw, flag).resolve(commit);
+    } finally {
+      rw.disposeFlag(flag);
+    }
+  }
+
+  /** Resolve in which refs the commits are included in. */
+  public static ImmutableMap<RevCommit, ImmutableSet<Ref>> resolve(
+      Repository repo, RevWalk rw, Set<RevCommit> commits, Set<Ref> refs) throws IOException {
+    RevFlag flag = newFlag(rw);
+    try {
+      return new IncludedInResolver(repo, rw, flag).resolve(commits, refs);
     } finally {
       rw.disposeFlag(flag);
     }
@@ -57,21 +72,18 @@ public class IncludedInResolver {
 
   private final Repository repo;
   private final RevWalk rw;
-  private final RevCommit target;
 
   private final RevFlag containsTarget;
   private ListMultimap<RevCommit, String> commitToRef;
   private List<RevCommit> tipsByCommitTime;
 
-  private IncludedInResolver(
-      Repository repo, RevWalk rw, RevCommit target, RevFlag containsTarget) {
+  private IncludedInResolver(Repository repo, RevWalk rw, RevFlag containsTarget) {
     this.repo = repo;
     this.rw = rw;
-    this.target = target;
     this.containsTarget = containsTarget;
   }
 
-  private Result resolve() throws IOException {
+  private Result resolve(RevCommit target) throws IOException {
     RefDatabase refDb = repo.getRefDatabase();
     Collection<Ref> tags = refDb.getRefsByPrefix(Constants.R_TAGS);
     Collection<Ref> branches = refDb.getRefsByPrefix(Constants.R_HEADS);
@@ -79,15 +91,29 @@ public class IncludedInResolver {
     allTagsAndBranches.addAll(tags);
     allTagsAndBranches.addAll(branches);
     parseCommits(allTagsAndBranches);
-    Set<String> allMatchingTagsAndBranches = includedIn(tipsByCommitTime, 0);
+    Set<String> allMatchingTagsAndBranches = includedIn(target, tipsByCommitTime, 0);
 
     return new AutoValue_IncludedInResolver_Result(
         getMatchingRefNames(allMatchingTagsAndBranches, branches),
         getMatchingRefNames(allMatchingTagsAndBranches, tags));
   }
 
+  private ImmutableMap<RevCommit, ImmutableSet<Ref>> resolve(Set<RevCommit> targets, Set<Ref> refs)
+      throws IOException {
+    ImmutableMap.Builder<RevCommit, ImmutableSet<Ref>> refsByCommit = ImmutableMap.builder();
+    parseCommits(refs);
+    for (RevCommit target : targets) {
+      Set<String> matchingRefs = includedIn(target, tipsByCommitTime, 0);
+      refsByCommit.put(
+          target, getMatchingRefNames(matchingRefs, refs).stream().collect(toImmutableSet()));
+      rw.markStart(tipsByCommitTime);
+      rw.reset();
+    }
+    return refsByCommit.build();
+  }
+
   /** Resolves which tip refs include the target commit. */
-  private Set<String> includedIn(Collection<RevCommit> tips, int limit)
+  private Set<String> includedIn(RevCommit target, Collection<RevCommit> tips, int limit)
       throws IOException, MissingObjectException, IncorrectObjectTypeException {
     Set<String> result = new HashSet<>();
     for (RevCommit tip : tips) {

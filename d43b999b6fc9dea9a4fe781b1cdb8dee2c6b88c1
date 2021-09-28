@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dd10696_96853afa",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-28T18:41:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db64db8c_b442bef3",
+      "range": {
+        "startLine": 359,
+        "startChar": 4,
+        "endLine": 359,
+        "endChar": 10
+      },
+      "revId": "d43b999b6fc9dea9a4fe781b1cdb8dee2c6b88c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fef576cc_653f6be7",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "659868c2_89f308fd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-28T18:41:48Z",
+      "side": 1,
+      "message": "Changed the wrong one to false.",
+      "parentUuid": "fef576cc_653f6be7",
+      "range": {
+        "startLine": 232,
+        "startChar": 44,
+        "endLine": 232,
+        "endChar": 48
+      },
+      "revId": "d43b999b6fc9dea9a4fe781b1cdb8dee2c6b88c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "97a58b76_e151b046",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
         "patchSetId": 2
@@ -60,6 +108,30 @@
       "writtenOn": "2021-09-28T18:34:10Z",
       "side": 1,
       "message": "Why is it false, when it was true before?",
+      "range": {
+        "startLine": 234,
+        "startChar": 36,
+        "endLine": 234,
+        "endChar": 41
+      },
+      "revId": "d43b999b6fc9dea9a4fe781b1cdb8dee2c6b88c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe78e76d_05d55d8c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-28T18:41:48Z",
+      "side": 1,
+      "message": "Mistake on my end, thanks for the catch!",
+      "parentUuid": "97a58b76_e151b046",
       "range": {
         "startLine": 234,
         "startChar": 36,

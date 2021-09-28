@@ -94,6 +94,7 @@ suite('gr-group tests', () => {
 
     element.$.groupNameInput.text = groupName2;
 
+    await flush();
     assert.isFalse(button.hasAttribute('disabled'));
     assert.isTrue(element.$.groupName.classList.contains('edited'));
 
@@ -122,6 +123,7 @@ suite('gr-group tests', () => {
 
     element.$.groupOwnerInput.text = 'testId2';
 
+    await flush()
     assert.isFalse(button.hasAttribute('disabled'));
     assert.isTrue(element.$.groupOwner.classList.contains('edited'));
 

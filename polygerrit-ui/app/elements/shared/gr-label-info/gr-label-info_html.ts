@@ -116,16 +116,17 @@ export const htmlTemplate = html`
           ></gr-account-link>
         </td>
         <td>
-          <gr-button
-            link=""
-            aria-label="Remove vote"
-            on-click="_onDeleteVote"
-            tooltip="Remove vote"
-            data-account-id$="[[mappedLabel.account._account_id]]"
-            class$="deleteBtn [[_computeDeleteClass(mappedLabel.account, mutable, change)]]"
-          >
-            <iron-icon icon="gr-icons:delete"></iron-icon>
-          </gr-button>
+          <gr-tooltip-content has-tooltip = "" title = "Remove vote">
+            <gr-button
+              link=""
+              aria-label="Remove vote"
+              on-click="_onDeleteVote"
+              data-account-id$="[[mappedLabel.account._account_id]]"
+              class$="deleteBtn [[_computeDeleteClass(mappedLabel.account, mutable, change)]]"
+            >
+              <iron-icon icon="gr-icons:delete"></iron-icon>
+            </gr-button>
+          </gr-tooltip-content>
         </td>
       </tr>
     </template>

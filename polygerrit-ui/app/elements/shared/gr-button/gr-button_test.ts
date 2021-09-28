@@ -49,8 +49,9 @@ suite('gr-button tests', () => {
     return spy;
   };
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
   test('disabled is set by disabled', () => {

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2456738_f8d7ca0b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-28T11:34:28Z",
+      "side": 1,
+      "message": "Move this down to the branch below.",
+      "revId": "a826282873555263a31fdbe8c5ff0ee8d45d4787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b853ef1d_1aa1bd4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-28T11:34:28Z",
+      "side": 1,
+      "message": "Swap these branches so it\u0027s not an inverted condition.",
+      "revId": "a826282873555263a31fdbe8c5ff0ee8d45d4787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c8a8405_78ae96ad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-28T11:34:28Z",
+      "side": 1,
+      "message": "Could you add a test for this?",
+      "revId": "a826282873555263a31fdbe8c5ff0ee8d45d4787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

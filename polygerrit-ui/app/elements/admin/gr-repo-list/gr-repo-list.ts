@@ -22,16 +22,16 @@ import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-list_html';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe, computed} from '@polymer/decorators';
 import {AppElementAdminParams} from '../../gr-app-types';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RepoName, ProjectInfoWithName} from '../../../types/common';
 import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {ProjectState} from '../../../constants/constants';
+import {ProjectState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -46,11 +46,8 @@ export interface GrRepoList {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ListViewMixin(PolymerElement);
-
 @customElement('gr-repo-list')
-export class GrRepoList extends base {
+export class GrRepoList extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -84,7 +81,7 @@ export class GrRepoList extends base {
 
   @computed('_repos')
   get _shownRepos() {
-    return this.computeShownItems(this._repos);
+    return this._repos.slice(0, SHOWN_ITEMS_COUNT);
   }
 
   private readonly restApiService = appContext.restApiService;
@@ -99,8 +96,8 @@ export class GrRepoList extends base {
   @observe('params')
   _paramsChanged(params: AppElementAdminParams) {
     this._loading = true;
-    this._filter = this.getFilterValue(params);
-    this._offset = this.getOffsetValue(params);
+    this._filter = params?.filter ?? '';
+    this._offset = Number(params?.offset ?? 0);
 
     return this._getRepos(this._filter, this._reposPerPage, this._offset);
   }
@@ -115,7 +112,7 @@ export class GrRepoList extends base {
   }
 
   _computeRepoUrl(name: string) {
-    return this.getUrl(this._path + '/', name);
+    return getBaseUrl() + this._path + '/' + encodeURL(name, true);
   }
 
   _computeChangesLink(name: string) {
@@ -184,5 +181,9 @@ export class GrRepoList extends base {
     }
     const webLinks = repo.web_links;
     return webLinks.length ? webLinks : null;
+  }
+
+  computeLoadingClass(loading: boolean) {
+    return loading ? 'loading' : '';
   }
 }

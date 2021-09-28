@@ -116,17 +116,20 @@ export const htmlTemplate = html`
       aria-labelledby="labelName"
     >
       <template is="dom-repeat" items="[[_items]]" as="value">
-        <gr-button
-          role="radio"
-          vote$="[[_computeVoteAttribute(value, index, _items.length)]]"
-          vote-chip
+        <gr-tooltip-content
           has-tooltip=""
-          data-name$="[[label.name]]"
-          data-value$="[[value]]"
           title$="[[_computeLabelValueTitle(labels, label.name, value)]]"
         >
-          [[value]]</gr-button
-        >
+          <gr-button
+            role="radio"
+            vote="[[_computeVoteAttribute(value, index, _items.length)]]"
+            voteChip
+            data-name$="[[label.name]]"
+            data-value$="[[value]]"
+          >
+            [[value]]
+          </gr-button>
+        </gr-tooltip-content>
       </template>
     </iron-selector>
     <template

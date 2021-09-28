@@ -123,17 +123,20 @@ export class GrCopyClipboard extends LitElement {
             part="text-container-style"
           />
         </iron-input>
-        <gr-button
-          id="copy-clipboard-button"
-          link=""
+        <gr-tooltip-content
           ?has-tooltip=${this.hasTooltip}
-          class="copyToClipboard"
           title="${ifDefined(this.buttonTitle)}"
-          @click="${this._copyToClipboard}"
-          aria-label="Click to copy to clipboard"
         >
-          <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
-        </gr-button>
+          <gr-button
+            id="copy-clipboard-button"
+            link=""
+            class="copyToClipboard"
+            @click="${this._copyToClipboard}"
+            aria-label="Click to copy to clipboard"
+          >
+            <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
+          </gr-button>
+        </gr-tooltip-content>
       </div> `;
   }
 

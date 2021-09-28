@@ -612,26 +612,32 @@ export const htmlTemplate = html`
             <!-- Use 'Send' here as the change may only about reviewers / ccs
                 and when this button is visible, the next button will always
                 be 'Start review' -->
-            <gr-button
-              link=""
-              disabled="[[_isState(knownLatestState, 'not-latest')]]"
-              class="action save"
+            <gr-tooltip-content
               has-tooltip=""
-              title="[[_saveTooltip]]"
-              on-click="_saveClickHandler"
-              >Send As WIP</gr-button
+              title$="[[_saveTooltip]]"
             >
+              <gr-button
+                link=""
+                disabled="[[_isState(knownLatestState, 'not-latest')]]"
+                class="action save"
+                on-click="_saveClickHandler"
+                >Send As WIP</gr-button
+              >
+            </gr-tooltip-content>
           </template>
-          <gr-button
-            id="sendButton"
-            primary=""
-            disabled="[[_sendDisabled]]"
-            class="action send"
+          <gr-tooltip-content
             has-tooltip=""
             title$="[[_computeSendButtonTooltip(canBeStarted, _commentEditing)]]"
-            on-click="_sendTapHandler"
-            >[[_sendButtonLabel]]</gr-button
           >
+            <gr-button
+              id="sendButton"
+              primary=""
+              disabled="[[_sendDisabled]]"
+              class="action send"
+              on-click="_sendTapHandler"
+              >[[_sendButtonLabel]]
+            </gr-button>
+          </gr-tooltip-content>
         </div>
       </section>
     </div>

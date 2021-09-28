@@ -30,28 +30,34 @@ export const htmlTemplate = html`
       width: 1.3rem;
     }
   </style>
-  <gr-button
-    id="sideBySideBtn"
-    link=""
+  <gr-tooltip-content
     has-tooltip=""
-    position-below="[[showTooltipBelow]]"
-    class$="[[_computeSideBySideSelected(mode)]]"
     title="Side-by-side diff"
-    aria-pressed$="[[isSideBySideSelected(mode)]]"
-    on-click="_handleSideBySideTap"
+    position-below="[[showTooltipBelow]]"
   >
-    <iron-icon icon="gr-icons:side-by-side"></iron-icon>
-  </gr-button>
-  <gr-button
-    id="unifiedBtn"
-    link=""
+    <gr-button
+      id="sideBySideBtn"
+      link=""
+      class$="[[_computeSideBySideSelected(mode)]]"
+      aria-pressed$="[[isSideBySideSelected(mode)]]"
+      on-click="_handleSideBySideTap"
+    >
+      <iron-icon icon="gr-icons:side-by-side"></iron-icon>
+    </gr-button>
+  </gr-tooltip-content>
+  <gr-tooltip-content
     has-tooltip=""
     position-below="[[showTooltipBelow]]"
     title="Unified diff"
-    class$="[[_computeUnifiedSelected(mode)]]"
-    aria-pressed$="[[isUnifiedSelected(mode)]]"
-    on-click="_handleUnifiedTap"
   >
-    <iron-icon icon="gr-icons:unified"></iron-icon>
-  </gr-button>
+    <gr-button
+      id="unifiedBtn"
+      link=""
+      class$="[[_computeUnifiedSelected(mode)]]"
+      aria-pressed$="[[isUnifiedSelected(mode)]]"
+      on-click="_handleUnifiedTap"
+    >
+      <iron-icon icon="gr-icons:unified"></iron-icon>
+    </gr-button>
+  </gr-tooltip-content>
 `;

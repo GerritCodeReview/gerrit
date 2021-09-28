@@ -16,6 +16,57 @@
       "message": "Sending for early feedback.",
       "revId": "5de2feaccf5444e99e24db1124677bf2bc02f1ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc7684a9_4b66f7c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-28T20:52:09Z",
+      "side": 1,
+      "message": "Can you sync?",
+      "revId": "5de2feaccf5444e99e24db1124677bf2bc02f1ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "178d2e1a_448fcdd9",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-28T20:52:09Z",
+      "side": 1,
+      "message": "This needs a sync.",
+      "revId": "5de2feaccf5444e99e24db1124677bf2bc02f1ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87201d96_527fa9ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-28T20:52:09Z",
+      "side": 1,
+      "message": "This method is now superfluous",
+      "revId": "5de2feaccf5444e99e24db1124677bf2bc02f1ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

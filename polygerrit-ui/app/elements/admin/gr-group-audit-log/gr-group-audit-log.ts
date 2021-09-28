@@ -21,7 +21,6 @@ import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-account-link/gr-account-link';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-group-audit-log_html';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {
@@ -35,12 +34,10 @@ import {
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
-
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ListViewMixin(PolymerElement);
+import {computeLoadingClass} from '../../../utils/list-util';
 
 @customElement('gr-group-audit-log')
-export class GrGroupAuditLog extends base {
+export class GrGroupAuditLog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -129,6 +126,10 @@ export class GrGroupAuditLog extends base {
     }
 
     return '';
+  }
+
+  computeLoadingClass(loading: boolean) {
+    return computeLoadingClass(loading);
   }
 }
 

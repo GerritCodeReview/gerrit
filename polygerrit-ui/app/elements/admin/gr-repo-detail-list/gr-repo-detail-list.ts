@@ -30,7 +30,12 @@ import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-detail-list_html';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
+import {
+  computeLoadingClass,
+  computeShownItems,
+  getFilterValue,
+  getOffsetValue,
+} from '../../../utils/list-util';
 import {encodeURL} from '../../../utils/url-util';
 import {customElement, property} from '@polymer/decorators';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -60,11 +65,8 @@ export interface GrRepoDetailList {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ListViewMixin(PolymerElement);
-
 @customElement('gr-repo-detail-list')
-export class GrRepoDetailList extends base {
+export class GrRepoDetailList extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -155,8 +157,8 @@ export class GrRepoDetailList extends base {
 
     this.detailType = params.detail;
 
-    this._filter = this.getFilterValue(params);
-    this._offset = this.getOffsetValue(params);
+    this._filter = getFilterValue(params);
+    this._offset = getOffsetValue(params);
     if (!this.detailType)
       return Promise.reject(new Error('undefined detailType'));
 
@@ -394,6 +396,14 @@ export class GrRepoDetailList extends base {
 
   _computeHideTagger(tagger?: GitPersonInfo) {
     return tagger ? '' : 'hide';
+  }
+
+  computeLoadingClass(loading: boolean) {
+    computeLoadingClass(loading);
+  }
+
+  computeShownItems(items: BranchInfo[] | TagInfo[]) {
+    return computeShownItems(items);
   }
 }
 

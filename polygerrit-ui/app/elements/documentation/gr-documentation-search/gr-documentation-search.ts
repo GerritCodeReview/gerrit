@@ -20,20 +20,18 @@ import '../../shared/gr-list-view/gr-list-view';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-documentation-search_html';
 import {
-  ListViewMixin,
+  computeLoadingClass,
+  getFilterValue,
   ListViewParams,
-} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
+} from '../../../utils/list-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import {customElement, property} from '@polymer/decorators';
 import {DocResult} from '../../../types/common';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ListViewMixin(PolymerElement);
-
 @customElement('gr-documentation-search')
-export class GrDocumentationSearch extends base {
+export class GrDocumentationSearch extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -62,7 +60,7 @@ export class GrDocumentationSearch extends base {
 
   _paramsChanged(params: ListViewParams) {
     this._loading = true;
-    this._filter = this.getFilterValue(params);
+    this._filter = getFilterValue(params);
 
     return this._getDocumentationSearches(this._filter);
   }
@@ -86,6 +84,10 @@ export class GrDocumentationSearch extends base {
       return '';
     }
     return `${getBaseUrl()}/${url}`;
+  }
+
+  computeLoadingClass(loading: boolean) {
+    return computeLoadingClass(loading);
   }
 }
 

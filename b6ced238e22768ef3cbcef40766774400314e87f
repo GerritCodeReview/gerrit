@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5285be4c_acb88cc7",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-28T15:42:38Z",
+      "side": 1,
+      "message": "User @state instead of @property, if this is just internal state and not supposed to be set from the outside.",
+      "range": {
+        "startLine": 55,
+        "startChar": 3,
+        "endLine": 55,
+        "endChar": 11
+      },
+      "revId": "b6ced238e22768ef3cbcef40766774400314e87f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d14571d_caf1aaf3",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-28T15:42:38Z",
+      "side": 1,
+      "message": "You might want to count results here.",
+      "revId": "b6ced238e22768ef3cbcef40766774400314e87f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

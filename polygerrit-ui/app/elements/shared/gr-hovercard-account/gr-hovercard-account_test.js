@@ -109,7 +109,7 @@ suite('gr-hovercard-account tests', () => {
     stubRestApi('removeChangeReviewer').returns(Promise.resolve({ok: true}));
     const reloadListener = sinon.spy();
     element._target.addEventListener('reload', reloadListener);
-    flush();
+    await flush();
     const button = element.shadowRoot.querySelector('.removeReviewerOrCC');
     assert.isOk(button);
     assert.equal(button.innerText, 'Remove Reviewer');
@@ -132,7 +132,7 @@ suite('gr-hovercard-account tests', () => {
     const reloadListener = sinon.spy();
     element._target.addEventListener('reload', reloadListener);
 
-    flush();
+    await flush();
     const button = element.shadowRoot.querySelector('.changeReviewerOrCC');
 
     assert.isOk(button);
@@ -156,7 +156,7 @@ suite('gr-hovercard-account tests', () => {
     stubRestApi('removeChangeReviewer').returns(Promise.resolve({ok: true}));
     const reloadListener = sinon.spy();
     element._target.addEventListener('reload', reloadListener);
-    flush();
+    await flush();
 
     const button = element.shadowRoot.querySelector('.changeReviewerOrCC');
     assert.isOk(button);
@@ -180,7 +180,7 @@ suite('gr-hovercard-account tests', () => {
     const reloadListener = sinon.spy();
     element._target.addEventListener('reload', reloadListener);
 
-    flush();
+    await flush();
     const button = element.shadowRoot.querySelector('.removeReviewerOrCC');
 
     assert.equal(button.innerText, 'Remove CC');

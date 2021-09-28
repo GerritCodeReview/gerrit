@@ -119,7 +119,7 @@ export const htmlTemplate = html`
         <gr-button
           role="radio"
           vote$="[[_computeVoteAttribute(value, index, _items.length)]]"
-          vote-chip
+          voteChip
           has-tooltip=""
           data-name$="[[label.name]]"
           data-value$="[[value]]"

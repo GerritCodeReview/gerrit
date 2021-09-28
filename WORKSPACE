@@ -202,6 +202,12 @@ maven_jar(
     sha1 = "f645ed69d595b24d4cf8b3fbb64cc505bede8829",
 )
 
+maven_jar(
+    name = "google-java-format",
+    artifact = "com.google.googlejavaformat:google-java-format:1.7",
+    sha1 = "97cb6afc835d65682edc248e19170a8e4ecfe4c4",
+)
+
 CAFFEINE_VERS = "2.8.5"
 
 maven_jar(

@@ -35,6 +35,24 @@ JDK11_JVM_OPTS = select({
     ],
 })
 
+sh_binary(
+    name = "gjf",
+    srcs = ["gjf.sh"],
+    args = [
+        "$(location :google-java-format-tool)",
+    ],
+    data = [":google-java-format-tool"],
+)
+
+java_binary(
+    name = "google-java-format-tool",
+    main_class = "com.google.googlejavaformat.java.Main",
+    runtime_deps = [
+        "@google-java-format//jar",
+        "@guava//jar",
+    ],
+)
+
 default_java_toolchain(
     name = "error_prone_warnings_toolchain_java11",
     bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],

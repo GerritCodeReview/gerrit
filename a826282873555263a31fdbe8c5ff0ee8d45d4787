@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c821f6_8c4bdf7e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-28T16:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2456738_f8d7ca0b",
+      "revId": "a826282873555263a31fdbe8c5ff0ee8d45d4787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b853ef1d_1aa1bd4d",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ec30439_946eb0e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-28T16:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b853ef1d_1aa1bd4d",
+      "revId": "a826282873555263a31fdbe8c5ff0ee8d45d4787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c8a8405_78ae96ad",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-09-28T11:34:28Z",
       "side": 1,
       "message": "Could you add a test for this?",
+      "revId": "a826282873555263a31fdbe8c5ff0ee8d45d4787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3007fefa_7f7e44ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-28T16:42:33Z",
+      "side": 1,
+      "message": "How do you envision a test for this flow?\n\nI added an assert for checking the id field is present in the draft object that is being added to the model.\n\nDoes that seem enough?",
+      "parentUuid": "9c8a8405_78ae96ad",
       "revId": "a826282873555263a31fdbe8c5ff0ee8d45d4787",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

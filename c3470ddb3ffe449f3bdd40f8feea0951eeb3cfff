@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72b9372d_d6221839",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-28T18:35:51Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "c3470ddb3ffe449f3bdd40f8feea0951eeb3cfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c03245b4_fdf6071d",
+        "filename": "polygerrit-ui/app/styles/gr-paper-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-28T18:35:51Z",
+      "side": 1,
+      "message": "Nit: 2021",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "c3470ddb3ffe449f3bdd40f8feea0951eeb3cfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

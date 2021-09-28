@@ -2584,6 +2584,52 @@ read permissions are filtered out from the result.
   }
 ----
 
+[[get-included-in-refs]]
+=== Get Included In Refs
+--
+'GET /projects/link:#project-name[\{project-name\}]/commits/link:#commit-id[\{commit-id\}]/inrefs'
+--
+
+Returns a subset of refs from the refs supplied by the user in which a commit
+was merged into or it was tagged with. As result an
+link:#included-in-refs-info[IncludedInRefsInfo] entity is returned.
+
+Refs that are not visible to the calling user according to the project's
+read permissions are filtered out from the result.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96/inrefs?ref=refs/heads/master&ref=refs/heads/branch1 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "refs": [
+      "refs/heads/master"
+    ],
+  }
+----
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96/inrefs?ref=foo/bar HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 400 Bad Request
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=utf-8
+
+  ref foo/bar not found
+----
+
 [[get-content-from-commit]]
 === Get Content
 --
@@ -3905,6 +3951,19 @@ project.
 The ref to which `HEAD` should be set, the `refs/heads` prefix can be
 omitted.
 |============================
+
+[[included-in-refs-info]]
+=== IncludedInRefsInfo
+The `IncludedInRefsInfo` entity contains information about the refs a
+commit was merged into or it was tagged with.
+
+[options="header",cols="1,^2,4"]
+|=======================
+|Field Name         ||Description
+|`refs`             ||
+The list of refs this commit was merged into or it was tagged with.
+Each ref in the list is unshortened reference.
+|=======================
 
 [[index-project-input]]
 === IndexProjectInput

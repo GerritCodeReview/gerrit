@@ -24,7 +24,6 @@ import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-list_html';
 import {appContext} from '../../../services/app-context';
-import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin';
 import {
   KeyboardShortcutMixin,
   Shortcut,
@@ -57,6 +56,19 @@ const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
 const MAX_SHORTCUT_CHARS = 5;
 
+export const columnNames = [
+  'Subject',
+  'Status',
+  'Owner',
+  'Assignee',
+  'Reviewers',
+  'Comments',
+  'Repo',
+  'Branch',
+  'Updated',
+  'Size',
+];
+
 export interface ChangeListSection {
   name?: string;
   query?: string;
@@ -68,7 +80,7 @@ export interface GrChangeList {
 }
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ChangeTableMixin(KeyboardShortcutMixin(PolymerElement));
+const base = KeyboardShortcutMixin(PolymerElement);
 
 @customElement('gr-change-list')
 export class GrChangeList extends base {
@@ -219,29 +231,41 @@ export class GrChangeList extends base {
       return;
     }
 
-    this.changeTableColumns = this.columnNames;
+    this.changeTableColumns = columnNames;
     this.showNumber = false;
-    this.visibleChangeTableColumns = this.getEnabledColumns(
-      this.columnNames,
-      config,
-      this.flagsService.enabledExperiments
+    this.visibleChangeTableColumns = this.changeTableColumns.filter(col =>
+      this._isColumnEnabled(col, config, this.flagsService.enabledExperiments)
     );
-
     if (account && preferences) {
       this.showNumber = !!(
         preferences && preferences.legacycid_in_change_table
       );
       if (preferences.change_table && preferences.change_table.length > 0) {
-        const prefColumns = this.renameProjectToRepoColumn(
-          preferences.change_table
+        const prefColumns = preferences.change_table.map(column =>
+          column === 'Project' ? 'Repo' : column
         );
-        this.visibleChangeTableColumns = this.getEnabledColumns(
-          prefColumns,
-          config,
-          this.flagsService.enabledExperiments
+        this.visibleChangeTableColumns = prefColumns.filter(col =>
+          this._isColumnEnabled(
+            col,
+            config,
+            this.flagsService.enabledExperiments
+          )
         );
       }
     }
+  }
+
+  /**
+   * Is the column disabled by a server config or experiment? For example the
+   * assignee feature might be disabled and thus the corresponding column is
+   * also disabled.
+   *
+   */
+  _isColumnEnabled(column: string, config: ServerInfo, experiments: string[]) {
+    if (!config || !config.change) return true;
+    if (column === 'Assignee') return !!config.change.enable_assignee;
+    if (column === 'Comments') return experiments.includes('comments-column');
+    return true;
   }
 
   /**

@@ -47,7 +47,6 @@ import '../gr-watched-projects-editor/gr-watched-projects-editor';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-settings-view_html';
 import {getDocsBaseUrl} from '../../../utils/url-util';
-import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin';
 import {customElement, property, observe} from '@polymer/decorators';
 import {AppElementParams} from '../../gr-app-types';
 import {GrAccountInfo} from '../gr-account-info/gr-account-info';
@@ -76,6 +75,7 @@ import {
   EmailStrategy,
   TimeFormat,
 } from '../../../constants/constants';
+import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
 
 const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'changes_per_page',
@@ -139,11 +139,8 @@ export interface GrSettingsView {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ChangeTableMixin(PolymerElement);
-
 @customElement('gr-settings-view')
-export class GrSettingsView extends base {
+export class GrSettingsView extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -262,8 +259,10 @@ export class GrSettingsView extends base {
         this._localMenu = this._cloneMenu(prefs.my);
         this._localChangeTableColumns =
           prefs.change_table.length === 0
-            ? this.columnNames
-            : this.renameProjectToRepoColumn(prefs.change_table);
+            ? columnNames
+            : prefs.change_table.map(column =>
+                column === 'Project' ? 'Repo' : column
+              );
       })
     );
 

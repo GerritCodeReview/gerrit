@@ -269,7 +269,7 @@ suite('gr-change-list basic tests', () => {
     });
 
     test('all columns visible', () => {
-      for (const column of element.columnNames) {
+      for (const column of element.changeTableColumns) {
         const elementClass = '.' + element._lowerCase(column);
         assert.isFalse(element.shadowRoot
             .querySelector(elementClass).hidden);

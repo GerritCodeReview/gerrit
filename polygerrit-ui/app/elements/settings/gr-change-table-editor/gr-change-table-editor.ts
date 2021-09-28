@@ -21,16 +21,13 @@ import '../../../styles/gr-form-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-table-editor_html';
-import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin';
 import {customElement, property, observe} from '@polymer/decorators';
 import {ServerInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
-
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ChangeTableMixin(PolymerElement);
+import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
 
 @customElement('gr-change-table-editor')
-export class GrChangeTableEditor extends base {
+export class GrChangeTableEditor extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -51,15 +48,30 @@ export class GrChangeTableEditor extends base {
 
   @observe('serverConfig')
   _configChanged(config: ServerInfo) {
-    this.defaultColumns = this.getEnabledColumns(
-      this.columnNames,
-      config,
-      this.flagsService.enabledExperiments
+    this.defaultColumns = columnNames.filter(col =>
+      this._isColumnEnabled(col, config, this.flagsService.enabledExperiments)
     );
     if (!this.displayedColumns) return;
     this.displayedColumns = this.displayedColumns.filter(column =>
-      this.isColumnEnabled(column, config, this.flagsService.enabledExperiments)
+      this._isColumnEnabled(
+        column,
+        config,
+        this.flagsService.enabledExperiments
+      )
     );
+  }
+
+  /**
+   * Is the column disabled by a server config or experiment? For example the
+   * assignee feature might be disabled and thus the corresponding column is
+   * also disabled.
+   *
+   */
+  _isColumnEnabled(column: string, config: ServerInfo, experiments: string[]) {
+    if (!config || !config.change) return true;
+    if (column === 'Assignee') return !!config.change.enable_assignee;
+    if (column === 'Comments') return experiments.includes('comments-column');
+    return true;
   }
 
   /**
@@ -77,6 +89,13 @@ export class GrChangeTableEditor extends base {
     )
       .filter(checkbox => checkbox.checked)
       .map(checkbox => checkbox.name);
+  }
+
+  _computeIsColumnHidden(columnToCheck?: string, columnsToDisplay?: string[]) {
+    if (!columnsToDisplay || !columnToCheck) {
+      return false;
+    }
+    return !columnsToDisplay.includes(columnToCheck);
   }
 
   /**

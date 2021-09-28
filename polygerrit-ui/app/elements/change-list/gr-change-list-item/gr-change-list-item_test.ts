@@ -29,6 +29,7 @@ import {
   TopicName,
 } from '../../../types/common';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {columnNames} from '../gr-change-list/gr-change-list';
 import './gr-change-list-item';
 import {GrChangeListItem, LabelCategory} from './gr-change-list-item';
 
@@ -372,7 +373,7 @@ suite('gr-change-list-item tests', () => {
 
     await flush();
 
-    for (const column of element.columnNames) {
+    for (const column of columnNames) {
       const elementClass = '.' + column.toLowerCase();
       assert.isFalse(
         queryAndAssert(element, elementClass).hasAttribute('hidden')
@@ -395,7 +396,7 @@ suite('gr-change-list-item tests', () => {
 
     await flush();
 
-    for (const column of element.columnNames) {
+    for (const column of columnNames) {
       const elementClass = '.' + column.toLowerCase();
       if (column === 'Repo') {
         assert.isTrue(

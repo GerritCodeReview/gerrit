@@ -1762,6 +1762,7 @@ class ReceiveCommits {
     }
 
     @UsedAt(UsedAt.Project.GOOGLE)
+    @SuppressWarnings("unused") // unused in upstream, but used at Google
     @Option(name = "--create-cod-token", usage = "create a token for consistency-on-demand")
     private boolean createCodToken;
 

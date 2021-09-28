@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
@@ -220,7 +221,7 @@ public class CommentSender extends ReplyToChangeSender {
         }
       }
 
-      if (currentGroup.fileData != null) {
+      if (currentGroup.filename.equals(PATCHSET_LEVEL) || currentGroup.fileData != null) {
         currentGroup.comments.add(c);
       }
     }
@@ -382,7 +383,9 @@ public class CommentSender extends ReplyToChangeSender {
       List<Map<String, Object>> commentsList = new ArrayList<>();
       for (Comment comment : group.comments) {
         Map<String, Object> commentData = new HashMap<>();
-        commentData.put("lines", getLinesOfComment(comment, group.fileData));
+        if (group.fileData != null) {
+          commentData.put("lines", getLinesOfComment(comment, group.fileData));
+        }
         commentData.put("message", comment.message.trim());
         List<CommentFormatter.Block> blocks = CommentFormatter.parse(comment.message);
         commentData.put("messageBlocks", commentBlocksToSoyData(blocks));

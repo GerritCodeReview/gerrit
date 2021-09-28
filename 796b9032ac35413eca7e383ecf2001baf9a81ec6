@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72bca2f7_1851e312",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-28T17:13:18Z",
+      "side": 1,
+      "message": "This needs to go before adding a draft.",
+      "revId": "796b9032ac35413eca7e383ecf2001baf9a81ec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,23 @@
       "message": "Add cherry-pick information",
       "revId": "28534032cba0c8ca1698cccf34b6b591dee47ce6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5a702e6_7de19501",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-28T08:52:43Z",
+      "side": 1,
+      "message": "It is already merged to master, so I don\u0027t think I have anything to review in cherry pick. If you need a +2 - please add me back after all comments are resolved",
+      "revId": "28534032cba0c8ca1698cccf34b6b591dee47ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

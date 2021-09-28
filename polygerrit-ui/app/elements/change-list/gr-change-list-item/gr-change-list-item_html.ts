@@ -204,7 +204,7 @@ export const htmlTemplate = html`
       </template>
       <template is="dom-if" if="[[_computeAdditionalReviewersCount(change)]]">
         <span title="[[_computeAdditionalReviewersTitle(change, config)]]">
-          +[[_computeAdditionalReviewersCount(change, config)]]
+          +[[_computeAdditionalReviewersCount(change)]]
         </span>
       </template>
     </div>
@@ -224,14 +224,14 @@ export const htmlTemplate = html`
     hidden$="[[isColumnHidden('Repo', visibleChangeTableColumns)]]"
   >
     <a class="fullRepo" href$="[[_computeRepoUrl(change)]]">
-      [[_computeRepoDisplay(change)]]
+      [[_computeRepoDisplay(change, false)]]
     </a>
     <a
       class="truncatedRepo"
       href$="[[_computeRepoUrl(change)]]"
-      title$="[[_computeRepoDisplay(change)]]"
+      title$="[[_computeRepoDisplay(change, false)]]"
     >
-      [[_computeRepoDisplay(change, 'true')]]
+      [[_computeRepoDisplay(change, true)]]
     </a>
   </td>
   <td
@@ -254,7 +254,7 @@ export const htmlTemplate = html`
   >
     <gr-date-formatter
       has-tooltip=""
-      date-str="[[change.updated]]"
+      date-str="[[_formatDate(change.updated)]]"
     ></gr-date-formatter>
   </td>
   <td
@@ -263,7 +263,7 @@ export const htmlTemplate = html`
   >
     <gr-date-formatter
       has-tooltip=""
-      date-str="[[change.submitted]]"
+      date-str="[[_formatDate(change.submitted)]]"
     ></gr-date-formatter>
   </td>
   <td

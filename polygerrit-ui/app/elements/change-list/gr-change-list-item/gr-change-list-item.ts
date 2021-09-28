@@ -354,10 +354,7 @@ export class GrChangeListItem extends base {
     return this._computeAdditionalReviewers(change).length;
   }
 
-  _computeAdditionalReviewersTitle(
-    change: ChangeInfo | undefined,
-    config: ServerInfo
-  ) {
+  _computeAdditionalReviewersTitle(change?: ChangeInfo, config?: ServerInfo) {
     if (!change || !config) return '';
     return this._computeAdditionalReviewers(change)
       .map(user => getDisplayName(config, user, true))
@@ -393,8 +390,8 @@ export class GrChangeListItem extends base {
   }
 
   _computeWaiting(
-    account?: AccountInfo,
-    change?: ChangeInfo
+    account?: AccountInfo | null,
+    change?: ChangeInfo | null
   ): Timestamp | undefined {
     if (!account?._account_id || !change?.attention_set) return undefined;
     return change?.attention_set[account._account_id]?.last_update;
@@ -415,6 +412,11 @@ export class GrChangeListItem extends base {
         detail,
       })
     );
+  }
+
+  _formatDate(date: Timestamp | undefined): string | undefined {
+    if (!date) return undefined;
+    return date.toString();
   }
 
   _handleChangeClick() {

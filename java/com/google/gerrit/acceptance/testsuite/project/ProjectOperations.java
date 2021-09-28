@@ -81,11 +81,11 @@ public interface ProjectOperations {
      *
      * <p>Example:
      *
-     * <pre>
+     * <pre>{@code
      * projectOperations.forInvalidation()
      *     .addProjectConfigUpdater(cfg -> cfg.setString("invalidSection", null, "foo", "bar"))
      *     .invalidate();
-     * </pre>
+     * }</pre>
      *
      * <p><strong>Note:</strong> The invalidation will fail with an exception if the project to
      * invalidate doesn't exist.

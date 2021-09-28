@@ -41,7 +41,7 @@ import java.util.Optional;
  *
  * <p>E.g. the stacktrace could look like this:
  *
- * <pre>
+ * <pre>{@code
  * GroupQueryProcessor(QueryProcessor<T>).query(List<String>, List<Predicate<T>>) line: 216
  * GroupQueryProcessor(QueryProcessor<T>).query(List<Predicate<T>>) line: 188
  * GroupQueryProcessor(QueryProcessor<T>).query(Predicate<T>) line: 171
@@ -52,7 +52,7 @@ import java.util.Optional;
  * GroupCacheImpl$ByNameLoader.load(Object) line: 1
  * LocalCache$LoadingValueReference<K,V>.loadFuture(K, CacheLoader<? super K,V>) line: 3527
  * ...
- * </pre>
+ * }</pre>
  *
  * <p>The first interesting caller is {@code GroupCacheImpl$ByNameLoader.load(String) line: 166}. To
  * find this caller from the stacktrace we could specify {@link

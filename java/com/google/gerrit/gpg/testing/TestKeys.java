@@ -436,13 +436,13 @@ public class TestKeys {
   /**
    * A key with an additional user ID.
    *
-   * <pre>
+   * <pre>{@code
    * pub   2048R/98C51DBF 2015-07-30
    *       Key fingerprint = 42B3 294D 1924 D7EB AF4A  A99F 5024 BB44 98C5 1DBF
    * uid                  foo:myId
    * uid                  Testuser Five <test5@example.com>
    * sub   2048R/C781A9E3 2015-07-30
-   * </pre>
+   * }</pre>
    */
   public static TestKey validKeyWithSecondUserId() {
     return new TestKey(
@@ -1033,13 +1033,13 @@ public class TestKeys {
   /**
    * Master Key without expiration with subkey with expiration.
    *
-   * <pre>
+   * <pre>{@code
    * pub   rsa1024 2018-11-17 [C]
    *       5734 2C37 982A 843B 19C0  622B 6AAF 2D26 B481 02DB
    * uid            [ultimate] Testuser 10 <testuser10@example.com>
    * sub   rsa1024 2018-11-17 [S] [expires: 2065-11-05]
    *       0A4A 9660 1B96 2DFC E898  E686 4305 C92E 626E B485
-   * </pre>
+   * }</pre>
    */
   public static TestKey validKeyWithoutExpirationWithSubkeyWithExpiration() throws Exception {
     return new TestKey(

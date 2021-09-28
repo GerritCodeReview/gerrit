@@ -37,40 +37,40 @@ import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
  *
  * <p>Example if all exceptions should be caught and logged:
  *
- * <pre>
+ * <pre>{@code
  * fooPluginSetEntryContext.run(foo -> foo.doFoo());
- * </pre>
+ * }</pre>
  *
  * <p>Example if all exceptions, but one, should be caught and logged:
  *
- * <pre>
+ * <pre>{@code
  * try {
  *   fooPluginSetEntryContext.run(foo -> foo.doFoo(), MyException.class);
  * } catch (MyException e) {
  *   // handle the exception
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if return values should be handled:
  *
- * <pre>
+ * <pre>{@code
  * Object result = fooPluginSetEntryContext.call(foo -> foo.getFoo());
- * </pre>
+ * }</pre>
  *
  * <p>Example if return values and a single exception should be handled:
  *
- * <pre>
+ * <pre>{@code
  * Object result;
  * try {
  *   result = fooPluginSetEntryContext.call(foo -> foo.getFoo(), MyException.class);
  * } catch (MyException e) {
  *   // handle the exception
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if several exceptions should be handled:
  *
- * <pre>
+ * <pre>{@code
  * for (Extension<Foo> fooExtension : fooDynamicSet.entries()) {
  *   try (TraceContext traceContext = PluginContext.newTrace(fooExtension)) {
  *     fooExtension.get().doFoo();
@@ -78,7 +78,7 @@ import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
  *     // handle the exception
  *   }
  * }
- * </pre>
+ * }</pre>
  */
 public class PluginSetEntryContext<T> {
   private final Extension<T> extension;

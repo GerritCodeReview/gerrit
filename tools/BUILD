@@ -431,7 +431,7 @@ java_package_configuration(
         "-Xep:TypeParameterUnusedInFormals:ERROR",
         "-Xep:URLEqualsHashCode:ERROR",
         # "-Xep:UndefinedEquals:WARN",
-        # "-Xep:UnescapedEntity:WARN",
+        "-Xep:UnescapedEntity:ERROR",
         "-Xep:UnnecessaryAssignment:ERROR",
         "-Xep:UnnecessaryCheckNotNull:ERROR",
         # "-Xep:UnnecessaryLambda:WARN",

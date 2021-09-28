@@ -26,11 +26,11 @@ public class GerritJUnit {
    * <p>This construction is recommended by the Truth team for use in conjunction with asserting
    * over a {@code ThrowableSubject} on the return type:
    *
-   * <pre>
-   *   MyException e = assertThrows(MyException.class, () -> doSomething(foo));
-   *   assertThat(e).isInstanceOf(MySubException.class);
-   *   assertThat(e).hasMessageThat().contains("sub-exception occurred");
-   * </pre>
+   * <pre>{@code
+   * MyException e = assertThrows(MyException.class, () -> doSomething(foo));
+   * assertThat(e).isInstanceOf(MySubException.class);
+   * assertThat(e).hasMessageThat().contains("sub-exception occurred");
+   * }</pre>
    *
    * @param throwableClass expected exception type.
    * @param runnable runnable containing arbitrary code.

@@ -54,7 +54,7 @@ import com.google.inject.Singleton;
  * <p>A plugin context can be manually opened by invoking the newTrace methods. This should only be
  * needed if an extension throws multiple exceptions that need to be handled:
  *
- * <pre>
+ * <pre>{@code
  * public interface Foo {
  *   void doFoo() throws Exception1, Exception2, Exception3;
  * }
@@ -66,7 +66,7 @@ import com.google.inject.Singleton;
  *     fooExtension.get().doFoo();
  *   }
  * }
- * </pre>
+ * }</pre>
  *
  * <p>This class hosts static methods with generic functionality to invoke plugin extensions with a
  * trace context that are commonly used by {@link PluginItemContext}, {@link PluginSetContext} and

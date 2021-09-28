@@ -32,9 +32,9 @@ import org.eclipse.jgit.lib.Config;
  * <p>1. Help the callers figure out if any action should be taken, depending on which entries are
  * updated in gerrit.config.
  *
- * <p>2. Provide the callers with a mechanism to accept/reject the entries of interest: @see
- * accept(Set<ConfigKey> entries), @see accept(String section), @see reject(Set<ConfigKey> entries)
- * (+ various overloaded versions of these)
+ * <p>2. Provide the callers with a mechanism to accept/reject the entries of interest: {@link
+ * #accept(Set)}, {@link #accept(String)}, {@link #reject(Set)} (+ various overloaded versions of
+ * these)
  */
 public class ConfigUpdatedEvent {
   public static final ImmutableMultimap<UpdateResult, ConfigUpdateEntry> NO_UPDATES =

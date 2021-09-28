@@ -33,15 +33,15 @@ import java.util.SortedSet;
  *
  * <p>Example if all exceptions should be caught and logged:
  *
- * <pre>
+ * <pre>{@code
  * Map<String, Object> results = new HashMap<>();
  * fooPluginMapContext.runEach(
  *     extension -> results.put(extension.getExportName(), extension.get().getFoo());
- * </pre>
+ * }</pre>
  *
  * <p>Example if all exceptions, but one, should be caught and logged:
  *
- * <pre>
+ * <pre>{@code
  * Map<String, Object> results = new HashMap<>();
  * try {
  *   fooPluginMapContext.runEach(
@@ -50,22 +50,22 @@ import java.util.SortedSet;
  * } catch (MyException e) {
  *   // handle the exception
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if return values should be handled:
  *
- * <pre>
+ * <pre>{@code
  * Map<String, Object> results = new HashMap<>();
  * for (PluginMapEntryContext<Foo> c : fooPluginMapContext) {
  *   if (c.call(extension -> extension.get().handles(x))) {
  *     c.run(extension -> results.put(extension.getExportName(), extension.get().getFoo());
  *   }
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if return values and a single exception should be handled:
  *
- * <pre>
+ * <pre>{@code
  * Map<String, Object> results = new HashMap<>();
  * try {
  *   for (PluginMapEntryContext<Foo> c : fooPluginMapContext) {
@@ -77,11 +77,11 @@ import java.util.SortedSet;
  * } catch (MyException e) {
  *   // handle the exception
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if several exceptions should be handled:
  *
- * <pre>
+ * <pre>{@code
  * for (Extension<Foo> fooExtension : fooDynamicMap) {
  *   try (TraceContext traceContext = PluginContext.newTrace(fooExtension)) {
  *     fooExtension.get().doFoo();
@@ -89,7 +89,7 @@ import java.util.SortedSet;
  *     // handle the exception
  *   }
  * }
- * </pre>
+ * }</pre>
  */
 public class PluginMapContext<T> implements Iterable<PluginMapEntryContext<T>> {
   private final DynamicMap<T> dynamicMap;

@@ -40,46 +40,46 @@ import com.google.inject.Inject;
  *
  * <p>Example if all exceptions should be caught and logged:
  *
- * <pre>
+ * <pre>{@code
  * fooPluginItemContext.run(foo -> foo.doFoo());
- * </pre>
+ * }</pre>
  *
  * <p>Example if all exceptions, but one, should be caught and logged:
  *
- * <pre>
+ * <pre>{@code
  * try {
  *   fooPluginItemContext.run(foo -> foo.doFoo(), MyException.class);
  * } catch (MyException e) {
  *   // handle the exception
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if return values should be handled:
  *
- * <pre>
+ * <pre>{@code
  * Object result = fooPluginItemContext.call(foo -> foo.getFoo());
- * </pre>
+ * }</pre>
  *
  * <p>Example if return values and a single exception should be handled:
  *
- * <pre>
+ * <pre>{@code
  * Object result;
  * try {
  *   result = fooPluginItemContext.call(foo -> foo.getFoo(), MyException.class);
  * } catch (MyException e) {
  *   // handle the exception
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if several exceptions should be handled:
  *
- * <pre>
+ * <pre>{@code
  * try (TraceContext traceContext = PluginContext.newTrace(fooDynamicItem.getEntry())) {
  *   fooDynamicItem.get().doFoo();
  * } catch (MyException1 | MyException2 | MyException3 e) {
  *   // handle the exception
  * }
- * </pre>
+ * }</pre>
  */
 public class PluginItemContext<T> {
   @Nullable private final DynamicItem<T> dynamicItem;

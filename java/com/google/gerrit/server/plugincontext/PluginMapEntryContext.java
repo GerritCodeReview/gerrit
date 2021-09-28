@@ -35,15 +35,15 @@ import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
  *
  * <p>The call* methods execute the extension and deliver a result back to the caller.
  *
- * <pre>
+ * <pre>{@code
  * Map<String, Object> results = new HashMap<>();
  * fooPluginMapEntryContext.run(
  *     extension -> results.put(extension.getExportName(), extension.get().getFoo());
- * </pre>
+ * }</pre>
  *
  * <p>Example if all exceptions, but one, should be caught and logged:
  *
- * <pre>
+ * <pre>{@code
  * Map<String, Object> results = new HashMap<>();
  * try {
  *   fooPluginMapEntryContext.run(
@@ -52,28 +52,28 @@ import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
  * } catch (MyException e) {
  *   // handle the exception
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if return values should be handled:
  *
- * <pre>
+ * <pre>{@code
  * Object result = fooPluginMapEntryContext.call(extension -> extension.get().getFoo());
- * </pre>
+ * }</pre>
  *
  * <p>Example if return values and a single exception should be handled:
  *
- * <pre>
+ * <pre>{@code
  * Object result;
  * try {
  *   result = fooPluginMapEntryContext.call(extension -> extension.get().getFoo(), MyException.class);
  * } catch (MyException e) {
  *   // handle the exception
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if several exceptions should be handled:
  *
- * <pre>
+ * <pre>{@code
  * for (Extension<Foo> fooExtension : fooDynamicMap) {
  *   try (TraceContext traceContext = PluginContext.newTrace(fooExtension)) {
  *     fooExtension.get().doFoo();
@@ -81,7 +81,7 @@ import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
  *     // handle the exception
  *   }
  * }
- * </pre>
+ * }</pre>
  */
 public class PluginMapEntryContext<T> {
   private final Extension<T> extension;

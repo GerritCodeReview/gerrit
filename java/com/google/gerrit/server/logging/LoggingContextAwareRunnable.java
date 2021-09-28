@@ -28,24 +28,24 @@ import com.google.common.flogger.FluentLogger;
  *
  * <p>Example:
  *
- * <pre>
- *   try (TraceContext traceContext = TraceContext.newTrace(true, ...)) {
- *     executor
- *         .submit(new LoggingContextAwareRunnable(
- *             () -> {
- *               // Tracing is enabled since the runnable is created within the TraceContext.
- *               // Tracing is even enabled if the executor runs the runnable only after the
- *               // TraceContext was closed.
+ * <pre>{@code
+ * try (TraceContext traceContext = TraceContext.newTrace(true, ...)) {
+ *   executor
+ *       .submit(new LoggingContextAwareRunnable(
+ *           () -> {
+ *             // Tracing is enabled since the runnable is created within the TraceContext.
+ *             // Tracing is even enabled if the executor runs the runnable only after the
+ *             // TraceContext was closed.
  *
- *               // The tag "foo=bar" is not set, since it was added to the logging context only
- *               // after this runnable was created.
+ *             // The tag "foo=bar" is not set, since it was added to the logging context only
+ *             // after this runnable was created.
  *
- *               // do stuff
- *             }))
- *         .get();
- *     traceContext.addTag("foo", "bar");
- *   }
- * </pre>
+ *             // do stuff
+ *           }))
+ *       .get();
+ *   traceContext.addTag("foo", "bar");
+ * }
+ * }</pre>
  *
  * @see LoggingContextAwareCallable
  */

@@ -177,8 +177,8 @@ const RoutePattern = {
 
   CHANGE_ID_QUERY: /^\/id\/(I[0-9a-f]{40})$/,
 
-  // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
-  CHANGE_LEGACY: /^\/c\/(\d+)\/?(((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
+  // Matches /c/<changeNum>/[*][/].
+  CHANGE_LEGACY: /^\/c\/(\d+)\/(.*)$/,
   CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
   // Matches
@@ -212,7 +212,7 @@ const RoutePattern = {
 
   // Matches non-project-relative
   // /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
-  DIFF_LEGACY: /^\/c\/(\d+)\/((-?\d+|edit)(\.\.(\d+|edit))?)\/(.+)/,
+  DIFF_LEGACY: /^\/c\/(\d+)\/(.*)/,
 
   // Matches diff routes using @\d+ to specify a file name (whether or not
   // the project name is included).
@@ -286,15 +286,6 @@ export interface PageContextWithQueryMap extends PageContext {
 }
 
 type QueryStringItem = [string, string]; // [key, value]
-
-type GenerateUrlLegacyChangeViewParameters = Omit<
-  GenerateUrlChangeViewParameters,
-  'project'
->;
-type GenerateUrlLegacyDiffViewParameters = Omit<
-  GenerateUrlDiffViewParameters,
-  'project'
->;
 
 interface PatchRangeParams {
   patchNum?: PatchSetNum;
@@ -676,37 +667,6 @@ export class GrRouter extends PolymerElement {
       range = `${params.basePatchNum}..${range}`;
     }
     return range;
-  }
-
-  /**
-   * Given a set of params without a project, gets the project from the rest
-   * API project lookup and then sets the app params.
-   */
-  _normalizeLegacyRouteParams(
-    params: Readonly<
-      | GenerateUrlLegacyChangeViewParameters
-      | GenerateUrlLegacyDiffViewParameters
-    >
-  ) {
-    if (!params.changeNum) {
-      return Promise.resolve();
-    }
-
-    return this.restApiService
-      .getFromProjectLookup(params.changeNum)
-      .then(project => {
-        // Show a 404 and terminate if the lookup request failed. Attempting
-        // to redirect after failing to get the project loops infinitely.
-        if (!project) {
-          this._show404();
-          return;
-        }
-        const updatedParams:
-          | GenerateUrlChangeViewParameters
-          | GenerateUrlDiffViewParameters = {...params, project};
-        this._normalizePatchRangeParams(updatedParams);
-        this._redirect(this._generateUrl(updatedParams));
-      });
   }
 
   /**
@@ -1666,16 +1626,20 @@ export class GrRouter extends PolymerElement {
   }
 
   _handleChangeLegacyRoute(ctx: PageContextWithQueryMap) {
-    // Parameter order is based on the regex group number matched.
-    const params: GenerateUrlLegacyChangeViewParameters = {
-      changeNum: Number(ctx.params[0]) as NumericChangeId,
-      basePatchNum: convertToPatchSetNum(ctx.params[3]) as BasePatchSetNum,
-      patchNum: convertToPatchSetNum(ctx.params[5]),
-      view: GerritView.CHANGE,
-      querystring: ctx.querystring,
-    };
-
-    this._normalizeLegacyRouteParams(params);
+    const changeNum = Number(ctx.params[0]) as NumericChangeId;
+    if (!changeNum) {
+      this._show404();
+      return;
+    }
+    this.restApiService.getFromProjectLookup(changeNum).then(project => {
+      // Show a 404 and terminate if the lookup request failed. Attempting
+      // to redirect after failing to get the project loops infinitely.
+      if (!project) {
+        this._show404();
+        return;
+      }
+      this._redirect(`/c/${project}/+/${changeNum}/${ctx.params[1]}`);
+    });
   }
 
   _handleLegacyLinenum(ctx: PageContextWithQueryMap) {
@@ -1683,22 +1647,21 @@ export class GrRouter extends PolymerElement {
   }
 
   _handleDiffLegacyRoute(ctx: PageContextWithQueryMap) {
-    // Parameter order is based on the regex group number matched.
-    const params: GenerateUrlLegacyDiffViewParameters = {
-      changeNum: Number(ctx.params[0]) as NumericChangeId,
-      basePatchNum: convertToPatchSetNum(ctx.params[2]) as BasePatchSetNum,
-      patchNum: convertToPatchSetNum(ctx.params[4]),
-      path: ctx.params[5],
-      view: GerritView.DIFF,
-    };
-
-    const address = this._parseLineAddress(ctx.hash);
-    if (address) {
-      params.leftSide = address.leftSide;
-      params.lineNum = address.lineNum;
+    const changeNum = Number(ctx.params[0]) as NumericChangeId;
+    if (!changeNum) {
+      this._show404();
+      return;
     }
 
-    this._normalizeLegacyRouteParams(params);
+    this.restApiService.getFromProjectLookup(changeNum).then(project => {
+      // Show a 404 and terminate if the lookup request failed. Attempting
+      // to redirect after failing to get the project loops infinitely.
+      if (!project) {
+        this._show404();
+        return;
+      }
+      this._redirect(`/c/${project}/+/${changeNum}/${ctx.params[1]}`);
+    });
   }
 
   _handleDiffEditRoute(ctx: PageContextWithQueryMap) {

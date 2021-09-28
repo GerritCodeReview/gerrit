@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed883a83_3535436d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1678,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-28T16:31:32Z",
+      "side": 0,
+      "message": "What about doing the same change for the diff legacy route? Then we can get rid of _normalizeLegacyRouteParams! :-)",
+      "range": {
+        "startLine": 1678,
+        "startChar": 9,
+        "endLine": 1678,
+        "endChar": 36
+      },
+      "revId": "3b4c30d78ec8ab8b426f85f6a45fac6d210b8c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

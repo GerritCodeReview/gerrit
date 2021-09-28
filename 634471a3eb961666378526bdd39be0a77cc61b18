@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dda4ee9c_14b89d0b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1679,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-28T16:31:32Z",
+      "side": 1,
+      "message": "Maybe use a template string?",
+      "revId": "634471a3eb961666378526bdd39be0a77cc61b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06beb2f4_b4819c91",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1679,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-28T16:31:32Z",
+      "side": 1,
+      "message": "Maybe replace by changeNum?",
+      "range": {
+        "startLine": 1679,
+        "startChar": 34,
+        "endLine": 1679,
+        "endChar": 47
+      },
+      "revId": "634471a3eb961666378526bdd39be0a77cc61b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

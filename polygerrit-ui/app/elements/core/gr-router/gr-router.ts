@@ -178,7 +178,7 @@ const RoutePattern = {
   CHANGE_ID_QUERY: /^\/id\/(I[0-9a-f]{40})$/,
 
   // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
-  CHANGE_LEGACY: /^\/c\/(\d+)\/?(((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
+  CHANGE_LEGACY: /^\/c\/(\d+)\/(.*)$/,
   CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
   // Matches
@@ -1666,16 +1666,19 @@ export class GrRouter extends PolymerElement {
   }
 
   _handleChangeLegacyRoute(ctx: PageContextWithQueryMap) {
-    // Parameter order is based on the regex group number matched.
-    const params: GenerateUrlLegacyChangeViewParameters = {
-      changeNum: Number(ctx.params[0]) as NumericChangeId,
-      basePatchNum: convertToPatchSetNum(ctx.params[3]) as BasePatchSetNum,
-      patchNum: convertToPatchSetNum(ctx.params[5]),
-      view: GerritView.CHANGE,
-      querystring: ctx.querystring,
-    };
-
-    this._normalizeLegacyRouteParams(params);
+    const changeNum = Number(ctx.params[0]) as NumericChangeId;
+    if (!changeNum) return;
+    this.restApiService.getFromProjectLookup(changeNum).then(project => {
+      // Show a 404 and terminate if the lookup request failed. Attempting
+      // to redirect after failing to get the project loops infinitely.
+      if (!project) {
+        this._show404();
+        return;
+      }
+      this._redirect(
+        '/c/' + project + '/+/' + ctx.params[0] + '/' + ctx.params[1]
+      );
+    });
   }
 
   _handleLegacyLinenum(ctx: PageContextWithQueryMap) {

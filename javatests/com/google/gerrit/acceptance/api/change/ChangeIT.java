@@ -4928,6 +4928,28 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "trackingid.jira-bug.footer", value = "Bug:")
+  @GerritConfig(name = "trackingid.jira-bug.match", value = "\\d+")
+  @GerritConfig(name = "trackingid.jira-bug.system", value = "JIRA")
+  public void multipleTrackingIdsInSingleFooter() throws Exception {
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT + "\n\n" + "Bug: 123, 456",
+            PushOneCommit.FILE_NAME,
+            PushOneCommit.FILE_CONTENT);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+
+    ChangeInfo change = gApi.changes().id(result.getChangeId()).get(TRACKING_IDS);
+    Collection<TrackingIdInfo> trackingIds = change.trackingIds;
+    assertThat(trackingIds).isNotNull();
+    assertThat(trackingIds).hasSize(2);
+    assertThat(trackingIds.stream().map(t -> t.id)).containsExactly("123", "456");
+  }
+
+  @Test
   public void starUnstar() throws Exception {
     ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
     try (Registration registration =

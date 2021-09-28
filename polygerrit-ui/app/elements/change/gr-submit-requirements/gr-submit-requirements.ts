@@ -33,6 +33,8 @@ import {
 } from '../../../utils/label-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {charsOnly} from '../../../utils/string-util';
+import { subscribe } from '../../lit/subscription-controller';
+import { allRunsLatestPatchsetLatestAttempt$, CheckRun } from '../../../services/checks/checks-model';
 
 @customElement('gr-submit-requirements')
 export class GrSubmitRequirements extends LitElement {
@@ -44,6 +46,9 @@ export class GrSubmitRequirements extends LitElement {
 
   @property({type: Boolean})
   mutable?: boolean;
+
+  @property({type: Array})
+  runs: CheckRun[] = [];
 
   static override get styles() {
     return [
@@ -99,6 +104,11 @@ export class GrSubmitRequirements extends LitElement {
     ];
   }
 
+  constructor() {
+    super();
+    subscribe(this, allRunsLatestPatchsetLatestAttempt$, x => (this.runs = x));
+  }
+
   override render() {
     const submit_requirements = (this.change?.submit_requirements ?? []).filter(
       req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
@@ -130,7 +140,7 @@ export class GrSubmitRequirements extends LitElement {
                   .text="${requirement.name}"
                 ></gr-limited-text>
               </td>
-              <td>${this.renderVotes(requirement)}</td>
+              <td>${this.renderVotes(requirement)}${this.renderChecks(requirement)}</td>
             </tr>`
           )}
         </tbody>
@@ -197,6 +207,17 @@ export class GrSubmitRequirements extends LitElement {
           ).length > 1}"
         ></gr-vote-chip>`
     );
+  }
+
+  renderChecks(requirement: SubmitRequirementResultInfo) {
+    const requirementLabels = extractAssociatedLabels(requirement);
+    const requirementRuns = this.runs.filter(
+      run => run.labelName && requirementLabels.includes(run.labelName)
+    );
+    if (requirementRuns.length > 0) {
+      return html`Errors`;
+    }
+    return;
   }
 
   renderTriggerVotes(submitReqs: SubmitRequirementResultInfo[]) {

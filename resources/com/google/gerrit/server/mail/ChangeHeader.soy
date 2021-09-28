@@ -20,10 +20,10 @@
   {@param attentionSet: ?}
   {if $attentionSet}
     Attention is currently required from:{sp}
-    {for $attentionSetUser in $attentionSet}
+    {for $attentionSetUser, $index in $attentionSet}
       {$attentionSetUser}
       // add commas or dot.
-      {if isLast($attentionSetUser)}.
+      {if $index == length($attentionSet) - 1}.
       {else},{sp}
       {/if}
     {/for}

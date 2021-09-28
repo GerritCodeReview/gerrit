@@ -30,8 +30,8 @@
   {if $email.reviewerNames or $email.removedReviewerNames}
    {if $email.reviewerNames}
       Hello{sp}
-      {for $reviewerName in $email.reviewerNames}
-        {if not isFirst($reviewerName)},{sp}{/if}
+      {for $reviewerName, $index in $email.reviewerNames}
+        {if $index > 0},{sp}{/if}
         {$reviewerName}
       {/for},
 
@@ -43,8 +43,8 @@
     {/if}
     {if $email.removedReviewerNames}
       {$fromName} has removed{sp}
-      {for $reviewerName in $email.removedReviewerNames}
-        {if not isFirst($reviewerName)},{sp}{/if}
+      {for $reviewerName, $index in $email.removedReviewerNames}
+        {if $index > 0},{sp}{/if}
         {$reviewerName}
       {/for}{sp}
       from this change.{sp}

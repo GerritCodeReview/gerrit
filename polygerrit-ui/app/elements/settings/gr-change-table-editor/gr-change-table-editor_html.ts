@@ -74,7 +74,7 @@ export const htmlTemplate = html`
                 type="checkbox"
                 name="[[item]]"
                 on-click="_handleTargetClick"
-                checked$="[[!isColumnHidden(item, displayedColumns)]]"
+                checked$="[[!_computeIsColumnHidden(item, displayedColumns)]]"
               />
             </td>
           </tr>

@@ -69,6 +69,24 @@
       "parentUuid": "f2a2e930_f63cdb95",
       "revId": "4b7844a70c40237b2ba14dc7e2a174f2d60325cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c192d6a2_1409c2c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-link/gr-account-link.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-28T18:42:41Z",
+      "side": 1,
+      "message": "Hmm, I know I tested this on firefox, safari, chrome and it worked. exportparts looks supported on all modern browsers https://caniuse.com/mdn-html_global_attributes_exportparts\n\nSo it should be ok.",
+      "parentUuid": "901e3ec0_8176dc16",
+      "revId": "4b7844a70c40237b2ba14dc7e2a174f2d60325cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

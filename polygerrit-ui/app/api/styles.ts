@@ -37,6 +37,7 @@ export declare interface Styles {
   font: Style;
   form: Style;
   menuPage: Style;
+  spinner: Style;
   subPage: Style;
   table: Style;
 }

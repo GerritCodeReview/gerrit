@@ -3228,6 +3228,8 @@ This REST endpoint only suggests accounts that
 * are visible to the calling user
 * are not already reviewer on the change
 * don't own the change
+* are not service users (unless
+  link:config.html#suggest.skipServiceUsers[skipServiceUsers] is set to `false`)
 
 Groups can be excluded from the results by specifying the 'exclude-groups'
 request parameter:

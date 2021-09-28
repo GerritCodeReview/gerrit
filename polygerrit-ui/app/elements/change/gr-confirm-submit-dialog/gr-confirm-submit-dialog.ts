@@ -58,7 +58,7 @@ export class GrConfirmSubmitDialog extends LitElement {
   @property({type: Boolean})
   _initialised = false;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       fontStyles,
@@ -154,7 +154,7 @@ export class GrConfirmSubmitDialog extends LitElement {
     `;
   }
 
-  render() {
+  override render() {
     return html` <gr-dialog
       id="dialog"
       confirm-label="Continue"

@@ -34,33 +34,33 @@ import java.util.stream.Stream;
  *
  * <p>Example if all exceptions should be caught and logged:
  *
- * <pre>
+ * <pre>{@code
  * fooPluginSetContext.runEach(foo -> foo.doFoo());
- * </pre>
+ * }</pre>
  *
  * <p>Example if all exceptions, but one, should be caught and logged:
  *
- * <pre>
+ * <pre>{@code
  * try {
  *   fooPluginSetContext.runEach(foo -> foo.doFoo(), MyException.class);
  * } catch (MyException e) {
  *   // handle the exception
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if return values should be handled:
  *
- * <pre>
+ * <pre>{@code
  * for (PluginSetEntryContext<Foo> c : fooPluginSetContext) {
  *   if (c.call(foo -> foo.handles(x))) {
  *     c.run(foo -> foo.doFoo());
  *   }
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if return values and a single exception should be handled:
  *
- * <pre>
+ * <pre>{@code
  * try {
  *   for (PluginSetEntryContext<Foo> c : fooPluginSetContext) {
  *     if (c.call(foo -> foo.handles(x), MyException.class)) {
@@ -70,11 +70,11 @@ import java.util.stream.Stream;
  * } catch (MyException e) {
  *   // handle the exception
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Example if several exceptions should be handled:
  *
- * <pre>
+ * <pre>{@code
  * for (Extension<Foo> fooExtension : fooDynamicSet.entries()) {
  *   try (TraceContext traceContext = PluginContext.newTrace(fooExtension)) {
  *     fooExtension.get().doFoo();
@@ -82,7 +82,7 @@ import java.util.stream.Stream;
  *     // handle the exception
  *   }
  * }
- * </pre>
+ * }</pre>
  */
 public class PluginSetContext<T> implements Iterable<PluginSetEntryContext<T>> {
   private final DynamicSet<T> dynamicSet;

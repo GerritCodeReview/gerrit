@@ -63,7 +63,9 @@ public abstract class BooleanCondition {
    * Reduce evaluation tree by cutting off branches that evaluate trivially and replacing them with
    * a leave note corresponding to the value the branch evaluated to.
    *
-   * <p><code>
+   * <p>
+   *
+   * <pre>{@code
    * Example 1 (T=True, F=False, C=non-trivial check):
    *      OR
    *     /  \    =>    T
@@ -76,7 +78,7 @@ public abstract class BooleanCondition {
    *      AND
    *     /  \    =>    F
    *    T   F
-   * </code>
+   * }</pre>
    *
    * <p>There is no guarantee that the resulting tree is minimal. The only guarantee made is that
    * branches that evaluate trivially will be cut off and replaced by primitive values.

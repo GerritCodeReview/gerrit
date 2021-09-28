@@ -17,6 +17,9 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
+  <style include="gr-a11y-styles">
+    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+  </style>
   <style include="shared-styles">
     :host {
       font-family: var(--font-family);

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../../diff/gr-diff-cursor/gr-diff-cursor';
 import '../../diff/gr-diff-host/gr-diff-host';

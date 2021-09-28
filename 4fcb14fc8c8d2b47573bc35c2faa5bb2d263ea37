@@ -16,6 +16,24 @@
       "message": "Maybe add a comment about why this has to a sh_test instead of a ts_project.",
       "revId": "4fcb14fc8c8d2b47573bc35c2faa5bb2d263ea37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c1e6893_359a4066",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-28T08:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1e04ea8_cc2d27c3",
+      "revId": "4fcb14fc8c8d2b47573bc35c2faa5bb2d263ea37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

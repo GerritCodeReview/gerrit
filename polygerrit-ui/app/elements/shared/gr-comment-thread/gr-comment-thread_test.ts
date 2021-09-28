@@ -315,32 +315,49 @@ suite('comment action tests with unresolved thread', () => {
   let element: GrCommentThread;
   let addDraftServiceStub: SinonStub;
   let saveDiffDraftStub: SinonStub;
+  let comment = {
+    id: '7afa4931_de3d65bd',
+    path: '/path/to/file.txt',
+    line: 5,
+    in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
+    updated: '2015-12-21 02:01:10.850000000',
+    message: 'Done',
+  };
+  const peanutButterComment = {
+    author: {
+      name: 'Mr. Peanutbutter',
+      email: 'tenn1sballchaser@aol.com' as EmailAddress as EmailAddress,
+    },
+    id: 'baf0414d_60047215' as UrlEncodedCommentId,
+    line: 5,
+    in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
+    message: 'is this a crossover episode!?',
+    updated: '2015-12-08 19:48:33.843000000' as Timestamp,
+    path: '/path/to/file.txt',
+    unresolved: true,
+    patch_set: 3 as PatchSetNum,
+  };
+  const mockResponse = {
+    headers: {} as Headers,
+    redirected: false,
+    status: 200,
+    statusText: '',
+    type: '' as ResponseType,
+    url: '',
+    ok: true,
+    text() {
+      return Promise.resolve(")]}'\n" + JSON.stringify(comment));
+    },
+  };
+  let saveDiffDraftPromiseResolver: (value?: Response) => void;
   setup(() => {
     addDraftServiceStub = stubComments('addDraft');
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     saveDiffDraftStub = stubRestApi('saveDiffDraft').returns(
-      Promise.resolve({
-        headers: {} as Headers,
-        redirected: false,
-        status: 200,
-        statusText: '',
-        type: '' as ResponseType,
-        url: '',
-        ok: true,
-        text() {
-          return Promise.resolve(
-            ")]}'\n" +
-              JSON.stringify({
-                id: '7afa4931_de3d65bd',
-                path: '/path/to/file.txt',
-                line: 5,
-                in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
-                updated: '2015-12-21 02:01:10.850000000',
-                message: 'Done',
-              })
-          );
-        },
-      } as unknown as Response)
+      new Promise<Response>(
+        resolve =>
+          (saveDiffDraftPromiseResolver = resolve as (value?: Response) => void)
+      )
     );
     stubRestApi('deleteDiffDraft').returns(
       Promise.resolve({ok: true} as unknown as Response)
@@ -348,25 +365,13 @@ suite('comment action tests with unresolved thread', () => {
     element = withCommentFixture.instantiate();
     element.patchNum = 1 as PatchSetNum;
     element.changeNum = 1 as NumericChangeId;
-    element.comments = [
-      {
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com' as EmailAddress as EmailAddress,
-        },
-        id: 'baf0414d_60047215' as UrlEncodedCommentId,
-        line: 5,
-        message: 'is this a crossover episode!?',
-        updated: '2015-12-08 19:48:33.843000000' as Timestamp,
-        path: '/path/to/file.txt',
-        unresolved: true,
-        patch_set: 3 as PatchSetNum,
-      },
-    ];
+    element.comments = [peanutButterComment];
     flush();
   });
 
   test('reply', () => {
+    saveDiffDraftPromiseResolver(mockResponse as unknown as Response);
+
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
     const reportStub = stubReporting('recordDraftInteraction');
     assert.ok(commentEl);
@@ -385,6 +390,8 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('quote reply', () => {
+    saveDiffDraftPromiseResolver(mockResponse as unknown as Response);
+
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
     const reportStub = stubReporting('recordDraftInteraction');
     assert.ok(commentEl);
@@ -394,6 +401,10 @@ suite('comment action tests with unresolved thread', () => {
     flush();
 
     const draft = addDraftServiceStub.firstCall.args[0];
+    // the quote reply is not autmatically saved so verify that id is not set
+    assert.isNotOk(draft.id);
+    // verify that the draft returned was not saved
+    assert.isNotOk(saveDiffDraftStub.called);
     assert.equal(draft.message, '> is this a crossover episode!?\n\n');
     assert.equal(
       draft.in_reply_to,
@@ -403,6 +414,7 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('quote reply multiline', () => {
+    saveDiffDraftPromiseResolver(mockResponse as unknown as Response);
     const reportStub = stubReporting('recordDraftInteraction');
     element.comments = [
       {
@@ -436,6 +448,15 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('ack', async () => {
+    saveDiffDraftPromiseResolver(mockResponse as unknown as Response);
+    comment = {
+      id: '7afa4931_de3d65bd',
+      path: '/path/to/file.txt',
+      line: 5,
+      in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
+      updated: '2015-12-21 02:01:10.850000000',
+      message: 'Ack',
+    };
     const reportStub = stubReporting('recordDraftInteraction');
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
@@ -450,11 +471,20 @@ suite('comment action tests with unresolved thread', () => {
     const draft = addDraftServiceStub.firstCall.args[0];
     assert.equal(draft.message, 'Ack');
     assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
-    assert.equal(draft.unresolved, false);
+    assert.isNotOk(draft.unresolved);
     assert.isTrue(reportStub.calledOnce);
   });
 
   test('done', async () => {
+    saveDiffDraftPromiseResolver(mockResponse as unknown as Response);
+    comment = {
+      id: '7afa4931_de3d65bd',
+      path: '/path/to/file.txt',
+      line: 5,
+      in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
+      updated: '2015-12-21 02:01:10.850000000',
+      message: 'Done',
+    };
     const reportStub = stubReporting('recordDraftInteraction');
     assert.isFalse(saveDiffDraftStub.called);
     element.changeNum = 42 as NumericChangeId;
@@ -467,14 +497,18 @@ suite('comment action tests with unresolved thread', () => {
     tap(doneBtn!);
     await flush();
     const draft = addDraftServiceStub.firstCall.args[0];
+    // Since the reply is automatically saved, verify that draft.id is set in
+    // the model
+    assert.equal(draft.id, '7afa4931_de3d65bd');
     assert.equal(draft.message, 'Done');
     assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
-    assert.isFalse(draft.unresolved);
+    assert.isNotOk(draft.unresolved);
     assert.isTrue(reportStub.calledOnce);
     assert.isTrue(saveDiffDraftStub.called);
   });
 
   test('save', async () => {
+    saveDiffDraftPromiseResolver(mockResponse as unknown as Response);
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
     element.path = '/path/to/file.txt';
@@ -488,13 +522,22 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('please fix', async () => {
+    comment = peanutButterComment;
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
     assert.ok(commentEl);
     const promise = mockPromise();
-    commentEl!.addEventListener('create-fix-comment', () => {
-      const draft = addDraftServiceStub.firstCall.args[0];
+    commentEl!.addEventListener('create-fix-comment', async () => {
+      assert.isTrue(saveDiffDraftStub.called);
+      assert.isFalse(addDraftServiceStub.called);
+      saveDiffDraftPromiseResolver(mockResponse as unknown as Response);
+      // flushing so the saveDiffDraftStub resolves and the draft is returned
+      await flush();
+      debugger;
+      assert.isTrue(saveDiffDraftStub.called);
+      assert.isTrue(addDraftServiceStub.called);
+      const draft = saveDiffDraftStub.firstCall.args[2];
       assert.equal(
         draft.message,
         '> is this a crossover episode!?\n\nPlease fix.'
@@ -506,6 +549,8 @@ suite('comment action tests with unresolved thread', () => {
       assert.isTrue(draft.unresolved);
       promise.resolve();
     });
+    assert.isFalse(saveDiffDraftStub.called);
+    assert.isFalse(addDraftServiceStub.called);
     commentEl!.dispatchEvent(
       new CustomEvent('create-fix-comment', {
         detail: {comment: commentEl!.comment},

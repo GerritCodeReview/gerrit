@@ -45,7 +45,6 @@ import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ValidationError;
-import com.google.gerrit.server.git.validators.ValidationMessage.Type;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -320,7 +319,7 @@ public class CommitValidators {
                       + "Hint: run\n"
                       + "  git commit --amend\n"
                       + "and move 'Change-Id: Ixxx..' to the bottom on a separate line\n",
-                  Type.ERROR));
+                  ValidationMessage.Type.ERROR));
           throw new CommitValidationException(CHANGE_ID_ABOVE_FOOTER_MSG, messages);
         }
         if (projectState.is(BooleanProjectConfig.REQUIRE_CHANGE_ID)) {
@@ -360,7 +359,7 @@ public class CommitValidators {
               + "and then amend the commit:\n"
               + "  git commit --amend --no-edit\n"
               + "Finally, push your changes again\n",
-          Type.ERROR);
+          ValidationMessage.Type.ERROR);
     }
 
     private String getCommitMessageHookInstallationHint() {
@@ -873,7 +872,7 @@ public class CommitValidators {
           throw new CommitValidationException(
               "invalid account configuration",
               errorMessages.stream()
-                  .map(m -> new CommitValidationMessage(m, Type.ERROR))
+                  .map(m -> new CommitValidationMessage(m, ValidationMessage.Type.ERROR))
                   .collect(toList()));
         }
       } catch (IOException e) {
@@ -956,7 +955,7 @@ public class CommitValidators {
           .append(urlFormatter.getSettingsUrl("EmailAddresses").get())
           .append("\n\n");
     }
-    return new CommitValidationMessage(sb.toString(), Type.ERROR);
+    return new CommitValidationMessage(sb.toString(), ValidationMessage.Type.ERROR);
   }
 
   /**
@@ -977,6 +976,6 @@ public class CommitValidators {
   }
 
   private static void addError(String error, List<CommitValidationMessage> messages) {
-    messages.add(new CommitValidationMessage(error, Type.ERROR));
+    messages.add(new CommitValidationMessage(error, ValidationMessage.Type.ERROR));
   }
 }

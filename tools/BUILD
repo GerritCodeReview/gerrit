@@ -106,7 +106,7 @@ java_package_configuration(
         # "-Xep:AutoValueSubclassLeaked:WARN",
         "-Xep:BadAnnotationImplementation:ERROR",
         "-Xep:BadComparable:ERROR",
-        # "-Xep:BadImport:WARN",
+        "-Xep:BadImport:ERROR",
         "-Xep:BadInstanceof:ERROR",
         "-Xep:BadShiftAmount:ERROR",
         "-Xep:BanSerializableRead:ERROR",

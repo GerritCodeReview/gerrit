@@ -35,7 +35,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.FixResource;
 import com.google.gerrit.server.diff.DiffInfoCreator;
 import com.google.gerrit.server.diff.DiffSide;
-import com.google.gerrit.server.diff.DiffSide.Type;
 import com.google.gerrit.server.diff.DiffWebLinksProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LargeObjectException;
@@ -121,7 +120,7 @@ public class GetFixPreview implements RestReadView<FixResource> {
         DiffSide.create(
             ps.getFileInfoA(),
             MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName()),
-            Type.SIDE_A);
+            DiffSide.Type.SIDE_A);
     DiffSide sideB = DiffSide.create(ps.getFileInfoB(), ps.getNewName(), DiffSide.Type.SIDE_B);
 
     DiffInfoCreator diffInfoCreator =
@@ -142,7 +141,7 @@ public class GetFixPreview implements RestReadView<FixResource> {
     }
 
     @Override
-    public ImmutableList<WebLinkInfo> getFileWebLinks(Type fileInfoType) {
+    public ImmutableList<WebLinkInfo> getFileWebLinks(DiffSide.Type fileInfoType) {
       return ImmutableList.of();
     }
   }

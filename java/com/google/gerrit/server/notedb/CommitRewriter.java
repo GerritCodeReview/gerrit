@@ -58,7 +58,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -1061,7 +1060,7 @@ public class CommitRewriter {
     Set<Account.Id> possibleReplacements =
         changeFixProgress.parsedAccounts.entrySet().stream()
             .filter(e -> e.getValue().equals(accountName))
-            .map(Entry::getKey)
+            .map(Map.Entry::getKey)
             .collect(ImmutableSet.toImmutableSet());
     String replacementName = DEFAULT_ACCOUNT_REPLACEMENT;
     if (possibleReplacements.isEmpty()) {

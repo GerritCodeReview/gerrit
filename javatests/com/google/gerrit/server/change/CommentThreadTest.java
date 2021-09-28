@@ -19,7 +19,6 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.Comment.Key;
 import com.google.gerrit.entities.HumanComment;
 import java.sql.Timestamp;
 import org.junit.Test;
@@ -59,7 +58,7 @@ public class CommentThreadTest {
 
   private static HumanComment createComment(String commentUuid) {
     return new HumanComment(
-        new Key(commentUuid, "myFile", 1),
+        new Comment.Key(commentUuid, "myFile", 1),
         Account.id(100),
         new Timestamp(1234),
         (short) 1,

@@ -1,12 +1,12 @@
 package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.comment.CommentContextCacheImpl.CommentContextSerializer.INSTANCE;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.CommentContext;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.comment.CommentContextCacheImpl.CommentContextSerializer;
 import com.google.gerrit.server.comment.CommentContextKey;
 import org.junit.Test;
 
@@ -16,8 +16,8 @@ public class CommentContextSerializerTest {
     CommentContext commentContext =
         CommentContext.create(ImmutableMap.of(1, "line_1", 2, "line_2"), "text/x-java");
 
-    byte[] serialized = INSTANCE.serialize(commentContext);
-    CommentContext deserialized = INSTANCE.deserialize(serialized);
+    byte[] serialized = CommentContextSerializer.INSTANCE.serialize(commentContext);
+    CommentContext deserialized = CommentContextSerializer.INSTANCE.deserialize(serialized);
 
     assertThat(commentContext).isEqualTo(deserialized);
   }

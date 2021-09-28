@@ -20,7 +20,6 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.Account.Id;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -278,7 +277,7 @@ public class CommitUtil {
 
     ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);
 
-    Set<Id> reviewers = new HashSet<>();
+    Set<Account.Id> reviewers = new HashSet<>();
     reviewers.add(changeToRevert.getOwner());
     reviewers.addAll(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
     reviewers.remove(user.getAccountId());

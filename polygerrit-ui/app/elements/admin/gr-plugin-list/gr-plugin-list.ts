@@ -20,9 +20,13 @@ import '../../shared/gr-list-view/gr-list-view';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-plugin-list_html';
 import {
-  ListViewMixin,
   ListViewParams,
-} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
+  getFilterValue,
+  getOffsetValue,
+  getUrl,
+  computeLoadingClass,
+  computeShownItems,
+} from '../../../utils/list-util';
 import {customElement, property} from '@polymer/decorators';
 import {PluginInfo} from '../../../types/common';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
@@ -33,11 +37,8 @@ interface PluginInfoWithName extends PluginInfo {
   name: string;
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ListViewMixin(PolymerElement);
-
 @customElement('gr-plugin-list')
-export class GrPluginList extends base {
+export class GrPluginList extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -85,8 +86,8 @@ export class GrPluginList extends base {
 
   _paramsChanged(params: ListViewParams) {
     this._loading = true;
-    this._filter = this.getFilterValue(params);
-    this._offset = this.getOffsetValue(params);
+    this._filter = getFilterValue(params);
+    this._offset = getOffsetValue(params);
 
     return this._getPlugins(this._filter, this._pluginsPerPage, this._offset);
   }
@@ -114,7 +115,15 @@ export class GrPluginList extends base {
   }
 
   _computePluginUrl(id: string) {
-    return this.getUrl('/', id);
+    return getUrl('/', id);
+  }
+
+  computeLoadingClass(loading: boolean) {
+    return computeLoadingClass(loading);
+  }
+
+  computeShownItems(plugins: PluginInfoWithName[]) {
+    return computeShownItems(plugins);
   }
 }
 

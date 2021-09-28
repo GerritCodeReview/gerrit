@@ -23,7 +23,12 @@ import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-group-dialog/gr-create-group-dialog';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-admin-group-list_html';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
+import {
+  computeLoadingClass,
+  computeShownItems,
+  getFilterValue,
+  getOffsetValue,
+} from '../../../utils/list-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe, computed} from '@polymer/decorators';
 import {AppElementAdminParams} from '../../gr-app-types';
@@ -46,11 +51,8 @@ export interface GrAdminGroupList {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ListViewMixin(PolymerElement);
-
 @customElement('gr-admin-group-list')
-export class GrAdminGroupList extends base {
+export class GrAdminGroupList extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -82,7 +84,7 @@ export class GrAdminGroupList extends base {
    * */
   @computed('_groups')
   get _shownGroups() {
-    return this.computeShownItems(this._groups);
+    return computeShownItems(this._groups);
   }
 
   @property({type: Number})
@@ -106,8 +108,8 @@ export class GrAdminGroupList extends base {
   @observe('params')
   _paramsChanged(params: AppElementAdminParams) {
     this._loading = true;
-    this._filter = this.getFilterValue(params);
-    this._offset = this.getOffsetValue(params);
+    this._filter = getFilterValue(params);
+    this._offset = getOffsetValue(params);
 
     return this._getGroups(this._filter, this._groupsPerPage, this._offset);
   }
@@ -183,5 +185,9 @@ export class GrAdminGroupList extends base {
 
   _visibleToAll(item: GroupInfo) {
     return item.options?.visible_to_all === true ? 'Y' : 'N';
+  }
+
+  computeLoadingClass(loading: boolean) {
+    return computeLoadingClass(loading);
   }
 }

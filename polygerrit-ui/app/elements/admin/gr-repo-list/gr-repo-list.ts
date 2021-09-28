@@ -22,7 +22,13 @@ import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-list_html';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
+import {
+  computeShownItems,
+  getUrl,
+  getFilterValue,
+  getOffsetValue,
+  computeLoadingClass,
+} from '../../../utils/list-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe, computed} from '@polymer/decorators';
 import {AppElementAdminParams} from '../../gr-app-types';
@@ -46,11 +52,8 @@ export interface GrRepoList {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ListViewMixin(PolymerElement);
-
 @customElement('gr-repo-list')
-export class GrRepoList extends base {
+export class GrRepoList extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -84,7 +87,7 @@ export class GrRepoList extends base {
 
   @computed('_repos')
   get _shownRepos() {
-    return this.computeShownItems(this._repos);
+    return computeShownItems(this._repos);
   }
 
   private readonly restApiService = appContext.restApiService;
@@ -99,8 +102,8 @@ export class GrRepoList extends base {
   @observe('params')
   _paramsChanged(params: AppElementAdminParams) {
     this._loading = true;
-    this._filter = this.getFilterValue(params);
-    this._offset = this.getOffsetValue(params);
+    this._filter = getFilterValue(params);
+    this._offset = getOffsetValue(params);
 
     return this._getRepos(this._filter, this._reposPerPage, this._offset);
   }
@@ -115,7 +118,7 @@ export class GrRepoList extends base {
   }
 
   _computeRepoUrl(name: string) {
-    return this.getUrl(this._path + '/', name);
+    return getUrl(this._path + '/', name);
   }
 
   _computeChangesLink(name: string) {
@@ -184,5 +187,9 @@ export class GrRepoList extends base {
     }
     const webLinks = repo.web_links;
     return webLinks.length ? webLinks : null;
+  }
+
+  computeLoadingClass(loading: boolean) {
+    return computeLoadingClass(loading);
   }
 }

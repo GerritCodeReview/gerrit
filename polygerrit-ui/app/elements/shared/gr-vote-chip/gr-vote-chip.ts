@@ -45,7 +45,7 @@ export class GrVoteChip extends LitElement {
 
   private readonly flagsService = appContext.flagsService;
 
-  static get styles() {
+  static override get styles() {
     return [
       css`
         .vote-chip.max {
@@ -106,7 +106,7 @@ export class GrVoteChip extends LitElement {
     ];
   }
 
-  render() {
+  override render() {
     if (!this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI))
       return;
     if (!this.vote?.value) return;

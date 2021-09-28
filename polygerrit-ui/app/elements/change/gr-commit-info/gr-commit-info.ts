@@ -43,7 +43,7 @@ export class GrCommitInfo extends LitElement {
   @property({type: Object})
   serverConfig: ServerInfo | undefined;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -55,7 +55,7 @@ export class GrCommitInfo extends LitElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <div class="container">
       <a
         target="_blank"

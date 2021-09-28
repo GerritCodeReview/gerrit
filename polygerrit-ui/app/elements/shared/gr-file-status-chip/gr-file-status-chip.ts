@@ -36,7 +36,7 @@ export class GrFileStatusChip extends LitElement {
   @property({type: Object})
   file?: NormalizedFileInfo;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -65,7 +65,7 @@ export class GrFileStatusChip extends LitElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <span
       class="${this._computeStatusClass(this.file)}"
       tabindex="0"

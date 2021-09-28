@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2be471a0_c147c4e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-28T15:33:51Z",
+      "side": 1,
+      "message": "We have a bug for @apply.\n\nThe image-viewer one is explained by a comment.\n\nThe rest is lit rules being ignored in polymer templates.",
+      "parentUuid": "ab43eea6_09494f85",
+      "revId": "4b7844a70c40237b2ba14dc7e2a174f2d60325cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2a2e930_f63cdb95",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-09-28T15:22:35Z",
       "side": 1,
       "message": "Could you explain this change?",
+      "revId": "4b7844a70c40237b2ba14dc7e2a174f2d60325cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "901e3ec0_8176dc16",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-link/gr-account-link.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-28T15:33:51Z",
+      "side": 1,
+      "message": "I wanted to ask Milutin for comment, because I think he just used a syntax from an outdated spec. Milutin, can you confirm?",
+      "parentUuid": "f2a2e930_f63cdb95",
       "revId": "4b7844a70c40237b2ba14dc7e2a174f2d60325cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

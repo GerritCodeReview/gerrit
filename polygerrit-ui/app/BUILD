@@ -94,7 +94,6 @@ ts_project(
 # so template tests pass.
 # TODO: fix problems reported by template checker in these files.
 ignore_templates_list = [
-    "elements/admin/gr-access-section/gr-access-section_html.ts",
     "elements/admin/gr-admin-view/gr-admin-view_html.ts",
     "elements/admin/gr-create-repo-dialog/gr-create-repo-dialog_html.ts",
     "elements/admin/gr-group-members/gr-group-members_html.ts",

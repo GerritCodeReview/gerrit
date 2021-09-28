@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {LabelName} from '../types/common';
+import {GitRef, LabelName} from '../types/common';
 
 export enum AccessPermissionId {
   ABANDON = 'abandon',
@@ -156,7 +156,7 @@ export interface AccessPermission {
 }
 
 export interface PermissionArrayItem<T> {
-  id: string;
+  id: GitRef;
   value: T;
 }
 
@@ -175,7 +175,7 @@ export function toSortedPermissionsArray<T>(obj?: {
   return Object.keys(obj)
     .map(key => {
       return {
-        id: key,
+        id: key as GitRef,
         value: obj[key],
       };
     })

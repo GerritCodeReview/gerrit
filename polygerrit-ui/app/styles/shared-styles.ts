@@ -224,19 +224,6 @@ export const sharedStyles = css`
     --iron-autogrow-textarea_-_white-space: pre-wrap;
   }
 
-  .assistive-tech-only {
-    user-select: none;
-    clip: rect(1px, 1px, 1px, 1px);
-    height: 1px;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
-    z-index: -1000;
-  }
-
   /**
    * TODO: Remove these rules and change (plugin) users to rely on
    * gr-spinner-styles directly.

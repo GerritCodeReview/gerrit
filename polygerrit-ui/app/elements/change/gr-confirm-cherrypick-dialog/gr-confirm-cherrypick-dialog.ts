@@ -25,15 +25,14 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {
   ChangeInfo,
-  BranchInfo,
-  RepoName,
   BranchName,
+  RepoName,
   CommitId,
   ChangeInfoId,
 } from '../../../types/common';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {customElement, property, observe} from '@polymer/decorators';
-import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {GrTypedAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {HttpMethod, ChangeStatus} from '../../../constants/constants';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {fireEvent} from '../../../utils/event-util';
@@ -68,7 +67,7 @@ declare global {
 
 export interface GrConfirmCherrypickDialog {
   $: {
-    branchInput: HTMLElement;
+    branchInput: GrTypedAutocomplete<BranchName>;
   };
 }
 
@@ -91,7 +90,7 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
    */
 
   @property({type: String})
-  branch?: BranchName;
+  branch = '' as BranchName;
 
   @property({type: String})
   baseCommit?: string;
@@ -106,7 +105,7 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
   commitNum?: CommitId;
 
   @property({type: String})
-  message?: string;
+  message = '';
 
   @property({type: String})
   project?: RepoName;
@@ -115,7 +114,7 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
   changes: ChangeInfo[] = [];
 
   @property({type: Object})
-  _query: (input: string) => Promise<AutocompleteSuggestion[]>;
+  _query?: (input: string) => Promise<{name: BranchName}[]>;
 
   @property({type: Boolean})
   _showCherryPickTopic = false;
@@ -249,7 +248,7 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
     cherryPickType: CherryPickType,
     duplicateProjectChanges: boolean,
     statuses: Statuses,
-    branch?: BranchName
+    branch: BranchName
   ) {
     if (!branch) return true;
     const duplicateProject =
@@ -398,29 +397,22 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
     this.$.branchInput.focus();
   }
 
-  _getProjectBranchesSuggestions(
-    input: string
-  ): Promise<AutocompleteSuggestion[]> {
-    if (!this.project) {
-      this.reporting.error(new Error('no project specified'));
-      return Promise.resolve([]);
-    }
+  _getProjectBranchesSuggestions(input: string) {
+    if (!this.project) return Promise.reject(new Error('Missing project'));
     if (input.startsWith('refs/heads/')) {
       input = input.substring('refs/heads/'.length);
     }
     return this.restApiService
       .getRepoBranches(input, this.project, SUGGESTIONS_LIMIT)
-      .then((response: BranchInfo[] | undefined) => {
+      .then(response => {
         if (!response) return [];
-        const branches = [];
+        const branches: Array<{name: BranchName}> = [];
         for (const branchInfo of response) {
-          let branch;
-          if (branchInfo.ref.startsWith('refs/heads/')) {
-            branch = branchInfo.ref.substring('refs/heads/'.length);
-          } else {
-            branch = branchInfo.ref;
+          let name: string = branchInfo.ref;
+          if (name.startsWith('refs/heads/')) {
+            name = name.substring('refs/heads/'.length);
           }
-          branches.push({name: branch});
+          branches.push({name: name as BranchName});
         }
         return branches;
       });

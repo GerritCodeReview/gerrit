@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59cc0c96_d50efc70",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-28T18:34:10Z",
+      "side": 0,
+      "message": "Why is config removed?\nThen I think this method always return empty string.",
+      "range": {
+        "startLine": 207,
+        "startChar": 54,
+        "endLine": 207,
+        "endChar": 60
+      },
+      "revId": "c9405f604c29a9d13bddb18626bcf2bef615a16b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1037,6 +1037,49 @@ The response is empty.
   Location: https:<host>/a/config/server/tasks/383a0602
 ----
 
+[[commits-included-in]]
+=== Get Commits Included In Refs
+--
+'GET /projects/link:#project-name[\{project-name\}]/commits:in'
+--
+
+Gets refs in which the specified commits were merged into. Returns a map of commits
+to set of full ref names.
+
+The `commit` query parameter is required, which is passed in to specify a commit
+(SHA-1 in 40 digit hex representation). This parameter can be passed in more than once.
+When a specified commit does not exist or is not reachable from any of the
+specified visible refs, then the result map will not contain the commit.
+
+The `ref` query parameter is required, which is passed in to specify a full ref name.
+This parameter can be passed in more than once. Refs that are not visible to the calling
+user according to the project's read permissions and refs which do not exist will be
+filtered out from the result.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commits:in?commit=a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96&commit=6d2a3adb10e844c33617fc948dbeb88e868d396e&ref=refs/heads/master&ref=refs/heads/branch1 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96": [
+      "refs/heads/master"
+    ],
+    "6d2a3adb10e844c33617fc948dbeb88e868d396e": [
+      "refs/heads/branch1",
+      "refs/heads/master"
+    ]
+  }
+
+----
+
 [[ban-commit]]
 === Ban Commit
 --

@@ -43,7 +43,7 @@ export class GrRepoDashboards extends LitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       tableStyles,
@@ -63,7 +63,7 @@ export class GrRepoDashboards extends LitElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <table
       id="list"
       class="genericList ${this._computeLoadingClass(this._loading)}"
@@ -114,7 +114,7 @@ export class GrRepoDashboards extends LitElement {
     </table>`;
   }
 
-  updated(changedProperties: PropertyValues) {
+  override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('repo')) {
       this.repoChanged();
     }

@@ -53,7 +53,7 @@ export class GrPageNav extends PolymerElement {
     this.bodyScrollHandler = () => this._handleBodyScroll();
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     window.addEventListener('scroll', this.bodyScrollHandler);
   }

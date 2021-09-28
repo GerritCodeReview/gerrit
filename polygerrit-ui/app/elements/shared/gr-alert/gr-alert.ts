@@ -30,7 +30,7 @@ declare global {
 
 @customElement('gr-alert')
 export class GrAlert extends LitElement {
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -93,7 +93,7 @@ export class GrAlert extends LitElement {
     >`;
   }
 
-  render() {
+  override render() {
     // To pass CSS mixins for @apply to Polymer components, they need to appear
     // in <style> inside the template.
     const style = html`<style>

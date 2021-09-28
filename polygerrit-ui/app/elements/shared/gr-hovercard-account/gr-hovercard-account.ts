@@ -96,7 +96,7 @@ export class GrHovercardAccount extends base {
     this.reporting = appContext.reportingService;
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.restApiService.getConfig().then(config => {
       this._config = config;

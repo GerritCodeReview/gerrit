@@ -94,6 +94,30 @@
       },
       "revId": "66023e2365719acb16e598add40329e11c4e9ec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27213a9f_a6eaa299",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-28T11:54:36Z",
+      "side": 1,
+      "message": "Yes, and https://gerrit-review.googlesource.com/c/gerrit/+/311702 was finally submitted today",
+      "parentUuid": "a936f56c_f8ae54c1",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 8
+      },
+      "revId": "66023e2365719acb16e598add40329e11c4e9ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -277,6 +277,18 @@ module.exports = {
       },
     },
     {
+      files: ['**/api/*.ts'],
+      rules: {
+        'regex/invalid': [
+          'error', [{
+            regex: 'export interface',
+            message: 'All interfaces in the api/ dir must have "declare"',
+            replacement: 'export declare interface',
+          }],
+        ],
+      },
+    },
+    {
       files: ['**/*.ts'],
       extends: [require.resolve('gts/.eslintrc.json')],
       rules: {
@@ -406,6 +418,7 @@ module.exports = {
     'jsdoc',
     'import',
     'prettier',
+    'regex',
   ],
   settings: {
     'html/report-bad-indent': 'error',

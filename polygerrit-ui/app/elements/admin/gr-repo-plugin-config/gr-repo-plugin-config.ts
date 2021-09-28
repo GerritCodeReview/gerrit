@@ -36,6 +36,7 @@ import {
   PluginConfigOptionsChangedEventDetail,
   PluginOption,
 } from './gr-repo-plugin-config-types';
+import {paperStyles} from '../../../styles/gr-paper-styles';
 
 const PLUGIN_CONFIG_CHANGED_EVENT_NAME = 'plugin-config-changed';
 
@@ -71,6 +72,7 @@ export class GrRepoPluginConfig extends LitElement {
     return [
       sharedStyles,
       formStyles,
+      paperStyles,
       subpageStyles,
       css`
         .inherited {

@@ -18,6 +18,7 @@
 import '@polymer/paper-toggle-button/paper-toggle-button';
 import '../../../styles/gr-form-styles';
 import '../../../styles/gr-menu-page-styles';
+import '../../../styles/gr-paper-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';

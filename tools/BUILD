@@ -446,7 +446,7 @@ java_package_configuration(
         "-Xep:UnusedAnonymousClass:ERROR",
         "-Xep:UnusedCollectionModifiedInPlace:ERROR",
         "-Xep:UnusedException:ERROR",
-        # "-Xep:UnusedMethod:WARN",
+        "-Xep:UnusedMethod:ERROR",
         "-Xep:UnusedNestedClass:ERROR",
         "-Xep:UnusedVariable:ERROR",
         "-Xep:UseBinds:ERROR",

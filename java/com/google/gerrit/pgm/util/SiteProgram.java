@@ -52,7 +52,7 @@ public abstract class SiteProgram extends AbstractProgram {
       name = "--site-path",
       aliases = {"-d"},
       usage = "Local directory containing site data")
-  private void setSitePath(String path) {
+  void setSitePath(String path) {
     sitePath = Paths.get(path).normalize();
   }
 

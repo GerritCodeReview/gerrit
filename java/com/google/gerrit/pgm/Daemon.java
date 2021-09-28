@@ -181,7 +181,7 @@ public class Daemon extends SiteProgram {
   private String devCdn = "";
 
   @Option(name = "--dev-cdn", usage = "Use specified cdn for serving static content.")
-  private void setDevCdn(String cdn) {
+  void setDevCdn(String cdn) {
     if (cdn == null) {
       cdn = "";
     }

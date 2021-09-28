@@ -315,6 +315,28 @@ suite('comment action tests with unresolved thread', () => {
   let element: GrCommentThread;
   let addDraftServiceStub: SinonStub;
   let saveDiffDraftStub: SinonStub;
+  let comment = {
+    id: '7afa4931_de3d65bd',
+    path: '/path/to/file.txt',
+    line: 5,
+    in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
+    updated: '2015-12-21 02:01:10.850000000',
+    message: 'Done',
+  };
+  const peanutButterComment = {
+    author: {
+      name: 'Mr. Peanutbutter',
+      email: 'tenn1sballchaser@aol.com' as EmailAddress as EmailAddress,
+    },
+    id: 'baf0414d_60047215' as UrlEncodedCommentId,
+    line: 5,
+    in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
+    message: 'is this a crossover episode!?',
+    updated: '2015-12-08 19:48:33.843000000' as Timestamp,
+    path: '/path/to/file.txt',
+    unresolved: true,
+    patch_set: 3 as PatchSetNum,
+  };
   setup(() => {
     addDraftServiceStub = stubComments('addDraft');
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
@@ -328,17 +350,7 @@ suite('comment action tests with unresolved thread', () => {
         url: '',
         ok: true,
         text() {
-          return Promise.resolve(
-            ")]}'\n" +
-              JSON.stringify({
-                id: '7afa4931_de3d65bd',
-                path: '/path/to/file.txt',
-                line: 5,
-                in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
-                updated: '2015-12-21 02:01:10.850000000',
-                message: 'Done',
-              })
-          );
+          return Promise.resolve(")]}'\n" + JSON.stringify(comment));
         },
       } as unknown as Response)
     );
@@ -348,21 +360,7 @@ suite('comment action tests with unresolved thread', () => {
     element = withCommentFixture.instantiate();
     element.patchNum = 1 as PatchSetNum;
     element.changeNum = 1 as NumericChangeId;
-    element.comments = [
-      {
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com' as EmailAddress as EmailAddress,
-        },
-        id: 'baf0414d_60047215' as UrlEncodedCommentId,
-        line: 5,
-        message: 'is this a crossover episode!?',
-        updated: '2015-12-08 19:48:33.843000000' as Timestamp,
-        path: '/path/to/file.txt',
-        unresolved: true,
-        patch_set: 3 as PatchSetNum,
-      },
-    ];
+    element.comments = [peanutButterComment];
     flush();
   });
 
@@ -436,6 +434,14 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('ack', async () => {
+    comment = {
+      id: '7afa4931_de3d65bd',
+      path: '/path/to/file.txt',
+      line: 5,
+      in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
+      updated: '2015-12-21 02:01:10.850000000',
+      message: 'Ack',
+    };
     const reportStub = stubReporting('recordDraftInteraction');
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
@@ -450,11 +456,19 @@ suite('comment action tests with unresolved thread', () => {
     const draft = addDraftServiceStub.firstCall.args[0];
     assert.equal(draft.message, 'Ack');
     assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
-    assert.equal(draft.unresolved, false);
+    assert.isNotOk(draft.unresolved);
     assert.isTrue(reportStub.calledOnce);
   });
 
   test('done', async () => {
+    comment = {
+      id: '7afa4931_de3d65bd',
+      path: '/path/to/file.txt',
+      line: 5,
+      in_reply_to: 'baf0414d_60047215' as UrlEncodedCommentId,
+      updated: '2015-12-21 02:01:10.850000000',
+      message: 'Done',
+    };
     const reportStub = stubReporting('recordDraftInteraction');
     assert.isFalse(saveDiffDraftStub.called);
     element.changeNum = 42 as NumericChangeId;
@@ -467,9 +481,10 @@ suite('comment action tests with unresolved thread', () => {
     tap(doneBtn!);
     await flush();
     const draft = addDraftServiceStub.firstCall.args[0];
+    assert.equal(draft.id, '7afa4931_de3d65bd');
     assert.equal(draft.message, 'Done');
     assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
-    assert.isFalse(draft.unresolved);
+    assert.isNotOk(draft.unresolved);
     assert.isTrue(reportStub.calledOnce);
     assert.isTrue(saveDiffDraftStub.called);
   });
@@ -488,13 +503,15 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('please fix', async () => {
+    comment = peanutButterComment;
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
     assert.ok(commentEl);
     const promise = mockPromise();
-    commentEl!.addEventListener('create-fix-comment', () => {
-      const draft = addDraftServiceStub.firstCall.args[0];
+    commentEl!.addEventListener('create-fix-comment', async () => {
+      await flush();
+      const draft = saveDiffDraftStub.firstCall.args[2];
       assert.equal(
         draft.message,
         '> is this a crossover episode!?\n\nPlease fix.'

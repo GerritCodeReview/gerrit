@@ -103,7 +103,7 @@ suite('gr-label-row-score tests', () => {
     assert.ok(element.$.labelSelector);
     MockInteractions.tap(element.shadowRoot
         .querySelector(
-            'gr-button[data-value="-1"]'));
+            'gr-tooltip-content[data-value="-1"]  > gr-button'));
     flush();
     assert.strictEqual(element.selectedValue, '-1');
     assert.strictEqual(element.selectedItem
@@ -163,7 +163,7 @@ suite('gr-label-row-score tests', () => {
   test('do not display tooltips on touch devices', () => {
     const verifiedBtn = element.shadowRoot
         .querySelector(
-            'iron-selector > gr-button[data-value="-1"]');
+            'iron-selector > gr-tooltip-content[data-value="-1"]');
 
     // On touch devices, tooltips should not be shown.
     verifiedBtn._isTouchDevice = true;

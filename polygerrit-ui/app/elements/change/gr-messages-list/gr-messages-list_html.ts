@@ -51,6 +51,9 @@ export const htmlTemplate = html`
       border-bottom: 1px solid var(--border-color);
     }
   </style>
+  <style include="gr-paper-styles">
+    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+  </style>
   <div class="header">
     <div id="showAllActivityToggleContainer" class="container">
       <template

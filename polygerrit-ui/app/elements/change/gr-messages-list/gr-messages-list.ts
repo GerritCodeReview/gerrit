@@ -18,6 +18,7 @@ import '@polymer/paper-toggle-button/paper-toggle-button';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-message/gr-message';
+import '../../../styles/gr-paper-styles';
 import '../../../styles/shared-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-messages-list_html';

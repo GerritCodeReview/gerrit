@@ -29,6 +29,7 @@ import {
   UIComment,
   UIDraft,
   UIRobot,
+  DraftInfo,
 } from '../../../utils/comment-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
@@ -563,14 +564,23 @@ export class GrCommentThread extends base {
 
     if (isEditing) {
       reply.__editing = true;
-    }
-
-    this.commentsService.addDraft(reply);
-
-    if (!isEditing) {
+      this.commentsService.addDraft(reply);
+    } else {
       assertIsDefined(this.changeNum, 'changeNum');
       assertIsDefined(this.patchNum, 'patchNum');
-      this.restApiService.saveDiffDraft(this.changeNum, this.patchNum, reply);
+      this.restApiService
+        .saveDiffDraft(this.changeNum, this.patchNum, reply)
+        .then(result => {
+          if (!result.ok) {
+            fireAlert(document, 'Unable to restore draft');
+            return;
+          }
+          this.restApiService.getResponseObject(result).then(obj => {
+            const resComment = obj as unknown as DraftInfo;
+            resComment.patch_set = reply.patch_set;
+            this.commentsService.addDraft(resComment);
+          });
+        });
     }
   }
 

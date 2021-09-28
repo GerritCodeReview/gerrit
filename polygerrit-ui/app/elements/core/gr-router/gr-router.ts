@@ -178,7 +178,7 @@ const RoutePattern = {
   CHANGE_ID_QUERY: /^\/id\/(I[0-9a-f]{40})$/,
 
   // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
-  CHANGE_LEGACY: /^\/c\/(\d+)\/?(((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
+  CHANGE_LEGACY: /^\/c\/(\d+)\/(.*)$/,
   CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
   // Matches
@@ -1675,6 +1675,17 @@ export class GrRouter extends PolymerElement {
       querystring: ctx.querystring,
     };
 
+    this.restApiService
+      .getFromProjectLookup(params.changeNum)
+      .then(project => {
+        // Show a 404 and terminate if the lookup request failed. Attempting
+        // to redirect after failing to get the project loops infinitely.
+        if (!project) {
+          this._show404();
+          return;
+        }
+        this._redirect(/c/ + ctx.params[0] + )
+      })
     this._normalizeLegacyRouteParams(params);
   }
 

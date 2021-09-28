@@ -24,6 +24,9 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
@@ -36,6 +39,7 @@ import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.AttentionStatusInNoteDb;
 import com.google.gerrit.server.notedb.CommitRewriter.BackfillResult;
 import com.google.gerrit.server.notedb.CommitRewriter.CommitDiff;
@@ -61,13 +65,18 @@ import org.junit.Test;
 /** Tests for {@link CommitRewriter} */
 public class CommitRewriterTest extends AbstractChangeNotesTest {
 
-  private @Inject CommitRewriter rewriter;
+  private CommitRewriter rewriter;
   @Inject private ChangeNoteUtil changeNoteUtil;
+  @Inject private ChangeNotes.Factory changeNotesFactory;
+  @Inject AccountCache accountCache;
 
   private static final Gson gson = OutputFormat.JSON_COMPACT.newGson();
 
   @Before
-  public void setUp() throws Exception {}
+  public void setUp() throws Exception {
+    rewriter = new CommitRewriter(changeNotesFactory, accountCache, ImmutableMap.of(),
+        ImmutableMultimap.of());
+  }
 
   @Test
   public void validHistoryNoOp() throws Exception {

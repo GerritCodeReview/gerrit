@@ -37,7 +37,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.PatchSet.Id;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -75,7 +74,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
@@ -301,7 +299,7 @@ public class BatchUpdate implements AutoCloseable {
      * commit in NoteDb by re-using the same ChangeUpdate instance. Will still be one commit per
      * patch set.
      */
-    private final ListMultimap<Id, ChangeUpdate> distinctUpdates;
+    private final ListMultimap<PatchSet.Id, ChangeUpdate> distinctUpdates;
 
     private boolean deleted;
 
@@ -554,7 +552,7 @@ public class BatchUpdate implements AutoCloseable {
     try {
       logDebug("Executing updateRepo on %d ops", ops.size());
       RepoContextImpl ctx = new RepoContextImpl();
-      for (Entry<Change.Id, BatchUpdateOp> op : ops.entries()) {
+      for (Map.Entry<Change.Id, BatchUpdateOp> op : ops.entries()) {
         try (TraceContext.TraceTimer ignored =
             TraceContext.newTimer(
                 op.getClass().getSimpleName() + "#updateRepo",

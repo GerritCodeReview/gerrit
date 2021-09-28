@@ -23,7 +23,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.HashedPassword;
-import com.google.gerrit.server.account.externalids.ExternalId.Key;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -81,7 +80,7 @@ public class ExternalIdFactory {
    * @param accountId the ID of the account to which the external ID belongs
    * @return the created external ID
    */
-  public ExternalId create(Key key, Account.Id accountId) {
+  public ExternalId create(ExternalId.Key key, Account.Id accountId) {
     return create(key, accountId, null, null);
   }
 
@@ -95,7 +94,10 @@ public class ExternalIdFactory {
    * @return the created external ID
    */
   public ExternalId create(
-      Key key, Account.Id accountId, @Nullable String email, @Nullable String hashedPassword) {
+      ExternalId.Key key,
+      Account.Id accountId,
+      @Nullable String email,
+      @Nullable String hashedPassword) {
     return create(
         key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), null);
   }
@@ -110,7 +112,10 @@ public class ExternalIdFactory {
    * @return the created external ID
    */
   public ExternalId createWithPassword(
-      Key key, Account.Id accountId, @Nullable String email, @Nullable String plainPassword) {
+      ExternalId.Key key,
+      Account.Id accountId,
+      @Nullable String email,
+      @Nullable String plainPassword) {
     plainPassword = Strings.emptyToNull(plainPassword);
     String hashedPassword =
         plainPassword != null ? HashedPassword.fromPassword(plainPassword).encode() : null;
@@ -157,7 +162,8 @@ public class ExternalIdFactory {
    * @param email the email of the external ID, may be {@code null}
    * @return the created external ID
    */
-  public ExternalId createWithEmail(Key key, Account.Id accountId, @Nullable String email) {
+  public ExternalId createWithEmail(
+      ExternalId.Key key, Account.Id accountId, @Nullable String email) {
     return create(key, accountId, Strings.emptyToNull(email), null);
   }
 
@@ -188,7 +194,7 @@ public class ExternalIdFactory {
    * @return the created external ID
    */
   public ExternalId create(
-      Key key,
+      ExternalId.Key key,
       Account.Id accountId,
       @Nullable String email,
       @Nullable String hashedPassword,
@@ -238,7 +244,7 @@ public class ExternalIdFactory {
     }
 
     String externalIdKeyStr = Iterables.getOnlyElement(externalIdKeys);
-    Key externalIdKey = externalIdKeyFactory.parse(externalIdKeyStr);
+    ExternalId.Key externalIdKey = externalIdKeyFactory.parse(externalIdKeyStr);
     if (externalIdKey == null) {
       throw invalidConfig(noteId, String.format("External ID %s is invalid", externalIdKeyStr));
     }

@@ -22,19 +22,20 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.transport.ReceiveCommand.Type;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class RefValidationHelper {
   public interface Factory {
-    RefValidationHelper create(Type operationType);
+    RefValidationHelper create(ReceiveCommand.Type operationType);
   }
 
   private final RefOperationValidators.Factory refValidatorsFactory;
-  private final Type operationType;
+  private final ReceiveCommand.Type operationType;
 
   @Inject
   RefValidationHelper(
-      RefOperationValidators.Factory refValidatorsFactory, @Assisted Type operationType) {
+      RefOperationValidators.Factory refValidatorsFactory,
+      @Assisted ReceiveCommand.Type operationType) {
     this.refValidatorsFactory = refValidatorsFactory;
     this.operationType = operationType;
   }

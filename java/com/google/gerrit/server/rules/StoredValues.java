@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.rules;
 
-import static com.google.gerrit.server.rules.StoredValue.create;
-
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -44,11 +42,13 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public final class StoredValues {
-  public static final StoredValue<Accounts> ACCOUNTS = create(Accounts.class);
-  public static final StoredValue<AccountCache> ACCOUNT_CACHE = create(AccountCache.class);
-  public static final StoredValue<Emails> EMAILS = create(Emails.class);
-  public static final StoredValue<ChangeData> CHANGE_DATA = create(ChangeData.class);
-  public static final StoredValue<ProjectState> PROJECT_STATE = create(ProjectState.class);
+  public static final StoredValue<Accounts> ACCOUNTS = StoredValue.create(Accounts.class);
+  public static final StoredValue<AccountCache> ACCOUNT_CACHE =
+      StoredValue.create(AccountCache.class);
+  public static final StoredValue<Emails> EMAILS = StoredValue.create(Emails.class);
+  public static final StoredValue<ChangeData> CHANGE_DATA = StoredValue.create(ChangeData.class);
+  public static final StoredValue<ProjectState> PROJECT_STATE =
+      StoredValue.create(ProjectState.class);
 
   public static Change getChange(Prolog engine) throws SystemException {
     ChangeData cd = CHANGE_DATA.get(engine);

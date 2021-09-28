@@ -53,7 +53,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -220,7 +219,7 @@ public class CommentPorter {
       Map<Short, List<HumanComment>> commentsPerSide =
           comments.stream().collect(groupingBy(comment -> comment.side));
       ImmutableList.Builder<HumanComment> portedComments = ImmutableList.builder();
-      for (Entry<Short, List<HumanComment>> sideAndComments : commentsPerSide.entrySet()) {
+      for (Map.Entry<Short, List<HumanComment>> sideAndComments : commentsPerSide.entrySet()) {
         portedComments.addAll(
             portSamePatchsetAndSide(
                 project,

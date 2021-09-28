@@ -204,7 +204,7 @@ export class GrSearchBar extends base {
     this.query = (input: string) => this._getSearchSuggestions(input);
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.restApiService.getConfig().then((serverConfig?: ServerInfo) => {
       const mergeability =

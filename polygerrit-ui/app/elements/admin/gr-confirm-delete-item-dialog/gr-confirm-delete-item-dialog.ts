@@ -45,7 +45,7 @@ export class GrConfirmDeleteItemDialog extends LitElement {
   @property({type: String})
   itemTypeName?: string;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       css`
@@ -57,7 +57,7 @@ export class GrConfirmDeleteItemDialog extends LitElement {
     ];
   }
 
-  render() {
+  override render() {
     const item = this.item ?? 'UNKNOWN ITEM';
     const itemTypeName = this.itemTypeName ?? 'UNKNOWN ITEM TYPE';
     return html` <gr-dialog

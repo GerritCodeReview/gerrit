@@ -48,7 +48,7 @@ export class GrUserHeader extends LitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  static get styles() {
+  static override get styles() {
     return [
       sharedStyles,
       dashboardHeaderStyles,
@@ -63,7 +63,7 @@ export class GrUserHeader extends LitElement {
     ];
   }
 
-  render() {
+  override render() {
     return html` <gr-avatar
         .account="${this._accountDetails}"
         .imageSize=${100}
@@ -116,7 +116,7 @@ export class GrUserHeader extends LitElement {
       </div>`;
   }
 
-  updated(changedProperties: PropertyValues) {
+  override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('userId')) {
       this._accountChanged(this.userId);
     }

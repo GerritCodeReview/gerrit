@@ -17,6 +17,7 @@
 
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import '../../../test/common-test-setup-karma';
+import './gr-button';
 import {addListener} from '@polymer/polymer/lib/utils/gestures';
 import {appContext} from '../../../services/app-context';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
@@ -49,23 +50,26 @@ suite('gr-button tests', () => {
     return spy;
   };
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
-  test('disabled is set by disabled', () => {
+  test('disabled is set by disabled', async () => {
     const paperBtn = queryAndAssert<PaperButtonElement>(
       element,
       'paper-button'
     );
     assert.isFalse(paperBtn.disabled);
     element.disabled = true;
+    await flush();
     assert.isTrue(paperBtn.disabled);
     element.disabled = false;
+    await flush();
     assert.isFalse(paperBtn.disabled);
   });
 
-  test('loading set from listener', () => {
+  test('loading set from listener', async () => {
     let resolve: Function;
     element.addEventListener('click', e => {
       const target = e.target as HTMLElement;
@@ -78,36 +82,44 @@ suite('gr-button tests', () => {
     );
     assert.isFalse(paperBtn.disabled);
     MockInteractions.tap(element);
+    await flush();
     assert.isTrue(paperBtn.disabled);
     assert.isTrue(element.hasAttribute('loading'));
     resolve!();
-    flush();
+    await flush();
     assert.isFalse(paperBtn.disabled);
     assert.isFalse(element.hasAttribute('loading'));
   });
 
-  test('tabindex should be -1 if disabled', () => {
+  test('tabindex should be -1 if disabled', async () => {
     element.disabled = true;
-    assert.isTrue(element.getAttribute('tabindex') === '-1');
+    await flush();
+    assert.equal(element.getAttribute('tabindex'), '-1');
   });
 
   // Regression tests for Issue: 11969
-  test('tabindex should be reset to 0 if enabled', () => {
+  test('tabindex should be reset to 0 if enabled', async () => {
     element.disabled = false;
+    await flush();
     assert.equal(element.getAttribute('tabindex'), '0');
     element.disabled = true;
+    await flush();
     assert.equal(element.getAttribute('tabindex'), '-1');
     element.disabled = false;
+    await flush();
     assert.equal(element.getAttribute('tabindex'), '0');
   });
 
-  test('tabindex should be preserved', () => {
+  test('tabindex should be preserved', async () => {
     const tabIndexElement = tabindexFixture.instantiate() as GrButton;
     tabIndexElement.disabled = false;
+    await flush();
     assert.equal(tabIndexElement.getAttribute('tabindex'), '3');
     tabIndexElement.disabled = true;
+    await flush();
     assert.equal(tabIndexElement.getAttribute('tabindex'), '-1');
     tabIndexElement.disabled = false;
+    await flush();
     assert.equal(tabIndexElement.getAttribute('tabindex'), '3');
   });
 
@@ -152,8 +164,9 @@ suite('gr-button tests', () => {
   }
 
   suite('disabled', () => {
-    setup(() => {
+    setup(async () => {
       element.disabled = true;
+      await flush();
     });
 
     for (const eventName of ['tap', 'click']) {

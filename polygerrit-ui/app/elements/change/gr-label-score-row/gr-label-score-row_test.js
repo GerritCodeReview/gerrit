@@ -97,14 +97,14 @@ suite('gr-label-row-score tests', () => {
     }
   }
 
-  test('label picker', () => {
+  test('label picker', async () => {
     const labelsChangedHandler = sinon.stub();
     element.addEventListener('labels-changed', labelsChangedHandler);
     assert.ok(element.$.labelSelector);
     MockInteractions.tap(element.shadowRoot
         .querySelector(
-            'gr-button[data-value="-1"]'));
-    flush();
+            'gr-tooltip-content > gr-button[data-value="-1"]'));
+    await flush();
     assert.strictEqual(element.selectedValue, '-1');
     assert.strictEqual(element.selectedItem
         .textContent.trim(), '-1');
@@ -160,24 +160,28 @@ suite('gr-label-row-score tests', () => {
     checkAriaCheckedValid();
   });
 
-  test('do not display tooltips on touch devices', () => {
-    const verifiedBtn = element.shadowRoot
-        .querySelector(
-            'iron-selector > gr-button[data-value="-1"]');
+  test('do not display tooltips on touch devices', async () => {
+    const verifiedTooltip = element.shadowRoot
+        .querySelector('iron-selector > gr-tooltip-content');
 
     // On touch devices, tooltips should not be shown.
-    verifiedBtn._isTouchDevice = true;
-    verifiedBtn._handleShowTooltip();
-    assert.isNotOk(verifiedBtn._tooltip);
-    verifiedBtn._handleHideTooltip();
-    assert.isNotOk(verifiedBtn._tooltip);
+    verifiedTooltip._isTouchDevice = true;
+    await flush();
+    verifiedTooltip._handleShowTooltip();
+    await flush();
+    assert.isNotOk(verifiedTooltip._tooltip);
+    verifiedTooltip._handleHideTooltip();
+    await flush();
+    assert.isNotOk(verifiedTooltip._tooltip);
 
     // On other devices, tooltips should be shown.
-    verifiedBtn._isTouchDevice = false;
-    verifiedBtn._handleShowTooltip();
-    assert.isOk(verifiedBtn._tooltip);
-    verifiedBtn._handleHideTooltip();
-    assert.isNotOk(verifiedBtn._tooltip);
+    verifiedTooltip._isTouchDevice = false;
+    verifiedTooltip._handleShowTooltip();
+    await flush();
+    assert.isOk(verifiedTooltip._tooltip);
+    verifiedTooltip._handleHideTooltip();
+    await flush();
+    assert.isNotOk(verifiedTooltip._tooltip);
   });
 
   test('_computeLabelValue', () => {
@@ -209,7 +213,7 @@ suite('gr-label-row-score tests', () => {
         'Code-Review'), []);
   });
 
-  test('changes in label score are reflected in the DOM', () => {
+  test('changes in label score are reflected in the DOM', async () => {
     element.labels = {
       'Code-Review': {
         values: {
@@ -232,9 +236,10 @@ suite('gr-label-row-score tests', () => {
         default_value: 0,
       },
     };
+    await flush();
     const selector = element.$.labelSelector;
     element.set('label', {name: 'Verified', value: ' 0'});
-    flush();
+    await flush();
     assert.strictEqual(selector.selected, ' 0');
     assert.strictEqual(
         element.$.selectedValueLabel.textContent.trim(), 'No score');

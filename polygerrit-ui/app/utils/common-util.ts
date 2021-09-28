@@ -100,7 +100,7 @@ export function queryAll<E extends Element = Element>(
 }
 
 export function query<E extends Element = Element>(
-  el: Element | undefined,
+  el: Element | null | undefined,
   selector: string
 ): E | undefined {
   if (!el) return undefined;
@@ -109,7 +109,7 @@ export function query<E extends Element = Element>(
 }
 
 export function queryAndAssert<E extends Element = Element>(
-  el: Element | undefined,
+  el: Element | null | undefined,
   selector: string
 ): E {
   const found = query<E>(el, selector);

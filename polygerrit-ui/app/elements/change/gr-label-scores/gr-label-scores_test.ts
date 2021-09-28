@@ -85,7 +85,7 @@ suite('gr-label-scores tests', () => {
     await flush();
   });
 
-  test('get and set label scores', () => {
+  test('get and set label scores', async () => {
     for (const label of Object.keys(element.permittedLabels!)) {
       const row = queryAndAssert<GrLabelScoreRow>(
         element,
@@ -93,6 +93,7 @@ suite('gr-label-scores tests', () => {
       );
       row.setSelectedValue('-1');
     }
+    await flush();
     assert.deepEqual(element.getLabelValues(), {
       'Code-Review': -1,
       Verified: -1,

@@ -418,7 +418,7 @@ java_package_configuration(
         "-Xep:TimeUnitConversionChecker:ERROR",
         "-Xep:ToStringReturnsNull:ERROR",
         "-Xep:TreeToString:ERROR",
-        # "-Xep:TruthAssertExpected:WARN",
+        "-Xep:TruthAssertExpected:ERROR",
         "-Xep:TruthConstantAsserts:ERROR",
         "-Xep:TruthGetOrDefault:ERROR",
         "-Xep:TruthIncompatibleType:ERROR",

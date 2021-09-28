@@ -33,6 +33,23 @@
       "message": "Looks like that wasn\u0027t the only flaky test :-(",
       "revId": "d76bae2307c774e6cf33f3c023b0bc44ea679c22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b77c472_b74529f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-09-28T08:50:55Z",
+      "side": 1,
+      "message": "I mostly work on BE now, unassigned the change from me.",
+      "revId": "d76bae2307c774e6cf33f3c023b0bc44ea679c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

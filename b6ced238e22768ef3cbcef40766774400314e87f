@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "795268d4_037877e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-28T21:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5285be4c_acb88cc7",
+      "range": {
+        "startLine": 55,
+        "startChar": 3,
+        "endLine": 55,
+        "endChar": 11
+      },
+      "revId": "b6ced238e22768ef3cbcef40766774400314e87f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d14571d_caf1aaf3",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-09-28T15:42:38Z",
       "side": 1,
       "message": "You might want to count results here.",
+      "revId": "b6ced238e22768ef3cbcef40766774400314e87f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42b80325_cc8c799e",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-09-28T21:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d14571d_caf1aaf3",
       "revId": "b6ced238e22768ef3cbcef40766774400314e87f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

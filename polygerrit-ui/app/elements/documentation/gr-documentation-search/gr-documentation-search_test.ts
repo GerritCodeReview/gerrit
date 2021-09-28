@@ -21,7 +21,7 @@ import {GrDocumentationSearch} from './gr-documentation-search';
 import {page} from '../../../utils/page-wrapper-utils';
 import 'lodash/lodash';
 import {stubRestApi} from '../../../test/test-utils';
-import {ListViewParams} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
+import {ListViewParams} from '../../../utils/list-util';
 import {DocResult} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-documentation-search');

@@ -23,7 +23,6 @@ import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-group-dialog/gr-create-group-dialog';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-admin-group-list_html';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe, computed} from '@polymer/decorators';
 import {AppElementAdminParams} from '../../gr-app-types';
@@ -32,6 +31,7 @@ import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dialog';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
+import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -46,11 +46,8 @@ export interface GrAdminGroupList {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ListViewMixin(PolymerElement);
-
 @customElement('gr-admin-group-list')
-export class GrAdminGroupList extends base {
+export class GrAdminGroupList extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -82,7 +79,7 @@ export class GrAdminGroupList extends base {
    * */
   @computed('_groups')
   get _shownGroups() {
-    return this.computeShownItems(this._groups);
+    return this._groups.slice(0, SHOWN_ITEMS_COUNT);
   }
 
   @property({type: Number})
@@ -106,8 +103,8 @@ export class GrAdminGroupList extends base {
   @observe('params')
   _paramsChanged(params: AppElementAdminParams) {
     this._loading = true;
-    this._filter = this.getFilterValue(params);
-    this._offset = this.getOffsetValue(params);
+    this._filter = params?.filter ?? '';
+    this._offset = Number(params?.offset ?? 0);
 
     return this._getGroups(this._filter, this._groupsPerPage, this._offset);
   }
@@ -183,5 +180,9 @@ export class GrAdminGroupList extends base {
 
   _visibleToAll(item: GroupInfo) {
     return item.options?.visible_to_all === true ? 'Y' : 'N';
+  }
+
+  computeLoadingClass(loading: boolean) {
+    return loading ? 'loading' : '';
   }
 }

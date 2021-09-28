@@ -95,6 +95,7 @@ export class GrAccountDropdown extends LitElement {
   override render() {
     // To pass CSS mixins for @apply to Polymer components, they need to appear
     // in <style> inside the template.
+    /* eslint-disable lit/prefer-static-styles */
     const customStyle = html`
       <style>
         gr-dropdown {

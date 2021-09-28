@@ -180,7 +180,7 @@ export class GrRepoPluginConfig extends LitElement {
         >
           <input
             is="iron-input"
-            value="${option.info.value}"
+            .value="${option.info.value}"
             @input=${this._handleStringChange}
             data-option-key="${option._key}"
             ?disabled=${!option.info.editable}

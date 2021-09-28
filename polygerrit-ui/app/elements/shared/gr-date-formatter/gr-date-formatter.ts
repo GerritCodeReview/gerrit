@@ -85,7 +85,7 @@ export class GrDateFormatter extends base {
   }
 
   @property({type: String, notify: true})
-  dateStr: string | null = null;
+  dateStr: string | undefined = undefined;
 
   @property({type: Boolean})
   showDateAndTime = false;

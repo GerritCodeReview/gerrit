@@ -63,6 +63,7 @@ import com.google.gerrit.server.restapi.project.Check;
 import com.google.gerrit.server.restapi.project.CheckAccess;
 import com.google.gerrit.server.restapi.project.ChildProjectsCollection;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
+import com.google.gerrit.server.restapi.project.CommitsIncludedInRefs;
 import com.google.gerrit.server.restapi.project.CreateAccessChange;
 import com.google.gerrit.server.restapi.project.CreateProject;
 import com.google.gerrit.server.restapi.project.DeleteBranches;
@@ -88,8 +89,10 @@ import com.google.gerrit.server.restapi.project.SetParent;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class ProjectApiImpl implements ProjectApi {
   interface Factory {
@@ -116,6 +119,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final CreateAccessChange createAccessChange;
   private final GetConfig getConfig;
   private final PutConfig putConfig;
+  private final CommitsIncludedInRefs commitsIncludedInRefs;
   private final Provider<ListBranches> listBranches;
   private final Provider<ListTags> listTags;
   private final DeleteBranches deleteBranches;
@@ -154,6 +158,7 @@ public class ProjectApiImpl implements ProjectApi {
       CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
+      CommitsIncludedInRefs commitsIncludedInRefs,
       Provider<ListBranches> listBranches,
       Provider<ListTags> listTags,
       DeleteBranches deleteBranches,
@@ -191,6 +196,7 @@ public class ProjectApiImpl implements ProjectApi {
         createAccessChange,
         getConfig,
         putConfig,
+        commitsIncludedInRefs,
         listBranches,
         listTags,
         deleteBranches,
@@ -232,6 +238,7 @@ public class ProjectApiImpl implements ProjectApi {
       CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
+      CommitsIncludedInRefs commitsIncludedInRefs,
       Provider<ListBranches> listBranches,
       Provider<ListTags> listTags,
       DeleteBranches deleteBranches,
@@ -269,6 +276,7 @@ public class ProjectApiImpl implements ProjectApi {
         createAccessChange,
         getConfig,
         putConfig,
+        commitsIncludedInRefs,
         listBranches,
         listTags,
         deleteBranches,
@@ -309,6 +317,7 @@ public class ProjectApiImpl implements ProjectApi {
       CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
+      CommitsIncludedInRefs commitsIncludedInRefs,
       Provider<ListBranches> listBranches,
       Provider<ListTags> listTags,
       DeleteBranches deleteBranches,
@@ -346,6 +355,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.setAccess = setAccess;
     this.getConfig = getConfig;
     this.putConfig = putConfig;
+    this.commitsIncludedInRefs = commitsIncludedInRefs;
     this.listBranches = listBranches;
     this.listTags = listTags;
     this.deleteBranches = deleteBranches;
@@ -479,6 +489,18 @@ public class ProjectApiImpl implements ProjectApi {
       return putConfig.apply(checkExists(), in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list tags", e);
+    }
+  }
+
+  @Override
+  public Map<String, Collection<String>> commitsIn(String commit, Collection<String> refs)
+      throws RestApiException {
+    try {
+      commitsIncludedInRefs.setCommit(commit);
+      commitsIncludedInRefs.addRefs(refs);
+      return commitsIncludedInRefs.apply(project).value();
+    } catch (Exception e) {
+      throw asRestApiException("Could not extract commits included in data", e);
     }
   }
 

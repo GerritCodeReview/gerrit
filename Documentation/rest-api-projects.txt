@@ -1037,6 +1037,40 @@ The response is empty.
   Location: https:<host>/a/config/server/tasks/383a0602
 ----
 
+[[commits-included-in]]
+=== Get Commits Included In Refs
+--
+'GET /projects/link:#project-name[\{project-name\}]/commitsin'
+--
+
+Returns a map of commits to subset of unshortened refs from the refs
+supplied by the user in which the commit was merged into or it was tagged with.
+
+Refs that are not visible to the calling user according to the project's read
+permissions or do not exist are filtered out from the result. When the commit
+does not exist or is not reachable from any of the visible refs, then the
+result map does not contain the commit.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commitsin?commit=a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96&ref=refs/heads/master&ref=refs/heads/branch1 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96": [
+      "refs/heads/master"
+    ]
+  }
+
+----
+
 [[ban-commit]]
 === Ban Commit
 --

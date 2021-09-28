@@ -70,6 +70,9 @@ export const htmlTemplate = html`
       display: block;
     }
   </style>
+  <style include="gr-paper-styles">
+    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+  </style>
   <style include="gr-form-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>

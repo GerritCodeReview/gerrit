@@ -101,6 +101,7 @@ public class Module extends RestApiModule {
     child(PROJECT_KIND, "commits").to(CommitsCollection.class);
     get(COMMIT_KIND).to(GetCommit.class);
     get(COMMIT_KIND, "in").to(CommitIncludedIn.class);
+    get(COMMIT_KIND, "inrefs").to(CommitIncludedInRefs.class);
     child(COMMIT_KIND, "files").to(FilesInCommitCollection.class);
 
     child(PROJECT_KIND, "tags").to(TagsCollection.class);

@@ -23,7 +23,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -168,7 +167,6 @@ public class MultiProgressMonitor implements RequestStateProvider {
   }
 
   private final CancellationMetrics cancellationMetrics;
-  private final ExperimentFeatures experimentFeatures;
   private final OutputStream out;
   private final TaskKind taskKind;
   private final String taskName;
@@ -192,11 +190,10 @@ public class MultiProgressMonitor implements RequestStateProvider {
   @AssistedInject
   private MultiProgressMonitor(
       CancellationMetrics cancellationMetrics,
-      ExperimentFeatures experimentFeatures,
       @Assisted OutputStream out,
       @Assisted TaskKind taskKind,
       @Assisted String taskName) {
-    this(cancellationMetrics, experimentFeatures, out, taskKind, taskName, 500, MILLISECONDS);
+    this(cancellationMetrics, out, taskKind, taskName, 500, MILLISECONDS);
   }
 
   /**
@@ -210,14 +207,12 @@ public class MultiProgressMonitor implements RequestStateProvider {
   @AssistedInject
   private MultiProgressMonitor(
       CancellationMetrics cancellationMetrics,
-      ExperimentFeatures experimentFeatures,
       @Assisted OutputStream out,
       @Assisted TaskKind taskKind,
       @Assisted String taskName,
       @Assisted long maxIntervalTime,
       @Assisted TimeUnit maxIntervalUnit) {
     this.cancellationMetrics = cancellationMetrics;
-    this.experimentFeatures = experimentFeatures;
     this.out = out;
     this.taskKind = taskKind;
     this.taskName = taskName;

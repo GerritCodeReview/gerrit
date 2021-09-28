@@ -16,7 +16,7 @@
  */
 import {ChangeInfo, ConfigInfo, RevisionInfo} from './rest-api';
 
-export interface GerritElementExtensions {
+export declare interface GerritElementExtensions {
   content?: HTMLElement & {hidden?: boolean};
   change?: ChangeInfo;
   revision?: RevisionInfo;

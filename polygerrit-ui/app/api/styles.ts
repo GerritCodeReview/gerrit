@@ -29,11 +29,11 @@
  */
 
 /** Lit plugins can cast Style to CSSResult. */
-export interface Style {
+export declare interface Style {
   toString(): string;
 }
 
-export interface Styles {
+export declare interface Styles {
   font: Style;
   form: Style;
   menuPage: Style;

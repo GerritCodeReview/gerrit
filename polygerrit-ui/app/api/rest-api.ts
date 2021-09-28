@@ -240,7 +240,7 @@ export declare interface AccountInfo {
  * The AccountDetailInfo entity contains detailed information about an account.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-detail-info
  */
-export interface AccountDetailInfo extends AccountInfo {
+export declare interface AccountDetailInfo extends AccountInfo {
   registered_on: Timestamp;
 }
 
@@ -249,7 +249,7 @@ export interface AccountDetailInfo extends AccountInfo {
  * from the accounts section.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#accounts-config-info
  */
-export interface AccountsConfigInfo {
+export declare interface AccountsConfigInfo {
   visibility: string;
   default_display_name: DefaultDisplayNameConfig;
 }
@@ -320,7 +320,7 @@ export declare interface AttentionSetInfo {
  * configuration of the Gerrit server.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#auth-info
  */
-export interface AuthInfo {
+export declare interface AuthInfo {
   auth_type: AuthType; // docs incorrectly names it 'type'
   use_contributor_agreements?: boolean;
   contributor_agreements?: ContributorAgreementInfo[];
@@ -356,7 +356,7 @@ export type BranchName = BrandType<string, '_branchName'>;
  * from the change section.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#change-config-info
  */
-export interface ChangeConfigInfo {
+export declare interface ChangeConfigInfo {
   allow_blame?: boolean;
   large_change: number;
   update_delay: number;
@@ -464,14 +464,14 @@ export type CloneCommandMap = {[name: string]: string};
  * The CommentLinkInfo entity describes acommentlink.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#commentlink-info
  */
-export interface CommentLinkInfo {
+export declare interface CommentLinkInfo {
   match: string;
   link?: string;
   enabled?: boolean;
   html?: string;
 }
 
-export interface CommentLinks {
+export declare interface CommentLinks {
   [name: string]: CommentLinkInfo;
 }
 
@@ -492,7 +492,8 @@ export declare interface CommitInfo {
   resolve_conflicts_web_links?: WebLinkInfo[];
 }
 
-export interface ConfigArrayParameterInfo extends ConfigParameterInfoBase {
+export declare interface ConfigArrayParameterInfo
+  extends ConfigParameterInfoBase {
   type: ConfigParameterInfoType.ARRAY;
   values: string[];
 }
@@ -502,7 +503,7 @@ export interface ConfigArrayParameterInfo extends ConfigParameterInfoBase {
  * project configuration.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-info
  */
-export interface ConfigInfo {
+export declare interface ConfigInfo {
   description?: string;
   use_contributor_agreements?: InheritedBooleanInfo;
   use_content_merge?: InheritedBooleanInfo;
@@ -525,7 +526,8 @@ export interface ConfigInfo {
   reject_empty_commit?: InheritedBooleanInfo;
 }
 
-export interface ConfigListParameterInfo extends ConfigParameterInfoBase {
+export declare interface ConfigListParameterInfo
+  extends ConfigParameterInfoBase {
   type: ConfigParameterInfoType.LIST;
   permitted_values?: string[];
 }
@@ -539,7 +541,7 @@ export type ConfigParameterInfo =
  * The ConfigParameterInfo entity describes a project configurationparameter.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-parameter-info
  */
-export interface ConfigParameterInfoBase {
+export declare interface ConfigParameterInfoBase {
   display_name?: string;
   description?: string;
   warning?: string;
@@ -554,7 +556,7 @@ export interface ConfigParameterInfoBase {
 }
 
 // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#contributor-agreement-info
-export interface ContributorAgreementInfo {
+export declare interface ContributorAgreementInfo {
   name: string;
   description: string;
   url: string;
@@ -584,7 +586,7 @@ export function isDetailedLabelInfo(
  * options.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#download-info
  */
-export interface DownloadInfo {
+export declare interface DownloadInfo {
   schemes: SchemesInfoMap;
   archives: string[];
 }
@@ -594,7 +596,7 @@ export interface DownloadInfo {
  * scheme and its commands.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
  */
-export interface DownloadSchemeInfo {
+export declare interface DownloadSchemeInfo {
   url: string;
   is_auth_required: boolean;
   is_auth_supported: boolean;
@@ -634,7 +636,7 @@ export declare interface FileInfo {
  * the gerrit section.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#gerrit-info
  */
-export interface GerritInfo {
+export declare interface GerritInfo {
   all_projects: string; // Doc contains incorrect name
   all_users: string; // Doc contains incorrect name
   doc_search: boolean;
@@ -685,7 +687,7 @@ export type GroupId = BrandType<string, '_groupId'>;
  * Gerrit internal group, or an external group that is known to Gerrit.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-info
  */
-export interface GroupInfo {
+export declare interface GroupInfo {
   id: GroupId;
   name?: GroupName;
   url?: string;
@@ -706,7 +708,7 @@ export type GroupName = BrandType<string, '_groupName'>;
  * Options of the group.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
  */
-export interface GroupOptionsInfo {
+export declare interface GroupOptionsInfo {
   visible_to_all: boolean;
 }
 
@@ -718,7 +720,7 @@ export type IdToAttentionSetMap = {[accountId: string]: AttentionSetInfo};
  * A boolean value that can also be inherited.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#inherited-boolean-info
  */
-export interface InheritedBooleanInfo {
+export declare interface InheritedBooleanInfo {
   value: boolean;
   configured_value: InheritedBooleanInfoConfiguredValue;
   inherited_value?: boolean;
@@ -750,7 +752,7 @@ export type LabelNameToLabelTypeInfoMap = {[labelName: string]: LabelTypeInfo};
  * has.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#label-type-info
  */
-export interface LabelTypeInfo {
+export declare interface LabelTypeInfo {
   values: LabelTypeInfoValues;
   default_value: number;
 }
@@ -765,7 +767,7 @@ export type LabelValueToDescriptionMap = {[labelValue: string]: string};
  * size limit of a project.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#max-object-size-limit-info
  */
-export interface MaxObjectSizeLimitInfo {
+export declare interface MaxObjectSizeLimitInfo {
   value?: string;
   configured_value?: string;
   summary?: string;
@@ -793,7 +795,7 @@ export type PatchSetNum = BrandType<'PARENT' | 'edit' | number, '_patchSet'>;
  * plugins.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#plugin-config-info
  */
-export interface PluginConfigInfo {
+export declare interface PluginConfigInfo {
   has_avatars: boolean;
   // Exists in Java class, but not mentioned in docs.
   js_resource_paths: string[];
@@ -828,7 +830,7 @@ export declare interface ProblemInfo {
  * The ProjectInfo entity contains information about a project
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-info
  */
-export interface ProjectInfo {
+export declare interface ProjectInfo {
   id: UrlEncodedRepoName;
   // name is not set if returned in a map where the project name is used as
   // map key
@@ -845,7 +847,7 @@ export interface ProjectInfo {
   web_links?: WebLinkInfo[];
 }
 
-export interface ProjectInfoWithName extends ProjectInfo {
+export declare interface ProjectInfoWithName extends ProjectInfo {
   name: RepoName;
 }
 
@@ -891,7 +893,7 @@ export function isQuickLabelInfo(
  * git-receive-pack behavior on the server.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#receive-info
  */
-export interface ReceiveInfo {
+export declare interface ReceiveInfo {
   enable_signed_push?: string;
 }
 
@@ -964,7 +966,7 @@ export type SchemesInfoMap = {[name: string]: DownloadSchemeInfo};
  * Gerrit server.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#server-info
  */
-export interface ServerInfo {
+export declare interface ServerInfo {
   accounts: AccountsConfigInfo;
   auth: AuthInfo;
   change: ChangeConfigInfo;
@@ -999,7 +1001,7 @@ export type StarLabel = BrandType<string, '_startLabel'>;
  * project inheritance.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#submit-type-info
  */
-export interface SubmitTypeInfo {
+export declare interface SubmitTypeInfo {
   value: Exclude<SubmitType, SubmitType.INHERIT>;
   configured_value: SubmitType;
   inherited_value: Exclude<SubmitType, SubmitType.INHERIT>;
@@ -1010,7 +1012,7 @@ export interface SubmitTypeInfo {
  * the suggest section.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#suggest-info
  */
-export interface SuggestInfo {
+export declare interface SuggestInfo {
   from: number;
 }
 
@@ -1038,7 +1040,7 @@ export declare interface TrackingIdInfo {
  * from the user section.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#user-config-info
  */
-export interface UserConfigInfo {
+export declare interface UserConfigInfo {
   anonymous_coward_name: string;
 }
 

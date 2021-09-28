@@ -16,14 +16,18 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_GLOBAL;
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_PARENT;
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_GLOBAL;
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_PARENT;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toSet;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -41,6 +45,7 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelId;
@@ -48,6 +53,7 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.CommentLinkInput;
@@ -56,6 +62,7 @@ import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -66,6 +73,7 @@ import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -74,7 +82,11 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -1000,6 +1012,143 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(afterRename).hasValue(newName);
   }
 
+  @Test
+  public void commitIncludedInRefsOpenChange() throws Exception {
+    PushOneCommit.Result result = createChange();
+    assertThrows(
+        ResourceNotFoundException.class,
+        () ->
+            getCommitIncludedInRefs(
+                result.getCommit().getName(), Arrays.asList(R_HEADS + "master")));
+    assertThrows(
+        AuthException.class,
+        () ->
+            getCommitIncludedInRefs(result.getCommit().getName(), Arrays.asList(R_HEADS + "foo")));
+    assertThrows(
+        BadRequestException.class,
+        () -> getCommitIncludedInRefs(result.getCommit().getName(), Collections.emptyList()));
+    assertThrows(
+        BadRequestException.class,
+        () -> getCommitIncludedInRefs(null, Arrays.asList(R_HEADS + "master")));
+  }
+
+  @Test
+  public void commitIncludedInRefsMergedChange() throws Exception {
+    createBranch(BranchNameKey.create(project, "test-branch-1"));
+    PushOneCommit.Result result = createChange();
+    gApi.changes()
+        .id(result.getChangeId())
+        .revision(result.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+
+    assertThat(
+            getCommitIncludedInRefs(
+                result.getCommit().getName(), Arrays.asList(R_HEADS + "master")))
+        .containsExactly(R_HEADS + "master");
+    assertThat(
+            getCommitIncludedInRefs(
+                result.getCommit().getName(),
+                Arrays.asList(R_HEADS + "master", R_HEADS + "test-branch-1")))
+        .containsExactly(R_HEADS + "master");
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
+    gApi.projects().name(result.getChange().project().get()).tag("test-tag").create(new TagInput());
+
+    assertThat(
+            getCommitIncludedInRefs(
+                result.getCommit().getName(), Arrays.asList(R_TAGS + "test-tag")))
+        .containsExactly(R_TAGS + "test-tag");
+    assertThat(
+            getCommitIncludedInRefs(
+                result.getCommit().getName(),
+                Arrays.asList(R_HEADS + "master", R_TAGS + "test-tag")))
+        .containsExactly(R_HEADS + "master", R_TAGS + "test-tag");
+
+    createBranch(BranchNameKey.create(project, "test-branch-2"));
+
+    assertThat(
+            getCommitIncludedInRefs(
+                result.getCommit().getName(),
+                Arrays.asList(
+                    R_HEADS + "master",
+                    R_TAGS + "test-tag",
+                    R_HEADS + "test-branch-1",
+                    R_HEADS + "test-branch-2")))
+        .containsExactly(R_HEADS + "master", R_TAGS + "test-tag", R_HEADS + "test-branch-2");
+  }
+
+  @Test
+  public void commitIncludedInRefsMergedChange_nonVisibleBranchRefs() throws Exception {
+    PushOneCommit.Result baseChange = createAndSubmitChange("refs/for/master");
+
+    createBranch(BranchNameKey.create(project, "test-branch-1"));
+    createBranch(BranchNameKey.create(project, "test-branch-2"));
+    createAndSubmitChange("refs/for/test-branch-1");
+    createAndSubmitChange("refs/for/test-branch-2");
+
+    assertThat(
+            getCommitIncludedInRefs(
+                baseChange.getCommit().getName(),
+                Arrays.asList(
+                    R_HEADS + "master", R_HEADS + "test-branch-1", R_HEADS + "test-branch-2")))
+        .containsExactly(R_HEADS + "master", R_HEADS + "test-branch-1", R_HEADS + "test-branch-2");
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref(R_HEADS + "test-branch-1").group(REGISTERED_USERS))
+        .update();
+
+    assertThrows(
+        AuthException.class,
+        () ->
+            getCommitIncludedInRefs(
+                baseChange.getCommit().getName(),
+                Arrays.asList(
+                    R_HEADS + "master", R_HEADS + "test-branch-1", R_HEADS + "test-branch-2")));
+  }
+
+  @Test
+  public void commitIncludedInRefsMergedChange_nonVisibleTagRefs() throws Exception {
+    String tagBase = "tag_base";
+    String tagBranch1 = "tag_1";
+
+    PushOneCommit.Result baseChange = createAndSubmitChange("refs/for/master");
+    pushHead(testRepo, RefNames.REFS_TAGS + tagBase, false, false);
+    assertThat(
+            getCommitIncludedInRefs(
+                baseChange.getCommit().getName(), Arrays.asList(R_TAGS + tagBase)))
+        .containsExactly(R_TAGS + tagBase);
+
+    createBranch(BranchNameKey.create(project, "test-branch-1"));
+    createAndSubmitChange("refs/for/test-branch-1");
+    pushHead(testRepo, RefNames.REFS_TAGS + tagBranch1, false, false);
+    assertThat(
+            getCommitIncludedInRefs(
+                baseChange.getCommit().getName(),
+                Arrays.asList(R_TAGS + tagBase, R_TAGS + tagBranch1)))
+        .containsExactly(R_TAGS + tagBase, R_TAGS + tagBranch1);
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        // Tag permissions are controlled by read permissions on branches. Blocking read permission
+        // on test-branch-1 so that tagBranch1 becomes non-visible
+        .add(block(Permission.READ).ref(R_HEADS + "test-branch-1").group(REGISTERED_USERS))
+        .update();
+    assertThrows(
+        AuthException.class,
+        () ->
+            getCommitIncludedInRefs(
+                baseChange.getCommit().getName(),
+                Arrays.asList(R_TAGS + tagBase, R_TAGS + tagBranch1)));
+  }
+
   private CommentLinkInfo commentLinkInfo(String name, String match, String link) {
     CommentLinkInfo info = new CommentLinkInfo();
     info.name = name;
@@ -1037,6 +1186,18 @@ public class ProjectIT extends AbstractDaemonTest {
 
   private ConfigInfo getConfig() throws Exception {
     return getConfig(project);
+  }
+
+  private Collection<String> getCommitIncludedInRefs(String commit, List<String> refs)
+      throws Exception {
+    return gApi.projects().name(project.get()).commitIn(commit, refs);
+  }
+
+  private PushOneCommit.Result createAndSubmitChange(String branch) throws Exception {
+    PushOneCommit.Result r = createChange(branch);
+    approve(r.getChangeId());
+    gApi.changes().id(r.getChangeId()).current().submit();
+    return r;
   }
 
   private ConfigInput createTestConfigInput() {

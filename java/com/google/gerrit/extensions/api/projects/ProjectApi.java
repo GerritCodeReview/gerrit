@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import java.util.Collection;
 import java.util.List;
 
 public interface ProjectApi {
@@ -50,6 +51,8 @@ public interface ProjectApi {
   ConfigInfo config() throws RestApiException;
 
   ConfigInfo config(ConfigInput in) throws RestApiException;
+
+  Collection<String> commitIn(String commit, Collection<String> refs) throws RestApiException;
 
   ListRefsRequest<BranchInfo> branches();
 
@@ -285,6 +288,12 @@ public interface ProjectApi {
 
     @Override
     public ConfigInfo config(ConfigInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Collection<String> commitIn(String commit, Collection<String> refs)
+        throws RestApiException {
       throw new NotImplementedException();
     }
 

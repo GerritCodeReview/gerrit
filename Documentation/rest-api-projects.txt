@@ -1037,6 +1037,36 @@ The response is empty.
   Location: https:<host>/a/config/server/tasks/383a0602
 ----
 
+[[commit-included-in]]
+=== Get Commit Included In Refs
+--
+'GET /projects/link:#project-name[\{project-name\}]/commitin'
+--
+
+Returns a subset of refs from the refs supplied by the user in which a commit
+was merged into or it was tagged with. As result a list of unshortened refs are
+returned.
+
+API responds with 403 if any of the input refs are not visible to the calling user
+according to the project's read permissions.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commitin?commit=a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96&ref=refs/heads/master&ref=refs/heads/branch1 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    "refs/heads/master"
+  ]
+----
+
 [[ban-commit]]
 === Ban Commit
 --

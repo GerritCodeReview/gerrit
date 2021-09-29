@@ -600,8 +600,9 @@ this endpoint too. Fields are described in link:#list-changes[Query Changes].
 ----
 
 As a response, two link:#change-info[ChangeInfo] entities are returned
-that describe information added and removed from the `old` change state.
-Only fields that differ between the change's two states are returned.
+that describe information added and removed from the `old` change state, and
+the two link:#change-info[ChangeInfo] entities that generated the diff are
+returned. Only fields that differ between the change's two states are returned.
 
 .Response
 ----
@@ -625,9 +626,55 @@ Only fields that differ between the change's two states are returned.
       "topic": "new-topic"
     },
     "removed": {
-      "updated": "2013-02-20 12:05:34.111000000",
+      "updated": "2013-02-01 09:59:32.126000000",
       "topic": "old-topic"
-    }
+    },
+    "old_change_info": {
+      "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+      "project": "myProject",
+      "branch": "master",
+      "attention_set": [],
+      "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+      "subject": "Implementing Feature X",
+      "status": "NEW",
+      "topic": "old-topic",
+      "created": "2013-02-01 09:59:32.126000000",
+      "updated": "2013-02-01 09:59:32.126000000",
+      "mergeable": true,
+      "insertions": 34,
+      "deletions": 101,
+      "_number": 3965,
+      "owner": {
+        "name": "John Doe"
+      }
+    },
+    "new_change_info": {
+      "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+      "project": "myProject",
+      "branch": "master",
+      "attention_set": [
+        {
+          "account": {
+            "name": "John Doe"
+          },
+         "last_update": "2013-02-21 11:16:36.775000000",
+         "reason": "reviewer or cc replied"
+        }
+      ],
+      "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+      "subject": "Implementing Feature X",
+      "status": "NEW",
+      "topic": "new-topic",
+      "created": "2013-02-01 09:59:32.126000000",
+      "updated": "2013-02-21 11:16:36.775000000",
+      "mergeable": true,
+      "insertions": 34,
+      "deletions": 101,
+      "_number": 3965,
+      "owner": {
+        "name": "John Doe"
+      }
+    },
   }
 ----
 

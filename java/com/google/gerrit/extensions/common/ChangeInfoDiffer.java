@@ -31,10 +31,12 @@ import java.util.Map;
 /**
  * Gets the differences between two {@link ChangeInfo}s.
  *
- * <p>This must be in package {@code com.google.gerrit.extensions.common} for access to protected
+ * <p>
+ * This must be in package {@code com.google.gerrit.extensions.common} for access to protected
  * constructors.
  *
- * <p>This assumes that every class reachable from {@link ChangeInfo} has a non-private constructor
+ * <p>
+ * This assumes that every class reachable from {@link ChangeInfo} has a non-private constructor
  * with zero parameters and overrides the equals method.
  */
 public final class ChangeInfoDiffer {
@@ -42,30 +44,35 @@ public final class ChangeInfoDiffer {
   /**
    * Returns the difference between two instances of {@link ChangeInfo}.
    *
-   * <p>The {@link ChangeInfoDifference} returned has the following properties:
+   * <p>
+   * The {@link ChangeInfoDifference} returned has the following properties:
    *
-   * <p>Unrepeated fields are present in the difference returned when they differ between {@code
-   * oldChangeInfo} and {@code newChangeInfo}. When there's an unrepeated field that's not a {@link
-   * String}, primitive, or enum, its fields are only returned when they differ.
+   * <p>
+   * Unrepeated fields are present in the difference returned when they differ between {@code
+   * oldChangeInfo} and {@code newChangeInfo}. When there's an unrepeated field that's not a
+   * {@link String}, primitive, or enum, its fields are only returned when they differ.
    *
-   * <p>Entries in {@link Map} fields are returned when a key is present in {@code newChangeInfo}
-   * and not {@code oldChangeInfo}. If a key is present in both, the diff of the value is returned.
+   * <p>
+   * Entries in {@link Map} fields are returned when a key is present in {@code newChangeInfo} and
+   * not {@code oldChangeInfo}. If a key is present in both, the diff of the value is returned.
    *
-   * <p>{@link Collection} fields in {@link ChangeInfoDifference#added()} contain only items found
-   * in {@code newChangeInfo} and not {@code oldChangeInfo}.
+   * <p>
+   * {@link Collection} fields in {@link ChangeInfoDifference#added()} contain only items found in
+   * {@code newChangeInfo} and not {@code oldChangeInfo}.
    *
-   * <p>{@link Collection} fields in {@link ChangeInfoDifference#removed()} contain only items found
-   * in {@code oldChangeInfo} and not {@code newChangeInfo}.
+   * <p>
+   * {@link Collection} fields in {@link ChangeInfoDifference#removed()} contain only items found in
+   * {@code oldChangeInfo} and not {@code newChangeInfo}.
    *
    * @param oldChangeInfo the previous {@link ChangeInfo} to diff against {@code newChangeInfo}
    * @param newChangeInfo the {@link ChangeInfo} to diff against {@code oldChangeInfo}
    * @return the difference between the given {@link ChangeInfo}s
    */
-  public static ChangeInfoDifference getDifference(
-      ChangeInfo oldChangeInfo, ChangeInfo newChangeInfo) {
-    return ChangeInfoDifference.create(
-        /* added= */ getAdded(oldChangeInfo, newChangeInfo),
-        /* removed= */ getAdded(newChangeInfo, oldChangeInfo));
+  public static ChangeInfoDifference getDifference(ChangeInfo oldChangeInfo,
+      ChangeInfo newChangeInfo) {
+    return ChangeInfoDifference.builder().setOldChangeInfo(oldChangeInfo)
+        .setNewChangeInfo(newChangeInfo).setAdded(getAdded(oldChangeInfo, newChangeInfo))
+        .setRemoved(getAdded(newChangeInfo, oldChangeInfo)).build();
   }
 
   @SuppressWarnings("unchecked") // reflection is used to construct instances of T
@@ -115,11 +122,8 @@ public final class ChangeInfoDiffer {
 
   @VisibleForTesting
   static boolean isSimple(Class<?> c) {
-    return c.isPrimitive()
-        || c.isEnum()
-        || String.class.isAssignableFrom(c)
-        || Number.class.isAssignableFrom(c)
-        || Boolean.class.isAssignableFrom(c)
+    return c.isPrimitive() || c.isEnum() || String.class.isAssignableFrom(c)
+        || Number.class.isAssignableFrom(c) || Boolean.class.isAssignableFrom(c)
         || Timestamp.class.isAssignableFrom(c);
   }
 
@@ -127,12 +131,9 @@ public final class ChangeInfoDiffer {
   static Object construct(Class<?> c) {
     // Only use constructors without parameters because we can't determine what values to pass.
     return stream(c.getDeclaredConstructors())
-        .filter(constructor -> constructor.getParameterCount() == 0)
-        .findAny()
-        .map(ChangeInfoDiffer::construct)
-        .orElseThrow(
-            () ->
-                new IllegalStateException("Class " + c + " must have a zero argument constructor"));
+        .filter(constructor -> constructor.getParameterCount() == 0).findAny()
+        .map(ChangeInfoDiffer::construct).orElseThrow(() -> new IllegalStateException(
+            "Class " + c + " must have a zero argument constructor"));
   }
 
   private static Object construct(Constructor<?> constructor) {
@@ -144,24 +145,23 @@ public final class ChangeInfoDiffer {
   }
 
   /** Returns {@code null} if nothing has been added to {@code oldCollection} */
-  private static ImmutableList<?> getAddedForCollection(
-      Collection<?> oldCollection, Collection<?> newCollection) {
+  private static ImmutableList<?> getAddedForCollection(Collection<?> oldCollection,
+      Collection<?> newCollection) {
     ImmutableList<?> notInOldCollection = getAdditions(oldCollection, newCollection);
     return notInOldCollection.isEmpty() ? null : notInOldCollection;
   }
 
-  private static ImmutableList<Object> getAdditions(
-      Collection<?> oldCollection, Collection<?> newCollection) {
+  private static ImmutableList<Object> getAdditions(Collection<?> oldCollection,
+      Collection<?> newCollection) {
     if (oldCollection == null)
       return newCollection != null ? ImmutableList.copyOf(newCollection) : null;
 
     Map<Object, List<Object>> duplicatesMap = newCollection.stream().collect(groupingBy(v -> v));
-    oldCollection.forEach(
-        v -> {
-          if (duplicatesMap.containsKey(v)) {
-            duplicatesMap.get(v).remove(v);
-          }
-        });
+    oldCollection.forEach(v -> {
+      if (duplicatesMap.containsKey(v)) {
+        duplicatesMap.get(v).remove(v);
+      }
+    });
     return duplicatesMap.values().stream().flatMap(Collection::stream).collect(toImmutableList());
   }
 
@@ -192,10 +192,8 @@ public final class ChangeInfoDiffer {
     try {
       field.set(obj, value);
     } catch (IllegalAccessException e) {
-      throw new IllegalStateException(
-          String.format(
-              "Access denied setting field %s in %s", field.getName(), obj.getClass().getName()),
-          e);
+      throw new IllegalStateException(String.format("Access denied setting field %s in %s",
+          field.getName(), obj.getClass().getName()), e);
     }
   }
 

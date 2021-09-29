@@ -506,6 +506,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e150626_c85d8a29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-29T22:12:08Z",
+      "side": 1,
+      "message": "\u003e [1] https://gist.github.com/geminicaprograms/b2cae199793f0f2b18759a803000447f\n\nThis shows perf before/after this change on 3.2. Could we also compare to 3.1 to see if this change brings performance back in line with that?\n\nAlso, to build on Han-Wen\u0027s point, if we\u0027re building caching around RefDatabase, why not have JGit itself do the caching?",
+      "parentUuid": "2c2d4d12_b6084211",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

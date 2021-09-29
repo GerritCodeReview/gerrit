@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2d5b860_515d49af",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-29T15:01:14Z",
+      "side": 1,
+      "message": "The test could verify that in the isEditing case we call addDraft and then in the not isediting case we call restApiService which could return a mockpromise that you can then resolve to verify we call addDraft",
+      "parentUuid": "dc5ad58f_7a5554fc",
+      "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b7d019d7_86d97c8f",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
         "patchSetId": 4

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff2c491a_1f110683",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-29T08:10:13Z",
+      "side": 1,
+      "message": "The patterns CHANGE_LEGACY and DIFF_LEGACY have become identical. So I think we can just drop one of them and its associated handler.",
+      "revId": "b4acd80464c1568a8bc3f7a127de7a62f8ce033a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

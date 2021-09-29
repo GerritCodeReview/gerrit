@@ -63,9 +63,12 @@ public final class ChangeInfoDiffer {
    */
   public static ChangeInfoDifference getDifference(
       ChangeInfo oldChangeInfo, ChangeInfo newChangeInfo) {
-    return ChangeInfoDifference.create(
-        /* added= */ getAdded(oldChangeInfo, newChangeInfo),
-        /* removed= */ getAdded(newChangeInfo, oldChangeInfo));
+    return ChangeInfoDifference.builder()
+        .setOldChangeInfo(oldChangeInfo)
+        .setNewChangeInfo(newChangeInfo)
+        .setAdded(getAdded(oldChangeInfo, newChangeInfo))
+        .setRemoved(getAdded(newChangeInfo, oldChangeInfo))
+        .build();
   }
 
   @SuppressWarnings("unchecked") // reflection is used to construct instances of T

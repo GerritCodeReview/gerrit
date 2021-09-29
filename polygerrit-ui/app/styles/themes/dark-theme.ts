@@ -95,6 +95,7 @@ function getStyleEl() {
       --vote-text-color: black;
       --status-text-color: black;
       --tooltip-text-color: var(--gray-200);
+      --tooltip-button-text-color: var(--gerrit-blue-dark);
       --negative-red-text-color: var(--red-200);
       --positive-green-text-color: var(--green-200);
       --indirect-ancestor-text-color: var(--green-200);

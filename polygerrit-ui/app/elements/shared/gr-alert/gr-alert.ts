@@ -43,7 +43,6 @@ export class GrAlert extends LitElement {
           bottom: 1.25rem;
           border-radius: var(--border-radius);
           box-shadow: var(--elevation-level-2);
-          color: var(--tooltip-text-color);
           left: 1.25rem;
           position: fixed;
           transform: translateY(5rem);
@@ -73,11 +72,10 @@ export class GrAlert extends LitElement {
           vertical-align: bottom;
           word-break: break-all;
         }
-        .action {
-          color: var(--link-color);
-          font-weight: var(--font-weight-bold);
+        gr-button.action {
+          --text-color: var(--tooltip-button-text-color);
+          --padding: 0 var(--spacing-s);
           margin-left: var(--spacing-l);
-          text-decoration: none;
         }
       `,
     ];
@@ -94,18 +92,8 @@ export class GrAlert extends LitElement {
   }
 
   override render() {
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const style = html`<style>
-      .action {
-        --gr-button: {
-          padding: 0;
-        }
-      }
-    </style>`;
     const {text, actionText} = this;
-    return html`${style}
+    return html`
       <div class="content-wrapper">
         <span class="text">${text}</span>
         <gr-button
@@ -116,7 +104,8 @@ export class GrAlert extends LitElement {
           >${actionText}
         </gr-button>
         ${this.renderDismissButton()}
-      </div> `;
+      </div>
+    `;
   }
 
   /**

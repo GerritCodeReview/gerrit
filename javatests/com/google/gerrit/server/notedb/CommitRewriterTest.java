@@ -811,6 +811,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             c, /*changeMessage=*/ "Removed Verified+2 by " + changeOwner.getNameEmail()),
         getAuthorIdent(changeOwner.getAccount()));
 
+
     // No rewrite for default
     writeUpdate(
         RefNames.changeMetaRef(c.getId()),
@@ -835,6 +836,154 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
+
+  @Test
+  public void fixRemoveVoteChangeMessageWithNoFooterLabel_matchByEmail() throws Exception {
+    Change c = newChange();
+    ChangeUpdate approvalUpdate = newUpdate(c, changeOwner);
+    approvalUpdate.putApproval(VERIFIED, (short) +2);
+
+    approvalUpdate.putApprovalFor(otherUserId, VERIFIED, (short) -1);
+    approvalUpdate.commit();
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c, /*changeMessage=*/ "Removed Verified+2 by Renamed Change Owner <change@owner.com>"),
+        getAuthorIdent(changeOwner.getAccount()));
+
+
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    BackfillResult result = rewriter.backfillProject(project, repo, options);
+    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
+
+    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    assertThat(commitHistoryDiff)
+        .containsExactly(
+            "@@ -6 +6 @@\n"
+                + "-Removed Verified+2 by Renamed Change Owner <change@owner.com>\n"
+                + "+Removed Verified+2 by <GERRIT_ACCOUNT_1>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
+  }
+
+  @Test
+  public void fixRemoveVoteChangeMessageWithNoFooterLabel_matchByName() throws Exception {
+    Change c = newChange();
+    ChangeUpdate approvalUpdate = newUpdate(c, changeOwner);
+    approvalUpdate.putApproval(VERIFIED, (short) +2);
+
+    approvalUpdate.putApprovalFor(otherUserId, VERIFIED, (short) -1);
+    approvalUpdate.commit();
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c, /*changeMessage=*/ "Removed Verified+2 by Change Owner"),
+        getAuthorIdent(changeOwner.getAccount()));
+
+
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    BackfillResult result = rewriter.backfillProject(project, repo, options);
+    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
+
+    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    assertThat(commitHistoryDiff)
+        .containsExactly(
+            "@@ -6 +6 @@\n"
+                + "-Removed Verified+2 by Change Owner\n"
+                + "+Removed Verified+2 by <GERRIT_ACCOUNT_1>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
+  }
+
+  @Test
+  public void fixRemoveVoteChangeMessageWithNoFooterLabel_matchByNameEmailDuplicateAccounts() throws Exception {
+    Account duplicateCodeOwner =
+        Account.builder(Account.id(4), TimeUtil.nowTs()).setFullName(changeOwner.getName()).setPreferredEmail("other@test.com").build();
+    accountCache.put(duplicateCodeOwner);
+    Change c = newChange();
+    ChangeUpdate approvalUpdate = newUpdate(c, changeOwner);
+    approvalUpdate.putApproval(VERIFIED, (short) +2);
+
+    approvalUpdate.putApprovalFor(duplicateCodeOwner.id(), VERIFIED, (short) -1);
+    approvalUpdate.commit();
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c, /*changeMessage=*/ "Removed Verified+2 by Change Owner <other@test.com>"),
+        getAuthorIdent(changeOwner.getAccount()));
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c, /*changeMessage=*/ "Removed Verified+2 by Change Owner <change@owner.com>"),
+        getAuthorIdent(changeOwner.getAccount()));
+
+
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    BackfillResult result = rewriter.backfillProject(project, repo, options);
+    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
+
+    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    assertThat(commitHistoryDiff)
+        .containsExactly(
+            "@@ -6 +6 @@\n"
+                + "-Removed Verified+2 by Change Owner <other@test.com>\n"
+                + "+Removed Verified+2 by <GERRIT_ACCOUNT_4>\n",
+            "@@ -6 +6 @@\n"
+                + "-Removed Verified+2 by Change Owner <change@owner.com>\n"
+                + "+Removed Verified+2 by <GERRIT_ACCOUNT_1>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
+  }
+
+  @Test
+  public void fixRemoveVoteChangeMessageWithNoFooterLabel_matchByNameEmailDuplicateEmail() throws Exception {
+    Account duplicateCodeOwner =
+        Account.builder(Account.id(4), TimeUtil.nowTs()).setFullName("Other Change Owner").setPreferredEmail("change@owner.com").build();
+    accountCache.put(duplicateCodeOwner);
+    Change c = newChange();
+    ChangeUpdate approvalUpdate = newUpdate(c, changeOwner);
+    approvalUpdate.putApproval(VERIFIED, (short) +2);
+
+    approvalUpdate.putApprovalFor(duplicateCodeOwner.id(), VERIFIED, (short) -1);
+    approvalUpdate.commit();
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c, /*changeMessage=*/ "Removed Verified+2 by Other Change Owner <change@owner.com>"),
+        getAuthorIdent(changeOwner.getAccount()));
+    writeUpdate(
+        RefNames.changeMetaRef(c.getId()),
+        getChangeUpdateBody(
+            c, /*changeMessage=*/ "Removed Verified+2 by Change Owner <change@owner.com>"),
+        getAuthorIdent(changeOwner.getAccount()));
+
+
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    BackfillResult result = rewriter.backfillProject(project, repo, options);
+    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
+
+    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    assertThat(commitHistoryDiff)
+        .containsExactly(
+            "@@ -6 +6 @@\n"
+                + "-Removed Verified+2 by Change Owner <other@test.com>\n"
+                + "+Removed Verified+2 by <GERRIT_ACCOUNT_4>\n",
+            "@@ -6 +6 @@\n"
+                + "-Removed Verified+2 by Change Owner <change@owner.com>\n"
+                + "+Removed Verified+2 by <GERRIT_ACCOUNT_1>\n");
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
+    assertThat(secondRunResult.refsFailedToFix).isEmpty();
+  }
+
+
 
   @Test
   public void fixRemoveVotesChangeMessage() throws Exception {

@@ -16,7 +16,7 @@
  */
 import '../gr-submit-requirement-hovercard/gr-submit-requirement-hovercard';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
 import {ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfo,
@@ -32,7 +32,14 @@ import {
   iconForStatus,
 } from '../../../utils/label-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {charsOnly} from '../../../utils/string-util';
+import {charsOnly, pluralize} from '../../../utils/string-util';
+import {subscribe} from '../../lit/subscription-controller';
+import {
+  allRunsLatestPatchsetLatestAttempt$,
+  CheckRun,
+} from '../../../services/checks/checks-model';
+import {getResultsOf, hasResultsOf} from '../../../services/checks/checks-util';
+import {Category} from '../../../api/checks';
 
 @customElement('gr-submit-requirements')
 export class GrSubmitRequirements extends LitElement {
@@ -44,6 +51,9 @@ export class GrSubmitRequirements extends LitElement {
 
   @property({type: Boolean})
   mutable?: boolean;
+
+  @state()
+  runs: CheckRun[] = [];
 
   static override get styles() {
     return [
@@ -95,8 +105,23 @@ export class GrSubmitRequirements extends LitElement {
         td {
           padding: var(--spacing-s);
         }
+        .votes-cell {
+          display: flex;
+        }
+        .check-error {
+          margin-right: var(--spacing-l);
+        }
+        .check-error iron-icon {
+          color: var(--error-foreground);
+          vertical-align: top;
+        }
       `,
     ];
+  }
+
+  constructor() {
+    super();
+    subscribe(this, allRunsLatestPatchsetLatestAttempt$, x => (this.runs = x));
   }
 
   override render() {
@@ -130,7 +155,12 @@ export class GrSubmitRequirements extends LitElement {
                   .text="${requirement.name}"
                 ></gr-limited-text>
               </td>
-              <td>${this.renderVotes(requirement)}</td>
+              <td>
+                <div class="votes-cell">
+                  ${this.renderVotes(requirement)}
+                  ${this.renderChecks(requirement)}
+                </div>
+              </td>
             </tr>`
           )}
         </tbody>
@@ -197,6 +227,28 @@ export class GrSubmitRequirements extends LitElement {
           ).length > 1}"
         ></gr-vote-chip>`
     );
+  }
+
+  renderChecks(requirement: SubmitRequirementResultInfo) {
+    const requirementLabels = extractAssociatedLabels(requirement);
+    const requirementRuns = this.runs
+      .filter(run => hasResultsOf(run, Category.ERROR))
+      .filter(
+        run => run.labelName && requirementLabels.includes(run.labelName)
+      );
+    const runsCount = requirementRuns.reduce(
+      (sum, run) => sum + getResultsOf(run, Category.ERROR).length,
+      0
+    );
+    if (runsCount > 0) {
+      return html`<span class="check-error"
+        ><iron-icon icon="gr-icons:error"></iron-icon>${pluralize(
+          runsCount,
+          'error'
+        )}</span
+      >`;
+    }
+    return;
   }
 
   renderTriggerVotes(submitReqs: SubmitRequirementResultInfo[]) {

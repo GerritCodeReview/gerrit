@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e38881fb_b5e693a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-29T09:45:57Z",
+      "side": 0,
+      "message": "can you please explain what caused the issue and how the fix works?",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 14
+      },
+      "revId": "ab38b66654aca151a5efa9268df24a668b71947d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

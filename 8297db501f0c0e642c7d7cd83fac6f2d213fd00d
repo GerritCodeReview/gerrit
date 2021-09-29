@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd9133a6_7553748a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-29T11:53:45Z",
+      "side": 1,
+      "message": "Thanks, the code looks good, some questions around testing.",
+      "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb7a6f0c_cf88ee73",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-29T11:53:45Z",
+      "side": 1,
+      "message": "This is new, is this part of a bug fix?\n\nCould you add a test that fails without this and passes with it?",
+      "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b339c40_4b5248e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-29T11:53:45Z",
+      "side": 1,
+      "message": "This is new, is this part of a bug fix?\n\nCould you add a test that fails without this and passes with it?",
+      "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7d019d7_86d97c8f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-29T11:53:45Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to test anything as the original id is already set to that?",
+      "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01691e1c_9b25aa54",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-29T11:53:45Z",
+      "side": 1,
+      "message": "Could you comment what you are flushing here?",
+      "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

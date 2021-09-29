@@ -16,6 +16,58 @@
       "message": "Would it make sense for a +2 potentially count as a +1 also?",
       "revId": "954133cc9643b2fcd74b43cb291a6535b2c887b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8837fc1_0b2f4e40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-29T16:28:24Z",
+      "side": 1,
+      "message": "I think that\u0027s getting back into \"magic\" behaviors like what we discussed avoiding at https://gerrit-review.googlesource.com/c/gerrit/+/318541/comment/5e8d78e7_0f9e9243/",
+      "parentUuid": "3c1d4bb1_28114490",
+      "revId": "954133cc9643b2fcd74b43cb291a6535b2c887b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfaa9489_a34d7865",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-29T16:28:24Z",
+      "side": 1,
+      "message": "This is really going to explode the field count... and makes me wonder about a more generic question.\n\nWhat happens when someone adds a new label and/or changes the vote range for a label? Do we have to reindex *all* changes using that label? That seems quite expensive. We can probably continue this discussion in https://gerrit-review.googlesource.com/c/gerrit/+/318541/comment/12418391_3d1c8317/ since it\u0027s related to that and then we can keep the discussion in one place. But I\u0027ll keep this as unresolved because I think it points to a very specific concern.",
+      "revId": "954133cc9643b2fcd74b43cb291a6535b2c887b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fd499a2_6f6e5625",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-29T16:28:24Z",
+      "side": 1,
+      "message": "Maybe add explicit test(s) for count\u003d0?",
+      "revId": "954133cc9643b2fcd74b43cb291a6535b2c887b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

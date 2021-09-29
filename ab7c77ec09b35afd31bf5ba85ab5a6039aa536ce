@@ -120,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "93cda7f3_63e37788",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-29T16:28:24Z",
+      "side": 1,
+      "message": "\u003e I believe it\u0027s OK to have these few extra records.\n\nDo we have any way to quantify that impact? For example, is there some documentation for Lucene that explains the costs of fields on a document?\n\nI think we could assume there\u0027s going to be a higher cost for (re-)indexing since any index would have to do more work to index more fields. Is there more beyond that?\n\nAnd... I\u0027m updating this after writing my comment at https://gerrit-review.googlesource.com/c/gerrit/+/318541/7/java/com/google/gerrit/server/index/change/ChangeField.java#646 where I\u0027m wondering what happens when labels are updated. I\u0027m quite concerned that this approach means you have an explosion of reindexing that (should) happen after updating any label vote range or creating a new label. Is that a valid concern or am I missing something?\n\n\u003e \u003e do we have another approach we could consider?\n\u003e \n\u003e We could store exact matching records in the index, i.e. only this one:\n\u003e   * Code-Review 1 2 \u003d\n\u003e \n\u003e Then a query with count \u003e x would translate to an or\u0027ed query of (count\u003dx+1 OR count\u003dx+2 ... or count\u003dMAX_THAT_WE_CONFIGURE) that we pass to the index. This is what we do with the \u003e/\u003c with the label votes.\n\nIf we\u0027re doing that already for label votes, why did you take this new approach for count?\n\nThe label approach seems like it allows more flexibility in combining args and has less complexity in matching field storage formats when searching (the stuff you pointed to in your [1]). Am I missing some other complexity to it?",
+      "parentUuid": "fa6bfa37_4216f898",
+      "range": {
+        "startLine": 668,
+        "startChar": 30,
+        "endLine": 668,
+        "endChar": 50
+      },
+      "revId": "ab7c77ec09b35afd31bf5ba85ab5a6039aa536ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9bb9f850_7f4f5286",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 6

@@ -20,11 +20,29 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 public abstract class ChangeInfoDifference {
 
+  public abstract ChangeInfo oldChangeInfo();
+
+  public abstract ChangeInfo newChangeInfo();
+
   public abstract ChangeInfo added();
 
   public abstract ChangeInfo removed();
 
-  public static ChangeInfoDifference create(ChangeInfo added, ChangeInfo removed) {
-    return new AutoValue_ChangeInfoDifference(added, removed);
+  public static Builder builder() {
+    return new AutoValue_ChangeInfoDifference.Builder();
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+
+    public abstract Builder setOldChangeInfo(ChangeInfo oldChangeInfo);
+
+    public abstract Builder setNewChangeInfo(ChangeInfo newChangeInfo);
+
+    public abstract Builder setAdded(ChangeInfo added);
+
+    public abstract Builder setRemoved(ChangeInfo removed);
+
+    public abstract ChangeInfoDifference build();
   }
 }

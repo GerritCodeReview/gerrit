@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37d53e78_20543c1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-09-29T18:10:55Z",
+      "side": 1,
+      "message": "Neither would I because the count\u003d2, however I would expect this to match a change with one +1 and one +2 vote, or a change with only two +2 votes (and no +1 votes). In other words if want to make a requirement of at least two +1 votes, I likely want to allow a +2 vote to fulfill the requirement of one of those +1 votes.",
+      "parentUuid": "fe9e902f_c5fd59c2",
+      "revId": "954133cc9643b2fcd74b43cb291a6535b2c887b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfaa9489_a34d7865",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 7

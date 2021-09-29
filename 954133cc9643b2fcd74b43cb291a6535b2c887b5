@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe9e902f_c5fd59c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-09-29T16:58:22Z",
+      "side": 1,
+      "message": "I don\u0027t know exactly what use case you had in mind, but I wouldn\u0027t expect that query to match a change with only one +2 vote.",
+      "parentUuid": "74c62871_4be0ab67",
+      "revId": "954133cc9643b2fcd74b43cb291a6535b2c887b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfaa9489_a34d7865",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 7

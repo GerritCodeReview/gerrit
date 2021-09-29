@@ -303,9 +303,6 @@ export class GrChecksRun extends LitElement {
   renderStatusLink() {
     const link = this.run.statusLink;
     if (!link) return;
-    // For COMPLETED we think that the status link are too much clutter.
-    // That could be re-considered.
-    if (this.run.status !== RunStatus.RUNNING) return;
     return html`
       <a href="${link}" target="_blank" @click="${this.onLinkClick}"
         ><iron-icon

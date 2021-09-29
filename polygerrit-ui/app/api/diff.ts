@@ -53,30 +53,30 @@ export declare interface DiffInfo {
 }
 
 /**
+ * Represents a "generic" text range in the code (e.g. text selection)
+ */
+interface TextRange {
+  /** first line of the range (1-based inclusive). */
+  start_line: number;
+  /** first column of the range (in the first line) (1-based inclusive). */
+  start_column: number;
+  /** last line of the range (1-based inclusive). */
+  end_line: number;
+  /** last column of the range (in the end line) (1-based inclusive). */
+  end_column: number;
+}
+
+/**
  * Represents a syntax block in a code (e.g. method, function, class, if-else).
  */
 export declare interface SyntaxBlock {
   /** Name of the block (e.g. name of the method/class)*/
   name: string;
-  /** Where does this block syntatically starts and ends (line number and column).*/
-  range: {
-    /** first line of the block (1-based inclusive). */
-    start_line: number;
-    /**
-     * column of the range start inside the first line (e.g. "{" character ending a function/method)
-     * (1-based inclusive).
-     */
-    start_column: number;
-    /**
-     * last line of the block (1-based inclusive).
-     */
-    end_line: number;
-    /**
-     * column of the block end inside the end line (e.g. "}" character ending a function/method)
-     * (1-based inclusive).
-     */
-    end_column: number;
-  };
+  /**
+   * Where does this block syntatically starts and ends (line number and
+   * column).
+   */
+  range: TextRange;
   /** Sub-blocks of the current syntax block (e.g. methods of a class) */
   children: SyntaxBlock[];
 }
@@ -210,15 +210,22 @@ export declare interface DiffPreferencesInfo {
 }
 
 /**
- * Listens to changes in token highlighting - when a new token starts or stopped being highlighted.
- * Examples:
- * - Token highlighted: ('myFunctionName', 12, [Element]).
- * - Token unhighlighted: (undefined, 0, undefined).
+ * Event details when a token is highlighted.
  */
-export type TokenHighlightedListener = (
-  newHighlight: string | undefined,
-  newLineNumber: number,
-  hoveredElement?: Element
+export declare interface TokenHighlightEventDetails {
+  token: string;
+  element: Element;
+  side: Side;
+  range: TextRange;
+}
+
+/**
+ * Listens to changes in token highlighting - when a new token starts or stopped
+ * being highlighted. undefined is sent if the event is about a clear in
+ * highlighting.
+ */
+export type TokenHighlightListener = (
+  tokenHighlightEvent?: TokenHighlightEventDetails
 ) => void;
 
 export declare interface ImageDiffPreferences {

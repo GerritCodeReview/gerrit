@@ -69,12 +69,14 @@ suite('gr-label-info tests', () => {
       await flush();
     });
 
-    test('_computeCanDeleteVote', () => {
+    test('_computeCanDeleteVote', async () => {
       element.mutable = false;
+      await flush();
       const removeButton = queryAndAssert<GrButton>(element, 'gr-button');
       assert.isTrue(isHidden(removeButton));
       element.change!.removable_reviewers = [account];
       element.mutable = true;
+      await flush();
       assert.isFalse(isHidden(removeButton));
     });
 
@@ -217,7 +219,7 @@ suite('gr-label-info tests', () => {
     assert.equal(element._computeValueTooltip(labelInfo, score), '');
   });
 
-  test('placeholder', () => {
+  test('placeholder', async () => {
     const values = {
       '0': 'No score',
       '+1': 'good',
@@ -226,30 +228,37 @@ suite('gr-label-info tests', () => {
       '-2': 'terrible',
     };
     element.labelInfo = {};
+    await flush();
     assert.isFalse(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {all: [], values};
+    await flush();
     assert.isFalse(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {all: [{value: 1}], values};
+    await flush();
     assert.isTrue(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {rejected: account};
+    await flush();
     assert.isTrue(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {rejected: account, all: [{value: 1}], values};
+    await flush();
     assert.isTrue(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {approved: account};
+    await flush();
     assert.isTrue(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {approved: account, all: [{value: 1}], values};
+    await flush();
     assert.isTrue(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );

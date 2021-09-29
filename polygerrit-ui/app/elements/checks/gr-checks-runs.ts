@@ -469,6 +469,11 @@ export class GrChecksRuns extends LitElement {
         .testing:hover * {
           visibility: visible;
         }
+        .zero {
+          padding: var(--spacing-m) 0;
+          color: var(--primary-text-color);
+          margin-top: var(--spacing-m);
+        }
         .login,
         .error {
           padding: var(--spacing-m);
@@ -528,7 +533,7 @@ export class GrChecksRuns extends LitElement {
         <div class="flex-space"></div>
         ${this.renderTitleButtons()} ${this.renderCollapseButton()}
       </h2>
-      ${this.renderErrors()} ${this.renderSignIn()}
+      ${this.renderErrors()} ${this.renderSignIn()} ${this.renderZeroState()}
       <input
         id="filterInput"
         type="text"
@@ -540,6 +545,11 @@ export class GrChecksRuns extends LitElement {
       ${this.renderSection(RunStatus.COMPLETED)}
       ${this.renderSection(RunStatus.RUNNABLE)} ${this.renderFakeControls()}
     `;
+  }
+
+  private renderZeroState() {
+    if (this.runs.length > 0) return;
+    return html`<div class="zero">No Check Run to show</div>`;
   }
 
   private renderErrors() {

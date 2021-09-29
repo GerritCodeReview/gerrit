@@ -54,6 +54,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc5ad58f_7a5554fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-29T13:47:29Z",
+      "side": 1,
+      "message": "This is not really new since the draft was always being added to the model.\n\nSpecifically https://gerrit-review.googlesource.com/c/gerrit/+/319096/4/polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts#b568\n\n`this.commentsService.addDraft(reply);`\n\nI\u0027m not really sure what to test here. We are already testing that the draft is added to the model and with an \"id\".",
+      "parentUuid": "7b339c40_4b5248e1",
+      "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6534f346_df942246",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-29T13:47:29Z",
+      "side": 1,
+      "message": "Duplicate comment",
+      "parentUuid": "fb7a6f0c_cf88ee73",
+      "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b7d019d7_86d97c8f",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
         "patchSetId": 4
@@ -65,6 +101,24 @@
       "writtenOn": "2021-09-29T11:53:45Z",
       "side": 1,
       "message": "This doesn\u0027t seem to test anything as the original id is already set to that?",
+      "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50059a33_3eb7d24a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-29T13:47:29Z",
+      "side": 1,
+      "message": "Original ID is set for the response that the saveDiffDraft request will return(not of the comment that is being added to the model).\n\nThe bug is due to the fact that the comment added to the model was without the \"id\" parameter so we are testing that the model contains the \"id\" field.",
+      "parentUuid": "b7d019d7_86d97c8f",
       "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -82,6 +136,24 @@
       "writtenOn": "2021-09-29T11:53:45Z",
       "side": 1,
       "message": "Could you comment what you are flushing here?",
+      "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9df4e5e4_4981d16f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-29T13:47:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01691e1c_9b25aa54",
       "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

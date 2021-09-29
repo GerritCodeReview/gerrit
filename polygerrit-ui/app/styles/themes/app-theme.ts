@@ -185,6 +185,7 @@ const styleSheet = safeStyleSheet`
     --vote-text-color: black;
     --status-text-color: white;
     --tooltip-text-color: white;
+    --tooltip-button-text-color: var(--gerrit-blue-dark);
     --negative-red-text-color: var(--red-600);
     --positive-green-text-color: var(--green-700);
     --indirect-ancestor-text-color: var(--green-700);

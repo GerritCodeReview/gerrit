@@ -58,7 +58,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -116,6 +115,17 @@ public class CommitRewriter {
     public boolean verifyCommits = true;
     /** Whether to compute and output the diff of the commit history for the backfilled refs. */
     public boolean outputDiff = true;
+
+    /**
+     * If true, will try to replace account details with {@link
+     * AccountTemplateUtil#ACCOUNT_TEMPLATE} in {@link com.google.gerrit.entities.ChangeMessage}.
+     * Otherwise will just omit the account details.
+     *
+     * <p>This only apples if the {@link Account.Id} can not be unambiguously matched from NoteDB
+     * commit footers. If it can be determined from footer, it will always be replaced with {@link
+     * AccountTemplateUtil#ACCOUNT_TEMPLATE}. See {@link #getPossibleAccountReplacement}.
+     */
+    public boolean useReplacementByName = false;
   }
 
   /** Result of the backfill run for a project. */
@@ -386,7 +396,7 @@ public class CommitRewriter {
     RevCommit originalCommit;
 
     boolean rewriteStarted = false;
-    ChangeFixProgress changeFixProgress = new ChangeFixProgress();
+    ChangeFixProgress changeFixProgress = new ChangeFixProgress(ref.getName());
     while ((originalCommit = revWalk.next()) != null) {
 
       changeFixProgress.updateAuthorId =
@@ -400,7 +410,8 @@ public class CommitRewriter {
         // Leave as it is.
         fixedAuthorIdent = originalCommit.getAuthorIdent();
       }
-      Optional<String> fixedCommitMessage = fixedCommitMessage(originalCommit, changeFixProgress);
+      Optional<String> fixedCommitMessage =
+          fixedCommitMessage(options, originalCommit, changeFixProgress);
       String commitMessage =
           fixedCommitMessage.isPresent()
               ? fixedCommitMessage.get()
@@ -524,6 +535,7 @@ public class CommitRewriter {
   }
 
   private Optional<String> fixAssigneeChangeMessage(
+      RunOptions options,
       ChangeFixProgress changeFixProgress,
       Optional<Account.Id> oldAssignee,
       Optional<Account.Id> newAssignee,
@@ -534,38 +546,59 @@ public class CommitRewriter {
 
     Matcher assigneeDeletedMatcher = ASSIGNEE_DELETED_PATTERN.matcher(originalChangeMessage);
     if (assigneeDeletedMatcher.matches()) {
-      if (!NON_REPLACE_ACCOUNT_PATTERN.matcher(assigneeDeletedMatcher.group(1)).matches()) {
+      if (NON_REPLACE_ACCOUNT_PATTERN.matcher(assigneeDeletedMatcher.group(1)).matches()) {
+        return Optional.empty();
+      }
+      if (oldAssignee.isPresent() || options.useReplacementByName) {
         return Optional.of(
             "Assignee deleted: "
                 + getPossibleAccountReplacement(
-                    changeFixProgress, oldAssignee, assigneeDeletedMatcher.group(1)));
+                    options,
+                    changeFixProgress,
+                    oldAssignee,
+                    ParsedAccountInfo.create(assigneeDeletedMatcher.group(1))));
       }
-      return Optional.empty();
+      return Optional.of("Assignee was deleted.");
     }
 
     Matcher assigneeAddedMatcher = ASSIGNEE_ADDED_PATTERN.matcher(originalChangeMessage);
     if (assigneeAddedMatcher.matches()) {
-      if (!NON_REPLACE_ACCOUNT_PATTERN.matcher(assigneeAddedMatcher.group(1)).matches()) {
+      if (NON_REPLACE_ACCOUNT_PATTERN.matcher(assigneeAddedMatcher.group(1)).matches()) {
+        return Optional.empty();
+      }
+      if (newAssignee.isPresent() || options.useReplacementByName) {
         return Optional.of(
             "Assignee added: "
                 + getPossibleAccountReplacement(
-                    changeFixProgress, newAssignee, assigneeAddedMatcher.group(1)));
+                    options,
+                    changeFixProgress,
+                    newAssignee,
+                    ParsedAccountInfo.create(assigneeAddedMatcher.group(1))));
       }
-      return Optional.empty();
+      return Optional.of("Assignee was added.");
     }
 
     Matcher assigneeChangedMatcher = ASSIGNEE_CHANGED_PATTERN.matcher(originalChangeMessage);
     if (assigneeChangedMatcher.matches()) {
-      if (!NON_REPLACE_ACCOUNT_PATTERN.matcher(assigneeChangedMatcher.group(1)).matches()) {
+      if (NON_REPLACE_ACCOUNT_PATTERN.matcher(assigneeChangedMatcher.group(1)).matches()) {
+        return Optional.empty();
+      }
+      if ((oldAssignee.isPresent() && newAssignee.isPresent()) || options.useReplacementByName) {
         return Optional.of(
             String.format(
                 "Assignee changed from: %s to: %s",
                 getPossibleAccountReplacement(
-                    changeFixProgress, oldAssignee, assigneeChangedMatcher.group(1)),
+                    options,
+                    changeFixProgress,
+                    oldAssignee,
+                    ParsedAccountInfo.create(assigneeChangedMatcher.group(1))),
                 getPossibleAccountReplacement(
-                    changeFixProgress, newAssignee, assigneeChangedMatcher.group(2))));
+                    options,
+                    changeFixProgress,
+                    newAssignee,
+                    ParsedAccountInfo.create(assigneeChangedMatcher.group(2)))));
       }
-      return Optional.empty();
+      return Optional.of("Assignee was changed.");
     }
     return Optional.empty();
   }
@@ -585,6 +618,7 @@ public class CommitRewriter {
   }
 
   private Optional<String> fixRemoveVoteChangeMessage(
+      RunOptions options,
       ChangeFixProgress changeFixProgress,
       Optional<Account.Id> reviewer,
       String originalChangeMessage) {
@@ -594,39 +628,55 @@ public class CommitRewriter {
 
     Matcher matcher = REMOVED_VOTE_PATTERN.matcher(originalChangeMessage);
     if (matcher.matches() && !NON_REPLACE_ACCOUNT_PATTERN.matcher(matcher.group(2)).matches()) {
-      return Optional.of(
-          String.format(
-              "Removed %s by %s",
-              matcher.group(1),
-              getPossibleAccountReplacement(
-                  changeFixProgress, reviewer, getNameFromNameEmail(matcher.group(2)))));
+      StringBuilder replacement = new StringBuilder();
+      replacement.append("Removed ").append(matcher.group(1));
+      if (reviewer.isPresent() || options.useReplacementByName) {
+        replacement
+            .append(" by ")
+            .append(
+                getPossibleAccountReplacement(
+                    options,
+                    changeFixProgress,
+                    reviewer,
+                    getAccountInfoFromNameEmail(matcher.group(2))));
+      }
+      return Optional.of(replacement.toString());
     }
     return Optional.empty();
   }
 
   private Optional<String> fixRemoveVotesChangeMessage(
-      ChangeFixProgress changeFixProgress, String originalChangeMessage) {
+      RunOptions options, ChangeFixProgress changeFixProgress, String originalChangeMessage) {
     if (Strings.isNullOrEmpty(originalChangeMessage)
         || !originalChangeMessage.startsWith(REMOVED_VOTES_CHANGE_MESSAGE_START)) {
       return Optional.empty();
     }
     String[] lines = originalChangeMessage.split("\\r?\\n");
     StringBuilder fixedLines = new StringBuilder();
+    boolean anyFixed = false;
     for (int i = 1; i < lines.length; i++) {
       if (lines[i].isEmpty()) {
         continue;
       }
       Matcher matcher = REMOVED_VOTES_CHANGE_MESSAGE_PATTERN.matcher(lines[i]);
+      String replacementLine = lines[i];
       if (matcher.matches() && !NON_REPLACE_ACCOUNT_PATTERN.matcher(matcher.group(2)).matches()) {
-        fixedLines.append(
-            String.format(
-                "* %s by %s\n",
-                matcher.group(1),
-                getPossibleAccountReplacement(
-                    changeFixProgress, Optional.empty(), getNameFromNameEmail(matcher.group(2)))));
+        anyFixed = true;
+        replacementLine = "* " + matcher.group(1);
+        if (options.useReplacementByName) {
+          replacementLine +=
+              " by "
+                  + getPossibleAccountReplacement(
+                      options,
+                      changeFixProgress,
+                      Optional.empty(),
+                      getAccountInfoFromNameEmail(matcher.group(2)));
+        }
+        replacementLine += "\n";
       }
+      fixedLines.append(replacementLine);
     }
-    if (fixedLines.length() == 0) {
+    if (!anyFixed) {
       return Optional.empty();
     }
     return Optional.of(REMOVED_VOTES_CHANGE_MESSAGE_START + "\n" + fixedLines);
@@ -667,7 +717,7 @@ public class CommitRewriter {
    * <p>See https://gerrit-review.googlesource.com/c/plugins/code-owners/+/305409
    */
   private Optional<String> fixCodeOwnersOnAddReviewerChangeMessage(
-      ChangeFixProgress changeFixProgress, String originalMessage) {
+      RunOptions options, ChangeFixProgress changeFixProgress, String originalMessage) {
     if (Strings.isNullOrEmpty(originalMessage)) {
       return Optional.empty();
     }
@@ -685,11 +735,20 @@ public class CommitRewriter {
     onAddReviewerMatcher.reset();
     StringBuffer sb = new StringBuffer();
     while (onAddReviewerMatcher.find()) {
-      String reviewerName = normalizeOnCodeOwnerAddReviewerMatch(onAddReviewerMatcher.group(1));
-      String replacementName =
-          getPossibleAccountReplacement(changeFixProgress, Optional.empty(), reviewerName);
-      onAddReviewerMatcher.appendReplacement(
-          sb, replacementName + ", who was added as reviewer owns the following files");
+      String replacement;
+      if (options.useReplacementByName) {
+        String reviewerName = normalizeOnCodeOwnerAddReviewerMatch(onAddReviewerMatcher.group(1));
+        String replacementName =
+            getPossibleAccountReplacement(
+                options,
+                changeFixProgress,
+                Optional.empty(),
+                ParsedAccountInfo.create(reviewerName));
+        replacement = replacementName + ", who was added as reviewer owns the following files";
+      } else {
+        replacement = "Added reviewer owns the following files";
+      }
+      onAddReviewerMatcher.appendReplacement(sb, replacement);
     }
     onAddReviewerMatcher.appendTail(sb);
     sb.append("\n");
@@ -713,7 +772,10 @@ public class CommitRewriter {
   }
 
   private Optional<String> fixCodeOwnersOnReviewChangeMessage(
-      Optional<Account.Id> reviewer, String originalMessage) {
+      RunOptions options,
+      ChangeFixProgress changeFixProgress,
+      Optional<Account.Id> reviewer,
+      String originalMessage) {
     if (Strings.isNullOrEmpty(originalMessage)) {
       return Optional.empty();
     }
@@ -723,14 +785,14 @@ public class CommitRewriter {
       String accountName =
           firstNonNull(onCodeOwnerReviewMatcher.group(1), onCodeOwnerReviewMatcher.group(2));
       if (!ACCOUNT_TEMPLATE_PATTERN.matcher(accountName).matches()) {
-        return Optional.of(
-            originalMessage.replace(
-                    "by " + accountName,
-                    "by "
-                        + reviewer
-                            .map(AccountTemplateUtil::getAccountTemplate)
-                            .orElse(DEFAULT_ACCOUNT_REPLACEMENT))
-                + "\n");
+        String replacement = "";
+        if (reviewer.isPresent() || options.useReplacementByName) {
+          replacement =
+              "by "
+                  + getPossibleAccountReplacement(
+                      options, changeFixProgress, reviewer, ParsedAccountInfo.create(accountName));
+        }
+        return Optional.of(originalMessage.replace("by " + accountName, replacement) + "\n");
       }
     }
 
@@ -777,7 +839,8 @@ public class CommitRewriter {
    * Fixes commit body case by case, so it does not contain user data. Returns fixed commit message,
    * or {@link Optional#empty} if no fixes were applied.
    */
-  private Optional<String> fixedCommitMessage(RevCommit revCommit, ChangeFixProgress fixProgress)
+  private Optional<String> fixedCommitMessage(
+      RunOptions options, RevCommit revCommit, ChangeFixProgress fixProgress)
       throws ConfigInvalidException {
     byte[] raw = revCommit.getRawBuffer();
     Charset enc = RawParseUtils.parseEncoding(raw);
@@ -821,6 +884,7 @@ public class CommitRewriter {
         if (!fixedChangeMessage.isPresent()) {
           fixedChangeMessage =
               fixAssigneeChangeMessage(
+                  options,
                   fixProgress,
                   Optional.ofNullable(oldAssignee),
                   Optional.ofNullable(fixProgress.assigneeId),
@@ -859,6 +923,7 @@ public class CommitRewriter {
         if (!fixedChangeMessage.isPresent()) {
           fixedChangeMessage =
               fixRemoveVoteChangeMessage(
+                  options,
                   fixProgress,
                   fixedVoter == null
                       ? fixProgress.updateAuthorId
@@ -919,16 +984,16 @@ public class CommitRewriter {
       fixedChangeMessage = fixReviewerChangeMessage(originalChangeMessage);
     }
     if (!fixedChangeMessage.isPresent()) {
-      fixedChangeMessage = fixRemoveVotesChangeMessage(fixProgress, originalChangeMessage);
+      fixedChangeMessage = fixRemoveVotesChangeMessage(options, fixProgress, originalChangeMessage);
     }
     if (!fixedChangeMessage.isPresent()) {
       fixedChangeMessage =
-          fixRemoveVoteChangeMessage(fixProgress, Optional.empty(), originalChangeMessage);
+          fixRemoveVoteChangeMessage(options, fixProgress, Optional.empty(), originalChangeMessage);
     }
     if (!fixedChangeMessage.isPresent()) {
       fixedChangeMessage =
           fixAssigneeChangeMessage(
-              fixProgress, Optional.empty(), Optional.empty(), originalChangeMessage);
+              options, fixProgress, Optional.empty(), Optional.empty(), originalChangeMessage);
     }
     if (!fixedChangeMessage.isPresent()) {
       fixedChangeMessage = fixSubmitChangeMessage(originalChangeMessage);
@@ -938,11 +1003,12 @@ public class CommitRewriter {
     }
     if (!fixedChangeMessage.isPresent()) {
       fixedChangeMessage =
-          fixCodeOwnersOnReviewChangeMessage(fixProgress.updateAuthorId, originalChangeMessage);
+          fixCodeOwnersOnReviewChangeMessage(
+              options, fixProgress, fixProgress.updateAuthorId, originalChangeMessage);
     }
     if (!fixedChangeMessage.isPresent()) {
       fixedChangeMessage =
-          fixCodeOwnersOnAddReviewerChangeMessage(fixProgress, originalChangeMessage);
+          fixCodeOwnersOnAddReviewerChangeMessage(options, fixProgress, originalChangeMessage);
     }
     if (!anyFootersFixed && !fixedChangeMessage.isPresent()) {
       return Optional.empty();
@@ -971,9 +1037,10 @@ public class CommitRewriter {
   private Optional<Account.Id> parseIdent(ChangeFixProgress changeFixProgress, PersonIdent ident) {
     Optional<Account.Id> account = NoteDbUtil.parseIdent(ident);
     if (account.isPresent()) {
-      changeFixProgress.parsedAccounts.putIfAbsent(account.get(), "");
+      changeFixProgress.parsedAccounts.putIfAbsent(account.get(), Optional.empty());
     } else {
-      logger.atWarning().log("Failed to parse id %s", ident);
+      logger.atWarning().log(
+          "Fixing ref %s, failed to parse id %s", changeFixProgress.changeMetaRef, ident);
     }
     return account;
   }
@@ -1022,10 +1089,16 @@ public class CommitRewriter {
     return fixIdentResult;
   }
 
-  /** Extracts {@link Account#getName} from {@link Account#getNameEmail} */
-  private String getNameFromNameEmail(String nameEmail) {
+  /** Extracts {@link ParsedAccountInfo} from {@link Account#getNameEmail} */
+  private ParsedAccountInfo getAccountInfoFromNameEmail(String nameEmail) {
     Matcher nameEmailMatcher = NAME_EMAIL_PATTERN.matcher(nameEmail);
-    return nameEmailMatcher.matches() ? nameEmailMatcher.group(1) : nameEmail;
+    if (!nameEmailMatcher.matches()) {
+      return ParsedAccountInfo.create(nameEmail);
+    }
+
+    return ParsedAccountInfo.create(
+        nameEmailMatcher.group(1),
+        nameEmailMatcher.group(2).substring(1, nameEmailMatcher.group(2).length() - 1));
   }
 
   /**
@@ -1036,41 +1109,80 @@ public class CommitRewriter {
    * ChangeFixProgress#parsedAccounts} that appeared in the change. If this fails {@link
    * #DEFAULT_ACCOUNT_REPLACEMENT} is applied.
    *
+   * @param options {@link RunOptions}
    * @param changeFixProgress see {@link ChangeFixProgress}
    * @param account account that should be used for replacement, if known
-   * @param accountName {@link Account#getName} to replace.
+   * @param accountInfo {@link ParsedAccountInfo} to replace.
    * @return replacement for {@code accountName}
    */
   private String getPossibleAccountReplacement(
-      ChangeFixProgress changeFixProgress, Optional<Account.Id> account, String accountName) {
+      RunOptions options,
+      ChangeFixProgress changeFixProgress,
+      Optional<Account.Id> account,
+      ParsedAccountInfo accountInfo) {
     if (account.isPresent()) {
       return AccountTemplateUtil.getAccountTemplate(account.get());
     }
+    if (!options.useReplacementByName) {
+      return DEFAULT_ACCOUNT_REPLACEMENT;
+    }
     // Retrieve reviewer accounts from cache and try to match by their name.
-    Map<Account.Id, AccountState> missingUserNameReviewers =
+    Map<Account.Id, AccountState> missingAccountStateReviewers =
         accountCache.get(
             changeFixProgress.parsedAccounts.entrySet().stream()
-                .filter(entry -> entry.getValue().isEmpty())
+                .filter(entry -> !entry.getValue().isPresent())
                 .map(Map.Entry::getKey)
                 .collect(ImmutableSet.toImmutableSet()));
     changeFixProgress.parsedAccounts.putAll(
-        missingUserNameReviewers.entrySet().stream()
+        missingAccountStateReviewers.entrySet().stream()
             .collect(
                 ImmutableMap.toImmutableMap(
-                    Map.Entry::getKey, e -> e.getValue().account().getName())));
-    Set<Account.Id> possibleReplacements =
-        changeFixProgress.parsedAccounts.entrySet().stream()
-            .filter(e -> e.getValue().equals(accountName))
-            .map(Entry::getKey)
-            .collect(ImmutableSet.toImmutableSet());
+                    Map.Entry::getKey, e -> Optional.ofNullable(e.getValue()))));
+    Map<Account.Id, AccountState> possibleReplacements = ImmutableMap.of();
+    if (accountInfo.email().isPresent()) {
+      possibleReplacements =
+          changeFixProgress.parsedAccounts.entrySet().stream()
+              .filter(
+                  e ->
+                      e.getValue().isPresent()
+                          && Objects.equals(
+                              e.getValue().get().account().preferredEmail(),
+                              accountInfo.email().get()))
+              .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, e -> e.getValue().get()));
+      // Filter further so we match both email & name
+      if (possibleReplacements.size() > 1) {
+        logger.atWarning().log(
+            "Fixing ref %s, multiple accounts found with the same email address, while replacing %s",
+            changeFixProgress.changeMetaRef, accountInfo);
+        possibleReplacements =
+            possibleReplacements.entrySet().stream()
+                .filter(e -> Objects.equals(e.getValue().account().getName(), accountInfo.name()))
+                .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
+      }
+    }
+    if (possibleReplacements.isEmpty()) {
+      possibleReplacements =
+          changeFixProgress.parsedAccounts.entrySet().stream()
+              .filter(
+                  e ->
+                      e.getValue().isPresent()
+                          && Objects.equals(
+                              e.getValue().get().account().getName(), accountInfo.name()))
+              .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, e -> e.getValue().get()));
+    }
     String replacementName = DEFAULT_ACCOUNT_REPLACEMENT;
     if (possibleReplacements.isEmpty()) {
-      logger.atWarning().log("Could not find reviewer account matching name %s", accountName);
+      logger.atWarning().log(
+          "Fixing ref %s, could not find reviewer account matching name %s",
+          changeFixProgress.changeMetaRef, accountInfo);
     } else if (possibleReplacements.size() > 1) {
-      logger.atWarning().log("Found multiple reviewer account matching name %s", accountName);
+      logger.atWarning().log(
+          "Fixing ref %s found multiple reviewer account matching name %s",
+          changeFixProgress.changeMetaRef, accountInfo);
     } else {
       replacementName =
-          AccountTemplateUtil.getAccountTemplate(Iterables.getOnlyElement(possibleReplacements));
+          AccountTemplateUtil.getAccountTemplate(
+              Iterables.getOnlyElement(possibleReplacements.keySet()));
     }
     return replacementName;
   }
@@ -1135,6 +1247,14 @@ public class CommitRewriter {
    * recent update.
    */
   private static class ChangeFixProgress {
+
+    public ChangeFixProgress(String changeMetaRef) {
+      this.changeMetaRef = changeMetaRef;
+    }
+
+    /** {@link RefNames#changeMetaRef} of the change that is being fixed. */
+    final String changeMetaRef;
+
     /** Assignee at current commit update. */
     Account.Id assigneeId = null;
 
@@ -1146,7 +1266,7 @@ public class CommitRewriter {
      * #accountCache} if needed by rewrite. Maps to empty string if was not requested from cache
      * yet.
      */
-    Map<Account.Id, String> parsedAccounts = new HashMap<>();
+    Map<Account.Id, Optional<AccountState>> parsedAccounts = new HashMap<>();
 
     /** Id of the current commit in rewriter walk. */
     ObjectId newTipId = null;
@@ -1160,5 +1280,25 @@ public class CommitRewriter {
     boolean isValidAfterFix = true;
 
     List<CommitDiff> commitDiffs = new ArrayList<>();
+  }
+
+  /**
+   * Account info parsed from {@link Account#getNameEmail}. See {@link
+   * #getAccountInfoFromNameEmail}.
+   */
+  @AutoValue
+  abstract static class ParsedAccountInfo {
+
+    static ParsedAccountInfo create(String fullName, String email) {
+      return new AutoValue_CommitRewriter_ParsedAccountInfo(fullName, Optional.ofNullable(email));
+    }
+
+    static ParsedAccountInfo create(String fullName) {
+      return new AutoValue_CommitRewriter_ParsedAccountInfo(fullName, Optional.empty());
+    }
+
+    abstract String name();
+
+    abstract Optional<String> email();
   }
 }

@@ -122,6 +122,24 @@
       "parentUuid": "3007fefa_7f7e44ef",
       "revId": "a826282873555263a31fdbe8c5ff0ee8d45d4787",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58644bdd_9997eacd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-29T07:24:08Z",
+      "side": 1,
+      "message": "PTAL",
+      "parentUuid": "7ae892f7_a302d3b9",
+      "revId": "a826282873555263a31fdbe8c5ff0ee8d45d4787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

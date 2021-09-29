@@ -16,6 +16,24 @@
       "message": "This needs to go before adding a draft.",
       "revId": "796b9032ac35413eca7e383ecf2001baf9a81ec6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22c27b72_7e903cf3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-29T07:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72bca2f7_1851e312",
+      "revId": "796b9032ac35413eca7e383ecf2001baf9a81ec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -675,7 +675,13 @@ export class GrComment extends base {
 
   @observe('comment.message')
   _commentMessageChanged(message: string) {
-    this._messageText = message || '';
+    /*
+     * Only overwrite the message text user has typed if there is no existing
+     * text typed by the user. This prevents the bug where creating another
+     * comment triggered a recomputation of comments and the text written by
+     * the user was lost.
+     */
+    if (!this._messageText) this._messageText = message || '';
   }
 
   _messageTextChanged(_: string, oldValue: string) {

@@ -28,7 +28,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-list-item_html';
-import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
@@ -76,11 +75,8 @@ export interface ChangeListToggleReviewedDetail {
 // How many reviewers should be shown with an account-label?
 const PRIMARY_REVIEWERS_COUNT = 2;
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = ChangeTableMixin(PolymerElement);
-
 @customElement('gr-change-list-item')
-export class GrChangeListItem extends base {
+export class GrChangeListItem extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -395,6 +391,13 @@ export class GrChangeListItem extends base {
   ): Timestamp | undefined {
     if (!account?._account_id || !change?.attention_set) return undefined;
     return change?.attention_set[account._account_id]?.last_update;
+  }
+
+  _computeIsColumnHidden(columnToCheck?: string, columnsToDisplay?: string[]) {
+    if (!columnsToDisplay || !columnToCheck) {
+      return false;
+    }
+    return !columnsToDisplay.includes(columnToCheck);
   }
 
   toggleReviewed() {

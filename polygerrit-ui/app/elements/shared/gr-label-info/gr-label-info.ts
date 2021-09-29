@@ -23,23 +23,26 @@ import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import '../gr-label/gr-label';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-label-info_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
 import {
-  ChangeInfo,
   AccountInfo,
   LabelInfo,
   ApprovalInfo,
   AccountId,
   isQuickLabelInfo,
   isDetailedLabelInfo,
+  LabelNameToInfoMap,
 } from '../../../types/common';
+import {LitElement, css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 import {GrButton} from '../gr-button/gr-button';
 import {getVotingRangeOrDefault} from '../../../utils/label-util';
 import {appContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {votingStyles} from '../../../styles/gr-voting-styles';
+import {ifDefined} from 'lit/directives/if-defined';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -56,16 +59,12 @@ enum LabelClassName {
 
 interface FormattedLabel {
   className?: LabelClassName;
-  account: ApprovalInfo;
+  account: ApprovalInfo | AccountInfo;
   value: string;
 }
 
 @customElement('gr-label-info')
-export class GrLabelInfo extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrLabelInfo extends LitElement {
   @property({type: Object})
   labelInfo?: LabelInfo;
 
@@ -88,11 +87,143 @@ export class GrLabelInfo extends PolymerElement {
   // TODO(TS): not used, remove later
   _xhrPromise?: Promise<void>;
 
+  static override get styles() {
+    return [
+      sharedStyles,
+      fontStyles,
+      votingStyles,
+      css`
+        .placeholder {
+          color: var(--deemphasized-text-color);
+        }
+        .hidden {
+          display: none;
+        }
+        /* Note that most of the .voteChip styles are coming from the
+         gr-voting-styles include. */
+        .voteChip {
+          display: flex;
+          justify-content: center;
+          margin-right: var(--spacing-s);
+          padding: 1px;
+        }
+        .max {
+          background-color: var(--vote-color-approved);
+        }
+        .min {
+          background-color: var(--vote-color-rejected);
+        }
+        .positive {
+          background-color: var(--vote-color-recommended);
+          border-radius: 12px;
+          border: 1px solid var(--vote-outline-recommended);
+          color: var(--chip-color);
+        }
+        .negative {
+          background-color: var(--vote-color-disliked);
+          border-radius: 12px;
+          border: 1px solid var(--vote-outline-disliked);
+          color: var(--chip-color);
+        }
+        .hidden {
+          display: none;
+        }
+        td {
+          vertical-align: top;
+        }
+        tr {
+          min-height: var(--line-height-normal);
+        }
+        gr-button {
+          vertical-align: top;
+        }
+        gr-button::part(paper-button) {
+          height: var(--line-height-normal);
+          width: var(--line-height-normal);
+          padding: 0;
+        }
+        gr-button[disabled] iron-icon {
+          color: var(--border-color);
+        }
+        gr-account-link {
+          --account-max-length: 100px;
+          margin-right: var(--spacing-xs);
+        }
+        iron-icon {
+          height: calc(var(--line-height-normal) - 2px);
+          width: calc(var(--line-height-normal) - 2px);
+        }
+        .labelValueContainer:not(:first-of-type) td {
+          padding-top: var(--spacing-s);
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html` <p
+        class="placeholder ${this._computeShowPlaceholder(
+          this.labelInfo,
+          this.change?.labels
+        )}"
+      >
+        No votes
+      </p>
+      <table>
+        ${this._mapLabelInfo(
+          this.labelInfo,
+          this.account,
+          this.change?.labels
+        ).map(mappedLabel => this.renderLabel(mappedLabel))}
+      </table>`;
+  }
+
+  renderLabel(mappedLabel: FormattedLabel) {
+    const {labelInfo, change} = this;
+    return html` <tr class="labelValueContainer">
+      <td>
+        <gr-label
+          has-tooltip=""
+          title="${this._computeValueTooltip(labelInfo, mappedLabel.value)}"
+          class="${mappedLabel.className} voteChip font-small"
+        >
+          ${mappedLabel.value}
+        </gr-label>
+      </td>
+      <td>
+        <gr-account-link
+          .account="${mappedLabel.account}"
+          .change="${change}"
+        ></gr-account-link>
+      </td>
+      <td>
+        <gr-button
+          link=""
+          aria-label="Remove vote"
+          @click="${this._onDeleteVote}"
+          tooltip="Remove vote"
+          data-account-id=${ifDefined(mappedLabel.account._account_id)}
+          class="deleteBtn ${this._computeDeleteClass(
+            mappedLabel.account,
+            this.mutable,
+            change
+          )}"
+        >
+          <iron-icon icon="gr-icons:delete"></iron-icon>
+        </gr-button>
+      </td>
+    </tr>`;
+  }
+
   /**
    * This method also listens on change.labels.*,
    * to trigger computation when a label is removed from the change.
    */
-  _mapLabelInfo(labelInfo?: LabelInfo, account?: AccountInfo) {
+  _mapLabelInfo(
+    labelInfo?: LabelInfo,
+    account?: AccountInfo,
+    _?: LabelNameToInfoMap
+  ): FormattedLabel[] {
     const result: FormattedLabel[] = [];
     if (!labelInfo) {
       return result;
@@ -107,7 +238,8 @@ export class GrLabelInfo extends PolymerElement {
           {
             value: ok ? '👍️' : '👎️',
             className: ok ? LabelClassName.POSITIVE : LabelClassName.NEGATIVE,
-            account: ok ? labelInfo.approved : labelInfo.rejected,
+            // executed only if approved or rejected is not undefined
+            account: ok ? labelInfo.approved! : labelInfo.rejected!,
           },
         ];
       }
@@ -142,7 +274,7 @@ export class GrLabelInfo extends PolymerElement {
             labelClassName = LabelClassName.NEGATIVE;
           }
         }
-        const formattedLabel = {
+        const formattedLabel: FormattedLabel = {
           value: `${labelValPrefix}${label.value}`,
           className: labelClassName,
           account: label,
@@ -169,7 +301,7 @@ export class GrLabelInfo extends PolymerElement {
   _computeDeleteClass(
     reviewer: ApprovalInfo,
     mutable: boolean,
-    change: ChangeInfo
+    change?: ParsedChangeInfo
   ) {
     if (!mutable || !change || !change.removable_reviewers) {
       return 'hidden';
@@ -219,7 +351,7 @@ export class GrLabelInfo extends PolymerElement {
       });
   }
 
-  _computeValueTooltip(labelInfo: LabelInfo, score: string) {
+  _computeValueTooltip(labelInfo: LabelInfo | undefined, score: string) {
     if (
       !labelInfo ||
       !isDetailedLabelInfo(labelInfo) ||
@@ -234,7 +366,7 @@ export class GrLabelInfo extends PolymerElement {
    * This method also listens change.labels.* in
    * order to trigger computation when a label is removed from the change.
    */
-  _computeShowPlaceholder(labelInfo?: LabelInfo) {
+  _computeShowPlaceholder(labelInfo?: LabelInfo, _?: LabelNameToInfoMap) {
     if (!labelInfo) {
       return '';
     }

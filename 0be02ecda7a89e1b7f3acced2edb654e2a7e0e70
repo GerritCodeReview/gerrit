@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98d7e63c_4168881f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-29T12:15:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f32a00e_16117c2e",
+      "revId": "0be02ecda7a89e1b7f3acced2edb654e2a7e0e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7d92d92_2644e32e",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-09-28T06:27:57Z",
       "side": 1,
       "message": "Maybe simplify this and use\n\n  gApi.changes().id(change.getId().get()).addReviewer(user2.email());\n  \ninstead.",
+      "range": {
+        "startLine": 3701,
+        "startChar": 4,
+        "endLine": 3705,
+        "endChar": 66
+      },
+      "revId": "0be02ecda7a89e1b7f3acced2edb654e2a7e0e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ee50c86_0f934116",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3705,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-09-29T12:15:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7d92d92_2644e32e",
       "range": {
         "startLine": 3701,
         "startChar": 4,

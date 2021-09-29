@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0465fbd5_656d6423",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-29T16:35:17Z",
+      "side": 1,
+      "message": "Thanks.\n\nThe real fix here is to move to Lit and being able to reuse elements. Polymer lacks the feature to tell it \"this div corresponds to this computed-key\" (which for us would be the id)",
+      "revId": "480507b38ef9f64802946e9e3721000b88ad4741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

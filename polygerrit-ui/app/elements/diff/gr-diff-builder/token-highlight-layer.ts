@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
-import {GrDiffLine, Side, TokenHighlightedListener} from '../../../api/diff';
+import {GrDiffLine, Side, TokenHighlightListener} from '../../../api/diff';
+import {assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {
@@ -47,6 +48,15 @@ const TOKEN_OCCURRENCES_LIMIT = 1000;
  */
 const TOKEN_HIGHLIGHT_LIMIT = 100;
 
+function getPreviousSiblings(elem: Node) {
+  const sibs = [];
+  let sib: Node | null | undefined = elem;
+  while ((sib = sib?.previousSibling)) {
+    sibs.push(sib);
+  }
+  return sibs;
+}
+
 /**
  * When a user hovers over a token in the diff, then this layer makes sure that
  * all occurrences of this token are annotated with the 'token-highlight' css
@@ -66,7 +76,7 @@ export class TokenHighlightLayer implements DiffLayer {
   private currentHighlight?: string;
 
   /** Trigger when a new token starts or stoped being highlighted.*/
-  private readonly tokenHighlightedListener?: TokenHighlightedListener;
+  private readonly tokenHighlightListener?: TokenHighlightListener;
 
   /**
    * The line of the currently highlighted token. We store this in order to
@@ -100,9 +110,9 @@ export class TokenHighlightLayer implements DiffLayer {
 
   constructor(
     container: HTMLElement = document.documentElement,
-    tokenHighlightedListener?: TokenHighlightedListener
+    tokenHighlightListener?: TokenHighlightListener
   ) {
-    this.tokenHighlightedListener = tokenHighlightedListener;
+    this.tokenHighlightListener = tokenHighlightListener;
     container.addEventListener('click', e => {
       this.handleContainerClick(e);
     });
@@ -261,8 +271,8 @@ export class TokenHighlightLayer implements DiffLayer {
     this.currentHighlight = newHighlight;
     this.currentHighlightLineNumber = newLineNumber;
 
-    if (this.tokenHighlightedListener) {
-      this.tokenHighlightedListener(
+    if (this.tokenHighlightListener) {
+      this.triggerTokenHighlightEvent(
         newHighlight,
         newLineNumber,
         newHoveredElement
@@ -270,6 +280,32 @@ export class TokenHighlightLayer implements DiffLayer {
     }
     this.notifyForToken(oldHighlight, oldLineNumber);
     this.notifyForToken(newHighlight, newLineNumber);
+  }
+
+  triggerTokenHighlightEvent(
+    token: string | undefined,
+    line: number,
+    element: Element | undefined
+  ) {
+    assertIsDefined(this.tokenHighlightListener, 'tokenHighlightListener');
+    if (token && element) {
+      const previousTextLength = getPreviousSiblings(element)
+        .map(sib => sib.textContent!.length)
+        .reduce((partial_sum, a) => partial_sum + a, 0);
+      const side =
+        element.parentElement!.getAttribute('data-side') === 'left'
+          ? Side.LEFT
+          : Side.RIGHT;
+      const range = {
+        start_line: line,
+        start_column: previousTextLength + 1, // 1-based inclusive
+        end_line: line,
+        end_column: previousTextLength + token.length, // 1-based inclusive
+      };
+      this.tokenHighlightListener({token, element, side, range});
+    } else {
+      this.tokenHighlightListener(undefined);
+    }
   }
 
   getSortedLinesForSide(

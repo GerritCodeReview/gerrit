@@ -24,7 +24,7 @@ import {
   DiffLayer,
   GrAnnotation,
   GrDiffCursor,
-  TokenHighlightedListener,
+  TokenHighlightListener,
 } from './diff';
 
 declare global {
@@ -35,7 +35,7 @@ declare global {
       TokenHighlightLayer: {
         new (
           container?: HTMLElement,
-          listener?: TokenHighlightedListener
+          listener?: TokenHighlightListener
         ): DiffLayer;
       };
     };

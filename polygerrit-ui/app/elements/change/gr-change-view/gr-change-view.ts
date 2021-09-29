@@ -52,7 +52,7 @@ import {
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
-import {windowLocationReload} from '../../../utils/dom-util';
+import {windowLocationReload, querySelectorAll} from '../../../utils/dom-util';
 import {
   GeneratedWebLink,
   GerritNav,
@@ -1173,6 +1173,9 @@ export class GrChangeView extends base {
   _paramsChanged(value: AppElementChangeViewParams) {
     if (value.view !== GerritView.CHANGE) {
       this._initialLoadComplete = false;
+      querySelectorAll(this, 'gr-overlay').forEach(overlay =>
+        (overlay as GrOverlay).close()
+      );
       return;
     }
 

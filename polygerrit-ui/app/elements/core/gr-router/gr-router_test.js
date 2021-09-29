@@ -192,7 +192,6 @@ suite('gr-router tests', () => {
       '_handleDiffRoute',
       '_handleDefaultRoute',
       '_handleChangeLegacyRoute',
-      '_handleDiffLegacyRoute',
       '_handleDocumentationRedirectRoute',
       '_handleDocumentationSearchRoute',
       '_handleDocumentationSearchRedirectRoute',
@@ -536,66 +535,6 @@ suite('gr-router tests', () => {
   });
 
   suite('param normalization', () => {
-    let projectLookupStub;
-    let generateUrlStub;
-
-    setup(() => {
-      projectLookupStub = stubRestApi('getFromProjectLookup');
-      generateUrlStub = sinon.stub(element, '_generateUrl');
-    });
-
-    suite('_normalizeLegacyRouteParams', () => {
-      let rangeStub;
-      let redirectStub;
-      let show404Stub;
-
-      setup(() => {
-        rangeStub = sinon.stub(element, '_normalizePatchRangeParams')
-            .returns(Promise.resolve());
-        redirectStub = sinon.stub(element, '_redirect');
-        show404Stub = sinon.stub(element, '_show404');
-      });
-
-      test('w/o changeNum', () => {
-        projectLookupStub.returns(Promise.resolve('foo/bar'));
-        const params = {};
-        return element._normalizeLegacyRouteParams(params).then(() => {
-          assert.isFalse(generateUrlStub.calledOnce);
-          assert.isFalse(projectLookupStub.called);
-          assert.isFalse(rangeStub.called);
-          assert.isFalse(redirectStub.called);
-          assert.isFalse(show404Stub.called);
-        });
-      });
-
-      test('w/ changeNum', () => {
-        projectLookupStub.returns(Promise.resolve('foo/bar'));
-        const params = {changeNum: 1234};
-
-        return element._normalizeLegacyRouteParams(params).then(() => {
-          assert.isTrue(generateUrlStub.calledOnce);
-          const updatedParams = generateUrlStub.lastCall.args[0];
-          assert.isTrue(projectLookupStub.called);
-          assert.isTrue(rangeStub.called);
-          assert.equal(updatedParams.project, 'foo/bar');
-          assert.isTrue(redirectStub.calledOnce);
-          assert.isFalse(show404Stub.called);
-        });
-      });
-
-      test('halts on project lookup failure', () => {
-        projectLookupStub.returns(Promise.resolve(undefined));
-        const params = {changeNum: 1234};
-        return element._normalizeLegacyRouteParams(params).then(() => {
-          assert.isFalse(generateUrlStub.calledOnce);
-          assert.isTrue(projectLookupStub.called);
-          assert.isFalse(rangeStub.called);
-          assert.isFalse(redirectStub.called);
-          assert.isTrue(show404Stub.calledOnce);
-        });
-      });
-    });
-
     suite('_normalizePatchRangeParams', () => {
       test('range n..n normalizes to n', () => {
         const params = {basePatchNum: 4, patchNum: 4};
@@ -1367,58 +1306,19 @@ suite('gr-router tests', () => {
         assert.isTrue(redirectStub.calledWithExactly('/c/12345'));
       });
 
-      test('_handleChangeLegacyRoute', () => {
-        const normalizeRouteStub = sinon.stub(element,
-            '_normalizeLegacyRouteParams');
+      test('_handleChangeLegacyRoute', async () => {
+        stubRestApi('getFromProjectLookup').returns(Promise.resolve('project'));
         const ctx = {
           params: [
             1234, // 0 Change number
-            null, // 1 Unused
-            null, // 2 Unused
-            6, // 3 Base patch number
-            null, // 4 Unused
-            9, // 5 Patch number
+            'comment/6789',
           ],
           querystring: '',
         };
         element._handleChangeLegacyRoute(ctx);
-        assert.isTrue(normalizeRouteStub.calledOnce);
-        assert.deepEqual(normalizeRouteStub.lastCall.args[0], {
-          changeNum: 1234,
-          basePatchNum: 6,
-          patchNum: 9,
-          view: GerritView.CHANGE,
-          querystring: '',
-        });
-      });
-
-      test('_handleDiffLegacyRoute', () => {
-        const normalizeRouteStub = sinon.stub(element,
-            '_normalizeLegacyRouteParams');
-        const ctx = {
-          params: [
-            1234, // 0 Change number
-            null, // 1 Unused
-            3, // 2 Base patch number
-            null, // 3 Unused
-            8, // 4 Patch number
-            'foo/bar', // 5 Diff path
-          ],
-          path: '/c/1234/3..8/foo/bar',
-          hash: 'b123',
-        };
-        element._handleDiffLegacyRoute(ctx);
-        assert.isFalse(redirectStub.called);
-        assert.isTrue(normalizeRouteStub.calledOnce);
-        assert.deepEqual(normalizeRouteStub.lastCall.args[0], {
-          changeNum: 1234,
-          basePatchNum: 3,
-          patchNum: 8,
-          view: GerritView.DIFF,
-          path: 'foo/bar',
-          lineNum: 123,
-          leftSide: true,
-        });
+        await flush();
+        assert.isTrue(redirectStub.calledWithExactly('/c/project/+/1234' +
+            '/comment/6789'));
       });
 
       test('_handleLegacyLinenum w/ @321', () => {

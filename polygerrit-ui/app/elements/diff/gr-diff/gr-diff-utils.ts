@@ -129,6 +129,29 @@ export interface GrDiffThreadElement extends HTMLElement {
   rootId: string;
 }
 
+const VISIBLE_TEXT_NODE_TYPES = [Node.TEXT_NODE, Node.ELEMENT_NODE];
+
+export function getPreviousContentNodes(node?: Node | null) {
+  const sibs = [];
+  while (node) {
+    const {parentNode, previousSibling} = node;
+    const topContentLevel =
+      parentNode &&
+      (parentNode as HTMLElement).classList.contains('contentText');
+    let previousEl: Node | undefined | null;
+    if (previousSibling) {
+      previousEl = previousSibling;
+    } else if (!topContentLevel) {
+      previousEl = parentNode?.previousSibling;
+    }
+    if (previousEl && VISIBLE_TEXT_NODE_TYPES.includes(previousEl.nodeType)) {
+      sibs.push(previousEl);
+    }
+    node = previousEl;
+  }
+  return sibs;
+}
+
 export function isThreadEl(node: Node): node is GrDiffThreadElement {
   return (
     node.nodeType === Node.ELEMENT_NODE &&

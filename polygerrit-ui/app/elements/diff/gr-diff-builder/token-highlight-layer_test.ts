@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {Side} from '../../../api/diff';
+import {Side, TokenHighlightEventDetails} from '../../../api/diff';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 import {HOVER_DELAY_MS, TokenHighlightLayer} from './token-highlight-layer';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
@@ -66,14 +66,12 @@ suite('token-highlight-layer', () => {
   let container: HTMLElement;
   let listener: MockListener;
   let highlighter: TokenHighlightLayer;
-  let tokenHighlightingCalls: any[] = [];
+  let tokenHighlightingCalls: {details?: TokenHighlightEventDetails}[] = [];
 
-  function tokenHighlightedListener(
-    newHighlight: string | undefined,
-    newLineNumber: number,
-    hoveredElement?: Element
+  function tokenHighlightListener(
+    highlightDetails?: TokenHighlightEventDetails
   ) {
-    tokenHighlightingCalls.push({newHighlight, newLineNumber, hoveredElement});
+    tokenHighlightingCalls.push({details: highlightDetails});
   }
 
   setup(async () => {
@@ -81,7 +79,7 @@ suite('token-highlight-layer', () => {
     tokenHighlightingCalls = [];
     container = document.createElement('div');
     document.body.appendChild(container);
-    highlighter = new TokenHighlightLayer(container, tokenHighlightedListener);
+    highlighter = new TokenHighlightLayer(container, tokenHighlightListener);
     highlighter.addListener((...args) => listener.notify(...args));
   });
 
@@ -107,10 +105,13 @@ suite('token-highlight-layer', () => {
     const lineId = createLineId();
     const template = html`
       <div class="line">
-        <div data-value=${line} class="lineNum"></div>
-        <div id=${lineId} class="line-content">${text}</div>
+        <div data-value=${line} class="lineNum right"></div>
+        <div class="content">
+          <div id=${lineId} class="contentText">${text}</div>
+        </div>
       </div>
     `;
+
     const div = document.createElement('div');
     render(template, div);
     container.appendChild(div);
@@ -277,19 +278,16 @@ suite('token-highlight-layer', () => {
       assert.equal(tokenHighlightingCalls.length, 0);
       clock.tick(HOVER_DELAY_MS);
       assert.equal(tokenHighlightingCalls.length, 1);
-      assert.deepEqual(tokenHighlightingCalls[0], {
-        newHighlight: 'words',
-        newLineNumber: 1,
-        hoveredElement: words1,
+      assert.deepEqual(tokenHighlightingCalls[0].details, {
+        token: 'words',
+        side: Side.RIGHT,
+        element: words1,
+        range: {start_line: 1, start_column: 5, end_line: 1, end_column: 9},
       });
 
       MockInteractions.click(container);
       assert.equal(tokenHighlightingCalls.length, 2);
-      assert.deepEqual(tokenHighlightingCalls[1], {
-        newHighlight: undefined,
-        newLineNumber: 0,
-        hoveredElement: undefined,
-      });
+      assert.deepEqual(tokenHighlightingCalls[1].details, undefined);
     });
 
     test('clicking clears highlight', async () => {

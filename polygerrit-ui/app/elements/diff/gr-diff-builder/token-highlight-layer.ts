@@ -15,9 +15,17 @@
  * limitations under the License.
  */
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
-import {GrDiffLine, Side, TokenHighlightedListener} from '../../../api/diff';
+import {GrDiffLine, Side, TokenHighlightListener} from '../../../api/diff';
+import {assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+
+import {
+  getLineElByChild,
+  getSideByLineEl,
+  getPreviousContentNodes,
+} from '../gr-diff/gr-diff-utils';
+
 import {
   getLineNumberByChild,
   lineNumberToNumber,
@@ -66,7 +74,7 @@ export class TokenHighlightLayer implements DiffLayer {
   private currentHighlight?: string;
 
   /** Trigger when a new token starts or stoped being highlighted.*/
-  private readonly tokenHighlightedListener?: TokenHighlightedListener;
+  private readonly tokenHighlightListener?: TokenHighlightListener;
 
   /**
    * The line of the currently highlighted token. We store this in order to
@@ -100,9 +108,9 @@ export class TokenHighlightLayer implements DiffLayer {
 
   constructor(
     container: HTMLElement = document.documentElement,
-    tokenHighlightedListener?: TokenHighlightedListener
+    tokenHighlightListener?: TokenHighlightListener
   ) {
-    this.tokenHighlightedListener = tokenHighlightedListener;
+    this.tokenHighlightListener = tokenHighlightListener;
     container.addEventListener('click', e => {
       this.handleContainerClick(e);
     });
@@ -260,16 +268,40 @@ export class TokenHighlightLayer implements DiffLayer {
     const oldLineNumber = this.currentHighlightLineNumber;
     this.currentHighlight = newHighlight;
     this.currentHighlightLineNumber = newLineNumber;
-
-    if (this.tokenHighlightedListener) {
-      this.tokenHighlightedListener(
-        newHighlight,
-        newLineNumber,
-        newHoveredElement
-      );
-    }
+    this.triggerTokenHighlightEvent(
+      newHighlight,
+      newLineNumber,
+      newHoveredElement
+    );
     this.notifyForToken(oldHighlight, oldLineNumber);
     this.notifyForToken(newHighlight, newLineNumber);
+  }
+
+  triggerTokenHighlightEvent(
+    token: string | undefined,
+    line: number,
+    element: Element | undefined
+  ) {
+    if (!this.tokenHighlightListener) {
+      return;
+    }
+    if (!token || !element) {
+      this.tokenHighlightListener(undefined);
+      return;
+    }
+    const previousTextLength = getPreviousContentNodes(element)
+      .map(sib => sib.textContent!.length)
+      .reduce((partial_sum, a) => partial_sum + a, 0);
+    const lineEl = getLineElByChild(element);
+    assertIsDefined(lineEl, 'Line element should be found!');
+    const side = getSideByLineEl(lineEl);
+    const range = {
+      start_line: line,
+      start_column: previousTextLength + 1, // 1-based inclusive
+      end_line: line,
+      end_column: previousTextLength + token.length, // 1-based inclusive
+    };
+    this.tokenHighlightListener({token, element, side, range});
   }
 
   getSortedLinesForSide(

@@ -58,6 +58,17 @@ public final class ChangeInfoDifferTest {
   }
 
   @Test
+  public void getDiff_returnsOldAndNewChangeInfos() {
+    ChangeInfo oldChangeInfo = createChangeInfoWithTopic("topic");
+    ChangeInfo newChangeInfo = createChangeInfoWithTopic(oldChangeInfo.topic);
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+
+    assertThat(diff.oldChangeInfo()).isEqualTo(oldChangeInfo);
+    assertThat(diff.newChangeInfo()).isEqualTo(newChangeInfo);
+  }
+
+  @Test
   public void getDiff_givenUnchangedTopic_returnsNullTopics() {
     ChangeInfo oldChangeInfo = createChangeInfoWithTopic("topic");
     ChangeInfo newChangeInfo = createChangeInfoWithTopic(oldChangeInfo.topic);

@@ -66,15 +66,17 @@ suite('gr-label-info tests', () => {
       element.labelInfo = label;
       element.label = 'Code-Review';
 
-      await flush();
+      await element.updateComplete;
     });
 
-    test('_computeCanDeleteVote', () => {
+    test('_computeCanDeleteVote', async () => {
       element.mutable = false;
+      await element.updateComplete;
       const removeButton = queryAndAssert<GrButton>(element, 'gr-button');
       assert.isTrue(isHidden(removeButton));
       element.change!.removable_reviewers = [account];
       element.mutable = true;
+      await element.updateComplete;
       assert.isFalse(isHidden(removeButton));
     });
 
@@ -109,14 +111,14 @@ suite('gr-label-info tests', () => {
   suite('label color and order', () => {
     test('valueless label rejected', async () => {
       element.labelInfo = {rejected: {name: 'someone'}};
-      await flush();
+      await element.updateComplete;
       const labels = queryAll<GrLabel>(element, 'gr-label');
       assert.isTrue(labels[0].classList.contains('negative'));
     });
 
     test('valueless label approved', async () => {
       element.labelInfo = {approved: {name: 'someone'}};
-      await flush();
+      await element.updateComplete;
       const labels = queryAll<GrLabel>(element, 'gr-label');
       assert.isTrue(labels[0].classList.contains('positive'));
     });
@@ -137,7 +139,7 @@ suite('gr-label-info tests', () => {
           '+2': 'Ready to submit',
         },
       };
-      await flush();
+      await element.updateComplete;
       const labels = queryAll<GrLabel>(element, 'gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('positive'));
@@ -157,7 +159,7 @@ suite('gr-label-info tests', () => {
           '+1': 'Looks good to me',
         },
       };
-      await flush();
+      await element.updateComplete;
       const labels = queryAll<GrLabel>(element, 'gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('min'));
@@ -175,7 +177,7 @@ suite('gr-label-info tests', () => {
           '+2': 'Looks good to me',
         },
       };
-      await flush();
+      await element.updateComplete;
       const labels = queryAll<GrLabel>(element, 'gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('positive'));
@@ -195,7 +197,7 @@ suite('gr-label-info tests', () => {
           '+1': 'Looks good to me',
         },
       };
-      await flush();
+      await element.updateComplete;
       const chips = queryAll<GrAccountLink>(element, 'gr-account-link');
       assert.equal(chips[0].account!._account_id, element.account._account_id);
     });
@@ -217,7 +219,7 @@ suite('gr-label-info tests', () => {
     assert.equal(element._computeValueTooltip(labelInfo, score), '');
   });
 
-  test('placeholder', () => {
+  test('placeholder', async () => {
     const values = {
       '0': 'No score',
       '+1': 'good',
@@ -226,30 +228,37 @@ suite('gr-label-info tests', () => {
       '-2': 'terrible',
     };
     element.labelInfo = {};
+    await element.updateComplete;
     assert.isFalse(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {all: [], values};
+    await element.updateComplete;
     assert.isFalse(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {all: [{value: 1}], values};
+    await element.updateComplete;
     assert.isTrue(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {rejected: account};
+    await element.updateComplete;
     assert.isTrue(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {rejected: account, all: [{value: 1}], values};
+    await element.updateComplete;
     assert.isTrue(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {approved: account};
+    await element.updateComplete;
     assert.isTrue(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );
     element.labelInfo = {approved: account, all: [{value: 1}], values};
+    await element.updateComplete;
     assert.isTrue(
       isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
     );

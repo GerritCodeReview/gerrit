@@ -33,6 +33,23 @@
       "message": "https://chromium.googlesource.com/infra/infra/+/main/appengine/monorail/doc/userguide/README.md",
       "revId": "a5267d89079e570fcebf692b9c70953122f050e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc6c0dde_63017fa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-30T15:27:21Z",
+      "side": 1,
+      "message": "Friendly -2 :-)\nI believe we have a general agreement that this is a problem for JGit: I am proposing to abandon this change and start a discussion with the JGit community of maintainers. WDYT?",
+      "revId": "a5267d89079e570fcebf692b9c70953122f050e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -10,6 +10,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//lib:caffeine",
         "//lib:caffeine-guava",
+        "//lib/flogger:api",
         "//lib:guava",
         "//lib:jgit",
         "//lib/guice",

@@ -101,13 +101,14 @@ export const htmlTemplate = html`
     >
       <tr class="labelValueContainer">
         <td>
-          <gr-label
+          <gr-content-tooltip
             has-tooltip=""
             title="[[_computeValueTooltip(labelInfo, mappedLabel.value)]]"
-            class$="[[mappedLabel.className]] voteChip font-small"
           >
-            [[mappedLabel.value]]
-          </gr-label>
+            <gr-label class$="[[mappedLabel.className]] voteChip font-small">
+              [[mappedLabel.value]]
+            </gr-label>
+          </gr-content-tooltip>
         </td>
         <td>
           <gr-account-link

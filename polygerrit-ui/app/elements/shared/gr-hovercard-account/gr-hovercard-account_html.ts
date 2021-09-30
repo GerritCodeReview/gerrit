@@ -128,7 +128,7 @@ export const htmlTemplate = html`
             <span class="value">[[_computeReason(change)]]</span>
             <template is="dom-if" if="[[_computeLastUpdate(change)]]">
               (<gr-date-formatter
-                has-tooltip
+                withTooltip
                 date-str="[[_computeLastUpdate(change)]]"
               ></gr-date-formatter
               >)

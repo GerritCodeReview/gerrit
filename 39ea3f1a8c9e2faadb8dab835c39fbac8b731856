@@ -16,6 +16,24 @@
       "message": "Didn\u0027t we first want to check if we the accounts cache is simply disabled/set to zero and we can enable it?",
       "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e81578b3_71b06730",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-30T12:48:14Z",
+      "side": 1,
+      "message": "Even if it is the case, the AccountCache still fetches from All-Users on each request, for default preferences and per-user ref tip [1].\n\nI would like to have this option, to compare to be able to compare the results of different configuration runs. I want to add this first to finally have a dry run result on the stuck hosts and see if there are other blockers.\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/account/AccountCacheImpl.java#111",
+      "parentUuid": "17572c5f_836094e7",
+      "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

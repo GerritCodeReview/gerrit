@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d74bdb2c_dfb21273",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-09-30T17:18:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07c7c563_4e110a42",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "b72c45de51913bdc797bd83a4a87d518614cca18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9532e55_22d72ebb",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-30T07:36:45Z",
       "side": 1,
       "message": "nit: request\n\nusually we say RPC when referring to internal comms framework, upstream these are HTTP calls",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "b72c45de51913bdc797bd83a4a87d518614cca18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a10370f_c366e2f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-09-30T17:18:58Z",
+      "side": 1,
+      "message": "Got it thanks!",
+      "parentUuid": "c9532e55_22d72ebb",
       "range": {
         "startLine": 12,
         "startChar": 0,

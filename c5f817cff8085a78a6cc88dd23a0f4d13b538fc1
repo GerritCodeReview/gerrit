@@ -530,6 +530,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d3de93c_df904eb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-30T08:03:00Z",
+      "side": 1,
+      "message": "\u003e I think the overall idea to cache refs is a good one\n\n+1 and it would align also the OpenSource performance of reading a refs to the DFS implementation at Google, making future changes less problematic for both use-cases.\n\n\u003e but would be it be possible to implement the cache as an in-memory RefDatabase?\n\nI like it, would you do that in the Gerrit or JGit\u0027s code-base? I am just a bit concerned that this change is on stable-3.2 (which is due to be EOL by November this year) and, as you pointed out, radical changes to the code should be avoided.\n\nFor the master branch, I am 100% with you that the solution should be generalised and we\u0027ve still 1 month of development before cutting stable-3.5.\n\n\u003e Right now, your cache only helps with account speedups, but we also have plans for stars/drafts (see https://gerrit-review.googlesource.com/c/gerrit/+/317099) for which we\u0027d have to build another cache. \n\nYeah, there is a difference between the use-cases though:\n- AccountCache is used *all throughout Gerrit code* whenever you do anything that involves an account. The number of calls to the AccountCache.get() is very high and is linked with pretty much any use-case.\n- Fetching drafts is used for retrieving draft comments, period. The number of calls are directly related to a specific user action.\n\n\u003e If we could have a caching layer around JGit\u0027s RefDatabase, we\u0027d catch all these use cases in one go.\n\nI agree, is it something to escalate to the JGit developers\u0027 community? That caching layer should be in the JGit code-base IMHO.",
+      "parentUuid": "9e150626_c85d8a29",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

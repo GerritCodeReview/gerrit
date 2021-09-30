@@ -22,10 +22,10 @@ import {appContext} from '../../services/app-context';
 
 @customElement('gr-checks-action')
 export class GrChecksAction extends LitElement {
-  @property()
+  @property({type: Object})
   action!: Action;
 
-  @property()
+  @property({type: Object})
   eventTarget: HTMLElement | null = null;
 
   private checksService = appContext.checksService;
@@ -72,7 +72,7 @@ export class GrChecksAction extends LitElement {
   private renderTooltip() {
     if (!this.action.tooltip) return;
     return html`
-      <paper-tooltip offset="5" fit-to-visible-bounds="true">
+      <paper-tooltip offset="5" ?fitToVisibleBounds="${true}">
         ${this.action.tooltip}
       </paper-tooltip>
     `;

@@ -144,7 +144,7 @@ export class GrRepoPluginConfig extends LitElement {
       return html`
         <gr-plugin-config-array-editor
           @plugin-config-option-changed=${this._handleArrayChange}
-          plugin-option="${option}"
+          .pluginOption="${option}"
         ></gr-plugin-config-array-editor>
       `;
     } else if (option.info.type === ConfigParameterInfoType.BOOLEAN) {
@@ -159,7 +159,10 @@ export class GrRepoPluginConfig extends LitElement {
       `;
     } else if (option.info.type === ConfigParameterInfoType.LIST) {
       return html`
-        <gr-select value=${option.info.value} @change=${this._handleListChange}>
+        <gr-select
+          .bindValue=${option.info.value}
+          @change=${this._handleListChange}
+        >
           <select
             data-option-key=${option._key}
             ?disabled=${!option.info.editable}
@@ -177,14 +180,12 @@ export class GrRepoPluginConfig extends LitElement {
     ) {
       return html`
         <iron-input
-          value=${option.info.value}
           @input=${this._handleStringChange}
           data-option-key="${option._key}"
-          ?disabled=${!option.info.editable}
         >
           <input
             is="iron-input"
-            .value="${option.info.value}"
+            .value="${option.info.value ?? ''}"
             @input=${this._handleStringChange}
             data-option-key="${option._key}"
             ?disabled=${!option.info.editable}

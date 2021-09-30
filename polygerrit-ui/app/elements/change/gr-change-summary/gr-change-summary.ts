@@ -33,6 +33,7 @@ import {
 import {Action, Category, Link, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
+import '../../checks/gr-checks-action';
 import {
   firstPrimaryLink,
   getResultsOf,
@@ -287,8 +288,6 @@ export class GrChecksChip extends LitElement {
         }
         .checksChip.check-circle-outline iron-icon {
           color: var(--success-foreground);
-        }
-        .checksChip.timelapse {
         }
         .checksChip.timelapse {
           border-color: var(--gray-foreground);
@@ -662,7 +661,7 @@ export class GrChangeSummary extends LitElement {
     const handler = () => this.onChipClick({statusOrCategory});
     return html`<gr-checks-chip
       .statusOrCategory="${statusOrCategory}"
-      .text="${count}"
+      .text="${`${count}`}"
       @click="${handler}"
       @keydown="${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}"
     ></gr-checks-chip>`;

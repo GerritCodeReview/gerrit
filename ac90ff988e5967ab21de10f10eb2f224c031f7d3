@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "746f0bba_07373db8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-09-30T04:01:52Z",
+      "side": 1,
+      "message": "$ bazel test --test_filter\u003dcom.google.gerrit.acceptance.api.project.CommitIT -- //javatests/com/google/gerrit/acceptance/api/project:api_project\nINFO: Invocation ID: 53954b47-8c8c-4cc2-a1ac-006545179576\nINFO: Options provided by the client:\n  Inherited \u0027common\u0027 options: --isatty\u003d1 --terminal_columns\u003d145\nINFO: Reading rc options for \u0027test\u0027 from /Users/prudhvi/Clones/googlegerrit3/.bazelrc:\n  Inherited \u0027build\u0027 options: --workspace_status_command\u003dpython3 ./tools/workspace_status.py --repository_cache\u003d~/.gerritcodereview/bazel-cache/repository --action_env\u003dPATH --disk_cache\u003d~/.gerritcodereview/bazel-cache/cas --java_toolchain\u003d//tools:error_prone_warnings_toolchain_java11 --incompatible_strict_action_env --announce_rc --experimental_worker_multiplex\u003dfalse\nINFO: Reading rc options for \u0027test\u0027 from /Users/prudhvi/Clones/googlegerrit3/.bazelrc:\n  \u0027test\u0027 options: --build_tests_only --test_output\u003derrors --java_toolchain\u003d//tools:error_prone_warnings_toolchain_java11\nINFO: Build option --test_filter has changed, discarding analysis cache.\nINFO: Analyzed target //javatests/com/google/gerrit/acceptance/api/project:api_project (0 packages loaded, 5899 targets configured).\nINFO: Found 1 test target...\nTarget //javatests/com/google/gerrit/acceptance/api/project:api_project up-to-date:\n  bazel-bin/javatests/com/google/gerrit/acceptance/api/project/api_project.jar\n  bazel-bin/javatests/com/google/gerrit/acceptance/api/project/api_project\nINFO: Elapsed time: 61.086s, Critical Path: 59.89s\nINFO: 22 processes: 1 internal, 10 darwin-sandbox, 11 worker.\nINFO: Build completed successfully, 22 total actions\n//javatests/com/google/gerrit/acceptance/api/project:api_project         PASSED in 51.5s",
+      "revId": "ac90ff988e5967ab21de10f10eb2f224c031f7d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import '@polymer/iron-icon/iron-icon';
 import {classMap} from 'lit/directives/class-map';
 import './gr-hovercard-run';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
@@ -182,28 +183,24 @@ export class GrChecksRun extends LitElement {
   @query('.chip')
   chipElement?: HTMLElement;
 
-  @property()
+  @property({attribute: false})
   run!: CheckRun;
 
-  @property()
+  @property({attribute: false})
   selected = false;
 
-  @property()
+  @property({attribute: false})
   selectedAttempt?: number;
 
-  @property()
+  @property({attribute: false})
   deselected = false;
 
-  @property()
+  @state()
   shouldRender = false;
 
   override firstUpdated() {
     assertIsDefined(this.chipElement, 'chip element');
-    whenVisible(
-      this.chipElement,
-      () => this.setAttribute('shouldRender', 'true'),
-      200
-    );
+    whenVisible(this.chipElement, () => (this.shouldRender = true), 200);
   }
 
   protected override updated(changedProperties: PropertyValues) {
@@ -365,29 +362,29 @@ export class GrChecksRuns extends LitElement {
   @state()
   filterRegExp = new RegExp('');
 
-  @property()
+  @property({attribute: false})
   runs: CheckRun[] = [];
 
   @property({type: Boolean, reflect: true})
   collapsed = false;
 
-  @property()
+  @property({attribute: false})
   selectedRuns: string[] = [];
 
   /** Maps checkName to selected attempt number. `undefined` means `latest`. */
-  @property()
+  @property({attribute: false})
   selectedAttempts: Map<string, number | undefined> = new Map<
     string,
     number | undefined
   >();
 
-  @property()
+  @property({attribute: false})
   tabState?: ChecksTabState;
 
-  @property()
+  @state()
   errorMessages: ErrorMessages = {};
 
-  @property()
+  @state()
   loginCallback?: () => void;
 
   private isSectionExpanded = new Map<RunStatus, boolean>();
@@ -623,14 +620,14 @@ export class GrChecksRuns extends LitElement {
   private renderCollapseButton() {
     return html`
       <gr-tooltip-content
-        has-tooltip="true"
+        has-tooltip
         title="${this.collapsed ? 'Expand runs panel' : 'Collapse runs panel'}"
       >
         <gr-button
           link
           class="expandButton"
           role="switch"
-          ?aria-checked="${this.collapsed}"
+          aria-checked="${this.collapsed ? 'true' : 'false'}"
           aria-label="${this.collapsed
             ? 'Expand runs panel'
             : 'Collapse runs panel'}"

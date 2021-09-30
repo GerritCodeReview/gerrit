@@ -56,7 +56,7 @@ export const htmlTemplate = html`
       <span class="title">Registered</span>
       <span class="value">
         <gr-date-formatter
-          has-tooltip=""
+          withTooltip
           date-str="[[_account.registered_on]]"
         ></gr-date-formatter>
       </span>

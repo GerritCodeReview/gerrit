@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ea4023d_d9ae64d4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-30T09:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f663617_e94ecdd4",
+      "revId": "175457b900053794e7b8f1f6b321a23028f5abad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d4560c5_2a3949de",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e9ea05c_504a4b87",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-30T09:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d4560c5_2a3949de",
+      "revId": "175457b900053794e7b8f1f6b321a23028f5abad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dabc55b1_80833024",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-09-30T07:23:29Z",
       "side": 1,
       "message": "Why is the parent the line element? Can this not be nested further?\n\nNote that there is a `getLineElByChild()` util function that you may want to use.",
+      "revId": "175457b900053794e7b8f1f6b321a23028f5abad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eee35109_3b9869bd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-30T09:26:06Z",
+      "side": 1,
+      "message": "You are right. Now that I think about it we can have nesting due to layers - that can inject new elements in the tree.\n\nI used `getLineElByChild` and took a similar approach to calculate previous text for previous siblings. PTAL.",
+      "parentUuid": "dabc55b1_80833024",
       "revId": "175457b900053794e7b8f1f6b321a23028f5abad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

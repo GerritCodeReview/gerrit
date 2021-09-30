@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21ec24da_f3ca91aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1115571
+      },
+      "writtenOn": "2021-09-30T01:20:22Z",
+      "side": 1,
+      "message": "Should I modify gerrit here or in google3?\n",
+      "revId": "9e3991516a3eaf9b817f81aa7616d6f5f7b7c2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

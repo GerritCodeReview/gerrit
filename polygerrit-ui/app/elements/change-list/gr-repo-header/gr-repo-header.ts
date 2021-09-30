@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../shared/gr-date-formatter/gr-date-formatter';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {RepoName} from '../../../types/common';
 import {WebLinkInfo} from '../../../types/diff';

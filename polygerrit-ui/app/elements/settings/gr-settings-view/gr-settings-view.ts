@@ -29,7 +29,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../gr-change-table-editor/gr-change-table-editor';
 import '../../shared/gr-button/gr-button';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-diff-preferences/gr-diff-preferences';
 import '../../shared/gr-page-nav/gr-page-nav';
 import '../../shared/gr-select/gr-select';

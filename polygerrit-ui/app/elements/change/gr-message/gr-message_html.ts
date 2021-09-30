@@ -325,8 +325,8 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[!message.id]]">
           <span class="date">
             <gr-date-formatter
-              has-tooltip=""
-              show-date-and-time=""
+              withTooltip
+              showDateAndTime
               date-str="[[message.date]]"
             ></gr-date-formatter>
           </span>
@@ -334,8 +334,8 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[message.id]]">
           <span class="date" on-click="_handleAnchorClick">
             <gr-date-formatter
-              has-tooltip=""
-              show-date-and-time=""
+              withTooltip
+              showDateAndTime
               date-str="[[message.date]]"
             ></gr-date-formatter>
           </span>

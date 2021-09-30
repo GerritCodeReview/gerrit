@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e434500_ef633fda",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T13:22:10Z",
+      "side": 1,
+      "message": "Same as before, maybe convert into a guard statement to avoid indenting the whole method.\n\n  if (!...) return;",
+      "revId": "ec3ea2cd0d38d20d874890accf59085535bbdd38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

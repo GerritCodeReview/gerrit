@@ -145,10 +145,7 @@ export const htmlTemplate = html`
             <td class$="tagger [[_hideIfBranch(detailType)]]">
               <div class$="tagger [[_computeHideTagger(item.tagger)]]">
                 <gr-account-link account="[[item.tagger]]"> </gr-account-link>
-                (<gr-date-formatter
-                  has-tooltip=""
-                  date-str="[[item.tagger.date]]"
-                >
+                (<gr-date-formatter withTooltip date-str="[[item.tagger.date]]">
                 </gr-date-formatter
                 >)
               </div>

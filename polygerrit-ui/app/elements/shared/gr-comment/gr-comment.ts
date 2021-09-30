@@ -20,7 +20,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-button/gr-button';
 import '../gr-dialog/gr-dialog';
-import '../gr-date-formatter/gr-date-formatter';
 import '../gr-formatted-text/gr-formatted-text';
 import '../gr-icons/gr-icons';
 import '../gr-overlay/gr-overlay';

@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1c49086_f6910c99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T07:03:36Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "de0999945e8dde84a81fc13fe8154900727486a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fcd2560_2d208843",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T07:03:36Z",
+      "side": 1,
+      "message": "Bonus points for removing all underscores during lit migration.",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 26
+      },
+      "revId": "de0999945e8dde84a81fc13fe8154900727486a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3729a821_4b5bebff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T07:03:36Z",
+      "side": 1,
+      "message": "The Polymer version did not have that. So you can probably drop this. Generally we are trying to use `sharedStyles` as little as possible and are in the process of breaking it up into smaller pieces.",
+      "revId": "de0999945e8dde84a81fc13fe8154900727486a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7415e8a3_aaa3a13f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T07:03:36Z",
+      "side": 1,
+      "message": "Nit: You can also just use \u0027\u0027 instead of html``.",
+      "range": {
+        "startLine": 232,
+        "startChar": 65,
+        "endLine": 232,
+        "endChar": 69
+      },
+      "revId": "de0999945e8dde84a81fc13fe8154900727486a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb78ac4f_9526182e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T07:03:36Z",
+      "side": 1,
+      "message": "For lit based tests prefer `await element.updateComplete` over `await flush()`.",
+      "revId": "de0999945e8dde84a81fc13fe8154900727486a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

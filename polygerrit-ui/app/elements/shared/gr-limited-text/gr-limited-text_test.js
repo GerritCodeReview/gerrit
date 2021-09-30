@@ -23,77 +23,64 @@ const basicFixture = fixtureFromElement('gr-limited-text');
 suite('gr-limited-text tests', () => {
   let element;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
-  test('tooltip without title input', () => {
-    const updateSpy = sinon.spy(element, '_updateTitle');
+  test('tooltip without title input', async () => {
     element.text = 'abc 123';
-    flush();
-    assert.isTrue(updateSpy.calledOnce);
-    assert.isNotOk(element.getAttribute('title'));
-    assert.isFalse(element.hasTooltip);
+    await element.updateComplete;
+    assert.isNotOk(element.shadowRoot.querySelector('gr-tooltip-content'));
 
     element.limit = 10;
-    flush();
-    assert.isTrue(updateSpy.calledTwice);
-    assert.isNotOk(element.getAttribute('title'));
-    assert.isFalse(element.hasTooltip);
+    await element.updateComplete;
+    assert.isNotOk(element.shadowRoot.querySelector('gr-tooltip-content'));
 
     element.limit = 3;
-    flush();
-    assert.equal(updateSpy.callCount, 3);
-    assert.equal(element.getAttribute('title'), 'abc 123');
-    assert.equal(element.title, 'abc 123');
-    assert.isTrue(element.hasTooltip);
+    await element.updateComplete;
+    assert.isOk(element.shadowRoot.querySelector('gr-tooltip-content'));
+    assert.equal(
+      element.shadowRoot.querySelector('gr-tooltip-content').title, 'abc 123');
 
     element.limit = 100;
-    flush();
-    assert.equal(updateSpy.callCount, 4);
-    assert.isFalse(element.hasTooltip);
+    await element.updateComplete;
+    assert.isNotOk(element.shadowRoot.querySelector('gr-tooltip-content'));
 
     element.limit = null;
-    flush();
-    assert.equal(updateSpy.callCount, 5);
-    assert.isNotOk(element.getAttribute('title'));
-    assert.isFalse(element.hasTooltip);
+    await element.updateComplete;
+    assert.isNotOk(element.shadowRoot.querySelector('gr-tooltip-content'));
   });
 
-  test('with tooltip input', () => {
-    const updateSpy = sinon.spy(element, '_updateTitle');
+  test('with tooltip input', async () => {
     element.tooltip = 'abc 123';
-    flush();
-    assert.isTrue(updateSpy.calledOnce);
-    assert.isTrue(element.hasTooltip);
-    assert.equal(element.getAttribute('title'), 'abc 123');
-    assert.equal(element.title, 'abc 123');
+    await element.updateComplete;
+    let tooltipContent = element.shadowRoot.querySelector('gr-tooltip-content');
+    assert.isOk(tooltipContent);
+    assert.equal(tooltipContent.title, 'abc 123');
 
     element.text = 'abc';
-    flush();
-    assert.equal(element.getAttribute('title'), 'abc 123');
-    assert.isTrue(element.hasTooltip);
+    await element.updateComplete;
+    tooltipContent = element.shadowRoot.querySelector('gr-tooltip-content');
+    assert.isOk(tooltipContent);
+    assert.equal(tooltipContent.title, 'abc 123');
 
     element.text = 'abcdef';
     element.limit = 3;
-    flush();
-    assert.equal(element.getAttribute('title'), 'abcdef (abc 123)');
-    assert.isTrue(element.hasTooltip);
+    await element.updateComplete;
+    tooltipContent = element.shadowRoot.querySelector('gr-tooltip-content');
+    assert.isOk(tooltipContent);
+    assert.equal(tooltipContent.title, 'abcdef (abc 123)');
   });
 
   test('_computeDisplayText', () => {
-    assert.equal(element._computeDisplayText('foo bar', 100), 'foo bar');
-    assert.equal(element._computeDisplayText('foo bar', 4), 'foo…');
-    assert.equal(element._computeDisplayText('foo bar', null), 'foo bar');
-  });
-
-  test('when disable tooltip', () => {
-    sinon.spy(element, '_updateTitle');
-    element.text = 'abcdefghijklmn';
-    element.disableTooltip = true;
-    element.limit = 10;
-    flush();
-    assert.equal(element.getAttribute('title'), '');
+    element.text = 'foo bar';
+    element.limit = 100;
+    assert.equal(element.renderText(), 'foo bar');
+    element.limit = 4;
+    assert.equal(element.renderText(), 'foo…');
+    element.limit = 0;
+    assert.equal(element.renderText(), 'foo bar');
   });
 });
 

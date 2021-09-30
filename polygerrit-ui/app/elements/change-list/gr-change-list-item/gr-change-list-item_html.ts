@@ -245,7 +245,7 @@ export const htmlTemplate = html`
        --><gr-limited-text limit="50" text="[[change.topic]]"> </gr-limited-text
         ><!--
      --></a
-      >)
+      >)∂
     </template>
   </td>
   <td

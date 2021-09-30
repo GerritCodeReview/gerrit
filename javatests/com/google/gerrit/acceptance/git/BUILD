@@ -10,7 +10,7 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
         ":submodule_util",
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/server/git/receive/testing",
-        "//lib/commons:lang",
+        "//lib/commons:lang3",
     ],
 ) for f in glob(["*IT.java"])]
 

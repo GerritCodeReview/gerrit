@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3243bbc5_1e1a8b86",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T17:57:17Z",
+      "side": 1,
+      "message": "Does that work? I would have expected that you either use an attribute:\n\n  has-tooltip\n  \nor a property like so:\n\n  ?hasTooltip\u003d\"${true}\"",
+      "revId": "3a85896b7ef4ebe3f8fbcc9ed81f8ce70a88c383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

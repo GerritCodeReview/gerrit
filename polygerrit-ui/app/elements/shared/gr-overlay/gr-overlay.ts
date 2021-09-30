@@ -40,6 +40,9 @@ const base = IronOverlayMixin(
   IronOverlayBehavior as IronOverlayBehavior
 );
 
+/**
+ * @attr {Boolean} with-backdrop - inherited from IronOverlay
+ */
 @customElement('gr-overlay')
 export class GrOverlay extends base {
   static get template() {

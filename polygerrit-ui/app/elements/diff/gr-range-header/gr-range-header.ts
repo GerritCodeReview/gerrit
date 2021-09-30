@@ -16,6 +16,7 @@
  */
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import '@polymer/iron-icon/iron-icon';
 
 /**
  * Represents a header (label) for a code chunk whenever showing

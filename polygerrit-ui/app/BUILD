@@ -269,3 +269,32 @@ eslint(
         "@npm//gts",
     ],
 )
+
+filegroup(
+    name = "lit_analysis_src_code",
+    srcs = glob(
+        ["**/*.ts"],
+        exclude = [
+            "**/*_html.ts",
+            "**/*_test.ts",
+        ],
+    ) + [
+        "@ui_dev_npm//:node_modules",
+        "@ui_npm//:node_modules",
+    ],
+)
+
+nodejs_binary(
+    name = "lit_analysis",
+    data = [
+        ":lit_analysis_src_code",
+        "@npm//lit-analyzer",
+    ],
+    entry_point = "@npm//:node_modules/lit-analyzer/cli.js",
+    templated_args = [
+        "**/elements/**/*.ts",
+        "--strict",
+        "--rules.no-property-visibility-mismatch off",
+        "--rules.no-incompatible-property-type off",
+    ],
+)

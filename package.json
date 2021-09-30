@@ -20,9 +20,11 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-regex": "^1.8.0",
     "gts": "^3.1.0",
+    "lit-analyzer": "^1.2.1",
     "prettier": "2.3.1",
     "rollup": "^2.45.2",
     "terser": "^5.6.1",
+    "ts-lit-plugin": "^1.2.1",
     "typescript": "4.3.2"
   },
   "scripts": {
@@ -34,6 +36,7 @@
     "safe_bazelisk": "if which bazelisk >/dev/null; then bazel_bin=bazelisk; else bazel_bin=bazel; fi && $bazel_bin",
     "eslint": "npm run safe_bazelisk test polygerrit-ui/app:lint_test",
     "eslintfix": "npm run safe_bazelisk run polygerrit-ui/app:lint_bin -- -- --fix $(pwd)/polygerrit-ui/app",
+    "litlint": "npm run safe_bazelisk run polygerrit-ui/app:lit_analysis",
     "test:debug": "npm run compile:local && npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --root '.ts-out/polygerrit-ui/app/' --browsers ChromeDev --no-single-run --test-files",
     "test:single": "npm run compile:local && npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --root '.ts-out/polygerrit-ui/app/' --test-files",
     "polylint": "npm run safe_bazelisk test //polygerrit-ui/app:polylint_test",

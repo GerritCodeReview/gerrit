@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b851564d_6de1be54",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-30T14:46:19Z",
+      "side": 1,
+      "message": "I also makes sense. I added it to gr-diff-utils (as it is specific to the gr-diff structure).",
+      "parentUuid": "b24624a9_20c8ae89",
+      "revId": "ec3ea2cd0d38d20d874890accf59085535bbdd38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e434500_ef633fda",
@@ -49,6 +67,24 @@
       "writtenOn": "2021-09-30T13:22:10Z",
       "side": 1,
       "message": "Same as before, maybe convert into a guard statement to avoid indenting the whole method.\n\n  if (!...) return;",
+      "revId": "ec3ea2cd0d38d20d874890accf59085535bbdd38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7148e93b_88b8a141",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-09-30T14:46:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e434500_ef633fda",
       "revId": "ec3ea2cd0d38d20d874890accf59085535bbdd38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

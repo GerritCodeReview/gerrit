@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c171209b_b949ff82",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-30T17:21:55Z",
+      "side": 1,
+      "message": "No, that was a typo. I don\u0027t even know how I got that fancy characater.",
+      "parentUuid": "a62170d7_c4ccaa43",
+      "range": {
+        "startLine": 248,
+        "startChar": 8,
+        "endLine": 248,
+        "endChar": 9
+      },
+      "revId": "65e405193a78bcee7b695a592c5cfbd88d1dfa81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "28ac6c93_f304d447",
         "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.ts",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-30T17:10:22Z",
       "side": 1,
       "message": "didn\u0027t look super deep but if text is too long we still render the whole text?",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 25
+      },
+      "revId": "65e405193a78bcee7b695a592c5cfbd88d1dfa81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6056ae70_c8274f35",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-30T17:21:55Z",
+      "side": 1,
+      "message": "If the text is too long we render a shortened text but put the full text in the tooltip.",
+      "parentUuid": "28ac6c93_f304d447",
       "range": {
         "startLine": 71,
         "startChar": 8,

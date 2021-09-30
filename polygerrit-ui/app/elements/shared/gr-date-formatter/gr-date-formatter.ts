@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-date-formatter_html';
-import {TooltipMixin} from '../../../mixins/gr-tooltip-mixin/gr-tooltip-mixin';
-import {property, customElement} from '@polymer/decorators';
+import '../gr-tooltip-content/gr-tooltip-content';
+import {css, html, LitElement} from 'lit';
+import {customElement, property} from 'lit/decorators';
 import {
   parseDate,
   fromNow,
@@ -75,16 +73,9 @@ declare global {
   }
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = TooltipMixin(PolymerElement);
-
 @customElement('gr-date-formatter')
-export class GrDateFormatter extends base {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: String, notify: true})
+export class GrDateFormatter extends LitElement {
+  @property({type: String})
   dateStr: string | undefined = undefined;
 
   @property({type: Boolean})
@@ -95,30 +86,20 @@ export class GrDateFormatter extends base {
    * native browser tooltip.
    */
   @property({type: Boolean})
-  override hasTooltip = false;
+  withTooltip = false;
 
   @property({type: Boolean})
   showYesterday = false;
 
-  /**
-   * The title to be used as the native tooltip or by the tooltip behavior.
-   */
-  @property({
-    type: String,
-    reflectToAttribute: true,
-    computed: '_computeFullDateStr(dateStr, _timeFormat, _dateFormat)',
-  })
-  override title = '';
-
   /** @type {?{short: string, full: string}} */
   @property({type: Object})
-  _dateFormat?: DateFormatPair;
+  private dateFormat?: DateFormatPair;
 
   @property({type: String})
-  _timeFormat?: string;
+  private timeFormat?: string;
 
   @property({type: Boolean})
-  _relative = false;
+  private relative = false;
 
   @property({type: Boolean})
   forceRelative = false;
@@ -132,76 +113,110 @@ export class GrDateFormatter extends base {
     super();
   }
 
+  static override get styles() {
+    return [
+      css`
+        host {
+          color: inherit;
+          display: inline;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    if (!this.withTooltip) {
+      return this.renderDateString();
+    }
+
+    const fullDateStr = this.computeFullDateStr();
+    if (!fullDateStr) {
+      return this.renderDateString();
+    }
+    return html`
+      <gr-tooltip-content has-tooltip title=${fullDateStr}>
+        ${this.renderDateString()}
+      </gr-tooltip-content>
+    `;
+  }
+
+  private renderDateString() {
+    return html` <span>${this._computeDateStr()}</span>`;
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     this._loadPreferences();
   }
 
+  // private but used by tests
   _getUtcOffsetString() {
     return utcOffsetString();
   }
 
+  // private but used by tests
   _loadPreferences() {
     return this._getLoggedIn().then(loggedIn => {
       if (!loggedIn) {
-        this._timeFormat = TimeFormats.TIME_24;
-        this._dateFormat = DateFormats.STD;
-        this._relative = this.forceRelative;
+        this.timeFormat = TimeFormats.TIME_24;
+        this.dateFormat = DateFormats.STD;
+        this.relative = this.forceRelative;
         return;
       }
-      return Promise.all([this._loadTimeFormat(), this._loadRelative()]);
+      return Promise.all([this._loadTimeFormat(), this.loadRelative()]);
     });
   }
 
+  // private but used in gr/file-list_test.js
   _loadTimeFormat() {
-    return this._getPreferences().then(preferences => {
+    return this.getPreferences().then(preferences => {
       if (!preferences) {
         throw Error('Preferences is not set');
       }
-      this._decideTimeFormat(preferences.time_format);
-      this._decideDateFormat(preferences.date_format);
+      this.decideTimeFormat(preferences.time_format);
+      this.decideDateFormat(preferences.date_format);
     });
   }
 
-  _decideTimeFormat(timeFormat: TimeFormat) {
+  private decideTimeFormat(timeFormat: TimeFormat) {
     switch (timeFormat) {
       case TimeFormat.HHMM_12:
-        this._timeFormat = TimeFormats.TIME_12;
+        this.timeFormat = TimeFormats.TIME_12;
         break;
       case TimeFormat.HHMM_24:
-        this._timeFormat = TimeFormats.TIME_24;
+        this.timeFormat = TimeFormats.TIME_24;
         break;
       default:
         assertNever(timeFormat, `Invalid time format: ${timeFormat}`);
     }
   }
 
-  _decideDateFormat(dateFormat: DateFormat) {
+  private decideDateFormat(dateFormat: DateFormat) {
     switch (dateFormat) {
       case DateFormat.STD:
-        this._dateFormat = DateFormats.STD;
+        this.dateFormat = DateFormats.STD;
         break;
       case DateFormat.US:
-        this._dateFormat = DateFormats.US;
+        this.dateFormat = DateFormats.US;
         break;
       case DateFormat.ISO:
-        this._dateFormat = DateFormats.ISO;
+        this.dateFormat = DateFormats.ISO;
         break;
       case DateFormat.EURO:
-        this._dateFormat = DateFormats.EURO;
+        this.dateFormat = DateFormats.EURO;
         break;
       case DateFormat.UK:
-        this._dateFormat = DateFormats.UK;
+        this.dateFormat = DateFormats.UK;
         break;
       default:
         assertNever(dateFormat, `Invalid date format: ${dateFormat}`);
     }
   }
 
-  _loadRelative() {
-    return this._getPreferences().then(prefs => {
+  private loadRelative() {
+    return this.getPreferences().then(prefs => {
       // prefs.relative_date_in_change_table is not set when false.
-      this._relative =
+      this.relative =
         this.forceRelative || !!(prefs && prefs.relative_date_in_change_table);
     });
   }
@@ -210,70 +225,60 @@ export class GrDateFormatter extends base {
     return this.restApiService.getLoggedIn();
   }
 
-  _getPreferences() {
+  private getPreferences() {
     return this.restApiService.getPreferences();
   }
 
-  _computeDateStr(
-    dateStr?: Timestamp,
-    timeFormat?: string,
-    dateFormat?: DateFormatPair,
-    relative?: boolean,
-    showDateAndTime?: boolean,
-    showYesterday?: boolean
-  ) {
-    if (!dateStr || !timeFormat || !dateFormat) {
+  // private but used by tests
+  _computeDateStr() {
+    if (!this.dateStr || !this.timeFormat || !this.dateFormat) {
       return '';
     }
-    const date = parseDate(dateStr);
+    const date = parseDate(this.dateStr as Timestamp);
     if (!isValidDate(date)) {
       return '';
     }
-    if (relative) {
+    if (this.relative) {
       return fromNow(date, this.relativeOptionNoAgo);
     }
     const now = new Date();
-    let format = dateFormat.full;
+    let format = this.dateFormat.full;
     if (isWithinDay(now, date)) {
-      format = timeFormat;
-    } else if (showYesterday && wasYesterday(now, date)) {
-      return `Yesterday at ${formatDate(date, timeFormat)}`;
+      format = this.timeFormat;
+    } else if (this.showYesterday && wasYesterday(now, date)) {
+      return `Yesterday at ${formatDate(date, this.timeFormat)}`;
     } else {
       if (isWithinHalfYear(now, date)) {
-        format = dateFormat.short;
+        format = this.dateFormat.short;
       }
-      if (this.showDateAndTime || showDateAndTime) {
-        format = `${format} ${timeFormat}`;
+      if (this.showDateAndTime || this.showDateAndTime) {
+        format = `${format} ${this.timeFormat}`;
       }
     }
     return formatDate(date, format);
   }
 
-  _timeToSecondsFormat(timeFormat: string | undefined) {
-    return timeFormat === TimeFormats.TIME_12
-      ? TimeFormats.TIME_12_WITH_SEC
-      : TimeFormats.TIME_24_WITH_SEC;
-  }
-
-  _computeFullDateStr(
-    dateStr?: Timestamp,
-    timeFormat?: string,
-    dateFormat?: DateFormatPair
-  ) {
+  private computeFullDateStr() {
     // Polymer 2: check for undefined
-    if ([dateStr, timeFormat].includes(undefined) || !dateFormat) {
+    if (
+      [this.dateStr, this.timeFormat].includes(undefined) ||
+      !this.dateFormat
+    ) {
       return undefined;
     }
 
-    if (!dateStr) {
+    if (!this.dateStr) {
       return '';
     }
-    const date = parseDate(dateStr);
+    const date = parseDate(this.dateStr as Timestamp);
     if (!isValidDate(date)) {
       return '';
     }
-    let format = dateFormat.full + ', ';
-    format += this._timeToSecondsFormat(timeFormat);
+    let format = this.dateFormat.full + ', ';
+    format +=
+      this.timeFormat === TimeFormats.TIME_12
+        ? TimeFormats.TIME_12_WITH_SEC
+        : TimeFormats.TIME_24_WITH_SEC;
     return formatDate(date, format) + this._getUtcOffsetString();
   }
 }

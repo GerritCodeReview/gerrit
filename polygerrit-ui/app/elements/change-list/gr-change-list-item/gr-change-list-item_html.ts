@@ -262,7 +262,7 @@ export const htmlTemplate = html`
     hidden$="[[isColumnHidden('Submitted', visibleChangeTableColumns)]]"
   >
     <gr-date-formatter
-      has-tooltip=""
+      withTooltip
       date-str="[[_formatDate(change.submitted)]]"
     ></gr-date-formatter>
   </td>
@@ -271,9 +271,9 @@ export const htmlTemplate = html`
     hidden$="[[isColumnHidden('Waiting', visibleChangeTableColumns)]]"
   >
     <gr-date-formatter
-      has-tooltip=""
-      force-relative=""
-      relative-option-no-ago=""
+      withTooltip
+      forceRelative
+      relativeOptionNoAge
       date-str="[[_computeWaiting(account, change)]]"
     ></gr-date-formatter>
   </td>

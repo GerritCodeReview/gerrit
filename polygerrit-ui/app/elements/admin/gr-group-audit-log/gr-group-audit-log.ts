@@ -17,7 +17,6 @@
 
 import '../../../styles/gr-table-styles';
 import '../../../styles/shared-styles';
-import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-account-link/gr-account-link';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-group-audit-log_html';

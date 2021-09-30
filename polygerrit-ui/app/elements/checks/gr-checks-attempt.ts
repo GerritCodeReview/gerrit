@@ -21,7 +21,7 @@ import {ordinal} from '../../utils/string-util';
 
 @customElement('gr-checks-attempt')
 class GrChecksAttempt extends LitElement {
-  @property()
+  @property({attribute: false})
   run?: CheckRun;
 
   static override get styles() {

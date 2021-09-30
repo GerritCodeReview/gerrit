@@ -267,11 +267,11 @@ export class GrImageViewer extends LitElement {
       outline: 1px solid transparent;
       border: 1px solid var(--primary-button-background-color);
     }
-    paper-button[unelevated] {
+    paper-button.unelevated {
       color: var(--primary-button-text-color);
       background-color: var(--primary-button-background-color);
     }
-    paper-button[outlined] {
+    paper-button.outlined {
       color: var(--primary-button-background-color);
     }
     #version-switcher {
@@ -422,23 +422,25 @@ export class GrImageViewer extends LitElement {
       />
     `;
 
-    const sourceImageWithHighlight = html`
-      <div id="source-plus-highlight-container">
-        ${sourceImage}
-        <img
-          id="highlight-image"
-          style="${styleMap({
-            opacity: this.showHighlight ? '1' : '0',
-            // When the highlight layer is not being shown, saving the image or
-            // opening it in a new tab from the context menu, e.g. for external
-            // comparison, should give back the source image, not the highlight
-            // layer.
-            'pointer-events': this.showHighlight ? 'auto' : 'none',
-          })}"
-          src="${this.diffHighlightSrc}"
-        />
-      </div>
-    `;
+    const sourceImageWithHighlight = this.diffHighlightSrc
+      ? html`
+          <div id="source-plus-highlight-container">
+            ${sourceImage}
+            <img
+              id="highlight-image"
+              style="${styleMap({
+                opacity: this.showHighlight ? '1' : '0',
+                // When the highlight layer is not being shown, saving the image or
+                // opening it in a new tab from the context menu, e.g. for external
+                // comparison, should give back the source image, not the highlight
+                // layer.
+                'pointer-events': this.showHighlight ? 'auto' : 'none',
+              })}"
+              src="${this.diffHighlightSrc}"
+            />
+          </div>
+        `
+      : '';
 
     const versionExplanation = html`
       <div id="version-explanation">
@@ -448,12 +450,20 @@ export class GrImageViewer extends LitElement {
 
     // This uses the unelevated and outlined attributes from mwc-button with
     // manual styling, for a more seamless transition later.
+    const leftClasses = {
+      left: true,
+      unelevated: this.baseSelected,
+      outlined: !this.baseSelected,
+    };
+    const rightClasses = {
+      right: true,
+      unelevated: !this.baseSelected,
+      outlined: this.baseSelected,
+    };
     const versionToggle = html`
       <div id="version-switcher">
         <paper-button
-          class="left"
-          ?unelevated=${this.baseSelected}
-          ?outlined=${!this.baseSelected}
+          class="${classMap(leftClasses)}"
           @click="${this.selectBase}"
         >
           Base
@@ -461,9 +471,7 @@ export class GrImageViewer extends LitElement {
         <paper-fab mini icon="gr-icons:swapHoriz" @click="${this.manualBlink}">
         </paper-fab>
         <paper-button
-          class="right"
-          ?unelevated=${!this.baseSelected}
-          ?outlined=${this.baseSelected}
+          class="${classMap(rightClasses)}"
           @click="${this.selectRevision}"
         >
           Revision
@@ -509,7 +517,7 @@ export class GrImageViewer extends LitElement {
         <paper-listbox
           slot="dropdown-content"
           selected="fit"
-          attr-for-selected="value"
+          .attrForSelected="${'value'}"
           @selected-changed="${this.zoomControlChanged}"
         >
           ${this.zoomLevels.map(

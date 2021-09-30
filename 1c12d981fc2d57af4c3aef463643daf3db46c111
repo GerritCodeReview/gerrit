@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1efd08d_f793f524",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T06:32:20Z",
+      "side": 1,
+      "message": "bonus points for trying to do without this :-)",
+      "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "533fc2a8_97d89c2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T06:32:20Z",
+      "side": 1,
+      "message": "fyi I think you can do\n\n  has-tooltip\n  \ninstead of\n\n  has-tooltip\u003d\"\"\n  \nSame for `link` in `gr-button`.",
+      "range": {
+        "startLine": 186,
+        "startChar": 10,
+        "endLine": 186,
+        "endChar": 24
+      },
+      "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56bc2277_42868486",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T06:32:20Z",
+      "side": 1,
+      "message": "Nit: Consistency would be nice: Either\n\n  attr\u003d\"${...}\"\n  \nor without \"\"\n\n  attr\u003d${...}",
+      "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "630fdcfc_1e9aa7dc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T06:32:20Z",
+      "side": 1,
+      "message": "bonus points for removing all underscores and making methods private",
+      "range": {
+        "startLine": 354,
+        "startChar": 2,
+        "endLine": 354,
+        "endChar": 22
+      },
+      "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a3a4ef5_cbdac9c1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T06:32:20Z",
+      "side": 1,
+      "message": "flush() could be considered Polymer legacy. I think the best way to do this for Lit is to use `await element.updateComplete`. I have started using that for the checks plugin successfully. Maybe you can try it here and add it to the Lit conversion doc?",
+      "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

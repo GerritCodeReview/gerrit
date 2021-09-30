@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84cf7f2b_bea6cfe7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-30T11:15:15Z",
+      "side": 1,
+      "message": "Thanks for the prompt review, PTAL.",
+      "revId": "de0999945e8dde84a81fc13fe8154900727486a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fcd2560_2d208843",
@@ -31,6 +48,30 @@
       "writtenOn": "2021-09-30T07:03:36Z",
       "side": 1,
       "message": "Bonus points for removing all underscores during lit migration.",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 26
+      },
+      "revId": "de0999945e8dde84a81fc13fe8154900727486a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8df6503_d18e6c22",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-30T11:15:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fcd2560_2d208843",
       "range": {
         "startLine": 50,
         "startChar": 10,
@@ -60,6 +101,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "adc511fb_fa528a7f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-30T11:15:15Z",
+      "side": 1,
+      "message": "Whoops, wrong one.  Added spinnerStyles",
+      "parentUuid": "3729a821_4b5bebff",
+      "revId": "de0999945e8dde84a81fc13fe8154900727486a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7415e8a3_aaa3a13f",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
         "patchSetId": 14
@@ -71,6 +130,30 @@
       "writtenOn": "2021-09-30T07:03:36Z",
       "side": 1,
       "message": "Nit: You can also just use \u0027\u0027 instead of html``.",
+      "range": {
+        "startLine": 232,
+        "startChar": 65,
+        "endLine": 232,
+        "endChar": 69
+      },
+      "revId": "de0999945e8dde84a81fc13fe8154900727486a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c125bf1f_31c23987",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-30T11:15:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7415e8a3_aaa3a13f",
       "range": {
         "startLine": 232,
         "startChar": 65,
@@ -94,6 +177,24 @@
       "writtenOn": "2021-09-30T07:03:36Z",
       "side": 1,
       "message": "For lit based tests prefer `await element.updateComplete` over `await flush()`.",
+      "revId": "de0999945e8dde84a81fc13fe8154900727486a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2cc77dd_28703764",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-30T11:15:15Z",
+      "side": 1,
+      "message": "Oh nice!",
+      "parentUuid": "eb78ac4f_9526182e",
       "revId": "de0999945e8dde84a81fc13fe8154900727486a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

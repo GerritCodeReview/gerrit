@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b24624a9_20c8ae89",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T13:25:21Z",
+      "side": 1,
+      "message": "Good point.\n\nWe have gr-diff-utils. Maybe move there?\n\nWe also have dom-util for generic dom stuff.",
+      "parentUuid": "1b1db6ed_b8078163",
+      "revId": "ec3ea2cd0d38d20d874890accf59085535bbdd38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e434500_ef633fda",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
         "patchSetId": 4

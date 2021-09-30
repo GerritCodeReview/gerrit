@@ -602,6 +602,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61e67a45_4a442d2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-30T15:28:06Z",
+      "side": 1,
+      "message": "Proposing then to -2 this change and start over at JGit level, on stable-5.9 branch.",
+      "parentUuid": "b8df072b_7e4f9ec4",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

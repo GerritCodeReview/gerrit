@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f7e0146_1ce5ac67",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-30T16:03:32Z",
+      "side": 1,
+      "message": "should this be gr-tooltip-content?",
+      "range": {
+        "startLine": 104,
+        "startChar": 11,
+        "endLine": 104,
+        "endChar": 29
+      },
+      "revId": "3e4f28373dc866317b1c791125b5c8dbab658259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

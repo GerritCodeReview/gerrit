@@ -22,6 +22,30 @@
       },
       "revId": "ab38b66654aca151a5efa9268df24a668b71947d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6a41e46_51822140",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-09-30T06:21:33Z",
+      "side": 0,
+      "message": "I have not looked into the root cause, sorry. I just switched to `--padding`, which I knew would work and would allow me to remove another instance of `--gr-button`.",
+      "parentUuid": "e38881fb_b5e693a2",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 14
+      },
+      "revId": "ab38b66654aca151a5efa9268df24a668b71947d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

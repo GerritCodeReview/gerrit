@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc175a1a_ddc16c06",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-30T17:29:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c171209b_b949ff82",
+      "range": {
+        "startLine": 248,
+        "startChar": 8,
+        "endLine": 248,
+        "endChar": 9
+      },
+      "revId": "65e405193a78bcee7b695a592c5cfbd88d1dfa81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28ac6c93_f304d447",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "If the text is too long we render a shortened text but put the full text in the tooltip.",
       "parentUuid": "28ac6c93_f304d447",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 25
+      },
+      "revId": "65e405193a78bcee7b695a592c5cfbd88d1dfa81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe70d9b1_46fb9d66",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-09-30T17:29:52Z",
+      "side": 1,
+      "message": "Ok.\nThe fact that renderTooltip doesn\u0027t simply return this.tooltip feels a little strange to me.\nI would have expected the tooltip property to update itself if text is too long.",
+      "parentUuid": "6056ae70_c8274f35",
       "range": {
         "startLine": 71,
         "startChar": 8,

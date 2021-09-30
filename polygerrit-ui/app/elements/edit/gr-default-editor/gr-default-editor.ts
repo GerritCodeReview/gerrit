@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
@@ -62,7 +61,7 @@ export class GrDefaultEditor extends LitElement {
   override render() {
     return html` <textarea
       id="textarea"
-      value="${this.fileContent}"
+      .value="${this.fileContent}"
       @input=${this._handleTextareaInput}
     ></textarea>`;
   }

@@ -20,7 +20,9 @@ import {ifDefined} from 'lit/directives/if-defined';
 import {LitElement, css, html, PropertyValues, TemplateResult} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import './gr-checks-action';
+import './gr-hovercard-run';
 import '@polymer/paper-tooltip/paper-tooltip';
+import '@polymer/iron-icon/iron-icon';
 import {
   Action,
   Category,
@@ -79,19 +81,19 @@ class GrResultRow extends LitElement {
   @query('td.nameCol div.name')
   nameEl?: HTMLElement;
 
-  @property()
+  @property({attribute: false})
   result?: RunResult;
 
-  @property()
+  @state()
   isExpanded = false;
 
   @property({type: Boolean, reflect: true})
   isExpandable = false;
 
-  @property()
+  @state()
   shouldRender = false;
 
-  @property()
+  @state()
   labels?: LabelNameToInfoMap;
 
   private checksService = appContext.checksService;
@@ -344,7 +346,7 @@ class GrResultRow extends LitElement {
             role="switch"
             tabindex="0"
             ?hidden="${!this.isExpandable}"
-            ?aria-checked="${this.isExpanded}"
+            aria-checked="${this.isExpanded ? 'true' : 'false'}"
             aria-label="${this.isExpanded
               ? 'Collapse result row'
               : 'Expand result row'}"
@@ -418,7 +420,7 @@ class GrResultRow extends LitElement {
     return html`
       <div class="label ${status}">
         <span>${label} ${valueStr}</span>
-        <paper-tooltip offset="5" fit-to-visible-bounds="true">
+        <paper-tooltip offset="5" ?fitToVisibleBounds="${true}">
           The check result has (probably) influenced this label vote.
         </paper-tooltip>
       </div>
@@ -515,7 +517,7 @@ class GrResultRow extends LitElement {
   renderTag(tag: Tag) {
     return html`<div class="tag ${tag.color}">
       <span>${tag.name}</span>
-      <paper-tooltip offset="5" fit-to-visible-bounds="true">
+      <paper-tooltip offset="5" ?fitToVisibleBounds="${true}">
         ${tag.tooltip ?? 'A category tag for this check result'}
       </paper-tooltip>
     </div>`;
@@ -524,10 +526,10 @@ class GrResultRow extends LitElement {
 
 @customElement('gr-result-expanded')
 class GrResultExpanded extends LitElement {
-  @property()
+  @property({attribute: false})
   result?: RunResult;
 
-  @property()
+  @state()
   repoConfig?: ConfigInfo;
 
   private changeService = appContext.changeService;
@@ -671,36 +673,36 @@ export class GrChecksResults extends LitElement {
   filterRegExp = new RegExp('');
 
   /** All runs. Shown should only the selected/filtered ones. */
-  @property()
+  @property({attribute: false})
   runs: CheckRun[] = [];
 
   /**
    * Check names of runs that are selected in the runs panel. When this array
    * is empty, then no run is selected and all runs should be shown.
    */
-  @property()
+  @property({attribute: false})
   selectedRuns: string[] = [];
 
-  @property()
+  @state()
   actions: Action[] = [];
 
-  @property()
+  @state()
   links: Link[] = [];
 
-  @property()
+  @property({attribute: false})
   tabState?: ChecksTabState;
 
-  @property()
+  @state()
   someProvidersAreLoading = false;
 
-  @property()
+  @state()
   checksPatchsetNumber: PatchSetNumber | undefined = undefined;
 
-  @property()
+  @state()
   latestPatchsetNumber: PatchSetNumber | undefined = undefined;
 
   /** Maps checkName to selected attempt number. `undefined` means `latest`. */
-  @property()
+  @property({attribute: false})
   selectedAttempts: Map<string, number | undefined> = new Map<
     string,
     number | undefined
@@ -967,11 +969,12 @@ export class GrChecksResults extends LitElement {
   }
 
   override render() {
-    const headerClasses = classMap({
+    const headerClasses = {
       header: true,
       notLatest: !!this.checksPatchsetNumber,
-    });
-    return html` <div class="${headerClasses}">
+    };
+    return html`
+      <div class="${classMap(headerClasses)}">
         <div class="headerTopRow">
           <div class="left">
             <h2 class="heading-2">Results</h2>
@@ -987,7 +990,9 @@ export class GrChecksResults extends LitElement {
               >
             </div>
             <gr-dropdown-list
-              value="${this.checksPatchsetNumber ?? this.latestPatchsetNumber}"
+              value="${this.checksPatchsetNumber ??
+              this.latestPatchsetNumber ??
+              0}"
               .items="${this.createPatchsetDropdownItems()}"
               @value-change="${this.onPatchsetSelected}"
             ></gr-dropdown-list>
@@ -1003,7 +1008,8 @@ export class GrChecksResults extends LitElement {
         ${this.renderSection(Category.WARNING)}
         ${this.renderSection(Category.INFO)}
         ${this.renderSection(Category.SUCCESS)}
-      </div>`;
+      </div>
+    `;
   }
 
   private renderLinksAndActions() {
@@ -1275,9 +1281,9 @@ export class GrChecksResults extends LitElement {
           ${repeat(
             filtered,
             result => result.internalResultId,
-            result => html`
+            (result?: RunResult) => html`
               <gr-result-row
-                class="${charsOnly(result.checkName)}"
+                class="${charsOnly(result!.checkName)}"
                 .result="${result}"
               ></gr-result-row>
             `

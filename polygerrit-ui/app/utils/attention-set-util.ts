@@ -16,6 +16,7 @@
  */
 
 import {AccountInfo, ChangeInfo, ServerInfo} from '../types/common';
+import {ParsedChangeInfo} from '../types/types';
 import {
   getAccountTemplate,
   isServiceUser,
@@ -29,7 +30,7 @@ export function canHaveAttention(account?: AccountInfo): boolean {
 
 export function hasAttention(
   account?: AccountInfo,
-  change?: ChangeInfo
+  change?: ChangeInfo | ParsedChangeInfo
 ): boolean {
   return (
     canHaveAttention(account) &&
@@ -41,7 +42,7 @@ export function hasAttention(
 export function getReason(
   config?: ServerInfo,
   account?: AccountInfo,
-  change?: ChangeInfo
+  change?: ChangeInfo | ParsedChangeInfo
 ) {
   if (!hasAttention(account, change)) return '';
   if (change?.attention_set === undefined) return '';

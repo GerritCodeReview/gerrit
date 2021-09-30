@@ -85,6 +85,7 @@ import {
   isCc,
   isOwner,
   isReviewer,
+  isInvolved,
 } from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -189,6 +190,11 @@ import {
   changeComments$,
   drafts$,
 } from '../../../services/comments/comments-model';
+import {
+  hasAttention,
+  getAddedByReason,
+  getRemovedByReason,
+} from '../../../utils/attention-set-util';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -580,6 +586,7 @@ export class GrChangeView extends base {
       [Shortcut.DIFF_RIGHT_AGAINST_LATEST]: '_handleDiffRightAgainstLatest',
       [Shortcut.DIFF_BASE_AGAINST_LATEST]: '_handleDiffBaseAgainstLatest',
       [Shortcut.OPEN_SUBMIT_DIALOG]: '_handleOpenSubmitDialog',
+      [Shortcut.TOGGLE_ATTENTION_SET]: '_handleToggleAttentionSet',
     };
   }
 
@@ -1525,6 +1532,48 @@ export class GrChangeView extends base {
 
     e.preventDefault();
     this.$.actions.showSubmitDialog();
+  }
+
+  _handleToggleAttentionSet(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) {
+      return;
+    }
+    if (!this._change || !this._account?._account_id) return;
+    if (!this._loggedIn || !isInvolved(this._change, this._account)) return;
+    if (!this._change.attention_set) this._change.attention_set = {};
+    if (hasAttention(this._account, this._change)) {
+      const reason = getRemovedByReason(this._account, this._serverConfig);
+      if (this._change.attention_set)
+        delete this._change.attention_set[this._account._account_id];
+      fireAlert(this, 'Removing you from the attention set ...');
+      this.restApiService
+        .removeFromAttentionSet(
+          this._change._number,
+          this._account._account_id,
+          reason
+        )
+        .then(() => {
+          fireEvent(this, 'hide-alert');
+        });
+    } else {
+      const reason = getAddedByReason(this._account, this._serverConfig);
+      fireAlert(this, 'Adding you to the attention set ...');
+      this._change.attention_set[this._account._account_id!] = {
+        account: this._account,
+        reason,
+        reason_account: this._account,
+      };
+      this.restApiService
+        .addToAttentionSet(
+          this._change._number,
+          this._account._account_id,
+          reason
+        )
+        .then(() => {
+          fireEvent(this, 'hide-alert');
+        });
+    }
+    this._change = {...this._change};
   }
 
   _handleDiffAgainstBase(e: CustomKeyboardEvent) {

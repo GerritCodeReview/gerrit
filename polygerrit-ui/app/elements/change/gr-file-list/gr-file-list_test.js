@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import '../../diff/gr-comment-api/gr-comment-api.js';
+import '../../shared/gr-date-formatter/gr-date-formatter';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-file-list.js';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';

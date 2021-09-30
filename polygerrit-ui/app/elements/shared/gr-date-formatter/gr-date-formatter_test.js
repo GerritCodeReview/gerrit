@@ -22,7 +22,7 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromTemplate(html`
-<gr-date-formatter date-str="2015-09-24 23:30:17.033000000"></gr-date-formatter>
+<gr-date-formatter dateStr="2015-09-24 23:30:17.033000000"></gr-date-formatter>
 `);
 
 suite('gr-date-formatter tests', () => {

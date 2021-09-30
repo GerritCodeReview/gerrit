@@ -134,9 +134,9 @@ export const htmlTemplate = html`
         <span class="title">Submitted</span>
         <span class="value">
           <gr-date-formatter
-            has-tooltip=""
+            withTooltip 
             date-str="[[change.submitted]]"
-            show-yesterday=""
+            showYesterday=""
           ></gr-date-formatter>
         </span>
       </section>
@@ -154,9 +154,9 @@ export const htmlTemplate = html`
       </span>
       <span class="value">
         <gr-date-formatter
-          has-tooltip=""
+          withTooltip
           date-str="[[change.updated]]"
-          show-yesterday=""
+          showYesterday
         ></gr-date-formatter>
       </span>
     </section>

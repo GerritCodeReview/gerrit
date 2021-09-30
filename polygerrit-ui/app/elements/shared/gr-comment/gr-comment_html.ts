@@ -313,7 +313,7 @@ export const htmlTemplate = html`
       <template is="dom-if" if="[[comment.updated]]">
         <span class="date" tabindex="0" on-click="_handleAnchorClick">
           <gr-date-formatter
-            has-tooltip=""
+            withTooltip
             date-str="[[comment.updated]]"
           ></gr-date-formatter>
         </span>

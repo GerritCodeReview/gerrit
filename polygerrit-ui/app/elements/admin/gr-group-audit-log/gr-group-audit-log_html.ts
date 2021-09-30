@@ -43,7 +43,7 @@ export const htmlTemplate = html`
       <template is="dom-repeat" items="[[_auditLog]]">
         <tr class="table">
           <td class="date">
-            <gr-date-formatter has-tooltip="" date-str="[[item.date]]">
+            <gr-date-formatter withTooltip date-str="[[item.date]]">
             </gr-date-formatter>
           </td>
           <td class="type">[[itemType(item.type)]]</td>

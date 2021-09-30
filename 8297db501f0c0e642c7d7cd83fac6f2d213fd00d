@@ -124,6 +124,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0bd8f7a_15974cb7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-09-30T11:39:55Z",
+      "side": 1,
+      "message": "So what I\u0027m not seeing is the resolving of the mockPromise that is returned from saveDiffDraft.  Currently it always returns a promise (here [1]) that\u0027s already resolved so you can not detect that the addDraftStub is only called after the saveDiffDraft is done.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/319096/1..6/polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts#343\n\nI imagine 2 mock promises;\n\nconst mockPromise1;\nconst mockPromise2;\n// Set up the saveDiffDraftStub to return mockPromise2;\n\naddEventListener(\u0027create-fix-comment\u0027, () \u003d\u003e { ...; resolve mockPromise1;});\n\nisNotOk(saveDiffDraftStub.called);\nisNotOk(addDraftStub.called);\n\ndispatchEvent(... create-fix-comment)\nisOk(saveDiffDraftStub.called);\nisNotOk(addDraftStub.called);\n\nmockPromise2.resolve(the );\nisOk(saveDiffDraftStub.called);\nisOk(addDraftStub.called);",
+      "parentUuid": "97015c95_e41f8eb0",
+      "revId": "8297db501f0c0e642c7d7cd83fac6f2d213fd00d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7d019d7_86d97c8f",

@@ -601,42 +601,48 @@ export class GrChecksRuns extends LitElement {
         @click="${() => fireRunSelectionReset(this)}"
         >Unselect All</gr-button
       >
-      <gr-button
-        class="font-normal"
-        link
+      <gr-tooltip-content
         title="${runButtonDisabled
           ? 'Disabled. Unselect checks without a "Run" action to enable the button.'
           : ''}"
         has-tooltip="${runButtonDisabled}"
-        ?disabled="${runButtonDisabled}"
-        @click="${() => {
-          actions.forEach(action => this.checksService.triggerAction(action));
-        }}"
-        >Run Selected</gr-button
       >
+        <gr-button
+          class="font-normal"
+          link
+          ?disabled="${runButtonDisabled}"
+          @click="${() => {
+            actions.forEach(action => this.checksService.triggerAction(action));
+          }}"
+          >Run Selected</gr-button
+        >
+      </gr-tooltip-content>
     `;
   }
 
   private renderCollapseButton() {
     return html`
-      <gr-button
-        link
-        class="expandButton"
-        role="switch"
-        ?aria-checked="${this.collapsed}"
-        aria-label="${this.collapsed
-          ? 'Expand runs panel'
-          : 'Collapse runs panel'}"
+      <gr-tooltip-content
         has-tooltip="true"
         title="${this.collapsed ? 'Expand runs panel' : 'Collapse runs panel'}"
-        @click="${() => (this.collapsed = !this.collapsed)}"
-        ><iron-icon
-          class="expandIcon"
-          icon="${this.collapsed
-            ? 'gr-icons:chevron-right'
-            : 'gr-icons:chevron-left'}"
-        ></iron-icon>
-      </gr-button>
+      >
+        <gr-button
+          link
+          class="expandButton"
+          role="switch"
+          ?aria-checked="${this.collapsed}"
+          aria-label="${this.collapsed
+            ? 'Expand runs panel'
+            : 'Collapse runs panel'}"
+          @click="${() => (this.collapsed = !this.collapsed)}"
+          ><iron-icon
+            class="expandIcon"
+            icon="${this.collapsed
+              ? 'gr-icons:chevron-right'
+              : 'gr-icons:chevron-left'}"
+          ></iron-icon>
+        </gr-button>
+      </gr-tooltip-content>
     `;
   }
 

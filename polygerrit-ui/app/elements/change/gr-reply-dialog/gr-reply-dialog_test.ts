@@ -116,7 +116,7 @@ suite('gr-reply-dialog tests', () => {
     return {id: `${lastId++}` as GroupId};
   };
 
-  setup(() => {
+  setup(async () => {
     changeNum = 42 as NumericChangeId;
     patchNum = 1 as PatchSetNum;
 
@@ -168,7 +168,7 @@ suite('gr-reply-dialog tests', () => {
     //     .returns(Promise.resolve({isLatest: true}));
 
     // Allow the elements created by dom-repeat to be stamped.
-    flush();
+    await flush();
   });
 
   function stubSaveReview(
@@ -216,6 +216,7 @@ suite('gr-reply-dialog tests', () => {
     // which the dom-repeat elements are stamped.
     await flush();
     tap(queryAndAssert(element, '.send'));
+    await flush();
 
     const review = await saveReviewPromise;
     assert.deepEqual(review, {
@@ -1063,6 +1064,7 @@ suite('gr-reply-dialog tests', () => {
     const label = 'Verified';
     const value = '+1';
     element.setLabelValue(label, value);
+    await flush();
 
     const labels = (
       queryAndAssert(element, '#labelScores') as GrLabelScores

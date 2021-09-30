@@ -27,6 +27,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalNotification;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cache.CacheBackend;
 import com.google.gerrit.server.cache.CacheDef;
@@ -39,6 +40,7 @@ import java.time.Duration;
 import org.eclipse.jgit.lib.Config;
 
 class DefaultMemoryCacheFactory implements MemoryCacheFactory {
+  private static FluentLogger logger = FluentLogger.forEnclosingClass();
   private final Config cfg;
   private final ForwardingRemovalListener.Factory forwardingRemovalListenerFactory;
 
@@ -127,51 +129,75 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
     Caffeine<K, V> builder = newCacheBuilder();
     builder.recordStats();
     builder.maximumWeight(
-        cfg.getLong("cache", def.configKey(), "memoryLimit", def.maximumWeight()));
+        logCache(
+            def,
+            "maximumWeight",
+            cfg.getLong("cache", def.configKey(), "memoryLimit", def.maximumWeight()),
+            "weight-units"));
     builder = builder.removalListener(newRemovalListener(def.name()));
     builder.weigher(newWeigher(def.weigher()));
 
     Duration expireAfterWrite = def.expireAfterWrite();
     if (has(def.configKey(), "maxAge")) {
       builder.expireAfterWrite(
-          ConfigUtil.getTimeUnit(
-              cfg, "cache", def.configKey(), "maxAge", toSeconds(expireAfterWrite), SECONDS),
+          logCache(
+              def,
+              "expireAfterWrite",
+              ConfigUtil.getTimeUnit(
+                  cfg, "cache", def.configKey(), "maxAge", toSeconds(expireAfterWrite), SECONDS),
+              "s"),
           SECONDS);
     } else if (expireAfterWrite != null) {
-      builder.expireAfterWrite(expireAfterWrite.toNanos(), NANOSECONDS);
+      builder.expireAfterWrite(
+          logCache(def, "expireAfterWrite", expireAfterWrite.toNanos(), "ns"), NANOSECONDS);
     }
 
     Duration expireAfterAccess = def.expireFromMemoryAfterAccess();
     if (has(def.configKey(), "expireFromMemoryAfterAccess")) {
       builder.expireAfterAccess(
-          ConfigUtil.getTimeUnit(
-              cfg,
-              "cache",
-              def.configKey(),
-              "expireFromMemoryAfterAccess",
-              toSeconds(expireAfterAccess),
-              SECONDS),
+          logCache(
+              def,
+              "expireAfterAccess",
+              ConfigUtil.getTimeUnit(
+                  cfg,
+                  "cache",
+                  def.configKey(),
+                  "expireFromMemoryAfterAccess",
+                  toSeconds(expireAfterAccess),
+                  SECONDS),
+              "s"),
           SECONDS);
     } else if (expireAfterAccess != null) {
-      builder.expireAfterAccess(expireAfterAccess.toNanos(), NANOSECONDS);
+      builder.expireAfterAccess(
+          logCache(def, "expireAfterAccess", expireAfterAccess.toNanos(), "ns"), NANOSECONDS);
     }
 
     Duration refreshAfterWrite = def.refreshAfterWrite();
     if (has(def.configKey(), "refreshAfterWrite")) {
       builder.expireAfterAccess(
-          ConfigUtil.getTimeUnit(
-              cfg,
-              "cache",
-              def.configKey(),
-              "refreshAfterWrite",
-              toSeconds(refreshAfterWrite),
-              SECONDS),
+          logCache(
+              def,
+              "expireAfterAccess",
+              ConfigUtil.getTimeUnit(
+                  cfg,
+                  "cache",
+                  def.configKey(),
+                  "refreshAfterWrite",
+                  toSeconds(refreshAfterWrite),
+                  SECONDS),
+              "s"),
           SECONDS);
     } else if (refreshAfterWrite != null) {
-      builder.refreshAfterWrite(refreshAfterWrite.toNanos(), NANOSECONDS);
+      builder.refreshAfterWrite(
+          logCache(def, "refreshAfterWrite", refreshAfterWrite.toNanos(), "ns"), NANOSECONDS);
     }
 
     return builder;
+  }
+
+  private <T> T logCache(CacheDef<?, ?> def, String paramName, T paramValue, String unit) {
+    logger.atInfo().log("[cache %s] %s=%d %s", def.configKey(), paramName, paramValue);
+    return paramValue;
   }
 
   private static long toSeconds(@Nullable Duration duration) {

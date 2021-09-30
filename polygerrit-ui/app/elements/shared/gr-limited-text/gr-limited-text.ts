@@ -14,19 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-limited-text_html';
-import {TooltipMixin} from '../../../mixins/gr-tooltip-mixin/gr-tooltip-mixin';
-import {customElement, observe, property} from '@polymer/decorators';
+import {customElement, property} from 'lit/decorators';
+import {html, LitElement} from 'lit';
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-limited-text': GrLimitedText;
   }
 }
-
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = TooltipMixin(PolymerElement);
 
 /**
  * The gr-limited-text element is for displaying text with a maximum length
@@ -35,57 +30,55 @@ const base = TooltipMixin(PolymerElement);
  * and a tooltip containing the full text is enabled.
  */
 @customElement('gr-limited-text')
-export class GrLimitedText extends base {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrLimitedText extends LitElement {
   /** The un-truncated text to display. */
   @property({type: String})
-  text?: string;
+  text: string = '';
 
   /** The maximum length for the text to display before truncating. */
   @property({type: Number})
-  limit?: number;
+  limit: number = 0;
 
   @property({type: String})
   tooltip?: string;
 
-  /** Boolean property used by TooltipMixin. */
-  @property({type: Boolean})
-  override hasTooltip = false;
-
-  /** Boolean property used by TooltipMixin. */
-  @property({type: Boolean})
-  disableTooltip = false;
-
-  /**
-   * The text or limit have changed. Recompute whether a tooltip needs to be
-   * enabled.
-   */
-  @observe('text', 'tooltip', 'limit')
-  _updateTitle(text?: string, tooltip?: string, limit?: number) {
-    text = text ?? '';
-    tooltip = tooltip ?? '';
-    limit = limit ?? 0;
-
-    this.hasTooltip = !!tooltip || (!!limit && text.length > limit);
-    if (this.hasTooltip && !this.disableTooltip) {
-      // Combine the text and title if over-length
-      if (limit && text.length > limit) {
-        this.title = `${text}${tooltip ? ` (${tooltip})` : ''}`;
-      } else {
-        this.title = tooltip;
-      }
+  static override get styles() {
+    return [];
+  }
+  override render() {
+    if (this.tooltip || this.tooLong()) {
+      return html`
+        <gr-tooltip-content
+          hasTooltip
+          .title=${this.renderTooltip()}>
+          ${this.renderText()}
+        </gr-tooltip-content>`;
     } else {
-      this.title = '';
+      return this.renderText();
     }
   }
 
-  _computeDisplayText(text?: string, limit?: number) {
-    if (!!limit && !!text && text.length > limit) {
-      return text.substr(0, limit - 1) + '…';
+  // Should be private but used in tests.
+  renderText() {
+    if (this.tooLong()) {
+      return this.text.substr(0, this.limit - 1) + '…';
     }
-    return text;
+    return this.text;
+  }
+
+  private renderTooltip() {
+    if (this.tooLong()) {
+      return `${this.text}${this.tooltip ? ` (${this.tooltip})` : ''}`;
+    } else if (this.tooltip) {
+      return this.tooltip;
+    } else {
+      return '';
+    }
+  }
+
+  private tooLong() {
+    if (!this.limit) return false;
+    if (!this.text) return false;
+    return this.text.length > this.limit;
   }
 }

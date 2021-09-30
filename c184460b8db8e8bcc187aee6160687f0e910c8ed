@@ -22,6 +22,30 @@
       },
       "revId": "c184460b8db8e8bcc187aee6160687f0e910c8ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86fd34e4_613554db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-09-30T11:58:10Z",
+      "side": 1,
+      "message": "Some of the replacements require calls to accountCache, that might be too expensive.\n\nThis change is WIP though, see predecessor https://gerrit-review.googlesource.com/c/gerrit/+/319400",
+      "parentUuid": "5334b41c_001b858f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "c184460b8db8e8bcc187aee6160687f0e910c8ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -28,6 +28,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {ifDefined} from 'lit/directives/if-defined';
 
 @customElement('gr-user-header')
 export class GrUserHeader extends LitElement {
@@ -64,7 +65,7 @@ export class GrUserHeader extends LitElement {
   }
 
   override render() {
-    return html` <gr-avatar
+    return html`<gr-avatar
         .account="${this._accountDetails}"
         .imageSize=${100}
         aria-label="Account avatar"
@@ -95,10 +96,10 @@ export class GrUserHeader extends LitElement {
         <gr-endpoint-decorator name="user-header">
           <gr-endpoint-param
             name="accountDetails"
-            value="${this._accountDetails}"
+            .value="${this._accountDetails}"
           >
           </gr-endpoint-param>
-          <gr-endpoint-param name="loggedIn" value="${this.loggedIn}">
+          <gr-endpoint-param name="loggedIn" .value="${this.loggedIn}">
           </gr-endpoint-param>
         </gr-endpoint-decorator>
       </div>

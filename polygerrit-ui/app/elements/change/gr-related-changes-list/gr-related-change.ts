@@ -109,7 +109,7 @@ export class GrRelatedChange extends LitElement {
     const linkClass = this._computeLinkClass(change);
     return html`
       <div class="changeContainer">
-        <a href="${this.href}" class="${linkClass}"><slot></slot></a>
+        <a href="${this.href ?? ''}" class="${linkClass}"><slot></slot></a>
         ${this.showSubmittableCheck
           ? html`<span
               tabindex="-1"

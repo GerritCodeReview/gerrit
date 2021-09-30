@@ -20,7 +20,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-thread-list/gr-thread-list';
-import {ChangeInfo, ActionInfo} from '../../../types/common';
+import {ChangeInfo, ActionInfo, NumericChangeId} from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {pluralize} from '../../../utils/string-util';
 import {CommentThread, isUnresolved} from '../../../utils/comment-util';
@@ -112,8 +112,8 @@ export class GrConfirmSubmitDialog extends LitElement {
         id="commentList"
         .threads="${this._computeUnresolvedThreads(this.commentThreads)}"
         .change="${this.change}"
-        .change-num="${this.change?._number}"
-        logged-in="true"
+        .changeNum="${this.change?._number}"
+        logged-in
         hide-dropdown
       >
       </gr-thread-list>

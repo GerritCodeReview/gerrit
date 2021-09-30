@@ -554,6 +554,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c7e773b5_a407647c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-09-30T08:10:25Z",
+      "side": 1,
+      "message": "\u003e Fetching drafts is used for retrieving draft comments, period. The number of calls are directly related to a specific user action.\n\nKeep in mind that dashboards use the drafts operator, so any slowdown would affect dashboards.\n\nI am +1 on a generalized RefCache. This would make it so that we can stop debating about SHA1s in cache keys :-)",
+      "parentUuid": "3d3de93c_df904eb1",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "c5f817cff8085a78a6cc88dd23a0f4d13b538fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd14a2d2_6e61cf38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

@@ -40,22 +40,22 @@ import {subscribe} from '../lit/subscription-controller';
  */
 @customElement('gr-checks-tab')
 export class GrChecksTab extends LitElement {
-  @property()
+  @state()
   runs: CheckRun[] = [];
 
-  @property()
+  @state()
   results: CheckResult[] = [];
 
-  @property()
+  @property({type: Object})
   tabState?: ChecksTabState;
 
-  @property()
+  @state()
   checksPatchsetNumber: PatchSetNumber | undefined = undefined;
 
-  @property()
+  @state()
   latestPatchsetNumber: PatchSetNumber | undefined = undefined;
 
-  @property()
+  @state()
   changeNum: NumericChangeId | undefined = undefined;
 
   @state()

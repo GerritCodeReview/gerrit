@@ -17,7 +17,6 @@
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
-import '../../shared/gr-label/gr-label';
 import '../../shared/gr-label-info/gr-label-info';
 import '../../shared/gr-limited-text/gr-limited-text';
 import {PolymerElement} from '@polymer/polymer/polymer-element';

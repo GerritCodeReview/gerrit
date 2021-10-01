@@ -22,6 +22,7 @@ import '../gr-account-link/gr-account-link';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import '../gr-label/gr-label';
+import '../gr-tooltip-content/gr-tooltip-content';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-label-info_html';

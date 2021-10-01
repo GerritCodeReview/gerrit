@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13ba7d18_0cb01300",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label/gr-label.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-01T05:53:57Z",
+      "side": 1,
+      "message": "This has become essentially a \u003cdiv\u003e. Maybe just remove the element and replace by \u003cdiv\u003e? Up to you. :-)",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 25
+      },
+      "revId": "af941d82c4cf31fcbc90a4a3e45fc80d581879c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -224,6 +224,8 @@ export class GrLabelInfo extends LitElement {
   /**
    * This method also listens on change.labels.*,
    * to trigger computation when a label is removed from the change.
+   *
+   * The third parameter is just for *triggering* computation.
    */
   private mapLabelInfo(
     labelInfo?: LabelInfo,
@@ -313,7 +315,7 @@ export class GrLabelInfo extends LitElement {
       return 'hidden';
     }
     const removable = change.removable_reviewers;
-    if (removable.find(r => r._account_id === reviewer._account_id)) {
+    if (removable.find(r => r._account_id === reviewer?._account_id)) {
       return '';
     }
     return 'hidden';
@@ -371,6 +373,8 @@ export class GrLabelInfo extends LitElement {
   /**
    * This method also listens change.labels.* in
    * order to trigger computation when a label is removed from the change.
+   *
+   * The second parameter is just for *triggering* computation.
    */
   private computeShowPlaceholder(
     labelInfo?: LabelInfo,

@@ -349,7 +349,8 @@ export class GrCommentThread extends base {
     return GerritNav.getUrlForComment(changeNum, projectName, id);
   }
 
-  getHighlightRange() {
+  /** The parameter is for triggering re-computation only. */
+  getHighlightRange(_: unknown) {
     const comment = this.comments?.[0];
     if (!comment) return undefined;
     if (comment.range) return comment.range;
@@ -378,9 +379,9 @@ export class GrCommentThread extends base {
     comments: UIComment[],
     changeNum?: NumericChangeId,
     projectName?: RepoName
-  ) {
-    if (!changeNum) return;
-    if (!projectName) return;
+  ): string {
+    if (!changeNum) return '';
+    if (!projectName) return '';
     check(comments.length > 0, 'comment not found');
     return GerritNav.getUrlForComment(changeNum, projectName, comments[0].id!);
   }
@@ -426,7 +427,7 @@ export class GrCommentThread extends base {
     });
   }
 
-  _isPatchsetLevelComment(path: string) {
+  _isPatchsetLevelComment(path?: string) {
     return path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
   }
 
@@ -435,7 +436,7 @@ export class GrCommentThread extends base {
     return this.showPortedComment && comment.id === this._orderedComments[0].id;
   }
 
-  _computeDisplayPath(path: string) {
+  _computeDisplayPath(path?: string) {
     const displayPath = computeDisplayPath(path);
     if (displayPath === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
       return 'Patchset';
@@ -741,7 +742,8 @@ export class GrCommentThread extends base {
     return -1;
   }
 
-  _computeHostClass(unresolved?: boolean) {
+  /** 2nd parameter is for triggering re-computation only. */
+  _computeHostClass(unresolved?: boolean, _?: unknown) {
     if (this.isRobotComment) {
       return 'robotComment';
     }

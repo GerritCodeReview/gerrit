@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c72517e6_1910f795",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitIncludedInRefs.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-01T16:53:20Z",
+      "side": 1,
+      "message": "Use a Collection\u003cString\u003e instead.",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 36
+      },
+      "revId": "53bfebd4ab53f7abd371939de09a9e54f89f0095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -160,30 +160,6 @@ suite('gr-label-row-score tests', () => {
     checkAriaCheckedValid();
   });
 
-  test('do not display tooltips on touch devices', async () => {
-    const verifiedTooltip = element.shadowRoot
-        .querySelector('iron-selector > gr-tooltip-content');
-
-    // On touch devices, tooltips should not be shown.
-    verifiedTooltip._isTouchDevice = true;
-    await flush();
-    verifiedTooltip._handleShowTooltip();
-    await flush();
-    assert.isNotOk(verifiedTooltip._tooltip);
-    verifiedTooltip._handleHideTooltip();
-    await flush();
-    assert.isNotOk(verifiedTooltip._tooltip);
-
-    // On other devices, tooltips should be shown.
-    verifiedTooltip._isTouchDevice = false;
-    verifiedTooltip._handleShowTooltip();
-    await flush();
-    assert.isOk(verifiedTooltip._tooltip);
-    verifiedTooltip._handleHideTooltip();
-    await flush();
-    assert.isNotOk(verifiedTooltip._tooltip);
-  });
-
   test('_computeLabelValue', () => {
     assert.strictEqual(element._computeLabelValue(element.labels,
         element.permittedLabels,

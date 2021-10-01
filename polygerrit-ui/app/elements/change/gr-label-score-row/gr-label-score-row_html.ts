@@ -119,7 +119,7 @@ export const htmlTemplate = html`
     >
       <template is="dom-repeat" items="[[_items]]" as="value">
         <gr-tooltip-content
-          has-tooltip=""
+          has-tooltip
           title$="[[_computeLabelValueTitle(labels, label.name, value)]]"
           data-name$="[[label.name]]"
           data-value$="[[value]]"

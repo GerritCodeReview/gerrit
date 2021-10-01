@@ -102,7 +102,7 @@ export const htmlTemplate = html`
       <tr class="labelValueContainer">
         <td>
           <gr-tooltip-content
-            has-tooltip=""
+            has-tooltip
             title="[[_computeValueTooltip(labelInfo, mappedLabel.value)]]"
           >
             <gr-label class$="[[mappedLabel.className]] voteChip font-small">
@@ -117,7 +117,7 @@ export const htmlTemplate = html`
           ></gr-account-link>
         </td>
         <td>
-          <gr-tooltip-content has-tooltip="" title="Remove vote">
+          <gr-tooltip-content has-tooltip title="Remove vote">
             <gr-button
               link=""
               aria-label="Remove vote"

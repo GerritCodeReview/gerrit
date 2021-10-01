@@ -354,8 +354,8 @@ export const htmlTemplate = html`
               ></gr-commit-info>
               <gr-tooltip-content
                 id="parentNotCurrentMessage"
-                has-tooltip=""
-                show-icon=""
+                has-tooltip
+                show-icon
                 title$="[[_notCurrentMessage]]"
               ></gr-tooltip-content>
             </li>

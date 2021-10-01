@@ -442,7 +442,7 @@ export const htmlTemplate = html`
               </template>
             </template>
             <gr-tooltip-content
-              has-tooltip=""
+              has-tooltip
               title="[[_computeAttentionButtonTitle(_sendDisabled)]]"
             >
               <gr-button

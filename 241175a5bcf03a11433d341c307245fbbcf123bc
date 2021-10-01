@@ -16,6 +16,23 @@
       "message": "API looks good to me. @Martin?\n\n@Gal, do you or someone from Google want to review this new API?",
       "revId": "241175a5bcf03a11433d341c307245fbbcf123bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e08124a_6e9db70b",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-01T21:20:19Z",
+      "side": 1,
+      "message": "If we filter the input refs, it might be quicker (i.e. an ACL check is likely faster than RevWalking?).",
+      "revId": "241175a5bcf03a11433d341c307245fbbcf123bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

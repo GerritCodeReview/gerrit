@@ -22,6 +22,30 @@
       },
       "revId": "88ab2404c2ae42ad8c30546b4565bb66b4cb1bf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a2f4d46_2a46eab7",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-01T15:38:26Z",
+      "side": 0,
+      "message": "Thank you for the poiner.\nLooks like it would check permission for each ref pattern that has \u0027read\u0027 permission block[1] in project.config\n\nWhich probably just does not scale if there are many read blocks in the config.\n\nFor large project.config with many per-ref overrides, this could be problematic.\n\n[1]https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/permissions/ProjectControl.java#293",
+      "parentUuid": "8d7c8f5c_c7515de2",
+      "range": {
+        "startLine": 586,
+        "startChar": 8,
+        "endLine": 586,
+        "endChar": 98
+      },
+      "revId": "88ab2404c2ae42ad8c30546b4565bb66b4cb1bf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

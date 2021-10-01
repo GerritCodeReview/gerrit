@@ -343,7 +343,7 @@ public abstract class ChangeNotesState {
     checkState(state.getRefState().isPresent(), "expected RefState: %s", state);
     ObjectId idFromState = state.getRefState().get().changeMetaId();
     if (!idFromState.equals(metaId())) {
-      throw new IOException(
+      throw new ChangeNoteStateException(
           "cannot copy ChangeNotesState into Change "
               + changeId()
               + "; this ChangeNotesState was created from "

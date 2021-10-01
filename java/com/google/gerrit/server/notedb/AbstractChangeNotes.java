@@ -122,7 +122,11 @@ public abstract class AbstractChangeNotes<T> {
   private boolean loaded;
 
   AbstractChangeNotes(
-      Args args, Change.Id changeId, @Nullable PrimaryStorage primaryStorage, boolean autoRebuild) {
+      Args args,
+      Change.Id changeId,
+      @Nullable PrimaryStorage primaryStorage,
+      boolean autoRebuild,
+      @Nullable ObjectId metaSha1) {
     this.args = requireNonNull(args);
     this.changeId = requireNonNull(changeId);
     this.primaryStorage = primaryStorage;
@@ -130,6 +134,7 @@ public abstract class AbstractChangeNotes<T> {
         primaryStorage == PrimaryStorage.REVIEW_DB
             && !args.migration.disableChangeReviewDb()
             && autoRebuild;
+    this.revision = metaSha1;
   }
 
   public Change.Id getChangeId() {
@@ -142,6 +147,15 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   public T load() throws OrmException {
+    try (Repository repo = args.repoManager.openRepository(getProjectName())) {
+      load(repo);
+      return self();
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  public T load(Repository repo) throws OrmException {
     if (loaded) {
       return self();
     }
@@ -162,21 +176,31 @@ public abstract class AbstractChangeNotes<T> {
       throw new OrmException("Reading from NoteDb is disabled");
     }
     try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
-        Repository repo = args.repoManager.openRepository(getProjectName());
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.
-        LoadHandle handle = openHandle(repo)) {
-      if (read) {
-        revision = handle.id();
-        onLoad(handle);
-      } else {
-        loadDefaults();
+        LoadHandle handle = openHandle(repo, revision)) {
+      tryLoading(read, handle);
+    } catch (ChangeNoteStateException e) {
+      try (LoadHandle handle = openHandle(repo)) {
+        tryLoading(read, handle);
+      } catch (ConfigInvalidException | IOException e1) {
+        throw new OrmException(e1);
       }
-      loaded = true;
     } catch (ConfigInvalidException | IOException e) {
       throw new OrmException(e);
     }
     return self();
+  }
+
+  private void tryLoading(boolean read, LoadHandle handle)
+      throws NoSuchChangeException, IOException, ConfigInvalidException {
+    if (read) {
+      revision = handle.id();
+      onLoad(handle);
+    } else {
+      loadDefaults();
+    }
+    loaded = true;
   }
 
   protected ObjectId readRef(Repository repo) throws IOException {
@@ -198,7 +222,10 @@ public abstract class AbstractChangeNotes<T> {
     return openHandle(repo, readRef(repo));
   }
 
-  protected LoadHandle openHandle(Repository repo, ObjectId id) {
+  protected LoadHandle openHandle(Repository repo, @Nullable ObjectId id) throws IOException {
+    if (id == null) {
+      id = readRef(repo);
+    }
     return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), id);
   }
 

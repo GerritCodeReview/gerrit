@@ -173,7 +173,10 @@ export const htmlTemplate = html`
   <gr-select bind-value="{{value}}">
     <select>
       <template is="dom-repeat" items="[[items]]">
-        <option disabled$="[[item.disabled]]" value="[[item.value]]">
+        <option
+          disabled$="[[item.disabled]]"
+          value="[[computeStringValue(item.value)]]"
+        >
           [[_computeMobileText(item)]]
         </option>
       </template>

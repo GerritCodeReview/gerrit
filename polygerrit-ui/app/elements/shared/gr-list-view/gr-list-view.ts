@@ -53,7 +53,7 @@ export class GrListView extends PolymerElement {
   filter?: string;
 
   @property({type: Number})
-  offset?: number;
+  offset = 0;
 
   @property({type: Boolean})
   loading?: boolean;
@@ -102,8 +102,8 @@ export class GrListView extends PolymerElement {
     offset: number,
     direction: number,
     itemsPerPage: number,
-    filter: string,
-    path: string
+    filter: string | undefined,
+    path = ''
   ) {
     // Offset could be a string when passed from the router.
     offset = +(offset || 0);

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b727da7_c3185b92",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-01T17:35:52Z",
+      "side": 1,
+      "message": "Can you simplify this by adding the ref inside the try?\n\n try {\n   Ref ref \u003d refDb.exactRef(refName);\n   if (ref !\u003d null) {\n     refs.add(ref);\n   }\n } catch (IOException e) {\n }",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 9
+      },
+      "revId": "2c41d6ca8c0328ce855ae2a82185c7669075e788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6de26253_64ba0a27",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-01T17:35:52Z",
+      "side": 1,
+      "message": "You already have the repo open when you call this. Pass it in.",
+      "range": {
+        "startLine": 98,
+        "startChar": 9,
+        "endLine": 98,
+        "endChar": 62
+      },
+      "revId": "2c41d6ca8c0328ce855ae2a82185c7669075e788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

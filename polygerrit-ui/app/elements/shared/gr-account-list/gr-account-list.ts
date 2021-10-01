@@ -27,19 +27,21 @@ import {
   AccountInfo,
   GroupInfo,
   EmailAddress,
+  SuggestedReviewerInfo,
 } from '../../../types/common';
-import {
-  ReviewerSuggestionsProvider,
-  SuggestionItem,
-} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
+import {
+  AccountAddedEvent,
+  GrAccountEntry,
+} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {PaperInputElementExt} from '../../../types/types';
 import {fireAlert} from '../../../utils/event-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
 import {KeydownEvent} from '../../../types/events';
+import {AutocompleteQuery} from '../gr-autocomplete/gr-autocomplete';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
@@ -177,7 +179,7 @@ export class GrAccountList extends PolymerElement {
    * Returns suggestion items
    */
   @property({type: Object})
-  _querySuggestions: (input: string) => Promise<SuggestionItem[]>;
+  _querySuggestions: AutocompleteQuery<SuggestedReviewerInfo>;
 
   /**
    * Set to true to disable suggestions on empty input.
@@ -227,7 +229,7 @@ export class GrAccountList extends PolymerElement {
     });
   }
 
-  _handleAdd(e: CustomEvent<{value: RawAccountInput}>) {
+  _handleAdd(e: AccountAddedEvent) {
     this.addAccountItem(e.detail.value);
   }
 
@@ -338,17 +340,19 @@ export class GrAccountList extends PolymerElement {
       paperInput.inputElement) as HTMLTextAreaElement;
   }
 
-  _handleInputKeydown(
-    e: CustomEvent<{input: PaperInputElementExt; keyCode: number}>
-  ) {
-    const input = this._getNativeInput(e.detail.input);
+  _handleInputKeydown(e: Event) {
+    const detail = (e as CustomEvent).detail as {
+      input: PaperInputElementExt;
+      keyCode: number;
+    };
+    const input = this._getNativeInput(detail.input);
     if (
       input.selectionStart !== input.selectionEnd ||
       input.selectionStart !== 0
     ) {
       return;
     }
-    switch (e.detail.keyCode) {
+    switch (detail.keyCode) {
       case 8: // Backspace
         this.removeAccount(this.accounts[this.accounts.length - 1]);
         break;

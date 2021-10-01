@@ -20,6 +20,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {ParsedChangeInfo} from '../../../types/types';
 
 @customElement('gr-account-link')
 export class GrAccountLink extends LitElement {
@@ -35,7 +36,7 @@ export class GrAccountLink extends LitElement {
    * related features like adding the user as a reviewer.
    */
   @property({type: Object})
-  change?: ChangeInfo;
+  change?: ChangeInfo | ParsedChangeInfo;
 
   /**
    * Should this user be considered to be in the attention set, regardless

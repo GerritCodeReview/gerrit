@@ -59,6 +59,7 @@ import {
   createAccountWithIdNameAndEmail,
   createChangeViewChange,
   createRelatedChangeAndCommitInfo,
+  createAccountDetailWithId,
 } from '../../../test/test-data-generators';
 import {ChangeViewPatchRange, GrChangeView} from './gr-change-view';
 import {
@@ -366,7 +367,9 @@ suite('gr-change-view tests', () => {
         },
       })
     );
-    stubRestApi('getAccount').returns(Promise.resolve(undefined));
+    stubRestApi('getAccount').returns(
+      Promise.resolve(createAccountDetailWithId(5))
+    );
     stubRestApi('getDiffComments').returns(Promise.resolve({}));
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
@@ -503,6 +506,39 @@ suite('gr-change-view tests', () => {
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[1], 10 as PatchSetNum);
     assert.isNotOk(args[2]);
+  });
+
+  test('toggle attention set status', async () => {
+    element._change = {
+      ...createChangeViewChange(),
+      revisions: createRevisions(10),
+    };
+    const addToAttentionSetStub = stubRestApi('addToAttentionSet').returns(
+      Promise.resolve(new Response())
+    );
+
+    const removeFromAttentionSetStub = stubRestApi(
+      'removeFromAttentionSet'
+    ).returns(Promise.resolve(new Response()));
+    element._patchRange = {
+      basePatchNum: 1 as BasePatchSetNum,
+      patchNum: 3 as RevisionPatchSetNum,
+    };
+    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+
+    assert.isNotOk(element._change.attention_set);
+    await element._getLoggedIn();
+    await element.restApiService.getAccount();
+    element._handleToggleAttentionSet(
+      new CustomEvent('') as CustomKeyboardEvent
+    );
+    assert.isTrue(addToAttentionSetStub.called);
+    assert.isFalse(removeFromAttentionSetStub.called);
+
+    element._handleToggleAttentionSet(
+      new CustomEvent('') as CustomKeyboardEvent
+    );
+    assert.isTrue(removeFromAttentionSetStub.called);
   });
 
   suite('plugins adding to file tab', () => {

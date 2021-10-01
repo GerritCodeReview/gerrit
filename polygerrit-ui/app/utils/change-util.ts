@@ -215,7 +215,7 @@ export function isCc(
 }
 
 export function isUploader(
-  change?: ChangeInfo,
+  change?: ChangeInfo | ParsedChangeInfo,
   account?: AccountInfo
 ): boolean {
   if (!change || !account) return false;
@@ -224,7 +224,7 @@ export function isUploader(
 }
 
 export function isInvolved(
-  change?: ChangeInfo,
+  change?: ChangeInfo | ParsedChangeInfo,
   account?: AccountInfo
 ): boolean {
   const owner = isOwner(change, account);

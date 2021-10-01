@@ -122,7 +122,11 @@ public abstract class AbstractChangeNotes<T> {
   private boolean loaded;
 
   AbstractChangeNotes(
-      Args args, Change.Id changeId, @Nullable PrimaryStorage primaryStorage, boolean autoRebuild) {
+      Args args,
+      Change.Id changeId,
+      @Nullable PrimaryStorage primaryStorage,
+      boolean autoRebuild,
+      @Nullable ObjectId metaSha1) {
     this.args = requireNonNull(args);
     this.changeId = requireNonNull(changeId);
     this.primaryStorage = primaryStorage;
@@ -130,6 +134,7 @@ public abstract class AbstractChangeNotes<T> {
         primaryStorage == PrimaryStorage.REVIEW_DB
             && !args.migration.disableChangeReviewDb()
             && autoRebuild;
+    this.revision = metaSha1;
   }
 
   public Change.Id getChangeId() {
@@ -142,6 +147,18 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   public T load() throws OrmException {
+    if (loaded) {
+      return self();
+    }
+    try (Repository repo = args.repoManager.openRepository(getProjectName())) {
+      load(repo);
+      return self();
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  public T load(Repository repo) throws OrmException {
     if (loaded) {
       return self();
     }
@@ -162,10 +179,9 @@ public abstract class AbstractChangeNotes<T> {
       throw new OrmException("Reading from NoteDb is disabled");
     }
     try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
-        Repository repo = args.repoManager.openRepository(getProjectName());
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.
-        LoadHandle handle = openHandle(repo)) {
+        LoadHandle handle = openHandle(repo, revision)) {
       if (read) {
         revision = handle.id();
         onLoad(handle);
@@ -195,10 +211,18 @@ public abstract class AbstractChangeNotes<T> {
    * @throws IOException a repo-level error occurred.
    */
   protected LoadHandle openHandle(Repository repo) throws NoSuchChangeException, IOException {
-    return openHandle(repo, readRef(repo));
+    return openHandleFromRevisionId(repo, readRef(repo));
   }
 
-  protected LoadHandle openHandle(Repository repo, ObjectId id) {
+  protected LoadHandle openHandle(Repository repo, @Nullable ObjectId revisionId)
+      throws NoSuchChangeException, IOException {
+    if (revisionId == null) {
+      revisionId = readRef(repo);
+    }
+    return openHandleFromRevisionId(repo, revisionId);
+  }
+
+  protected final LoadHandle openHandleFromRevisionId(Repository repo, ObjectId id) {
     return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), id);
   }
 

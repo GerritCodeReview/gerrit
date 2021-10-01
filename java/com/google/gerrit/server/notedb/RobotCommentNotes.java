@@ -49,7 +49,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
 
   @Inject
   RobotCommentNotes(Args args, @Assisted Change change) {
-    super(args, change.getId(), PrimaryStorage.of(change), false);
+    super(args, change.getId(), PrimaryStorage.of(change), false, null);
     this.change = change;
   }
 

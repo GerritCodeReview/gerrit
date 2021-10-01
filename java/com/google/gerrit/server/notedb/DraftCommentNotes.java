@@ -79,7 +79,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   DraftCommentNotes(Args args, @Assisted Change.Id changeId, @Assisted Account.Id author) {
     // PrimaryStorage is unknown; this should only called by
     // PatchLineCommentsUtil#draftByAuthor, which can live with this.
-    super(args, changeId, null, false);
+    super(args, changeId, null, false, null);
     this.change = null;
     this.author = author;
     this.rebuildResult = null;
@@ -93,7 +93,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       boolean autoRebuild,
       @Nullable NoteDbUpdateManager.Result rebuildResult,
       @Nullable Ref ref) {
-    super(args, change.getId(), PrimaryStorage.of(change), autoRebuild);
+    super(args, change.getId(), PrimaryStorage.of(change), autoRebuild, null);
     this.change = change;
     this.author = author;
     this.rebuildResult = rebuildResult;
@@ -179,6 +179,12 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   @Override
   public Project.NameKey getProjectName() {
     return args.allUsers;
+  }
+
+  @Override
+  protected LoadHandle openHandle(Repository repo, @Nullable ObjectId id)
+      throws NoSuchChangeException, IOException {
+    return openHandle(repo);
   }
 
   @Override

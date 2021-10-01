@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce6414d4_2c81bfd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1141465
+      },
+      "writtenOn": "2021-10-01T01:33:23Z",
+      "side": 1,
+      "message": "how do go around from preventing future issues with this bug ?",
+      "revId": "6032d93a901744c39a3ee5316b51888ea02da8fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

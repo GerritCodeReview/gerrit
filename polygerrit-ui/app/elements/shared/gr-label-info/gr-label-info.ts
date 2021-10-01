@@ -29,7 +29,6 @@ import {htmlTemplate} from './gr-label-info_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {
-  ChangeInfo,
   AccountInfo,
   LabelInfo,
   ApprovalInfo,
@@ -92,8 +91,10 @@ export class GrLabelInfo extends PolymerElement {
   /**
    * This method also listens on change.labels.*,
    * to trigger computation when a label is removed from the change.
+   *
+   * The third parameter is just for *triggering* computation.
    */
-  _mapLabelInfo(labelInfo?: LabelInfo, account?: AccountInfo) {
+  _mapLabelInfo(labelInfo?: LabelInfo, account?: AccountInfo, _?: unknown) {
     const result: FormattedLabel[] = [];
     if (!labelInfo) {
       return result;
@@ -168,15 +169,15 @@ export class GrLabelInfo extends PolymerElement {
    *     vote.
    */
   _computeDeleteClass(
-    reviewer: ApprovalInfo,
+    reviewer: ApprovalInfo | AccountInfo | undefined,
     mutable: boolean,
-    change: ChangeInfo
+    change?: ParsedChangeInfo
   ) {
     if (!mutable || !change || !change.removable_reviewers) {
       return 'hidden';
     }
     const removable = change.removable_reviewers;
-    if (removable.find(r => r._account_id === reviewer._account_id)) {
+    if (removable.find(r => r._account_id === reviewer?._account_id)) {
       return '';
     }
     return 'hidden';
@@ -220,7 +221,7 @@ export class GrLabelInfo extends PolymerElement {
       });
   }
 
-  _computeValueTooltip(labelInfo: LabelInfo, score: string) {
+  _computeValueTooltip(labelInfo: LabelInfo | undefined, score: string) {
     if (
       !labelInfo ||
       !isDetailedLabelInfo(labelInfo) ||
@@ -234,8 +235,10 @@ export class GrLabelInfo extends PolymerElement {
   /**
    * This method also listens change.labels.* in
    * order to trigger computation when a label is removed from the change.
+   *
+   * The second parameter is just for *triggering* computation.
    */
-  _computeShowPlaceholder(labelInfo?: LabelInfo) {
+  _computeShowPlaceholder(labelInfo?: LabelInfo, _?: unknown) {
     if (!labelInfo) {
       return '';
     }

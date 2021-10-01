@@ -316,7 +316,7 @@ export const htmlTemplate = html`
       <div class="show-hide" tabindex="0">
         <label
           class="show-hide"
-          aria-label="[[_computeShowHideAriaLabel(collapsed)]]"
+          aria-label$="[[_computeShowHideAriaLabel(collapsed)]]"
         >
           <input
             type="checkbox"

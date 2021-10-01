@@ -49,6 +49,7 @@ import {GrButton} from '../gr-button/gr-button';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
   isDraft,
+  isRobot,
   UIComment,
   UIDraft,
   UIRobot,
@@ -214,7 +215,7 @@ export class GrComment extends base {
   projectConfig?: ConfigInfo;
 
   @property({type: Boolean})
-  robotButtonDisabled?: boolean;
+  robotButtonDisabled = false;
 
   @property({type: Boolean})
   _hasHumanReply?: boolean;
@@ -233,7 +234,7 @@ export class GrComment extends base {
   side?: string;
 
   @property({type: Boolean})
-  resolved?: boolean;
+  resolved = false;
 
   // Intentional to share the object across instances.
   @property({type: Object})
@@ -318,12 +319,13 @@ export class GrComment extends base {
     super.disconnectedCallback();
   }
 
-  _getAuthor(comment: UIComment) {
-    return comment.author || this._selfAccount;
+  /** 2nd argument is for *triggering* the computation only. */
+  _getAuthor(comment?: UIComment, _?: unknown) {
+    return comment?.author || this._selfAccount;
   }
 
-  _getUrlForComment(comment: UIComment) {
-    if (!this.changeNum || !this.projectName) return '';
+  _getUrlForComment(comment?: UIComment) {
+    if (!comment || !this.changeNum || !this.projectName) return '';
     if (!comment.id) throw new Error('comment must have an id');
     return GerritNav.getUrlForComment(
       this.changeNum as NumericChangeId,
@@ -435,8 +437,8 @@ export class GrComment extends base {
     this._showRobotActions = showActions && isRobotComment;
   }
 
-  hasPublishedComment(comments: UIComment[]) {
-    if (!comments.length) return false;
+  hasPublishedComment(comments?: UIComment[]) {
+    if (!comments?.length) return false;
     return comments.length > 1 || !isDraft(comments[0]);
   }
 
@@ -808,7 +810,7 @@ export class GrComment extends base {
     );
   }
 
-  _hasNoFix(comment: UIComment) {
+  _hasNoFix(comment?: UIComment) {
     return !comment || !(comment as UIRobot).fix_suggestions;
   }
 
@@ -1037,9 +1039,10 @@ export class GrComment extends base {
     return overlay.open();
   }
 
-  _computeHideRunDetails(comment: UIRobot, collapsed: boolean) {
+  _computeHideRunDetails(comment: UIComment | undefined, collapsed: boolean) {
     if (!comment) return true;
-    return !(comment.robot_id && comment.url && !collapsed);
+    if (!isRobot(comment)) return true;
+    return !comment.url || collapsed;
   }
 
   _closeOverlay(overlay?: GrOverlay | null) {

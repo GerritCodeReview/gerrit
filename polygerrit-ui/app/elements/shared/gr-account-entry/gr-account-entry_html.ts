@@ -18,13 +18,13 @@ import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
   <style include="shared-styles">
-    gr-autocomplete {
+    gr-autocomplete-account {
       display: inline-block;
       flex: 1;
       overflow: hidden;
     }
   </style>
-  <gr-autocomplete
+  <gr-autocomplete-account
     id="input"
     borderless="[[borderless]]"
     placeholder="[[placeholder]]"
@@ -37,5 +37,5 @@ export const htmlTemplate = html`
     text="{{_inputText}}"
     vertical-offset="24"
   >
-  </gr-autocomplete>
+  </gr-autocomplete-account>
 `;

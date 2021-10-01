@@ -83,9 +83,7 @@ suite('gr-account-list tests', () => {
   }
 
   function handleAdd(value: RawAccountInput) {
-    element._handleAdd(
-      new CustomEvent<{value: RawAccountInput}>('add', {detail: {value}})
-    );
+    element.addAccountItem(value);
   }
 
   setup(() => {

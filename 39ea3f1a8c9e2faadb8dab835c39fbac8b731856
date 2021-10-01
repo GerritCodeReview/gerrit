@@ -34,6 +34,41 @@
       "parentUuid": "17572c5f_836094e7",
       "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "409d597e_515be734",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-10-01T07:06:03Z",
+      "side": 1,
+      "message": "I don\u0027t think reading All-Users takes very long, because the Wipeout Flume does this too and it finishes in ~1h very consistently. I\u0027m a bit concerned that this change is complex and it wouldn\u0027t be needed if either the cache works effectively or you prefetch all users.\n\nWouldn\u0027t it be just a few lines to enable the cache?",
+      "parentUuid": "e81578b3_71b06730",
+      "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fb6f1f5_4b133bca",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-10-01T07:06:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure if \"Removed A by B\" is correct, but \"A removed by B\" is.",
+      "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

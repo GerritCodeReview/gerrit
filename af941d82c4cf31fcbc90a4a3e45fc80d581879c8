@@ -22,6 +22,30 @@
       },
       "revId": "af941d82c4cf31fcbc90a4a3e45fc80d581879c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aa34400_b44f5e5b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label/gr-label.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T11:30:12Z",
+      "side": 1,
+      "message": "I\u0027ll do it as a follow-up 😊",
+      "parentUuid": "13ba7d18_0cb01300",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 25
+      },
+      "revId": "af941d82c4cf31fcbc90a4a3e45fc80d581879c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

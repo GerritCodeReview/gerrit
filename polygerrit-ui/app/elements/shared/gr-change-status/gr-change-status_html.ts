@@ -80,8 +80,8 @@ export const htmlTemplate = html`
     }
   </style>
   <gr-tooltip-content
-    has-tooltip=""
-    position-below=""
+    has-tooltip
+    position-below
     title="[[tooltipText]]"
     max-width="40em"
   >

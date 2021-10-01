@@ -110,7 +110,7 @@ export class GrCopyClipboard extends LitElement {
           type="text"
           @click="${this._handleInputClick}"
           readonly=""
-          bind-value=${this.text}
+          bind-value=${this.text || ''}
         >
           <input
             id="input"
@@ -119,7 +119,7 @@ export class GrCopyClipboard extends LitElement {
             type="text"
             @click="${this._handleInputClick}"
             readonly=""
-            .value=${this.text}
+            .value=${this.text || ''}
             part="text-container-style"
           />
         </iron-input>

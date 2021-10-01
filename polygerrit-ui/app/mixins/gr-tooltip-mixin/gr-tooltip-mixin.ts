@@ -22,7 +22,6 @@ import {GrTooltip} from '../../elements/shared/gr-tooltip/gr-tooltip';
 import {PolymerElement} from '@polymer/polymer';
 import {Constructor} from '../../utils/common-util';
 
-const BOTTOM_OFFSET = 7.2; // Height of the arrow in tooltip.
 
 /** The interface corresponding to TooltipMixin */
 export interface TooltipMixinInterface {

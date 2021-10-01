@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c581a7a9_394647ab",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 1,
+      "message": "Remove the \"\"",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9fe6088_7c8cb7e5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 1,
+      "message": "Remove the \"\"",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de261b5e_0330b1e1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 1,
+      "message": "What about using the \u0027ifDefined\u0027 predicate?",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8f7492d_36081f10",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 1,
+      "message": "This is a boolean, should this be has-tooltip or ?hasTooltip?",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf4cee4f_2f56eb76",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 1,
+      "message": "I\u0027m still confused when things should be camel-cased or not.",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c5a2d83_15b205a5",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 1,
+      "message": "What about using the ifDefined predicate?",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00d1466b_2a305fdf",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 1,
+      "message": "Should this be ?mutable\u003d${!!this.mutable}",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df15b607_34f8ef37",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a4f15d2_7b982e7d",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-action.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 1,
+      "message": "If this is a property, should this be .fitToVisibleBounds?",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "898854df_c14073a7",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 1,
+      "message": "What\u0027s the difference between @property({attribute: false}) and @state?",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ee41af0_69b1164b",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 1,
+      "message": "Same question about @state vs @property({attribute: false})",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

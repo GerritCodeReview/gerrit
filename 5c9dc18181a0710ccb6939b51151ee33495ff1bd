@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb642520_3ebfee55",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T14:15:10Z",
+      "side": 0,
+      "message": "Why is readonly no longer necessary?",
+      "revId": "5c9dc18181a0710ccb6939b51151ee33495ff1bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

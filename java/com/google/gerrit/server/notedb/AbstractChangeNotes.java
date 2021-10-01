@@ -37,6 +37,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** View of contents at a single ref related to some change. * */
 public abstract class AbstractChangeNotes<T> {
@@ -118,9 +120,10 @@ public abstract class AbstractChangeNotes<T> {
   private ObjectId revision;
   private boolean loaded;
 
-  protected AbstractChangeNotes(Args args, Change.Id changeId) {
+  protected AbstractChangeNotes(Args args, Change.Id changeId, @Nullable ObjectId metaSha1) {
     this.args = requireNonNull(args);
     this.changeId = requireNonNull(changeId);
+    this.revision = metaSha1;
   }
 
   public Change.Id getChangeId() {
@@ -152,7 +155,7 @@ public abstract class AbstractChangeNotes<T> {
     try (Timer0.Context timer = args.metrics.readLatency.start();
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.
-        LoadHandle handle = openHandle(repo)) {
+        LoadHandle handle = openHandle(repo, revision)) {
       revision = handle.id();
       onLoad(handle);
       loaded = true;
@@ -176,13 +179,16 @@ public abstract class AbstractChangeNotes<T> {
    * @param repo open repository.
    * @return handle for reading the entity.
    * @throws NoSuchChangeException change does not exist.
+   * @throws MissingMetaObjectException specified SHA1 isn't reachable from meta branch.
    * @throws IOException a repo-level error occurred.
    */
-  protected LoadHandle openHandle(Repository repo) throws NoSuchChangeException, IOException {
-    return openHandle(repo, readRef(repo));
-  }
-
-  protected LoadHandle openHandle(Repository repo, ObjectId id) {
+  protected LoadHandle openHandle(Repository repo, @Nullable ObjectId id)
+      throws NoSuchChangeException, IOException {
+    if (id == null) {
+      id = readRef(repo);
+    } else {
+      verifyMetaId(repo, id);
+    }
     return new LoadHandle(repo, id);
   }
 
@@ -222,5 +228,21 @@ public abstract class AbstractChangeNotes<T> {
   @SuppressWarnings("unchecked")
   protected final T self() {
     return (T) this;
+  }
+
+  private void verifyMetaId(Repository repo, ObjectId id)
+      throws IOException, MissingMetaObjectException {
+    try (RevWalk rw = new RevWalk(repo)) {
+      Ref ref = repo.getRefDatabase().exactRef(getRefName());
+      RevCommit tip = rw.parseCommit(ref.getObjectId());
+      rw.markStart(tip);
+      for (RevCommit rev : rw) {
+        if (id.equals(rev)) {
+          return;
+        }
+      }
+    }
+
+    throw new MissingMetaObjectException(id.getName() + " not reachable from " + getRefName());
   }
 }

@@ -80,8 +80,8 @@ export const htmlTemplate = html`
     }
   </style>
   <gr-tooltip-content
-    has-tooltip=""
-    position-below=""
+    has-tooltip
+    position-below
     title="[[tooltipText]]"
     max-width="40em"
   >
@@ -101,9 +101,8 @@ export const htmlTemplate = html`
       </a>
     </template>
     <template is="dom-if" if="[[!hasStatusLink(revertedChange, resolveWeblinks, status)]]">
-      <div class="chip" aria-label$="Label: [[status]]">
-        [[_computeStatusString(status)]]
-      </div>
+      <div class="chip" aria-label$="Label: [[status]]"
+      >[[_computeStatusString(status)]]</div>
     </template>
   </gr-tooltip-content>
 </span>

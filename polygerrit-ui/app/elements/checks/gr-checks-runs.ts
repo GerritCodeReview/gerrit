@@ -605,12 +605,12 @@ export class GrChecksRuns extends LitElement {
         title="${runButtonDisabled
           ? 'Disabled. Unselect checks without a "Run" action to enable the button.'
           : ''}"
-        has-tooltip="${runButtonDisabled}"
+        ?has-tooltip=${runButtonDisabled}
       >
         <gr-button
           class="font-normal"
           link
-          ?disabled="${runButtonDisabled}"
+          ?disabled=${runButtonDisabled}
           @click="${() => {
             actions.forEach(action => this.checksService.triggerAction(action));
           }}"
@@ -623,7 +623,7 @@ export class GrChecksRuns extends LitElement {
   private renderCollapseButton() {
     return html`
       <gr-tooltip-content
-        has-tooltip="true"
+        has-tooltip
         title="${this.collapsed ? 'Expand runs panel' : 'Collapse runs panel'}"
       >
         <gr-button

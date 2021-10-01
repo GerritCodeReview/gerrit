@@ -17,35 +17,162 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-tooltip-content.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-const basicFixture = fixtureFromTemplate(html`
-<gr-tooltip-content>
-    </gr-tooltip-content>
-`);
+const basicFixture = fixtureFromElement('gr-tooltip-content');
 
 suite('gr-tooltip-content tests', () => {
   let element;
-  setup(() => {
+
+  function makeTooltip(tooltipRect, parentRect) {
+    return {
+      getBoundingClientRect() { return tooltipRect; },
+      updateStyles: sinon.stub(),
+      style: {left: 0, top: 0},
+      parentElement: {
+        getBoundingClientRect() { return parentRect; },
+      },
+    };
+  }
+
+  setup(async () => {
     element = basicFixture.instantiate();
+    element.title = 'title';
+    await element.updateComplete;
   });
 
   test('icon is not visible by default', () => {
-    assert.equal(dom(element.root)
-        .querySelector('iron-icon').hidden, true);
+    assert.isNotOk(element.shadowRoot.querySelector('iron-icon'));
   });
 
-  test('position-below attribute is reflected', () => {
+  test('icon is visible with showIcon property', async () => {
+    element.showIcon = true;
+    await element.updateComplete;
+    assert.isOk(element.shadowRoot.querySelector('iron-icon'));
+  });
+
+  test('position-below attribute is reflected', async () => {
     assert.isFalse(element.hasAttribute('position-below'));
     element.positionBelow = true;
+    await element.updateComplete;
     assert.isTrue(element.hasAttribute('position-below'));
   });
 
-  test('icon is visible with showIcon property', () => {
-    element.showIcon = true;
-    assert.equal(dom(element.root)
-        .querySelector('iron-icon').hidden, false);
+  test('normal position', () => {
+    sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
+      return {top: 100, left: 100, width: 200};
+    });
+    const tooltip = makeTooltip(
+        {height: 30, width: 50},
+        {top: 0, left: 0, width: 1000});
+
+    element._positionTooltip(tooltip);
+    assert.isFalse(tooltip.updateStyles.called);
+    assert.equal(tooltip.style.left, '175px');
+    assert.equal(tooltip.style.top, '100px');
+  });
+
+  test('left side position', () => {
+    sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
+      return {top: 100, left: 10, width: 50};
+    });
+    const tooltip = makeTooltip(
+        {height: 30, width: 120},
+        {top: 0, left: 0, width: 1000});
+
+    element._positionTooltip(tooltip);
+    assert.isTrue(tooltip.updateStyles.called);
+    const offset = tooltip.updateStyles
+        .lastCall.args[0]['--gr-tooltip-arrow-center-offset'];
+    assert.isBelow(parseFloat(offset.replace(/px$/, '')), 0);
+    assert.equal(tooltip.style.left, '0px');
+    assert.equal(tooltip.style.top, '100px');
+  });
+
+  test('right side position', () => {
+    sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
+      return {top: 100, left: 950, width: 50};
+    });
+    const tooltip = makeTooltip(
+        {height: 30, width: 120},
+        {top: 0, left: 0, width: 1000});
+
+    element._positionTooltip(tooltip);
+    assert.isTrue(tooltip.updateStyles.called);
+    const offset = tooltip.updateStyles
+        .lastCall.args[0]['--gr-tooltip-arrow-center-offset'];
+    assert.isAbove(parseFloat(offset.replace(/px$/, '')), 0);
+    assert.equal(tooltip.style.left, '915px');
+    assert.equal(tooltip.style.top, '100px');
+  });
+
+  test('position to bottom', () => {
+    sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
+      return {top: 100, left: 950, width: 50, height: 50};
+    });
+    const tooltip = makeTooltip(
+        {height: 30, width: 120},
+        {top: 0, left: 0, width: 1000});
+
+    element.positionBelow = true;
+    element._positionTooltip(tooltip);
+    assert.isTrue(tooltip.updateStyles.called);
+    const offset = tooltip.updateStyles
+        .lastCall.args[0]['--gr-tooltip-arrow-center-offset'];
+    assert.isAbove(parseFloat(offset.replace(/px$/, '')), 0);
+    assert.equal(tooltip.style.left, '915px');
+    assert.equal(tooltip.style.top, '157.2px');
+  });
+
+  test('hides tooltip when detached', async () => {
+    sinon.stub(element, '_handleHideTooltip');
+    element.remove();
+    await element.updateComplete;
+    assert.isTrue(element._handleHideTooltip.called);
+  });
+
+  test('sets up listeners when has-tooltip is changed', async () => {
+    const addListenerStub = sinon.stub(element, 'addEventListener');
+    element.hasTooltip = true;
+    await element.updateComplete;
+    assert.isTrue(addListenerStub.called);
+  });
+
+  test('clean up listeners when has-tooltip changed to false', async () => {
+    const removeListenerStub = sinon.stub(element, 'removeEventListener');
+    element.hasTooltip = true;
+    await element.updateComplete;
+    element.hasTooltip = false;
+    await element.updateComplete;
+    assert.isTrue(removeListenerStub.called);
+  });
+
+  test('do not display tooltips on touch devices', async () => {
+    // On touch devices, tooltips should not be shown.
+    element._isTouchDevice = true;
+    await element.updateComplete;
+
+    // fire mouse-enter
+    element._handleShowTooltip();
+    await element.updateComplete;
+    assert.isNotOk(element._tooltip);
+
+    // fire mouse-enter
+    element._handleHideTooltip();
+    await element.updateComplete;
+    assert.isNotOk(element._tooltip);
+
+    // On other devices, tooltips should be shown.
+    element._isTouchDevice = false;
+
+    // fire mouse-enter
+    element._handleShowTooltip();
+    await element.updateComplete;
+    assert.isOk(element._tooltip);
+
+    // fire mouse-enter
+    element._handleHideTooltip();
+    await element.updateComplete;
+    assert.isNotOk(element._tooltip);
   });
 });
 

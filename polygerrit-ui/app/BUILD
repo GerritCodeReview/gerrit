@@ -130,7 +130,6 @@ ignore_templates_list = [
     "elements/gr-app-element_html.ts",
     "elements/settings/gr-watched-projects-editor/gr-watched-projects-editor_html.ts",
     "elements/shared/gr-account-list/gr-account-list_html.ts",
-    "elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
 ]
 
 sources_for_template_checking = glob(

@@ -241,9 +241,7 @@ export const htmlTemplate = html`
         </gr-diff>
         <div class="view-diff-container">
           <a href="[[_getUrlForViewDiff(comments, changeNum, projectName)]]">
-            <gr-button link class="view-diff-button" on-click="_handleViewDiff">
-              View Diff
-            </gr-button>
+            <gr-button link class="view-diff-button">View Diff</gr-button>
           </a>
         </div>
       </div>

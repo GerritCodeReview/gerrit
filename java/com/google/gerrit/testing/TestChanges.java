@@ -91,7 +91,8 @@ public class TestChanges {
         injector
             .getInstance(ChangeUpdate.Factory.class)
             .create(
-                new ChangeNotes(injector.getInstance(AbstractChangeNotes.Args.class), c).load(),
+                new ChangeNotes(injector.getInstance(AbstractChangeNotes.Args.class), c, null, null)
+                    .load(),
                 user,
                 TimeUtil.nowTs(),
                 Ordering.<String>natural());

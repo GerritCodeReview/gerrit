@@ -51,6 +51,11 @@ export class GrPopupInterface implements PopupPluginApi {
     return dom(this.popup) as unknown as HTMLElement;
   }
 
+  setContent(el: HTMLElement) {
+    if (!this.popup) throw new Error('popup element not (yet) available');
+    this.popup.appendChild(el);
+  }
+
   /**
    * Opens the popup, inserts it into DOM over current UI.
    * Creates the popup if not previously created. Creates popup content element,

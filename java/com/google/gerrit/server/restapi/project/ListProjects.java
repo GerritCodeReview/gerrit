@@ -578,18 +578,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     }
   }
 
-  private List<Ref> retrieveBranchRefs(ProjectState e, Repository git)
-      throws PermissionBackendException {
-    boolean canReadAllRefs = e.statePermitsRead();
-    if (canReadAllRefs) {
-      try {
-        permissionBackend.user(currentUser).project(e.getNameKey()).check(ProjectPermission.READ);
-      } catch (AuthException exp) {
-        canReadAllRefs = false;
-      }
+  private List<Ref> retrieveBranchRefs(ProjectState e, Repository git) {
+    if (!e.statePermitsRead()) {
+      return ImmutableList.of();
     }
 
-    return getBranchRefs(e.getNameKey(), canReadAllRefs, git);
+    return getBranchRefs(e.getNameKey(), git);
   }
 
   private void addParentProjectInfo(
@@ -709,16 +703,13 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     stdout.flush();
   }
 
-  private List<Ref> getBranchRefs(
-      Project.NameKey projectName, boolean canReadAllRefs, Repository git) {
+  private List<Ref> getBranchRefs(Project.NameKey projectName, Repository git) {
     Ref[] result = new Ref[showBranch.size()];
     try {
       PermissionBackend.ForProject perm = permissionBackend.user(currentUser).project(projectName);
       for (int i = 0; i < showBranch.size(); i++) {
         Ref ref = git.findRef(showBranch.get(i));
-        if (all && canReadAllRefs) {
-          result[i] = ref;
-        } else if (ref != null && ref.getObjectId() != null) {
+        if (ref != null && ref.getObjectId() != null) {
           try {
             perm.ref(ref.getLeaf().getName()).check(RefPermission.READ);
             result[i] = ref;

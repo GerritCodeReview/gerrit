@@ -471,6 +471,7 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
 
 export interface GrHovercardBehaviorInterface {
   _target: HTMLElement | null;
+  _isShowing: boolean;
   ready(): void;
   removeListeners(): void;
   debounceHide(): void;

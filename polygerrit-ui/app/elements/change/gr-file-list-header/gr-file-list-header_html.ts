@@ -181,7 +181,7 @@ export const htmlTemplate = html`
           hidden=""
         >
           <gr-tooltip-content
-            has-tooltip=""
+            has-tooltip
             title="Diff preferences"
           >
             <gr-button
@@ -197,7 +197,7 @@ export const htmlTemplate = html`
       </div>
       <span class="downloadContainer desktop">
         <gr-tooltip-content
-          has-tooltip=""
+          has-tooltip
           title="[[createTitle(Shortcut.OPEN_DOWNLOAD_DIALOG,
                    ShortcutSection.ACTIONS)]]"
         >
@@ -214,7 +214,7 @@ export const htmlTemplate = html`
         if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]"
       >
         <gr-tooltip-content
-            has-tooltip=""
+            has-tooltip
             title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
                   ShortcutSection.FILE_LIST)]]">
           <gr-button
@@ -225,7 +225,7 @@ export const htmlTemplate = html`
             >Expand All</gr-button
           >
         <gr-tooltip-content
-            has-tooltip=""
+            has-tooltip
             title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
                   ShortcutSection.FILE_LIST)]]">
           <gr-button

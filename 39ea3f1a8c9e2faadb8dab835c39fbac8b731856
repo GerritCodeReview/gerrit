@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd84a5e3_74b55b08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-01T09:04:40Z",
+      "side": 1,
+      "message": "Just to be clear: I am not opposed to the idea to enable the cache. I just don\u0027t think it will add much of improvement.\n\nIs the a reason why I can\u0027t both have this option and enable cache to compare the results?",
+      "parentUuid": "ef8ca576_031055e5",
+      "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3fb6f1f5_4b133bca",
         "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
         "patchSetId": 3

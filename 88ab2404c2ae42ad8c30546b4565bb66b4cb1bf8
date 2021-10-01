@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d7c8f5c_c7515de2",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-01T14:49:14Z",
+      "side": 0,
+      "message": "This is a magic permission that should check if the user was granted\n\nread refs/*\n\nwith no active block permission.\n\nIt should not actually check all refs (if it would, that\u0027d be a regression/bug).\n\nThis is basically a shortcut where we spare further permission checks if the user has broad read permissions.",
+      "range": {
+        "startLine": 586,
+        "startChar": 8,
+        "endLine": 586,
+        "endChar": 98
+      },
+      "revId": "88ab2404c2ae42ad8c30546b4565bb66b4cb1bf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

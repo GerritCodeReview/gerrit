@@ -16,6 +16,29 @@
       "message": "Nice! ",
       "revId": "537325640bfab17d8404985e36ff28e9cfcfefcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b1633e8_88ff8d8c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-01T12:14:14Z",
+      "side": 1,
+      "message": "The last parameters in the template is section.value.permissions.*\nAs I can see, the method uses value.permissions of this.section.\n\nIs it possible to define last parameter as permissionsChange:PolymerDeepPropertyChange\u003c...\u003e\n\nAnd then use it in line 191.\n\nVoted +2, because it is exist for a long time.",
+      "range": {
+        "startLine": 175,
+        "startChar": 4,
+        "endLine": 175,
+        "endChar": 15
+      },
+      "revId": "537325640bfab17d8404985e36ff28e9cfcfefcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

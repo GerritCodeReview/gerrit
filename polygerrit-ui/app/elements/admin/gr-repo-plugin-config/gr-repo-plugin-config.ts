@@ -119,20 +119,24 @@ export class GrRepoPluginConfig extends LitElement {
   private renderOption(option: PluginOption) {
     return html`
       <section class="section ${option.info.type}">
-        <span class="title">
-          <gr-tooltip-content
-            has-tooltip="${option.info.description}"
-            show-icon="${option.info.description}"
-            title="${option.info.description}"
-          >
-            <span>${option.info.display_name}</span>
-          </gr-tooltip-content>
-        </span>
+        <span class="title"> ${this.renderOptionTitle(option)} </span>
         <span class="value">
           ${this.renderOptionDetail(option)} ${this.renderInherited(option)}
         </span>
       </section>
     `;
+  }
+
+  private renderOptionTitle(option: PluginOption) {
+    const titleName = html`<span>${option.info.display_name}</span>`;
+    if (!option.info.description) return titleName;
+    return html` <gr-tooltip-content
+      has-tooltip
+      show-icon
+      title="${option.info.description}"
+    >
+      ${titleName}
+    </gr-tooltip-content>`;
   }
 
   private renderOptionDetail(option: PluginOption) {

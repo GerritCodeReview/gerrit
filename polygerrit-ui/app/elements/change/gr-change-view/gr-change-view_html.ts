@@ -479,7 +479,7 @@ export const htmlTemplate = html`
         class="commentThreads"
       >
         <gr-tooltip-content
-          has-tooltip=""
+          has-tooltip
           title$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]"
         >
           <span>Comments</span></gr-tooltip-content

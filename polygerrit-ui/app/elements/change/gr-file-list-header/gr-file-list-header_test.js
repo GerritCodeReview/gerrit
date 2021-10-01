@@ -90,26 +90,26 @@ suite('gr-file-list-header tests', () => {
     assert.isFalse(computeSpy.lastCall.returnValue);
   });
 
-  test('fileViewActions are properly hidden', () => {
+  test('fileViewActions are properly hidden', async () => {
     const actions = element.shadowRoot
         .querySelector('.fileViewActions');
     assert.equal(getComputedStyle(actions).display, 'none');
     element.filesExpanded = FilesExpandedState.SOME;
-    flush();
+    await flush();
     assert.notEqual(getComputedStyle(actions).display, 'none');
     element.filesExpanded = FilesExpandedState.ALL;
-    flush();
+    await flush();
     assert.notEqual(getComputedStyle(actions).display, 'none');
     element.filesExpanded = FilesExpandedState.NONE;
-    flush();
+    await flush();
     assert.equal(getComputedStyle(actions).display, 'none');
   });
 
-  test('expand/collapse buttons are toggled correctly', () => {
+  test('expand/collapse buttons are toggled correctly', async () => {
     // Only the expand button should be visible in the initial state when
     // NO files are expanded.
     element.shownFileCount = 10;
-    flush();
+    await flush();
     const expandBtn = element.shadowRoot.querySelector('#expandBtn');
     const collapseBtn = element.shadowRoot.querySelector('#collapseBtn');
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
@@ -118,19 +118,19 @@ suite('gr-file-list-header tests', () => {
     // Both expand and collapse buttons should be visible when SOME files are
     // expanded.
     element.filesExpanded = FilesExpandedState.SOME;
-    flush();
+    await flush();
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
     assert.notEqual(getComputedStyle(collapseBtn).display, 'none');
 
     // Only the collapse button should be visible when ALL files are expanded.
     element.filesExpanded = FilesExpandedState.ALL;
-    flush();
+    await flush();
     assert.equal(getComputedStyle(expandBtn).display, 'none');
     assert.notEqual(getComputedStyle(collapseBtn).display, 'none');
 
     // Only the expand button should be visible when NO files are expanded.
     element.filesExpanded = FilesExpandedState.NONE;
-    flush();
+    await flush();
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
     assert.equal(getComputedStyle(collapseBtn).display, 'none');
   });

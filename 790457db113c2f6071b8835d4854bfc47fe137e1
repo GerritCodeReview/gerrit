@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5e5b2c1_aa8ac5be",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T21:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe0c2d33_f1fb571d",
+      "range": {
+        "startLine": 46,
+        "startChar": 3,
+        "endLine": 46,
+        "endChar": 11
+      },
+      "revId": "790457db113c2f6071b8835d4854bfc47fe137e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8865d14_1d878965",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-01T20:32:37Z",
       "side": 1,
       "message": "Maybe remove all underscores if possible.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 16
+      },
+      "revId": "790457db113c2f6071b8835d4854bfc47fe137e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ad15820_eaa0a8a8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T21:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8865d14_1d878965",
       "range": {
         "startLine": 47,
         "startChar": 2,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0323aed_027bf972",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T21:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78f11204_de18ac13",
+      "revId": "790457db113c2f6071b8835d4854bfc47fe137e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "326d2161_b7da81f1",
@@ -77,6 +143,24 @@
       "writtenOn": "2021-10-01T20:32:37Z",
       "side": 1,
       "message": "Do you still need these constructor args?",
+      "revId": "790457db113c2f6071b8835d4854bfc47fe137e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c587279_714699f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T21:18:23Z",
+      "side": 1,
+      "message": "Nope 😊",
+      "parentUuid": "326d2161_b7da81f1",
       "revId": "790457db113c2f6071b8835d4854bfc47fe137e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bc9e2e0_e160da39",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T21:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a95e1aff_9ec4b3ed",
+      "revId": "790457db113c2f6071b8835d4854bfc47fe137e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b7ee3bd_1ff5aa37",
@@ -111,6 +213,30 @@
       "writtenOn": "2021-10-01T20:32:37Z",
       "side": 1,
       "message": "Maybe avoid writing `\u003cslot\u003e\u003c/slot\u003e` twice. For example:\n\n  override render() {\n    return html`\n      \u003cslot\u003e\u003c/slot\u003e\n      ${this.renderIcon()}\n    `;\n  }\n  \n  renderIcon() {\n    if (!this.showIcon) return;\n    return html`\u003ciron-icon icon\u003d\"gr-icons:info\"\u003e\u003c/iron-icon\u003e`;\n  }",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 3
+      },
+      "revId": "790457db113c2f6071b8835d4854bfc47fe137e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2acf160_9e328951",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-01T21:18:23Z",
+      "side": 1,
+      "message": "Good idea!",
+      "parentUuid": "8b7ee3bd_1ff5aa37",
       "range": {
         "startLine": 96,
         "startChar": 2,

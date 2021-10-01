@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef8ca576_031055e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-01T09:01:58Z",
+      "side": 1,
+      "message": "I think the difference is that the Wipeout Flume is doing it once, on sturtup. Here it would happen on each request to account\u0027s cache, which is multiple times per change, per project. That is why my next step is side-loading accounts instead of using accounts cache.",
+      "parentUuid": "409d597e_515be734",
+      "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3fb6f1f5_4b133bca",
         "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
         "patchSetId": 3
@@ -67,6 +85,24 @@
       "writtenOn": "2021-10-01T07:06:03Z",
       "side": 1,
       "message": "I\u0027m not sure if \"Removed A by B\" is correct, but \"A removed by B\" is.",
+      "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d19b3ad1_af81adb1",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-01T09:01:58Z",
+      "side": 1,
+      "message": "I would prefer to keep messages close to the originals.\n\nThey have formats:\nRemoved Verified-1 by User Account\n\nThis will either replace with\n\nRemoved Verified-1 by \u003cGERRIT_ACCOUNT_2\u003e\nor\nRemoved Verified-1\n\nSee the tests.",
+      "parentUuid": "3fb6f1f5_4b133bca",
       "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -82,7 +82,7 @@ export class GrRepoDetailList extends PolymerElement {
   _loggedIn = false;
 
   @property({type: Number})
-  _offset?: number;
+  _offset = 0;
 
   @property({type: String})
   _repo?: RepoName;

@@ -72,6 +72,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -206,6 +207,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, loadChangeFromDb(db, project, changeId)).load();
     }
 
+    public ChangeNotes create(
+        ReviewDb db, Repository repo, Project.NameKey project, Change.Id changeId)
+        throws OrmException {
+      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId), null).load(repo);
+    }
+
     public ChangeNotes createWithAutoRebuildingDisabled(
         ReviewDb db, Project.NameKey project, Change.Id changeId) throws OrmException {
       return new ChangeNotes(args, loadChangeFromDb(db, project, changeId), true, false, null, null)
@@ -265,6 +272,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public List<ChangeNotes> create(
         ReviewDb db,
+        Repository repo,
         Project.NameKey project,
         Collection<Change.Id> changeIds,
         Predicate<ChangeNotes> predicate)
@@ -273,7 +281,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (args.migration.readChanges()) {
         for (Change.Id cid : changeIds) {
           try {
-            ChangeNotes cn = create(db, project, cid);
+            ChangeNotes cn = create(db, repo, project, cid);
             if (cn.getChange() != null && predicate.test(cn)) {
               notes.add(cn);
             }
@@ -295,6 +303,29 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         }
       }
       return notes;
+    }
+
+    /* TODO: This is now unused in the Gerrit code-base, however it is kept in the code
+    /* because it is a public method in a stable branch.
+     * It can be removed in master branch where we have more flexibility to change the API
+     * interface.
+     */
+    public List<ChangeNotes> create(
+        ReviewDb db,
+        Project.NameKey project,
+        Collection<Change.Id> changeIds,
+        Predicate<ChangeNotes> predicate) {
+      try (Repository repo = args.repoManager.openRepository(project)) {
+        return create(db, repo, project, changeIds, predicate);
+      } catch (OrmException e) {
+        // The repository does not exist, hence it does not contain
+        // any change.
+      } catch (IOException e) {
+        logger.atWarning().withCause(e).log(
+            "Unable to open project=%s when trying to retrieve changeId=%s from NoteDb",
+            project, changeIds);
+      }
+      return Collections.emptyList();
     }
 
     public ListMultimap<Project.NameKey, ChangeNotes> create(

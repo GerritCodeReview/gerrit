@@ -131,7 +131,12 @@ export class GrHovercardAccount extends base {
     return getLastUpdate(this.account, change);
   }
 
-  _showReviewerOrCCActions(account?: AccountInfo, change?: ChangeInfo) {
+  /** 3rd parameter is just for *triggering* re-computation. */
+  _showReviewerOrCCActions(
+    account?: AccountInfo,
+    change?: ChangeInfo,
+    _?: unknown
+  ) {
     return !!this._selfAccount && isRemovableReviewer(change, account);
   }
 
@@ -212,18 +217,38 @@ export class GrHovercardAccount extends base {
       });
   }
 
-  _computeShowLabelNeedsAttention() {
+  /** Parameters are just for *triggering* re-computation. */
+  _computeShowLabelNeedsAttention(
+    _1: unknown,
+    _2: unknown,
+    _3: unknown,
+    _4: unknown
+  ) {
     return this.isAttentionEnabled && this.hasUserAttention;
   }
 
-  _computeShowActionAddToAttentionSet() {
+  /** Parameters are just for *triggering* re-computation. */
+  _computeShowActionAddToAttentionSet(
+    _1: unknown,
+    _2: unknown,
+    _3: unknown,
+    _4: unknown,
+    _5: unknown
+  ) {
     const involvedOrSelf =
       isInvolved(this.change, this._selfAccount) ||
       isSelf(this.account, this._selfAccount);
     return involvedOrSelf && this.isAttentionEnabled && !this.hasUserAttention;
   }
 
-  _computeShowActionRemoveFromAttentionSet() {
+  /** Parameters are just for *triggering* re-computation. */
+  _computeShowActionRemoveFromAttentionSet(
+    _1: unknown,
+    _2: unknown,
+    _3: unknown,
+    _4: unknown,
+    _5: unknown
+  ) {
     const involvedOrSelf =
       isInvolved(this.change, this._selfAccount) ||
       isSelf(this.account, this._selfAccount);

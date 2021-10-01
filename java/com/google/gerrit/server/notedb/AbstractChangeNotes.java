@@ -145,7 +145,7 @@ public abstract class AbstractChangeNotes<T> {
     return load(repo, null);
   }
 
-  public T load(Repository repo, @Nullable ObjectId revision) {
+  public T load(Repository repo, @Nullable ObjectId changeRevision) {
     if (loaded) {
       return self();
     }
@@ -156,8 +156,9 @@ public abstract class AbstractChangeNotes<T> {
     try (Timer0.Context timer = args.metrics.readLatency.start();
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.
-        LoadHandle handle = revision == null ? openHandle(repo) : openHandle(repo, revision)) {
-      revision = revision == null ? handle.id() : revision;
+        LoadHandle handle =
+            changeRevision == null ? openHandle(repo) : openHandle(repo, changeRevision)) {
+      revision = changeRevision == null ? handle.id() : changeRevision;
       onLoad(handle);
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {

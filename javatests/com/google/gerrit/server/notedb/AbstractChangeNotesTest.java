@@ -225,7 +225,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   }
 
   protected ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(args, c).load();
+    return new ChangeNotes(args, c, null).load();
   }
 
   protected static SubmitRecord submitRecord(

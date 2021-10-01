@@ -65,7 +65,7 @@ export class GrWatchedProjectsEditor extends PolymerElement {
   _projectsToRemove: ProjectWatchInfo[] = [];
 
   @property({type: Object})
-  _query: AutocompleteQuery;
+  _query: AutocompleteQuery<string>;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -139,13 +139,11 @@ export class GrWatchedProjectsEditor extends PolymerElement {
   }
 
   _canAddProject(
-    project: string | null,
+    project: string | null | undefined,
     text: string | null,
     filter: string | null
   ) {
-    if (project === null && text === null) {
-      return false;
-    }
+    if (!project && !text) return false;
 
     // This will only be used if not using the auto complete
     if (!project && text) {

@@ -34,7 +34,7 @@ import {PropertyType} from '../../../types/common';
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
 
-export interface GrAutocomplete {
+export interface GrAutocomplete<T = string> {
   $: {
     input: PaperInputElementExt;
     suggestions: GrAutocompleteDropdown;
@@ -47,7 +47,7 @@ export type AutocompleteQuery<T = string> = (
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-autocomplete': GrAutocomplete;
+    'gr-autocomplete': GrAutocomplete<string>;
   }
 }
 
@@ -55,21 +55,22 @@ export interface AutocompleteSuggestion<T = string> {
   name?: string;
   label?: string;
   value?: T;
-  text?: T;
+  text?: string;
 }
 
-export interface AutocompleteCommitEventDetail {
-  value: string;
+export interface AutocompleteCommitEventDetail<T = string> {
+  value: T;
 }
 
-export type AutocompleteCommitEvent =
-  CustomEvent<AutocompleteCommitEventDetail>;
+export type AutocompleteCommitEvent<T = string> = CustomEvent<
+  AutocompleteCommitEventDetail<T>
+>;
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = KeyboardShortcutMixin(PolymerElement);
 
 @customElement('gr-autocomplete')
-export class GrAutocomplete extends base {
+export class GrAutocomplete<T = string> extends base {
   static get template() {
     return htmlTemplate;
   }
@@ -103,7 +104,7 @@ export class GrAutocomplete extends base {
    *
    */
   @property({type: Object})
-  query?: AutocompleteQuery = () => Promise.resolve([]);
+  query?: AutocompleteQuery<T> = () => Promise.resolve([]);
 
   /**
    * The number of characters that must be typed before suggestions are
@@ -150,12 +151,13 @@ export class GrAutocomplete extends base {
   @property({type: Boolean})
   tabComplete = false;
 
-  @property({type: String, notify: true})
-  value = '';
+  @property({type: Object, notify: true})
+  value?: T;
 
   /**
    * Multi mode appends autocompleted entries to the value.
    * If false, autocompleted entries replace value.
+   * Type T must be string, if multi is true.
    */
   @property({type: Boolean})
   multi = false;
@@ -174,7 +176,7 @@ export class GrAutocomplete extends base {
   noDebounce = false;
 
   @property({type: Array})
-  _suggestions: AutocompleteSuggestion[] = [];
+  _suggestions: AutocompleteSuggestion<T>[] = [];
 
   @property({type: Array})
   _suggestionEls = [];
@@ -306,7 +308,7 @@ export class GrAutocomplete extends base {
     }
 
     if (text.length < threshold) {
-      this.value = '';
+      this.value = undefined;
       return;
     }
 
@@ -326,7 +328,7 @@ export class GrAutocomplete extends base {
         this._suggestions = suggestions;
         flush();
         if (this._index === -1) {
-          this.value = '';
+          this.value = undefined;
         }
       });
     };
@@ -429,7 +431,7 @@ export class GrAutocomplete extends base {
 
   _updateValue(
     suggestion: HTMLElement | null,
-    suggestions: AutocompleteSuggestion[]
+    suggestions: AutocompleteSuggestion<T>[]
   ) {
     if (!suggestion) {
       return;
@@ -443,8 +445,8 @@ export class GrAutocomplete extends base {
       // Allow spaces within quoted terms.
       const tokens = this.text.match(TOKENIZE_REGEX);
       if (tokens?.length) {
-        tokens[tokens.length - 1] = completed;
-        this.value = tokens.join(' ');
+        tokens[tokens.length - 1] = completed as unknown as string;
+        this.value = tokens.join(' ') as unknown as T;
       }
     } else {
       this.value = completed;
@@ -474,14 +476,14 @@ export class GrAutocomplete extends base {
     if (this._suggestions.length > 0) {
       this._updateValue(this._selected, this._suggestions);
     } else {
-      this.value = this.text || '';
+      this.value = (this.text || '') as unknown as T;
     }
 
     const value = this.value;
 
     // Value and text are mirrors of each other in multi mode.
     if (this.multi) {
-      this.setText(this.value);
+      this.setText(this.value as unknown as string);
     } else {
       if (!this.clearOnCommit && this._selected) {
         const dataSet = this._selected.dataset;
@@ -500,7 +502,7 @@ export class GrAutocomplete extends base {
     if (!silent) {
       this.dispatchEvent(
         new CustomEvent('commit', {
-          detail: {value} as AutocompleteCommitEventDetail,
+          detail: {value} as AutocompleteCommitEventDetail<T>,
           composed: true,
           bubbles: true,
         })

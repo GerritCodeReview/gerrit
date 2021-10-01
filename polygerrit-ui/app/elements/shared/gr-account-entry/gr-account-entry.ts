@@ -20,9 +20,24 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-account-entry_html';
 import {customElement, property} from '@polymer/decorators';
 import {
+  AutocompleteCommitEvent,
   AutocompleteQuery,
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
+import {fire} from '../../../utils/event-util';
+import {SuggestedReviewerInfo} from '../../../types/common';
+
+export interface AccountAddedEventDetail {
+  value: string;
+}
+
+export type AccountAddedEvent = CustomEvent<AccountAddedEventDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'account-added': AccountAddedEvent;
+  }
+}
 
 export interface GrAccountEntry {
   $: {
@@ -66,7 +81,8 @@ export class GrAccountEntry extends PolymerElement {
   suggestFrom = 0;
 
   @property({type: Object, notify: true})
-  querySuggestions: AutocompleteQuery = () => Promise.resolve([]);
+  querySuggestions: AutocompleteQuery<SuggestedReviewerInfo> = () =>
+    Promise.resolve([]);
 
   @property({type: String, observer: '_inputTextChanged'})
   _inputText = '';
@@ -91,14 +107,8 @@ export class GrAccountEntry extends PolymerElement {
     return this.$.input.text;
   }
 
-  _handleInputCommit(e: CustomEvent) {
-    this.dispatchEvent(
-      new CustomEvent('add', {
-        detail: {value: e.detail.value},
-        composed: true,
-        bubbles: true,
-      })
-    );
+  _handleInputCommit(e: AutocompleteCommitEvent) {
+    fire(this, 'account-added', {value: e.detail.value});
     this.$.input.focus();
   }
 

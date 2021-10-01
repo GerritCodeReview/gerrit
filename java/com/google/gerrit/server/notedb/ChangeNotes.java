@@ -124,7 +124,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return createChecked(db, c.getProject(), c.getId());
     }
 
-    public ChangeNotes createChecked(ReviewDb db, Project.NameKey project, Change.Id changeId)
+    public ChangeNotes createChecked(
+        ReviewDb db,
+        Repository repo,
+        Project.NameKey project,
+        Change.Id changeId,
+        @Nullable ObjectId metaRevId)
         throws OrmException {
       Change change = readOneReviewDbChange(db, changeId);
       if (change == null) {
@@ -137,7 +142,22 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       } else if (!change.getProject().equals(project)) {
         throw new NoSuchChangeException(changeId);
       }
-      return new ChangeNotes(args, change).load();
+      ChangeNotes cn = new ChangeNotes(args, change, null, metaRevId);
+      if (repo == null) {
+        return cn.load();
+      }
+      return cn.load(repo);
+    }
+
+    public ChangeNotes createChecked(
+        ReviewDb db, Project.NameKey project, Change.Id changeId, @Nullable ObjectId metaRevId)
+        throws OrmException {
+      return createChecked(db, null, project, changeId, metaRevId);
+    }
+
+    public ChangeNotes createChecked(ReviewDb db, Project.NameKey project, Change.Id changeId)
+        throws OrmException {
+      return createChecked(db, null, project, changeId, null);
     }
 
     public ChangeNotes createChecked(Change.Id changeId) throws OrmException {
@@ -183,12 +203,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes create(ReviewDb db, Project.NameKey project, Change.Id changeId)
         throws OrmException {
-      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId)).load();
+      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId), null).load();
     }
 
     public ChangeNotes createWithAutoRebuildingDisabled(
         ReviewDb db, Project.NameKey project, Change.Id changeId) throws OrmException {
-      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId), true, false).load();
+      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId), true, false, null, null)
+          .load();
     }
 
     /**
@@ -199,16 +220,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * @return change notes
      */
     public ChangeNotes createFromIndexedChange(Change change) {
-      return new ChangeNotes(args, change);
+      return new ChangeNotes(args, change, null);
     }
 
     public ChangeNotes createForBatchUpdate(Change change, boolean shouldExist)
         throws OrmException {
-      return new ChangeNotes(args, change, shouldExist, false).load();
+      return new ChangeNotes(args, change, shouldExist, false, null, null).load();
     }
 
     public ChangeNotes createWithAutoRebuildingDisabled(Change change) throws OrmException {
-      return new ChangeNotes(args, change, true, false).load();
+      return new ChangeNotes(args, change, true, false, null, null).load();
     }
 
     // TODO(ekempin): Remove when database backend is deleted
@@ -219,7 +240,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       checkState(
           !args.migration.readChanges(),
           "do not call createFromChangeWhenNoteDbDisabled when NoteDb is enabled");
-      return new ChangeNotes(args, change).load();
+      return new ChangeNotes(args, change, null).load();
     }
 
     public List<ChangeNotes> create(ReviewDb db, Collection<Change.Id> changeIds)
@@ -408,7 +429,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     @Nullable
     private ChangeNotesResult toResult(Change rawChangeFromReviewDbOrNoteDb) {
-      ChangeNotes n = new ChangeNotes(args, rawChangeFromReviewDbOrNoteDb);
+      ChangeNotes n = new ChangeNotes(args, rawChangeFromReviewDbOrNoteDb, null);
       try {
         n.load();
       } catch (OrmException e) {
@@ -476,6 +497,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   private final boolean shouldExist;
+  private final RefCache refs;
 
   private Change change;
   private ChangeNotesState state;
@@ -495,14 +517,26 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableSet<Comment.Key> commentKeys;
 
   @VisibleForTesting
-  public ChangeNotes(Args args, Change change) {
-    this(args, change, true, true);
+  public ChangeNotes(Args args, Change change, @Nullable RefCache refs) {
+    this(args, change, true, true, refs, null);
   }
 
-  private ChangeNotes(Args args, Change change, boolean shouldExist, boolean autoRebuild) {
-    super(args, change.getId(), PrimaryStorage.of(change), autoRebuild);
+  private ChangeNotes(
+      Args args, Change change, @Nullable RefCache refs, @Nullable ObjectId metaSha1) {
+    this(args, change, true, true, refs, metaSha1);
+  }
+
+  private ChangeNotes(
+      Args args,
+      Change change,
+      boolean shouldExist,
+      boolean autoRebuild,
+      @Nullable RefCache refs,
+      @Nullable ObjectId metaSha1) {
+    super(args, change.getId(), PrimaryStorage.of(change), autoRebuild, metaSha1);
     this.change = new Change(change);
     this.shouldExist = shouldExist;
+    this.refs = refs;
   }
 
   public Change getChange() {

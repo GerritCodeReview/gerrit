@@ -141,7 +141,24 @@ public abstract class AbstractChangeNotes<T> {
     }
   }
 
+  /**
+   * Load the latest revision of change notes from the Git repository.
+   *
+   * @param repo Git repository
+   * @return the latest revision of ChangeNotes loaded from the Git repository
+   */
   public T load(Repository repo) {
+    return load(repo, null);
+  }
+
+  /**
+   * Load an arbitrary revision of change notes from the Git repository.
+   *
+   * @param repo Git repository
+   * @param changeRevision change notes version to load, or null for the latest revision
+   * @return the requested revision of ChangeNotes loaded from the Git repository
+   */
+  public T load(Repository repo, @Nullable ObjectId changeRevision) {
     if (loaded) {
       return self();
     }
@@ -152,8 +169,9 @@ public abstract class AbstractChangeNotes<T> {
     try (Timer0.Context timer = args.metrics.readLatency.start();
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.
-        LoadHandle handle = openHandle(repo)) {
-      revision = handle.id();
+        LoadHandle handle =
+            changeRevision == null ? openHandle(repo) : openHandle(repo, changeRevision)) {
+      revision = changeRevision == null ? handle.id() : changeRevision;
       onLoad(handle);
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {

@@ -120,14 +120,49 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           null, changeId, null, BranchNameKey.create(project, "INVALID_NOTE_DB_ONLY"), null);
     }
 
+    /**
+     * Load the latest version of change notes from NoteDb
+     *
+     * @param project Gerrit project associated with the Git repository
+     * @param changeId Change id to load
+     * @return change notes loaded from NoteDb
+     */
     public ChangeNotes create(Project.NameKey project, Change.Id changeId) {
       checkArgument(project != null, "project is required");
       return new ChangeNotes(args, newChange(project, changeId), true, null).load();
     }
 
+    /**
+     * Load the latest version of change notes from NoteDb
+     *
+     * @param repository Git repository
+     * @param project Gerrit project associated with the Git repository
+     * @param changeId Change id to load
+     * @return change notes loaded from NoteDb
+     */
     public ChangeNotes create(Repository repository, Project.NameKey project, Change.Id changeId) {
       checkArgument(project != null, "project is required");
-      return new ChangeNotes(args, newChange(project, changeId), true, null).load(repository);
+      return new ChangeNotes(args, newChange(project, changeId), true, null).load(repository, null);
+    }
+
+    /**
+     * Load an arbitrary version of change notes from NoteDb
+     *
+     * @param repository Git repository
+     * @param project Gerrit project associated with the Git repository
+     * @param changeId Change id to load
+     * @param changeMetaRevision revision SHA1 of the change /meta ref to load or null to load the
+     *     latest version
+     * @return change notes loaded from NoteDb
+     */
+    public ChangeNotes create(
+        Repository repository,
+        Project.NameKey project,
+        Change.Id changeId,
+        @Nullable ObjectId changeMetaRevision) {
+      checkArgument(project != null, "project is required");
+      return new ChangeNotes(args, newChange(project, changeId), true, null)
+          .load(repository, changeMetaRevision);
     }
 
     /**

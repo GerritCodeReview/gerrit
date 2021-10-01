@@ -110,9 +110,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return createChecked(c.getProject(), c.getId());
     }
 
-    public ChangeNotes createChecked(Project.NameKey project, Change.Id changeId) {
+    public ChangeNotes createChecked(
+        Project.NameKey project, Change.Id changeId, @Nullable ObjectId metaRevId) {
       Change change = newChange(project, changeId);
-      return new ChangeNotes(args, change, true, null).load();
+      return new ChangeNotes(args, change, true, null, metaRevId).load();
+    }
+
+    public ChangeNotes createChecked(Project.NameKey project, Change.Id changeId) {
+      return createChecked(project, changeId, null);
     }
 
     public static Change newChange(Project.NameKey project, Change.Id changeId) {
@@ -344,12 +349,21 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSet<Comment.Key> commentKeys;
 
-  @VisibleForTesting
-  public ChangeNotes(Args args, Change change, boolean shouldExist, @Nullable RefCache refs) {
-    super(args, change.getId());
+  public ChangeNotes(
+      Args args,
+      Change change,
+      boolean shouldExist,
+      @Nullable RefCache refs,
+      @Nullable ObjectId metaSha1) {
+    super(args, change.getId(), metaSha1);
     this.change = new Change(change);
     this.shouldExist = shouldExist;
     this.refs = refs;
+  }
+
+  @VisibleForTesting
+  public ChangeNotes(Args args, Change change, boolean shouldExist, @Nullable RefCache refs) {
+    this(args, change, shouldExist, refs, null);
   }
 
   public Change getChange() {

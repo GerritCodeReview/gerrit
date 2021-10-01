@@ -59,7 +59,7 @@ export class GrAdminGroupList extends PolymerElement {
    * Offset of currently visible query results.
    */
   @property({type: Number})
-  _offset?: number;
+  _offset = 0;
 
   @property({type: String})
   readonly _path = '/admin/groups';

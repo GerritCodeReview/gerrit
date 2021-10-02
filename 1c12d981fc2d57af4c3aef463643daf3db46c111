@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ad13f030_85904659",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139701
+      },
+      "writtenOn": "2021-10-02T01:20:32Z",
+      "side": 1,
+      "message": "₨",
+      "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b1efd08d_f793f524",
         "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
         "patchSetId": 2

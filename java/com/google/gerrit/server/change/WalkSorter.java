@@ -24,6 +24,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -98,7 +99,16 @@ public class WalkSorter {
     return this;
   }
 
+  public Iterable<PatchSetData> sortWithChildren(Iterable<ChangeData> in) throws IOException {
+    return sort(in, /* sortChildren= */ true);
+  }
+
   public Iterable<PatchSetData> sort(Iterable<ChangeData> in) throws IOException {
+    return sort(in, /* sortChildren= */ false);
+  }
+
+  private Iterable<PatchSetData> sort(Iterable<ChangeData> in, boolean sortChildren)
+      throws IOException {
     ListMultimap<Project.NameKey, ChangeData> byProject =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeData cd : in) {
@@ -107,14 +117,14 @@ public class WalkSorter {
 
     List<List<PatchSetData>> sortedByProject = new ArrayList<>(byProject.keySet().size());
     for (Map.Entry<Project.NameKey, Collection<ChangeData>> e : byProject.asMap().entrySet()) {
-      sortedByProject.add(sortProject(e.getKey(), e.getValue()));
+      sortedByProject.add(sortProject(e.getKey(), e.getValue(), sortChildren));
     }
     sortedByProject.sort(PROJECT_LIST_SORTER);
     return Iterables.concat(sortedByProject);
   }
 
-  private List<PatchSetData> sortProject(Project.NameKey project, Collection<ChangeData> in)
-      throws IOException {
+  private List<PatchSetData> sortProject(
+      Project.NameKey project, Collection<ChangeData> in, boolean sortChildren) throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(retainBody);
@@ -182,8 +192,49 @@ public class WalkSorter {
           }
         }
       }
+      if (sortChildren) {
+        return sortChildren(result, byCommit, children);
+      }
       return result;
     }
+  }
+
+  private static List<PatchSetData> sortChildren(
+      List<PatchSetData> input,
+      Map<RevCommit, PatchSetData> byCommit,
+      ListMultimap<RevCommit, RevCommit> children) {
+    Map<RevCommit, PatchSetData> commitToPatchSetDataWithChildren = new HashMap<>();
+    Set<RevCommit> exclude = new HashSet<>();
+    for (int i = 0; i < input.size(); i++) {
+      PatchSetData current = input.get(i);
+      List<PatchSetData> childrenOfCurrent = new ArrayList<>();
+      if (children.containsKey(current.commit())) {
+        for (RevCommit child : children.get(current.commit())) {
+          if (!byCommit.containsKey(child)) {
+            continue;
+          }
+          if (commitToPatchSetDataWithChildren.containsKey(child)) {
+            childrenOfCurrent.add(commitToPatchSetDataWithChildren.get(child));
+            exclude.add(child);
+          } else {
+            childrenOfCurrent.add(byCommit.get(child));
+          }
+        }
+      }
+      commitToPatchSetDataWithChildren.put(
+          current.commit(),
+          // we keep null list of children if it's empty.
+          PatchSetData.create(current, childrenOfCurrent.isEmpty() ? null : childrenOfCurrent));
+    }
+    List<PatchSetData> result = new ArrayList<>();
+    for (PatchSetData patchSetData : input) {
+      // The exclude set keeps track of the commits that were already added as children of
+      // another PatchSetData.
+      if (!exclude.contains(patchSetData.commit())) {
+        result.add(commitToPatchSetDataWithChildren.get(patchSetData.commit()));
+      }
+    }
+    return result;
   }
 
   private static ListMultimap<RevCommit, RevCommit> collectChildren(Set<RevCommit> commits) {
@@ -250,7 +301,12 @@ public class WalkSorter {
   public abstract static class PatchSetData {
     @VisibleForTesting
     static PatchSetData create(ChangeData cd, PatchSet ps, RevCommit commit) {
-      return new AutoValue_WalkSorter_PatchSetData(cd, ps, commit);
+      return new AutoValue_WalkSorter_PatchSetData(cd, ps, commit, /* children= */ null);
+    }
+
+    static PatchSetData create(PatchSetData patchSetData, List<PatchSetData> children) {
+      return new AutoValue_WalkSorter_PatchSetData(
+          patchSetData.data(), patchSetData.patchSet(), patchSetData.commit(), children);
     }
 
     public abstract ChangeData data();
@@ -258,5 +314,8 @@ public class WalkSorter {
     abstract PatchSet patchSet();
 
     abstract RevCommit commit();
+
+    @Nullable
+    abstract List<PatchSetData> children();
   }
 }

@@ -58,14 +58,20 @@ public class WalkSorterTest {
     ChangeData cd2 = newChange(p, c2_1);
     ChangeData cd3 = newChange(p, c3_1);
 
+    PatchSetData patchSetData1 = patchSetData(cd1, c1_1);
+    PatchSetData patchSetData2 = patchSetData(cd2, c2_1);
+    PatchSetData patchSetData3 = patchSetData(cd3, c3_1);
+
     List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3);
     WalkSorter sorter = new WalkSorter(repoManager);
+    assertSorted(sorter, changes, ImmutableList.of(patchSetData3, patchSetData2, patchSetData1));
 
-    assertSorted(
+    assertSortedWithChildren(
         sorter,
         changes,
         ImmutableList.of(
-            patchSetData(cd3, c3_1), patchSetData(cd2, c2_1), patchSetData(cd1, c1_1)));
+            patchSetDataWithChildren(
+                patchSetData1, patchSetDataWithChildren(patchSetData2, patchSetData3))));
 
     // Add new patch sets whose commits are in reverse order, so output is in
     // reverse order.
@@ -77,11 +83,18 @@ public class WalkSorterTest {
     addPatchSet(cd2, c2_2);
     addPatchSet(cd3, c3_2);
 
-    assertSorted(
+    patchSetData1 = patchSetData(cd1, c1_2);
+    patchSetData2 = patchSetData(cd2, c2_2);
+    patchSetData3 = patchSetData(cd3, c3_2);
+
+    assertSorted(sorter, changes, ImmutableList.of(patchSetData1, patchSetData2, patchSetData3));
+
+    assertSortedWithChildren(
         sorter,
         changes,
         ImmutableList.of(
-            patchSetData(cd1, c1_2), patchSetData(cd2, c2_2), patchSetData(cd3, c3_2)));
+            patchSetDataWithChildren(
+                patchSetData3, patchSetDataWithChildren(patchSetData2, patchSetData1))));
   }
 
   @Test
@@ -98,6 +111,8 @@ public class WalkSorterTest {
     WalkSorter sorter = new WalkSorter(repoManager);
 
     assertSorted(
+        sorter, changes, ImmutableList.of(patchSetData(cd3, c3_1), patchSetData(cd1, c1_1)));
+    assertSortedWithChildren(
         sorter, changes, ImmutableList.of(patchSetData(cd3, c3_1), patchSetData(cd1, c1_1)));
   }
 
@@ -252,6 +267,13 @@ public class WalkSorterTest {
             patchSetData(cd1, c1),
             patchSetData(cd4, c4),
             patchSetData(cd2, c2)));
+
+    assertSortedWithChildren(
+        new WalkSorter(repoManager),
+        ImmutableList.of(cd1, cd2, cd3, cd4),
+        ImmutableList.of(
+            patchSetDataWithChildren(patchSetData(cd1, c1), patchSetData(cd3, c3)),
+            patchSetDataWithChildren(patchSetData(cd2, c2), patchSetData(cd4, c4))));
   }
 
   @Test
@@ -327,6 +349,7 @@ public class WalkSorterTest {
     WalkSorter sorter = new WalkSorter(repoManager);
 
     assertSorted(sorter, changes, ImmutableList.of(patchSetData(cd, c)));
+    assertSortedWithChildren(sorter, changes, ImmutableList.of(patchSetData(cd, c)));
   }
 
   private ChangeData newChange(TestRepository<Repo> tr, ObjectId id) throws Exception {
@@ -360,10 +383,27 @@ public class WalkSorterTest {
     return PatchSetData.create(cd, cd.patchSet(PatchSet.id(cd.getId(), psId)), commit);
   }
 
+  private static PatchSetData patchSetDataWithChildren(
+      PatchSetData patchSetData, PatchSetData child) throws Exception {
+    return patchSetDataWithChildren(patchSetData, ImmutableList.of(child));
+  }
+
+  private static PatchSetData patchSetDataWithChildren(
+      PatchSetData patchSetData, List<PatchSetData> children) throws Exception {
+    return PatchSetData.create(patchSetData, children);
+  }
+
   private static void assertSorted(
       WalkSorter sorter, List<ChangeData> changes, List<PatchSetData> expected) throws Exception {
     for (List<ChangeData> list : permutations(changes)) {
       assertThat(sorter.sort(list)).containsExactlyElementsIn(expected).inOrder();
+    }
+  }
+
+  private static void assertSortedWithChildren(
+      WalkSorter sorter, List<ChangeData> changes, List<PatchSetData> expected) throws Exception {
+    for (List<ChangeData> list : permutations(changes)) {
+      assertThat(sorter.sortWithChildren(list)).containsExactlyElementsIn(expected).inOrder();
     }
   }
 }

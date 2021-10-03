@@ -352,6 +352,196 @@ public class WalkSorterTest {
     assertSortedWithChildren(sorter, changes, ImmutableList.of(patchSetData(cd, c)));
   }
 
+  @Test
+  public void multipleSeriesOfChanges() throws Exception {
+    TestRepository<Repo> p = newRepo("p");
+
+    // Create two unrelated chains of changes: c1->c2->c3, and c4->c5
+    RevCommit c1_1 = p.commit().create();
+    RevCommit c2_1 = p.commit().parent(c1_1).create();
+    RevCommit c3_1 = p.commit().parent(c2_1).create();
+
+    RevCommit c4_1 = p.commit().create();
+    RevCommit c5_1 = p.commit().parent(c4_1).create();
+
+    ChangeData cd1 = newChange(p, c1_1);
+    ChangeData cd2 = newChange(p, c2_1);
+    ChangeData cd3 = newChange(p, c3_1);
+    ChangeData cd4 = newChange(p, c4_1);
+    ChangeData cd5 = newChange(p, c5_1);
+
+    PatchSetData patchSetData1 = patchSetData(cd1, c1_1);
+    PatchSetData patchSetData2 = patchSetData(cd2, c2_1);
+    PatchSetData patchSetData3 = patchSetData(cd3, c3_1);
+    PatchSetData patchSetData4 = patchSetData(cd4, c4_1);
+    PatchSetData patchSetData5 = patchSetData(cd5, c5_1);
+
+    List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4, cd5);
+    WalkSorter sorter = new WalkSorter(repoManager);
+    assertSorted(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetData5, patchSetData4, patchSetData3, patchSetData2, patchSetData1));
+
+    assertSortedWithChildren(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetDataWithChildren(patchSetData4, patchSetData5),
+            patchSetDataWithChildren(
+                patchSetData1, patchSetDataWithChildren(patchSetData2, patchSetData3))));
+
+    // Add new patch sets whose commits are in reverse order, so output is in
+    // reverse order.
+    RevCommit c5_2 = p.commit().create();
+    RevCommit c4_2 = p.commit().parent(c5_2).create();
+    RevCommit c3_2 = p.commit().create();
+    RevCommit c2_2 = p.commit().parent(c3_2).create();
+    RevCommit c1_2 = p.commit().parent(c2_2).create();
+
+    addPatchSet(cd1, c1_2);
+    addPatchSet(cd2, c2_2);
+    addPatchSet(cd3, c3_2);
+    addPatchSet(cd4, c4_2);
+    addPatchSet(cd5, c5_2);
+
+    patchSetData1 = patchSetData(cd1, c1_2);
+    patchSetData2 = patchSetData(cd2, c2_2);
+    patchSetData3 = patchSetData(cd3, c3_2);
+    patchSetData4 = patchSetData(cd4, c4_2);
+    patchSetData5 = patchSetData(cd5, c5_2);
+
+    assertSorted(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetData1, patchSetData2, patchSetData3, patchSetData4, patchSetData5));
+
+    assertSortedWithChildren(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetDataWithChildren(
+                patchSetData3, patchSetDataWithChildren(patchSetData2, patchSetData1)),
+            patchSetDataWithChildren(patchSetData5, patchSetData4)));
+  }
+
+  @Test
+  public void changesWithMultipleChildren() throws Exception {
+    TestRepository<Repo> p = newRepo("p");
+
+    // Create c2 and c3 which are children of c1. c4 and c5 are children of c3.
+    // c1 -> c2, c3
+    // c3 -> c4, c5
+    RevCommit c1_1 = p.commit().create();
+    RevCommit c2_1 = p.commit().parent(c1_1).create();
+
+    RevCommit c3_1 = p.commit().parent(c1_1).create();
+    RevCommit c4_1 = p.commit().parent(c3_1).create();
+    RevCommit c5_1 = p.commit().parent(c3_1).create();
+
+    ChangeData cd1 = newChange(p, c1_1);
+    ChangeData cd2 = newChange(p, c2_1);
+    ChangeData cd3 = newChange(p, c3_1);
+    ChangeData cd4 = newChange(p, c4_1);
+    ChangeData cd5 = newChange(p, c5_1);
+
+    PatchSetData patchSetData1 = patchSetData(cd1, c1_1);
+    PatchSetData patchSetData2 = patchSetData(cd2, c2_1);
+    PatchSetData patchSetData3 = patchSetData(cd3, c3_1);
+    PatchSetData patchSetData4 = patchSetData(cd4, c4_1);
+    PatchSetData patchSetData5 = patchSetData(cd5, c5_1);
+
+    List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4, cd5);
+    WalkSorter sorter = new WalkSorter(repoManager);
+    assertSorted(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetData5, patchSetData4, patchSetData3, patchSetData2, patchSetData1));
+
+    assertSortedWithChildren(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetDataWithChildren(
+                patchSetData1,
+                ImmutableList.of(
+                    patchSetDataWithChildren(
+                        patchSetData3, ImmutableList.of(patchSetData4, patchSetData5)),
+                    patchSetData2))));
+  }
+
+  @Test
+  public void changesWithMergeCommit() throws Exception {
+    TestRepository<Repo> p = newRepo("p");
+
+    // Create c2 and c3 which are children of c1. c4 is a merge commit of c2 and c3. c5 is a
+    // child of c4.
+    // c1 -> c2, c3
+    // c2 -> c4
+    // c3 -> c4
+    // c4 -> c5
+    RevCommit c1_1 = p.commit().create();
+    RevCommit c2_1 = p.commit().parent(c1_1).create();
+
+    RevCommit c3_1 = p.commit().parent(c1_1).create();
+    RevCommit c4_1 = p.commit().parent(c3_1).parent(c2_1).create();
+    RevCommit c5_1 = p.commit().parent(c4_1).create();
+
+    ChangeData cd1 = newChange(p, c1_1);
+    ChangeData cd2 = newChange(p, c2_1);
+    ChangeData cd3 = newChange(p, c3_1);
+    ChangeData cd4 = newChange(p, c4_1);
+    ChangeData cd5 = newChange(p, c5_1);
+
+    PatchSetData patchSetData1 = patchSetData(cd1, c1_1);
+    PatchSetData patchSetData2 = patchSetData(cd2, c2_1);
+    PatchSetData patchSetData3 = patchSetData(cd3, c3_1);
+    PatchSetData patchSetData4 = patchSetData(cd4, c4_1);
+    PatchSetData patchSetData5 = patchSetData(cd5, c5_1);
+
+    List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4, cd5);
+    WalkSorter sorter = new WalkSorter(repoManager);
+    assertSorted(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetData5, patchSetData4, patchSetData3, patchSetData2, patchSetData1));
+
+    assertSortedWithChildren(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetDataWithChildren(
+                patchSetData1,
+                ImmutableList.of(
+                    // The result has some duplication (c4 appears twice), but this is expected
+                    // and clearer that way.
+                    patchSetDataWithChildren(
+                        patchSetData3, patchSetDataWithChildren(patchSetData4, patchSetData5)),
+                    patchSetDataWithChildren(
+                        patchSetData2, patchSetDataWithChildren(patchSetData4, patchSetData5))))));
+
+    // sort the merge commit without one of the parents.
+    changes = ImmutableList.of(cd1, cd3, cd4, cd5);
+    assertSorted(
+        sorter,
+        changes,
+        ImmutableList.of(patchSetData5, patchSetData4, patchSetData3, patchSetData1));
+
+    assertSortedWithChildren(
+        sorter,
+        changes,
+        ImmutableList.of(
+            patchSetDataWithChildren(
+                patchSetData1,
+                ImmutableList.of(
+                    patchSetDataWithChildren(
+                        patchSetData3, patchSetDataWithChildren(patchSetData4, patchSetData5))))));
+  }
+
   private ChangeData newChange(TestRepository<Repo> tr, ObjectId id) throws Exception {
     Project.NameKey project = tr.getRepository().getDescription().getProject();
     Change c = TestChanges.newChange(project, userId);

@@ -35,6 +35,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +118,7 @@ public class WalkSorter {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(retainBody);
-      ListMultimap<RevCommit, PatchSetData> byCommit = byCommit(rw, in);
+      Map<RevCommit, PatchSetData> byCommit = byCommit(rw, in);
       if (byCommit.isEmpty()) {
         return ImmutableList.of();
       } else if (byCommit.size() == 1) {
@@ -199,26 +200,21 @@ public class WalkSorter {
   }
 
   private static int emit(
-      RevCommit c,
-      ListMultimap<RevCommit, PatchSetData> byCommit,
-      List<PatchSetData> result,
-      RevFlag done) {
+      RevCommit c, Map<RevCommit, PatchSetData> byCommit, List<PatchSetData> result, RevFlag done) {
     if (c.has(done)) {
       return 0;
     }
     c.add(done);
-    Collection<PatchSetData> psds = byCommit.get(c);
-    if (!psds.isEmpty()) {
-      result.addAll(psds);
+    if (byCommit.containsKey(c)) {
+      result.add(byCommit.get(c));
       return 1;
     }
     return 0;
   }
 
-  private ListMultimap<RevCommit, PatchSetData> byCommit(RevWalk rw, Collection<ChangeData> in)
+  private Map<RevCommit, PatchSetData> byCommit(RevWalk rw, Collection<ChangeData> in)
       throws IOException {
-    ListMultimap<RevCommit, PatchSetData> byCommit =
-        MultimapBuilder.hashKeys(in.size()).arrayListValues(1).build();
+    Map<RevCommit, PatchSetData> byCommit = new HashMap<>();
     for (ChangeData cd : in) {
       PatchSet maxPs = null;
       for (PatchSet ps : cd.patchSets()) {

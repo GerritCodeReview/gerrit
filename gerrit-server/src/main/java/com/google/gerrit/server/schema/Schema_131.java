@@ -27,8 +27,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.SortedSet;
-import java.util.TreeSet;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -53,24 +53,41 @@ public class Schema_131 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     SortedSet<Project.NameKey> repoList = repoManager.list();
-    SortedSet<Project.NameKey> repoUpgraded = new TreeSet<>();
     ui.message("\tMigrating " + repoList.size() + " repositories ...");
-    for (Project.NameKey projectName : repoList) {
-      try (Repository git = repoManager.openRepository(projectName);
-          MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, git)) {
-        ProjectConfig config = ProjectConfig.read(md);
-        if (config.hasLegacyPermissions()) {
-          md.getCommitBuilder().setAuthor(serverUser);
-          md.getCommitBuilder().setCommitter(serverUser);
-          md.setMessage(COMMIT_MSG);
-          config.commit(md);
-          repoUpgraded.add(projectName);
-        }
-      } catch (ConfigInvalidException | IOException ex) {
-        throw new OrmException("Cannot migrate project " + projectName, ex);
-      }
-    }
+    Collection<Project.NameKey> repoUpgraded =
+        (Collection<Project.NameKey>)
+            runParallelTasks(
+                createExecutor(ui),
+                repoList,
+                (repo) -> renamePushTagPermissions((Project.NameKey) repo),
+                ui);
     ui.message("\tMigration completed:  " + repoUpgraded.size() + " repositories updated:");
     ui.message("\t" + repoUpgraded.stream().map(n -> n.get()).collect(joining(" ")));
+  }
+
+  @Override
+  protected int getThreads() {
+    try {
+      return Integer.parseInt(System.getProperty("schema131_threadcount"));
+    } catch (NumberFormatException e) {
+      return super.getThreads();
+    }
+  }
+
+  private Project.NameKey renamePushTagPermissions(Project.NameKey project) throws OrmException {
+    try (Repository git = repoManager.openRepository(project);
+        MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, project, git)) {
+      ProjectConfig config = ProjectConfig.read(md);
+      if (config.hasLegacyPermissions()) {
+        md.getCommitBuilder().setAuthor(serverUser);
+        md.getCommitBuilder().setCommitter(serverUser);
+        md.setMessage(COMMIT_MSG);
+        config.commit(md);
+        return project;
+      }
+    } catch (ConfigInvalidException | IOException ex) {
+      throw new OrmException("Cannot migrate project " + project, ex);
+    }
+    return null;
   }
 }

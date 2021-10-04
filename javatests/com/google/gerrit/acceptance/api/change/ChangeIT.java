@@ -99,10 +99,12 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
@@ -148,7 +150,9 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.common.LegacySubmitRequirementInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.SubmitRecordInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
@@ -186,6 +190,7 @@ import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
 import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -4033,6 +4038,51 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRecords() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestSubmitRule testSubmitRule = new TestSubmitRule();
+    try (Registration registration = extensionRegistry.newRegistration().add(testSubmitRule)) {
+      String changeId = r.getChangeId();
+
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRecords).hasSize(2);
+      // Check the default submit record for the code-review label
+      SubmitRecordInfo codeReviewRecord = Iterables.get(change.submitRecords, 0);
+      assertThat(codeReviewRecord.ruleName).isEqualTo("gerrit~DefaultSubmitRule");
+      assertThat(codeReviewRecord.status).isEqualTo(SubmitRecordInfo.Status.NOT_READY);
+      assertThat(codeReviewRecord.labels).hasSize(1);
+      SubmitRecordInfo.Label label = Iterables.getOnlyElement(codeReviewRecord.labels);
+      assertThat(label.label).isEqualTo("Code-Review");
+      assertThat(label.status).isEqualTo(SubmitRecordInfo.Label.Status.NEED);
+      assertThat(label.appliedBy).isNull();
+      // Check the custom test record created by the TestSubmitRule
+      SubmitRecordInfo testRecord = Iterables.get(change.submitRecords, 1);
+      assertThat(testRecord.ruleName).isEqualTo("gerrit~TestSubmitRule");
+      assertThat(testRecord.status).isEqualTo(SubmitRecordInfo.Status.OK);
+      assertThat(testRecord.requirements)
+          .containsExactly(new LegacySubmitRequirementInfo("OK", "fallback text", "type"));
+      assertThat(testRecord.labels).hasSize(1);
+      SubmitRecordInfo.Label testLabel = Iterables.getOnlyElement(testRecord.labels);
+      assertThat(testLabel.label).isEqualTo("label");
+      assertThat(testLabel.status).isEqualTo(SubmitRecordInfo.Label.Status.OK);
+      assertThat(testLabel.appliedBy).isNull();
+
+      voteLabel(changeId, "code-review", 2);
+      // Code review record is satisfied after voting +2
+      change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRecords).hasSize(2);
+      codeReviewRecord = Iterables.get(change.submitRecords, 0);
+      assertThat(codeReviewRecord.ruleName).isEqualTo("gerrit~DefaultSubmitRule");
+      assertThat(codeReviewRecord.status).isEqualTo(SubmitRecordInfo.Status.OK);
+      assertThat(codeReviewRecord.labels).hasSize(1);
+      label = Iterables.getOnlyElement(codeReviewRecord.labels);
+      assertThat(label.label).isEqualTo("Code-Review");
+      assertThat(label.status).isEqualTo(SubmitRecordInfo.Label.Status.OK);
+      assertThat(label.appliedBy._accountId).isEqualTo(admin.id().get());
+    }
+  }
+
+  @Test
   public void submitRequirement_withLabelEqualsMax() throws Exception {
     configSubmitRequirement(
         project,
@@ -5182,5 +5232,26 @@ public class ChangeIT extends AbstractDaemonTest {
         .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/*").group(adminGroupUuid()))
         .update();
     return project;
+  }
+
+  /** Returns a hard-coded submit record containing all fields. */
+  private static class TestSubmitRule implements SubmitRule {
+    @Override
+    public Optional<SubmitRecord> evaluate(ChangeData changeData) {
+      SubmitRecord record = new SubmitRecord();
+      record.ruleName = "testSubmitRule";
+      record.status = SubmitRecord.Status.OK;
+      SubmitRecord.Label label = new SubmitRecord.Label();
+      label.label = "label";
+      label.status = SubmitRecord.Label.Status.OK;
+      record.labels = Arrays.asList(label);
+      record.requirements =
+          Arrays.asList(
+              LegacySubmitRequirement.builder()
+                  .setType("type")
+                  .setFallbackText("fallback text")
+                  .build());
+      return Optional.of(record);
+    }
   }
 }

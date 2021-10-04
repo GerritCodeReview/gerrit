@@ -6535,6 +6535,9 @@ AccountInfo] entity.
 Actions the caller might be able to perform on this revision. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
+|`submit_records`             ||
+List of the link:rest-api-changes.html#submit-record-info[SubmitRecordInfo]
+containing the submit records for the change at the latest patchset.
 |`requirements`             |optional|
 List of the link:rest-api-changes.html#requirement[requirements] to be met before this change
 can be submitted. This field is deprecated in favour of `submit_requirements`.
@@ -8171,6 +8174,37 @@ if the label has been applied.
 Map of labels that should have been in `need` but cannot be
 used by any user because of access restrictions. The value
 is currently an empty object.
+|`error_message`|optional|
+When status is RULE_ERROR this message provides some text describing
+the failure of the rule predicate.
+|===========================
+
+[[submit-record-info]]
+=== SubmitRecordInfo
+The `SubmitRecordInfo` entity describes results from a submit_rule.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`rule_name`||
+The name of the submit rule that created this submit record. The submit rule is
+specified in the form of "$plugin~$rule" where `$plugin` is the plugin name
+and `$rule` is the name of the class that implemented the submit rule.
+|`status`||
+`OK`, the change can be submitted. +
+`NOT_READY`, additional labels are required before submit. +
+`CLOSED`, closed changes cannot be submitted. +
+`FORCED`, the change was submitted bypassing the submit rule. +
+`RULE_ERROR`, rule code failed with an error.
+|`labels`|optional|
+A list of labels, each containing the following fields. +
+  * `label`: the label name. +
+  * `status`: the label status: {`OK`, `REJECT`, `MAY`, `NEED`, `IMPOSSIBLE`}. +
+  * `appliedBy`: the link:rest-api-accounts.html#account-info[AccountInfo]
+  that applied the vote to the label.
+|`requirements`|optional|
+List of the link:rest-api-changes.html#requirement[requirements] to be met
+before this change can be submitted.
 |`error_message`|optional|
 When status is RULE_ERROR this message provides some text describing
 the failure of the rule predicate.

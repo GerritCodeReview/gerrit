@@ -775,6 +775,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     RunOptions options = new RunOptions();
     options.dryRun = false;
+    options.useReplacementByName = true;
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
@@ -790,8 +791,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  @Test
-  public void fixRemoveVoteChangeMessageWithNoFooterLabel() throws Exception {
+  public void testFixRemoveVoteChangeMessageWithNoFooterLabel(boolean useReplacementByName)
+      throws Exception {
     Change c = newChange();
     ChangeUpdate approvalUpdate = newUpdate(c, changeOwner);
     approvalUpdate.putApproval(VERIFIED, (short) +2);
@@ -819,6 +820,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     RunOptions options = new RunOptions();
     options.dryRun = false;
+    options.useReplacementByName = useReplacementByName;
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
@@ -827,13 +829,27 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         .containsExactly(
             "@@ -6 +6 @@\n"
                 + "-Removed Verified-1 by Other Account (0002)\n"
-                + "+Removed Verified-1 by <GERRIT_ACCOUNT_2>\n",
+                + (options.useReplacementByName
+                    ? "+Removed Verified-1 by <GERRIT_ACCOUNT_2>\n"
+                    : "+Removed Verified-1\n"),
             "@@ -6 +6 @@\n"
                 + "-Removed Verified+2 by Change Owner <change@owner.com>\n"
-                + "+Removed Verified+2 by <GERRIT_ACCOUNT_1>\n");
+                + (options.useReplacementByName
+                    ? "+Removed Verified+2 by <GERRIT_ACCOUNT_1>\n"
+                    : "+Removed Verified+2\n"));
     BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
     assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
+  }
+
+  @Test
+  public void fixRemoveVoteChangeMessageWithNoFooterLabel_useReplacementByName() throws Exception {
+    testFixRemoveVoteChangeMessageWithNoFooterLabel(true);
+  }
+
+  @Test
+  public void fixRemoveVoteChangeMessageWithNoFooterLabel_noReplacementByName() throws Exception {
+    testFixRemoveVoteChangeMessageWithNoFooterLabel(false);
   }
 
   @Test
@@ -852,6 +868,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     RunOptions options = new RunOptions();
     options.dryRun = false;
+    options.useReplacementByName = true;
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
@@ -881,6 +898,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     RunOptions options = new RunOptions();
     options.dryRun = false;
+    options.useReplacementByName = true;
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
@@ -928,6 +946,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     RunOptions options = new RunOptions();
     options.dryRun = false;
+    options.useReplacementByName = true;
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
@@ -948,8 +967,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  @Test
-  public void fixRemoveVotesChangeMessage() throws Exception {
+  public void testFixRemoveVotesChangeMessage(boolean useReplacementByName) throws Exception {
     Change c = newChange();
     ChangeUpdate approvalUpdate = newUpdate(c, changeOwner);
     approvalUpdate.putApproval(VERIFIED, (short) +2);
@@ -988,6 +1006,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     RunOptions options = new RunOptions();
     options.dryRun = false;
+    options.useReplacementByName = useReplacementByName;
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
@@ -996,17 +1015,35 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         .containsExactly(
             "@@ -7 +7 @@\n"
                 + "-* Verified-1 by Other Account <other@account.com>\n"
-                + "+* Verified-1 by <GERRIT_ACCOUNT_2>\n",
+                + (useReplacementByName
+                    ? "+* Verified-1 by <GERRIT_ACCOUNT_2>\n"
+                    : "+* Verified-1\n"),
             "@@ -7,3 +7,3 @@\n"
                 + "-* Verified+2 by Change Owner <change@owner.com>\n"
                 + "-* Verified-1 by Change Owner <change@owner.com>\n"
                 + "-* Code-Review by Other Account <other@account.com>\n"
-                + "+* Verified+2 by <GERRIT_ACCOUNT_1>\n"
-                + "+* Verified-1 by <GERRIT_ACCOUNT_1>\n"
-                + "+* Code-Review by <GERRIT_ACCOUNT_2>\n");
+                + (useReplacementByName
+                    ? "+* Verified+2 by <GERRIT_ACCOUNT_1>\n"
+                    : "+* Verified+2\n")
+                + (useReplacementByName
+                    ? "+* Verified-1 by <GERRIT_ACCOUNT_1>\n"
+                    : "+* Verified-1\n")
+                + (useReplacementByName
+                    ? "+* Code-Review by <GERRIT_ACCOUNT_2>\n"
+                    : "+* Code-Review\n"));
     BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
     assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
+  }
+
+  @Test
+  public void fixRemoveVotesChangeMessage_useReplacementByName() throws Exception {
+    testFixRemoveVotesChangeMessage(true);
+  }
+
+  @Test
+  public void fixRemoveVotesChangeMessage_noReplacementByName() throws Exception {
+    testFixRemoveVotesChangeMessage(false);
   }
 
   @Test
@@ -1586,8 +1623,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  @Test
-  public void fixCodeOwnersOnAddReviewerChangeMessage() throws Exception {
+  public void testFixCodeOwnersOnAddReviewerChangeMessage(boolean useReplacementByName)
+      throws Exception {
 
     Account reviewer =
         Account.builder(Account.id(3), TimeUtil.nowTs())
@@ -1654,6 +1691,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     RunOptions options = new RunOptions();
     options.dryRun = false;
+    options.useReplacementByName = useReplacementByName;
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
@@ -1662,16 +1700,26 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(changeMessages(notesBeforeRewrite)).hasSize(4);
     assertThat(changeMessages(notesAfterRewrite))
         .containsExactly(
-            "<GERRIT_ACCOUNT_3>, who was added as reviewer owns the following files:\n"
+            (useReplacementByName
+                    ? "<GERRIT_ACCOUNT_3>, who was added as reviewer owns the following files:\n"
+                    : "Added reviewer owns the following files:\n")
                 + "   * file1.java\n"
                 + "   * file2.ts\n",
-            "<GERRIT_ACCOUNT_3>, who was added as reviewer owns the following files:\n"
+            (useReplacementByName
+                    ? "<GERRIT_ACCOUNT_3>, who was added as reviewer owns the following files:\n"
+                    : "Added reviewer owns the following files:\n")
                 + "   * file1.java\n"
-                + "\n<GERRIT_ACCOUNT_2>, who was added as reviewer owns the following files:\n"
+                + (useReplacementByName
+                    ? "\n<GERRIT_ACCOUNT_2>, who was added as reviewer owns the following files:\n"
+                    : "\nAdded reviewer owns the following files:\n")
                 + "   * file3.js\n"
-                + "\nGerrit Account, who was added as reviewer owns the following files:\n"
+                + (useReplacementByName
+                    ? "\nGerrit Account, who was added as reviewer owns the following files:\n"
+                    : "\nAdded reviewer owns the following files:\n")
                 + "   * file4.java\n",
-            "Gerrit Account, who was added as reviewer owns the following files:\n"
+            (useReplacementByName
+                    ? "Gerrit Account, who was added as reviewer owns the following files:\n"
+                    : "Added reviewer owns the following files:\n")
                 + "   * file6.java\n",
             "Gerrit Account who was added as reviewer owns the following files:\n"
                 + "   * file1.java\n"
@@ -1690,22 +1738,42 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         .containsExactly(
             "@@ -6 +6 @@\n"
                 + "-Reviewer User who was added as reviewer owns the following files:\n"
-                + "+<GERRIT_ACCOUNT_3>, who was added as reviewer owns the following files:\n",
+                + (useReplacementByName
+                    ? "+<GERRIT_ACCOUNT_3>, who was added as reviewer owns the following files:\n"
+                    : "+Added reviewer owns the following files:\n"),
             "@@ -6 +6 @@\n"
                 + "-Reviewer User who was added as reviewer owns the following files:\n"
-                + "+<GERRIT_ACCOUNT_3>, who was added as reviewer owns the following files:\n"
+                + (useReplacementByName
+                    ? "+<GERRIT_ACCOUNT_3>, who was added as reviewer owns the following files:\n"
+                    : "+Added reviewer owns the following files:\n")
                 + "@@ -9 +9 @@\n"
                 + "-Other Account who was added as reviewer owns the following files:\n"
-                + "+<GERRIT_ACCOUNT_2>, who was added as reviewer owns the following files:\n"
+                + (useReplacementByName
+                    ? "+<GERRIT_ACCOUNT_2>, who was added as reviewer owns the following files:\n"
+                    : "+Added reviewer owns the following files:\n")
                 + "@@ -12 +12 @@\n"
                 + "-Missing Reviewer who was added as reviewer owns the following files:\n"
-                + "+Gerrit Account, who was added as reviewer owns the following files:\n",
+                + (useReplacementByName
+                    ? "+Gerrit Account, who was added as reviewer owns the following files:\n"
+                    : "+Added reviewer owns the following files:\n"),
             "@@ -6 +6 @@\n"
                 + "-Reviewer User who was added as reviewer owns the following files:\n"
-                + "+Gerrit Account, who was added as reviewer owns the following files:\n");
+                + (useReplacementByName
+                    ? "+Gerrit Account, who was added as reviewer owns the following files:\n"
+                    : "+Added reviewer owns the following files:\n"));
     BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
     assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
+  }
+
+  @Test
+  public void fixCodeOwnersOnAddReviewerChangeMessage_useReplacementByName() throws Exception {
+    testFixCodeOwnersOnAddReviewerChangeMessage(true);
+  }
+
+  @Test
+  public void fixCodeOwnersOnAddReviewerChangeMessage_noReplacementByName() throws Exception {
+    testFixCodeOwnersOnAddReviewerChangeMessage(false);
   }
 
   @Test
@@ -2036,8 +2104,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  @Test
-  public void fixAssigneeChangeMessageNoAssigneeFooter() throws Exception {
+  public void testFixAssigneeChangeMessageNoAssigneeFooter(boolean useReplacementByName)
+      throws Exception {
     Change c = newChange();
     writeUpdate(
         RefNames.changeMetaRef(c.getId()),
@@ -2075,6 +2143,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     RunOptions options = new RunOptions();
     options.dryRun = false;
+    options.useReplacementByName = useReplacementByName;
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
     List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
@@ -2082,19 +2151,37 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         .containsExactly(
             "@@ -6 +6 @@\n"
                 + "-Assignee added: Change Owner\n"
-                + "+Assignee added: <GERRIT_ACCOUNT_1>\n",
+                + (useReplacementByName
+                    ? "+Assignee added: <GERRIT_ACCOUNT_1>\n"
+                    : "+Assignee was added.\n"),
             "@@ -6 +6 @@\n"
                 + "-Assignee changed from: Change Owner to: Other Account\n"
-                + "+Assignee changed from: <GERRIT_ACCOUNT_1> to: <GERRIT_ACCOUNT_2>\n",
+                + (useReplacementByName
+                    ? "+Assignee changed from: <GERRIT_ACCOUNT_1> to: <GERRIT_ACCOUNT_2>\n"
+                    : "+Assignee was changed.\n"),
             "@@ -6 +6 @@\n"
                 + "-Assignee deleted: Other Account\n"
-                + "+Assignee deleted: <GERRIT_ACCOUNT_2>\n",
+                + (useReplacementByName
+                    ? "+Assignee deleted: <GERRIT_ACCOUNT_2>\n"
+                    : "+Assignee was deleted.\n"),
             "@@ -6 +6 @@\n"
                 + "-Assignee added: Reviewer User\n"
-                + "+Assignee added: Gerrit Account\n");
+                + (useReplacementByName
+                    ? "+Assignee added: Gerrit Account\n"
+                    : "+Assignee was added.\n"));
     BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
     assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
+  }
+
+  @Test
+  public void fixAssigneeChangeMessageNoAssigneeFooter_useReplacementByName() throws Exception {
+    testFixAssigneeChangeMessageNoAssigneeFooter(true);
+  }
+
+  @Test
+  public void fixAssigneeChangeMessageNoAssigneeFooter_noReplacementByName() throws Exception {
+    testFixAssigneeChangeMessageNoAssigneeFooter(false);
   }
 
   @Test

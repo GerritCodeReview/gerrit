@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d78e3d30_7eeab4e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-04T11:16:13Z",
+      "side": 1,
+      "message": "Thanks, couple of nits.",
+      "revId": "33aba960cc50da00422b063fe904336ee4a0fd11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87649897_d0bf2cc5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-04T11:16:13Z",
+      "side": 1,
+      "message": "If you type this object correctly you won\u0027t need \"as any as Response\" everywhere.",
+      "revId": "33aba960cc50da00422b063fe904336ee4a0fd11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f691920_b390c5f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-04T11:16:13Z",
+      "side": 1,
+      "message": "You could just use a mockPromise, it does the same.",
+      "revId": "33aba960cc50da00422b063fe904336ee4a0fd11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

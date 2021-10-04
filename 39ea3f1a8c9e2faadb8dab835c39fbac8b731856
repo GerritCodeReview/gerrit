@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "630b145f_7e757818",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-04T11:26:36Z",
+      "side": 1,
+      "message": "Thanks for looking again!\n\nI indeed checked the account cache is enabled. I split the change in case it would be easier to review.\n\nI would prefer to have this option, in case side-loading is slow too or I find more edge-cases that are hard to handle with matching by name/email.",
+      "parentUuid": "7b482950_4d93707f",
+      "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3fb6f1f5_4b133bca",
         "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
         "patchSetId": 3
@@ -139,6 +157,24 @@
       "side": 1,
       "message": "I would prefer to keep messages close to the originals.\n\nThey have formats:\nRemoved Verified-1 by User Account\n\nThis will either replace with\n\nRemoved Verified-1 by \u003cGERRIT_ACCOUNT_2\u003e\nor\nRemoved Verified-1\n\nSee the tests.",
       "parentUuid": "3fb6f1f5_4b133bca",
+      "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5266355a_e4e52236",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-04T11:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d19b3ad1_af81adb1",
       "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

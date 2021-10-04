@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54433e33_5868d46d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-04T12:19:24Z",
+      "side": 1,
+      "message": "this looks similar to 63b81f2bde703ae07787a940e8fdf9a1828605b1, but reimplemented with different variable names.\n\nMaybe do some creative cut \u0026 pasting of that commit to avoid merge conflicts later on? ",
+      "revId": "01d956aafa9816e3f39abcfbe21277e645079be1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

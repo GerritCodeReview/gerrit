@@ -16,6 +16,24 @@
       "message": "This returns data unconditionally. Is this potentially expensive? Should this be an explicit option to return the data?\n\n(we\u0027ve had problems with clients asking for the default, and then triggering expensive computations.)",
       "revId": "de378f7bb67ca0d2d575a2b83c9cbfe38e8c1c46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "583e2ae2_e6fdcde5",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-04T12:43:43Z",
+      "side": 1,
+      "message": "We already compute submit records unconditionally with `out.requirements` (previous line), so doing it that way is not adding more computation (other than converting to SR Info which is cheap).",
+      "parentUuid": "560bd681_9698031c",
+      "revId": "de378f7bb67ca0d2d575a2b83c9cbfe38e8c1c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

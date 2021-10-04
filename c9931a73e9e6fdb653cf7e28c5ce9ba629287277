@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "228b17e6_be8c59d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-04T17:35:00Z",
+      "side": 1,
+      "message": "\u003e\u003e if performance is a concern, you\u0027d better make an endpoint on the projects/$PROJECT/ level.\n\u003eCould you elaborate on this..?\n\nright now, you\u0027ll first look for any readable ref that can reach the commit, and then look for a ref in your input that can reach the commit.\n\nso you\u0027re doing trying to reach the commit from some refs twice. As this is an expensive operation for large repositories, I think it would be better to have an endpoint on projects, eg.\n\n  projects/$PROJECT/commitin?commit\u003dabc\u0026ref\u003dref1\u0026ref\u003dref2\n  \nwhich does the following:\n\n1) check ref1, ref2 for visibility. return 403 if any ref is not visible.\n2) check commit for reachability from ref1, ref2 (return the refs from which it is reachable)",
+      "parentUuid": "aa45f754_87a17ac3",
+      "revId": "c9931a73e9e6fdb653cf7e28c5ce9ba629287277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbebaa1a_b8278a24",

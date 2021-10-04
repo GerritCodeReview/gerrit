@@ -16,6 +16,24 @@
       "message": "could do with some context. is this related to an internal bug?",
       "revId": "58a7e6b9904ebd3526b97faaf3b62cc954e25914",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81efcf51_8941e30b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-04T11:30:01Z",
+      "side": 1,
+      "message": "Sorry, I keep forgetting we now have Google-bug-Id footer, added.",
+      "parentUuid": "73867cd6_d9ff2d1c",
+      "revId": "58a7e6b9904ebd3526b97faaf3b62cc954e25914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

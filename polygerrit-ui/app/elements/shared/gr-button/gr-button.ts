@@ -49,7 +49,7 @@ export class GrButton extends LitElement {
   // after created, the initial value maybe overridden by this
   private initialTabindex?: string;
 
-  @property({type: Boolean, reflect: true})
+  @property({type: Boolean, reflect: true, attribute: 'down-arrow'})
   downArrow = false;
 
   @property({type: Boolean, reflect: true})

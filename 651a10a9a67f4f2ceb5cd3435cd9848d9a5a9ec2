@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dae9a62_26fdb20f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-10-04T13:14:10Z",
+      "side": 1,
+      "message": "Remove, here as well?",
+      "range": {
+        "startLine": 980,
+        "startChar": 3,
+        "endLine": 980,
+        "endChar": 4
+      },
+      "revId": "651a10a9a67f4f2ceb5cd3435cd9848d9a5a9ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

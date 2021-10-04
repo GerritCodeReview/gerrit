@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "501e2f2f_e5e81cb3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-04T18:15:02Z",
+      "side": 1,
+      "message": "\u003e I see Han-Wen\u0027s suggestions as two separate things: 1) Altering the API slightly and 2) Improving the performance of the API. Han-Wen, it seems that you are implying that it takes #1 to do #2, but it is not clear to me how they are related, are they?\n\nDropping the /commit/\u003ccommit-id\u003e portion of the API let\u0027s us skip the visibility check that\u0027s done at the API layer. That\u0027s the relation.",
+      "parentUuid": "9bd1f545_f42f8998",
+      "revId": "c9931a73e9e6fdb653cf7e28c5ce9ba629287277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbebaa1a_b8278a24",
         "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
         "patchSetId": 6

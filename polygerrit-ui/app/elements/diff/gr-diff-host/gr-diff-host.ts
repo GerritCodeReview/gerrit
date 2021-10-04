@@ -223,9 +223,6 @@ export class GrDiffHost extends PolymerElement {
   @property({type: Boolean})
   _loggedIn = false;
 
-  @property({type: Boolean})
-  disableTokenHighlighting = false;
-
   @property({type: String})
   _errorMessage: string | null = null;
 
@@ -303,11 +300,6 @@ export class GrDiffHost extends PolymerElement {
     this.addEventListener('diff-context-expanded', event =>
       this._handleDiffContextExpanded(event)
     );
-    appContext.restApiService.getPreferences().then(prefs => {
-      if (prefs?.disable_token_highlighting) {
-        this.disableTokenHighlighting = prefs.disable_token_highlighting;
-      }
-    });
   }
 
   override ready() {
@@ -335,18 +327,21 @@ export class GrDiffHost extends PolymerElement {
     super.disconnectedCallback();
   }
 
-  initLayers() {
-    return getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        assertIsDefined(this.path, 'path');
-        this._layers = this._getLayers(this.path);
-        this._coverageRanges = [];
-        // We kick off fetching the data here, but we don't return the promise,
-        // so awaiting initLayers() will not wait for coverage data to be
-        // completely loaded.
-        this._getCoverageData();
-      });
+  async initLayers() {
+    const preferencesPromise = appContext.restApiService.getPreferences();
+    await getPluginLoader().awaitPluginsLoaded();
+    const prefs = await preferencesPromise;
+    const enableTokenHighlight =
+      appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING) &&
+      !prefs?.disable_token_highlighting
+
+    assertIsDefined(this.path, 'path');
+    this._layers = this.getLayers(this.path, enableTokenHighlight);
+    this._coverageRanges = [];
+    // We kick off fetching the data here, but we don't return the promise,
+    // so awaiting initLayers() will not wait for coverage data to be
+    // completely loaded.
+    this._getCoverageData();
   }
 
   diffChanged(diff?: DiffInfo) {
@@ -418,12 +413,9 @@ export class GrDiffHost extends PolymerElement {
     }
   }
 
-  private _getLayers(path: string): DiffLayer[] {
+  private getLayers(path: string, enableTokenHighlight: boolean): DiffLayer[] {
     const layers = [];
-    if (
-      appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING) &&
-      !this.disableTokenHighlighting
-    ) {
+    if (enableTokenHighlight) {
       layers.push(new TokenHighlightLayer(this));
     }
     layers.push(this.syntaxLayer);

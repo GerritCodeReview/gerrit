@@ -25,8 +25,8 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.Collection;
 import java.util.SortedSet;
-import java.util.TreeSet;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
@@ -53,22 +53,27 @@ public class Schema_130 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     SortedSet<Project.NameKey> repoList = repoManager.list();
-    SortedSet<Project.NameKey> repoUpgraded = new TreeSet<>();
     ui.message("\tMigrating " + repoList.size() + " repositories ...");
-    for (Project.NameKey projectName : repoList) {
-      try (Repository git = repoManager.openRepository(projectName);
-          MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, git)) {
-        ProjectConfigSchemaUpdate cfg = ProjectConfigSchemaUpdate.read(md);
-        cfg.removeForceFromPermission("pushTag");
-        if (cfg.isUpdated()) {
-          repoUpgraded.add(projectName);
-        }
-        cfg.save(serverUser, COMMIT_MSG);
-      } catch (Exception ex) {
-        throw new OrmException("Cannot migrate project " + projectName, ex);
-      }
-    }
+    Collection<Project.NameKey> repoUpgraded =
+        (Collection<Project.NameKey>)
+            runParallelTasks(
+                createExecutor(ui),
+                repoList,
+                (repo) -> removePushTagForcePerms((Project.NameKey) repo),
+                ui);
     ui.message("\tMigration completed:  " + repoUpgraded.size() + " repositories updated:");
     ui.message("\t" + repoUpgraded.stream().map(n -> n.get()).collect(joining(" ")));
+  }
+
+  private Project.NameKey removePushTagForcePerms(Project.NameKey project) throws OrmException {
+    try (Repository git = repoManager.openRepository(project);
+        MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, project, git)) {
+      ProjectConfigSchemaUpdate cfg = ProjectConfigSchemaUpdate.read(md);
+      cfg.removeForceFromPermission("pushTag");
+      cfg.save(serverUser, COMMIT_MSG);
+      return cfg.isUpdated() ? project : null;
+    } catch (Exception ex) {
+      throw new OrmException("Cannot migrate project " + project, ex);
+    }
   }
 }

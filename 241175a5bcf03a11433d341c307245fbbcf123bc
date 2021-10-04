@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d8f24e10_0a2fbc3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-04T18:26:36Z",
+      "side": 1,
+      "message": "\u003e OK. So you might want to investigate if you can configure GC to put these refs in the main pack, so you get bitmaps (and hence: faster reachability checks if you use ReachabilityChecker) for them as well.\n\nWe\u0027re using git.git for GC, so that\u0027s happening already I think. We\u0027ll keep it in mind for doing some comparative performance testing though.",
+      "parentUuid": "388646ca_636c1220",
+      "revId": "241175a5bcf03a11433d341c307245fbbcf123bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e08124a_6e9db70b",
         "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
         "patchSetId": 5

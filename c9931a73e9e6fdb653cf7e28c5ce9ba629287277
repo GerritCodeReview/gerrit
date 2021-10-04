@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8536c0ea_4dec4fba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-04T10:53:06Z",
+      "side": 1,
+      "message": "note that CommitsCollection already does a visibility/reachability check on the commit, so you\u0027re doing double work here.\n\nif performance is a concern, you\u0027d better make an endpoint on the projects/$PROJECT/ level.  ",
+      "revId": "c9931a73e9e6fdb653cf7e28c5ce9ba629287277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbebaa1a_b8278a24",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-04T10:53:06Z",
+      "side": 1,
+      "message": "if you are concerned about performance, it might be useful to look into Iee62e745360d08 (\"Speed up reachability checks using bitmaps\").\n\nI think you could plug in the JGit reachability checker here too for a 10x speed increase (assuming you\u0027re checking against refs/heads/ refs.)",
+      "revId": "c9931a73e9e6fdb653cf7e28c5ce9ba629287277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

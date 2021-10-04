@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b334113e_9fc9f6d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-04T11:53:43Z",
+      "side": 1,
+      "message": "It\u0027s not strictly necessary. We\u0027ll have to do that computation at some point since we don\u0027t want to return the results to the client in such way, cause that would mean the client has to do the computation.\n\nFollow-ups will include adding the information to ChangeSet and returning it in MergeSuperSetComputation. \n\nAlternatively we could just avoid it and ChangeSet also stays the same (with ChangeDatas that we can find the RevCommit using the commitId and parsing). Then, the logic in this change will move to the API endpoint. Do you think it is better that way?",
+      "parentUuid": "815c6411_f64e02eb",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "f94797976beeb75976fc1b8010c8774629c7fb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7f86bbd9_a99e3717",

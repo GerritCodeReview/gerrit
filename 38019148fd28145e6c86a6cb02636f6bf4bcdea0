@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1eb089e2_5f290335",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-04T23:21:06Z",
+      "side": 1,
+      "message": "from?\n\nAnd you probably don\u0027t need to mention Han-Wen, that\u0027s not the important detail of that change 😊",
+      "range": {
+        "startLine": 25,
+        "startChar": 24,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "38019148fd28145e6c86a6cb02636f6bf4bcdea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

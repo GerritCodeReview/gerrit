@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6afd5071_90676686",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-04T10:39:58Z",
+      "side": 1,
+      "message": "couldn\u0027t you add this in a backward compatible way to projects/$PROJECT/commits/$COMMIT/in by adding an optional repeated \u0026ref\u003d parameter",
+      "parentUuid": "37cd300d_10a625d2",
+      "revId": "241175a5bcf03a11433d341c307245fbbcf123bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e08124a_6e9db70b",

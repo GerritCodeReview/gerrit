@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "86a77488_d388c044",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6543,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-04T12:59:30Z",
+      "side": 1,
+      "message": "Can you explain that this is legacy and the new ones submit records are the correct ones",
+      "range": {
+        "startLine": 6541,
+        "startChar": 0,
+        "endLine": 6543,
+        "endChar": 0
+      },
+      "revId": "de378f7bb67ca0d2d575a2b83c9cbfe38e8c1c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb0fd3a5_eb5b5737",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRecordInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-04T12:59:30Z",
+      "side": 1,
+      "message": "optional:\nso this is included in ChangeInfo and in ChangeInfo#SubmitRecordInfo?\n\nI see that each SubmitRecord has it\u0027s own LegacySubmitRequirements, right? If it doesn\u0027t matter, consider omitting from here and just reading the requirements from ChangeInfo#requirements.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 56
+      },
+      "revId": "de378f7bb67ca0d2d575a2b83c9cbfe38e8c1c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "560bd681_9698031c",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -32,6 +78,52 @@
       "side": 1,
       "message": "We already compute submit records unconditionally with `out.requirements` (previous line), so doing it that way is not adding more computation (other than converting to SR Info which is cheap).",
       "parentUuid": "560bd681_9698031c",
+      "revId": "de378f7bb67ca0d2d575a2b83c9cbfe38e8c1c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afb6f8b9_c9f5022f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4037,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-04T12:59:30Z",
+      "side": 1,
+      "message": "some fields are not tested, consider writing a test that includes all the possible fields? e.g requirements",
+      "range": {
+        "startLine": 4037,
+        "startChar": 14,
+        "endLine": 4037,
+        "endChar": 27
+      },
+      "revId": "de378f7bb67ca0d2d575a2b83c9cbfe38e8c1c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a89cb6f6_40979ea4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4059,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-04T12:59:30Z",
+      "side": 1,
+      "message": "nit: Iterables.getOnlyElement(record.labels);",
+      "range": {
+        "startLine": 4059,
+        "startChar": 12,
+        "endLine": 4059,
+        "endChar": 25
+      },
       "revId": "de378f7bb67ca0d2d575a2b83c9cbfe38e8c1c46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

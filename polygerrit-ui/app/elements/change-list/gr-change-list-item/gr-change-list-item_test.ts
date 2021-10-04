@@ -566,13 +566,13 @@ suite('gr-change-list-item tests', () => {
   });
 
   test('_computeRepoDisplay', () => {
+    assert.equal(element._computeRepoDisplay(change), 'host/a/test/repo');
     assert.equal(
-      element._computeRepoDisplay(change, false),
-      'host/a/test/repo'
+      element._computeTruncatedRepoDisplay(change),
+      'host/…/test/repo'
     );
-    assert.equal(element._computeRepoDisplay(change, true), 'host/…/test/repo');
     delete change.internalHost;
-    assert.equal(element._computeRepoDisplay(change, false), 'a/test/repo');
-    assert.equal(element._computeRepoDisplay(change, true), '…/test/repo');
+    assert.equal(element._computeRepoDisplay(change), 'a/test/repo');
+    assert.equal(element._computeTruncatedRepoDisplay(change), '…/test/repo');
   });
 });

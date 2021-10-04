@@ -284,7 +284,7 @@ export class GrChangeListItem extends PolymerElement {
    * @param truncate whether or not the project name should be
    * truncated. If this value is truthy, the name will be truncated.
    */
-  _computeRepoDisplay(change: ChangeInfo | undefined, truncate: boolean) {
+  _computeRepoDisplay(change?: ChangeInfo) {
     if (!change?.project) {
       return '';
     }
@@ -292,7 +292,19 @@ export class GrChangeListItem extends PolymerElement {
     if (change.internalHost) {
       str += change.internalHost + '/';
     }
-    str += truncate ? truncatePath(change.project, 2) : change.project;
+    str += change.project;
+    return str;
+  }
+
+  _computeTruncatedRepoDisplay(change?: ChangeInfo) {
+    if (!change?.project) {
+      return '';
+    }
+    let str = '';
+    if (change.internalHost) {
+      str += change.internalHost + '/';
+    }
+    str += truncatePath(change.project, 2);
     return str;
   }
 

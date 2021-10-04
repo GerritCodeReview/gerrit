@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b482950_4d93707f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-10-04T08:31:27Z",
+      "side": 1,
+      "message": "The option (i.e. this change) adds a certain amount of complexity to the code. If enabling the cache is already sufficient, then we could avoid that. I was under the impression that enabling the cache is straightforward. Is there a reason not to try that first?\n\nAlso, if you plan to add sideloading anyway, and we know from the Wipeout job that that will be fast enough, wouldn\u0027t that make this change obsolete?\n\nMaybe I\u0027m missing something here; how about we have a quick f2f chat in the standup today?",
+      "parentUuid": "fd84a5e3_74b55b08",
+      "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3fb6f1f5_4b133bca",
         "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
         "patchSetId": 3

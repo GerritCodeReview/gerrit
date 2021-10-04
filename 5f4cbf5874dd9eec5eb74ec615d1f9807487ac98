@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bee72e95_bcb70f9e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-04T16:59:22Z",
+      "side": 1,
+      "message": "Don\u0027t you need an onclick handler?",
+      "revId": "5f4cbf5874dd9eec5eb74ec615d1f9807487ac98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

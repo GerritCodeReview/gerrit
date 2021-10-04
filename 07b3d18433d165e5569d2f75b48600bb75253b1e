@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a4356d2_f347d936",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-04T17:56:23Z",
+      "side": 1,
+      "message": "+1 because it\u0027s based on https://gerrit-review.googlesource.com/c/gerrit/+/319756/2 which also modifies ChangeNotes and there\u0027s discussion on that change of replacing it with a cherry-pick of another change.",
+      "revId": "07b3d18433d165e5569d2f75b48600bb75253b1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

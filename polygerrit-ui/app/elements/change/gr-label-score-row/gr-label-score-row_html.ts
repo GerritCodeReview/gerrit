@@ -126,7 +126,7 @@ export const htmlTemplate = html`
         >
           <gr-button
             role="radio"
-            vote="[[_computeVoteAttribute(value, index, _items.length)]]"
+            vote$="[[_computeVoteAttribute(value, index, _items.length)]]"
             voteChip
           >
             [[value]]

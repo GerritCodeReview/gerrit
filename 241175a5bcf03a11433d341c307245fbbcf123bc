@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0d72550_f7b9a59d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-04T18:00:52Z",
+      "side": 1,
+      "message": "That limitation should also be noted in the commit message.",
+      "parentUuid": "d0f170dc_220d6f7d",
+      "revId": "241175a5bcf03a11433d341c307245fbbcf123bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e08124a_6e9db70b",
         "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
         "patchSetId": 5

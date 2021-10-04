@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "794835c8_6b9d7946",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-04T18:00:52Z",
+      "side": 1,
+      "message": "That does seem more efficient. We could even extend that API in the future to support checking multiple commits\u0027 reachability (if someone had that as a use case).\n\nPrudhvi, do you see any issues with that? If not, do you want to make that update?",
+      "parentUuid": "228b17e6_be8c59d9",
+      "revId": "c9931a73e9e6fdb653cf7e28c5ce9ba629287277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbebaa1a_b8278a24",
         "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
         "patchSetId": 6

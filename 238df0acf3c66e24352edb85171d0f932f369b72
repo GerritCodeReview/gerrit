@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f022f29_1f785b69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-04T11:49:21Z",
+      "side": 1,
+      "message": "Tooltip in light theme LGTM\nI added comments for the tooltip in dark theme, also see screenshot in the bug.",
+      "revId": "238df0acf3c66e24352edb85171d0f932f369b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f6e0a59_c05f75c5",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-04T11:49:21Z",
+      "side": 1,
+      "message": "Also the tooltip background color in dark theme is: --gray-200",
+      "revId": "238df0acf3c66e24352edb85171d0f932f369b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99fb13b1_b45f91a4",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-04T11:49:21Z",
+      "side": 1,
+      "message": "--gerrit-blue-light",
+      "range": {
+        "startLine": 98,
+        "startChar": 39,
+        "endLine": 98,
+        "endChar": 57
+      },
+      "revId": "238df0acf3c66e24352edb85171d0f932f369b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

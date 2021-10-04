@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1f8ed516_feaa441f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-04T18:25:42Z",
+      "side": 1,
+      "message": "\u003e \u003e I see Han-Wen\u0027s suggestions as two separate things: 1) Altering the API slightly and 2) Improving the performance of the API. Han-Wen, it seems that you are implying that it takes #1 to do #2, but it is not clear to me how they are related, are they?\n\u003e \n\u003e Dropping the /commit/\u003ccommit-id\u003e portion of the API let\u0027s us skip the visibility check that\u0027s done at the API layer. That\u0027s the relation.\n\nOh, I see, that makes sense, thanks for explaining. That was my next question, how do you avoid the API framework visibility check 😊. That answers it! I like it, thanks for the suggestion Han-Wen!",
+      "parentUuid": "501e2f2f_e5e81cb3",
+      "revId": "c9931a73e9e6fdb653cf7e28c5ce9ba629287277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbebaa1a_b8278a24",
         "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
         "patchSetId": 6

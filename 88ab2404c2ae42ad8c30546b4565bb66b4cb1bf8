@@ -46,6 +46,30 @@
       },
       "revId": "88ab2404c2ae42ad8c30546b4565bb66b4cb1bf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b224a006_c53d690d",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-04T07:43:20Z",
+      "side": 0,
+      "message": "The logs you pasted internally, show that the shortcut itself is not used (we evaluate the permissions ref-by-ref in l.721 as far as I can see from the logs. So we then do ref-by-ref permission evaluations.\n\nBesides that, the shortcut is checked only once per project, so I don\u0027t think it\u0027s the culprit of slowness here.\n\nOther than that, what confuses me a bit is that the user is asking for a single branch specifically with the \"b\" query option, but the logs look like we evaluate other branches as well? That would make it unnecessary complex by an order of magnitude (do we pass in more branches than are given by the -b option to this code?) :-) Have you already looked into that?",
+      "parentUuid": "4a2f4d46_2a46eab7",
+      "range": {
+        "startLine": 586,
+        "startChar": 8,
+        "endLine": 586,
+        "endChar": 98
+      },
+      "revId": "88ab2404c2ae42ad8c30546b4565bb66b4cb1bf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

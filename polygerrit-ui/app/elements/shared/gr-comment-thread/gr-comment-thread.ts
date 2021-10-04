@@ -57,7 +57,7 @@ import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {RenderPreferences} from '../../../api/diff';
+import {DiffLayer, RenderPreferences} from '../../../api/diff';
 import {
   check,
   assertIsDefined,
@@ -205,8 +205,8 @@ export class GrCommentThread extends base {
   @property({type: Object})
   _selfAccount?: AccountDetailInfo;
 
-  @property({type: Boolean})
-  disableTokenHighlighting = false;
+  @property({type: Array})
+  layers: DiffLayer[] = [];
 
   get keyBindings() {
     return {
@@ -232,9 +232,7 @@ export class GrCommentThread extends base {
       this._handleCommentUpdate(e as CustomEvent)
     );
     appContext.restApiService.getPreferences().then(prefs => {
-      if (prefs?.disable_token_highlighting) {
-        this.disableTokenHighlighting = prefs.disable_token_highlighting;
-      }
+      this._initLayers(!!prefs?.disable_token_highlighting);
     });
   }
 
@@ -366,17 +364,14 @@ export class GrCommentThread extends base {
     return undefined;
   }
 
-  _getLayers(diff?: DiffInfo) {
-    if (!diff) return [];
-    const layers = [];
+  _initLayers(disableTokenHighlighting: boolean) {
     if (
       this.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING) &&
-      !this.disableTokenHighlighting
+      !disableTokenHighlighting
     ) {
-      layers.push(new TokenHighlightLayer(this));
+      this.layers.push(new TokenHighlightLayer(this));
     }
-    layers.push(this.syntaxLayer);
-    return layers;
+    this.layers.push(this.syntaxLayer);
   }
 
   _getUrlForViewDiff(

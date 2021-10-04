@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f78b9a6e_1a275325",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-04T18:07:34Z",
+      "side": 1,
+      "message": "\u003e That limitation should also be noted in the commit message.\n\n+1. I have no idea what a \"batch ref\" is, btw.",
+      "parentUuid": "a0d72550_f7b9a59d",
+      "revId": "241175a5bcf03a11433d341c307245fbbcf123bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e08124a_6e9db70b",
         "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
         "patchSetId": 5

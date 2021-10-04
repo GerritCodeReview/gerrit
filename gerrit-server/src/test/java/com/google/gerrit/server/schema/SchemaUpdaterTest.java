@@ -150,6 +150,11 @@ public class SchemaUpdaterTest {
               e.execute(sql);
             }
           }
+
+          @Override
+          public int getThreadCount() {
+            return 1;
+          }
         });
 
     db.assertSchemaVersion();

@@ -43,6 +43,10 @@ public class InitFlags {
   /** Dev mode */
   public boolean dev;
 
+  /** Number of threads to be used by schema migrations when running
+   * parallel operations. */
+  public int threads;
+
   public final FileBasedConfig cfg;
   public final SecureStore sec;
   public final List<String> installPlugins;

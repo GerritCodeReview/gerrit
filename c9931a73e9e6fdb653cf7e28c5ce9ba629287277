@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa45f754_87a17ac3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-04T16:48:25Z",
+      "side": 1,
+      "message": "\u003e note that CommitsCollection already does a visibility/reachability check on the commit, so you\u0027re doing double work here.\nYes, CommitsCollection does a visibility/reachability check on the commit. We would still need a check to filter the input refs based on the caller\u0027s visibility.(as we only did a check on commit in CommitsCollection)\n\n\u003e if performance is a concern, you\u0027d better make an endpoint on the projects/$PROJECT/ level.\nCould you elaborate on this..?",
+      "parentUuid": "8536c0ea_4dec4fba",
+      "revId": "c9931a73e9e6fdb653cf7e28c5ce9ba629287277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbebaa1a_b8278a24",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-04T10:53:06Z",
       "side": 1,
       "message": "if you are concerned about performance, it might be useful to look into Iee62e745360d08 (\"Speed up reachability checks using bitmaps\").\n\nI think you could plug in the JGit reachability checker here too for a 10x speed increase (assuming you\u0027re checking against refs/heads/ refs.)",
+      "revId": "c9931a73e9e6fdb653cf7e28c5ce9ba629287277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5da85c2b_a19d09a5",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-04T16:48:25Z",
+      "side": 1,
+      "message": "ACK. I will take a look and I believe that effort is separate from this change.",
+      "parentUuid": "cbebaa1a_b8278a24",
       "revId": "c9931a73e9e6fdb653cf7e28c5ce9ba629287277",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

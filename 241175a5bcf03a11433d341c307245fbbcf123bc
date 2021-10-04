@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0f170dc_220d6f7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-04T16:48:25Z",
+      "side": 1,
+      "message": "projects/$PROJECT/commits/$COMMIT/in API is limited to branches and tags. Through  projects/$PROJECT/commits/$COMMIT/inrefs we are letting the user to pass any ref and check if it contains a commit. For example, the user can check for a batch ref(s) (https://gerrit.googlesource.com/plugins/batch) containing a commit.",
+      "parentUuid": "6afd5071_90676686",
+      "revId": "241175a5bcf03a11433d341c307245fbbcf123bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e08124a_6e9db70b",

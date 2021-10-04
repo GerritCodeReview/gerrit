@@ -30,6 +30,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /** A version of the database schema. */
@@ -210,5 +212,16 @@ public abstract class SchemaVersion {
   /** Open a new statement executor. */
   protected static JdbcExecutor newExecutor(ReviewDb db) throws OrmException {
     return new JdbcExecutor(((JdbcSchema) db).getConnection());
+  }
+
+  protected ExecutorService createExecutor(UpdateUI ui) {
+    int threads;
+    try {
+      threads = Integer.parseInt(System.getProperty("threadcount"));
+    } catch (NumberFormatException e) {
+      threads = Runtime.getRuntime().availableProcessors();
+    }
+    ui.message(String.format("... using %d threads ...", threads));
+    return Executors.newFixedThreadPool(threads);
   }
 }

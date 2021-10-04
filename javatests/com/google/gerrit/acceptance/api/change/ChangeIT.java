@@ -149,6 +149,7 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.SubmitRecordInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
@@ -4030,6 +4031,35 @@ public class ChangeIT extends AbstractDaemonTest {
             ResourceConflictException.class,
             () -> gApi.changes().id(r.getChangeId()).setMessage(getCommitMessage(r.getChangeId())));
     assertThat(thrown).hasMessageThat().contains("new and existing commit message are the same");
+  }
+
+  @Test
+  public void submitRecords() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRecords).hasSize(1);
+    SubmitRecordInfo record = change.submitRecords.stream().collect(MoreCollectors.onlyElement());
+    assertThat(record.ruleName).isEqualTo("gerrit~DefaultSubmitRule");
+    assertThat(record.status).isEqualTo(SubmitRecordInfo.Status.NOT_READY);
+    assertThat(record.labels).hasSize(1);
+    SubmitRecordInfo.Label label = record.labels.get(0);
+    assertThat(label.label).isEqualTo("Code-Review");
+    assertThat(label.status).isEqualTo(SubmitRecordInfo.Label.Status.NEED);
+    assertThat(label.appliedBy).isNull();
+
+    voteLabel(changeId, "code-review", 2);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRecords).hasSize(1);
+    record = change.submitRecords.stream().collect(MoreCollectors.onlyElement());
+    assertThat(record.ruleName).isEqualTo("gerrit~DefaultSubmitRule");
+    assertThat(record.status).isEqualTo(SubmitRecordInfo.Status.OK);
+    assertThat(record.labels).hasSize(1);
+    label = record.labels.get(0);
+    assertThat(label.label).isEqualTo("Code-Review");
+    assertThat(label.status).isEqualTo(SubmitRecordInfo.Label.Status.OK);
+    assertThat(label.appliedBy._accountId).isEqualTo(admin.id().get());
   }
 
   @Test

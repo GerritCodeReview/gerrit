@@ -79,6 +79,7 @@ import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.SubmitRecordInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementExpressionInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
@@ -369,6 +370,14 @@ public class ChangeJson {
     return reqInfos;
   }
 
+  private Collection<SubmitRecordInfo> submitRecordsFor(ChangeData cd) {
+    List<SubmitRecordInfo> submitRecordInfos = new ArrayList<>();
+    for (SubmitRecord record : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
+      submitRecordInfos.add(submitRecordToInfo(record));
+    }
+    return submitRecordInfos;
+  }
+
   private static Collection<SubmitRequirementResultInfo> submitRequirementsFor(ChangeData cd) {
     Collection<SubmitRequirementResultInfo> reqInfos = new ArrayList<>();
     Map<SubmitRequirement, SubmitRequirementResult> requirements = cd.submitRequirements();
@@ -381,6 +390,34 @@ public class ChangeJson {
   private static LegacySubmitRequirementInfo requirementToInfo(
       LegacySubmitRequirement req, Status status) {
     return new LegacySubmitRequirementInfo(status.name(), req.fallbackText(), req.type());
+  }
+
+  private SubmitRecordInfo submitRecordToInfo(SubmitRecord record) {
+    SubmitRecordInfo info = new SubmitRecordInfo();
+    if (record.status != null) {
+      info.status = SubmitRecordInfo.Status.valueOf(record.status.name());
+    }
+    info.ruleName = record.ruleName;
+    info.errorMessage = record.errorMessage;
+    if (record.labels != null) {
+      info.labels = new ArrayList<>();
+      for (SubmitRecord.Label label : record.labels) {
+        SubmitRecordInfo.Label labelInfo = new SubmitRecordInfo.Label();
+        labelInfo.label = label.label;
+        if (label.status != null) {
+          labelInfo.status = SubmitRecordInfo.Label.Status.valueOf(label.status.name());
+        }
+        labelInfo.appliedBy = accountLoader.get(label.appliedBy);
+        info.labels.add(labelInfo);
+      }
+    }
+    if (record.requirements != null) {
+      info.requirements = new ArrayList<>();
+      for (LegacySubmitRequirement requirement : record.requirements) {
+        info.requirements.add(requirementToInfo(requirement, record.status));
+      }
+    }
+    return info;
   }
 
   private static SubmitRequirementResultInfo submitRequirementToInfo(
@@ -662,6 +699,7 @@ public class ChangeJson {
 
     out.labels = labelsJson.labelsFor(accountLoader, cd, has(LABELS), has(DETAILED_LABELS));
     out.requirements = requirementsFor(cd);
+    out.submitRecords = submitRecordsFor(cd);
     if (has(SUBMIT_REQUIREMENTS)) {
       out.submitRequirements = submitRequirementsFor(cd);
     }

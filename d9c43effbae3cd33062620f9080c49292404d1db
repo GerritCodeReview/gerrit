@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dece90af_06f614d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-04T08:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "760bfab1_072eb0b4",
+      "range": {
+        "startLine": 13,
+        "startChar": 48,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "d9c43effbae3cd33062620f9080c49292404d1db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4149199e_b90b3653",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-04T08:06:38Z",
       "side": 1,
       "message": "NIT: I would expect that this will clear all children and then append child, otherwise maybe function name can be `appendContent`.",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 31
+      },
+      "revId": "d9c43effbae3cd33062620f9080c49292404d1db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "367a86f6_3b956d91",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-04T08:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4149199e_b90b3653",
       "range": {
         "startLine": 56,
         "startChar": 4,

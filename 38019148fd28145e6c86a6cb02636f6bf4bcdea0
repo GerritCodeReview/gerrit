@@ -22,6 +22,30 @@
       },
       "revId": "38019148fd28145e6c86a6cb02636f6bf4bcdea0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f3fcf42_ddae8e0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-04T23:33:06Z",
+      "side": 1,
+      "message": "Added Han-Wen as mentioned as original author on the footer.",
+      "parentUuid": "1eb089e2_5f290335",
+      "range": {
+        "startLine": 25,
+        "startChar": 24,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "38019148fd28145e6c86a6cb02636f6bf4bcdea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04a58358_5a5e39c8",
+        "filename": "java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-04T10:11:31Z",
+      "side": 1,
+      "message": "Are you sure we never ever add more than a single entry per key?\n\nThis could happen if the same RevCommit would be used in two changes as a patch set. Can that happen?",
+      "range": {
+        "startLine": 230,
+        "startChar": 8,
+        "endLine": 230,
+        "endChar": 59
+      },
+      "revId": "79bd7d0644b3d913a400e47d0187e7ccfe6b18a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cadb279_1cce28e7",
+        "filename": "java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-04T10:11:31Z",
+      "side": 0,
+      "message": "Note that this is just an initial size, not a maximum size.",
+      "range": {
+        "startLine": 221,
+        "startChar": 43,
+        "endLine": 221,
+        "endChar": 71
+      },
+      "revId": "88ab2404c2ae42ad8c30546b4565bb66b4cb1bf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

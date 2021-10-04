@@ -70,6 +70,30 @@
       },
       "revId": "88ab2404c2ae42ad8c30546b4565bb66b4cb1bf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fac96af5_effbc234",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-04T08:35:05Z",
+      "side": 0,
+      "message": "I confirmed the problem is with the specific project.config. That project.config had \u003e70 read blocks which makes the shortcut not really a shortcut.\nFor this specific endpoint, I think it would make more sense to check permissions per-branch, since it is expected that N of branches in the query is small.\n\nWhat do you think?",
+      "parentUuid": "4a2f4d46_2a46eab7",
+      "range": {
+        "startLine": 586,
+        "startChar": 8,
+        "endLine": 586,
+        "endChar": 98
+      },
+      "revId": "88ab2404c2ae42ad8c30546b4565bb66b4cb1bf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

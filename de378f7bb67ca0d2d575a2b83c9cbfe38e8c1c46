@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "becf4e3b_373a4bb7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6543,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-04T13:33:40Z",
+      "side": 1,
+      "message": "This field (requirements) and \"submit_records\" (the one added in this change) are both legacy. they are both to be deprecated in favour of submit requirements.\n\nPlease LMK if something needs clarification.",
+      "parentUuid": "86a77488_d388c044",
+      "range": {
+        "startLine": 6541,
+        "startChar": 0,
+        "endLine": 6543,
+        "endChar": 0
+      },
+      "revId": "de378f7bb67ca0d2d575a2b83c9cbfe38e8c1c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb0fd3a5_eb5b5737",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-04T12:59:30Z",
       "side": 1,
       "message": "optional:\nso this is included in ChangeInfo and in ChangeInfo#SubmitRecordInfo?\n\nI see that each SubmitRecord has it\u0027s own LegacySubmitRequirements, right? If it doesn\u0027t matter, consider omitting from here and just reading the requirements from ChangeInfo#requirements.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 56
+      },
+      "revId": "de378f7bb67ca0d2d575a2b83c9cbfe38e8c1c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0ec2f52_b6143863",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRecordInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-04T13:33:40Z",
+      "side": 1,
+      "message": "Yes, ChangeInfo#requirements is same as ChangeInfo#submitRecords#requirements. I added the field to SubmitRecord for completeness but this field is not important.\n\nI prefer keeping it for completeness.",
+      "parentUuid": "bb0fd3a5_eb5b5737",
       "range": {
         "startLine": 46,
         "startChar": 0,
@@ -105,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97f59511_2dc78506",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4037,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-04T13:33:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "afb6f8b9_c9f5022f",
+      "range": {
+        "startLine": 4037,
+        "startChar": 14,
+        "endLine": 4037,
+        "endChar": 27
+      },
+      "revId": "de378f7bb67ca0d2d575a2b83c9cbfe38e8c1c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a89cb6f6_40979ea4",
@@ -118,6 +190,30 @@
       "writtenOn": "2021-10-04T12:59:30Z",
       "side": 1,
       "message": "nit: Iterables.getOnlyElement(record.labels);",
+      "range": {
+        "startLine": 4059,
+        "startChar": 12,
+        "endLine": 4059,
+        "endChar": 25
+      },
+      "revId": "de378f7bb67ca0d2d575a2b83c9cbfe38e8c1c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40c01cbe_057c69f7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4059,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-04T13:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a89cb6f6_40979ea4",
       "range": {
         "startLine": 4059,
         "startChar": 12,

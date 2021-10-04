@@ -39,6 +39,30 @@
       },
       "revId": "537325640bfab17d8404985e36ff28e9cfcfefcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7c9e6e3_59e49896",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-04T11:03:29Z",
+      "side": 1,
+      "message": "Yeah, I am deliberately avoiding PolymerDeepPropertyChange here and in other changes, because I don\u0027t think it is worth my time given that Lit migration is upcoming.",
+      "parentUuid": "7b1633e8_88ff8d8c",
+      "range": {
+        "startLine": 175,
+        "startChar": 4,
+        "endLine": 175,
+        "endChar": 15
+      },
+      "revId": "537325640bfab17d8404985e36ff28e9cfcfefcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

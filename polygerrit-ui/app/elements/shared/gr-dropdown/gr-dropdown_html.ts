@@ -94,7 +94,7 @@ export const htmlTemplate = html`
     link="[[link]]"
     class="dropdown-trigger"
     id="trigger"
-    down-arrow="[[downArrow]]"
+    down-arrow$="[[downArrow]]"
     on-click="_dropdownTriggerTapHandler"
   >
     <slot></slot>

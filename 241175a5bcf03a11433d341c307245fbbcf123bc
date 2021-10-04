@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3faf0d52_528fefc6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-04T18:16:11Z",
+      "side": 1,
+      "message": "\u003e \u003e That limitation should also be noted in the commit message.\n\u003e \n\u003e +1. I have no idea what a \"batch ref\" is, btw.\n\nPrudhvi linked to the plugin, but this page in the docs specifically explains the ref structure for batches: https://gerrit.googlesource.com/plugins/batch/+/refs/heads/master/src/main/resources/Documentation/about.md#download-ref-location",
+      "parentUuid": "f78b9a6e_1a275325",
+      "revId": "241175a5bcf03a11433d341c307245fbbcf123bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e08124a_6e9db70b",
         "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
         "patchSetId": 5

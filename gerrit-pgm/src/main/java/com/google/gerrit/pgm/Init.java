@@ -81,6 +81,13 @@ public class Init extends BaseInit {
   @Option(name = "--skip-download", usage = "Don't download given library")
   private List<String> skippedDownloads;
 
+  @Option(
+      name = "--threads",
+      usage =
+          " Number of threads to be used by schema migrations when running parallel operations."
+              + " Defaults to number of available processors")
+  private int threads = super.getThreads();
+
   @Inject Browser browser;
 
   public Init() {
@@ -188,6 +195,11 @@ public class Init extends BaseInit {
   @Override
   protected String getSecureStoreLib() {
     return secureStoreLib;
+  }
+
+  @Override
+  protected int getThreads() {
+    return threads;
   }
 
   void start(SiteRun run) throws Exception {

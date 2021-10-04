@@ -26,4 +26,6 @@ public interface UpdateUI {
   boolean isBatch();
 
   void pruneSchema(StatementExecutor e, List<String> pruneList) throws OrmException;
+
+  int getThreadCount();
 }

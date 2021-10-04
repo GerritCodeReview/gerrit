@@ -129,6 +129,7 @@ public class BaseInit extends SiteProgram {
     init.flags.dev = isDev() && init.site.isNew;
     init.flags.skipPlugins = skipPlugins();
     init.flags.deleteCaches = getDeleteCaches();
+    init.flags.threads = getThreads();
 
     final SiteRun run;
     try {
@@ -415,6 +416,11 @@ public class BaseInit extends SiteProgram {
                 }
               }
             }
+
+            @Override
+            public int getThreadCount() {
+              return flags.threads;
+            }
           });
 
       if (!pruneList.isEmpty()) {
@@ -520,5 +526,9 @@ public class BaseInit extends SiteProgram {
 
   protected boolean getDeleteCaches() {
     return false;
+  }
+
+  protected int getThreads() {
+    return Runtime.getRuntime().availableProcessors();
   }
 }

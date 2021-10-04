@@ -67,6 +67,24 @@
       "message": "I have tested `3.2.12` again but this time added also `3.1.16` and test with `trustFolderStat \u003d false` (to get a NFS-like feeling) and I hope that it gets properly highlighted that performance degradation is noticeable...\n\nGerrit 3.1.16 performs account-heavy operations 2 (4 when trustFolderStat \u003d false) times faster than vanilla Gerrit 3.2.12.\nGerrit 3.2.12 with `RFC: Cache All-Users object ids by ref` performs account-heavy operations 2-4 (7-8 when trustFolderStat \u003d false) times faster than vanilla Gerrit 3.2.12.\n\nAgain details are here: https://gist.github.com/geminicaprograms/b2cae199793f0f2b18759a803000447f",
       "revId": "a5267d89079e570fcebf692b9c70953122f050e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96d84a87_c637d00b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-04T20:53:51Z",
+      "side": 1,
+      "message": "Thanks @Jacek for the comprehensive data and tests. I believe it is now clear to everyone that this is a significant regression and this change can be *one effective* solution to this problem.",
+      "parentUuid": "850b99e4_a15f9cf7",
+      "revId": "a5267d89079e570fcebf692b9c70953122f050e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

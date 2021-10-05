@@ -25,9 +25,7 @@ export const htmlTemplate = html`
   </style>
   <style include="gr-page-nav-styles">
     gr-dropdown-list {
-      --trigger-style: {
-        text-transform: none;
-      }
+      --trigger-style-text-transform: none;
     }
     .breadcrumbText {
       /* Same as dropdown trigger so chevron spacing is consistent. */

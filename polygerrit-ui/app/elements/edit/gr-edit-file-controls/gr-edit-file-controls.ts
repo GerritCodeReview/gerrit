@@ -62,12 +62,6 @@ export class GrEditFileControls extends LitElement {
     /* eslint-disable lit/prefer-static-styles */
     const customStyle = html`
       <style>
-        gr-button,
-        gr-dropdown {
-          --gr-button: {
-            height: 1.8em;
-          }
-        }
         gr-dropdown {
           --gr-dropdown-item: {
             background-color: transparent;

@@ -82,6 +82,10 @@ export class GrCopyClipboard extends LitElement {
           color: var(--deemphasized-text-color);
           vertical-align: top;
         }
+        gr-button {
+          display: block;
+          --padding: 2px;
+        }
       `,
     ];
   }
@@ -95,11 +99,6 @@ export class GrCopyClipboard extends LitElement {
         iron-icon {
           --iron-icon-height: 20px;
           --iron-icon-width: 20px;
-        }
-        gr-button {
-          --gr-button: {
-            padding: 2px;
-          }
         }
       </style>
     `;

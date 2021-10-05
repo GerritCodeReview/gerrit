@@ -142,9 +142,7 @@ export const htmlTemplate = html`
       display: none;
     }
     gr-dropdown-list {
-      --trigger-style: {
-        text-transform: none;
-      }
+      --trigger-style-text-transform: none;
     }
     .editButtona a {
       text-decoration: none;

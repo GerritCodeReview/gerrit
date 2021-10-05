@@ -78,9 +78,9 @@ export const htmlTemplate = html`
       width: 100%;
     }
     gr-button {
-      --gr-button: {
-        @apply --trigger-style;
-      }
+      text-transform: var(--trigger-style-text-transform);
+      font-family: var(--trigger-style-font-family);
+      --gr-button-text-color: var(--trigger-style-text-color);
     }
     gr-date-formatter {
       color: var(--deemphasized-text-color);

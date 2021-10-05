@@ -89,10 +89,7 @@ export const htmlTemplate = html`
       justify-content: flex-end;
     }
     .rightActions gr-button {
-      --gr-button: {
-        height: 20px;
-        padding: 0 var(--spacing-s);
-      }
+      --padding: 0 var(--spacing-s);
     }
     .editMessage {
       display: none;
@@ -190,10 +187,8 @@ export const htmlTemplate = html`
     }
     #deleteBtn {
       display: none;
-      --gr-button: {
-        color: var(--deemphasized-text-color);
-        padding: 0;
-      }
+      --gr-button-text-color: var(--deemphasized-text-color);
+      --padding: 0;
     }
     #deleteBtn.showDeleteButtons {
       display: block;

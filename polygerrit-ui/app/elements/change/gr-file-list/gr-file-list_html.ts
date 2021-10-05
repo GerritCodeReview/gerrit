@@ -256,9 +256,7 @@ export const htmlTemplate = html`
       display: inline-block;
       visibility: hidden;
       vertical-align: bottom;
-      --gr-button: {
-        padding: 0px;
-      }
+      --padding: 0px;
     }
     .row:focus-within gr-copy-clipboard,
     .row:hover gr-copy-clipboard {

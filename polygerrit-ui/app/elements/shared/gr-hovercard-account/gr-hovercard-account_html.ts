@@ -45,9 +45,7 @@ export const htmlTemplate = html`
     .action {
       border-top: 1px solid var(--border-color);
       padding: var(--spacing-s) var(--spacing-l);
-      --gr-button: {
-        padding: var(--spacing-s) var(--spacing-m);
-      }
+      --padding: var(--spacing-s) var(--spacing-m);
     }
     .attention {
       background-color: var(--emphasis-color);

@@ -48,7 +48,7 @@ java_library(
         "//lib:servlet-api-without-neverlink",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
-        "//lib/commons:lang",
+        "//lib/commons:lang3",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

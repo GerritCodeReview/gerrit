@@ -7,6 +7,6 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
-        "//lib/commons:lang",
+        "//lib/commons:lang3",
     ],
 )

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93a872f0_5988d006",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-05T22:03:37Z",
+      "side": 0,
+      "message": "Why is this removed?",
+      "revId": "d5a79c5568fecbe8ae479afd57ad1a448f64120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92db8960_748f0d56",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-file-controls/gr-edit-file-controls.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-05T22:03:37Z",
+      "side": 0,
+      "message": "Why is this no longer necessary?",
+      "revId": "d5a79c5568fecbe8ae479afd57ad1a448f64120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

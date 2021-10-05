@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7535a989_4324d28e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-05T22:03:37Z",
+      "side": 1,
+      "message": "Thanks for taking care of this!",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6af9fdd_9a4dfb49",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-05T22:03:37Z",
+      "side": 1,
+      "message": "Why was this not necessary before?",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6f142b2_254d17fb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-05T22:03:37Z",
+      "side": 1,
+      "message": "Should this be a more specific name like --gr-button-padding? From the context here it\u0027s very hard to determine the purpose of the --padding.",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "babe457a_ee310db6",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-05T22:03:37Z",
+      "side": 1,
+      "message": "Will this be passed into the paper-button inside of gr-button correctly? I.o.w. is this inherited by the shadow-dom inside of gr-button if it\u0027s set on gr-button?",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5166336f_085d8b13",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-05T22:03:37Z",
+      "side": 1,
+      "message": "Same comment about --padding not being immediately obvious as to its use.",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "771ee4ce_067508e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-05T22:03:37Z",
+      "side": 1,
+      "message": "Any reason these can\u0027t be moved over as well?",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e605a11_3f321e4a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-05T22:03:37Z",
+      "side": 1,
+      "message": "Same comment about confusion of meaning of --padding especially when it\u0027s next to padding.",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

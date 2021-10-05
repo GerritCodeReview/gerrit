@@ -21,7 +21,7 @@ import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {Side, createDefaultDiffPrefs} from '../../../constants/constants.js';
-import {createChange} from '../../../test/test-data-generators.js';
+import {createChange, createCommentThread, createComment} from '../../../test/test-data-generators.js';
 import {CoverageType} from '../../../types/types.js';
 import {
   addListenerForTest,
@@ -1125,6 +1125,35 @@ suite('gr-diff-host tests', () => {
       assert.equal(threads.length, 1);
       assert.equal(threads[0].diffSide, diffSide);
       assert.equal(threads[0].path, element.file.path);
+    });
+
+    test('multiple threads created on the same range', () => {
+      element.patchRange = {
+        basePatchNum: 2,
+        patchNum: 3,
+      };
+      element.file = {basePath: 'file_renamed.txt', path: element.path};
+
+      const comment = createComment();
+      comment.range = {
+        start_line: 1,
+        start_character: 1,
+        end_line: 2,
+        end_character: 2,
+      };
+      const thread = createCommentThread([comment]);
+      element.threads = [thread];
+
+      let threads = dom(element.$.diff)
+          .queryDistributedElements('gr-comment-thread');
+
+      assert.equal(threads.length, 1);
+
+      element.threads= [...element.threads, thread];
+
+      threads = dom(element.$.diff)
+          .queryDistributedElements('gr-comment-thread');
+      assert.equal(threads.length, 2);
     });
 
     test('thread should use new file path if first created' +

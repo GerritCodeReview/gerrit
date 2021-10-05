@@ -186,7 +186,6 @@ suite('gr-apply-fix-dialog tests', () => {
         })
       );
       element._isApplyFixLoading = true;
-      await flush();
       const button = getConfirmButton();
       assert.isTrue(button.hasAttribute('disabled'));
       assert.equal(button.getAttribute('title'), '');

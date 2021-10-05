@@ -115,10 +115,10 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
         current_revision: 'a',
       },
     ];
-    setup(async () => {
+    setup(() => {
       element.updateChanges(changes);
       element._cherryPickType = CHERRY_PICK_TYPES.TOPIC;
-      await flush();
+      flush();
     });
 
     test('cherry pick topic submit', async () => {

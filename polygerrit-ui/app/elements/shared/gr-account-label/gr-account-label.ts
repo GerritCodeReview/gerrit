@@ -206,7 +206,18 @@ export class GrAccountLabel extends LitElement {
             ></gr-hovercard-account>`
           : ''}
         ${hasAttention
-          ? html` <gr-tooltip-content
+          ? html`<gr-button
+              id="attentionButton"
+              link=""
+              aria-label="Remove user from attention set"
+              @click=${this._handleRemoveAttentionClick}
+              ?disabled=${!this._computeAttentionButtonEnabled(
+                highlightAttention,
+                account,
+                change,
+                this.selected,
+                this._selfAccount
+              )}
               ?has-tooltip=${this._computeAttentionButtonEnabled(
                 highlightAttention,
                 account,
@@ -222,25 +233,11 @@ export class GrAccountLabel extends LitElement {
                 this.selected,
                 this._selfAccount
               )}"
-            >
-              <gr-button
-                id="attentionButton"
-                link=""
-                aria-label="Remove user from attention set"
-                @click=${this._handleRemoveAttentionClick}
-                ?disabled=${!this._computeAttentionButtonEnabled(
-                  highlightAttention,
-                  account,
-                  change,
-                  this.selected,
-                  this._selfAccount
-                )}
-                ><iron-icon
-                  class="attention"
-                  icon="gr-icons:attention"
-                ></iron-icon>
-              </gr-button>
-            </gr-tooltip-content>`
+              ><iron-icon
+                class="attention"
+                icon="gr-icons:attention"
+              ></iron-icon>
+            </gr-button>`
           : ''}
       </span>
       <span

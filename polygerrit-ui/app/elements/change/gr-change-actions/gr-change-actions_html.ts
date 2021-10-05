@@ -84,27 +84,24 @@ export const htmlTemplate = html`
       hidden$="[[_shouldHideActions(_topLevelActions.*, _loading)]]"
     >
       <template is="dom-repeat" items="[[_topLevelPrimaryActions]]" as="action">
-        <gr-tooltip-content
+        <gr-button
+          link=""
           title$="[[action.title]]"
           has-tooltip="[[_computeHasTooltip(action.title)]]"
           position-below="true"
+          data-action-key$="[[action.__key]]"
+          class$="[[action.__key]]"
+          data-action-type$="[[action.__type]]"
+          data-label$="[[action.label]]"
+          disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
+          on-click="_handleActionTap"
         >
-          <gr-button
-            link=""
-            data-action-key$="[[action.__key]]"
-            class$="[[action.__key]]"
-            data-action-type$="[[action.__type]]"
-            data-label$="[[action.label]]"
-            disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
-            on-click="_handleActionTap"
-          >
-            <iron-icon
-              class$="[[_computeHasIcon(action)]]"
-              icon$="gr-icons:[[action.icon]]"
-            ></iron-icon>
-            [[action.label]]
-          </gr-button>
-        </gr-tooltip-content>
+          <iron-icon
+            class$="[[_computeHasIcon(action)]]"
+            icon$="gr-icons:[[action.icon]]"
+          ></iron-icon>
+          [[action.label]]
+        </gr-button>
       </template>
     </section>
     <section
@@ -116,27 +113,24 @@ export const htmlTemplate = html`
         items="[[_topLevelSecondaryActions]]"
         as="action"
       >
-        <gr-tooltip-content
+        <gr-button
+          link=""
           title$="[[action.title]]"
           has-tooltip="[[_computeHasTooltip(action.title)]]"
           position-below="true"
+          data-action-key$="[[action.__key]]"
+          class$="[[action.__key]]"
+          data-action-type$="[[action.__type]]"
+          data-label$="[[action.label]]"
+          disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
+          on-click="_handleActionTap"
         >
-          <gr-button
-            link=""
-            data-action-key$="[[action.__key]]"
-            class$="[[action.__key]]"
-            data-action-type$="[[action.__type]]"
-            data-label$="[[action.label]]"
-            disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
-            on-click="_handleActionTap"
-          >
-            <iron-icon
-              class$="[[_computeHasIcon(action)]]"
-              icon$="gr-icons:[[action.icon]]"
-            ></iron-icon>
-            [[action.label]]
-          </gr-button>
-        </gr-tooltip-content>
+          <iron-icon
+            class$="[[_computeHasIcon(action)]]"
+            icon$="gr-icons:[[action.icon]]"
+          ></iron-icon>
+          [[action.label]]
+        </gr-button>
       </template>
     </section>
     <gr-button hidden$="[[!_loading]]" disabled=""

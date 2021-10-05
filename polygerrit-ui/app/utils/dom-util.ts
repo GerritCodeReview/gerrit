@@ -171,7 +171,7 @@ export function windowLocationReload() {
  *  getEventPath(e); // eg: div.class1>p#pid.class2
  * }
  */
-export function getEventPath<T extends MouseEvent>(e?: T) {
+export function getEventPath<T extends PolymerEvent>(e?: T) {
   if (!e) return '';
 
   let path = e.composedPath();

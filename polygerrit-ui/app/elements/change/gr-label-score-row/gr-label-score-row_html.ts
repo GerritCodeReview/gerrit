@@ -53,27 +53,25 @@ export const htmlTemplate = html`
       );
       padding: 0 var(--spacing-m);
     }
-    gr-tooltip-content.iron-selected > gr-button[vote='max'] {
+    gr-button.iron-selected[vote='max'] {
       --button-background-color: var(--vote-color-approved);
     }
-    gr-tooltip-content.iron-selected > gr-buttonvote='positive'] {
+    gr-button.iron-selected[vote='positive'] {
       --button-background-color: var(--vote-color-recommended);
     }
-    gr-tooltip-content.iron-selected > gr-button[vote='min'] {
+    gr-button.iron-selected[vote='min'] {
       --button-background-color: var(--vote-color-rejected);
     }
-    gr-tooltip-content.iron-selected > gr-button[vote='negative'] {
+    gr-button.iron-selected[vote='negative'] {
       --button-background-color: var(--vote-color-disliked);
     }
-    gr-tooltip-content.iron-selected > gr-button[vote='neutral'] {
+    gr-button.iron-selected[vote='neutral'] {
       --button-background-color: var(--vote-color-neutral);
     }
-    gr-tooltip-content.iron-selected
-      > gr-button[vote='positive']::part(paper-button) {
+    gr-button.iron-selected[vote='positive']::part(paper-button) {
       border-color: var(--vote-outline-recommended);
     }
-    gr-tooltip-content.iron-selected
-      > gr-button[vote='negative']::part(paper-button) {
+    gr-button.iron-selected[vote='negative']::part(paper-button) {
       border-color: var(--vote-outline-disliked);
     }
     .placeholder {
@@ -118,20 +116,17 @@ export const htmlTemplate = html`
       aria-labelledby="labelName"
     >
       <template is="dom-repeat" items="[[_items]]" as="value">
-        <gr-tooltip-content
+        <gr-button
+          role="radio"
+          vote$="[[_computeVoteAttribute(value, index, _items.length)]]"
+          vote-chip
           has-tooltip=""
-          title$="[[_computeLabelValueTitle(labels, label.name, value)]]"
           data-name$="[[label.name]]"
           data-value$="[[value]]"
+          title$="[[_computeLabelValueTitle(labels, label.name, value)]]"
         >
-          <gr-button
-            role="radio"
-            vote="[[_computeVoteAttribute(value, index, _items.length)]]"
-            voteChip
-          >
-            [[value]]
-          </gr-button>
-        </gr-tooltip-content>
+          [[value]]</gr-button
+        >
       </template>
     </iron-selector>
     <template

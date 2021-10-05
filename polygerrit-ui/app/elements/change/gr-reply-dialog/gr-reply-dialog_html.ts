@@ -441,26 +441,23 @@ export const htmlTemplate = html`
                 ></gr-account-label>
               </template>
             </template>
-            <gr-tooltip-content
+            <gr-button
+              class="edit-attention-button"
+              on-click="_handleAttentionModify"
+              disabled="[[_sendDisabled]]"
+              link=""
+              position-below=""
+              data-label="Edit"
+              data-action-type="change"
+              data-action-key="edit"
               has-tooltip=""
               title="[[_computeAttentionButtonTitle(_sendDisabled)]]"
+              role="button"
+              tabindex="0"
             >
-              <gr-button
-                class="edit-attention-button"
-                on-click="_handleAttentionModify"
-                disabled="[[_sendDisabled]]"
-                link=""
-                position-below=""
-                data-label="Edit"
-                data-action-type="change"
-                data-action-key="edit"
-                role="button"
-                tabindex="0"
-              >
-                <iron-icon icon="gr-icons:edit"></iron-icon>
-                Modify
-              </gr-button>
-            </gr-tooltip-content>
+              <iron-icon icon="gr-icons:edit"></iron-icon>
+              Modify
+            </gr-button>
           </div>
           <div>
             <a
@@ -615,32 +612,26 @@ export const htmlTemplate = html`
             <!-- Use 'Send' here as the change may only about reviewers / ccs
                 and when this button is visible, the next button will always
                 be 'Start review' -->
-            <gr-tooltip-content
+            <gr-button
+              link=""
+              disabled="[[_isState(knownLatestState, 'not-latest')]]"
+              class="action save"
               has-tooltip=""
-              title$="[[_saveTooltip]]"
+              title="[[_saveTooltip]]"
+              on-click="_saveClickHandler"
+              >Send As WIP</gr-button
             >
-              <gr-button
-                link=""
-                disabled="[[_isState(knownLatestState, 'not-latest')]]"
-                class="action save"
-                on-click="_saveClickHandler"
-                >Send As WIP</gr-button
-              >
-            </gr-tooltip-content>
           </template>
-          <gr-tooltip-content
+          <gr-button
+            id="sendButton"
+            primary=""
+            disabled="[[_sendDisabled]]"
+            class="action send"
             has-tooltip=""
             title$="[[_computeSendButtonTooltip(canBeStarted, _commentEditing)]]"
+            on-click="_sendTapHandler"
+            >[[_sendButtonLabel]]</gr-button
           >
-            <gr-button
-              id="sendButton"
-              primary=""
-              disabled="[[_sendDisabled]]"
-              class="action send"
-              on-click="_sendTapHandler"
-              >[[_sendButtonLabel]]
-            </gr-button>
-          </gr-tooltip-content>
         </div>
       </section>
     </div>

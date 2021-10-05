@@ -30,34 +30,28 @@ export const htmlTemplate = html`
       width: 1.3rem;
     }
   </style>
-  <gr-tooltip-content
+  <gr-button
+    id="sideBySideBtn"
+    link=""
     has-tooltip=""
-    title="Side-by-side diff"
     position-below="[[showTooltipBelow]]"
+    class$="[[_computeSideBySideSelected(mode)]]"
+    title="Side-by-side diff"
+    aria-pressed$="[[isSideBySideSelected(mode)]]"
+    on-click="_handleSideBySideTap"
   >
-    <gr-button
-      id="sideBySideBtn"
-      link=""
-      class$="[[_computeSideBySideSelected(mode)]]"
-      aria-pressed$="[[isSideBySideSelected(mode)]]"
-      on-click="_handleSideBySideTap"
-    >
-      <iron-icon icon="gr-icons:side-by-side"></iron-icon>
-    </gr-button>
-  </gr-tooltip-content>
-  <gr-tooltip-content
+    <iron-icon icon="gr-icons:side-by-side"></iron-icon>
+  </gr-button>
+  <gr-button
+    id="unifiedBtn"
+    link=""
     has-tooltip=""
     position-below="[[showTooltipBelow]]"
     title="Unified diff"
+    class$="[[_computeUnifiedSelected(mode)]]"
+    aria-pressed$="[[isUnifiedSelected(mode)]]"
+    on-click="_handleUnifiedTap"
   >
-    <gr-button
-      id="unifiedBtn"
-      link=""
-      class$="[[_computeUnifiedSelected(mode)]]"
-      aria-pressed$="[[isUnifiedSelected(mode)]]"
-      on-click="_handleUnifiedTap"
-    >
-      <iron-icon icon="gr-icons:unified"></iron-icon>
-    </gr-button>
-  </gr-tooltip-content>
+    <iron-icon icon="gr-icons:unified"></iron-icon>
+  </gr-button>
 `;

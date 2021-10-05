@@ -125,7 +125,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
           .querySelector('[data-action-key="' + key + '"]'));
     });
 
-    test('action button properties', async () => {
+    test('action button properties', () => {
       const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
       flush();
       const button = element.shadowRoot
@@ -137,17 +137,17 @@ suite('gr-change-actions-js-api-interface tests', () => {
       changeActions.setTitle(key, 'Yo hint');
       changeActions.setEnabled(key, false);
       changeActions.setIcon(key, 'pupper');
-      await flush();
+      flush();
       assert.equal(button.getAttribute('data-label'), 'Yo');
-      assert.equal(button.parentElement.getAttribute('title'), 'Yo hint');
+      assert.equal(button.getAttribute('title'), 'Yo hint');
       assert.isTrue(button.disabled);
       assert.equal(button.querySelector('iron-icon').icon,
           'gr-icons:pupper');
     });
 
-    test('hide action buttons', async () => {
+    test('hide action buttons', () => {
       const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
-      await flush();
+      flush();
       let button = element.shadowRoot
           .querySelector('[data-action-key="' + key + '"]');
       assert.isOk(button);
@@ -168,7 +168,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
           .querySelector('[data-action-key="' + key + '"]'));
       changeActions.setActionOverflow(
           changeActions.ActionType.REVISION, key, true);
-      await flush();
+      flush();
       assert.isNotOk(element.shadowRoot
           .querySelector('[data-action-key="' + key + '"]'));
       assert.isFalse(element.$.moreActions.hidden);

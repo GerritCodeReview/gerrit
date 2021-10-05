@@ -140,7 +140,7 @@ suite('gr-group-members tests', () => {
     'https://test/site/group/url');
   });
 
-  test('save members correctly', async () => {
+  test('save members correctly', () => {
     element._groupOwner = true;
 
     const memberName = 'test-admin';
@@ -155,7 +155,6 @@ suite('gr-group-members tests', () => {
     element.$.groupMemberSearchInput.text = memberName;
     element.$.groupMemberSearchInput.value = 1234;
 
-    await flush();
     assert.isFalse(button.hasAttribute('disabled'));
 
     return element._handleSavingGroupMember().then(() => {
@@ -166,7 +165,7 @@ suite('gr-group-members tests', () => {
     });
   });
 
-  test('save included groups correctly', async () => {
+  test('save included groups correctly', () => {
     element._groupOwner = true;
 
     const includedGroupName = 'testName';
@@ -180,7 +179,7 @@ suite('gr-group-members tests', () => {
 
     element.$.includedGroupSearchInput.text = includedGroupName;
     element.$.includedGroupSearchInput.value = 'testId';
-    await flush();
+
     assert.isFalse(button.hasAttribute('disabled'));
 
     return element._handleSavingIncludedGroups().then(() => {

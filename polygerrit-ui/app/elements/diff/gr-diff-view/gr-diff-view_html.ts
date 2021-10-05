@@ -354,15 +354,15 @@ export const htmlTemplate = html`
           hidden=""
         >
           <span class="preferences desktop">
-            <gr-tooltip-content
+            <gr-button
+              link=""
+              class="prefsButton"
               has-tooltip=""
               position-below=""
               title="Diff preferences"
-            >
-              <gr-button link="" class="prefsButton" on-click="_handlePrefsTap"
-                ><iron-icon icon="gr-icons:settings"></iron-icon
-              ></gr-button>
-            </gr-tooltip-content>
+              on-click="_handlePrefsTap"
+              ><iron-icon icon="gr-icons:settings"></iron-icon
+            ></gr-button>
           </span>
         </span>
         <gr-endpoint-decorator name="annotation-toggler">

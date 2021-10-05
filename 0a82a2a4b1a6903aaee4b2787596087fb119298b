@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdf951aa_1b73cd07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-05T17:52:52Z",
+      "side": 1,
+      "message": "400ms of CPU-time",
+      "range": {
+        "startLine": 25,
+        "startChar": 57,
+        "endLine": 26,
+        "endChar": 10
+      },
+      "revId": "0a82a2a4b1a6903aaee4b2787596087fb119298b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efe090e4_cccd1277",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-05T17:52:52Z",
+      "side": 1,
+      "message": "True, even though if you implement the cache on the client-side, the chances of stale data are only if you switch between clients, which is a minor defect IMHO rather than occupying 400ms of CPU time per client accessing Gerrit.\n\nIf the call wasn\u0027t associated to the dashboard, I would be less worries about it.",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 35
+      },
+      "revId": "0a82a2a4b1a6903aaee4b2787596087fb119298b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3cec3da_6c2d1376",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-05T17:52:52Z",
+      "side": 1,
+      "message": "Good stuff thinking about a smooth migration path 👍",
+      "range": {
+        "startLine": 35,
+        "startChar": 16,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "0a82a2a4b1a6903aaee4b2787596087fb119298b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

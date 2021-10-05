@@ -450,10 +450,6 @@ public class CommentsUtil {
   /**
    * Get NoteDb draft refs for a change.
    *
-   * <p>This is just a simple ref scan, so the results may potentially include refs for zombie draft
-   * comments. A zombie draft is one which has been published but the write to delete the draft ref
-   * from All-Users failed.
-   *
    * @param changeId change ID.
    * @return raw refs from All-Users repo.
    */

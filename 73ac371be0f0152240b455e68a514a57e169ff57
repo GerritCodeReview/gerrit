@@ -39,6 +39,29 @@
       "message": "I did a quick look over it, seems good overall. Thanks for testing the visibility as well. I\u0027ll leave to Martin \u0026 Nasser to +2 if they want to delve into details.\n\n(I wonder if it\u0027s worth it to try to provide ref-hints for the tags as well; not sure if tag visibility is expensive for you.)",
       "revId": "73ac371be0f0152240b455e68a514a57e169ff57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0eb2767_91f72024",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-05T13:35:01Z",
+      "side": 1,
+      "message": "if you want to generalize to multiple commits later on, this data type might be sub-optimal.\n\nyour call.",
+      "range": {
+        "startLine": 1066,
+        "startChar": 4,
+        "endLine": 1066,
+        "endChar": 23
+      },
+      "revId": "73ac371be0f0152240b455e68a514a57e169ff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

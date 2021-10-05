@@ -9,6 +9,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
-        "//lib/commons:lang",
+        "//lib/commons:lang3",
     ],
 )

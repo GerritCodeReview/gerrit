@@ -32,7 +32,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 @NoHttpd

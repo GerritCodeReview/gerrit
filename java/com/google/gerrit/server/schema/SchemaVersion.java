@@ -18,9 +18,11 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.UsedAt;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -33,6 +35,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.SortedSet;
 import java.util.concurrent.TimeUnit;
 
 /** A version of the database schema. */
@@ -46,6 +49,7 @@ public abstract class SchemaVersion {
 
   private final Provider<? extends SchemaVersion> prior;
   private final int versionNbr;
+  private static SortedSet<Project.NameKey> projects;
 
   protected SchemaVersion(Provider<? extends SchemaVersion> prior) {
     this.prior = prior;
@@ -227,5 +231,14 @@ public abstract class SchemaVersion {
   /** Open a new statement executor. */
   protected static JdbcExecutor newExecutor(ReviewDb db) throws OrmException {
     return new JdbcExecutor(((JdbcSchema) db).getConnection());
+  }
+
+  protected static SortedSet<Project.NameKey> getSortedProjectsFromCache(
+      GitRepositoryManager repoManager) {
+    // TODO: Use Injection/Supplier pattern
+    if (projects == null) {
+      projects = repoManager.list();
+    }
+    return projects;
   }
 }

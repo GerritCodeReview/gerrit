@@ -67,7 +67,7 @@ public class Schema_169 extends SchemaVersion {
 
     boolean ok = true;
     ProgressMonitor pm = new TextProgressMonitor();
-    SortedSet<Project.NameKey> projects = repoManager.list();
+    SortedSet<Project.NameKey> projects = getSortedProjectsFromCache(repoManager);
     pm.beginTask("Migrating projects", projects.size());
     int skipped = 0;
     for (Project.NameKey project : projects) {

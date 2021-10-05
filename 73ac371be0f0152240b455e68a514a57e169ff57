@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b85a918_0dba1098",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-05T13:33:57Z",
+      "side": 1,
+      "message": "maybe say something about the last iteration as well (ie. moving it to project level)",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "73ac371be0f0152240b455e68a514a57e169ff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ac64bff_6da1dfe7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-05T13:33:57Z",
+      "side": 1,
+      "message": "I did a quick look over it, seems good overall. Thanks for testing the visibility as well. I\u0027ll leave to Martin \u0026 Nasser to +2 if they want to delve into details.\n\n(I wonder if it\u0027s worth it to try to provide ref-hints for the tags as well; not sure if tag visibility is expensive for you.)",
+      "revId": "73ac371be0f0152240b455e68a514a57e169ff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

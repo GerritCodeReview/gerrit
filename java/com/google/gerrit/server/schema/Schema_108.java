@@ -145,7 +145,7 @@ public class Schema_108 extends SchemaVersion {
 
   private SetMultimap<Project.NameKey, Change.Id> getOpenChangesByProject(ReviewDb db, UpdateUI ui)
       throws OrmException {
-    SortedSet<NameKey> projects = repoManager.list();
+    SortedSet<NameKey> projects = getSortedProjectsFromCache(repoManager);
     SortedSet<NameKey> nonExistentProjects = Sets.newTreeSet();
     SetMultimap<Project.NameKey, Change.Id> openByProject =
         MultimapBuilder.hashKeys().hashSetValues().build();

@@ -126,6 +126,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "909fb017_ab4169c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-05T10:07:43Z",
+      "side": 1,
+      "message": "\u003e Prudhvi, do you see any issues with that? If not, do you want to make that update?\ndone. updated the API to projects/$PROJECT/commitin",
+      "parentUuid": "1f8ed516_feaa441f",
+      "revId": "c9931a73e9e6fdb653cf7e28c5ce9ba629287277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbebaa1a_b8278a24",

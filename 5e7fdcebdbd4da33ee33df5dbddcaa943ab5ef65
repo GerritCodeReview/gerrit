@@ -16,6 +16,24 @@
       "message": "Some plugins depend on //lib/commons:lang and need to be migrated first.",
       "revId": "5e7fdcebdbd4da33ee33df5dbddcaa943ab5ef65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf3b4a0b_a7650e38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-05T16:20:42Z",
+      "side": 1,
+      "message": "plugins:\n  * cloud-notifications\n  * copyright\n  * events-rabbitmq\n  * imagare\n  * its-jira\n  * plugin-manager\n  * quota\n  * rabbitmq\n  * slack-integration\n  * supermanifest\n  * x-docs\n  * zookeeper-refdb",
+      "parentUuid": "a53d7a94_7ab7d27f",
+      "revId": "5e7fdcebdbd4da33ee33df5dbddcaa943ab5ef65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

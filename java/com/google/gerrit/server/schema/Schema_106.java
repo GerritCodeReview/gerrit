@@ -64,7 +64,7 @@ public class Schema_106 extends SchemaVersion {
     }
 
     ui.message("listing all repositories ...");
-    SortedSet<Project.NameKey> repoList = repoManager.list();
+    SortedSet<Project.NameKey> repoList = getSortedProjectsFromCache(repoManager);
     ui.message("done");
 
     ui.message(String.format("creating reflog files for %s branches ...", RefNames.REFS_CONFIG));

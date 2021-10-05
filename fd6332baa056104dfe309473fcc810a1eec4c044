@@ -128,6 +128,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ce2dd90_22f04690",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-05T14:47:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c93b9da_cf7c1a5f",
+      "range": {
+        "startLine": 477,
+        "startChar": 0,
+        "endLine": 478,
+        "endChar": 62
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d97063f_1c133d64",
@@ -477,6 +501,54 @@
       "side": 1,
       "message": "\u003e there wasn\u0027t more discussion/concern back in 2.15 when this happened, but maybe caches there covered it up?\n\nhindsight is 20/20, but in retrospect, it\u0027s not obvious to me that account \u0026 group data should have been migrated to Git in the first place: since the storage is in a separate repository, you never get atomic updates wrt updates to the code repos, which was the primary motivation for NoteDb. In exchange, we now have to worry about lots of limitations of the \"database\" in our account system.",
       "parentUuid": "1c246359_85ce19d4",
+      "range": {
+        "startLine": 494,
+        "startChar": 45,
+        "endLine": 495,
+        "endChar": 89
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "575aa441_5c17708f",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-05T14:47:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f19ddd52_fc756310",
+      "range": {
+        "startLine": 494,
+        "startChar": 45,
+        "endLine": 495,
+        "endChar": 89
+      },
+      "revId": "fd6332baa056104dfe309473fcc810a1eec4c044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d4e2d2a_400891ec",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-05T14:47:02Z",
+      "side": 1,
+      "message": "Done\nAdded the general plan to the commit message.\nFor now, while we still are discussing solutions, we\u0027re only enabling it with a feature flag.",
+      "parentUuid": "f19ddd52_fc756310",
       "range": {
         "startLine": 494,
         "startChar": 45,

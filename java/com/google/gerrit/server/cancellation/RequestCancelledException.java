@@ -17,7 +17,7 @@ package com.google.gerrit.server.cancellation;
 import com.google.common.base.Throwables;
 import com.google.gerrit.common.Nullable;
 import java.util.Optional;
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 /** Exception to signal that the current request is cancelled and should be aborted. */
 public class RequestCancelledException extends RuntimeException {

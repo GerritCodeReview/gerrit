@@ -41,7 +41,7 @@ DEPLOY_ENV = [
     "//lib:jgit",
     "//lib:jgit-ssh-apache",
     "//lib/commons:compress",
-    "//lib/commons:lang",
+    "//lib/commons:lang3",
     "//lib/flogger:api",
     "//lib/guice",
     "//lib/guice:guice-assistedinject",

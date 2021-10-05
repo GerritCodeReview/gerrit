@@ -80,6 +80,30 @@
       },
       "revId": "73ac371be0f0152240b455e68a514a57e169ff57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8aece651_6148ec57",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-05T17:33:29Z",
+      "side": 1,
+      "message": "Right. We could update the API name to /projects/{project-name}/commitsin \nand send out a map with commitId as key and list of refs as value.\nAnd later add support for multiple commits.\n\nHandling different cases(for this change):\n1. invalid input commit sha1\n    - return 404 not found\n2. non of the input refs are valid or visible\n    - return empty map\n3. all/few of the input refs are valid and visible\n    a. commit exists and reachable from one or more visible refs\n        - returns commitId as key with list of reachable refs.\n    b. commit does not exist\n        - map will not contain the commitId\n    c. commit exist and not reachable from any visible refs\n        - map will not contain the commitId\n        \nShall I update this change accordingly ..?",
+      "parentUuid": "f0eb2767_91f72024",
+      "range": {
+        "startLine": 1066,
+        "startChar": 4,
+        "endLine": 1066,
+        "endChar": 23
+      },
+      "revId": "73ac371be0f0152240b455e68a514a57e169ff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

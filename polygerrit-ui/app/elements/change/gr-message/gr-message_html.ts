@@ -132,7 +132,7 @@ export const htmlTemplate = html`
     }
     .dateContainer .patchsetDiffButton {
       margin-right: var(--spacing-m);
-      --padding: 0 var(--spacing-m);
+      --gr-button-padding: 0 var(--spacing-m);
     }
     span.date {
       color: var(--deemphasized-text-color);

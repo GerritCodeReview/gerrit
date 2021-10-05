@@ -24,11 +24,6 @@ export const htmlTemplate = html`
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
   <style include="gr-page-nav-styles">
-    gr-dropdown-list {
-      --trigger-style: {
-        text-transform: none;
-      }
-    }
     .breadcrumbText {
       /* Same as dropdown trigger so chevron spacing is consistent. */
       padding: 5px 4px;

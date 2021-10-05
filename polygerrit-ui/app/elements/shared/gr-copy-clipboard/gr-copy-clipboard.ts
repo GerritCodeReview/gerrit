@@ -81,29 +81,19 @@ export class GrCopyClipboard extends LitElement {
         iron-icon {
           color: var(--deemphasized-text-color);
           vertical-align: top;
+          --iron-icon-height: 20px;
+          --iron-icon-width: 20px;
+        }
+        gr-button {
+          display: block;
+          --gr-button-padding: 2px;
         }
       `,
     ];
   }
 
   override render() {
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const customStyle = html`
-      <style>
-        iron-icon {
-          --iron-icon-height: 20px;
-          --iron-icon-width: 20px;
-        }
-        gr-button {
-          --gr-button: {
-            padding: 2px;
-          }
-        }
-      </style>
-    `;
-    return html`${customStyle}
+    return html`
       <div class="text">
         <iron-input
           class="copyText"
@@ -137,7 +127,8 @@ export class GrCopyClipboard extends LitElement {
             <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
           </gr-button>
         </gr-tooltip-content>
-      </div> `;
+      </div>
+    `;
   }
 
   focusOnCopy() {

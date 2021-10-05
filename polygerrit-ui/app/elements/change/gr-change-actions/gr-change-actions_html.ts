@@ -33,6 +33,9 @@ export const htmlTemplate = html`
       /* px because don't have the same font size */
       margin-left: 8px;
     }
+    gr-button {
+      display: block;
+    }
     #actionLoadingMessage {
       align-items: center;
       color: var(--deemphasized-text-color);
@@ -57,10 +60,8 @@ export const htmlTemplate = html`
         flex-wrap: wrap;
       }
       gr-button {
-        --gr-button: {
-          padding: var(--spacing-m);
-          white-space: nowrap;
-        }
+        --gr-button-padding: var(--spacing-m);
+        white-space: nowrap;
       }
       gr-button,
       gr-dropdown {

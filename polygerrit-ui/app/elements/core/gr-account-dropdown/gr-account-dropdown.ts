@@ -82,6 +82,7 @@ export class GrAccountDropdown extends LitElement {
       css`
         gr-dropdown {
           padding: 0 var(--spacing-m);
+          --gr-button-text-color: var(--header-text-color);
         }
         gr-avatar {
           height: 2em;
@@ -99,9 +100,6 @@ export class GrAccountDropdown extends LitElement {
     const customStyle = html`
       <style>
         gr-dropdown {
-          --gr-button: {
-            color: var(--header-text-color);
-          }
           --gr-dropdown-item: {
             color: var(--primary-text-color);
           }

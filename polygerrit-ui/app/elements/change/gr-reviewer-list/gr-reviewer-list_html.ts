@@ -42,15 +42,13 @@ export const htmlTemplate = html`
       display: inline-block;
     }
     gr-button.addReviewer {
-      --padding: 1px 4px;
+      --gr-button-padding: 1px 0px;
       vertical-align: top;
       top: 1px;
     }
     gr-button {
       line-height: var(--line-height-normal);
-      --gr-button: {
-        padding: 0px 0px;
-      }
+      --gr-button-padding: 0px;
     }
     gr-account-chip {
       line-height: var(--line-height-normal);

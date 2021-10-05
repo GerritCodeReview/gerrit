@@ -33,7 +33,6 @@ export const htmlTemplate = html`
     }
     gr-button {
       vertical-align: top;
-      @apply --gr-button;
     }
     gr-avatar {
       height: 2em;

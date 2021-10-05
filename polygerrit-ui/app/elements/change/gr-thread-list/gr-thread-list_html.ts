@@ -51,11 +51,8 @@ export const htmlTemplate = html`
       margin-right: var(--spacing-s);
     }
     gr-dropdown-list {
-      --trigger-style: {
-        color: var(--primary-text-color);
-        text-transform: none;
-        font-family: var(--font-family);
-      }
+      --trigger-style-text-color: var(--primary-text-color);
+      --trigger-style-font-family: var(--font-family);
     }
     .filter-text, .sort-text, .author-text {
       margin-right: var(--spacing-s);

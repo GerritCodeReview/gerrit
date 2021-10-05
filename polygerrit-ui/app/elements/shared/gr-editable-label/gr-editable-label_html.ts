@@ -72,7 +72,7 @@ export const htmlTemplate = html`
       --iron-icon-width: 18px;
     }
     gr-button.pencil {
-      --padding: 0px 0px;
+      --gr-button-padding: 0px 0px;
     }
   </style>
   <template is="dom-if" if="[[!showAsEditPencil]]">

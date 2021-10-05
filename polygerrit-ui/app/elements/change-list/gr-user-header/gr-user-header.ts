@@ -85,7 +85,7 @@ export class GrUserHeader extends LitElement {
         <div>
           <span>Joined:</span>
           <gr-date-formatter
-            date-str="${this._computeDetail(
+            .dateStr="${this._computeDetail(
               this._accountDetails,
               'registered_on'
             )}"

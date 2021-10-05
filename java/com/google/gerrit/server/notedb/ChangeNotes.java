@@ -32,7 +32,6 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
@@ -523,12 +522,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(
       Account.Id author, @Nullable Ref ref) {
     loadDraftComments(author, ref);
-    // Filter out any zombie draft comments. These are drafts that are also in
-    // the published map, and arise when the update to All-Users to delete them
-    // during the publish operation failed.
-    return ImmutableListMultimap.copyOf(
-        Multimaps.filterEntries(
-            draftCommentNotes.getComments(), e -> !getCommentKeys().contains(e.getValue().key)));
+    return draftCommentNotes.getComments();
   }
 
   public ImmutableListMultimap<ObjectId, RobotComment> getRobotComments() {

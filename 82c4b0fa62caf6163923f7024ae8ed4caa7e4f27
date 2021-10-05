@@ -56,6 +56,52 @@
       "message": "This should likely describe the policy for selecting thread counts. Probably needs  a doc update also with the same.",
       "revId": "82c4b0fa62caf6163923f7024ae8ed4caa7e4f27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "564985ef_f9364ba7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-05T21:45:14Z",
+      "side": 1,
+      "message": "Name this something that tells us what it does. \"removePushTagForcePerms\" ?",
+      "range": {
+        "startLine": 79,
+        "startChar": 15,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "82c4b0fa62caf6163923f7024ae8ed4caa7e4f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9a03168_5dd66618",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_131.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-05T21:45:14Z",
+      "side": 1,
+      "message": "Name this better: \"renamePushTagPermissions\" ?",
+      "range": {
+        "startLine": 79,
+        "startChar": 15,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "82c4b0fa62caf6163923f7024ae8ed4caa7e4f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

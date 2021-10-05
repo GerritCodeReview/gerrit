@@ -10,7 +10,7 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
         ":project",
         ":push_tag_util",
         ":refassert",
-        "//lib/commons:lang",
+        "//lib/commons:lang3",
     ],
 ) for f in glob(["*IT.java"])]
 

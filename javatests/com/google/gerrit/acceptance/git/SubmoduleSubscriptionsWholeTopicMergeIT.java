@@ -36,7 +36,7 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.ArrayDeque;
 import java.util.Map;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;

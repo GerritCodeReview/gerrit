@@ -17,7 +17,7 @@ java_library(
         "//lib:jgit-junit",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
-        "//lib/commons:lang",
+        "//lib/commons:lang3",
         "//lib/guice",
     ],
 )

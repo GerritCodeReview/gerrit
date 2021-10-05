@@ -306,12 +306,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "commons-lang",
-    artifact = "commons-lang:commons-lang:2.6",
-    sha1 = "0ce1edb914c94ebc388f086c6827e8bdeec71ac2",
-)
-
-maven_jar(
     name = "commons-lang3",
     artifact = "org.apache.commons:commons-lang3:3.8.1",
     sha1 = "6505a72a097d9270f7a9e7bf42c4238283247755",

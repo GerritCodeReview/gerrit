@@ -15,12 +15,6 @@ java_library(
 )
 
 java_library(
-    name = "lang",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@commons-lang//jar"],
-)
-
-java_library(
     name = "lang3",
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@commons-lang3//jar"],

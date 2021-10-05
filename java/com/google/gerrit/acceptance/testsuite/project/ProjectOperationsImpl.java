@@ -44,7 +44,7 @@ import com.google.gerrit.server.project.ProjectCreator;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;

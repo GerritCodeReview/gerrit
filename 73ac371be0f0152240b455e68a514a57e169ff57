@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f1b6349_112e1407",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-05T16:55:57Z",
+      "side": 1,
+      "message": "\u003e (I wonder if it\u0027s worth it to try to provide ref-hints for the tags as well; not sure if tag visibility is expensive for you.)\ncould you kindly elaborate on what \"ref-hints\" mean..?",
+      "parentUuid": "6ac64bff_6da1dfe7",
+      "revId": "73ac371be0f0152240b455e68a514a57e169ff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0eb2767_91f72024",

@@ -22,6 +22,30 @@
       },
       "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e8555c8_cb1bbe5d",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-05T21:04:43Z",
+      "side": 1,
+      "message": "Yes, but I\u0027m not sure why this is needed (it was from Han-Wen\u0027s change). There\u0027s already a \u0027shouldExist\u0027 boolean in ChangeNotes that seems to have a similar purpose. Maybe they can be consolidated?",
+      "parentUuid": "6d0bff0a_612202c4",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 61
+      },
+      "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

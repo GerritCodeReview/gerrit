@@ -52,7 +52,7 @@ public class Schema_131 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    SortedSet<Project.NameKey> repoList = repoManager.list();
+    SortedSet<Project.NameKey> repoList = getSortedProjectsFromCache(repoManager);
     SortedSet<Project.NameKey> repoUpgraded = new TreeSet<>();
     ui.message("\tMigrating " + repoList.size() + " repositories ...");
     for (Project.NameKey projectName : repoList) {

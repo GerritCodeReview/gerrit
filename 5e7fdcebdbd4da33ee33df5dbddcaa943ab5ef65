@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a53d7a94_7ab7d27f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-05T16:04:49Z",
+      "side": 1,
+      "message": "Some plugins depend on //lib/commons:lang and need to be migrated first.",
+      "revId": "5e7fdcebdbd4da33ee33df5dbddcaa943ab5ef65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

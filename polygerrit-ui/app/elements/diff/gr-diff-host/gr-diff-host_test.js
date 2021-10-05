@@ -17,19 +17,16 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-host.js';
-import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {Side, createDefaultDiffPrefs} from '../../../constants/constants.js';
-import {createChange, createCommentThread, createComment} from '../../../test/test-data-generators.js';
-import {CoverageType} from '../../../types/types.js';
-import {
-  addListenerForTest,
-  mockPromise,
-  stubRestApi,
-} from '../../../test/test-utils.js';
-import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
+import {createDefaultDiffPrefs, Side} from '../../../constants/constants.js';
 import {_testOnly_resetState} from '../../../services/comments/comments-model.js';
+import {createChange, createComment, createCommentThread} from '../../../test/test-data-generators.js';
+import {addListenerForTest, mockPromise, stubRestApi} from '../../../test/test-utils.js';
+import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
+import {CoverageType} from '../../../types/types.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -1172,8 +1169,8 @@ suite('gr-diff-host tests', () => {
         },
       }));
 
-      const threads = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
+      const threads =
+          dom(element.$.diff).queryDistributedElements('gr-comment-thread');
 
       assert.equal(threads.length, 1);
       assert.equal(threads[0].diffSide, diffSide);
@@ -1196,8 +1193,8 @@ suite('gr-diff-host tests', () => {
         },
       }));
 
-      const threads = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
+      const threads =
+          dom(element.$.diff).queryDistributedElements('gr-comment-thread');
       assert.equal(threads.length, 0);
       assert.isTrue(alertSpy.called);
     });

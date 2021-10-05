@@ -1100,12 +1100,6 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
 
 /** The interface corresponding to KeyboardShortcutMixin */
 export interface KeyboardShortcutMixinInterface {
-  Shortcut: typeof Shortcut;
-  ShortcutSection: typeof ShortcutSection;
-  _shortcut_go_key_last_pressed: number | null;
-  _shortcut_v_key_last_pressed: number | null;
-  _shortcut_go_table: Map<string, string>;
-  _shortcut_v_table: Map<string, string>;
   keyboardShortcuts(): {[key: string]: string | null};
   createTitle(name: Shortcut, section: ShortcutSection): string;
   bindShortcut(shortcut: Shortcut, ...bindings: string[]): void;

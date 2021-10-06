@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7d7afb2_d325b8a0",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T21:55:42Z",
+      "side": 1,
+      "message": "I understand the reasoning behind this and that this is probably the cleanest solution. But I wish it wasn\u0027t part of the main spec that\u0027s used in non-testing code.\n\nOne option would be to have a \n```\nfunction _testOnly_getTestInterface(input: KeyboardShortcutMixin) \u003d\u003e KeyboardShortcutMixinInteraceTesting {\n  return input as any as KeyboardShortcutMixinInteraceTesting;\n}\n```",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c17e549_43b8a90c",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T21:55:42Z",
+      "side": 1,
+      "message": "Invert condition and terminate early with return false.",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4a961d1_bf7e9e0a",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T21:55:42Z",
+      "side": 1,
+      "message": "if (!bindings) return \u0027\u0027",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4e1ac62_6bfb3ec0",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T21:55:42Z",
+      "side": 1,
+      "message": "return binding ? binding.text : \u0027\u0027;",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f8d5fd7_731435be",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T21:55:42Z",
+      "side": 1,
+      "message": "This is probably easier to read with an if\n\nif (!bindings) return \u0027\u0027;\nreturn bindings\n          .map(binding \u003d\u003e this.describeBinding(binding).join(\u0027+\u0027))\n          .join(\u0027,\u0027);",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd335dea_d1421498",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T21:55:42Z",
+      "side": 1,
+      "message": "Use SectionView type",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaae6dd0_54acaf01",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T21:55:42Z",
+      "side": 1,
+      "message": "This is really misnomered, it\u0027s G_KEY :)",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1842283_9e35d557",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T21:55:42Z",
+      "side": 1,
+      "message": "For my own edification, what\u0027s the : for and why do we only keep the first part?",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

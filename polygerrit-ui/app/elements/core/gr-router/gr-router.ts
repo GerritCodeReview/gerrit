@@ -530,9 +530,14 @@ export class GrRouter extends PolymerElement {
       range = '/' + range;
     }
     let suffix = `${range}`;
+    if (params.forceReload) {
+      if (params.querystring) params.querystring += '&forceReload=true';
+      else params.querystring = 'forceReload=true';
+    }
     if (params.querystring) {
       suffix += '?' + params.querystring;
-    } else if (params.edit) {
+    }
+    if (params.edit) {
       suffix += ',edit';
     }
     if (params.messageHash) {
@@ -1563,8 +1568,19 @@ export class GrRouter extends PolymerElement {
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
       patchNum: convertToPatchSetNum(ctx.params[6]),
       view: GerritView.CHANGE,
-      queryMap: ctx.queryMap,
     };
+
+    if (ctx.queryMap.has('forceReload')) {
+      params.forceReload = true;
+      history.replaceState(
+        null,
+        '',
+        location.href.replace(/[?&]forceReload=true/, '')
+      );
+    }
+
+    const tab = ctx.queryMap.get('tab');
+    if (tab) params.tab = tab;
 
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);

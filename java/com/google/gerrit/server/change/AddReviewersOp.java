@@ -219,8 +219,13 @@ public class AddReviewersOp extends ReviewerOp {
               .map(r -> accountCache.get(r.accountId()))
               .flatMap(Streams::stream)
               .collect(toList());
-      reviewerAdded.fire(
-          ctx.getChangeData(change), patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
+      eventSender =
+          () ->
+              reviewerAdded.fire(
+                  ctx.getChangeData(change), patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
+      if (sendEvent) {
+        sendEvent();
+      }
     }
   }
 }

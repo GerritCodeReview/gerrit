@@ -202,16 +202,23 @@ public class DeleteReviewerOp extends ReviewerOp {
             "Cannot email update for change %s", currChange.getId());
       }
     }
-    reviewerDeleted.fire(
-        ctx.getChangeData(currChange),
-        patchSet,
-        accountCache.get(reviewer.id()).orElse(AccountState.forAccount(reviewer)),
-        ctx.getAccount(),
-        mailMessage,
-        newApprovals,
-        oldApprovals,
-        notify.handling(),
-        ctx.getWhen());
+
+    NotifyHandling notifyHandling = notify.handling();
+    eventSender =
+        () ->
+            reviewerDeleted.fire(
+                ctx.getChangeData(currChange),
+                patchSet,
+                accountCache.get(reviewer.id()).orElse(AccountState.forAccount(reviewer)),
+                ctx.getAccount(),
+                mailMessage,
+                newApprovals,
+                oldApprovals,
+                notifyHandling,
+                ctx.getWhen());
+    if (sendEvent) {
+      sendEvent();
+    }
   }
 
   private Iterable<PatchSetApproval> approvals(ChangeContext ctx, Account.Id accountId) {

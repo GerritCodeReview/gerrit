@@ -27,6 +27,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -56,6 +57,8 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.CommentAddedListener;
+import com.google.gerrit.extensions.events.ReviewerAddedListener;
+import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -74,6 +77,7 @@ import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -699,6 +703,61 @@ public class PostReviewIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addingReviewers() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    TestAccount user2 = accountCreator.user2();
+
+    TestReviewerAddedListener testReviewerAddedListener = new TestReviewerAddedListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testReviewerAddedListener)) {
+      // add user and user2
+      ReviewResult reviewResult =
+          gApi.changes()
+              .id(r.getChangeId())
+              .current()
+              .review(ReviewInput.create().reviewer(user.email()).reviewer(user2.email()));
+
+      assertThat(
+              reviewResult.reviewers.values().stream()
+                  .filter(a -> a.reviewers != null)
+                  .map(a -> Iterables.getOnlyElement(a.reviewers).name)
+                  .collect(toImmutableSet()))
+          .containsExactly(user.fullName(), user2.fullName());
+    }
+
+    assertThat(
+            gApi.changes().id(r.getChangeId()).reviewers().stream()
+                .map(a -> a.name)
+                .collect(toImmutableSet()))
+        .containsExactly(user.fullName(), user2.fullName());
+
+    // Ensure only one batch email was sent for this operation
+    FakeEmailSender.Message message = Iterables.getOnlyElement(sender.getMessages());
+    assertThat(message.body())
+        .containsMatch(
+            Pattern.quote("Hello ")
+                + "("
+                + Pattern.quote(String.format("%s, %s", user.fullName(), user2.fullName()))
+                + "|"
+                + Pattern.quote(String.format("%s, %s", user2.fullName(), user.fullName()))
+                + ")");
+    assertThat(message.htmlBody())
+        .containsMatch(
+            "("
+                + Pattern.quote(String.format("%s and %s", user.fullName(), user2.fullName()))
+                + "|"
+                + Pattern.quote(String.format("%s and %s", user2.fullName(), user.fullName()))
+                + ")"
+                + Pattern.quote(" to <strong>review</strong> this change"));
+
+    // Ensure that a batch event has been sent:
+    // * 1 batch event for adding user and user2 as reviewers
+    assertThat(testReviewerAddedListener.receivedEvents).hasSize(1);
+    assertThat(testReviewerAddedListener.getReviewerIds()).containsExactly(user.id(), user2.id());
+  }
+
+  @Test
   public void deletingReviewers() throws Exception {
     PushOneCommit.Result r = createChange();
 
@@ -712,21 +771,25 @@ public class PostReviewIT extends AbstractDaemonTest {
 
     sender.clear();
 
-    // remove user and user2
-    ReviewResult reviewResult =
-        gApi.changes()
-            .id(r.getChangeId())
-            .current()
-            .review(
-                ReviewInput.create()
-                    .reviewer(user.email(), ReviewerState.REMOVED, /* confirmed= */ true)
-                    .reviewer(user2.email(), ReviewerState.REMOVED, /* confirmed= */ true));
+    TestReviewerDeletedListener testReviewerDeletedListener = new TestReviewerDeletedListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testReviewerDeletedListener)) {
+      // remove user and user2
+      ReviewResult reviewResult =
+          gApi.changes()
+              .id(r.getChangeId())
+              .current()
+              .review(
+                  ReviewInput.create()
+                      .reviewer(user.email(), ReviewerState.REMOVED, /* confirmed= */ true)
+                      .reviewer(user2.email(), ReviewerState.REMOVED, /* confirmed= */ true));
 
-    assertThat(
-            reviewResult.reviewers.values().stream()
-                .map(a -> a.removed.name)
-                .collect(toImmutableSet()))
-        .containsExactly(user.fullName(), user2.fullName());
+      assertThat(
+              reviewResult.reviewers.values().stream()
+                  .map(a -> a.removed.name)
+                  .collect(toImmutableSet()))
+          .containsExactly(user.fullName(), user2.fullName());
+    }
 
     assertThat(gApi.changes().id(r.getChangeId()).reviewers()).isEmpty();
 
@@ -748,6 +811,12 @@ public class PostReviewIT extends AbstractDaemonTest {
                 + "|"
                 + Pattern.quote(String.format("%s and %s", user2.fullName(), user.fullName()))
                 + ")");
+
+    // Ensure that events have been sent:
+    // * 2 events for removing user and user2 as reviewers (one event per removed reviewer, batch
+    //   event not available for reviewer removal)
+    assertThat(testReviewerDeletedListener.receivedEvents).hasSize(2);
+    assertThat(testReviewerDeletedListener.getReviewerIds()).containsExactly(user.id(), user2.id());
   }
 
   @Test
@@ -766,30 +835,38 @@ public class PostReviewIT extends AbstractDaemonTest {
 
     sender.clear();
 
-    // remove user and user2 while adding user3 and user4
-    ReviewResult reviewResult =
-        gApi.changes()
-            .id(r.getChangeId())
-            .current()
-            .review(
-                ReviewInput.create()
-                    .reviewer(user.email(), ReviewerState.REMOVED, /* confirmed= */ true)
-                    .reviewer(user2.email(), ReviewerState.REMOVED, /* confirmed= */ true)
-                    .reviewer(user3.email())
-                    .reviewer(user4.email()));
+    TestReviewerAddedListener testReviewerAddedListener = new TestReviewerAddedListener();
+    TestReviewerDeletedListener testReviewerDeletedListener = new TestReviewerDeletedListener();
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(testReviewerAddedListener)
+            .add(testReviewerDeletedListener)) {
+      // remove user and user2 while adding user3 and user4
+      ReviewResult reviewResult =
+          gApi.changes()
+              .id(r.getChangeId())
+              .current()
+              .review(
+                  ReviewInput.create()
+                      .reviewer(user.email(), ReviewerState.REMOVED, /* confirmed= */ true)
+                      .reviewer(user2.email(), ReviewerState.REMOVED, /* confirmed= */ true)
+                      .reviewer(user3.email())
+                      .reviewer(user4.email()));
 
-    assertThat(
-            reviewResult.reviewers.values().stream()
-                .filter(a -> a.removed != null)
-                .map(a -> a.removed.name)
-                .collect(toImmutableSet()))
-        .containsExactly(user.fullName(), user2.fullName());
-    assertThat(
-            reviewResult.reviewers.values().stream()
-                .filter(a -> a.reviewers != null)
-                .map(a -> Iterables.getOnlyElement(a.reviewers).name)
-                .collect(toImmutableSet()))
-        .containsExactly(user3.fullName(), user4.fullName());
+      assertThat(
+              reviewResult.reviewers.values().stream()
+                  .filter(a -> a.removed != null)
+                  .map(a -> a.removed.name)
+                  .collect(toImmutableSet()))
+          .containsExactly(user.fullName(), user2.fullName());
+      assertThat(
+              reviewResult.reviewers.values().stream()
+                  .filter(a -> a.reviewers != null)
+                  .map(a -> Iterables.getOnlyElement(a.reviewers).name)
+                  .collect(toImmutableSet()))
+          .containsExactly(user3.fullName(), user4.fullName());
+    }
 
     assertThat(
             gApi.changes().id(r.getChangeId()).reviewers().stream()
@@ -832,6 +909,15 @@ public class PostReviewIT extends AbstractDaemonTest {
                 + "|"
                 + Pattern.quote(String.format("%s and %s", user2.fullName(), user.fullName()))
                 + ")");
+
+    // Ensure that events have been sent:
+    // * 1 batch event for adding user3 and user4 as reviewers
+    // * 2 events for removing user and user2 as reviewers (one event per removed reviewer, batch
+    //   event not available for reviewer removal)
+    assertThat(testReviewerAddedListener.receivedEvents).hasSize(1);
+    assertThat(testReviewerAddedListener.getReviewerIds()).containsExactly(user3.id(), user4.id());
+    assertThat(testReviewerDeletedListener.receivedEvents).hasSize(2);
+    assertThat(testReviewerDeletedListener.getReviewerIds()).containsExactly(user.id(), user2.id());
   }
 
   @Test
@@ -962,6 +1048,38 @@ public class PostReviewIT extends AbstractDaemonTest {
     public Optional<SubmitRecord> evaluate(ChangeData changeData) {
       count++;
       return Optional.empty();
+    }
+  }
+
+  private static class TestReviewerAddedListener implements ReviewerAddedListener {
+    List<ReviewerAddedListener.Event> receivedEvents = new ArrayList<>();
+
+    @Override
+    public void onReviewersAdded(ReviewerAddedListener.Event event) {
+      receivedEvents.add(event);
+    }
+
+    public ImmutableSet<Account.Id> getReviewerIds() {
+      return receivedEvents.stream()
+          .flatMap(e -> e.getReviewers().stream())
+          .map(accountInfo -> Account.id(accountInfo._accountId))
+          .collect(toImmutableSet());
+    }
+  }
+
+  private static class TestReviewerDeletedListener implements ReviewerDeletedListener {
+    List<ReviewerDeletedListener.Event> receivedEvents = new ArrayList<>();
+
+    @Override
+    public void onReviewerDeleted(ReviewerDeletedListener.Event event) {
+      receivedEvents.add(event);
+    }
+
+    public ImmutableSet<Account.Id> getReviewerIds() {
+      return receivedEvents.stream()
+          .map(ReviewerDeletedListener.Event::getReviewer)
+          .map(accountInfo -> Account.id(accountInfo._accountId))
+          .collect(toImmutableSet());
     }
   }
 }

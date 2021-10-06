@@ -25,6 +25,8 @@ import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
+import com.google.gerrit.extensions.events.ReviewerAddedListener;
+import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
@@ -91,6 +93,8 @@ public class ExtensionRegistry {
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final DynamicSet<PluginPushOption> pluginPushOptions;
   private final DynamicSet<OnPostReview> onPostReviews;
+  private final DynamicSet<ReviewerAddedListener> reviewerAddedListeners;
+  private final DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners;
 
   @Inject
   ExtensionRegistry(
@@ -125,7 +129,9 @@ public class ExtensionRegistry {
       DynamicMap<PluginProjectPermissionDefinition> pluginProjectPermissionDefinitions,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       DynamicSet<PluginPushOption> pluginPushOption,
-      DynamicSet<OnPostReview> onPostReviews) {
+      DynamicSet<OnPostReview> onPostReviews,
+      DynamicSet<ReviewerAddedListener> reviewerAddedListeners,
+      DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -158,6 +164,8 @@ public class ExtensionRegistry {
     this.pluginConfigEntries = pluginConfigEntries;
     this.pluginPushOptions = pluginPushOption;
     this.onPostReviews = onPostReviews;
+    this.reviewerAddedListeners = reviewerAddedListeners;
+    this.reviewerDeletedListeners = reviewerDeletedListeners;
   }
 
   public Registration newRegistration() {
@@ -300,6 +308,14 @@ public class ExtensionRegistry {
 
     public Registration add(OnPostReview onPostReview) {
       return add(onPostReviews, onPostReview);
+    }
+
+    public Registration add(ReviewerAddedListener reviewerAddedListener) {
+      return add(reviewerAddedListeners, reviewerAddedListener);
+    }
+
+    public Registration add(ReviewerDeletedListener reviewerDeletedListener) {
+      return add(reviewerDeletedListeners, reviewerDeletedListener);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

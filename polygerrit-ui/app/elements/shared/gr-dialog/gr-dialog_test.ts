@@ -17,6 +17,7 @@
 
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import '../../../test/common-test-setup-karma';
+import './gr-dialog';
 import {GrDialog} from './gr-dialog';
 import {isHidden, queryAndAssert} from '../../../test/test-utils';
 
@@ -25,8 +26,9 @@ const basicFixture = fixtureFromElement('gr-dialog');
 suite('gr-dialog tests', () => {
   let element: GrDialog;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
   test('events', () => {
@@ -42,56 +44,59 @@ suite('gr-dialog tests', () => {
     assert.equal(cancel.callCount, 1);
   });
 
-  test('confirmOnEnter', () => {
+  test('confirmOnEnter', async () => {
     element.confirmOnEnter = false;
+    await element.updateComplete;
     const handleConfirmStub = sinon.stub(element, '_handleConfirm');
     const handleKeydownSpy = sinon.spy(element, '_handleKeydown');
-    MockInteractions.pressAndReleaseKeyOn(
+    MockInteractions.keyDownOn(
       queryAndAssert(element, 'main'),
       13,
       null,
       'enter'
     );
-    flush();
+    await flush();
 
     assert.isTrue(handleKeydownSpy.called);
     assert.isFalse(handleConfirmStub.called);
 
     element.confirmOnEnter = true;
-    MockInteractions.pressAndReleaseKeyOn(
+    await element.updateComplete;
+
+    MockInteractions.keyDownOn(
       queryAndAssert(element, 'main'),
       13,
       null,
       'enter'
     );
-    flush();
+    await flush();
 
     assert.isTrue(handleConfirmStub.called);
   });
 
   test('resetFocus', () => {
-    const focusStub = sinon.stub(element.$.confirm, 'focus');
+    const focusStub = sinon.stub(element.confirmButton!, 'focus');
     element.resetFocus();
     assert.isTrue(focusStub.calledOnce);
   });
 
   suite('tooltip', () => {
     test('tooltip not added by default', () => {
-      assert.isNull(element.$.confirm.getAttribute('has-tooltip'));
+      assert.isNull(element.confirmButton!.getAttribute('has-tooltip'));
     });
 
-    test('tooltip added if confirm tooltip is passed', () => {
+    test('tooltip added if confirm tooltip is passed', async () => {
       element.confirmTooltip = 'confirm tooltip';
-      flush();
-      assert(element.$.confirm.getAttribute('has-tooltip'));
+      await element.updateComplete;
+      assert(element.confirmButton!.getAttribute('has-tooltip'));
     });
   });
 
-  test('empty cancel label hides cancel btn', () => {
+  test('empty cancel label hides cancel btn', async () => {
     const cancelButton = queryAndAssert(element, '#cancel');
     assert.isFalse(isHidden(cancelButton));
     element.cancelLabel = '';
-    flush();
+    await element.updateComplete;
 
     assert.isTrue(isHidden(cancelButton));
   });

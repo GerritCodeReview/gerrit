@@ -26,15 +26,16 @@ const basicFixture = fixtureFromElement('gr-error-dialog');
 suite('gr-error-dialog tests', () => {
   let element: GrErrorDialog;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
   test('dismiss tap fires event', async () => {
     const dismissCalled = mockPromise();
     element.addEventListener('dismiss', () => dismissCalled.resolve());
     MockInteractions.tap(
-      (queryAndAssert(element, '#dialog') as GrDialog).$.confirm
+      (queryAndAssert(element, '#dialog') as GrDialog).confirmButton!
     );
     await dismissCalled;
   });

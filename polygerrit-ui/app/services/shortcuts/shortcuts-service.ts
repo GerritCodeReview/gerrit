@@ -54,6 +54,12 @@ export class ShortcutsService {
 
   private readonly listeners = new Set<ShortcutListener>();
 
+  createTitle(shortcutName: Shortcut, section: ShortcutSection) {
+    const desc = this.getDescription(section, shortcutName);
+    const shortcut = this.getShortcut(shortcutName);
+    return desc && shortcut ? `${desc} (shortcut: ${shortcut})` : '';
+  }
+
   bindShortcut(shortcut: Shortcut, ...bindings: string[]) {
     this.bindings.set(shortcut, bindings);
   }

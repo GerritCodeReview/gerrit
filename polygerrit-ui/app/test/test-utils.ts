@@ -17,7 +17,6 @@
 import '../types/globals';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/gr-plugin-endpoints';
-import {Shortcut} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {appContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {SinonSpy} from 'sinon';
@@ -48,43 +47,6 @@ export function isHidden(el: Element | undefined | null) {
 export function isVisible(el: Element) {
   assert.ok(el);
   return getComputedStyle(el).getPropertyValue('display') !== 'none';
-}
-
-// Some tests/elements can define its own binding. We want to restore bindings
-// at the end of the test. The TestKeyboardShortcutBinder store bindings in
-// stack, so it is possible to override bindings in nested suites.
-export class TestKeyboardShortcutBinder {
-  private static stack: TestKeyboardShortcutBinder[] = [];
-
-  static push() {
-    const testBinder = new TestKeyboardShortcutBinder();
-    this.stack.push(testBinder);
-    return appContext.shortcutsService;
-  }
-
-  static pop() {
-    const item = this.stack.pop();
-    if (!item) {
-      throw new Error('stack is empty');
-    }
-    item._restoreShortcuts();
-  }
-
-  private readonly originalBinding: Map<Shortcut, string[]>;
-
-  constructor() {
-    this.originalBinding = new Map(
-      appContext.shortcutsService._testOnly_getBindings()
-    );
-  }
-
-  _restoreShortcuts() {
-    const bindings = appContext.shortcutsService._testOnly_getBindings();
-    bindings.clear();
-    this.originalBinding.forEach((value, key) => {
-      bindings.set(key, value);
-    });
-  }
 }
 
 // Provide reset plugins function to clear installed plugins between tests.

@@ -19,12 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-search-bar';
 import '../../../scripts/util';
 import {GrSearchBar} from './gr-search-bar';
-import {
-  TestKeyboardShortcutBinder,
-  stubRestApi,
-  mockPromise,
-} from '../../../test/test-utils';
-import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {stubRestApi, mockPromise} from '../../../test/test-utils';
 import {_testOnly_clearDocsBaseUrlCache} from '../../../utils/url-util';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {
@@ -38,15 +33,6 @@ const basicFixture = fixtureFromElement('gr-search-bar');
 
 suite('gr-search-bar tests', () => {
   let element: GrSearchBar;
-
-  suiteSetup(() => {
-    const kb = TestKeyboardShortcutBinder.push();
-    kb.bindShortcut(Shortcut.SEARCH, '/');
-  });
-
-  suiteTeardown(() => {
-    TestKeyboardShortcutBinder.pop();
-  });
 
   setup(async () => {
     element = basicFixture.instantiate();

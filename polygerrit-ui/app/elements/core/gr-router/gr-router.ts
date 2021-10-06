@@ -178,7 +178,7 @@ const RoutePattern = {
   CHANGE_ID_QUERY: /^\/id\/(I[0-9a-f]{40})$/,
 
   // Matches /c/<changeNum>/[*][/].
-  CHANGE_LEGACY: /^\/c\/(\d+)\/(.*)$/,
+  CHANGE_LEGACY: /^\/c\/(\d+)\/?(.*)$/,
   CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
   // Matches

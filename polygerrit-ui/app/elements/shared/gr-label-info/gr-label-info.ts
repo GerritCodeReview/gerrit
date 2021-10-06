@@ -24,7 +24,9 @@ import '../gr-icons/gr-icons';
 import '../gr-label/gr-label';
 import '../gr-tooltip-content/gr-tooltip-content';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-label-info_html';
+import {customElement, property} from '@polymer/decorators';
 import {
   AccountInfo,
   LabelInfo,
@@ -349,7 +351,7 @@ export class GrLabelInfo extends LitElement {
           return;
         }
         if (this.change) {
-          GerritNav.navigateToChange(this.change);
+          fireReload(this);
         }
       })
       .catch(err => {

@@ -122,12 +122,12 @@ suite('gr-edit-controls tests', () => {
   });
 
   suite('delete button CUJ', () => {
-    let navStub: sinon.SinonStub;
+    let eventStub: sinon.SinonStub;
     let deleteStub: sinon.SinonStub;
     let deleteAutocomplete: GrAutocomplete;
 
     setup(() => {
-      navStub = sinon.stub(GerritNav, 'navigateToChange');
+      eventStub = sinon.stub(element, 'dispatchEvent');
       deleteStub = stubRestApi('deleteFileInChangeEdit');
       deleteAutocomplete =
         element.$.deleteDialog!.querySelector('gr-autocomplete')!;
@@ -155,7 +155,7 @@ suite('gr-edit-controls tests', () => {
 
         return deleteStub.lastCall.returnValue.then(() => {
           assert.equal(element._path, '');
-          assert.isTrue(navStub.called);
+          assert.equal(eventStub.firstCall.args[0].type, 'reload');
           assert.isTrue(closeDialogSpy.called);
         });
       });
@@ -182,7 +182,7 @@ suite('gr-edit-controls tests', () => {
         assert.isTrue(deleteStub.called);
 
         return deleteStub.lastCall.returnValue.then(() => {
-          assert.isFalse(navStub.called);
+          assert.isFalse(eventStub.called);
           assert.isFalse(closeDialogSpy.called);
         });
       });
@@ -198,7 +198,7 @@ suite('gr-edit-controls tests', () => {
         MockInteractions.tap(
           queryAndAssert(element.$.deleteDialog, 'gr-button')
         );
-        assert.isFalse(navStub.called);
+        assert.isFalse(eventStub.called);
         assert.isTrue(closeDialogSpy.called);
         assert.equal(element._path, '');
       });
@@ -206,12 +206,12 @@ suite('gr-edit-controls tests', () => {
   });
 
   suite('rename button CUJ', () => {
-    let navStub: sinon.SinonStub;
+    let eventStub: sinon.SinonStub;
     let renameStub: sinon.SinonStub;
     let renameAutocomplete: GrAutocomplete;
 
     setup(() => {
-      navStub = sinon.stub(GerritNav, 'navigateToChange');
+      eventStub = sinon.stub(element, 'dispatchEvent');
       renameStub = stubRestApi('renameFileInChangeEdit');
       renameAutocomplete =
         element.$.renameDialog!.querySelector('gr-autocomplete')!;
@@ -243,7 +243,7 @@ suite('gr-edit-controls tests', () => {
 
         return renameStub.lastCall.returnValue.then(() => {
           assert.equal(element._path, '');
-          assert.isTrue(navStub.called);
+          assert.equal(eventStub.firstCall.args[0].type, 'reload');
           assert.isTrue(closeDialogSpy.called);
         });
       });
@@ -274,7 +274,7 @@ suite('gr-edit-controls tests', () => {
         assert.isTrue(renameStub.called);
 
         return renameStub.lastCall.returnValue.then(() => {
-          assert.isFalse(navStub.called);
+          assert.isFalse(eventStub.called);
           assert.isFalse(closeDialogSpy.called);
         });
       });
@@ -291,7 +291,7 @@ suite('gr-edit-controls tests', () => {
         MockInteractions.tap(
           queryAndAssert(element.$.renameDialog, 'gr-button')
         );
-        assert.isFalse(navStub.called);
+        assert.isFalse(eventStub.called);
         assert.isTrue(closeDialogSpy.called);
         assert.equal(element._path, '');
         assert.equal(element._newPath, '');
@@ -300,11 +300,11 @@ suite('gr-edit-controls tests', () => {
   });
 
   suite('restore button CUJ', () => {
-    let navStub: sinon.SinonStub;
+    let eventStub: sinon.SinonStub;
     let restoreStub: sinon.SinonStub;
 
     setup(() => {
-      navStub = sinon.stub(GerritNav, 'navigateToChange');
+      eventStub = sinon.stub(element, 'dispatchEvent');
       restoreStub = stubRestApi('restoreFileInChangeEdit');
     });
 
@@ -328,7 +328,7 @@ suite('gr-edit-controls tests', () => {
         assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
         return restoreStub.lastCall.returnValue.then(() => {
           assert.equal(element._path, '');
-          assert.isTrue(navStub.called);
+          assert.equal(eventStub.firstCall.args[0].type, 'reload');
           assert.isTrue(closeDialogSpy.called);
         });
       });
@@ -347,7 +347,7 @@ suite('gr-edit-controls tests', () => {
         assert.isTrue(restoreStub.called);
         assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
         return restoreStub.lastCall.returnValue.then(() => {
-          assert.isFalse(navStub.called);
+          assert.isFalse(eventStub.called);
           assert.isFalse(closeDialogSpy.called);
         });
       });
@@ -360,7 +360,7 @@ suite('gr-edit-controls tests', () => {
         MockInteractions.tap(
           queryAndAssert(element.$.restoreDialog, 'gr-button')
         );
-        assert.isFalse(navStub.called);
+        assert.isFalse(eventStub.called);
         assert.isTrue(closeDialogSpy.called);
         assert.equal(element._path, '');
       });

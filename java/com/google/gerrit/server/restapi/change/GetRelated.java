@@ -14,10 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static java.util.stream.Collectors.toSet;
-
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -29,56 +25,37 @@ import com.google.gerrit.extensions.api.changes.RelatedChangesInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommonConverters;
-import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 public class GetRelated implements RestReadView<RevisionResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final Provider<InternalChangeQuery> queryProvider;
-  private final PatchSetUtil psUtil;
-  private final RelatedChangesSorter sorter;
-  private final IndexConfig indexConfig;
   private final ChangeData.Factory changeDataFactory;
+  private final GetRelatedUtil getRelatedUtil;
 
   @Inject
-  GetRelated(
-      Provider<InternalChangeQuery> queryProvider,
-      PatchSetUtil psUtil,
-      RelatedChangesSorter sorter,
-      IndexConfig indexConfig,
-      ChangeData.Factory changeDataFactory) {
-    this.queryProvider = queryProvider;
-    this.psUtil = psUtil;
-    this.sorter = sorter;
-    this.indexConfig = indexConfig;
+  GetRelated(ChangeData.Factory changeDataFactory, GetRelatedUtil getRelatedUtil) {
     this.changeDataFactory = changeDataFactory;
+    this.getRelatedUtil = getRelatedUtil;
   }
 
   @Override
   public Response<RelatedChangesInfo> apply(RevisionResource rsrc)
-      throws RepositoryNotFoundException, IOException, NoSuchProjectException,
-          PermissionBackendException {
+      throws IOException, NoSuchProjectException, PermissionBackendException {
     RelatedChangesInfo relatedChangesInfo = new RelatedChangesInfo();
     relatedChangesInfo.changes = getRelated(rsrc);
     return Response.ok(relatedChangesInfo);
@@ -86,30 +63,15 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   public List<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)
       throws IOException, PermissionBackendException {
-    Set<String> groups = getAllGroups(rsrc.getNotes(), psUtil);
-    logger.atFine().log("groups = %s", groups);
-    if (groups.isEmpty()) {
-      return Collections.emptyList();
-    }
-
-    List<ChangeData> cds =
-        InternalChangeQuery.byProjectGroups(
-            queryProvider, indexConfig, rsrc.getChange().getProject(), groups);
-    if (cds.isEmpty()) {
-      return Collections.emptyList();
-    }
-    if (cds.size() == 1 && cds.get(0).getId().equals(rsrc.getChange().getId())) {
-      return Collections.emptyList();
-    }
-    List<RelatedChangeAndCommitInfo> result = new ArrayList<>(cds.size());
-
     boolean isEdit = rsrc.getEdit().isPresent();
     PatchSet basePs = isEdit ? rsrc.getEdit().get().getBasePatchSet() : rsrc.getPatchSet();
     logger.atFine().log("isEdit = %s, basePs = %s", isEdit, basePs);
 
-    cds = reloadChangeIfStale(cds, rsrc.getChange(), basePs);
+    List<RelatedChangesSorter.PatchSetData> sortedResult =
+        getRelatedUtil.getRelated(changeDataFactory.create(rsrc.getNotes()), basePs);
 
-    for (RelatedChangesSorter.PatchSetData d : sorter.sort(cds, basePs)) {
+    List<RelatedChangeAndCommitInfo> result = new ArrayList<>(sortedResult.size());
+    for (RelatedChangesSorter.PatchSetData d : sortedResult) {
       PatchSet ps = d.patchSet();
       RevCommit commit;
       if (isEdit && ps.id().equals(basePs.id())) {
@@ -132,37 +94,6 @@ public class GetRelated implements RestReadView<RevisionResource> {
       }
     }
     return result;
-  }
-
-  @VisibleForTesting
-  public static Set<String> getAllGroups(ChangeNotes notes, PatchSetUtil psUtil) {
-    return psUtil.byChange(notes).stream().flatMap(ps -> ps.groups().stream()).collect(toSet());
-  }
-
-  private List<ChangeData> reloadChangeIfStale(
-      List<ChangeData> changeDatasFromIndex, Change wantedChange, PatchSet wantedPs) {
-    checkArgument(
-        wantedChange.getId().equals(wantedPs.id().changeId()),
-        "change of wantedPs (%s) doesn't match wantedChange (%s)",
-        wantedPs.id().changeId(),
-        wantedChange.getId());
-
-    List<ChangeData> changeDatas = new ArrayList<>(changeDatasFromIndex.size() + 1);
-    changeDatas.addAll(changeDatasFromIndex);
-
-    // Reload the change in case the patch set is absent.
-    changeDatas.stream()
-        .filter(
-            cd -> cd.getId().equals(wantedPs.id().changeId()) && cd.patchSet(wantedPs.id()) == null)
-        .forEach(ChangeData::reloadChange);
-
-    if (changeDatas.stream().noneMatch(cd -> cd.getId().equals(wantedPs.id().changeId()))) {
-      // The change of the wanted patch set is missing in the result from the index.
-      // Load it from NoteDb and add it to the result.
-      changeDatas.add(changeDataFactory.create(wantedChange));
-    }
-
-    return changeDatas;
   }
 
   static RelatedChangeAndCommitInfo newChangeAndCommit(

@@ -19,14 +19,9 @@ import {
   Shortcut,
   ShortcutHelpItem,
   ShortcutSection,
+  SPECIAL_SHORTCUT,
 } from './shortcuts-config';
 
-/** Enum for all special shortcuts */
-export enum SPECIAL_SHORTCUT {
-  DOC_ONLY = 'DOC_ONLY',
-  GO_KEY = 'GO_KEY',
-  V_KEY = 'V_KEY',
-}
 export type SectionView = Array<{binding: string[][]; text: string}>;
 
 /**
@@ -44,24 +39,25 @@ export class ShortcutsService {
 
   private readonly bindings = new Map<Shortcut, string[]>();
 
-  public _testOnly_getBindings() {
-    return this.bindings;
+  private readonly listeners = new Set<ShortcutListener>();
+
+  constructor() {
+    for (const section of config.keys()) {
+      const items = config.get(section) ?? [];
+      for (const item of items) {
+        this.bindings.set(item.shortcut, item.bindings);
+      }
+    }
   }
 
   public _testOnly_isEmpty() {
     return this.activeHosts.size === 0 && this.listeners.size === 0;
   }
 
-  private readonly listeners = new Set<ShortcutListener>();
-
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {
     const desc = this.getDescription(section, shortcutName);
     const shortcut = this.getShortcut(shortcutName);
     return desc && shortcut ? `${desc} (shortcut: ${shortcut})` : '';
-  }
-
-  bindShortcut(shortcut: Shortcut, ...bindings: string[]) {
-    this.bindings.set(shortcut, bindings);
   }
 
   getBindingsForShortcut(shortcut: Shortcut) {

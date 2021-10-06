@@ -19,30 +19,13 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-change-list.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {mockPromise, TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
-import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import {mockPromise} from '../../../test/test-utils.js';
 import {YOUR_TURN} from '../../core/gr-navigation/gr-navigation.js';
 
 const basicFixture = fixtureFromElement('gr-change-list');
 
 suite('gr-change-list basic tests', () => {
   let element;
-
-  suiteSetup(() => {
-    const kb = TestKeyboardShortcutBinder.push();
-    kb.bindShortcut(Shortcut.CURSOR_NEXT_CHANGE, 'j');
-    kb.bindShortcut(Shortcut.CURSOR_PREV_CHANGE, 'k');
-    kb.bindShortcut(Shortcut.OPEN_CHANGE, 'o');
-    kb.bindShortcut(Shortcut.REFRESH_CHANGE_LIST, 'shift+r');
-    kb.bindShortcut(Shortcut.TOGGLE_CHANGE_REVIEWED, 'r');
-    kb.bindShortcut(Shortcut.TOGGLE_CHANGE_STAR, 's');
-    kb.bindShortcut(Shortcut.NEXT_PAGE, 'n');
-    kb.bindShortcut(Shortcut.NEXT_PAGE, 'p');
-  });
-
-  suiteTeardown(() => {
-    TestKeyboardShortcutBinder.pop();
-  });
 
   setup(() => {
     element = basicFixture.instantiate();

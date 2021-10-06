@@ -1217,26 +1217,36 @@ export class GrChangeView extends base {
       basePatchNum: value.basePatchNum,
     };
 
-    this.$.fileList.collapseAllDiffs();
     this._patchRange = patchRange;
     this.scrollCommentId = value.commentId;
 
-    const patchKnown =
-      !patchRange.patchNum ||
-      (this._allPatchSets ?? []).some(ps => ps.num === patchRange.patchNum);
-
-    // If the change has already been loaded and the parameter change is only
-    // in the patch range, then don't do a full reload.
-    if (this._changeNum !== undefined && patchChanged && patchKnown) {
-      if (!patchRange.patchNum) {
-        patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
-        rightPatchNumChanged = true;
+    // If changeNum is defined that means the change has already been
+    // rendered once before so a full reload is not required.
+    if (this._changeNum !== undefined && !value.forceReload) {
+      if (patchChanged) {
+        // We need to collapse all diffs when params change so that a non
+        // existing diff is not requested. See Issue 125270 for more details.
+        this.$.fileList.collapseAllDiffs();
+        if (!patchRange.patchNum) {
+          patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
+          rightPatchNumChanged = true;
+        }
+        this._reloadPatchNumDependentResources(rightPatchNumChanged).then(
+          () => {
+            this._sendShowChangeEvent();
+          }
+        );
       }
-      this._reloadPatchNumDependentResources(rightPatchNumChanged).then(() => {
-        this._sendShowChangeEvent();
-      });
+
+      // If there is no change in patchset or changeNum, such as when user goes
+      // to the diff view and then comes back to change page then there is no
+      // need to reload anything and we render the change view component as is.
       return;
     }
+
+    // We need to collapse all diffs when params change so that a non existing
+    // diff is not requested. See Issue 125270 for more details.
+    this.$.fileList.collapseAllDiffs();
 
     this._initialLoadComplete = false;
     this._changeNum = value.changeNum;
@@ -1253,8 +1263,8 @@ export class GrChangeView extends base {
 
   _initActiveTabs(params?: AppElementChangeViewParams) {
     let primaryTab = PrimaryTab.FILES;
-    if (params && params.queryMap && params.queryMap.has('tab')) {
-      primaryTab = params.queryMap.get('tab') as PrimaryTab;
+    if (params?.tab) {
+      primaryTab = params?.tab as PrimaryTab;
     } else if (params && 'commentId' in params) {
       primaryTab = PrimaryTab.COMMENT_THREADS;
     }
@@ -2017,8 +2027,8 @@ export class GrChangeView extends base {
    *
    * @param isLocationChange Reloads the related changes
    * when true and ends reporting events that started on location change.
-   * @param clearPatchset Reloads the related changes
-   * ignoring any patchset choice made.
+   * @param clearPatchset Reloads the change ignoring any patchset
+   * choice made.
    * @return A promise that resolves when the core data has loaded.
    * Some non-core data loading may still be in-flight when the core data
    * promise resolves.
@@ -2026,7 +2036,14 @@ export class GrChangeView extends base {
   loadData(isLocationChange?: boolean, clearPatchset?: boolean): Promise<void> {
     if (this.isChangeObsolete()) return Promise.resolve();
     if (clearPatchset && this._change) {
-      GerritNav.navigateToChange(this._change);
+      GerritNav.navigateToChange(
+        this._change,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        true
+      );
       return Promise.resolve();
     }
     this._loading = true;
@@ -2470,14 +2487,28 @@ export class GrChangeView extends base {
     ) {
       patchNum = this._patchRange.patchNum;
     }
-    GerritNav.navigateToChange(this._change, patchNum, undefined, true);
+    GerritNav.navigateToChange(
+      this._change,
+      patchNum,
+      undefined,
+      true,
+      undefined,
+      true
+    );
   }
 
   _handleStopEditTap() {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    GerritNav.navigateToChange(this._change, this._patchRange.patchNum);
+    GerritNav.navigateToChange(
+      this._change,
+      this._patchRange.patchNum,
+      undefined,
+      undefined,
+      undefined,
+      true
+    );
   }
 
   _resetReplyOverlayFocusStops() {

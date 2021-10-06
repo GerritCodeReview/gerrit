@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "13f43cf8_806775b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-06T08:40:51Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6b85a918_0dba1098",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "73ac371be0f0152240b455e68a514a57e169ff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6ac64bff_6da1dfe7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -120,6 +144,30 @@
       "side": 1,
       "message": "\u003e Right. We could update the API name to /projects/{project-name}/commitsin \n\u003e and send out a map with commitId as key and list of refs as value.\n\u003e And later add support for multiple commits.\n\u003e \n\u003e Handling different cases(for this change):\n\u003e 1. invalid input commit sha1\n\u003e     - return 404 not found\n\nWhat does invalid mean? How would this work if two commits were given and one was \"valid\" and not the other?\n\nI suspect you want this to be the same response as 2.\n\n\u003e 2. non of the input refs are valid or visible\n\u003e     - return empty map\n\u003e 3. all/few of the input refs are valid and visible\n\u003e     a. commit exists and reachable from one or more visible refs\n\u003e         - returns commitId as key with list of reachable refs.\n\u003e     b. commit does not exist\n\u003e         - map will not contain the commitId\n\u003e     c. commit exist and not reachable from any visible refs\n\u003e         - map will not contain the commitId\n\u003e         \n\u003e Shall I update this change accordingly ..?",
       "parentUuid": "8aece651_6148ec57",
+      "range": {
+        "startLine": 1066,
+        "startChar": 4,
+        "endLine": 1066,
+        "endChar": 23
+      },
+      "revId": "73ac371be0f0152240b455e68a514a57e169ff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f408c4e_a27fd8c5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-06T08:40:51Z",
+      "side": 1,
+      "message": "\u003e What does invalid mean? How would this work if two commits were given and one was \"valid\" and not the other? I suspect you want this to be the same response as 2.\nInvalid means that the commit sha1 is not a sha1, eg:abc. Yes, we can respond with empty map.\n\nDone. Updated the change accordingly.",
+      "parentUuid": "e17ee656_3ad54e29",
       "range": {
         "startLine": 1066,
         "startChar": 4,

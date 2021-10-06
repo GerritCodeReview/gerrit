@@ -312,28 +312,14 @@ suite('gr-router tests', () => {
         changeNum: '1234',
         project: 'test',
       };
-      const paramsWithQuery = {
-        view: GerritView.CHANGE,
-        changeNum: '1234',
-        project: 'test',
-        querystring: 'revert&foo=bar',
-      };
 
       assert.equal(element._generateUrl(params), '/c/test/+/1234');
-      assert.equal(element._generateUrl(paramsWithQuery),
-          '/c/test/+/1234?revert&foo=bar');
 
       params.patchNum = 10;
       assert.equal(element._generateUrl(params), '/c/test/+/1234/10');
-      paramsWithQuery.patchNum = 10;
-      assert.equal(element._generateUrl(paramsWithQuery),
-          '/c/test/+/1234/10?revert&foo=bar');
 
       params.basePatchNum = 5;
       assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10');
-      paramsWithQuery.basePatchNum = 5;
-      assert.equal(element._generateUrl(paramsWithQuery),
-          '/c/test/+/1234/5..10?revert&foo=bar');
 
       params.messageHash = '#123';
       assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10#123');
@@ -1382,7 +1368,6 @@ suite('gr-router tests', () => {
             changeNum: 1234,
             basePatchNum: 4,
             patchNum: 7,
-            queryMap: new Map(),
           });
           assert.isFalse(redirectStub.called);
           assert.isTrue(normalizeRangeStub.called);
@@ -1549,6 +1534,7 @@ suite('gr-router tests', () => {
             null,
             3, // 3 Patch num
           ],
+          queryMap: new Map(),
         };
         const appParams = {
           project: 'foo/bar',
@@ -1556,6 +1542,7 @@ suite('gr-router tests', () => {
           view: GerritView.CHANGE,
           patchNum: 3,
           edit: true,
+          tab: '',
         };
 
         element._handleChangeEditRoute(ctx);

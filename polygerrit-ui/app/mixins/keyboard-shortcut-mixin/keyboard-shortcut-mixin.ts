@@ -377,14 +377,6 @@ const InternalKeyboardShortcutMixin = <
       return {};
     }
 
-    addKeyboardShortcutDirectoryListener(listener: ShortcutListener) {
-      this.shortcuts.addListener(listener);
-    }
-
-    removeKeyboardShortcutDirectoryListener(listener: ShortcutListener) {
-      this.shortcuts.removeListener(listener);
-    }
-
     _handleVKeyDown(e: CustomKeyboardEvent) {
       if (this.shouldSuppressKeyboardShortcut(e)) return;
       this._shortcut_v_key_last_pressed = Date.now();
@@ -491,8 +483,6 @@ export interface KeyboardShortcutMixinInterface {
   bindShortcut(shortcut: Shortcut, ...bindings: string[]): void;
   shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent): boolean;
   modifierPressed(event: CustomKeyboardEvent): boolean;
-  addKeyboardShortcutDirectoryListener(listener: ShortcutListener): void;
-  removeKeyboardShortcutDirectoryListener(listener: ShortcutListener): void;
 }
 
 export interface KeyboardShortcutMixinInterfaceTesting {

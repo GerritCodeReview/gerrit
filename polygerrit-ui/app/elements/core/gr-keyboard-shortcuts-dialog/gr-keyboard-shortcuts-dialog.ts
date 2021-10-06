@@ -27,6 +27,7 @@ import {
   SectionView,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {property, customElement} from '@polymer/decorators';
+import {appContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -60,13 +61,14 @@ export class GrKeyboardShortcutsDialog extends base {
   @property({type: Array})
   _right?: SectionShortcut[];
 
-  private keyboardShortcutDirectoryListener: ShortcutListener;
+  private readonly shortcutListener: ShortcutListener;
+
+  private readonly shortcuts = appContext.shortcutsService;
 
   constructor() {
     super();
-    this.keyboardShortcutDirectoryListener = (
-      d?: Map<ShortcutSection, SectionView>
-    ) => this._onDirectoryUpdated(d);
+    this.shortcutListener = (d?: Map<ShortcutSection, SectionView>) =>
+      this._onDirectoryUpdated(d);
   }
 
   override ready() {
@@ -76,15 +78,11 @@ export class GrKeyboardShortcutsDialog extends base {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.addKeyboardShortcutDirectoryListener(
-      this.keyboardShortcutDirectoryListener
-    );
+    this.shortcuts.addListener(this.shortcutListener);
   }
 
   override disconnectedCallback() {
-    this.removeKeyboardShortcutDirectoryListener(
-      this.keyboardShortcutDirectoryListener
-    );
+    this.shortcuts.removeListener(this.shortcutListener);
     super.disconnectedCallback();
   }
 

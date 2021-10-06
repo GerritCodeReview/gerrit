@@ -1219,7 +1219,6 @@ export class GrChangeView extends base {
       basePatchNum: value.basePatchNum,
     };
 
-    this.$.fileList.collapseAllDiffs();
     this._patchRange = patchRange;
     this.scrollCommentId = value.commentId;
 
@@ -1227,18 +1226,39 @@ export class GrChangeView extends base {
       !patchRange.patchNum ||
       (this._allPatchSets ?? []).some(ps => ps.num === patchRange.patchNum);
 
-    // If the change has already been loaded and the parameter change is only
-    // in the patch range, then don't do a full reload.
-    if (this._changeNum !== undefined && patchChanged && patchKnown) {
-      if (!patchRange.patchNum) {
-        patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
-        rightPatchNumChanged = true;
+    // Change is not being recreated
+    if (this._changeNum !== undefined) {
+      const forceReload = value.queryMap?.get('forceReload');
+      if (patchChanged && patchKnown && !forceReload) {
+        // We need to collapse all diffs when params change so that a non
+        // existing diff is not requested. See Issue 125270 for more details.
+        this.$.fileList.collapseAllDiffs();
+        if (!patchRange.patchNum) {
+          patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
+          rightPatchNumChanged = true;
+        }
+        this._reloadPatchNumDependentResources(rightPatchNumChanged).then(
+          () => {
+            this._sendShowChangeEvent();
+          }
+        );
+        return;
       }
-      this._reloadPatchNumDependentResources(rightPatchNumChanged).then(() => {
-        this._sendShowChangeEvent();
-      });
-      return;
+
+      // If there is no change in patchset or changeNum, such as when user goes
+      // to the diff view and then comes back to change page then there is no
+      // need to reload anything and we render the change view component as is.
+      if (!forceReload) return;
+      history.replaceState(
+        null,
+        '',
+        location.href.replace(/[?&]forceReload=true/, '')
+      );
     }
+
+    // We need to collapse all diffs when params change so that a non existing
+    // diff is not requested. See Issue 125270 for more details.
+    this.$.fileList.collapseAllDiffs();
 
     this._initialLoadComplete = false;
     this._changeNum = value.changeNum;
@@ -2106,8 +2126,8 @@ export class GrChangeView extends base {
    *
    * @param isLocationChange Reloads the related changes
    * when true and ends reporting events that started on location change.
-   * @param clearPatchset Reloads the related changes
-   * ignoring any patchset choice made.
+   * @param clearPatchset Reloads the change ignoring any patchset
+   * choice made.
    * @return A promise that resolves when the core data has loaded.
    * Some non-core data loading may still be in-flight when the core data
    * promise resolves.
@@ -2115,7 +2135,14 @@ export class GrChangeView extends base {
   loadData(isLocationChange?: boolean, clearPatchset?: boolean): Promise<void> {
     if (this.isChangeObsolete()) return Promise.resolve();
     if (clearPatchset && this._change) {
-      GerritNav.navigateToChange(this._change);
+      GerritNav.navigateToChange(
+        this._change,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        true
+      );
       return Promise.resolve();
     }
     this._loading = true;

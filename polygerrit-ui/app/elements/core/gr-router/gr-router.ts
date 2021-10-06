@@ -530,9 +530,14 @@ export class GrRouter extends PolymerElement {
       range = '/' + range;
     }
     let suffix = `${range}`;
+    if (params.forceReload) {
+      if (params.querystring) params.querystring += '&forceReload=true';
+      else params.querystring = 'forceReload=true';
+    }
     if (params.querystring) {
       suffix += '?' + params.querystring;
-    } else if (params.edit) {
+    }
+    if (params.edit) {
       suffix += ',edit';
     }
     if (params.messageHash) {

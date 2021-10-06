@@ -27,6 +27,7 @@ import {GrStorageService} from './storage/gr-storage_impl';
 import {ConfigService} from './config/config-service';
 import {UserService} from './user/user-service';
 import {CommentsService} from './comments/comments-service';
+import {ShortcutsService} from './shortcuts/shortcuts-service';
 
 type ServiceName = keyof AppContext;
 type ServiceCreator<T> = () => T;
@@ -82,5 +83,6 @@ export function initAppContext() {
     storageService: () => new GrStorageService(),
     configService: () => new ConfigService(),
     userService: () => new UserService(appContext.restApiService),
+    shortcutsService: () => new ShortcutsService(),
   });
 }

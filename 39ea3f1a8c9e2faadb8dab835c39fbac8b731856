@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2d5c292_3e30310e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-06T09:20:24Z",
+      "side": 1,
+      "message": "Maria asked me to take a look at the stuck flume.\n\n\u003e Even if it is the case, the AccountCache still fetches from All-Users on each request, for default preferences and per-user ref tip [1].\n\nThis only happens for misses in the persistent cache, which ~never happen. We have to read from the persistent cache, which takes ~5ms on average per load.\n\nIt seems you prefer different solutions. I would like us to understand the problem a bit more and collect more evidence before we decide on a solution. The stack traces I saw suggest RegEx performance slows us down. Can we investigate that first and if it\u0027s not the reason run the job again and look at pprof, stack traces and metrics together? I think there might be something hiding in the bushes that we aren\u0027t yet seeing :-)",
+      "parentUuid": "630b145f_7e757818",
+      "revId": "39ea3f1a8c9e2faadb8dab835c39fbac8b731856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3fb6f1f5_4b133bca",
         "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
         "patchSetId": 3

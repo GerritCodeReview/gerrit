@@ -46,7 +46,6 @@ import {
   iconForLink,
   isCategory,
   otherPrimaryLinks,
-  primaryRunAction,
   secondaryLinks,
   tooltipForLink,
 } from '../../services/checks/checks-util';
@@ -323,7 +322,6 @@ class GrResultRow extends LitElement {
               ${this.result.checkName}
             </div>
             <div class="space"></div>
-            ${this.renderPrimaryRunAction()}
           </div>
         </td>
         <td class="summaryCol">
@@ -364,13 +362,6 @@ class GrResultRow extends LitElement {
         <td class="expandedCol" colspan="3">${this.renderExpanded()}</td>
       </tr>
     `;
-  }
-
-  private renderPrimaryRunAction() {
-    if (!this.result) return;
-    const action = primaryRunAction(this.result);
-    if (!action) return;
-    return html`<gr-checks-action .action="${action}"></gr-checks-action>`;
   }
 
   private renderExpanded() {

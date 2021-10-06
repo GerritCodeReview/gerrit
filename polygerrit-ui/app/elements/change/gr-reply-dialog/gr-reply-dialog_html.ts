@@ -177,7 +177,7 @@ export const htmlTemplate = html`
     }
     .attention .edit-attention-button {
       vertical-align: top;
-      --padding: 0px 4px;
+      --gr-button-padding: 0px 4px;
     }
     .attention .edit-attention-button iron-icon {
       color: inherit;

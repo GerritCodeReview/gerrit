@@ -78,6 +78,7 @@ export class GrAlert extends LitElement {
           font-weight: var(--font-weight-bold);
           margin-left: var(--spacing-l);
           text-decoration: none;
+          --gr-button-padding: 0;
         }
       `,
     ];
@@ -94,18 +95,8 @@ export class GrAlert extends LitElement {
   }
 
   override render() {
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const style = html`<style>
-      .action {
-        --gr-button: {
-          padding: 0;
-        }
-      }
-    </style>`;
     const {text, actionText} = this;
-    return html`${style}
+    return html`
       <div class="content-wrapper">
         <span class="text">${text}</span>
         <gr-button
@@ -116,7 +107,8 @@ export class GrAlert extends LitElement {
           >${actionText}
         </gr-button>
         ${this.renderDismissButton()}
-      </div> `;
+      </div>
+    `;
   }
 
   /**

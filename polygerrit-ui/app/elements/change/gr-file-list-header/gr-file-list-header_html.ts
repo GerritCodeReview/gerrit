@@ -93,9 +93,7 @@ export const htmlTemplate = html`
     }
     .fileViewActions gr-button {
       margin: 0;
-      --gr-button: {
-        padding: 2px 4px;
-      }
+      --gr-button-padding: 2px 4px;
     }
     .editMode .hideOnEdit {
       display: none;

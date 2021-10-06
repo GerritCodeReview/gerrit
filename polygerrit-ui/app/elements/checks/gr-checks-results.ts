@@ -816,6 +816,7 @@ export class GrChecksResults extends LitElement {
         }
         .headerTopRow .right .goToLatest gr-button {
           margin-right: var(--spacing-m);
+          --gr-button-padding: var(--spacing-s) var(--spacing-m);
         }
         .headerBottomRow iron-icon {
           color: var(--link-color);
@@ -975,23 +976,11 @@ export class GrChecksResults extends LitElement {
   }
 
   override render() {
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const style = html`<style>
-      .headerTopRow .right .goToLatest gr-button {
-        --gr-button: {
-          padding: var(--spacing-s) var(--spacing-m);
-          text-transform: none;
-        }
-      }
-    </style>`;
     const headerClasses = classMap({
       header: true,
       notLatest: !!this.checksPatchsetNumber,
     });
-    return html`${style}
-      <div class="${headerClasses}">
+    return html` <div class="${headerClasses}">
         <div class="headerTopRow">
           <div class="left">
             <h2 class="heading-2">Results</h2>

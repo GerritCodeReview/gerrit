@@ -40,7 +40,7 @@ export class GrTooltipContent extends LitElement {
   @property({type: String, attribute: 'max-width', reflect: true})
   maxWidth?: string;
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'show-icon'})
   showIcon = false;
 
   // Should be private but used in tests.

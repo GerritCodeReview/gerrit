@@ -65,13 +65,13 @@ export const htmlTemplate = html`
     tr {
       min-height: var(--line-height-normal);
     }
+    gr-tooltip-content {
+      display: block;
+    }
     gr-button {
+      display: block;
       vertical-align: top;
-      --gr-button: {
-        height: var(--line-height-normal);
-        width: var(--line-height-normal);
-        padding: 0;
-      }
+      --gr-button-padding: 1px;
     }
     gr-button[disabled] iron-icon {
       color: var(--border-color);

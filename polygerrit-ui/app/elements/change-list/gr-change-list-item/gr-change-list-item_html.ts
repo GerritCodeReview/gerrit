@@ -273,7 +273,7 @@ export const htmlTemplate = html`
     <gr-date-formatter
       withTooltip
       forceRelative
-      relativeOptionNoAge
+      relativeOptionNoAgo
       date-str="[[_computeWaiting(account, change)]]"
     ></gr-date-formatter>
   </td>

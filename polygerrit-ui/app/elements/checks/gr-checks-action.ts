@@ -43,7 +43,7 @@ export class GrChecksAction extends LitElement {
           white-space: nowrap;
         }
         gr-button {
-          --padding: var(--spacing-s) var(--spacing-m);
+          --gr-button-padding: var(--spacing-s) var(--spacing-m);
         }
         paper-tooltip {
           text-transform: none;

@@ -42,11 +42,6 @@ export const htmlTemplate = html`
       justify-content: space-between;
       padding: var(--spacing-xs) var(--spacing-l);
     }
-    .banner gr-button {
-      --gr-button: {
-        color: var(--primary-text-color);
-      }
-    }
     .hide {
       display: none;
     }

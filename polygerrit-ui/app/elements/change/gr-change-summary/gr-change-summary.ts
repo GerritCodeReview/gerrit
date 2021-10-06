@@ -514,7 +514,7 @@ export class GrChangeSummary extends LitElement {
         .actions gr-checks-action,
         .actions gr-dropdown {
           vertical-align: top;
-          --padding: 0 var(--spacing-m);
+          --gr-button-padding: 0 var(--spacing-m);
         }
         .actions #moreMessage {
           display: none;

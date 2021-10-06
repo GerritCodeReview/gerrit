@@ -426,11 +426,11 @@ export class GrChecksRuns extends LitElement {
           flex-grow: 1;
         }
         .title gr-button {
-          --padding: var(--spacing-s) var(--spacing-m);
+          --gr-button-padding: var(--spacing-s) var(--spacing-m);
           white-space: nowrap;
         }
         .title gr-button.expandButton {
-          --padding: var(--spacing-xs) var(--spacing-s);
+          --gr-button-padding: var(--spacing-xs) var(--spacing-s);
         }
         :host(:not([collapsed])) .expandButton {
           margin-right: calc(0px - var(--spacing-m));

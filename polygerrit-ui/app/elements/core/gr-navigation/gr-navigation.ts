@@ -258,9 +258,8 @@ export interface GenerateUrlChangeViewParameters {
   messageHash?: string;
   queryMap?: Map<string, string> | URLSearchParams;
   commentId?: UrlEncodedCommentId;
-
-  // TODO(TS): querystring isn't set anywhere, try to remove
   querystring?: string;
+  forceReload?: boolean;
 }
 
 export interface GenerateUrlRepoViewParameters {
@@ -612,7 +611,8 @@ export const GerritNav = {
     patchNum?: PatchSetNum,
     basePatchNum?: BasePatchSetNum,
     isEdit?: boolean,
-    messageHash?: string
+    messageHash?: string,
+    forceReload?: boolean
   ) {
     if (basePatchNum === ParentPatchSetNum) {
       basePatchNum = undefined;
@@ -628,6 +628,7 @@ export const GerritNav = {
       edit: isEdit,
       host: change.internalHost || undefined,
       messageHash,
+      forceReload,
     });
   },
 
@@ -656,10 +657,18 @@ export const GerritNav = {
     patchNum?: PatchSetNum,
     basePatchNum?: BasePatchSetNum,
     isEdit?: boolean,
-    redirect?: boolean
+    redirect?: boolean,
+    forceReload = true
   ) {
     this._navigate(
-      this.getUrlForChange(change, patchNum, basePatchNum, isEdit),
+      this.getUrlForChange(
+        change,
+        patchNum,
+        basePatchNum,
+        isEdit,
+        undefined,
+        forceReload
+      ),
       redirect
     );
   },

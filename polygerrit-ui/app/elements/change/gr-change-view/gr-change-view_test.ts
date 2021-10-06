@@ -559,6 +559,7 @@ suite('gr-change-view tests', () => {
       const queryMap = new Map<string, string>();
       queryMap.set('tab', PrimaryTab.FINDINGS);
       // view is required
+      element._changeNum = undefined;
       element.params = {
         ...createAppElementChangeViewParams(),
         ...element.params,
@@ -1352,12 +1353,12 @@ suite('gr-change-view tests', () => {
       .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
     flush();
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
-
     const value: AppElementChangeViewParams = {
       ...createAppElementChangeViewParams(),
       view: GerritView.CHANGE,
       patchNum: 1 as RevisionPatchSetNum,
     };
+    element._changeNum = undefined;
     element.params = value;
     await flush();
     assert.isTrue(reloadStub.calledOnce);
@@ -1415,7 +1416,7 @@ suite('gr-change-view tests', () => {
     assert.isTrue(reloadPortedCommentsStub.calledOnce);
   });
 
-  test('reload entire page when patchRange doesnt change', async () => {
+  test('do not reload entire page when patchRange doesnt change', async () => {
     const reloadStub = sinon
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
@@ -1423,13 +1424,15 @@ suite('gr-change-view tests', () => {
     const value: AppElementChangeViewParams =
       createAppElementChangeViewParams();
     element.params = value;
+    // change already loaded
+    assert.isOk(element._changeNum);
     await flush();
-    assert.isTrue(reloadStub.calledOnce);
+    assert.isFalse(reloadStub.calledOnce);
     element._initialLoadComplete = true;
     element.params = {...value};
     await flush();
-    assert.isTrue(reloadStub.calledTwice);
-    assert.isTrue(collapseStub.calledTwice);
+    assert.isFalse(reloadStub.calledTwice);
+    assert.isFalse(collapseStub.calledTwice);
   });
 
   test('do not handle new change numbers', async () => {
@@ -2302,6 +2305,8 @@ suite('gr-change-view tests', () => {
         appContext.reportingService,
         'changeFullyLoaded'
       );
+      // reset so reload is triggered
+      element._changeNum = undefined;
       element.params = {
         ...createAppElementChangeViewParams(),
         changeNum: TEST_NUMERIC_CHANGE_ID,

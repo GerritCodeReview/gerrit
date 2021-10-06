@@ -530,6 +530,10 @@ export class GrRouter extends PolymerElement {
       range = '/' + range;
     }
     let suffix = `${range}`;
+    if (params.forceReload) {
+      if (params.querystring) params.querystring += '&forceReload=true';
+      else params.querystring = 'forceReload=true';
+    }
     if (params.querystring) {
       suffix += '?' + params.querystring;
     } else if (params.edit) {
@@ -1564,6 +1568,7 @@ export class GrRouter extends PolymerElement {
       patchNum: convertToPatchSetNum(ctx.params[6]),
       view: GerritView.CHANGE,
       queryMap: ctx.queryMap,
+      querystring: ctx.querystring,
     };
 
     this.reporting.setRepoName(params.project);

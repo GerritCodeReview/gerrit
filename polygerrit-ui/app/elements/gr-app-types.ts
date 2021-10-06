@@ -126,6 +126,7 @@ export interface AppElementChangeViewParams {
   basePatchNum?: BasePatchSetNum;
   queryMap?: Map<string, string> | URLSearchParams;
   commentId?: UrlEncodedCommentId;
+  forceReload?: boolean;
 }
 
 export interface AppElementJustRegisteredParams {

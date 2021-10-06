@@ -1240,6 +1240,23 @@ export class GrChangeView extends base {
       return;
     }
 
+    const forceReload = value.queryMap?.get('forceReload');
+    if (forceReload) {
+      history.replaceState(
+        null,
+        '',
+        location.href.replace(/[?&]forceReload=true/, '')
+      );
+    }
+    // If a new change is loaded, then isChangeObsolete() ensures a completely
+    // new view is created and we will have this._changeNum to be undefined.
+    // If there is no change in patchset or changeNum, such as when user goes
+    // to the diff view and then comes back to change page then there is no need
+    // to reload anything and we render the change view component as is.
+    if (this._changeNum === value.changeNum && !forceReload) return;
+
+    this.$.fileList.collapseAllDiffs();
+
     this._initialLoadComplete = false;
     this._changeNum = value.changeNum;
     this.loadData(true).then(() => {

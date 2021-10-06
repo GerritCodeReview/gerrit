@@ -597,6 +597,12 @@ export class GrChangeView extends base {
 
   private lastStarredTimestamp?: number;
 
+  /* In certain cases such as when user submits the change or deletes a vote
+   * there are no changes in the change number or the patch range but we
+   * still want to force a reload and re-render of the change page.
+   */
+  private forceReload = false;
+
   override ready() {
     super.ready();
     aPluginHasRegistered$.pipe(takeUntil(this.disconnected$)).subscribe(b => {
@@ -691,6 +697,7 @@ export class GrChangeView extends base {
       this._setActivePrimaryTab(e)
     );
     this.addEventListener('reload', e => {
+      this.forceReload = true;
       this.loadData(
         /* isLocationChange= */ false,
         /* clearPatchset= */ e.detail && e.detail.clearPatchset
@@ -1211,11 +1218,10 @@ export class GrChangeView extends base {
       this._patchRange.patchNum !== value.patchNum;
 
     const patchRange: ChangeViewPatchRange = {
-      patchNum: value.patchNum,
+      patchNum: value.patchNum || this._patchRange?.patchNum,
       basePatchNum: value.basePatchNum,
     };
 
-    this.$.fileList.collapseAllDiffs();
     this._patchRange = patchRange;
     this.scrollCommentId = value.commentId;
 
@@ -1226,6 +1232,9 @@ export class GrChangeView extends base {
     // If the change has already been loaded and the parameter change is only
     // in the patch range, then don't do a full reload.
     if (this._changeNum !== undefined && patchChanged && patchKnown) {
+      // We need to collapse all diffs when params change so that a non existing
+      // diff is not requested. See Issue 125270 for more details.
+      this.$.fileList.collapseAllDiffs();
       if (!patchRange.patchNum) {
         patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
         rightPatchNumChanged = true;
@@ -1235,6 +1244,18 @@ export class GrChangeView extends base {
       });
       return;
     }
+
+    // If a new change is loaded, then isChangeObsolete() ensures a completely
+    // new view is created and we will have this._changeNum to be undefined.
+    // If there is no change in patchset or changeNum, such as when user goes
+    // to the diff view and then comes back to change page then there is no need
+    // to reload anything and we render the change view component as is.
+    if (this._changeNum === value.changeNum && !this.forceReload) return;
+    this.forceReload = false;
+
+    // We need to collapse all diffs when params change so that a non existing
+    // diff is not requested. See Issue 125270 for more details.
+    this.$.fileList.collapseAllDiffs();
 
     this._initialLoadComplete = false;
     this._changeNum = value.changeNum;
@@ -2111,6 +2132,7 @@ export class GrChangeView extends base {
   loadData(isLocationChange?: boolean, clearPatchset?: boolean): Promise<void> {
     if (this.isChangeObsolete()) return Promise.resolve();
     if (clearPatchset && this._change) {
+      this.forceReload = true;
       GerritNav.navigateToChange(this._change);
       return Promise.resolve();
     }

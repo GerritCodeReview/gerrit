@@ -26,7 +26,6 @@ import '../gr-tooltip-content/gr-tooltip-content';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-label-info_html';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {
   ChangeInfo,
@@ -41,6 +40,7 @@ import {GrButton} from '../gr-button/gr-button';
 import {getVotingRangeOrDefault} from '../../../utils/label-util';
 import {appContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
+import {fireReload} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -210,7 +210,7 @@ export class GrLabelInfo extends PolymerElement {
           return;
         }
         if (this.change) {
-          GerritNav.navigateToChange(this.change);
+          fireReload(this);
         }
       })
       .catch(err => {

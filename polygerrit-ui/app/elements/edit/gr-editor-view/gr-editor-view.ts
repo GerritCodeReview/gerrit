@@ -38,7 +38,11 @@ import {
   EditPatchSetNum,
 } from '../../../types/common';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
-import {fireAlert, fireTitleChange} from '../../../utils/event-util';
+import {
+  fireAlert,
+  fireTitleChange,
+  fireReload,
+} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -372,7 +376,7 @@ export class GrEditorView extends base {
         )
         .then(() => {
           assertIsDefined(this._change, '_change');
-          GerritNav.navigateToChange(this._change);
+          fireReload(this);
         });
     });
   }

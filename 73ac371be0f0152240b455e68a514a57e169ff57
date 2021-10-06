@@ -83,6 +83,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d922dd18_02ee86a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-06T11:09:18Z",
+      "side": 1,
+      "message": "if you get a tag, you have to find a branch through which the tag is reachable to verify readability of the tag. We have a tag visibility cache that helps, but I\u0027m not sure how well that works (Martin should know, though). If the data isn\u0027t in the cache, you have to do a revwalk to find a branch to go with the tag.\n\nI don\u0027t know your use case, but if the caller already knows a branch through which the tag should be reachable, they could supply that branch to winnow down the search.\n\nI can\u0027t judge if this matches your use-case.",
+      "parentUuid": "5f1b6349_112e1407",
+      "revId": "73ac371be0f0152240b455e68a514a57e169ff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0eb2767_91f72024",

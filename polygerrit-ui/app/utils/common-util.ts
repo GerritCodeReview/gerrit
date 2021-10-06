@@ -104,8 +104,11 @@ export function query<E extends Element = Element>(
   selector: string
 ): E | undefined {
   if (!el) return undefined;
-  const root = el.shadowRoot ?? el;
-  return root.querySelector<E>(selector) ?? undefined;
+  if (el.shadowRoot) {
+    const r = el.shadowRoot.querySelector<E>(selector);
+    if (r) return r;
+  }
+  return el.querySelector<E>(selector) ?? undefined;
 }
 
 export function queryAndAssert<E extends Element = Element>(

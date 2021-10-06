@@ -105,644 +105,29 @@ import {check, Constructor} from '../../utils/common-util';
 import {getKeyboardEvent, isModifierPressed} from '../../utils/dom-util';
 import {CustomKeyboardEvent} from '../../types/events';
 import {appContext} from '../../services/app-context';
+import {
+  Shortcut,
+  ShortcutSection,
+} from '../../services/shortcuts/shortcuts-config';
+import {
+  ShortcutListener,
+  SPECIAL_SHORTCUT,
+  SectionView,
+} from '../../services/shortcuts/shortcuts-service';
 
-/** Enum for all special shortcuts */
-export enum SPECIAL_SHORTCUT {
-  DOC_ONLY = 'DOC_ONLY',
-  GO_KEY = 'GO_KEY',
-  V_KEY = 'V_KEY',
-}
+export {
+  Shortcut,
+  ShortcutSection,
+  SPECIAL_SHORTCUT,
+  ShortcutListener,
+  SectionView,
+};
 
 // The maximum age of a keydown event to be used in a jump navigation. This
 // is only for cases when the keyup event is lost.
 const GO_KEY_TIMEOUT_MS = 1000;
 
 const V_KEY_TIMEOUT_MS = 1000;
-
-/**
- * Enum for all shortcut sections, where that shortcut should be applied to.
- */
-export enum ShortcutSection {
-  ACTIONS = 'Actions',
-  DIFFS = 'Diffs',
-  EVERYWHERE = 'Global Shortcuts',
-  FILE_LIST = 'File list',
-  NAVIGATION = 'Navigation',
-  REPLY_DIALOG = 'Reply dialog',
-}
-
-/**
- * Enum for all possible shortcut names.
- */
-export enum Shortcut {
-  OPEN_SHORTCUT_HELP_DIALOG = 'OPEN_SHORTCUT_HELP_DIALOG',
-  GO_TO_USER_DASHBOARD = 'GO_TO_USER_DASHBOARD',
-  GO_TO_OPENED_CHANGES = 'GO_TO_OPENED_CHANGES',
-  GO_TO_MERGED_CHANGES = 'GO_TO_MERGED_CHANGES',
-  GO_TO_ABANDONED_CHANGES = 'GO_TO_ABANDONED_CHANGES',
-  GO_TO_WATCHED_CHANGES = 'GO_TO_WATCHED_CHANGES',
-
-  CURSOR_NEXT_CHANGE = 'CURSOR_NEXT_CHANGE',
-  CURSOR_PREV_CHANGE = 'CURSOR_PREV_CHANGE',
-  OPEN_CHANGE = 'OPEN_CHANGE',
-  NEXT_PAGE = 'NEXT_PAGE',
-  PREV_PAGE = 'PREV_PAGE',
-  TOGGLE_CHANGE_REVIEWED = 'TOGGLE_CHANGE_REVIEWED',
-  TOGGLE_CHANGE_STAR = 'TOGGLE_CHANGE_STAR',
-  REFRESH_CHANGE_LIST = 'REFRESH_CHANGE_LIST',
-  OPEN_SUBMIT_DIALOG = 'OPEN_SUBMIT_DIALOG',
-  TOGGLE_ATTENTION_SET = 'TOGGLE_ATTENTION_SET',
-
-  OPEN_REPLY_DIALOG = 'OPEN_REPLY_DIALOG',
-  OPEN_DOWNLOAD_DIALOG = 'OPEN_DOWNLOAD_DIALOG',
-  EXPAND_ALL_MESSAGES = 'EXPAND_ALL_MESSAGES',
-  COLLAPSE_ALL_MESSAGES = 'COLLAPSE_ALL_MESSAGES',
-  UP_TO_DASHBOARD = 'UP_TO_DASHBOARD',
-  UP_TO_CHANGE = 'UP_TO_CHANGE',
-  TOGGLE_DIFF_MODE = 'TOGGLE_DIFF_MODE',
-  REFRESH_CHANGE = 'REFRESH_CHANGE',
-  EDIT_TOPIC = 'EDIT_TOPIC',
-  DIFF_AGAINST_BASE = 'DIFF_AGAINST_BASE',
-  DIFF_AGAINST_LATEST = 'DIFF_AGAINST_LATEST',
-  DIFF_BASE_AGAINST_LEFT = 'DIFF_BASE_AGAINST_LEFT',
-  DIFF_RIGHT_AGAINST_LATEST = 'DIFF_RIGHT_AGAINST_LATEST',
-  DIFF_BASE_AGAINST_LATEST = 'DIFF_BASE_AGAINST_LATEST',
-
-  NEXT_LINE = 'NEXT_LINE',
-  PREV_LINE = 'PREV_LINE',
-  VISIBLE_LINE = 'VISIBLE_LINE',
-  NEXT_CHUNK = 'NEXT_CHUNK',
-  PREV_CHUNK = 'PREV_CHUNK',
-  TOGGLE_ALL_DIFF_CONTEXT = 'TOGGLE_ALL_DIFF_CONTEXT',
-  NEXT_COMMENT_THREAD = 'NEXT_COMMENT_THREAD',
-  PREV_COMMENT_THREAD = 'PREV_COMMENT_THREAD',
-  EXPAND_ALL_COMMENT_THREADS = 'EXPAND_ALL_COMMENT_THREADS',
-  COLLAPSE_ALL_COMMENT_THREADS = 'COLLAPSE_ALL_COMMENT_THREADS',
-  LEFT_PANE = 'LEFT_PANE',
-  RIGHT_PANE = 'RIGHT_PANE',
-  TOGGLE_LEFT_PANE = 'TOGGLE_LEFT_PANE',
-  NEW_COMMENT = 'NEW_COMMENT',
-  SAVE_COMMENT = 'SAVE_COMMENT',
-  OPEN_DIFF_PREFS = 'OPEN_DIFF_PREFS',
-  TOGGLE_DIFF_REVIEWED = 'TOGGLE_DIFF_REVIEWED',
-
-  NEXT_FILE = 'NEXT_FILE',
-  PREV_FILE = 'PREV_FILE',
-  NEXT_FILE_WITH_COMMENTS = 'NEXT_FILE_WITH_COMMENTS',
-  PREV_FILE_WITH_COMMENTS = 'PREV_FILE_WITH_COMMENTS',
-  NEXT_UNREVIEWED_FILE = 'NEXT_UNREVIEWED_FILE',
-  CURSOR_NEXT_FILE = 'CURSOR_NEXT_FILE',
-  CURSOR_PREV_FILE = 'CURSOR_PREV_FILE',
-  OPEN_FILE = 'OPEN_FILE',
-  TOGGLE_FILE_REVIEWED = 'TOGGLE_FILE_REVIEWED',
-  TOGGLE_ALL_INLINE_DIFFS = 'TOGGLE_ALL_INLINE_DIFFS',
-  TOGGLE_INLINE_DIFF = 'TOGGLE_INLINE_DIFF',
-  TOGGLE_HIDE_ALL_COMMENT_THREADS = 'TOGGLE_HIDE_ALL_COMMENT_THREADS',
-  OPEN_FILE_LIST = 'OPEN_FILE_LIST',
-
-  OPEN_FIRST_FILE = 'OPEN_FIRST_FILE',
-  OPEN_LAST_FILE = 'OPEN_LAST_FILE',
-
-  SEARCH = 'SEARCH',
-  SEND_REPLY = 'SEND_REPLY',
-  EMOJI_DROPDOWN = 'EMOJI_DROPDOWN',
-  TOGGLE_BLAME = 'TOGGLE_BLAME',
-}
-
-export type SectionView = Array<{binding: string[][]; text: string}>;
-
-/**
- * The interface for listener for shortcut events.
- */
-export type ShortcutListener = (
-  viewMap?: Map<ShortcutSection, SectionView>
-) => void;
-
-interface ShortcutHelpItem {
-  shortcut: Shortcut;
-  text: string;
-}
-
-// TODO(TS): rename to something more meaningful
-const _help = new Map<ShortcutSection, ShortcutHelpItem[]>();
-
-function _describe(shortcut: Shortcut, section: ShortcutSection, text: string) {
-  if (!_help.has(section)) {
-    _help.set(section, []);
-  }
-  const shortcuts = _help.get(section);
-  if (shortcuts) {
-    shortcuts.push({shortcut, text});
-  }
-}
-
-_describe(Shortcut.SEARCH, ShortcutSection.EVERYWHERE, 'Search');
-_describe(
-  Shortcut.OPEN_SHORTCUT_HELP_DIALOG,
-  ShortcutSection.EVERYWHERE,
-  'Show this dialog'
-);
-_describe(
-  Shortcut.GO_TO_USER_DASHBOARD,
-  ShortcutSection.EVERYWHERE,
-  'Go to User Dashboard'
-);
-_describe(
-  Shortcut.GO_TO_OPENED_CHANGES,
-  ShortcutSection.EVERYWHERE,
-  'Go to Opened Changes'
-);
-_describe(
-  Shortcut.GO_TO_MERGED_CHANGES,
-  ShortcutSection.EVERYWHERE,
-  'Go to Merged Changes'
-);
-_describe(
-  Shortcut.GO_TO_ABANDONED_CHANGES,
-  ShortcutSection.EVERYWHERE,
-  'Go to Abandoned Changes'
-);
-_describe(
-  Shortcut.GO_TO_WATCHED_CHANGES,
-  ShortcutSection.EVERYWHERE,
-  'Go to Watched Changes'
-);
-
-_describe(
-  Shortcut.CURSOR_NEXT_CHANGE,
-  ShortcutSection.ACTIONS,
-  'Select next change'
-);
-_describe(
-  Shortcut.CURSOR_PREV_CHANGE,
-  ShortcutSection.ACTIONS,
-  'Select previous change'
-);
-_describe(
-  Shortcut.OPEN_CHANGE,
-  ShortcutSection.ACTIONS,
-  'Show selected change'
-);
-_describe(Shortcut.NEXT_PAGE, ShortcutSection.ACTIONS, 'Go to next page');
-_describe(Shortcut.PREV_PAGE, ShortcutSection.ACTIONS, 'Go to previous page');
-_describe(
-  Shortcut.OPEN_REPLY_DIALOG,
-  ShortcutSection.ACTIONS,
-  'Open reply dialog to publish comments and add reviewers'
-);
-_describe(
-  Shortcut.OPEN_DOWNLOAD_DIALOG,
-  ShortcutSection.ACTIONS,
-  'Open download overlay'
-);
-_describe(
-  Shortcut.EXPAND_ALL_MESSAGES,
-  ShortcutSection.ACTIONS,
-  'Expand all messages'
-);
-_describe(
-  Shortcut.COLLAPSE_ALL_MESSAGES,
-  ShortcutSection.ACTIONS,
-  'Collapse all messages'
-);
-_describe(
-  Shortcut.REFRESH_CHANGE,
-  ShortcutSection.ACTIONS,
-  'Reload the change at the latest patch'
-);
-_describe(
-  Shortcut.TOGGLE_CHANGE_REVIEWED,
-  ShortcutSection.ACTIONS,
-  'Mark/unmark change as reviewed'
-);
-_describe(
-  Shortcut.TOGGLE_FILE_REVIEWED,
-  ShortcutSection.ACTIONS,
-  'Toggle review flag on selected file'
-);
-_describe(
-  Shortcut.REFRESH_CHANGE_LIST,
-  ShortcutSection.ACTIONS,
-  'Refresh list of changes'
-);
-_describe(
-  Shortcut.TOGGLE_CHANGE_STAR,
-  ShortcutSection.ACTIONS,
-  'Star/unstar change'
-);
-_describe(
-  Shortcut.OPEN_SUBMIT_DIALOG,
-  ShortcutSection.ACTIONS,
-  'Open submit dialog'
-);
-_describe(
-  Shortcut.TOGGLE_ATTENTION_SET,
-  ShortcutSection.ACTIONS,
-  'Toggle attention set status'
-);
-_describe(Shortcut.EDIT_TOPIC, ShortcutSection.ACTIONS, 'Add a change topic');
-_describe(
-  Shortcut.DIFF_AGAINST_BASE,
-  ShortcutSection.ACTIONS,
-  'Diff against base'
-);
-_describe(
-  Shortcut.DIFF_AGAINST_LATEST,
-  ShortcutSection.ACTIONS,
-  'Diff against latest patchset'
-);
-_describe(
-  Shortcut.DIFF_BASE_AGAINST_LEFT,
-  ShortcutSection.ACTIONS,
-  'Diff base against left'
-);
-_describe(
-  Shortcut.DIFF_RIGHT_AGAINST_LATEST,
-  ShortcutSection.ACTIONS,
-  'Diff right against latest'
-);
-_describe(
-  Shortcut.DIFF_BASE_AGAINST_LATEST,
-  ShortcutSection.ACTIONS,
-  'Diff base against latest'
-);
-
-_describe(Shortcut.NEXT_LINE, ShortcutSection.DIFFS, 'Go to next line');
-_describe(Shortcut.PREV_LINE, ShortcutSection.DIFFS, 'Go to previous line');
-_describe(
-  Shortcut.DIFF_AGAINST_BASE,
-  ShortcutSection.DIFFS,
-  'Diff against base'
-);
-_describe(
-  Shortcut.DIFF_AGAINST_LATEST,
-  ShortcutSection.DIFFS,
-  'Diff against latest patchset'
-);
-_describe(
-  Shortcut.DIFF_BASE_AGAINST_LEFT,
-  ShortcutSection.DIFFS,
-  'Diff base against left'
-);
-_describe(
-  Shortcut.DIFF_RIGHT_AGAINST_LATEST,
-  ShortcutSection.DIFFS,
-  'Diff right against latest'
-);
-_describe(
-  Shortcut.DIFF_BASE_AGAINST_LATEST,
-  ShortcutSection.DIFFS,
-  'Diff base against latest'
-);
-_describe(
-  Shortcut.VISIBLE_LINE,
-  ShortcutSection.DIFFS,
-  'Move cursor to currently visible code'
-);
-_describe(Shortcut.NEXT_CHUNK, ShortcutSection.DIFFS, 'Go to next diff chunk');
-_describe(
-  Shortcut.PREV_CHUNK,
-  ShortcutSection.DIFFS,
-  'Go to previous diff chunk'
-);
-_describe(
-  Shortcut.TOGGLE_ALL_DIFF_CONTEXT,
-  ShortcutSection.DIFFS,
-  'Toggle all diff context'
-);
-_describe(
-  Shortcut.NEXT_COMMENT_THREAD,
-  ShortcutSection.DIFFS,
-  'Go to next comment thread'
-);
-_describe(
-  Shortcut.PREV_COMMENT_THREAD,
-  ShortcutSection.DIFFS,
-  'Go to previous comment thread'
-);
-_describe(
-  Shortcut.EXPAND_ALL_COMMENT_THREADS,
-  ShortcutSection.DIFFS,
-  'Expand all comment threads'
-);
-_describe(
-  Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
-  ShortcutSection.DIFFS,
-  'Collapse all comment threads'
-);
-_describe(
-  Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS,
-  ShortcutSection.DIFFS,
-  'Hide/Display all comment threads'
-);
-_describe(Shortcut.LEFT_PANE, ShortcutSection.DIFFS, 'Select left pane');
-_describe(Shortcut.RIGHT_PANE, ShortcutSection.DIFFS, 'Select right pane');
-_describe(
-  Shortcut.TOGGLE_LEFT_PANE,
-  ShortcutSection.DIFFS,
-  'Hide/show left diff'
-);
-_describe(Shortcut.NEW_COMMENT, ShortcutSection.DIFFS, 'Draft new comment');
-_describe(Shortcut.SAVE_COMMENT, ShortcutSection.DIFFS, 'Save comment');
-_describe(
-  Shortcut.OPEN_DIFF_PREFS,
-  ShortcutSection.DIFFS,
-  'Show diff preferences'
-);
-_describe(
-  Shortcut.TOGGLE_DIFF_REVIEWED,
-  ShortcutSection.DIFFS,
-  'Mark/unmark file as reviewed'
-);
-_describe(
-  Shortcut.TOGGLE_DIFF_MODE,
-  ShortcutSection.DIFFS,
-  'Toggle unified/side-by-side diff'
-);
-_describe(
-  Shortcut.NEXT_UNREVIEWED_FILE,
-  ShortcutSection.DIFFS,
-  'Mark file as reviewed and go to next unreviewed file'
-);
-_describe(Shortcut.TOGGLE_BLAME, ShortcutSection.DIFFS, 'Toggle blame');
-
-_describe(Shortcut.NEXT_FILE, ShortcutSection.NAVIGATION, 'Go to next file');
-_describe(
-  Shortcut.PREV_FILE,
-  ShortcutSection.NAVIGATION,
-  'Go to previous file'
-);
-_describe(
-  Shortcut.NEXT_FILE_WITH_COMMENTS,
-  ShortcutSection.NAVIGATION,
-  'Go to next file that has comments'
-);
-_describe(
-  Shortcut.PREV_FILE_WITH_COMMENTS,
-  ShortcutSection.NAVIGATION,
-  'Go to previous file that has comments'
-);
-_describe(
-  Shortcut.OPEN_FIRST_FILE,
-  ShortcutSection.NAVIGATION,
-  'Go to first file'
-);
-_describe(
-  Shortcut.OPEN_LAST_FILE,
-  ShortcutSection.NAVIGATION,
-  'Go to last file'
-);
-_describe(
-  Shortcut.UP_TO_DASHBOARD,
-  ShortcutSection.NAVIGATION,
-  'Up to dashboard'
-);
-_describe(Shortcut.UP_TO_CHANGE, ShortcutSection.NAVIGATION, 'Up to change');
-
-_describe(
-  Shortcut.CURSOR_NEXT_FILE,
-  ShortcutSection.FILE_LIST,
-  'Select next file'
-);
-_describe(
-  Shortcut.CURSOR_PREV_FILE,
-  ShortcutSection.FILE_LIST,
-  'Select previous file'
-);
-_describe(Shortcut.OPEN_FILE, ShortcutSection.FILE_LIST, 'Go to selected file');
-_describe(
-  Shortcut.TOGGLE_ALL_INLINE_DIFFS,
-  ShortcutSection.FILE_LIST,
-  'Show/hide all inline diffs'
-);
-_describe(
-  Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS,
-  ShortcutSection.FILE_LIST,
-  'Hide/Display all comment threads'
-);
-_describe(
-  Shortcut.TOGGLE_INLINE_DIFF,
-  ShortcutSection.FILE_LIST,
-  'Show/hide selected inline diff'
-);
-
-_describe(Shortcut.SEND_REPLY, ShortcutSection.REPLY_DIALOG, 'Send reply');
-_describe(
-  Shortcut.EMOJI_DROPDOWN,
-  ShortcutSection.REPLY_DIALOG,
-  'Emoji dropdown'
-);
-
-/**
- * Shortcut manager, holds all hosts, bindings and listeners.
- */
-export class ShortcutManager {
-  private readonly activeHosts = new Map<PolymerElement, Map<string, string>>();
-
-  private readonly bindings = new Map<Shortcut, string[]>();
-
-  public _testOnly_getBindings() {
-    return this.bindings;
-  }
-
-  public _testOnly_isEmpty() {
-    return this.activeHosts.size === 0 && this.listeners.size === 0;
-  }
-
-  private readonly listeners = new Set<ShortcutListener>();
-
-  bindShortcut(shortcut: Shortcut, ...bindings: string[]) {
-    this.bindings.set(shortcut, bindings);
-  }
-
-  getBindingsForShortcut(shortcut: Shortcut) {
-    return this.bindings.get(shortcut);
-  }
-
-  attachHost(host: PolymerElement, shortcuts: Map<string, string>) {
-    this.activeHosts.set(host, shortcuts);
-    this.notifyListeners();
-  }
-
-  detachHost(host: PolymerElement) {
-    if (this.activeHosts.delete(host)) {
-      this.notifyListeners();
-      return true;
-    }
-    return false;
-  }
-
-  addListener(listener: ShortcutListener) {
-    this.listeners.add(listener);
-    listener(this.directoryView());
-  }
-
-  removeListener(listener: ShortcutListener) {
-    return this.listeners.delete(listener);
-  }
-
-  getDescription(section: ShortcutSection, shortcutName: Shortcut) {
-    const bindings = _help.get(section);
-    let desc = '';
-    if (bindings) {
-      const binding = bindings.find(
-        binding => binding.shortcut === shortcutName
-      );
-      desc = binding ? binding.text : '';
-    }
-    return desc;
-  }
-
-  getShortcut(shortcutName: Shortcut) {
-    const bindings = this.bindings.get(shortcutName);
-    return bindings
-      ? bindings
-          .map(binding => this.describeBinding(binding).join('+'))
-          .join(',')
-      : '';
-  }
-
-  activeShortcutsBySection() {
-    const activeShortcuts = new Set<string>();
-    this.activeHosts.forEach(shortcuts => {
-      shortcuts.forEach((_, shortcut) => activeShortcuts.add(shortcut));
-    });
-
-    const activeShortcutsBySection = new Map<
-      ShortcutSection,
-      ShortcutHelpItem[]
-    >();
-    _help.forEach((shortcutList, section) => {
-      shortcutList.forEach(shortcutHelp => {
-        if (activeShortcuts.has(shortcutHelp.shortcut)) {
-          if (!activeShortcutsBySection.has(section)) {
-            activeShortcutsBySection.set(section, []);
-          }
-          // From previous condition, the `get(section)`
-          // should always return a valid result
-          activeShortcutsBySection.get(section)!.push(shortcutHelp);
-        }
-      });
-    });
-    return activeShortcutsBySection;
-  }
-
-  directoryView() {
-    const view = new Map<ShortcutSection, SectionView>();
-    this.activeShortcutsBySection().forEach((shortcutHelps, section) => {
-      const sectionView: Array<{binding: string[][]; text: string}> = [];
-      shortcutHelps.forEach(shortcutHelp => {
-        const bindingDesc = this.describeBindings(shortcutHelp.shortcut);
-        if (!bindingDesc) {
-          return;
-        }
-        this.distributeBindingDesc(bindingDesc).forEach(bindingDesc => {
-          sectionView.push({
-            binding: bindingDesc,
-            text: shortcutHelp.text,
-          });
-        });
-      });
-      view.set(section, sectionView);
-    });
-    return view;
-  }
-
-  distributeBindingDesc(bindingDesc: string[][]): string[][][] {
-    if (
-      bindingDesc.length === 1 ||
-      this.comboSetDisplayWidth(bindingDesc) < 21
-    ) {
-      return [bindingDesc];
-    }
-    // Find the largest prefix of bindings that is under the
-    // size threshold.
-    const head = [bindingDesc[0]];
-    for (let i = 1; i < bindingDesc.length; i++) {
-      head.push(bindingDesc[i]);
-      if (this.comboSetDisplayWidth(head) >= 21) {
-        head.pop();
-        return [head].concat(this.distributeBindingDesc(bindingDesc.slice(i)));
-      }
-    }
-    return [];
-  }
-
-  comboSetDisplayWidth(bindingDesc: string[][]) {
-    const bindingSizer = (binding: string[]) =>
-      binding.reduce((acc, key) => acc + key.length, 0);
-    // Width is the sum of strings + (n-1) * 2 to account for the word
-    // "or" joining them.
-    return (
-      bindingDesc.reduce((acc, binding) => acc + bindingSizer(binding), 0) +
-      2 * (bindingDesc.length - 1)
-    );
-  }
-
-  describeBindings(shortcut: Shortcut): string[][] | null {
-    const bindings = this.bindings.get(shortcut);
-    if (!bindings) {
-      return null;
-    }
-    if (bindings[0] === SPECIAL_SHORTCUT.GO_KEY) {
-      return bindings
-        .slice(1)
-        .map(binding => this._describeKey(binding))
-        .map(binding => ['g'].concat(binding));
-    }
-    if (bindings[0] === SPECIAL_SHORTCUT.V_KEY) {
-      return bindings
-        .slice(1)
-        .map(binding => this._describeKey(binding))
-        .map(binding => ['v'].concat(binding));
-    }
-
-    return bindings
-      .filter(binding => binding !== SPECIAL_SHORTCUT.DOC_ONLY)
-      .map(binding => this.describeBinding(binding));
-  }
-
-  _describeKey(key: string) {
-    switch (key) {
-      case 'shift':
-        return 'Shift';
-      case 'meta':
-        return 'Meta';
-      case 'ctrl':
-        return 'Ctrl';
-      case 'enter':
-        return 'Enter';
-      case 'up':
-        return '\u2191'; // ↑
-      case 'down':
-        return '\u2193'; // ↓
-      case 'left':
-        return '\u2190'; // ←
-      case 'right':
-        return '\u2192'; // →
-      default:
-        return key;
-    }
-  }
-
-  describeBinding(binding: string) {
-    // single key bindings
-    if (binding.length === 1) {
-      return [binding];
-    }
-    return binding
-      .split(':')[0]
-      .split('+')
-      .map(part => this._describeKey(part));
-  }
-
-  notifyListeners() {
-    const view = this.directoryView();
-    this.listeners.forEach(listener => listener(view));
-  }
-}
-
-const shortcutManager = new ShortcutManager();
 
 interface IronA11yKeysMixinConstructor {
   // Note: this is needed to have same interface as other mixins
@@ -783,7 +168,9 @@ const InternalKeyboardShortcutMixin = <
 
     private readonly restApiService = appContext.restApiService;
 
-    private reporting = appContext.reportingService;
+    private readonly reporting = appContext.reportingService;
+
+    private readonly shortcuts = appContext.shortcutsService;
 
     /** Used to disable shortcuts when the element is not visible. */
     private observer?: IntersectionObserver;
@@ -861,17 +248,17 @@ const InternalKeyboardShortcutMixin = <
     }
 
     bindShortcut(shortcut: Shortcut, ...bindings: string[]) {
-      shortcutManager.bindShortcut(shortcut, ...bindings);
+      this.shortcuts.bindShortcut(shortcut, ...bindings);
     }
 
     createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-      const desc = shortcutManager.getDescription(section, shortcutName);
-      const shortcut = shortcutManager.getShortcut(shortcutName);
+      const desc = this.shortcuts.getDescription(section, shortcutName);
+      const shortcut = this.shortcuts.getShortcut(shortcutName);
       return desc && shortcut ? `${desc} (shortcut: ${shortcut})` : '';
     }
 
     _addOwnKeyBindings(shortcut: Shortcut, handler: string) {
-      const bindings = shortcutManager.getBindingsForShortcut(shortcut);
+      const bindings = this.shortcuts.getBindingsForShortcut(shortcut);
       if (!bindings) {
         return;
       }
@@ -947,7 +334,7 @@ const InternalKeyboardShortcutMixin = <
       const shortcuts = new Map<string, string>(
         Object.entries(this.keyboardShortcuts())
       );
-      shortcutManager.attachHost(this, shortcuts);
+      this.shortcuts.attachHost(this, shortcuts);
 
       for (const [key, value] of shortcuts.entries()) {
         this._addOwnKeyBindings(key as Shortcut, value);
@@ -983,7 +370,7 @@ const InternalKeyboardShortcutMixin = <
     private disableBindings() {
       if (!this.bindingsEnabled) return;
       this.bindingsEnabled = false;
-      if (shortcutManager.detachHost(this)) {
+      if (this.shortcuts.detachHost(this)) {
         this.removeOwnKeyBindings();
       }
     }
@@ -997,11 +384,11 @@ const InternalKeyboardShortcutMixin = <
     }
 
     addKeyboardShortcutDirectoryListener(listener: ShortcutListener) {
-      shortcutManager.addListener(listener);
+      this.shortcuts.addListener(listener);
     }
 
     removeKeyboardShortcutDirectoryListener(listener: ShortcutListener) {
-      shortcutManager.removeListener(listener);
+      this.shortcuts.removeListener(listener);
     }
 
     _handleVKeyDown(e: CustomKeyboardEvent) {
@@ -1077,7 +464,10 @@ const InternalKeyboardShortcutMixin = <
     }
   }
 
-  return Mixin as T & Constructor<KeyboardShortcutMixinInterface>;
+  return Mixin as T &
+    Constructor<
+      KeyboardShortcutMixinInterface & KeyboardShortcutMixinInterfaceTesting
+    >;
 };
 
 // The following doesn't work (IronA11yKeysBehavior crashes):
@@ -1090,7 +480,10 @@ const InternalKeyboardShortcutMixin = <
 // This is a workaround
 export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
   superClass: T
-): T & Constructor<KeyboardShortcutMixinInterface> =>
+): T &
+  Constructor<
+    KeyboardShortcutMixinInterface & KeyboardShortcutMixinInterfaceTesting
+  > =>
   InternalKeyboardShortcutMixin(
     // TODO(TS): mixinBehaviors in some lib is returning: `new () => T` instead
     // which will fail the type check due to missing IronA11yKeysBehavior interface
@@ -1109,6 +502,10 @@ export interface KeyboardShortcutMixinInterface {
   removeKeyboardShortcutDirectoryListener(listener: ShortcutListener): void;
 }
 
-export function _testOnly_getShortcutManagerInstance() {
-  return shortcutManager;
+export interface KeyboardShortcutMixinInterfaceTesting {
+  _shortcut_go_key_last_pressed: number | null;
+  _shortcut_v_key_last_pressed: number | null;
+  _shortcut_go_table: Map<string, string>;
+  _shortcut_v_table: Map<string, string>;
+  _handleGoAction: (e: CustomKeyboardEvent) => void;
 }

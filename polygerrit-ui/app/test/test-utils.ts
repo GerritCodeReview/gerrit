@@ -17,10 +17,7 @@
 import '../types/globals';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/gr-plugin-endpoints';
-import {
-  _testOnly_getShortcutManagerInstance,
-  Shortcut,
-} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {Shortcut} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {appContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {SinonSpy} from 'sinon';
@@ -62,7 +59,7 @@ export class TestKeyboardShortcutBinder {
   static push() {
     const testBinder = new TestKeyboardShortcutBinder();
     this.stack.push(testBinder);
-    return _testOnly_getShortcutManagerInstance();
+    return appContext.shortcutsService;
   }
 
   static pop() {
@@ -77,13 +74,12 @@ export class TestKeyboardShortcutBinder {
 
   constructor() {
     this.originalBinding = new Map(
-      _testOnly_getShortcutManagerInstance()._testOnly_getBindings()
+      appContext.shortcutsService._testOnly_getBindings()
     );
   }
 
   _restoreShortcuts() {
-    const bindings =
-      _testOnly_getShortcutManagerInstance()._testOnly_getBindings();
+    const bindings = appContext.shortcutsService._testOnly_getBindings();
     bindings.clear();
     this.originalBinding.forEach((value, key) => {
       bindings.set(key, value);

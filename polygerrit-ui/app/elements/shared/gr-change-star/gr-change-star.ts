@@ -21,6 +21,11 @@ import {htmlTemplate} from './gr-change-star_html';
 import {customElement, property} from '@polymer/decorators';
 import {ChangeInfo} from '../../../types/common';
 import {fireAlert} from '../../../utils/event-util';
+import {
+  Shortcut,
+  ShortcutSection,
+} from '../../../services/shortcuts/shortcuts-config';
+import {appContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -47,6 +52,8 @@ export class GrChangeStar extends PolymerElement {
 
   @property({type: Object, notify: true})
   change?: ChangeInfo;
+
+  private readonly shortcuts = appContext.shortcutsService;
 
   _computeStarClass(starred?: boolean) {
     return starred ? 'active' : '';
@@ -82,5 +89,9 @@ export class GrChangeStar extends PolymerElement {
         detail,
       })
     );
+  }
+
+  createTitle(shortcutName: Shortcut, section: ShortcutSection) {
+    return this.shortcuts.createTitle(shortcutName, section);
   }
 }

@@ -530,16 +530,22 @@ export class GrRouter extends PolymerElement {
       range = '/' + range;
     }
     let suffix = `${range}`;
-    if (params.querystring) {
-      suffix += '?' + params.querystring;
-    } else if (params.edit) {
-      suffix += ',edit';
+    let queryString = params.querystring;
+    if (params.forceReload) {
+      if (queryString) queryString += '&forceReload=true';
+      else queryString = 'forceReload=true';
     }
-    if (params.messageHash) {
-      suffix += params.messageHash;
+    if (params.edit) {
+      suffix += ',edit';
     }
     if (params.commentId) {
       suffix = suffix + `/comments/${params.commentId}`;
+    }
+    if (queryString) {
+      suffix += '?' + queryString;
+    }
+    if (params.messageHash) {
+      suffix += params.messageHash;
     }
     if (params.project) {
       const encodedProject = encodeURL(params.project, true);
@@ -1563,8 +1569,19 @@ export class GrRouter extends PolymerElement {
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
       patchNum: convertToPatchSetNum(ctx.params[6]),
       view: GerritView.CHANGE,
-      queryMap: ctx.queryMap,
     };
+
+    if (ctx.queryMap.has('forceReload')) {
+      params.forceReload = true;
+      history.replaceState(
+        null,
+        '',
+        location.href.replace(/[?&]forceReload=true/, '')
+      );
+    }
+
+    const tab = ctx.queryMap.get('tab');
+    if (tab) params.tab = tab;
 
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);
@@ -1667,7 +1684,10 @@ export class GrRouter extends PolymerElement {
       patchNum: convertToPatchSetNum(ctx.params[3]),
       view: GerritView.CHANGE,
       edit: true,
+      tab: ctx.queryMap.get('tab') ?? '',
+      forceReload: !!ctx.queryMap.get('forceReload'),
     });
+
     this.reporting.setRepoName(project);
     this.reporting.setChangeId(changeNum);
   }

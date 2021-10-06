@@ -256,11 +256,10 @@ export interface GenerateUrlChangeViewParameters {
   edit?: boolean;
   host?: string;
   messageHash?: string;
-  queryMap?: Map<string, string> | URLSearchParams;
   commentId?: UrlEncodedCommentId;
-
-  // TODO(TS): querystring isn't set anywhere, try to remove
   querystring?: string;
+  forceReload?: boolean;
+  tab?: string;
 }
 
 export interface GenerateUrlRepoViewParameters {
@@ -612,7 +611,8 @@ export const GerritNav = {
     patchNum?: PatchSetNum,
     basePatchNum?: BasePatchSetNum,
     isEdit?: boolean,
-    messageHash?: string
+    messageHash?: string,
+    forceReload?: boolean
   ) {
     if (basePatchNum === ParentPatchSetNum) {
       basePatchNum = undefined;
@@ -628,6 +628,7 @@ export const GerritNav = {
       edit: isEdit,
       host: change.internalHost || undefined,
       messageHash,
+      forceReload,
     });
   },
 
@@ -649,17 +650,27 @@ export const GerritNav = {
    * @param redirect redirect to a change - if true, the current
    *     location (i.e. page which makes redirect) is not added to a history.
    *     I.e. back/forward buttons skip current location
-   *
+   * @param forceReload Some views are smart about how to handle the reload
+   *     of the view. In certain cases we want to force the view to reload
+   *     and re-render everything.
    */
   navigateToChange(
     change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
     patchNum?: PatchSetNum,
     basePatchNum?: BasePatchSetNum,
     isEdit?: boolean,
-    redirect?: boolean
+    redirect?: boolean,
+    forceReload?: boolean
   ) {
     this._navigate(
-      this.getUrlForChange(change, patchNum, basePatchNum, isEdit),
+      this.getUrlForChange(
+        change,
+        patchNum,
+        basePatchNum,
+        isEdit,
+        undefined,
+        forceReload
+      ),
       redirect
     );
   },

@@ -36,7 +36,7 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {appContext} from '../../../services/app-context';
 import {IronInputElement} from '@polymer/iron-input';
-import {fireAlert} from '../../../utils/event-util';
+import {fireAlert, fireReload} from '../../../utils/event-util';
 
 export interface GrEditControls {
   $: {
@@ -237,7 +237,7 @@ export class GrEditControls extends PolymerElement {
           return;
         }
         this._closeDialog(this.$.openDialog);
-        GerritNav.navigateToChange(this.change);
+        fireReload(this);
       });
   }
 
@@ -257,7 +257,7 @@ export class GrEditControls extends PolymerElement {
           return;
         }
         this._closeDialog(dialog);
-        GerritNav.navigateToChange(this.change);
+        fireReload(this);
       });
   }
 
@@ -275,7 +275,7 @@ export class GrEditControls extends PolymerElement {
           return;
         }
         this._closeDialog(dialog);
-        GerritNav.navigateToChange(this.change);
+        fireReload(this);
       });
   }
 
@@ -293,7 +293,7 @@ export class GrEditControls extends PolymerElement {
           return;
         }
         this._closeDialog(dialog);
-        GerritNav.navigateToChange(this.change);
+        fireReload(this);
       });
   }
 

@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 import '../gr-button/gr-button';
-import '../../../styles/gr-font-styles';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-dialog_html';
-import {customElement, property, observe} from '@polymer/decorators';
+import {customElement, property, query} from 'lit/decorators';
 import {GrButton} from '../gr-button/gr-button';
 import {KeydownEvent} from '../../../types/events';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {fontStyles} from '../../../styles/gr-font-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,18 +28,8 @@ declare global {
   }
 }
 
-export interface GrDialog {
-  $: {
-    confirm: GrButton;
-  };
-}
-
 @customElement('gr-dialog')
-export class GrDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrDialog extends LitElement {
   /**
    * Fired when the confirm button is pressed.
    *
@@ -53,33 +42,132 @@ export class GrDialog extends PolymerElement {
    * @event cancel
    */
 
-  @property({type: String})
+  @query('#confirm')
+  confirmButton?: GrButton;
+
+  @property({type: String, attribute: 'confirm-label'})
   confirmLabel = 'Confirm';
 
   // Supplying an empty cancel label will hide the button completely.
-  @property({type: String})
+  @property({type: String, attribute: 'cancel-label'})
   cancelLabel = 'Cancel';
 
   @property({type: Boolean})
   disabled = false;
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'confirm-on-enter'})
   confirmOnEnter = false;
 
-  @property({type: String})
+  @property({type: String, attribute: 'confirm-tooltip'})
   confirmTooltip?: string;
 
-  override ready() {
-    super.ready();
-    this._ensureAttribute('role', 'dialog');
+  override firstUpdated(changedProperties: PropertyValues) {
+    super.firstUpdated(changedProperties);
+    if (!this.getAttribute('role')) this.setAttribute('role', 'dialog');
   }
 
-  @observe('confirmTooltip')
-  _handleConfirmTooltipUpdate(confirmTooltip?: string) {
-    if (confirmTooltip) {
-      this.$.confirm.setAttribute('has-tooltip', 'true');
+  static override get styles() {
+    return [
+      sharedStyles,
+      fontStyles,
+      css`
+        :host {
+          color: var(--primary-text-color);
+          display: block;
+          max-height: 90vh;
+          overflow: auto;
+        }
+        .container {
+          display: flex;
+          flex-direction: column;
+          max-height: 90vh;
+          padding: var(--spacing-xl);
+        }
+        header {
+          flex-shrink: 0;
+          padding-bottom: var(--spacing-xl);
+        }
+        main {
+          display: flex;
+          flex-shrink: 1;
+          width: 100%;
+          flex: 1;
+          /* IMPORTANT: required for firefox */
+          min-height: 0px;
+        }
+        main .overflow-container {
+          flex: 1;
+          overflow: auto;
+        }
+        footer {
+          display: flex;
+          flex-shrink: 0;
+          justify-content: flex-end;
+          padding-top: var(--spacing-xl);
+        }
+        gr-button {
+          margin-left: var(--spacing-l);
+        }
+        .hidden {
+          display: none;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    // Note that we are using (e: Event) => this._handleKeyDown because the
+    // tests mock out _handleKeydown so the lookup needs to be dynamic, not
+    // bound statically here.
+    return html`
+      <div
+        class="container"
+        @keydown=${(e: KeydownEvent) => this._handleKeydown(e)}
+      >
+        <header class="heading-3"><slot name="header"></slot></header>
+        <main>
+          <div class="overflow-container">
+            <slot name="main"></slot>
+          </div>
+        </main>
+        <footer>
+          <slot name="footer"></slot>
+          <gr-button
+            id="cancel"
+            class="${this.cancelLabel.length ? '' : 'hidden'}"
+            link
+            @click=${(e: Event) => this.handleCancelTap(e)}
+          >
+            ${this.cancelLabel}
+          </gr-button>
+          <gr-button
+            id="confirm"
+            link
+            primary
+            @click=${(e: Event) => this._handleConfirm(e)}
+            ?disabled=${this.disabled}
+            title=${this.confirmTooltip ?? ''}
+          >
+            ${this.confirmLabel}
+          </gr-button>
+        </footer>
+      </div>
+    `;
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('confirmTooltip')) {
+      this.updateTooltip();
+    }
+  }
+
+  private updateTooltip() {
+    const confirmButton = this.confirmButton;
+    if (!confirmButton) return;
+    if (this.confirmTooltip) {
+      confirmButton.setAttribute('has-tooltip', 'true');
     } else {
-      this.$.confirm.removeAttribute('has-tooltip');
+      confirmButton.removeAttribute('has-tooltip');
     }
   }
 
@@ -98,7 +186,7 @@ export class GrDialog extends PolymerElement {
     );
   }
 
-  _handleCancelTap(e: Event) {
+  private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
@@ -116,10 +204,6 @@ export class GrDialog extends PolymerElement {
   }
 
   resetFocus() {
-    this.$.confirm.focus();
-  }
-
-  _computeCancelClass(cancelLabel: string) {
-    return cancelLabel.length ? '' : 'hidden';
+    this.confirmButton!.focus();
   }
 }

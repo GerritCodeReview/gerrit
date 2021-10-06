@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3e4ff2a_dc37bcb6",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T21:17:26Z",
+      "side": 0,
+      "message": "Why is this no longer good enough? Does navigateToChange not cause a reload? Could it become smarter in determining whether it should reload or not?",
+      "revId": "f3a62d8294bf71298f19d76c3f278a183f685fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

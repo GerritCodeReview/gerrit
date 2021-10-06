@@ -178,13 +178,9 @@ export const htmlTemplate = html`
           hidden$="[[_computePrefsButtonHidden(diffPrefs, diffPrefsDisabled)]]"
           hidden=""
         >
-          <gr-tooltip-content
-            has-tooltip
-            title="Diff preferences"
-          >
+          <gr-tooltip-content has-tooltip title="Diff preferences">
             <gr-button
               link=""
-
               class="prefsButton desktop"
               on-click="_handlePrefsTap"
               ><iron-icon icon="gr-icons:settings"></iron-icon
@@ -199,10 +195,7 @@ export const htmlTemplate = html`
           title="[[createTitle(Shortcut.OPEN_DOWNLOAD_DIALOG,
                    ShortcutSection.ACTIONS)]]"
         >
-          <gr-button
-            link=""
-            class="download"
-            on-click="_handleDownloadTap"
+          <gr-button link="" class="download" on-click="_handleDownloadTap"
             >Download</gr-button
           >
         </gr-tooltip-content>
@@ -212,24 +205,20 @@ export const htmlTemplate = html`
         if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]"
       >
         <gr-tooltip-content
-            has-tooltip
-            title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
-                  ShortcutSection.FILE_LIST)]]">
-          <gr-button
-            id="expandBtn"
-            link=""
-
-            on-click="_expandAllDiffs"
+          has-tooltip
+          title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
+                  ShortcutSection.FILE_LIST)]]"
+        >
+          <gr-button id="expandBtn" link="" on-click="_expandAllDiffs"
             >Expand All</gr-button
           >
+        </gr-tooltip-content>
         <gr-tooltip-content
-            has-tooltip
-            title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
-                  ShortcutSection.FILE_LIST)]]">
-          <gr-button
-            id="collapseBtn"
-            link=""
-            on-click="_collapseAllDiffs"
+          has-tooltip
+          title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
+                  ShortcutSection.FILE_LIST)]]"
+        >
+          <gr-button id="collapseBtn" link="" on-click="_collapseAllDiffs"
             >Collapse All</gr-button
           >
         </gr-tooltip-content>

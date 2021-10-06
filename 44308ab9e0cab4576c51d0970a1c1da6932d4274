@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22d247e8_bb59ff93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-06T15:56:22Z",
+      "side": 1,
+      "message": "Now that all legacy dependencies are removed and the new diff cache is rolled out for about two weeks, we can deprecate PatchListLoader.",
+      "revId": "44308ab9e0cab4576c51d0970a1c1da6932d4274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

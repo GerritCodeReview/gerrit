@@ -251,12 +251,6 @@ const InternalKeyboardShortcutMixin = <
       this.shortcuts.bindShortcut(shortcut, ...bindings);
     }
 
-    createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-      const desc = this.shortcuts.getDescription(section, shortcutName);
-      const shortcut = this.shortcuts.getShortcut(shortcutName);
-      return desc && shortcut ? `${desc} (shortcut: ${shortcut})` : '';
-    }
-
     _addOwnKeyBindings(shortcut: Shortcut, handler: string) {
       const bindings = this.shortcuts.getBindingsForShortcut(shortcut);
       if (!bindings) {
@@ -494,7 +488,6 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
 /** The interface corresponding to KeyboardShortcutMixin */
 export interface KeyboardShortcutMixinInterface {
   keyboardShortcuts(): {[key: string]: string | null};
-  createTitle(name: Shortcut, section: ShortcutSection): string;
   bindShortcut(shortcut: Shortcut, ...bindings: string[]): void;
   shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent): boolean;
   modifierPressed(event: CustomKeyboardEvent): boolean;

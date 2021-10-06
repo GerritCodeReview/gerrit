@@ -37,6 +37,7 @@ import {htmlTemplate} from './gr-diff-view_html';
 import {
   KeyboardShortcutMixin,
   Shortcut,
+  ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
   GeneratedWebLink,
@@ -340,6 +341,8 @@ export class GrDiffView extends base {
   private readonly restApiService = appContext.restApiService;
 
   private readonly commentsService = appContext.commentsService;
+
+  private readonly shortcuts = appContext.shortcutsService;
 
   _throttledToggleFileReviewed?: EventListener;
 
@@ -1897,6 +1900,10 @@ export class GrDiffView extends base {
    */
   _computeTruncatedPath(path?: string) {
     return path ? computeTruncatedPath(path) : '';
+  }
+
+  createTitle(shortcutName: Shortcut, section: ShortcutSection) {
+    return this.shortcuts.createTitle(shortcutName, section);
   }
 }
 

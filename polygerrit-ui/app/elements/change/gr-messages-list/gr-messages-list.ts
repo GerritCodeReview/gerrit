@@ -257,6 +257,8 @@ export class GrMessagesList extends base {
 
   private readonly reporting = appContext.reportingService;
 
+  private readonly shortcuts = appContext.shortcutsService;
+
   scrollToMessage(messageID: string) {
     const selector = `[data-message-id="${messageID}"]`;
     const el = this.shadowRoot!.querySelector(selector) as
@@ -384,13 +386,13 @@ export class GrMessagesList extends base {
 
   _computeExpandAllTitle(_expandAllState?: string) {
     if (_expandAllState === ExpandAllState.COLLAPSE_ALL) {
-      return this.createTitle(
+      return this.shortcuts.createTitle(
         Shortcut.COLLAPSE_ALL_MESSAGES,
         ShortcutSection.ACTIONS
       );
     }
     if (_expandAllState === ExpandAllState.EXPAND_ALL) {
-      return this.createTitle(
+      return this.shortcuts.createTitle(
         Shortcut.EXPAND_ALL_MESSAGES,
         ShortcutSection.ACTIONS
       );

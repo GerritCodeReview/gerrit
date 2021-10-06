@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd59c392_ee00eb42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-06T23:49:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95fcfcbf_88ddfa07",
+      "revId": "8b883e9c79a67f0da0b507cb309ecf0acfaf1374",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64475173_f2879b35",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c07c1b72_20390136",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-06T23:49:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64475173_f2879b35",
+      "revId": "8b883e9c79a67f0da0b507cb309ecf0acfaf1374",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05130f5a_b5cb2f98",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-10-06T21:16:14Z",
       "side": 1,
       "message": "Use execute() instead of submit() if you aren\u0027t going to use the Future.",
+      "revId": "8b883e9c79a67f0da0b507cb309ecf0acfaf1374",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c56a46b9_e3904200",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_131.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-06T23:49:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05130f5a_b5cb2f98",
       "revId": "8b883e9c79a67f0da0b507cb309ecf0acfaf1374",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

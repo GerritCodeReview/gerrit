@@ -35,12 +35,7 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 import {EventType, PluginApi} from '../../../api/plugin';
 
 import 'lodash/lodash';
-import {
-  mockPromise,
-  stubRestApi,
-  TestKeyboardShortcutBinder,
-} from '../../../test/test-utils';
-import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {mockPromise, stubRestApi} from '../../../test/test-utils';
 import {
   createAppElementChangeViewParams,
   createApproval,
@@ -87,6 +82,7 @@ import {
 } from '../../../types/common';
 import {
   pressAndReleaseKeyOn,
+  keyUpOn,
   tap,
 } from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
@@ -110,25 +106,6 @@ suite('gr-change-view tests', () => {
   let navigateToChangeStub: SinonStubbedMember<
     typeof GerritNav.navigateToChange
   >;
-
-  suiteSetup(() => {
-    const kb = TestKeyboardShortcutBinder.push();
-    kb.bindShortcut(Shortcut.SEND_REPLY, 'ctrl+enter');
-    kb.bindShortcut(Shortcut.REFRESH_CHANGE, 'shift+r');
-    kb.bindShortcut(Shortcut.OPEN_REPLY_DIALOG, 'a');
-    kb.bindShortcut(Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
-    kb.bindShortcut(Shortcut.TOGGLE_DIFF_MODE, 'm');
-    kb.bindShortcut(Shortcut.TOGGLE_CHANGE_STAR, 's');
-    kb.bindShortcut(Shortcut.UP_TO_DASHBOARD, 'u');
-    kb.bindShortcut(Shortcut.EXPAND_ALL_MESSAGES, 'x');
-    kb.bindShortcut(Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
-    kb.bindShortcut(Shortcut.OPEN_DIFF_PREFS, ',');
-    kb.bindShortcut(Shortcut.EDIT_TOPIC, 't');
-  });
-
-  suiteTeardown(() => {
-    TestKeyboardShortcutBinder.pop();
-  });
 
   const ROBOT_COMMENTS_LIMIT = 10;
 
@@ -682,7 +659,7 @@ suite('gr-change-view tests', () => {
       sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
-      pressAndReleaseKeyOn(element, 65, null, 'a');
+      keyUpOn(element, 65, null, 'a');
       await flush();
       assert.isFalse(element.$.replyOverlay.opened);
       assert.isTrue(loggedInErrorSpy.called);
@@ -715,7 +692,7 @@ suite('gr-change-view tests', () => {
 
       const openSpy = sinon.spy(element, '_openReplyDialog');
 
-      pressAndReleaseKeyOn(element, 65, null, 'a');
+      keyUpOn(element, 65, null, 'a');
       await flush();
       assert.isTrue(element.$.replyOverlay.opened);
       element.$.replyOverlay.close();
@@ -828,7 +805,7 @@ suite('gr-change-view tests', () => {
       const stub = sinon
         .stub(element.$.downloadOverlay, 'open')
         .returns(Promise.resolve());
-      pressAndReleaseKeyOn(element, 68, null, 'd');
+      keyUpOn(element, 68, null, 'd');
       assert.isTrue(stub.called);
     });
 

@@ -15,41 +15,19 @@
  * limitations under the License.
  */
 import '../../test/common-test-setup-karma';
-import {
-  ShortcutsService,
-  SPECIAL_SHORTCUT,
-} from '../../services/shortcuts/shortcuts-service';
+import {ShortcutsService} from '../../services/shortcuts/shortcuts-service';
 import {Shortcut, ShortcutSection} from './shortcuts-config';
 
 suite('shortcuts-service tests', () => {
-  test('bindings management', () => {
-    const mgr = new ShortcutsService();
-    const NEXT_FILE = Shortcut.NEXT_FILE;
-
-    assert.isUndefined(mgr.getBindingsForShortcut(NEXT_FILE));
-    mgr.bindShortcut(NEXT_FILE, ']', '}', 'right');
-    assert.deepEqual(mgr.getBindingsForShortcut(NEXT_FILE), [
-      ']',
-      '}',
-      'right',
-    ]);
-  });
-
   test('getShortcut', () => {
     const mgr = new ShortcutsService();
     const NEXT_FILE = Shortcut.NEXT_FILE;
-
-    assert.isUndefined(mgr.getBindingsForShortcut(NEXT_FILE));
-    mgr.bindShortcut(NEXT_FILE, ']', '}', 'right');
-    assert.equal(mgr.getShortcut(NEXT_FILE), '],},→');
+    assert.equal(mgr.getShortcut(NEXT_FILE), ']');
   });
 
   test('getShortcut with modifiers', () => {
     const mgr = new ShortcutsService();
-    const NEXT_FILE = Shortcut.NEXT_FILE;
-
-    assert.isUndefined(mgr.getBindingsForShortcut(NEXT_FILE));
-    mgr.bindShortcut(NEXT_FILE, 'Shift+a:key');
+    const NEXT_FILE = Shortcut.TOGGLE_LEFT_PANE;
     assert.equal(mgr.getShortcut(NEXT_FILE), 'Shift+a');
   });
 
@@ -74,29 +52,15 @@ suite('shortcuts-service tests', () => {
 
     test('combo set description', () => {
       const mgr = new ShortcutsService();
-      assert.isNull(mgr.describeBindings(Shortcut.NEXT_FILE));
-
-      mgr.bindShortcut(
-        Shortcut.GO_TO_OPENED_CHANGES,
-        SPECIAL_SHORTCUT.GO_KEY,
-        'o'
-      );
       assert.deepEqual(mgr.describeBindings(Shortcut.GO_TO_OPENED_CHANGES), [
         ['g', 'o'],
       ]);
-
-      mgr.bindShortcut(
-        Shortcut.NEXT_FILE,
-        SPECIAL_SHORTCUT.DOC_ONLY,
-        ']',
-        'ctrl+shift+right:keyup'
-      );
-      assert.deepEqual(mgr.describeBindings(Shortcut.NEXT_FILE), [
-        [']'],
-        ['Ctrl', 'Shift', '→'],
+      assert.deepEqual(mgr.describeBindings(Shortcut.SAVE_COMMENT), [
+        ['Ctrl', 'Enter'],
+        ['Meta', 'Enter'],
+        ['Ctrl', 's'],
+        ['Meta', 's'],
       ]);
-
-      mgr.bindShortcut(Shortcut.PREV_FILE, '[');
       assert.deepEqual(mgr.describeBindings(Shortcut.PREV_FILE), [['[']]);
     });
 
@@ -146,27 +110,34 @@ suite('shortcuts-service tests', () => {
 
     test('active shortcuts by section', () => {
       const mgr = new ShortcutsService();
-      mgr.bindShortcut(Shortcut.NEXT_FILE, ']');
-      mgr.bindShortcut(Shortcut.NEXT_LINE, 'j');
-      mgr.bindShortcut(Shortcut.GO_TO_OPENED_CHANGES, 'g+o');
-      mgr.bindShortcut(Shortcut.SEARCH, '/');
-
       assert.deepEqual(mapToObject(mgr.activeShortcutsBySection()), {});
 
       mgr.attachHost({}, new Map([[Shortcut.NEXT_FILE, 'null']]));
       assert.deepEqual(mapToObject(mgr.activeShortcutsBySection()), {
         [ShortcutSection.NAVIGATION]: [
-          {shortcut: Shortcut.NEXT_FILE, text: 'Go to next file'},
+          {
+            shortcut: Shortcut.NEXT_FILE,
+            text: 'Go to next file',
+            bindings: [']'],
+          },
         ],
       });
 
       mgr.attachHost({}, new Map([[Shortcut.NEXT_LINE, 'null']]));
       assert.deepEqual(mapToObject(mgr.activeShortcutsBySection()), {
         [ShortcutSection.DIFFS]: [
-          {shortcut: Shortcut.NEXT_LINE, text: 'Go to next line'},
+          {
+            shortcut: Shortcut.NEXT_LINE,
+            text: 'Go to next line',
+            bindings: ['j', 'down'],
+          },
         ],
         [ShortcutSection.NAVIGATION]: [
-          {shortcut: Shortcut.NEXT_FILE, text: 'Go to next file'},
+          {
+            shortcut: Shortcut.NEXT_FILE,
+            text: 'Go to next file',
+            bindings: [']'],
+          },
         ],
       });
 
@@ -179,38 +150,36 @@ suite('shortcuts-service tests', () => {
       );
       assert.deepEqual(mapToObject(mgr.activeShortcutsBySection()), {
         [ShortcutSection.DIFFS]: [
-          {shortcut: Shortcut.NEXT_LINE, text: 'Go to next line'},
+          {
+            shortcut: Shortcut.NEXT_LINE,
+            text: 'Go to next line',
+            bindings: ['j', 'down'],
+          },
         ],
         [ShortcutSection.EVERYWHERE]: [
-          {shortcut: Shortcut.SEARCH, text: 'Search'},
+          {
+            shortcut: Shortcut.SEARCH,
+            text: 'Search',
+            bindings: ['/'],
+          },
           {
             shortcut: Shortcut.GO_TO_OPENED_CHANGES,
             text: 'Go to Opened Changes',
+            bindings: ['GO_KEY', 'o'],
           },
         ],
         [ShortcutSection.NAVIGATION]: [
-          {shortcut: Shortcut.NEXT_FILE, text: 'Go to next file'},
+          {
+            shortcut: Shortcut.NEXT_FILE,
+            text: 'Go to next file',
+            bindings: [']'],
+          },
         ],
       });
     });
 
     test('directory view', () => {
       const mgr = new ShortcutsService();
-      mgr.bindShortcut(Shortcut.NEXT_FILE, ']');
-      mgr.bindShortcut(Shortcut.NEXT_LINE, 'j');
-      mgr.bindShortcut(
-        Shortcut.GO_TO_OPENED_CHANGES,
-        SPECIAL_SHORTCUT.GO_KEY,
-        'o'
-      );
-      mgr.bindShortcut(Shortcut.SEARCH, '/');
-      mgr.bindShortcut(
-        Shortcut.SAVE_COMMENT,
-        'ctrl+enter',
-        'meta+enter',
-        'ctrl+s',
-        'meta+s'
-      );
 
       assert.deepEqual(mapToObject(mgr.directoryView()), {});
 
@@ -226,7 +195,7 @@ suite('shortcuts-service tests', () => {
       );
       assert.deepEqual(mapToObject(mgr.directoryView()), {
         [ShortcutSection.DIFFS]: [
-          {binding: [['j']], text: 'Go to next line'},
+          {binding: [['j'], ['↓']], text: 'Go to next line'},
           {
             binding: [
               ['Ctrl', 'Enter'],

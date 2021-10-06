@@ -43,7 +43,6 @@ import {getBaseUrl} from '../utils/url-util';
 import {
   KeyboardShortcutMixin,
   Shortcut,
-  SPECIAL_SHORTCUT,
 } from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GerritNav} from './core/gr-navigation/gr-navigation';
 import {appContext} from '../services/app-context';
@@ -232,7 +231,6 @@ export class GrAppElement extends base {
     // model changes and updates the config model, but at the moment the service
     // is not called from anywhere.
     appContext.configService;
-    this._bindKeyboardShortcuts();
     document.addEventListener(EventType.PAGE_ERROR, e => {
       this._handlePageError(e);
     });
@@ -305,159 +303,6 @@ export class GrAppElement extends base {
       },
       dashboardView: {},
     };
-  }
-
-  _bindKeyboardShortcuts() {
-    this.bindShortcut(
-      Shortcut.SEND_REPLY,
-      SPECIAL_SHORTCUT.DOC_ONLY,
-      'ctrl+enter',
-      'meta+enter'
-    );
-    this.bindShortcut(Shortcut.EMOJI_DROPDOWN, SPECIAL_SHORTCUT.DOC_ONLY, ':');
-
-    this.bindShortcut(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, '?');
-    this.bindShortcut(
-      Shortcut.GO_TO_USER_DASHBOARD,
-      SPECIAL_SHORTCUT.GO_KEY,
-      'i'
-    );
-    this.bindShortcut(
-      Shortcut.GO_TO_OPENED_CHANGES,
-      SPECIAL_SHORTCUT.GO_KEY,
-      'o'
-    );
-    this.bindShortcut(
-      Shortcut.GO_TO_MERGED_CHANGES,
-      SPECIAL_SHORTCUT.GO_KEY,
-      'm'
-    );
-    this.bindShortcut(
-      Shortcut.GO_TO_ABANDONED_CHANGES,
-      SPECIAL_SHORTCUT.GO_KEY,
-      'a'
-    );
-    this.bindShortcut(
-      Shortcut.GO_TO_WATCHED_CHANGES,
-      SPECIAL_SHORTCUT.GO_KEY,
-      'w'
-    );
-
-    this.bindShortcut(Shortcut.CURSOR_NEXT_CHANGE, 'j');
-    this.bindShortcut(Shortcut.CURSOR_PREV_CHANGE, 'k');
-    this.bindShortcut(Shortcut.OPEN_CHANGE, 'o');
-    this.bindShortcut(Shortcut.NEXT_PAGE, 'n', ']');
-    this.bindShortcut(Shortcut.PREV_PAGE, 'p', '[');
-    this.bindShortcut(Shortcut.TOGGLE_CHANGE_REVIEWED, 'r:keyup');
-    this.bindShortcut(Shortcut.TOGGLE_CHANGE_STAR, 's:keydown');
-    this.bindShortcut(Shortcut.REFRESH_CHANGE_LIST, 'shift+r:keyup');
-    this.bindShortcut(Shortcut.EDIT_TOPIC, 't');
-    this.bindShortcut(Shortcut.OPEN_SUBMIT_DIALOG, 'shift+s');
-    this.bindShortcut(Shortcut.TOGGLE_ATTENTION_SET, 'shift+t');
-
-    this.bindShortcut(Shortcut.OPEN_REPLY_DIALOG, 'a:keyup');
-    this.bindShortcut(Shortcut.OPEN_DOWNLOAD_DIALOG, 'd:keyup');
-    this.bindShortcut(Shortcut.EXPAND_ALL_MESSAGES, 'x');
-    this.bindShortcut(Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
-    this.bindShortcut(Shortcut.REFRESH_CHANGE, 'shift+r:keyup');
-    this.bindShortcut(Shortcut.UP_TO_DASHBOARD, 'u');
-    this.bindShortcut(Shortcut.UP_TO_CHANGE, 'u');
-    this.bindShortcut(Shortcut.TOGGLE_DIFF_MODE, 'm:keyup');
-    this.bindShortcut(
-      Shortcut.DIFF_AGAINST_BASE,
-      SPECIAL_SHORTCUT.V_KEY,
-      'down',
-      's'
-    );
-    // this keyboard shortcut is used in toast _displayDiffAgainstLatestToast
-    // in gr-diff-view. Any updates here should be reflected there
-    this.bindShortcut(
-      Shortcut.DIFF_AGAINST_LATEST,
-      SPECIAL_SHORTCUT.V_KEY,
-      'up',
-      'w'
-    );
-    // this keyboard shortcut is used in toast _displayDiffBaseAgainstLeftToast
-    // in gr-diff-view. Any updates here should be reflected there
-    this.bindShortcut(
-      Shortcut.DIFF_BASE_AGAINST_LEFT,
-      SPECIAL_SHORTCUT.V_KEY,
-      'left',
-      'a'
-    );
-    this.bindShortcut(
-      Shortcut.DIFF_RIGHT_AGAINST_LATEST,
-      SPECIAL_SHORTCUT.V_KEY,
-      'right',
-      'd'
-    );
-    this.bindShortcut(
-      Shortcut.DIFF_BASE_AGAINST_LATEST,
-      SPECIAL_SHORTCUT.V_KEY,
-      'b'
-    );
-
-    this.bindShortcut(Shortcut.NEXT_LINE, 'j', 'down');
-    this.bindShortcut(Shortcut.PREV_LINE, 'k', 'up');
-    if (this._isCursorManagerSupportMoveToVisibleLine()) {
-      this.bindShortcut(Shortcut.VISIBLE_LINE, '.');
-    }
-    this.bindShortcut(Shortcut.NEXT_CHUNK, 'n');
-    this.bindShortcut(Shortcut.PREV_CHUNK, 'p');
-    this.bindShortcut(Shortcut.TOGGLE_ALL_DIFF_CONTEXT, 'shift+x');
-    this.bindShortcut(Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
-    this.bindShortcut(Shortcut.PREV_COMMENT_THREAD, 'shift+p');
-    this.bindShortcut(
-      Shortcut.EXPAND_ALL_COMMENT_THREADS,
-      SPECIAL_SHORTCUT.DOC_ONLY,
-      'e'
-    );
-    this.bindShortcut(
-      Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
-      SPECIAL_SHORTCUT.DOC_ONLY,
-      'shift+e'
-    );
-    this.bindShortcut(Shortcut.LEFT_PANE, 'shift+left');
-    this.bindShortcut(Shortcut.RIGHT_PANE, 'shift+right');
-    this.bindShortcut(Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
-    this.bindShortcut(Shortcut.NEW_COMMENT, 'c');
-    this.bindShortcut(
-      Shortcut.SAVE_COMMENT,
-      'ctrl+enter',
-      'meta+enter',
-      'ctrl+s',
-      'meta+s'
-    );
-    this.bindShortcut(Shortcut.OPEN_DIFF_PREFS, ',');
-    this.bindShortcut(Shortcut.TOGGLE_DIFF_REVIEWED, 'r:keyup');
-
-    this.bindShortcut(Shortcut.NEXT_FILE, ']');
-    this.bindShortcut(Shortcut.PREV_FILE, '[');
-    this.bindShortcut(Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
-    this.bindShortcut(Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
-    this.bindShortcut(Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
-    this.bindShortcut(Shortcut.CURSOR_PREV_FILE, 'k', 'up');
-    this.bindShortcut(Shortcut.OPEN_FILE, 'o', 'enter');
-    this.bindShortcut(Shortcut.TOGGLE_FILE_REVIEWED, 'r:keyup');
-    this.bindShortcut(Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
-    this.bindShortcut(Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i');
-    this.bindShortcut(Shortcut.TOGGLE_INLINE_DIFF, 'i');
-    this.bindShortcut(Shortcut.TOGGLE_BLAME, 'b:keyup');
-    this.bindShortcut(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
-    this.bindShortcut(Shortcut.OPEN_FILE_LIST, 'f');
-
-    this.bindShortcut(Shortcut.OPEN_FIRST_FILE, ']');
-    this.bindShortcut(Shortcut.OPEN_LAST_FILE, '[');
-
-    this.bindShortcut(Shortcut.SEARCH, '/');
-  }
-
-  _isCursorManagerSupportMoveToVisibleLine() {
-    // This method is a copy-paste from the
-    // method _isIntersectionObserverSupported of gr-cursor-manager.js
-    // It is better share this method with gr-cursor-manager,
-    // but doing it require a lot if changes instead of 1-line copied code
-    return 'IntersectionObserver' in window;
   }
 
   _accountChanged(account?: AccountDetailInfo) {

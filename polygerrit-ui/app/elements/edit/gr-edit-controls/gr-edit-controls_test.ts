@@ -76,33 +76,34 @@ suite('gr-edit-controls tests', () => {
       assert.isTrue(element._isValidPath('test.js'));
     });
 
-    test('open', () => {
+    test('open', async () => {
       assert.isFalse(hideDialogStub.called);
       MockInteractions.tap(queryAndAssert(element, '#open'));
       element.patchNum = 1 as PatchSetNum;
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(hideDialogStub.called);
-        assert.isTrue(element.$.openDialog.disabled);
-        assert.isFalse(queryStub.called);
-        // Setup _focused manually - in headless mode Chrome sometimes don't
-        // setup focus. flush and/or flushAsynchronousOperations don't help
-        openAutoComplete._focused = true;
-        openAutoComplete.noDebounce = true;
-        openAutoComplete.text = 'src/test.cpp';
-        assert.isTrue(queryStub.called);
-        assert.isFalse(element.$.openDialog.disabled);
-        MockInteractions.tap(
-          queryAndAssert(element.$.openDialog, 'gr-button[primary]')
-        );
-        assert.isTrue(editDiffStub.called);
-        assert.isTrue(navStub.called);
-        assert.deepEqual(editDiffStub.lastCall.args, [
-          element.change,
-          'src/test.cpp',
-          element.patchNum,
-        ]);
-        assert.isTrue(closeDialogSpy.called);
-      });
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(hideDialogStub.called);
+      assert.isTrue(element.$.openDialog.disabled);
+      assert.isFalse(queryStub.called);
+      // Setup _focused manually - in headless mode Chrome sometimes don't
+      // setup focus. flush and/or flushAsynchronousOperations don't help
+      openAutoComplete._focused = true;
+      openAutoComplete.noDebounce = true;
+      openAutoComplete.text = 'src/test.cpp';
+      await flush();
+      assert.isTrue(queryStub.called);
+      assert.isFalse(element.$.openDialog.disabled);
+      MockInteractions.tap(
+        queryAndAssert(element.$.openDialog, 'gr-button[primary]')
+      );
+      assert.isTrue(editDiffStub.called);
+      assert.isTrue(navStub.called);
+      assert.deepEqual(editDiffStub.lastCall.args, [
+        element.change,
+        'src/test.cpp',
+        element.patchNum,
+      ]);
+      assert.isTrue(closeDialogSpy.called);
+
     });
 
     test('cancel', () => {
@@ -133,59 +134,56 @@ suite('gr-edit-controls tests', () => {
         element.$.deleteDialog!.querySelector('gr-autocomplete')!;
     });
 
-    test('delete', () => {
+    test('delete', async () => {
       deleteStub.returns(Promise.resolve({ok: true}));
       MockInteractions.tap(queryAndAssert(element, '#delete'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.deleteDialog.disabled);
-        assert.isFalse(queryStub.called);
-        // Setup _focused manually - in headless mode Chrome sometimes don't
-        // setup focus. flush and/or flushAsynchronousOperations don't help
-        deleteAutocomplete._focused = true;
-        deleteAutocomplete.noDebounce = true;
-        deleteAutocomplete.text = 'src/test.cpp';
-        assert.isTrue(queryStub.called);
-        assert.isFalse(element.$.deleteDialog.disabled);
-        MockInteractions.tap(
-          queryAndAssert(element.$.deleteDialog, 'gr-button[primary]')
-        );
-        flush();
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element.$.deleteDialog.disabled);
+      assert.isFalse(queryStub.called);
+      // Setup _focused manually - in headless mode Chrome sometimes don't
+      // setup focus. flush and/or flushAsynchronousOperations don't help
+      deleteAutocomplete._focused = true;
+      deleteAutocomplete.noDebounce = true;
+      deleteAutocomplete.text = 'src/test.cpp';
+      await flush();
+      assert.isTrue(queryStub.called);
+      assert.isFalse(element.$.deleteDialog.disabled);
+      MockInteractions.tap(
+        queryAndAssert(element.$.deleteDialog, 'gr-button[primary]')
+      );
+      await flush();
 
-        assert.isTrue(deleteStub.called);
-
-        return deleteStub.lastCall.returnValue.then(() => {
-          assert.equal(element._path, '');
-          assert.isTrue(navStub.called);
-          assert.isTrue(closeDialogSpy.called);
-        });
-      });
+      assert.isTrue(deleteStub.called);
+      await deleteStub.lastCall.returnValue;
+      assert.equal(element._path, '');
+      assert.isTrue(navStub.called);
+      assert.isTrue(closeDialogSpy.called);
     });
 
-    test('delete fails', () => {
+    test('delete fails', async () => {
       deleteStub.returns(Promise.resolve({ok: false}));
       MockInteractions.tap(queryAndAssert(element, '#delete'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.deleteDialog.disabled);
-        assert.isFalse(queryStub.called);
-        // Setup _focused manually - in headless mode Chrome sometimes don't
-        // setup focus. flush and/or flushAsynchronousOperations don't help
-        deleteAutocomplete._focused = true;
-        deleteAutocomplete.noDebounce = true;
-        deleteAutocomplete.text = 'src/test.cpp';
-        assert.isTrue(queryStub.called);
-        assert.isFalse(element.$.deleteDialog.disabled);
-        MockInteractions.tap(
-          queryAndAssert(element.$.deleteDialog, 'gr-button[primary]')
-        );
-        flush();
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element.$.deleteDialog.disabled);
+      assert.isFalse(queryStub.called);
+      // Setup _focused manually - in headless mode Chrome sometimes don't
+      // setup focus. flush and/or flushAsynchronousOperations don't help
+      deleteAutocomplete._focused = true;
+      deleteAutocomplete.noDebounce = true;
+      deleteAutocomplete.text = 'src/test.cpp';
+      await flush();
+      assert.isTrue(queryStub.called);
+      assert.isFalse(element.$.deleteDialog.disabled);
+      MockInteractions.tap(
+        queryAndAssert(element.$.deleteDialog, 'gr-button[primary]')
+      );
+      await flush();
 
-        assert.isTrue(deleteStub.called);
+      assert.isTrue(deleteStub.called);
 
-        return deleteStub.lastCall.returnValue.then(() => {
-          assert.isFalse(navStub.called);
-          assert.isFalse(closeDialogSpy.called);
-        });
-      });
+      await deleteStub.lastCall.returnValue;
+      assert.isFalse(navStub.called);
+      assert.isFalse(closeDialogSpy.called);
     });
 
     test('cancel', () => {
@@ -217,67 +215,66 @@ suite('gr-edit-controls tests', () => {
         element.$.renameDialog!.querySelector('gr-autocomplete')!;
     });
 
-    test('rename', () => {
+    test('rename', async () => {
       renameStub.returns(Promise.resolve({ok: true}));
       MockInteractions.tap(queryAndAssert(element, '#rename'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.renameDialog.disabled);
-        assert.isFalse(queryStub.called);
-        // Setup _focused manually - in headless mode Chrome sometimes don't
-        // setup focus. flush and/or flushAsynchronousOperations don't help
-        renameAutocomplete._focused = true;
-        renameAutocomplete.noDebounce = true;
-        renameAutocomplete.text = 'src/test.cpp';
-        assert.isTrue(queryStub.called);
-        assert.isTrue(element.$.renameDialog.disabled);
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element.$.renameDialog.disabled);
+      assert.isFalse(queryStub.called);
+      // Setup _focused manually - in headless mode Chrome sometimes don't
+      // setup focus. flush and/or flushAsynchronousOperations don't help
+      renameAutocomplete._focused = true;
+      renameAutocomplete.noDebounce = true;
+      renameAutocomplete.text = 'src/test.cpp';
+      await flush();
+      assert.isTrue(queryStub.called);
+      assert.isTrue(element.$.renameDialog.disabled);
 
-        element.$.newPathIronInput.bindValue = 'src/test.newPath';
+      element.$.newPathIronInput.bindValue = 'src/test.newPath';
+      await flush();
 
-        assert.isFalse(element.$.renameDialog.disabled);
-        MockInteractions.tap(
-          queryAndAssert(element.$.renameDialog, 'gr-button[primary]')
-        );
-        flush();
+      assert.isFalse(element.$.renameDialog.disabled);
+      MockInteractions.tap(
+        queryAndAssert(element.$.renameDialog, 'gr-button[primary]')
+      );
+      await flush();
+      assert.isTrue(renameStub.called);
 
-        assert.isTrue(renameStub.called);
-
-        return renameStub.lastCall.returnValue.then(() => {
-          assert.equal(element._path, '');
-          assert.isTrue(navStub.called);
-          assert.isTrue(closeDialogSpy.called);
-        });
-      });
+      await renameStub.lastCall.returnValue;
+      assert.equal(element._path, '');
+      assert.isTrue(navStub.called);
+      assert.isTrue(closeDialogSpy.called);
     });
 
-    test('rename fails', () => {
+    test('rename fails', async () => {
       renameStub.returns(Promise.resolve({ok: false}));
       MockInteractions.tap(queryAndAssert(element, '#rename'));
-      return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.renameDialog.disabled);
-        assert.isFalse(queryStub.called);
-        // Setup _focused manually - in headless mode Chrome sometimes don't
-        // setup focus. flush and/or flushAsynchronousOperations don't help
-        renameAutocomplete._focused = true;
-        renameAutocomplete.noDebounce = true;
-        renameAutocomplete.text = 'src/test.cpp';
-        assert.isTrue(queryStub.called);
-        assert.isTrue(element.$.renameDialog.disabled);
+      await showDialogSpy.lastCall.returnValue;
+      assert.isTrue(element.$.renameDialog.disabled);
+      assert.isFalse(queryStub.called);
+      // Setup _focused manually - in headless mode Chrome sometimes don't
+      // setup focus. flush and/or flushAsynchronousOperations don't help
+      renameAutocomplete._focused = true;
+      renameAutocomplete.noDebounce = true;
+      renameAutocomplete.text = 'src/test.cpp';
+      await flush();
+      assert.isTrue(queryStub.called);
+      assert.isTrue(element.$.renameDialog.disabled);
 
-        element.$.newPathIronInput.bindValue = 'src/test.newPath';
+      element.$.newPathIronInput.bindValue = 'src/test.newPath';
+      await flush();
 
-        assert.isFalse(element.$.renameDialog.disabled);
-        MockInteractions.tap(
-          queryAndAssert(element.$.renameDialog, 'gr-button[primary]')
-        );
-        flush();
+      assert.isFalse(element.$.renameDialog.disabled);
+      MockInteractions.tap(
+        queryAndAssert(element.$.renameDialog, 'gr-button[primary]')
+      );
+      await flush();
 
-        assert.isTrue(renameStub.called);
+      assert.isTrue(renameStub.called);
 
-        return renameStub.lastCall.returnValue.then(() => {
-          assert.isFalse(navStub.called);
-          assert.isFalse(closeDialogSpy.called);
-        });
-      });
+      await renameStub.lastCall.returnValue;
+      assert.isFalse(navStub.called);
+      assert.isFalse(closeDialogSpy.called);
     });
 
     test('cancel', () => {

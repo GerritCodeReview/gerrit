@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aefd7221_5c15fddb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-06T19:15:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3564cdd5_d0c606c9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "82c4b0fa62caf6163923f7024ae8ed4caa7e4f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "589cc405_4959a70b",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "304fdead_5b42bec5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-06T19:15:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "589cc405_4959a70b",
+      "revId": "82c4b0fa62caf6163923f7024ae8ed4caa7e4f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a818085_5c6ffaa4",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-10-05T21:22:07Z",
       "side": 1,
       "message": "This should likely describe the policy for selecting thread counts. Probably needs  a doc update also with the same.",
+      "revId": "82c4b0fa62caf6163923f7024ae8ed4caa7e4f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "942971f9_d679464d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-06T19:15:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a818085_5c6ffaa4",
       "revId": "82c4b0fa62caf6163923f7024ae8ed4caa7e4f27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f89008f4_15f1cf20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-06T19:15:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "564985ef_f9364ba7",
+      "range": {
+        "startLine": 79,
+        "startChar": 15,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "82c4b0fa62caf6163923f7024ae8ed4caa7e4f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9a03168_5dd66618",
@@ -94,6 +178,30 @@
       "writtenOn": "2021-10-05T21:45:14Z",
       "side": 1,
       "message": "Name this better: \"renamePushTagPermissions\" ?",
+      "range": {
+        "startLine": 79,
+        "startChar": 15,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "82c4b0fa62caf6163923f7024ae8ed4caa7e4f27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eca58ac8_7fef6357",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_131.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-06T19:15:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9a03168_5dd66618",
       "range": {
         "startLine": 79,
         "startChar": 15,

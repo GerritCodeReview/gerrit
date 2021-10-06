@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -26,9 +27,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
 public class Schema_127 extends SchemaVersion {
+  private static final int SLICE_SIZE = 10000;
   private static final int MAX_BATCH_SIZE = 1000;
 
   private final SitePaths sitePaths;
@@ -54,6 +57,44 @@ public class Schema_127 extends SchemaVersion {
             cfg, sitePaths, threadSettingsConfig);
     jdbcAccountPatchReviewStore.dropTableIfExists();
     jdbcAccountPatchReviewStore.createTableIfNotExists();
+    List<AccountPatchReview> accountPatchReviews = Lists.newArrayList();
+    try (Statement s = newStatement(db);
+        ResultSet rs = s.executeQuery("SELECT * from account_patch_reviews")) {
+      while (rs.next()) {
+        accountPatchReviews.add(
+            new AccountPatchReview(
+                rs.getInt("account_id"),
+                rs.getInt("change_id"),
+                rs.getInt("patch_set_id"),
+                rs.getString("file_name")));
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    runParallelTasks(
+        createExecutor(ui),
+        Lists.partition(accountPatchReviews, SLICE_SIZE),
+        (slice) -> processSlice(jdbcAccountPatchReviewStore, (List<AccountPatchReview>) slice),
+        ui);
+  }
+
+  private static final class AccountPatchReview {
+    private final int accountId;
+    private final int changeId;
+    private final int patchSetId;
+    private final String fileName;
+
+    public AccountPatchReview(int accountId, int changeId, int patchSetId, String fileName) {
+      this.accountId = accountId;
+      this.changeId = changeId;
+      this.patchSetId = patchSetId;
+      this.fileName = fileName;
+    }
+  }
+
+  private Void processSlice(
+      JdbcAccountPatchReviewStore jdbcAccountPatchReviewStore, List<AccountPatchReview> slice)
+      throws OrmException {
     try (Connection con = jdbcAccountPatchReviewStore.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
@@ -61,20 +102,16 @@ public class Schema_127 extends SchemaVersion {
                     + "(account_id, change_id, patch_set_id, file_name) VALUES "
                     + "(?, ?, ?, ?)")) {
       int batchCount = 0;
-
-      try (Statement s = newStatement(db);
-          ResultSet rs = s.executeQuery("SELECT * from account_patch_reviews")) {
-        while (rs.next()) {
-          stmt.setInt(1, rs.getInt("account_id"));
-          stmt.setInt(2, rs.getInt("change_id"));
-          stmt.setInt(3, rs.getInt("patch_set_id"));
-          stmt.setString(4, rs.getString("file_name"));
-          stmt.addBatch();
-          batchCount++;
-          if (batchCount >= MAX_BATCH_SIZE) {
-            stmt.executeBatch();
-            batchCount = 0;
-          }
+      for (AccountPatchReview accountPatchReview : slice) {
+        stmt.setInt(1, accountPatchReview.accountId);
+        stmt.setInt(2, accountPatchReview.changeId);
+        stmt.setInt(3, accountPatchReview.patchSetId);
+        stmt.setString(4, accountPatchReview.fileName);
+        stmt.addBatch();
+        batchCount++;
+        if (batchCount >= MAX_BATCH_SIZE) {
+          stmt.executeBatch();
+          batchCount = 0;
         }
       }
       if (batchCount > 0) {
@@ -82,6 +119,16 @@ public class Schema_127 extends SchemaVersion {
       }
     } catch (SQLException e) {
       throw jdbcAccountPatchReviewStore.convertError("insert", e);
+    }
+    return null;
+  }
+
+  @Override
+  protected int getThreads() {
+    try {
+      return Integer.parseInt(System.getProperty("schema127_threadcount"));
+    } catch (NumberFormatException e) {
+      return super.getThreads();
     }
   }
 }

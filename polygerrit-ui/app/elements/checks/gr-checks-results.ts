@@ -1311,7 +1311,9 @@ export class GrChecksResults extends LitElement {
       run.results
         ?.filter(result => result.category === category)
         .map(result => {
-          return {...run, ...result};
+          // CheckRun and CheckResult both have an actions property. Make it
+          // clear that for RunResult we only want result actions.
+          return {...run, ...result, actions: result.actions ?? []};
         }) ?? []
     );
   }

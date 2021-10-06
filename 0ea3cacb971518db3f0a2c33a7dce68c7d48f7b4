@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22144c49_9c863e37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-06T10:24:33Z",
+      "side": 1,
+      "message": "I just wanted to verify that zombie drafts can never happen again. I checked the cleanup changes that we did in the past (and the ones mentioned in the commit message) and it should be safe to delete the code in this change.",
+      "revId": "0ea3cacb971518db3f0a2c33a7dce68c7d48f7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

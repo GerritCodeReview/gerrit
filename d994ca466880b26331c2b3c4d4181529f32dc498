@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7339f217_4624bfbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T19:53:09Z",
+      "side": 1,
+      "message": "Nice cleanup!",
+      "revId": "d994ca466880b26331c2b3c4d4181529f32dc498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d3484c0_7be7e6e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T19:53:09Z",
+      "side": 1,
+      "message": "Why are you making this pressAndReleaseKeyOn and in other files you are moving to keyUpOn?",
+      "revId": "d994ca466880b26331c2b3c4d4181529f32dc498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bdb4cea_84bfdc52",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T19:53:09Z",
+      "side": 1,
+      "message": "Should this be G_KEY?",
+      "revId": "d994ca466880b26331c2b3c4d4181529f32dc498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5fcf071_33848dd4",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-06T19:44:27Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is the right fix because this allows\n\n/c/123456abcdef without the middle slash.\n\nWhat about `/^\\c/\\/(\\d+)(?:\\/(.*))?$/`",
+      "revId": "d90324276f047b4b8cf6af4c176f1ed49707bd22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -128,7 +128,7 @@ suite('gr-dashboard-view tests', () => {
 
       // Open confirmation dialog and tap confirm button.
       await element.$.confirmDeleteOverlay.open();
-      MockInteractions.tap(element.$.confirmDeleteDialog.$.confirm);
+      MockInteractions.tap(element.$.confirmDeleteDialog.confirmButton);
       flush();
       assert.isTrue(deleteStub.calledWithExactly('-is:open'));
       assert.isTrue(element.$.confirmDeleteDialog.disabled);

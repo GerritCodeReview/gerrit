@@ -84,8 +84,8 @@ export const htmlTemplate = html`
     }
   </style>
   <gr-dialog
-    confirm-label="Cherry Pick"
-    cancel-label="[[_computeCancelLabel(_statuses)]]"
+    confirmLabel="Cherry Pick"
+    cancelLabel="[[_computeCancelLabel(_statuses)]]"
     disabled$="[[_computeDisableCherryPick(_cherryPickType, _duplicateProjectChanges, _statuses, branch)]]"
     on-confirm="_handleConfirmTap"
     on-cancel="_handleCancelTap"

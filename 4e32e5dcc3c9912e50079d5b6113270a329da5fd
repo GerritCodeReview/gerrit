@@ -94,6 +94,30 @@
       },
       "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69d3ddbc_d070644e",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-06T20:27:49Z",
+      "side": 1,
+      "message": "\u003e \u003e from a quick look, shouldExist serves a different purpose, as it might throw NoSuchChangeException.\n\nBut wouldn\u0027t that NoSuchChangeException also potentially indicate replication delay?\n\n\u003e I see, then it is correct NOT to do the check in stable-3.3 because there isn\u0027t the ability to request the meta-SHA1 from the REST-API. The method is only exposed as a Java API. I would try to minimise the moving parts to make the merge up easier.\n\nThe difference I see is that this verifyMetaId() proves the id is on this meta ref vs just being an object that\u0027s available somehow. Is that accurate? If yes, is it an important distinction for either the GetChange use case or the use case Luca is pursuing? It seems like a \"trust\" kind of idea, which is probably more applicable to the GetChange use case since there the id comes from user input. i.e. if the user somehow had the metaRefId for some other change they\u0027re not allowed to see, does not confirming that id belongs to the expected change present a security risk?\n\nIf we need separate trusted and untrusted paths, I would like to figure that out now so that the merge up doesn\u0027t break anything unexpectedly.",
+      "parentUuid": "905674f3_c7f08317",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 61
+      },
+      "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

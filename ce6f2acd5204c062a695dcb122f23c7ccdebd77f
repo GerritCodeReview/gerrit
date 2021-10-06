@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6094f6d5_000b4230",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-06T20:27:49Z",
+      "side": 1,
+      "message": "Not true now?",
+      "revId": "ce6f2acd5204c062a695dcb122f23c7ccdebd77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

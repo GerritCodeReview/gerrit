@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3c1ed56_381049db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-06T21:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "533fc2a8_97d89c2d",
+      "range": {
+        "startLine": 186,
+        "startChar": 10,
+        "endLine": 186,
+        "endChar": 24
+      },
+      "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56bc2277_42868486",
@@ -75,6 +99,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b66fed64_791824e3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-06T21:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56bc2277_42868486",
+      "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a06267c_740018ca",
@@ -88,6 +130,30 @@
       "writtenOn": "2021-09-30T09:39:56Z",
       "side": 1,
       "message": "curious why does TS not understand this?",
+      "range": {
+        "startLine": 241,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 69
+      },
+      "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "261e04ea_d1d36390",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-06T21:15:32Z",
+      "side": 1,
+      "message": "TS knows rejected can be AccountInfo | undefined\nTS knows approved can be AccountInfo | undefined.\n\nTs doesn\u0027t know that one is defined because of (labelInfo.rejected || labelInfo.approved) because it understand only types for variables, doesn\u0027t understand type of condition.",
+      "parentUuid": "2a06267c_740018ca",
       "range": {
         "startLine": 241,
         "startChar": 0,
@@ -121,6 +187,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1490817c_3bfd25e5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-06T21:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "630fdcfc_1e9aa7dc",
+      "range": {
+        "startLine": 354,
+        "startChar": 2,
+        "endLine": 354,
+        "endChar": 22
+      },
+      "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a3a4ef5_cbdac9c1",
@@ -134,6 +224,24 @@
       "writtenOn": "2021-09-30T06:32:20Z",
       "side": 1,
       "message": "flush() could be considered Polymer legacy. I think the best way to do this for Lit is to use `await element.updateComplete`. I have started using that for the checks plugin successfully. Maybe you can try it here and add it to the Lit conversion doc?",
+      "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18418225_676b46b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-06T21:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a3a4ef5_cbdac9c1",
       "revId": "1c12d981fc2d57af4c3aef463643daf3db46c111",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -101,6 +101,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa379de9_ca401ddf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-06T16:03:49Z",
+      "side": 1,
+      "message": "Thanks for clarifying that. I don\u0027t think our use case has that situation.\n\nAnd since you mention it, we are still interested in improving that tag visibility cache and are finally finding some time for it again.",
+      "parentUuid": "d922dd18_02ee86a8",
+      "revId": "73ac371be0f0152240b455e68a514a57e169ff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0eb2767_91f72024",

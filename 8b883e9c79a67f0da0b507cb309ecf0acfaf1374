@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95fcfcbf_88ddfa07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-06T21:16:14Z",
+      "side": 1,
+      "message": "This seems different from how other threads are configured. I believe we just added a switch to init for indexing to set the thread count. We likely want a switch for init here also.",
+      "revId": "8b883e9c79a67f0da0b507cb309ecf0acfaf1374",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64475173_f2879b35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-06T21:16:14Z",
+      "side": 1,
+      "message": "getExecutor()? (share it across schemas)?",
+      "revId": "8b883e9c79a67f0da0b507cb309ecf0acfaf1374",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05130f5a_b5cb2f98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_131.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-06T21:16:14Z",
+      "side": 1,
+      "message": "Use execute() instead of submit() if you aren\u0027t going to use the Future.",
+      "revId": "8b883e9c79a67f0da0b507cb309ecf0acfaf1374",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

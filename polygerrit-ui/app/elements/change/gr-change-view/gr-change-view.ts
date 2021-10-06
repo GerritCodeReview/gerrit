@@ -597,6 +597,8 @@ export class GrChangeView extends base {
 
   private lastStarredTimestamp?: number;
 
+  private forceReload = false;
+
   override ready() {
     super.ready();
     aPluginHasRegistered$.pipe(takeUntil(this.disconnected$)).subscribe(b => {
@@ -691,6 +693,7 @@ export class GrChangeView extends base {
       this._setActivePrimaryTab(e)
     );
     this.addEventListener('reload', e => {
+      this.forceReload = true;
       this.loadData(
         /* isLocationChange= */ false,
         /* clearPatchset= */ e.detail && e.detail.clearPatchset
@@ -1235,6 +1238,17 @@ export class GrChangeView extends base {
       });
       return;
     }
+
+    // If a new change is loaded, then isChangeObsolete() ensures a completely
+    // new view is created and we will have this._changeNum to be undefined.
+    // If there is no change in patchset or changeNum, such as when user goes
+    // to the diff view and then comes back to change page then there is no need
+    // to reload anything and we render the change view component as is.
+    // if (this._changeNum === value.changeNum && !this.forceReload) return;
+    this.forceReload = false;
+
+    this.$.fileList.collapseAllDiffs();
+
 
     this._initialLoadComplete = false;
     this._changeNum = value.changeNum;

@@ -19,8 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-diff-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
-import {TestKeyboardShortcutBinder, stubRestApi} from '../../../test/test-utils.js';
-import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
 import {GerritView} from '../../../services/router/router-model.js';
 import {
@@ -40,42 +39,6 @@ suite('gr-diff-view tests', () => {
     let element;
     let clock;
     let diffCommentsStub;
-
-    suiteSetup(() => {
-      const kb = TestKeyboardShortcutBinder.push();
-      kb.bindShortcut(Shortcut.LEFT_PANE, 'shift+left');
-      kb.bindShortcut(Shortcut.RIGHT_PANE, 'shift+right');
-      kb.bindShortcut(Shortcut.NEXT_LINE, 'j', 'down');
-      kb.bindShortcut(Shortcut.PREV_LINE, 'k', 'up');
-      kb.bindShortcut(Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
-      kb.bindShortcut(Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
-      kb.bindShortcut(Shortcut.NEW_COMMENT, 'c');
-      kb.bindShortcut(Shortcut.SAVE_COMMENT, 'ctrl+s');
-      kb.bindShortcut(Shortcut.NEXT_FILE, ']');
-      kb.bindShortcut(Shortcut.PREV_FILE, '[');
-      kb.bindShortcut(Shortcut.NEXT_CHUNK, 'n');
-      kb.bindShortcut(Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
-      kb.bindShortcut(Shortcut.PREV_CHUNK, 'p');
-      kb.bindShortcut(Shortcut.PREV_COMMENT_THREAD, 'shift+p');
-      kb.bindShortcut(Shortcut.OPEN_REPLY_DIALOG, 'a');
-      kb.bindShortcut(Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
-      kb.bindShortcut(Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
-      kb.bindShortcut(Shortcut.UP_TO_CHANGE, 'u');
-      kb.bindShortcut(Shortcut.OPEN_DIFF_PREFS, ',');
-      kb.bindShortcut(Shortcut.TOGGLE_DIFF_MODE, 'm');
-      kb.bindShortcut(Shortcut.TOGGLE_FILE_REVIEWED, 'r');
-      kb.bindShortcut(Shortcut.TOGGLE_ALL_DIFF_CONTEXT, 'shift+x');
-      kb.bindShortcut(Shortcut.EXPAND_ALL_COMMENT_THREADS, 'e');
-      kb.bindShortcut(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
-      kb.bindShortcut(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, 'shift+e');
-      kb.bindShortcut(Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
-      kb.bindShortcut(Shortcut.TOGGLE_BLAME, 'b');
-      kb.bindShortcut(Shortcut.OPEN_FILE_LIST, 'f');
-    });
-
-    suiteTeardown(() => {
-      TestKeyboardShortcutBinder.pop();
-    });
 
     const PARENT = 'PARENT';
 

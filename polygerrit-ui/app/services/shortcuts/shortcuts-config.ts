@@ -18,6 +18,8 @@
 /**
  * Enum for all shortcut sections, where that shortcut should be applied to.
  */
+import {SPECIAL_SHORTCUT} from './shortcuts-service';
+
 export enum ShortcutSection {
   ACTIONS = 'Actions',
   DIFFS = 'Diffs',
@@ -108,305 +110,438 @@ export enum Shortcut {
 export interface ShortcutHelpItem {
   shortcut: Shortcut;
   text: string;
+  bindings: string[];
 }
 
 export const config = new Map<ShortcutSection, ShortcutHelpItem[]>();
 
-function describe(shortcut: Shortcut, section: ShortcutSection, text: string) {
+function describe(
+  shortcut: Shortcut,
+  section: ShortcutSection,
+  text: string,
+  binding: string,
+  ...moreBindings: string[]
+) {
   if (!config.has(section)) {
     config.set(section, []);
   }
   const shortcuts = config.get(section);
   if (shortcuts) {
-    shortcuts.push({shortcut, text});
+    shortcuts.push({shortcut, text, bindings: [binding, ...moreBindings]});
   }
 }
 
-describe(Shortcut.SEARCH, ShortcutSection.EVERYWHERE, 'Search');
+describe(Shortcut.SEARCH, ShortcutSection.EVERYWHERE, 'Search', '/');
 describe(
   Shortcut.OPEN_SHORTCUT_HELP_DIALOG,
   ShortcutSection.EVERYWHERE,
-  'Show this dialog'
+  'Show this dialog',
+  '?'
 );
 describe(
   Shortcut.GO_TO_USER_DASHBOARD,
   ShortcutSection.EVERYWHERE,
-  'Go to User Dashboard'
+  'Go to User Dashboard',
+  SPECIAL_SHORTCUT.GO_KEY,
+  'i'
 );
 describe(
   Shortcut.GO_TO_OPENED_CHANGES,
   ShortcutSection.EVERYWHERE,
-  'Go to Opened Changes'
+  'Go to Opened Changes',
+  SPECIAL_SHORTCUT.GO_KEY,
+  'o'
 );
 describe(
   Shortcut.GO_TO_MERGED_CHANGES,
   ShortcutSection.EVERYWHERE,
-  'Go to Merged Changes'
+  'Go to Merged Changes',
+  SPECIAL_SHORTCUT.GO_KEY,
+  'm'
 );
 describe(
   Shortcut.GO_TO_ABANDONED_CHANGES,
   ShortcutSection.EVERYWHERE,
-  'Go to Abandoned Changes'
+  'Go to Abandoned Changes',
+  SPECIAL_SHORTCUT.GO_KEY,
+  'a'
 );
 describe(
   Shortcut.GO_TO_WATCHED_CHANGES,
   ShortcutSection.EVERYWHERE,
-  'Go to Watched Changes'
+  'Go to Watched Changes',
+  SPECIAL_SHORTCUT.GO_KEY,
+  'w'
 );
 
 describe(
   Shortcut.CURSOR_NEXT_CHANGE,
   ShortcutSection.ACTIONS,
-  'Select next change'
+  'Select next change',
+  'j'
 );
 describe(
   Shortcut.CURSOR_PREV_CHANGE,
   ShortcutSection.ACTIONS,
-  'Select previous change'
+  'Select previous change',
+  'k'
 );
-describe(Shortcut.OPEN_CHANGE, ShortcutSection.ACTIONS, 'Show selected change');
-describe(Shortcut.NEXT_PAGE, ShortcutSection.ACTIONS, 'Go to next page');
-describe(Shortcut.PREV_PAGE, ShortcutSection.ACTIONS, 'Go to previous page');
+describe(
+  Shortcut.OPEN_CHANGE,
+  ShortcutSection.ACTIONS,
+  'Show selected change',
+  'o'
+);
+describe(
+  Shortcut.NEXT_PAGE,
+  ShortcutSection.ACTIONS,
+  'Go to next page',
+  'n',
+  ']'
+);
+describe(
+  Shortcut.PREV_PAGE,
+  ShortcutSection.ACTIONS,
+  'Go to previous page',
+  'p',
+  '['
+);
 describe(
   Shortcut.OPEN_REPLY_DIALOG,
   ShortcutSection.ACTIONS,
-  'Open reply dialog to publish comments and add reviewers'
+  'Open reply dialog to publish comments and add reviewers',
+  'a:keyup'
 );
 describe(
   Shortcut.OPEN_DOWNLOAD_DIALOG,
   ShortcutSection.ACTIONS,
-  'Open download overlay'
+  'Open download overlay',
+  'd:keyup'
 );
 describe(
   Shortcut.EXPAND_ALL_MESSAGES,
   ShortcutSection.ACTIONS,
-  'Expand all messages'
+  'Expand all messages',
+  'x'
 );
 describe(
   Shortcut.COLLAPSE_ALL_MESSAGES,
   ShortcutSection.ACTIONS,
-  'Collapse all messages'
+  'Collapse all messages',
+  'z'
 );
 describe(
   Shortcut.REFRESH_CHANGE,
   ShortcutSection.ACTIONS,
-  'Reload the change at the latest patch'
+  'Reload the change at the latest patch',
+  'shift+r:keyup'
 );
 describe(
   Shortcut.TOGGLE_CHANGE_REVIEWED,
   ShortcutSection.ACTIONS,
-  'Mark/unmark change as reviewed'
+  'Mark/unmark change as reviewed',
+  'r:keyup'
 );
 describe(
   Shortcut.TOGGLE_FILE_REVIEWED,
   ShortcutSection.ACTIONS,
-  'Toggle review flag on selected file'
+  'Toggle review flag on selected file',
+  'r:keyup'
 );
 describe(
   Shortcut.REFRESH_CHANGE_LIST,
   ShortcutSection.ACTIONS,
-  'Refresh list of changes'
+  'Refresh list of changes',
+  'shift+r:keyup'
 );
 describe(
   Shortcut.TOGGLE_CHANGE_STAR,
   ShortcutSection.ACTIONS,
-  'Star/unstar change'
+  'Star/unstar change',
+  's:keydown'
 );
 describe(
   Shortcut.OPEN_SUBMIT_DIALOG,
   ShortcutSection.ACTIONS,
-  'Open submit dialog'
+  'Open submit dialog',
+  'shift+s'
 );
 describe(
   Shortcut.TOGGLE_ATTENTION_SET,
   ShortcutSection.ACTIONS,
-  'Toggle attention set status'
+  'Toggle attention set status',
+  'shift+t'
 );
-describe(Shortcut.EDIT_TOPIC, ShortcutSection.ACTIONS, 'Add a change topic');
+describe(
+  Shortcut.EDIT_TOPIC,
+  ShortcutSection.ACTIONS,
+  'Add a change topic',
+  't'
+);
 describe(
   Shortcut.DIFF_AGAINST_BASE,
-  ShortcutSection.ACTIONS,
-  'Diff against base'
+  ShortcutSection.DIFFS,
+  'Diff against base',
+  SPECIAL_SHORTCUT.V_KEY,
+  'down',
+  's'
 );
 describe(
   Shortcut.DIFF_AGAINST_LATEST,
-  ShortcutSection.ACTIONS,
-  'Diff against latest patchset'
+  ShortcutSection.DIFFS,
+  'Diff against latest patchset',
+  SPECIAL_SHORTCUT.V_KEY,
+  'up',
+  'w'
 );
 describe(
   Shortcut.DIFF_BASE_AGAINST_LEFT,
-  ShortcutSection.ACTIONS,
-  'Diff base against left'
+  ShortcutSection.DIFFS,
+  'Diff base against left',
+  SPECIAL_SHORTCUT.V_KEY,
+  'left',
+  'a'
 );
 describe(
   Shortcut.DIFF_RIGHT_AGAINST_LATEST,
-  ShortcutSection.ACTIONS,
-  'Diff right against latest'
+  ShortcutSection.DIFFS,
+  'Diff right against latest',
+  SPECIAL_SHORTCUT.V_KEY,
+  'right',
+  'd'
 );
 describe(
   Shortcut.DIFF_BASE_AGAINST_LATEST,
-  ShortcutSection.ACTIONS,
-  'Diff base against latest'
+  ShortcutSection.DIFFS,
+  'Diff base against latest',
+  SPECIAL_SHORTCUT.V_KEY,
+  'b'
 );
 
-describe(Shortcut.NEXT_LINE, ShortcutSection.DIFFS, 'Go to next line');
-describe(Shortcut.PREV_LINE, ShortcutSection.DIFFS, 'Go to previous line');
 describe(
-  Shortcut.DIFF_AGAINST_BASE,
+  Shortcut.NEXT_LINE,
   ShortcutSection.DIFFS,
-  'Diff against base'
+  'Go to next line',
+  'j',
+  'down'
 );
 describe(
-  Shortcut.DIFF_AGAINST_LATEST,
+  Shortcut.PREV_LINE,
   ShortcutSection.DIFFS,
-  'Diff against latest patchset'
-);
-describe(
-  Shortcut.DIFF_BASE_AGAINST_LEFT,
-  ShortcutSection.DIFFS,
-  'Diff base against left'
-);
-describe(
-  Shortcut.DIFF_RIGHT_AGAINST_LATEST,
-  ShortcutSection.DIFFS,
-  'Diff right against latest'
-);
-describe(
-  Shortcut.DIFF_BASE_AGAINST_LATEST,
-  ShortcutSection.DIFFS,
-  'Diff base against latest'
+  'Go to previous line',
+  'k',
+  'up'
 );
 describe(
   Shortcut.VISIBLE_LINE,
   ShortcutSection.DIFFS,
-  'Move cursor to currently visible code'
+  'Move cursor to currently visible code',
+  '.'
 );
-describe(Shortcut.NEXT_CHUNK, ShortcutSection.DIFFS, 'Go to next diff chunk');
+describe(
+  Shortcut.NEXT_CHUNK,
+  ShortcutSection.DIFFS,
+  'Go to next diff chunk',
+  'n'
+);
 describe(
   Shortcut.PREV_CHUNK,
   ShortcutSection.DIFFS,
-  'Go to previous diff chunk'
+  'Go to previous diff chunk',
+  'p'
 );
 describe(
   Shortcut.TOGGLE_ALL_DIFF_CONTEXT,
   ShortcutSection.DIFFS,
-  'Toggle all diff context'
+  'Toggle all diff context',
+  'shift+x'
 );
 describe(
   Shortcut.NEXT_COMMENT_THREAD,
   ShortcutSection.DIFFS,
-  'Go to next comment thread'
+  'Go to next comment thread',
+  'shift+n'
 );
 describe(
   Shortcut.PREV_COMMENT_THREAD,
   ShortcutSection.DIFFS,
-  'Go to previous comment thread'
+  'Go to previous comment thread',
+  'shift+p'
 );
 describe(
   Shortcut.EXPAND_ALL_COMMENT_THREADS,
   ShortcutSection.DIFFS,
-  'Expand all comment threads'
+  'Expand all comment threads',
+  SPECIAL_SHORTCUT.DOC_ONLY,
+  'e'
 );
 describe(
   Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
   ShortcutSection.DIFFS,
-  'Collapse all comment threads'
+  'Collapse all comment threads',
+  SPECIAL_SHORTCUT.DOC_ONLY,
+  'shift+e'
 );
 describe(
   Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS,
   ShortcutSection.DIFFS,
-  'Hide/Display all comment threads'
+  'Hide/Display all comment threads',
+  'h'
 );
-describe(Shortcut.LEFT_PANE, ShortcutSection.DIFFS, 'Select left pane');
-describe(Shortcut.RIGHT_PANE, ShortcutSection.DIFFS, 'Select right pane');
+describe(
+  Shortcut.LEFT_PANE,
+  ShortcutSection.DIFFS,
+  'Select left pane',
+  'shift+left'
+);
+describe(
+  Shortcut.RIGHT_PANE,
+  ShortcutSection.DIFFS,
+  'Select right pane',
+  'shift+right'
+);
 describe(
   Shortcut.TOGGLE_LEFT_PANE,
   ShortcutSection.DIFFS,
-  'Hide/show left diff'
+  'Hide/show left diff',
+  'shift+a'
 );
-describe(Shortcut.NEW_COMMENT, ShortcutSection.DIFFS, 'Draft new comment');
-describe(Shortcut.SAVE_COMMENT, ShortcutSection.DIFFS, 'Save comment');
+describe(Shortcut.NEW_COMMENT, ShortcutSection.DIFFS, 'Draft new comment', 'c');
+describe(
+  Shortcut.SAVE_COMMENT,
+  ShortcutSection.DIFFS,
+  'Save comment',
+  'ctrl+enter',
+  'meta+enter',
+  'ctrl+s',
+  'meta+s'
+);
 describe(
   Shortcut.OPEN_DIFF_PREFS,
   ShortcutSection.DIFFS,
-  'Show diff preferences'
+  'Show diff preferences',
+  ','
 );
 describe(
   Shortcut.TOGGLE_DIFF_REVIEWED,
   ShortcutSection.DIFFS,
-  'Mark/unmark file as reviewed'
+  'Mark/unmark file as reviewed',
+  'r:keyup'
 );
 describe(
   Shortcut.TOGGLE_DIFF_MODE,
   ShortcutSection.DIFFS,
-  'Toggle unified/side-by-side diff'
+  'Toggle unified/side-by-side diff',
+  'm:keyup'
 );
 describe(
   Shortcut.NEXT_UNREVIEWED_FILE,
   ShortcutSection.DIFFS,
-  'Mark file as reviewed and go to next unreviewed file'
+  'Mark file as reviewed and go to next unreviewed file',
+  'shift+m'
 );
-describe(Shortcut.TOGGLE_BLAME, ShortcutSection.DIFFS, 'Toggle blame');
-
-describe(Shortcut.NEXT_FILE, ShortcutSection.NAVIGATION, 'Go to next file');
-describe(Shortcut.PREV_FILE, ShortcutSection.NAVIGATION, 'Go to previous file');
+describe(
+  Shortcut.TOGGLE_BLAME,
+  ShortcutSection.DIFFS,
+  'Toggle blame',
+  'b:keyup'
+);
+describe(Shortcut.OPEN_FILE_LIST, ShortcutSection.DIFFS, 'Open file list', 'f');
+describe(
+  Shortcut.NEXT_FILE,
+  ShortcutSection.NAVIGATION,
+  'Go to next file',
+  ']'
+);
+describe(
+  Shortcut.PREV_FILE,
+  ShortcutSection.NAVIGATION,
+  'Go to previous file',
+  '['
+);
 describe(
   Shortcut.NEXT_FILE_WITH_COMMENTS,
   ShortcutSection.NAVIGATION,
-  'Go to next file that has comments'
+  'Go to next file that has comments',
+  'shift+j'
 );
 describe(
   Shortcut.PREV_FILE_WITH_COMMENTS,
   ShortcutSection.NAVIGATION,
-  'Go to previous file that has comments'
+  'Go to previous file that has comments',
+  'shift+k'
 );
 describe(
   Shortcut.OPEN_FIRST_FILE,
   ShortcutSection.NAVIGATION,
-  'Go to first file'
+  'Go to first file',
+  ']'
 );
 describe(
   Shortcut.OPEN_LAST_FILE,
   ShortcutSection.NAVIGATION,
-  'Go to last file'
+  'Go to last file',
+  '['
 );
 describe(
   Shortcut.UP_TO_DASHBOARD,
   ShortcutSection.NAVIGATION,
-  'Up to dashboard'
+  'Up to dashboard',
+  'u'
 );
-describe(Shortcut.UP_TO_CHANGE, ShortcutSection.NAVIGATION, 'Up to change');
+describe(
+  Shortcut.UP_TO_CHANGE,
+  ShortcutSection.NAVIGATION,
+  'Up to change',
+  'u'
+);
 
 describe(
   Shortcut.CURSOR_NEXT_FILE,
   ShortcutSection.FILE_LIST,
-  'Select next file'
+  'Select next file',
+  'j',
+  'down'
 );
 describe(
   Shortcut.CURSOR_PREV_FILE,
   ShortcutSection.FILE_LIST,
-  'Select previous file'
+  'Select previous file',
+  'k',
+  'up'
 );
-describe(Shortcut.OPEN_FILE, ShortcutSection.FILE_LIST, 'Go to selected file');
+describe(
+  Shortcut.OPEN_FILE,
+  ShortcutSection.FILE_LIST,
+  'Go to selected file',
+  'o',
+  'enter'
+);
 describe(
   Shortcut.TOGGLE_ALL_INLINE_DIFFS,
   ShortcutSection.FILE_LIST,
-  'Show/hide all inline diffs'
-);
-describe(
-  Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS,
-  ShortcutSection.FILE_LIST,
-  'Hide/Display all comment threads'
+  'Show/hide all inline diffs',
+  'shift+i'
 );
 describe(
   Shortcut.TOGGLE_INLINE_DIFF,
   ShortcutSection.FILE_LIST,
-  'Show/hide selected inline diff'
+  'Show/hide selected inline diff',
+  'i'
 );
 
-describe(Shortcut.SEND_REPLY, ShortcutSection.REPLY_DIALOG, 'Send reply');
+describe(
+  Shortcut.SEND_REPLY,
+  ShortcutSection.REPLY_DIALOG,
+  'Send reply',
+  SPECIAL_SHORTCUT.DOC_ONLY,
+  'ctrl+enter',
+  'meta+enter'
+);
 describe(
   Shortcut.EMOJI_DROPDOWN,
   ShortcutSection.REPLY_DIALOG,
-  'Emoji dropdown'
+  'Emoji dropdown',
+  SPECIAL_SHORTCUT.DOC_ONLY,
+  ':'
 );

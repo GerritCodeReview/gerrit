@@ -179,9 +179,6 @@ export class GrCursorManager {
   private async getVisibleEntries(
     filter?: (el: Element) => boolean
   ): Promise<IntersectionObserverEntry[]> {
-    if (!this._isIntersectionObserverSupported()) {
-      throw new Error('Intersection observing not supported');
-    }
     if (!this.stops) {
       return [];
     }
@@ -216,14 +213,6 @@ export class GrCursorManager {
         observer.observe(stop);
       }
     });
-  }
-
-  _isIntersectionObserverSupported() {
-    // The copy of this method exists in gr-app-element.js under the
-    // name _isCursorManagerSupportMoveToVisibleLine
-    // If you update this method, you must update gr-app-element.js
-    // as well.
-    return 'IntersectionObserver' in window;
   }
 
   /**

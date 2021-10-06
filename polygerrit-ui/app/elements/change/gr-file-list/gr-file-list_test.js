@@ -27,7 +27,6 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {
-  TestKeyboardShortcutBinder,
   stubRestApi,
   spyRestApi,
   listenOnce,
@@ -67,30 +66,6 @@ suite('gr-file-list tests', () => {
   let commentApiWrapper;
 
   let saveStub;
-
-  suiteSetup(() => {
-    const kb = TestKeyboardShortcutBinder.push();
-    kb.bindShortcut(Shortcut.LEFT_PANE, 'shift+left');
-    kb.bindShortcut(Shortcut.RIGHT_PANE, 'shift+right');
-    kb.bindShortcut(Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
-    kb.bindShortcut(Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
-    kb.bindShortcut(Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
-    kb.bindShortcut(Shortcut.CURSOR_PREV_FILE, 'k', 'up');
-    kb.bindShortcut(Shortcut.NEXT_LINE, 'j', 'down');
-    kb.bindShortcut(Shortcut.PREV_LINE, 'k', 'up');
-    kb.bindShortcut(Shortcut.NEW_COMMENT, 'c');
-    kb.bindShortcut(Shortcut.OPEN_LAST_FILE, '[');
-    kb.bindShortcut(Shortcut.OPEN_FIRST_FILE, ']');
-    kb.bindShortcut(Shortcut.OPEN_FILE, 'o');
-    kb.bindShortcut(Shortcut.NEXT_CHUNK, 'n');
-    kb.bindShortcut(Shortcut.PREV_CHUNK, 'p');
-    kb.bindShortcut(Shortcut.TOGGLE_FILE_REVIEWED, 'r');
-    kb.bindShortcut(Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
-  });
-
-  suiteTeardown(() => {
-    TestKeyboardShortcutBinder.pop();
-  });
 
   suite('basic tests', () => {
     setup(async () => {

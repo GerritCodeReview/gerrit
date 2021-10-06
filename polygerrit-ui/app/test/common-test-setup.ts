@@ -30,7 +30,6 @@ import {
   registerTestCleanup,
   addIronOverlayBackdropStyleEl,
   removeIronOverlayBackdropStyleEl,
-  TestKeyboardShortcutBinder,
 } from './test-utils';
 import {safeTypesBridge} from '../utils/safe-types-util';
 import {_testOnly_initGerritPluginApi} from '../elements/shared/gr-js-api-interface/gr-gerrit';
@@ -104,7 +103,6 @@ setup(() => {
   _testOnlyInitAppContext();
   // The following calls is nessecary to avoid influence of previously executed
   // tests.
-  TestKeyboardShortcutBinder.push();
   initGlobalVariables();
   _testOnly_initGerritPluginApi();
   const shortcuts = appContext.shortcutsService;
@@ -197,7 +195,6 @@ function cancelAllTasks() {
 teardown(() => {
   sinon.restore();
   cleanupTestUtils();
-  TestKeyboardShortcutBinder.pop();
   checkGlobalSpace();
   removeIronOverlayBackdropStyleEl();
   cancelAllTasks();

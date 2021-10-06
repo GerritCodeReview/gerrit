@@ -14,88 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
-
-How to Add a Keyboard Shortcut
-==============================
-
-A keyboard shortcut is composed of the following parts:
-
-  1. A semantic identifier (e.g. OPEN_CHANGE, NEXT_PAGE)
-  2. Documentation for the keyboard shortcut help dialog
-  3. A binding between key combos and the semantic identifier
-  4. A binding between the semantic identifier and a listener
-
-Parts (1) and (2) for all shortcuts are defined in this file. The semantic
-identifier is declared in the Shortcut enum near the head of this script:
-
-  const Shortcut = {
-    // ...
-    TOGGLE_LEFT_PANE: 'TOGGLE_LEFT_PANE',
-    // ...
-  };
-
-Immediately following the Shortcut enum definition, there is a _describe
-function defined which is then invoked many times to populate the help dialog.
-Add a new invocation here to document the shortcut:
-
-  _describe(Shortcut.TOGGLE_LEFT_PANE, ShortcutSection.DIFFS,
-      'Hide/show left diff');
-
-When an attached view binds one or more key combos to this shortcut, the help
-dialog will display this text in the given section (in this case, "Diffs"). See
-the ShortcutSection enum immediately below for the list of supported sections.
-
-Part (3), the actual key bindings, are declared by gr-app. In the future, this
-system may be expanded to allow key binding customizations by plugins or user
-preferences. Key bindings are defined in the following forms:
-
-  // Ordinary shortcut with a single binding.
-  this.bindShortcut(
-      Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
-
-  // Ordinary shortcut with multiple bindings.
-  this.bindShortcut(
-      Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
-
-  // A "go-key" keyboard shortcut, which is combined with a previously and
-  // continuously pressed "go" key (the go-key is hard-coded as 'g').
-  this.bindShortcut(
-      Shortcut.GO_TO_OPENED_CHANGES, SPECIAL_SHORTCUT.GO_KEY, 'o');
-
-  // A "doc-only" keyboard shortcut. This declares the key-binding for help
-  // dialog purposes, but doesn't actually implement the binding. It is up
-  // to some element to implement this binding using iron-a11y-keys-behavior's
-  // keyBindings property.
-  this.bindShortcut(
-      Shortcut.EXPAND_ALL_COMMENT_THREADS, SPECIAL_SHORTCUT.DOC_ONLY, 'e');
-
-Part (4), the listener definitions, are declared by the view or element that
-implements the shortcut behavior. This is done by implementing a method named
-keyboardShortcuts() in an element that mixes in this behavior, returning an
-object that maps semantic identifiers (as property names) to listener method
-names, like this:
-
-  keyboardShortcuts() {
-    return {
-      [Shortcut.TOGGLE_LEFT_PANE]: '_handleToggleLeftPane',
-    };
-  },
-
-You can implement key bindings in an element that is hosted by a view IF that
-element is always attached exactly once under that view (e.g. the search bar in
-gr-app). When that is not the case, you will have to define a doc-only binding
-in gr-app, declare the shortcut in the view that hosts the element, and use
-iron-a11y-keys-behavior's keyBindings attribute to implement the binding in the
-element. An example of this is in comment threads. A diff view supports actions
-on comment threads, but there may be zero or many comment threads attached at
-any given point. So the shortcut is declared as doc-only by the diff view and
-by gr-app, and actually implemented by gr-comment-thread.
-
-NOTE: doc-only shortcuts will not be customizable in the same way that other
-shortcuts are.
-*/
-
 import {IronA11yKeysBehavior} from '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
@@ -245,10 +163,6 @@ const InternalKeyboardShortcutMixin = <
     // Alias for getKeyboardEvent.
     getKeyboardEvent(e: CustomKeyboardEvent) {
       return getKeyboardEvent(e);
-    }
-
-    bindShortcut(shortcut: Shortcut, ...bindings: string[]) {
-      this.shortcuts.bindShortcut(shortcut, ...bindings);
     }
 
     _addOwnKeyBindings(shortcut: Shortcut, handler: string) {
@@ -480,7 +394,6 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
 /** The interface corresponding to KeyboardShortcutMixin */
 export interface KeyboardShortcutMixinInterface {
   keyboardShortcuts(): {[key: string]: string | null};
-  bindShortcut(shortcut: Shortcut, ...bindings: string[]): void;
   shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent): boolean;
   modifierPressed(event: CustomKeyboardEvent): boolean;
 }

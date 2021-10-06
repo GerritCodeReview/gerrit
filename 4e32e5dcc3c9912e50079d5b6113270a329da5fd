@@ -118,6 +118,30 @@
       },
       "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8257d12e_f5b5589d",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-06T21:12:53Z",
+      "side": 1,
+      "message": "\u003e \u003e I see, then it is correct NOT to do the check in stable-3.3 because there isn\u0027t the ability to request the meta-SHA1 from the REST-API. The method is only exposed as a Java API. I would try to minimise the moving parts to make the merge up easier.\n\u003e \n\u003e The difference I see is that this verifyMetaId() proves the id is on this meta ref vs just being an object that\u0027s available somehow. Is that accurate?\n\nAlmost: the verifyMetaId() is an input validation that assumes that the SHA1 is coming from outside and therefore needs to be checked.\n\n\u003e If yes, is it an important distinction for either the GetChange use case or the use case Luca is pursuing?\n\nYes.\n\n\u003e It seems like a \"trust\" kind of idea, which is probably more applicable to the GetChange use case since there the id comes from user input. i.e. if the user somehow had the metaRefId for some other change they\u0027re not allowed to see, does not confirming that id belongs to the expected change present a security risk?\n\nI believe the verification of the meta-id is a check that needs to stay on master, possibly pulled closer to the REST-API.\n\n\u003e If we need separate trusted and untrusted paths, I would like to figure that out now so that the merge up doesn\u0027t break anything unexpectedly.\n\nThere isn\u0027t that distinction on stable-3.3, because the untrusted path doesn\u0027t exist. But I agree with you that we need that structure to be adapted on master *before* the merge up, so that the check happens closer to the REST-API and we do not risk to forget to validate the SHA1 in input.",
+      "parentUuid": "69d3ddbc_d070644e",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 61
+      },
+      "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Not true now?",
       "revId": "ce6f2acd5204c062a695dcb122f23c7ccdebd77f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfd21869_b0ea94c8",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-06T21:12:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6094f6d5_000b4230",
+      "revId": "ce6f2acd5204c062a695dcb122f23c7ccdebd77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

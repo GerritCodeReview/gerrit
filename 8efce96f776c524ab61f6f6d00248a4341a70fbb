@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b5cf0ce_339772c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-06T07:55:29Z",
+      "side": 1,
+      "message": "gr-button has display:inline-block by default. That is probably not what you want, and I would love to change to display:block for *all* our components. And here you can see why. :-)\n\nBefore the gr-buttons were direct children of a flex box. And if there is nothing between a flex box and an inline element, that it is essentially treated as display:block, because there is no inline context of a parent block. You can verify that by checking the \"Computed\" tab. It shows up as \"display:block\".\n\nAfter your change gr-buttons are wrapped into gr-tooltip-content. gr-tooltip-content has \"display:inline\" by default (as all custom components), but again that does not matter much here, because as a direct child of a flex box, gr-tooltip-content will be treated as \"display:block\", see \"Computed\". But gr-button is now treated as an inline element within its parent and the quirks of the default vertical-align:baseline kick in, which is the culprit is 90% of the cases when you deal with vertical misalignment. The alternative for fixing this issue is to vertical-align:top elements like buttons. That would also work here.",
+      "parentUuid": "d6af9fdd_9a4dfb49",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6f142b2_254d17fb",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-10-05T22:03:37Z",
       "side": 1,
       "message": "Should this be a more specific name like --gr-button-padding? From the context here it\u0027s very hard to determine the purpose of the --padding.",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e7439a6_aa19ab2b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-06T07:55:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6f142b2_254d17fb",
       "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd58e107_ca72a786",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-06T07:55:29Z",
+      "side": 1,
+      "message": "You are correct. This does not work at all. Most of the `text-transform` stuff is obsolete in this change. I have removed them all.\n\nIf you want a \u003cgr-button\u003e with `text-transform: none`, then you have to add a `no-uppercase` attribute to it.",
+      "parentUuid": "babe457a_ee310db6",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5166336f_085d8b13",
@@ -82,6 +136,24 @@
       "writtenOn": "2021-10-05T22:03:37Z",
       "side": 1,
       "message": "Same comment about --padding not being immediately obvious as to its use.",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1275f3e_25cf4bc7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-06T07:55:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5166336f_085d8b13",
       "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -103,6 +175,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4c52227_292b25d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-06T07:55:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "771ee4ce_067508e0",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e605a11_3f321e4a",
@@ -116,6 +206,24 @@
       "writtenOn": "2021-10-05T22:03:37Z",
       "side": 1,
       "message": "Same comment about confusion of meaning of --padding especially when it\u0027s next to padding.",
+      "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dafe56fb_0b1b6575",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-06T07:55:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e605a11_3f321e4a",
       "revId": "8efce96f776c524ab61f6f6d00248a4341a70fbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

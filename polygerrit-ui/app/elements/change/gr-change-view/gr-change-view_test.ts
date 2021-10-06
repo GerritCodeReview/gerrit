@@ -547,13 +547,12 @@ suite('gr-change-view tests', () => {
 
     test('param change should switch primary tab correctly', async () => {
       assert.equal(element._activeTabs[0], PrimaryTab.FILES);
-      const queryMap = new Map<string, string>();
-      queryMap.set('tab', PrimaryTab.FINDINGS);
       // view is required
+      element._changeNum = undefined;
       element.params = {
         ...createAppElementChangeViewParams(),
         ...element.params,
-        queryMap,
+        tab: PrimaryTab.FINDINGS,
       };
       await flush();
       assert.equal(element._activeTabs[0], PrimaryTab.FINDINGS);
@@ -561,13 +560,11 @@ suite('gr-change-view tests', () => {
 
     test('invalid param change should not switch primary tab', async () => {
       assert.equal(element._activeTabs[0], PrimaryTab.FILES);
-      const queryMap = new Map<string, string>();
-      queryMap.set('tab', 'random');
       // view is required
       element.params = {
         ...createAppElementChangeViewParams(),
         ...element.params,
-        queryMap,
+        tab: 'random',
       };
       await flush();
       assert.equal(element._activeTabs[0], PrimaryTab.FILES);
@@ -1299,12 +1296,12 @@ suite('gr-change-view tests', () => {
       .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
     flush();
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
-
     const value: AppElementChangeViewParams = {
       ...createAppElementChangeViewParams(),
       view: GerritView.CHANGE,
       patchNum: 1 as RevisionPatchSetNum,
     };
+    element._changeNum = undefined;
     element.params = value;
     await flush();
     assert.isTrue(reloadStub.calledOnce);
@@ -1362,7 +1359,7 @@ suite('gr-change-view tests', () => {
     assert.isTrue(reloadPortedCommentsStub.calledOnce);
   });
 
-  test('reload entire page when patchRange doesnt change', async () => {
+  test('do not reload entire page when patchRange doesnt change', async () => {
     const reloadStub = sinon
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
@@ -1370,13 +1367,15 @@ suite('gr-change-view tests', () => {
     const value: AppElementChangeViewParams =
       createAppElementChangeViewParams();
     element.params = value;
+    // change already loaded
+    assert.isOk(element._changeNum);
     await flush();
-    assert.isTrue(reloadStub.calledOnce);
+    assert.isFalse(reloadStub.calledOnce);
     element._initialLoadComplete = true;
     element.params = {...value};
     await flush();
-    assert.isTrue(reloadStub.calledTwice);
-    assert.isTrue(collapseStub.calledTwice);
+    assert.isFalse(reloadStub.calledTwice);
+    assert.isFalse(collapseStub.calledTwice);
   });
 
   test('do not handle new change numbers', async () => {
@@ -2090,7 +2089,7 @@ suite('gr-change-view tests', () => {
     test('no edit exists in revisions, non-latest patchset', async () => {
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
-        assert.equal(args.length, 4);
+        assert.equal(args.length, 6);
         assert.equal(args[1], 1 as PatchSetNum); // patchNum
         assert.equal(args[3], true); // opt_isEdit
         promise.resolve();
@@ -2107,7 +2106,7 @@ suite('gr-change-view tests', () => {
     test('no edit exists in revisions, latest patchset', async () => {
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
-        assert.equal(args.length, 4);
+        assert.equal(args.length, 6);
         // No patch should be specified when patchNum == latest.
         assert.isNotOk(args[1]); // patchNum
         assert.equal(args[3], true); // opt_isEdit
@@ -2131,7 +2130,7 @@ suite('gr-change-view tests', () => {
     navigateToChangeStub.restore();
     const promise = mockPromise();
     sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
-      assert.equal(args.length, 2);
+      assert.equal(args.length, 6);
       assert.equal(args[1], 1 as PatchSetNum); // patchNum
       promise.resolve();
     });
@@ -2249,6 +2248,8 @@ suite('gr-change-view tests', () => {
         appContext.reportingService,
         'changeFullyLoaded'
       );
+      // reset so reload is triggered
+      element._changeNum = undefined;
       element.params = {
         ...createAppElementChangeViewParams(),
         changeNum: TEST_NUMERIC_CHANGE_ID,

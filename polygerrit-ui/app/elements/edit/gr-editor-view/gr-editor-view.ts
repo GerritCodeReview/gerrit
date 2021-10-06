@@ -259,7 +259,14 @@ export class GrEditorView extends PolymerElement {
 
   _viewEditInChangeView() {
     if (this._change)
-      GerritNav.navigateToChange(this._change, undefined, undefined, true);
+      GerritNav.navigateToChange(
+        this._change,
+        undefined,
+        undefined,
+        true,
+        undefined,
+        true
+      );
   }
 
   _getFileData(

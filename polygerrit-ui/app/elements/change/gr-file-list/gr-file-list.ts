@@ -356,6 +356,8 @@ export class GrFileList extends base {
 
   private diffCursor = new GrDiffCursor();
 
+  private readonly shortcuts = appContext.shortcutsService;
+
   constructor() {
     super();
     this.fileCursor.scrollMode = ScrollMode.KEEP_VISIBLE;
@@ -887,7 +889,7 @@ export class GrFileList extends base {
   }
 
   _handleLeftPane(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
+    if (this.shortcuts.shouldSuppress(e) || this._noDiffsExpanded()) {
       return;
     }
 
@@ -896,7 +898,7 @@ export class GrFileList extends base {
   }
 
   _handleRightPane(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
+    if (this.shortcuts.shouldSuppress(e) || this._noDiffsExpanded()) {
       return;
     }
 
@@ -906,7 +908,7 @@ export class GrFileList extends base {
 
   _handleToggleInlineDiff(e: CustomKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shortcuts.shouldSuppress(e) ||
       this.modifierPressed(e) ||
       e.detail?.keyboardEvent?.repeat ||
       this.fileCursor.index === -1
@@ -919,10 +921,7 @@ export class GrFileList extends base {
   }
 
   _handleToggleAllInlineDiffs(e: CustomKeyboardEvent) {
-    if (
-      this.shouldSuppressKeyboardShortcut(e) ||
-      e.detail?.keyboardEvent?.repeat
-    ) {
+    if (this.shortcuts.shouldSuppress(e) || e.detail?.keyboardEvent?.repeat) {
       return;
     }
 
@@ -931,7 +930,7 @@ export class GrFileList extends base {
   }
 
   _handleToggleHideAllCommentThreads(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -940,7 +939,7 @@ export class GrFileList extends base {
   }
 
   _handleCursorNext(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -960,7 +959,7 @@ export class GrFileList extends base {
   }
 
   _handleCursorPrev(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -980,7 +979,7 @@ export class GrFileList extends base {
   }
 
   _handleNewComment(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
     e.preventDefault();
@@ -990,7 +989,7 @@ export class GrFileList extends base {
 
   _handleOpenLastFile(e: CustomKeyboardEvent) {
     // Check for meta key to avoid overriding native chrome shortcut.
-    if (this.shouldSuppressKeyboardShortcut(e) || getKeyboardEvent(e).metaKey) {
+    if (this.shortcuts.shouldSuppress(e) || getKeyboardEvent(e).metaKey) {
       return;
     }
 
@@ -1000,7 +999,7 @@ export class GrFileList extends base {
 
   _handleOpenFirstFile(e: CustomKeyboardEvent) {
     // Check for meta key to avoid overriding native chrome shortcut.
-    if (this.shouldSuppressKeyboardShortcut(e) || getKeyboardEvent(e).metaKey) {
+    if (this.shortcuts.shouldSuppress(e) || getKeyboardEvent(e).metaKey) {
       return;
     }
 
@@ -1009,7 +1008,7 @@ export class GrFileList extends base {
   }
 
   _handleOpenFile(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
     e.preventDefault();
@@ -1024,7 +1023,7 @@ export class GrFileList extends base {
 
   _handleNextChunk(e: CustomKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shortcuts.shouldSuppress(e) ||
       (this.modifierPressed(e) && !isShiftPressed(e)) ||
       this._noDiffsExpanded()
     ) {
@@ -1041,7 +1040,7 @@ export class GrFileList extends base {
 
   _handlePrevChunk(e: CustomKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shortcuts.shouldSuppress(e) ||
       (this.modifierPressed(e) && !isShiftPressed(e)) ||
       this._noDiffsExpanded()
     ) {
@@ -1057,7 +1056,7 @@ export class GrFileList extends base {
   }
 
   _handleToggleFileReviewed(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -1069,7 +1068,7 @@ export class GrFileList extends base {
   }
 
   _handleToggleLeftPane(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
 
@@ -1546,7 +1545,7 @@ export class GrFileList extends base {
   }
 
   _handleEscKey(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
     e.preventDefault();

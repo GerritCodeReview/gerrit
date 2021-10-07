@@ -199,6 +199,8 @@ export class GrSearchBar extends base {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly shortcuts = appContext.shortcutsService;
+
   constructor() {
     super();
     this.query = (input: string) => this._getSearchSuggestions(input);
@@ -399,7 +401,7 @@ export class GrSearchBar extends base {
   _handleSearch(e: CustomKeyboardEvent) {
     const keyboardEvent = getKeyboardEvent(e);
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shortcuts.shouldSuppress(e) ||
       (this.modifierPressed(e) && !keyboardEvent.shiftKey)
     ) {
       return;

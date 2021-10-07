@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2356cf31_7f8eb5e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-07T15:28:46Z",
+      "side": 1,
+      "message": "Sure, let\u0027s discuss. I can move it to file, once we decide for one component per file rule",
+      "parentUuid": "09b360b3_ad58a578",
+      "revId": "eca5a5e5953ffad12f4990687297694b5dde3437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4974709_ab8b5236",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-07T14:11:29Z",
       "side": 1,
       "message": "Are you sure that you want inline-flex? Maybe just flex?\nAnd the host should maybe have display:block?",
+      "revId": "eca5a5e5953ffad12f4990687297694b5dde3437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97b048f5_49236aac",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-07T15:28:46Z",
+      "side": 1,
+      "message": "I want them several on one line. If I am using flex, or block, then there is only one trigger vote per line.",
+      "parentUuid": "c4974709_ab8b5236",
       "revId": "eca5a5e5953ffad12f4990687297694b5dde3437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b379bae_5d20c1c3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-07T15:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "396fd0dc_ddd4367d",
+      "revId": "eca5a5e5953ffad12f4990687297694b5dde3437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5827418d_1b1e5f00",
@@ -65,6 +119,30 @@
       "writtenOn": "2021-10-07T14:11:29Z",
       "side": 1,
       "message": "Maybe add a test?",
+      "range": {
+        "startLine": 125,
+        "startChar": 16,
+        "endLine": 125,
+        "endChar": 37
+      },
+      "revId": "eca5a5e5953ffad12f4990687297694b5dde3437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11ffbb3c_61970a6e",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-07T15:28:46Z",
+      "side": 1,
+      "message": "I plan to rewrite this function in next change. It should work on quickLabelInfo as well. I will do unit tests in next change.",
+      "parentUuid": "5827418d_1b1e5f00",
       "range": {
         "startLine": 125,
         "startChar": 16,

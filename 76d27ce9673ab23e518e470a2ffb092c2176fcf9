@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc2e73b1_d724a135",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T21:02:30Z",
+      "side": 1,
+      "message": "Absolutely! That was planned for the next change in the chain. :-)",
+      "parentUuid": "aa733afb_470dfd06",
+      "revId": "76d27ce9673ab23e518e470a2ffb092c2176fcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "149925ce_bfe90356",
@@ -65,6 +83,42 @@
       "writtenOn": "2021-10-07T18:30:12Z",
       "side": 1,
       "message": "We seem to have a tendency to finish pipes with a $. Any reason that you didn\u0027t do that here?",
+      "revId": "76d27ce9673ab23e518e470a2ffb092c2176fcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91fb67f6_67e50013",
+        "filename": "polygerrit-ui/app/services/user/user-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T21:02:30Z",
+      "side": 1,
+      "message": "Hmmm, same comment sent twice? Is that maybe a bug in our comment handling code??? :-(",
+      "parentUuid": "fd3d44e2_a19f5cb4",
+      "revId": "76d27ce9673ab23e518e470a2ffb092c2176fcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "663b9e8c_792b85e9",
+        "filename": "polygerrit-ui/app/services/user/user-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T21:02:30Z",
+      "side": 1,
+      "message": "No, I simply forgot. Thanks! :-)",
+      "parentUuid": "149925ce_bfe90356",
       "revId": "76d27ce9673ab23e518e470a2ffb092c2176fcf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98011cac_b960e538",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T14:45:18Z",
+      "side": 1,
+      "message": "/** instead of /*",
+      "range": {
+        "startLine": 600,
+        "startChar": 2,
+        "endLine": 600,
+        "endChar": 4
+      },
+      "revId": "c70b81d5032158fea7cc610f0fce60caaf2ab758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5278648_d0b9ad59",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T14:45:18Z",
+      "side": 1,
+      "message": "I think `forceReload` it not really a property of the change-view. You are only using it here as a temporary storage such that it survives from processing the reload event to reaching paramsChanged() later after navigateToChange() was called. I think it would be better to keep a `forceReload` property around in the flow of events, i.e. you would add that to ChangeViewParams instead. WDYT?",
+      "revId": "c70b81d5032158fea7cc610f0fce60caaf2ab758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

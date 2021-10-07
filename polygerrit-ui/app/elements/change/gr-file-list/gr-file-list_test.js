@@ -597,8 +597,6 @@ suite('gr-file-list tests', () => {
         let interact;
 
         setup(() => {
-          sinon.stub(element, 'shouldSuppressKeyboardShortcut')
-              .returns(false);
           sinon.stub(element, 'modifierPressed').returns(false);
           const openCursorStub = sinon.stub(element, '_openCursorFile');
           const openSelectedStub = sinon.stub(element, '_openSelectedFile');
@@ -1707,8 +1705,6 @@ suite('gr-file-list tests', () => {
     });
 
     test('_displayLine', () => {
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut')
-          .callsFake(() => false);
       sinon.stub(element, 'modifierPressed')
           .callsFake(() => false);
       element.filesExpanded = FilesExpandedState.ALL;

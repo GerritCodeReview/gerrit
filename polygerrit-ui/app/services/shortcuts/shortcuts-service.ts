@@ -21,6 +21,10 @@ import {
   ShortcutSection,
   SPECIAL_SHORTCUT,
 } from './shortcuts-config';
+import {disableShortcuts} from '../user/user-model';
+import {CustomKeyboardEvent} from '../../types/events';
+import {getKeyboardEvent, isElementTarget} from '../../utils/dom-util';
+import {ReportingService} from '../gr-reporting/gr-reporting';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
 
@@ -35,23 +39,77 @@ export type ShortcutListener = (
  * Shortcuts service, holds all hosts, bindings and listeners.
  */
 export class ShortcutsService {
+  /**
+   * Keeps track of the components that are currently active such that we can
+   * show a shortcut help dialog that only shows the shortcuts that are
+   * currently relevant.
+   */
   private readonly activeHosts = new Map<unknown, Map<string, string>>();
 
+  /** Static map built in the constructor by iterating over the config. */
   private readonly bindings = new Map<Shortcut, string[]>();
 
   private readonly listeners = new Set<ShortcutListener>();
 
-  constructor() {
+  /** Keeps track of the corresponding user preference. */
+  private shortcutsDisabled = false;
+
+  constructor(readonly reporting?: ReportingService) {
     for (const section of config.keys()) {
       const items = config.get(section) ?? [];
       for (const item of items) {
         this.bindings.set(item.shortcut, item.bindings);
       }
     }
+    disableShortcuts.subscribe(x => (this.shortcutsDisabled = x));
   }
 
   public _testOnly_isEmpty() {
     return this.activeHosts.size === 0 && this.listeners.size === 0;
+  }
+
+  shouldSuppress(event: CustomKeyboardEvent) {
+    if (this.shortcutsDisabled) return true;
+    const e = getKeyboardEvent(event);
+    const target = e.target;
+    if (!isElementTarget(target)) return false;
+    const tagName = target.tagName;
+    const type = target.getAttribute('type');
+
+    if (
+      // Suppress shortcuts on <input> and <textarea>, but not on
+      // checkboxes, because we want to enable workflows like 'click
+      // mark-reviewed and then press ] to go to the next file'.
+      (tagName === 'INPUT' && type !== 'checkbox') ||
+      tagName === 'TEXTAREA' ||
+      // Suppress shortcuts if the key is 'enter'
+      // and target is an anchor or button or paper-tab.
+      (e.keyCode === 13 &&
+        (tagName === 'A' || tagName === 'BUTTON' || tagName === 'PAPER-TAB'))
+    ) {
+      return true;
+    }
+    for (let i = 0; e.path && i < e.path.length; i++) {
+      // TODO(TS): narrow this down to Element from EventTarget first
+      if ((e.path[i] as Element).tagName === 'GR-OVERLAY') {
+        return true;
+      }
+    }
+    // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
+    let key = `${(e as unknown as KeyboardEvent).key}:${e.type}`;
+    // TODO(brohlfs): Re-enable reporting of g- and v-keys.
+    // if (this._inGoKeyMode()) key = 'g+' + key;
+    // if (this.inVKeyMode()) key = 'v+' + key;
+    if (e.shiftKey) key = 'shift+' + key;
+    if (e.ctrlKey) key = 'ctrl+' + key;
+    if (e.metaKey) key = 'meta+' + key;
+    if (e.altKey) key = 'alt+' + key;
+    this.reporting?.reportInteraction('shortcut-triggered', {
+      key,
+      // TODO(brohlfs): Re-enable reporting the node name.
+      // from: this.nodeName ?? 'unknown',
+    });
+    return false;
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {

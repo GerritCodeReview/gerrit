@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc9272bf_442cca46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-07T08:11:09Z",
+      "side": 1,
+      "message": "It\u0027s same implementation as in gr-file-list",
+      "revId": "2a2daf6c6f71ad1f5f74e6e1d4cda6c9097b8abe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

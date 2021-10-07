@@ -44,6 +44,7 @@ import {
 } from '../../../test/test-data-generators.js';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {queryAndAssert} from '../../../utils/common-util.js';
+import {IronKeyboardEventDetail} from '../../../types/events.js';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
@@ -602,15 +603,18 @@ suite('gr-file-list tests', () => {
           const openSelectedStub = sinon.stub(element, '_openSelectedFile');
           const expandStub = sinon.stub(element, '_toggleFileExpanded');
 
-          interact = function(opt_payload) {
+          interact = function() {
             openCursorStub.reset();
             openSelectedStub.reset();
             expandStub.reset();
 
-            const e = new CustomEvent('fake-keyboard-event', opt_payload);
-            sinon.stub(e, 'preventDefault');
+            const keyboardEvent = new KeyboardEvent('keydown');
+            const e = new CustomEvent('keydown', {
+              detail: {keyboardEvent, key: 'x'},
+            });
+            sinon.stub(keyboardEvent, 'preventDefault');
             element._handleOpenFile(e);
-            assert.isTrue(e.preventDefault.called);
+            assert.isTrue(keyboardEvent.preventDefault.called);
             const result = {};
             if (openCursorStub.called) {
               result.opened_cursor = true;

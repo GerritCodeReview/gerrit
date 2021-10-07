@@ -89,7 +89,10 @@ import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {AppElementChangeViewParams} from '../../gr-app-types';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
-import {CustomKeyboardEvent} from '../../../types/events';
+import {
+  IronKeyboardEvent,
+  IronKeyboardEventDetail,
+} from '../../../types/events';
 import {CommentThread, UIRobot} from '../../../utils/comment-util';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -400,7 +403,7 @@ suite('gr-change-view tests', () => {
       patchNum: 3 as RevisionPatchSetNum,
       basePatchNum: 1 as BasePatchSetNum,
     };
-    element._handleDiffAgainstBase(new CustomEvent('') as CustomKeyboardEvent);
+    element._handleDiffAgainstBase(new CustomEvent('') as IronKeyboardEvent);
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[0], element._change);
@@ -416,9 +419,7 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as RevisionPatchSetNum,
     };
-    element._handleDiffAgainstLatest(
-      new CustomEvent('') as CustomKeyboardEvent
-    );
+    element._handleDiffAgainstLatest(new CustomEvent('') as IronKeyboardEvent);
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[0], element._change);
@@ -436,7 +437,7 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1 as BasePatchSetNum,
     };
     element._handleDiffBaseAgainstLeft(
-      new CustomEvent('') as CustomKeyboardEvent
+      new CustomEvent('') as IronKeyboardEvent
     );
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
@@ -454,7 +455,7 @@ suite('gr-change-view tests', () => {
       patchNum: 3 as RevisionPatchSetNum,
     };
     element._handleDiffRightAgainstLatest(
-      new CustomEvent('') as CustomKeyboardEvent
+      new CustomEvent('') as IronKeyboardEvent
     );
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
@@ -472,7 +473,7 @@ suite('gr-change-view tests', () => {
       patchNum: 3 as RevisionPatchSetNum,
     };
     element._handleDiffBaseAgainstLatest(
-      new CustomEvent('') as CustomKeyboardEvent
+      new CustomEvent('') as IronKeyboardEvent
     );
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
@@ -500,15 +501,11 @@ suite('gr-change-view tests', () => {
     assert.isNotOk(element._change.attention_set);
     await element._getLoggedIn();
     await element.restApiService.getAccount();
-    element._handleToggleAttentionSet(
-      new CustomEvent('') as CustomKeyboardEvent
-    );
+    element._handleToggleAttentionSet(new CustomEvent('') as IronKeyboardEvent);
     assert.isTrue(addToAttentionSetStub.called);
     assert.isFalse(removeFromAttentionSetStub.called);
 
-    element._handleToggleAttentionSet(
-      new CustomEvent('') as CustomKeyboardEvent
-    );
+    element._handleToggleAttentionSet(new CustomEvent('') as IronKeyboardEvent);
     assert.isTrue(removeFromAttentionSetStub.called);
   });
 
@@ -827,7 +824,9 @@ suite('gr-change-view tests', () => {
         element.$.fileListHeader,
         'setDiffViewMode'
       );
-      const e = {preventDefault: () => {}} as CustomKeyboardEvent;
+      const e = new CustomEvent<IronKeyboardEventDetail>('keydown', {
+        detail: {keyboardEvent: new KeyboardEvent('keydown'), key: 'x'},
+      });
       flush();
 
       element.viewState.diffMode = DiffViewMode.SIDE_BY_SIDE;

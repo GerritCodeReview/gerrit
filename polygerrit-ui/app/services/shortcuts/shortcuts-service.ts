@@ -22,8 +22,8 @@ import {
   SPECIAL_SHORTCUT,
 } from './shortcuts-config';
 import {disableShortcuts} from '../user/user-model';
-import {CustomKeyboardEvent} from '../../types/events';
-import {getKeyboardEvent, isElementTarget} from '../../utils/dom-util';
+import {IronKeyboardEvent, isIronKeyboardEvent} from '../../types/events';
+import {isElementTarget} from '../../utils/dom-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
@@ -34,6 +34,8 @@ export type SectionView = Array<{binding: string[][]; text: string}>;
 export type ShortcutListener = (
   viewMap?: Map<ShortcutSection, SectionView>
 ) => void;
+
+const COMBO_KEYS = ['g', 'v'];
 
 /**
  * Shortcuts service, holds all hosts, bindings and listeners.
@@ -51,6 +53,14 @@ export class ShortcutsService {
 
   private readonly listeners = new Set<ShortcutListener>();
 
+  /**
+   * Maps keys (e.g. 'g') to the timestamp when they have last been pressed.
+   * This enabled key combinations like 'g+o' where we can check whether 'g' was
+   * pressed recently when 'o' is processed. Keys of this map must be items of
+   * COMBO_KEYS. Values are Date timestamps in milliseconds.
+   */
+  private readonly keyLastPressed = new Map<string, number>();
+
   /** Keeps track of the corresponding user preference. */
   private shortcutsDisabled = false;
 
@@ -62,15 +72,20 @@ export class ShortcutsService {
       }
     }
     disableShortcuts.subscribe(x => (this.shortcutsDisabled = x));
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (!COMBO_KEYS.includes(e.key)) return;
+      if (this.shouldSuppress(e)) return;
+      this.keyLastPressed.set(e.key, Date.now());
+    });
   }
 
   public _testOnly_isEmpty() {
     return this.activeHosts.size === 0 && this.listeners.size === 0;
   }
 
-  shouldSuppress(event: CustomKeyboardEvent) {
+  shouldSuppress(event: IronKeyboardEvent | KeyboardEvent) {
     if (this.shortcutsDisabled) return true;
-    const e = getKeyboardEvent(event);
+    const e = isIronKeyboardEvent(event) ? event.detail.keyboardEvent : event;
     const target = e.target;
     if (!isElementTarget(target)) return false;
     const tagName = target.tagName;
@@ -89,14 +104,13 @@ export class ShortcutsService {
     ) {
       return true;
     }
-    for (let i = 0; e.path && i < e.path.length; i++) {
-      // TODO(TS): narrow this down to Element from EventTarget first
-      if ((e.path[i] as Element).tagName === 'GR-OVERLAY') {
-        return true;
-      }
+    const path: EventTarget[] = e.composedPath() ?? [];
+    for (const el of path) {
+      if (!isElementTarget(el)) continue;
+      if (el.tagName === 'GR-OVERLAY') return true;
     }
     // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
-    let key = `${(e as unknown as KeyboardEvent).key}:${e.type}`;
+    let key = `${e.key}:${e.type}`;
     // TODO(brohlfs): Re-enable reporting of g- and v-keys.
     // if (this._inGoKeyMode()) key = 'g+' + key;
     // if (this.inVKeyMode()) key = 'v+' + key;

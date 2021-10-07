@@ -58,6 +58,7 @@ export const htmlTemplate = html`
     gr-vote-chip {
       --gr-vote-chip-width: 14px;
       --gr-vote-chip-height: 14px;
+      margin-right: var(--spacing-s);
     }
   </style>
   <div class="container">

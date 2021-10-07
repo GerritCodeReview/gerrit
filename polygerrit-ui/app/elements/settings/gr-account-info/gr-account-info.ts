@@ -26,7 +26,6 @@ import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {appContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
-import {KeydownEvent} from '../../../types/events';
 
 @customElement('gr-account-info')
 export class GrAccountInfo extends PolymerElement {
@@ -247,7 +246,7 @@ export class GrAccountInfo extends PolymerElement {
     this._hasNameChange = true;
   }
 
-  _handleKeydown(e: KeydownEvent) {
+  _handleKeydown(e: KeyboardEvent) {
     if (e.keyCode === 13) {
       // Enter
       e.stopPropagation();

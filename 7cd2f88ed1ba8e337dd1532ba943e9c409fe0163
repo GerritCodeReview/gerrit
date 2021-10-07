@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d4028a1_ecf116d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-07T09:10:33Z",
+      "side": 1,
+      "message": "Mirroring the existing behaviour of collapsing all diffs if the patchrange changes.\nCurrently it\u0027s not sure if we/users want to maintain the files across patchsets and it will lead to other complications, so it should probably be done on its own specific change.\n\nThe reason why this is necessary is here https://gerrit-review.googlesource.com/c/gerrit/+/125270",
+      "parentUuid": "5fa5e57b_2dbdc071",
+      "revId": "7cd2f88ed1ba8e337dd1532ba943e9c409fe0163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f57052c_f60064ae",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-06T21:17:26Z",
       "side": 1,
       "message": "I feel like this function-call keeps getting moved from change to change. It would be useful to figure out when it should be called and make that more explicit so that it\u0027s clearer whether it should be called or not.",
+      "revId": "7cd2f88ed1ba8e337dd1532ba943e9c409fe0163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4c00a29_42587e09",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-07T09:10:33Z",
+      "side": 1,
+      "message": "Added some comments to make it clear why we need this call. Otherwise let me know what else you had in mind.",
+      "parentUuid": "8f57052c_f60064ae",
       "revId": "7cd2f88ed1ba8e337dd1532ba943e9c409fe0163",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

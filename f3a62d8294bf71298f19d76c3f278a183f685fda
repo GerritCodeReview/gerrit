@@ -16,6 +16,24 @@
       "message": "Why is this no longer good enough? Does navigateToChange not cause a reload? Could it become smarter in determining whether it should reload or not?",
       "revId": "f3a62d8294bf71298f19d76c3f278a183f685fda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3b3d4b8_5d114545",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-07T09:10:33Z",
+      "side": 0,
+      "message": "Yeah navigateToChange does not cause reloads in certain situations with this change since there is no change in change number or patch range and hence the page render does not happen.\n\nnavigateToChange still works if we come from a different view, cause a change in change number or patch range.\n\nI think it\u0027s better to use the explicit reload event instead of relying on navigateToChange to do the same. In each instances I fixed, the main intention was to reload the page(for which we have existing functionality already).\n\nI cannot think of a simple way of navigateToChange to tell gr-change-view to force a reload.",
+      "parentUuid": "c3e4ff2a_dc37bcb6",
+      "revId": "f3a62d8294bf71298f19d76c3f278a183f685fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

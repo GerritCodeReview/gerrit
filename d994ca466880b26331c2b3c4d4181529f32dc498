@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "563c9653_608833e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T15:10:42Z",
+      "side": 1,
+      "message": "Because key bindings are different for :keyup and :keypress. Before this change the tests created their temporary test/fake bindings. Now they have to rely on what is in the config. So I had to adapt a bit.",
+      "parentUuid": "8d3484c0_7be7e6e7",
+      "revId": "d994ca466880b26331c2b3c4d4181529f32dc498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5bdb4cea_84bfdc52",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-10-06T19:53:09Z",
       "side": 1,
       "message": "Should this be G_KEY?",
+      "revId": "d994ca466880b26331c2b3c4d4181529f32dc498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "913d9a8a_bbf3d75d",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T15:10:42Z",
+      "side": 1,
+      "message": "I am open to a refactoring later, but GO_KEY for all the shortcuts that are documented as \"go to ...\" does not seem too bad to me.",
+      "parentUuid": "5bdb4cea_84bfdc52",
       "revId": "d994ca466880b26331c2b3c4d4181529f32dc498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

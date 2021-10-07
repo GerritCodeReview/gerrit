@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "20bd47ba_3b223f1e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1043,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-07T16:33:53Z",
+      "side": 1,
+      "message": "Looking at https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#delete-branches I think this should be:\n\n /projects/link:#project-name[\\{project-name\\}]/commits:in\n\nSince the pattern seems to be using a : for a verb that applies to more than one object in that collection (commits).",
+      "range": {
+        "startLine": 1043,
+        "startChar": 5,
+        "endLine": 1043,
+        "endChar": 62
+      },
+      "revId": "17d4db54c9348b20366616c52eb099c7cb6b6b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a24340f1_8427ae7b",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
         "patchSetId": 10

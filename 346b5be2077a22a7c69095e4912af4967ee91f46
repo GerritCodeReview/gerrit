@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb06707a_628388ae",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-07T18:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f55c7523_65396f07",
+      "range": {
+        "startLine": 87,
+        "startChar": 12,
+        "endLine": 87,
+        "endChar": 61
+      },
+      "revId": "346b5be2077a22a7c69095e4912af4967ee91f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8374887c_c6c815a1",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-07T01:28:16Z",
       "side": 1,
       "message": "Can you unwrap any OrmExceptions inside of RuntimeExceptions and rethrow them as OrmExceptions? If you can figure out a pattern to do this easily using a special object or something that would be great so that this change doesn\u0027t add so much boiler plate code to each schema, and so that our other changes can do this too, that would be great!",
+      "range": {
+        "startLine": 56,
+        "startChar": 62,
+        "endLine": 56,
+        "endChar": 75
+      },
+      "revId": "346b5be2077a22a7c69095e4912af4967ee91f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bc5f859_2fa8d694",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-07T18:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8374887c_c6c815a1",
       "range": {
         "startLine": 56,
         "startChar": 62,

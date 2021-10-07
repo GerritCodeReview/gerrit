@@ -122,6 +122,17 @@ export function getApprovalInfo(
   return label.all?.filter(x => x._account_id === account._account_id)[0];
 }
 
+export function getAllUniqueApprovals(labelInfo?: LabelInfo) {
+  if (!labelInfo || !isDetailedLabelInfo(labelInfo)) return [];
+  const uniqueApprovals = (labelInfo.all ?? [])
+    .filter(
+      (approvalInfo, index, array) =>
+        index === array.findIndex(other => other.value === approvalInfo.value)
+    )
+    .sort((a, b) => -(a.value ?? 0) + (b.value ?? 0));
+  return uniqueApprovals;
+}
+
 export function hasVotes(labelInfo: LabelInfo): boolean {
   if (isDetailedLabelInfo(labelInfo)) {
     return (labelInfo.all ?? []).some(

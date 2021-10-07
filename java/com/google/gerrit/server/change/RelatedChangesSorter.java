@@ -11,8 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
@@ -30,6 +29,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.change.RelatedChangesSorter.PatchSetData;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -57,7 +57,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
-class RelatedChangesSorter {
+public class RelatedChangesSorter {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
@@ -247,23 +247,23 @@ class RelatedChangesSorter {
   }
 
   @AutoValue
-  abstract static class PatchSetData {
+  public abstract static class PatchSetData {
     @VisibleForTesting
     static PatchSetData create(ChangeData cd, PatchSet ps, RevCommit commit) {
       return new AutoValue_RelatedChangesSorter_PatchSetData(cd, ps, commit);
     }
 
-    abstract ChangeData data();
+    public abstract ChangeData data();
 
-    abstract PatchSet patchSet();
+    public abstract PatchSet patchSet();
 
-    abstract RevCommit commit();
+    public abstract RevCommit commit();
 
-    PatchSet.Id psId() {
+    public PatchSet.Id psId() {
       return patchSet().id();
     }
 
-    Change.Id id() {
+    public Change.Id id() {
       return psId().changeId();
     }
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toSet;
@@ -36,7 +36,7 @@ import java.util.Set;
 
 /** Utility class that gets the ancestor changes and the descendent changes of a specific change. */
 @Singleton
-public class GetRelatedUtil {
+public class GetRelatedChangesUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<InternalChangeQuery> queryProvider;
@@ -45,7 +45,7 @@ public class GetRelatedUtil {
   private final ChangeData.Factory changeDataFactory;
 
   @Inject
-  GetRelatedUtil(
+  GetRelatedChangesUtil(
       Provider<InternalChangeQuery> queryProvider,
       RelatedChangesSorter sorter,
       IndexConfig indexConfig,

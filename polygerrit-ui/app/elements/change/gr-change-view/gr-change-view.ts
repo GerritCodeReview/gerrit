@@ -158,8 +158,9 @@ import {
   ParsedChangeInfo,
 } from '../../../types/types';
 import {
+  IronKeyboardEventListener,
   CloseFixPreviewEvent,
-  CustomKeyboardEvent,
+  IronKeyboardEvent,
   EditableContentSaveEvent,
   EventType,
   OpenFixPreviewEvent,
@@ -537,7 +538,7 @@ export class GrChangeView extends base {
   @property({type: Boolean})
   _showRobotCommentsButton = false;
 
-  _throttledToggleChangeStar?: EventListener;
+  _throttledToggleChangeStar?: IronKeyboardEventListener;
 
   @property({type: Boolean})
   _showChecksTab = false;
@@ -640,8 +641,8 @@ export class GrChangeView extends base {
 
   override connectedCallback() {
     super.connectedCallback();
-    this._throttledToggleChangeStar = throttleWrap(e =>
-      this._handleToggleChangeStar(e as CustomKeyboardEvent)
+    this._throttledToggleChangeStar = throttleWrap<IronKeyboardEvent>(e =>
+      this._handleToggleChangeStar(e)
     );
     this._getServerConfig().then(config => {
       this._serverConfig = config;
@@ -750,7 +751,7 @@ export class GrChangeView extends base {
     if (e.detail.fixApplied) fireReload(this);
   }
 
-  _handleToggleDiffMode(e: CustomKeyboardEvent) {
+  _handleToggleDiffMode(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
@@ -1494,7 +1495,7 @@ export class GrChangeView extends base {
     return label;
   }
 
-  _handleOpenReplyDialog(e: CustomKeyboardEvent) {
+  _handleOpenReplyDialog(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
@@ -1509,7 +1510,7 @@ export class GrChangeView extends base {
     });
   }
 
-  _handleOpenDownloadDialogShortcut(e: CustomKeyboardEvent) {
+  _handleOpenDownloadDialogShortcut(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
@@ -1518,7 +1519,7 @@ export class GrChangeView extends base {
     this._handleOpenDownloadDialog();
   }
 
-  _handleEditTopic(e: CustomKeyboardEvent) {
+  _handleEditTopic(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
@@ -1527,7 +1528,7 @@ export class GrChangeView extends base {
     this.$.metadata.editTopic();
   }
 
-  _handleOpenSubmitDialog(e: CustomKeyboardEvent) {
+  _handleOpenSubmitDialog(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e) || !this._submitEnabled) {
       return;
     }
@@ -1536,7 +1537,7 @@ export class GrChangeView extends base {
     this.$.actions.showSubmitDialog();
   }
 
-  _handleToggleAttentionSet(e: CustomKeyboardEvent) {
+  _handleToggleAttentionSet(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
@@ -1578,7 +1579,7 @@ export class GrChangeView extends base {
     this._change = {...this._change};
   }
 
-  _handleDiffAgainstBase(e: CustomKeyboardEvent) {
+  _handleDiffAgainstBase(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
@@ -1592,7 +1593,7 @@ export class GrChangeView extends base {
     GerritNav.navigateToChange(this._change, this._patchRange.patchNum);
   }
 
-  _handleDiffBaseAgainstLeft(e: CustomKeyboardEvent) {
+  _handleDiffBaseAgainstLeft(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
@@ -1606,7 +1607,7 @@ export class GrChangeView extends base {
     GerritNav.navigateToChange(this._change, this._patchRange.basePatchNum);
   }
 
-  _handleDiffAgainstLatest(e: CustomKeyboardEvent) {
+  _handleDiffAgainstLatest(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
@@ -1625,7 +1626,7 @@ export class GrChangeView extends base {
     );
   }
 
-  _handleDiffRightAgainstLatest(e: CustomKeyboardEvent) {
+  _handleDiffRightAgainstLatest(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
@@ -1644,7 +1645,7 @@ export class GrChangeView extends base {
     );
   }
 
-  _handleDiffBaseAgainstLatest(e: CustomKeyboardEvent) {
+  _handleDiffBaseAgainstLatest(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
@@ -1662,7 +1663,7 @@ export class GrChangeView extends base {
     GerritNav.navigateToChange(this._change, latestPatchNum);
   }
 
-  _handleRefreshChange(e: CustomKeyboardEvent) {
+  _handleRefreshChange(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
@@ -1670,7 +1671,7 @@ export class GrChangeView extends base {
     fireReload(this, true);
   }
 
-  _handleToggleChangeStar(e: CustomKeyboardEvent) {
+  _handleToggleChangeStar(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
@@ -1678,7 +1679,7 @@ export class GrChangeView extends base {
     this.$.changeStar.toggleStar();
   }
 
-  _handleUpToDashboard(e: CustomKeyboardEvent) {
+  _handleUpToDashboard(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
@@ -1687,7 +1688,7 @@ export class GrChangeView extends base {
     this._determinePageBack();
   }
 
-  _handleExpandAllMessages(e: CustomKeyboardEvent) {
+  _handleExpandAllMessages(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
@@ -1698,7 +1699,7 @@ export class GrChangeView extends base {
     }
   }
 
-  _handleCollapseAllMessages(e: CustomKeyboardEvent) {
+  _handleCollapseAllMessages(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
@@ -1709,7 +1710,7 @@ export class GrChangeView extends base {
     }
   }
 
-  _handleOpenDiffPrefsShortcut(e: CustomKeyboardEvent) {
+  _handleOpenDiffPrefsShortcut(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }

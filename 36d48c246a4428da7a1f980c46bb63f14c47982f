@@ -22,6 +22,30 @@
       },
       "revId": "36d48c246a4428da7a1f980c46bb63f14c47982f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6803bc6e_3f6d37a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-07T10:47:06Z",
+      "side": 1,
+      "message": "I checked all callers, they are polymer elements that use [], so they will change dashcase to camelcase automatically.",
+      "parentUuid": "8c563ff4_6abb433e",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 24
+      },
+      "revId": "36d48c246a4428da7a1f980c46bb63f14c47982f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a68a449_1fb3837e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Done.\n\nchanged it to \"Returns a map of commits to lists of unshortened refs.\". Sentence is similar to other places in the doc.",
+      "parentUuid": "ca81c5c0_d99cad6e",
+      "range": {
+        "startLine": 1047,
+        "startChar": 49,
+        "endLine": 1048,
+        "endChar": 10
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3890fa7_c30570b8",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-06T19:50:41Z",
       "side": 1,
       "message": "or do not exist",
+      "range": {
+        "startLine": 1051,
+        "startChar": 11,
+        "endLine": 1051,
+        "endChar": 12
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd2d6536_88c606b9",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3890fa7_c30570b8",
       "range": {
         "startLine": 1051,
         "startChar": 11,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4317e93c_a3dd3977",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cccd4547_70e33388",
+      "range": {
+        "startLine": 1052,
+        "startChar": 3,
+        "endLine": 1052,
+        "endChar": 6
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73770f96_0e3403a6",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-10-06T19:50:41Z",
       "side": 1,
       "message": "nit: You could make a class level constant (R_HEADS_MASTER?) for this if you want to not repeat it so much.",
+      "range": {
+        "startLine": 1019,
+        "startChar": 60,
+        "endLine": 1019,
+        "endChar": 78
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aa6c202_2374ab7c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73770f96_0e3403a6",
       "range": {
         "startLine": 1019,
         "startChar": 60,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49d620b6_2eda09ee",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1024,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30c07138_0271324e",
+      "range": {
+        "startLine": 1024,
+        "startChar": 17,
+        "endLine": 1024,
+        "endChar": 57
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4eab6873_f103ce3c",
@@ -133,6 +253,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa006a20_0a8b107f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4eab6873_f103ce3c",
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "483102f6_961d9477",
@@ -146,6 +284,30 @@
       "writtenOn": "2021-10-06T19:50:41Z",
       "side": 1,
       "message": "name this better so that it helps understand the test: \"branch-without-change\" ?",
+      "range": {
+        "startLine": 1039,
+        "startChar": 48,
+        "endLine": 1039,
+        "endChar": 61
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bad387da_51283288",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "483102f6_961d9477",
       "range": {
         "startLine": 1039,
         "startChar": 48,
@@ -179,6 +341,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab7130d1_7ca76636",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01b9836e_9b1a3fcb",
+      "range": {
+        "startLine": 1040,
+        "startChar": 34,
+        "endLine": 1045,
+        "endChar": 89
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da560c28_f1e0613c",
@@ -192,6 +378,30 @@
       "writtenOn": "2021-10-06T19:50:41Z",
       "side": 1,
       "message": "same as above, \"tag-with-change\"?",
+      "range": {
+        "startLine": 1062,
+        "startChar": 66,
+        "endLine": 1062,
+        "endChar": 74
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5580b844_7560bcf4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da560c28_f1e0613c",
       "range": {
         "startLine": 1062,
         "startChar": 66,
@@ -225,6 +435,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b35732bd_30df3265",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2fb6572_f445e8d3",
+      "range": {
+        "startLine": 1074,
+        "startChar": 48,
+        "endLine": 1074,
+        "endChar": 61
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cfc8d7f_e2b59fbe",
@@ -238,6 +472,30 @@
       "writtenOn": "2021-10-06T19:50:41Z",
       "side": 1,
       "message": "Why do you need these additional changes? If you want to show that the API supports non-tip commits, make that a separate test.",
+      "range": {
+        "startLine": 1093,
+        "startChar": 4,
+        "endLine": 1094,
+        "endChar": 52
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42ebc98a_a09fa498",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cfc8d7f_e2b59fbe",
       "range": {
         "startLine": 1093,
         "startChar": 4,
@@ -271,6 +529,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e9891c8_6a4d19eb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "Tried to split the tests in new PS. Hope it is more clear now.",
+      "parentUuid": "ce4b47c6_f923e40b",
+      "range": {
+        "startLine": 1119,
+        "startChar": 4,
+        "endLine": 1119,
+        "endChar": 32
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ce766b5_7fb437cd",
@@ -284,6 +566,30 @@
       "writtenOn": "2021-10-06T19:50:41Z",
       "side": 1,
       "message": "Why do you need this? I\u0027m not clear on how it helps the test.",
+      "range": {
+        "startLine": 1130,
+        "startChar": 4,
+        "endLine": 1130,
+        "endChar": 52
+      },
+      "revId": "1e0d89a81efe3b680d0523d32415f46cb8156332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "887efe3a_d2df957b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-07T04:39:56Z",
+      "side": 1,
+      "message": "right, it can go into its own test (non-tip). Tried to split the tests in new PS.",
+      "parentUuid": "2ce766b5_7fb437cd",
       "range": {
         "startLine": 1130,
         "startChar": 4,

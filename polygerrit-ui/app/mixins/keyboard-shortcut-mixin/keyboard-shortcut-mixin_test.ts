@@ -16,11 +16,8 @@
  */
 import '../../test/common-test-setup-karma';
 import {KeyboardShortcutMixin} from './keyboard-shortcut-mixin';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {mockPromise, queryAndAssert} from '../../test/test-utils';
 import '../../elements/shared/gr-overlay/gr-overlay';
-import {GrOverlay} from '../../elements/shared/gr-overlay/gr-overlay';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {CustomKeyboardEvent} from '../../types/events';
 
@@ -56,102 +53,12 @@ customElements.define(
 
 const basicFixture = fixtureFromElement('keyboard-shortcut-mixin-test-element');
 
-const withinOverlayFixture = fixtureFromTemplate(html`
-  <gr-overlay>
-    <keyboard-shortcut-mixin-test-element>
-    </keyboard-shortcut-mixin-test-element>
-  </gr-overlay>
-`);
-
 suite('keyboard-shortcut-mixin tests', () => {
   let element: GrKeyboardShortcutMixinTestElement;
-  let overlay: GrOverlay;
 
   setup(async () => {
     element = basicFixture.instantiate();
-    overlay = withinOverlayFixture.instantiate() as GrOverlay;
     await flush();
-  });
-
-  test('doesn’t block kb shortcuts for non-allowed els', async () => {
-    const divEl = document.createElement('div');
-    element.appendChild(divEl);
-    const promise = mockPromise();
-    element._handleKey = e => {
-      assert.isFalse(element.shouldSuppressKeyboardShortcut(e));
-      promise.resolve();
-    };
-    MockInteractions.keyDownOn(divEl, 75, null, 'k');
-    await promise;
-  });
-
-  test('blocks kb shortcuts for input els', async () => {
-    const inputEl = document.createElement('input');
-    element.appendChild(inputEl);
-    const promise = mockPromise();
-    element._handleKey = e => {
-      assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-      promise.resolve();
-    };
-    MockInteractions.keyDownOn(inputEl, 75, null, 'k');
-    await promise;
-  });
-
-  test('doesn’t block kb shortcuts for checkboxes', async () => {
-    const inputEl = document.createElement('input');
-    inputEl.setAttribute('type', 'checkbox');
-    element.appendChild(inputEl);
-    const promise = mockPromise();
-    element._handleKey = e => {
-      assert.isFalse(element.shouldSuppressKeyboardShortcut(e));
-      promise.resolve();
-    };
-    MockInteractions.keyDownOn(inputEl, 75, null, 'k');
-    await promise;
-  });
-
-  test('blocks kb shortcuts for textarea els', async () => {
-    const textareaEl = document.createElement('textarea');
-    element.appendChild(textareaEl);
-    const promise = mockPromise();
-    element._handleKey = e => {
-      assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-      promise.resolve();
-    };
-    MockInteractions.keyDownOn(textareaEl, 75, null, 'k');
-    await promise;
-  });
-
-  test('blocks kb shortcuts for anything in a gr-overlay', async () => {
-    const divEl = document.createElement('div');
-    const element = queryAndAssert<GrKeyboardShortcutMixinTestElement>(
-      overlay,
-      'keyboard-shortcut-mixin-test-element'
-    );
-    element.appendChild(divEl);
-    const promise = mockPromise();
-    element._handleKey = e => {
-      assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-      promise.resolve();
-    };
-    MockInteractions.keyDownOn(divEl, 75, null, 'k');
-    await promise;
-  });
-
-  test('blocks enter shortcut on an anchor', async () => {
-    const anchorEl = document.createElement('a');
-    const element = queryAndAssert<GrKeyboardShortcutMixinTestElement>(
-      overlay,
-      'keyboard-shortcut-mixin-test-element'
-    );
-    element.appendChild(anchorEl);
-    const promise = mockPromise();
-    element._handleKey = e => {
-      assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
-      promise.resolve();
-    };
-    MockInteractions.keyDownOn(anchorEl, 13, null, 'enter');
-    await promise;
   });
 
   test('modifierPressed returns accurate values', () => {
@@ -189,7 +96,6 @@ suite('keyboard-shortcut-mixin tests', () => {
         detail: {key: 'a'},
         preventDefault: () => {},
       } as CustomKeyboardEvent;
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       element._shortcut_go_key_last_pressed = 9000;
       element._handleGoAction(e);
       assert.isTrue(handlerStub.calledOnce);
@@ -201,7 +107,6 @@ suite('keyboard-shortcut-mixin tests', () => {
         detail: {key: 'a'},
         preventDefault: () => {},
       } as CustomKeyboardEvent;
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       element._shortcut_go_key_last_pressed = null;
       element._handleGoAction(e);
       assert.isFalse(handlerStub.called);
@@ -212,7 +117,6 @@ suite('keyboard-shortcut-mixin tests', () => {
         detail: {key: 'a'},
         preventDefault: () => {},
       } as CustomKeyboardEvent;
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       element._shortcut_go_key_last_pressed = 3000;
       element._handleGoAction(e);
       assert.isFalse(handlerStub.called);
@@ -223,7 +127,6 @@ suite('keyboard-shortcut-mixin tests', () => {
         detail: {key: 'a'},
         preventDefault: () => {},
       } as CustomKeyboardEvent;
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(true);
       element._shortcut_go_key_last_pressed = 9000;
       element._handleGoAction(e);
       assert.isFalse(handlerStub.called);
@@ -234,7 +137,6 @@ suite('keyboard-shortcut-mixin tests', () => {
         detail: {key: 'f'},
         preventDefault: () => {},
       } as CustomKeyboardEvent;
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       element._shortcut_go_key_last_pressed = 9000;
       element._handleGoAction(e);
       assert.isFalse(handlerStub.called);

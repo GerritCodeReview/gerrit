@@ -751,7 +751,7 @@ export class GrChangeView extends base {
   }
 
   _handleToggleDiffMode(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -1495,7 +1495,7 @@ export class GrChangeView extends base {
   }
 
   _handleOpenReplyDialog(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
     this._getLoggedIn().then(isLoggedIn => {
@@ -1510,7 +1510,7 @@ export class GrChangeView extends base {
   }
 
   _handleOpenDownloadDialogShortcut(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -1519,7 +1519,7 @@ export class GrChangeView extends base {
   }
 
   _handleEditTopic(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -1528,7 +1528,7 @@ export class GrChangeView extends base {
   }
 
   _handleOpenSubmitDialog(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || !this._submitEnabled) {
+    if (this.shortcuts.shouldSuppress(e) || !this._submitEnabled) {
       return;
     }
 
@@ -1537,7 +1537,7 @@ export class GrChangeView extends base {
   }
 
   _handleToggleAttentionSet(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
     if (!this._change || !this._account?._account_id) return;
@@ -1579,7 +1579,7 @@ export class GrChangeView extends base {
   }
 
   _handleDiffAgainstBase(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
     assertIsDefined(this._change, '_change');
@@ -1593,7 +1593,7 @@ export class GrChangeView extends base {
   }
 
   _handleDiffBaseAgainstLeft(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
     assertIsDefined(this._change, '_change');
@@ -1607,7 +1607,7 @@ export class GrChangeView extends base {
   }
 
   _handleDiffAgainstLatest(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
     assertIsDefined(this._change, '_change');
@@ -1626,7 +1626,7 @@ export class GrChangeView extends base {
   }
 
   _handleDiffRightAgainstLatest(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
     assertIsDefined(this._change, '_change');
@@ -1645,7 +1645,7 @@ export class GrChangeView extends base {
   }
 
   _handleDiffBaseAgainstLatest(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
     assertIsDefined(this._change, '_change');
@@ -1663,7 +1663,7 @@ export class GrChangeView extends base {
   }
 
   _handleRefreshChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
     e.preventDefault();
@@ -1671,7 +1671,7 @@ export class GrChangeView extends base {
   }
 
   _handleToggleChangeStar(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
     e.preventDefault();
@@ -1679,7 +1679,7 @@ export class GrChangeView extends base {
   }
 
   _handleUpToDashboard(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -1688,7 +1688,7 @@ export class GrChangeView extends base {
   }
 
   _handleExpandAllMessages(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -1699,7 +1699,7 @@ export class GrChangeView extends base {
   }
 
   _handleCollapseAllMessages(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -1710,7 +1710,7 @@ export class GrChangeView extends base {
   }
 
   _handleOpenDiffPrefsShortcut(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 

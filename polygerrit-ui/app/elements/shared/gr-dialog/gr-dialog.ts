@@ -21,7 +21,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-dialog_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrButton} from '../gr-button/gr-button';
-import {KeydownEvent} from '../../../types/events';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -109,7 +108,7 @@ export class GrDialog extends PolymerElement {
     );
   }
 
-  _handleKeydown(e: KeydownEvent) {
+  _handleKeydown(e: KeyboardEvent) {
     if (this.confirmOnEnter && e.keyCode === 13) {
       this._handleConfirm(e);
     }

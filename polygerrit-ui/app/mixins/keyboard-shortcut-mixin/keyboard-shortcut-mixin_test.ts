@@ -19,7 +19,7 @@ import {KeyboardShortcutMixin} from './keyboard-shortcut-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import '../../elements/shared/gr-overlay/gr-overlay';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {CustomKeyboardEvent} from '../../types/events';
+import {IronKeyboardEvent} from '../../types/events';
 
 class GrKeyboardShortcutMixinTestElement extends KeyboardShortcutMixin(
   PolymerElement
@@ -95,7 +95,8 @@ suite('keyboard-shortcut-mixin tests', () => {
       const e = {
         detail: {key: 'a'},
         preventDefault: () => {},
-      } as CustomKeyboardEvent;
+        composedPath: () => [],
+      } as unknown as IronKeyboardEvent;
       element._shortcut_go_key_last_pressed = 9000;
       element._handleGoAction(e);
       assert.isTrue(handlerStub.calledOnce);
@@ -106,7 +107,8 @@ suite('keyboard-shortcut-mixin tests', () => {
       const e = {
         detail: {key: 'a'},
         preventDefault: () => {},
-      } as CustomKeyboardEvent;
+        composedPath: () => [],
+      } as unknown as IronKeyboardEvent;
       element._shortcut_go_key_last_pressed = null;
       element._handleGoAction(e);
       assert.isFalse(handlerStub.called);
@@ -116,7 +118,8 @@ suite('keyboard-shortcut-mixin tests', () => {
       const e = {
         detail: {key: 'a'},
         preventDefault: () => {},
-      } as CustomKeyboardEvent;
+        composedPath: () => [],
+      } as unknown as IronKeyboardEvent;
       element._shortcut_go_key_last_pressed = 3000;
       element._handleGoAction(e);
       assert.isFalse(handlerStub.called);
@@ -126,7 +129,8 @@ suite('keyboard-shortcut-mixin tests', () => {
       const e = {
         detail: {key: 'f'},
         preventDefault: () => {},
-      } as CustomKeyboardEvent;
+        composedPath: () => [],
+      } as unknown as IronKeyboardEvent;
       element._shortcut_go_key_last_pressed = 9000;
       element._handleGoAction(e);
       assert.isFalse(handlerStub.called);

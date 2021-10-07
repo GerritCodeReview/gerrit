@@ -16,6 +16,24 @@
       "message": "What is the purpose of this listener?  If we go for a static config can\u0027t this component simply ask the shortcuts service what the current shortcuts are rather than relying on a listener to inform us when it has changed?",
       "revId": "02758d447d4f337326e03ed370ac241a68252252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1c7e401_ba364f44",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T15:10:38Z",
+      "side": 1,
+      "message": "The design is not perfect and I am open to further refactor this, but the idea is that the keyboard shortcut dialog is updated based on which components are currently active. Of course, the dialog could just update itself by calling the service when it is being opened. I also like that better. Let\u0027s plan this for later.",
+      "parentUuid": "000ad74e_a22a4828",
+      "revId": "02758d447d4f337326e03ed370ac241a68252252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -27,6 +27,8 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommonConverters;
+import com.google.gerrit.server.change.GetRelatedChangesUtil;
+import com.google.gerrit.server.change.RelatedChangesSorter;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;

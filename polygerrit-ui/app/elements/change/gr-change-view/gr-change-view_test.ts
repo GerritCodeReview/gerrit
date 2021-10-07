@@ -400,7 +400,6 @@ suite('gr-change-view tests', () => {
       patchNum: 3 as RevisionPatchSetNum,
       basePatchNum: 1 as BasePatchSetNum,
     };
-    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffAgainstBase(new CustomEvent('') as CustomKeyboardEvent);
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
@@ -417,7 +416,6 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as RevisionPatchSetNum,
     };
-    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffAgainstLatest(
       new CustomEvent('') as CustomKeyboardEvent
     );
@@ -437,7 +435,6 @@ suite('gr-change-view tests', () => {
       patchNum: 3 as RevisionPatchSetNum,
       basePatchNum: 1 as BasePatchSetNum,
     };
-    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffBaseAgainstLeft(
       new CustomEvent('') as CustomKeyboardEvent
     );
@@ -456,7 +453,6 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as RevisionPatchSetNum,
     };
-    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffRightAgainstLatest(
       new CustomEvent('') as CustomKeyboardEvent
     );
@@ -475,7 +471,6 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as RevisionPatchSetNum,
     };
-    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffBaseAgainstLatest(
       new CustomEvent('') as CustomKeyboardEvent
     );
@@ -501,7 +496,6 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as RevisionPatchSetNum,
     };
-    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
 
     assert.isNotOk(element._change.attention_set);
     await element._getLoggedIn();
@@ -829,7 +823,6 @@ suite('gr-change-view tests', () => {
     });
 
     test('m should toggle diff mode', () => {
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const setModeStub = sinon.stub(
         element.$.fileListHeader,
         'setDiffViewMode'

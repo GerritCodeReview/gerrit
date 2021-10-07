@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {IronA11yKeysBehavior} from '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
@@ -82,12 +81,6 @@ const InternalKeyboardShortcutMixin = <
 
     ShortcutSection = ShortcutSection;
 
-    private _disableKeyboardShortcuts = false;
-
-    private readonly restApiService = appContext.restApiService;
-
-    private readonly reporting = appContext.reportingService;
-
     private readonly shortcuts = appContext.shortcutsService;
 
     /** Used to disable shortcuts when the element is not visible. */
@@ -116,48 +109,6 @@ const InternalKeyboardShortcutMixin = <
       return (
         isModifierPressed(e) || !!this._inGoKeyMode() || !!this.inVKeyMode()
       );
-    }
-
-    shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent) {
-      if (this._disableKeyboardShortcuts) return true;
-      const e = getKeyboardEvent(event);
-      // TODO(TS): maybe override the EventApi, narrow it down to Element always
-      const target = (dom(e) as EventApi).rootTarget as Element;
-      const tagName = target.tagName;
-      const type = target.getAttribute('type');
-      if (
-        // Suppress shortcuts on <input> and <textarea>, but not on
-        // checkboxes, because we want to enable workflows like 'click
-        // mark-reviewed and then press ] to go to the next file'.
-        (tagName === 'INPUT' && type !== 'checkbox') ||
-        tagName === 'TEXTAREA' ||
-        // Suppress shortcuts if the key is 'enter'
-        // and target is an anchor or button or paper-tab.
-        (e.keyCode === 13 &&
-          (tagName === 'A' || tagName === 'BUTTON' || tagName === 'PAPER-TAB'))
-      ) {
-        return true;
-      }
-      for (let i = 0; e.path && i < e.path.length; i++) {
-        // TODO(TS): narrow this down to Element from EventTarget first
-        if ((e.path[i] as Element).tagName === 'GR-OVERLAY') {
-          return true;
-        }
-      }
-
-      // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
-      let key = `${(e as unknown as KeyboardEvent).key}:${e.type}`;
-      if (this._inGoKeyMode()) key = 'g+' + key;
-      if (this.inVKeyMode()) key = 'v+' + key;
-      if (e.shiftKey) key = 'shift+' + key;
-      if (e.ctrlKey) key = 'ctrl+' + key;
-      if (e.metaKey) key = 'meta+' + key;
-      if (e.altKey) key = 'alt+' + key;
-      this.reporting.reportInteraction('shortcut-triggered', {
-        key,
-        from: this.nodeName ?? 'unknown',
-      });
-      return false;
     }
 
     // Alias for getKeyboardEvent.
@@ -191,11 +142,6 @@ const InternalKeyboardShortcutMixin = <
 
     override connectedCallback() {
       super.connectedCallback();
-      this.restApiService.getPreferences().then(prefs => {
-        if (prefs?.disable_keyboard_shortcuts) {
-          this._disableKeyboardShortcuts = true;
-        }
-      });
       this.createVisibilityObserver();
       this.enableBindings();
     }
@@ -292,7 +238,7 @@ const InternalKeyboardShortcutMixin = <
     }
 
     _handleVKeyDown(e: CustomKeyboardEvent) {
-      if (this.shouldSuppressKeyboardShortcut(e)) return;
+      if (this.shortcuts.shouldSuppress(e)) return;
       this._shortcut_v_key_last_pressed = Date.now();
     }
 
@@ -313,7 +259,7 @@ const InternalKeyboardShortcutMixin = <
       if (
         !this.inVKeyMode() ||
         !this._shortcut_v_table.has(e.detail.key) ||
-        this.shouldSuppressKeyboardShortcut(e)
+        this.shortcuts.shouldSuppress(e)
       ) {
         return;
       }
@@ -327,7 +273,7 @@ const InternalKeyboardShortcutMixin = <
     }
 
     _handleGoKeyDown(e: CustomKeyboardEvent) {
-      if (this.shouldSuppressKeyboardShortcut(e)) return;
+      if (this.shortcuts.shouldSuppress(e)) return;
       this._shortcut_go_key_last_pressed = Date.now();
     }
 
@@ -350,7 +296,7 @@ const InternalKeyboardShortcutMixin = <
       if (
         !this._inGoKeyMode() ||
         !this._shortcut_go_table.has(e.detail.key) ||
-        this.shouldSuppressKeyboardShortcut(e)
+        this.shortcuts.shouldSuppress(e)
       ) {
         return;
       }
@@ -394,7 +340,6 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
 /** The interface corresponding to KeyboardShortcutMixin */
 export interface KeyboardShortcutMixinInterface {
   keyboardShortcuts(): {[key: string]: string | null};
-  shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent): boolean;
   modifierPressed(event: CustomKeyboardEvent): boolean;
 }
 

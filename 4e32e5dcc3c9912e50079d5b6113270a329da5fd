@@ -142,6 +142,30 @@
       },
       "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ced7f134_fdef3d72",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-07T10:10:21Z",
+      "side": 1,
+      "message": "\u003e But wouldn\u0027t that NoSuchChangeException also potentially indicate replication delay?\n\nyes; if you get a NSCE on an update (000000..00 -\u003e abcd123.. ) you should also retry.",
+      "parentUuid": "8257d12e_f5b5589d",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 61
+      },
+      "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

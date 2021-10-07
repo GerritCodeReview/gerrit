@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "466f2486_7e7872ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-07T01:21:52Z",
+      "side": 1,
+      "message": "Perhaps add some stats about how many loose objects there were? Also, if this additionally affects the performance of other schemas, or leads to the ability to simplify (i.e. remove gc from) other schemas, we should mention that.",
+      "revId": "b6df4f368664fa006369050459c1d886ccb39749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

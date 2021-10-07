@@ -18,20 +18,18 @@ import '../../test/common-test-setup-karma';
 import {ShortcutsService} from '../../services/shortcuts/shortcuts-service';
 import {Shortcut, ShortcutSection} from './shortcuts-config';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {CustomKeyboardEvent} from '../../types/events';
 
 async function keyEventOn(
-  el: Element,
-  callback: (e: CustomKeyboardEvent) => void,
+  el: HTMLElement,
+  callback: (e: KeyboardEvent) => void,
   keyCode = 75,
   key = 'k'
-): Promise<CustomKeyboardEvent> {
-  let resolve: (e: CustomKeyboardEvent) => void;
-  const promise = new Promise<CustomKeyboardEvent>(r => (resolve = r));
-  el.addEventListener('keydown', e => {
-    const cke = e as CustomKeyboardEvent;
-    callback(cke);
-    resolve(cke);
+): Promise<KeyboardEvent> {
+  let resolve: (e: KeyboardEvent) => void;
+  const promise = new Promise<KeyboardEvent>(r => (resolve = r));
+  el.addEventListener('keydown', (e: KeyboardEvent) => {
+    callback(e);
+    resolve(e);
   });
   MockInteractions.keyDownOn(el, keyCode, null, key);
   return await promise;

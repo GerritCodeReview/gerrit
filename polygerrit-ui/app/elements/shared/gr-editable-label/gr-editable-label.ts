@@ -26,12 +26,11 @@ import {htmlTemplate} from './gr-editable-label_html';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PaperInputElementExt} from '../../../types/types';
-import {CustomKeyboardEvent} from '../../../types/events';
+import {IronKeyboardEvent} from '../../../types/events';
 import {
   AutocompleteQuery,
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
-import {getKeyboardEvent} from '../../../utils/dom-util';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -205,8 +204,8 @@ export class GrEditableLabel extends base {
       this.getGrAutocomplete()) as HTMLInputElement;
   }
 
-  _handleEnter(e: CustomKeyboardEvent) {
-    e = getKeyboardEvent(e);
+  _handleEnter(event: IronKeyboardEvent) {
+    const e = event.detail.keyboardEvent;
     const target = (dom(e) as EventApi).rootTarget;
     if (target === this._nativeInput) {
       e.preventDefault();
@@ -214,8 +213,8 @@ export class GrEditableLabel extends base {
     }
   }
 
-  _handleEsc(e: CustomKeyboardEvent) {
-    e = getKeyboardEvent(e);
+  _handleEsc(event: IronKeyboardEvent) {
+    const e = event.detail.keyboardEvent;
     const target = (dom(e) as EventApi).rootTarget;
     if (target === this._nativeInput) {
       e.preventDefault();

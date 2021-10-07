@@ -26,10 +26,10 @@ import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/key
 import {property, customElement, observe} from '@polymer/decorators';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {PaperInputElementExt} from '../../../types/types';
-import {CustomKeyboardEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {PropertyType} from '../../../types/common';
+import {modifierPressed} from '../../../utils/dom-util';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -358,7 +358,7 @@ export class GrAutocomplete extends base {
    * _handleKeydown used for key handling in the this.$.input AND all child
    * autocomplete options.
    */
-  _handleKeydown(e: CustomKeyboardEvent) {
+  _handleKeydown(e: KeyboardEvent) {
     this._focused = true;
     switch (e.keyCode) {
       case 38: // Up
@@ -383,7 +383,7 @@ export class GrAutocomplete extends base {
         }
         break;
       case 13: // Enter
-        if (this.modifierPressed(e)) {
+        if (modifierPressed(e)) {
           break;
         }
         e.preventDefault();

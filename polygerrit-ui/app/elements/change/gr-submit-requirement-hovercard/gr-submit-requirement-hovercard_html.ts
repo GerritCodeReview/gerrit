@@ -51,13 +51,13 @@ export const htmlTemplate = html`
     div.section {
       margin: 0 var(--spacing-xl) var(--spacing-m) var(--spacing-xl);
       display: flex;
+      align-items: center;
     }
     div.sectionIcon {
       flex: 0 0 30px;
     }
     div.sectionIcon iron-icon {
       position: relative;
-      top: 2px;
       width: 20px;
       height: 20px;
     }

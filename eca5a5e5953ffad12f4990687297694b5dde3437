@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09b360b3_ad58a578",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T14:11:29Z",
+      "side": 1,
+      "message": "I did not have good experience with multiple elements in one file. I would vote for a strict one-component-per-file rule, but let\u0027s discuss in a team meeting.",
+      "revId": "eca5a5e5953ffad12f4990687297694b5dde3437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4974709_ab8b5236",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T14:11:29Z",
+      "side": 1,
+      "message": "Are you sure that you want inline-flex? Maybe just flex?\nAnd the host should maybe have display:block?",
+      "revId": "eca5a5e5953ffad12f4990687297694b5dde3437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "396fd0dc_ddd4367d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T14:11:29Z",
+      "side": 1,
+      "message": "Maybe the margin is rather something to set from the outside instead of through css vars?",
+      "revId": "eca5a5e5953ffad12f4990687297694b5dde3437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5827418d_1b1e5f00",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T14:11:29Z",
+      "side": 1,
+      "message": "Maybe add a test?",
+      "range": {
+        "startLine": 125,
+        "startChar": 16,
+        "endLine": 125,
+        "endChar": 37
+      },
+      "revId": "eca5a5e5953ffad12f4990687297694b5dde3437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

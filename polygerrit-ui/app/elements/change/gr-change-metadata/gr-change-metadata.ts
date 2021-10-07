@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
+import '../../../styles/gr-font-styles';
 import '../../../styles/gr-change-metadata-shared-styles';
 import '../../../styles/gr-change-view-integration-shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';

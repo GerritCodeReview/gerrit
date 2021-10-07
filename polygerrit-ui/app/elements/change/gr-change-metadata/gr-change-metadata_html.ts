@@ -20,6 +20,9 @@ export const htmlTemplate = html`
   <style include="gr-change-metadata-shared-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
+  <style include="gr-font-styles">
+    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+  </style>
   <style include="shared-styles">
     :host {
       display: table;
@@ -94,7 +97,6 @@ export const htmlTemplate = html`
       max-width: 285px;
     }
     .metadata-title {
-      font-weight: var(--font-weight-bold);
       color: var(--deemphasized-text-color);
       padding-left: var(--metadata-horizontal-padding);
     }
@@ -114,7 +116,7 @@ export const htmlTemplate = html`
   </style>
   <gr-external-style id="externalStyle" name="change-metadata">
     <div class="metadata-header">
-      <h3 class="metadata-title">Change Info</h3>
+      <h3 class="metadata-title heading-3">Change Info</h3>
       <gr-button link="" class="show-all-button" on-click="_onShowAllClick"
         >[[_computeShowAllLabelText(_showAllSections)]]
         <iron-icon

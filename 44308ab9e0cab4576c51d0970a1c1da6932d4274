@@ -127,6 +127,30 @@
       },
       "revId": "44308ab9e0cab4576c51d0970a1c1da6932d4274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "776beb11_bd8fd8e2",
+        "filename": "java/com/google/gerrit/server/patch/PatchListCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-07T08:14:07Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/320236/1",
+      "parentUuid": "d6a60601_237c1ec4",
+      "range": {
+        "startLine": 23,
+        "startChar": 17,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "44308ab9e0cab4576c51d0970a1c1da6932d4274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

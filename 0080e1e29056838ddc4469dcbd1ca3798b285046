@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b520bd6_dd78affd",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-07T06:48:29Z",
+      "side": 1,
+      "message": "optional: Is there a line break after this string? If so, anchoring to that could speed things up further maybe.",
+      "range": {
+        "startLine": 175,
+        "startChar": 67,
+        "endLine": 175,
+        "endChar": 68
+      },
+      "revId": "0080e1e29056838ddc4469dcbd1ca3798b285046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

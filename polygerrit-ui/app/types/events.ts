@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PatchSetNum} from './common';
 import {UIComment} from '../utils/comment-util';
 import {FetchRequest} from './types';
@@ -69,10 +68,6 @@ declare global {
     'editable-content-save': EditableContentSaveEvent;
     'location-change': LocationChangeEvent;
     'iron-announce': IronAnnounceEvent;
-    /* prettier-ignore */
-    'keydown': KeydownEvent;
-    /* prettier-ignore */
-    'keypress': KeypressEvent;
     'line-mouse-enter': LineNumberEvent;
     'line-mouse-leave': LineNumberEvent;
     'line-cursor-moved-in': LineNumberEvent;
@@ -147,10 +142,6 @@ export interface IronAnnounceEventDetail {
   text: string;
 }
 export type IronAnnounceEvent = CustomEvent<IronAnnounceEventDetail>;
-
-export type KeydownEvent = CustomKeyboardEvent;
-
-export type KeypressEvent = InputEvent;
 
 export interface LocationChangeEventDetail {
   hash: string;
@@ -252,20 +243,28 @@ export interface TitleChangeEventDetail {
 export type TitleChangeEvent = CustomEvent<TitleChangeEventDetail>;
 
 /**
- * Keyboard events emitted from polymer elements.
+ * Keyboard events emitted from elements using IronA11yKeysBehavior: That means
+ * that the element returns a list of handlers from either `keyBindings()` or
+ * from `keyboardShortcuts()`. This event should not be used in Lit elements
+ * and will be obsolete once the Lit migration is completed.
  */
-export interface CustomKeyboardEvent extends CustomEvent, EventApi {
-  event: CustomKeyboardEvent;
-  detail: {
-    keyboardEvent?: CustomKeyboardEvent;
-    // TODO(TS): maybe should mark as optional and check before accessing
-    key: string;
-  };
-  readonly altKey: boolean;
-  readonly changedTouches: TouchList;
-  readonly ctrlKey: boolean;
-  readonly metaKey: boolean;
-  readonly shiftKey: boolean;
-  readonly keyCode: number;
-  readonly repeat: boolean;
+export interface IronKeyboardEvent extends CustomEvent {
+  detail: IronKeyboardEventDetail;
+}
+
+export interface IronKeyboardEventDetail {
+  keyboardEvent: KeyboardEvent;
+  key: string;
+  combo?: string;
+}
+
+export function isIronKeyboardEvent(
+  e: IronKeyboardEvent | Event | CustomEvent
+): e is IronKeyboardEvent {
+  const ike = e as IronKeyboardEvent;
+  return !!ike?.detail?.keyboardEvent;
+}
+
+export interface IronKeyboardEventListener {
+  (evt: IronKeyboardEvent): void;
 }

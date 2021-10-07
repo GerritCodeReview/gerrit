@@ -1145,11 +1145,19 @@ suite('gr-diff-host tests', () => {
           .queryDistributedElements('gr-comment-thread');
 
       assert.equal(threads.length, 1);
-
       element.threads= [...element.threads, thread];
 
       threads = dom(element.$.diff)
           .queryDistributedElements('gr-comment-thread');
+      // Threads have same rootId so element is reused
+      assert.equal(threads.length, 1);
+
+      const newThread = {...thread};
+      newThread.rootId = 'differentRootId';
+      element.threads= [...element.threads, newThread];
+      threads = dom(element.$.diff)
+          .queryDistributedElements('gr-comment-thread');
+      // New thread has a different rootId
       assert.equal(threads.length, 2);
     });
 

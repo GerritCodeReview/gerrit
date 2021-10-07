@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb460b60_97d6ed12",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-07T10:15:04Z",
+      "side": 1,
+      "message": "should this be an experiment flag instead ?",
+      "range": {
+        "startLine": 322,
+        "startChar": 9,
+        "endLine": 322,
+        "endChar": 37
+      },
+      "revId": "54c7d7535aff8b0bc24ff7bb8075196cfd037321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

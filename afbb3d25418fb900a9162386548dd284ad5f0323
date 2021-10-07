@@ -33,6 +33,24 @@
       "message": "This could be simplified to simply be:\n...bindings: string[]\n\nThen it would become:\nshortcuts.push({shortcut, text, bindings})\n\nUnless you really care about verifying they all have a key set.",
       "revId": "afbb3d25418fb900a9162386548dd284ad5f0323",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d848ab78_c4cc3734",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T21:02:04Z",
+      "side": 1,
+      "message": "I do care about verifying that they have at least one binding, so I think it is fine to keep as is. WDYT?",
+      "parentUuid": "82d3a422_f5967b9a",
+      "revId": "afbb3d25418fb900a9162386548dd284ad5f0323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

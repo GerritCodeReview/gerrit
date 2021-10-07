@@ -22,6 +22,30 @@
       },
       "revId": "1f06fce15c59381fe09e17d033e892c7529ea821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b4932db_f5ebd192",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-07T19:46:19Z",
+      "side": 1,
+      "message": "What do you think of this new PS which provides a way to override[1] the default thread count provided by \"--threads\" option and uses the one provided by schema when required ?  Or Do you suggest to remove this --threads option entirely ?\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/319997/5/gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java#230",
+      "parentUuid": "2ecc0c2a_5101565a",
+      "range": {
+        "startLine": 85,
+        "startChar": 16,
+        "endLine": 85,
+        "endChar": 23
+      },
+      "revId": "1f06fce15c59381fe09e17d033e892c7529ea821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

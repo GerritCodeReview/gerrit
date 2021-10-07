@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure this is the right fix because this allows\n\n/c/123456abcdef without the middle slash.\n\nWhat about `/^\\c/\\/(\\d+)(?:\\/(.*))?$/`",
       "revId": "d90324276f047b4b8cf6af4c176f1ed49707bd22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18d693fa_e00636c7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T07:32:51Z",
+      "side": 1,
+      "message": "Sorry, I am in a rush to update the canary. I don\u0027t think that it matters much, because `/c/123456abcdef` will then just fail at some other point.",
+      "parentUuid": "f5fcf071_33848dd4",
+      "revId": "d90324276f047b4b8cf6af4c176f1ed49707bd22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c74c55ad_2e7cbb7b",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T18:35:14Z",
+      "side": 1,
+      "message": "Ah, I wasn\u0027t aware of that. That\u0027s good context.",
+      "parentUuid": "1dc8088d_c58d4fb4",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c17e549_43b8a90c",
@@ -242,6 +260,24 @@
       "side": 1,
       "message": "I am open to a renaming refactoring later, but I don\u0027t find it misnomed so much, because those shortcuts are all \"go to ...\" shortcuts.",
       "parentUuid": "eaae6dd0_54acaf01",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55d55f02_131dde31",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T18:35:14Z",
+      "side": 1,
+      "message": "Thanks for the context!",
+      "parentUuid": "3b68b509_8e65807b",
       "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

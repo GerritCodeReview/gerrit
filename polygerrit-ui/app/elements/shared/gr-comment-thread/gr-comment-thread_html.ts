@@ -116,6 +116,17 @@ export const htmlTemplate = html`
       top: 4px;
       cursor: pointer;
     }
+    /** copy on file path **/
+    .fileName gr-copy-clipboard {
+      display: inline-block;
+      visibility: hidden;
+      vertical-align: bottom;
+      --gr-button-padding: 0px;
+    }
+    .fileName:focus-within gr-copy-clipboard,
+    .fileName:hover gr-copy-clipboard {
+      visibility: visible;
+    }
   </style>
 
   <template is="dom-if" if="[[showFilePath]]">
@@ -130,6 +141,10 @@ export const htmlTemplate = html`
           >
             [[_computeDisplayPath(path)]]
           </a>
+          <gr-copy-clipboard
+            hideInput=""
+            text="[[_computeDisplayPath(path)]]"
+          ></gr-copy-clipboard>
         </template>
       </div>
     </template>

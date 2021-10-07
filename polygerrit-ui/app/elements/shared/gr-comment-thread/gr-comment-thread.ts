@@ -18,6 +18,7 @@ import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../gr-comment/gr-comment';
 import '../../diff/gr-diff/gr-diff';
+import '../gr-copy-clipboard/gr-copy-clipboard';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment-thread_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';

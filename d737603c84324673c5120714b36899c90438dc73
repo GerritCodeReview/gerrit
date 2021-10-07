@@ -16,6 +16,24 @@
       "message": "It\u0027s better if we explain what \"related changes\" mean.",
       "revId": "d737603c84324673c5120714b36899c90438dc73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24358af7_af24d506",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRelatedUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-07T13:18:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e168d849_140bea26",
+      "revId": "d737603c84324673c5120714b36899c90438dc73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

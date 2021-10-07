@@ -19,8 +19,8 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
 import {check, Constructor} from '../../utils/common-util';
-import {getKeyboardEvent, isModifierPressed} from '../../utils/dom-util';
-import {CustomKeyboardEvent} from '../../types/events';
+import {isModifierPressed} from '../../utils/dom-util';
+import {IronKeyboardEvent} from '../../types/events';
 import {appContext} from '../../services/app-context';
 import {
   Shortcut,
@@ -100,20 +100,14 @@ const InternalKeyboardShortcutMixin = <
     /** Are shortcuts currently enabled? True only when element is visible. */
     private bindingsEnabled = false;
 
-    modifierPressed(event: CustomKeyboardEvent) {
+    modifierPressed(e: IronKeyboardEvent) {
       /* We are checking for g/v as modifiers pressed. There are cases such as
        * pressing v and then /, where we want the handler for / to be triggered.
        * TODO(dhruvsri): find a way to support that keyboard combination
        */
-      const e = getKeyboardEvent(event);
       return (
         isModifierPressed(e) || !!this._inGoKeyMode() || !!this.inVKeyMode()
       );
-    }
-
-    // Alias for getKeyboardEvent.
-    getKeyboardEvent(e: CustomKeyboardEvent) {
-      return getKeyboardEvent(e);
     }
 
     _addOwnKeyBindings(shortcut: Shortcut, handler: string) {
@@ -237,7 +231,7 @@ const InternalKeyboardShortcutMixin = <
       return {};
     }
 
-    _handleVKeyDown(e: CustomKeyboardEvent) {
+    _handleVKeyDown(e: IronKeyboardEvent) {
       if (this.shortcuts.shouldSuppress(e)) return;
       this._shortcut_v_key_last_pressed = Date.now();
     }
@@ -255,7 +249,7 @@ const InternalKeyboardShortcutMixin = <
       );
     }
 
-    _handleVAction(e: CustomKeyboardEvent) {
+    _handleVAction(e: IronKeyboardEvent) {
       if (
         !this.inVKeyMode() ||
         !this._shortcut_v_table.has(e.detail.key) ||
@@ -272,7 +266,7 @@ const InternalKeyboardShortcutMixin = <
       }
     }
 
-    _handleGoKeyDown(e: CustomKeyboardEvent) {
+    _handleGoKeyDown(e: IronKeyboardEvent) {
       if (this.shortcuts.shouldSuppress(e)) return;
       this._shortcut_go_key_last_pressed = Date.now();
     }
@@ -292,7 +286,7 @@ const InternalKeyboardShortcutMixin = <
       );
     }
 
-    _handleGoAction(e: CustomKeyboardEvent) {
+    _handleGoAction(e: IronKeyboardEvent) {
       if (
         !this._inGoKeyMode() ||
         !this._shortcut_go_table.has(e.detail.key) ||
@@ -340,7 +334,7 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
 /** The interface corresponding to KeyboardShortcutMixin */
 export interface KeyboardShortcutMixinInterface {
   keyboardShortcuts(): {[key: string]: string | null};
-  modifierPressed(event: CustomKeyboardEvent): boolean;
+  modifierPressed(event: IronKeyboardEvent): boolean;
 }
 
 export interface KeyboardShortcutMixinInterfaceTesting {
@@ -348,5 +342,5 @@ export interface KeyboardShortcutMixinInterfaceTesting {
   _shortcut_v_key_last_pressed: number | null;
   _shortcut_go_table: Map<string, string>;
   _shortcut_v_table: Map<string, string>;
-  _handleGoAction: (e: CustomKeyboardEvent) => void;
+  _handleGoAction: (e: IronKeyboardEvent) => void;
 }

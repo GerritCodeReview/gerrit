@@ -29,6 +29,7 @@ import {
 } from '../../../test/test-data-generators.js';
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
+import {IronKeyboardEventDetail} from '../../../types/events';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -1477,7 +1478,9 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handleToggleDiffMode', () => {
-      const e = {preventDefault: () => {}};
+      const e = new CustomEvent<IronKeyboardEventDetail>('keydown', {
+        detail: {keyboardEvent: new KeyboardEvent('keydown'), key: 'x'},
+      });
       // Initial state.
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
 

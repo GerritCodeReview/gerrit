@@ -214,6 +214,8 @@ export class GrAppElement extends base {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly shortcuts = appContext.shortcutsService;
+
   override keyboardShortcuts() {
     return {
       [Shortcut.OPEN_SHORTCUT_HELP_DIALOG]: '_showKeyboardShortcuts',
@@ -501,6 +503,7 @@ export class GrAppElement extends base {
   }
 
   _showKeyboardShortcuts(e: CustomKeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e)) return;
     // same shortcut should close the dialog if pressed again
     // when dialog is open
     this.loadKeyboardShortcutsDialog = true;
@@ -511,9 +514,6 @@ export class GrAppElement extends base {
     if (!keyboardShortcuts) return;
     if (keyboardShortcuts.opened) {
       keyboardShortcuts.cancel();
-      return;
-    }
-    if (this.shouldSuppressKeyboardShortcut(e)) {
       return;
     }
     keyboardShortcuts.open();

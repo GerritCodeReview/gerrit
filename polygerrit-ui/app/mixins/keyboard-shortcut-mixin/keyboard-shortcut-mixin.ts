@@ -292,7 +292,7 @@ const InternalKeyboardShortcutMixin = <
     }
 
     _handleVKeyDown(e: CustomKeyboardEvent) {
-      if (this.shouldSuppressKeyboardShortcut(e)) return;
+      if (this.shortcuts.shouldSuppress(e)) return;
       this._shortcut_v_key_last_pressed = Date.now();
     }
 
@@ -313,7 +313,7 @@ const InternalKeyboardShortcutMixin = <
       if (
         !this.inVKeyMode() ||
         !this._shortcut_v_table.has(e.detail.key) ||
-        this.shouldSuppressKeyboardShortcut(e)
+        this.shortcuts.shouldSuppress(e)
       ) {
         return;
       }
@@ -327,7 +327,7 @@ const InternalKeyboardShortcutMixin = <
     }
 
     _handleGoKeyDown(e: CustomKeyboardEvent) {
-      if (this.shouldSuppressKeyboardShortcut(e)) return;
+      if (this.shortcuts.shouldSuppress(e)) return;
       this._shortcut_go_key_last_pressed = Date.now();
     }
 
@@ -350,7 +350,7 @@ const InternalKeyboardShortcutMixin = <
       if (
         !this._inGoKeyMode() ||
         !this._shortcut_go_table.has(e.detail.key) ||
-        this.shouldSuppressKeyboardShortcut(e)
+        this.shortcuts.shouldSuppress(e)
       ) {
         return;
       }

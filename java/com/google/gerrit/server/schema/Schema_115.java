@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
@@ -40,18 +41,28 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class Schema_115 extends SchemaVersion {
+  private static final String CREATE_ACCOUNT_MSG = "Create Account";
   private final GitRepositoryManager mgr;
   private final AllUsersName allUsersName;
   private final PersonIdent serverUser;
@@ -71,11 +82,12 @@ public class Schema_115 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     Map<Account.Id, DiffPreferencesInfo> imports = new HashMap<>();
+    HashMap<Account.Id, Timestamp> registeredOnByAccount = new HashMap<>();
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
         ResultSet rs =
             stmt.executeQuery(
-                "SELECT * FROM account_diff_preferences JOIN accounts ON "
-                    + "account_diff_preferences.id=accounts.account_id")) {
+                "SELECT *, accounts.registered_on FROM account_diff_preferences "
+                    + "JOIN accounts ON account_diff_preferences.id=accounts.account_id")) {
       Set<String> availableColumns = getColumns(rs);
       while (rs.next()) {
         Account.Id accountId = new Account.Id(rs.getInt("id"));
@@ -142,6 +154,9 @@ public class Schema_115 extends SchemaVersion {
         if (availableColumns.contains("auto_hide_diff_table_header")) {
           prefs.autoHideDiffTableHeader = toBoolean(rs.getString("auto_hide_diff_table_header"));
         }
+        if (availableColumns.contains("registered_on")) {
+          registeredOnByAccount.put(accountId, rs.getTimestamp("registered_on"));
+        }
         imports.put(accountId, prefs);
       }
     }
@@ -151,25 +166,39 @@ public class Schema_115 extends SchemaVersion {
     }
 
     try (Repository git = mgr.openRepository(allUsersName);
-        RevWalk rw = new RevWalk(git)) {
+        PackInserter packInserter = ((FileRepository) git).getObjectDatabase().newPackInserter();
+        ObjectReader reader = packInserter.newReader();
+        RevWalk rw = new RevWalk(reader)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       for (Map.Entry<Account.Id, DiffPreferencesInfo> e : imports.entrySet()) {
         try (MetaDataUpdate md =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
+          // Create an initial empty commit with the registration date as commit time for
+          // new user refs.
+          Account.Id accountId = e.getKey();
+          String refName = RefNames.refsUsers(accountId);
+          Ref ref = git.exactRef(refName);
+          ObjectId initialEmptyCommitId = null;
+          if (ref == null) {
+            initialEmptyCommitId =
+                createInitialEmptyCommit(
+                    packInserter, emptyTree(packInserter), registeredOnByAccount.get(accountId));
+          }
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);
           VersionedAccountPreferences p = VersionedAccountPreferences.forUser(e.getKey());
-          p.load(md);
+          p.load(md.getProjectName(), rw, ref != null ? ref.getObjectId() : initialEmptyCommitId);
           storeSection(
               p.getConfig(),
               UserConfigSections.DIFF,
               null,
               e.getValue(),
               DiffPreferencesInfo.defaults());
-          p.commit(md);
+          p.commit(md, packInserter, reader, rw, ref != null ? ref.getObjectId() : null);
         }
       }
 
+      packInserter.flush();
       bru.execute(rw, NullProgressMonitor.INSTANCE);
     } catch (ConfigInvalidException | IOException ex) {
       throw new OrmException(ex);
@@ -208,5 +237,21 @@ public class Schema_115 extends SchemaVersion {
   private static boolean toBoolean(String v) {
     checkState(!Strings.isNullOrEmpty(v));
     return v.equals("Y");
+  }
+
+  private static ObjectId emptyTree(ObjectInserter oi) throws IOException {
+    return oi.insert(Constants.OBJ_TREE, new byte[] {});
+  }
+
+  private ObjectId createInitialEmptyCommit(
+      ObjectInserter oi, ObjectId emptyTree, Timestamp registrationDate) throws IOException {
+    PersonIdent ident = new PersonIdent(serverUser, registrationDate);
+
+    CommitBuilder cb = new CommitBuilder();
+    cb.setTreeId(emptyTree);
+    cb.setCommitter(ident);
+    cb.setAuthor(ident);
+    cb.setMessage(CREATE_ACCOUNT_MSG);
+    return oi.insert(cb);
   }
 }

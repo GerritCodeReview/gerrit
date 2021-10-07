@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50420192_4b4ad827",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-07T06:54:32Z",
+      "side": 1,
+      "message": "I think this needs to be done for\npolygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands_html.ts\npolygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list_html.ts\n\nand more ... there are 26 \u003cgr-dialog\u003e",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 16
+      },
+      "revId": "ba13f04d4bab794e348e8fffe3c082717e38ebc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b711f1d0_7519bdc2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-07T06:54:32Z",
+      "side": 1,
+      "message": "I think this should have dashedcase because of []",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 15
+      },
+      "revId": "ba13f04d4bab794e348e8fffe3c082717e38ebc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3903dcc6_f7e77dd3",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-07T06:54:32Z",
+      "side": 1,
+      "message": "Ben recommends to use `await element.updateComplete;`\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/319398/comments/8a3a4ef5_cbdac9c1",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "ba13f04d4bab794e348e8fffe3c082717e38ebc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13bc02f9_13069485",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-07T06:54:32Z",
+      "side": 1,
+      "message": "Isn\u0027t it enough with\n`@keydown\u003d${this._handleKeydown(e)}` ?",
+      "range": {
+        "startLine": 121,
+        "startChar": 19,
+        "endLine": 121,
+        "endChar": 62
+      },
+      "revId": "ba13f04d4bab794e348e8fffe3c082717e38ebc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "141686fd_9dd3b362",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-07T06:54:32Z",
+      "side": 1,
+      "message": "Nit: I would inline this into render()",
+      "range": {
+        "startLine": 205,
+        "startChar": 10,
+        "endLine": 205,
+        "endChar": 28
+      },
+      "revId": "ba13f04d4bab794e348e8fffe3c082717e38ebc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

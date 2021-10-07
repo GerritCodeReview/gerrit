@@ -16,6 +16,24 @@
       "message": "Perhaps add some stats about how many loose objects there were? Also, if this additionally affects the performance of other schemas, or leads to the ability to simplify (i.e. remove gc from) other schemas, we should mention that.",
       "revId": "b6df4f368664fa006369050459c1d886ccb39749",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f57ec0f1_ad993cf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-07T17:08:51Z",
+      "side": 1,
+      "message": "Let me add some stats on the loose objects count. \n\nThis change in itself doesn\u0027t allow us to remove gc from other schemas. To remove gc, we\u0027ll have to update few other schemas similarly, which I intend to do in subsequent changes. However, it helps build towards that, so, let me mention that.",
+      "parentUuid": "466f2486_7e7872ac",
+      "revId": "b6df4f368664fa006369050459c1d886ccb39749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

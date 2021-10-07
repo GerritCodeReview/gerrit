@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a24340f1_8427ae7b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-07T15:00:10Z",
+      "side": 1,
+      "message": "nit: I still think these would be easier to read as local variables, but I\u0027m not blocking on it.",
+      "range": {
+        "startLine": 1066,
+        "startChar": 46,
+        "endLine": 1066,
+        "endChar": 79
+      },
+      "revId": "17d4db54c9348b20366616c52eb099c7cb6b6b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "495c4867_f98e12eb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-07T15:00:10Z",
+      "side": 1,
+      "message": "nit: name this non-visible-branch ?",
+      "range": {
+        "startLine": 1128,
+        "startChar": 48,
+        "endLine": 1128,
+        "endChar": 66
+      },
+      "revId": "17d4db54c9348b20366616c52eb099c7cb6b6b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcff72cc_80bab044",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-07T15:00:10Z",
+      "side": 1,
+      "message": "nit: You don\u0027t need Ref at the end here.",
+      "range": {
+        "startLine": 1146,
+        "startChar": 66,
+        "endLine": 1146,
+        "endChar": 69
+      },
+      "revId": "17d4db54c9348b20366616c52eb099c7cb6b6b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fee46d89_0aa04504",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-07T15:00:10Z",
+      "side": 1,
+      "message": "I think this should be FilterNonVisibleCommit ?",
+      "range": {
+        "startLine": 1168,
+        "startChar": 41,
+        "endLine": 1168,
+        "endChar": 60
+      },
+      "revId": "17d4db54c9348b20366616c52eb099c7cb6b6b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

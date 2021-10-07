@@ -1477,7 +1477,9 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handleToggleDiffMode', () => {
-      const e = {preventDefault: () => {}};
+      const e = new CustomEvent('keydown', {
+        detail: {keyboardEvent: new KeyboardEvent('keydown'), key: 'x'},
+      });
       // Initial state.
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
 

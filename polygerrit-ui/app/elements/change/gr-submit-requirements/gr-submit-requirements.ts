@@ -21,6 +21,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfo,
   isDetailedLabelInfo,
+  LabelInfo,
   LabelNameToInfoMap,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
@@ -28,6 +29,7 @@ import {
 import {unique} from '../../../utils/common-util';
 import {
   extractAssociatedLabels,
+  getAllUniqueApprovals,
   hasVotes,
   iconForStatus,
 } from '../../../utils/label-util';
@@ -211,12 +213,7 @@ export class GrSubmitRequirements extends LitElement {
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {
     const labelInfo = labels[label];
     if (!isDetailedLabelInfo(labelInfo)) return;
-    const uniqueApprovals = (labelInfo.all ?? [])
-      .filter(
-        (approvalInfo, index, array) =>
-          index === array.findIndex(other => other.value === approvalInfo.value)
-      )
-      .sort((a, b) => -(a.value ?? 0) + (b.value ?? 0));
+    const uniqueApprovals = getAllUniqueApprovals(labelInfo);
     return uniqueApprovals.map(
       approvalInfo =>
         html`<gr-vote-chip
@@ -264,14 +261,11 @@ export class GrSubmitRequirements extends LitElement {
     return html`<h3 class="metadata-title heading-3">Trigger Votes</h3>
       <section class="votes">
         ${triggerVotes.map(
-          label => html`${label}:
-            <gr-label-info
-              .change="${this.change}"
-              .account="${this.account}"
-              .mutable="${this.mutable}"
-              label="${label}"
+          label =>
+            html`<gr-trigger-vote
+              .label="${label}"
               .labelInfo="${labels[label]}"
-            ></gr-label-info>`
+            ></gr-trigger-vote>`
         )}
       </section>`;
   }
@@ -320,8 +314,58 @@ export class GrSubmitRequirements extends LitElement {
   }
 }
 
+@customElement('gr-trigger-vote')
+export class GrTriggerVote extends LitElement {
+  @property()
+  label?: string;
+
+  @property({type: Object})
+  labelInfo?: LabelInfo;
+
+  static override get styles() {
+    return css`
+      .container {
+        box-sizing: border-box;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        background-color: var(--background-color-primary);
+        display: inline-flex;
+        padding: 0;
+        padding-left: var(--spacing-s);
+        padding-right: var(--spacing-xs);
+        align-items: center;
+      }
+      .label {
+        padding-right: var(--spacing-xs);
+        font-weight: var(--font-weight-bold);
+      }
+      gr-vote-chip {
+        --gr-vote-chip-width: 14px;
+        --gr-vote-chip-height: 14px;
+        --gr-vote-chip-margin-right: 0px;
+      }
+    `;
+  }
+
+  override render() {
+    const uniqueApprovals = getAllUniqueApprovals(this.labelInfo);
+    return html`
+      <div class="container">
+        <span class="label">${this.label}</span>
+        ${uniqueApprovals.map(
+          approvalInfo => html`<gr-vote-chip
+            .vote="${approvalInfo}"
+            .label="${this.labelInfo}"
+          ></gr-vote-chip>`
+        )}
+      </div>
+    `;
+  }
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     'gr-submit-requirements': GrSubmitRequirements;
+    'gr-trigger-vote': GrTriggerVote;
   }
 }

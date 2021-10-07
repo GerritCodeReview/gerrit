@@ -52,8 +52,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -141,7 +144,9 @@ public class Schema_119 extends SchemaVersion {
     }
 
     try (Repository git = mgr.openRepository(allUsersName);
-        RevWalk rw = new RevWalk(git)) {
+        PackInserter packInserter = ((FileRepository) git).getObjectDatabase().newPackInserter();
+        ObjectReader reader = packInserter.newReader();
+        RevWalk rw = new RevWalk(reader)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       for (Map.Entry<Account.Id, GeneralPreferencesInfo> e : imports.entrySet()) {
         try (MetaDataUpdate md =
@@ -156,10 +161,11 @@ public class Schema_119 extends SchemaVersion {
               null,
               e.getValue(),
               GeneralPreferencesInfo.defaults());
-          p.commit(md);
+          p.commit(md, packInserter, reader, rw);
         }
       }
 
+      packInserter.flush();
       bru.execute(rw, NullProgressMonitor.INSTANCE);
     } catch (ConfigInvalidException | IOException ex) {
       throw new OrmException(ex);

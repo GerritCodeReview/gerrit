@@ -731,10 +731,20 @@ export class GrDiffHost extends PolymerElement {
 
   _threadsChanged(threads: CommentThread[]) {
     const threadEls = new Set<Object>();
+    const existingThreadEls = this.getThreadEls();
     for (const thread of threads) {
-      const threadEl = this._createThreadElement(thread);
-      this._attachThreadElement(threadEl);
-      threadEls.add(threadEl);
+      const existingThreadEl = existingThreadEls.find(
+        threadEl => threadEl.rootId === thread.rootId
+      );
+      let threadEl;
+      if (existingThreadEl) {
+        this._updateThreadElement(existingThreadEl, thread);
+        threadEls.add(existingThreadEl);
+      } else {
+        threadEl = this._createThreadElement(thread);
+        this._attachThreadElement(threadEl);
+        threadEls.add(threadEl);
+      }
     }
     // Remove all threads that are no longer existing.
     for (const threadEl of this.getThreadEls()) {

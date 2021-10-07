@@ -351,7 +351,7 @@ export class GrEditControls extends PolymerElement {
     }
   }
 
-  _handleKeyPress(event: InputEvent) {
+  _handleKeyPress(event: KeyboardEvent) {
     event.preventDefault();
     event.stopImmediatePropagation();
   }

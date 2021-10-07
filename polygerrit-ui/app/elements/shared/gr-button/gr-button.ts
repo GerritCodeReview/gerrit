@@ -19,14 +19,9 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {
-  getEventPath,
-  getKeyboardEvent,
-  isModifierPressed,
-} from '../../../utils/dom-util';
+import {getEventPath, modifierPressed} from '../../../utils/dom-util';
 import {appContext} from '../../../services/app-context';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import {CustomKeyboardEvent} from '../../../types/events';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -206,9 +201,7 @@ export class GrButton extends LitElement {
     super();
     this.initialTabindex = this.getAttribute('tabindex') || '0';
     this.addEventListener('click', e => this._handleAction(e));
-    this.addEventListener('keydown', e =>
-      this._handleKeydown(e as unknown as CustomKeyboardEvent)
-    );
+    this.addEventListener('keydown', e => this._handleKeydown(e));
   }
 
   override updated(changedProperties: PropertyValues) {
@@ -247,11 +240,8 @@ export class GrButton extends LitElement {
     this.reporting.reportInteraction('button-click', {path: getEventPath(e)});
   }
 
-  _handleKeydown(e: CustomKeyboardEvent) {
-    if (isModifierPressed(e)) {
-      return;
-    }
-    e = getKeyboardEvent(e);
+  _handleKeydown(e: KeyboardEvent) {
+    if (modifierPressed(e)) return;
     // Handle `enter`, `space`.
     if (e.keyCode === 13 || e.keyCode === 32) {
       e.preventDefault();

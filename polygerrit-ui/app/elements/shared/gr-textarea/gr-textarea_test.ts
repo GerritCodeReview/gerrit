@@ -20,7 +20,7 @@ import './gr-textarea';
 import {GrTextarea} from './gr-textarea';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {CustomKeyboardEvent} from '../../../types/events';
+import {IronKeyboardEvent} from '../../../types/events';
 import {ItemSelectedEvent} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 
 const basicFixture = fixtureFromElement('gr-textarea');
@@ -240,7 +240,7 @@ suite('gr-textarea tests', () => {
     element._handleEnterByKey(
       new CustomEvent('keydown', {
         detail: {keyboardEvent: {keyCode: 13}},
-      }) as CustomKeyboardEvent
+      }) as IronKeyboardEvent
     );
     await flush();
     assert.deepEqual(indentCommand.args[0], ['insertText', false, '\n    ']);
@@ -252,7 +252,7 @@ suite('gr-textarea tests', () => {
     element._handleEnterByKey(
       new CustomEvent('keydown', {
         detail: {keyboardEvent: {keyCode: 13, ctrlKey: true}},
-      }) as CustomKeyboardEvent
+      }) as IronKeyboardEvent
     );
     await flush();
     assert.isTrue(indentCommand.notCalled);
@@ -260,7 +260,7 @@ suite('gr-textarea tests', () => {
     element._handleEnterByKey(
       new CustomEvent('keydown', {
         detail: {keyboardEvent: {keyCode: 13, metaKey: true}},
-      }) as CustomKeyboardEvent
+      }) as IronKeyboardEvent
     );
     await flush();
     assert.isTrue(indentCommand.notCalled);

@@ -134,7 +134,7 @@ export const GrAnnotation = {
 
       if (node instanceof Text) {
         this._annotateText(node, offset, subLength, cssClass);
-      } else if (node instanceof HTMLElement) {
+      } else if (node instanceof Element) {
         this.annotateElement(node, offset, subLength, cssClass);
       }
 

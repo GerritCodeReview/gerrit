@@ -31,7 +31,7 @@ import org.eclipse.jgit.lib.Config;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 @Singleton
-public class PatchListCacheImpl implements PatchListCache {
+public class IntraLineCacheImpl implements IntraLineCache {
   public static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String INTRA_NAME = "diff_intraline";
@@ -52,8 +52,8 @@ public class PatchListCacheImpl implements PatchListCache {
             .weigher(DiffSummaryWeigher.class)
             .diskLimit(1 << 30);
 
-        bind(PatchListCacheImpl.class);
-        bind(PatchListCache.class).to(PatchListCacheImpl.class);
+        bind(IntraLineCacheImpl.class);
+        bind(IntraLineCache.class).to(IntraLineCacheImpl.class);
       }
     };
   }
@@ -65,7 +65,7 @@ public class PatchListCacheImpl implements PatchListCache {
   private final boolean computeIntraline;
 
   @Inject
-  PatchListCacheImpl(
+  IntraLineCacheImpl(
       @Named(INTRA_NAME) Cache<IntraLineDiffKey, IntraLineDiff> intraCache,
       @Named(DIFF_SUMMARY) Cache<DiffSummaryKey, DiffSummary> diffSummaryCache,
       IntraLineLoader.Factory intraLoaderFactory,

@@ -353,7 +353,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     public String getETag(RevisionResource resource) {
       Hasher h = Hashing.murmur3_128().newHasher();
       resource.prepareETag(h, resource.getUser());
-      // File list comes from the PatchListCache, so any change to the key or value should
+      // File list comes from the IntraLineCache, so any change to the key or value should
       // invalidate ETag.
       h.putLong(PatchListKey.serialVersionUID);
       return h.hash().toString();

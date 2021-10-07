@@ -20,7 +20,7 @@ import com.google.gerrit.entities.Project;
  * Provides a cached list of intra-line and summary diffs. Use {@link DiffOperations} to compute
  * detailed file diffs.
  */
-public interface PatchListCache {
+public interface IntraLineCache {
 
   IntraLineDiff getIntraLineDiff(IntraLineDiffKey key, IntraLineDiffArgs args);
 

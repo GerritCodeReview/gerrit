@@ -1755,7 +1755,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
 
   @Test
   // TODO(ghareeb): Adjust implementation in CommentsUtil to use the new auto-merge code instead of
-  // PatchListCache#getOldId which returns the wrong result if a change isn't a merge commit.
+  // IntraLineCache#getOldId which returns the wrong result if a change isn't a merge commit.
   @Ignore
   public void
       commentOnAutoMergeCommitBecomesPatchsetLevelCommentWhenPatchsetChangedToNonMergeCommit()

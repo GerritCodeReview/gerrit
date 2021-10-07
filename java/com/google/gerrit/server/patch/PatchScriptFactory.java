@@ -81,7 +81,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final GitRepositoryManager repoManager;
   private final PatchSetUtil psUtil;
   private final Provider<PatchScriptBuilder> builderFactory;
-  private final PatchListCache patchListCache;
+  private final IntraLineCache patchListCache;
 
   private final String fileName;
   @Nullable private final PatchSet.Id psa;
@@ -104,7 +104,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       GitRepositoryManager grm,
       PatchSetUtil psUtil,
       Provider<PatchScriptBuilder> builderFactory,
-      PatchListCache patchListCache,
+      IntraLineCache patchListCache,
       ChangeEditUtil editReader,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
@@ -139,7 +139,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       GitRepositoryManager grm,
       PatchSetUtil psUtil,
       Provider<PatchScriptBuilder> builderFactory,
-      PatchListCache patchListCache,
+      IntraLineCache patchListCache,
       ChangeEditUtil editReader,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
@@ -278,12 +278,12 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private static class IntraLineDiffCalculator
       implements PatchScriptBuilder.IntraLineDiffCalculator {
 
-    private final PatchListCache patchListCache;
+    private final IntraLineCache patchListCache;
     private final Project.NameKey projectKey;
     private final DiffPreferencesInfo diffPrefs;
 
     IntraLineDiffCalculator(
-        PatchListCache patchListCache, Project.NameKey projectKey, DiffPreferencesInfo diffPrefs) {
+        IntraLineCache patchListCache, Project.NameKey projectKey, DiffPreferencesInfo diffPrefs) {
       this.patchListCache = patchListCache;
       this.projectKey = projectKey;
       this.diffPrefs = diffPrefs;

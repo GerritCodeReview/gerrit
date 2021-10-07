@@ -71,7 +71,7 @@ import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
-import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.patch.IntraLineCacheImpl;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.permissions.SectionSortCache;
 import com.google.gerrit.server.plugins.PluginModule;
@@ -117,7 +117,7 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(new DiffExecutorModule());
     modules.add(new SysExecutorModule());
     modules.add(BatchUpdate.module());
-    modules.add(PatchListCacheImpl.module());
+    modules.add(IntraLineCacheImpl.module());
     modules.add(new DefaultUrlFormatter.Module());
     modules.add(DiffOperationsImpl.module());
 

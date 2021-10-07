@@ -76,7 +76,7 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.IntraLineCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ChildProjects;
@@ -239,7 +239,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final GroupBackend groupBackend;
     final IdentifiedUser.GenericFactory userFactory;
     final IndexConfig indexConfig;
-    final PatchListCache patchListCache;
+    final IntraLineCache patchListCache;
     final ProjectCache projectCache;
     final Provider<InternalChangeQuery> queryProvider;
     final ChildProjects childProjects;
@@ -272,7 +272,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
         AllUsersName allUsersName,
-        PatchListCache patchListCache,
+        IntraLineCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
         ChildProjects childProjects,
@@ -337,7 +337,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
         AllUsersName allUsersName,
-        PatchListCache patchListCache,
+        IntraLineCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
         ChildProjects childProjects,

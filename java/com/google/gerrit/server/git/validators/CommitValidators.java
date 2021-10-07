@@ -429,7 +429,7 @@ public class CommitValidators {
       }
 
       // Use DiffFormatter to compute the number of files in the change. This should be faster than
-      // the previous approach of using the PatchListCache.
+      // the previous approach of using the IntraLineCache.
       try {
         long changedFiles = countChangedFiles(receiveEvent);
         if (changedFiles > maxFileCount) {

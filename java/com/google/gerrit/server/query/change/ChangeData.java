@@ -81,7 +81,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.RobotCommentNotes;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
-import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.IntraLineCache;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -289,7 +289,7 @@ public class ChangeData {
   private final GitRepositoryManager repoManager;
   private final MergeUtil.Factory mergeUtilFactory;
   private final MergeabilityCache mergeabilityCache;
-  private final PatchListCache patchListCache;
+  private final IntraLineCache patchListCache;
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
   private final TrackingFooters trackingFooters;
@@ -370,7 +370,7 @@ public class ChangeData {
       GitRepositoryManager repoManager,
       MergeUtil.Factory mergeUtilFactory,
       MergeabilityCache mergeabilityCache,
-      PatchListCache patchListCache,
+      IntraLineCache patchListCache,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       TrackingFooters trackingFooters,

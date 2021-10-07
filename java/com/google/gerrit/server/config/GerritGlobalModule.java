@@ -174,7 +174,7 @@ import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
-import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.patch.IntraLineCacheImpl;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.patch.PatchScriptFactoryForAutoFix;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -257,7 +257,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(GroupIncludeCacheImpl.module());
     install(MergeabilityCacheImpl.module());
     install(ServiceUserClassifierImpl.module());
-    install(PatchListCacheImpl.module());
+    install(IntraLineCacheImpl.module());
     install(ProjectCacheImpl.module());
     install(DiffOperationsImpl.module());
     install(SectionSortCache.module());

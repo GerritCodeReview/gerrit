@@ -107,7 +107,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
-import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.IntraLineCache;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -165,7 +165,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final CommentsUtil commentsUtil;
   private final PublishCommentUtil publishCommentUtil;
   private final PatchSetUtil psUtil;
-  private final PatchListCache patchListCache;
+  private final IntraLineCache patchListCache;
   private final AccountResolver accountResolver;
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
@@ -191,7 +191,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       CommentsUtil commentsUtil,
       PublishCommentUtil publishCommentUtil,
       PatchSetUtil psUtil,
-      PatchListCache patchListCache,
+      IntraLineCache patchListCache,
       AccountResolver accountResolver,
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,

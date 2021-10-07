@@ -68,7 +68,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
         ConfigUtil.getTimeUnit(
             cfg,
             "cache",
-            PatchListCacheImpl.INTRA_NAME,
+            IntraLineCacheImpl.INTRA_NAME,
             "timeout",
             TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
             TimeUnit.MILLISECONDS);

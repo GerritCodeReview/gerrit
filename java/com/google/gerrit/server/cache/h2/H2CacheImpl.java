@@ -67,14 +67,14 @@ import java.util.concurrent.atomic.AtomicLong;
  * supplied to its constructor at build time. Before creating an entry the in-memory cache is
  * checked for the item, then the database is checked, and finally the CacheLoader is used to
  * construct the item. This is mostly useful for CacheLoaders that are computationally intensive,
- * such as the PatchListCache.
+ * such as the IntraLineCache.
  *
  * <p>Cache stores and invalidations are performed on a background thread, hiding the latency
  * associated with serializing the key and value pairs and writing them to the database log.
  *
  * <p>A BloomFilter is used around the database to reduce the number of SELECTs issued against the
  * database for new cache items that have not been seen before, a common operation for the
- * PatchListCache. The BloomFilter is sized when the cache starts to be 64,000 entries or double the
+ * IntraLineCache. The BloomFilter is sized when the cache starts to be 64,000 entries or double the
  * number of items currently in the database table.
  *
  * <p>This cache does not export its items as a ConcurrentMap.

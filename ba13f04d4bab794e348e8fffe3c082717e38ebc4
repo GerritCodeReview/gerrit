@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd171e85_18d8ffe1",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T18:51:04Z",
+      "side": 1,
+      "message": "I fixed it in the opposite direction in gr-dialog",
+      "parentUuid": "50420192_4b4ad827",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 16
+      },
+      "revId": "ba13f04d4bab794e348e8fffe3c082717e38ebc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b711f1d0_7519bdc2",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-07T06:54:32Z",
       "side": 1,
       "message": "I think this should have dashedcase because of []",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 15
+      },
+      "revId": "ba13f04d4bab794e348e8fffe3c082717e38ebc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "208e4c9c_5a8e2ca2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T18:51:04Z",
+      "side": 1,
+      "message": "The way to make this easier to reason about is to always use dash-case and ensure we set the attribute name in the Lit cmoponent.",
+      "parentUuid": "b711f1d0_7519bdc2",
       "range": {
         "startLine": 88,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5abfc272_aeb5ce3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T18:51:04Z",
+      "side": 1,
+      "message": "This is not a LitElement yet.",
+      "parentUuid": "3903dcc6_f7e77dd3",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "ba13f04d4bab794e348e8fffe3c082717e38ebc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13bc02f9_13069485",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddc40e4c_9ec1c783",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T18:51:04Z",
+      "side": 1,
+      "message": "Unfortunately not because the tests stub out _handleKeydown so you want the lookup to be dynamic.\n\nI\u0027ve added a comment",
+      "parentUuid": "13bc02f9_13069485",
+      "range": {
+        "startLine": 121,
+        "startChar": 19,
+        "endLine": 121,
+        "endChar": 62
+      },
+      "revId": "ba13f04d4bab794e348e8fffe3c082717e38ebc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "141686fd_9dd3b362",
@@ -106,6 +202,30 @@
       "writtenOn": "2021-10-07T06:54:32Z",
       "side": 1,
       "message": "Nit: I would inline this into render()",
+      "range": {
+        "startLine": 205,
+        "startChar": 10,
+        "endLine": 205,
+        "endChar": 28
+      },
+      "revId": "ba13f04d4bab794e348e8fffe3c082717e38ebc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b327415_cfba01af",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T18:51:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "141686fd_9dd3b362",
       "range": {
         "startLine": 205,
         "startChar": 10,

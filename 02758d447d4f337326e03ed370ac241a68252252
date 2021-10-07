@@ -34,6 +34,24 @@
       "parentUuid": "000ad74e_a22a4828",
       "revId": "02758d447d4f337326e03ed370ac241a68252252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e388dcb1_c39cf5bf",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T17:48:10Z",
+      "side": 1,
+      "message": "sgtm",
+      "parentUuid": "f1c7e401_ba364f44",
+      "revId": "02758d447d4f337326e03ed370ac241a68252252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

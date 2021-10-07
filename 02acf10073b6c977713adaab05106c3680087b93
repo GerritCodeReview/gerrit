@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f47be91c_9bbcb367",
+        "filename": "java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-07T01:29:11Z",
+      "side": 1,
+      "message": "See here: https://gerrit-review.googlesource.com/c/gerrit/+/319997",
+      "parentUuid": "aa0479cb_f3c2ca36",
+      "revId": "02acf10073b6c977713adaab05106c3680087b93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "771edf45_176fb83d",
         "filename": "java/com/google/gerrit/server/schema/Schema_127.java",
         "patchSetId": 1

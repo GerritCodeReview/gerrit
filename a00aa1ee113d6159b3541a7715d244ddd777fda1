@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dc8088d_c58d4fb4",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T15:10:30Z",
+      "side": 1,
+      "message": "Yes, but I am trying to save myself a few minutes, because this is going to be short-lived code.",
+      "parentUuid": "e7d7afb2_d325b8a0",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c17e549_43b8a90c",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-06T21:55:42Z",
       "side": 1,
       "message": "Invert condition and terminate early with return false.",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "115c5469_84d14d92",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T15:10:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c17e549_43b8a90c",
       "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23377be6_da1d2202",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T15:10:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4a961d1_bf7e9e0a",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4e1ac62_6bfb3ec0",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-10-06T21:55:42Z",
       "side": 1,
       "message": "return binding ? binding.text : \u0027\u0027;",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a56bc2fd_dad0e3aa",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T15:10:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4e1ac62_6bfb3ec0",
       "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4afd33c_523ffd16",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T15:10:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f8d5fd7_731435be",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd335dea_d1421498",
@@ -99,6 +189,24 @@
       "writtenOn": "2021-10-06T21:55:42Z",
       "side": 1,
       "message": "Use SectionView type",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea09ac78_870530d4",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T15:10:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd335dea_d1421498",
       "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b68b509_8e65807b",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T15:10:30Z",
+      "side": 1,
+      "message": "I am open to a renaming refactoring later, but I don\u0027t find it misnomed so much, because those shortcuts are all \"go to ...\" shortcuts.",
+      "parentUuid": "eaae6dd0_54acaf01",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1842283_9e35d557",
@@ -133,6 +259,24 @@
       "writtenOn": "2021-10-06T21:55:42Z",
       "side": 1,
       "message": "For my own edification, what\u0027s the : for and why do we only keep the first part?",
+      "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bc8e53d_cbe712d2",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T15:10:30Z",
+      "side": 1,
+      "message": "This can be `a:keyup`. So the second part is just the event type.",
+      "parentUuid": "c1842283_9e35d557",
       "revId": "a00aa1ee113d6159b3541a7715d244ddd777fda1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

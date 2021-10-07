@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {check} from './common-util';
-import {CustomKeyboardEvent} from '../types/events';
+import {IronKeyboardEvent} from '../types/events';
 
 /**
  * Event emitted from polymer elements.
@@ -309,23 +308,14 @@ export function modifierPressed(e: KeyboardEvent) {
   return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
 }
 
-// Deprecated. Try using "normal" KeyboardEvent and modifierPressed() above.
-export function isModifierPressed(event: CustomKeyboardEvent) {
-  const e = getKeyboardEvent(event);
-  return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
-}
-
-export function isShiftPressed(event: CustomKeyboardEvent) {
-  const e = getKeyboardEvent(event);
+export function shiftPressed(e: KeyboardEvent) {
   return e.shiftKey;
 }
 
-export function getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent {
-  const event = dom(e.detail ? e.detail.keyboardEvent : e);
-  // TODO(TS): worth checking if this still holds or not, if no, remove this.
-  // When e is a keyboardEvent, e.event is not null.
-  if ('event' in event && (event as CustomKeyboardEvent).event) {
-    return (event as CustomKeyboardEvent).event;
-  }
-  return event as CustomKeyboardEvent;
+export function isModifierPressed(e: IronKeyboardEvent) {
+  return modifierPressed(e.detail.keyboardEvent);
+}
+
+export function isShiftPressed(e: IronKeyboardEvent) {
+  return shiftPressed(e.detail.keyboardEvent);
 }

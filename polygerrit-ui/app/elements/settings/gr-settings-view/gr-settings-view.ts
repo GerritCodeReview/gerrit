@@ -62,7 +62,6 @@ import {
 import {GrSshEditor} from '../gr-ssh-editor/gr-ssh-editor';
 import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
-import {KeydownEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
@@ -489,7 +488,7 @@ export class GrSettingsView extends PolymerElement {
     this.$.emailEditor.save();
   }
 
-  _handleNewEmailKeydown(e: KeydownEvent) {
+  _handleNewEmailKeydown(e: KeyboardEvent) {
     if (e.keyCode === 13) {
       // Enter
       e.stopPropagation();

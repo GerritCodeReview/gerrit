@@ -33,7 +33,7 @@ import {
   Item,
   ItemSelectedEvent,
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
-import {CustomKeyboardEvent} from '../../../types/events';
+import {IronKeyboardEvent} from '../../../types/events';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -238,7 +238,7 @@ export class GrTextarea extends base {
     this._setEmoji(this.$.emojiSuggestions.getCurrentText());
   }
 
-  _handleEnterByKey(e: CustomKeyboardEvent) {
+  _handleEnterByKey(e: IronKeyboardEvent) {
     // Enter should have newline behavior if the picker is closed or if the user
     // has only typed ':'. Also make sure that shortcuts aren't clobbered.
     if (this._hideEmojiAutocomplete || this.disableEnterKeyForSelectingEmoji) {
@@ -420,7 +420,7 @@ export class GrTextarea extends base {
     );
   }
 
-  private indent(e: CustomKeyboardEvent): void {
+  private indent(e: IronKeyboardEvent): void {
     if (!document.queryCommandSupported('insertText')) {
       return;
     }

@@ -226,6 +226,8 @@ export class GrCommentThread extends base {
 
   readonly restApiService = appContext.restApiService;
 
+  private readonly shortcuts = appContext.shortcutsService;
+
   constructor() {
     super();
     this.addEventListener('comment-update', e =>
@@ -495,7 +497,7 @@ export class GrCommentThread extends base {
   }
 
   _handleEKey(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
 

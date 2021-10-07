@@ -522,7 +522,7 @@ export class GrDiffView extends base {
   }
 
   _handleToggleFileReviewed(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
 
     e.preventDefault();
@@ -530,7 +530,7 @@ export class GrDiffView extends base {
   }
 
   _handleEscKey(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
 
     e.preventDefault();
@@ -538,21 +538,21 @@ export class GrDiffView extends base {
   }
 
   _handleLeftPane(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
 
     e.preventDefault();
     this.cursor.moveLeft();
   }
 
   _handleRightPane(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
 
     e.preventDefault();
     this.cursor.moveRight();
   }
 
   _handlePrevLineOrFileWithComments(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
 
     if (
       e.detail.keyboardEvent?.shiftKey &&
@@ -572,7 +572,7 @@ export class GrDiffView extends base {
   }
 
   _handleVisibleLine(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
 
     e.preventDefault();
     this.cursor.moveToVisibleArea();
@@ -583,7 +583,7 @@ export class GrDiffView extends base {
   }
 
   _handleNextLineOrFileWithComments(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
 
     if (
       e.detail.keyboardEvent?.shiftKey &&
@@ -642,7 +642,7 @@ export class GrDiffView extends base {
   }
 
   _handleNewComment(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
 
     e.preventDefault();
@@ -651,7 +651,7 @@ export class GrDiffView extends base {
   }
 
   _handlePrevFile(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     // Check for meta key to avoid overriding native chrome shortcut.
     if (getKeyboardEvent(e).metaKey) return;
     if (!this._path) return;
@@ -662,7 +662,7 @@ export class GrDiffView extends base {
   }
 
   _handleNextFile(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     // Check for meta key to avoid overriding native chrome shortcut.
     if (getKeyboardEvent(e).metaKey) return;
     if (!this._path) return;
@@ -673,7 +673,7 @@ export class GrDiffView extends base {
   }
 
   _handleNextChunkOrCommentThread(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
 
     e.preventDefault();
     if (e.detail.keyboardEvent?.shiftKey) {
@@ -734,7 +734,7 @@ export class GrDiffView extends base {
   }
 
   _handlePrevChunkOrCommentThread(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
 
     e.preventDefault();
     if (e.detail.keyboardEvent?.shiftKey) {
@@ -750,7 +750,7 @@ export class GrDiffView extends base {
 
   // Similar to gr-change-view._handleOpenReplyDialog
   _handleOpenReplyDialog(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
     this._getLoggedIn().then(isLoggedIn => {
       if (!isLoggedIn) {
@@ -765,7 +765,7 @@ export class GrDiffView extends base {
   }
 
   _handleToggleLeftPane(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (!e.detail.keyboardEvent?.shiftKey) return;
 
     e.preventDefault();
@@ -773,7 +773,7 @@ export class GrDiffView extends base {
   }
 
   _handleOpenDownloadDialog(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
 
     this.set('changeViewState.showDownloadDialog', true);
@@ -782,7 +782,7 @@ export class GrDiffView extends base {
   }
 
   _handleUpToChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
 
     e.preventDefault();
@@ -790,7 +790,7 @@ export class GrDiffView extends base {
   }
 
   _handleCommaKey(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
     if (this._diffPrefsDisabled) return;
 
@@ -799,7 +799,7 @@ export class GrDiffView extends base {
   }
 
   _handleToggleDiffMode(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
 
     e.preventDefault();
@@ -1696,27 +1696,27 @@ export class GrDiffView extends base {
   }
 
   _handleToggleBlame(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
 
     this._toggleBlame();
   }
 
   _handleToggleHideAllCommentThreads(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
 
     toggleClass(this, 'hideComments');
   }
 
   _handleOpenFileList(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
     this.$.dropdown.open();
   }
 
   _handleDiffAgainstBase(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1733,7 +1733,7 @@ export class GrDiffView extends base {
   }
 
   _handleDiffBaseAgainstLeft(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1754,7 +1754,7 @@ export class GrDiffView extends base {
   }
 
   _handleDiffAgainstLatest(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1774,7 +1774,7 @@ export class GrDiffView extends base {
   }
 
   _handleDiffRightAgainstLatest(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1793,7 +1793,7 @@ export class GrDiffView extends base {
   }
 
   _handleDiffBaseAgainstLatest(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1831,7 +1831,7 @@ export class GrDiffView extends base {
   }
 
   _handleToggleAllDiffContext(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
 
     this.$.diffHost.toggleAllContext();
   }
@@ -1841,7 +1841,7 @@ export class GrDiffView extends base {
   }
 
   _handleNextUnreviewedFile(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) return;
+    if (this.shortcuts.shouldSuppress(e)) return;
     this._setReviewed(true);
     this.navigateToUnreviewedFile('next');
   }

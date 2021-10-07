@@ -536,7 +536,6 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 5,
         patchNum: 10,
       };
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffAgainstBase(new CustomEvent(''));
       const args = diffNavStub.getCall(0).args;
@@ -553,7 +552,6 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 5,
         patchNum: 10,
       };
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffAgainstLatest(new CustomEvent(''));
       const args = diffNavStub.getCall(0).args;
@@ -571,7 +569,6 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 1,
       };
       element.params = {};
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffBaseAgainstLeft(new CustomEvent(''));
       assert(diffNavStub.called);
@@ -594,7 +591,6 @@ suite('gr-diff-view tests', () => {
           sinon.stub(element, '_paramsChanged');
           element.params = {commentLink: true, view: GerritView.DIFF};
           element._focusLineNum = 10;
-          sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
           const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
           element._handleDiffBaseAgainstLeft(new CustomEvent(''));
           assert(diffNavStub.called);
@@ -613,7 +609,6 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 1,
         patchNum: 3,
       };
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffRightAgainstLatest(new CustomEvent(''));
       assert(diffNavStub.called);
@@ -631,7 +626,6 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 1,
         patchNum: 3,
       };
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffBaseAgainstLatest(new CustomEvent(''));
       assert(diffNavStub.called);
@@ -1483,7 +1477,6 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handleToggleDiffMode', () => {
-      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const e = {preventDefault: () => {}};
       // Initial state.
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');

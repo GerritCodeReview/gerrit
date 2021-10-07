@@ -51,6 +51,24 @@
       "parentUuid": "82d3a422_f5967b9a",
       "revId": "afbb3d25418fb900a9162386548dd284ad5f0323",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98bb9619_2c6ef5c8",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T21:02:34Z",
+      "side": 1,
+      "message": "sgtm",
+      "parentUuid": "d848ab78_c4cc3734",
+      "revId": "afbb3d25418fb900a9162386548dd284ad5f0323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

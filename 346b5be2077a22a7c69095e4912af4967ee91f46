@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f55c7523_65396f07",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-07T16:45:37Z",
+      "side": 1,
+      "message": "Should we look at schemas other than 130,131 which use threads? They will probably need to be updated as well to respect this new option. Schema 106 for example needs an update?",
+      "range": {
+        "startLine": 87,
+        "startChar": 12,
+        "endLine": 87,
+        "endChar": 61
+      },
+      "revId": "346b5be2077a22a7c69095e4912af4967ee91f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8374887c_c6c815a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
         "patchSetId": 4

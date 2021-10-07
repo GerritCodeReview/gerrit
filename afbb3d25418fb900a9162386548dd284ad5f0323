@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef9c12fa_96deaf5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T18:25:57Z",
+      "side": 1,
+      "message": "LGTM, just one minor nit.",
+      "revId": "afbb3d25418fb900a9162386548dd284ad5f0323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82d3a422_f5967b9a",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T18:25:57Z",
+      "side": 1,
+      "message": "This could be simplified to simply be:\n...bindings: string[]\n\nThen it would become:\nshortcuts.push({shortcut, text, bindings})\n\nUnless you really care about verifying they all have a key set.",
+      "revId": "afbb3d25418fb900a9162386548dd284ad5f0323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

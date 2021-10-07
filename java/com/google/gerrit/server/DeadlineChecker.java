@@ -80,10 +80,6 @@ public class DeadlineChecker implements RequestStateProvider {
   }
 
   private final CancellationMetrics cancellationsMetrics;
-
-  /** The start time of the request in nanoseconds. */
-  private final long start;
-
   private final RequestInfo requestInfo;
   private final RequestStateProvider.Reason cancellationReason;
   private final String timeoutName;
@@ -161,7 +157,6 @@ public class DeadlineChecker implements RequestStateProvider {
       @Assisted @Nullable String clientProvidedTimeoutValue)
       throws InvalidDeadlineException {
     this.cancellationsMetrics = cancellationsMetrics;
-    this.start = start;
     this.requestInfo = requestInfo;
 
     ImmutableList<RequestConfig> deadlineConfigs =
@@ -233,7 +228,7 @@ public class DeadlineChecker implements RequestStateProvider {
         .values()
         .forEach(
             advisoryDeadline -> {
-              if (now > start + advisoryDeadline.timeout()) {
+              if (now > advisoryDeadline.timeout()) {
                 exceededAdvisoryDeadlines.add(advisoryDeadline.id());
                 logger.atFine().log(
                     "advisory deadline exceeded (%s)",

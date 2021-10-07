@@ -83,6 +83,6 @@ export function initAppContext() {
     storageService: () => new GrStorageService(),
     configService: () => new ConfigService(),
     userService: () => new UserService(appContext.restApiService),
-    shortcutsService: () => new ShortcutsService(),
+    shortcutsService: () => new ShortcutsService(appContext.reportingService),
   });
 }

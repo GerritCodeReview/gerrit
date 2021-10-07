@@ -56,6 +56,7 @@ import {
   PatchRange,
   PatchSetNum,
   RepoName,
+  UrlEncodedCommentId,
 } from '../../../types/common';
 import {
   DiffInfo,
@@ -730,11 +731,23 @@ export class GrDiffHost extends PolymerElement {
   }
 
   _threadsChanged(threads: CommentThread[]) {
-    const threadEls = new Set<Object>();
+    const threadEls = new Set<GrCommentThread>();
+    const rootIdToThreadEl = new Map<UrlEncodedCommentId, GrCommentThread>();
+    this.getThreadEls().forEach(
+      threadEl =>
+        threadEl.rootId && rootIdToThreadEl.set(threadEl.rootId, threadEl)
+    );
     for (const thread of threads) {
-      const threadEl = this._createThreadElement(thread);
-      this._attachThreadElement(threadEl);
-      threadEls.add(threadEl);
+      const existingThreadEl =
+        thread.rootId && rootIdToThreadEl.get(thread.rootId);
+      if (existingThreadEl) {
+        this._updateThreadElement(existingThreadEl, thread);
+        threadEls.add(existingThreadEl);
+      } else {
+        const threadEl = this._createThreadElement(thread);
+        this._attachThreadElement(threadEl);
+        threadEls.add(threadEl);
+      }
     }
     // Remove all threads that are no longer existing.
     for (const threadEl of this.getThreadEls()) {

@@ -69,6 +69,24 @@
       "parentUuid": "8f57052c_f60064ae",
       "revId": "7cd2f88ed1ba8e337dd1532ba943e9c409fe0163",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fafa92f2_5cc5989b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-07T22:03:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4c00a29_42587e09",
+      "revId": "7cd2f88ed1ba8e337dd1532ba943e9c409fe0163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

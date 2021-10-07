@@ -37,6 +37,17 @@ function isElementWithShadowRoot(
   return 'shadowRoot' in el;
 }
 
+export function isElement(node: Node): node is Element {
+  return node.nodeType === 1;
+}
+
+export function isElementTarget(
+  target: EventTarget | null | undefined
+): target is Element {
+  if (!target) return false;
+  return 'nodeType' in target && isElement(target as Node);
+}
+
 // TODO: maybe should have a better name for this
 function getPathFromNode(el: EventTarget) {
   let tagName = '';

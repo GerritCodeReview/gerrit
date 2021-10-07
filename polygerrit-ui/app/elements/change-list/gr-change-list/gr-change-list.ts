@@ -157,6 +157,8 @@ export class GrChangeList extends base {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly shortcuts = appContext.shortcutsService;
+
   override keyboardShortcuts() {
     return {
       [Shortcut.CURSOR_NEXT_CHANGE]: '_nextChange',
@@ -407,7 +409,7 @@ export class GrChangeList extends base {
   }
 
   _nextChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -419,7 +421,7 @@ export class GrChangeList extends base {
   }
 
   _prevChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -431,7 +433,7 @@ export class GrChangeList extends base {
   }
 
   _openChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -442,7 +444,7 @@ export class GrChangeList extends base {
 
   _nextPage(e: CustomKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shortcuts.shouldSuppress(e) ||
       (this.modifierPressed(e) && !isShiftPressed(e))
     ) {
       return;
@@ -454,7 +456,7 @@ export class GrChangeList extends base {
 
   _prevPage(e: CustomKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shortcuts.shouldSuppress(e) ||
       (this.modifierPressed(e) && !isShiftPressed(e))
     ) {
       return;
@@ -470,7 +472,7 @@ export class GrChangeList extends base {
   }
 
   _toggleChangeReviewed(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -489,7 +491,7 @@ export class GrChangeList extends base {
   }
 
   _refreshChangeList(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
 
@@ -498,7 +500,7 @@ export class GrChangeList extends base {
   }
 
   _toggleChangeStar(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 

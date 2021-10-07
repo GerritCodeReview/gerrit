@@ -60,3 +60,8 @@ export const myTopMenuItems$ = preferences$.pipe(
   map(preferences => preferences?.my ?? []),
   distinctUntilChanged()
 );
+
+export const disableShortcuts$ = preferences$.pipe(
+  map(preferences => preferences?.disable_keyboard_shortcuts ?? false),
+  distinctUntilChanged()
+);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "975737e9_7d48890c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-07T21:23:33Z",
+      "side": 1,
+      "message": "Self +1 for Verified, because this was a just a CI infra error and all the children have been verified just fine.",
+      "revId": "966586e87cec8d1c89b532a07bea3c9abba79f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

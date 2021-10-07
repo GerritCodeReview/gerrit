@@ -234,6 +234,32 @@ public abstract class VersionedMetaData {
   }
 
   /**
+   * Update this metadata branch, recording a new commit on its reference. This method mutates its
+   * receiver.
+   *
+   * @param update helper information to define the update that will occur.
+   * @param objInserter Shared object inserter.
+   * @param objReader Shared object reader.
+   * @param revWalk Shared rev walk.
+   * @param parent Shared rev walk.
+   * @return the commit that was created
+   * @throws IOException if there is a storage problem and the update cannot be executed as
+   *     requested or if it failed because of a concurrent update to the same reference
+   */
+  public RevCommit commit(
+      MetaDataUpdate update,
+      ObjectInserter objInserter,
+      ObjectReader objReader,
+      RevWalk revWalk,
+      ObjectId parent)
+      throws IOException {
+    try (BatchMetaDataUpdate batch = openUpdate(update, objInserter, objReader, revWalk)) {
+      batch.write(update.getCommitBuilder());
+      return batch.commitAt(parent);
+    }
+  }
+
+  /**
    * Creates a new commit and a new ref based on this commit. This method mutates its receiver.
    *
    * @param update helper information to define the update that will occur.

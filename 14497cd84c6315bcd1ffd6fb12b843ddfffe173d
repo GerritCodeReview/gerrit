@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fbff1d6_6418c0c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T10:50:42Z",
+      "side": 1,
+      "message": "Add a comment about where 390 is coming from.",
+      "revId": "14497cd84c6315bcd1ffd6fb12b843ddfffe173d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d68129d_0ac35535",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T10:50:42Z",
+      "side": 1,
+      "message": "`inline` does not make sense in a flex layout. Why not block?",
+      "revId": "14497cd84c6315bcd1ffd6fb12b843ddfffe173d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

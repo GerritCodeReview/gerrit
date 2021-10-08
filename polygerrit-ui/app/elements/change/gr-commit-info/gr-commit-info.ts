@@ -73,9 +73,9 @@ export class GrCommitInfo extends LitElement {
         )}</a
       >
       <gr-copy-clipboard
-        hasTooltip=""
-        .buttonTitle="Copy full SHA to clipboard"
-        hideInput=""
+        hastooltip
+        .buttonTitle="${'Copy full SHA to clipboard'}"
+        hideinput
         .text="${this.commitInfo?.commit}"
       >
       </gr-copy-clipboard>

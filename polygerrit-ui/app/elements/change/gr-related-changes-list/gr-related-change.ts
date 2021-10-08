@@ -24,6 +24,7 @@ import {
 } from '../../../types/common';
 import {ChangeStatus} from '../../../constants/constants';
 import {isChangeInfo} from '../../../utils/change-util';
+import {ifDefined} from 'lit/directives/if-defined';
 
 @customElement('gr-related-change')
 export class GrRelatedChange extends LitElement {
@@ -109,7 +110,7 @@ export class GrRelatedChange extends LitElement {
     const linkClass = this._computeLinkClass(change);
     return html`
       <div class="changeContainer">
-        <a href="${this.href}" class="${linkClass}"><slot></slot></a>
+        <a href="${ifDefined(this.href)}" class="${linkClass}"><slot></slot></a>
         ${this.showSubmittableCheck
           ? html`<span
               tabindex="-1"

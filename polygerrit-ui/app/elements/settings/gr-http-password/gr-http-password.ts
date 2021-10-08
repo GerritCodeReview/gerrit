@@ -115,7 +115,7 @@ export class GrHttpPassword extends LitElement {
 
   override render() {
     return html` <div class="gr-form-styles">
-        <div ?hidden=${this._passwordUrl}>
+        <div ?hidden=${!!this._passwordUrl}>
           <section>
             <span class="title">Username</span>
             <span class="value">${this._username ?? ''}</span>
@@ -125,7 +125,7 @@ export class GrHttpPassword extends LitElement {
           >
         </div>
         <span ?hidden=${!this._passwordUrl}>
-          <a href="${this._passwordUrl}" target="_blank" rel="noopener">
+          <a href="${this._passwordUrl!}" target="_blank" rel="noopener">
             Obtain password</a
           >
           (opens in a new tab)
@@ -134,7 +134,7 @@ export class GrHttpPassword extends LitElement {
       <gr-overlay
         id="generatedPasswordOverlay"
         @iron-overlay-closed=${this._generatedPasswordOverlayClosed}
-        with-backdrop=""
+        with-backdrop
       >
         <div class="gr-form-styles">
           <section id="generatedPasswordDisplay">

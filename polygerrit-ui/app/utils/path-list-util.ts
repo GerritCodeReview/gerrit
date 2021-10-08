@@ -95,13 +95,13 @@ export function addUnmodifiedFiles(
   });
 }
 
-export function computeDisplayPath(path: string) {
+export function computeDisplayPath(path?: string) {
   if (path === SpecialFilePath.COMMIT_MESSAGE) {
     return 'Commit message';
   } else if (path === SpecialFilePath.MERGE_LIST) {
     return 'Merge list';
   }
-  return path;
+  return path ?? '';
 }
 
 export function isMagicPath(path?: string) {

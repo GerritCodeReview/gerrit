@@ -40,6 +40,7 @@ import {
 } from '../../../services/checks/checks-model';
 import {getResultsOf, hasResultsOf} from '../../../services/checks/checks-util';
 import {Category} from '../../../api/checks';
+import '../../shared/gr-vote-chip/gr-vote-chip';
 
 @customElement('gr-submit-requirements')
 export class GrSubmitRequirements extends LitElement {
@@ -171,7 +172,7 @@ export class GrSubmitRequirements extends LitElement {
             .requirement="${requirement}"
             .change="${this.change}"
             .account="${this.account}"
-            .mutable="${this.mutable}"
+            .mutable="${this.mutable ?? false}"
           ></gr-submit-requirement-hovercard>
         `
       )}
@@ -267,7 +268,7 @@ export class GrSubmitRequirements extends LitElement {
             <gr-label-info
               .change="${this.change}"
               .account="${this.account}"
-              .mutable="${this.mutable}"
+              .mutable="${this.mutable ?? false}"
               label="${label}"
               .labelInfo="${labels[label]}"
             ></gr-label-info>`

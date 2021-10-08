@@ -88,7 +88,7 @@ export class GrDropdownList extends PolymerElement {
   disabled = false;
 
   @property({type: String, notify: true})
-  value?: string;
+  value: string | number = '';
 
   @property({type: Boolean})
   showCopyForTriggerText = false;
@@ -120,6 +120,10 @@ export class GrDropdownList extends PolymerElement {
 
   _computeMobileText(item: DropdownItem) {
     return item.mobileText ? item.mobileText : item.text;
+  }
+
+  computeStringValue(val: string | number) {
+    return String(val);
   }
 
   @observe('value', 'items')

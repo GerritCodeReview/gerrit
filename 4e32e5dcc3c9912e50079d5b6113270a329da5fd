@@ -166,6 +166,30 @@
       },
       "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "402e3842_fe9fc1c9",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-08T00:02:53Z",
+      "side": 1,
+      "message": "This part has been removed in stable-3.3. Marking this as resolved. Feel free to re-open it if there is anything else to clarify.",
+      "parentUuid": "ced7f134_fdef3d72",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 61
+      },
+      "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

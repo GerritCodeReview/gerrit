@@ -84,8 +84,8 @@ suite('gr-hovercard tests', () => {
     assert.notEqual(element.container, element.parentNode);
   });
 
-  test('show', () => {
-    element.show({});
+  test('show', async () => {
+    await element.show({});
     const style = getComputedStyle(element);
     assert.isTrue(element._isShowing);
     assert.isTrue(element.classList.contains('hovered'));
@@ -120,6 +120,7 @@ suite('gr-hovercard tests', () => {
     button.dispatchEvent(new CustomEvent('mouseenter'));
 
     await enterPromise;
+    await flush();
     assert.isTrue(element.isScheduledToShow);
     element.showTask.flush();
     assert.isTrue(element._isShowing);
@@ -152,6 +153,7 @@ suite('gr-hovercard tests', () => {
     button.dispatchEvent(new CustomEvent('mouseenter'));
 
     await enterPromise;
+    await flush();
     assert.isTrue(element.isScheduledToShow);
     MockInteractions.tap(button);
 

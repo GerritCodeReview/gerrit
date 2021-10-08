@@ -16,6 +16,24 @@
       "message": "Why is readonly no longer necessary?",
       "revId": "5c9dc18181a0710ccb6939b51151ee33495ff1bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "954d0d53_d1f66fa6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 0,
+      "message": "There was a time when we had to migration \u003ciron-input\u003e to include a native \u003cinput\u003e. And at that point we did not really know what we were doing. So we blindly set all attributes and properties on both, iron-input and input. But for example setting the \u0027readonly\u0027 attribute on \u003ciron-input\u003e did not make any sense. It does not exist. It just belongs to \u003cinput\u003e. So finally we have an analyzer that detects that and we can clean up such nonsense. :-)",
+      "parentUuid": "bb642520_3ebfee55",
+      "revId": "5c9dc18181a0710ccb6939b51151ee33495ff1bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

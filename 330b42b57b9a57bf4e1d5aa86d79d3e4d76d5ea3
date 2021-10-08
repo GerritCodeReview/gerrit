@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f624403_92122f93",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 1,
+      "message": "Why? I think both are acceptable and I am to ensure consistency, but AFAICT our codebase currently leans towards using \"${...}\" instead of just ${...}",
+      "parentUuid": "c581a7a9_394647ab",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9fe6088_7c8cb7e5",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-01T14:15:10Z",
       "side": 1,
       "message": "Remove the \"\"",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06eccb57_67deb1c1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 1,
+      "message": "see above",
+      "parentUuid": "a9fe6088_7c8cb7e5",
       "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca1afd72_6274fa6a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 1,
+      "message": "obsolete",
+      "parentUuid": "de261b5e_0330b1e1",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8f7492d_36081f10",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-10-01T14:15:10Z",
       "side": 1,
       "message": "This is a boolean, should this be has-tooltip or ?hasTooltip?",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09993da7_670459a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f7492d_36081f10",
       "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b8845fe_7fc13c97",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 1,
+      "message": "While \u003cgr-thread-list\u003e still is a Polymer element you could have used\n\n  change-num\n  \nand it would have set the attribute, which would then be converted to set the property. But\n\n  .change-num\n  \nis a mistake. Lit will then try to set a `change-num` property, which does not exist.",
+      "parentUuid": "bf4cee4f_2f56eb76",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c5a2d83_15b205a5",
@@ -99,6 +189,24 @@
       "writtenOn": "2021-10-01T14:15:10Z",
       "side": 1,
       "message": "What about using the ifDefined predicate?",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dccac86e_23f50a5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c5a2d83_15b205a5",
       "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -122,6 +230,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a5f730f0_1512c5c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 1,
+      "message": "AFAICT\n\n  this.mutable ?? false\n  \nand\n\n  !!this.mutable\n  \nare equivalent. Do you have a preference?\n\nI find `?? false` a bit more explicit and would prefer keeping it, but don\u0027t have a strong opinion.\n\n`?mutable` would set the attribute. When passing data from one Lit element to another I find passing into the property preferable, but again, no strong opinion here.",
+      "parentUuid": "00d1466b_2a305fdf",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df15b607_34f8ef37",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
         "patchSetId": 7
@@ -133,6 +259,24 @@
       "writtenOn": "2021-10-01T14:15:10Z",
       "side": 1,
       "message": "Same comment as above.",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50db0aca_1ccb102d",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 1,
+      "message": "Same reply as above. :-)",
+      "parentUuid": "df15b607_34f8ef37",
       "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -154,6 +298,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c396ee2f_13a89080",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-action.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 1,
+      "message": "Good catch!\n\nI am using `fit-to-visible-bounds` instead, because I think that is more idiomatic.",
+      "parentUuid": "9a4f15d2_7b982e7d",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "898854df_c14073a7",
@@ -171,6 +333,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f53e62e2_f0b5f219",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 1,
+      "message": "`{attribute: false}` just means that Lit should not create and watch a corresponding attribute at all. Parent elements would just always directly set the property. So parent elements are forced to use the `.prop\u003d...` notation. And I think that should be the default in 95% of the cases. I would like to move to a state where the standard is to not worry about attributes at all. You just have properties and that\u0027s it.\n\n`@state` means that it is a private property that you should not set from the outside. It could even be renamed during compile time, such that you cannot see or set it from the outside.",
+      "parentUuid": "898854df_c14073a7",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ee41af0_69b1164b",
@@ -184,6 +364,24 @@
       "writtenOn": "2021-10-01T14:15:10Z",
       "side": 1,
       "message": "Same question about @state vs @property({attribute: false})",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3defef28_c8161ae9",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:27:00Z",
+      "side": 1,
+      "message": "same reply :-)",
+      "parentUuid": "7ee41af0_69b1164b",
       "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

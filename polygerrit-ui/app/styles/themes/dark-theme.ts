@@ -94,7 +94,8 @@ function getStyleEl() {
       --reviewed-text-color: var(--gray-300);
       --vote-text-color: black;
       --status-text-color: black;
-      --tooltip-text-color: var(--gray-200);
+      --tooltip-text-color: var(--gray-900);
+      --tooltip-button-text-color: var(--gerrit-blue-light);
       --negative-red-text-color: var(--red-200);
       --positive-green-text-color: var(--green-200);
       --indirect-ancestor-text-color: var(--green-200);
@@ -115,7 +116,7 @@ function getStyleEl() {
       --hover-background-color: rgba(161, 194, 250, 0.2);
       --disabled-button-background-color: #484a4d;
       --selection-background-color: rgba(161, 194, 250, 0.1);
-      --tooltip-background-color: var(--gray-800);
+      --tooltip-background-color: var(--gray-200);
 
       /* comment background colors */
       --comment-background-color: #3c3f43;

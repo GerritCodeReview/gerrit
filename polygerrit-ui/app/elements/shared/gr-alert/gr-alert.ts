@@ -43,7 +43,6 @@ export class GrAlert extends LitElement {
           bottom: 1.25rem;
           border-radius: var(--border-radius);
           box-shadow: var(--elevation-level-2);
-          color: var(--tooltip-text-color);
           left: 1.25rem;
           position: fixed;
           transform: translateY(5rem);
@@ -73,12 +72,10 @@ export class GrAlert extends LitElement {
           vertical-align: bottom;
           word-break: break-all;
         }
-        .action {
-          color: var(--link-color);
-          font-weight: var(--font-weight-bold);
+        gr-button.action {
+          --text-color: var(--tooltip-button-text-color);
+          --gr-button-padding: 0 var(--spacing-s);
           margin-left: var(--spacing-l);
-          text-decoration: none;
-          --gr-button-padding: 0;
         }
       `,
     ];

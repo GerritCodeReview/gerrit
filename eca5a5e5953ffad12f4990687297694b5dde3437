@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c4127bc_65bc0ac9",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T08:08:06Z",
+      "side": 1,
+      "message": "If you want several on one line, then that is a concern of the element that is using \u003cgr-trigger-vote\u003e. From inside the component \u003cgr-trigger-vote\u003e is just a block. So I would go for\n\n  .container {\n    display: flex;\n  }\n  :host {\n    display: block;\n  }\n  \nUsers of the component can then decide whether they want to overwrite the :host display with:\n\n  gr-trigger-vote {\n    display: inline-block;\n  }\n\nOther users may want to layout multiple \u003cgr-trigger-vote\u003e elements in a flex layout. Then `inline` becomes a bit weird, because it always implies problems with line height and vertical alignment.\n\nI have recently been bitten by components that all assume that they are inline. \u003cgr-button\u003e and button icons are a pain because of that. That is the reason why I want to at least raise awareness. Sorry for holding up the review. :-/",
+      "parentUuid": "97b048f5_49236aac",
+      "revId": "eca5a5e5953ffad12f4990687297694b5dde3437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "396fd0dc_ddd4367d",
         "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
         "patchSetId": 3

@@ -19,7 +19,7 @@ import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {getRootElement} from '../../../scripts/rootElement';
 import {Constructor} from '../../../utils/common-util';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {property, observe} from '@polymer/decorators';
+import {observe, property} from '@polymer/decorators';
 import {
   pushScrollLock,
   removeScrollLock,
@@ -134,8 +134,6 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
       this._target.addEventListener('focus', this.debounceShow);
       this._target.addEventListener('mouseleave', this.debounceHide);
       this._target.addEventListener('blur', this.debounceHide);
-
-      // when click, dismiss immediately
       this._target.addEventListener('click', this.hide);
 
       // show the hovercard if mouse moves to hovercard
@@ -151,6 +149,11 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
       this.cancelShowTask();
       this.cancelHideTask();
       this.unlock();
+      this._target?.removeEventListener('mouseenter', this.debounceShow);
+      this._target?.removeEventListener('focus', this.debounceShow);
+      this._target?.removeEventListener('mouseleave', this.debounceHide);
+      this._target?.removeEventListener('blur', this.debounceHide);
+      this._target?.removeEventListener('click', this.hide);
       super.disconnectedCallback();
     }
 
@@ -158,14 +161,6 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
       super.ready();
       // First, check to see if the container has already been created.
       this.container = getHovercardContainer({createIfNotExists: true});
-    }
-
-    removeListeners() {
-      this._target?.removeEventListener('mouseenter', this.debounceShow);
-      this._target?.removeEventListener('focus', this.debounceShow);
-      this._target?.removeEventListener('mouseleave', this.debounceHide);
-      this._target?.removeEventListener('blur', this.debounceHide);
-      this._target?.removeEventListener('click', this.hide);
     }
 
     readonly debounceHide = () => {
@@ -185,10 +180,10 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
     };
 
     cancelHideTask() {
-      if (this.hideTask) {
-        this.hideTask.cancel();
-        this.isScheduledToHide = false;
-      }
+      if (!this.hideTask) return;
+      this.hideTask.cancel();
+      this.isScheduledToHide = false;
+      this.hideTask = undefined
     }
 
     /**
@@ -233,9 +228,9 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
         target = ownerRoot.querySelector('#' + this.for);
       } else {
         target =
-          !parentNode || parentNode.nodeType === Node.DOCUMENT_FRAGMENT_NODE
-            ? ownerRoot.host
-            : parentNode;
+            !parentNode || parentNode.nodeType === Node.DOCUMENT_FRAGMENT_NODE
+              ? ownerRoot.host
+              : parentNode;
       }
       return target as HTMLElement;
     }
@@ -315,10 +310,10 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
     }
 
     cancelShowTask() {
-      if (this.showTask) {
-        this.showTask.cancel();
-        this.isScheduledToShow = false;
-      }
+      if (!this.showTask) return
+      this.showTask.cancel();
+      this.isScheduledToShow = false;
+      this.showTask = undefined;
     }
 
     /**
@@ -332,7 +327,7 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
      * Shows/opens the hovercard. This occurs when the user triggers the
      * `mousenter` event on the hovercard's `target` element.
      */
-    readonly show = () => {
+    readonly show = async () => {
       this.cancelHideTask();
       this.cancelShowTask();
       if (this._isShowing || !this.container) {
@@ -352,7 +347,7 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
       // Make sure that the hovercard actually rendered and all dom-if
       // statements processed, so that we can measure the (invisible)
       // hovercard properly in updatePosition().
-      flush();
+      await flush();
       this.updatePosition();
       this.classList.remove(HIDE_CLASS);
     };
@@ -455,7 +450,6 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
       this.style.left = `${hovercardLeft}px`;
       this.style.top = `${hovercardTop}px`;
     }
-
     /**
      * Responds to a change in the `for` value and gets the updated `target`
      * element for the hovercard.
@@ -473,9 +467,6 @@ export interface GrHovercardBehaviorInterface {
   _target: HTMLElement | null;
   _isShowing: boolean;
   ready(): void;
-  removeListeners(): void;
-  debounceHide(): void;
-  cancelHideTask(): void;
   dispatchEventThroughTarget(eventName: string, detail?: unknown): void;
   hide(e?: MouseEvent): void;
   debounceShow(): void;
@@ -483,5 +474,4 @@ export interface GrHovercardBehaviorInterface {
   cancelShowTask(): void;
   show(): void;
   updatePosition(): void;
-  updatePositionTo(position: string): void;
 }

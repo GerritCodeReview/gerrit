@@ -83,8 +83,8 @@ export class GrVoteChip extends LitElement {
           display: flex;
           width: var(--gr-vote-chip-width, 16px);
           height: var(--gr-vote-chip-height, 16px);
+          font-size: var(--font-size-small);
           justify-content: center;
-          margin-right: var(--spacing-s);
           padding: 1px;
           border-radius: var(--border-radius);
           line-height: var(--gr-vote-chip-width, 16px);

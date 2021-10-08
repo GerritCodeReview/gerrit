@@ -16,6 +16,24 @@
       "message": "Don\u0027t you need an onclick handler?",
       "revId": "5f4cbf5874dd9eec5eb74ec615d1f9807487ac98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6801974_4c63d502",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T07:28:24Z",
+      "side": 1,
+      "message": "No, because gr-button is surrounded by \u003ca\u003e. It is a weird pattern, I must admit that. And maybe we should ban that. But not in this change. :-)",
+      "parentUuid": "bee72e95_bcb70f9e",
+      "revId": "5f4cbf5874dd9eec5eb74ec615d1f9807487ac98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

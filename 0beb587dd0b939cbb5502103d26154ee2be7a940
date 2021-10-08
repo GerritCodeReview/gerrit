@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eacd1a78_9ec12361",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-08T17:00:17Z",
+      "side": 1,
+      "message": "Nice catch! I wonder if this leaked.",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 6
+      },
+      "revId": "0beb587dd0b939cbb5502103d26154ee2be7a940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -224,7 +224,7 @@ export const htmlTemplate = html`
     hidden$="[[_computeIsColumnHidden('Repo', visibleChangeTableColumns)]]"
   >
     <a class="fullRepo" href$="[[_computeRepoUrl(change)]]">
-      <div class="content">[[_computeRepoDisplay(change)]]</div>
+      [[_computeRepoDisplay(change)]]
     </a>
     <a
       class="truncatedRepo"

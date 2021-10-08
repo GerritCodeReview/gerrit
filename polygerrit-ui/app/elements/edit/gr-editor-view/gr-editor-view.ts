@@ -47,6 +47,7 @@ import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDefaultEditor} from '../gr-default-editor/gr-default-editor';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import {IronKeyboardEvent} from '../../../types/events';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -393,7 +394,7 @@ export class GrEditorView extends base {
     );
   }
 
-  _handleSaveShortcut(e: KeyboardEvent) {
+  _handleSaveShortcut(e: IronKeyboardEvent) {
     e.preventDefault();
     if (!this._saveDisabled) {
       this._saveEdit();

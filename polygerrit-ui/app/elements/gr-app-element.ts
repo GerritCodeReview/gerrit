@@ -68,7 +68,7 @@ import {
 import {GrMainHeader} from './core/gr-main-header/gr-main-header';
 import {GrSettingsView} from './settings/gr-settings-view/gr-settings-view';
 import {
-  CustomKeyboardEvent,
+  IronKeyboardEvent,
   DialogChangeEventDetail,
   EventType,
   LocationChangeEvent,
@@ -213,6 +213,8 @@ export class GrAppElement extends base {
   private reporting = appContext.reportingService;
 
   private readonly restApiService = appContext.restApiService;
+
+  private readonly shortcuts = appContext.shortcutsService;
 
   override keyboardShortcuts() {
     return {
@@ -500,7 +502,8 @@ export class GrAppElement extends base {
     (this.shadowRoot!.querySelector('#keyboardShortcuts') as GrOverlay).open();
   }
 
-  _showKeyboardShortcuts(e: CustomKeyboardEvent) {
+  _showKeyboardShortcuts(e: IronKeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e)) return;
     // same shortcut should close the dialog if pressed again
     // when dialog is open
     this.loadKeyboardShortcutsDialog = true;
@@ -511,9 +514,6 @@ export class GrAppElement extends base {
     if (!keyboardShortcuts) return;
     if (keyboardShortcuts.opened) {
       keyboardShortcuts.cancel();
-      return;
-    }
-    if (this.shouldSuppressKeyboardShortcut(e)) {
       return;
     }
     keyboardShortcuts.open();

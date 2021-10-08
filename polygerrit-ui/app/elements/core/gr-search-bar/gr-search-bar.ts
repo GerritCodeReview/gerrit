@@ -31,10 +31,9 @@ import {
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getDocsBaseUrl} from '../../../utils/url-util';
-import {CustomKeyboardEvent} from '../../../types/events';
+import {IronKeyboardEvent} from '../../../types/events';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {appContext} from '../../../services/app-context';
-import {getKeyboardEvent} from '../../../utils/dom-util';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -198,6 +197,8 @@ export class GrSearchBar extends base {
   docBaseUrl: string | null = null;
 
   private readonly restApiService = appContext.restApiService;
+
+  private readonly shortcuts = appContext.shortcutsService;
 
   constructor() {
     super();
@@ -396,10 +397,10 @@ export class GrSearchBar extends base {
     });
   }
 
-  _handleSearch(e: CustomKeyboardEvent) {
-    const keyboardEvent = getKeyboardEvent(e);
+  _handleSearch(e: IronKeyboardEvent) {
+    const keyboardEvent = e.detail.keyboardEvent;
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shortcuts.shouldSuppress(e) ||
       (this.modifierPressed(e) && !keyboardEvent.shiftKey)
     ) {
       return;

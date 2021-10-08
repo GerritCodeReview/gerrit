@@ -46,9 +46,9 @@ import {
   PreferencesInput,
 } from '../../../types/common';
 import {hasAttention} from '../../../utils/attention-set-util';
-import {CustomKeyboardEvent} from '../../../types/events';
+import {IronKeyboardEvent} from '../../../types/events';
 import {fireEvent, fireReload} from '../../../utils/event-util';
-import {isShiftPressed} from '../../../utils/dom-util';
+import {isShiftPressed, modifierPressed} from '../../../utils/dom-util';
 import {ScrollMode} from '../../../constants/constants';
 
 const NUMBER_FIXED_COLUMNS = 3;
@@ -157,6 +157,8 @@ export class GrChangeList extends base {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly shortcuts = appContext.shortcutsService;
+
   override keyboardShortcuts() {
     return {
       [Shortcut.CURSOR_NEXT_CHANGE]: '_nextChange',
@@ -176,9 +178,7 @@ export class GrChangeList extends base {
     super();
     this.cursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.cursor.focusOnMove = true;
-    this.addEventListener('keydown', e =>
-      this._scopedKeydownHandler(e as unknown as CustomKeyboardEvent)
-    );
+    this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
   }
 
   override ready() {
@@ -210,10 +210,10 @@ export class GrChangeList extends base {
    *
    * Context: Issue 7294
    */
-  _scopedKeydownHandler(e: CustomKeyboardEvent) {
+  _scopedKeydownHandler(e: KeyboardEvent) {
     if (e.keyCode === 13) {
       // Enter.
-      this._openChange(e);
+      this.openChange(e);
     }
   }
 
@@ -406,8 +406,8 @@ export class GrChangeList extends base {
     );
   }
 
-  _nextChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+  _nextChange(e: IronKeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -418,8 +418,8 @@ export class GrChangeList extends base {
     this.selectedIndex = this.cursor.index;
   }
 
-  _prevChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+  _prevChange(e: IronKeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -430,19 +430,21 @@ export class GrChangeList extends base {
     this.selectedIndex = this.cursor.index;
   }
 
-  _openChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
-      return;
-    }
+  _openChange(e: IronKeyboardEvent) {
+    if (this.modifierPressed(e)) return;
+    this.openChange(e.detail.keyboardEvent);
+  }
 
+  openChange(e: KeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e) || modifierPressed(e)) return;
     e.preventDefault();
     const change = this._changeForIndex(this.selectedIndex);
     if (change) GerritNav.navigateToChange(change);
   }
 
-  _nextPage(e: CustomKeyboardEvent) {
+  _nextPage(e: IronKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shortcuts.shouldSuppress(e) ||
       (this.modifierPressed(e) && !isShiftPressed(e))
     ) {
       return;
@@ -452,9 +454,9 @@ export class GrChangeList extends base {
     fireEvent(this, 'next-page');
   }
 
-  _prevPage(e: CustomKeyboardEvent) {
+  _prevPage(e: IronKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shortcuts.shouldSuppress(e) ||
       (this.modifierPressed(e) && !isShiftPressed(e))
     ) {
       return;
@@ -469,8 +471,8 @@ export class GrChangeList extends base {
     );
   }
 
-  _toggleChangeReviewed(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+  _toggleChangeReviewed(e: IronKeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
@@ -488,8 +490,8 @@ export class GrChangeList extends base {
     changeEl.toggleReviewed();
   }
 
-  _refreshChangeList(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+  _refreshChangeList(e: IronKeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
 
@@ -497,8 +499,8 @@ export class GrChangeList extends base {
     fireReload(this);
   }
 
-  _toggleChangeStar(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+  _toggleChangeStar(e: IronKeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 

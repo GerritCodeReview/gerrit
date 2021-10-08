@@ -53,7 +53,7 @@ import {
 } from '../../../types/common';
 import {GrComment} from '../gr-comment/gr-comment';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {CustomKeyboardEvent} from '../../../types/events';
+import {IronKeyboardEvent} from '../../../types/events';
 import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
@@ -226,6 +226,8 @@ export class GrCommentThread extends base {
   private readonly syntaxLayer = new GrSyntaxLayer();
 
   readonly restApiService = appContext.restApiService;
+
+  private readonly shortcuts = appContext.shortcutsService;
 
   constructor() {
     super();
@@ -495,8 +497,8 @@ export class GrCommentThread extends base {
     return this._orderedComments[this._orderedComments.length - 1] || {};
   }
 
-  _handleEKey(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+  _handleEKey(e: IronKeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e)) {
       return;
     }
 

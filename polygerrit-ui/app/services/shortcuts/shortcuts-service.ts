@@ -21,6 +21,10 @@ import {
   ShortcutSection,
   SPECIAL_SHORTCUT,
 } from './shortcuts-config';
+import {disableShortcuts$} from '../user/user-model';
+import {IronKeyboardEvent, isIronKeyboardEvent} from '../../types/events';
+import {isElementTarget} from '../../utils/dom-util';
+import {ReportingService} from '../gr-reporting/gr-reporting';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
 
@@ -31,27 +35,100 @@ export type ShortcutListener = (
   viewMap?: Map<ShortcutSection, SectionView>
 ) => void;
 
+const COMBO_KEYS = ['g', 'v'];
+
 /**
  * Shortcuts service, holds all hosts, bindings and listeners.
  */
 export class ShortcutsService {
+  /**
+   * Keeps track of the components that are currently active such that we can
+   * show a shortcut help dialog that only shows the shortcuts that are
+   * currently relevant.
+   */
   private readonly activeHosts = new Map<unknown, Map<string, string>>();
 
+  /** Static map built in the constructor by iterating over the config. */
   private readonly bindings = new Map<Shortcut, string[]>();
 
   private readonly listeners = new Set<ShortcutListener>();
 
-  constructor() {
+  /**
+   * Maps keys (e.g. 'g') to the timestamp when they have last been pressed.
+   * This enabled key combinations like 'g+o' where we can check whether 'g' was
+   * pressed recently when 'o' is processed. Keys of this map must be items of
+   * COMBO_KEYS. Values are Date timestamps in milliseconds.
+   */
+  private readonly keyLastPressed = new Map<string, number>();
+
+  /** Keeps track of the corresponding user preference. */
+  private shortcutsDisabled = false;
+
+  constructor(readonly reporting?: ReportingService) {
     for (const section of config.keys()) {
       const items = config.get(section) ?? [];
       for (const item of items) {
         this.bindings.set(item.shortcut, item.bindings);
       }
     }
+    disableShortcuts$.subscribe(x => (this.shortcutsDisabled = x));
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (!COMBO_KEYS.includes(e.key)) return;
+      if (this.shouldSuppress(e)) return;
+      this.keyLastPressed.set(e.key, Date.now());
+    });
   }
 
   public _testOnly_isEmpty() {
     return this.activeHosts.size === 0 && this.listeners.size === 0;
+  }
+
+  shouldSuppress(event: IronKeyboardEvent | KeyboardEvent) {
+    if (this.shortcutsDisabled) return true;
+    const e = isIronKeyboardEvent(event) ? event.detail.keyboardEvent : event;
+
+    // Note that when you listen on document, then `e.currentTarget` will be the
+    // document and `e.target` will be `<gr-app>` due to shadow dom, but by
+    // using the composedPath() you can actually find the true origin of the
+    // event.
+    const rootTarget = e.composedPath()[0];
+    if (!isElementTarget(rootTarget)) return false;
+    const tagName = rootTarget.tagName;
+    const type = rootTarget.getAttribute('type');
+
+    if (
+      // Suppress shortcuts on <input> and <textarea>, but not on
+      // checkboxes, because we want to enable workflows like 'click
+      // mark-reviewed and then press ] to go to the next file'.
+      (tagName === 'INPUT' && type !== 'checkbox') ||
+      tagName === 'TEXTAREA' ||
+      // Suppress shortcuts if the key is 'enter'
+      // and target is an anchor or button or paper-tab.
+      (e.keyCode === 13 &&
+        (tagName === 'A' || tagName === 'BUTTON' || tagName === 'PAPER-TAB'))
+    ) {
+      return true;
+    }
+    const path: EventTarget[] = e.composedPath() ?? [];
+    for (const el of path) {
+      if (!isElementTarget(el)) continue;
+      if (el.tagName === 'GR-OVERLAY') return true;
+    }
+    // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
+    let key = `${e.key}:${e.type}`;
+    // TODO(brohlfs): Re-enable reporting of g- and v-keys.
+    // if (this._inGoKeyMode()) key = 'g+' + key;
+    // if (this.inVKeyMode()) key = 'v+' + key;
+    if (e.shiftKey) key = 'shift+' + key;
+    if (e.ctrlKey) key = 'ctrl+' + key;
+    if (e.metaKey) key = 'meta+' + key;
+    if (e.altKey) key = 'alt+' + key;
+    let from = 'unknown';
+    if (isElementTarget(e.currentTarget)) {
+      from = e.currentTarget.tagName;
+    }
+    this.reporting?.reportInteraction('shortcut-triggered', {key, from});
+    return false;
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {

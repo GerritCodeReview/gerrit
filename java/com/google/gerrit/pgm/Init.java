@@ -43,6 +43,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.kohsuke.args4j.Option;
 
@@ -107,6 +108,11 @@ public class Init extends BaseInit {
     super(sitePath, true, true, new WarDistribution(), null);
     batchMode = true;
     noAutoStart = true;
+
+    Optional<Integer> testOption = Optional.of(10);
+    if (testOption.isEmpty()) {
+      System.out.println("testOption is empty");
+    }
   }
 
   @Override

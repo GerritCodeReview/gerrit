@@ -352,6 +352,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a883d6dc_a82afe71",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-action.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T13:48:15Z",
+      "side": 1,
+      "message": "paper-* components are Polymer elements, and fitToVisibleBounds is a property with a corresponding attribute, so yes, both would work, setting the property:\n\n  .fitToVisibleBounds\u003d\"${true}\"\n  \nand setting the attribute\n\n  fit-to-visible-bounds",
+      "parentUuid": "e8190bcd_4f191964",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "898854df_c14073a7",

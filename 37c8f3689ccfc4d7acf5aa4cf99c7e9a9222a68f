@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3050d042_6c910996",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-08T08:14:27Z",
+      "side": 1,
+      "message": "Spacing between trigger vote header and the trigger votes chip is --spacing-m so that the spacing looks visually similar to the one between Submit requirement title and the Code Review submit requirement",
+      "revId": "37c8f3689ccfc4d7acf5aa4cf99c7e9a9222a68f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9290a4d8_95a3a6d7",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
         "patchSetId": 4

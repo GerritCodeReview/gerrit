@@ -15,24 +15,42 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-hovercard.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import '../../test/common-test-setup-karma.js';
+import {HovercardMixin} from './hovercard-mixin.js';
+import {html, LitElement} from 'lit';
+import {customElement} from 'lit/decorators';
+import {MockPromise, mockPromise} from '../../test/test-utils.js';
 
-const basicFixture = fixtureFromTemplate(html`
-<gr-hovercard for="foo" id="bar"></gr-hovercard>
-`);
+const base = HovercardMixin(LitElement);
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'hovercard-mixin-test': HovercardMixinTest;
+  }
+}
+
+@customElement('hovercard-mixin-test')
+class HovercardMixinTest extends base {
+  constructor() {
+    super();
+    this.for = 'foo';
+  }
+
+  override render() {
+    return html`<div id="container"><slot></slot></div>`;
+  }
+}
+
+const basicFixture = fixtureFromElement('hovercard-mixin-test');
 
 suite('gr-hovercard tests', () => {
-  let element;
+  let element: HovercardMixinTest;
 
-  let button;
-  let testResolve;
-  let testPromise;
+  let button: HTMLElement;
+  let testPromise: MockPromise;
 
   setup(() => {
-    testResolve = undefined;
-    testPromise = new Promise(r => testResolve = r);
+    testPromise = mockPromise();
     button = document.createElement('button');
     button.innerHTML = 'Hello';
     button.setAttribute('id', 'foo');
@@ -42,41 +60,42 @@ suite('gr-hovercard tests', () => {
   });
 
   teardown(() => {
-    element.hide({});
-    button.remove();
+    element.hide(new MouseEvent('click'));
+    button?.remove();
   });
 
-  test('updatePosition', () => {
+  test('updatePosition', async () => {
     // Test that the correct style properties have at least been set.
     element.position = 'bottom';
     element.updatePosition();
+    await element.updateComplete;
     assert.typeOf(element.style.getPropertyValue('left'), 'string');
     assert.typeOf(element.style.getPropertyValue('top'), 'string');
     assert.typeOf(element.style.getPropertyValue('paddingTop'), 'string');
     assert.typeOf(element.style.getPropertyValue('marginTop'), 'string');
 
     const parentRect = document.documentElement.getBoundingClientRect();
-    const targetRect = element._target.getBoundingClientRect();
+    const targetRect = element!._target!.getBoundingClientRect();
     const thisRect = element.getBoundingClientRect();
 
     const targetLeft = targetRect.left - parentRect.left;
     const targetTop = targetRect.top - parentRect.top;
 
-    const pixelCompare = pixel =>
-      Math.round(parseInt(pixel.substring(0, pixel.length - 1)), 10);
+    const pixelCompare = (pixel: string) =>
+      Math.round(parseInt(pixel.substring(0, pixel.length - 1), 10));
 
     assert.equal(
-        pixelCompare(element.style.left),
-        pixelCompare(
-            (targetLeft + (targetRect.width - thisRect.width) / 2) + 'px'));
+      pixelCompare(element.style.left),
+      pixelCompare(`${targetLeft + (targetRect.width - thisRect.width) / 2}px`)
+    );
     assert.equal(
-        pixelCompare(element.style.top),
-        pixelCompare(
-            (targetTop + targetRect.height + element.offset) + 'px'));
+      pixelCompare(element.style.top),
+      pixelCompare(`${targetTop + targetRect.height + element.offset}px`)
+    );
   });
 
   test('hide', () => {
-    element.hide({});
+    element.hide(new MouseEvent('click'));
     const style = getComputedStyle(element);
     assert.isFalse(element._isShowing);
     assert.isFalse(element.classList.contains('hovered'));
@@ -85,7 +104,8 @@ suite('gr-hovercard tests', () => {
   });
 
   test('show', async () => {
-    await element.show({});
+    await element.show();
+    await element.updateComplete;
     const style = getComputedStyle(element);
     assert.isTrue(element._isShowing);
     assert.isTrue(element.classList.contains('hovered'));
@@ -95,74 +115,63 @@ suite('gr-hovercard tests', () => {
 
   test('debounceShow does not show immediately', async () => {
     element.debounceShowBy(100);
-    setTimeout(testResolve, 0);
+    setTimeout(() => testPromise.resolve(), 0);
     await testPromise;
     assert.isFalse(element._isShowing);
   });
 
   test('debounceShow shows after delay', async () => {
     element.debounceShowBy(1);
-    setTimeout(testResolve, 10);
+    setTimeout(() => testPromise.resolve(), 10);
     await testPromise;
     assert.isTrue(element._isShowing);
   });
 
   test('card is scheduled to show on enter and hides on leave', async () => {
     const button = document.querySelector('button');
-    let enterResolve = undefined;
-    const enterPromise = new Promise(r => enterResolve = r);
-    button.addEventListener('mouseenter', enterResolve);
-    let leaveResolve = undefined;
-    const leavePromise = new Promise(r => leaveResolve = r);
-    button.addEventListener('mouseleave', leaveResolve);
+    const enterPromise = mockPromise();
+    button!.addEventListener('mouseenter', () => enterPromise.resolve());
+    const leavePromise = mockPromise();
+    button!.addEventListener('mouseleave', () => leavePromise.resolve());
 
     assert.isFalse(element._isShowing);
-    button.dispatchEvent(new CustomEvent('mouseenter'));
+    button!.dispatchEvent(new CustomEvent('mouseenter'));
 
     await enterPromise;
     await flush();
     assert.isTrue(element.isScheduledToShow);
-    element.showTask.flush();
+    element!.showTask!.flush();
     assert.isTrue(element._isShowing);
     assert.isFalse(element.isScheduledToShow);
 
-    button.dispatchEvent(new CustomEvent('mouseleave'));
+    button!.dispatchEvent(new CustomEvent('mouseleave'));
 
     await leavePromise;
     assert.isTrue(element.isScheduledToHide);
     assert.isTrue(element._isShowing);
-    element.hideTask.flush();
+    element!.hideTask!.flush();
     assert.isFalse(element.isScheduledToShow);
     assert.isFalse(element._isShowing);
-
-    button.removeEventListener('mouseenter', enterResolve);
-    button.removeEventListener('mouseleave', leaveResolve);
   });
 
   test('card should disappear on click', async () => {
     const button = document.querySelector('button');
-    let enterResolve = undefined;
-    const enterPromise = new Promise(r => enterResolve = r);
-    button.addEventListener('mouseenter', enterResolve);
-    let clickResolve = undefined;
-    const clickPromise = new Promise(r => clickResolve = r);
-    button.addEventListener('click', clickResolve);
+    const enterPromise = mockPromise();
+    const clickPromise = mockPromise();
+    button!.addEventListener('mouseenter', () => enterPromise.resolve());
+    button!.addEventListener('click', () => clickPromise.resolve());
 
     assert.isFalse(element._isShowing);
 
-    button.dispatchEvent(new CustomEvent('mouseenter'));
+    button!.dispatchEvent(new CustomEvent('mouseenter'));
 
     await enterPromise;
     await flush();
     assert.isTrue(element.isScheduledToShow);
-    MockInteractions.tap(button);
+    button!.click();
 
     await clickPromise;
     assert.isFalse(element.isScheduledToShow);
     assert.isFalse(element._isShowing);
-
-    button.removeEventListener('mouseenter', enterResolve);
-    button.removeEventListener('click', clickResolve);
   });
 });
-

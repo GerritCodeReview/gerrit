@@ -1,137 +1,21 @@
 {
-  "comments": [],
-  "submitRequirementResults": [
+  "comments": [
     {
-      "submitRequirement": {
-        "name": "Code-Review",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "unresolved": false,
+      "key": {
+        "uuid": "ca177928_38aab2fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
       },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Review\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
       },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -1660709940,
-        "w2": -367381691,
-        "w3": 806602193,
-        "w4": -1419679974,
-        "w5": -154967511
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "Code-Style",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Style\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -1660709940,
-        "w2": -367381691,
-        "w3": 806602193,
-        "w4": -1419679974,
-        "w5": -154967511
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "Verified",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Verified\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Verified\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -1660709940,
-        "w2": -367381691,
-        "w3": 806602193,
-        "w4": -1419679974,
-        "w5": -154967511
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "checks~ChecksSubmitRule",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "rule:checks~ChecksSubmitRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "rule:checks~ChecksSubmitRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "checks~ChecksSubmitRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -1660709940,
-        "w2": -367381691,
-        "w3": 806602193,
-        "w4": -1419679974,
-        "w5": -154967511
-      },
-      "legacy": true
+      "writtenOn": "2021-10-08T23:52:06Z",
+      "side": 1,
+      "message": "As a follow-up, we should remove it from plugin-manager.",
+      "revId": "9d0393ccea1a33453013c5d1ab61671af6c36229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

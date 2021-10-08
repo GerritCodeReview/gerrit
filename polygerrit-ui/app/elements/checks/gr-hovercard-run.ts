@@ -16,6 +16,8 @@
  */
 import './gr-checks-styles';
 import '../../styles/gr-font-styles';
+import '../../styles/gr-hovercard-styles';
+import '../../styles/shared-styles';
 import {HovercardBehaviorMixin} from '../shared/gr-hovercard/gr-hovercard-behavior';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-run_html';

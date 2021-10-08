@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 import '../../../styles/gr-font-styles';
-import '../../shared/gr-hovercard/gr-hovercard-shared-style';
+import '../../../styles/gr-hovercard-styles';
+import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';

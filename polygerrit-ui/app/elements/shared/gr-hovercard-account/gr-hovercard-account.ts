@@ -18,6 +18,7 @@
 import '@polymer/iron-icon/iron-icon';
 import '../../../styles/gr-font-styles';
 import '../../../styles/shared-styles';
+import '../../../styles/gr-hovercard-styles';
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';
 import {HovercardBehaviorMixin} from '../gr-hovercard/gr-hovercard-behavior';

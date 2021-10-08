@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "376a3657_a577294e",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-08T10:38:06Z",
+      "side": 1,
+      "message": "Done. Thanks for explanation",
+      "parentUuid": "8c4127bc_65bc0ac9",
+      "revId": "eca5a5e5953ffad12f4990687297694b5dde3437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "396fd0dc_ddd4367d",

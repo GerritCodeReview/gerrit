@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62b9910c_5b60accf",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-08T10:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3050d042_6c910996",
+      "revId": "37c8f3689ccfc4d7acf5aa4cf99c7e9a9222a68f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9290a4d8_95a3a6d7",
@@ -31,6 +49,54 @@
       "writtenOn": "2021-10-08T08:08:51Z",
       "side": 1,
       "message": "Could we set this value to 6px so that the radius of the vote chip and the radius of the trigger vote chip are more similar visually? (see screenshot in the bug)",
+      "range": {
+        "startLine": 333,
+        "startChar": 26,
+        "endLine": 333,
+        "endChar": 43
+      },
+      "revId": "37c8f3689ccfc4d7acf5aa4cf99c7e9a9222a68f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91551cc3_b346a222",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-08T10:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9290a4d8_95a3a6d7",
+      "range": {
+        "startLine": 333,
+        "startChar": 26,
+        "endLine": 333,
+        "endChar": 43
+      },
+      "revId": "37c8f3689ccfc4d7acf5aa4cf99c7e9a9222a68f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de45250a_ec4a268f",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-08T10:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9290a4d8_95a3a6d7",
       "range": {
         "startLine": 333,
         "startChar": 26,
@@ -64,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cc2dfbc_a588e9e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-08T10:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bee675bc_369fcdfa",
+      "range": {
+        "startLine": 338,
+        "startChar": 27,
+        "endLine": 338,
+        "endChar": 39
+      },
+      "revId": "37c8f3689ccfc4d7acf5aa4cf99c7e9a9222a68f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d50ab963_f38ce9e7",
@@ -87,6 +177,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42e8e88b_a196bd1f",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-08T10:38:06Z",
+      "side": 1,
+      "message": "There is already padding-right: var(--spacing-xs);\n\nI am increasing it to 4px (--spacing-s)",
+      "parentUuid": "d50ab963_f38ce9e7",
+      "range": {
+        "startLine": 341,
+        "startChar": 5,
+        "endLine": 341,
+        "endChar": 14
+      },
+      "revId": "37c8f3689ccfc4d7acf5aa4cf99c7e9a9222a68f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c65eef65_b583811f",
@@ -100,6 +214,30 @@
       "writtenOn": "2021-10-08T08:08:51Z",
       "side": 1,
       "message": "I did not notice it before but the font size for vote chips should be --font-size-small: 12px instead of 14px. The text looks quite big in relation to the comment chip container.",
+      "range": {
+        "startLine": 343,
+        "startChar": 44,
+        "endLine": 343,
+        "endChar": 45
+      },
+      "revId": "37c8f3689ccfc4d7acf5aa4cf99c7e9a9222a68f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f0e2c66_cb248e9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-08T10:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c65eef65_b583811f",
       "range": {
         "startLine": 343,
         "startChar": 44,

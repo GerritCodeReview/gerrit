@@ -27,7 +27,6 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {
-  TestKeyboardShortcutBinder,
   stubRestApi,
   spyRestApi,
   listenOnce,
@@ -35,7 +34,6 @@ import {
   query,
 } from '../../../test/test-utils.js';
 import {EditPatchSetNum} from '../../../types/common.js';
-import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {createCommentThreads} from '../../../utils/comment-util.js';
 import {
   createChange,
@@ -67,30 +65,6 @@ suite('gr-file-list tests', () => {
   let commentApiWrapper;
 
   let saveStub;
-
-  suiteSetup(() => {
-    const kb = TestKeyboardShortcutBinder.push();
-    kb.bindShortcut(Shortcut.LEFT_PANE, 'shift+left');
-    kb.bindShortcut(Shortcut.RIGHT_PANE, 'shift+right');
-    kb.bindShortcut(Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
-    kb.bindShortcut(Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
-    kb.bindShortcut(Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
-    kb.bindShortcut(Shortcut.CURSOR_PREV_FILE, 'k', 'up');
-    kb.bindShortcut(Shortcut.NEXT_LINE, 'j', 'down');
-    kb.bindShortcut(Shortcut.PREV_LINE, 'k', 'up');
-    kb.bindShortcut(Shortcut.NEW_COMMENT, 'c');
-    kb.bindShortcut(Shortcut.OPEN_LAST_FILE, '[');
-    kb.bindShortcut(Shortcut.OPEN_FIRST_FILE, ']');
-    kb.bindShortcut(Shortcut.OPEN_FILE, 'o');
-    kb.bindShortcut(Shortcut.NEXT_CHUNK, 'n');
-    kb.bindShortcut(Shortcut.PREV_CHUNK, 'p');
-    kb.bindShortcut(Shortcut.TOGGLE_FILE_REVIEWED, 'r');
-    kb.bindShortcut(Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
-  });
-
-  suiteTeardown(() => {
-    TestKeyboardShortcutBinder.pop();
-  });
 
   suite('basic tests', () => {
     setup(async () => {
@@ -566,27 +540,27 @@ suite('gr-file-list tests', () => {
         assert.equal(element.diffs.length, 0);
         assert.equal(element._expandedFiles.length, 0);
 
-        MockInteractions.keyUpOn(element, 73, null, 'i');
+        MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flush();
         assert.equal(element.diffs.length, 1);
         assert.equal(element.diffs[0].path, paths[0]);
         assert.equal(element._expandedFiles.length, 1);
         assert.equal(element._expandedFiles[0].path, paths[0]);
 
-        MockInteractions.keyUpOn(element, 73, null, 'i');
+        MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flush();
         assert.equal(element.diffs.length, 0);
         assert.equal(element._expandedFiles.length, 0);
 
         element.fileCursor.setCursorAtIndex(1);
-        MockInteractions.keyUpOn(element, 73, null, 'i');
+        MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flush();
         assert.equal(element.diffs.length, 1);
         assert.equal(element.diffs[0].path, paths[1]);
         assert.equal(element._expandedFiles.length, 1);
         assert.equal(element._expandedFiles[0].path, paths[1]);
 
-        MockInteractions.keyUpOn(element, 73, 'shift', 'i');
+        MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
         flush();
         assert.equal(element.diffs.length, paths.length);
         assert.equal(element._expandedFiles.length, paths.length);
@@ -595,7 +569,7 @@ suite('gr-file-list tests', () => {
         }
         // since _expandedFilesChanged is stubbed
         element.filesExpanded = FilesExpandedState.ALL;
-        MockInteractions.keyUpOn(element, 73, 'shift', 'i');
+        MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
         flush();
         assert.equal(element.diffs.length, 0);
         assert.equal(element._expandedFiles.length, 0);
@@ -610,12 +584,12 @@ suite('gr-file-list tests', () => {
         assert.equal(getNumReviewed(), 0);
 
         // Press the review key to toggle it (set the flag).
-        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+        MockInteractions.keyUpOn(element, 82, null, 'r');
         flush();
         assert.equal(getNumReviewed(), 1);
 
         // Press the review key to toggle it (clear the flag).
-        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+        MockInteractions.keyUpOn(element, 82, null, 'r');
         assert.equal(getNumReviewed(), 0);
       });
 
@@ -1574,7 +1548,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('cursor with individually opened files', async () => {
-      MockInteractions.keyUpOn(element, 73, null, 'i');
+      MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
       await flush();
       let diffs = await renderAndGetNewDiffs(0);
       const diffStops = diffs[0].getCursorStops();
@@ -1601,7 +1575,7 @@ suite('gr-file-list tests', () => {
       // The file cursor is now at 1.
       assert.equal(element.fileCursor.index, 1);
 
-      MockInteractions.keyUpOn(element, 73, null, 'i');
+      MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
       await flush();
       diffs = await renderAndGetNewDiffs(1);
 
@@ -1616,7 +1590,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('cursor with toggle all files', async () => {
-      MockInteractions.keyUpOn(element, 73, 'shift', 'i');
+      MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
       await flush();
 
       const diffs = await renderAndGetNewDiffs(0);
@@ -1663,7 +1637,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('n key with some files expanded and no shift key', async () => {
-        MockInteractions.keyUpOn(fileRows[0], 73, null, 'i');
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
         await flush();
 
         // Handle N key should return before calling diff cursor functions.
@@ -1677,7 +1651,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('n key with some files expanded and shift key', async () => {
-        MockInteractions.keyUpOn(fileRows[0], 73, null, 'i');
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
         await flush();
         assert.equal(nextChunkStub.callCount, 0);
 
@@ -1691,7 +1665,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('n key without all files expanded and shift key', async () => {
-        MockInteractions.keyUpOn(fileRows[0], 73, 'shift', 'i');
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, 'shift', 'i');
         await flush();
 
         MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
@@ -1704,7 +1678,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('n key without all files expanded and no shift key', async () => {
-        MockInteractions.keyUpOn(fileRows[0], 73, 'shift', 'i');
+        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, 'shift', 'i');
         await flush();
 
         MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
@@ -1759,13 +1733,13 @@ suite('gr-file-list tests', () => {
         const saveReviewStub = sinon.stub(element, '_saveReviewedState');
 
         element.editMode = false;
-        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+        MockInteractions.keyUpOn(element, 82, null, 'r');
         assert.isTrue(saveReviewStub.calledOnce);
 
         element.editMode = true;
         await flush();
 
-        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+        MockInteractions.keyUpOn(element, 82, null, 'r');
         assert.isTrue(saveReviewStub.calledOnce);
       });
 

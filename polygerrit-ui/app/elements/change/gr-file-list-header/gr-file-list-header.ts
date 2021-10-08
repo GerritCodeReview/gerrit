@@ -44,7 +44,12 @@ import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-
 import {DiffViewMode} from '../../../constants/constants';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fireEvent} from '../../../utils/event-util';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {
+  KeyboardShortcutMixin,
+  Shortcut,
+  ShortcutSection,
+} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {appContext} from '../../../services/app-context';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -144,6 +149,8 @@ export class GrFileListHeader extends base {
   @property({type: Object})
   revisionInfo?: RevisionInfo;
 
+  private readonly shortcuts = appContext.shortcutsService;
+
   setDiffViewMode(mode: DiffViewMode) {
     this.$.modeSelect.setMode(mode);
   }
@@ -216,5 +223,9 @@ export class GrFileListHeader extends base {
       return '';
     }
     return 'patchInfoOldPatchSet';
+  }
+
+  createTitle(shortcutName: Shortcut, section: ShortcutSection) {
+    return this.shortcuts.createTitle(shortcutName, section);
   }
 }

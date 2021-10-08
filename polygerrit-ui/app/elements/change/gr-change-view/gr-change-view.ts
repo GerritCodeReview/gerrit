@@ -48,6 +48,7 @@ import {htmlTemplate} from './gr-change-view_html';
 import {
   KeyboardShortcutMixin,
   Shortcut,
+  ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
@@ -562,6 +563,8 @@ export class GrChangeView extends base {
   restApiService = appContext.restApiService;
 
   private readonly commentsService = appContext.commentsService;
+
+  private readonly shortcuts = appContext.shortcutsService;
 
   private replyDialogResizeObserver?: ResizeObserver;
 
@@ -2643,6 +2646,10 @@ export class GrChangeView extends base {
     return this.shadowRoot!.querySelector<GrRelatedChangesList>(
       '#relatedChanges'
     );
+  }
+
+  createTitle(shortcutName: Shortcut, section: ShortcutSection) {
+    return this.shortcuts.createTitle(shortcutName, section);
   }
 }
 

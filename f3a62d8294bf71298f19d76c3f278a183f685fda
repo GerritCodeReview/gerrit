@@ -52,6 +52,24 @@
       "parentUuid": "f3b3d4b8_5d114545",
       "revId": "f3a62d8294bf71298f19d76c3f278a183f685fda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee1c357b_34b9ca4d",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-08T08:25:06Z",
+      "side": 0,
+      "message": "+1, see my other comment. I was more coming from the other side of `forceReload` should not be a property of the change view, but I think we are coming to the same conclusion. :-)",
+      "parentUuid": "fc37c610_7b15c07e",
+      "revId": "f3a62d8294bf71298f19d76c3f278a183f685fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -23,7 +23,7 @@ export const htmlTemplate = html`
   <style include="gr-checks-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
-  <style include="gr-hovercard-shared-style">
+  <style include="gr-hovercard-styles">
     #container {
       min-width: 356px;
       max-width: 356px;

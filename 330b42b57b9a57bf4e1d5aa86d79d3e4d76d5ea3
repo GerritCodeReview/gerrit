@@ -246,6 +246,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f9a4a50_3105b893",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-08T12:36:03Z",
+      "side": 1,
+      "message": "Ah, that makes sense, thanks!",
+      "parentUuid": "a5f730f0_1512c5c4",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df15b607_34f8ef37",
@@ -312,6 +330,24 @@
       "side": 1,
       "message": "Good catch!\n\nI am using `fit-to-visible-bounds` instead, because I think that is more idiomatic.",
       "parentUuid": "9a4f15d2_7b982e7d",
+      "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8190bcd_4f191964",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-action.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-08T12:36:03Z",
+      "side": 1,
+      "message": "Does the paper-tooltip support both syntaxes?",
+      "parentUuid": "c396ee2f_13a89080",
       "revId": "330b42b57b9a57bf4e1d5aa86d79d3e4d76d5ea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

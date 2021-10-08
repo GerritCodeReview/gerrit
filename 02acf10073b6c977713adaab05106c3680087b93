@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e7a79a73_7ea56e04",
+        "filename": "java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-08T20:20:07Z",
+      "side": 1,
+      "message": "I have added a system property allowing users to override the policy for thread count. Do you think this is good enough?",
+      "parentUuid": "b6e5805c_2b2810aa",
+      "revId": "02acf10073b6c977713adaab05106c3680087b93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "771edf45_176fb83d",
         "filename": "java/com/google/gerrit/server/schema/Schema_127.java",
         "patchSetId": 1
@@ -67,6 +85,30 @@
       "writtenOn": "2021-10-07T01:15:56Z",
       "side": 1,
       "message": "Use execute() instead of submit() since you don\u0027t need a Future.",
+      "range": {
+        "startLine": 84,
+        "startChar": 16,
+        "endLine": 84,
+        "endChar": 17
+      },
+      "revId": "02acf10073b6c977713adaab05106c3680087b93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61642a52_76234470",
+        "filename": "java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-08T20:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "771edf45_176fb83d",
       "range": {
         "startLine": 84,
         "startChar": 16,
@@ -90,6 +132,24 @@
       "writtenOn": "2021-10-07T01:15:56Z",
       "side": 1,
       "message": "Either lower the visibility or move this to the top (public classes come first).",
+      "revId": "02acf10073b6c977713adaab05106c3680087b93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "344ec480_7b1bdd00",
+        "filename": "java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-08T20:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fbae5f9_1629a9f4",
       "revId": "02acf10073b6c977713adaab05106c3680087b93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

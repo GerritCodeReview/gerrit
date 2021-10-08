@@ -16,6 +16,24 @@
       "message": "This change seems like it should be independent of the change before it so that it can be merged sooner? Is this on the right branch for this Schema? (It would help if the commit messages in our schema improvements explicitly mentioned the Gerrit version the Schema is needed to upgrade to)",
       "revId": "6304bdf5a8ec411002c50103b8c9a4e942a74424",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e004d808_f9575738",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-08T16:22:11Z",
+      "side": 1,
+      "message": "It is not really dependent on the previous changes(i.e schema 127 or 130, 131). Gerrit probably shows them under \u0027Submitted together\u0027 because they have the same topic, which seems misleading.\n\nI\u0027ll update the commit message to mention the corresponding gerrit version.",
+      "parentUuid": "9ab71e24_ebf8a500",
+      "revId": "6304bdf5a8ec411002c50103b8c9a4e942a74424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

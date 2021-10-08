@@ -246,6 +246,30 @@
       },
       "revId": "37c8f3689ccfc4d7acf5aa4cf99c7e9a9222a68f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb74effe_7a61df6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-08T11:14:03Z",
+      "side": 1,
+      "message": "I see that the label (the name of the trigger vote) is also changed to 12px but the proposal is to keep it 14px and only change the vote text (+1/-1...) to 12px.\n\nWe should also update the gr-vote-chip (the +1/-1 text...) to 12px next to the submit requirements and in the user chip.",
+      "parentUuid": "3f0e2c66_cb248e9e",
+      "range": {
+        "startLine": 343,
+        "startChar": 44,
+        "endLine": 343,
+        "endChar": 45
+      },
+      "revId": "37c8f3689ccfc4d7acf5aa4cf99c7e9a9222a68f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

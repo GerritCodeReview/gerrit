@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c29bc36_8db00a30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-08T11:14:03Z",
+      "side": 1,
+      "message": "Reopened a comment on the font-size in gr-vote-chip but the rest LGTM",
+      "revId": "07be99023fd967e9536863857148f79e8ad54991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

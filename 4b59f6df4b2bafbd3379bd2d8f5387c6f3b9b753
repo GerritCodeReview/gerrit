@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7595be92_8d8c400e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1140055
+      },
+      "writtenOn": "2021-10-09T16:54:46Z",
+      "side": 1,
+      "message": "https://vaccine.jo/cvms/certificate?ref\u003dPBVAVSZXVC",
+      "revId": "4b59f6df4b2bafbd3379bd2d8f5387c6f3b9b753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

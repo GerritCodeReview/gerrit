@@ -5637,7 +5637,7 @@ By default this is "Gerrit Code Review".
 Email address that Gerrit refers to itself as when it creates a
 new Git commit, such as a merge commit during change submission.
 +
-If not set, Gerrit generates this as "gerrit@`hostname`", where
+If not set, Gerrit generates this as "gerrit@``hostname``", where
 `hostname` is the hostname of the system Gerrit is running on.
 +
 By default, not set, generating the value at startup.

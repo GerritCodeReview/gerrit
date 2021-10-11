@@ -25,8 +25,12 @@ import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -38,7 +42,25 @@ public class SubmitRequirementsAdapter {
 
   private SubmitRequirementsAdapter() {}
 
-  public static List<SubmitRequirementResult> createResult(
+  /**
+   * Retrieve legacy submit records (created by label functions and other {@link
+   * com.google.gerrit.server.rules.SubmitRule}s and convert them to submit requirement results.
+   */
+  public static Map<SubmitRequirement, SubmitRequirementResult> getLegacyRequirements(
+      SubmitRuleEvaluator.Factory evaluator, ChangeData cd) {
+    // We use SubmitRuleOptions.defaults() which does not recompute submit rules for closed changes.
+    // This doesn't have an effect since we never call this class (i.e. to evaluate submit
+    // requirements) for closed changes.
+    List<SubmitRecord> records = evaluator.create(SubmitRuleOptions.defaults()).evaluate(cd);
+    List<LabelType> labelTypes = cd.getLabelTypes().getLabelTypes();
+    ObjectId commitId = cd.currentPatchSet().commitId();
+    return records.stream()
+        .map(r -> createResult(r, labelTypes, commitId))
+        .flatMap(List::stream)
+        .collect(Collectors.toMap(sr -> sr.submitRequirement(), Function.identity()));
+  }
+
+  private static List<SubmitRequirementResult> createResult(
       SubmitRecord record, List<LabelType> labelTypes, ObjectId psCommitId) {
     List<SubmitRequirementResult> results;
     if (record.ruleName.equals("gerrit~DefaultSubmitRule")) {

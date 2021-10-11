@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75907324_d05c6f08",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-11T19:24:14Z",
+      "side": 1,
+      "message": "Thanks, I got some error when pushing",
+      "parentUuid": "03632c96_64b8ce10",
+      "revId": "a663a4712d5da09ecf9ae0077a7314032b575582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "987e9bb9_4494e7a2",

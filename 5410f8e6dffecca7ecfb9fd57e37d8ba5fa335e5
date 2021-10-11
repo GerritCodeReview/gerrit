@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4efaad0_cc576118",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-11T16:50:39Z",
+      "side": 1,
+      "message": "I would prefer chain where gr-hovercard-behavior is moved to lit with all hovercards, but I understand it can be big time project. Maybe at least one hovercard to lit, so we can see how well this works. ",
+      "revId": "5410f8e6dffecca7ecfb9fd57e37d8ba5fa335e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e3dd0a2_bfa1f5f7",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-11T16:50:39Z",
+      "side": 1,
+      "message": "Is it ok, if this is from polymer?",
+      "range": {
+        "startLine": 25,
+        "startChar": 9,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "5410f8e6dffecca7ecfb9fd57e37d8ba5fa335e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5eedc84_9961ec34",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-11T16:50:39Z",
+      "side": 1,
+      "message": "Nit: probably this should be lit",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 18
+      },
+      "revId": "5410f8e6dffecca7ecfb9fd57e37d8ba5fa335e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9ab766d_07a30286",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-11T16:50:39Z",
+      "side": 1,
+      "message": "Does this has same issue as https://gerrit-review.googlesource.com/c/gerrit/+/320695 ?",
+      "range": {
+        "startLine": 164,
+        "startChar": 11,
+        "endLine": 164,
+        "endChar": 37
+      },
+      "revId": "5410f8e6dffecca7ecfb9fd57e37d8ba5fa335e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a6015c8_3674d932",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-11T16:50:39Z",
+      "side": 1,
+      "message": "NIT: Maybe it should be GrHovercardMixin, to follow gerrit namespacing.",
+      "range": {
+        "startLine": 490,
+        "startChar": 17,
+        "endLine": 490,
+        "endChar": 40
+      },
+      "revId": "5410f8e6dffecca7ecfb9fd57e37d8ba5fa335e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12d70950_892e2c4f",
+        "filename": "rules.pl",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-11T10:50:55Z",
+      "side": 1,
+      "message": "Shall we AND these together? I think being explicit is better here.",
+      "range": {
+        "startLine": 17,
+        "startChar": 43,
+        "endLine": 18,
+        "endChar": 9
+      },
+      "revId": "ce3aaf7e5afd9fbcea66c78f5493134555fcfdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

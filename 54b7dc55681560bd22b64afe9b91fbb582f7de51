@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ef0e60f_955da129",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-11T23:15:26Z",
+      "side": 1,
+      "message": "Nit: use imperative form in commit messages. \"Keep\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "54b7dc55681560bd22b64afe9b91fbb582f7de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b897e92_7818af6c",
+        "filename": "Documentation/config-themes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-11T23:15:26Z",
+      "side": 1,
+      "message": "Those options aren\u0027t used since Gerrit v2.16/GWT. I believe we can safely get rid of them altogether 😊",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 68
+      },
+      "revId": "54b7dc55681560bd22b64afe9b91fbb582f7de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82898f38_7d680188",
+        "filename": "Documentation/config-themes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-11T23:15:26Z",
+      "side": 0,
+      "message": "Is there any alternative way to do this with PolyGerrit? If yes, can we include it here?",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "7ea5c0cc238c8e734d889af47086817211ea34d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,7 +16,12 @@
  */
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {ApprovalInfo, LabelInfo} from '../../../api/rest-api';
+import {
+  ApprovalInfo,
+  isDetailedLabelInfo,
+  isQuickLabelInfo,
+  LabelInfo,
+} from '../../../api/rest-api';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
@@ -109,21 +114,36 @@ export class GrVoteChip extends LitElement {
   override render() {
     if (!this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI))
       return;
-    if (!this.vote?.value) return;
-    const className = this.computeClass(this.vote.value, this.label);
+    if (!this.label) return;
+
+    let className: string | undefined;
+    let renderValue: string | undefined;
+    if (isDetailedLabelInfo(this.label)) {
+      if (this.vote?.value) {
+        className = this.computeClass(this.label, this.vote.value);
+        renderValue = valueString(this.vote.value);
+      }
+    } else if (isQuickLabelInfo(this.label)) {
+      className = this.computeClass(this.label);
+      if (this.label.approved) {
+        renderValue = '👍️';
+      } else if (this.label.rejected) {
+        renderValue = '👎️';
+      }
+    }
+    if (!className || !renderValue) return;
+
     return html`<span class="container">
       <div class="vote-chip ${className} ${this.more ? 'more' : ''}">
-        ${valueString(this.vote.value)}
+        ${renderValue}
       </div>
       ${this.more
-        ? html`<div class="chip-angle ${className}">
-            ${valueString(this.vote.value)}
-          </div>`
+        ? html`<div class="chip-angle ${className}">${renderValue}</div>`
         : ''}
     </span>`;
   }
 
-  computeClass(vote: number, label?: LabelInfo) {
+  computeClass(label?: LabelInfo, vote?: number) {
     const status = getLabelStatus(label, vote);
     return classForLabelStatus(status);
   }

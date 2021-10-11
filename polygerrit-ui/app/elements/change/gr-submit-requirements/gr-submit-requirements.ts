@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 import '../gr-submit-requirement-hovercard/gr-submit-requirement-hovercard';
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfo,
   isDetailedLabelInfo,
+  isQuickLabelInfo,
   LabelInfo,
   LabelNameToInfoMap,
   SubmitRequirementResultInfo,
@@ -225,18 +226,23 @@ export class GrSubmitRequirements extends LitElement {
 
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {
     const labelInfo = labels[label];
-    if (!isDetailedLabelInfo(labelInfo)) return;
-    const uniqueApprovals = getAllUniqueApprovals(labelInfo);
-    return uniqueApprovals.map(
-      approvalInfo =>
-        html`<gr-vote-chip
-          .vote="${approvalInfo}"
-          .label="${labelInfo}"
-          .more="${(labelInfo.all ?? []).filter(
-            other => other.value === approvalInfo.value
-          ).length > 1}"
-        ></gr-vote-chip>`
-    );
+    if (isDetailedLabelInfo(labelInfo)) {
+      const uniqueApprovals = getAllUniqueApprovals(labelInfo);
+      return uniqueApprovals.map(
+        approvalInfo =>
+          html`<gr-vote-chip
+            .vote="${approvalInfo}"
+            .label="${labelInfo}"
+            .more="${(labelInfo.all ?? []).filter(
+              other => other.value === approvalInfo.value
+            ).length > 1}"
+          ></gr-vote-chip>`
+      );
+    }
+    if (isQuickLabelInfo(labelInfo)) {
+      return [html`<gr-vote-chip .label="${labelInfo}"></gr-vote-chip>`];
+    }
+    return;
   }
 
   renderChecks(requirement: SubmitRequirementResultInfo) {
@@ -364,16 +370,22 @@ export class GrTriggerVote extends LitElement {
   }
 
   override render() {
-    const uniqueApprovals = getAllUniqueApprovals(this.labelInfo);
+    if (!this.labelInfo) return;
+    let votes: TemplateResult[] | undefined;
+    if (isDetailedLabelInfo(this.labelInfo)) {
+      votes = getAllUniqueApprovals(this.labelInfo).map(
+        approvalInfo => html`<gr-vote-chip
+          .vote="${approvalInfo}"
+          .label="${this.labelInfo}"
+        ></gr-vote-chip>`
+      );
+    } else if (isQuickLabelInfo(this.labelInfo)) {
+      votes = [html`<gr-vote-chip .label="${this.labelInfo}"></gr-vote-chip>`];
+    }
     return html`
       <div class="container">
         <span class="label">${this.label}</span>
-        ${uniqueApprovals.map(
-          approvalInfo => html`<gr-vote-chip
-            .vote="${approvalInfo}"
-            .label="${this.labelInfo}"
-          ></gr-vote-chip>`
-        )}
+        ${votes}
       </div>
     `;
   }

@@ -4,37 +4,20 @@ Gerrit supports some customization of the HTML it sends to
 the browser, allowing organizations to alter the look and
 feel of the application to fit with their general scheme.
 
-== HTML Header/Footer and CSS
-
-The HTML header, footer and CSS may be customized for login
-screens (LDAP, OAuth, OpenId) and the internally managed
-Gitweb servlet.
-
-At startup Gerrit reads the following files (if they exist) and
-uses them to customize the HTML page it sends to clients:
+== Obsolete customization options
+Old versions of Gerrit supported themes through the following files.
 
 * `etc/GerritSiteHeader.html`
-+
-HTML is inserted below the menu bar, but above any page content.
-This is a good location for an organizational logo, or links to
-other systems like bug tracking.
-
 * `etc/GerritSiteFooter.html`
-+
-HTML is inserted at the bottom of the page, below all other content,
-but just above the footer rule and the "Powered by Gerrit Code
-Review (v....)" message shown at the extreme bottom.
-
 * `etc/GerritSite.css`
-+
-The CSS rules are inlined into the top of the HTML page, inside
-of a `<style>` tag.  These rules can be used to support styling
-the elements within either the header or the footer.
 
-The *.html files must be valid XHTML, with one root element,
-typically a single `<div>` tag.  The server parses it as XML, and
-then inserts the root element into the host page.  If a file has
-more than one root level element, Gerrit will not start.
+Since the move from GWT to Polygerrit in link:https://www.gerritcodereview.com/3.0.html#release-highlights[Gerrit 3.0], these themes are no longer supported.
+
+Customizing themes by placing HTML files under the `'$site_path'/plugins` directory is deprecated https://www.gerritcodereview.com/3.4.html#html-plugin-support-is-removed[since Gerrit 3.4].
+
+== Writing themes for PolyGerrit
+
+The current way of customizing Gerrit themes, is by writing plugins as described in link:pg-plugin-dev.html[Polygerrit plugin Development].
 
 == Static Images
 
@@ -76,54 +59,6 @@ or footer be named with a unique caching file name, for example
 disk cache.  If the image needs to be modified, create a new file,
 `my_logo2.cache.png` and update the header (or footer) HTML to
 reference the new image path.
-
-== Google Analytics Integration
-
-To connect Gerrit to Google Analytics add the following to your
-`GerritSiteFooter.html`:
-
-----
-  <div>
-  <!-- standard analytics code -->
-    <script type="text/javascript">
-      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
-    <script type="text/javascript">
-      var pageTracker = _gat._getTracker("UA-nnnnnnn-n");
-      pageTracker._trackPageview();
-    </script>
-  be <!-- /standard analytics code -->
-
-  <script type="text/javascript">
-    window.onload = function() {
-      var p = window.location.pathname;
-      Gerrit.on('history', function (s) {
-        pageTracker._trackPageview(p + '/' + s)
-      });
-    };
-  </script>
-  </div>
-----
-
-Please consult the Google Analytics documentation for the correct
-setup code (the first two script tags).  The above is shown only
-as a reference example.
-
-If your footer is otherwise empty, wrap all of the script tags into
-a single `<div>` tag (like above) to ensure it is a well-formed
-XHTML document file.
-
-The global function `Gerrit.on("history")` accepts functions that
-accept a string parameter.  These functions are put into a list and
-invoked any time Gerrit shifts URLs.  You'll see page names like
-`/c/123` be passed to these functions, which in turn are handed off
-to Google Analytics for tracking.  Our example hook above uses '/'
-instead of '#' because Analytics won't track anchors.
-
-The `window.onload` callback is necessary to ensure that the
-`Gerrit.on()` function has actually been defined by the
-page.
 
 GERRIT
 ------

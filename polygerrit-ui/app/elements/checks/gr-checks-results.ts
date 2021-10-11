@@ -293,7 +293,7 @@ class GrResultRow extends LitElement {
   override firstUpdated() {
     const loading = this.shadowRoot?.querySelector('.container');
     assertIsDefined(loading, '"Loading" element');
-    whenVisible(loading, () => (this.shouldRender = true), 200);
+    whenVisible(loading, () => {this.shouldRender = true}, 200);
   }
 
   override render() {

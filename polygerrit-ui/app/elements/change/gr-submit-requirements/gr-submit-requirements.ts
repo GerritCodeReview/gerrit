@@ -21,6 +21,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfo,
   isDetailedLabelInfo,
+  isQuickLabelInfo,
   LabelInfo,
   LabelNameToInfoMap,
   SubmitRequirementResultInfo,
@@ -225,18 +226,23 @@ export class GrSubmitRequirements extends LitElement {
 
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {
     const labelInfo = labels[label];
-    if (!isDetailedLabelInfo(labelInfo)) return;
-    const uniqueApprovals = getAllUniqueApprovals(labelInfo);
-    return uniqueApprovals.map(
-      approvalInfo =>
-        html`<gr-vote-chip
-          .vote="${approvalInfo}"
-          .label="${labelInfo}"
-          .more="${(labelInfo.all ?? []).filter(
-            other => other.value === approvalInfo.value
-          ).length > 1}"
-        ></gr-vote-chip>`
-    );
+    if (isDetailedLabelInfo(labelInfo)) {
+      const uniqueApprovals = getAllUniqueApprovals(labelInfo);
+      return uniqueApprovals.map(
+        approvalInfo =>
+          html`<gr-vote-chip
+            .vote="${approvalInfo}"
+            .label="${labelInfo}"
+            .more="${(labelInfo.all ?? []).filter(
+              other => other.value === approvalInfo.value
+            ).length > 1}"
+          ></gr-vote-chip>`
+      );
+    } else if (isQuickLabelInfo(labelInfo)) {
+      return [html`<gr-vote-chip .label="${labelInfo}"></gr-vote-chip>`];
+    } else {
+      return html``;
+    }
   }
 
   renderChecks(requirement: SubmitRequirementResultInfo) {
@@ -364,18 +370,29 @@ export class GrTriggerVote extends LitElement {
   }
 
   override render() {
-    const uniqueApprovals = getAllUniqueApprovals(this.labelInfo);
+    if (!this.labelInfo) return;
     return html`
       <div class="container">
         <span class="label">${this.label}</span>
-        ${uniqueApprovals.map(
-          approvalInfo => html`<gr-vote-chip
-            .vote="${approvalInfo}"
-            .label="${this.labelInfo}"
-          ></gr-vote-chip>`
-        )}
+        ${this.renderVotes()}
       </div>
     `;
+  }
+
+  renderVotes() {
+    if (!this.labelInfo) return;
+    if (isDetailedLabelInfo(this.labelInfo)) {
+      return getAllUniqueApprovals(this.labelInfo).map(
+        approvalInfo => html`<gr-vote-chip
+          .vote="${approvalInfo}"
+          .label="${this.labelInfo}"
+        ></gr-vote-chip>`
+      );
+    } else if (isQuickLabelInfo(this.labelInfo)) {
+      return [html`<gr-vote-chip .label="${this.labelInfo}"></gr-vote-chip>`];
+    } else {
+      return html``;
+    }
   }
 }
 

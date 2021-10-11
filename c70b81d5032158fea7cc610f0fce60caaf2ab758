@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "054aa58f_d1bfe9e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-11T08:34:13Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "98011cac_b960e538",
+      "range": {
+        "startLine": 600,
+        "startChar": 2,
+        "endLine": 600,
+        "endChar": 4
+      },
+      "revId": "c70b81d5032158fea7cc610f0fce60caaf2ab758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5278648_d0b9ad59",
@@ -73,6 +97,24 @@
       "side": 1,
       "message": "Yes.\n\nThe parameter should be removed from the URL once processed.",
       "parentUuid": "78ed8569_26880d06",
+      "revId": "c70b81d5032158fea7cc610f0fce60caaf2ab758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d73dab1d_b6cb18bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-11T08:34:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7bbed5c_0cff0a1e",
       "revId": "c70b81d5032158fea7cc610f0fce60caaf2ab758",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

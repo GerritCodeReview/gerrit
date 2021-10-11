@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a19f251_afc8c22e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T15:03:50Z",
+      "side": 1,
+      "message": "Thanks for adding the test!",
+      "revId": "82e86e48ef1d73dc2d53a6e32074348327f072b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cc66393_a986f6ee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T15:03:50Z",
+      "side": 1,
+      "message": "Nit:\n\nMake this a for-loop with {} and use an if also with {}.\n\nWe should stick to using curly-braces except for explicit early return if-statements",
+      "revId": "82e86e48ef1d73dc2d53a6e32074348327f072b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "For-each is discouraged. Use a for loop instead.",
       "revId": "54038022ae00476081adc6de8cdea363943f6d40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b32b3739_ff573141",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-11T14:40:46Z",
+      "side": 1,
+      "message": "Just curious what\u0027s the reason behind it/where this is mentioned.\nI looked up on MDN and googled a bit and found this but not sure if this is convincing enough.\n \n[1] https://github.com/github/eslint-plugin-github/issues/86",
+      "parentUuid": "b474ff62_10bd6715",
+      "revId": "54038022ae00476081adc6de8cdea363943f6d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

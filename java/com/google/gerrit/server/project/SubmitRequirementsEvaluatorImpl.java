@@ -17,8 +17,6 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.entities.LabelType;
-import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
@@ -36,12 +34,8 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import org.eclipse.jgit.lib.ObjectId;
 
 /** Evaluates submit requirements for different change data. */
 public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvaluator {
@@ -86,7 +80,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     if (experimentFeatures.isFeatureEnabled(
         ExperimentFeaturesConstants
             .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)) {
-      result.putAll(getLegacyRequirements(cd));
+      result.putAll(SubmitRequirementsAdapter.getLegacyRequirements(legacyEvaluator, cd));
     }
     return ImmutableMap.copyOf(result);
   }
@@ -138,23 +132,6 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       result.put(requirement, evaluateRequirement(requirement, cd));
     }
     return result;
-  }
-
-  /**
-   * Convert and return legacy submit records (created by label functions and other {@link
-   * com.google.gerrit.server.rules.SubmitRule}s to submit requirement results.
-   */
-  private Map<SubmitRequirement, SubmitRequirementResult> getLegacyRequirements(ChangeData cd) {
-    // We use SubmitRuleOptions.defaults() which does not recompute submit rules for closed changes.
-    // This doesn't have an effect since we never call this class (i.e. to evaluate submit
-    // requirements) for closed changes.
-    List<SubmitRecord> records = legacyEvaluator.create(SubmitRuleOptions.defaults()).evaluate(cd);
-    List<LabelType> labelTypes = cd.getLabelTypes().getLabelTypes();
-    ObjectId commitId = cd.currentPatchSet().commitId();
-    return records.stream()
-        .map(r -> SubmitRequirementsAdapter.createResult(r, labelTypes, commitId))
-        .flatMap(List::stream)
-        .collect(Collectors.toMap(sr -> sr.submitRequirement(), Function.identity()));
   }
 
   /** Evaluate the predicate recursively using change data. */

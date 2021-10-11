@@ -55,7 +55,6 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'commentby:',
   'commit:',
   'committer:',
-  'conflicts:',
   'deleted:',
   'delta:',
   'dir:',

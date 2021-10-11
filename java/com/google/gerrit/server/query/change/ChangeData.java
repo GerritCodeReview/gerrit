@@ -75,6 +75,8 @@ import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -87,6 +89,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.SubmitRequirementsAdapter;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -268,7 +271,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, project, id, null, null);
+            null, null, null, project, id, null, null);
     cd.currentPatchSet =
         PatchSet.builder()
             .id(PatchSet.id(id, currentPatchSetId))
@@ -286,6 +289,7 @@ public class ChangeData {
   private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory notesFactory;
   private final CommentsUtil commentsUtil;
+  private final ExperimentFeatures experimentFeatures;
   private final GitRepositoryManager repoManager;
   private final MergeUtil.Factory mergeUtilFactory;
   private final MergeabilityCache mergeabilityCache;
@@ -367,6 +371,7 @@ public class ChangeData {
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory notesFactory,
       CommentsUtil commentsUtil,
+      ExperimentFeatures experimentFeatures,
       GitRepositoryManager repoManager,
       MergeUtil.Factory mergeUtilFactory,
       MergeabilityCache mergeabilityCache,
@@ -386,6 +391,7 @@ public class ChangeData {
     this.cmUtil = cmUtil;
     this.notesFactory = notesFactory;
     this.commentsUtil = commentsUtil;
+    this.experimentFeatures = experimentFeatures;
     this.repoManager = repoManager;
     this.mergeUtilFactory = mergeUtilFactory;
     this.mergeabilityCache = mergeabilityCache;
@@ -947,9 +953,30 @@ public class ChangeData {
       }
       Change c = change();
       if (c != null && c.isClosed()) {
-        submitRequirements =
+        Map<SubmitRequirement, SubmitRequirementResult> newSubmitRequirements =
             notes().getSubmitRequirementsResult().stream()
+                // Filter out legacy submit requirements anyway, that is submit requirements that
+                // were created as a result of converting submit records. We are including them in
+                // the result anyway below.
+                .filter(r -> !r.legacy())
                 .collect(Collectors.toMap(r -> r.submitRequirement(), Function.identity()));
+        if (!experimentFeatures.isFeatureEnabled(
+            ExperimentFeaturesConstants
+                .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)) {
+          submitRequirements = newSubmitRequirements;
+          return submitRequirements;
+        }
+        Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements =
+            SubmitRequirementsAdapter.getLegacyRequirements(submitRuleEvaluatorFactory, this);
+        // Combine the results from new submit requirements (stored in project.config) with legacy
+        // submit requirements (i.e. submit records converted to submit requirements). If the same
+        // key is present twice (in both maps), we only return it once.
+        submitRequirements =
+            Stream.of(newSubmitRequirements, legacyRequirements)
+                .flatMap(map -> map.entrySet().stream())
+                .collect(
+                    ImmutableMap.toImmutableMap(
+                        Map.Entry::getKey, Map.Entry::getValue, (value1, value2) -> value1));
       } else {
         submitRequirements =
             submitRequirementsEvaluator.evaluateAllRequirements(this, /* includeLegacy= */ true);

@@ -70,17 +70,23 @@ export function getRepresentativeValue(label?: DetailedLabelInfo): number {
   return max > -min ? max : min;
 }
 
-export function getLabelStatus(
-  label?: DetailedLabelInfo,
-  vote?: number
-): LabelStatus {
-  const value = vote ?? getRepresentativeValue(label);
-  const range = getVotingRangeOrDefault(label);
-  if (value < 0) {
-    return value === range.min ? LabelStatus.REJECTED : LabelStatus.DISLIKED;
+export function getLabelStatus(label?: LabelInfo, vote?: number): LabelStatus {
+  if (!label) return LabelStatus.NEUTRAL;
+  if (isDetailedLabelInfo(label)) {
+    const value = vote ?? getRepresentativeValue(label);
+    const range = getVotingRangeOrDefault(label);
+    if (value < 0) {
+      return value === range.min ? LabelStatus.REJECTED : LabelStatus.DISLIKED;
+    }
+    if (value > 0) {
+      return value === range.max
+        ? LabelStatus.APPROVED
+        : LabelStatus.RECOMMENDED;
+    }
   }
-  if (value > 0) {
-    return value === range.max ? LabelStatus.APPROVED : LabelStatus.RECOMMENDED;
+  if (isQuickLabelInfo(label)) {
+    if (label.approved) return LabelStatus.RECOMMENDED;
+    if (label.rejected) return LabelStatus.DISLIKED;
   }
   return LabelStatus.NEUTRAL;
 }

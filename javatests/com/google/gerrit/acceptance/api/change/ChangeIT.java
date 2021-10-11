@@ -184,8 +184,6 @@ import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.IntraLineDiff;
 import com.google.gerrit.server.patch.IntraLineDiffKey;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
@@ -241,10 +239,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
-
-  @Inject
-  @Named("diff")
-  private Cache<PatchListKey, PatchList> fileCache;
 
   @Inject
   @Named("diff_intraline")
@@ -307,13 +301,10 @@ public class ChangeIT extends AbstractDaemonTest {
     String fileContent = "First line\nSecond line\n";
     PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
     String triplet = project.get() + "~master~" + result.getChangeId();
-    CacheStats startPatch = cloneStats(fileCache.stats());
     CacheStats startIntra = cloneStats(intraCache.stats());
     CacheStats startSummary = cloneStats(diffSummaryCache.stats());
     gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
 
-    assertThat(fileCache.stats()).since(startPatch).hasMissCount(0);
-    assertThat(fileCache.stats()).since(startPatch).hasHitCount(0);
     assertThat(intraCache.stats()).since(startIntra).hasMissCount(0);
     assertThat(intraCache.stats()).since(startIntra).hasHitCount(0);
     assertThat(diffSummaryCache.stats()).since(startSummary).hasMissCount(0);

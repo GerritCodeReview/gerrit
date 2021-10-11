@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ef5eec1_0c6c786b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T18:03:11Z",
+      "side": 1,
+      "message": "This change migrates gr-hovercard.",
+      "parentUuid": "c4efaad0_cc576118",
+      "revId": "5410f8e6dffecca7ecfb9fd57e37d8ba5fa335e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e3dd0a2_bfa1f5f7",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-10-11T16:50:39Z",
       "side": 1,
       "message": "Is it ok, if this is from polymer?",
+      "range": {
+        "startLine": 25,
+        "startChar": 9,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "5410f8e6dffecca7ecfb9fd57e37d8ba5fa335e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df955da7_e2841627",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T18:03:11Z",
+      "side": 1,
+      "message": "Removed as this doesn\u0027t seem to do anything useful.",
+      "parentUuid": "1e3dd0a2_bfa1f5f7",
       "range": {
         "startLine": 25,
         "startChar": 9,
@@ -64,6 +106,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a98636fd_973a5b77",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T18:03:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5eedc84_9961ec34",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 18
+      },
+      "revId": "5410f8e6dffecca7ecfb9fd57e37d8ba5fa335e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccf349c4_1f0d4aa9",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T18:03:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5eedc84_9961ec34",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 18
+      },
+      "revId": "5410f8e6dffecca7ecfb9fd57e37d8ba5fa335e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9ab766d_07a30286",
@@ -87,6 +177,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7231fc96_1c88c358",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T18:03:11Z",
+      "side": 1,
+      "message": "That doesn\u0027t seem to be the case for mixins.",
+      "parentUuid": "b9ab766d_07a30286",
+      "range": {
+        "startLine": 164,
+        "startChar": 11,
+        "endLine": 164,
+        "endChar": 37
+      },
+      "revId": "5410f8e6dffecca7ecfb9fd57e37d8ba5fa335e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a6015c8_3674d932",
@@ -100,6 +214,30 @@
       "writtenOn": "2021-10-11T16:50:39Z",
       "side": 1,
       "message": "NIT: Maybe it should be GrHovercardMixin, to follow gerrit namespacing.",
+      "range": {
+        "startLine": 490,
+        "startChar": 17,
+        "endLine": 490,
+        "endChar": 40
+      },
+      "revId": "5410f8e6dffecca7ecfb9fd57e37d8ba5fa335e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06165dcc_0a2c7322",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T18:03:11Z",
+      "side": 1,
+      "message": "That doesn\u0027t seem to be the case for mixins.",
+      "parentUuid": "9a6015c8_3674d932",
       "range": {
         "startLine": 490,
         "startChar": 17,

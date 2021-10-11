@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22d09c58_4cc56b88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T18:03:11Z",
+      "side": 1,
+      "message": "Fixed style issues. I forgot to explicitly pull in shared-styles now that gr-hovercard-styles became a generic style sheet.",
+      "revId": "9feb69efcf2ade6f06fd314137b255b051ae2892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66bca167_0b2ab046",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T12:04:29Z",
+      "side": 1,
+      "message": "Should this be a navigateToChange with a redirect \u003d true and a forceReload \u003d false?",
+      "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "511774dd_64b74d69",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T12:04:29Z",
+      "side": 1,
+      "message": "It might be easier to understand if you split this into the following if-else tree.\n\nAnd then you could optionally add sub-methods to make the top-level code more legible\n\n```\nconst forceReload \u003d value.queryMap?.get(\u0027forceReload\u0027);\nif (this._changeNum !\u003d\u003d undefined) {\n  if (patchChanged \u0026\u0026 patchKnown) {\n     this.$.fileList.collapseAllDiffs();\n    ...\n    return\n  } else if (forceReload) { \n    history.replaceState(\n        null,\n        \u0027\u0027,\n        location.href.replace(/[?\u0026]forceReload\u003dtrue/, \u0027\u0027)\n    );\n    return;\n  } else {\n    // What belongs here?\n  }\n} else {\n   this.$.fileList.collapseAllDiffs();\n\n    this._initialLoadComplete \u003d false;\n    this._changeNum \u003d value.changeNum;\n    this.loadData(true).then(() \u003d\u003e {\n      this._performPostLoadTasks();\n    });\n\n    getPluginLoader()\n      .awaitPluginsLoaded()\n      .then(() \u003d\u003e {\n        this._initActiveTabs(value);\n      });\n}\n```",
+      "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b4ee76c_882f58e5",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T12:04:29Z",
+      "side": 1,
+      "message": "Document this parameter.\n\nThis is called from more places than the logic was originally changed to call fireReload, so why is this default true?",
+      "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7f34f06_95f329fd",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T12:04:29Z",
+      "side": 1,
+      "message": "What is the impact of this block on the next block?",
+      "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75737a60_ff948471",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T12:04:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this get the extra \"forceReload \u003d true\" param here and throughout?",
+      "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

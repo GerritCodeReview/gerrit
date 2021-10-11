@@ -34,6 +34,24 @@
       "parentUuid": "a4235318_4c452e91",
       "revId": "4badde2660d5cc3f456e026c08cfcc576fef1968",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e013a8f4_a6754648",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-11T11:35:25Z",
+      "side": 1,
+      "message": "Oh right.  A map would do that.\n\nMy main concern is that this is currentyly O(N*M) and it could easily be O(M log M) + O(N log M) with a map.\n\nI\u0027m on the fence on whether this is worth the extra complexity as you mention, because there\u0027s not a huge amount of threads.  Maybe simply leave a note?",
+      "parentUuid": "3cd4fee5_5b4c2151",
+      "revId": "4badde2660d5cc3f456e026c08cfcc576fef1968",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

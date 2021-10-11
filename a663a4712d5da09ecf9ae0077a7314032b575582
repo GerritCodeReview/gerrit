@@ -22,6 +22,30 @@
       },
       "revId": "a663a4712d5da09ecf9ae0077a7314032b575582",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "374a3f09_2c9aad3a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-11T15:26:48Z",
+      "side": 1,
+      "message": "Ok so I misunderstood who would see this, if it is only for Ben, you and me, then I\u0027m fine with the message",
+      "parentUuid": "987e9bb9_4494e7a2",
+      "range": {
+        "startLine": 503,
+        "startChar": 6,
+        "endLine": 503,
+        "endChar": 60
+      },
+      "revId": "a663a4712d5da09ecf9ae0077a7314032b575582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

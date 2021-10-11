@@ -129,12 +129,8 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
       super.connectedCallback();
       if (!this._target) {
         this._target = this.target;
+        this.addTargetEventListeners();
       }
-      this._target.addEventListener('mouseenter', this.debounceShow);
-      this._target.addEventListener('focus', this.debounceShow);
-      this._target.addEventListener('mouseleave', this.debounceHide);
-      this._target.addEventListener('blur', this.debounceHide);
-      this._target.addEventListener('click', this.hide);
 
       // show the hovercard if mouse moves to hovercard
       // this will cancel pending hide as well
@@ -149,12 +145,23 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
       this.cancelShowTask();
       this.cancelHideTask();
       this.unlock();
+      super.disconnectedCallback();
+    }
+
+    addTargetEventListeners() {
+      this._target?.addEventListener('mouseenter', this.debounceShow);
+      this._target?.addEventListener('focus', this.debounceShow);
+      this._target?.addEventListener('mouseleave', this.debounceHide);
+      this._target?.addEventListener('blur', this.debounceHide);
+      this._target?.addEventListener('click', this.hide);
+    }
+
+    removeTargetEventListeners() {
       this._target?.removeEventListener('mouseenter', this.debounceShow);
       this._target?.removeEventListener('focus', this.debounceShow);
       this._target?.removeEventListener('mouseleave', this.debounceHide);
       this._target?.removeEventListener('blur', this.debounceHide);
       this._target?.removeEventListener('click', this.hide);
-      super.disconnectedCallback();
     }
 
     override ready() {
@@ -457,7 +464,9 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
      */
     @observe('for')
     _forChanged() {
+      this.removeTargetEventListeners();
       this._target = this.target;
+      this.addTargetEventListeners();
     }
   }
 

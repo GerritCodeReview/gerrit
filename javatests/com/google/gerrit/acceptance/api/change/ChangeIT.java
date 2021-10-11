@@ -4582,6 +4582,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // 4. Merge the change. Submit requirements status is presented from NoteDb.
     gApi.changes().id(changeId).current().submit();
     change = gApi.changes().id(changeId).get();
+    // Legacy submit records are returned as submit requirements.
     assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "102d06bf_0a9d3a0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-11T06:49:59Z",
+      "side": 1,
+      "message": "The conflicts operator is configurable on the backend and can be turned on and off. I am still in favor of this change because I don\u0027t think we should overcomplicate the autocompletion logic by making it conditional on configs.",
+      "revId": "2fc391e1de0f6f06a9be051c726bb83cd5c57065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

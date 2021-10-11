@@ -50,7 +50,9 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
     // patchset to the user before it was merged.
     ChangeData changeData = changeDataFactory.create(ctx.getProject(), ctx.getChange().getId());
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-    update.putSubmitRequirementResults(evaluator.evaluateAllRequirements(changeData).values());
+    // We do not want to store submit requirements in NoteDb for legacy submit records
+    update.putSubmitRequirementResults(
+        evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false).values());
     return !changeData.submitRequirements().isEmpty();
   }
 }

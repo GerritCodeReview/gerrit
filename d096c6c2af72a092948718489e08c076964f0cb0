@@ -17,5 +17,139 @@
       "revId": "d096c6c2af72a092948718489e08c076964f0cb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
+  ],
+  "submitRequirementResults": [
+    {
+      "submitRequirement": {
+        "name": "Code-Review",
+        "description": {},
+        "applicabilityExpression": {},
+        "submittabilityExpression": {
+          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {},
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
+        },
+        "status": "PASS",
+        "errorMessage": {},
+        "passingAtoms": [
+          "label:Code-Review\u003dgerrit~PrologRule"
+        ],
+        "failingAtoms": []
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": -795425086,
+        "w2": -1351442286,
+        "w3": -1803085752,
+        "w4": -1643593610,
+        "w5": -1773204304
+      },
+      "legacy": true
+    },
+    {
+      "submitRequirement": {
+        "name": "Code-Style",
+        "description": {},
+        "applicabilityExpression": {},
+        "submittabilityExpression": {
+          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {},
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
+        },
+        "status": "PASS",
+        "errorMessage": {},
+        "passingAtoms": [
+          "label:Code-Style\u003dgerrit~PrologRule"
+        ],
+        "failingAtoms": []
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": -795425086,
+        "w2": -1351442286,
+        "w3": -1803085752,
+        "w4": -1643593610,
+        "w5": -1773204304
+      },
+      "legacy": true
+    },
+    {
+      "submitRequirement": {
+        "name": "Verified",
+        "description": {},
+        "applicabilityExpression": {},
+        "submittabilityExpression": {
+          "expressionString": "label:Verified\u003dgerrit~PrologRule"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {},
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "label:Verified\u003dgerrit~PrologRule"
+        },
+        "status": "PASS",
+        "errorMessage": {},
+        "passingAtoms": [
+          "label:Verified\u003dgerrit~PrologRule"
+        ],
+        "failingAtoms": []
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": -795425086,
+        "w2": -1351442286,
+        "w3": -1803085752,
+        "w4": -1643593610,
+        "w5": -1773204304
+      },
+      "legacy": true
+    },
+    {
+      "submitRequirement": {
+        "name": "checks~ChecksSubmitRule",
+        "description": {},
+        "applicabilityExpression": {},
+        "submittabilityExpression": {
+          "expressionString": "rule:checks~ChecksSubmitRule"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {},
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "rule:checks~ChecksSubmitRule"
+        },
+        "status": "PASS",
+        "errorMessage": {},
+        "passingAtoms": [
+          "checks~ChecksSubmitRule"
+        ],
+        "failingAtoms": []
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": -795425086,
+        "w2": -1351442286,
+        "w3": -1803085752,
+        "w4": -1643593610,
+        "w5": -1773204304
+      },
+      "legacy": true
+    }
   ]
 }

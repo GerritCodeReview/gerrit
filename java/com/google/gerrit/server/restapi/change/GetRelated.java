@@ -27,6 +27,8 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommonConverters;
+import com.google.gerrit.server.change.GetRelatedChangesUtil;
+import com.google.gerrit.server.change.RelatedChangesSorter;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -45,12 +47,12 @@ public class GetRelated implements RestReadView<RevisionResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangeData.Factory changeDataFactory;
-  private final GetRelatedUtil getRelatedUtil;
+  private final GetRelatedChangesUtil getRelatedChangesUtil;
 
   @Inject
-  GetRelated(ChangeData.Factory changeDataFactory, GetRelatedUtil getRelatedUtil) {
+  GetRelated(ChangeData.Factory changeDataFactory, GetRelatedChangesUtil getRelatedChangesUtil) {
     this.changeDataFactory = changeDataFactory;
-    this.getRelatedUtil = getRelatedUtil;
+    this.getRelatedChangesUtil = getRelatedChangesUtil;
   }
 
   @Override
@@ -68,7 +70,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     logger.atFine().log("isEdit = %s, basePs = %s", isEdit, basePs);
 
     List<RelatedChangesSorter.PatchSetData> sortedResult =
-        getRelatedUtil.getRelated(changeDataFactory.create(rsrc.getNotes()), basePs);
+        getRelatedChangesUtil.getRelated(changeDataFactory.create(rsrc.getNotes()), basePs);
 
     List<RelatedChangeAndCommitInfo> result = new ArrayList<>(sortedResult.size());
     for (RelatedChangesSorter.PatchSetData d : sortedResult) {

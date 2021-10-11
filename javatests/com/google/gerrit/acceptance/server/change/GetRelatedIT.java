@@ -45,9 +45,9 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.server.change.GetRelatedChangesUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
-import com.google.gerrit.server.restapi.change.GetRelatedUtil;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -573,7 +573,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     ChangeData cd = getChange(last);
     assertThat(cd.patchSets()).hasSize(n);
-    assertThat(GetRelatedUtil.getAllGroups(cd.notes().getPatchSets().values())).hasSize(n);
+    assertThat(GetRelatedChangesUtil.getAllGroups(cd.notes().getPatchSets().values())).hasSize(n);
 
     assertRelated(cd.change().currentPatchSetId());
   }

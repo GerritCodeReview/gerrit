@@ -43,6 +43,7 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeKindCreator;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
@@ -554,6 +555,46 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       u.save();
     }
     stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
+  }
+
+  @Test
+  public void
+      stickyWithCopyAllScoreIfListOfFilesDidNotChangeWhenFileIsModifiedDueToRebase_withoutCopyCondition()
+          throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    // Create two changes both with the same parent
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Modify f.txt in change 1. Approve and submit the first change
+    gApi.changes().id(r.getChangeId()).edit().modifyFile("f.txt", RawInputUtil.create("content"));
+    gApi.changes().id(r.getChangeId()).edit().publish();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    revision.review(ReviewInput.approve().label(LabelId.VERIFIED, 1));
+    revision.submit();
+
+    // Add an approval whose score should be copied on change 2.
+    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
+
+    // Rebase the second change. The rebase adds f1.txt.
+    gApi.changes().id(r2.getChangeId()).rebase();
+
+    // The code-review approval is copied for the second change between PS1 and PS2 since the only
+    // modified file is due to rebase.
+    List<PatchSetApproval> patchSetApprovals =
+        r2.getChange().notes().getApprovalsWithCopied().values().stream()
+            .sorted(comparing(a -> a.patchSetId().get()))
+            .collect(toImmutableList());
+    PatchSetApproval nonCopied = patchSetApprovals.get(0);
+    PatchSetApproval copied = patchSetApprovals.get(1);
+    assertCopied(nonCopied, /* psId= */ 1, LabelId.CODE_REVIEW, (short) 1, false);
+    assertCopied(copied, /* psId= */ 2, LabelId.CODE_REVIEW, (short) 1, true);
   }
 
   @Test
@@ -1072,17 +1113,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
             .sorted(comparing(a -> a.patchSetId().get()))
             .collect(toImmutableList());
     PatchSetApproval nonCopied = patchSetApprovals.get(0);
-
-    assertThat(nonCopied.patchSetId().get()).isEqualTo(1);
-    assertThat(nonCopied.label()).isEqualTo(LabelId.CODE_REVIEW);
-    assertThat(nonCopied.value()).isEqualTo((short) 1);
-    assertThat(nonCopied.copied()).isFalse();
-
     PatchSetApproval copied = patchSetApprovals.get(1);
-    assertThat(copied.patchSetId().get()).isEqualTo(2);
-    assertThat(copied.label()).isEqualTo(LabelId.CODE_REVIEW);
-    assertThat(copied.value()).isEqualTo((short) 1);
-    assertThat(copied.copied()).isTrue();
+    assertCopied(nonCopied, 1, LabelId.CODE_REVIEW, (short) 1, /* copied= */ false);
+    assertCopied(copied, 2, LabelId.CODE_REVIEW, (short) 1, /* copied= */ true);
   }
 
   @Test
@@ -1310,5 +1343,13 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       name += "; changeKind = " + changeKind.name();
     }
     assertWithMessage(name).that(vote).isEqualTo(expectedVote);
+  }
+
+  private void assertCopied(
+      PatchSetApproval approval, int psId, String label, short value, boolean copied) {
+    assertThat(approval.patchSetId().get()).isEqualTo(psId);
+    assertThat(approval.label()).isEqualTo(label);
+    assertThat(approval.value()).isEqualTo(value);
+    assertThat(approval.copied()).isEqualTo(copied);
   }
 }

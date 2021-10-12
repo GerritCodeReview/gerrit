@@ -16,6 +16,24 @@
       "message": "What about the scenarios where gr-label-info is in another view?",
       "revId": "2d972bbccd430fe44d4f691d36328e9616039060",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ecf4ad5_8b587b3f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-12T13:43:05Z",
+      "side": 1,
+      "message": "In that case also the relevant view should be handling the `reload` event.\n\nChange 304766 removed the generic handling from GrAppElement so we are expecting views to implement their own reload method.\n\nCurrently it\u0027s only possible in GrChangeView(which has handling for the reload event), so this will not break anything.\n\nI will create another change to add a reload listener inside GrDiffView as well but that is not blocking this change.",
+      "parentUuid": "b3ea5349_c375aaf5",
+      "revId": "2d972bbccd430fe44d4f691d36328e9616039060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

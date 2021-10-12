@@ -14,19 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-font-styles';
-import '../../../styles/gr-hovercard-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {customElement, property} from '@polymer/decorators';
-import {HovercardBehaviorMixin} from '../../shared/gr-hovercard/gr-hovercard-behavior';
-import {htmlTemplate} from './gr-submit-requirement-hovercard_html';
+import '../../shared/gr-label-info/gr-label-info';
+import '../../shared/gr-limited-text/gr-limited-text';
+import {customElement, property} from 'lit/decorators';
 import {
   AccountInfo,
   SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
-  SubmitRequirementStatus,
 } from '../../../api/rest-api';
 import {
   extractAssociatedLabels,
@@ -34,16 +29,15 @@ import {
 } from '../../../utils/label-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {Label} from '../gr-change-requirements/gr-change-requirements';
+import {css, html, LitElement} from 'lit';
+import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
+import {fontStyles} from '../../../styles/gr-font-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = HovercardBehaviorMixin(PolymerElement);
+const base = HovercardMixin(LitElement);
 
 @customElement('gr-submit-requirement-hovercard')
 export class GrHovercardRun extends base {
-  static get template() {
-    return htmlTemplate;
-  }
-
   @property({type: Object})
   requirement?: SubmitRequirementResultInfo;
 
@@ -59,16 +53,176 @@ export class GrHovercardRun extends base {
   @property({type: Boolean})
   expanded = false;
 
-  @property({type: Array, computed: 'computeLabels(change, requirement)'})
-  _labels: Label[] = [];
+  static override get styles() {
+    return [
+      fontStyles,
+      base.styles || [],
+      css`
+        #container {
+          min-width: 356px;
+          max-width: 356px;
+          padding: var(--spacing-xl) 0 var(--spacing-m) 0;
+        }
+        section.label {
+          display: table-row;
+        }
+        .label-title {
+          min-width: 10em;
+          padding-top: var(--spacing-s);
+        }
+        .label-value {
+          padding-top: var(--spacing-s);
+        }
+        .label-title,
+        .label-value {
+          display: table-cell;
+          vertical-align: top;
+        }
+        .row {
+          display: flex;
+        }
+        .title {
+          color: var(--deemphasized-text-color);
+          margin-right: var(--spacing-m);
+        }
+        div.section {
+          margin: 0 var(--spacing-xl) var(--spacing-m) var(--spacing-xl);
+          display: flex;
+          align-items: center;
+        }
+        div.sectionIcon {
+          flex: 0 0 30px;
+        }
+        div.sectionIcon iron-icon {
+          position: relative;
+          width: 20px;
+          height: 20px;
+        }
+        .condition {
+          background-color: var(--gray-background);
+          padding: var(--spacing-m);
+          flex-grow: 1;
+        }
+        .expression {
+          color: var(--gray-foreground);
+        }
+        iron-icon.check {
+          color: var(--success-foreground);
+        }
+        iron-icon.close {
+          color: var(--warning-foreground);
+        }
+        .showConditions iron-icon {
+          color: inherit;
+        }
+        div.showConditions {
+          border-top: 1px solid var(--border-color);
+          margin-top: var(--spacing-m);
+          padding: var(--spacing-m) var(--spacing-xl) 0;
+        }`
+    ];
+  }
 
-  computeLabels(
-    change?: ParsedChangeInfo,
-    requirement?: SubmitRequirementResultInfo
-  ) {
-    if (!requirement) return [];
-    const requirementLabels = extractAssociatedLabels(requirement);
-    const labels = change?.labels ?? {};
+  override render() {
+    if (!this.requirement) return;
+    const icon = iconForStatus(this.requirement.status);
+    return html`
+      <div id="container" role="tooltip" tabindex="-1">
+        <div class="section">
+          <div class="sectionIcon">
+            <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
+          </div>
+          <div class="sectionContent">
+            <h3 class="name heading-3">
+              <span>${this.requirement.name}</span>
+            </h3>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sectionIcon">
+            <iron-icon class="small" icon="gr-icons:info-outline"></iron-icon>
+          </div>
+          <div class="sectionContent">
+            <div class="row">
+              <div class="title">Status</div>
+              <div>${this.requirement.status}</div>
+            </div>
+          </div>
+        </div>
+        ${this.renderLabelSection()}
+        ${this.renderConditionSection()}
+      </div>`;
+  }
+
+  private renderLabelSection() {
+    const labels = this.computeLabels();
+    return html`
+      <div class="section">
+        ${labels.map(l => this.renderLabel(l))}
+      </div>`;
+  }
+
+  private renderLabel(label: Label) {
+    return html`
+      <section class="label">
+        <div class="label-title">
+          <gr-limited-text
+            class="name"
+            limit="25"
+            text="${label.labelName}"
+          ></gr-limited-text>
+        </div>
+        <div class="label-value">
+          <gr-label-info
+            .change=${this.change}
+            .account=${this.account}
+            .mutable=${this.mutable}
+            label="[[item.labelName]]"
+            label-info="[[item.labelInfo]]"
+          ></gr-label-info>
+        </div>
+      </section>
+    `;
+  }
+
+  private renderConditionSection() {
+    if (!this.expanded) {
+      return html`
+        <div class="showConditions">
+          <gr-button
+            link=""
+            class="showConditions"
+            @click="${(_: MouseEvent) => this.handleShowConditions()}"
+          >
+            View condition
+            <iron-icon icon="gr-icons:expand-more"></iron-icon
+          ></gr-button>
+        </div>`;
+    } else {
+      return html`
+        <div class="section">
+          <div class="sectionIcon">
+            <iron-icon icon="gr-icons:description"></iron-icon>
+          </div>
+          <div class="sectionContent">${this.requirement?.description}</div>
+        </div>
+        ${this.renderCondition(
+            "Blocking condition",
+            this.requirement?.submittability_expression_result)}
+        ${this.renderCondition(
+            "Application condition",
+            this.requirement?.applicability_expression_result)}
+        ${this.renderCondition(
+            "Override condition",
+            this.requirement?.override_expression_result)}
+      `;
+    }
+  }
+
+  computeLabels() {
+    if (!this.requirement) return [];
+    const requirementLabels = extractAssociatedLabels(this.requirement);
+    const labels = this.change?.labels ?? {};
 
     const allLabels: Label[] = [];
 
@@ -85,17 +239,27 @@ export class GrHovercardRun extends base {
     return allLabels;
   }
 
-  computeIcon(status: SubmitRequirementStatus) {
-    return iconForStatus(status);
+  computeIcon() {
+    if (!this.requirement) return;
+    return iconForStatus(this.requirement.status);
   }
 
-  renderCondition(expression?: SubmitRequirementExpressionInfo) {
+  renderCondition(name: string, expression?: SubmitRequirementExpressionInfo) {
     if (!expression) return '';
-
-    return expression.expression;
+    return html`
+      <div class="section">
+        <div class="sectionIcon"></div>
+        <div class="sectionContent condition">
+          ${name}:<br />
+          <span class="expression">
+            [${expression.expression}
+          </span>
+        </div>
+      </div>
+    `;
   }
 
-  _handleShowConditions() {
+  private handleShowConditions() {
     this.expanded = true;
   }
 }

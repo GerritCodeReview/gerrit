@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c6409e8_744aa8e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-12T18:00:06Z",
+      "side": 1,
+      "message": "Nice improvement, thanks @Adithya. We all know how long it takes for JGit to list projects on disk, especially on NFS :-(",
+      "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1678e50f_fc674670",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-12T18:00:06Z",
+      "side": 1,
+      "message": "sortedProjects()?",
+      "range": {
+        "startLine": 236,
+        "startChar": 46,
+        "endLine": 236,
+        "endChar": 63
+      },
+      "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54517463_6c5a5fa0",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-12T18:00:06Z",
+      "side": 1,
+      "message": "Why not simply:\n  return Suppliers.memoize(repoManager::list)",
+      "range": {
+        "startLine": 237,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 20
+      },
+      "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

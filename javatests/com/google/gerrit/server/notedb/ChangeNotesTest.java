@@ -76,6 +76,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class ChangeNotesTest extends AbstractChangeNotesTest {
+  @Inject private DraftCommentNotes.Factory draftNotesFactory;
+
   @Inject private ChangeNoteJson changeNoteJson;
 
   @Test
@@ -2975,6 +2977,86 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThrows(
         IllegalStateException.class,
         () -> failingUpdate.putApproval(LabelId.CODE_REVIEW, (short) 1));
+  }
+
+  @Test
+  public void filterOutAndFixUpZombieDraftComments() throws Exception {
+    Change c = newChange();
+    ObjectId commitId1 = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    PatchSet.Id ps1 = c.currentPatchSetId();
+    short side = (short) 1;
+
+    ChangeUpdate update = newUpdate(c, otherUser);
+    Timestamp now = TimeUtil.nowTs();
+    HumanComment comment1 =
+        newComment(
+            ps1,
+            "file1",
+            "uuid1",
+            range,
+            range.getEndLine(),
+            otherUser,
+            null,
+            now,
+            "comment on ps1",
+            side,
+            commitId1,
+            false);
+    HumanComment comment2 =
+        newComment(
+            ps1,
+            "file2",
+            "uuid2",
+            range,
+            range.getEndLine(),
+            otherUser,
+            null,
+            now,
+            "another comment",
+            side,
+            commitId1,
+            false);
+    update.putComment(HumanComment.Status.DRAFT, comment1);
+    update.putComment(HumanComment.Status.DRAFT, comment2);
+    update.commit();
+
+    String refName = refsDraftComments(c.getId(), otherUserId);
+    ObjectId oldDraftId = exactRefAllUsers(refName);
+
+    update = newUpdate(c, otherUser);
+    update.setPatchSetId(ps1);
+    update.putComment(HumanComment.Status.PUBLISHED, comment2);
+    update.commit();
+    assertThat(exactRefAllUsers(refName)).isNotNull();
+    assertThat(exactRefAllUsers(refName)).isNotEqualTo(oldDraftId);
+
+    // Re-add draft version of comment2 back to draft ref without updating
+    // change ref. Simulates the case where deleting the draft failed
+    // non-atomically after adding the published comment succeeded.
+    ChangeDraftUpdate draftUpdate = newUpdate(c, otherUser).createDraftUpdateIfNull();
+    draftUpdate.putComment(comment2);
+    try (NoteDbUpdateManager manager = updateManagerFactory.create(c.getProject())) {
+      manager.add(draftUpdate);
+      manager.execute();
+    }
+
+    // Looking at drafts directly shows the zombie comment.
+    DraftCommentNotes draftNotes = draftNotesFactory.create(c.getId(), otherUserId);
+    assertThat(draftNotes.load().getComments().get(commitId1)).containsExactly(comment1, comment2);
+
+    // Zombie comment is filtered out of drafts via ChangeNotes.
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getDraftComments(otherUserId).get(commitId1)).containsExactly(comment1);
+    assertThat(notes.getHumanComments().get(commitId1)).containsExactly(comment2);
+
+    update = newUpdate(c, otherUser);
+    update.setPatchSetId(ps1);
+    update.putComment(HumanComment.Status.PUBLISHED, comment1);
+    update.commit();
+
+    // Updating an unrelated comment causes the zombie comment to get fixed up.
+    assertThat(exactRefAllUsers(refName)).isNull();
   }
 
   @Test

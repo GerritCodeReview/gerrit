@@ -123,6 +123,24 @@
       "parentUuid": "2f342710_45baffa6",
       "revId": "1f2ebbb1a855bfcc34dc7425ecc99040132217b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5814d247_77bf52d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-12T18:22:09Z",
+      "side": 1,
+      "message": "I prefered to make it same as it is now in google code base. Feel free to change it to base.styles",
+      "parentUuid": "90458e24_9d4651be",
+      "revId": "1f2ebbb1a855bfcc34dc7425ecc99040132217b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "The PolyGerrit UI test is unrelated. It is well known that PolyGerrit UI tests are flaky on stable-3.3 😞",
       "revId": "48c065f8b35dc6044b66f6d66bf305c750f9e148",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f230820e_779df066",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-10-12T20:43:52Z",
+      "side": 1,
+      "message": "I have called `bazel test //...` and it was successful",
+      "revId": "48c065f8b35dc6044b66f6d66bf305c750f9e148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

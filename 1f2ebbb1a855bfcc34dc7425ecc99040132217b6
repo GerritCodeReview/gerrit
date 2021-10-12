@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b5a72c7_3ba49700",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-12T18:14:57Z",
+      "side": 1,
+      "message": "Removing override from static methods:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/320785",
+      "parentUuid": "f7fc0695_6e9e44a4",
+      "revId": "1f2ebbb1a855bfcc34dc7425ecc99040132217b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10c92be5_52beca18",

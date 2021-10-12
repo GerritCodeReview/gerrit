@@ -24,7 +24,6 @@ import '../gr-icons/gr-icons';
 import '../gr-label/gr-label';
 import '../gr-tooltip-content/gr-tooltip-content';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   AccountInfo,
   LabelInfo,
@@ -44,6 +43,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
 import {ifDefined} from 'lit/directives/if-defined';
+import {fireReload} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -349,7 +349,7 @@ export class GrLabelInfo extends LitElement {
           return;
         }
         if (this.change) {
-          GerritNav.navigateToChange(this.change);
+          fireReload(this);
         }
       })
       .catch(err => {

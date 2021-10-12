@@ -1,137 +1,21 @@
 {
-  "comments": [],
-  "submitRequirementResults": [
+  "comments": [
     {
-      "submitRequirement": {
-        "name": "Code-Review",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "unresolved": true,
+      "key": {
+        "uuid": "a2c6838a_59f0ca42",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 10
       },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Review\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
+      "lineNbr": 425,
+      "author": {
+        "id": 1083880
       },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -320716909,
-        "w2": -437113535,
-        "w3": -628436088,
-        "w4": 426727036,
-        "w5": -553481453
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "Code-Style",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Style\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -320716909,
-        "w2": -437113535,
-        "w3": -628436088,
-        "w4": 426727036,
-        "w5": -553481453
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "Verified",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Verified\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Verified\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -320716909,
-        "w2": -437113535,
-        "w3": -628436088,
-        "w4": 426727036,
-        "w5": -553481453
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "checks~ChecksSubmitRule",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "rule:checks~ChecksSubmitRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "rule:checks~ChecksSubmitRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "checks~ChecksSubmitRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -320716909,
-        "w2": -437113535,
-        "w3": -628436088,
-        "w4": 426727036,
-        "w5": -553481453
-      },
-      "legacy": true
+      "writtenOn": "2021-10-12T08:35:34Z",
+      "side": 1,
+      "message": "This breaks display of added or removed images, where no diffHighlightSrc exists, but ${sourceImage} should definitely still be shown.",
+      "revId": "ece23f93e5f22d41da8ad388196f567cdf028b13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -26,6 +26,7 @@ import {GrReviewerList} from './gr-reviewer-list';
 import {
   createAccountDetailWithId,
   createChange,
+  createDetailedLabelInfo,
 } from '../../../test/test-data-generators';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -423,6 +424,7 @@ suite('gr-reviewer-list tests', () => {
       ...createChange(),
       labels: {
         Foo: {
+          ...createDetailedLabelInfo(),
           all: [
             {
               _account_id: 7 as AccountId,
@@ -431,6 +433,7 @@ suite('gr-reviewer-list tests', () => {
           ],
         },
         Bar: {
+          ...createDetailedLabelInfo(),
           all: [
             {
               ...createAccountDetailWithId(1),
@@ -443,6 +446,7 @@ suite('gr-reviewer-list tests', () => {
           ],
         },
         FooBar: {
+          ...createDetailedLabelInfo(),
           all: [{_account_id: 7 as AccountId, value: 0}],
         },
       },

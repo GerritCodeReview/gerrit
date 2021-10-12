@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -70,7 +71,12 @@ public class GetRelated implements RestReadView<RevisionResource> {
     logger.atFine().log("isEdit = %s, basePs = %s", isEdit, basePs);
 
     List<RelatedChangesSorter.PatchSetData> sortedResult =
-        getRelatedChangesUtil.getRelated(changeDataFactory.create(rsrc.getNotes()), basePs);
+        getRelatedChangesUtil.getRelated(
+            changeDataFactory.create(rsrc.getNotes()),
+            basePs,
+            /* includeAncestors= */ true,
+            /* includeAllPatchsets= */ true,
+            ImmutableSet.of());
 
     List<RelatedChangeAndCommitInfo> result = new ArrayList<>(sortedResult.size());
     for (RelatedChangesSorter.PatchSetData d : sortedResult) {

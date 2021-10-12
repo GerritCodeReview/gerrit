@@ -1373,7 +1373,14 @@ public class ChangeData {
       draftsByUser = new HashMap<>();
       for (Ref ref : commentsUtil.getDraftRefs(notes().getChangeId())) {
         Account.Id account = Account.Id.fromRefSuffix(ref.getName());
-        if (account != null) {
+        if (account != null
+            // Double-check that any drafts exist for this user after
+            // filtering out zombies. If some but not all drafts in the ref
+            // were zombies, the returned Ref still includes those zombies;
+            // this is suboptimal, but is ok for the purposes of
+            // draftsByUser(), and easier than trying to rebuild the change at
+            // this point.
+            && !notes().getDraftComments(account, ref).isEmpty()) {
           draftsByUser.put(account, ref.getObjectId());
         }
       }

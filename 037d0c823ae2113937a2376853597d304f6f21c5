@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d34747b2_c918cf45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-12T10:19:56Z",
+      "side": 1,
+      "message": "Is there a reason to not test any of the new changes?",
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a42494d2_7e5d0c5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-12T10:19:56Z",
+      "side": 1,
+      "message": "I think it would be more clear to return html``. Is this case even possible?",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 11
+      },
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ee2eb4e_b9f42a10",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-12T10:19:56Z",
+      "side": 1,
+      "message": "if it\u0027s not detailedlabelinfo then is it always quicklabelinfo? Then we could remove \"| undefined\" from votes type.",
+      "range": {
+        "startLine": 382,
+        "startChar": 0,
+        "endLine": 382,
+        "endChar": 50
+      },
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04fdd579_b9c0127f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-12T10:19:56Z",
+      "side": 1,
+      "message": "if label must be detailed or quick then these types do not need undefined?",
+      "range": {
+        "startLine": 119,
+        "startChar": 28,
+        "endLine": 120,
+        "endChar": 39
+      },
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -102,6 +102,7 @@ import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 import {GenerateUrlEditViewParameters} from '../elements/core/gr-navigation/gr-navigation';
 import {
+  DetailedLabelInfo,
   SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
@@ -704,5 +705,15 @@ export function createRunResult(): RunResult {
     status: RunStatus.COMPLETED,
     summary: 'This is the test summary.',
     message: 'This is the test message.',
+  };
+}
+
+export function createDetailedLabelInfo(): DetailedLabelInfo {
+  return {
+    values: {
+      ' 0': 'No score',
+      '+1': 'Style Verified',
+      '-1': 'Wrong Style or Formatting',
+    },
   };
 }

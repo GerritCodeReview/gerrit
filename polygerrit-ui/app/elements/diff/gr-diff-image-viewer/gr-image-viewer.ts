@@ -422,25 +422,23 @@ export class GrImageViewer extends LitElement {
       />
     `;
 
-    const sourceImageWithHighlight = this.diffHighlightSrc
-      ? html`
-          <div id="source-plus-highlight-container">
-            ${sourceImage}
-            <img
-              id="highlight-image"
-              style="${styleMap({
-                opacity: this.showHighlight ? '1' : '0',
-                // When the highlight layer is not being shown, saving the image or
-                // opening it in a new tab from the context menu, e.g. for external
-                // comparison, should give back the source image, not the highlight
-                // layer.
-                'pointer-events': this.showHighlight ? 'auto' : 'none',
-              })}"
-              src="${this.diffHighlightSrc}"
-            />
-          </div>
-        `
-      : '';
+    const sourceImageWithHighlight = html`
+      <div id="source-plus-highlight-container">
+        ${sourceImage}
+        <img
+          id="highlight-image"
+          style="${styleMap({
+            opacity: this.showHighlight ? '1' : '0',
+            // When the highlight layer is not being shown, saving the image or
+            // opening it in a new tab from the context menu, e.g. for external
+            // comparison, should give back the source image, not the highlight
+            // layer.
+            'pointer-events': this.showHighlight ? 'auto' : 'none',
+          })}"
+          src="${this.diffHighlightSrc}"
+        />
+      </div>
+    `;
 
     const versionExplanation = html`
       <div id="version-explanation">

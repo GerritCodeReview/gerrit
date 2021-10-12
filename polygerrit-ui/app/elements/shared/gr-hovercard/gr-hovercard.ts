@@ -18,8 +18,6 @@
 import {customElement} from 'lit/decorators';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {css, html, LitElement} from 'lit';
-import {hovercardStyles} from '../../../styles/gr-hovercard-styles';
-import {sharedStyles} from '../../../styles/shared-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -28,8 +26,7 @@ const base = HovercardMixin(LitElement);
 export class GrHovercard extends base {
   static override get styles() {
     return [
-      sharedStyles,
-      hovercardStyles,
+      base.styles ?? [],
       css`
         #container {
           padding: var(--spacing-l);

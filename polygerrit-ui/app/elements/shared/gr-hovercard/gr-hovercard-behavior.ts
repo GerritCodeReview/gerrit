@@ -38,7 +38,7 @@ const HIDE_CLASS = 'hide';
  */
 const containerId = 'gr-hovercard-container';
 
-export function getHovercardContainer(
+function getHovercardContainer(
   options: {createIfNotExists: boolean} = {createIfNotExists: false}
 ): HTMLElement | null {
   let container = getRootElement().querySelector<HTMLElement>(

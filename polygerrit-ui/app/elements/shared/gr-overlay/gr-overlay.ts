@@ -22,7 +22,7 @@ import {customElement} from '@polymer/decorators';
 import {IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior';
 import {findActiveElement} from '../../../utils/dom-util';
 import {fireEvent} from '../../../utils/event-util';
-import {getHovercardContainer} from '../gr-hovercard/gr-hovercard-behavior';
+import {getHovercardContainer} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;

@@ -31,7 +31,6 @@ import {
   ApprovalInfo,
   Reviewers,
   AccountId,
-  DetailedLabelInfo,
   EmailAddress,
   AccountDetailInfo,
   isDetailedLabelInfo,
@@ -158,24 +157,19 @@ export class GrReviewerList extends PolymerElement {
     if (!change.labels) {
       return NaN;
     }
-    const detailedLabel = change.labels[label] as DetailedLabelInfo;
-    if (!detailedLabel.all) {
+    const detailedLabel = change.labels[label];
+    if (!isDetailedLabelInfo(detailedLabel) || !detailedLabel.all) {
       return NaN;
     }
-    const detailed = detailedLabel.all
-      .filter(
-        (approval: ApprovalInfo) =>
-          reviewer._account_id === approval._account_id
-      )
-      .pop();
-    if (!detailed) {
+    const approvalInfo = getApprovalInfo(detailedLabel, reviewer);
+    if (!approvalInfo) {
       return NaN;
     }
-    if (hasOwnProperty(detailed, 'permitted_voting_range')) {
-      if (!detailed.permitted_voting_range) return NaN;
-      return detailed.permitted_voting_range.max;
-    } else if (hasOwnProperty(detailed, 'value')) {
-      // If preset, user can vote on the label.
+    if (hasOwnProperty(approvalInfo, 'permitted_voting_range')) {
+      if (!approvalInfo.permitted_voting_range) return NaN;
+      return approvalInfo.permitted_voting_range.max;
+    } else if (hasOwnProperty(approvalInfo, 'value')) {
+      // If present, user can vote on the label.
       return 0;
     }
     return NaN;

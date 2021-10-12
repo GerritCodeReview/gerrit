@@ -17,8 +17,10 @@
 import '../../../styles/gr-font-styles';
 import '../../../styles/gr-voting-styles';
 import '../../../styles/shared-styles';
+import '../gr-vote-chip/gr-vote-chip';
 import '../gr-account-label/gr-account-label';
 import '../gr-account-link/gr-account-link';
+import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import '../gr-label/gr-label';
@@ -36,7 +38,12 @@ import {
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {GrButton} from '../gr-button/gr-button';
-import {getVotingRangeOrDefault} from '../../../utils/label-util';
+import {
+  canVote,
+  getApprovalInfo,
+  getVotingRangeOrDefault,
+  hasNeutralStatus,
+} from '../../../utils/label-util';
 import {appContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -44,6 +51,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {fireReload} from '../../../utils/event-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -160,26 +168,81 @@ export class GrLabelInfo extends LitElement {
         .labelValueContainer:not(:first-of-type) td {
           padding-top: var(--spacing-s);
         }
+        .reviewer-row {
+          padding-top: var(--spacing-s);
+        }
+        .reviewer-row:first-of-type {
+          padding-top: 0;
+        }
+        .reviewer-row gr-account-chip,
+        .reviewer-row gr-tooltip-content {
+          display: inline-block;
+          vertical-align: top;
+        }
+        .reviewer-row .no-votes {
+          color: var(--deemphasized-text-color);
+          margin-left: var(--spacing-xs);
+        }
       `,
     ];
   }
 
+  private readonly flagsService = appContext.flagsService;
+
   override render() {
+    if (this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
+      return this.renderNewSubmitRequirements();
+    } else {
+      return this.renderOldSubmitRequirements();
+    }
+  }
+
+  private renderNewSubmitRequirements() {
+    const labelInfo = this.labelInfo;
+    if (!labelInfo) return;
+    const reviewers = (this.change?.reviewers['REVIEWER'] ?? []).filter(
+      reviewer => canVote(labelInfo, reviewer)
+    );
+    return html`<div>
+      ${reviewers.map(reviewer => this.renderReviewerVote(reviewer))}
+    </div>`;
+  }
+
+  private renderOldSubmitRequirements() {
+    const labelInfo = this.labelInfo;
     return html` <p
         class="placeholder ${this.computeShowPlaceholder(
-          this.labelInfo,
+          labelInfo,
           this.change?.labels
         )}"
       >
         No votes
       </p>
       <table>
-        ${this.mapLabelInfo(
-          this.labelInfo,
-          this.account,
-          this.change?.labels
-        ).map(mappedLabel => this.renderLabel(mappedLabel))}
+        ${this.mapLabelInfo(labelInfo, this.account, this.change?.labels).map(
+          mappedLabel => this.renderLabel(mappedLabel)
+        )}
       </table>`;
+  }
+
+  renderReviewerVote(reviewer: AccountInfo) {
+    const labelInfo = this.labelInfo;
+    if (!labelInfo || !isDetailedLabelInfo(labelInfo)) return;
+    const approvalInfo = getApprovalInfo(labelInfo, reviewer);
+    const noVoteYet =
+      !approvalInfo || hasNeutralStatus(labelInfo, approvalInfo);
+    return html`<div class="reviewer-row">
+      <gr-account-chip .account="${reviewer}" .change="${this.change}">
+        <gr-vote-chip
+          slot="vote-chip"
+          .vote="${approvalInfo}"
+          .label="${labelInfo}"
+        ></gr-vote-chip
+      ></gr-account-chip>
+      ${noVoteYet
+        ? html`<span class="no-votes">No votes</span>`
+        : html`${this.renderRemoveVote(reviewer)}`}
+    </div>`;
   }
 
   renderLabel(mappedLabel: FormattedLabel) {
@@ -201,24 +264,26 @@ export class GrLabelInfo extends LitElement {
           .change="${change}"
         ></gr-account-link>
       </td>
-      <td>
-        <gr-tooltip-content has-tooltip title="Remove vote">
-          <gr-button
-            link
-            aria-label="Remove vote"
-            @click="${this.onDeleteVote}"
-            data-account-id="${ifDefined(mappedLabel.account._account_id)}"
-            class="deleteBtn ${this.computeDeleteClass(
-              mappedLabel.account,
-              this.mutable,
-              change
-            )}"
-          >
-            <iron-icon icon="gr-icons:delete"></iron-icon>
-          </gr-button>
-        </gr-tooltip-content>
-      </td>
+      <td>${this.renderRemoveVote(mappedLabel.account)}</td>
     </tr>`;
+  }
+
+  private renderRemoveVote(reviewer: AccountInfo) {
+    return html`<gr-tooltip-content has-tooltip title="Remove vote">
+      <gr-button
+        link
+        aria-label="Remove vote"
+        @click="${this.onDeleteVote}"
+        data-account-id="${ifDefined(reviewer._account_id)}"
+        class="deleteBtn ${this.computeDeleteClass(
+          reviewer,
+          this.mutable,
+          this.change
+        )}"
+      >
+        <iron-icon icon="gr-icons:delete"></iron-icon>
+      </gr-button>
+    </gr-tooltip-content>`;
   }
 
   /**

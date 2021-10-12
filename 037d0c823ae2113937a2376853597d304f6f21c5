@@ -43,6 +43,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb6b67df_808c12ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-12T13:23:36Z",
+      "side": 1,
+      "message": "Use if / else if / else",
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ee2eb4e_b9f42a10",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
         "patchSetId": 1
@@ -60,6 +77,23 @@
         "endLine": 382,
         "endChar": 50
       },
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0a7ecb7_fbf85a06",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-12T13:23:36Z",
+      "side": 1,
+      "message": "Make a helper function to compute votes so you can simply do\n\n${this.renderVotes()}\n\nIn general when you have a pattern like:\n\n```\nlet foo;\nif (...) {\n  foo \u003d bar;\n} else if (...) {\n  foo \u003d quux;\n}\n```\n\nIt\u0027s cleaner to introduce a small helper function or method to avoid side-effects.\n\nIn this case it can be a function in this file to avoid polluting this ckass\n\n${renderVotes(this.labelInfo}}",
       "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

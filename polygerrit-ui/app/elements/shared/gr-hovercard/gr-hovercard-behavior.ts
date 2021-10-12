@@ -258,7 +258,7 @@ export const HovercardBehaviorMixin = <T extends Constructor<PolymerElement>>(
     readonly hide = (e?: MouseEvent) => {
       this.cancelHideTask();
       this.cancelShowTask();
-      if (!this._isShowing) {
+      if (this._isShowing) {
         return;
       }
 

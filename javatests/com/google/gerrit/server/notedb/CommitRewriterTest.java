@@ -785,7 +785,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         .containsExactly(
             "@@ -6 +6 @@\n"
                 + "-Removed Verified+2 by Other Account <other@account.com>\n"
-                + "+Removed Verified+2 by Gerrit Account\n");
+                + "+Removed Verified+2\n");
     BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
     assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
@@ -1671,10 +1671,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "   * file1.java\n"
                 + "\n<GERRIT_ACCOUNT_2>, who was added as reviewer owns the following files:\n"
                 + "   * file3.js\n"
-                + "\nGerrit Account, who was added as reviewer owns the following files:\n"
+                + "\nAdded reviewer owns the following files:\n"
                 + "   * file4.java\n",
-            "Gerrit Account, who was added as reviewer owns the following files:\n"
-                + "   * file6.java\n",
+            "Added reviewer owns the following files:\n" + "   * file6.java\n",
             "Gerrit Account who was added as reviewer owns the following files:\n"
                 + "   * file1.java\n"
                 + "\n<GERRIT_ACCOUNT_1> who was added as reviewer owns the following files:\n"
@@ -1701,10 +1700,10 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "+<GERRIT_ACCOUNT_2>, who was added as reviewer owns the following files:\n"
                 + "@@ -12 +12 @@\n"
                 + "-Missing Reviewer who was added as reviewer owns the following files:\n"
-                + "+Gerrit Account, who was added as reviewer owns the following files:\n",
+                + "+Added reviewer owns the following files:\n",
             "@@ -6 +6 @@\n"
                 + "-Reviewer User who was added as reviewer owns the following files:\n"
-                + "+Gerrit Account, who was added as reviewer owns the following files:\n");
+                + "+Added reviewer owns the following files:\n");
     BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
     assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
@@ -2051,7 +2050,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         getChangeUpdateBody(
             c,
             String.format(
-                "Assignee changed from: %s to: %s", changeOwner.getName(), otherUser.getName())),
+                "Assignee changed from: %s to: %s",
+                changeOwner.getNameEmail(), otherUser.getNameEmail())),
         getAuthorIdent(otherUser.getAccount()));
     writeUpdate(
         RefNames.changeMetaRef(c.getId()),
@@ -2086,14 +2086,12 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
                 + "-Assignee added: Change Owner\n"
                 + "+Assignee added: <GERRIT_ACCOUNT_1>\n",
             "@@ -6 +6 @@\n"
-                + "-Assignee changed from: Change Owner to: Other Account\n"
+                + "-Assignee changed from: Change Owner <change@owner.com> to: Other Account <other@account.com>\n"
                 + "+Assignee changed from: <GERRIT_ACCOUNT_1> to: <GERRIT_ACCOUNT_2>\n",
             "@@ -6 +6 @@\n"
                 + "-Assignee deleted: Other Account\n"
                 + "+Assignee deleted: <GERRIT_ACCOUNT_2>\n",
-            "@@ -6 +6 @@\n"
-                + "-Assignee added: Reviewer User\n"
-                + "+Assignee added: Gerrit Account\n");
+            "@@ -6 +6 @@\n" + "-Assignee added: Reviewer User\n" + "+Assignee was added.\n");
     BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
     assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
     assertThat(secondRunResult.refsFailedToFix).isEmpty();

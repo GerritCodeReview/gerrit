@@ -242,7 +242,7 @@ export class GrAppElement extends base {
     this.addEventListener(EventType.DIALOG_CHANGE, e => {
       this._handleDialogChange(e as CustomEvent<DialogChangeEventDetail>);
     });
-    this.addEventListener('location-change', e =>
+    this.addEventListener(EventType.LOCATION_CHANGE, e =>
       this._handleLocationChange(e)
     );
     this.addEventListener(EventType.RECREATE_CHANGE_VIEW, () =>
@@ -251,7 +251,7 @@ export class GrAppElement extends base {
     this.addEventListener(EventType.RECREATE_DIFF_VIEW, () =>
       this.handleRecreateView(GerritView.DIFF)
     );
-    document.addEventListener('gr-rpc-log', e => this._handleRpcLog(e));
+    document.addEventListener(EventType.GR_RPC_LOG, e => this._handleRpcLog(e));
   }
 
   override ready() {

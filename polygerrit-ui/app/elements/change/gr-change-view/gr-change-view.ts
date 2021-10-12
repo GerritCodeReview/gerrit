@@ -1824,7 +1824,7 @@ export class GrChangeView extends base {
       changeIsOpen(change)
     ) {
       fireAlert(this, 'Change edit not found. Please create a change edit.');
-      GerritNav.navigateToChange(change);
+      fireReload(this, true);
       return;
     }
 
@@ -1837,7 +1837,7 @@ export class GrChangeView extends base {
         this,
         'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
       );
-      GerritNav.navigateToChange(change);
+      fireReload(this, true);
       return;
     }
 

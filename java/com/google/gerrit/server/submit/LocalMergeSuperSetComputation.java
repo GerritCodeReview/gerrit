@@ -15,8 +15,11 @@
 package com.google.gerrit.server.submit;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -24,12 +27,15 @@ import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.change.GetRelatedChangesUtil;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
@@ -83,15 +89,18 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private final Map<QueryKey, ImmutableList<ChangeData>> queryCache;
   private final Map<BranchNameKey, Optional<RevCommit>> heads;
   private final ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory;
+  private final GetRelatedChangesUtil getRelatedChangesUtil;
 
   @Inject
   LocalMergeSuperSetComputation(
       Provider<InternalChangeQuery> queryProvider,
-      ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory) {
+      ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory,
+      GetRelatedChangesUtil getRelatedChangesUtil) {
     this.queryProvider = queryProvider;
     this.queryCache = new HashMap<>();
     this.heads = new HashMap<>();
     this.changeIsVisibleToPredicateFactory = changeIsVisibleToPredicateFactory;
+    this.getRelatedChangesUtil = getRelatedChangesUtil;
   }
 
   @Override
@@ -141,6 +150,38 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     }
 
     return new ChangeSet(visibleChanges, nonVisibleChanges);
+  }
+
+  @Override
+  public ChangeSet completeWithoutTopicPopulateNotForSubmission(
+      MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user)
+      throws IOException, PermissionBackendException {
+    ImmutableCollection<ChangeData> changeDatasRequiredForSubmission = changeSet.changes();
+    Set<Change.Id> changeIdsRequiredForSubmission =
+        changeDatasRequiredForSubmission.stream().map(c -> c.getId()).collect(toSet());
+
+    Set<ChangeData> changesNotRequiredForSubmission = new HashSet<>();
+
+    for (ChangeData change : changeDatasRequiredForSubmission) {
+      changeIdsRequiredForSubmission.remove(change.getId());
+      // We do not need to check for visibility of changes since getRelated returns only visible
+      // changes to the current user.
+      changesNotRequiredForSubmission.addAll(
+          getRelatedChangesUtil
+              .getRelated(
+                  change,
+                  change.currentPatchSet(),
+                  /* includeAncestors= */ false,
+                  /* includeAllPatchsets= */ false,
+                  changeIdsRequiredForSubmission)
+              .stream()
+              .filter(p -> !p.id().equals(change.getId()))
+              .map(p -> p.data())
+              .collect(toImmutableSet()));
+      changeIdsRequiredForSubmission.add(change.getId());
+    }
+    return new ChangeSet(
+        changeSet.changes(), changeSet.nonVisibleChanges(), changesNotRequiredForSubmission);
   }
 
   private static ImmutableListMultimap<BranchNameKey, ChangeData> byBranch(

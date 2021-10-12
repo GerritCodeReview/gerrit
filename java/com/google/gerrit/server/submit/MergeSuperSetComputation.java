@@ -46,4 +46,20 @@ public interface MergeSuperSetComputation {
    */
   ChangeSet completeWithoutTopic(MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user)
       throws IOException, PermissionBackendException;
+
+  /**
+   * This method is similar to {@link #completeWithoutTopic} except that it just populates the
+   * {@link ChangeSet#relatedChangesNotRequiredForSubmission()} field. It adds to the {@code
+   * changeSet} the changes that are related and not required for submission.
+   *
+   * @param orm {@link MergeOpRepoManager} that should be used to access repositories
+   * @param changeSet A set of changes for which it is known that they should be submitted together
+   *     not including the set of changes that are related but not required to be submitted
+   *     together.
+   * @param user The user for which the visibility checks should be performed
+   * @return the completed set of changes that should be submitted together
+   */
+  ChangeSet completeWithoutTopicPopulateNotForSubmission(
+      MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user)
+      throws IOException, PermissionBackendException;
 }

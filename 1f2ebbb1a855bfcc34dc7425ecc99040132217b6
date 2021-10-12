@@ -105,140 +105,24 @@
       "parentUuid": "10c92be5_52beca18",
       "revId": "1f2ebbb1a855bfcc34dc7425ecc99040132217b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
-    }
-  ],
-  "submitRequirementResults": [
-    {
-      "submitRequirement": {
-        "name": "Code-Review",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Review\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": 523156401,
-        "w2": -1470775348,
-        "w3": 886862885,
-        "w4": -322334656,
-        "w5": 321001398
-      },
-      "legacy": true
     },
     {
-      "submitRequirement": {
-        "name": "Code-Style",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "unresolved": true,
+      "key": {
+        "uuid": "90458e24_9d4651be",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.ts",
+        "patchSetId": 1
       },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Style\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Style\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
+      "lineNbr": 32,
+      "author": {
+        "id": 1139611
       },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": 523156401,
-        "w2": -1470775348,
-        "w3": 886862885,
-        "w4": -322334656,
-        "w5": 321001398
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "Verified",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Verified\u003dgerrit~PrologRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dgerrit~PrologRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Verified\u003dgerrit~PrologRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": 523156401,
-        "w2": -1470775348,
-        "w3": 886862885,
-        "w4": -322334656,
-        "w5": 321001398
-      },
-      "legacy": true
-    },
-    {
-      "submitRequirement": {
-        "name": "checks~ChecksSubmitRule",
-        "description": {},
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "rule:checks~ChecksSubmitRule"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "rule:checks~ChecksSubmitRule"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "checks~ChecksSubmitRule"
-        ],
-        "failingAtoms": []
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": 523156401,
-        "w2": -1470775348,
-        "w3": 886862885,
-        "w4": -322334656,
-        "w5": 321001398
-      },
-      "legacy": true
+      "writtenOn": "2021-10-12T18:18:19Z",
+      "side": 1,
+      "message": "Missed this?",
+      "parentUuid": "2f342710_45baffa6",
+      "revId": "1f2ebbb1a855bfcc34dc7425ecc99040132217b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

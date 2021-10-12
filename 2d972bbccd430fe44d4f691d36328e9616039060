@@ -34,6 +34,24 @@
       "parentUuid": "b3ea5349_c375aaf5",
       "revId": "2d972bbccd430fe44d4f691d36328e9616039060",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5de9bfd1_ea57d8b1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-12T13:59:11Z",
+      "side": 1,
+      "message": "So until that happens don\u0027t we need to keep GerritNav.navigateToChange to ensure the navigation works correctly outside of GrChangeView?",
+      "parentUuid": "2ecf4ad5_8b587b3f",
+      "revId": "2d972bbccd430fe44d4f691d36328e9616039060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

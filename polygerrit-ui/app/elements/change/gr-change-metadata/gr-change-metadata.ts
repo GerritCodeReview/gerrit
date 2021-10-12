@@ -752,6 +752,16 @@ export class GrChangeMetadata extends PolymerElement {
           })
       );
   }
+
+  _showNewSubmitRequirements(change?: ParsedChangeInfo) {
+    if (!this._isSubmitRequirementsUiEnabled) return false;
+    return (change?.submit_requirements ?? []).length > 0;
+  }
+
+  _showNewSubmitRequirementWarning(change?: ParsedChangeInfo) {
+    if (!this._isSubmitRequirementsUiEnabled) return false;
+    return (change?.submit_requirements ?? []).length === 0;
+  }
 }
 
 declare global {

@@ -54,6 +54,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -134,8 +135,9 @@ class ApprovalInference {
       PatchSet.Id psId,
       ChangeKind kind,
       LabelType type,
-      @Nullable Map<String, FileDiffOutput> modifiedFiles,
-      @Nullable Map<String, FileDiffOutput> modifiedFilesLastPatchset) {
+      @Nullable Map<String, FileDiffOutput> baseVsCurrentDiff,
+      @Nullable Map<String, FileDiffOutput> baseVsPriorDiff,
+      @Nullable Map<String, FileDiffOutput> priorVsCurrentDiff) {
     int n = psa.key().patchSetId().get();
     checkArgument(n != psId.get());
 
@@ -185,7 +187,8 @@ class ApprovalInference {
           project.getName());
       return true;
     } else if (type.isCopyAllScoresIfListOfFilesDidNotChange()
-        && listOfFilesUnchangedPredicate.match(modifiedFiles, modifiedFilesLastPatchset)) {
+        && listOfFilesUnchangedPredicate.match(
+            baseVsCurrentDiff, baseVsPriorDiff, priorVsCurrentDiff)) {
       logger.atFine().log(
           "approval %d on label %s of patch set %d of change %d can be copied"
               + " to patch set %d because the label has set "
@@ -402,8 +405,9 @@ class ApprovalInference {
         priorPatchSet.getValue().id().changeId(),
         changeKind);
 
-    Map<String, FileDiffOutput> modifiedFiles = null;
-    Map<String, FileDiffOutput> modifiedFilesLastPatchSet = null;
+    Map<String, FileDiffOutput> baseVsCurrent = null;
+    Map<String, FileDiffOutput> baseVsPrior = null;
+    Map<String, FileDiffOutput> priorVsCurrent = null;
     LabelTypes labelTypes = project.getLabelTypes();
     for (PatchSetApproval psa : priorApprovals) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
@@ -411,11 +415,13 @@ class ApprovalInference {
       }
       Optional<LabelType> type = labelTypes.byLabel(psa.labelId());
       // Only compute modified files if there is a relevant label, since this is expensive.
-      if (modifiedFiles == null
+      if (baseVsCurrent == null
           && type.isPresent()
           && type.get().isCopyAllScoresIfListOfFilesDidNotChange()) {
-        modifiedFiles = listModifiedFiles(project, patchSet);
-        modifiedFilesLastPatchSet = listModifiedFiles(project, priorPatchSet.getValue());
+        baseVsCurrent = listModifiedFiles(project, patchSet);
+        baseVsPrior = listModifiedFiles(project, priorPatchSet.getValue());
+        priorVsCurrent =
+            listModifiedFiles(project, priorPatchSet.getValue().commitId(), patchSet.commitId());
       }
       if (!type.isPresent()) {
         logger.atFine().log(
@@ -435,8 +441,9 @@ class ApprovalInference {
               patchSet.id(),
               changeKind,
               type.get(),
-              modifiedFiles,
-              modifiedFilesLastPatchSet)
+              baseVsCurrent,
+              baseVsPrior,
+              priorVsCurrent)
           && !canCopyBasedOnCopyCondition(notes, psa, patchSet, type.get(), changeKind)) {
         continue;
       }
@@ -457,6 +464,23 @@ class ApprovalInference {
               : 1;
       return diffOperations.listModifiedFilesAgainstParent(
           project.getNameKey(), ps.commitId(), parentNum);
+    } catch (DiffNotAvailableException ex) {
+      throw new StorageException(
+          "failed to compute difference in files, so won't copy"
+              + " votes on labels even if list of files is the same and "
+              + "copyAllIfListOfFilesDidNotChange",
+          ex);
+    }
+  }
+
+  /**
+   * Gets the modified files between two commits corresponding to different patchsets of the same
+   * change.
+   */
+  private Map<String, FileDiffOutput> listModifiedFiles(
+      ProjectState project, ObjectId sourceCommit, ObjectId targetCommit) {
+    try {
+      return diffOperations.listModifiedFiles(project.getNameKey(), sourceCommit, targetCommit);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"

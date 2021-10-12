@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "726d7859_f4fe35a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-12T18:33:18Z",
+      "side": 1,
+      "message": "I see lots of moving parts: are you happy with the test coverage? Can you think about more tests to make sure that we\u0027re not breaking anything?",
+      "revId": "1f06fce15c59381fe09e17d033e892c7529ea821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ecc0c2a_5101565a",
@@ -67,6 +84,53 @@
         "startChar": 16,
         "endLine": 85,
         "endChar": 23
+      },
+      "revId": "1f06fce15c59381fe09e17d033e892c7529ea821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff012794_51668658",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-12T18:33:18Z",
+      "side": 1,
+      "message": "I\u0027d agree with Kaushik, also this is a EOL release and I wouldn\u0027t introduce a change in the documentation or CLI, unless we really have to.\n\nThe code can easily detect the number of CPUs and make a conscious decision on how many threads to use.",
+      "parentUuid": "0410fede_26b9b978",
+      "range": {
+        "startLine": 85,
+        "startChar": 16,
+        "endLine": 85,
+        "endChar": 23
+      },
+      "revId": "1f06fce15c59381fe09e17d033e892c7529ea821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c84c1c4c_01e3d56b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-12T18:33:18Z",
+      "side": 1,
+      "message": "this::createRefLog",
+      "range": {
+        "startLine": 68,
+        "startChar": 8,
+        "endLine": 68,
+        "endChar": 55
       },
       "revId": "1f06fce15c59381fe09e17d033e892c7529ea821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

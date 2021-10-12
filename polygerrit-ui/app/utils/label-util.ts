@@ -134,6 +134,19 @@ export function getApprovalInfo(
   return label.all?.filter(x => x._account_id === account._account_id)[0];
 }
 
+export function canVote(label: DetailedLabelInfo, account: AccountInfo) {
+  const approvalInfo = getApprovalInfo(label, account);
+  if (!approvalInfo) return false;
+  if (approvalInfo.permitted_voting_range) {
+    return approvalInfo.permitted_voting_range.max > 0;
+  }
+  if (approvalInfo.value !== undefined) {
+    // If preset, user can vote on the label.
+    return true;
+  }
+  return false;
+}
+
 export function getAllUniqueApprovals(labelInfo?: LabelInfo) {
   if (!labelInfo || !isDetailedLabelInfo(labelInfo)) return [];
   const uniqueApprovals = (labelInfo.all ?? [])

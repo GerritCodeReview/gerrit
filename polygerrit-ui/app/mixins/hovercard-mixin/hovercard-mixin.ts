@@ -268,7 +268,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     readonly hide = (e?: MouseEvent) => {
       this.cancelHideTask();
       this.cancelShowTask();
-      if (!this._isShowing) {
+      if (this._isShowing) {
         return;
       }
 

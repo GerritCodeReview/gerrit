@@ -1,4 +1,5 @@
-/**
+
+import "../gr-vote-chip/gr-vote-chip";/**
  * @license
  * Copyright (C) 2018 The Android Open Source Project
  *
@@ -19,6 +20,7 @@ import '../../../styles/gr-voting-styles';
 import '../../../styles/shared-styles';
 import '../gr-account-label/gr-account-label';
 import '../gr-account-link/gr-account-link';
+import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import '../gr-label/gr-label';
@@ -36,7 +38,11 @@ import {
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {GrButton} from '../gr-button/gr-button';
-import {getVotingRangeOrDefault} from '../../../utils/label-util';
+import {
+  canVote,
+  getApprovalInfo,
+  getVotingRangeOrDefault,
+} from '../../../utils/label-util';
 import {appContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -44,6 +50,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {fireReload} from '../../../utils/event-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -164,22 +171,50 @@ export class GrLabelInfo extends LitElement {
     ];
   }
 
+  private readonly flagsService = appContext.flagsService;
+
   override render() {
+    const {labelInfo} = this;
+    if (this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
+      if (!labelInfo) return;
+      const reviewers = (this.change?.reviewers['REVIEWER'] ?? []).filter(
+        reviewer => canVote(labelInfo, reviewer)
+      );
+      return html`<div>
+        ${reviewers.map(reviewer => this.renderReviewerVote(reviewer))}
+      </div>`;
+    }
     return html` <p
         class="placeholder ${this.computeShowPlaceholder(
-          this.labelInfo,
+          labelInfo,
           this.change?.labels
         )}"
       >
         No votes
       </p>
       <table>
-        ${this.mapLabelInfo(
-          this.labelInfo,
-          this.account,
-          this.change?.labels
-        ).map(mappedLabel => this.renderLabel(mappedLabel))}
+        ${this.mapLabelInfo(labelInfo, this.account, this.change?.labels).map(
+          mappedLabel => this.renderLabel(mappedLabel)
+        )}
       </table>`;
+  }
+
+  renderReviewerVote(reviewer: AccountInfo) {
+    const {labelInfo} = this;
+    if (!labelInfo || !isDetailedLabelInfo(labelInfo)) return;
+    const approvalInfo = getApprovalInfo(labelInfo, reviewer);
+    const noVoteYet = false;
+    return html` <gr-account-chip
+      .account="${reviewer}"
+      .change="${this.change}"
+    >
+      <gr-vote-chip
+        slot="vote-chip"
+        .vote="${approvalInfo}"
+        .label="${labelInfo}"
+      ></gr-vote-chip
+    ></gr-account-chip>
+    ${noVoteYet ? html`<span>No votes</span>` : ''}`;
   }
 
   renderLabel(mappedLabel: FormattedLabel) {

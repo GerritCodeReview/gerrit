@@ -72,7 +72,12 @@ public class RelatedChangesSorter {
     this.projectCache = projectCache;
   }
 
-  public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs)
+  public List<PatchSetData> sort(
+      List<ChangeData> in,
+      PatchSet startPs,
+      boolean includeAncestors,
+      boolean includeAllPatchsets,
+      Set<Change.Id> changesToOmit)
       throws IOException, PermissionBackendException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
@@ -98,7 +103,9 @@ public class RelatedChangesSorter {
     List<PatchSetData> otherPatchSetsOfStart = new ArrayList<>();
 
     for (ChangeData cd : in) {
-      for (PatchSet ps : cd.patchSets()) {
+      // only loop over all the patch-sets if includeAllPatchSets is set to true.
+      for (PatchSet ps :
+          includeAllPatchsets ? cd.patchSets() : ImmutableList.of(cd.currentPatchSet())) {
         PatchSetData thisPsd = requireNonNull(byId.get(ps.commitId()));
         if (cd.getId().equals(start.id()) && !ps.id().equals(start.psId())) {
           otherPatchSetsOfStart.add(thisPsd);
@@ -113,10 +120,12 @@ public class RelatedChangesSorter {
       }
     }
 
-    Collection<PatchSetData> ancestors = walkAncestors(parents, start);
+    Collection<PatchSetData> ancestors =
+        includeAncestors ? walkAncestors(parents, start, changesToOmit) : ImmutableList.of();
     List<PatchSetData> descendants =
-        walkDescendants(children, start, otherPatchSetsOfStart, ancestors);
-    List<PatchSetData> result = new ArrayList<>(ancestors.size() + descendants.size() - 1);
+        walkDescendants(
+            children, start, otherPatchSetsOfStart, ancestors, includeAllPatchsets, changesToOmit);
+    List<PatchSetData> result = new ArrayList<>(ancestors.size() + descendants.size());
     result.addAll(Lists.reverse(descendants));
     result.addAll(ancestors);
     return result;
@@ -146,14 +155,16 @@ public class RelatedChangesSorter {
   }
 
   private Collection<PatchSetData> walkAncestors(
-      ListMultimap<PatchSetData, PatchSetData> parents, PatchSetData start)
+      ListMultimap<PatchSetData, PatchSetData> parents,
+      PatchSetData start,
+      Set<Change.Id> changesToOmit)
       throws PermissionBackendException {
     LinkedHashSet<PatchSetData> result = new LinkedHashSet<>();
     Deque<PatchSetData> pending = new ArrayDeque<>();
     pending.add(start);
     while (!pending.isEmpty()) {
       PatchSetData psd = pending.remove();
-      if (result.contains(psd) || !isVisible(psd)) {
+      if (changesToOmit.contains(psd.id()) || result.contains(psd) || !isVisible(psd)) {
         continue;
       }
       result.add(psd);
@@ -166,20 +177,27 @@ public class RelatedChangesSorter {
       ListMultimap<PatchSetData, PatchSetData> children,
       PatchSetData start,
       List<PatchSetData> otherPatchSetsOfStart,
-      Iterable<PatchSetData> ancestors)
+      Iterable<PatchSetData> ancestors,
+      boolean includeAllPatchsets,
+      Set<Change.Id> changesToOmit)
       throws PermissionBackendException {
     Set<Change.Id> alreadyEmittedChanges = new HashSet<>();
     addAllChangeIds(alreadyEmittedChanges, ancestors);
 
     // Prefer descendants found by following the original patch set passed in.
     List<PatchSetData> result =
-        walkDescendentsImpl(alreadyEmittedChanges, children, ImmutableList.of(start));
+        walkDescendentsImpl(
+            alreadyEmittedChanges, children, ImmutableList.of(start), changesToOmit);
     addAllChangeIds(alreadyEmittedChanges, result);
 
-    // Then, go back and add new indirect descendants found by following any
-    // other patch sets of start. These show up after all direct descendants,
-    // because we wouldn't know where in the walk to insert them.
-    result.addAll(walkDescendentsImpl(alreadyEmittedChanges, children, otherPatchSetsOfStart));
+    if (includeAllPatchsets) {
+      // Then, go back and add new indirect descendants found by following any
+      // other patch sets of start. These show up after all direct descendants,
+      // because we wouldn't know where in the walk to insert them.
+      result.addAll(
+          walkDescendentsImpl(
+              alreadyEmittedChanges, children, otherPatchSetsOfStart, changesToOmit));
+    }
     return result;
   }
 
@@ -193,7 +211,8 @@ public class RelatedChangesSorter {
   private List<PatchSetData> walkDescendentsImpl(
       Set<Change.Id> alreadyEmittedChanges,
       ListMultimap<PatchSetData, PatchSetData> children,
-      List<PatchSetData> start)
+      List<PatchSetData> start,
+      Set<Change.Id> changesToOmit)
       throws PermissionBackendException {
     if (start.isEmpty()) {
       return ImmutableList.of();
@@ -205,7 +224,7 @@ public class RelatedChangesSorter {
     pending.addAll(start);
     while (!pending.isEmpty()) {
       PatchSetData psd = pending.remove();
-      if (seen.contains(psd) || !isVisible(psd)) {
+      if (changesToOmit.contains(psd.id()) || seen.contains(psd) || !isVisible(psd)) {
         continue;
       }
       seen.add(psd);

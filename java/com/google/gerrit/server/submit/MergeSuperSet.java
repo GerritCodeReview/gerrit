@@ -95,35 +95,70 @@ public class MergeSuperSet {
   public ChangeSet completeChangeSet(Change change, CurrentUser user)
       throws IOException, PermissionBackendException {
     try {
-      if (orm == null) {
-        orm = repoManagerProvider.get();
-        closeOrm = true;
-      }
-      ChangeData cd = changeDataFactory.create(change.getProject(), change.getId());
-      boolean visible = false;
-      if (cd != null) {
-        if (projectCache.get(cd.project()).map(ProjectState::statePermitsRead).orElse(false)) {
-          try {
-            permissionBackend.user(user).change(cd).check(ChangePermission.READ);
-            visible = true;
-          } catch (AuthException e) {
-            // Do nothing.
-          }
-        }
-      }
-
-      ChangeSet changeSet = new ChangeSet(cd, visible);
+      openRepositoryManager();
+      ChangeSet changeSet = createChangeSet(change, user);
       if (wholeTopicEnabled(cfg)) {
-        return completeChangeSetIncludingTopics(changeSet, user);
+        return completeChangeSetIncludingTopics(changeSet, user, /*
+        includeChangesNotRequiredForSubmission= */ false);
       }
       try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation)) {
         return mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user);
       }
     } finally {
-      if (closeOrm && orm != null) {
-        orm.close();
-        orm = null;
+      closeRepository();
+    }
+  }
+
+  public ChangeSet completeChangeSetIncludingChangesNotRequiredForSubmission(
+      Change change, CurrentUser user) throws IOException, PermissionBackendException {
+    ChangeSet changeSet = createChangeSet(change, user);
+    try {
+      openRepositoryManager();
+      if (wholeTopicEnabled(cfg)) {
+        return completeChangeSetIncludingTopics(changeSet, user, /*
+        includeChangesNotRequiredForSubmission= */ true);
       }
+      try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation)) {
+        ChangeSet result =
+            mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user);
+        return mergeSuperSetComputation
+            .get()
+            .completeWithoutTopicPopulateNotForSubmission(orm, result, user);
+      }
+    } finally {
+      closeRepository();
+    }
+  }
+
+  public ChangeSet createChangeSet(Change change, CurrentUser user)
+      throws PermissionBackendException {
+    ChangeData cd = changeDataFactory.create(change.getProject(), change.getId());
+    boolean visible = false;
+    if (cd != null) {
+      if (projectCache.get(cd.project()).map(ProjectState::statePermitsRead).orElse(false)) {
+        try {
+          permissionBackend.user(user).change(cd).check(ChangePermission.READ);
+          visible = true;
+        } catch (AuthException e) {
+          // Do nothing.
+        }
+      }
+    }
+
+    return new ChangeSet(cd, visible);
+  }
+
+  private void closeRepository() {
+    if (closeOrm && orm != null) {
+      orm.close();
+      orm = null;
+    }
+  }
+
+  private void openRepositoryManager() {
+    if (orm == null) {
+      orm = repoManagerProvider.get();
+      closeOrm = true;
     }
   }
 
@@ -175,7 +210,8 @@ public class MergeSuperSet {
     return new ChangeSet(visibleChanges, nonVisibleChanges);
   }
 
-  private ChangeSet completeChangeSetIncludingTopics(ChangeSet changeSet, CurrentUser user)
+  private ChangeSet completeChangeSetIncludingTopics(
+      ChangeSet changeSet, CurrentUser user, boolean includeChangesNotRequiredForSubmission)
       throws IOException, PermissionBackendException {
     Set<String> topicsSeen = new HashSet<>();
     Set<String> visibleTopicsSeen = new HashSet<>();
@@ -193,6 +229,14 @@ public class MergeSuperSet {
       changeSet = topicClosure(changeSet, user, topicsSeen, visibleTopicsSeen);
       seen = topicsSeen.size() + visibleTopicsSeen.size();
     } while (seen != oldSeen);
+    // TODO(paiking): This should be recursive similar to completeWithoutTopic. For now, it's fine
+    //  to not do a full topic closure for related changes that are not for submission.
+    if (includeChangesNotRequiredForSubmission) {
+      changeSet =
+          mergeSuperSetComputation
+              .get()
+              .completeWithoutTopicPopulateNotForSubmission(orm, changeSet, user);
+    }
     return changeSet;
   }
 

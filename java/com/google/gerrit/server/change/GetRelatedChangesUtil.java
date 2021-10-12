@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -57,13 +58,24 @@ public class GetRelatedChangesUtil {
   }
 
   /**
-   * Gets related changes of a specific change revision.
+   * Gets related changes of a specific change revision. This method returns only visible changes.
    *
    * @param changeData the change of the inputted revision.
    * @param basePs the revision that the method checks for related changes.
+   * @param includeAncestors whether ancestor changes should be included. If false, only descendants
+   *     changes will be included.
+   * @param includeAllPatchsets whether we include all patch-sets and their related patch-sets, or
+   *     only the {@code basePs}.
+   * @param changesToOmit set of changes that we omit from the results and also don't search changes
+   *     that are related to them.
    * @return list of related changes, sorted via {@link RelatedChangesSorter}
    */
-  public List<RelatedChangesSorter.PatchSetData> getRelated(ChangeData changeData, PatchSet basePs)
+  public List<RelatedChangesSorter.PatchSetData> getRelated(
+      ChangeData changeData,
+      PatchSet basePs,
+      boolean includeAncestors,
+      boolean includeAllPatchsets,
+      Set<Change.Id> changesToOmit)
       throws IOException, PermissionBackendException {
     Set<String> groups = getAllGroups(changeData.patchSets());
     logger.atFine().log("groups = %s", groups);
@@ -83,7 +95,7 @@ public class GetRelatedChangesUtil {
 
     cds = reloadChangeIfStale(cds, changeData, basePs);
 
-    return sorter.sort(cds, basePs);
+    return sorter.sort(cds, basePs, includeAncestors, includeAllPatchsets, changesToOmit);
   }
 
   private List<ChangeData> reloadChangeIfStale(

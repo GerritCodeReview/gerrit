@@ -47,6 +47,8 @@ public class ChangeSet {
    */
   private final ImmutableMap<Change.Id, ChangeData> nonVisibleChanges;
 
+  private final ImmutableMap<Change.Id, ChangeData> relatedChangesNotRequiredForSubmission;
+
   private static ImmutableMap<Change.Id, ChangeData> index(
       Iterable<ChangeData> changes, Collection<Change.Id> exclude) {
     Map<Change.Id, ChangeData> ret = new LinkedHashMap<>();
@@ -62,6 +64,17 @@ public class ChangeSet {
   public ChangeSet(Iterable<ChangeData> changes, Iterable<ChangeData> hiddenChanges) {
     changeData = index(changes, ImmutableList.of());
     nonVisibleChanges = index(hiddenChanges, changeData.keySet());
+    relatedChangesNotRequiredForSubmission = ImmutableMap.of();
+  }
+
+  public ChangeSet(
+      Iterable<ChangeData> changes,
+      Iterable<ChangeData> hiddenChanges,
+      Iterable<ChangeData> relatedChangesNotRequiredForSubmission) {
+    changeData = index(changes, ImmutableList.of());
+    nonVisibleChanges = index(hiddenChanges, changeData.keySet());
+    this.relatedChangesNotRequiredForSubmission =
+        index(relatedChangesNotRequiredForSubmission, ImmutableList.of());
   }
 
   public ChangeSet(ChangeData change, boolean visible) {
@@ -107,6 +120,10 @@ public class ChangeSet {
 
   public boolean furtherHiddenChanges() {
     return !nonVisibleChanges.isEmpty();
+  }
+
+  public ImmutableList<ChangeData> relatedChangesNotRequiredForSubmission() {
+    return relatedChangesNotRequiredForSubmission.values().asList();
   }
 
   public int size() {

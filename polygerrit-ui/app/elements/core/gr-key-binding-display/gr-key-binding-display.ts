@@ -25,7 +25,7 @@ declare global {
 
 @customElement('gr-key-binding-display')
 export class GrKeyBindingDisplay extends LitElement {
-  static override get styles() {
+  static get styles() {
     return [
       css`
         .key {

@@ -65,7 +65,7 @@ export class GrAccountLink extends LitElement {
   @property({type: Boolean})
   firstName = false;
 
-  static override get styles() {
+  static get styles() {
     return [
       css`
         :host {

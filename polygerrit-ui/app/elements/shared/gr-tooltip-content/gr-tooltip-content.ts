@@ -76,7 +76,7 @@ export class GrTooltipContent extends LitElement {
     super.disconnectedCallback();
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       css`
         iron-icon {

@@ -41,7 +41,7 @@ export class GrAgreementsList extends LitElement {
     });
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`

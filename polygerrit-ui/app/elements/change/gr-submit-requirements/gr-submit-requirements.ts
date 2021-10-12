@@ -58,7 +58,7 @@ export class GrSubmitRequirements extends LitElement {
   @state()
   runs: CheckRun[] = [];
 
-  static override get styles() {
+  static get styles() {
     return [
       fontStyles,
       css`
@@ -335,7 +335,7 @@ export class GrTriggerVote extends LitElement {
   @property({type: Object})
   labelInfo?: LabelInfo;
 
-  static override get styles() {
+  static get styles() {
     return css`
       :host {
         display: block;

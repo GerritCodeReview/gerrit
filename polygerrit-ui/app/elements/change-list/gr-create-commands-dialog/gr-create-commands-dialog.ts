@@ -43,7 +43,7 @@ export class GrCreateCommandsDialog extends LitElement {
   @property({type: String})
   branch?: string;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`

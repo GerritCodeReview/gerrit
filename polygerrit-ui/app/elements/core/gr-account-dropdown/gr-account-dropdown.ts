@@ -76,7 +76,7 @@ export class GrAccountDropdown extends LitElement {
     super.disconnectedCallback();
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`

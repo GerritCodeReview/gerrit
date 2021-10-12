@@ -163,7 +163,7 @@ export class GrImageViewer extends LitElement {
   // TODO(hermannloose): Make GrLibLoader a singleton.
   private static readonly libLoader = new GrLibLoader();
 
-  static override styles = css`
+  static styles = css`
     :host {
       display: grid;
       grid-template-rows: 1fr auto;

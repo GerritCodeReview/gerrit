@@ -38,7 +38,7 @@ export class GrShellCommand extends LitElement {
   @property({type: String})
   tooltip = '';
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`

@@ -24,7 +24,7 @@ const base = HovercardMixin(LitElement);
 
 @customElement('gr-hovercard')
 export class GrHovercard extends base {
-  static override get styles() {
+  static get styles() {
     return [
       super.styles || [],
       css`

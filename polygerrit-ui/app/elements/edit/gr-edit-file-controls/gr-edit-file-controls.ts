@@ -40,7 +40,7 @@ export class GrEditFileControls extends LitElement {
   @property({type: Array})
   _allFileActions = Object.values(GrEditConstants.Actions);
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`

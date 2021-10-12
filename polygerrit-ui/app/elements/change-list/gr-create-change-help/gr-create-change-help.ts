@@ -31,7 +31,7 @@ declare global {
 
 @customElement('gr-create-change-help')
 export class GrCreateChangeHelp extends LitElement {
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       fontStyles,

@@ -91,7 +91,7 @@ export class GrRelatedChangesList extends LitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`
@@ -684,7 +684,7 @@ export class GrRelatedCollapse extends LitElement {
 
   private readonly reporting = appContext.reportingService;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       fontStyles,

@@ -85,7 +85,7 @@ export class GrOverviewImage extends LitElement {
     }
   );
 
-  static override styles = css`
+  static styles = css`
     :host {
       --background-color: var(--overview-image-background-color, #000);
       --frame-color: var(--overview-image-frame-color, #f00);

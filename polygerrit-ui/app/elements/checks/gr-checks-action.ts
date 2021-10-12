@@ -35,7 +35,7 @@ export class GrChecksAction extends LitElement {
     checkRequiredProperty(this.action, 'action');
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       css`
         :host {

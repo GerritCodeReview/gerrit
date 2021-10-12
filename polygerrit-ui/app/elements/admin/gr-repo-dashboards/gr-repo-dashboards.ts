@@ -43,7 +43,7 @@ export class GrRepoDashboards extends LitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       tableStyles,

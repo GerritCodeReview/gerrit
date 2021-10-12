@@ -56,7 +56,7 @@ export class GrButton extends LitElement {
   @property({type: Boolean, reflect: true})
   disabled: boolean | null = null;
 
-  static override get styles() {
+  static get styles() {
     return [
       votingStyles,
       spinnerStyles,

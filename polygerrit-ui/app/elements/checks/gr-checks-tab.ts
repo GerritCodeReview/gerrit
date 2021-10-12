@@ -87,7 +87,7 @@ export class GrChecksTab extends LitElement {
     );
   }
 
-  static override get styles() {
+  static get styles() {
     return css`
       :host {
         display: block;

@@ -58,7 +58,7 @@ export class GrConfirmSubmitDialog extends LitElement {
   @property({type: Boolean})
   _initialised = false;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       fontStyles,

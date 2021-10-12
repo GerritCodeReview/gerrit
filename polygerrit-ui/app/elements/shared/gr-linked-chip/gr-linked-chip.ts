@@ -50,7 +50,7 @@ export class GrLinkedChip extends LitElement {
   @property({type: Number})
   limit?: number;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`

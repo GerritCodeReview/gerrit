@@ -30,7 +30,7 @@ declare global {
 
 @customElement('gr-alert')
 export class GrAlert extends LitElement {
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`

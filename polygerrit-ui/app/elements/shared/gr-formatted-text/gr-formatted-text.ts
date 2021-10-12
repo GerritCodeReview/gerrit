@@ -51,7 +51,7 @@ export class GrFormattedText extends LitElement {
   @property({type: Boolean, reflect: true})
   noTrailingMargin = false;
 
-  static override get styles() {
+  static get styles() {
     return [
       css`
         :host {

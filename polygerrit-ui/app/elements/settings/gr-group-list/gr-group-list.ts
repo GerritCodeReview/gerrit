@@ -44,7 +44,7 @@ export class GrGroupList extends LitElement {
     });
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       formStyles,

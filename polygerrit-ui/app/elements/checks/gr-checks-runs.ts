@@ -64,7 +64,7 @@ import {fontStyles} from '../../styles/gr-font-styles';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`
@@ -400,7 +400,7 @@ export class GrChecksRuns extends LitElement {
     subscribe(this, loginCallbackLatest$, x => (this.loginCallback = x));
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       fontStyles,

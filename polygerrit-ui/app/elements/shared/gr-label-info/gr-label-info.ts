@@ -88,7 +88,7 @@ export class GrLabelInfo extends LitElement {
   // TODO(TS): not used, remove later
   _xhrPromise?: Promise<void>;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       fontStyles,

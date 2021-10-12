@@ -113,7 +113,7 @@ export class GrDateFormatter extends LitElement {
     super();
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       css`
         host {

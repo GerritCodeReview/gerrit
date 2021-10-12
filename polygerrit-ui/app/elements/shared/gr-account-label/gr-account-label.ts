@@ -106,7 +106,7 @@ export class GrAccountLabel extends LitElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  static override get styles() {
+  static get styles() {
     return [
       css`
         :host {

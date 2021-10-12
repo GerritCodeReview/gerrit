@@ -32,7 +32,7 @@ declare global {
 
 @customElement('gr-label')
 export class GrLabel extends LitElement {
-  static override get styles() {
+  static get styles() {
     return [];
   }
 

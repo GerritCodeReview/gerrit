@@ -32,7 +32,7 @@ export class GrSettingsItem extends LitElement {
   @property({type: String})
   override title = '';
 
-  static override get styles() {
+  static get styles() {
     return [
       formStyles,
       css`

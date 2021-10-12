@@ -42,7 +42,7 @@ export class GrLimitedText extends LitElement {
   @property({type: String})
   tooltip?: string;
 
-  static override get styles() {
+  static get styles() {
     return [];
   }
 

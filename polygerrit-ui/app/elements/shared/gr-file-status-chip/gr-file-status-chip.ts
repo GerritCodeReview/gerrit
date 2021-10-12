@@ -36,7 +36,7 @@ export class GrFileStatusChip extends LitElement {
   @property({type: Object})
   file?: NormalizedFileInfo;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`

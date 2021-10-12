@@ -35,7 +35,7 @@ export class GrDefaultEditor extends LitElement {
   @property({type: String})
   fileContent = '';
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`

@@ -50,7 +50,7 @@ export class GrLabelScores extends LitElement {
 
   private readonly reporting = appContext.reportingService;
 
-  static override get styles() {
+  static get styles() {
     return [
       css`
         .scoresTable {

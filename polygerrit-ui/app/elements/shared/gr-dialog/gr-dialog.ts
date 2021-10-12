@@ -65,7 +65,7 @@ export class GrDialog extends LitElement {
     if (!this.getAttribute('role')) this.setAttribute('role', 'dialog');
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       fontStyles,

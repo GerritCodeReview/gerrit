@@ -45,7 +45,7 @@ export class GrConfirmDeleteItemDialog extends LitElement {
   @property({type: String})
   itemTypeName?: string;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`

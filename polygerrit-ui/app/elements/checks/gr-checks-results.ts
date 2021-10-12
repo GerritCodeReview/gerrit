@@ -103,7 +103,7 @@ class GrResultRow extends LitElement {
     subscribe(this, labels$, x => (this.labels = x));
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`
@@ -540,7 +540,7 @@ class GrResultExpanded extends LitElement {
 
   private changeService = appContext.changeService;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`
@@ -751,7 +751,7 @@ export class GrChecksResults extends LitElement {
     );
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       spinnerStyles,

@@ -36,7 +36,7 @@ export class GrZoomedImage extends LitElement {
 
   @state() protected imageStyles: StyleInfo = {};
 
-  static override styles = css`
+  static styles = css`
     :host {
       display: block;
     }

@@ -33,7 +33,7 @@ export class GrSettingsMenuItem extends LitElement {
   @property({type: String})
   override title = '';
 
-  static override get styles() {
+  static get styles() {
     return [sharedStyles, pageNavStyles];
   }
 

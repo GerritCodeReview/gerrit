@@ -27,7 +27,7 @@ export class GrRangedCommentHint extends LitElement {
   @property({type: Object})
   range?: CommentRange;
 
-  static override get styles() {
+  static get styles() {
     return [
       grRangedCommentTheme,
       sharedStyles,

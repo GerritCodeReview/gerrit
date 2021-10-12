@@ -75,7 +75,7 @@ export class GrHttpPassword extends LitElement {
     return Promise.all(promises);
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       formStyles,

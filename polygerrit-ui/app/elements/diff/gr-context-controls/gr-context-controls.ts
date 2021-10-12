@@ -100,7 +100,7 @@ export class GrContextControls extends LitElement {
 
   private disconnected$ = new Subject();
 
-  static override styles = css`
+  static styles = css`
     :host {
       display: flex;
       justify-content: center;

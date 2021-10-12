@@ -29,7 +29,7 @@ export class GrRangeHeader extends LitElement {
   @property({type: String})
   icon?: string;
 
-  static override get styles() {
+  static get styles() {
     return [
       css`
         .row {

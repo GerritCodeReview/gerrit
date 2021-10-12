@@ -67,7 +67,7 @@ export class GrRepoPluginConfig extends LitElement {
   @property({type: Object})
   pluginData?: PluginData;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       formStyles,

@@ -47,7 +47,7 @@ export class GrRelatedChange extends LitElement {
   @property()
   connectedRevisions?: CommitId[];
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       css`

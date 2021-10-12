@@ -24,7 +24,7 @@ class GrChecksAttempt extends LitElement {
   @property({attribute: false})
   run?: CheckRun;
 
-  static override get styles() {
+  static get styles() {
     return [
       css`
         .attempt {

@@ -95,7 +95,7 @@ export class GrSummaryChip extends LitElement {
 
   private readonly reporting = appContext.reportingService;
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       fontStyles,
@@ -184,7 +184,7 @@ export class GrChecksChip extends LitElement {
   @property()
   links: Link[] = [];
 
-  static override get styles() {
+  static get styles() {
     return [
       fontStyles,
       sharedStyles,
@@ -420,7 +420,7 @@ export class GrChangeSummary extends LitElement {
     subscribe(this, topLevelActionsLatest$, x => (this.actions = x));
   }
 
-  static override get styles() {
+  static get styles() {
     return [
       sharedStyles,
       spinnerStyles,

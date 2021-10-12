@@ -46,7 +46,7 @@ export class GrCopyClipboard extends LitElement {
   @property({type: Boolean})
   hideInput = false;
 
-  static override get styles() {
+  static get styles() {
     return [
       css`
         .text {

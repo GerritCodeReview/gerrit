@@ -54,6 +54,7 @@ public class ProjectWatchInfo {
   }
 
   @Override
+  @SuppressWarnings("OrphanedFormatString")
   public String toString() {
     StringBuilder b = new StringBuilder();
     b.append(project);

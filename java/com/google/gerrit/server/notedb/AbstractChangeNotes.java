@@ -37,8 +37,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /** View of contents at a single ref related to some change. * */
 public abstract class AbstractChangeNotes<T> {
@@ -175,15 +173,12 @@ public abstract class AbstractChangeNotes<T> {
    * @param repo open repository.
    * @return handle for reading the entity.
    * @throws NoSuchChangeException change does not exist.
-   * @throws MissingMetaObjectException specified SHA1 isn't reachable from meta branch.
    * @throws IOException a repo-level error occurred.
    */
   protected LoadHandle openHandle(Repository repo, @Nullable ObjectId id)
-      throws NoSuchChangeException, IOException, MissingMetaObjectException {
+      throws NoSuchChangeException, IOException {
     if (id == null) {
       id = readRef(repo);
-    } else {
-      verifyMetaId(repo, id);
     }
 
     return new LoadHandle(repo, id);
@@ -225,21 +220,5 @@ public abstract class AbstractChangeNotes<T> {
   @SuppressWarnings("unchecked")
   protected final T self() {
     return (T) this;
-  }
-
-  private void verifyMetaId(Repository repo, ObjectId id)
-      throws IOException, MissingMetaObjectException {
-    try (RevWalk rw = new RevWalk(repo)) {
-      Ref ref = repo.getRefDatabase().exactRef(getRefName());
-      RevCommit tip = rw.parseCommit(ref.getObjectId());
-      rw.markStart(tip);
-      for (RevCommit rev : rw) {
-        if (id.equals(rev)) {
-          return;
-        }
-      }
-    }
-
-    throw new MissingMetaObjectException(id.getName() + " not reachable from " + getRefName());
   }
 }

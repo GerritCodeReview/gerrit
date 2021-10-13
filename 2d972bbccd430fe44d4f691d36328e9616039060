@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6d4b8b3e_038f3919",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T09:55:34Z",
+      "side": 1,
+      "message": "I tested this, it\u0027s nice how edit is much faster.\n\nRegression:\nedit change, add file -\u003e File not shown in file list. (it works without this change)\n",
+      "revId": "2d972bbccd430fe44d4f691d36328e9616039060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b3ea5349_c375aaf5",
         "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
         "patchSetId": 1
@@ -68,6 +85,24 @@
       "side": 1,
       "message": "Yeah but none of the events here are fired outside GrChangeView AFAICT.",
       "parentUuid": "5de9bfd1_ea57d8b1",
+      "revId": "2d972bbccd430fe44d4f691d36328e9616039060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b021b5e0_4bde5a18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T09:55:34Z",
+      "side": 1,
+      "message": "With Submit requirements there is a plan this will be in dashboard. I will discuss with Delphine, if we want to be able to delete votes from dashboard. Maybe we don\u0027t need it. \n\nBut thanks for hint. Maybe an information that this needs to be in changeview, or refactoring it so this part of code is in change view, so we do not regress once \u003cgr-label-info\u003e is moved around.",
+      "parentUuid": "06c05b49_f5741b10",
       "revId": "2d972bbccd430fe44d4f691d36328e9616039060",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

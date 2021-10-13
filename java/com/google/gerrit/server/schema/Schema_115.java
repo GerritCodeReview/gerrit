@@ -72,7 +72,10 @@ public class Schema_115 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     Map<Account.Id, DiffPreferencesInfo> imports = new HashMap<>();
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM account_diff_preferences")) {
+        ResultSet rs =
+            stmt.executeQuery(
+                "SELECT * FROM account_diff_preferences JOIN accounts ON "
+                    + "account_diff_preferences.id=accounts.account_id")) {
       Set<String> availableColumns = getColumns(rs);
       while (rs.next()) {
         Account.Id accountId = new Account.Id(rs.getInt("id"));

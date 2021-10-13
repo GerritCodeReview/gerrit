@@ -63,11 +63,12 @@ public class Schema_144 extends SchemaVersion {
         ResultSet rs =
             stmt.executeQuery(
                 "SELECT "
-                    + "account_id, "
+                    + "account_external_ids.account_id, "
                     + "email_address, "
                     + "password, "
                     + "external_id "
-                    + "FROM account_external_ids")) {
+                    + "FROM account_external_ids "
+                    + "JOIN accounts ON account_external_ids.account_id=accounts.account_id")) {
       while (rs.next()) {
         Account.Id accountId = new Account.Id(rs.getInt(1));
         String email = rs.getString(2);

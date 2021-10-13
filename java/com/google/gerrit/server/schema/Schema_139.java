@@ -81,7 +81,7 @@ public class Schema_139 extends SchemaVersion {
         ResultSet rs =
             stmt.executeQuery(
                 "SELECT "
-                    + "account_id, "
+                    + "account_project_watches.account_id, "
                     + "project_name, "
                     + "filter, "
                     + "notify_abandoned_changes, "
@@ -89,7 +89,8 @@ public class Schema_139 extends SchemaVersion {
                     + "notify_new_changes, "
                     + "notify_new_patch_sets, "
                     + "notify_submitted_changes "
-                    + "FROM account_project_watches")) {
+                    + "FROM account_project_watches "
+                    + "JOIN accounts ON account_project_watches.account_id=accounts.account_id")) {
       while (rs.next()) {
         Account.Id accountId = new Account.Id(rs.getInt(1));
         ProjectWatch.Builder b =

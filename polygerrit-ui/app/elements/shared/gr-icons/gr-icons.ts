@@ -162,6 +162,8 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="description"><path xmlns="http://www.w3.org/2000/svg" d="M0 0h24v24H0V0z" fill="none"/><path xmlns="http://www.w3.org/2000/svg" d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></g>
       <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=settings_backup_restore and 0.65 scale and 4 translate https://fonts.google.com/icons?selected=Material+Icons&icon.query=done-->
       <g id="overridden"><path xmlns="http://www.w3.org/2000/svg" d="M0 0h24v24H0V0z" fill="none"/><path xmlns="http://www.w3.org/2000/svg" d="M12 15 zM2 4v6h6V8H5.09C6.47 5.61 9.04 4 12 4c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8H2c0 5.52 4.48 10 10.01 10C17.53 22 22 17.52 22 12S17.53 2 12.01 2C8.73 2 5.83 3.58 4 6.01V4H2z"/><path xmlns="http://www.w3.org/2000/svg" d="M9.85 14.53 7.12 11.8l-.91.91L9.85 16.35 17.65 8.55l-.91-.91L9.85 14.53z"/></g>
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons:event_busy -->
+      <g id="unavailable"><path d="M0 0h24v24H0z" fill="none"/><path d="M9.31 17l2.44-2.44L14.19 17l1.06-1.06-2.44-2.44 2.44-2.44L14.19 10l-2.44 2.44L9.31 10l-1.06 1.06 2.44 2.44-2.44 2.44L9.31 17zM19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></g>
     </defs>
   </svg>
 </iron-iconset-svg>`;

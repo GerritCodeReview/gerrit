@@ -261,7 +261,7 @@ export class GrAccountLabel extends LitElement {
           ${!this.hideStatus && account.status
             ? html`<iron-icon
                 class="status"
-                icon="gr-icons:calendar"
+                icon="gr-icons:unavailable"
               ></iron-icon>`
             : ''}
         </span>

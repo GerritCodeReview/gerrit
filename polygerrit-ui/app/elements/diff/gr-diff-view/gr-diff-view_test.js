@@ -344,6 +344,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, '_loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.spy(element, '_paramsChanged');
+      element._change = undefined;
       getDiffChangeDetailStub.returns(
           Promise.resolve({
             ...createChange(),

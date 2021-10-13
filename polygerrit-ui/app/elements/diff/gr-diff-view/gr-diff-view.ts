@@ -1120,12 +1120,10 @@ export class GrDiffView extends base {
       return;
     }
 
-    this._change = undefined;
     this._files = {sortedFileList: [], changeFilesByPath: {}};
     this._path = undefined;
     this._patchRange = undefined;
     this._commitRange = undefined;
-    this._changeComments = undefined;
     this._focusLineNum = undefined;
 
     if (value.changeNum && value.project) {
@@ -1156,8 +1154,9 @@ export class GrDiffView extends base {
       })
     );
 
-    promises.push(this._getChangeDetail(this._changeNum));
-    this._loadComments(value.patchNum);
+    if (!this._change) promises.push(this._getChangeDetail(this._changeNum));
+
+    if (!this._changeComments) this._loadComments(value.patchNum);
 
     promises.push(this._getChangeEdit());
 

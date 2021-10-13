@@ -34,6 +34,41 @@
       "parentUuid": "073c2253_a6c79cee",
       "revId": "cdf54c40e892ba4d7c93c441ae333644a22187ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75bc4e24_ef558a6a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T21:12:46Z",
+      "side": 1,
+      "message": "Ah thanks for explaining, that makes sense.",
+      "parentUuid": "c8598611_296806e4",
+      "revId": "cdf54c40e892ba4d7c93c441ae333644a22187ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f87ca7e2_ba036992",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T21:12:46Z",
+      "side": 1,
+      "message": "Does this only happen at the very beginning?",
+      "revId": "cdf54c40e892ba4d7c93c441ae333644a22187ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

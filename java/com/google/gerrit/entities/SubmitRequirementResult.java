@@ -64,6 +64,13 @@ public abstract class SubmitRequirementResult {
     }
   }
 
+  /** Returns true if the submit requirement is fulfilled and can allow change submission. */
+  @Memoized
+  public boolean fulfilled() {
+    Status s = status();
+    return s == Status.SATISFIED || s == Status.OVERRIDDEN || s == Status.NOT_APPLICABLE;
+  }
+
   public static Builder builder() {
     return new AutoValue_SubmitRequirementResult.Builder();
   }

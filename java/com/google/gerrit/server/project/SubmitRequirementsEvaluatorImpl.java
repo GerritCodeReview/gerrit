@@ -77,12 +77,17 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   @Override
   public Map<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
       ChangeData cd, boolean includeLegacy) {
-    Map<SubmitRequirement, SubmitRequirementResult> result = getRequirements(cd);
+    Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements = getRequirements(cd);
+    Map<SubmitRequirement, SubmitRequirementResult> result = projectConfigRequirements;
     if (includeLegacy
         && experimentFeatures.isFeatureEnabled(
             ExperimentFeaturesConstants
                 .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)) {
-      result.putAll(SubmitRequirementsAdapter.getLegacyRequirements(legacyEvaluator, cd));
+      Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
+          SubmitRequirementsAdapter.getLegacyRequirements(legacyEvaluator, cd);
+      result =
+          SubmitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
+              projectConfigRequirements, legacyReqs);
     }
     return ImmutableMap.copyOf(result);
   }

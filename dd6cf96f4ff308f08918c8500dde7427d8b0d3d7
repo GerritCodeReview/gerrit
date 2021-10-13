@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0420a34c_01a17edb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T17:32:40Z",
+      "side": 0,
+      "message": "So we no longer call this.loadData with false as first argument?",
+      "revId": "dd6cf96f4ff308f08918c8500dde7427d8b0d3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

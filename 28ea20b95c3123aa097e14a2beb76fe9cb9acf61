@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "247b2c6f_721e0cf3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T17:32:40Z",
+      "side": 1,
+      "message": "Why can we stop differentiating between fireReload(..., true) and fireReload(..., false)?",
+      "revId": "28ea20b95c3123aa097e14a2beb76fe9cb9acf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

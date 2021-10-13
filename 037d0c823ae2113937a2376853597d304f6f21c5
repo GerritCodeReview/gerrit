@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5b1016a_0b6322a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T10:48:47Z",
+      "side": 1,
+      "message": "Sorry, I am trying to finish it asap to be tested. There can be changes in code, so I plan to test it once I finish main code.",
+      "parentUuid": "d34747b2_c918cf45",
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a42494d2_7e5d0c5a",
@@ -58,6 +76,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4240019d_56e338b7",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T10:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6b67df_808c12ba",
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94cfd374_9358477d",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T10:48:47Z",
+      "side": 1,
+      "message": "It shouldn\u0027t be possible, but typescript wants return for all paths.",
+      "parentUuid": "a42494d2_7e5d0c5a",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 11
+      },
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ee2eb4e_b9f42a10",
@@ -71,6 +131,30 @@
       "writtenOn": "2021-10-12T10:19:56Z",
       "side": 1,
       "message": "if it\u0027s not detailedlabelinfo then is it always quicklabelinfo? Then we could remove \"| undefined\" from votes type.",
+      "range": {
+        "startLine": 382,
+        "startChar": 0,
+        "endLine": 382,
+        "endChar": 50
+      },
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78508c2c_4b158ae1",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T10:48:47Z",
+      "side": 1,
+      "message": "Until there is new type of labelInfo. I don\u0027t know if you can tell typescript that you are enlisting all types of concat type.",
+      "parentUuid": "1ee2eb4e_b9f42a10",
       "range": {
         "startLine": 382,
         "startChar": 0,
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5c34a0c_2c12bc45",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T10:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0a7ecb7_fbf85a06",
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04fdd579_b9c0127f",
@@ -111,6 +213,30 @@
       "writtenOn": "2021-10-12T10:19:56Z",
       "side": 1,
       "message": "if label must be detailed or quick then these types do not need undefined?",
+      "range": {
+        "startLine": 119,
+        "startChar": 28,
+        "endLine": 120,
+        "endChar": 39
+      },
+      "revId": "037d0c823ae2113937a2376853597d304f6f21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10bb89d2_8527865b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T10:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04fdd579_b9c0127f",
       "range": {
         "startLine": 119,
         "startChar": 28,

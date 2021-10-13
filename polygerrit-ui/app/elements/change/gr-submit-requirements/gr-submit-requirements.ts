@@ -30,8 +30,10 @@ import {unique} from '../../../utils/common-util';
 import {
   extractAssociatedLabels,
   getAllUniqueApprovals,
+  getLabelStatus,
   hasVotes,
   iconForStatus,
+  LabelStatus,
 } from '../../../utils/label-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {charsOnly, pluralize} from '../../../utils/string-util';
@@ -226,7 +228,10 @@ export class GrSubmitRequirements extends LitElement {
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {
     const labelInfo = labels[label];
     if (!isDetailedLabelInfo(labelInfo)) return;
-    const uniqueApprovals = getAllUniqueApprovals(labelInfo);
+    const uniqueApprovals = getAllUniqueApprovals(labelInfo).filter(
+      approvalInfo =>
+        getLabelStatus(labelInfo, approvalInfo.value) !== LabelStatus.NEUTRAL
+    );
     return uniqueApprovals.map(
       approvalInfo =>
         html`<gr-vote-chip
@@ -364,7 +369,11 @@ export class GrTriggerVote extends LitElement {
   }
 
   override render() {
-    const uniqueApprovals = getAllUniqueApprovals(this.labelInfo);
+    const uniqueApprovals = getAllUniqueApprovals(this.labelInfo).filter(
+      approvalInfo =>
+        getLabelStatus(this.labelInfo, approvalInfo.value) !==
+        LabelStatus.NEUTRAL
+    );
     return html`
       <div class="container">
         <span class="label">${this.label}</span>

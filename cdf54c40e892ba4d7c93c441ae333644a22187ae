@@ -16,6 +16,24 @@
       "message": "Do we need to check whether this._change and this._changeNum match in case this._change is present?",
       "revId": "cdf54c40e892ba4d7c93c441ae333644a22187ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8598611_296806e4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-13T20:57:00Z",
+      "side": 1,
+      "message": "If changeNum changes then the view is guaranteed to be recreated so this case should not be possible I think.\n\nCan you think of a flow where this happens?",
+      "parentUuid": "073c2253_a6c79cee",
+      "revId": "cdf54c40e892ba4d7c93c441ae333644a22187ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -4539,6 +4539,129 @@ public class ChangeIT extends AbstractDaemonTest {
       value =
           ExperimentFeaturesConstants
               .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
+  public void
+      submitRequirements_returnOneEntryForMatchingLegacyAndNonLegacyResultsWithTheSameName_ifLegacySubmitRecordsAreEnabled()
+          throws Exception {
+    // Configure a legacy submit requirement: label with a max with block function
+    configLabel("build-cop-override", LabelFunction.MAX_WITH_BLOCK);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel("build-cop-override")
+                .ref("refs/heads/master")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    // Configure a submit requirement with the same name.
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("build-cop-override")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create(
+                    "label:build-cop-override=MAX -label:build-cop-override=MIN"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    // Create a change. Vote to fulfill all requirements.
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    voteLabel(changeId, "build-cop-override", 1);
+    voteLabel(changeId, "Code-Review", 2);
+
+    // Project has two legacy requirements: Code-Review and bco, and a non-legacy requirement: bco.
+    // Only non-legacy bco is returned.
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+    assertSubmitRequirementStatus(
+        change.submitRequirements,
+        "build-cop-override",
+        Status.SATISFIED,
+        /* isLegacy= */ false,
+        /* submittabilityCondition= */ "label:build-cop-override=MAX -label:build-cop-override=MIN");
+
+    // Merge the change. Submit requirements are still the same.
+    gApi.changes().id(changeId).current().submit();
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+    assertSubmitRequirementStatus(
+        change.submitRequirements,
+        "build-cop-override",
+        Status.SATISFIED,
+        /* isLegacy= */ false,
+        /* submittabilityCondition= */ "label:build-cop-override=MAX -label:build-cop-override=MIN");
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
+  public void
+      submitRequirements_returnTwoEntriesForMismatchingLegacyAndNonLegacyResultsWithTheSameName_ifLegacySubmitRecordsAreEnabled()
+          throws Exception {
+    // Configure a legacy submit requirement: label with a max with block function
+    configLabel("build-cop-override", LabelFunction.MAX_WITH_BLOCK);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel("build-cop-override")
+                .ref("refs/heads/master")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    // Configure a submit requirement with the same name.
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("build-cop-override")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:build-cop-override=MIN"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    // Create a change
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    voteLabel(changeId, "build-cop-override", 1);
+    voteLabel(changeId, "Code-Review", 2);
+
+    // Project has two legacy requirements: Code-Review and bco, and a non-legacy requirement: bco.
+    // Two instances of bco will be returned since their status is not matching.
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(3);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+    assertSubmitRequirementStatus(
+        change.submitRequirements,
+        "build-cop-override",
+        Status.SATISFIED,
+        /* isLegacy= */ true,
+        // MAX_WITH_BLOCK function was translated to a submittability expression.
+        /* submittabilityCondition= */ "label:build-cop-override=MAX -label:build-cop-override=MIN");
+    assertSubmitRequirementStatus(
+        change.submitRequirements,
+        "build-cop-override",
+        Status.UNSATISFIED,
+        /* isLegacy= */ false,
+        /* submittabilityCondition= */ "label:build-cop-override=MIN");
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirements_returnForLegacySubmitRecords_ifEnabled() throws Exception {
     configLabel("build-cop-override", LabelFunction.MAX_WITH_BLOCK);
     projectOperations
@@ -5191,6 +5314,30 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
     gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
+  }
+
+  private void assertSubmitRequirementStatus(
+      Collection<SubmitRequirementResultInfo> results,
+      String requirementName,
+      SubmitRequirementResultInfo.Status status,
+      boolean isLegacy,
+      String submittabilityCondition) {
+    for (SubmitRequirementResultInfo result : results) {
+      if (result.name.equals(requirementName)
+          && result.status == status
+          && result.isLegacy == isLegacy
+          && result.submittabilityExpressionResult.expression.equals(submittabilityCondition)) {
+        return;
+      }
+    }
+    throw new AssertionError(
+        String.format(
+            "Could not find submit requirement %s with status %s (results = %s)",
+            requirementName,
+            status,
+            results.stream()
+                .map(r -> String.format("%s=%s", r.name, r.status))
+                .collect(toImmutableList())));
   }
 
   private void assertSubmitRequirementStatus(

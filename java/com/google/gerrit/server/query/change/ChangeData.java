@@ -91,6 +91,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRequirementsAdapter;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
+import com.google.gerrit.server.project.SubmitRequirementsUtil;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -969,16 +970,11 @@ public class ChangeData {
         submitRequirements = projectConfigRequirements;
         return submitRequirements;
       }
-      // Get legacy submit requirements, i.e. those created from submit records.
       Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements =
           SubmitRequirementsAdapter.getLegacyRequirements(submitRuleEvaluatorFactory, this);
-      // Combine projectConfigRequirements with legacyRequirements
       submitRequirements =
-          Stream.of(projectConfigRequirements, legacyRequirements)
-              .flatMap(map -> map.entrySet().stream())
-              .collect(
-                  ImmutableMap.toImmutableMap(
-                      Map.Entry::getKey, Map.Entry::getValue, (value1, value2) -> value1));
+          SubmitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
+              projectConfigRequirements, legacyRequirements);
     }
     return submitRequirements;
   }

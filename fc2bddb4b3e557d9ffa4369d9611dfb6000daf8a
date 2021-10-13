@@ -39,6 +39,30 @@
       },
       "revId": "fc2bddb4b3e557d9ffa4369d9611dfb6000daf8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41823dd6_df3e1a55",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T17:08:47Z",
+      "side": 1,
+      "message": "Whoops, nice catch.",
+      "parentUuid": "033bc83d_c3eacd20",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 179,
+        "endChar": 43
+      },
+      "revId": "fc2bddb4b3e557d9ffa4369d9611dfb6000daf8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

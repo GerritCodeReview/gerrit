@@ -289,6 +289,35 @@ public class StarredChangesUtil {
     }
   }
 
+  public ImmutableSet<Change.Id> byAccountId(Account.Id accountId, String label) {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      ImmutableSet.Builder<Change.Id> builder = ImmutableSet.builder();
+      for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_STARRED_CHANGES)) {
+        Account.Id currentAccountId = Account.Id.fromRef(ref.getName());
+        // Skip all refs that don't correspond with accountId.
+        if (currentAccountId == null || !currentAccountId.equals(accountId)) {
+          continue;
+        }
+        // Skip all refs that don't contain the required label.
+        StarRef starRef = readLabels(repo, ref.getName());
+        if (!starRef.labels().contains(label)) {
+          continue;
+        }
+
+        // Skip invalid change ids.
+        Change.Id changeId = Change.Id.fromAllUsersRef(ref.getName());
+        if (changeId == null) {
+          continue;
+        }
+        builder.add(changeId);
+      }
+      return builder.build();
+    } catch (IOException e) {
+      throw new StorageException(
+          String.format("Get starred changes for account %d failed", accountId.get()), e);
+    }
+  }
+
   public ImmutableListMultimap<Account.Id, String> byChangeFromIndex(Change.Id changeId) {
     List<ChangeData> changeData =
         queryProvider

@@ -1087,11 +1087,21 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> ignoredBySelf() throws QueryParseException {
-    return new StarPredicate(self(), StarredChangesUtil.IGNORE_LABEL);
+    return ChangePredicates.starBy(
+        args.experimentFeatures.isFeatureEnabled(
+            GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY),
+        args.starredChangesUtil,
+        self(),
+        StarredChangesUtil.IGNORE_LABEL);
   }
 
   private Predicate<ChangeData> starredBySelf() throws QueryParseException {
-    return new StarPredicate(self(), StarredChangesUtil.DEFAULT_LABEL);
+    return ChangePredicates.starBy(
+        args.experimentFeatures.isFeatureEnabled(
+            GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY),
+        args.starredChangesUtil,
+        self(),
+        StarredChangesUtil.DEFAULT_LABEL);
   }
 
   private Predicate<ChangeData> draftBySelf() throws QueryParseException {

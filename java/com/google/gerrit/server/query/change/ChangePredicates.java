@@ -24,6 +24,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.ArrayList;
@@ -90,6 +91,24 @@ public class ChangePredicates {
             .map(ChangePredicates::idStr)
             .collect(toImmutableSet());
     return Predicate.or(changeIdPredicates);
+  }
+
+  /**
+   * Returns a predicate that matches changes where the provided {@link
+   * com.google.gerrit.entities.Account.Id} has starred changes with {@code label}.
+   */
+  public static Predicate<ChangeData> starBy(
+      boolean computeFromAllUsersRepository,
+      StarredChangesUtil starredChangesUtil,
+      Account.Id id,
+      String label) {
+    if (!computeFromAllUsersRepository) {
+      return new StarPredicate(id, label);
+    }
+    return Predicate.or(
+        starredChangesUtil.byAccountId(id, label).stream()
+            .map(ChangePredicates::idStr)
+            .collect(toImmutableSet()));
   }
 
   /**

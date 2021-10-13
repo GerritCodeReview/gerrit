@@ -98,6 +98,24 @@
       "parentUuid": "5419bc3d_dffab0f5",
       "revId": "f94797976beeb75976fc1b8010c8774629c7fb59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77edb71f_a4ac50ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-13T12:33:11Z",
+      "side": 1,
+      "message": "eh, nevermind, those tests are mostly useful for this case.",
+      "parentUuid": "e7d01fc9_ff62058f",
+      "revId": "f94797976beeb75976fc1b8010c8774629c7fb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "cfc1d1caeaa7410ffe65bc05bf55d6483fd24a29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00aa9854_c508ac83",
+        "filename": "rules.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-13T08:13:05Z",
+      "side": 1,
+      "message": "My bad. Done.",
+      "parentUuid": "ba07a680_323d6f25",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 25,
+        "endChar": 9
+      },
+      "revId": "cfc1d1caeaa7410ffe65bc05bf55d6483fd24a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -41,6 +41,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "facda7c2_4e810e03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-13T12:57:44Z",
+      "side": 1,
+      "message": "I\u0027ll write another iteration and we\u0027ll see if a f2f is needed",
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdd6a81c_683410c7",
@@ -66,6 +83,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b185c51b_cef5b83d",
+        "filename": "java/com/google/gerrit/server/change/GetRelatedChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-13T12:57:44Z",
+      "side": 1,
+      "message": "the default is to include all patch-sets, I\u0027m actually trying to optimize and not bother to look into all the patch-sets. WDYT?",
+      "parentUuid": "cdd6a81c_683410c7",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 33
+      },
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "119c3cdd_21908575",
         "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
         "patchSetId": 3
@@ -77,6 +118,30 @@
       "writtenOn": "2021-10-13T12:32:46Z",
       "side": 1,
       "message": "I think this isn\u0027t the right way to plug the new logic in. See my other comment.\n\nFor your graph endpoint, why do you need the RelatedChangesSorter anyway? Since you are returning a graph (list of nodes with parent pointers), the order of nodes you return doesn\u0027t really matter or did I miss something?",
+      "range": {
+        "startLine": 80,
+        "startChar": 5,
+        "endLine": 80,
+        "endChar": 34
+      },
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f6160df_cb2c56fc",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-13T12:57:44Z",
+      "side": 1,
+      "message": "ha yes, there is one thing you are not aware of:\nThe group id predicate is totally buggy, so the only reason the \"Related changes\" endpoint works is because of this \"sort method\". There is no point to even fix this bug since for past changes it will still be buggy, and we\u0027re definitely not going to do a migration here.\n\nI think the way to go would be to merge the RelatedChangesSorter instead of GetRelatedChangesUtil to make it clear it\u0027s mandatory, t",
+      "parentUuid": "119c3cdd_21908575",
       "range": {
         "startLine": 80,
         "startChar": 5,

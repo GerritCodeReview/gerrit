@@ -52,6 +52,24 @@
       "parentUuid": "ba2097e4_e7c6ae40",
       "revId": "1319cf3442e3f8d05982ad23eeb49a4125e3c035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83af15c9_f7eafbb6",
+        "filename": "polygerrit-ui/app/api/rest.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-13T14:50:57Z",
+      "side": 1,
+      "message": "I don\u0027t see an issue keeping this since it just reflects the REST API anyway, but we should see what Ben\u0027s objections were.\n\nIt looks like at HEAD that you are now getting the capabilities directly via URL so I assume it is not an urgent blocker. https://gerrit.googlesource.com/plugins/serviceuser/+/refs/heads/master/src/main/resources/static/gr-serviceuser.html#29",
+      "parentUuid": "e2000631_bc27397a",
+      "revId": "1319cf3442e3f8d05982ad23eeb49a4125e3c035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

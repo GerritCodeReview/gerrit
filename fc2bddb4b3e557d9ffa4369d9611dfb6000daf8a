@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "033bc83d_c3eacd20",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-13T08:59:35Z",
+      "side": 1,
+      "message": "should this also be changed?\n\nwhere is \"item\" coming from?",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 179,
+        "endChar": 43
+      },
+      "revId": "fc2bddb4b3e557d9ffa4369d9611dfb6000daf8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

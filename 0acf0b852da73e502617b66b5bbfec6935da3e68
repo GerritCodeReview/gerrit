@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "199d3a04_f59ade38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-13T09:23:23Z",
+      "side": 1,
+      "message": "Adding Gal, as Joerg might be OOO.",
+      "revId": "0acf0b852da73e502617b66b5bbfec6935da3e68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

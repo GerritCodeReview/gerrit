@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63141914_63c6fcf3",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-13T17:31:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "95da3bcd_a8374a37",
+      "range": {
+        "startLine": 144,
+        "startChar": 26,
+        "endLine": 144,
+        "endChar": 30
+      },
+      "revId": "cd71340ae037a22fc4dd5c1185b8bb2c31941c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0152d10e_c8d78602",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8375676_c18da81b",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsIncludedInRefs.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-13T17:31:22Z",
+      "side": 1,
+      "message": "Set is not supported by @Option, getting below exception. Converted it to a method instead which works fine. Done.\n\norg.kohsuke.args4j.IllegalAnnotationError: No OptionHandler is registered to handle interface java.util.Set",
+      "parentUuid": "0152d10e_c8d78602",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 16
+      },
+      "revId": "cd71340ae037a22fc4dd5c1185b8bb2c31941c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75f9843e_68689861",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-10-13T16:37:18Z",
       "side": 1,
       "message": "Set",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 16
+      },
+      "revId": "cd71340ae037a22fc4dd5c1185b8bb2c31941c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "453f93e0_2a7a57b5",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsIncludedInRefs.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-13T17:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75f9843e_68689861",
       "range": {
         "startLine": 52,
         "startChar": 12,

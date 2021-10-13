@@ -47,6 +47,78 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c765a4d8_f68e81b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc776392_2630fc6e",
+      "range": {
+        "startLine": 204,
+        "startChar": 34,
+        "endLine": 204,
+        "endChar": 55
+      },
+      "revId": "77514e016f6e6bc661034705a346f18e798b618a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b44573e_b48609c9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:00:56Z",
+      "side": 1,
+      "message": "I think the question mark determines whether or not we add an attribute, this is directly assigning to the property to avoid having to go through attributes.",
+      "parentUuid": "08eadc14_2993daff",
+      "range": {
+        "startLine": 204,
+        "startChar": 14,
+        "endLine": 204,
+        "endChar": 33
+      },
+      "revId": "77514e016f6e6bc661034705a346f18e798b618a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d47c83fb_91acff64",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc776392_2630fc6e",
+      "range": {
+        "startLine": 204,
+        "startChar": 34,
+        "endLine": 204,
+        "endChar": 55
+      },
+      "revId": "77514e016f6e6bc661034705a346f18e798b618a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4693af50_86e50f18",
@@ -60,6 +132,30 @@
       "writtenOn": "2021-10-13T11:18:02Z",
       "side": 1,
       "message": "Would this be a better pattern?\n\n```\nprivate computePronoun() { ... }\n\ntestOnlyComputePronoun() { return this.computePronoun(); }\n```",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 30
+      },
+      "revId": "77514e016f6e6bc661034705a346f18e798b618a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d42c985_9e363f1f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:00:56Z",
+      "side": 1,
+      "message": "That\u0027s an interesting idea. Maybe something to bring up for our style-guide. I haven\u0027t seen that pattern much so I\u0027d like to avoid adding extra lines for now.",
+      "parentUuid": "4693af50_86e50f18",
       "range": {
         "startLine": 305,
         "startChar": 0,
@@ -93,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a8e6d48_1289bfbd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d686a8db_890df227",
+      "range": {
+        "startLine": 349,
+        "startChar": 2,
+        "endLine": 349,
+        "endChar": 33
+      },
+      "revId": "77514e016f6e6bc661034705a346f18e798b618a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e93c3807_9b1ca389",
@@ -116,6 +236,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b6539f3_633a46fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e93c3807_9b1ca389",
+      "range": {
+        "startLine": 400,
+        "startChar": 3,
+        "endLine": 400,
+        "endChar": 61
+      },
+      "revId": "77514e016f6e6bc661034705a346f18e798b618a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11f4d116_c7a9c35b",
@@ -129,6 +273,30 @@
       "writtenOn": "2021-10-13T11:18:02Z",
       "side": 1,
       "message": "are the remaining flush calls not supposed to be element.updateComplete?",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 18
+      },
+      "revId": "77514e016f6e6bc661034705a346f18e798b618a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cabc9115_7e17af55",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:00:56Z",
+      "side": 1,
+      "message": "Most but not all.  I think for when we resolve the api call, we might want to await flush because there are promises involved. Not sure how those work behind the scenes.\n\nI\u0027m not clear on the tap-handlers.",
+      "parentUuid": "11f4d116_c7a9c35b",
       "range": {
         "startLine": 100,
         "startChar": 0,

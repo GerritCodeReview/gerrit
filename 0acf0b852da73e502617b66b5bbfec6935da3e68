@@ -51,6 +51,24 @@
       "message": "Since this replacement already occurred, doesn\u0027t it mean than now you will get both of these?\n1. \"Gerrit Account\"\n2. this change\u0027s replacement (just not specifying anything).\n\n+2 if this is fine.\n",
       "revId": "0acf0b852da73e502617b66b5bbfec6935da3e68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21ee5087_0eb59a03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-13T12:34:21Z",
+      "side": 1,
+      "message": "The re-write only was run on gerrit-review, so there we will have \u0027Gerrit Account\u0027.\nThis change replacements will be applied for all remaining hosts. \u0027Gerrit Account\u0027 will not be replaced with the new defaults (e.g. if we were to run the rewriter second time).\n\nI think this is desirable outcome.",
+      "parentUuid": "a26c3fee_b205f3b9",
+      "revId": "0acf0b852da73e502617b66b5bbfec6935da3e68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

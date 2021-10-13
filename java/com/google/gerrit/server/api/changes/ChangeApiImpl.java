@@ -509,12 +509,15 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public ChangeInfo get(
-      EnumSet<ListChangesOption> options, ImmutableListMultimap<String, String> pluginOptions)
+      EnumSet<ListChangesOption> options,
+      ImmutableListMultimap<String, String> pluginOptions,
+      @Nullable String metaRevId)
       throws RestApiException {
     try (DynamicOptions dynamicOptions = new DynamicOptions(injector, dynamicBeans)) {
       GetChange getChange = getChangeProvider.get();
       options.forEach(getChange::addOption);
       dynamicOptionParser.parseDynamicOptions(getChange, pluginOptions, dynamicOptions);
+      getChange.setMetaRevId(metaRevId);
       return getChange.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve change", e);

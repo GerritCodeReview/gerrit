@@ -229,16 +229,23 @@ public interface ChangeApi {
   List<ReviewerInfo> reviewers() throws RestApiException;
 
   ChangeInfo get(
-      EnumSet<ListChangesOption> options, ImmutableListMultimap<String, String> pluginOptions)
+      EnumSet<ListChangesOption> options,
+      ImmutableListMultimap<String, String> pluginOptions,
+      @Nullable String metaVerId)
       throws RestApiException;
 
   default ChangeInfo get(ImmutableListMultimap<String, String> pluginOptions)
       throws RestApiException {
-    return get(EnumSet.noneOf(ListChangesOption.class), pluginOptions);
+    return get(EnumSet.noneOf(ListChangesOption.class), pluginOptions, null);
+  }
+
+  default ChangeInfo get(EnumSet<ListChangesOption> options, @Nullable String metaVerId)
+      throws RestApiException {
+    return get(options, ImmutableListMultimap.of(), metaVerId);
   }
 
   default ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException {
-    return get(options, ImmutableListMultimap.of());
+    return get(options, ImmutableListMultimap.of(), null);
   }
 
   default ChangeInfo get(Iterable<ListChangesOption> options) throws RestApiException {
@@ -664,7 +671,9 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo get(
-        EnumSet<ListChangesOption> options, ImmutableListMultimap<String, String> pluginOptions)
+        EnumSet<ListChangesOption> options,
+        ImmutableListMultimap<String, String> pluginOptions,
+        @Nullable String metaRefId)
         throws RestApiException {
       throw new NotImplementedException();
     }

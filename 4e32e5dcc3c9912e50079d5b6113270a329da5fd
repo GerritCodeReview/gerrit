@@ -190,6 +190,30 @@
       },
       "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f960ef61_1e7449e6",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-13T16:46:53Z",
+      "side": 1,
+      "message": "\u003e But I agree with you that we need that structure to be adapted on master *before* the merge up, so that the check happens closer to the REST-API and we do not risk to forget to validate the SHA1 in input.\n\nDo you have a change for master ready that does this?",
+      "parentUuid": "402e3842_fe9fc1c9",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 61
+      },
+      "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

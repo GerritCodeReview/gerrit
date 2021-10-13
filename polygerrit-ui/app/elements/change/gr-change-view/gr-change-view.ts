@@ -695,10 +695,7 @@ export class GrChangeView extends base {
       this._setActivePrimaryTab(e)
     );
     this.addEventListener('reload', e => {
-      this.loadData(
-        /* isLocationChange= */ false,
-        /* clearPatchset= */ e.detail && e.detail.clearPatchset
-      );
+      this._handleReload(e);
     });
   }
 
@@ -741,6 +738,12 @@ export class GrChangeView extends base {
           this.set('viewState.diffMode', 'SIDE_BY_SIDE');
         }
       });
+  }
+
+  _handleReload(e: CustomEvent) {
+    e.stopPropagation();
+    if (!this._change) return;
+    GerritNav.navigateToChange(this._change);
   }
 
   _onOpenFixPreview(e: OpenFixPreviewEvent) {
@@ -1668,7 +1671,7 @@ export class GrChangeView extends base {
       return;
     }
     e.preventDefault();
-    fireReload(this, true);
+    fireReload(this);
   }
 
   _handleToggleChangeStar(e: IronKeyboardEvent) {
@@ -1824,7 +1827,7 @@ export class GrChangeView extends base {
       changeIsOpen(change)
     ) {
       fireAlert(this, 'Change edit not found. Please create a change edit.');
-      fireReload(this, true);
+      fireReload(this);
       return;
     }
 
@@ -1837,7 +1840,7 @@ export class GrChangeView extends base {
         this,
         'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
       );
-      fireReload(this, true);
+      fireReload(this);
       return;
     }
 
@@ -2106,18 +2109,12 @@ export class GrChangeView extends base {
    *
    * @param isLocationChange Reloads the related changes
    * when true and ends reporting events that started on location change.
-   * @param clearPatchset Reloads the related changes
-   * ignoring any patchset choice made.
    * @return A promise that resolves when the core data has loaded.
    * Some non-core data loading may still be in-flight when the core data
    * promise resolves.
    */
-  loadData(isLocationChange?: boolean, clearPatchset?: boolean): Promise<void> {
+  loadData(isLocationChange?: boolean): Promise<void> {
     if (this.isChangeObsolete()) return Promise.resolve();
-    if (clearPatchset && this._change) {
-      GerritNav.navigateToChange(this._change);
-      return Promise.resolve();
-    }
     this._loading = true;
     this.reporting.time(Timing.CHANGE_RELOAD);
     this.reporting.time(Timing.CHANGE_DATA);
@@ -2414,7 +2411,7 @@ export class GrChangeView extends base {
               dismissOnNavigation: true,
               showDismiss: true,
               action: 'Reload',
-              callback: () => fireReload(this, true),
+              callback: () => fireReload(this),
             },
             composed: true,
             bubbles: true,

@@ -1226,7 +1226,7 @@ suite('gr-change-view tests', () => {
     };
     element._change = change;
     flush();
-    const reloadStub = sinon.stub(element, 'loadData');
+    const reloadStub = sinon.stub(element, '_handleReload');
     element.splice('_change.labels.test.all', 0, 1);
     assert.isFalse(reloadStub.called);
     change.labels.test.all.push(vote);

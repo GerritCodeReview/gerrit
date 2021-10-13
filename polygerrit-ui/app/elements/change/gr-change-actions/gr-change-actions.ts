@@ -1645,7 +1645,7 @@ export class GrChangeActions
         case ChangeActions.REBASE_EDIT:
         case ChangeActions.REBASE:
         case ChangeActions.SUBMIT:
-          fireReload(this, true);
+          fireReload(this);
           break;
         case ChangeActions.REVERT_SUBMISSION: {
           const revertSubmistionInfo = obj as unknown as RevertSubmissionInfo;
@@ -1662,7 +1662,7 @@ export class GrChangeActions
           break;
         }
         default:
-          fireReload(this, true);
+          fireReload(this);
           break;
       }
     });
@@ -1735,7 +1735,7 @@ export class GrChangeActions
                 'Cannot set label: a newer patch has been ' +
                 'uploaded to this change.',
               action: 'Reload',
-              callback: () => fireReload(this, true),
+              callback: () => fireReload(this),
             },
             composed: true,
             bubbles: true,

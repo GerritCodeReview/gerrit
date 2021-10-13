@@ -1290,7 +1290,7 @@ export class GrReplyDialog extends base {
   }
 
   _reload() {
-    fireReload(this, true);
+    fireReload(this);
     this.cancel();
   }
 

@@ -119,8 +119,8 @@ export function fireCloseFixPreview(target: EventTarget, fixApplied: boolean) {
   fire(target, EventType.CLOSE_FIX_PREVIEW, {fixApplied});
 }
 
-export function fireReload(target: EventTarget, clearPatchset?: boolean) {
-  fire(target, EventType.RELOAD, {clearPatchset: !!clearPatchset});
+export function fireReload(target: EventTarget) {
+  fireEvent(target, EventType.RELOAD);
 }
 
 export function waitForEventOnce<K extends keyof HTMLElementEventMap>(

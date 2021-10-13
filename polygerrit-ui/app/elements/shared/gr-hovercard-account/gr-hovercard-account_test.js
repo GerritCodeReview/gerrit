@@ -57,33 +57,21 @@ suite('gr-hovercard-account tests', () => {
         'Kermit The Frog');
   });
 
-  test('_computeLastUpdate', () => {
-    const last_update = '2019-07-17 19:39:02.000000000';
-    const change = {
-      attention_set: {
-        31415926535: {
-          last_update,
-        },
-      },
-    };
-    assert.equal(element._computeLastUpdate(change), last_update);
-  });
-
-  test('_computeText', () => {
-    let account = {_account_id: '1'};
-    const selfAccount = {_account_id: '1'};
-    assert.equal(element._computeText(account, selfAccount), 'Your');
-    account = {_account_id: '2'};
-    assert.equal(element._computeText(account, selfAccount), 'Their');
+  test('computePronoun', () => {
+    element.account = {_account_id: '1'};
+    element._selfAccount = {_account_id: '1'};
+    assert.equal(element.computePronoun(), 'Your');
+    element.account = {_account_id: '2'};
+    assert.equal(element.computePronoun(), 'Their');
   });
 
   test('account status is not shown if the property is not set', () => {
     assert.isNull(element.shadowRoot.querySelector('.status'));
   });
 
-  test('account status is displayed', () => {
+  test('account status is displayed', async () => {
     element.account = {status: 'OOO', ...ACCOUNT};
-    flush();
+    await element.updateComplete;
     assert.equal(element.shadowRoot.querySelector('.status .value').innerText,
         'OOO');
   });
@@ -92,9 +80,9 @@ suite('gr-hovercard-account tests', () => {
     assert.isNull(element.shadowRoot.querySelector('.voteable'));
   });
 
-  test('voteable div is displayed', () => {
+  test('voteable div is displayed', async () => {
     element.voteableText = 'CodeReview: +2';
-    flush();
+    await element.updateComplete;
     assert.equal(element.shadowRoot.querySelector('.voteable .value').innerText,
         element.voteableText);
   });
@@ -200,7 +188,7 @@ suite('gr-hovercard-account tests', () => {
     const apiSpy = stubRestApi('addToAttentionSet').returns(apiPromise);
     element.highlightAttention = true;
     element._target = document.createElement('div');
-    flush();
+    await element.updateComplete;
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
     const updatedListener = sinon.spy();
@@ -246,7 +234,7 @@ suite('gr-hovercard-account tests', () => {
       owner: {...ACCOUNT},
     };
     element._target = document.createElement('div');
-    flush();
+    await element.updateComplete;
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
     const updatedListener = sinon.spy();

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c099280_00d7719d",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-13T16:05:19Z",
+      "side": 1,
+      "message": "\"commits are\"?",
+      "range": {
+        "startLine": 42,
+        "startChar": 49,
+        "endLine": 42,
+        "endChar": 61
+      },
+      "revId": "7a70fde7e7e40731cc70be1cff72659472ce5b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b23f73c_a1910d3e",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-13T16:05:19Z",
+      "side": 1,
+      "message": "Why is this a List if the input is a Set? Would callers expect ordering to be maintained (both should be List)? Or do we want to enforce de-duplication of inputs (both should be Set)? My personal preference would be Sets unless there\u0027s a use case for ordering.",
+      "range": {
+        "startLine": 57,
+        "startChar": 49,
+        "endLine": 57,
+        "endChar": 53
+      },
+      "revId": "7a70fde7e7e40731cc70be1cff72659472ce5b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

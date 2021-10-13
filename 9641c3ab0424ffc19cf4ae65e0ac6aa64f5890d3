@@ -16,6 +16,29 @@
       "message": "Is there a tracking bug for this change? I am missing context",
       "revId": "9641c3ab0424ffc19cf4ae65e0ac6aa64f5890d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76b3c1ca_3edbe751",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T19:51:52Z",
+      "side": 1,
+      "message": "`\u003e\u003e` looks like broken html",
+      "range": {
+        "startLine": 164,
+        "startChar": 25,
+        "endLine": 164,
+        "endChar": 27
+      },
+      "revId": "9641c3ab0424ffc19cf4ae65e0ac6aa64f5890d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

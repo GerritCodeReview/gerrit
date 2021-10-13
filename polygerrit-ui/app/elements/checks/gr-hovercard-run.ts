@@ -14,14 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import './gr-checks-styles';
-import '../../styles/gr-font-styles';
-import '../../styles/gr-hovercard-styles';
-import '../../styles/shared-styles';
-import {HovercardBehaviorMixin} from '../shared/gr-hovercard/gr-hovercard-behavior';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-hovercard-run_html';
-import {customElement, property} from '@polymer/decorators';
+import {fontStyles} from '../../styles/gr-font-styles';
+import {customElement, property} from 'lit/decorators';
 import './gr-checks-action';
 import {CheckRun} from '../../services/checks/checks-model';
 import {
@@ -33,98 +27,338 @@ import {
 import {durationString, fromNow} from '../../utils/date-util';
 import {RunStatus} from '../../api/checks';
 import {ordinal} from '../../utils/string-util';
+import {HovercardMixin} from '../../mixins/hovercard-mixin/hovercard-mixin';
+import {css, html, LitElement} from 'lit';
+import {checksStyles} from './gr-checks-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = HovercardBehaviorMixin(PolymerElement);
+const base = HovercardMixin(LitElement);
 
 @customElement('gr-hovercard-run')
 export class GrHovercardRun extends base {
-  static get template() {
-    return htmlTemplate;
-  }
-
   @property({type: Object})
   run?: CheckRun;
 
-  computeIcon(run?: CheckRun) {
-    if (!run) return '';
-    const category = worstCategory(run);
+  static override get styles() {
+    return [
+      fontStyles,
+      checksStyles,
+      base.styles || [],
+      css`
+        #container {
+          min-width: 356px;
+          max-width: 356px;
+          padding: var(--spacing-xl) 0 var(--spacing-m) 0;
+        }
+        .row {
+          display: flex;
+          margin-top: var(--spacing-s);
+        }
+        .attempts.row {
+          flex-wrap: wrap;
+        }
+        .chipRow {
+          display: flex;
+          margin-top: var(--spacing-s);
+        }
+        .chip {
+          background: var(--gray-background);
+          color: var(--gray-foreground);
+          border-radius: 20px;
+          padding: var(--spacing-xs) var(--spacing-m) var(--spacing-xs)
+            var(--spacing-s);
+        }
+        .title {
+          color: var(--deemphasized-text-color);
+          margin-right: var(--spacing-m);
+        }
+        div.section {
+          margin: 0 var(--spacing-xl) var(--spacing-m) var(--spacing-xl);
+          display: flex;
+        }
+        div.sectionIcon {
+          flex: 0 0 30px;
+        }
+        div.chip iron-icon {
+          width: 16px;
+          height: 16px;
+          /* Positioning of a 16px icon in the middle of a 20px line. */
+          position: relative;
+          top: 2px;
+        }
+        div.sectionIcon iron-icon {
+          position: relative;
+          top: 2px;
+          width: 20px;
+          height: 20px;
+        }
+        div.sectionIcon iron-icon.small {
+          position: relative;
+          top: 6px;
+          width: 16px;
+          height: 16px;
+        }
+        div.sectionContent iron-icon.link {
+          color: var(--link-color);
+        }
+        div.sectionContent .attemptIcon iron-icon,
+        div.sectionContent iron-icon.small {
+          width: 16px;
+          height: 16px;
+          margin-right: var(--spacing-s);
+          /* Positioning of a 16px icon in the middle of a 20px line. */
+          position: relative;
+          top: 2px;
+        }
+        div.sectionContent .attemptIcon iron-icon {
+          margin-right: 0;
+        }
+        .attemptIcon,
+        .attemptNumber {
+          margin-right: var(--spacing-s);
+          color: var(--deemphasized-text-color);
+          text-align: center;
+          width: 24px;
+          font-size: var(--font-size-small);
+        }
+        div.action {
+          border-top: 1px solid var(--border-color);
+          margin-top: var(--spacing-m);
+          padding: var(--spacing-m) var(--spacing-xl) 0;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    if (!this.run) return '';
+    const icon = this.computeIcon();
+    return html`
+      <div id="container" role="tooltip" tabindex="-1">
+        <div class="section">
+          <div
+            ?hidden="${!this.run || this.run.status === RunStatus.RUNNABLE}"
+            class="chipRow"
+          >
+            <div class="chip">
+              <iron-icon icon="gr-icons:${this.computeChipIcon()}"></iron-icon>
+              <span>${this.run.status}</span>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sectionIcon" ?hidden="${icon.length === 0}">
+            <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
+          </div>
+          <div class="sectionContent">
+            <h3 class="name heading-3">
+              <span>${this.run.checkName}</span>
+            </h3>
+          </div>
+        </div>
+        ${this.renderStatusSection()} ${this.renderAttemptSection()}
+        ${this.renderTimestampSection()} ${this.renderDescriptionSection()}
+        ${this.renderActions()}
+      </div>
+    `;
+  }
+
+  private renderStatusSection() {
+    if (!this.run || (!this.run.statusLink && !this.run.statusDescription))
+      return;
+
+    return html`
+      <div class="section">
+        <div class="sectionIcon">
+          <iron-icon class="small" icon="gr-icons:info-outline"></iron-icon>
+        </div>
+        <div class="sectionContent">
+          <div ?hidden="${!this.run.statusLink}" class="row">
+            <div class="title">Status</div>
+            <div>
+              <a href="${this.run.statusLink ?? ''}" target="_blank"
+                ><iron-icon
+                  aria-label="external link to check status"
+                  class="small link"
+                  icon="gr-icons:launch"
+                ></iron-icon
+                >${this.computeHostName(this.run.statusLink)}
+              </a>
+            </div>
+          </div>
+          <div ?hidden="${!this.run.statusDescription}" class="row">
+            <div class="title">Message</div>
+            <div>${this.run.statusDescription}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderAttemptSection() {
+    if (this.hideAttempts()) return;
+    const attempts = this.computeAttempts();
+    return html`
+      <div class="section">
+        <div class="sectionIcon">
+          <iron-icon class="small" icon="gr-icons:arrow-forward"></iron-icon>
+        </div>
+        <div class="sectionContent">
+          <div class="attempts row">
+            <div class="title">Attempt</div>
+            ${attempts.map(a => this.renderAttempt(a))}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderAttempt(attempt: AttemptDetail) {
+    return html`
+      <div>
+        <div class="attemptIcon">
+          <iron-icon
+            class="${attempt.icon}"
+            icon="gr-icons:${attempt.icon}"
+          ></iron-icon>
+        </div>
+        <div class="attemptNumber">${ordinal(attempt.attempt)}</div>
+      </div>
+    `;
+  }
+
+  private renderTimestampSection() {
+    if (
+      !this.run ||
+      (!this.run.startedTimestamp &&
+        !this.run.scheduledTimestamp &&
+        !this.run.finishedTimestamp)
+    )
+      return;
+
+    return html`
+      <div class="section">
+        <div class="sectionIcon">
+          <iron-icon class="small" icon="gr-icons:schedule"></iron-icon>
+        </div>
+        <div class="sectionContent">
+          <div ?hidden="${this.hideScheduled()}" class="row">
+            <div class="title">Scheduled</div>
+            <div>${this.computeDuration(this.run.scheduledTimestamp)}</div>
+          </div>
+          <div ?hidden="${!this.run.startedTimestamp}" class="row">
+            <div class="title">Started</div>
+            <div>${this.computeDuration(this.run.startedTimestamp)}</div>
+          </div>
+          <div ?hidden="${!this.run.finishedTimestamp}" class="row">
+            <div class="title">Ended</div>
+            <div>${this.computeDuration(this.run.finishedTimestamp)}</div>
+          </div>
+          <div ?hidden="${this.hideCompletion()}" class="row">
+            <div class="title">Completion</div>
+            <div>${this.computeCompletionDuration()}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderDescriptionSection() {
+    if (!this.run || (!this.run.checkLink && !this.run.checkDescription))
+      return;
+    return html`
+      <div class="section">
+        <div class="sectionIcon">
+          <iron-icon class="small" icon="gr-icons:link"></iron-icon>
+        </div>
+        <div class="sectionContent">
+          <div ?hidden="${!this.run.checkDescription}" class="row">
+            <div class="title">Description</div>
+            <div>${this.run.checkDescription}</div>
+          </div>
+          <div ?hidden="${!this.run.checkLink}" class="row">
+            <div class="title">Documentation</div>
+            <div>
+              <a href="${this.run.checkLink ?? ''}" target="_blank"
+                ><iron-icon
+                  aria-label="external link to check documentation"
+                  class="small link"
+                  icon="gr-icons:launch"
+                ></iron-icon
+                >${this.computeHostName(this.run.checkLink)}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderActions() {
+    const actions = runActions(this.run);
+    return actions.map(
+      action =>
+        html`
+          <div class="action">
+            <gr-checks-action
+              .eventTarget="${this._target}"
+              .action="${action}"
+            ></gr-checks-action>
+          </div>
+        `
+    );
+  }
+
+  computeIcon() {
+    if (!this.run) return '';
+    const category = worstCategory(this.run);
     if (category) return iconFor(category);
-    return run.status === RunStatus.COMPLETED
+    return this.run.status === RunStatus.COMPLETED
       ? iconFor(RunStatus.COMPLETED)
       : '';
   }
 
-  computeActions(run?: CheckRun) {
-    return runActions(run);
-  }
-
-  computeAttempt(attempt?: number) {
-    return ordinal(attempt);
-  }
-
-  computeAttempts(run?: CheckRun): AttemptDetail[] {
-    const details = run?.attemptDetails ?? [];
+  computeAttempts(): AttemptDetail[] {
+    const details = this.run?.attemptDetails ?? [];
     const more =
       details.length > 7 ? [{icon: 'more-horiz', attempt: undefined}] : [];
     return [...more, ...details.slice(-7)];
   }
 
-  computeChipIcon(run?: CheckRun) {
-    if (run?.status === RunStatus.COMPLETED) return 'check';
-    if (run?.status === RunStatus.RUNNING) return 'timelapse';
+  private computeChipIcon() {
+    if (this.run?.status === RunStatus.COMPLETED) return 'check';
+    if (this.run?.status === RunStatus.RUNNING) return 'timelapse';
     return '';
   }
 
-  computeCompletionDuration(run?: CheckRun) {
-    if (!run?.finishedTimestamp || !run?.startedTimestamp) return '';
-    return durationString(run.startedTimestamp, run.finishedTimestamp, true);
-  }
-
-  computeDuration(date?: Date) {
-    return date ? fromNow(date) : '';
-  }
-
-  computeHostName(link?: string) {
-    return link ? new URL(link).hostname : '';
-  }
-
-  hideChip(run?: CheckRun) {
-    return !run || run.status === RunStatus.RUNNABLE;
-  }
-
-  hideHeaderSectionIcon(run?: CheckRun) {
-    return this.computeIcon(run).length === 0;
-  }
-
-  hideStatusSection(run?: CheckRun) {
-    if (!run) return true;
-    return !run.statusLink && !run.statusDescription;
-  }
-
-  hideTimestampSection(run?: CheckRun) {
-    if (!run) return true;
-    return (
-      !run.startedTimestamp && !run.scheduledTimestamp && !run.finishedTimestamp
+  private computeCompletionDuration() {
+    if (!this.run?.finishedTimestamp || !this.run?.startedTimestamp) return '';
+    return durationString(
+      this.run.startedTimestamp,
+      this.run.finishedTimestamp,
+      true
     );
   }
 
-  hideAttempts(run?: CheckRun) {
-    const attemptCount = run?.attemptDetails?.length;
+  private computeDuration(date?: Date) {
+    return date ? fromNow(date) : '';
+  }
+
+  private computeHostName(link?: string) {
+    return link ? new URL(link).hostname : '';
+  }
+
+  private hideAttempts() {
+    const attemptCount = this.run?.attemptDetails?.length;
     return attemptCount === undefined || attemptCount < 2;
   }
 
-  hideScheduled(run?: CheckRun) {
-    return !run?.scheduledTimestamp || !!run?.startedTimestamp;
+  private hideScheduled() {
+    return !this.run?.scheduledTimestamp || !!this.run?.startedTimestamp;
   }
 
-  hideCompletion(run?: CheckRun) {
-    return !run?.startedTimestamp || !run?.finishedTimestamp;
-  }
-
-  hideDescriptionSection(run?: CheckRun) {
-    if (!run) return true;
-    return !run.checkLink && !run.checkDescription;
+  private hideCompletion() {
+    return !this.run?.startedTimestamp || !this.run?.finishedTimestamp;
   }
 
   _convertUndefined(value?: string) {

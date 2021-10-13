@@ -158,6 +158,30 @@
       },
       "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e8a6e84_70f4fbe7",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-13T21:27:11Z",
+      "side": 1,
+      "message": "That requires every Schema to perform this load on constructor. Also, requires repoManager to be Injected by each schema. Having this static object is more preferable ?",
+      "parentUuid": "5ad67fa9_40f1c548",
+      "range": {
+        "startLine": 237,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 20
+      },
+      "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

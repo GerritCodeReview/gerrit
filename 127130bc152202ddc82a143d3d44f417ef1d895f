@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64b8fca0_cc5a0ef2",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-13T11:09:12Z",
+      "side": 1,
+      "message": "Having ?? \u0027\u0027 makes it seem like a real case, but we wouldn\u0027t have a link with no href. Is this needed for some reason? We don\u0027t have the same for statusDescription in the next row div.",
+      "range": {
+        "startLine": 179,
+        "startChar": 44,
+        "endLine": 179,
+        "endChar": 50
+      },
+      "revId": "127130bc152202ddc82a143d3d44f417ef1d895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb3df44f_fe563002",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-13T11:09:12Z",
+      "side": 1,
+      "message": "same as statusLink in renderStatusSection",
+      "range": {
+        "startLine": 282,
+        "startChar": 34,
+        "endLine": 282,
+        "endChar": 43
+      },
+      "revId": "127130bc152202ddc82a143d3d44f417ef1d895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f3eaeb0_c69932f6",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-13T11:09:12Z",
+      "side": 1,
+      "message": "unused?",
+      "range": {
+        "startLine": 364,
+        "startChar": 0,
+        "endLine": 367,
+        "endChar": 0
+      },
+      "revId": "127130bc152202ddc82a143d3d44f417ef1d895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3ca9d82_70f11f13",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-13T11:09:12Z",
+      "side": 1,
+      "message": "This is a really strange test. Feel free to leave for now.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 44
+      },
+      "revId": "127130bc152202ddc82a143d3d44f417ef1d895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -62,7 +62,7 @@ public class GetChange
   @Option(name = "--meta", usage = "NoteDb meta SHA1")
   String metaRevId = "";
 
-  public void setMetaRevId(String metaRevId) {
+  public void setMetaRevId(@Nullable String metaRevId) {
     this.metaRevId = metaRevId == null ? "" : metaRevId;
   }
 

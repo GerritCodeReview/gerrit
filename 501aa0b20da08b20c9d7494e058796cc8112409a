@@ -178,6 +178,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd88362d_a0d50f39",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-13T14:01:15Z",
+      "side": 1,
+      "message": "\u003e Unsure which one of those is buggy but to be honest I never thought it\u0027s worth the effort to look into this since this works just fine with the sorting in place.\n\nI think that argument only holds for the status quo. We can say we know this doesn\u0027t work the way it should but this other logic (sorting) fixes it up, so better not touch this area as a whole.\n\nBut now we are implementing new features (graph endpoint) on top of this. I really think we should fix group associations (or find out why it\u0027s fundamentally unfixable) so that we don\u0027t have to run sorting just for the sake of fixing up things.\n\nIMO the most effective way to reduce technical debt in the system is clean things up when we implement new features and account for that cleanup time when estimating new features.",
+      "parentUuid": "6d7b6f93_8a80d27b",
+      "range": {
+        "startLine": 80,
+        "startChar": 5,
+        "endLine": 80,
+        "endChar": 34
+      },
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a24ff80_e7f3e2b6",
         "filename": "java/com/google/gerrit/server/submit/ChangeSet.java",
         "patchSetId": 3

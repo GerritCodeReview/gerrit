@@ -26,6 +26,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc776392_2630fc6e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-13T11:18:02Z",
+      "side": 1,
+      "message": "I think surrounding quotes is optional and I have no preference, but we should be at least locally consistent",
+      "range": {
+        "startLine": 204,
+        "startChar": 34,
+        "endLine": 204,
+        "endChar": 55
+      },
+      "revId": "77514e016f6e6bc661034705a346f18e798b618a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4693af50_86e50f18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-13T11:18:02Z",
+      "side": 1,
+      "message": "Would this be a better pattern?\n\n```\nprivate computePronoun() { ... }\n\ntestOnlyComputePronoun() { return this.computePronoun(); }\n```",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 30
+      },
+      "revId": "77514e016f6e6bc661034705a346f18e798b618a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d686a8db_890df227",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-13T11:18:02Z",
+      "side": 1,
+      "message": "can you convert the rest of \"_foo()\" to \"private foo()\" in the file for consistency?",
+      "range": {
+        "startLine": 349,
+        "startChar": 2,
+        "endLine": 349,
+        "endChar": 33
+      },
+      "revId": "77514e016f6e6bc661034705a346f18e798b618a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e93c3807_9b1ca389",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
         "patchSetId": 2
@@ -42,6 +111,29 @@
         "startChar": 3,
         "endLine": 400,
         "endChar": 61
+      },
+      "revId": "77514e016f6e6bc661034705a346f18e798b618a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11f4d116_c7a9c35b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-13T11:18:02Z",
+      "side": 1,
+      "message": "are the remaining flush calls not supposed to be element.updateComplete?",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 18
       },
       "revId": "77514e016f6e6bc661034705a346f18e798b618a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

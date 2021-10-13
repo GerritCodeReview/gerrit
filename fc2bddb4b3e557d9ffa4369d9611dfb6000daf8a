@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "daa7c7c7_90ba3e52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T10:00:01Z",
+      "side": 1,
+      "message": "Votes are broken on hovercard. \n\nBtw. I would prefer to migrate this myself as I developed it a week ago. This is double work. ",
+      "revId": "fc2bddb4b3e557d9ffa4369d9611dfb6000daf8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "033bc83d_c3eacd20",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
         "patchSetId": 2

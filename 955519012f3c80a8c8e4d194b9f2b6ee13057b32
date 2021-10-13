@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8a620fbc_e79f2e07",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-13T19:56:34Z",
+      "side": 1,
+      "message": "Can be inferred by return type. But we want to emphasize to caller that the list of projects being return is cached.",
+      "parentUuid": "1678e50f_fc674670",
+      "range": {
+        "startLine": 236,
+        "startChar": 46,
+        "endLine": 236,
+        "endChar": 63
+      },
+      "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54517463_6c5a5fa0",
         "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
         "patchSetId": 1
@@ -54,6 +78,30 @@
       "writtenOn": "2021-10-12T18:00:06Z",
       "side": 1,
       "message": "Why not simply:\n  return Suppliers.memoize(repoManager::list)",
+      "range": {
+        "startLine": 237,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 20
+      },
+      "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2727e900_a783b8c1",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-13T19:56:34Z",
+      "side": 1,
+      "message": "It would still call repoManager::list every time.\n\nMultiple get() calls on a Supplier returned by memorize() are cached but this will return a new Supplier every time. Am I Missing anything ?\n\nI did replace the method as you said and it was manually calling repoManager.list()  during every schema.",
+      "parentUuid": "54517463_6c5a5fa0",
       "range": {
         "startLine": 237,
         "startChar": 4,

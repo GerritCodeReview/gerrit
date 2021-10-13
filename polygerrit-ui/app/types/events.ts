@@ -179,10 +179,7 @@ export interface PageErrorEventDetail {
 }
 export type PageErrorEvent = CustomEvent<PageErrorEventDetail>;
 
-export interface ReloadEventDetail {
-  clearPatchset: boolean;
-}
-export type ReloadEvent = CustomEvent<ReloadEventDetail>;
+export type ReloadEvent = CustomEvent;
 
 export interface ReplyEventDetail {
   message: ChangeMessage;

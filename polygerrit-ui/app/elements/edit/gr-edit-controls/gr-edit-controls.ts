@@ -237,7 +237,7 @@ export class GrEditControls extends PolymerElement {
           return;
         }
         this._closeDialog(this.$.openDialog);
-        fireReload(this, true);
+        fireReload(this);
       });
   }
 
@@ -293,7 +293,7 @@ export class GrEditControls extends PolymerElement {
           return;
         }
         this._closeDialog(dialog);
-        fireReload(this, true);
+        fireReload(this);
       });
   }
 

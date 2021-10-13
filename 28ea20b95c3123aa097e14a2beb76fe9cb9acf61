@@ -16,6 +16,40 @@
       "message": "Why can we stop differentiating between fireReload(..., true) and fireReload(..., false)?",
       "revId": "28ea20b95c3123aa097e14a2beb76fe9cb9acf61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f88f2790_50f213dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2116,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T17:34:27Z",
+      "side": 1,
+      "message": "Reloads should be calling this with a false, but we removed that logic.",
+      "revId": "28ea20b95c3123aa097e14a2beb76fe9cb9acf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd987aa_cacebb63",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2116,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T17:34:27Z",
+      "side": 1,
+      "message": "Reloads should be calling this with a false, but we removed that logic.",
+      "revId": "28ea20b95c3123aa097e14a2beb76fe9cb9acf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

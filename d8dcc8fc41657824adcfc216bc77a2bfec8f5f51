@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ded08918_b6996ca5",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-13T15:16:28Z",
+      "side": 1,
+      "message": "missed GrSubmitRequirements class above",
+      "parentUuid": "1768c646_a5a28904",
+      "range": {
+        "startLine": 382,
+        "startChar": 2,
+        "endLine": 382,
+        "endChar": 13
+      },
+      "revId": "d8dcc8fc41657824adcfc216bc77a2bfec8f5f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "849024ec_b39ac544",
         "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
         "patchSetId": 3

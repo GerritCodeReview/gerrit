@@ -2463,6 +2463,34 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("-star:ignore", change2, change1);
   }
 
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)
+  public void byStarWithManyStars() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change[] changesWithDrafts = new Change[30];
+    for (int i = 0; i < changesWithDrafts.length; i++) {
+      // put the changes in reverse order since this is the order we receive them from the index.
+      changesWithDrafts[changesWithDrafts.length - 1 - i] = insert(repo, newChange(repo));
+
+      // star the change
+      gApi.accounts()
+          .self()
+          .starChange(changesWithDrafts[changesWithDrafts.length - 1 - i].getId().toString());
+
+      // ignore the change
+      gApi.changes()
+          .id(changesWithDrafts[changesWithDrafts.length - 1 - i].getId().toString())
+          .ignore(true);
+    }
+
+    // all changes are both starred and ignored.
+    assertQuery("is:ignored", changesWithDrafts);
+    assertQuery("is:starred", changesWithDrafts);
+  }
+
   @Test
   public void byFrom() throws Exception {
     TestRepository<Repo> repo = createProject("repo");

@@ -34,6 +34,24 @@
       "parentUuid": "854e8628_46024ba2",
       "revId": "1319cf3442e3f8d05982ad23eeb49a4125e3c035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2000631_bc27397a",
+        "filename": "polygerrit-ui/app/api/rest.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-10-13T14:17:15Z",
+      "side": 1,
+      "message": "The serviceuser-plugin used this as well [1]. Is there still a way to get an account\u0027s capabilities? Otherwise, I would propose to add this method again.\n\n[1] https://gerrit.googlesource.com/plugins/serviceuser/+/refs/heads/stable-3.3/gr-serviceuser/gr-serviceuser.js#24",
+      "parentUuid": "ba2097e4_e7c6ae40",
+      "revId": "1319cf3442e3f8d05982ad23eeb49a4125e3c035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

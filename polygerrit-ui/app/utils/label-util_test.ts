@@ -32,8 +32,10 @@ import {
   AccountInfo,
   ApprovalInfo,
   DetailedLabelInfo,
+  QuickLabelInfo,
 } from '../types/common';
 import {
+  createAccountWithEmail,
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
 } from '../test/test-data-generators';
@@ -169,6 +171,15 @@ suite('label-util', () => {
     assert.equal(getLabelStatus(labelInfo), LabelStatus.APPROVED);
     labelInfo = {all: [{value: 0}, {value: -2}], values: VALUES_2};
     assert.equal(getLabelStatus(labelInfo), LabelStatus.REJECTED);
+  });
+
+  test('getLabelStatus - quicklabelinfo', () => {
+    let labelInfo: QuickLabelInfo = {};
+    assert.equal(getLabelStatus(labelInfo), LabelStatus.NEUTRAL);
+    labelInfo = {approved: createAccountWithEmail()};
+    assert.equal(getLabelStatus(labelInfo), LabelStatus.RECOMMENDED);
+    labelInfo = {rejected: createAccountWithEmail()};
+    assert.equal(getLabelStatus(labelInfo), LabelStatus.DISLIKED);
   });
 
   test('getRepresentativeValue', () => {

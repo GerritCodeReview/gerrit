@@ -16,7 +16,12 @@
  */
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {ApprovalInfo, LabelInfo} from '../../../api/rest-api';
+import {
+  ApprovalInfo,
+  isDetailedLabelInfo,
+  isQuickLabelInfo,
+  LabelInfo,
+} from '../../../api/rest-api';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
@@ -109,22 +114,51 @@ export class GrVoteChip extends LitElement {
   override render() {
     if (!this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI))
       return;
-    if (!this.vote?.value) return;
-    const className = this.computeClass(this.vote.value, this.label);
+
+    const renderValue = this.renderValue();
+    if (!renderValue) return;
+
     return html`<span class="container">
-      <div class="vote-chip ${className} ${this.more ? 'more' : ''}">
-        ${valueString(this.vote.value)}
+      <div class="vote-chip ${this.computeClass()} ${this.more ? 'more' : ''}">
+        ${renderValue}
       </div>
       ${this.more
-        ? html`<div class="chip-angle ${className}">
-            ${valueString(this.vote.value)}
+        ? html`<div class="chip-angle ${this.computeClass()}">
+            ${renderValue}
           </div>`
         : ''}
     </span>`;
   }
 
-  computeClass(vote: number, label?: LabelInfo) {
-    const status = getLabelStatus(label, vote);
-    return classForLabelStatus(status);
+  private renderValue() {
+    if (!this.label) {
+      return '';
+    } else if (isDetailedLabelInfo(this.label)) {
+      if (this.vote?.value) {
+        return valueString(this.vote.value);
+      }
+    } else if (isQuickLabelInfo(this.label)) {
+      if (this.label.approved) {
+        return '👍️';
+      } else if (this.label.rejected) {
+        return '👎️';
+      }
+    }
+    return '';
+  }
+
+  private computeClass() {
+    if (!this.label) {
+      return '';
+    } else if (isDetailedLabelInfo(this.label)) {
+      if (this.vote?.value) {
+        const status = getLabelStatus(this.label, this.vote.value);
+        return classForLabelStatus(status);
+      }
+    } else if (isQuickLabelInfo(this.label)) {
+      const status = getLabelStatus(this.label);
+      return classForLabelStatus(status);
+    }
+    return '';
   }
 }

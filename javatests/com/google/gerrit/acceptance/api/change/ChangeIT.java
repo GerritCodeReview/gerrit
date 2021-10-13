@@ -161,6 +161,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -205,6 +206,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -270,6 +272,44 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.owner.username).isNull();
     assertThat(c.owner.avatars).isNull();
     assertThat(c.submissionId).isNull();
+  }
+
+  @Test
+  public void getByMetaVerId() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String projectChangeId = projectAndChangeNumId(r);
+    String initialMetaRevId = info(projectChangeId).metaRevId;
+
+    gApi.changes().id(projectChangeId).setWorkInProgress();
+    String wipMetaRevId = info(projectChangeId).metaRevId;
+
+    ChangeInfo initialChangeInfo =
+        gApi.changes()
+            .id(projectChangeId)
+            .get(EnumSet.noneOf(ListChangesOption.class), initialMetaRevId);
+    assertThat(initialChangeInfo).isNotNull();
+    assertThat(initialChangeInfo.metaRevId).isEqualTo(initialMetaRevId);
+
+    ChangeInfo wipChangeInfo =
+        gApi.changes()
+            .id(projectChangeId)
+            .get(EnumSet.noneOf(ListChangesOption.class), wipMetaRevId);
+    assertThat(wipChangeInfo).isNotNull();
+    assertThat(wipChangeInfo.metaRevId).isEqualTo(wipMetaRevId);
+    assertThat(wipChangeInfo.workInProgress).isTrue();
+  }
+
+  @Test
+  public void getShouldFailByUnreachableMetaVerId() throws Exception {
+    String triplet1 = projectAndChangeNumId(createChange());
+    String triplet2 = projectAndChangeNumId(createChange());
+
+    String secondMetaId = info(triplet2).metaRevId;
+
+    assertThrows(
+        PreconditionFailedException.class,
+        () ->
+            gApi.changes().id(triplet1).get(EnumSet.noneOf(ListChangesOption.class), secondMetaId));
   }
 
   @Test

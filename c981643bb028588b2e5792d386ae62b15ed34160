@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83350954_0de37d6e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-13T08:32:38Z",
+      "side": 1,
+      "message": "A bit surprised this is needed and base.styles can be undefined.",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "c981643bb028588b2e5792d386ae62b15ed34160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

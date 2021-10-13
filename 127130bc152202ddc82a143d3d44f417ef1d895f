@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7efa5938_04bed9cf",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:01:19Z",
+      "side": 1,
+      "message": "Good point, it was complaining here because of the href.  I could have used ifDefined but instead of rendering these as invisible I\u0027ve moved to a ternary expression.",
+      "parentUuid": "64b8fca0_cc5a0ef2",
+      "range": {
+        "startLine": 179,
+        "startChar": 44,
+        "endLine": 179,
+        "endChar": 50
+      },
+      "revId": "127130bc152202ddc82a143d3d44f417ef1d895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb3df44f_fe563002",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b606299_619f5cfb",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb3df44f_fe563002",
+      "range": {
+        "startLine": 282,
+        "startChar": 34,
+        "endLine": 282,
+        "endChar": 43
+      },
+      "revId": "127130bc152202ddc82a143d3d44f417ef1d895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f3eaeb0_c69932f6",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-10-13T11:09:12Z",
       "side": 1,
       "message": "unused?",
+      "range": {
+        "startLine": 364,
+        "startChar": 0,
+        "endLine": 367,
+        "endChar": 0
+      },
+      "revId": "127130bc152202ddc82a143d3d44f417ef1d895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b225c6b_c1e210d2",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f3eaeb0_c69932f6",
       "range": {
         "startLine": 364,
         "startChar": 0,

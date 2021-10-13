@@ -160,6 +160,8 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="feedback"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/></g>
       <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=description -->
       <g id="description"><path xmlns="http://www.w3.org/2000/svg" d="M0 0h24v24H0V0z" fill="none"/><path xmlns="http://www.w3.org/2000/svg" d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></g>
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons:event_busy -->
+      <g id="unavailable"><path d="M0 0h24v24H0z" fill="none"/><path d="M9.31 17l2.44-2.44L14.19 17l1.06-1.06-2.44-2.44 2.44-2.44L14.19 10l-2.44 2.44L9.31 10l-1.06 1.06 2.44 2.44-2.44 2.44L9.31 17zM19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></g>
     </defs>
   </svg>
 </iron-iconset-svg>`;

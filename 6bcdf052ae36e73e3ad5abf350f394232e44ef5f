@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e59377a8_53db4afd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T10:08:27Z",
+      "side": 1,
+      "message": "I checked quickly\naccount hovercard\nchecks run hovercard\n\nand they look good. Thanks for migration!",
+      "revId": "6bcdf052ae36e73e3ad5abf350f394232e44ef5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -202,6 +202,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bfea57ea_92db4f5a",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-13T14:03:37Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/gerrit/+/320920 that renames the method to \"sortAndFilter\" to emphasise it\u0027s not really just sort - but also filter.\n\nI\u0027ll look into this bug in more details.",
+      "parentUuid": "fd88362d_a0d50f39",
+      "range": {
+        "startLine": 80,
+        "startChar": 5,
+        "endLine": 80,
+        "endChar": 34
+      },
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a24ff80_e7f3e2b6",
         "filename": "java/com/google/gerrit/server/submit/ChangeSet.java",
         "patchSetId": 3

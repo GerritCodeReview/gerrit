@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -34,15 +35,21 @@ import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.MissingMetaObjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 
 public class GetChange
@@ -53,6 +60,7 @@ public class GetChange
   private final DynamicSet<ChangePluginDefinedInfoFactory> pdiFactories;
   private final EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
   private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
+  private final GitRepositoryManager repoMgr;
 
   @Option(name = "-o", usage = "Output options")
   public void addOption(ListChangesOption o) {
@@ -73,9 +81,13 @@ public class GetChange
   }
 
   @Inject
-  GetChange(ChangeJson.Factory json, DynamicSet<ChangePluginDefinedInfoFactory> pdiFactories) {
+  GetChange(
+      ChangeJson.Factory json,
+      DynamicSet<ChangePluginDefinedInfoFactory> pdiFactories,
+      GitRepositoryManager repoMgr) {
     this.json = json;
     this.pdiFactories = pdiFactories;
+    this.repoMgr = repoMgr;
   }
 
   @Override
@@ -92,7 +104,10 @@ public class GetChange
   public Response<ChangeInfo> apply(ChangeResource rsrc)
       throws BadRequestException, PreconditionFailedException {
     try {
-      return Response.withMustRevalidate(newChangeJson().format(rsrc.getChange(), getMetaRevId()));
+      Change change = rsrc.getChange();
+      ObjectId changeMetaRevId = getMetaRevId();
+      verifyMetaId(change, changeMetaRevId);
+      return Response.withMustRevalidate(newChangeJson().format(change, changeMetaRevId));
     } catch (MissingMetaObjectException e) {
       throw new PreconditionFailedException(e.getMessage());
     }
@@ -126,5 +141,25 @@ public class GetChange
       Collection<ChangeData> cds) {
     return PluginDefinedAttributesFactories.createAll(
         cds, this, Streams.stream(pdiFactories.entries()));
+  }
+
+  private void verifyMetaId(Change change, ObjectId id) throws BadRequestException {
+    String changeMetaRefName = RefNames.changeMetaRef(change.getId());
+    try (Repository repo = repoMgr.openRepository(change.getProject());
+        RevWalk rw = new RevWalk(repo)) {
+      Ref ref = repo.getRefDatabase().exactRef(changeMetaRefName);
+      RevCommit tip = rw.parseCommit(ref.getObjectId());
+      rw.markStart(tip);
+      for (RevCommit rev : rw) {
+        if (id.equals(rev)) {
+          return;
+        }
+      }
+    } catch (IOException e) {
+      throw new BadRequestException(
+          "I/O error while reading meta-ref id=" + id.getName() + " from change " + change, e);
+    }
+
+    throw new BadRequestException(id.getName() + " not reachable from " + changeMetaRefName);
   }
 }

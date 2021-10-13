@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e88c30c_9e9f2816",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T20:36:53Z",
+      "side": 1,
+      "message": "Nit: Given how long this is getting, maybe give it a name and plop that before the .map?",
+      "revId": "9134d82b05e0338fec0d04bede224328ae87bd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6518c17_90b2963a",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T20:36:53Z",
+      "side": 1,
+      "message": "Maybe add a helper function or method since you\u0027ve got this code twice now?",
+      "revId": "9134d82b05e0338fec0d04bede224328ae87bd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

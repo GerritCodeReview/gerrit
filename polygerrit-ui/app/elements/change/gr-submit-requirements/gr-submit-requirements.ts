@@ -31,6 +31,7 @@ import {unique} from '../../../utils/common-util';
 import {
   extractAssociatedLabels,
   getAllUniqueApprovals,
+  hasNeutralStatus,
   hasVotes,
   iconForStatus,
 } from '../../../utils/label-util';
@@ -227,7 +228,9 @@ export class GrSubmitRequirements extends LitElement {
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {
     const labelInfo = labels[label];
     if (isDetailedLabelInfo(labelInfo)) {
-      const uniqueApprovals = getAllUniqueApprovals(labelInfo);
+      const uniqueApprovals = getAllUniqueApprovals(labelInfo).filter(
+        approval => !hasNeutralStatus(labelInfo, approval)
+      );
       return uniqueApprovals.map(
         approvalInfo =>
           html`<gr-vote-chip
@@ -380,15 +383,19 @@ export class GrTriggerVote extends LitElement {
   }
 
   private renderVotes() {
-    if (!this.labelInfo) return;
-    if (isDetailedLabelInfo(this.labelInfo)) {
-      return getAllUniqueApprovals(this.labelInfo).map(
+    const {labelInfo} = this;
+    if (!labelInfo) return;
+    if (isDetailedLabelInfo(labelInfo)) {
+      const approvals = getAllUniqueApprovals(labelInfo).filter(
+        approval => !hasNeutralStatus(labelInfo, approval)
+      );
+      return approvals.map(
         approvalInfo => html`<gr-vote-chip
           .vote="${approvalInfo}"
-          .label="${this.labelInfo}"
+          .label="${labelInfo}"
         ></gr-vote-chip>`
       );
-    } else if (isQuickLabelInfo(this.labelInfo)) {
+    } else if (isQuickLabelInfo(labelInfo)) {
       return [html`<gr-vote-chip .label="${this.labelInfo}"></gr-vote-chip>`];
     } else {
       return html``;

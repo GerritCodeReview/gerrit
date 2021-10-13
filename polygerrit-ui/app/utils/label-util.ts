@@ -83,12 +83,18 @@ export function getLabelStatus(label?: LabelInfo, vote?: number): LabelStatus {
         ? LabelStatus.APPROVED
         : LabelStatus.RECOMMENDED;
     }
-  }
-  if (isQuickLabelInfo(label)) {
+  } else if (isQuickLabelInfo(label)) {
     if (label.approved) return LabelStatus.RECOMMENDED;
     if (label.rejected) return LabelStatus.DISLIKED;
   }
   return LabelStatus.NEUTRAL;
+}
+
+export function hasNeutralStatus(
+  label: DetailedLabelInfo,
+  approvalInfo: ApprovalInfo
+) {
+  return getLabelStatus(label, approvalInfo.value) === LabelStatus.NEUTRAL;
 }
 
 export function classForLabelStatus(status: LabelStatus) {

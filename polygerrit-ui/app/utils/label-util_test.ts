@@ -32,6 +32,7 @@ import {
   AccountInfo,
   ApprovalInfo,
   DetailedLabelInfo,
+  LabelInfo,
   QuickLabelInfo,
 } from '../types/common';
 import {
@@ -180,6 +181,16 @@ suite('label-util', () => {
     assert.equal(getLabelStatus(labelInfo), LabelStatus.RECOMMENDED);
     labelInfo = {rejected: createAccountWithEmail()};
     assert.equal(getLabelStatus(labelInfo), LabelStatus.DISLIKED);
+  });
+
+  test('getLabelStatus - detailed and quick info', () => {
+    let labelInfo: LabelInfo = {all: [], values: VALUES_2};
+    labelInfo = {
+      all: [{value: 0}],
+      values: VALUES_0,
+      rejected: createAccountWithEmail(),
+    };
+    assert.equal(getLabelStatus(labelInfo), LabelStatus.NEUTRAL);
   });
 
   test('getRepresentativeValue', () => {

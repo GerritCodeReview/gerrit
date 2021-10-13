@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a56b52c_7a5ffe3b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-13T12:09:01Z",
+      "side": 0,
+      "message": "Removing since it\u0027s obvious what we are doing here.",
+      "revId": "ad955984664803d82c06ce8f1c9323be39572287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

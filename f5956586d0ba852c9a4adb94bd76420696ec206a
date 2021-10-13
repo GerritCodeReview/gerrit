@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7caae0f_d09fee32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-13T19:53:08Z",
+      "side": 1,
+      "message": "Currently this change will lead to a bug where reloading the change when a label vote is deleted will go through paramsChange and not call loadData directly.\n\nIt might be possible that paramsChange calculates that only patchRange changes and hence decide call _reloadPatchNumDependentResources and the new change detail is not requested.\n\nThe bug does not exist currently since the reload event listener is calling loadData directly instead of going through paramsChanged",
+      "revId": "f5956586d0ba852c9a4adb94bd76420696ec206a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

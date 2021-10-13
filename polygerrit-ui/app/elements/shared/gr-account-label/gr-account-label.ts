@@ -201,7 +201,7 @@ export class GrAccountLabel extends LitElement {
               for="hovercardTarget"
               .account="${account}"
               .change="${change}"
-              ?highlight-attention=${highlightAttention}
+              .highlightAttention=${highlightAttention}
               .voteableText=${this.voteableText}
             ></gr-hovercard-account>`
           : ''}

@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c43178a_b5fc7632",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-13T12:32:46Z",
+      "side": 1,
+      "message": "The name doesn\u0027t fit anymore then. \"MergeSuperSet\" is ... well... the superset of changes merged when the provided change gets merged.\n\nRelatedSuperSet? or more generically ChangeSuperSet? I think I prefer ChangeSuperSet",
+      "range": {
+        "startLine": 13,
+        "startChar": 19,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15433c97_945d8b56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-13T12:32:46Z",
+      "side": 1,
+      "message": "I think we need more refactoring before we can implement the desired new functionality.\n\n1) Rename MergeSuperSet, LocalMergeSuperSet, etc. to something that suggests these classes also contain logic that isn\u0027t relevant for merging\n2) The whole machinery is complex. I think it becomes easier to understand if we move the logic a bit. Instead of plugging in the calls where you did, it would become simpler if we treated the related changes closure like we treat the topic closure. In the end, related changes are also just an index query (for the NoteDb group). (plus sorting which isn\u0027t relevant IMO?)\n3) I think we want a more formal definition of what \u0027related changes\u0027 should be included in the graph. Is it transitiveClosure(mergesuper set + NoteDb group)?\n\nHere is some pseudo code how I think this could look like:\n\nChangeSuperSet:\n\ncompleteSet():\nwhile(seen!\u003doldSeen) {\n  oldSeen \u003d seen;\n  changeSet \u003d findAllUnmergedAncestors(changeSet); // \u003d walk until you find a change that is merged. return all changes you find. old name: mergeSuperSetComputation.completeWithoutTopic\n  changeSet \u003d topicClosure(changeSet); // call the index for all topics we know of.\n  if (includeAllRelatedChanges) {\n     changeSet \u003d groupClosure(changeSet); // \u003d related changes\n  }\n}\n\nHappy to chat about this f2f if I got things wrong or anything is unclear.",
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdd6a81c_683410c7",
+        "filename": "java/com/google/gerrit/server/change/GetRelatedChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-13T12:32:46Z",
+      "side": 1,
+      "message": "Why is this required? It\u0027s a leap in complexity so if we can, I think we should avoid it.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 33
+      },
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "119c3cdd_21908575",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-13T12:32:46Z",
+      "side": 1,
+      "message": "I think this isn\u0027t the right way to plug the new logic in. See my other comment.\n\nFor your graph endpoint, why do you need the RelatedChangesSorter anyway? Since you are returning a graph (list of nodes with parent pointers), the order of nodes you return doesn\u0027t really matter or did I miss something?",
+      "range": {
+        "startLine": 80,
+        "startChar": 5,
+        "endLine": 80,
+        "endChar": 34
+      },
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a24ff80_e7f3e2b6",
+        "filename": "java/com/google/gerrit/server/submit/ChangeSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-13T12:32:46Z",
+      "side": 1,
+      "message": "Instead of three separate maps, we could encode the information (visible/invisible and inMergeSuperSet/notInMergeSuperSet) in a small autoValue and keep just a single map. Would make it easier to read IMO.\n\n@AutoValue \nclass ChangeNode {\n  ChangeData changeData();\n  boolean isInMergeSuperSet();\n  boolean isVisible();\n}\n\nthe Change set just needs a single map which guarantees that each change is added only once (hard to enforce with 3 maps).",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 91
+      },
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

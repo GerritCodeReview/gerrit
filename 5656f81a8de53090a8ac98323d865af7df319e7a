@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb10438_30db56b5",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-13T23:50:34Z",
+      "side": 1,
+      "message": "Missing @Nullable",
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f8c04a1_de81053c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-13T23:50:34Z",
+      "side": 1,
+      "message": "This is out of context: we can assume that we are able to create a change",
+      "range": {
+        "startLine": 280,
+        "startChar": 4,
+        "endLine": 280,
+        "endChar": 23
+      },
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -2447,7 +2447,21 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byStarredBy() throws Exception {
+  public void byStarredBy_starsComputedFromIndex() throws Exception {
+    byStarredBy();
+  }
+
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)
+  @Test
+  public void byStarredBy_starsComputedFromAllUsersRepository() throws Exception {
+    byStarredBy();
+  }
+
+  private void byStarredBy() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
@@ -2468,7 +2482,21 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byStar() throws Exception {
+  public void byStar_starsComputedFromIndex() throws Exception {
+    byStar();
+  }
+
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)
+  @Test
+  public void byStar_starsComputedFromAllUsersRepository() throws Exception {
+    byStar();
+  }
+
+  private void byStar() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
     Change change2 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
@@ -2494,7 +2522,21 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byIgnore() throws Exception {
+  public void byIgnore_starsComputedFromIndex() throws Exception {
+    byIgnore();
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)
+  public void byIgnore_starsComputedFromAllUsersRepository() throws Exception {
+    byIgnore();
+  }
+
+  private void byIgnore() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Account.Id user2 =
         accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
@@ -2512,6 +2554,42 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("-is:ignored", change2, change1);
     assertQuery("star:ignore");
     assertQuery("-star:ignore", change2, change1);
+  }
+
+  public void byStarWithManyStars_starsComputedFromIndex() throws Exception {
+    byStarWithManyStars();
+  }
+
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)
+  public void byStarWithManyStars_starsComputedFromAllUsersRepository() throws Exception {
+    byStarWithManyStars();
+  }
+
+  private void byStarWithManyStars() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change[] changesWithDrafts = new Change[30];
+    for (int i = 0; i < changesWithDrafts.length; i++) {
+      // put the changes in reverse order since this is the order we receive them from the index.
+      changesWithDrafts[changesWithDrafts.length - 1 - i] = insert(repo, newChange(repo));
+
+      // star the change
+      gApi.accounts()
+          .self()
+          .starChange(changesWithDrafts[changesWithDrafts.length - 1 - i].getId().toString());
+
+      // ignore the change
+      gApi.changes()
+          .id(changesWithDrafts[changesWithDrafts.length - 1 - i].getId().toString())
+          .ignore(true);
+    }
+
+    // all changes are both starred and ignored.
+    assertQuery("is:ignored", changesWithDrafts);
+    assertQuery("is:starred", changesWithDrafts);
   }
 
   @Test

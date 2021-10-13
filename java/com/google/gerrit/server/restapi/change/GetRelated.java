@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.change.GetRelatedChangesUtil;
-import com.google.gerrit.server.change.RelatedChangesSorter;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -69,11 +68,11 @@ public class GetRelated implements RestReadView<RevisionResource> {
     PatchSet basePs = isEdit ? rsrc.getEdit().get().getBasePatchSet() : rsrc.getPatchSet();
     logger.atFine().log("isEdit = %s, basePs = %s", isEdit, basePs);
 
-    List<RelatedChangesSorter.PatchSetData> sortedResult =
+    List<GetRelatedChangesUtil.PatchSetData> sortedResult =
         getRelatedChangesUtil.getRelated(changeDataFactory.create(rsrc.getNotes()), basePs);
 
     List<RelatedChangeAndCommitInfo> result = new ArrayList<>(sortedResult.size());
-    for (RelatedChangesSorter.PatchSetData d : sortedResult) {
+    for (GetRelatedChangesUtil.PatchSetData d : sortedResult) {
       PatchSet ps = d.patchSet();
       RevCommit commit;
       if (isEdit && ps.id().equals(basePs.id())) {

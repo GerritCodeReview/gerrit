@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95da3bcd_a8374a37",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-13T16:37:18Z",
+      "side": 1,
+      "message": "Maybe as a follow up you can convert this to a Set as well, since there doesn\u0027t seem to be any value in it being a list.",
+      "range": {
+        "startLine": 144,
+        "startChar": 26,
+        "endLine": 144,
+        "endChar": 30
+      },
+      "revId": "cd71340ae037a22fc4dd5c1185b8bb2c31941c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0152d10e_c8d78602",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsIncludedInRefs.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-13T16:37:18Z",
+      "side": 1,
+      "message": "Set",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 16
+      },
+      "revId": "cd71340ae037a22fc4dd5c1185b8bb2c31941c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75f9843e_68689861",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsIncludedInRefs.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-13T16:37:18Z",
+      "side": 1,
+      "message": "Set",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 16
+      },
+      "revId": "cd71340ae037a22fc4dd5c1185b8bb2c31941c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c3f590a_88d0c3ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:37:25Z",
+      "side": 1,
+      "message": "Does this still apply?",
+      "parentUuid": "daa7c7c7_90ba3e52",
+      "revId": "fc2bddb4b3e557d9ffa4369d9611dfb6000daf8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "033bc83d_c3eacd20",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
         "patchSetId": 2
@@ -52,6 +70,30 @@
         "id": 1139611
       },
       "writtenOn": "2021-10-13T17:08:47Z",
+      "side": 1,
+      "message": "Whoops, nice catch.",
+      "parentUuid": "033bc83d_c3eacd20",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 179,
+        "endChar": 43
+      },
+      "revId": "fc2bddb4b3e557d9ffa4369d9611dfb6000daf8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc69cbad_38e17d8a",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-13T18:37:25Z",
       "side": 1,
       "message": "Whoops, nice catch.",
       "parentUuid": "033bc83d_c3eacd20",

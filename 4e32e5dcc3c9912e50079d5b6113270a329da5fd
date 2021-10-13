@@ -238,6 +238,30 @@
       },
       "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce51756a_dd6e9af7",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-13T23:16:36Z",
+      "side": 1,
+      "message": "\u003e Done with I1145392f8 (WIP). I realised that the original change Ia54acb37e1 did not include any tests, which I am going to address as a separate change.\n\u003e \n\u003e Once I\u0027ve got tests, I can finalise I1145392f8.\n\nTests and change on master done, so that we are covered and we don\u0027t forget about it 👍",
+      "parentUuid": "9fca3bf5_c73a1e33",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 61
+      },
+      "revId": "4e32e5dcc3c9912e50079d5b6113270a329da5fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

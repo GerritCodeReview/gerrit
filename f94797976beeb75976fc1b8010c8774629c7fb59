@@ -63,6 +63,23 @@
       "message": "this is just error prone test failing, will fix it later.",
       "revId": "f94797976beeb75976fc1b8010c8774629c7fb59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5419bc3d_dffab0f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-13T11:17:37Z",
+      "side": 1,
+      "message": "Do I remember correctly that we decided against this format?",
+      "revId": "f94797976beeb75976fc1b8010c8774629c7fb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

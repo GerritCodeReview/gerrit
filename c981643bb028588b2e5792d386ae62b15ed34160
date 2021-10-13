@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "76de7ad6_99cf9f06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T09:27:16Z",
+      "side": 1,
+      "message": "I checked if it is possible to select names in hovercards in reply dialog. And it works with this change as well",
+      "revId": "c981643bb028588b2e5792d386ae62b15ed34160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "83350954_0de37d6e",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.ts",
         "patchSetId": 1
@@ -19,6 +36,52 @@
         "startChar": 6,
         "endLine": 29,
         "endChar": 24
+      },
+      "revId": "c981643bb028588b2e5792d386ae62b15ed34160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5e9dc0d_9c8b3941",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T09:27:16Z",
+      "side": 1,
+      "message": "NIT: I prefer ?? instead of ||",
+      "range": {
+        "startLine": 29,
+        "startChar": 18,
+        "endLine": 29,
+        "endChar": 20
+      },
+      "revId": "c981643bb028588b2e5792d386ae62b15ed34160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "276d9a32_e41c9cf1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-13T09:27:16Z",
+      "side": 1,
+      "message": "Are types ok? \n1, [css``] is CSSResult[]\n2, [[], css``] is (never[] | CSSResult[])[]\n3, [...[], css``] is CSSResult[]\n3, [base.styles ?? [], css``] is CSSGroup[]\n\nIt looks like typescript is ok with your solution, just I would expect something like ...(base.styles ?? []) but that doesn\u0027t work.",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 23
       },
       "revId": "c981643bb028588b2e5792d386ae62b15ed34160",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

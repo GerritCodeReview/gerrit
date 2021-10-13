@@ -80,6 +80,24 @@
       "message": "Do I remember correctly that we decided against this format?",
       "revId": "f94797976beeb75976fc1b8010c8774629c7fb59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7d01fc9_ff62058f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-13T12:25:39Z",
+      "side": 1,
+      "message": "yes, let me abort this and rebase the follow-up since it adds nice tests for free.",
+      "parentUuid": "5419bc3d_dffab0f5",
+      "revId": "f94797976beeb75976fc1b8010c8774629c7fb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

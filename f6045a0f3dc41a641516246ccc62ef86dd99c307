@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9613744f_57b9d4b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-13T12:39:21Z",
+      "side": 1,
+      "message": "In this transition phase, both requirements are evaluated and submission is only possible if both pass, right?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "f6045a0f3dc41a641516246ccc62ef86dd99c307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "863c2186_5ce8a929",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-13T12:39:21Z",
+      "side": 1,
+      "message": "Can we do this only if the result is the same? (both pass or both fail?)\n\nAnd otherwise surface them both. That would make it easier (and safer) to spot differences in the migration phase.",
+      "range": {
+        "startLine": 35,
+        "startChar": 15,
+        "endLine": 35,
+        "endChar": 18
+      },
+      "revId": "f6045a0f3dc41a641516246ccc62ef86dd99c307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9b48de4_92d804c4",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-13T20:29:01Z",
+      "side": 1,
+      "message": "My suggestion was more for readability and not for type-safety.",
+      "parentUuid": "8a620fbc_e79f2e07",
+      "range": {
+        "startLine": 236,
+        "startChar": 46,
+        "endLine": 236,
+        "endChar": 63
+      },
+      "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54517463_6c5a5fa0",
         "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
         "patchSetId": 1
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "It would still call repoManager::list every time.\n\nMultiple get() calls on a Supplier returned by memorize() are cached but this will return a new Supplier every time. Am I Missing anything ?\n\nI did replace the method as you said and it was manually calling repoManager.list()  during every schema.",
       "parentUuid": "54517463_6c5a5fa0",
+      "range": {
+        "startLine": 237,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 20
+      },
+      "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ad67fa9_40f1c548",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-13T20:29:01Z",
+      "side": 1,
+      "message": "You are right: Suppliers.memoize(repoManager::list) needs to done only once in the constructor.",
+      "parentUuid": "2727e900_a783b8c1",
       "range": {
         "startLine": 237,
         "startChar": 4,

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b42adc_48aa14e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-13T11:10:18Z",
+      "side": 1,
+      "message": "So it turns out that patchNumDependant resources do not include requesting the files.\nFor now I triggered a complete reload so this issue is resolved.",
+      "parentUuid": "6d4b8b3e_038f3919",
+      "revId": "2d972bbccd430fe44d4f691d36328e9616039060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3ea5349_c375aaf5",
@@ -103,6 +121,24 @@
       "side": 1,
       "message": "With Submit requirements there is a plan this will be in dashboard. I will discuss with Delphine, if we want to be able to delete votes from dashboard. Maybe we don\u0027t need it. \n\nBut thanks for hint. Maybe an information that this needs to be in changeview, or refactoring it so this part of code is in change view, so we do not regress once \u003cgr-label-info\u003e is moved around.",
       "parentUuid": "06c05b49_f5741b10",
+      "revId": "2d972bbccd430fe44d4f691d36328e9616039060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db12876c_9697c7ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-13T11:10:18Z",
+      "side": 1,
+      "message": "Dashboard and change list view have support for reload event already. So there won\u0027t be a regression if the hovercard is used there.",
+      "parentUuid": "b021b5e0_4bde5a18",
       "revId": "2d972bbccd430fe44d4f691d36328e9616039060",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

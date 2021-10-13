@@ -154,6 +154,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6d7b6f93_8a80d27b",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-13T12:59:45Z",
+      "side": 1,
+      "message": "I haven\u0027t investigated in detail why it\u0027s buggy but tl;dr is that in some cases we don\u0027t update the group id properly and that leads to changes that used to be in the same stack in ps1, still have the same groupid, although they got moved/rebased/pushed on top of a different change. Unsure which one of those is buggy but to be honest I never thought it\u0027s worth the effort to look into this since this works just fine with the sorting in place.",
+      "parentUuid": "6f6160df_cb2c56fc",
+      "range": {
+        "startLine": 80,
+        "startChar": 5,
+        "endLine": 80,
+        "endChar": 34
+      },
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a24ff80_e7f3e2b6",
         "filename": "java/com/google/gerrit/server/submit/ChangeSet.java",
         "patchSetId": 3

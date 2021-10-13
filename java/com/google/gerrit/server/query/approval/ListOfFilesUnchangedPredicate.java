@@ -58,13 +58,18 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
     Integer parentNum =
         isInitialCommit(ctx.changeNotes().getProjectName(), targetPatchSet.commitId()) ? 0 : 1;
     try {
-      Map<String, FileDiffOutput> modifiedTargetPatchSet =
+      Map<String, FileDiffOutput> baseVsCurrent =
           diffOperations.listModifiedFilesAgainstParent(
               ctx.changeNotes().getProjectName(), targetPatchSet.commitId(), parentNum);
-      Map<String, FileDiffOutput> modifiedSourcePatchSet =
+      Map<String, FileDiffOutput> baseVsPrior =
           diffOperations.listModifiedFilesAgainstParent(
               ctx.changeNotes().getProjectName(), sourcePatchSet.commitId(), parentNum);
-      return match(modifiedTargetPatchSet, modifiedSourcePatchSet);
+      Map<String, FileDiffOutput> priorVsCurrent =
+          diffOperations.listModifiedFiles(
+              ctx.changeNotes().getProjectName(),
+              sourcePatchSet.commitId(),
+              targetPatchSet.commitId());
+      return match(baseVsCurrent, baseVsPrior, priorVsCurrent);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"
@@ -79,16 +84,23 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
    * {@link ChangeType} matches for each modified file.
    */
   public boolean match(
-      Map<String, FileDiffOutput> modifiedFiles1, Map<String, FileDiffOutput> modifiedFiles2) {
+      Map<String, FileDiffOutput> baseVsCurrent,
+      Map<String, FileDiffOutput> baseVsPrior,
+      Map<String, FileDiffOutput> priorVsCurrent) {
     Set<String> allFiles = new HashSet<>();
-    allFiles.addAll(modifiedFiles1.keySet());
-    allFiles.addAll(modifiedFiles2.keySet());
+    allFiles.addAll(baseVsCurrent.keySet());
+    allFiles.addAll(baseVsPrior.keySet());
     for (String file : allFiles) {
       if (Patch.isMagic(file)) {
         continue;
       }
-      FileDiffOutput fileDiffOutput1 = modifiedFiles1.get(file);
-      FileDiffOutput fileDiffOutput2 = modifiedFiles2.get(file);
+      FileDiffOutput fileDiffOutput1 = baseVsCurrent.get(file);
+      FileDiffOutput fileDiffOutput2 = baseVsPrior.get(file);
+      if (!priorVsCurrent.containsKey(file)) {
+        // If the file is not modified between prior and current patchsets, then scan safely skip
+        // it. The file might has been modified due to rebase.
+        continue;
+      }
       if (fileDiffOutput1 == null || fileDiffOutput2 == null) {
         return false;
       }

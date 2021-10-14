@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4c5e779a_c8600e80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-10-14T18:37:56Z",
+      "side": 1,
+      "message": "How would you work with them?\nOnce they are reviewed and submitted, you can\u0027t/shouldn\u0027t rebase the target branch as it is managed by Gerrit.",
+      "parentUuid": "991b2c36_74ef044f",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "92ea164164ce14088419c07532948df1432f3535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4aa2d6df_9130bb45",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-14T18:09:05Z",
       "side": 1,
       "message": "If you want to reject commits with specific subjects, you probably want to use something like the uploadvalidator plugin. Modifying the commit-msg hook isn\u0027t the way to do that.",
+      "range": {
+        "startLine": 17,
+        "startChar": 51,
+        "endLine": 17,
+        "endChar": 77
+      },
+      "revId": "92ea164164ce14088419c07532948df1432f3535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e9db600_14e4bfd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-10-14T18:37:56Z",
+      "side": 1,
+      "message": "Ok, thanks for the pointer!\nI\u0027ll add the uploadvalidator plugin to my setup.\nI still like the commit-msg hook approach, as temporary commits really do stand out in git-log this way.",
+      "parentUuid": "4aa2d6df_9130bb45",
       "range": {
         "startLine": 17,
         "startChar": 51,

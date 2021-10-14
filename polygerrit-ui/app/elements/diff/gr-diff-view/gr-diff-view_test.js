@@ -29,6 +29,7 @@ import {
 } from '../../../test/test-data-generators.js';
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
+import {EventType} from '../../../types/events.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -323,6 +324,60 @@ suite('gr-diff-view tests', () => {
       assert.equal(element._isFileUnchanged(diff), true);
     });
 
+    test('change detail is not rerequested if changeNum doesnt change',
+        async () => {
+          const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+          assert.isFalse(getDiffChangeDetailStub.called);
+          sinon.stub(element.reporting, 'diffViewDisplayed');
+          sinon.stub(element, '_loadBlame');
+          sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+          sinon.spy(element, '_paramsChanged');
+          element._change = undefined;
+          getDiffChangeDetailStub.returns(
+              Promise.resolve({
+                ...createChange(),
+                revisions: createRevisions(11),
+              }));
+          element._patchRange = {
+            patchNum: 2,
+            basePatchNum: 1,
+          };
+          sinon.stub(element, '_isFileUnchanged').returns(false);
+
+          element.params = {
+            view: GerritNav.View.DIFF,
+            changeNum: '42',
+            project: 'p',
+            commentId: 'c1',
+            commentLink: true,
+          };
+          await element._paramsChanged.returnValues[0];
+
+          assert.equal(getDiffChangeDetailStub.callCount, 1);
+          element.params = {
+            view: GerritNav.View.DIFF,
+            changeNum: '42',
+            project: 'p',
+            commentId: 'c1',
+            commentLink: true,
+          };
+          await element._paramsChanged.returnValues[0];
+
+          assert.equal(getDiffChangeDetailStub.callCount, 1);
+          element.params = {
+            view: GerritNav.View.DIFF,
+            changeNum: '43',
+            project: 'p',
+            commentId: 'c1',
+            commentLink: true,
+          };
+          await element._paramsChanged.returnValues[0];
+
+          // change page is recreated now
+          assert.equal(dispatchEventStub.lastCall.args[0].type,
+              EventType.RECREATE_DIFF_VIEW);
+        });
+
     test('diff toast to go to latest is shown and not base', async () => {
       diffCommentsStub.returns(Promise.resolve({
         '/COMMIT_MSG': [
@@ -344,6 +399,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, '_loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.spy(element, '_paramsChanged');
+      element._change = undefined;
       getDiffChangeDetailStub.returns(
           Promise.resolve({
             ...createChange(),

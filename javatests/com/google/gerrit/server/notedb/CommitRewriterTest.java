@@ -2226,11 +2226,11 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
   private void assertFixedCommits(
       ImmutableList<ObjectId> expectedFixedCommits, BackfillResult result, Change.Id changeId) {
-    assertThat(expectedFixedCommits)
-        .containsExactlyElementsIn(
+    assertThat(
             result.fixedRefDiff.get(RefNames.changeMetaRef(changeId)).stream()
                 .map(CommitDiff::oldSha1)
-                .collect(toImmutableList()));
+                .collect(toImmutableList()))
+        .containsExactlyElementsIn(expectedFixedCommits);
   }
 
   private String getAccountIdentToFix(Account account) {

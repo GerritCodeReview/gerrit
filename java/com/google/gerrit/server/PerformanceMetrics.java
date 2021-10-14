@@ -32,12 +32,9 @@ import java.util.concurrent.TimeUnit;
 public class PerformanceMetrics implements PerformanceLogger {
   private static final String OPERATION_LATENCY_METRIC_NAME = "performance/operations";
   private static final String OPERATION_COUNT_METRIC_NAME = "performance/operations_count";
-  private static final String PLUGIN_OPERATION_COUNT_METRIC_NAME =
-      "performance/plugin_operations_count";
 
   public final Timer3<String, String, String> operationsLatency;
   public final Counter3<String, String, String> operationsCounter;
-  public final Counter3<String, String, String> pluginOperationsCounter;
 
   @Inject
   PerformanceMetrics(MetricMaker metricMaker) {
@@ -46,16 +43,6 @@ public class PerformanceMetrics implements PerformanceLogger {
                 "operation_name",
                 (metadataBuilder, fieldValue) -> metadataBuilder.operationName(fieldValue))
             .description("The operation that was performed.")
-            .build();
-    Field<String> changeIdentifierField =
-        Field.ofString("change_identifier", (metadataBuilder, fieldValue) -> {})
-            .description(
-                "The ID of the change for which the operation was performed"
-                    + " (format = '<project>~<numeric-change-id>').")
-            .build();
-    Field<String> traceIdField =
-        Field.ofString("trace_id", (metadataBuilder, fieldValue) -> {})
-            .description("The ID of the trace if tracing was done.")
             .build();
     Field<String> requestField =
         Field.ofString("request", (metadataBuilder, fieldValue) -> {})
@@ -76,22 +63,15 @@ public class PerformanceMetrics implements PerformanceLogger {
                 .setCumulative()
                 .setUnit(Description.Units.MILLISECONDS),
             operationNameField,
-            changeIdentifierField,
-            traceIdField);
+            requestField,
+            pluginField);
     this.operationsCounter =
         metricMaker.newCounter(
             OPERATION_COUNT_METRIC_NAME,
             new Description("Number of performed operations").setRate(),
             operationNameField,
-            traceIdField,
-            requestField);
-    this.pluginOperationsCounter =
-        metricMaker.newCounter(
-            PLUGIN_OPERATION_COUNT_METRIC_NAME,
-            new Description("Number of performed operations by plugin").setRate(),
-            operationNameField,
-            pluginField,
-            traceIdField);
+            requestField,
+            pluginField);
   }
 
   @Override
@@ -110,28 +90,9 @@ public class PerformanceMetrics implements PerformanceLogger {
       return;
     }
 
-    String traceId = TraceContext.getTraceId().orElse("");
-
-    operationsLatency.record(
-        operation, formatChangeIdentifier(metadata), traceId, durationMs, TimeUnit.MILLISECONDS);
-
     String requestTag = TraceContext.getTag(TraceRequestListener.TAG_REQUEST).orElse("");
-    operationsCounter.increment(operation, traceId, requestTag);
-
-    TraceContext.getPluginTag()
-        .ifPresent(pluginName -> pluginOperationsCounter.increment(operation, pluginName, traceId));
-  }
-
-  private String formatChangeIdentifier(@Nullable Metadata metadata) {
-    if (metadata == null
-        || (!metadata.projectName().isPresent() && !metadata.changeId().isPresent())) {
-      return "";
-    }
-
-    StringBuilder sb = new StringBuilder();
-    sb.append(metadata.projectName().orElse("n/a"));
-    sb.append('~');
-    sb.append(metadata.changeId().map(String::valueOf).orElse("n/a"));
-    return sb.toString();
+    String pluginTag = TraceContext.getPluginTag().orElse("");
+    operationsLatency.record(operation, requestTag, pluginTag, durationMs, TimeUnit.MILLISECONDS);
+    operationsCounter.increment(operation, requestTag, pluginTag);
   }
 }

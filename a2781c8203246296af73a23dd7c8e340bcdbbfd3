@@ -16,6 +16,23 @@
       "message": "Bug was introduced here: https://gerrit-review.googlesource.com/c/gerrit/+/319355/16/polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_html.ts#59",
       "revId": "a2781c8203246296af73a23dd7c8e340bcdbbfd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e556d914_75eb81b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-14T19:34:17Z",
+      "side": 1,
+      "message": "Thanks a lot for fix!",
+      "revId": "a2781c8203246296af73a23dd7c8e340bcdbbfd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

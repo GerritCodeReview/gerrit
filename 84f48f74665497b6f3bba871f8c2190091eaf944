@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f17b7db0_c867d90e",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T18:54:45Z",
+      "side": 1,
+      "message": "Done, good catch 👍",
+      "parentUuid": "5d56f1b4_95eba3c7",
+      "range": {
+        "startLine": 176,
+        "startChar": 3,
+        "endLine": 176,
+        "endChar": 88
+      },
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df0c04bd_c357b3d1",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-10-14T04:16:06Z",
       "side": 1,
       "message": "Maybe do this in getMetaRevId() so that other future callers won\u0027t forget to check it?",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 18
+      },
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "044ffb85_df0c63ea",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T18:54:45Z",
+      "side": 1,
+      "message": "Yep, good idea. Done.",
+      "parentUuid": "df0c04bd_c357b3d1",
       "range": {
         "startLine": 109,
         "startChar": 6,

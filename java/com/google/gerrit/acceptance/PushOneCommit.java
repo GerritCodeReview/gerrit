@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -42,6 +43,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -78,6 +81,8 @@ public class PushOneCommit {
           + "---\n"
           + "\n"
           + PATCH_FILE_ONLY;
+  private static final String SUCCESSFULLY_PUSHED_CHANGE_URL_PATTERN =
+      "http://.*/c/(.*)/[+]/([0-9]+) ";
 
   public interface Factory {
     PushOneCommit create(PersonIdent i, TestRepository<?> testRepo);
@@ -372,12 +377,25 @@ public class PushOneCommit {
     private final PushResult result;
     private final RevCommit commit;
     private final String resSubj;
+    private final String changeNumericId;
+    private final String project;
 
     private Result(String ref, PushResult resSubj, RevCommit commit, String subject) {
       this.ref = ref;
       this.result = resSubj;
       this.commit = commit;
       this.resSubj = subject;
+
+      Matcher changeUrlMatcher =
+          Pattern.compile(SUCCESSFULLY_PUSHED_CHANGE_URL_PATTERN, Pattern.DOTALL)
+              .matcher(resSubj.getMessages());
+      if (changeUrlMatcher.find()) {
+        this.project = changeUrlMatcher.group(1);
+        this.changeNumericId = changeUrlMatcher.group(2);
+      } else {
+        this.changeNumericId = null;
+        this.project = null;
+      }
     }
 
     public ChangeData getChange() {
@@ -473,6 +491,16 @@ public class PushOneCommit {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
       assertThat(refUpdate).isNotNull();
       return message(refUpdate);
+    }
+
+    /**
+     * Returns a change-id string compose by <project>~<change-num>, the type of id needed to find a
+     * change without relying on the change index.
+     */
+    public String projectNumericId() {
+      assertNotNull(project);
+      assertNotNull(changeNumericId);
+      return project + "~" + changeNumericId;
     }
 
     private String message(RemoteRefUpdate refUpdate) {

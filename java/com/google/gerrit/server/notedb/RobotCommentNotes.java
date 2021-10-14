@@ -47,7 +47,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
 
   @Inject
   RobotCommentNotes(Args args, @Assisted Change change) {
-    super(args, change.getId());
+    super(args, change.getId(), null);
     this.change = change;
   }
 

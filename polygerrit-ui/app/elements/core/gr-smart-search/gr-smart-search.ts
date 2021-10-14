@@ -117,7 +117,7 @@ export class GrSmartSearch extends PolymerElement {
       return Promise.resolve([]);
     }
     return this.restApiService
-      .getSuggestedGroups(expression, MAX_AUTOCOMPLETE_RESULTS)
+      .getSuggestedGroups(expression, undefined, MAX_AUTOCOMPLETE_RESULTS)
       .then(groups => {
         if (!groups) {
           return [];

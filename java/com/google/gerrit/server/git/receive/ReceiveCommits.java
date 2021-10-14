@@ -2729,7 +2729,7 @@ class ReceiveCommits {
     try (TraceTimer traceTimer = newTimer("readChangesForReplace")) {
       replaceByChange.values().stream()
           .map(r -> r.ontoChange)
-          .map(id -> notesFactory.create(project.getNameKey(), id))
+          .map(id -> notesFactory.create(repo, project.getNameKey(), id))
           .forEach(notes -> replaceByChange.get(notes.getChangeId()).notes = notes);
     }
   }

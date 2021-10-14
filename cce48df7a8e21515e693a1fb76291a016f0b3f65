@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5907faf1_0b6e8876",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T12:13:50Z",
+      "side": 1,
+      "message": "The second parameter for all calls of _computeExpandedFile is always this._files.length.\n\nConsider making it a single parameter function that only takes the first argument.",
+      "revId": "cce48df7a8e21515e693a1fb76291a016f0b3f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33bfbb8d_39dc2e5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T12:13:50Z",
+      "side": 1,
+      "message": "Add a helper function that computes this with a meaningful name.",
+      "revId": "cce48df7a8e21515e693a1fb76291a016f0b3f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0889c0f_c43657bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T12:13:50Z",
+      "side": 1,
+      "message": "Could you add a comment to the new block of code as to what the intent is? It\u0027s doing al ot of things but it\u0027s not clear why.",
+      "revId": "cce48df7a8e21515e693a1fb76291a016f0b3f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

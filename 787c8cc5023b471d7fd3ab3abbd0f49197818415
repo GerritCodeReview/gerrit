@@ -16,6 +16,24 @@
       "message": "Does this work for you?\n\n1. Open diff of file on change\n2. go back to change\n3. Open diff in change\n4. change syntax highlighting to off\n5. go back to diff view of file as in 1.\n\nexpected: diff is not highlighted\nactual: diff is highlighted",
       "revId": "787c8cc5023b471d7fd3ab3abbd0f49197818415",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d2e7d72_3e753408",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T14:42:32Z",
+      "side": 1,
+      "message": "Yeah, I see the issue.\nIdeally the diff-view should subscribe to changes made in the preference via the model and update itself in the background.",
+      "parentUuid": "e7e42d95_a2ea33c4",
+      "revId": "787c8cc5023b471d7fd3ab3abbd0f49197818415",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

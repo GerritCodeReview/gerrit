@@ -97,7 +97,7 @@ import {
   isInBaseOfPatchRange,
   getPatchRangeForCommentUrl,
 } from '../../../utils/comment-util';
-import {AppElementParams} from '../../gr-app-types';
+import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
 import {
   IronKeyboardEventListener,
   IronKeyboardEvent,
@@ -1107,6 +1107,14 @@ export class GrDiffView extends base {
     );
   }
 
+  private isSameDiffLoaded(value: AppElementDiffViewParam) {
+    return (
+      this._patchRange?.basePatchNum === value.basePatchNum &&
+      this._patchRange?.patchNum === value.patchNum &&
+      this._path === value.path
+    );
+  }
+
   _paramsChanged(value: AppElementParams) {
     if (value.view !== GerritView.DIFF) {
       return;
@@ -1117,6 +1125,10 @@ export class GrDiffView extends base {
     const changeChanged = this._changeNum !== value.changeNum;
     if (this._changeNum !== undefined && changeChanged) {
       fireEvent(this, EventType.RECREATE_DIFF_VIEW);
+      return;
+    } else if (this._changeNum !== undefined && this.isSameDiffLoaded(value)) {
+      // changeNum has not changed, so check if there are changes in patchRange
+      // path. If no changes then we can simply render the view as is.
       return;
     }
 

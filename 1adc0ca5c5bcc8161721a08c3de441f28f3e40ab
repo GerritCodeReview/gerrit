@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34782aa8_4917c0ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T09:15:30Z",
+      "side": 1,
+      "message": "This is just replacing the `forceReload` param from the url. There is no navigation supposed to happen.",
+      "parentUuid": "66bca167_0b2ab046",
+      "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "511774dd_64b74d69",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 15
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "50562ea6_99f8ab2f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T09:15:30Z",
+      "side": 1,
+      "message": "tried to make it clearer",
+      "parentUuid": "511774dd_64b74d69",
+      "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b4ee76c_882f58e5",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
         "patchSetId": 15
@@ -48,6 +84,24 @@
       "writtenOn": "2021-10-11T12:04:29Z",
       "side": 1,
       "message": "Document this parameter.\n\nThis is called from more places than the logic was originally changed to call fireReload, so why is this default true?",
+      "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb2ea069_69336e5b",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T09:15:30Z",
+      "side": 1,
+      "message": "Updated the default to be false.\n\nI initially kept the default true so users of `navigateToChange` did not have to concern themselves with this parameter.",
+      "parentUuid": "3b4ee76c_882f58e5",
       "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d702ece9_5c043874",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T09:15:30Z",
+      "side": 1,
+      "message": "Removed the params.edit from the else block.\n\nThe regex for CHANGE_EDIT expects \",edit\" to be at the end of the url, so we have to form the suffix completely before adding \",edit\"",
+      "parentUuid": "e7f34f06_95f329fd",
+      "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "75737a60_ff948471",
         "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
         "patchSetId": 15
@@ -82,6 +154,24 @@
       "writtenOn": "2021-10-11T12:04:29Z",
       "side": 1,
       "message": "Shouldn\u0027t this get the extra \"forceReload \u003d true\" param here and throughout?",
+      "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4dc7b38_125bfe04",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T09:15:30Z",
+      "side": 1,
+      "message": "Obsolete after Change 320779",
+      "parentUuid": "75737a60_ff948471",
       "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

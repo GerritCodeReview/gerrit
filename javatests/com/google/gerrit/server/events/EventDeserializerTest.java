@@ -22,6 +22,8 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
@@ -238,6 +240,31 @@ public class EventDeserializerTest {
 
     assertThat(e).isNotNull();
     assertSameChangeEvent(e, orig);
+  }
+
+  @Test
+  public void shouldSerializeAllProjectsToString() {
+    String allProjectsString = "foobar";
+    AllProjectsName allProjectsNameKey = new AllProjectsName(allProjectsString);
+
+    assertThat(gson.toJson(allProjectsNameKey))
+        .isEqualTo(String.format("\"%s\"", allProjectsString));
+  }
+
+  @Test
+  public void shouldSerializeAllUsersToString() {
+    String allUsersString = "foobar";
+    AllUsersName allUsersNameKey = new AllUsersName(allUsersString);
+
+    assertThat(gson.toJson(allUsersNameKey)).isEqualTo(String.format("\"%s\"", allUsersString));
+  }
+
+  @Test
+  public void shouldSerializeProjectNameKeyToString() {
+    String projectString = "foobar";
+    Project.NameKey projectNameKey = Project.nameKey(projectString);
+
+    assertThat(gson.toJson(projectNameKey)).isEqualTo(String.format("\"%s\"", projectString));
   }
 
   private <T> Supplier<T> createSupplier(T value) {

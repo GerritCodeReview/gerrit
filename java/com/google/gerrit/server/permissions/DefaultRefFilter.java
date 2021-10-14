@@ -135,7 +135,7 @@ class DefaultRefFilter {
         return ImmutableList.of();
       }
       if (RefNames.isRefsChanges(refName)) {
-        boolean isChangeRefVisisble = canSeeSingleChangeRef(refName);
+        boolean isChangeRefVisisble = canSeeSingleChangeRef(repo, refName);
         if (isChangeRefVisisble) {
           logger.atFinest().log("Change ref %s is visible", refName);
           return refs;
@@ -371,7 +371,8 @@ class DefaultRefFilter {
    * with refs-in-wants is used as that enables Gerrit to skip traditional advertisement of all
    * visible refs.
    */
-  private boolean canSeeSingleChangeRef(String refName) throws PermissionBackendException {
+  private boolean canSeeSingleChangeRef(Repository repo, String refName)
+      throws PermissionBackendException {
     // We are treating just a single change ref. We are therefore not going through regular ref
     // filtering, but use NoteDb directly. This makes it so that we can always serve this ref
     // even if the change is not part of the set of most recent changes that
@@ -385,7 +386,7 @@ class DefaultRefFilter {
     }
     ChangeNotes notes;
     try {
-      notes = changeNotesFactory.create(projectState.getNameKey(), cId);
+      notes = changeNotesFactory.create(repo, projectState.getNameKey(), cId);
     } catch (StorageException e) {
       throw new PermissionBackendException("can't construct change notes", e);
     }

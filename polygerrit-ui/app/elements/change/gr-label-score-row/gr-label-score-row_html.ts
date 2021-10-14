@@ -56,7 +56,7 @@ export const htmlTemplate = html`
     gr-tooltip-content.iron-selected > gr-button[vote='max'] {
       --button-background-color: var(--vote-color-approved);
     }
-    gr-tooltip-content.iron-selected > gr-buttonvote='positive'] {
+    gr-tooltip-content.iron-selected > gr-button[vote='positive'] {
       --button-background-color: var(--vote-color-recommended);
     }
     gr-tooltip-content.iron-selected > gr-button[vote='min'] {

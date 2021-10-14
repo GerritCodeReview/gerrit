@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a40d069a_095e7c40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T12:14:52Z",
+      "side": 1,
+      "message": "Does this CL still apply given your other changes? ",
+      "revId": "c984eef11d47260d7872b286491563f73e7a9822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdb05787_cf15b187",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T12:14:52Z",
+      "side": 1,
+      "message": "Don\u0027t modify the incoming parameter.",
+      "revId": "c984eef11d47260d7872b286491563f73e7a9822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

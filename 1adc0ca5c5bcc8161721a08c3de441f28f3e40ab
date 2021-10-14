@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05f4192e_41d5c9cd",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T12:14:52Z",
+      "side": 1,
+      "message": "CHANGE_EDIT doesn\u0027t account for url-params before ,edit. Presumably a routing engine can deal with suffixed url-params? URL params always go last, except for `#hashparams`.",
+      "parentUuid": "d702ece9_5c043874",
+      "revId": "1adc0ca5c5bcc8161721a08c3de441f28f3e40ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "75737a60_ff948471",
         "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
         "patchSetId": 15

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd87709a_a405708f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-14T13:13:14Z",
+      "side": 1,
+      "message": "As discussed in Chat, we could also update the icon for Gerrit Status to the same icon as OOO. (same Calendar icon but with the X that we are introducing in this change). ",
+      "revId": "506b38f5acaed6c63b60f6bbe4cc4bfd3ffa4180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

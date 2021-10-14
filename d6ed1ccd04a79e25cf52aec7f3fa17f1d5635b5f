@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8932b66b_4a175b56",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T20:48:14Z",
+      "side": 1,
+      "message": "I didn\u0027t see this part in your screenshot?",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35bee95f_7e506416",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T20:48:14Z",
+      "side": 1,
+      "message": "const labelInfo \u003d this.labelInfo; feels more legible.",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6b665da_c40991e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T20:48:14Z",
+      "side": 1,
+      "message": "Consider making this a new function renderNewSubmitRequirements()\n\nso you can simply write \n```\nif (this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {\n   return renderNewSubmitRequirements();\n} else {\n  return renderOldSubmitRequirements();\n}\n```",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "909eda94_1bfd37fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T20:48:14Z",
+      "side": 1,
+      "message": "Factor out this block, it\u0027s shared with renderLabel\n\n```\nprivate renderRemoveVote(account: AccountInfo) {\n  ...\n}\n```",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5de6dc1_a19777ad",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T20:48:14Z",
+      "side": 1,
+      "message": "What if it exists but max is not set?",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10385b09_a706cf12",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-14T20:48:14Z",
+      "side": 1,
+      "message": "This if block and the last return could be simplified to\n\n```\nreturn approvalInfo.value !\u003d\u003d undefined;\n```",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

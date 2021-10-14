@@ -193,6 +193,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
     List<ChangeNotes> notes =
         notesFactory.create(
+            repo,
             branch.project(),
             changeIds,
             cn -> {

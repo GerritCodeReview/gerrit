@@ -131,6 +131,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d401f7ef_75933556",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T19:48:54Z",
+      "side": 1,
+      "message": "This is how it was:\n\n\n  private void verifyMetaId(Repository repo, ObjectId id)\n      throws IOException, MissingMetaObjectException {\n    try (RevWalk rw \u003d new RevWalk(repo)) {\n      Ref ref \u003d repo.getRefDatabase().exactRef(getRefName());\n      RevCommit tip \u003d rw.parseCommit(ref.getObjectId());\n      rw.markStart(tip);\n      for (RevCommit rev : rw) {\n        if (id.equals(rev)) {\n          return;\n        }\n      }\n    }\n\n    throw new MissingMetaObjectException(id.getName() + \" not reachable from \" + getRefName());\n  }\n  \nI can see the rw.markStart(tip) or I am reading it wrongly?",
+      "parentUuid": "2f9739b8_dfd145e2",
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c02e1d05_7263f08b",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
         "patchSetId": 3
@@ -142,6 +160,30 @@
       "writtenOn": "2021-10-14T04:16:06Z",
       "side": 1,
       "message": "It looks like the message of this exception could go to the user? If that\u0027s correct, could it leak info that wouldn\u0027t be appropriate (security or host internals wise)?",
+      "range": {
+        "startLine": 164,
+        "startChar": 92,
+        "endLine": 164,
+        "endChar": 93
+      },
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ed606bc_0d5fab17",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T19:48:54Z",
+      "side": 1,
+      "message": "Let me just reduce the change output to its numeric id, which is anonymous and does not leak any sensitive or private data.",
+      "parentUuid": "c02e1d05_7263f08b",
       "range": {
         "startLine": 164,
         "startChar": 92,

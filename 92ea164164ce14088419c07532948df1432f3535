@@ -93,6 +93,30 @@
       },
       "revId": "92ea164164ce14088419c07532948df1432f3535",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21ae71f9_3b439614",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-10-14T22:39:21Z",
+      "side": 1,
+      "message": "I didn\u0027t read \"something like\" carefully enough.\nThe uploadvalidator plugin is currently not capable of blocking fixup! commits.",
+      "parentUuid": "9e9db600_14e4bfd3",
+      "range": {
+        "startLine": 17,
+        "startChar": 51,
+        "endLine": 17,
+        "endChar": 77
+      },
+      "revId": "92ea164164ce14088419c07532948df1432f3535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

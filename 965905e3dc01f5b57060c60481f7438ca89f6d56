@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03b1c510_93ea88a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T18:57:23Z",
+      "side": 1,
+      "message": "Thanks for the review, just a question on how you envisage to use the ChangeTriplet in this context, which isn\u0027t clear to me. Any code sample?",
+      "revId": "965905e3dc01f5b57060c60481f7438ca89f6d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

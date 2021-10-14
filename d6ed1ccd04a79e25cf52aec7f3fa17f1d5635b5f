@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "686e7b0b_8af3bd76",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T20:53:55Z",
+      "side": 1,
+      "message": "present?",
+      "range": {
+        "startLine": 172,
+        "startChar": 12,
+        "endLine": 172,
+        "endChar": 18
+      },
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8932b66b_4a175b56",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
         "patchSetId": 8
@@ -14,6 +37,29 @@
       "writtenOn": "2021-10-14T20:48:14Z",
       "side": 1,
       "message": "I didn\u0027t see this part in your screenshot?",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e0946c0_5138df43",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T20:53:55Z",
+      "side": 1,
+      "message": "we are no longer using gr-limited-text?",
+      "range": {
+        "startLine": 174,
+        "startChar": 30,
+        "endLine": 174,
+        "endChar": 51
+      },
       "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

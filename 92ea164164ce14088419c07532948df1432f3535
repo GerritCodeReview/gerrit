@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "991b2c36_74ef044f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T18:09:05Z",
+      "side": 1,
+      "message": "This isn\u0027t true. Some workflows could include fixup! and squash! commits as reviews in Gerrit.",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "92ea164164ce14088419c07532948df1432f3535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aa2d6df_9130bb45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T18:09:05Z",
+      "side": 1,
+      "message": "If you want to reject commits with specific subjects, you probably want to use something like the uploadvalidator plugin. Modifying the commit-msg hook isn\u0027t the way to do that.",
+      "range": {
+        "startLine": 17,
+        "startChar": 51,
+        "endLine": 17,
+        "endChar": 77
+      },
+      "revId": "92ea164164ce14088419c07532948df1432f3535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

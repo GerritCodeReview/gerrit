@@ -34,6 +34,24 @@
       "parentUuid": "e7e42d95_a2ea33c4",
       "revId": "787c8cc5023b471d7fd3ab3abbd0f49197818415",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43be21cd_7081c9c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-14T18:30:13Z",
+      "side": 1,
+      "message": "It\u0027s minor thing. It\u0027s ok to just track it in a bug",
+      "parentUuid": "8d2e7d72_3e753408",
+      "revId": "787c8cc5023b471d7fd3ab3abbd0f49197818415",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

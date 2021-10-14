@@ -22,6 +22,30 @@
       },
       "revId": "3fe6d0d6d2264270ce650defaac45f0e7140bddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "032c80ad_57989a27",
+        "filename": "java/com/google/gerrit/server/PerformanceMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-14T14:25:35Z",
+      "side": 0,
+      "message": "Good point. I think we have this also as part of other metrics. So keeping this here should be OK.\n\nDone.",
+      "parentUuid": "fd7f6c96_f891e146",
+      "range": {
+        "startLine": 64,
+        "startChar": 35,
+        "endLine": 64,
+        "endChar": 49
+      },
+      "revId": "3fe6d0d6d2264270ce650defaac45f0e7140bddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

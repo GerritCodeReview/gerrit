@@ -260,8 +260,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String fileName = "a_new_file.txt";
     String fileContent = "First line\nSecond line\n";
     PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
-    String triplet = project.get() + "~master~" + result.getChangeId();
-    ChangeInfo change = gApi.changes().id(triplet).get();
+    ChangeInfo change = gApi.changes().id(result.projectNumericId()).get();
     assertThat(change.insertions).isNotNull();
     assertThat(change.deletions).isNotNull();
   }
@@ -271,9 +270,10 @@ public class ChangeIT extends AbstractDaemonTest {
     String fileName = "a_new_file.txt";
     String fileContent = "First line\nSecond line\n";
     PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
-    String triplet = project.get() + "~master~" + result.getChangeId();
     ChangeInfo change =
-        gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
+        gApi.changes()
+            .id(result.projectNumericId())
+            .get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
     assertThat(change.insertions).isNull();
     assertThat(change.deletions).isNull();
   }
@@ -283,11 +283,12 @@ public class ChangeIT extends AbstractDaemonTest {
     String fileName = "a_new_file.txt";
     String fileContent = "First line\nSecond line\n";
     PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
-    String triplet = project.get() + "~master~" + result.getChangeId();
     CacheStats startPatch = cloneStats(fileCache.stats());
     CacheStats startIntra = cloneStats(intraCache.stats());
     CacheStats startSummary = cloneStats(diffSummaryCache.stats());
-    gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
+    gApi.changes()
+        .id(result.projectNumericId())
+        .get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
 
     assertThat(fileCache.stats()).since(startPatch).hasMissCount(0);
     assertThat(fileCache.stats()).since(startPatch).hasHitCount(0);
@@ -3155,10 +3156,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void votable() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String triplet = project.get() + "~master~" + r.getChangeId();
-    gApi.changes().id(triplet).addReviewer(user.username());
-    ChangeInfo c = gApi.changes().id(triplet).get(DETAILED_LABELS);
+    String projectChangeId = createChange().projectNumericId();
+    gApi.changes().id(projectChangeId).addReviewer(user.username());
+    ChangeInfo c = gApi.changes().id(projectChangeId).get(DETAILED_LABELS);
     LabelInfo codeReview = c.labels.get(LabelId.CODE_REVIEW);
     assertThat(codeReview.all).hasSize(1);
     ApprovalInfo approval = codeReview.all.get(0);
@@ -3175,7 +3175,7 @@ public class ChangeIT extends AbstractDaemonTest {
                 .range(-1, 1))
         .update();
 
-    c = gApi.changes().id(triplet).get(DETAILED_LABELS);
+    c = gApi.changes().id(projectChangeId).get(DETAILED_LABELS);
     codeReview = c.labels.get(LabelId.CODE_REVIEW);
     assertThat(codeReview.all).hasSize(1);
     approval = codeReview.all.get(0);
@@ -3213,15 +3213,15 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
     assertThat(info.changeId).isEqualTo(r.getChangeId());
 
-    String triplet = project.get() + "~master~" + r.getChangeId();
-    info = gApi.changes().id(triplet).get();
+    String projectChangeid = r.projectNumericId();
+    info = gApi.changes().id(projectChangeid).get();
     assertThat(info.changeId).isEqualTo(r.getChangeId());
 
     info = gApi.changes().id(info._number).get();
     assertThat(info.changeId).isEqualTo(r.getChangeId());
     assertThrows(
         AuthException.class,
-        () -> gApi.changes().id(triplet).current().review(ReviewInput.approve()));
+        () -> gApi.changes().id(projectChangeid).current().review(ReviewInput.approve()));
   }
 
   @Test
@@ -3648,12 +3648,11 @@ public class ChangeIT extends AbstractDaemonTest {
     final int maxPermittedValue = +2;
     String heads = "refs/heads/*";
 
-    PushOneCommit.Result r = createChange();
-    String triplet = project.get() + "~master~" + r.getChangeId();
+    String projectChangeId = createChange().projectNumericId();
 
-    gApi.changes().id(triplet).addReviewer(user.username());
+    gApi.changes().id(projectChangeId).addReviewer(user.username());
 
-    ChangeInfo c = gApi.changes().id(triplet).get(DETAILED_LABELS);
+    ChangeInfo c = gApi.changes().id(projectChangeId).get(DETAILED_LABELS);
     LabelInfo codeReview = c.labels.get(LabelId.CODE_REVIEW);
     assertThat(codeReview.all).hasSize(1);
     ApprovalInfo approval = codeReview.all.get(0);
@@ -3673,7 +3672,7 @@ public class ChangeIT extends AbstractDaemonTest {
                 .range(minPermittedValue, maxPermittedValue))
         .update();
 
-    c = gApi.changes().id(triplet).get(DETAILED_LABELS);
+    c = gApi.changes().id(projectChangeId).get(DETAILED_LABELS);
     codeReview = c.labels.get(LabelId.CODE_REVIEW);
     assertThat(codeReview.all).hasSize(1);
     approval = codeReview.all.get(0);
@@ -3695,12 +3694,11 @@ public class ChangeIT extends AbstractDaemonTest {
                 .range(-1, 1))
         .update();
 
-    PushOneCommit.Result r = createChange();
-    String triplet = project.get() + "~master~" + r.getChangeId();
+    String projectChangeId = createChange().projectNumericId();
 
-    gApi.changes().id(triplet).addReviewer(user.username());
+    gApi.changes().id(projectChangeId).addReviewer(user.username());
 
-    ChangeInfo c = gApi.changes().id(triplet).get(DETAILED_LABELS);
+    ChangeInfo c = gApi.changes().id(projectChangeId).get(DETAILED_LABELS);
     LabelInfo codeReview = c.labels.get(LabelId.CODE_REVIEW);
     assertThat(codeReview.all).hasSize(1);
     ApprovalInfo approval = codeReview.all.get(0);
@@ -4187,18 +4185,17 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
-      PushOneCommit.Result r = createChange();
-      String triplet = project.get() + "~master~" + r.getChangeId();
+      String projectChangeId = createChange().projectNumericId();
       changeIndexedCounter.clear();
 
-      gApi.accounts().self().starChange(triplet);
-      ChangeInfo change = info(triplet);
+      gApi.accounts().self().starChange(projectChangeId);
+      ChangeInfo change = info(projectChangeId);
       assertThat(change.starred).isTrue();
       assertThat(change.stars).contains(DEFAULT_LABEL);
       changeIndexedCounter.assertReindexOf(change);
 
-      gApi.accounts().self().unstarChange(triplet);
-      change = info(triplet);
+      gApi.accounts().self().unstarChange(projectChangeId);
+      change = info(projectChangeId);
       assertThat(change.starred).isNull();
       assertThat(change.stars).isNull();
       changeIndexedCounter.assertReindexOf(change);

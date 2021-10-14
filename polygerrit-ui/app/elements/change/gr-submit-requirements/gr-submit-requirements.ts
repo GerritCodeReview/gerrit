@@ -80,20 +80,6 @@ export class GrSubmitRequirements extends LitElement {
         iron-icon.close {
           color: var(--warning-foreground);
         }
-        .testing {
-          margin-top: var(--spacing-xxl);
-          padding-left: var(--metadata-horizontal-padding);
-          color: var(--deemphasized-text-color);
-        }
-        .testing gr-button {
-          min-width: 25px;
-        }
-        .testing * {
-          visibility: hidden;
-        }
-        .testing:hover * {
-          visibility: visible;
-        }
         .requirements,
         section.trigger-votes {
           margin-left: var(--spacing-l);
@@ -192,9 +178,7 @@ export class GrSubmitRequirements extends LitElement {
           ></gr-submit-requirement-hovercard>
         `
       )}
-      ${this.renderTriggerVotes(
-        submit_requirements
-      )}${this.renderFakeControls()}`;
+      ${this.renderTriggerVotes(submit_requirements)}`;
   }
 
   renderStatus(status: SubmitRequirementStatus) {
@@ -287,49 +271,6 @@ export class GrSubmitRequirements extends LitElement {
             ></gr-trigger-vote>`
         )}
       </section>`;
-  }
-
-  renderFakeControls() {
-    return html`
-      <div class="testing">
-        <div>Toggle fake data:</div>
-        <gr-button link @click="${() => this.renderFakeSubmitRequirements()}"
-          >G</gr-button
-        >
-      </div>
-    `;
-  }
-
-  renderFakeSubmitRequirements() {
-    if (!this.change) return;
-    this.change = {
-      ...this.change,
-      submit_requirements: [
-        {
-          name: 'Code-Review',
-          status: SubmitRequirementStatus.SATISFIED,
-          description:
-            "At least one maximum vote for label 'Code-Review' is required",
-          submittability_expression_result: {
-            expression: 'label:Code-Review=MAX -label:Code-Review=MIN',
-            fulfilled: true,
-            passing_atoms: [],
-            failing_atoms: [],
-          },
-        },
-        {
-          name: 'Verified',
-          status: SubmitRequirementStatus.UNSATISFIED,
-          description: 'CI build and tests results are verified',
-          submittability_expression_result: {
-            expression: 'label:Verified=MAX -label:Verified=MIN',
-            fulfilled: false,
-            passing_atoms: [],
-            failing_atoms: [],
-          },
-        },
-      ],
-    };
   }
 }
 

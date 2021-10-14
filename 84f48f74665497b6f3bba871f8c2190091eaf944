@@ -149,6 +149,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f788acd8_90c20369",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T21:54:03Z",
+      "side": 1,
+      "message": "Sorry, my comment wasn\u0027t clear enough. I wasn\u0027t commenting on the markStart(). That looks fine.\n\nI was suggesting you add another line that does rw.setRetainBody(false) so that we don\u0027t use extra memory.",
+      "parentUuid": "d401f7ef_75933556",
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c02e1d05_7263f08b",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
         "patchSetId": 3

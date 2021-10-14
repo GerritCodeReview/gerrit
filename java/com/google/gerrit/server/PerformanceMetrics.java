@@ -15,11 +15,11 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.metrics.Counter3;
+import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.metrics.Timer3;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
@@ -32,12 +32,9 @@ import java.util.concurrent.TimeUnit;
 public class PerformanceMetrics implements PerformanceLogger {
   private static final String OPERATION_LATENCY_METRIC_NAME = "performance/operations";
   private static final String OPERATION_COUNT_METRIC_NAME = "performance/operations_count";
-  private static final String PLUGIN_OPERATION_COUNT_METRIC_NAME =
-      "performance/plugin_operations_count";
 
-  public final Timer3<String, String, String> operationsLatency;
-  public final Counter3<String, String, String> operationsCounter;
-  public final Counter3<String, String, String> pluginOperationsCounter;
+  public final Timer1<String> operationsLatency;
+  public final Counter2<String, String> operationsCounter;
 
   @Inject
   PerformanceMetrics(MetricMaker metricMaker) {
@@ -46,22 +43,6 @@ public class PerformanceMetrics implements PerformanceLogger {
                 "operation_name",
                 (metadataBuilder, fieldValue) -> metadataBuilder.operationName(fieldValue))
             .description("The operation that was performed.")
-            .build();
-    Field<String> changeIdentifierField =
-        Field.ofString("change_identifier", (metadataBuilder, fieldValue) -> {})
-            .description(
-                "The ID of the change for which the operation was performed"
-                    + " (format = '<project>~<numeric-change-id>').")
-            .build();
-    Field<String> traceIdField =
-        Field.ofString("trace_id", (metadataBuilder, fieldValue) -> {})
-            .description("The ID of the trace if tracing was done.")
-            .build();
-    Field<String> requestField =
-        Field.ofString("request", (metadataBuilder, fieldValue) -> {})
-            .description(
-                "The request for which the operation was performed"
-                    + " (format = '<request-type> <redacted-request-uri>').")
             .build();
     Field<String> pluginField =
         Field.ofString(
@@ -75,23 +56,13 @@ public class PerformanceMetrics implements PerformanceLogger {
             new Description("Latency of performing operations")
                 .setCumulative()
                 .setUnit(Description.Units.MILLISECONDS),
-            operationNameField,
-            changeIdentifierField,
-            traceIdField);
+            operationNameField);
     this.operationsCounter =
         metricMaker.newCounter(
             OPERATION_COUNT_METRIC_NAME,
             new Description("Number of performed operations").setRate(),
             operationNameField,
-            traceIdField,
-            requestField);
-    this.pluginOperationsCounter =
-        metricMaker.newCounter(
-            PLUGIN_OPERATION_COUNT_METRIC_NAME,
-            new Description("Number of performed operations by plugin").setRate(),
-            operationNameField,
-            pluginField,
-            traceIdField);
+            pluginField);
   }
 
   @Override
@@ -110,28 +81,7 @@ public class PerformanceMetrics implements PerformanceLogger {
       return;
     }
 
-    String traceId = TraceContext.getTraceId().orElse("");
-
-    operationsLatency.record(
-        operation, formatChangeIdentifier(metadata), traceId, durationMs, TimeUnit.MILLISECONDS);
-
-    String requestTag = TraceContext.getTag(TraceRequestListener.TAG_REQUEST).orElse("");
-    operationsCounter.increment(operation, traceId, requestTag);
-
-    TraceContext.getPluginTag()
-        .ifPresent(pluginName -> pluginOperationsCounter.increment(operation, pluginName, traceId));
-  }
-
-  private String formatChangeIdentifier(@Nullable Metadata metadata) {
-    if (metadata == null
-        || (!metadata.projectName().isPresent() && !metadata.changeId().isPresent())) {
-      return "";
-    }
-
-    StringBuilder sb = new StringBuilder();
-    sb.append(metadata.projectName().orElse("n/a"));
-    sb.append('~');
-    sb.append(metadata.changeId().map(String::valueOf).orElse("n/a"));
-    return sb.toString();
+    operationsLatency.record(operation, durationMs, TimeUnit.MILLISECONDS);
+    operationsCounter.increment(operation, TraceContext.getPluginTag().orElse(""));
   }
 }

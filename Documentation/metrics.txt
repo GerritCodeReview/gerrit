@@ -79,27 +79,11 @@ The following metrics are reported.
 * `performance/operations`: Latency of performing operations
 ** `operation_name`:
    The operation that was performed.
-** `change_identifier`:
-   The ID of the change for which the operation was performed (format =
-   '<project>~<numeric-change-id>').
-** `trace_id`:
-   The ID of the trace if tracing was done.
 * `performance/operations_count`: Number of performed operations
-** `operation_name`:
-   The operation that was performed.
-** `trace_id`:
-   The ID of the trace if tracing was done.
-** `request`:
-   The request for which the operation was performed (format = '<request-type>
-   <redacted-request-uri>').
-* `performance/plugin_operations_count`: Number of performed operations by
-  plugin
 ** `operation_name`:
    The operation that was performed.
 ** `plugin`:
    The name of the plugin that performed the operation.
-** `trace_id`:
-   The ID of the trace if tracing was done.
 
 
 === Pushes

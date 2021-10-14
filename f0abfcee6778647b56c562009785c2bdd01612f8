@@ -1,42 +1,21 @@
 {
-  "comments": [],
-  "submitRequirementResults": [
+  "comments": [
     {
-      "submitRequirement": {
-        "name": "Code-Style",
-        "description": {
-          "value": "Code has correct style and format"
-        },
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "unresolved": false,
+      "key": {
+        "uuid": "a83e6cfe_5b900908",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
       },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Style\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label:Code-Style\u003dMIN"
-        ]
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
       },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -257164050,
-        "w2": 1735943291,
-        "w3": 1455776256,
-        "w4": -1752841539,
-        "w5": -803859720
-      },
-      "legacy": false
+      "writtenOn": "2021-10-14T20:13:10Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "f0abfcee6778647b56c562009785c2bdd01612f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

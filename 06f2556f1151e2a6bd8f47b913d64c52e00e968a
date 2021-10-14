@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16fa747d_bfe850e0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T11:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebccc62c_89235f86",
+      "revId": "06f2556f1151e2a6bd8f47b913d64c52e00e968a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d0a7e50_b4063be1",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-14T11:26:39Z",
       "side": 1,
       "message": "Consider making a helper method with a clear name.\n\nThat way you don\u0027t need two nested ifs.\n\nelse if (this._changeNum !\u003d\u003d undefined \u0026\u0026 this.isSomeMeaningfulName()) {",
+      "revId": "06f2556f1151e2a6bd8f47b913d64c52e00e968a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e67e4189_49c8f1de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T11:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d0a7e50_b4063be1",
       "revId": "06f2556f1151e2a6bd8f47b913d64c52e00e968a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

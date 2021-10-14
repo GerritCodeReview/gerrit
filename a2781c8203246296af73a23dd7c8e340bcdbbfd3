@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b30d95fe_15805343",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2021-10-14T19:24:50Z",
+      "side": 1,
+      "message": "Bug was introduced here: https://gerrit-review.googlesource.com/c/gerrit/+/319355/16/polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_html.ts#59",
+      "revId": "a2781c8203246296af73a23dd7c8e340bcdbbfd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

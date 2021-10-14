@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd7f6c96_f891e146",
+        "filename": "java/com/google/gerrit/server/PerformanceMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-14T14:14:32Z",
+      "side": 0,
+      "message": "optional: could we at least keep a part of this info? e.g endpoint from uri?",
+      "range": {
+        "startLine": 64,
+        "startChar": 35,
+        "endLine": 64,
+        "endChar": 49
+      },
+      "revId": "3fe6d0d6d2264270ce650defaac45f0e7140bddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

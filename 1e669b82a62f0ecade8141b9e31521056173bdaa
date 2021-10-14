@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b27c32b8_12ff7110",
+        "filename": "java/com/google/gerrit/server/PerformanceMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-14T14:14:32Z",
+      "side": 1,
+      "message": "optional: should this include plugin field as well?",
+      "range": {
+        "startLine": 59,
+        "startChar": 12,
+        "endLine": 59,
+        "endChar": 31
+      },
+      "revId": "1e669b82a62f0ecade8141b9e31521056173bdaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -29,6 +29,11 @@ if test ! -f "$1" ; then
   exit 1
 fi
 
+# Do not add Change-Id to temporary commits
+if head -1 "$1" | grep -q '^\(fixup\|squash\)!' ; then
+  exit 0
+fi
+
 # Do not create a change id if requested
 if test "false" = "$(git config --bool --get gerrit.createChangeId)" ; then
   exit 0

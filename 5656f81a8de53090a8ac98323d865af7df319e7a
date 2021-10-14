@@ -220,6 +220,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72d92a10_4d27d078",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T23:01:02Z",
+      "side": 1,
+      "message": "Luca and I discussed more and discovered that using only a change numeric id or a full triplet will result in the ChangesApi using the index to lookup the change. Since we know the project and numeric id, we can use that and look up directly in notedb.",
+      "parentUuid": "c8cb831f_21d34fb0",
+      "range": {
+        "startLine": 281,
+        "startChar": 21,
+        "endLine": 281,
+        "endChar": 65
+      },
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1a14ab1f_848ae88d",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -296,6 +320,24 @@
       "side": 1,
       "message": "What do you mean by \"matches\"? All fields?\nWe could do that, but it would be a distraction from the purpose of the test.\nWe want to make sure to get the *correct* meta-revision of the change, but this isn\u0027t the test that make sure that the whole get() functionality works.\n\nThat is already implicit in the usage of info(triplet) IMHO. What do you think?",
       "parentUuid": "31404847_c7125039",
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8509570e_cf7b41d8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T23:01:02Z",
+      "side": 1,
+      "message": "I think testing that get() with a meta-revision gives the change data for that revision beyond just the metaRevId is a gap and should be tested. Just using info() and confirming the metaRevId is what we expect doesn\u0027t tell us if the meta-revision feature works. What if we had a bug that set the metaRevId to what the input was but didn\u0027t do anything else?",
+      "parentUuid": "1cec913a_2c80b441",
       "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

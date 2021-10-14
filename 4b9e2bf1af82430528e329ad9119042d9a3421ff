@@ -50,6 +50,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "596e1506_f1c7c734",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T22:55:19Z",
+      "side": 1,
+      "message": "This file isn\u0027t mentioned in the commit message, did you mean to include it?",
+      "revId": "4b9e2bf1af82430528e329ad9119042d9a3421ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5e839bfd_56b3901c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
         "patchSetId": 7
@@ -79,6 +96,24 @@
       "side": 1,
       "message": "We already have this config and a default value. Why do you think another property is required ?",
       "parentUuid": "5e839bfd_56b3901c",
+      "revId": "4b9e2bf1af82430528e329ad9119042d9a3421ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35ad64f2_b2260be2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T22:55:19Z",
+      "side": 1,
+      "message": "I would agree, I don\u0027t think we also need a system property.",
+      "parentUuid": "a438767e_4c671a88",
       "revId": "4b9e2bf1af82430528e329ad9119042d9a3421ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

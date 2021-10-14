@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5093011d_ea2cf940",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T04:16:06Z",
+      "side": 1,
+      "message": "Generally looks good, just a few comments.",
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d56f1b4_95eba3c7",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T04:16:06Z",
+      "side": 1,
+      "message": "Not thrown now",
+      "range": {
+        "startLine": 176,
+        "startChar": 3,
+        "endLine": 176,
+        "endChar": 88
+      },
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df0c04bd_c357b3d1",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T04:16:06Z",
+      "side": 1,
+      "message": "Maybe do this in getMetaRevId() so that other future callers won\u0027t forget to check it?",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 18
+      },
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f9739b8_dfd145e2",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T04:16:06Z",
+      "side": 1,
+      "message": "This wasn\u0027t done in the code you\u0027re copying from, but we should probably be setting rw.setRetainBody(false) so that we\u0027re not using extra memory here.",
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c02e1d05_7263f08b",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T04:16:06Z",
+      "side": 1,
+      "message": "It looks like the message of this exception could go to the user? If that\u0027s correct, could it leak info that wouldn\u0027t be appropriate (security or host internals wise)?",
+      "range": {
+        "startLine": 164,
+        "startChar": 92,
+        "endLine": 164,
+        "endChar": 93
+      },
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

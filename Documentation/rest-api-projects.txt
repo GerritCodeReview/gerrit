@@ -421,11 +421,11 @@ Query the first 25 projects in project list.
 ----
 
 The `/projects/` URL also accepts a start integer in the `start`
-parameter. The results will skip `start` groups from project list.
+parameter. The results will skip `start` projects from project list.
 
 Query 25 projects starting from index 50.
 ----
-  GET /groups/?query=<query>&limit=25&start=50 HTTP/1.0
+  GET /projects/?query=<query>&limit=25&start=50 HTTP/1.0
 ----
 
 [[project-query-options]]

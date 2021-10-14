@@ -22,7 +22,6 @@ import com.google.common.truth.Subject;
 import com.google.gerrit.jgit.diff.ReplaceEdit;
 import com.google.gerrit.truth.ListSubject;
 import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.diff.Edit.Type;
 
 public class GitEditSubject extends Subject {
 
@@ -49,32 +48,32 @@ public class GitEditSubject extends Subject {
     check("endB").that(edit.getEndB()).isEqualTo(endB);
   }
 
-  public void hasType(Type type) {
+  public void hasType(Edit.Type type) {
     isNotNull();
     check("getType").that(edit.getType()).isEqualTo(type);
   }
 
   public void isInsert(int insertPos, int beginB, int insertedLength) {
     isNotNull();
-    hasType(Type.INSERT);
+    hasType(Edit.Type.INSERT);
     hasRegions(insertPos, insertPos, beginB, beginB + insertedLength);
   }
 
   public void isDelete(int deletePos, int deletedLength, int posB) {
     isNotNull();
-    hasType(Type.DELETE);
+    hasType(Edit.Type.DELETE);
     hasRegions(deletePos, deletePos + deletedLength, posB, posB);
   }
 
   public void isReplace(int originalPos, int originalLength, int newPos, int newLength) {
     isNotNull();
-    hasType(Type.REPLACE);
+    hasType(Edit.Type.REPLACE);
     hasRegions(originalPos, originalPos + originalLength, newPos, newPos + newLength);
   }
 
   public void isEmpty() {
     isNotNull();
-    hasType(Type.EMPTY);
+    hasType(Edit.Type.EMPTY);
   }
 
   public ListSubject<GitEditSubject, Edit> internalEdits() {

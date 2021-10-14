@@ -14,10 +14,6 @@
 
 package com.google.gerrit.extensions.conditions;
 
-import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
-import static com.google.gerrit.extensions.conditions.BooleanCondition.not;
-import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
-import static com.google.gerrit.extensions.conditions.BooleanCondition.valueOf;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -49,78 +45,84 @@ public class BooleanConditionTest {
 
   @Test
   public void reduceAnd_CutOffNonTrivialWhenPossible() throws Exception {
-    BooleanCondition nonReduced = and(false, NO_TRIVIAL_EVALUATION);
-    BooleanCondition reduced = valueOf(false);
+    BooleanCondition nonReduced = BooleanCondition.and(false, NO_TRIVIAL_EVALUATION);
+    BooleanCondition reduced = BooleanCondition.valueOf(false);
     assertEquals(nonReduced.reduce(), reduced);
   }
 
   @Test
   public void reduceAnd_CutOffNonTrivialWhenPossibleSwapped() throws Exception {
-    BooleanCondition nonReduced = and(NO_TRIVIAL_EVALUATION, valueOf(false));
-    BooleanCondition reduced = valueOf(false);
+    BooleanCondition nonReduced =
+        BooleanCondition.and(NO_TRIVIAL_EVALUATION, BooleanCondition.valueOf(false));
+    BooleanCondition reduced = BooleanCondition.valueOf(false);
     assertEquals(nonReduced.reduce(), reduced);
   }
 
   @Test
   public void reduceAnd_KeepNonTrivialWhenNoCutOffPossible() throws Exception {
-    BooleanCondition nonReduced = and(true, NO_TRIVIAL_EVALUATION);
-    BooleanCondition reduced = and(true, NO_TRIVIAL_EVALUATION);
+    BooleanCondition nonReduced = BooleanCondition.and(true, NO_TRIVIAL_EVALUATION);
+    BooleanCondition reduced = BooleanCondition.and(true, NO_TRIVIAL_EVALUATION);
     assertEquals(nonReduced.reduce(), reduced);
   }
 
   @Test
   public void reduceAnd_KeepNonTrivialWhenNoCutOffPossibleSwapped() throws Exception {
-    BooleanCondition nonReduced = and(NO_TRIVIAL_EVALUATION, valueOf(true));
-    BooleanCondition reduced = and(NO_TRIVIAL_EVALUATION, valueOf(true));
+    BooleanCondition nonReduced =
+        BooleanCondition.and(NO_TRIVIAL_EVALUATION, BooleanCondition.valueOf(true));
+    BooleanCondition reduced =
+        BooleanCondition.and(NO_TRIVIAL_EVALUATION, BooleanCondition.valueOf(true));
     assertEquals(nonReduced.reduce(), reduced);
   }
 
   @Test
   public void reduceOr_CutOffNonTrivialWhenPossible() throws Exception {
-    BooleanCondition nonReduced = or(true, NO_TRIVIAL_EVALUATION);
-    BooleanCondition reduced = valueOf(true);
+    BooleanCondition nonReduced = BooleanCondition.or(true, NO_TRIVIAL_EVALUATION);
+    BooleanCondition reduced = BooleanCondition.valueOf(true);
     assertEquals(nonReduced.reduce(), reduced);
   }
 
   @Test
   public void reduceOr_CutOffNonTrivialWhenPossibleSwapped() throws Exception {
-    BooleanCondition nonReduced = or(NO_TRIVIAL_EVALUATION, valueOf(true));
-    BooleanCondition reduced = valueOf(true);
+    BooleanCondition nonReduced =
+        BooleanCondition.or(NO_TRIVIAL_EVALUATION, BooleanCondition.valueOf(true));
+    BooleanCondition reduced = BooleanCondition.valueOf(true);
     assertEquals(nonReduced.reduce(), reduced);
   }
 
   @Test
   public void reduceOr_KeepNonTrivialWhenNoCutOffPossible() throws Exception {
-    BooleanCondition nonReduced = or(false, NO_TRIVIAL_EVALUATION);
-    BooleanCondition reduced = or(false, NO_TRIVIAL_EVALUATION);
+    BooleanCondition nonReduced = BooleanCondition.or(false, NO_TRIVIAL_EVALUATION);
+    BooleanCondition reduced = BooleanCondition.or(false, NO_TRIVIAL_EVALUATION);
     assertEquals(nonReduced.reduce(), reduced);
   }
 
   @Test
   public void reduceOr_KeepNonTrivialWhenNoCutOffPossibleSwapped() throws Exception {
-    BooleanCondition nonReduced = or(NO_TRIVIAL_EVALUATION, valueOf(false));
-    BooleanCondition reduced = or(NO_TRIVIAL_EVALUATION, valueOf(false));
+    BooleanCondition nonReduced =
+        BooleanCondition.or(NO_TRIVIAL_EVALUATION, BooleanCondition.valueOf(false));
+    BooleanCondition reduced =
+        BooleanCondition.or(NO_TRIVIAL_EVALUATION, BooleanCondition.valueOf(false));
     assertEquals(nonReduced.reduce(), reduced);
   }
 
   @Test
   public void reduceNot_ReduceIrrelevant() throws Exception {
-    BooleanCondition nonReduced = not(valueOf(true));
-    BooleanCondition reduced = valueOf(false);
+    BooleanCondition nonReduced = BooleanCondition.not(BooleanCondition.valueOf(true));
+    BooleanCondition reduced = BooleanCondition.valueOf(false);
     assertEquals(nonReduced.reduce(), reduced);
   }
 
   @Test
   public void reduceNot_ReduceIrrelevant2() throws Exception {
-    BooleanCondition nonReduced = not(valueOf(false));
-    BooleanCondition reduced = valueOf(true);
+    BooleanCondition nonReduced = BooleanCondition.not(BooleanCondition.valueOf(false));
+    BooleanCondition reduced = BooleanCondition.valueOf(true);
     assertEquals(nonReduced.reduce(), reduced);
   }
 
   @Test
   public void reduceNot_KeepNonTrivialWhenNoCutOffPossible() throws Exception {
-    BooleanCondition nonReduced = not(NO_TRIVIAL_EVALUATION);
-    BooleanCondition reduced = not(NO_TRIVIAL_EVALUATION);
+    BooleanCondition nonReduced = BooleanCondition.not(NO_TRIVIAL_EVALUATION);
+    BooleanCondition reduced = BooleanCondition.not(NO_TRIVIAL_EVALUATION);
     assertEquals(nonReduced.reduce(), reduced);
   }
 
@@ -132,8 +134,10 @@ public class BooleanConditionTest {
     //     /  \    \
     //   NTE NTE  TRUE
     BooleanCondition nonReduced =
-        and(or(NO_TRIVIAL_EVALUATION, NO_TRIVIAL_EVALUATION), not(valueOf(true)));
-    BooleanCondition reduced = valueOf(false);
+        BooleanCondition.and(
+            BooleanCondition.or(NO_TRIVIAL_EVALUATION, NO_TRIVIAL_EVALUATION),
+            BooleanCondition.not(BooleanCondition.valueOf(true)));
+    BooleanCondition reduced = BooleanCondition.valueOf(false);
     assertEquals(nonReduced.reduce(), reduced);
   }
 
@@ -145,8 +149,13 @@ public class BooleanConditionTest {
     //     /  \   / \
     //   NTE NTE  T  F
     BooleanCondition nonReduced =
-        and(or(NO_TRIVIAL_EVALUATION, NO_TRIVIAL_EVALUATION), or(valueOf(true), valueOf(false)));
-    BooleanCondition reduced = and(or(NO_TRIVIAL_EVALUATION, NO_TRIVIAL_EVALUATION), valueOf(true));
+        BooleanCondition.and(
+            BooleanCondition.or(NO_TRIVIAL_EVALUATION, NO_TRIVIAL_EVALUATION),
+            BooleanCondition.or(BooleanCondition.valueOf(true), BooleanCondition.valueOf(false)));
+    BooleanCondition reduced =
+        BooleanCondition.and(
+            BooleanCondition.or(NO_TRIVIAL_EVALUATION, NO_TRIVIAL_EVALUATION),
+            BooleanCondition.valueOf(true));
     assertEquals(nonReduced.reduce(), reduced);
   }
 }

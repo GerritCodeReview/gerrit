@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
-import com.google.gerrit.server.change.ChangeKindCacheImpl.Key;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -31,7 +30,7 @@ public class ChangeKindCacheImplTest {
   @Test
   public void keySerializer() throws Exception {
     ChangeKindCacheImpl.Key key =
-        Key.create(
+        ChangeKindCacheImpl.Key.create(
             ObjectId.zeroId(),
             ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
             "aStrategy");

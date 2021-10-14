@@ -48,8 +48,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -111,7 +114,9 @@ public class Schema_139 extends SchemaVersion {
     }
 
     try (Repository git = repoManager.openRepository(allUsersName);
-        RevWalk rw = new RevWalk(git)) {
+        PackInserter packInserter = ((FileRepository) git).getObjectDatabase().newPackInserter();
+        ObjectReader reader = packInserter.newReader();
+        RevWalk rw = new RevWalk(reader)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       bru.setRefLogIdent(serverUser);
       bru.setRefLogMessage(MSG, false);
@@ -157,9 +162,10 @@ public class Schema_139 extends SchemaVersion {
                   .deleteProjectWatches(accountConfig.getProjectWatches().keySet())
                   .updateProjectWatches(projectWatches)
                   .build());
-          accountConfig.commit(md);
+          accountConfig.commit(md, packInserter, reader, rw);
         }
       }
+      packInserter.flush();
       bru.execute(rw, NullProgressMonitor.INSTANCE);
     } catch (IOException | ConfigInvalidException ex) {
       throw new OrmException(ex);

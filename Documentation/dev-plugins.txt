@@ -899,7 +899,7 @@ boolean json;
 [[query_attributes]]
 == Change Attributes
 
-==== ChangePluginDefinedInfoFactory
+=== ChangePluginDefinedInfoFactory
 
 Plugins can provide additional attributes to be returned from the Get Change and
 Query Change APIs by implementing the `ChangePluginDefinedInfoFactory` interface

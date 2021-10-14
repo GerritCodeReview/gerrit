@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f5ad796_5666f911",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-14T07:48:15Z",
+      "side": 1,
+      "message": "With this change, I found regression:\n\n1. open diff view\n2. open blame\n3. go to next file\nexception is thrown:\nError: patchRange is not defined\n    at assertIsDefined (common-util.js:66)\n    at HTMLElement.loadBlame (gr-diff-host.js:321)\n    at HTMLElement._loadBlame (gr-diff-view.js:1203)\n    at gr-diff-view.js:879\n    \nException is not thrown on production. Can you please check it?\n",
+      "revId": "cdf54c40e892ba4d7c93c441ae333644a22187ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "073c2253_a6c79cee",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 3

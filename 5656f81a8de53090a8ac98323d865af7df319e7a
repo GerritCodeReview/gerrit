@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cbc6e43_a6e54164",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T18:39:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfb10438_30db56b5",
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "caae43da_e8fd7048",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf0d242b_70e25136",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T18:39:46Z",
+      "side": 1,
+      "message": "Good catch, done.",
+      "parentUuid": "caae43da_e8fd7048",
+      "range": {
+        "startLine": 512,
+        "startChar": 6,
+        "endLine": 514,
+        "endChar": 7
+      },
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f8c04a1_de81053c",
@@ -71,6 +113,30 @@
       "writtenOn": "2021-10-13T23:50:34Z",
       "side": 1,
       "message": "This is out of context: we can assume that we are able to create a change",
+      "range": {
+        "startLine": 280,
+        "startChar": 4,
+        "endLine": 280,
+        "endChar": 23
+      },
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98b52051_11d7ccc9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T18:39:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f8c04a1_de81053c",
       "range": {
         "startLine": 280,
         "startChar": 4,
@@ -106,6 +172,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2e224d41_2a69986e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T18:39:46Z",
+      "side": 1,
+      "message": "I would prefer to keep it consistent with the rest of the other tests.\nI am not sure also how ChangeTriplet would help? It looks like it is more for doing the opposite, parsing an existing triplet rather than creating one.\n\nCan you give more hits on that?\n\nMoving to ChangeTriplet should be done consistently in all the test and can be addressed as a follow-up. What do you think?",
+      "parentUuid": "9797a6a8_edae9e6d",
+      "range": {
+        "startLine": 281,
+        "startChar": 21,
+        "endLine": 281,
+        "endChar": 65
+      },
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1a14ab1f_848ae88d",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -117,6 +207,30 @@
       "writtenOn": "2021-10-14T04:00:31Z",
       "side": 1,
       "message": "Are you using labels somewhere? Or is this required for some other reason?",
+      "range": {
+        "startLine": 288,
+        "startChar": 39,
+        "endLine": 288,
+        "endChar": 75
+      },
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a90587f_19662bdc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T18:39:46Z",
+      "side": 1,
+      "message": "True, mentioning it in the test is a distraction because it isn\u0027t actually used. I\u0027ll just put an empty EnumSet. Thanks for pointing this out.",
+      "parentUuid": "1a14ab1f_848ae88d",
       "range": {
         "startLine": 288,
         "startChar": 39,
@@ -146,6 +260,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1cec913a_2c80b441",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T18:39:46Z",
+      "side": 1,
+      "message": "What do you mean by \"matches\"? All fields?\nWe could do that, but it would be a distraction from the purpose of the test.\nWe want to make sure to get the *correct* meta-revision of the change, but this isn\u0027t the test that make sure that the whole get() functionality works.\n\nThat is already implicit in the usage of info(triplet) IMHO. What do you think?",
+      "parentUuid": "31404847_c7125039",
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14305970_6bfa916f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -157,6 +289,30 @@
       "writtenOn": "2021-10-14T04:00:31Z",
       "side": 1,
       "message": "Use ChangeTriplet",
+      "range": {
+        "startLine": 301,
+        "startChar": 22,
+        "endLine": 301,
+        "endChar": 79
+      },
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbce808b_28ccce80",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T18:39:46Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "parentUuid": "14305970_6bfa916f",
       "range": {
         "startLine": 301,
         "startChar": 22,

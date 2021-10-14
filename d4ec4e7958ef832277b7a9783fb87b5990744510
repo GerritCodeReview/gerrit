@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c084efb5_40b48cae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-10-14T13:45:33Z",
+      "side": 1,
+      "message": "Upgrade is required in order to merge changes from `stable-3.3` - there is an JGit API change (in GitServlet).",
+      "revId": "d4ec4e7958ef832277b7a9783fb87b5990744510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

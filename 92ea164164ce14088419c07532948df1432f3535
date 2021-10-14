@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3455afab_a299dae4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T23:16:54Z",
+      "side": 1,
+      "message": "You could be doing work in one branch that will eventually be rebased into another branch.",
+      "parentUuid": "4c5e779a_c8600e80",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "92ea164164ce14088419c07532948df1432f3535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4aa2d6df_9130bb45",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -109,6 +133,30 @@
       "side": 1,
       "message": "I didn\u0027t read \"something like\" carefully enough.\nThe uploadvalidator plugin is currently not capable of blocking fixup! commits.",
       "parentUuid": "9e9db600_14e4bfd3",
+      "range": {
+        "startLine": 17,
+        "startChar": 51,
+        "endLine": 17,
+        "endChar": 77
+      },
+      "revId": "92ea164164ce14088419c07532948df1432f3535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dbfa569_dd62f0ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T23:16:54Z",
+      "side": 1,
+      "message": "I think it can, but the docs don\u0027t make it obvious. blockedKeyword seems to do it https://gerrit.googlesource.com/plugins/uploadvalidator/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/uploadvalidator/BlockedKeywordValidator.java#229",
+      "parentUuid": "21ae71f9_3b439614",
       "range": {
         "startLine": 17,
         "startChar": 51,

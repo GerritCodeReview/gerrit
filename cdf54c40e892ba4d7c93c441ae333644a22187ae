@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d9fae8e_58db5469",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T12:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75bc4e24_ef558a6a",
+      "revId": "cdf54c40e892ba4d7c93c441ae333644a22187ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f87ca7e2_ba036992",
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "Yes if the diff view is loaded for the first time.\n\nThis can also happen if a diff view with a different changeNum is loaded, in that case the view is re-created and the property is reset.",
       "parentUuid": "f87ca7e2_ba036992",
+      "revId": "cdf54c40e892ba4d7c93c441ae333644a22187ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "174f89f1_555f0296",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T12:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd2b3d91_6bf32819",
       "revId": "cdf54c40e892ba4d7c93c441ae333644a22187ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

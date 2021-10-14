@@ -51,6 +51,23 @@
       "message": "this looks OK from LC perspective. I defer to David for Code-Review.",
       "revId": "5586a6cb948b7d83b8c23ddd3fe0e18ab302a7da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e10493a_b8cc150b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T15:50:12Z",
+      "side": 1,
+      "message": "Since David hasn\u0027t had a chance to look at this, I\u0027ll +2 and we can revisit if needed when he has time.",
+      "revId": "5586a6cb948b7d83b8c23ddd3fe0e18ab302a7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

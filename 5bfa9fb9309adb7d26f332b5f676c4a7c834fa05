@@ -16,6 +16,24 @@
       "message": "This can be private.",
       "revId": "5bfa9fb9309adb7d26f332b5f676c4a7c834fa05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f98ab17_5549fd45",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-14T11:38:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0536cbb2_09bd6d64",
+      "revId": "5bfa9fb9309adb7d26f332b5f676c4a7c834fa05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

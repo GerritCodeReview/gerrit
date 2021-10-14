@@ -226,6 +226,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ac59e76_6fd2c581",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-14T10:00:42Z",
+      "side": 1,
+      "message": "hmm,\nanother reason I need related changes sorter is the need to differentiate changes that are for submission and changes not for submission.\nThis sort method essentially splits the result into ancestor and descendants quite nicely, and thanks to this I am able to tell which changes are required and not required for submission.",
+      "parentUuid": "bfea57ea_92db4f5a",
+      "range": {
+        "startLine": 80,
+        "startChar": 5,
+        "endLine": 80,
+        "endChar": 34
+      },
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a24ff80_e7f3e2b6",
         "filename": "java/com/google/gerrit/server/submit/ChangeSet.java",
         "patchSetId": 3

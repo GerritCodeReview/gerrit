@@ -141,7 +141,8 @@ public abstract class OutgoingEmail {
             // drop them from the recipient lists.
             //
             logger.atFine().log(
-                "Not CCing email sender %s because the email strategy of this user is not %s but %s",
+                "Not CCing email sender %s because the email strategy of this user is not %s but"
+                    + " %s",
                 fromUser.get().account().id(),
                 CC_ON_OWN_COMMENTS,
                 senderPrefs != null ? senderPrefs.getEmailStrategy() : null);
@@ -421,9 +422,13 @@ public abstract class OutgoingEmail {
    * username. If no username is set, this function returns null.
    *
    * @param accountId user to fetch.
-   * @return name/email of account, username, or null if unset.
+   * @return name/email of account, username, or null if unset or the accountId is null.
    */
-  protected String getUserNameEmailFor(Account.Id accountId) {
+  protected String getUserNameEmailFor(@Nullable Account.Id accountId) {
+    if (accountId == null) {
+      return null;
+    }
+
     Optional<AccountState> accountState = args.accountCache.get(accountId);
     if (!accountState.isPresent()) {
       return null;

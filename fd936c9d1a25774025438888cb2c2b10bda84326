@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b36e0f3_1ac6e6b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-14T20:02:31Z",
+      "side": 1,
+      "message": "Verified by ensuring that all the refs in All-Users.git have the same history with and without this change.",
+      "revId": "fd936c9d1a25774025438888cb2c2b10bda84326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

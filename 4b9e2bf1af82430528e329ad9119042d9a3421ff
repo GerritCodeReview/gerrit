@@ -67,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f19fe33b_2c93aabf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T22:56:49Z",
+      "side": 1,
+      "message": "Sorry, I can\u0027t read. However the commit message doesn\u0027t the change in threads behavior for this class (uses a system property now) and it should.",
+      "parentUuid": "596e1506_f1c7c734",
+      "revId": "4b9e2bf1af82430528e329ad9119042d9a3421ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5e839bfd_56b3901c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
         "patchSetId": 7

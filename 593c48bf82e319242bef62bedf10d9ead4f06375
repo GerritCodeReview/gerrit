@@ -1,0 +1,42 @@
+{
+  "comments": [],
+  "submitRequirementResults": [
+    {
+      "submitRequirement": {
+        "name": "Code-Style",
+        "description": {
+          "value": "Code has correct style and format"
+        },
+        "applicabilityExpression": {},
+        "submittabilityExpression": {
+          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {},
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
+        },
+        "status": "PASS",
+        "errorMessage": {},
+        "passingAtoms": [
+          "label:Code-Style\u003dMAX"
+        ],
+        "failingAtoms": [
+          "label:Code-Style\u003dMIN"
+        ]
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": 1497123007,
+        "w2": -2099046108,
+        "w3": 737108670,
+        "w4": -552543766,
+        "w5": -722443403
+      },
+      "legacy": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "See the discussion on https://gerrit-review.googlesource.com/c/gerrit/+/316524",
       "revId": "5fc85d23b3221d5c81b5be0b7c597430d91db742",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f9427fc_c314c9ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-14T15:50:48Z",
+      "side": 1,
+      "message": "I just approved that, thanks for pointing it out again, dropped off my radar. This will need to be rebased(remerged) on top.",
+      "parentUuid": "ad38e13c_1dee228f",
+      "revId": "5fc85d23b3221d5c81b5be0b7c597430d91db742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

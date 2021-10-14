@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1c1f21e_3b73fe99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-14T20:47:35Z",
+      "side": 1,
+      "message": "Default is still the number of processors.",
+      "parentUuid": "6709a4a9_990614d0",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "4b9e2bf1af82430528e329ad9119042d9a3421ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e839bfd_56b3901c",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-10-14T20:35:55Z",
       "side": 1,
       "message": "Use a system property like schema130_threadcount if set, if not fall back to cache.projects.loadThreads config?",
+      "revId": "4b9e2bf1af82430528e329ad9119042d9a3421ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a438767e_4c671a88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-14T20:47:35Z",
+      "side": 1,
+      "message": "We already have this config and a default value. Why do you think another property is required ?",
+      "parentUuid": "5e839bfd_56b3901c",
       "revId": "4b9e2bf1af82430528e329ad9119042d9a3421ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

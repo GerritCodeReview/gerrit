@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82c136fd_fec9c226",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-14T09:47:29Z",
+      "side": 1,
+      "message": "Added to description.",
+      "parentUuid": "aa76f8d2_c09c213c",
+      "revId": "9641c3ab0424ffc19cf4ae65e0ac6aa64f5890d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76b3c1ca_3edbe751",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-10-13T19:51:52Z",
       "side": 1,
       "message": "`\u003e\u003e` looks like broken html",
+      "range": {
+        "startLine": 164,
+        "startChar": 25,
+        "endLine": 164,
+        "endChar": 27
+      },
+      "revId": "9641c3ab0424ffc19cf4ae65e0ac6aa64f5890d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da967d94_b78fd6d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-14T09:47:29Z",
+      "side": 1,
+      "message": "Nice catch! I tested the icon in a few places and it worked, but it turns out that browsers will accept some pretty bad HTML :) Done.",
+      "parentUuid": "76b3c1ca_3edbe751",
       "range": {
         "startLine": 164,
         "startChar": 25,

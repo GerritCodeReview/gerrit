@@ -1120,6 +1120,18 @@ export class GrDiffView extends base {
       return;
     }
 
+    if (this._changeNum !== undefined) {
+      // changeNum has not changed, so check if there are changes in patchRange
+      // path. If no changes then we can simply render the view as is.
+      if (
+        this._patchRange?.basePatchNum === value.basePatchNum &&
+        this._patchRange?.patchNum === value.patchNum &&
+        this._path === value.path
+      ) {
+        return;
+      }
+    }
+
     this._files = {sortedFileList: [], changeFilesByPath: {}};
     this._path = undefined;
     this._patchRange = undefined;

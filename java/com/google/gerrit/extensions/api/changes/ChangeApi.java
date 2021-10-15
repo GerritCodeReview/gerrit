@@ -29,6 +29,8 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementInput;
+import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -425,6 +427,10 @@ public interface ChangeApi {
 
   ChangeInfo check(FixInput fix) throws RestApiException;
 
+  /** Returns the result of evaluating the {@link SubmitRequirementInput} input on the change. */
+  SubmitRequirementResultInfo checkSubmitRequirement(SubmitRequirementInput input)
+      throws RestApiException;
+
   void index() throws RestApiException;
 
   /** Check if this change is a pure revert of the change stored in revertOf. */
@@ -757,6 +763,12 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo check(FixInput fix) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SubmitRequirementResultInfo checkSubmitRequirement(SubmitRequirementInput input)
+        throws RestApiException {
       throw new NotImplementedException();
     }
 

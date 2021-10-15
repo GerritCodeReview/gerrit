@@ -56,6 +56,8 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementInput;
+import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -74,6 +76,7 @@ import com.google.gerrit.server.restapi.change.AttentionSet;
 import com.google.gerrit.server.restapi.change.ChangeIncludedIn;
 import com.google.gerrit.server.restapi.change.ChangeMessages;
 import com.google.gerrit.server.restapi.change.Check;
+import com.google.gerrit.server.restapi.change.CheckSubmitRequirement;
 import com.google.gerrit.server.restapi.change.CreateMergePatchSet;
 import com.google.gerrit.server.restapi.change.DeleteAssignee;
 import com.google.gerrit.server.restapi.change.DeleteChange;
@@ -164,6 +167,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Provider<ListChangeDrafts> listDraftsProvider;
   private final ChangeEditApiImpl.Factory changeEditApi;
   private final Check check;
+  private final CheckSubmitRequirement checkSubmitRequirement;
   private final Index index;
   private final Move move;
   private final PostPrivate postPrivate;
@@ -218,6 +222,7 @@ class ChangeApiImpl implements ChangeApi {
       Provider<ListChangeDrafts> listDraftsProvider,
       ChangeEditApiImpl.Factory changeEditApi,
       Check check,
+      CheckSubmitRequirement checkSubmitRequirement,
       Index index,
       Move move,
       PostPrivate postPrivate,
@@ -270,6 +275,7 @@ class ChangeApiImpl implements ChangeApi {
     this.listDraftsProvider = listDraftsProvider;
     this.changeEditApi = changeEditApi;
     this.check = check;
+    this.checkSubmitRequirement = checkSubmitRequirement;
     this.index = index;
     this.move = move;
     this.postPrivate = postPrivate;
@@ -704,6 +710,16 @@ class ChangeApiImpl implements ChangeApi {
       return check.apply(change, fix).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot check change", e);
+    }
+  }
+
+  @Override
+  public SubmitRequirementResultInfo checkSubmitRequirement(SubmitRequirementInput input)
+      throws RestApiException {
+    try {
+      return checkSubmitRequirement.apply(change, input).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot check submit requirement", e);
     }
   }
 

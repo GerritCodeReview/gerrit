@@ -61,8 +61,6 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Status;
 import com.google.gerrit.entities.SubmitRequirement;
-import com.google.gerrit.entities.SubmitRequirementExpression;
-import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
@@ -80,7 +78,6 @@ import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.SubmitRecordInfo;
-import com.google.gerrit.extensions.common.SubmitRequirementExpressionInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.restapi.Url;
@@ -378,11 +375,11 @@ public class ChangeJson {
     return submitRecordInfos;
   }
 
-  private static Collection<SubmitRequirementResultInfo> submitRequirementsFor(ChangeData cd) {
+  private Collection<SubmitRequirementResultInfo> submitRequirementsFor(ChangeData cd) {
     Collection<SubmitRequirementResultInfo> reqInfos = new ArrayList<>();
     Map<SubmitRequirement, SubmitRequirementResult> requirements = cd.submitRequirements();
     for (Map.Entry<SubmitRequirement, SubmitRequirementResult> entry : requirements.entrySet()) {
-      reqInfos.add(submitRequirementToInfo(entry.getKey(), entry.getValue()));
+      reqInfos.add(SubmitRequirementsJson.toInfo(entry.getKey(), entry.getValue()));
     }
     return reqInfos;
   }
@@ -417,39 +414,6 @@ public class ChangeJson {
         info.requirements.add(requirementToInfo(requirement, record.status));
       }
     }
-    return info;
-  }
-
-  private static SubmitRequirementResultInfo submitRequirementToInfo(
-      SubmitRequirement req, SubmitRequirementResult result) {
-    SubmitRequirementResultInfo info = new SubmitRequirementResultInfo();
-    info.name = req.name();
-    info.description = req.description().orElse(null);
-    if (req.applicabilityExpression().isPresent()) {
-      info.applicabilityExpressionResult =
-          submitRequirementExpressionToInfo(
-              req.applicabilityExpression().get(), result.applicabilityExpressionResult().get());
-    }
-    if (req.overrideExpression().isPresent()) {
-      info.overrideExpressionResult =
-          submitRequirementExpressionToInfo(
-              req.overrideExpression().get(), result.overrideExpressionResult().get());
-    }
-    info.submittabilityExpressionResult =
-        submitRequirementExpressionToInfo(
-            req.submittabilityExpression(), result.submittabilityExpressionResult());
-    info.status = SubmitRequirementResultInfo.Status.valueOf(result.status().toString());
-    info.isLegacy = result.legacy();
-    return info;
-  }
-
-  private static SubmitRequirementExpressionInfo submitRequirementExpressionToInfo(
-      SubmitRequirementExpression expression, SubmitRequirementExpressionResult result) {
-    SubmitRequirementExpressionInfo info = new SubmitRequirementExpressionInfo();
-    info.expression = expression.expressionString();
-    info.fulfilled = result.status().equals(SubmitRequirementExpressionResult.Status.PASS);
-    info.passingAtoms = result.passingAtoms();
-    info.failingAtoms = result.failingAtoms();
     return info;
   }
 

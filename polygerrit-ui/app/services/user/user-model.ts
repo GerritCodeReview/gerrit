@@ -17,7 +17,11 @@
 import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
-import {createDefaultPreferences} from '../../constants/constants';
+import {
+  createDefaultPreferences,
+  createDefaultDiffPrefs,
+} from '../../constants/constants';
+import {DiffPreferencesInfo} from '../../api/diff';
 
 interface UserState {
   /**
@@ -25,10 +29,12 @@ interface UserState {
    */
   account?: AccountDetailInfo;
   preferences: PreferencesInfo;
+  diffPreferences: DiffPreferencesInfo;
 }
 
 const initialState: UserState = {
   preferences: createDefaultPreferences(),
+  diffPreferences: createDefaultDiffPrefs(),
 };
 
 const privateState$ = new BehaviorSubject(initialState);
@@ -46,6 +52,11 @@ export function updatePreferences(preferences: PreferencesInfo) {
   privateState$.next({...current, preferences});
 }
 
+export function updateDiffPreferences(diffPreferences: DiffPreferencesInfo) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, diffPreferences});
+}
+
 export const account$ = userState$.pipe(
   map(userState => userState.account),
   distinctUntilChanged()
@@ -53,6 +64,11 @@ export const account$ = userState$.pipe(
 
 export const preferences$ = userState$.pipe(
   map(userState => userState.preferences),
+  distinctUntilChanged()
+);
+
+export const diffPreferences$ = userState$.pipe(
+  map(userState => userState.diffPreferences),
   distinctUntilChanged()
 );
 

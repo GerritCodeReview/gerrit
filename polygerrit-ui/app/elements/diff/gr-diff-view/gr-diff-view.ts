@@ -1156,8 +1156,6 @@ export class GrDiffView extends base {
 
     const promises: Promise<unknown>[] = [];
 
-    promises.push(this._getDiffPreferences());
-
     if (!this._change) promises.push(this._getChangeDetail(this._changeNum));
 
     if (!this._changeComments) this._loadComments(value.patchNum);

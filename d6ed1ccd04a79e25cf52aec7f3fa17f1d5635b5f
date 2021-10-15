@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "027f5d78_23c68400",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-15T08:28:57Z",
+      "side": 1,
+      "message": "Yes, thanks. I fix this on another place.",
+      "parentUuid": "686e7b0b_8af3bd76",
+      "range": {
+        "startLine": 172,
+        "startChar": 12,
+        "endLine": 172,
+        "endChar": 18
+      },
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8932b66b_4a175b56",
@@ -64,6 +88,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afdc76fd_05de6d9b",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-15T08:28:57Z",
+      "side": 1,
+      "message": "Good question. Now there is more space, so I don\u0027t need to limit labelname.",
+      "parentUuid": "1e0946c0_5138df43",
+      "range": {
+        "startLine": 174,
+        "startChar": 30,
+        "endLine": 174,
+        "endChar": 51
+      },
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5296a37f_9a01b220",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-15T08:28:57Z",
+      "side": 1,
+      "message": "Because it shows only when there are more than 1 label associated with submit requirement. It should be rare case, I currently don\u0027t know about submit requirement with more than one label associated with it. I tested it by showing it always when I developed. \n\nSince it is here just for case, I don\u0027t think it needs screenshot.",
+      "parentUuid": "8932b66b_4a175b56",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35bee95f_7e506416",
@@ -77,6 +143,24 @@
       "writtenOn": "2021-10-14T20:48:14Z",
       "side": 1,
       "message": "const labelInfo \u003d this.labelInfo; feels more legible.",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1df89430_77a01928",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-15T08:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35bee95f_7e506416",
       "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d9b099d_4b1b97b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-15T08:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6b665da_c40991e6",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "909eda94_1bfd37fb",
@@ -111,6 +213,42 @@
       "writtenOn": "2021-10-14T20:48:14Z",
       "side": 1,
       "message": "Factor out this block, it\u0027s shared with renderLabel\n\n```\nprivate renderRemoveVote(account: AccountInfo) {\n  ...\n}\n```",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e72e0d_16a8068d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-15T08:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "909eda94_1bfd37fb",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf73bfe5_ccd7434d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-15T08:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "909eda94_1bfd37fb",
       "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -132,6 +270,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a31f2823_4e1c7275",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-15T08:28:57Z",
+      "side": 1,
+      "message": "Since max is not optional [1], it should be ok. There are many other places in code where it is expected that max is set.\n\n\n1:\n```\nexport declare interface VotingRangeInfo {\n  min: number;\n  max: number;\n}\n```",
+      "parentUuid": "f5de6dc1_a19777ad",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10385b09_a706cf12",
@@ -145,6 +301,24 @@
       "writtenOn": "2021-10-14T20:48:14Z",
       "side": 1,
       "message": "This if block and the last return could be simplified to\n\n```\nreturn approvalInfo.value !\u003d\u003d undefined;\n```",
+      "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c0a9079_5cf52831",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-15T08:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10385b09_a706cf12",
       "revId": "d6ed1ccd04a79e25cf52aec7f3fa17f1d5635b5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -209,7 +209,9 @@ export interface RestApiService {
     errFn?: ErrorCallback
   ): Promise<ChangeInfo | null>;
 
-  savePreferences(prefs: PreferencesInput): Promise<Response>;
+  savePreferences(
+    prefs: PreferencesInput
+  ): Promise<PreferencesInfo | undefined>;
 
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined>;
 

@@ -73,6 +73,8 @@ export class GrDownloadCommands extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly userService = appContext.userService;
+
   disconnected$ = new Subject();
 
   override connectedCallback() {
@@ -106,7 +108,7 @@ export class GrDownloadCommands extends PolymerElement {
     if (scheme && scheme !== this.selectedScheme) {
       this.set('selectedScheme', scheme);
       if (this._loggedIn) {
-        this.restApiService.savePreferences({
+        this.userService.updatePreferences({
           download_scheme: this.selectedScheme,
         });
       }

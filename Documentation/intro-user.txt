@@ -705,7 +705,10 @@ the `git commit` command. Recorded as committer in the Git commit.
 - Uploader:
 +
 The user that uploaded the commit as a patch set to Gerrit, e.g. the
-user that executed the `git push` command.
+user that executed the `git push` command. For commits that are created through
+an action in the web UI the uploader is the user that triggered the action (e.g.
+if a commit is created by clicking on the `REBASE` button, the user clicking on
+the button becomes the uploader of the newly created commit).
 +
 The uploader of the first patch set is the change owner.
 +

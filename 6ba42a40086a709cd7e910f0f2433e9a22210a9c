@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93d3d90d_1e600615",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-15T09:31:01Z",
+      "side": 1,
+      "message": "Sounds good",
+      "parentUuid": "f6e38d3d_f49d8f52",
+      "revId": "6ba42a40086a709cd7e910f0f2433e9a22210a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fa0bc36_629f3ae5",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "Added space between account-chip and no votes. But this is not right place - this is for old implementation of votes.",
       "parentUuid": "3fa0bc36_629f3ae5",
+      "range": {
+        "startLine": 162,
+        "startChar": 10,
+        "endLine": 163,
+        "endChar": 9
+      },
+      "revId": "6ba42a40086a709cd7e910f0f2433e9a22210a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e56e9540_63a08187",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-15T09:31:01Z",
+      "side": 1,
+      "message": "Thanks, I was not sure",
+      "parentUuid": "d403c689_84324cfd",
       "range": {
         "startLine": 162,
         "startChar": 10,

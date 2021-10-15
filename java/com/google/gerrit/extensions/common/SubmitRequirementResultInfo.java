@@ -35,7 +35,13 @@ public class SubmitRequirementResultInfo {
      * Submit requirement is not applicable for the change. Happens when {@code
      * applicabilityExpressionResult} is not fulfilled.
      */
-    NOT_APPLICABLE
+    NOT_APPLICABLE,
+
+    /**
+     * Any of the applicability, submittability or override expressions contain invalid syntax and
+     * are not parsable.
+     */
+    ERROR
   }
 
   /** Submit requirement name. */

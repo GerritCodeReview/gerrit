@@ -1,42 +1,27 @@
 {
-  "comments": [],
-  "submitRequirementResults": [
+  "comments": [
     {
-      "submitRequirement": {
-        "name": "Code-Style",
-        "description": {
-          "value": "Code has correct style and format"
-        },
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "unresolved": true,
+      "key": {
+        "uuid": "b2f7d73e_2a01c908",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
       },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Style\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label:Code-Style\u003dMIN"
-        ]
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
       },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": 1936417935,
-        "w2": -1135212840,
-        "w3": 1286661331,
-        "w4": 154160686,
-        "w5": 300792151
+      "writtenOn": "2021-10-15T16:20:52Z",
+      "side": 1,
+      "message": "Should this go in https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#code-rules ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 14
       },
-      "legacy": false
+      "revId": "736b648fbc5606d84cb0e4d309304e2e11edb957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

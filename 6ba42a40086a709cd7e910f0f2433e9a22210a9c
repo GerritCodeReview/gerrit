@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6e38d3d_f49d8f52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-15T09:19:26Z",
+      "side": 1,
+      "message": "Can we do it in follow-up change. \nSorting in reviewer-list is not alphabetical, but it sorts by attention, human user, service user. I will do it same in follow-up change. \n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts;l\u003d246",
+      "parentUuid": "013c0fff_abda431a",
+      "revId": "6ba42a40086a709cd7e910f0f2433e9a22210a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fa0bc36_629f3ae5",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-10-15T09:07:49Z",
       "side": 1,
       "message": "Let\u0027s use --spacing-s for the space between gr-acccount and `No votes` text, it looks a bit cramped visually right now.",
+      "range": {
+        "startLine": 162,
+        "startChar": 10,
+        "endLine": 163,
+        "endChar": 9
+      },
+      "revId": "6ba42a40086a709cd7e910f0f2433e9a22210a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d403c689_84324cfd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-15T09:19:26Z",
+      "side": 1,
+      "message": "Added space between account-chip and no votes. But this is not right place - this is for old implementation of votes.",
+      "parentUuid": "3fa0bc36_629f3ae5",
       "range": {
         "startLine": 162,
         "startChar": 10,

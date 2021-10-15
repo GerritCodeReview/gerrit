@@ -1,42 +1,21 @@
 {
-  "comments": [],
-  "submitRequirementResults": [
+  "comments": [
     {
-      "submitRequirement": {
-        "name": "Code-Style",
-        "description": {
-          "value": "Code has correct style and format"
-        },
-        "applicabilityExpression": {},
-        "submittabilityExpression": {
-          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "unresolved": true,
+      "key": {
+        "uuid": "8cdc33c2_68441046",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
       },
-      "applicabilityExpressionResult": {},
-      "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Style\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label:Code-Style\u003dMIN"
-        ]
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
       },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -711431886,
-        "w2": -1826639355,
-        "w3": -1844085786,
-        "w4": -1213716662,
-        "w5": -1727297347
-      },
-      "legacy": false
+      "writtenOn": "2021-10-15T16:27:20Z",
+      "side": 1,
+      "message": "This feels similar to the --preview switch in the task plugin that lets you test how tasks would be evaluated with a different task configuration that\u0027s already been uploaded in a change for review: https://gerrit.googlesource.com/plugins/task/+/refs/heads/master/src/main/resources/Documentation/task.md#change-query-output\n\nWe use that for both development of new task configurations and CI testing to ensure a proposed config is syntactically valid.\n\nWould it be useful to support a similar thing with submit requirements? It seems like a common model will be to propose a change to refs/meta/config with new/modified submit requirements.",
+      "revId": "d5986932931fb20592157be6b7a8274a990b88bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

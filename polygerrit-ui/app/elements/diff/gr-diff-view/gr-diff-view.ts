@@ -113,6 +113,7 @@ import {throttleWrap} from '../../../utils/async-util';
 import {changeComments$} from '../../../services/comments/comments-model';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {preferences$} from '../../../services/user/user-model';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const LOADING_BLAME = 'Loading blame...';
@@ -361,11 +362,20 @@ export class GrDiffView extends base {
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
+    // TODO(brohlfs): This just ensures that the userService is instantiated at
+    // all. We need the service to manage the model, but we are not making any
+    // direct calls. Will need to find a better solution to this problem ...
+    assertIsDefined(appContext.userService);
+
     changeComments$
       .pipe(takeUntil(this.disconnected$))
       .subscribe(changeComments => {
         this._changeComments = changeComments;
       });
+
+    preferences$.pipe(takeUntil(this.disconnected$)).subscribe(preferences => {
+      this._userPrefs = preferences;
+    });
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
@@ -1147,12 +1157,6 @@ export class GrDiffView extends base {
     const promises: Promise<unknown>[] = [];
 
     promises.push(this._getDiffPreferences());
-
-    promises.push(
-      this._getPreferences().then(prefs => {
-        this._userPrefs = prefs;
-      })
-    );
 
     if (!this._change) promises.push(this._getChangeDetail(this._changeNum));
 

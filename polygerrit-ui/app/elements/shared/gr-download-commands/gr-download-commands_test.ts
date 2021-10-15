@@ -23,6 +23,7 @@ import {updatePreferences} from '../../../services/user/user-model';
 import {createPreferences} from '../../../test/test-data-generators';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
+import {createDefaultPreferences} from '../../../constants/constants';
 
 const basicFixture = fixtureFromElement('gr-download-commands');
 
@@ -95,7 +96,7 @@ suite('gr-download-commands', () => {
     test('saves scheme to preferences', () => {
       element._loggedIn = true;
       const savePrefsStub = stubRestApi('savePreferences').returns(
-        Promise.resolve(new Response())
+        Promise.resolve(createDefaultPreferences())
       );
 
       flush();

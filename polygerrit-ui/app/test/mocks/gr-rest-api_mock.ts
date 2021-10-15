@@ -83,6 +83,7 @@ import {
 import {
   createDefaultDiffPrefs,
   createDefaultEditPrefs,
+  createDefaultPreferences,
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
 
@@ -481,8 +482,8 @@ export const grRestApiMock: RestApiService = {
   saveIncludedGroup(): Promise<GroupInfo | undefined> {
     throw new Error('saveIncludedGroup() not implemented by RestApiMock.');
   },
-  savePreferences(): Promise<Response> {
-    return Promise.resolve(new Response());
+  savePreferences(): Promise<PreferencesInfo> {
+    return Promise.resolve(createDefaultPreferences());
   },
   saveRepoConfig(): Promise<Response> {
     return Promise.resolve(new Response());

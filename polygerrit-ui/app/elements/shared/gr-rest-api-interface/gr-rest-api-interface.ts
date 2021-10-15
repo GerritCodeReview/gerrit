@@ -682,19 +682,27 @@ export class GrRestApiInterface
     });
   }
 
-  savePreferences(prefs: PreferencesInput): Promise<Response> {
+  savePreferences(
+    prefs: PreferencesInput
+  ): Promise<PreferencesInfo | undefined> {
     // Note (Issue 5142): normalize the download scheme with lower case before
     // saving.
     if (prefs.download_scheme) {
       prefs.download_scheme = prefs.download_scheme.toLowerCase();
     }
 
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: '/accounts/self/preferences',
-      body: prefs,
-      reportUrlAsIs: true,
-    });
+    return this._restApiHelper
+      .send({
+        method: HttpMethod.PUT,
+        url: '/accounts/self/preferences',
+        body: prefs,
+        reportUrlAsIs: true,
+      })
+      .then((response: Response) =>
+        this.getResponseObject(response).then(
+          obj => obj as unknown as PreferencesInfo
+        )
+      );
   }
 
   saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response> {

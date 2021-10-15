@@ -16,6 +16,24 @@
       "message": "Looks like this method can be static too?\nThen you could remove the @Singleton annotation on the class and instead add a private constructor to avoid instantiating this class.",
       "revId": "9fe82a3dd00767c37213972c58dae955cd44ac8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36a0aa19_08603a0b",
+        "filename": "java/com/google/gerrit/server/change/SubmitRequirementsJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-15T12:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44d7908f_38f6f5f5",
+      "revId": "9fe82a3dd00767c37213972c58dae955cd44ac8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

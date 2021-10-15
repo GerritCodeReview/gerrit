@@ -1726,6 +1726,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       assertQuery(predicate + "\"2009-10-01 21:02:00\"", change1);
       assertQuery(predicate + "2009-10-01", change1);
       assertQuery(predicate + "2009-10-03", change2, change1);
+      assertQuery(predicate + "\"2009-09-30 21:00:00 -0000\"", change1);
+      assertQuery(predicate + "\"2009-10-02 03:00:00 -0000\"", change2, change1);
+
     }
 
     // Same test as above, but using filter code path.
@@ -1742,6 +1745,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-10-01 21:02:00\""), change1);
       assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-01"), change1);
       assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-03"), change2, change1);
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-09-30 21:00:00 -0000\""), change1);
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-10-02 03:00:00 -0000\""), change2, change1);
     }
   }
 
@@ -1763,6 +1768,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       assertQuery(predicate + "\"2009-10-01 20:59:59 -0000\"", change2);
       assertQuery(predicate + "2009-10-01", change2);
       assertQuery(predicate + "2009-09-30", change2, change1);
+      assertQuery(predicate + "\"2009-09-30 21:00:00 -0000\"", change2, change1);
+      assertQuery(predicate + "\"2009-10-02 03:00:00 -0000\"", change2);
     }
 
     // Same test as above, but using filter code path.
@@ -1774,6 +1781,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           makeIndexedPredicateFilterQuery(predicate + "\"2009-10-01 20:59:59 -0000\""), change2);
       assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-01"), change2);
       assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-09-30"), change2, change1);
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-09-30 21:00:00 -0000\""), change2, change1);
+      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-10-02 03:00:00 -0000\""), change2);
     }
   }
 

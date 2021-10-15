@@ -16,6 +16,24 @@
       "message": "I actually think this logging is extremely useful when tracing. This is easier to spot smth in the logs, than query performance log.\n\n\nI could not see the logs emmited for performance log even though, maybe I am missing it, could you give an example?",
       "revId": "c205aa0af141332a681414335c1dcb764e05ce49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbb68b97_cc847ea6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-15T13:48:57Z",
+      "side": 1,
+      "message": "We just disable redundant logging here.\nPerformanceMetrics is listening to performance events, that are collected by calling LoggingContext.getInstance().addPerformanceLogRecord(...). All places that call this method to record a performance log also do logging (Timer0, ..., Timer3, TraceTimer), e.g. for Timer0 the performance log is added here [1] and the next line writes the log [2]. We do not need to write such a log again at the end of the request when we process all the collected performance logs.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/metrics/Timer0.java#76\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/metrics/Timer0.java#78",
+      "parentUuid": "af5401cc_774c4d21",
+      "revId": "c205aa0af141332a681414335c1dcb764e05ce49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

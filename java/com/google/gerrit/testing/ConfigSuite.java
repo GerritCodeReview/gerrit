@@ -36,9 +36,11 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import org.junit.runner.Runner;
+import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.Suite;
 import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.Statement;
 import org.junit.runners.model.InitializationError;
 
 /**
@@ -167,6 +169,14 @@ public class ConfigSuite extends Suite {
     protected String testName(FrameworkMethod method) {
       String n = method.getName();
       return name == null ? n : n + "[" + name + "]";
+    }
+
+    // This method override makes sure that the child runner correctly invokes @{Before,After}Class.
+    // Without this override, any @ClassRules, and @{Before,After}Class methods are called multiple
+    // times.
+    @Override
+    protected Statement classBlock(RunNotifier notifier) {
+      return childrenInvoker(notifier);
     }
   }
 

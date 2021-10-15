@@ -2818,6 +2818,53 @@ describes the updated change message.
   }
 ----
 
+[[check-submit-requirement]]
+=== Check Submit Requirement
+--
+'POST /changes/link:#change-id[\{change-id\}]/check.submit_requirement'
+--
+
+Tests a submit requirement and returns the result as a
+link:#submit-requirement-result-info[SubmitRequirementResultInfo]. The request
+body must contain a link:#submit-requirement-input[SubmitRequirementInput].
+
+Note that this endpoint does not modify the change resource.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/check.submit_requirement HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+    {
+      "name": "Code-Review",
+      "submittability_expression": "label:Code-Review=+2"
+    }
+----
+
+As response a link:#submit-requirement-result-info[SubmitRequirementResultInfo]
+entity is returned that describes the submit requirement result.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "name": "Code-Review",
+    "status": "SATISFIED",
+    "submittability_expression_result": {
+      "expression": "label:Code-Review=+2",
+      "fulfilled": true,
+      "passingAtoms": [
+        "label:Code-Review=+2"
+      ]
+    },
+    "is_legacy": false
+  }
+----
+
 [[edit-endpoints]]
 == Change Edit Endpoints
 
@@ -8230,6 +8277,32 @@ fulfilled for the change.
 |`failing_atoms`|
 A list of failing atoms. This is similar to `passing_atoms` except that it
 contains the list of predicates that are not fulfilled for the change.
+|===========================
+
+[[submit-requirement-input]]
+=== SubmitRequirementInput
+The `SubmitRequirementInput` entity describes a submit requirement.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`name`||
+The submit requirement name.
+|`description`|optional|
+Description of the submit requirement.
+|`applicability_expression`|optional|
+Query expression that can be evaluated on any change. If evaluated to true on a
+change, the submit requirement is then applicable for this change.
+If not specified, the submit requirement is applicable for all changes.
+|`submittability_expression`||
+Query expression that can be evaluated on any change. If evaluated to true on a
+change, the submit requirement is fulfilled and not blocking change submission.
+|`override_expression`|optional|
+Query expression that can be evaluated on any change. If evaluated to true on a
+change, the submit requirement is overridden and not blocking change submission.
+|`allow_override_in_child_projects`|optional|
+Whether this submit requirement can be overridden in child projects. Default is
+`true`.
 |===========================
 
 [[submit-requirement-result-info]]

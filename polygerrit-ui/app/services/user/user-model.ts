@@ -21,6 +21,9 @@ import {
   createDefaultPreferences,
   DiffViewMode,
 } from '../../constants/constants';
+  createDefaultDiffPrefs,
+} from '../../constants/constants';
+import {DiffPreferencesInfo} from '../../api/diff';
 
 interface UserState {
   /**
@@ -28,10 +31,12 @@ interface UserState {
    */
   account?: AccountDetailInfo;
   preferences: PreferencesInfo;
+  diffPreferences: DiffPreferencesInfo;
 }
 
 const initialState: UserState = {
   preferences: createDefaultPreferences(),
+  diffPreferences: createDefaultDiffPrefs(),
 };
 
 // Mutable for testing
@@ -62,6 +67,11 @@ export function updatePreferences(preferences: PreferencesInfo) {
   privateState$.next({...current, preferences});
 }
 
+export function updateDiffPreferences(diffPreferences: DiffPreferencesInfo) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, diffPreferences});
+}
+
 export const account$ = userState$.pipe(
   map(userState => userState.account),
   distinctUntilChanged()
@@ -72,8 +82,8 @@ export const preferences$ = userState$.pipe(
   distinctUntilChanged()
 );
 
-export const preferenceDiffViewMode$ = preferences$.pipe(
-  map(preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE),
+export const diffPreferences$ = userState$.pipe(
+  map(userState => userState.diffPreferences),
   distinctUntilChanged()
 );
 

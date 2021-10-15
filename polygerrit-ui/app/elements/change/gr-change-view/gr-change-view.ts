@@ -61,12 +61,12 @@ import {
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
-import {DiffViewMode} from '../../../api/diff';
 import {
   ChangeStatus,
   DefaultBase,
   PrimaryTab,
   SecondaryTab,
+  DiffViewMode,
 } from '../../../constants/constants';
 
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages';
@@ -551,6 +551,8 @@ export class GrChangeView extends base {
   resolveWeblinks?: GeneratedWebLink[];
 
   restApiService = appContext.restApiService;
+
+  private readonly userService = appContext.userService;
 
   private readonly commentsService = appContext.commentsService;
 

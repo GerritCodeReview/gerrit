@@ -51,7 +51,6 @@ suite('gr-diff-preferences tests', () => {
 
     element = basicFixture.instantiate();
 
-    await element.loadData();
     await flush();
   });
 

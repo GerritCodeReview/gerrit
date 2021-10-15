@@ -120,6 +120,9 @@ export class GrHovercardRun extends base {
           margin-top: var(--spacing-m);
           padding: var(--spacing-m) var(--spacing-xl) 0;
         }
+        .status-placeholder {
+          visibility: hidden;
+        }
       `,
     ];
   }
@@ -155,31 +158,27 @@ export class GrHovercardRun extends base {
 
   private renderLabelSection() {
     const labels = this.computeLabels();
+    const showLabelName = labels.length >= 2;
     return html` <div class="section">
-      ${labels.map(l => this.renderLabel(l))}
+      <div class="sectionIcon"></div>
+      <div class="row">
+        <!-- Hidden placeholder to be aligned as Status line above -->
+        <div class="title status-placeholder">Status</div>
+        <div>${labels.map(l => this.renderLabel(l, showLabelName))}</div>
+      </div>
     </div>`;
   }
 
-  private renderLabel(label: Label) {
+  private renderLabel(label: Label, showLabelName: boolean) {
     return html`
-      <section class="label">
-        <div class="label-title">
-          <gr-limited-text
-            class="name"
-            limit="25"
-            text="${label.labelName}"
-          ></gr-limited-text>
-        </div>
-        <div class="label-value">
-          <gr-label-info
-            .change=${this.change}
-            .account=${this.account}
-            .mutable=${this.mutable}
-            .label="${label.labelName}"
-            .labelInfo="${label.labelInfo}"
-          ></gr-label-info>
-        </div>
-      </section>
+      ${showLabelName ? html`<div>${label.labelName} votes</div>` : ''}
+      <gr-label-info
+        .change=${this.change}
+        .account=${this.account}
+        .mutable=${this.mutable}
+        .label="${label.labelName}"
+        .labelInfo="${label.labelInfo}"
+      ></gr-label-info>
     `;
   }
 

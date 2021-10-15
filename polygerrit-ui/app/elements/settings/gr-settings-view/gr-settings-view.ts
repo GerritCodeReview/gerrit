@@ -243,7 +243,6 @@ export class GrSettingsView extends PolymerElement {
       this.$.groupList.loadData(),
       this.$.identities.loadData(),
       this.$.editPrefs.loadData(),
-      this.$.diffPrefs.loadData(),
     ];
 
     // TODO(dhruvsri): move this to the service

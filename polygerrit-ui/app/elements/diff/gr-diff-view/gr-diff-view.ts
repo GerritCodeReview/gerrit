@@ -113,7 +113,10 @@ import {throttleWrap} from '../../../utils/async-util';
 import {changeComments$} from '../../../services/comments/comments-model';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {preferences$} from '../../../services/user/user-model';
+import {
+  preferences$,
+  diffPreferences$,
+} from '../../../services/user/user-model';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const LOADING_BLAME = 'Loading blame...';
@@ -342,6 +345,8 @@ export class GrDiffView extends base {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly userService = appContext.userService;
+
   private readonly commentsService = appContext.commentsService;
 
   private readonly shortcuts = appContext.shortcutsService;
@@ -362,10 +367,6 @@ export class GrDiffView extends base {
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
-    // TODO(brohlfs): This just ensures that the userService is instantiated at
-    // all. We need the service to manage the model, but we are not making any
-    // direct calls. Will need to find a better solution to this problem ...
-    assertIsDefined(appContext.userService);
 
     changeComments$
       .pipe(takeUntil(this.disconnected$))
@@ -376,6 +377,11 @@ export class GrDiffView extends base {
     preferences$.pipe(takeUntil(this.disconnected$)).subscribe(preferences => {
       this._userPrefs = preferences;
     });
+    diffPreferences$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(diffPreferences => {
+        this._prefs = diffPreferences;
+      });
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
@@ -485,12 +491,6 @@ export class GrDiffView extends base {
           changeFilesByPath: files,
         };
       });
-  }
-
-  _getDiffPreferences() {
-    return this.restApiService.getDiffPreferences().then(prefs => {
-      this._prefs = prefs;
-    });
   }
 
   _getPreferences() {
@@ -1155,8 +1155,6 @@ export class GrDiffView extends base {
     }
 
     const promises: Promise<unknown>[] = [];
-
-    promises.push(this._getDiffPreferences());
 
     if (!this._change) promises.push(this._getChangeDetail(this._changeNum));
 
@@ -1867,7 +1865,7 @@ export class GrDiffView extends base {
   }
 
   _handleReloadingDiffPreference() {
-    this._getDiffPreferences();
+    this.userService.getDiffPreferences();
   }
 
   _computeCanEdit(

@@ -989,6 +989,7 @@ suite('gr-diff-view tests', () => {
 
     suite('diff prefs hidden', () => {
       test('when no prefs or logged out', () => {
+        element._prefs = undefined;
         element.disableDiffPrefs = false;
         element._loggedIn = false;
         flush();

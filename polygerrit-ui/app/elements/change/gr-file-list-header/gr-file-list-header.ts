@@ -151,10 +151,6 @@ export class GrFileListHeader extends base {
 
   private readonly shortcuts = appContext.shortcutsService;
 
-  setDiffViewMode(mode: DiffViewMode) {
-    this.$.modeSelect.setMode(mode);
-  }
-
   _expandAllDiffs() {
     fireEvent(this, 'expand-diffs');
   }

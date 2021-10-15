@@ -28,12 +28,14 @@ suite('gr-tooltip tests', () => {
   let element;
   setup(() => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
-  test('max-width is respected if set', () => {
+  test('max-width is respected if set', async () => {
     element.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' +
         ', sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
     element.maxWidth = '50px';
+    await flush();s
     assert.equal(getComputedStyle(element).width, '50px');
   });
 

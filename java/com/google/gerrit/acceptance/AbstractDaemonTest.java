@@ -365,7 +365,7 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  @AfterClass
+  @ConfigSuite.AfterConfig
   public static void stopCommonServer() throws Exception {
     if (commonServer != null) {
       try {

@@ -25,7 +25,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -35,17 +37,29 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.internal.runners.statements.RunAfters;
+import org.junit.internal.runners.statements.RunBefores;
+import org.junit.rules.RunRules;
+import org.junit.rules.TestRule;
 import org.junit.runner.Runner;
+import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.Suite;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
+import org.junit.runners.model.Statement;
 
 /**
  * Suite to run tests with different {@code gerrit.config} values.
  *
  * <p>For each {@link Config} method in the class and base classes, a new group of tests is created
  * with the {@link Parameter} field set to the config.
+ *
+ * <p>Additional actions can be executed before or after each group of tests using @BeforeConfig,
+ * @AfterConfig or @ConfigRule annotations.
  *
  * <pre>
  * {@literal @}RunWith(ConfigSuite.class)
@@ -128,6 +142,18 @@ public class ConfigSuite extends Suite {
   @Retention(RUNTIME)
   public static @interface Name {}
 
+  @Retention(RetentionPolicy.RUNTIME)
+  @Target(ElementType.METHOD)
+  public @interface AfterConfig {}
+
+  @Retention(RetentionPolicy.RUNTIME)
+  @Target(ElementType.METHOD)
+  public @interface BeforeConfig {}
+
+  @Retention(RetentionPolicy.RUNTIME)
+  @Target({ElementType.FIELD, ElementType.METHOD})
+  public @interface ConfigRule {}
+
   private static class ConfigRunner extends BlockJUnit4ClassRunner {
     private final org.eclipse.jgit.lib.Config cfg;
     private final Field parameterField;
@@ -168,6 +194,31 @@ public class ConfigSuite extends Suite {
       String n = method.getName();
       return name == null ? n : n + "[" + name + "]";
     }
+
+    // @Override
+    // protected Statement withBeforeClasses(Statement statement) {
+    //   List<FrameworkMethod> befores = getTestClass()
+    //       .getAnnotatedMethods(BeforeConfig.class);
+    //   return befores.isEmpty() ? statement :
+    //       new RunBefores(statement, befores, null);
+    // }
+    //
+    // @Override
+    // protected Statement withAfterClasses(Statement statement) {
+    //   List<FrameworkMethod> afters = getTestClass()
+    //       .getAnnotatedMethods(AfterConfig.class);
+    //   return afters.isEmpty() ? statement :
+    //       new RunAfters(statement, afters, null);
+    // }
+    //
+    // @Override
+    // protected List<TestRule> classRules() {
+    //   List<TestRule> result = getTestClass()
+    //       .getAnnotatedMethodValues(null, ConfigRule.class, TestRule.class);
+    //   result.addAll(getTestClass()
+    //       .getAnnotatedFieldValues(null, ConfigRule.class, TestRule.class));
+    //   return result;
+    // }
   }
 
   private static List<Runner> runnersFor(Class<?> clazz) {

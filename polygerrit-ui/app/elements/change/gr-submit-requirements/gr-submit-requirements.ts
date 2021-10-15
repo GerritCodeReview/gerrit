@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import '../gr-submit-requirement-hovercard/gr-submit-requirement-hovercard';
+import '../gr-trigger-vote-hovercard/gr-trigger-vote-hovercard';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -261,7 +262,8 @@ export class GrSubmitRequirements extends LitElement {
       .flatMap(req => extractAssociatedLabels(req))
       .filter(unique);
     const triggerVotes = allLabels
-      .filter(label => !labelAssociatedWithSubmitReqs.includes(label))
+      // for testing only - do not submit
+      .filter(label => labelAssociatedWithSubmitReqs.includes(label))
       .filter(label => hasVotes(labels[label]));
     if (!triggerVotes.length) return;
     return html`<h3 class="metadata-title heading-3">Trigger Votes</h3>
@@ -271,6 +273,9 @@ export class GrSubmitRequirements extends LitElement {
             html`<gr-trigger-vote
               .label="${label}"
               .labelInfo="${labels[label]}"
+              .change="${this.change}"
+              .account="${this.account}"
+              .mutable="${this.mutable ?? false}"
             ></gr-trigger-vote>`
         )}
       </section>`;
@@ -284,6 +289,15 @@ export class GrTriggerVote extends LitElement {
 
   @property({type: Object})
   labelInfo?: LabelInfo;
+
+  @property({type: Object})
+  change?: ParsedChangeInfo;
+
+  @property({type: Object})
+  account?: AccountInfo;
+
+  @property({type: Boolean})
+  mutable?: boolean;
 
   static override get styles() {
     return css`
@@ -309,6 +323,10 @@ export class GrTriggerVote extends LitElement {
         --gr-vote-chip-width: 14px;
         --gr-vote-chip-height: 14px;
         margin-right: 0px;
+        margin-left: var(--spacing-xs);
+      }
+      gr-vote-chip:first-of-type {
+        margin-left: 0px;
       }
     `;
   }
@@ -317,6 +335,14 @@ export class GrTriggerVote extends LitElement {
     if (!this.labelInfo) return;
     return html`
       <div class="container">
+        <gr-trigger-vote-hovercard
+          .labelInfo=${this.labelInfo}
+          .labelName=${this.label}
+          .change="${this.change}"
+          .account="${this.account}"
+          .mutable="${this.mutable ?? false}"
+        >
+        </gr-trigger-vote-hovercard>
         <span class="label">${this.label}</span>
         ${this.renderVotes()}
       </div>

@@ -16,7 +16,6 @@
  */
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-label-info/gr-label-info';
-import '../../shared/gr-limited-text/gr-limited-text';
 import {customElement, property} from 'lit/decorators';
 import {
   AccountInfo,
@@ -37,7 +36,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 const base = HovercardMixin(LitElement);
 
 @customElement('gr-submit-requirement-hovercard')
-export class GrHovercardRun extends base {
+export class GrSubmitRequirementHovercard extends base {
   @property({type: Object})
   requirement?: SubmitRequirementResultInfo;
 
@@ -261,6 +260,6 @@ export class GrHovercardRun extends base {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-submit-requirement-hovercard': GrHovercardRun;
+    'gr-submit-requirement-hovercard': GrSubmitRequirementHovercard;
   }
 }

@@ -202,7 +202,6 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -365,7 +364,7 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  @AfterClass
+  @ConfigSuite.AfterConfig
   public static void stopCommonServer() throws Exception {
     if (commonServer != null) {
       try {

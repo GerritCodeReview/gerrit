@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "013c0fff_abda431a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-15T09:00:29Z",
+      "side": 1,
+      "message": "As discussed in the specs, I propose we keep the alphabetical order in the hovercard similar to how it is presented next to Reviewers in the Change info so that the user chips are stable as the Code Review is happening. ",
+      "revId": "6ba42a40086a709cd7e910f0f2433e9a22210a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

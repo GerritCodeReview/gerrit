@@ -32,14 +32,12 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Provider;
-import com.google.inject.servlet.RequestScoped;
 import java.util.EnumSet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.http.server.GitSmartHttpTools;
 
-@RequestScoped
 public abstract class CacheBasedWebSession extends WebSession {
   @VisibleForTesting public static final String ACCOUNT_COOKIE = "GerritAccount";
   protected static final long MAX_AGE_MINUTES = HOURS.toMinutes(12);

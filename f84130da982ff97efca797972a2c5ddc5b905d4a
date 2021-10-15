@@ -22,6 +22,30 @@
       },
       "revId": "f84130da982ff97efca797972a2c5ddc5b905d4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df582711_a65aebd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-15T14:18:28Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s not a problem, it just has no effect.\n\nDone",
+      "parentUuid": "91743d58_20ca6ebd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "f84130da982ff97efca797972a2c5ddc5b905d4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

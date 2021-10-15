@@ -354,7 +354,7 @@ java_package_configuration(
         "-Xep:OverridesGuiceInjectableMethod:ERROR",
         "-Xep:OverridesJavaxInjectableMethod:ERROR",
         "-Xep:PackageInfo:ERROR",
-        # "-Xep:ParameterName:WARN",
+        "-Xep:ParameterName:ERROR",
         "-Xep:ParametersButNotParameterized:ERROR",
         "-Xep:ParcelableCreator:ERROR",
         "-Xep:PeriodFrom:ERROR",

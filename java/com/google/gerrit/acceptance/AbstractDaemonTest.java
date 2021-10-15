@@ -142,6 +142,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.git.DelegateSystemReader;
+import com.google.gerrit.testing.AfterConfig;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
@@ -365,7 +366,7 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  @AfterClass
+  @AfterConfig
   public static void stopCommonServer() throws Exception {
     if (commonServer != null) {
       try {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "999ac01f_1ce4d15f",
+        "filename": "java/com/google/gerrit/server/restapi/change/CheckSubmitRequirement.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-15T10:19:55Z",
+      "side": 1,
+      "message": "Not sure if we need to add more checks for authentication, input validation, etc...\n\nWill check again.",
+      "revId": "66e972a668857a4c0cd1998a8426959f0c894c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

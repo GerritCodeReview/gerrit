@@ -57,6 +57,8 @@ public abstract class Timer2<F1, F2> implements RegistrationHandle {
     }
   }
 
+  private boolean suppressLogging;
+
   protected final String name;
   protected final Field<F1> field1;
   protected final Field<F2> field2;
@@ -95,14 +97,22 @@ public abstract class Timer2<F1, F2> implements RegistrationHandle {
     field2.metadataMapper().accept(metadataBuilder, fieldValue2);
     Metadata metadata = metadataBuilder.build();
 
-    LoggingContext.getInstance()
-        .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationMs, metadata));
+    if (!suppressLogging) {
+      LoggingContext.getInstance()
+          .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationMs, metadata));
+      logger.atFinest().log(
+          "%s (%s = %s, %s = %s) took %dms",
+          name, field1.name(), fieldValue1, field2.name(), fieldValue2, durationMs);
+    }
 
-    logger.atFinest().log(
-        "%s (%s = %s, %s = %s) took %dms",
-        name, field1.name(), fieldValue1, field2.name(), fieldValue2, durationMs);
     doRecord(fieldValue1, fieldValue2, value, unit);
     RequestStateContext.abortIfCancelled();
+  }
+
+  /** Suppress logging (debug log and performance log) when values are recorded. */
+  public final Timer2<F1, F2> suppressLogging() {
+    this.suppressLogging = true;
+    return this;
   }
 
   /**

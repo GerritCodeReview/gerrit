@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af5401cc_774c4d21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-15T13:37:13Z",
+      "side": 1,
+      "message": "I actually think this logging is extremely useful when tracing. This is easier to spot smth in the logs, than query performance log.\n\n\nI could not see the logs emmited for performance log even though, maybe I am missing it, could you give an example?",
+      "revId": "c205aa0af141332a681414335c1dcb764e05ce49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

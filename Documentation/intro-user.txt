@@ -710,9 +710,10 @@ user that executed the `git push` command.
 The uploader of the first patch set is the change owner.
 +
 The uploader of the latest patch set, the user that uploaded the
-current patch set, is relevant when [self approvals on labels are
-ignored](config-labels.html#label_ignoreSelfApproval), as in this case
-approvals from the uploader of the latest patch set are ignored.
+current patch set, is relevant when
+link:config-labels.html#label_ignoreSelfApproval[self approvals on labels are
+ignored], as in this case approvals from the uploader of the latest patch set
+are ignored.
 
 - Change Owner:
 +

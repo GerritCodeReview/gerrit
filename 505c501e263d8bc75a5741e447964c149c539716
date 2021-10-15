@@ -22,6 +22,30 @@
       },
       "revId": "505c501e263d8bc75a5741e447964c149c539716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "467997ea_c0254a97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-15T23:10:21Z",
+      "side": 1,
+      "message": "Added a comment on my suspicion.",
+      "parentUuid": "e8b45f2b_25bfb07a",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 18
+      },
+      "revId": "505c501e263d8bc75a5741e447964c149c539716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

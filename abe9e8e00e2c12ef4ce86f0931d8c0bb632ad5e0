@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51db2f29_2eae7586",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-15T23:32:14Z",
+      "side": 1,
+      "message": "Updated the elemenation after understanding it a bit better thanks to simply chris!",
+      "parentUuid": "33505a78_c766bac4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "abe9e8e00e2c12ef4ce86f0931d8c0bb632ad5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d49c687_0d1557a3",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-15T23:13:20Z",
       "side": 1,
       "message": "I would change to: \u0027This seems to be an issue observed in Chrome v69 (used for stable branches) whilst it ...\u0027",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 8
+      },
+      "revId": "abe9e8e00e2c12ef4ce86f0931d8c0bb632ad5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0437b08d_4b17d629",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-15T23:32:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8d49c687_0d1557a3",
       "range": {
         "startLine": 13,
         "startChar": 0,

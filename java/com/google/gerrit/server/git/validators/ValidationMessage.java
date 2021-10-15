@@ -68,7 +68,8 @@ public class ValidationMessage {
   }
 
   /**
-   * Returns {@true} if this message is an error. Used to decide if the operation should be aborted.
+   * Returns {@code true} if this message is an error. Used to decide if the operation should be
+   * aborted.
    */
   public boolean isError() {
     return type == Type.FATAL || type == Type.ERROR;

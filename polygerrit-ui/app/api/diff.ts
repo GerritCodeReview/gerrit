@@ -55,7 +55,7 @@ export declare interface DiffInfo {
 /**
  * Represents a "generic" text range in the code (e.g. text selection)
  */
-interface TextRange {
+export declare interface TextRange {
   /** first line of the range (1-based inclusive). */
   start_line: number;
   /** first column of the range (in the first line) (1-based inclusive). */

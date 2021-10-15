@@ -19,9 +19,7 @@ import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeResource;
@@ -47,8 +45,7 @@ public class CheckSubmitRequirement
 
   @Override
   public Response<SubmitRequirementResultInfo> apply(
-      ChangeResource resource, SubmitRequirementInput input)
-      throws AuthException, BadRequestException, ResourceConflictException, Exception {
+      ChangeResource resource, SubmitRequirementInput input) throws BadRequestException {
     SubmitRequirement requirement = createSubmitRequirement(input);
     SubmitRequirementResult res =
         evaluator.evaluateRequirement(requirement, resource.getChangeData());

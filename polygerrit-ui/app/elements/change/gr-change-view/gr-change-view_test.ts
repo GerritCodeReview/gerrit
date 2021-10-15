@@ -27,6 +27,7 @@ import {
   MessageTag,
   PrimaryTab,
   createDefaultPreferences,
+  createDefaultDiffPrefs,
 } from '../../../constants/constants';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
@@ -813,7 +814,10 @@ suite('gr-change-view tests', () => {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       };
-      _testOnly_setState({preferences: prefs});
+      _testOnly_setState({
+        preferences: prefs,
+        diffPreferences: createDefaultDiffPrefs(),
+      });
       element._handleToggleDiffMode();
       assert.isTrue(
         updatePreferencesStub.calledWith({diff_view: DiffViewMode.UNIFIED})
@@ -823,7 +827,10 @@ suite('gr-change-view tests', () => {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.UNIFIED,
       };
-      _testOnly_setState({preferences: newPrefs});
+      _testOnly_setState({
+        preferences: newPrefs,
+        diffPreferences: createDefaultDiffPrefs(),
+      });
       await flush();
       element._handleToggleDiffMode();
       assert.isTrue(

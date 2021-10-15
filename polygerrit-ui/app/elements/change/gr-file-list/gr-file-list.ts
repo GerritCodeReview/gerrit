@@ -83,7 +83,10 @@ import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
 import {Timing} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
-import {preferences$} from '../../../services/user/user-model';
+import {
+  diffPreferences$,
+  sizeBarInChangeTable$,
+} from '../../../services/user/user-model';
 import {changeComments$} from '../../../services/comments/comments-model';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -317,6 +320,8 @@ export class GrFileList extends base {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly userService = appContext.userService;
+
   disconnected$ = new Subject();
 
   /** Called in disconnectedCallback. */
@@ -381,6 +386,16 @@ export class GrFileList extends base {
     diffViewMode$
       .pipe(takeUntil(this.disconnected$))
       .subscribe(diffView => (this.diffViewMode = diffView));
+    diffPreferences$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(diffPreferences => {
+        this.diffPrefs = diffPreferences;
+      });
+    sizeBarInChangeTable$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(sizeBarInChangeTable => {
+        this._showSizeBars = sizeBarInChangeTable;
+      });
 
     getPluginLoader()
       .awaitPluginsLoaded()
@@ -478,16 +493,6 @@ export class GrFileList extends base {
           );
         })
     );
-
-    promises.push(
-      this._getDiffPreferences().then(prefs => {
-        this.diffPrefs = prefs;
-      })
-    );
-
-    preferences$.pipe(takeUntil(this.disconnected$)).subscribe(prefs => {
-      this._showSizeBars = !!prefs?.size_bar_in_change_table;
-    });
 
     return Promise.all(promises).then(() => {
       this._loading = false;
@@ -1645,9 +1650,7 @@ export class GrFileList extends base {
   }
 
   _handleReloadingDiffPreference() {
-    this._getDiffPreferences().then(prefs => {
-      this.diffPrefs = prefs;
-    });
+    this.userService.getDiffPreferences();
   }
 
   /**

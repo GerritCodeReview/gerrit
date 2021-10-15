@@ -16,10 +16,19 @@
  */
 import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
 import {from, of} from 'rxjs';
-import {account$, updateAccount, updatePreferences} from './user-model';
+import {
+  account$,
+  updateAccount,
+  updatePreferences,
+  updateDiffPreferences,
+} from './user-model';
 import {switchMap} from 'rxjs/operators';
-import {createDefaultPreferences} from '../../constants/constants';
+import {
+  createDefaultPreferences,
+  createDefaultDiffPrefs,
+} from '../../constants/constants';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
+import {DiffPreferencesInfo} from '../../types/diff';
 
 export class UserService {
   constructor(readonly restApiService: RestApiService) {
@@ -38,6 +47,16 @@ export class UserService {
       .subscribe((preferences?: PreferencesInfo) => {
         updatePreferences(preferences ?? createDefaultPreferences());
       });
+    account$
+      .pipe(
+        switchMap(account => {
+          if (!account) return of(createDefaultDiffPrefs());
+          return from(this.restApiService.getDiffPreferences());
+        })
+      )
+      .subscribe((diffPrefs?: DiffPreferencesInfo) => {
+        updateDiffPreferences(diffPrefs ?? createDefaultDiffPrefs());
+      });
   }
 
   updatePreferences(prefs: Partial<PreferencesInfo>) {
@@ -47,5 +66,24 @@ export class UserService {
         if (!newPrefs) return;
         updatePreferences(newPrefs);
       });
+  }
+
+  updateDiffPreference(diffPrefs: DiffPreferencesInfo) {
+    return this.restApiService
+      .saveDiffPreferences(diffPrefs)
+      .then((response: Response) => {
+        this.restApiService.getResponseObject(response).then(obj => {
+          const newPrefs = obj as unknown as DiffPreferencesInfo;
+          if (!newPrefs) return;
+          updateDiffPreferences(newPrefs);
+        });
+      });
+  }
+
+  getDiffPreferences() {
+    return this.restApiService.getDiffPreferences().then(prefs => {
+      if (!prefs) return;
+      updateDiffPreferences(prefs);
+    });
   }
 }

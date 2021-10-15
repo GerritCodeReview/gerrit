@@ -87,18 +87,16 @@ export class GrDiffPreferencesDialog extends PolymerElement {
     });
   }
 
-  _handleSaveDiffPreferences() {
+  async _handleSaveDiffPreferences() {
     this.diffPrefs = this._editableDiffPrefs;
-    this.$.diffPreferences.save().then(() => {
-      this.dispatchEvent(
-        new CustomEvent('reload-diff-preference', {
-          composed: true,
-          bubbles: false,
-        })
-      );
-
-      this.$.diffPrefsOverlay.close();
-    });
+    await this.$.diffPreferences.save();
+    this.dispatchEvent(
+      new CustomEvent('reload-diff-preference', {
+        composed: true,
+        bubbles: false,
+      })
+    );
+    this.$.diffPrefsOverlay.close();
   }
 }
 

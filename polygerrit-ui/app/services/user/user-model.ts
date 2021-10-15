@@ -19,8 +19,9 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
 import {
   createDefaultPreferences,
-  DiffViewMode,
+  createDefaultDiffPrefs,
 } from '../../constants/constants';
+import {DiffPreferencesInfo, DiffViewMode} from '../../api/diff';
 
 interface UserState {
   /**
@@ -28,10 +29,12 @@ interface UserState {
    */
   account?: AccountDetailInfo;
   preferences: PreferencesInfo;
+  diffPreferences: DiffPreferencesInfo;
 }
 
 const initialState: UserState = {
   preferences: createDefaultPreferences(),
+  diffPreferences: createDefaultDiffPrefs(),
 };
 
 // Mutable for testing
@@ -62,6 +65,11 @@ export function updatePreferences(preferences: PreferencesInfo) {
   privateState$.next({...current, preferences});
 }
 
+export function updateDiffPreferences(diffPreferences: DiffPreferencesInfo) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, diffPreferences});
+}
+
 export const account$ = userState$.pipe(
   map(userState => userState.account),
   distinctUntilChanged()
@@ -72,6 +80,11 @@ export const preferences$ = userState$.pipe(
   distinctUntilChanged()
 );
 
+export const diffPreferences$ = userState$.pipe(
+  map(userState => userState.diffPreferences),
+  distinctUntilChanged()
+);
+
 export const preferenceDiffViewMode$ = preferences$.pipe(
   map(preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE),
   distinctUntilChanged()
@@ -79,6 +92,11 @@ export const preferenceDiffViewMode$ = preferences$.pipe(
 
 export const myTopMenuItems$ = preferences$.pipe(
   map(preferences => preferences?.my ?? []),
+  distinctUntilChanged()
+);
+
+export const sizeBarInChangeTable$ = preferences$.pipe(
+  map(prefs => !!prefs?.size_bar_in_change_table),
   distinctUntilChanged()
 );
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8727e59_a243c783",
+        "filename": "java/com/google/gerrit/server/schema/Schema_115.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-15T15:37:02Z",
+      "side": 1,
+      "message": "Fix this spacing where you introduced it?",
+      "range": {
+        "startLine": 91,
+        "startChar": 68,
+        "endLine": 91,
+        "endChar": 70
+      },
+      "revId": "1c490b384e58273a84ec8fb4fa530e4017aba118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -8246,7 +8246,7 @@ The submit requirement name.
 Description of the submit requirement.
 |`status`||
 Status describing the result of evaluating the submit requirement. The status
-is one of (`SATISFIED`, `UNSATISFIED`, `OVERRIDDEN`, `NOT_APPLICABLE`).
+is one of (`SATISFIED`, `UNSATISFIED`, `OVERRIDDEN`, `NOT_APPLICABLE`, `ERROR`).
 |`is_legacy`||
 If true, this submit requirement result was created from a legacy
 link:#submit-record[SubmitRecord]. Otherwise, it was created by evaluating a

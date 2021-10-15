@@ -98,7 +98,7 @@ export interface DiffContent extends DiffContentApi {
 
 export interface DiffPreferencesInfo extends DiffPreferenceInfoApi {
   expand_all_comments?: boolean;
-  cursor_blink_rate: number;
+  cursor_blink_rate?: number;
   manual_review?: boolean;
   retain_header?: boolean;
   skip_deleted?: boolean;

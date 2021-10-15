@@ -26,6 +26,9 @@ import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announce
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
+import {preferences$} from '../../../services/user/user-model';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @customElement('gr-diff-mode-selector')
 export class GrDiffModeSelector extends PolymerElement {
@@ -48,11 +51,16 @@ export class GrDiffModeSelector extends PolymerElement {
 
   private readonly userService = appContext.userService;
 
+  disconnected$ = new Subject();
+
   override connectedCallback() {
     super.connectedCallback();
     (
       IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
     ).requestAvailability();
+    preferences$.pipe(takeUntil(this.disconnected$)).subscribe(preferences => {
+      if (preferences) this.setMode(preferences.diff_view);
+    });
   }
 
   /**

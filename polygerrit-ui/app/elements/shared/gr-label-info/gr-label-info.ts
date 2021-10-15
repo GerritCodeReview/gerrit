@@ -43,6 +43,7 @@ import {
   getApprovalInfo,
   getVotingRangeOrDefault,
   hasNeutralStatus,
+  hasVoted,
 } from '../../../utils/label-util';
 import {appContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -88,6 +89,9 @@ export class GrLabelInfo extends LitElement {
 
   @property({type: Boolean})
   mutable = false;
+
+  @property({type: Boolean})
+  showAllReviewers = true;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -201,7 +205,9 @@ export class GrLabelInfo extends LitElement {
     const labelInfo = this.labelInfo;
     if (!labelInfo) return;
     const reviewers = (this.change?.reviewers['REVIEWER'] ?? []).filter(
-      reviewer => canVote(labelInfo, reviewer)
+      reviewer =>
+        (this.showAllReviewers && canVote(labelInfo, reviewer)) ||
+        (!this.showAllReviewers && hasVoted(labelInfo, reviewer))
     );
     return html`<div>
       ${reviewers.map(reviewer => this.renderReviewerVote(reviewer))}

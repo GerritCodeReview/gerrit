@@ -153,6 +153,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.LegacySubmitRequirementInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.SubmitRecordInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
@@ -4074,6 +4075,35 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void checkSubmitRequirement_satisfied() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    SubmitRequirementInput in =
+        createSubmitRequirementInput(
+            "Code-Review", /* submittabilityExpression= */ "label:Code-Review=+2");
+
+    SubmitRequirementResultInfo result = gApi.changes().id(changeId).checkSubmitRequirement(in);
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.UNSATISFIED);
+
+    voteLabel(changeId, "Code-Review", 2);
+    result = gApi.changes().id(changeId).checkSubmitRequirement(in);
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.SATISFIED);
+  }
+
+  @Test
+  public void checkSubmitRequirement_error() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    SubmitRequirementInput in =
+        createSubmitRequirementInput("Code-Review", /* submittabilityExpression= */ "!!!");
+
+    SubmitRequirementResultInfo result = gApi.changes().id(changeId).checkSubmitRequirement(in);
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.ERROR);
+  }
+
+  @Test
   public void submitRequirement_withLabelEqualsMax() throws Exception {
     configSubmitRequirement(
         project,
@@ -5392,5 +5422,13 @@ public class ChangeIT extends AbstractDaemonTest {
                   .build());
       return Optional.of(record);
     }
+  }
+
+  private static SubmitRequirementInput createSubmitRequirementInput(
+      String name, String submittabilityExpression) {
+    SubmitRequirementInput input = new SubmitRequirementInput();
+    input.name = name;
+    input.submittabilityExpression = submittabilityExpression;
+    return input;
   }
 }

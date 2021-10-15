@@ -400,7 +400,7 @@ public class EventFactory {
     try {
       Map<String, FileDiffOutput> modifiedFiles =
           diffOperations.listModifiedFilesAgainstParent(
-              change.getProject(), patchSet.commitId(), /* parent= */ 0);
+              change.getProject(), patchSet.commitId(), /* parentNum= */ 0);
 
       for (FileDiffOutput diff : modifiedFiles.values()) {
         if (patchSetAttribute.files == null) {
@@ -457,7 +457,7 @@ public class EventFactory {
 
       Map<String, FileDiffOutput> modifiedFiles =
           diffOperations.listModifiedFilesAgainstParent(
-              change.getProject(), patchSet.commitId(), /* parent= */ 0);
+              change.getProject(), patchSet.commitId(), /* parentNum= */ 0);
       for (FileDiffOutput fileDiff : modifiedFiles.values()) {
         p.sizeDeletions += fileDiff.deletions();
         p.sizeInsertions += fileDiff.insertions();

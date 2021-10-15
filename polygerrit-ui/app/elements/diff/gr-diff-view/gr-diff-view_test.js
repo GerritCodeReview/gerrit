@@ -330,6 +330,7 @@ suite('gr-diff-view tests', () => {
           assert.isFalse(getDiffChangeDetailStub.called);
           sinon.stub(element.reporting, 'diffViewDisplayed');
           sinon.stub(element, '_loadBlame');
+          sinon.stub(element, '_pathChanged');
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
           sinon.spy(element, '_paramsChanged');
           element._change = undefined;
@@ -989,6 +990,7 @@ suite('gr-diff-view tests', () => {
 
     suite('diff prefs hidden', () => {
       test('when no prefs or logged out', () => {
+        element._prefs = undefined;
         element.disableDiffPrefs = false;
         element._loggedIn = false;
         flush();

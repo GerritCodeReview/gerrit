@@ -35,7 +35,7 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 import {EventType, PluginApi} from '../../../api/plugin';
 
 import 'lodash/lodash';
-import {mockPromise, stubRestApi} from '../../../test/test-utils';
+import {mockPromise, stubRestApi, stubUsers} from '../../../test/test-utils';
 import {
   createAppElementChangeViewParams,
   createApproval,
@@ -820,10 +820,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('m should toggle diff mode', () => {
-      const setModeStub = sinon.stub(
-        element.$.fileListHeader,
-        'setDiffViewMode'
-      );
+      const setModeStub = stubUsers('updatePreferences');
       const e = new CustomEvent<IronKeyboardEventDetail>('keydown', {
         detail: {keyboardEvent: new KeyboardEvent('keydown'), key: 'x'},
       });
@@ -831,11 +828,13 @@ suite('gr-change-view tests', () => {
 
       element.viewState.diffMode = DiffViewMode.SIDE_BY_SIDE;
       element._handleToggleDiffMode(e);
-      assert.isTrue(setModeStub.calledWith(DiffViewMode.UNIFIED));
+      assert.isTrue(setModeStub.calledWith({diff_view: DiffViewMode.UNIFIED}));
 
       element.viewState.diffMode = DiffViewMode.UNIFIED;
       element._handleToggleDiffMode(e);
-      assert.isTrue(setModeStub.calledWith(DiffViewMode.SIDE_BY_SIDE));
+      assert.isTrue(
+        setModeStub.calledWith({diff_view: DiffViewMode.SIDE_BY_SIDE})
+      );
     });
   });
 
@@ -1297,49 +1296,9 @@ suite('gr-change-view tests', () => {
     assert.equal(element._numFilesShown, 200);
   });
 
-  test('_setDiffViewMode is called with reset when new change is loaded', () => {
-    const setDiffViewModeStub = sinon.stub(element, '_setDiffViewMode');
-    element.viewState = {changeNum: 1 as NumericChangeId};
-    element._changeNum = 2 as NumericChangeId;
-    element._resetFileListViewState();
-    assert.isTrue(setDiffViewModeStub.calledWithExactly(true));
-  });
-
   test('diffViewMode is propagated from file list header', () => {
     element.viewState = {diffMode: DiffViewMode.UNIFIED};
     element.$.fileListHeader.diffViewMode = DiffViewMode.SIDE_BY_SIDE;
-    assert.equal(element.viewState.diffMode, DiffViewMode.SIDE_BY_SIDE);
-  });
-
-  test('diffMode defaults to side by side without preferences', async () => {
-    stubRestApi('getPreferences').returns(Promise.resolve(createPreferences()));
-    // No user prefs or diff view mode set.
-
-    await element._setDiffViewMode()!;
-    assert.equal(element.viewState.diffMode, DiffViewMode.SIDE_BY_SIDE);
-  });
-
-  test('diffMode defaults to preference when not already set', async () => {
-    stubRestApi('getPreferences').returns(
-      Promise.resolve({
-        ...createPreferences(),
-        default_diff_view: DiffViewMode.UNIFIED,
-      })
-    );
-
-    await element._setDiffViewMode()!;
-    assert.equal(element.viewState.diffMode, DiffViewMode.UNIFIED);
-  });
-
-  test('existing diffMode overrides preference', async () => {
-    element.viewState.diffMode = DiffViewMode.SIDE_BY_SIDE;
-    stubRestApi('getPreferences').returns(
-      Promise.resolve({
-        ...createPreferences(),
-        default_diff_view: DiffViewMode.UNIFIED,
-      })
-    );
-    await element._setDiffViewMode()!;
     assert.equal(element.viewState.diffMode, DiffViewMode.SIDE_BY_SIDE);
   });
 

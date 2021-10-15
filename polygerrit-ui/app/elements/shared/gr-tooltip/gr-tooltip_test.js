@@ -33,8 +33,10 @@ suite('gr-tooltip tests', () => {
   test('max-width is respected if set', () => {
     element.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' +
         ', sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
+    await flush();
     element.maxWidth = '50px';
     assert.equal(getComputedStyle(element).width, '50px');
+    await flush();
   });
 
   test('the correct arrow is displayed', () => {

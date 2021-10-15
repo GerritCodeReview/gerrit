@@ -60,12 +60,12 @@ import {
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
-import {DiffViewMode} from '../../../api/diff';
 import {
   DefaultBase,
   ChangeStatus,
   PrimaryTab,
   SecondaryTab,
+  DiffViewMode,
 } from '../../../constants/constants';
 
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages';
@@ -563,6 +563,8 @@ export class GrChangeView extends base {
 
   restApiService = appContext.restApiService;
 
+  private readonly userService = appContext.userService;
+
   private readonly commentsService = appContext.commentsService;
 
   private readonly shortcuts = appContext.shortcutsService;
@@ -656,7 +658,6 @@ export class GrChangeView extends base {
           this._account = acct;
         });
       }
-      this._setDiffViewMode();
     });
 
     this.replyDialogResizeObserver = new ResizeObserver(() =>
@@ -725,22 +726,19 @@ export class GrChangeView extends base {
     return this.shadowRoot!.querySelector<GrThreadList>('gr-thread-list');
   }
 
-  _setDiffViewMode(opt_reset?: boolean) {
-    if (!opt_reset && this.viewState.diffViewMode) {
+  _handleToggleDiffMode(e: IronKeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
 
-    return this._getPreferences()
-      .then(prefs => {
-        if (!this.viewState.diffMode && prefs) {
-          this.set('viewState.diffMode', prefs.default_diff_view);
-        }
-      })
-      .then(() => {
-        if (!this.viewState.diffMode) {
-          this.set('viewState.diffMode', 'SIDE_BY_SIDE');
-        }
+    e.preventDefault();
+    if (this.viewState.diffMode === DiffViewMode.SIDE_BY_SIDE) {
+      this.userService.updatePreferences({diff_view: DiffViewMode.UNIFIED});
+    } else {
+      this.userService.updatePreferences({
+        diff_view: DiffViewMode.SIDE_BY_SIDE,
       });
+    }
   }
 
   _onOpenFixPreview(e: OpenFixPreviewEvent) {
@@ -749,19 +747,6 @@ export class GrChangeView extends base {
 
   _onCloseFixPreview(e: CloseFixPreviewEvent) {
     if (e.detail.fixApplied) fireReload(this);
-  }
-
-  _handleToggleDiffMode(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
-    if (this.viewState.diffMode === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.fileListHeader.setDiffViewMode(DiffViewMode.UNIFIED);
-    } else {
-      this.$.fileListHeader.setDiffViewMode(DiffViewMode.SIDE_BY_SIDE);
-    }
   }
 
   _isTabActive(tab: string, activeTabs: string[]) {
@@ -1411,9 +1396,6 @@ export class GrChangeView extends base {
       !!this.viewState.changeNum &&
       this.viewState.changeNum !== this._changeNum
     ) {
-      // Reset the diff mode to null when navigating from one change to
-      // another, so that the user's preference is restored.
-      this._setDiffViewMode(true);
       this.set('_numFilesShown', DEFAULT_NUM_FILES_SHOWN);
     }
     this.set('viewState.changeNum', this._changeNum);

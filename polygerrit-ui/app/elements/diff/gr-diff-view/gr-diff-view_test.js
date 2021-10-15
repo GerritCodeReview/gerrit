@@ -1524,6 +1524,7 @@ suite('gr-diff-view tests', () => {
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
 
       // User prefs but no change view state set.
+      element.changeViewState.diffMode = undefined;
       element._userPrefs = {default_diff_view: 'UNIFIED_DIFF'};
       assert.equal(element._getDiffViewMode(), 'UNIFIED_DIFF');
 

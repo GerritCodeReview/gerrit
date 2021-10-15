@@ -246,6 +246,7 @@ export class GrSettingsView extends PolymerElement {
       this.$.diffPrefs.loadData(),
     ];
 
+    // TODO(dhruvsri): move this to the service
     promises.push(
       this.restApiService.getPreferences().then(prefs => {
         if (!prefs) {

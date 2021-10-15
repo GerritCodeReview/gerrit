@@ -24,6 +24,7 @@ import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
 import {CommentsService} from '../services/comments/comments-service';
+import {UserService} from '../services/user/user-service';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise extends Promise<unknown> {
@@ -109,6 +110,10 @@ export function spyRestApi<K extends keyof RestApiService>(method: K) {
 
 export function stubComments<K extends keyof CommentsService>(method: K) {
   return sinon.stub(appContext.commentsService, method);
+}
+
+export function stubUsers<K extends keyof UserService>(method: K) {
+  return sinon.stub(appContext.userService, method);
 }
 
 export function stubStorage<K extends keyof StorageService>(method: K) {

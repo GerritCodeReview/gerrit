@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "63f8eedc_e1f05fc6",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-15T14:59:22Z",
+      "side": 1,
+      "message": "I\u0027ve been wondering whether we can change the hover logic to dynamically add the card rather than statically.\n\nThis avoids loading all the hovercards on page-load.",
+      "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fb818bcd_971909e7",
         "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote-hovercard/gr-trigger-vote-hovercard.ts",
         "patchSetId": 2

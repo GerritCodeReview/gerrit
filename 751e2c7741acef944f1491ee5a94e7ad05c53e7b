@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c621a3e_745eb0b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-15T17:00:41Z",
+      "side": 1,
+      "message": "If we\u0027re going to claim this, I think it should get added to https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#tests with some explanation.",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 33
+      },
+      "revId": "751e2c7741acef944f1491ee5a94e7ad05c53e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e24dfb7_2bb9f616",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-15T17:00:41Z",
+      "side": 1,
+      "message": "Unfortunately, this is really hard to review for \"appropriateness\" (not sure that\u0027s the best word). We want our tests to match how we expect the APIs to be used. I don\u0027t know (without checking a lot of different code) if we expect to use projectNumericId or triplet or numericId in real code paths for these different use cases. This almost makes me think that if different ids result in different behavior, then maybe we need a copy of ChangeIT that uses each of these different ids? That\u0027s a lot of duplication unless we can use some magic, but I don\u0027t know how else to resolve that difference in behavior.",
+      "revId": "751e2c7741acef944f1491ee5a94e7ad05c53e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c4266ca_10a89831",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5402,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-15T17:00:41Z",
+      "side": 1,
+      "message": "I think this looks cleaner if you put it into PushOneCommit.Result, maybe called projectNumericId()? That matches the enum value name in ChangeFinder. Or... use that enum? Have a method like \u0027Result.id(ChangeIdType type)\u0027, then you can use a static import. Summary of options:\n\n PushOneCommit.Result r \u003d createChange();\n String id \u003d projectAndChangeNumId(r); # this PS\n String id \u003d r.id(PROJECT_NUMERIC_ID); # using the enum\n String id \u003d r.projectNumericId(); # my other proposal above\n \nThe advantage of using the enum is that it\u0027s more self-documenting. If anyone is unclear on what \u0027PROJECT_NUMERIC_ID\u0027 is, they can look at ChangeFinder and it\u0027s explained there.\n\nI\u0027d also be in favor of adding that id(ChangeIdType type) method to Change itself, since that seems appropriate. That also probably leads to moving the enum itself to Change. If that doesn\u0027t seem right to you, then maybe my first proposal (Result.projectNumericId()) is best for now?",
+      "range": {
+        "startLine": 5402,
+        "startChar": 17,
+        "endLine": 5402,
+        "endChar": 38
+      },
+      "revId": "751e2c7741acef944f1491ee5a94e7ad05c53e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,6 +1,98 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c290641c_553d1f31",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2864,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-15T11:39:08Z",
+      "side": 1,
+      "message": "Unrelated to this change, but we should probably only set this field if the value is \u0027true\u0027, and omit this field if the value is \u0027false\u0027. This will allow us to drop this field later without breaking any clients and is more consistent with how we handle boolean values in other places. Fixing this should be a separate change.",
+      "range": {
+        "startLine": 2864,
+        "startChar": 4,
+        "endLine": 2864,
+        "endChar": 22
+      },
+      "revId": "66e972a668857a4c0cd1998a8426959f0c894c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5694426d_9dd63c34",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8295,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-15T11:39:08Z",
+      "side": 1,
+      "message": "Wrong description here?",
+      "range": {
+        "startLine": 8294,
+        "startChar": 53,
+        "endLine": 8295,
+        "endChar": 81
+      },
+      "revId": "66e972a668857a4c0cd1998a8426959f0c894c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d10a436a_1ee92af6",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRequirementInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-15T11:39:08Z",
+      "side": 1,
+      "message": "Should this be Boolean, so that you can decide to not set this?",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 16
+      },
+      "revId": "66e972a668857a4c0cd1998a8426959f0c894c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f198d878_edb6cb4f",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-15T11:39:08Z",
+      "side": 1,
+      "message": "... check submit requirement?",
+      "range": {
+        "startLine": 722,
+        "startChar": 39,
+        "endLine": 722,
+        "endChar": 53
+      },
+      "revId": "66e972a668857a4c0cd1998a8426959f0c894c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3136c07f_6f09acde",
@@ -18,6 +110,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26569e75_2c56fc6d",
+        "filename": "java/com/google/gerrit/server/restapi/change/CheckSubmitRequirement.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-15T11:39:08Z",
+      "side": 1,
+      "message": "I wonder if this could be singleton.\nSubmitRequirementsEvaluator is not a singleton yet, but looks like it could be one?\nBut changing this would rather be a separate change.",
+      "revId": "66e972a668857a4c0cd1998a8426959f0c894c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "999ac01f_1ce4d15f",
@@ -31,6 +140,46 @@
       "writtenOn": "2021-10-15T10:19:55Z",
       "side": 1,
       "message": "Not sure if we need to add more checks for authentication, input validation, etc...\n\nWill check again.",
+      "revId": "66e972a668857a4c0cd1998a8426959f0c894c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb69a4c3_558de0b7",
+        "filename": "java/com/google/gerrit/server/restapi/change/CheckSubmitRequirement.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-15T11:39:08Z",
+      "side": 1,
+      "message": "Why are applicability and override expression not set?",
+      "range": {
+        "startLine": 51,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 37
+      },
+      "revId": "66e972a668857a4c0cd1998a8426959f0c894c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8933d2cc_90bad136",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-15T11:39:08Z",
+      "side": 1,
+      "message": "Maybe add some more tests for other input fields.",
       "revId": "66e972a668857a4c0cd1998a8426959f0c894c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -46,7 +46,7 @@ export class GrDiffModeSelector extends PolymerElement {
   @property({type: Boolean})
   showTooltipBelow = false;
 
-  private readonly restApiService = appContext.restApiService;
+  private readonly userService = appContext.userService;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -60,7 +60,7 @@ export class GrDiffModeSelector extends PolymerElement {
    */
   setMode(newMode: DiffViewMode) {
     if (this.saveOnChange && this.mode && this.mode !== newMode) {
-      this.restApiService.savePreferences({diff_view: newMode});
+      this.userService.updatePreferences({diff_view: newMode});
     }
     this.mode = newMode;
     let announcement;

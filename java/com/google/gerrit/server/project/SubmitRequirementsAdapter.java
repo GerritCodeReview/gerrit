@@ -63,7 +63,7 @@ public class SubmitRequirementsAdapter {
   static List<SubmitRequirementResult> createResult(
       SubmitRecord record, List<LabelType> labelTypes, ObjectId psCommitId) {
     List<SubmitRequirementResult> results;
-    if (record.ruleName.equals("gerrit~DefaultSubmitRule")) {
+    if (record.ruleName != null && record.ruleName.equals("gerrit~DefaultSubmitRule")) {
       results = createFromDefaultSubmitRecord(record.labels, labelTypes, psCommitId);
     } else {
       results = createFromCustomSubmitRecord(record, psCommitId);
@@ -100,12 +100,13 @@ public class SubmitRequirementsAdapter {
 
   private static List<SubmitRequirementResult> createFromCustomSubmitRecord(
       SubmitRecord record, ObjectId psCommitId) {
+    String ruleName = record.ruleName != null ? record.ruleName : "Custom-Rule";
     if (record.labels == null || record.labels.isEmpty()) {
       SubmitRequirement sr =
           SubmitRequirement.builder()
-              .setName(record.ruleName)
+              .setName(ruleName)
               .setSubmittabilityExpression(
-                  SubmitRequirementExpression.create(String.format("rule:%s", record.ruleName)))
+                  SubmitRequirementExpression.create(String.format("rule:%s", ruleName)))
               .setAllowOverrideInChildProjects(false)
               .build();
       return ImmutableList.of(
@@ -114,15 +115,13 @@ public class SubmitRequirementsAdapter {
               .submitRequirement(sr)
               .submittabilityExpressionResult(
                   createExpressionResult(
-                      sr.submittabilityExpression(),
-                      mapStatus(record),
-                      ImmutableList.of(record.ruleName)))
+                      sr.submittabilityExpression(), mapStatus(record), ImmutableList.of(ruleName)))
               .patchSetCommitId(psCommitId)
               .build());
     }
     ImmutableList.Builder<SubmitRequirementResult> result = ImmutableList.builder();
     for (Label label : record.labels) {
-      String expressionString = String.format("label:%s=%s", label.label, record.ruleName);
+      String expressionString = String.format("label:%s=%s", label.label, ruleName);
       SubmitRequirement sr =
           SubmitRequirement.builder()
               .setName(label.label)

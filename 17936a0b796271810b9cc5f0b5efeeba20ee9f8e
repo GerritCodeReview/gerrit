@@ -17,5 +17,44 @@
       "revId": "17936a0b796271810b9cc5f0b5efeeba20ee9f8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
+  ],
+  "submitRequirementResults": [
+    {
+      "submitRequirement": {
+        "name": "Code-Style",
+        "description": {
+          "value": "Code has correct style and format"
+        },
+        "applicabilityExpression": {},
+        "submittabilityExpression": {
+          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {},
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
+        },
+        "status": "PASS",
+        "errorMessage": {},
+        "passingAtoms": [
+          "label:Code-Style\u003dMAX"
+        ],
+        "failingAtoms": [
+          "label:Code-Style\u003dMIN"
+        ]
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": 395536907,
+        "w2": 2036494721,
+        "w3": 194823664,
+        "w4": -1242566982,
+        "w5": 552509326
+      },
+      "legacy": false
+    }
   ]
 }

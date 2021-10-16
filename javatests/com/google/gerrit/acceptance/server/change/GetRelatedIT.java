@@ -40,6 +40,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -82,6 +83,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Inject private GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private GetRelatedChangesUtil getRelatedChangesUtil;
 
   @Inject private IndexConfig indexConfig;
   @Inject private ChangesCollection changes;
@@ -631,6 +633,40 @@ public class GetRelatedIT extends AbstractDaemonTest {
     assertThat(relatedChanges)
         .comparingElementsUsing(getRelatedChangeToStatusCorrespondence())
         .containsExactly("NEW", "ABANDONED", "MERGED");
+  }
+
+  @Test
+  public void rebasedHaveDifferentGroups() throws Exception {
+    RevCommit commit1 =
+        commitBuilder().add("a.txt", "File content 1").message("Subject 1").create();
+    RevCommit commit2 =
+        commitBuilder().add("b.txt", "File content 2").message("Subject 2").create();
+    pushHead(testRepo, "refs/for/master", false);
+
+    String group1 = Iterables.getOnlyElement(getChange(commit1).currentPatchSet().groups());
+    String group2WhenRelated =
+        Iterables.getOnlyElement(getChange(commit2).currentPatchSet().groups());
+
+    assertThat(group1).isEqualTo(group2WhenRelated);
+
+    testRepo.reset("HEAD~2");
+    PushOneCommit.Result other = createChange();
+
+    RebaseInput in = new RebaseInput();
+    in.base = other.getChange().change().getId().toString();
+    gApi.changes().id(getChange(commit2).getId().get()).rebase(in);
+
+    assertThat(Iterables.getOnlyElement(getChange(commit2).currentPatchSet().groups()))
+        .isNotEqualTo(group1);
+
+    // covert to change ids to make it work. Ensure that all 3 changes are returned here although
+    // it's not necessary, happens because of the grou poredicate.
+    assertThat(
+            getRelatedChangesUtil.getRelated(
+                getChange(commit2), getChange(commit2).currentPatchSet()))
+        .containsExactly(getChange(commit2), other.getChange(), getChange(commit1));
+
+    // Create a new group predicate to only care about latest patch-set.
   }
 
   private static Correspondence<RelatedChangeAndCommitInfo, String>

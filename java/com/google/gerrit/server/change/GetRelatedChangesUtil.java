@@ -63,8 +63,8 @@ public class GetRelatedChangesUtil {
    * @param basePs the revision that the method checks for related changes.
    * @return list of related changes, sorted via {@link RelatedChangesSorter}
    */
-  public List<RelatedChangesSorter.PatchSetData> getRelated(ChangeData changeData, PatchSet basePs)
-      throws IOException, PermissionBackendException {
+  @VisibleForTesting
+  public List<ChangeData> getRelated(ChangeData changeData, PatchSet basePs) {
     Set<String> groups = getAllGroups(changeData.patchSets());
     logger.atFine().log("groups = %s", groups);
     if (groups.isEmpty()) {
@@ -82,8 +82,12 @@ public class GetRelatedChangesUtil {
     }
 
     cds = reloadChangeIfStale(cds, changeData, basePs);
+    return cds;
+  }
 
-    return sorter.sort(cds, basePs);
+  public List<RelatedChangesSorter.PatchSetData> getRelatedSorted(
+      ChangeData changeData, PatchSet basePs) throws IOException, PermissionBackendException {
+    return sorter.sort(getRelated(changeData, basePs), basePs);
   }
 
   private List<ChangeData> reloadChangeIfStale(

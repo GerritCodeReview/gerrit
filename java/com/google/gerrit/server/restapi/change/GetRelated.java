@@ -70,7 +70,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     logger.atFine().log("isEdit = %s, basePs = %s", isEdit, basePs);
 
     List<RelatedChangesSorter.PatchSetData> sortedResult =
-        getRelatedChangesUtil.getRelated(changeDataFactory.create(rsrc.getNotes()), basePs);
+        getRelatedChangesUtil.getRelatedSorted(changeDataFactory.create(rsrc.getNotes()), basePs);
 
     List<RelatedChangeAndCommitInfo> result = new ArrayList<>(sortedResult.size());
     for (RelatedChangesSorter.PatchSetData d : sortedResult) {

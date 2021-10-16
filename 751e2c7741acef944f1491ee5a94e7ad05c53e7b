@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0169b536_51d289eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-16T10:31:34Z",
+      "side": 1,
+      "message": "Agreed, but more in the design section, explaining when indexes should and shouldn\u0027t be used. Also on tests we can say that we should follow the same principles.\n\nI\u0027ll create a separate change for that remark and rebase on that.",
+      "parentUuid": "2c621a3e_745eb0b9",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 33
+      },
+      "revId": "751e2c7741acef944f1491ee5a94e7ad05c53e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e24dfb7_2bb9f616",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 2

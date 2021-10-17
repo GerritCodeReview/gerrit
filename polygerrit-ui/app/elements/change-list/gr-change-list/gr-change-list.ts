@@ -407,7 +407,7 @@ export class GrChangeList extends base {
   }
 
   _nextChange(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -419,7 +419,7 @@ export class GrChangeList extends base {
   }
 
   _prevChange(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -431,7 +431,7 @@ export class GrChangeList extends base {
   }
 
   _openChange(e: IronKeyboardEvent) {
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
     this.openChange(e.detail.keyboardEvent);
   }
 
@@ -445,7 +445,7 @@ export class GrChangeList extends base {
   _nextPage(e: IronKeyboardEvent) {
     if (
       this.shortcuts.shouldSuppress(e) ||
-      (this.modifierPressed(e) && !isShiftPressed(e))
+      (this.shortcuts.modifierPressed(e) && !isShiftPressed(e))
     ) {
       return;
     }
@@ -457,7 +457,7 @@ export class GrChangeList extends base {
   _prevPage(e: IronKeyboardEvent) {
     if (
       this.shortcuts.shouldSuppress(e) ||
-      (this.modifierPressed(e) && !isShiftPressed(e))
+      (this.shortcuts.modifierPressed(e) && !isShiftPressed(e))
     ) {
       return;
     }
@@ -472,7 +472,7 @@ export class GrChangeList extends base {
   }
 
   _toggleChangeReviewed(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -500,7 +500,7 @@ export class GrChangeList extends base {
   }
 
   _toggleChangeStar(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 

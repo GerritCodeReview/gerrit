@@ -597,7 +597,6 @@ suite('gr-file-list tests', () => {
         let interact;
 
         setup(() => {
-          sinon.stub(element, 'modifierPressed').returns(false);
           const openCursorStub = sinon.stub(element, '_openCursorFile');
           const openSelectedStub = sinon.stub(element, '_openSelectedFile');
           const expandStub = sinon.stub(element, '_toggleFileExpanded');
@@ -1708,12 +1707,15 @@ suite('gr-file-list tests', () => {
     });
 
     test('_displayLine', () => {
-      sinon.stub(element, 'modifierPressed')
-          .callsFake(() => false);
       element.filesExpanded = FilesExpandedState.ALL;
       const mockEvent = {
         preventDefault() {},
         composedPath() { return []; },
+        detail: {
+          keyboardEvent: {
+            composedPath() { return []; },
+          },
+        },
       };
 
       element._displayLine = false;

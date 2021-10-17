@@ -509,7 +509,7 @@ export class GrCommentThread extends base {
     if (e.detail.keyboardEvent?.shiftKey) {
       this._expandCollapseComments(true);
     } else {
-      if (this.modifierPressed(e)) {
+      if (this.shortcuts.modifierPressed(e)) {
         return;
       }
       this._expandCollapseComments(false);

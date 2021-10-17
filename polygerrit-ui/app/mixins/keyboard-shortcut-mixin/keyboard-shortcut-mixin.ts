@@ -88,10 +88,6 @@ const InternalKeyboardShortcutMixin = <
     /** Are shortcuts currently enabled? True only when element is visible. */
     private bindingsEnabled = false;
 
-    modifierPressed(e: IronKeyboardEvent) {
-      return this.shortcuts.modifierPressed(e);
-    }
-
     _addOwnKeyBindings(shortcut: Shortcut, handler: string) {
       const bindings = this.shortcuts.getBindingsForShortcut(shortcut);
       if (!bindings) {
@@ -241,10 +237,7 @@ const InternalKeyboardShortcutMixin = <
     }
   }
 
-  return Mixin as T &
-    Constructor<
-      KeyboardShortcutMixinInterface & KeyboardShortcutMixinInterfaceTesting
-    >;
+  return Mixin as T & Constructor<KeyboardShortcutMixinInterface>;
 };
 
 // The following doesn't work (IronA11yKeysBehavior crashes):
@@ -257,10 +250,7 @@ const InternalKeyboardShortcutMixin = <
 // This is a workaround
 export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
   superClass: T
-): T &
-  Constructor<
-    KeyboardShortcutMixinInterface & KeyboardShortcutMixinInterfaceTesting
-  > =>
+): T & Constructor<KeyboardShortcutMixinInterface> =>
   InternalKeyboardShortcutMixin(
     // TODO(TS): mixinBehaviors in some lib is returning: `new () => T` instead
     // which will fail the type check due to missing IronA11yKeysBehavior interface
@@ -271,11 +261,4 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
 /** The interface corresponding to KeyboardShortcutMixin */
 export interface KeyboardShortcutMixinInterface {
   keyboardShortcuts(): {[key: string]: string | null};
-  modifierPressed(event: IronKeyboardEvent): boolean;
-}
-
-export interface KeyboardShortcutMixinInterfaceTesting {
-  _shortcut_go_table: Map<string, string>;
-  _shortcut_v_table: Map<string, string>;
-  _handleGoAction: (e: IronKeyboardEvent) => void;
 }

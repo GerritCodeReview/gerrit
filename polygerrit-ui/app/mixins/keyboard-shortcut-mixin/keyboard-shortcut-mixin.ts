@@ -88,10 +88,6 @@ const InternalKeyboardShortcutMixin = <
     /** Are shortcuts currently enabled? True only when element is visible. */
     private bindingsEnabled = false;
 
-    modifierPressed(e: IronKeyboardEvent) {
-      return this.shortcuts.modifierPressed(e);
-    }
-
     _addOwnKeyBindings(shortcut: Shortcut, handler: string) {
       const bindings = this.shortcuts.getBindingsForShortcut(shortcut);
       if (!bindings) {
@@ -271,7 +267,6 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
 /** The interface corresponding to KeyboardShortcutMixin */
 export interface KeyboardShortcutMixinInterface {
   keyboardShortcuts(): {[key: string]: string | null};
-  modifierPressed(event: IronKeyboardEvent): boolean;
 }
 
 export interface KeyboardShortcutMixinInterfaceTesting {

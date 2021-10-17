@@ -19,7 +19,6 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
 import {check, Constructor} from '../../utils/common-util';
-import {isModifierPressed} from '../../utils/dom-util';
 import {IronKeyboardEvent} from '../../types/events';
 import {appContext} from '../../services/app-context';
 import {
@@ -28,8 +27,9 @@ import {
   SPECIAL_SHORTCUT,
 } from '../../services/shortcuts/shortcuts-config';
 import {
-  ShortcutListener,
+  ComboKey,
   SectionView,
+  ShortcutListener,
 } from '../../services/shortcuts/shortcuts-service';
 
 export {
@@ -39,12 +39,6 @@ export {
   ShortcutListener,
   SectionView,
 };
-
-// The maximum age of a keydown event to be used in a jump navigation. This
-// is only for cases when the keyup event is lost.
-const GO_KEY_TIMEOUT_MS = 1000;
-
-const V_KEY_TIMEOUT_MS = 1000;
 
 interface IronA11yKeysMixinConstructor {
   // Note: this is needed to have same interface as other mixins
@@ -65,12 +59,6 @@ const InternalKeyboardShortcutMixin = <
    * @mixinClass
    */
   class Mixin extends superClass {
-    @property({type: Number})
-    _shortcut_go_key_last_pressed: number | null = null;
-
-    @property({type: Number})
-    _shortcut_v_key_last_pressed: number | null = null;
-
     @property({type: Object})
     _shortcut_go_table: Map<string, string> = new Map<string, string>();
 
@@ -101,13 +89,7 @@ const InternalKeyboardShortcutMixin = <
     private bindingsEnabled = false;
 
     modifierPressed(e: IronKeyboardEvent) {
-      /* We are checking for g/v as modifiers pressed. There are cases such as
-       * pressing v and then /, where we want the handler for / to be triggered.
-       * TODO(dhruvsri): find a way to support that keyboard combination
-       */
-      return (
-        isModifierPressed(e) || !!this._inGoKeyMode() || !!this.inVKeyMode()
-      );
+      return this.shortcuts.modifierPressed(e);
     }
 
     _addOwnKeyBindings(shortcut: Shortcut, handler: string) {
@@ -188,11 +170,6 @@ const InternalKeyboardShortcutMixin = <
         this._addOwnKeyBindings(key as Shortcut, value);
       }
 
-      // each component that uses this behaviour must be aware if go key is
-      // pressed or not, since it needs to check it as a modifier
-      this.addOwnKeyBinding('g:keydown', '_handleGoKeyDown');
-      this.addOwnKeyBinding('g:keyup', '_handleGoKeyUp');
-
       // If any of the shortcuts utilized GO_KEY, then they are handled
       // directly by this behavior.
       if (this._shortcut_go_table.size > 0) {
@@ -201,8 +178,6 @@ const InternalKeyboardShortcutMixin = <
         });
       }
 
-      this.addOwnKeyBinding('v:keydown', '_handleVKeyDown');
-      this.addOwnKeyBinding('v:keyup', '_handleVKeyUp');
       if (this._shortcut_v_table.size > 0) {
         this._shortcut_v_table.forEach((_, key) => {
           this.addOwnKeyBinding(key, '_handleVAction');
@@ -231,27 +206,9 @@ const InternalKeyboardShortcutMixin = <
       return {};
     }
 
-    _handleVKeyDown(e: IronKeyboardEvent) {
-      if (this.shortcuts.shouldSuppress(e)) return;
-      this._shortcut_v_key_last_pressed = Date.now();
-    }
-
-    _handleVKeyUp() {
-      setTimeout(() => {
-        this._shortcut_v_key_last_pressed = null;
-      }, V_KEY_TIMEOUT_MS);
-    }
-
-    private inVKeyMode() {
-      return !!(
-        this._shortcut_v_key_last_pressed &&
-        Date.now() - this._shortcut_v_key_last_pressed <= V_KEY_TIMEOUT_MS
-      );
-    }
-
     _handleVAction(e: IronKeyboardEvent) {
       if (
-        !this.inVKeyMode() ||
+        !this.shortcuts.isInSpecificComboKeyMode(ComboKey.V) ||
         !this._shortcut_v_table.has(e.detail.key) ||
         this.shortcuts.shouldSuppress(e)
       ) {
@@ -266,29 +223,9 @@ const InternalKeyboardShortcutMixin = <
       }
     }
 
-    _handleGoKeyDown(e: IronKeyboardEvent) {
-      if (this.shortcuts.shouldSuppress(e)) return;
-      this._shortcut_go_key_last_pressed = Date.now();
-    }
-
-    _handleGoKeyUp() {
-      // Set go_key_last_pressed to null `GO_KEY_TIMEOUT_MS` after keyup event
-      // so that users can trigger `g + i` by pressing g and i quickly.
-      setTimeout(() => {
-        this._shortcut_go_key_last_pressed = null;
-      }, GO_KEY_TIMEOUT_MS);
-    }
-
-    _inGoKeyMode() {
-      return !!(
-        this._shortcut_go_key_last_pressed &&
-        Date.now() - this._shortcut_go_key_last_pressed <= GO_KEY_TIMEOUT_MS
-      );
-    }
-
     _handleGoAction(e: IronKeyboardEvent) {
       if (
-        !this._inGoKeyMode() ||
+        !this.shortcuts.isInSpecificComboKeyMode(ComboKey.G) ||
         !this._shortcut_go_table.has(e.detail.key) ||
         this.shortcuts.shouldSuppress(e)
       ) {
@@ -338,8 +275,6 @@ export interface KeyboardShortcutMixinInterface {
 }
 
 export interface KeyboardShortcutMixinInterfaceTesting {
-  _shortcut_go_key_last_pressed: number | null;
-  _shortcut_v_key_last_pressed: number | null;
   _shortcut_go_table: Map<string, string>;
   _shortcut_v_table: Map<string, string>;
   _handleGoAction: (e: IronKeyboardEvent) => void;

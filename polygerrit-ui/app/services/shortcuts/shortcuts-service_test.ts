@@ -15,9 +15,13 @@
  * limitations under the License.
  */
 import '../../test/common-test-setup-karma';
-import {ShortcutsService} from '../../services/shortcuts/shortcuts-service';
+import {
+  ShortcutsService,
+  TEST_ONLY_COMBO_TIMEOUT_MS,
+} from '../../services/shortcuts/shortcuts-service';
 import {Shortcut, ShortcutSection} from './shortcuts-config';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {SinonFakeTimers} from 'sinon';
 
 async function keyEventOn(
   el: HTMLElement,
@@ -288,6 +292,50 @@ suite('shortcuts-service tests', () => {
           {binding: [[']']], text: 'Go to next file'},
         ],
       });
+    });
+  });
+
+  suite('combo keys', () => {
+    let clock: SinonFakeTimers;
+    setup(() => {
+      clock = sinon.useFakeTimers();
+      clock.tick(1000);
+    });
+
+    teardown(() => {
+      clock.restore();
+    });
+
+    test('not in combo key mode initially', () => {
+      assert.isFalse(service.isInComboKeyMode());
+    });
+
+    test('pressing f does not switch into combo key mode', () => {
+      const event = new KeyboardEvent('keydown', {key: 'f'});
+      document.dispatchEvent(event);
+      assert.isFalse(service.isInComboKeyMode());
+    });
+
+    test('pressing g switches into combo key mode', () => {
+      const event = new KeyboardEvent('keydown', {key: 'g'});
+      document.dispatchEvent(event);
+      assert.isTrue(service.isInComboKeyMode());
+    });
+
+    test('pressing v switches into combo key mode', () => {
+      const event = new KeyboardEvent('keydown', {key: 'v'});
+      document.dispatchEvent(event);
+      assert.isTrue(service.isInComboKeyMode());
+    });
+
+    test('combo key mode timeout', () => {
+      const event = new KeyboardEvent('keydown', {key: 'g'});
+      document.dispatchEvent(event);
+      assert.isTrue(service.isInComboKeyMode());
+      clock.tick(TEST_ONLY_COMBO_TIMEOUT_MS / 2);
+      assert.isTrue(service.isInComboKeyMode());
+      clock.tick(TEST_ONLY_COMBO_TIMEOUT_MS);
+      assert.isFalse(service.isInComboKeyMode());
     });
   });
 });

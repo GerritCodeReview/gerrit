@@ -23,7 +23,7 @@ import {
 } from './shortcuts-config';
 import {disableShortcuts$} from '../user/user-model';
 import {IronKeyboardEvent, isIronKeyboardEvent} from '../../types/events';
-import {isElementTarget} from '../../utils/dom-util';
+import {isElementTarget, isModifierPressed} from '../../utils/dom-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
@@ -35,7 +35,18 @@ export type ShortcutListener = (
   viewMap?: Map<ShortcutSection, SectionView>
 ) => void;
 
-const COMBO_KEYS = ['g', 'v'];
+export enum ComboKey {
+  G = 'g',
+  V = 'v',
+}
+
+function isComboKey(key: string): key is ComboKey {
+  return Object.values(ComboKey).includes(key as ComboKey);
+}
+
+const COMBO_TIMEOUT_MS = 1000;
+
+export const TEST_ONLY_COMBO_TIMEOUT_MS = COMBO_TIMEOUT_MS;
 
 /**
  * Shortcuts service, holds all hosts, bindings and listeners.
@@ -54,12 +65,12 @@ export class ShortcutsService {
   private readonly listeners = new Set<ShortcutListener>();
 
   /**
-   * Maps keys (e.g. 'g') to the timestamp when they have last been pressed.
+   * Stores the timestamp of the last combo key being pressed.
    * This enabled key combinations like 'g+o' where we can check whether 'g' was
    * pressed recently when 'o' is processed. Keys of this map must be items of
    * COMBO_KEYS. Values are Date timestamps in milliseconds.
    */
-  private readonly keyLastPressed = new Map<string, number>();
+  private comboKeyLastPressed: {key?: ComboKey; timestampMs?: number} = {};
 
   /** Keeps track of the corresponding user preference. */
   private shortcutsDisabled = false;
@@ -73,14 +84,33 @@ export class ShortcutsService {
     }
     disableShortcuts$.subscribe(x => (this.shortcutsDisabled = x));
     document.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (!COMBO_KEYS.includes(e.key)) return;
+      if (!isComboKey(e.key)) return;
       if (this.shouldSuppress(e)) return;
-      this.keyLastPressed.set(e.key, Date.now());
+      this.comboKeyLastPressed = {key: e.key, timestampMs: Date.now()};
     });
   }
 
   public _testOnly_isEmpty() {
     return this.activeHosts.size === 0 && this.listeners.size === 0;
+  }
+
+  isInComboKeyMode() {
+    return Object.values(ComboKey).some(key =>
+      this.isInSpecificComboKeyMode(key)
+    );
+  }
+
+  isInSpecificComboKeyMode(comboKey: ComboKey) {
+    const {key, timestampMs} = this.comboKeyLastPressed;
+    return (
+      key === comboKey &&
+      timestampMs &&
+      Date.now() - timestampMs < COMBO_TIMEOUT_MS
+    );
+  }
+
+  modifierPressed(e: IronKeyboardEvent) {
+    return isModifierPressed(e) || this.isInComboKeyMode();
   }
 
   shouldSuppress(event: IronKeyboardEvent | KeyboardEvent) {
@@ -116,9 +146,8 @@ export class ShortcutsService {
     }
     // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
     let key = `${e.key}:${e.type}`;
-    // TODO(brohlfs): Re-enable reporting of g- and v-keys.
-    // if (this._inGoKeyMode()) key = 'g+' + key;
-    // if (this.inVKeyMode()) key = 'v+' + key;
+    if (this.isInSpecificComboKeyMode(ComboKey.G)) key = 'g+' + key;
+    if (this.isInSpecificComboKeyMode(ComboKey.V)) key = 'v+' + key;
     if (e.shiftKey) key = 'shift+' + key;
     if (e.ctrlKey) key = 'ctrl+' + key;
     if (e.metaKey) key = 'meta+' + key;

@@ -19,7 +19,6 @@ import {KeyboardShortcutMixin} from './keyboard-shortcut-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import '../../elements/shared/gr-overlay/gr-overlay';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {IronKeyboardEvent} from '../../types/events';
 
 class GrKeyboardShortcutMixinTestElement extends KeyboardShortcutMixin(
   PolymerElement
@@ -80,60 +79,5 @@ suite('keyboard-shortcut-mixin tests', () => {
     assert.isFalse(spy.lastCall.returnValue);
     MockInteractions.keyDownOn(element, 75, 'alt', 'k');
     assert.isTrue(spy.lastCall.returnValue);
-  });
-
-  suite('GO_KEY timing', () => {
-    let handlerStub: sinon.SinonStub;
-
-    setup(() => {
-      element._shortcut_go_table.set('a', '_handleA');
-      handlerStub = element._handleA = sinon.stub();
-      sinon.stub(Date, 'now').returns(10000);
-    });
-
-    test('success', () => {
-      const e = {
-        detail: {key: 'a'},
-        preventDefault: () => {},
-        composedPath: () => [],
-      } as unknown as IronKeyboardEvent;
-      element._shortcut_go_key_last_pressed = 9000;
-      element._handleGoAction(e);
-      assert.isTrue(handlerStub.calledOnce);
-      assert.strictEqual(handlerStub.lastCall.args[0], e);
-    });
-
-    test('go key not pressed', () => {
-      const e = {
-        detail: {key: 'a'},
-        preventDefault: () => {},
-        composedPath: () => [],
-      } as unknown as IronKeyboardEvent;
-      element._shortcut_go_key_last_pressed = null;
-      element._handleGoAction(e);
-      assert.isFalse(handlerStub.called);
-    });
-
-    test('go key pressed too long ago', () => {
-      const e = {
-        detail: {key: 'a'},
-        preventDefault: () => {},
-        composedPath: () => [],
-      } as unknown as IronKeyboardEvent;
-      element._shortcut_go_key_last_pressed = 3000;
-      element._handleGoAction(e);
-      assert.isFalse(handlerStub.called);
-    });
-
-    test('unrecognized key', () => {
-      const e = {
-        detail: {key: 'f'},
-        preventDefault: () => {},
-        composedPath: () => [],
-      } as unknown as IronKeyboardEvent;
-      element._shortcut_go_key_last_pressed = 9000;
-      element._handleGoAction(e);
-      assert.isFalse(handlerStub.called);
-    });
   });
 });

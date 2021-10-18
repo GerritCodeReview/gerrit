@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "056aa735_9cfb6262",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-18T18:34:33Z",
+      "side": 1,
+      "message": "Instead of updating commit message, I was thinking to remove the change in threads behavior. Are you okay with it ? (If we want to update, it could go as an independent change)",
+      "parentUuid": "f19fe33b_2c93aabf",
+      "revId": "4b9e2bf1af82430528e329ad9119042d9a3421ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5e839bfd_56b3901c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
         "patchSetId": 7

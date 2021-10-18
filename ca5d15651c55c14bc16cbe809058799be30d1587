@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e565811_2cfb26fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T12:13:44Z",
+      "side": 1,
+      "message": "Nice find! I\u0027m surprised that this stayed unnoticed for so long.",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 70
+      },
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "963e2ebd_5fcc8226",
+        "filename": "java/com/google/gerrit/testing/AfterConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T12:13:44Z",
+      "side": 1,
+      "message": "nit: missing license header\n\nsame for the other new annotation classes",
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8550f16c_5e4e47c2",
+        "filename": "java/com/google/gerrit/testing/AfterConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T12:13:44Z",
+      "side": 1,
+      "message": "Can you please add some class javadoc?\n\nsame for the other new annotation classes",
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "195e69a8_8b4ae792",
+        "filename": "java/com/google/gerrit/testing/ConfigSuite.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T12:13:44Z",
+      "side": 1,
+      "message": "nit: looks like quite of these new imports are unused and can be removed",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 41
+      },
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c25c67ce_3b1e411c",
+        "filename": "java/com/google/gerrit/testing/ConfigSuite.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T12:13:44Z",
+      "side": 1,
+      "message": "Looks like this method is never used?\nIs it needed if you have classRules() above?",
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10e5a887_95c648d4",
+        "filename": "java/com/google/gerrit/testing/ConfigSuite.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T12:13:44Z",
+      "side": 1,
+      "message": "nit: please wrap long line at 100 chars",
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

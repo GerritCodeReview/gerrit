@@ -16,6 +16,40 @@
       "message": "Remerged.",
       "revId": "10e153129f5fac23103a352e2011c5e4f8f40322",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e495e46_909b6fd3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-18T18:45:47Z",
+      "side": 1,
+      "message": "This interface was removed in I6bc941a22bf696efb64c9b9e1864527e6448673d and shouldn\u0027t be documented in 3.4.",
+      "revId": "10e153129f5fac23103a352e2011c5e4f8f40322",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a82f0a4_8bee1d14",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-18T18:45:47Z",
+      "side": 1,
+      "message": "This needs 320924: Move verification of GetChange meta-ref id to the API layer | https://gerrit-review.googlesource.com/c/gerrit/+/320924 applied on 3.4 first.",
+      "revId": "10e153129f5fac23103a352e2011c5e4f8f40322",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

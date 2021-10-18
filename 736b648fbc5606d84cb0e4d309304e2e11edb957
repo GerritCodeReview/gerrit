@@ -46,6 +46,30 @@
       },
       "revId": "736b648fbc5606d84cb0e4d309304e2e11edb957",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df1e5e67_73a6947c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-18T16:56:36Z",
+      "side": 1,
+      "message": "Sure. Do you have a link to the Guice doc where it says to do this? If one doesn\u0027t exist, but it\u0027s something we have to do in order to write correct code, I still think we should document that somewhere.",
+      "parentUuid": "158801f9_7e6eb6b1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 14
+      },
+      "revId": "736b648fbc5606d84cb0e4d309304e2e11edb957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94ae0a1a_5fc6fd00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T18:03:19Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c38d6b2a_4dbc0142",
+      "revId": "8c85e458fe7c51c6ee12fa6ce81b86ddcc8ee149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1f8c866_c564d907",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a44d79c0_db0caefa",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T18:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1f8c866_c564d907",
+      "revId": "8c85e458fe7c51c6ee12fa6ce81b86ddcc8ee149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f060298a_7e1a2b0b",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-10-18T16:09:05Z",
       "side": 1,
       "message": "Any reason not to make this part of the shortcuts service?",
+      "revId": "8c85e458fe7c51c6ee12fa6ce81b86ddcc8ee149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9ae50c6_5278f037",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T18:03:19Z",
+      "side": 1,
+      "message": "It is a stateless utility function. Do you mean add it to the service class? Or add it to the service file? Or add it as shortcuts-util.ts to the same directory?",
+      "parentUuid": "f060298a_7e1a2b0b",
       "revId": "8c85e458fe7c51c6ee12fa6ce81b86ddcc8ee149",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

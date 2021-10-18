@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6f43908_3a2b9482",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-18T06:35:39Z",
+      "side": 1,
+      "message": "It looks good, but I am not very familiar with state management.",
+      "revId": "09cb89e398eb31cfd7c4eaac707e3488eda9e262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

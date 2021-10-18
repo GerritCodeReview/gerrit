@@ -26,6 +26,9 @@ import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announce
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
+import {getDiffViewMode, preferenceDiffViewMode$} from '../../../services/user/user-model';
+import {isScreenTooSmall$} from '../../../services/view/view-model';
+import {Subject, combineLatest} from 'rxjs';
 
 @customElement('gr-diff-mode-selector')
 export class GrDiffModeSelector extends PolymerElement {
@@ -48,11 +51,26 @@ export class GrDiffModeSelector extends PolymerElement {
 
   private readonly userService = appContext.userService;
 
+  disconnected$ = new Subject();
+
+  constructor() {
+    super();
+    combineLatest([isScreenTooSmall$, preferenceDiffViewMode$])
+      .subscribe(([isScreenTooSmall, preferenceDiffViewMode]) => {
+        if (isScreenTooSmall) this.mode = DiffViewMode.UNIFIED;
+        else this.mode = preferenceDiffViewMode;
+      });
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     (
       IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
     ).requestAvailability();
+  }
+
+  override disconnectedCallback() {
+    this.disconnected$.next();
   }
 
   /**

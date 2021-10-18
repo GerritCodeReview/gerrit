@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52e4d69e_8f65c850",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T13:13:26Z",
+      "side": 0,
+      "message": "You are not using `default_diff_view` anymore? What about \n\n  prefInfo.default_diff_view \u003d DiffViewMode.UNIFIED;\n \nbeing set for small screen?",
+      "range": {
+        "startLine": 736,
+        "startChar": 47,
+        "endLine": 736,
+        "endChar": 64
+      },
+      "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

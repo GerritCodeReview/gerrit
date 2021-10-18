@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d92bf58f_379ebf0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T13:13:26Z",
+      "side": 1,
+      "message": "You should not subscribe to `preferences$`, if you are just interested in `size_bar_in_change_table`. Create a dedicated observable.",
+      "range": {
+        "startLine": 386,
+        "startChar": 4,
+        "endLine": 386,
+        "endChar": 15
+      },
+      "revId": "54a532db8499e0de65b1b2e2dc310b4fd834b417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5934000c_3678c1de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-selector/gr-diff-mode-selector.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T13:13:26Z",
+      "side": 1,
+      "message": "Did you forget a\n\n  this.disconnected$.next();",
+      "revId": "54a532db8499e0de65b1b2e2dc310b4fd834b417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9d35198_557631a9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-selector/gr-diff-mode-selector.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T13:13:26Z",
+      "side": 1,
+      "message": "This is a change in behavior: Before this change you could temporarily switch between inline and sidy-by-side mode in the change view without changing the user prefs. After this change every change to the diff view mode is persisted right away. Is that intentional? Why? Can that be documented in the commit message?",
+      "revId": "54a532db8499e0de65b1b2e2dc310b4fd834b417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82987d8f_79ab6ad6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-selector/gr-diff-mode-selector.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T13:13:26Z",
+      "side": 1,
+      "message": "You should not subscribe to `preferences$`, if you are just interested in `diff_view`. Create a dedicated observable.",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "54a532db8499e0de65b1b2e2dc310b4fd834b417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5a6c7a4_8796208a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T13:13:26Z",
+      "side": 1,
+      "message": "Should this be private readonly?\n\nDo you have to call next() in the disconnctedCallback?\n\nNote that this does not work when disconnected and then re-connected.",
+      "revId": "54a532db8499e0de65b1b2e2dc310b4fd834b417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

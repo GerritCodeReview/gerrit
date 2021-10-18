@@ -26,6 +26,7 @@ import {
   HttpMethod,
   MessageTag,
   PrimaryTab,
+  createDefaultPreferences,
 } from '../../../constants/constants';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
@@ -35,7 +36,7 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 import {EventType, PluginApi} from '../../../api/plugin';
 
 import 'lodash/lodash';
-import {mockPromise, stubRestApi} from '../../../test/test-utils';
+import {mockPromise, stubRestApi, stubUsers} from '../../../test/test-utils';
 import {
   createAppElementChangeViewParams,
   createApproval,
@@ -94,6 +95,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {appContext} from '../../../services/app-context';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
+import {_testOnly_setState} from '../../../services/user/user-model';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -803,20 +805,30 @@ suite('gr-change-view tests', () => {
       assert.isTrue(stub.called);
     });
 
-    test('m should toggle diff mode', () => {
-      const setModeStub = sinon.stub(
-        element.$.fileListHeader,
-        'setDiffViewMode'
+    test('m should toggle diff mode', async () => {
+      const updatePreferencesStub = stubUsers('updatePreferences');
+      await flush();
+
+      const prefs = {
+        ...createDefaultPreferences(),
+        diff_view: DiffViewMode.SIDE_BY_SIDE,
+      };
+      _testOnly_setState({preferences: prefs});
+      element._handleToggleDiffMode();
+      assert.isTrue(
+        updatePreferencesStub.calledWith({diff_view: DiffViewMode.UNIFIED})
       );
-      flush();
 
-      element.viewState.diffMode = DiffViewMode.SIDE_BY_SIDE;
+      const newPrefs = {
+        ...createDefaultPreferences(),
+        diff_view: DiffViewMode.UNIFIED,
+      };
+      _testOnly_setState({preferences: newPrefs});
+      await flush();
       element._handleToggleDiffMode();
-      assert.isTrue(setModeStub.calledWith(DiffViewMode.UNIFIED));
-
-      element.viewState.diffMode = DiffViewMode.UNIFIED;
-      element._handleToggleDiffMode();
-      assert.isTrue(setModeStub.calledWith(DiffViewMode.SIDE_BY_SIDE));
+      assert.isTrue(
+        updatePreferencesStub.calledWith({diff_view: DiffViewMode.SIDE_BY_SIDE})
+      );
     });
   });
 
@@ -1276,52 +1288,6 @@ suite('gr-change-view tests', () => {
     assert.equal(element.viewState.changeNum, 2);
     assert.equal(element.viewState.numFilesShown, 200);
     assert.equal(element._numFilesShown, 200);
-  });
-
-  test('_setDiffViewMode is called with reset when new change is loaded', () => {
-    const setDiffViewModeStub = sinon.stub(element, '_setDiffViewMode');
-    element.viewState = {changeNum: 1 as NumericChangeId};
-    element._changeNum = 2 as NumericChangeId;
-    element._resetFileListViewState();
-    assert.isTrue(setDiffViewModeStub.calledWithExactly(true));
-  });
-
-  test('diffViewMode is propagated from file list header', () => {
-    element.viewState = {diffMode: DiffViewMode.UNIFIED};
-    element.$.fileListHeader.diffViewMode = DiffViewMode.SIDE_BY_SIDE;
-    assert.equal(element.viewState.diffMode, DiffViewMode.SIDE_BY_SIDE);
-  });
-
-  test('diffMode defaults to side by side without preferences', async () => {
-    stubRestApi('getPreferences').returns(Promise.resolve(createPreferences()));
-    // No user prefs or diff view mode set.
-
-    await element._setDiffViewMode()!;
-    assert.equal(element.viewState.diffMode, DiffViewMode.SIDE_BY_SIDE);
-  });
-
-  test('diffMode defaults to preference when not already set', async () => {
-    stubRestApi('getPreferences').returns(
-      Promise.resolve({
-        ...createPreferences(),
-        default_diff_view: DiffViewMode.UNIFIED,
-      })
-    );
-
-    await element._setDiffViewMode()!;
-    assert.equal(element.viewState.diffMode, DiffViewMode.UNIFIED);
-  });
-
-  test('existing diffMode overrides preference', async () => {
-    element.viewState.diffMode = DiffViewMode.SIDE_BY_SIDE;
-    stubRestApi('getPreferences').returns(
-      Promise.resolve({
-        ...createPreferences(),
-        default_diff_view: DiffViewMode.UNIFIED,
-      })
-    );
-    await element._setDiffViewMode()!;
-    assert.equal(element.viewState.diffMode, DiffViewMode.SIDE_BY_SIDE);
   });
 
   test('don’t reload entire page when patchRange changes', async () => {

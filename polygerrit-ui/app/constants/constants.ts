@@ -256,7 +256,6 @@ export enum AccountsVisibility {
 export function createDefaultPreferences() {
   return {
     changes_per_page: 25,
-    default_diff_view: DiffViewMode.SIDE_BY_SIDE,
     diff_view: DiffViewMode.SIDE_BY_SIDE,
     size_bar_in_change_table: true,
   } as PreferencesInfo;

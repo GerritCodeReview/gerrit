@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44e72ec0_b745cd83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-18T15:30:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6014863_34cfe4fc",
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "963e2ebd_5fcc8226",
@@ -58,6 +76,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2246fa4_bcdd1615",
+        "filename": "java/com/google/gerrit/testing/AfterConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-18T15:30:46Z",
+      "side": 1,
+      "message": "File removed",
+      "parentUuid": "963e2ebd_5fcc8226",
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8550f16c_5e4e47c2",
@@ -71,6 +107,24 @@
       "writtenOn": "2021-10-18T12:13:44Z",
       "side": 1,
       "message": "Can you please add some class javadoc?\n\nsame for the other new annotation classes",
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e87fb1a_1d1fe8c3",
+        "filename": "java/com/google/gerrit/testing/AfterConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-18T15:30:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8550f16c_5e4e47c2",
       "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +152,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69cccebd_465a9c9b",
+        "filename": "java/com/google/gerrit/testing/ConfigSuite.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-18T15:30:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "195e69a8_8b4ae792",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 41
+      },
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c25c67ce_3b1e411c",
@@ -115,6 +193,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab3c9f81_d02b2ef2",
+        "filename": "java/com/google/gerrit/testing/ConfigSuite.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-18T15:30:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c25c67ce_3b1e411c",
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10e5a887_95c648d4",
@@ -128,6 +224,24 @@
       "writtenOn": "2021-10-18T12:13:44Z",
       "side": 1,
       "message": "nit: please wrap long line at 100 chars",
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8c7caa7_8d8e767e",
+        "filename": "java/com/google/gerrit/testing/ConfigSuite.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-18T15:30:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10e5a887_95c648d4",
       "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

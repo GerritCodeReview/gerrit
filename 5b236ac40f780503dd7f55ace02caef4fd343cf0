@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a50d9dbf_59bb15e6",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-18T16:39:30Z",
+      "side": 1,
+      "message": "added javadoc.\n(nit, I couldn\u0027t add link to SubmitStrategyOp).\n\nI didn\u0027t find a way to depend on the new status in PatchsetInserter too, so I think it\u0027s good to do it that way.",
+      "parentUuid": "a599cdc6_625f1182",
+      "revId": "5b236ac40f780503dd7f55ace02caef4fd343cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19e43886_9d0b07ec",
@@ -43,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68f6979e_e12582ae",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-18T16:39:30Z",
+      "side": 1,
+      "message": "I added a javadoc to the method.\nEssentially, on submit we store the votes on the new patch-set.\nThis is not part of the copied approvals thing, it\u0027s just a thing we\u0027ve had since ever. This idea is, I don\u0027t want to copy stored approvals when we had that legacy approval \"copying\" (in \"\" since it\u0027s not really copying, the vote doesn\u0027t count as copied approval but it does persist it in NodeDb on submit+new patchset).",
+      "parentUuid": "19e43886_9d0b07ec",
+      "range": {
+        "startLine": 223,
+        "startChar": 12,
+        "endLine": 223,
+        "endChar": 87
+      },
+      "revId": "5b236ac40f780503dd7f55ace02caef4fd343cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b83f67ca_0753450a",
         "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
         "patchSetId": 1
@@ -54,6 +96,24 @@
       "writtenOn": "2021-10-18T15:51:59Z",
       "side": 1,
       "message": "Same here, is it possible that source patch set is an initial patch set while target patch set isn\u0027t?",
+      "revId": "5b236ac40f780503dd7f55ace02caef4fd343cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a24e8c1_89b58644",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-18T16:39:30Z",
+      "side": 1,
+      "message": "same as above.",
+      "parentUuid": "b83f67ca_0753450a",
       "revId": "5b236ac40f780503dd7f55ace02caef4fd343cf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

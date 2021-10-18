@@ -22,6 +22,30 @@
       },
       "revId": "7042dae3096f404bdb1e385cf1837083ce77fb2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d95bcc8_369d640c",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-18T16:39:30Z",
+      "side": 1,
+      "message": "Only in some bizarre case where you have an initial commit but it\u0027s not merged yet,  and then you recreate it, I think. Good point.\n\nlet me just revert it and update the commit message to only have the other fix.",
+      "parentUuid": "ace73ab1_ad306654",
+      "range": {
+        "startLine": 421,
+        "startChar": 7,
+        "endLine": 424,
+        "endChar": 75
+      },
+      "revId": "7042dae3096f404bdb1e385cf1837083ce77fb2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ace73ab1_ad306654",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T15:51:59Z",
+      "side": 1,
+      "message": "Is it possible that the prior patch set is an initial commit, but patchSet isn\u0027t?",
+      "range": {
+        "startLine": 421,
+        "startChar": 7,
+        "endLine": 424,
+        "endChar": 75
+      },
+      "revId": "7042dae3096f404bdb1e385cf1837083ce77fb2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

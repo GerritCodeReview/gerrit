@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a599cdc6_625f1182",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T15:51:59Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it\u0027s good to force callers care about this. At least this method should be properly documented so that as caller I can understand whether I want to store copied approvals for my new patch set or not. At the moment it\u0027s unclear to me when it\u0027s needed to use this method.",
+      "revId": "5b236ac40f780503dd7f55ace02caef4fd343cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19e43886_9d0b07ec",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T15:51:59Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand this. Isn\u0027t copying of approvals always automatic, and shouldn\u0027t copied votes always count as copied votes?",
+      "range": {
+        "startLine": 223,
+        "startChar": 12,
+        "endLine": 223,
+        "endChar": 87
+      },
+      "revId": "5b236ac40f780503dd7f55ace02caef4fd343cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b83f67ca_0753450a",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T15:51:59Z",
+      "side": 1,
+      "message": "Same here, is it possible that source patch set is an initial patch set while target patch set isn\u0027t?",
+      "revId": "5b236ac40f780503dd7f55ace02caef4fd343cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

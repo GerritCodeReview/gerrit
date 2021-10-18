@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f14ce31a_8a61af22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T15:25:40Z",
+      "side": 1,
+      "message": "Nice, just a few nits.",
+      "revId": "dff9988d39fe0515fe766cd9d360810db52309a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fffa6ac_5597daa6",
+        "filename": "java/com/google/gerrit/testing/ConfigSuite.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T15:25:40Z",
+      "side": 1,
+      "message": "Do you need to use \u0027{@literal @}\u0027 instead if just \u0027@\u0027 (as it is done below)?",
+      "range": {
+        "startLine": 57,
+        "startChar": 9,
+        "endLine": 57,
+        "endChar": 10
+      },
+      "revId": "dff9988d39fe0515fe766cd9d360810db52309a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "064f3771_02119890",
+        "filename": "java/com/google/gerrit/testing/ConfigSuite.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T15:25:40Z",
+      "side": 1,
+      "message": "drop this word?",
+      "range": {
+        "startLine": 163,
+        "startChar": 50,
+        "endLine": 163,
+        "endChar": 55
+      },
+      "revId": "dff9988d39fe0515fe766cd9d360810db52309a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1afcc835_6c56e684",
+        "filename": "java/com/google/gerrit/testing/SystemPropertiesTestRule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T15:25:40Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "dff9988d39fe0515fe766cd9d360810db52309a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b40bc0a_6a747f89",
+        "filename": "javatests/com/google/gerrit/testing/ConfigSuiteTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T15:25:40Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "dff9988d39fe0515fe766cd9d360810db52309a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ecc956a_87289f88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-18T18:44:23Z",
+      "side": 1,
+      "message": "While reviewing https://gerrit-review.googlesource.com/c/gerrit/+/320977/-1..4/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java I realized this change is needed on 3.4, not master. stable-3.4 already has the metaRevId support.",
+      "revId": "52758665bbb6fbabaf055719b4ccb7f790edcc1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6e83d65_9504d3e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-18T06:41:53Z",
+      "side": 1,
+      "message": "That will be great. But it\u0027s out of the scope for this change.",
+      "parentUuid": "63f8eedc_e1f05fc6",
+      "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb818bcd_971909e7",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e6e27c1_c773a28e",
+        "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote-hovercard/gr-trigger-vote-hovercard.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-18T06:41:53Z",
+      "side": 1,
+      "message": "Linter is always pushing div here, I cannot move it to next line.",
+      "parentUuid": "fb818bcd_971909e7",
+      "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3afd6c0d_26a7dcb2",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-10-15T14:58:08Z",
       "side": 1,
       "message": "Where is this property overridden? Or is this for a future change?",
+      "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc56e7e1_3443237e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-18T06:41:53Z",
+      "side": 1,
+      "message": "Here: \nhttps://gerrit-review.googlesource.com/c/gerrit/+/321167/2/polygerrit-ui/app/elements/change/gr-trigger-vote-hovercard/gr-trigger-vote-hovercard.ts#102\n\nIn gr-submit-requirements-hovercard we show all reviewers, in trigger-vote we are not showing all reviewers, only ones that voted for change.",
+      "parentUuid": "3afd6c0d_26a7dcb2",
       "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

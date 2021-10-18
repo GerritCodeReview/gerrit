@@ -22,6 +22,30 @@
       },
       "revId": "ffa4f8d7f3e90b26f8e46b9f48419f6f24bfa669",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8b81623_6165220a",
+        "filename": "polygerrit-ui/app/services/user/user-service.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-18T09:15:27Z",
+      "side": 1,
+      "message": "Not sure if you meant to return the object inside the restApi method.\nPTAL",
+      "parentUuid": "e2fe5f4b_07c141d7",
+      "range": {
+        "startLine": 50,
+        "startChar": 29,
+        "endLine": 50,
+        "endChar": 58
+      },
+      "revId": "ffa4f8d7f3e90b26f8e46b9f48419f6f24bfa669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

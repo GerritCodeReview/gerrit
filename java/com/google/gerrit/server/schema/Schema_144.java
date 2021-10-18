@@ -34,8 +34,14 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.PackInserter;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class Schema_144 extends SchemaVersion {
   private static final String COMMIT_MSG = "Import external IDs from ReviewDb";
@@ -80,16 +86,23 @@ public class Schema_144 extends SchemaVersion {
     }
 
     try {
-      try (Repository repo = repoManager.openRepository(allUsersName)) {
+      try (Repository repo = repoManager.openRepository(allUsersName);
+          PackInserter packInserter =
+              ((FileRepository) repo).getObjectDatabase().newPackInserter();
+          ObjectReader reader = packInserter.newReader();
+          RevWalk rw = new RevWalk(reader)) {
+        BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
         ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsersName, repo);
         extIdNotes.upsert(toAdd);
         try (MetaDataUpdate metaDataUpdate =
-            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, repo)) {
+            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, repo, bru)) {
           metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
           metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
           metaDataUpdate.getCommitBuilder().setMessage(COMMIT_MSG);
-          extIdNotes.commit(metaDataUpdate);
+          extIdNotes.commit(metaDataUpdate, packInserter, reader, rw);
         }
+        packInserter.flush();
+        bru.execute(rw, NullProgressMonitor.INSTANCE);
       }
     } catch (IOException | ConfigInvalidException e) {
       throw new OrmException("Failed to migrate external IDs to NoteDb", e);

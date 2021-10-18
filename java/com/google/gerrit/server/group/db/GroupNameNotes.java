@@ -35,6 +35,9 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
@@ -210,7 +213,11 @@ public class GroupNameNotes extends VersionedMetaData {
     if (ref == null) {
       return ImmutableList.of();
     }
-    try (RevWalk revWalk = new RevWalk(repository);
+    try (TraceTimer ignored =
+            TraceContext.newTimer(
+                "Loading all groups",
+                Metadata.builder().noteDbRefName(RefNames.REFS_GROUPNAMES).build());
+        RevWalk revWalk = new RevWalk(repository);
         ObjectReader reader = revWalk.getObjectReader()) {
       RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
       NoteMap noteMap = NoteMap.read(reader, notesCommit);

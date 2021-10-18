@@ -68,6 +68,24 @@
       "message": "This needs 320924: Move verification of GetChange meta-ref id to the API layer | https://gerrit-review.googlesource.com/c/gerrit/+/320924 applied on 3.4 first.",
       "revId": "10e153129f5fac23103a352e2011c5e4f8f40322",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b033882_7c4105d6",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-10-18T19:58:38Z",
+      "side": 1,
+      "message": "not sure if I understand - this is just a merge-up - let\u0027s do this one and then re-apply the other change on the top of it, WDYT?",
+      "parentUuid": "7a82f0a4_8bee1d14",
+      "revId": "10e153129f5fac23103a352e2011c5e4f8f40322",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

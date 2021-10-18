@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48dd4125_b8638795",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-18T08:43:05Z",
+      "side": 1,
+      "message": "To show who voted on the trigger vote because this information is not visible at a glance.",
+      "parentUuid": "da0ef387_9329f1d6",
+      "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63f8eedc_e1f05fc6",

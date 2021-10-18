@@ -339,7 +339,6 @@ export const htmlTemplate = html`
           <gr-diff-mode-selector
             id="modeSelect"
             save-on-change="[[_loggedIn]]"
-            mode="{{changeViewState.diffMode}}"
             show-tooltip-below=""
           ></gr-diff-mode-selector>
         </div>
@@ -409,7 +408,6 @@ export const htmlTemplate = html`
     path="[[_path]]"
     prefs="[[_prefs]]"
     project-name="[[_change.project]]"
-    view-mode="[[_diffMode]]"
     is-blame-loaded="{{_isBlameLoaded}}"
     on-comment-anchor-tap="_onLineSelected"
     on-line-selected="_onLineSelected"

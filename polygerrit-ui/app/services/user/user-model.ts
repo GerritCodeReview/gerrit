@@ -17,7 +17,10 @@
 import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
-import {createDefaultPreferences} from '../../constants/constants';
+import {
+  createDefaultPreferences,
+  DiffViewMode,
+} from '../../constants/constants';
 
 interface UserState {
   /**
@@ -31,7 +34,20 @@ const initialState: UserState = {
   preferences: createDefaultPreferences(),
 };
 
-const privateState$ = new BehaviorSubject(initialState);
+// Mutable for testing
+let privateState$ = new BehaviorSubject(initialState);
+
+export function _testOnly_resetState() {
+  privateState$ = new BehaviorSubject(initialState);
+}
+
+export function _testOnly_setState(state: UserState) {
+  privateState$.next(state);
+}
+
+export function _testOnly_getState() {
+  return privateState$.getValue();
+}
 
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const userState$: Observable<UserState> = privateState$;
@@ -53,6 +69,11 @@ export const account$ = userState$.pipe(
 
 export const preferences$ = userState$.pipe(
   map(userState => userState.preferences),
+  distinctUntilChanged()
+);
+
+export const preferenceDiffViewMode$ = preferences$.pipe(
+  map(preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE),
   distinctUntilChanged()
 );
 

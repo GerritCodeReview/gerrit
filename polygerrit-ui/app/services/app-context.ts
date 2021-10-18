@@ -27,6 +27,7 @@ import {ConfigService} from './config/config-service';
 import {UserService} from './user/user-service';
 import {CommentsService} from './comments/comments-service';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
+import {BrowserService} from './browser/browser-service';
 
 export interface AppContext {
   flagsService: FlagsService;
@@ -41,6 +42,7 @@ export interface AppContext {
   storageService: StorageService;
   configService: ConfigService;
   userService: UserService;
+  browserService: BrowserService;
   shortcutsService: ShortcutsService;
 }
 

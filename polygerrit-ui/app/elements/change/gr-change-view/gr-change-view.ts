@@ -196,6 +196,7 @@ import {
   getAddedByReason,
   getRemovedByReason,
 } from '../../../utils/attention-set-util';
+import {preferenceDiffViewMode$} from '../../../services/user/user-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -592,6 +593,10 @@ export class GrChangeView extends base {
 
   private lastStarredTimestamp?: number;
 
+  private readonly userService = appContext.userService;
+
+  private diffViewMode?: DiffViewMode;
+
   override ready() {
     super.ready();
     aPluginHasRegistered$.pipe(takeUntil(this.disconnected$)).subscribe(b => {
@@ -603,6 +608,11 @@ export class GrChangeView extends base {
     drafts$.pipe(takeUntil(this.disconnected$)).subscribe(drafts => {
       this._diffDrafts = {...drafts};
     });
+    preferenceDiffViewMode$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(diffViewMode => {
+        this.diffViewMode = diffViewMode;
+      });
     changeComments$
       .pipe(takeUntil(this.disconnected$))
       .subscribe(changeComments => {
@@ -647,7 +657,6 @@ export class GrChangeView extends base {
           this._account = acct;
         });
       }
-      this._setDiffViewMode();
     });
 
     this.replyDialogResizeObserver = new ResizeObserver(() =>
@@ -716,24 +725,6 @@ export class GrChangeView extends base {
     return this.shadowRoot!.querySelector<GrThreadList>('gr-thread-list');
   }
 
-  _setDiffViewMode(opt_reset?: boolean) {
-    if (!opt_reset && this.viewState.diffViewMode) {
-      return;
-    }
-
-    return this._getPreferences()
-      .then(prefs => {
-        if (!this.viewState.diffMode && prefs) {
-          this.set('viewState.diffMode', prefs.default_diff_view);
-        }
-      })
-      .then(() => {
-        if (!this.viewState.diffMode) {
-          this.set('viewState.diffMode', 'SIDE_BY_SIDE');
-        }
-      });
-  }
-
   _onOpenFixPreview(e: OpenFixPreviewEvent) {
     this.$.applyFixDialog.open(e);
   }
@@ -746,12 +737,13 @@ export class GrChangeView extends base {
     if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
-
     e.preventDefault();
-    if (this.viewState.diffMode === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.fileListHeader.setDiffViewMode(DiffViewMode.UNIFIED);
+    if (this.diffViewMode === DiffViewMode.SIDE_BY_SIDE) {
+      this.userService.updatePreferences({diff_view: DiffViewMode.UNIFIED});
     } else {
-      this.$.fileListHeader.setDiffViewMode(DiffViewMode.SIDE_BY_SIDE);
+      this.userService.updatePreferences({
+        diff_view: DiffViewMode.SIDE_BY_SIDE,
+      });
     }
   }
 
@@ -1402,9 +1394,6 @@ export class GrChangeView extends base {
       !!this.viewState.changeNum &&
       this.viewState.changeNum !== this._changeNum
     ) {
-      // Reset the diff mode to null when navigating from one change to
-      // another, so that the user's preference is restored.
-      this._setDiffViewMode(true);
       this.set('_numFilesShown', DEFAULT_NUM_FILES_SHOWN);
     }
     this.set('viewState.changeNum', this._changeNum);

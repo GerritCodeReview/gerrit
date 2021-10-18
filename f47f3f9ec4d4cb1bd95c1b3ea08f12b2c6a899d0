@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c13170c_2a46695b",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T16:05:40Z",
+      "side": 1,
+      "message": "Shouldn\u0027t these two be removed as well?",
+      "revId": "f47f3f9ec4d4cb1bd95c1b3ea08f12b2c6a899d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

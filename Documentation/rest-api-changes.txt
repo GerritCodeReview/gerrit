@@ -7401,7 +7401,8 @@ and/or remove from, a change.
 [[included-in-info]]
 === IncludedInInfo
 The `IncludedInInfo` entity contains information about the branches a
-change was merged into and tags it was tagged with.
+change was merged into and tags it was tagged with. The branch or tag
+must have 'refs/head/' or 'refs/tags/' prefix respectively.
 
 [options="header",cols="1,^1,5"]
 |=======================

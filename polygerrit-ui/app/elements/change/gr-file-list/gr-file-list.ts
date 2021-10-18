@@ -83,11 +83,15 @@ import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
 import {Timing} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
-import {preferences$} from '../../../services/user/user-model';
+import {
+  preferences$,
+  preferenceDiffViewMode$,
+} from '../../../services/user/user-model';
 import {changeComments$} from '../../../services/comments/comments-model';
-import {Subject} from 'rxjs';
+import {Subject, combineLatest} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
+import {isScreenTooSmall$} from '../../../services/view/view-model';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -368,6 +372,12 @@ export class GrFileList extends base {
     this.fileCursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.fileCursor.cursorTargetClass = 'selected';
     this.fileCursor.focusOnMove = true;
+    combineLatest([isScreenTooSmall$, preferenceDiffViewMode$]).subscribe(
+      ([isScreenTooSmall, preferenceDiffViewMode]) => {
+        if (isScreenTooSmall) this.diffViewMode = DiffViewMode.UNIFIED;
+        else this.diffViewMode = preferenceDiffViewMode;
+      }
+    );
   }
 
   override connectedCallback() {

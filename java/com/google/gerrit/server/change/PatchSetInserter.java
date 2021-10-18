@@ -104,6 +104,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private boolean allowClosed;
   private boolean sendEmail = true;
   private String topic;
+  private boolean storeCopiedVotes = true;
 
   // Fields set during some phase of BatchUpdate.Op.
   private Change change;
@@ -203,6 +204,11 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
+  public PatchSetInserter setStoreCopiedVotes(boolean storeCopiedVotes) {
+    this.storeCopiedVotes = storeCopiedVotes;
+    return this;
+  }
+
   public Change getChange() {
     checkState(change != null, "getChange() only valid after executing update");
     return change;
@@ -288,7 +294,9 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     // Approvals that are being set in the new patch-set during this operation are not available yet
     // outside of the scope of this method. Only copied approvals are set here.
-    approvalsUtil.byPatchSet(ctx.getNotes(), patchSet).forEach(a -> update.putCopiedApproval(a));
+    if (storeCopiedVotes) {
+      approvalsUtil.byPatchSet(ctx.getNotes(), patchSet).forEach(a -> update.putCopiedApproval(a));
+    }
 
     return true;
   }

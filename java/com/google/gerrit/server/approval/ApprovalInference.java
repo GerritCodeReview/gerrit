@@ -418,8 +418,11 @@ class ApprovalInference {
       if (baseVsCurrent == null
           && type.isPresent()
           && type.get().isCopyAllScoresIfListOfFilesDidNotChange()) {
-        baseVsCurrent = listModifiedFiles(project, patchSet);
-        baseVsPrior = listModifiedFiles(project, priorPatchSet.getValue());
+        boolean isInitialCommit =
+            listOfFilesUnchangedPredicate.isInitialCommit(
+                project.getNameKey(), priorPatchSet.getValue().commitId());
+        baseVsCurrent = listModifiedFiles(project, patchSet, isInitialCommit);
+        baseVsPrior = listModifiedFiles(project, priorPatchSet.getValue(), isInitialCommit);
         priorVsCurrent =
             listModifiedFiles(project, priorPatchSet.getValue().commitId(), patchSet.commitId());
       }
@@ -456,12 +459,10 @@ class ApprovalInference {
    * Gets the modified files between the two latest patch-sets. Can be used to compute difference in
    * files between those two patch-sets .
    */
-  private Map<String, FileDiffOutput> listModifiedFiles(ProjectState project, PatchSet ps) {
+  private Map<String, FileDiffOutput> listModifiedFiles(
+      ProjectState project, PatchSet ps, boolean isInitialCommit) {
     try {
-      Integer parentNum =
-          listOfFilesUnchangedPredicate.isInitialCommit(project.getNameKey(), ps.commitId())
-              ? 0
-              : 1;
+      Integer parentNum = isInitialCommit ? 0 : 1;
       return diffOperations.listModifiedFilesAgainstParent(
           project.getNameKey(), ps.commitId(), parentNum);
     } catch (DiffNotAvailableException ex) {

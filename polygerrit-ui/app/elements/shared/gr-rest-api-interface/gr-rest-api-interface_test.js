@@ -333,26 +333,23 @@ suite('gr-rest-api-interface tests', () => {
     stub.lastCall.args[0].errFn({});
   });
 
-  const preferenceSetup = function(testJSON, loggedIn, smallScreen) {
+  const preferenceSetup = function(testJSON, loggedIn) {
     sinon.stub(element, 'getLoggedIn')
         .callsFake(() => Promise.resolve(loggedIn));
-    sinon.stub(element, '_isNarrowScreen').callsFake(() => smallScreen);
     sinon.stub(
         element._restApiHelper,
         'fetchCacheURL')
         .callsFake(() => Promise.resolve(testJSON));
   };
 
-  test('getPreferences returns correctly on small screens logged in',
+  test('getPreferences returns correctly logged in',
       () => {
         const testJSON = {diff_view: 'SIDE_BY_SIDE'};
         const loggedIn = true;
-        const smallScreen = true;
 
-        preferenceSetup(testJSON, loggedIn, smallScreen);
+        preferenceSetup(testJSON, loggedIn);
 
         return element.getPreferences().then(obj => {
-          assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
           assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
         });
       });
@@ -361,12 +358,10 @@ suite('gr-rest-api-interface tests', () => {
       () => {
         const testJSON = {diff_view: 'UNIFIED_DIFF'};
         const loggedIn = true;
-        const smallScreen = false;
 
-        preferenceSetup(testJSON, loggedIn, smallScreen);
+        preferenceSetup(testJSON, loggedIn);
 
         return element.getPreferences().then(obj => {
-          assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
           assert.equal(obj.diff_view, 'UNIFIED_DIFF');
         });
       });
@@ -375,12 +370,10 @@ suite('gr-rest-api-interface tests', () => {
       () => {
         const testJSON = {diff_view: 'UNIFIED_DIFF'};
         const loggedIn = false;
-        const smallScreen = false;
 
-        preferenceSetup(testJSON, loggedIn, smallScreen);
+        preferenceSetup(testJSON, loggedIn);
 
         return element.getPreferences().then(obj => {
-          assert.equal(obj.default_diff_view, 'SIDE_BY_SIDE');
           assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
         });
       });

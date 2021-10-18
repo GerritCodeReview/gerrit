@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  AccountDetailInfo,
-  PreferencesInfo,
-  PreferencesInput,
-} from '../../types/common';
+import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
 import {from, of} from 'rxjs';
 import {account$, updateAccount, updatePreferences} from './user-model';
 import {switchMap} from 'rxjs/operators';
@@ -44,7 +40,7 @@ export class UserService {
       });
   }
 
-  updatePreferences(prefs: PreferencesInput) {
+  updatePreferences(prefs: Partial<PreferencesInfo>) {
     this.restApiService
       .savePreferences(prefs)
       .then((newPrefs: PreferencesInfo | undefined) => {

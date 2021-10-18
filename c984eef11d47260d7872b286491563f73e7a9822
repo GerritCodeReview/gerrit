@@ -20,6 +20,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db377660_9307aadf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T08:40:55Z",
+      "side": 1,
+      "message": "queryMap should be removed from AppElementChangeViewParams. Both, `tab` and `forceReload` should be dedicated props of AppElementChangeViewParams.\n\nThe change view and AppElementChangeViewParams should not be aware of the notion of a URL. They should not depend on the concept of a URL. The router should handle that.",
+      "range": {
+        "startLine": 1231,
+        "startChar": 32,
+        "endLine": 1231,
+        "endChar": 40
+      },
+      "revId": "c984eef11d47260d7872b286491563f73e7a9822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c69d3a7f_589c0145",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T08:40:55Z",
+      "side": 1,
+      "message": "Should be done in the router when translating URL to AppElementChangeViewParams.",
+      "revId": "c984eef11d47260d7872b286491563f73e7a9822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98cc5d93_ed48e09a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 2143,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T08:40:55Z",
+      "side": 1,
+      "message": "This is a code smell. It would be nice to replace all the parameters by just one `options` object parameter.",
+      "range": {
+        "startLine": 2140,
+        "startChar": 8,
+        "endLine": 2143,
+        "endChar": 18
+      },
+      "revId": "c984eef11d47260d7872b286491563f73e7a9822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bdb05787_cf15b187",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 17

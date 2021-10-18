@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "231ce3f5_179fb2d3",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T08:40:55Z",
+      "side": 0,
+      "message": "Why remove this TODO? Maybe just remove `querystring`?",
+      "revId": "273cb85f36886e393ed65baf5117b95867de700b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

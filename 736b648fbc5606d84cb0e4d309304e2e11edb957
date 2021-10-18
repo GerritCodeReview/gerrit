@@ -22,6 +22,30 @@
       },
       "revId": "736b648fbc5606d84cb0e4d309304e2e11edb957",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "158801f9_7e6eb6b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T10:41:10Z",
+      "side": 1,
+      "message": "Not sure, the @RequestScoped annotation is part of Guice and they should take care to document how it should be used. I don\u0027t think it needs to be part of the Gerrit documentation.",
+      "parentUuid": "b2f7d73e_2a01c908",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 14
+      },
+      "revId": "736b648fbc5606d84cb0e4d309304e2e11edb957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

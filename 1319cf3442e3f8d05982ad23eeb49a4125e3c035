@@ -70,6 +70,24 @@
       "parentUuid": "e2000631_bc27397a",
       "revId": "1319cf3442e3f8d05982ad23eeb49a4125e3c035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3df9a9c_efb91719",
+        "filename": "polygerrit-ui/app/api/rest.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T07:46:59Z",
+      "side": 1,
+      "message": "If `plugin.restApi(\u0027/accounts/self/capabilities/\u0027).get(\u0027\u0027)` works fine and the serviceuser plugin is the only (non-core) plugin that has a need for this API, then I would prefer to not add it to the official plugin API.",
+      "parentUuid": "83af15c9_f7eafbb6",
+      "revId": "1319cf3442e3f8d05982ad23eeb49a4125e3c035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

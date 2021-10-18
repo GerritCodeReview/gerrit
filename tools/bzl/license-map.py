@@ -132,7 +132,7 @@ def load_xmls(xml_filenames):
 
 def main():
     xml_data = load_xmls(args.xmls)
-    json_map_data = load_jsons(args.json_maps)
+    json_map_data = load_jsons(args.json_maps) if args.json_maps else []
 
     if args.asciidoctor:
         # We don't want any blank line before "= Gerrit Code Review - Licenses"

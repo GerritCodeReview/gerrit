@@ -159,8 +159,6 @@ import {ErrorCallback} from '../../../api/rest';
 import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
 
 const MAX_PROJECT_RESULTS = 25;
-// This value is somewhat arbitrary and not based on research or calculations.
-const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 850;
 
 const Requests = {
   SEND_DIFF_DRAFT: 'sendDiffDraft',
@@ -977,13 +975,6 @@ export class GrRestApiInterface
             return res;
           }
           const prefInfo = res as unknown as PreferencesInfo;
-          if (this._isNarrowScreen()) {
-            // Note that this can be problematic, because the diff will stay
-            // unified even after increasing the window width.
-            prefInfo.default_diff_view = DiffViewMode.UNIFIED;
-          } else {
-            prefInfo.default_diff_view = prefInfo.diff_view;
-          }
           return prefInfo;
         });
       }
@@ -1017,10 +1008,6 @@ export class GrRestApiInterface
       body: projects,
       reportUrlAsIs: true,
     });
-  }
-
-  _isNarrowScreen() {
-    return window.innerWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX;
   }
 
   getChanges(

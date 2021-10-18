@@ -196,6 +196,7 @@ import {
   getAddedByReason,
   getRemovedByReason,
 } from '../../../utils/attention-set-util';
+import { isScreenTooSmall } from '../../../services/view/view-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -732,15 +733,10 @@ export class GrChangeView extends base {
 
     return this._getPreferences()
       .then(prefs => {
-        if (!this.viewState.diffMode && prefs) {
-          this.set('viewState.diffMode', prefs.default_diff_view);
-        }
-      })
-      .then(() => {
         if (!this.viewState.diffMode) {
           this.set('viewState.diffMode', 'SIDE_BY_SIDE');
         }
-      });
+      })
   }
 
   _onOpenFixPreview(e: OpenFixPreviewEvent) {
@@ -755,7 +751,10 @@ export class GrChangeView extends base {
     if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
-
+    if (isScreenTooSmall()) {
+      fireAlert(this, 'Screen width too small for toggling the diff mode');
+      return;
+    }
     e.preventDefault();
     if (this.viewState.diffMode === DiffViewMode.SIDE_BY_SIDE) {
       this.$.fileListHeader.setDiffViewMode(DiffViewMode.UNIFIED);

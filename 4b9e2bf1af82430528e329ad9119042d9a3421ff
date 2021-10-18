@@ -103,6 +103,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e5e8c45_b4c3b30c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-18T19:41:58Z",
+      "side": 1,
+      "message": "Yes, I think that would be fine.",
+      "parentUuid": "056aa735_9cfb6262",
+      "revId": "4b9e2bf1af82430528e329ad9119042d9a3421ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5e839bfd_56b3901c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
         "patchSetId": 7

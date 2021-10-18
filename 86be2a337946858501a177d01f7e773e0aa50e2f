@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78beba98_e4fd80a4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T13:53:41Z",
+      "side": 0,
+      "message": "Why is it ok to remove this?",
+      "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52e4d69e_8f65c850",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 9
@@ -20,6 +37,57 @@
         "endLine": 736,
         "endChar": 64
       },
+      "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fd17ffc_b4e48d87",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T13:53:41Z",
+      "side": 0,
+      "message": "Why is this no longer necessary?",
+      "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22a6dab6_ec1620df",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1314,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T13:53:41Z",
+      "side": 0,
+      "message": "Why is this test no longer necessary?",
+      "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6ba3749_26f81ea8",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T13:53:41Z",
+      "side": 0,
+      "message": "Is this just a cleanup of an unused method?",
       "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

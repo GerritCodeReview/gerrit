@@ -96,6 +96,74 @@
       "message": "Should this be private readonly?\n\nDo you have to call next() in the disconnctedCallback?\n\nNote that this does not work when disconnected and then re-connected.",
       "revId": "54a532db8499e0de65b1b2e2dc310b4fd834b417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9196784_aca3f149",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T13:53:41Z",
+      "side": 1,
+      "message": "Make this method async and use await syntax",
+      "revId": "54a532db8499e0de65b1b2e2dc310b4fd834b417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4566a3b2_39d40352",
+        "filename": "polygerrit-ui/app/services/user/user-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T13:53:41Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of proxying all changes through $userState?\n\nWhat stops us from having 3 top-level observables, one for account$ one for preferences$ and one for diffPreferences$?",
+      "revId": "54a532db8499e0de65b1b2e2dc310b4fd834b417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0447e2f_95824730",
+        "filename": "polygerrit-ui/app/services/user/user-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T13:53:41Z",
+      "side": 1,
+      "message": "Doesn\u0027t this really take a Partial\u003cDiffPreferencesInfo\u003e?",
+      "revId": "54a532db8499e0de65b1b2e2dc310b4fd834b417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29b7017a_1ae4c2ff",
+        "filename": "polygerrit-ui/app/services/user/user-service.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T13:53:41Z",
+      "side": 1,
+      "message": "Make this method async and use await syntax\n\n```\nconst response \u003d await this.restApiService.saveDiffPreferences(diffPrefs);\nconst obj \u003d await this.restApi.getResponseObject(response);\nconst newPrefs \u003d obj as unknown as DiffPreferencesInfo;\nif (newPrefs) updateDiffPreferences(newPrefs);\n```",
+      "revId": "54a532db8499e0de65b1b2e2dc310b4fd834b417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -41,7 +41,6 @@ import {
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
-import {DiffViewMode} from '../../../constants/constants';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fireEvent} from '../../../utils/event-util';
 import {
@@ -126,9 +125,6 @@ export class GrFileListHeader extends base {
   @property({type: Object})
   diffPrefs?: DiffPreferencesInfo;
 
-  @property({type: String, notify: true})
-  diffViewMode?: DiffViewMode;
-
   @property({type: String})
   patchNum?: PatchSetNum;
 
@@ -147,10 +143,6 @@ export class GrFileListHeader extends base {
   revisionInfo?: RevisionInfo;
 
   private readonly shortcuts = appContext.shortcutsService;
-
-  setDiffViewMode(mode: DiffViewMode) {
-    this.$.modeSelect.setMode(mode);
-  }
 
   _expandAllDiffs() {
     fireEvent(this, 'expand-diffs');

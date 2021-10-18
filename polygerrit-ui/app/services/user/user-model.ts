@@ -17,7 +17,10 @@
 import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
-import {createDefaultPreferences} from '../../constants/constants';
+import {
+  createDefaultPreferences,
+  DiffViewMode,
+} from '../../constants/constants';
 
 interface UserState {
   /**
@@ -53,6 +56,11 @@ export const account$ = userState$.pipe(
 
 export const preferences$ = userState$.pipe(
   map(userState => userState.preferences),
+  distinctUntilChanged()
+);
+
+export const preferenceDiffViewMode$ = preferences$.pipe(
+  map(preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE),
   distinctUntilChanged()
 );
 

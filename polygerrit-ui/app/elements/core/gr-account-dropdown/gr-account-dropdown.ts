@@ -141,14 +141,14 @@ export class GrAccountDropdown extends LitElement {
     }
 
     const links: DropdownLink[] = [];
-    links.push({name: 'Settings', url: '/settings/'});
+    links.push({name: 'Settings', id: 'settings', url: '/settings/'});
     links.push({name: 'Keyboard Shortcuts', id: 'shortcuts'});
     if (switchAccountUrl) {
       const replacements = {path};
       const url = this._interpolateUrl(switchAccountUrl, replacements);
       links.push({name: 'Switch account', url, external: true});
     }
-    links.push({name: 'Sign out', url: '/logout'});
+    links.push({name: 'Sign out', id: 'signout', url: '/logout'});
     return links;
   }
 

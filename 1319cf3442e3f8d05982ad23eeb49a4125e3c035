@@ -88,6 +88,24 @@
       "parentUuid": "83af15c9_f7eafbb6",
       "revId": "1319cf3442e3f8d05982ad23eeb49a4125e3c035",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "147d9ede_cbc2f8fa",
+        "filename": "polygerrit-ui/app/api/rest.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-10-18T08:42:59Z",
+      "side": 1,
+      "message": "The master-branch of the serviceuser plugin is out of date and `plugin.restApi(\u0027/accounts/self/capabilities/\u0027).get(\u0027\u0027)` was actually used before switching to `getAccountCapabilities()` in stable-3.2. However, it still works. So no need to readd `getAccountCapabilities()`. Thanks for looking into this!",
+      "parentUuid": "a3df9a9c_efb91719",
+      "revId": "1319cf3442e3f8d05982ad23eeb49a4125e3c035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

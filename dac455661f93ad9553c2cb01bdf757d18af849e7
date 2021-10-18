@@ -94,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac4733d6_9c3a07a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote-hovercard/gr-trigger-vote-hovercard.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-18T09:24:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8000913c_e8c22372",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 18
+      },
+      "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7219370e_893f7978",
@@ -107,6 +131,30 @@
       "writtenOn": "2021-10-18T08:55:42Z",
       "side": 1,
       "message": "Maybe introduce a css var, if this is used in multiple places?",
+      "range": {
+        "startLine": 51,
+        "startChar": 21,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f67dee56_5bfcfca8",
+        "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote-hovercard/gr-trigger-vote-hovercard.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-18T09:24:11Z",
+      "side": 1,
+      "message": "Actually I made it smaller. (300px)",
+      "parentUuid": "7219370e_893f7978",
       "range": {
         "startLine": 51,
         "startChar": 21,
@@ -165,6 +213,24 @@
       "writtenOn": "2021-10-18T08:55:42Z",
       "side": 1,
       "message": "Add a comment explaining the property.\n\nBtw, an explanation for `mutable` would also have helped me understanding this change.",
+      "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca39ca7_29452b98",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-18T09:24:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9848156_dea19477",
       "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

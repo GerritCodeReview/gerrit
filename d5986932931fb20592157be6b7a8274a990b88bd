@@ -34,6 +34,24 @@
       "parentUuid": "8cdc33c2_68441046",
       "revId": "d5986932931fb20592157be6b7a8274a990b88bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9721dbaa_554a7fd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-18T18:18:31Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not familiar with the tasks plugin. Are you suggesting implementing this functionality there?\n\nNot quite. I was suggesting 1) an option to specify a refs/meta/config change as a param instead of the SR as input (which also means you can use GET instead of POST) and 2) using that option with GetChange(s) APIs.",
+      "parentUuid": "392b25b5_c27329f0",
+      "revId": "d5986932931fb20592157be6b7a8274a990b88bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

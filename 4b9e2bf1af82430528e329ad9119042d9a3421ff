@@ -134,6 +134,24 @@
       "parentUuid": "a438767e_4c671a88",
       "revId": "4b9e2bf1af82430528e329ad9119042d9a3421ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2210265f_736873e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_130.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-18T18:33:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "35ad64f2_b2260be2",
+      "revId": "4b9e2bf1af82430528e329ad9119042d9a3421ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "Han-Wen, I need LC approval again (only rebased/\n\n\nThanks.",
       "revId": "ecfbff2a2717a678758458e10c195298f7b09679",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9babfff2_4a3bfa97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T08:36:23Z",
+      "side": 1,
+      "message": "Re-applying Hanwen\u0027s Library-Compliance+1 from patch set 4, as nothing changed in regards to library compliance since then.",
+      "revId": "ecfbff2a2717a678758458e10c195298f7b09679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

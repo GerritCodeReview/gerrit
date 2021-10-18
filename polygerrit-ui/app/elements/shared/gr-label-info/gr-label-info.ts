@@ -43,6 +43,7 @@ import {
   getApprovalInfo,
   getVotingRangeOrDefault,
   hasNeutralStatus,
+  hasVoted,
 } from '../../../utils/label-util';
 import {appContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -86,8 +87,20 @@ export class GrLabelInfo extends LitElement {
   @property({type: Object})
   account?: AccountInfo;
 
+  /**
+   * A user is able to delete a vote iff the mutable property is true and the
+   * reviewer that left the vote exists in the list of removable_reviewers
+   * received from the backend.
+   */
   @property({type: Boolean})
   mutable = false;
+
+  /**
+   * if true - show all reviewers that can vote on label
+   * if false - show only reviewers that voted on label
+   */
+  @property({type: Boolean})
+  showAllReviewers = true;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -201,7 +214,9 @@ export class GrLabelInfo extends LitElement {
     const labelInfo = this.labelInfo;
     if (!labelInfo) return;
     const reviewers = (this.change?.reviewers['REVIEWER'] ?? []).filter(
-      reviewer => canVote(labelInfo, reviewer)
+      reviewer =>
+        (this.showAllReviewers && canVote(labelInfo, reviewer)) ||
+        (!this.showAllReviewers && hasVoted(labelInfo, reviewer))
     );
     return html`<div>
       ${reviewers.map(reviewer => this.renderReviewerVote(reviewer))}

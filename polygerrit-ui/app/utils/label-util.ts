@@ -92,8 +92,9 @@ export function getLabelStatus(label?: LabelInfo, vote?: number): LabelStatus {
 
 export function hasNeutralStatus(
   label: DetailedLabelInfo,
-  approvalInfo: ApprovalInfo
+  approvalInfo?: ApprovalInfo
 ) {
+  if (!approvalInfo) return true;
   return getLabelStatus(label, approvalInfo.value) === LabelStatus.NEUTRAL;
 }
 
@@ -132,6 +133,15 @@ export function getApprovalInfo(
   account: AccountInfo
 ): ApprovalInfo | undefined {
   return label.all?.filter(x => x._account_id === account._account_id)[0];
+}
+
+export function hasVoted(label: LabelInfo, account: AccountInfo) {
+  if (isDetailedLabelInfo(label)) {
+    return !hasNeutralStatus(label, getApprovalInfo(label, account));
+  } else if (isQuickLabelInfo(label)) {
+    return label.approved === account || label.rejected === account;
+  }
+  return false;
 }
 
 export function canVote(label: DetailedLabelInfo, account: AccountInfo) {

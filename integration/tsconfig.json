@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "commonjs", // Necessary as these tests run on node.
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": false,
+    "declarationMap": false,
+    "inlineSourceMap": true,
+    "outDir": "./.ts-out/spec/",
+    "rootDir": ".",
+    "removeComments": false,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "preserveSymlinks": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "experimentalDecorators": true,
+    "allowUmdGlobalAccess": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+  },
+  "include": [
+    "spec/**/*.ts"
+  ]
+}

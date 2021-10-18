@@ -16,6 +16,24 @@
       "message": "This feels similar to the --preview switch in the task plugin that lets you test how tasks would be evaluated with a different task configuration that\u0027s already been uploaded in a change for review: https://gerrit.googlesource.com/plugins/task/+/refs/heads/master/src/main/resources/Documentation/task.md#change-query-output\n\nWe use that for both development of new task configurations and CI testing to ensure a proposed config is syntactically valid.\n\nWould it be useful to support a similar thing with submit requirements? It seems like a common model will be to propose a change to refs/meta/config with new/modified submit requirements.",
       "revId": "d5986932931fb20592157be6b7a8274a990b88bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "392b25b5_c27329f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-18T17:20:52Z",
+      "side": 1,
+      "message": "Yes, that\u0027s the intended usage: test/validate before applying. The new endpoint can be used like\n(this endpoint is not yet present in our release but should be there in 1~2 days)\n\n$ curl -X POST -H \"Content-Type: application/json\" -d \"{\u0027name\u0027: \u0027CR\u0027, \u0027submittability_expression\u0027: \u0027label:code-review\u003d+2\u0027}\" \"https://gerrit-review.googlesource.com/a/changes/321161/check.submit_requirement\"\n\n```\n{\n  \"name\": \"CR\",\n  \"status\": \"SATISFIED\",\n  \"is_legacy\": false,\n  \"submittability_expression_result\": {\n    \"expression\": \"label:code-review\\u003d+2\",\n    \"fulfilled\": true,\n    \"passing_atoms\": [\n      \"label:code-review\\u003d+2\"\n    ],\n    \"failing_atoms\": []\n  }\n}\n```\n\nI\u0027m not familiar with the tasks plugin. Are you suggesting implementing this functionality there?",
+      "parentUuid": "8cdc33c2_68441046",
+      "revId": "d5986932931fb20592157be6b7a8274a990b88bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

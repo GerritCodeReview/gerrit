@@ -1,0 +1,198 @@
+{
+  "comments": [],
+  "submitRequirementResults": [
+    {
+      "submitRequirement": {
+        "name": "Code-Review",
+        "description": {
+          "value": "At least one maximum vote for label \u0027Code-Review\u0027 is required"
+        },
+        "applicabilityExpression": {},
+        "submittabilityExpression": {
+          "expressionString": "label:Code-Review\u003dMAX,user\u003dnon_uploader AND -label:Code-Review\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": true
+      },
+      "applicabilityExpressionResult": {},
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "label:Code-Review\u003dMAX,user\u003dnon_uploader AND -label:Code-Review\u003dMIN"
+        },
+        "status": "PASS",
+        "errorMessage": {},
+        "passingAtoms": [
+          "label:Code-Review\u003dMAX,user\u003dnon_uploader"
+        ],
+        "failingAtoms": [
+          "label:Code-Review\u003dMIN"
+        ]
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": -1706097817,
+        "w2": 1846150361,
+        "w3": -1850663275,
+        "w4": 850786063,
+        "w5": -627223229
+      },
+      "legacy": false
+    },
+    {
+      "submitRequirement": {
+        "name": "Code-Style",
+        "description": {
+          "value": "Code has correct style and format"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "-branch:refs/meta/config"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {
+          "expression": {
+            "expressionString": "-branch:refs/meta/config"
+          },
+          "status": "FAIL",
+          "errorMessage": {},
+          "passingAtoms": [
+            "branch:refs/meta/config"
+          ],
+          "failingAtoms": []
+        }
+      },
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
+        },
+        "status": "FAIL",
+        "errorMessage": {},
+        "passingAtoms": [],
+        "failingAtoms": [
+          "label:Code-Style\u003dMAX",
+          "label:Code-Style\u003dMIN"
+        ]
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": -1706097817,
+        "w2": 1846150361,
+        "w3": -1850663275,
+        "w4": 850786063,
+        "w5": -627223229
+      },
+      "legacy": false
+    },
+    {
+      "submitRequirement": {
+        "name": "Library-Compliance",
+        "description": {
+          "value": "Changes to specific library/metadata files require additional approval"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "-branch:refs/meta/config AND (file:^lib/ OR file:^WORKSPACE$ OR file:^.gitmodule$)"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "label:Library-Compliance\u003dMAX,user\u003dnon_uploader AND -label:Library-Compliance\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {
+          "expression": {
+            "expressionString": "-branch:refs/meta/config AND (file:^lib/ OR file:^WORKSPACE$ OR file:^.gitmodule$)"
+          },
+          "status": "ERROR",
+          "errorMessage": {
+            "value": "line 1:59 no viable alternative at character \u0027$\u0027"
+          },
+          "passingAtoms": [],
+          "failingAtoms": []
+        }
+      },
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "label:Library-Compliance\u003dMAX,user\u003dnon_uploader AND -label:Library-Compliance\u003dMIN"
+        },
+        "status": "FAIL",
+        "errorMessage": {},
+        "passingAtoms": [],
+        "failingAtoms": [
+          "label:Library-Compliance\u003dMAX,user\u003dnon_uploader",
+          "label:Library-Compliance\u003dMIN"
+        ]
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": -1706097817,
+        "w2": 1846150361,
+        "w3": -1850663275,
+        "w4": 850786063,
+        "w5": -627223229
+      },
+      "legacy": false
+    },
+    {
+      "submitRequirement": {
+        "name": "Verified",
+        "description": {
+          "value": "CI result status for build and tests is passing"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "-branch:refs/meta/config"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "label:Verified\u003dMAX AND -label:Verified\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": true
+      },
+      "applicabilityExpressionResult": {
+        "value": {
+          "expression": {
+            "expressionString": "-branch:refs/meta/config"
+          },
+          "status": "FAIL",
+          "errorMessage": {},
+          "passingAtoms": [
+            "branch:refs/meta/config"
+          ],
+          "failingAtoms": []
+        }
+      },
+      "submittabilityExpressionResult": {
+        "expression": {
+          "expressionString": "label:Verified\u003dMAX AND -label:Verified\u003dMIN"
+        },
+        "status": "FAIL",
+        "errorMessage": {},
+        "passingAtoms": [],
+        "failingAtoms": [
+          "label:Verified\u003dMAX",
+          "label:Verified\u003dMIN"
+        ]
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": {
+        "w1": -1706097817,
+        "w2": 1846150361,
+        "w3": -1850663275,
+        "w4": 850786063,
+        "w5": -627223229
+      },
+      "legacy": false
+    }
+  ]
+}

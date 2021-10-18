@@ -219,7 +219,10 @@ public class RebaseChangeOp implements BatchUpdateOp {
             .setFireRevisionCreated(fireRevisionCreated)
             .setCheckAddPatchSetPermission(checkAddPatchSetPermission)
             .setValidate(validate)
-            .setSendEmail(sendEmail);
+            .setSendEmail(sendEmail)
+            // The votes are automatically copied and they don't count as copied votes. See
+            // method's javadoc.
+            .setStoreCopiedVotes(/*storeCopiedVotes= */ false);
 
     if (!rebasedCommit.getFilesWithGitConflicts().isEmpty()
         && !notes.getChange().isWorkInProgress()) {

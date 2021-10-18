@@ -104,6 +104,24 @@
       "parentUuid": "f060298a_7e1a2b0b",
       "revId": "8c85e458fe7c51c6ee12fa6ce81b86ddcc8ee149",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "945316fe_211b002b",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T18:07:37Z",
+      "side": 1,
+      "message": "I was thinking fo putting it on the service, but you\u0027re right that that might not be necessary.\n\nBut given the other functions below here, it\u0027s fine to keep as is.\n\nOne confusion I had was about modifierPressed because it exists both here and on the service, that\u0027s why I thought this addShortCut should also live on the service (it can keep track of conflicting keydowns for instance).",
+      "parentUuid": "b9ae50c6_5278f037",
+      "revId": "8c85e458fe7c51c6ee12fa6ce81b86ddcc8ee149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -28,6 +28,7 @@ import {ConfigService} from './config/config-service';
 import {UserService} from './user/user-service';
 import {CommentsService} from './comments/comments-service';
 import {ShortcutsService} from './shortcuts/shortcuts-service';
+import {BrowserService} from './browser/browser-service';
 
 type ServiceName = keyof AppContext;
 type ServiceCreator<T> = () => T;
@@ -84,5 +85,6 @@ export function initAppContext() {
     configService: () => new ConfigService(),
     userService: () => new UserService(appContext.restApiService),
     shortcutsService: () => new ShortcutsService(appContext.reportingService),
+    browserService: () => new BrowserService(),
   });
 }

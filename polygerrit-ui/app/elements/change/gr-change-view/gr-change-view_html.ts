@@ -533,7 +533,6 @@ export const htmlTemplate = html`
           server-config="[[_serverConfig]]"
           shown-file-count="[[_shownFileCount]]"
           diff-prefs="[[_diffPrefs]]"
-          diff-view-mode="{{viewState.diffMode}}"
           patch-num="{{_patchRange.patchNum}}"
           base-patch-num="{{_patchRange.basePatchNum}}"
           files-expanded="[[_filesExpanded]]"

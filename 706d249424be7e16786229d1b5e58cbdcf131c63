@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "085ff51d_8b3d025e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T18:03:08Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "bd87a378_83d38475",
+      "revId": "706d249424be7e16786229d1b5e58cbdcf131c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4b15ca4_cd51c8a6",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-18T16:03:37Z",
       "side": 1,
       "message": "Why not simply export the const? It\u0027s just a const POD so I don\u0027t see a lot of harm in exposing it.",
+      "revId": "706d249424be7e16786229d1b5e58cbdcf131c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0273931_a8ffc401",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T18:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4b15ca4_cd51c8a6",
       "revId": "706d249424be7e16786229d1b5e58cbdcf131c63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

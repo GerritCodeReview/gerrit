@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6014863_34cfe4fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-18T13:23:01Z",
+      "side": 1,
+      "message": "With this change I noticed one issue with the LuceneIndexBindingIT test.\nIt now fails with NPE in the teardown method. This is because it\u0027s trying to set the system property to null now. While this is easy to fix (call System.clearProperty instead of System.setProperty if the value is null) this likely indicates another issue, that the setup method is now being called before that system property was set, and hence what we set in the setup method may be overridden. Can you check this?",
+      "revId": "ca5d15651c55c14bc16cbe809058799be30d1587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "963e2ebd_5fcc8226",
         "filename": "java/com/google/gerrit/testing/AfterConfig.java",
         "patchSetId": 3

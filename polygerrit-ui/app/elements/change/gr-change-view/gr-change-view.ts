@@ -732,15 +732,10 @@ export class GrChangeView extends base {
 
     return this._getPreferences()
       .then(prefs => {
-        if (!this.viewState.diffMode && prefs) {
-          this.set('viewState.diffMode', prefs.default_diff_view);
-        }
-      })
-      .then(() => {
         if (!this.viewState.diffMode) {
           this.set('viewState.diffMode', 'SIDE_BY_SIDE');
         }
-      });
+      })
   }
 
   _onOpenFixPreview(e: OpenFixPreviewEvent) {

@@ -81,6 +81,7 @@ import {GerritView} from '../services/router/router-model';
 import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
 import {assertIsDefined} from '../utils/common-util';
+import { DiffViewMode } from '../api/diff';
 
 interface ErrorInfo {
   text: string;
@@ -103,6 +104,10 @@ type DomIf = PolymerElement & {
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = KeyboardShortcutMixin(PolymerElement);
+
+// This value is somewhat arbitrary and not based on research or calculations.
+const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 850;
+
 
 // TODO(TS): implement AppElement interface from gr-app-types.ts
 @customElement('gr-app-element')
@@ -216,6 +221,8 @@ export class GrAppElement extends base {
 
   private readonly shortcuts = appContext.shortcutsService;
 
+  private resizeObserver?: ResizeObserver;
+
   override keyboardShortcuts() {
     return {
       [Shortcut.OPEN_SHORTCUT_HELP_DIALOG]: '_showKeyboardShortcuts',
@@ -252,6 +259,19 @@ export class GrAppElement extends base {
       this.handleRecreateView(GerritView.DIFF)
     );
     document.addEventListener(EventType.GR_RPC_LOG, e => this._handleRpcLog(e));
+    this.resizeObserver = new ResizeObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.contentRect.width < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX) {
+          if (!this._viewState.diffMode) {
+            this._viewState.diffMode = DiffViewMode.UNIFIED;
+          }
+        } else {
+          if (this._viewState.diffMode) {
+            this._viewState.diffMode = undefined;
+          }
+        }
+      })
+    })
   }
 
   override ready() {

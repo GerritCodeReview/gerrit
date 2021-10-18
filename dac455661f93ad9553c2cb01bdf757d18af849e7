@@ -73,6 +73,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8000913c_e8c22372",
+        "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote-hovercard/gr-trigger-vote-hovercard.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T08:55:42Z",
+      "side": 1,
+      "message": "You just need these properties for passing them along to \u003cgr-label-info\u003e. Maybe consider introducing a named slot, so that instead of passing along all these properties the parent can just slot the \u003cgr-label-info\u003e directly.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 18
+      },
+      "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7219370e_893f7978",
+        "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote-hovercard/gr-trigger-vote-hovercard.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T08:55:42Z",
+      "side": 1,
+      "message": "Maybe introduce a css var, if this is used in multiple places?",
+      "range": {
+        "startLine": 51,
+        "startChar": 21,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fb818bcd_971909e7",
         "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote-hovercard/gr-trigger-vote-hovercard.ts",
         "patchSetId": 2
@@ -102,6 +148,23 @@
       "side": 1,
       "message": "Linter is always pushing div here, I cannot move it to next line.",
       "parentUuid": "fb818bcd_971909e7",
+      "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9848156_dea19477",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T08:55:42Z",
+      "side": 1,
+      "message": "Add a comment explaining the property.\n\nBtw, an explanation for `mutable` would also have helped me understanding this change.",
       "revId": "dac455661f93ad9553c2cb01bdf757d18af849e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

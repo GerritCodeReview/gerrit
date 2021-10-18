@@ -205,9 +205,6 @@ export class GrDiffHost extends PolymerElement {
   @property({type: Boolean})
   lineWrapping = false;
 
-  @property({type: String})
-  viewMode = DiffViewMode.SIDE_BY_SIDE;
-
   @property({type: Object})
   lineOfInterest?: LineOfInterest;
 

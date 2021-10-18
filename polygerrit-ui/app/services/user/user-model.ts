@@ -17,7 +17,7 @@
 import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
-import {createDefaultPreferences} from '../../constants/constants';
+import {createDefaultPreferences, DiffViewMode} from '../../constants/constants';
 
 interface UserState {
   /**
@@ -65,3 +65,8 @@ export const disableShortcuts$ = preferences$.pipe(
   map(preferences => preferences?.disable_keyboard_shortcuts ?? false),
   distinctUntilChanged()
 );
+
+export function getDiffViewMode() {
+  const current = privateState$.getValue();
+  return current.preferences.diff_view ?? DiffViewMode.SIDE_BY_SIDE;
+}

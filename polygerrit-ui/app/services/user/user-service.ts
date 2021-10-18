@@ -44,7 +44,7 @@ export class UserService {
       });
   }
 
-  updatePreferences(prefs: PreferencesInput) {
+  updatePreferences(prefs: Partial<PreferencesInfo>) {
     this.restApiService
       .savePreferences(prefs)
       .then((newPrefs: PreferencesInfo | undefined) => {

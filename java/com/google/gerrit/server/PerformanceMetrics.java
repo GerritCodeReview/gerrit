@@ -57,14 +57,16 @@ public class PerformanceMetrics implements PerformanceLogger {
             .build();
 
     this.operationsLatency =
-        metricMaker.newTimer(
-            OPERATION_LATENCY_METRIC_NAME,
-            new Description("Latency of performing operations")
-                .setCumulative()
-                .setUnit(Description.Units.MILLISECONDS),
-            operationNameField,
-            requestField,
-            pluginField);
+        metricMaker
+            .newTimer(
+                OPERATION_LATENCY_METRIC_NAME,
+                new Description("Latency of performing operations")
+                    .setCumulative()
+                    .setUnit(Description.Units.MILLISECONDS),
+                operationNameField,
+                requestField,
+                pluginField)
+            .suppressLogging();
     this.operationsCounter =
         metricMaker.newCounter(
             OPERATION_COUNT_METRIC_NAME,
@@ -81,15 +83,6 @@ public class PerformanceMetrics implements PerformanceLogger {
 
   @Override
   public void log(String operation, long durationMs, @Nullable Metadata metadata) {
-    if (OPERATION_LATENCY_METRIC_NAME.equals(operation)) {
-      // Recording the timer metric below triggers writing a performance log entry. If we are called
-      // for this performance log entry we must abort to avoid an endless loop.
-      // In practice this should not happen since PerformanceLoggers are only called on close() of
-      // the PerformanceLogContext, and hence the performance log that gets written by the metric
-      // below gets ignored.
-      return;
-    }
-
     String requestTag = TraceContext.getTag(TraceRequestListener.TAG_REQUEST).orElse("");
     String pluginTag = TraceContext.getPluginTag().orElse("");
     operationsLatency.record(operation, requestTag, pluginTag, durationMs, TimeUnit.MILLISECONDS);

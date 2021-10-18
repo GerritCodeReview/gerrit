@@ -114,6 +114,7 @@ import {changeComments$} from '../../../services/comments/comments-model';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {preferences$} from '../../../services/user/user-model';
+import {isScreenTooSmall} from '../../../services/view/view-model';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const LOADING_BLAME = 'Loading blame...';
@@ -171,7 +172,7 @@ export class GrDiffView extends base {
   @property({type: Object})
   keyEventTarget: HTMLElement = document.body;
 
-  @property({type: Object, notify: true, observer: '_changeViewStateChanged'})
+  @property({type: Object, notify: true})
   changeViewState: Partial<ChangeViewState> = {};
 
   @property({type: Object})
@@ -227,12 +228,6 @@ export class GrDiffView extends base {
 
   @property({type: Object})
   _userPrefs?: PreferencesInfo;
-
-  @property({
-    type: String,
-    computed: '_getDiffViewMode(changeViewState.diffMode, _userPrefs)',
-  })
-  _diffMode?: string;
 
   @property({type: Boolean})
   _isImageDiff?: boolean;
@@ -332,6 +327,8 @@ export class GrDiffView extends base {
   private readonly reporting = appContext.reportingService;
 
   private readonly restApiService = appContext.restApiService;
+
+  private readonly userService = appContext.userService;
 
   private readonly commentsService = appContext.commentsService;
 
@@ -806,11 +803,18 @@ export class GrDiffView extends base {
     if (this.shortcuts.shouldSuppress(e)) return;
     if (this.shortcuts.modifierPressed(e)) return;
 
+    if (isScreenTooSmall()) {
+      fireAlert(this, 'Screen width too small for toggling the diff mode');
+      return;
+    }
     e.preventDefault();
-    if (this._getDiffViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.modeSelect.setMode(DiffViewMode.UNIFIED);
+    if (!this._userPrefs) return;
+    if (this._userPrefs.diff_view === DiffViewMode.SIDE_BY_SIDE) {
+      this.userService.updatePreferences({diff_view: DiffViewMode.UNIFIED});
     } else {
-      this.$.modeSelect.setMode(DiffViewMode.SIDE_BY_SIDE);
+      this.userService.updatePreferences({
+        diff_view: DiffViewMode.SIDE_BY_SIDE,
+      });
     }
   }
 
@@ -1217,17 +1221,6 @@ export class GrDiffView extends base {
       });
   }
 
-  _changeViewStateChanged(changeViewState: Partial<ChangeViewState>) {
-    if (changeViewState.diffMode === null) {
-      // If screen size is small, always default to unified view.
-      this.restApiService.getPreferences().then(prefs => {
-        if (prefs) {
-          this.set('changeViewState.diffMode', prefs.default_diff_view);
-        }
-      });
-    }
-  }
-
   @observe('_path', '_prefs', '_reviewedFiles', '_patchRange')
   _setReviewedObserver(
     path?: string,
@@ -1440,29 +1433,6 @@ export class GrDiffView extends base {
   _handlePrefsTap(e: Event) {
     e.preventDefault();
     this.$.diffPreferencesDialog.open();
-  }
-
-  /**
-   * _getDiffViewMode: Get the diff view (side-by-side or unified) based on
-   * the current state.
-   *
-   * The expected behavior is to use the mode specified in the user's
-   * preferences unless they have manually chosen the alternative view or they
-   * are on a mobile device. If the user navigates up to the change view, it
-   * should clear this choice and revert to the preference the next time a
-   * diff is viewed.
-   *
-   * Use side-by-side if the user is not logged in.
-   */
-  _getDiffViewMode() {
-    if (this.changeViewState.diffMode) {
-      return this.changeViewState.diffMode;
-    } else if (this._userPrefs) {
-      this.set('changeViewState.diffMode', this._userPrefs.default_diff_view);
-      return this._userPrefs.default_diff_view;
-    } else {
-      return 'SIDE_BY_SIDE';
-    }
   }
 
   _computeModeSelectHideClass(diff?: DiffInfo) {

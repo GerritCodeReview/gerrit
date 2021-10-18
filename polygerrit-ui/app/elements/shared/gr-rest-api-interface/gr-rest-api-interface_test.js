@@ -386,7 +386,8 @@ suite('gr-rest-api-interface tests', () => {
       });
 
   test('savPreferences normalizes download scheme', () => {
-    const sendStub = sinon.stub(element._restApiHelper, 'send');
+    const sendStub = sinon.stub(element._restApiHelper, 'send').returns(
+        Promise.resolve(new Response()));
     element.savePreferences({download_scheme: 'HTTP'});
     assert.isTrue(sendStub.called);
     assert.equal(sendStub.lastCall.args[0].body.download_scheme, 'http');

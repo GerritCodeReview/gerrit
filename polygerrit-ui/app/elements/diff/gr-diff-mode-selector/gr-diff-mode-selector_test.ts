@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-diff-mode-selector';
 import {GrDiffModeSelector} from './gr-diff-mode-selector';
 import {DiffViewMode} from '../../../constants/constants';
-import {stubRestApi} from '../../../test/test-utils';
+import {stubUsers} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-diff-mode-selector');
 
@@ -47,7 +47,7 @@ suite('gr-diff-mode-selector tests', () => {
   });
 
   test('setMode', () => {
-    const saveStub = stubRestApi('savePreferences');
+    const saveStub = stubUsers('updatePreferences');
 
     // Setting the mode initially does not save prefs.
     element.saveOnChange = true;

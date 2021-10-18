@@ -273,7 +273,7 @@ suite('gr-settings-view tests', () => {
     stubRestApi('savePreferences').callsFake(prefs => {
       assertMenusEqual(prefs.my, preferences.my);
       assert.equal(prefs.publish_comments_on_push, true);
-      return Promise.resolve(new Response());
+      return Promise.resolve(createDefaultPreferences());
     });
 
     // Save the change.
@@ -294,7 +294,7 @@ suite('gr-settings-view tests', () => {
 
     stubRestApi('savePreferences').callsFake(prefs => {
       assert.equal(prefs.publish_comments_on_push, true);
-      return Promise.resolve(new Response());
+      return Promise.resolve(createDefaultPreferences());
     });
 
     // Save the change.
@@ -315,7 +315,7 @@ suite('gr-settings-view tests', () => {
 
     stubRestApi('savePreferences').callsFake(prefs => {
       assert.equal(prefs.work_in_progress_by_default, true);
-      return Promise.resolve(new Response());
+      return Promise.resolve(createDefaultPreferences());
     });
 
     // Save the change.
@@ -348,7 +348,7 @@ suite('gr-settings-view tests', () => {
 
     stubRestApi('savePreferences').callsFake(prefs => {
       assertMenusEqual(prefs.my, element._localMenu);
-      return Promise.resolve(new Response());
+      return Promise.resolve(createDefaultPreferences());
     });
 
     await element._handleSaveMenu();

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9619c90_6e900207",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-10-18T19:29:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e495e46_909b6fd3",
+      "revId": "10e153129f5fac23103a352e2011c5e4f8f40322",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a82f0a4_8bee1d14",

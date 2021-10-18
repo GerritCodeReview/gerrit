@@ -25,6 +25,7 @@ import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
 import {CommentsService} from '../services/comments/comments-service';
 import {UserService} from '../services/user/user-service';
+import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise extends Promise<unknown> {
@@ -114,6 +115,10 @@ export function stubComments<K extends keyof CommentsService>(method: K) {
 
 export function stubUsers<K extends keyof UserService>(method: K) {
   return sinon.stub(appContext.userService, method);
+}
+
+export function stubShortcuts<K extends keyof ShortcutsService>(method: K) {
+  return sinon.stub(appContext.shortcutsService, method);
 }
 
 export function stubStorage<K extends keyof StorageService>(method: K) {

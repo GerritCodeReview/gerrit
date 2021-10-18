@@ -823,10 +823,8 @@ suite('gr-file-list tests', () => {
 
       MockInteractions.tap(row);
       flush();
-      const diffDisplay = element.diffs[0];
-      element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
+      element._userPrefs = {diff_view: 'SIDE_BY_SIDE'};
       element.set('diffViewMode', 'UNIFIED_DIFF');
-      assert.equal(diffDisplay.viewMode, 'UNIFIED_DIFF');
       assert.isTrue(element._updateDiffPreferences.called);
     });
 

@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ed821506_3dbf707d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-18T20:04:36Z",
+      "side": 1,
+      "message": "\u003e s|/in|../commit/in|  (because it isn\u0027t really \"/in\")\n\nI think you mean \u0027../commits/{commit-id}/in\u0027?",
+      "parentUuid": "244bda7c_4a2839e5",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "086a3830_f8724213",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
@@ -123,6 +147,24 @@
       "writtenOn": "2021-10-18T19:44:59Z",
       "side": 1,
       "message": "Make this a separate paragraph.",
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d35ff712_d2ec2052",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-18T20:04:36Z",
+      "side": 1,
+      "message": "And if you\u0027re going to rewrite/reorg this, tie this sentence to the one about at which level the API is exposed. The paragraph probably starts with something like:\n\n Since the commits:in API has a specific list of input refs...",
+      "parentUuid": "38bc6c6b_d978bf98",
       "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -272,6 +314,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b93cf9b_e091cf4c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-18T20:04:36Z",
+      "side": 1,
+      "message": "\u003e s/the commit/a commit/\n\nIf you\u0027re going to do this, you might want \"a given commit\" or \"a specified commit\" to distinguish from any other commit.",
+      "parentUuid": "d8a0eb27_18673462",
+      "range": {
+        "startLine": 1050,
+        "startChar": 67,
+        "endLine": 1050,
+        "endChar": 77
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56f230f8_f942c40f",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 14
@@ -283,6 +349,30 @@
       "writtenOn": "2021-10-18T19:44:59Z",
       "side": 1,
       "message": "Should this be s/visible/specified visible refs/ ?",
+      "range": {
+        "startLine": 1051,
+        "startChar": 51,
+        "endLine": 1051,
+        "endChar": 58
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef70e44a_e030ca83",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-18T20:04:36Z",
+      "side": 1,
+      "message": "I think it would be fine either way. Two lines above this it describes the filtering of refs from input to just the visible ones.",
+      "parentUuid": "56f230f8_f942c40f",
       "range": {
         "startLine": 1051,
         "startChar": 51,

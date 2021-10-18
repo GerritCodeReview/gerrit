@@ -120,7 +120,7 @@ public class FakeEmailSender implements EmailSender {
   }
 
   public void clear() {
-    waitForEmails();
+    waitForEmails(true);
     synchronized (messages) {
       messages.clear();
       messagesRead = 0;
@@ -141,7 +141,7 @@ public class FakeEmailSender implements EmailSender {
   }
 
   public ImmutableList<Message> getMessages() {
-    waitForEmails();
+    waitForEmails(false);
     synchronized (messages) {
       return ImmutableList.copyOf(messages);
     }
@@ -155,10 +155,15 @@ public class FakeEmailSender implements EmailSender {
         .collect(toList());
   }
 
-  private void waitForEmails() {
+  private void waitForEmails(boolean mayCancelUnseded) {
     // TODO(dborowitz): This is brittle; consider forcing emails to use
     // a single thread in tests (tricky because most callers just use the
     // default executor).
+    if (mayCancelUnseded) {
+      for (WorkQueue.Task<?> task : workQueue.getTasks()) {
+        task.cancel(false);
+      }
+    }
     for (WorkQueue.Task<?> task : workQueue.getTasks()) {
       if (task.toString().contains("send-email")) {
         try {

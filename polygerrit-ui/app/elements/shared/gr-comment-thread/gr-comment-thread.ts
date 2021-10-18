@@ -21,17 +21,16 @@ import '../../diff/gr-diff/gr-diff';
 import '../gr-copy-clipboard/gr-copy-clipboard';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment-thread_html';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
   computeDiffFromContext,
   computeId,
+  DraftInfo,
   isDraft,
   isRobot,
   sortComments,
   UIComment,
   UIDraft,
   UIRobot,
-  DraftInfo,
 } from '../../../utils/comment-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
@@ -54,15 +53,14 @@ import {
 } from '../../../types/common';
 import {GrComment} from '../gr-comment/gr-comment';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {IronKeyboardEvent} from '../../../types/events';
-import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
+import {FILE, LineNumber} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffLayer, RenderPreferences} from '../../../api/diff';
 import {
-  check,
   assertIsDefined,
+  check,
   queryAndAssert,
 } from '../../../utils/common-util';
 import {fireAlert, waitForEventOnce} from '../../../utils/event-util';
@@ -72,6 +70,7 @@ import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-la
 import {anyLineTooLong} from '../../diff/gr-diff/gr-diff-utils';
 import {getUserName} from '../../../utils/display-name-util';
 import {generateAbsoluteUrl} from '../../../utils/url-util';
+import {addShortcut} from '../../../utils/dom-util';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -83,11 +82,8 @@ export interface GrCommentThread {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-comment-thread')
-export class GrCommentThread extends base {
+export class GrCommentThread extends PolymerElement {
   // KeyboardShortcutMixin Not used in this element rather other elements tests
 
   static get template() {
@@ -122,9 +118,6 @@ export class GrCommentThread extends base {
 
   @property({type: Object, reflectToAttribute: true})
   range?: CommentRange;
-
-  @property({type: Object})
-  keyEventTarget: HTMLElement = document.body;
 
   @property({type: String, reflectToAttribute: true})
   diffSide?: Side;
@@ -210,11 +203,8 @@ export class GrCommentThread extends base {
   @property({type: Array})
   layers: DiffLayer[] = [];
 
-  get keyBindings() {
-    return {
-      'e shift+e': '_handleEKey',
-    };
-  }
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   private readonly reporting = appContext.reportingService;
 
@@ -240,8 +230,20 @@ export class GrCommentThread extends base {
     });
   }
 
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
+  }
+
   override connectedCallback() {
     super.connectedCallback();
+    this.cleanups.push(
+      addShortcut({key: 'e'}, e => this.handleExpandShortcut(e))
+    );
+    this.cleanups.push(
+      addShortcut({key: 'E'}, e => this.handleCollapseShortcut(e))
+    );
     this._getLoggedIn().then(loggedIn => {
       this._showActions = loggedIn;
     });
@@ -499,21 +501,14 @@ export class GrCommentThread extends base {
     return this._orderedComments[this._orderedComments.length - 1] || {};
   }
 
-  _handleEKey(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) {
-      return;
-    }
+  private handleExpandShortcut(e: KeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e)) return;
+    this._expandCollapseComments(false);
+  }
 
-    // Don’t preventDefault in this case because it will render the event
-    // useless for other handlers (other gr-comment-thread elements).
-    if (e.detail.keyboardEvent?.shiftKey) {
-      this._expandCollapseComments(true);
-    } else {
-      if (this.shortcuts.modifierPressed(e)) {
-        return;
-      }
-      this._expandCollapseComments(false);
-    }
+  private handleCollapseShortcut(e: KeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e)) return;
+    this._expandCollapseComments(true);
   }
 
   _expandCollapseComments(actionIsCollapse: boolean) {

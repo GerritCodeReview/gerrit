@@ -673,7 +673,7 @@ suite('comment action tests with unresolved thread', () => {
       pressAndReleaseKeyOn(element, 69, null, 'e');
       assert.isTrue(expandCollapseStub.lastCall.calledWith(false));
 
-      pressAndReleaseKeyOn(element, 69, 'shift', 'e');
+      pressAndReleaseKeyOn(element, 69, 'shift', 'E');
       assert.isTrue(expandCollapseStub.lastCall.calledWith(true));
     });
 

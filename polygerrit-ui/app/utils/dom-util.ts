@@ -304,6 +304,35 @@ export function toggleClass(el: Element, className: string, bool?: boolean) {
   }
 }
 
+export enum Modifier {
+  ALT_KEY,
+  CTRL_KEY,
+  META_KEY,
+  SHIFT_KEY,
+}
+
+export interface Shortcut {
+  key: string;
+  modifiers?: Modifier[];
+}
+
+export function addShortcut(
+  shortcut: Shortcut,
+  listener: (e: KeyboardEvent) => void
+) {
+  const wrappedListener = (e: KeyboardEvent) => {
+    if (e.key !== shortcut.key) return;
+    const modifiers = shortcut.modifiers ?? [];
+    if (e.altKey !== modifiers.includes(Modifier.ALT_KEY)) return;
+    if (e.ctrlKey !== modifiers.includes(Modifier.CTRL_KEY)) return;
+    if (e.metaKey !== modifiers.includes(Modifier.META_KEY)) return;
+    if (e.shiftKey !== modifiers.includes(Modifier.SHIFT_KEY)) return;
+    listener(e);
+  };
+  document.addEventListener('keydown', wrappedListener);
+  return () => document.removeEventListener('keydown', wrappedListener);
+}
+
 export function modifierPressed(e: KeyboardEvent) {
   return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
 }

@@ -20,6 +20,7 @@ import './gr-diff-mode-selector';
 import {GrDiffModeSelector} from './gr-diff-mode-selector';
 import {DiffViewMode} from '../../../constants/constants';
 import {stubUsers} from '../../../test/test-utils';
+import {_testOnly_setState} from '../../../services/view/view-model';
 
 const basicFixture = fixtureFromElement('gr-diff-mode-selector');
 
@@ -47,8 +48,10 @@ suite('gr-diff-mode-selector tests', () => {
   });
 
   test('setMode', () => {
+    _testOnly_setState({screenWidth: 0});
     const saveStub = stubUsers('updatePreferences');
 
+    flush();
     // Setting the mode initially does not save prefs.
     element.saveOnChange = true;
     element.setMode(DiffViewMode.SIDE_BY_SIDE);

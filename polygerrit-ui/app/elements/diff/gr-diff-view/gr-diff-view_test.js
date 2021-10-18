@@ -18,8 +18,8 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {ChangeStatus} from '../../../constants/constants.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {ChangeStatus, DiffViewMode} from '../../../constants/constants.js';
+import {stubRestApi, stubUsers, stubShortcuts} from '../../../test/test-utils.js';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
 import {GerritView} from '../../../services/router/router-model.js';
 import {
@@ -30,10 +30,9 @@ import {
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
 import {EventType} from '../../../types/events.js';
+import {_testOnly_resetState, _testOnly_setState} from '../../../services/view/view-model.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
-
-const blankFixture = fixtureFromElement('div');
 
 suite('gr-diff-view tests', () => {
   suite('basic tests', () => {
@@ -69,6 +68,8 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getPortedComments').returns(Promise.resolve({}));
+
+      _testOnly_resetState();
 
       element = basicFixture.instantiate();
       element._changeNum = '42';
@@ -432,6 +433,7 @@ suite('gr-diff-view tests', () => {
 
     test('keyboard shortcuts', () => {
       element._changeNum = '42';
+      _testOnly_setState({screenWidth: 0});
       element._patchRange = {
         basePatchNum: PARENT,
         patchNum: 10,
@@ -510,11 +512,11 @@ suite('gr-diff-view tests', () => {
           '_computeContainerClass');
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
       assert(computeContainerClassStub.lastCall.calledWithExactly(
-          false, 'SIDE_BY_SIDE', true));
+          false, DiffViewMode.SIDE_BY_SIDE, true));
 
       MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'Escape');
       assert(computeContainerClassStub.lastCall.calledWithExactly(
-          false, 'SIDE_BY_SIDE', false));
+          false, DiffViewMode.SIDE_BY_SIDE, false));
 
       // Note that stubbing _setReviewed means that the value of the
       // `element.$.reviewed` checkbox is not flipped.
@@ -1308,47 +1310,26 @@ suite('gr-diff-view tests', () => {
     test('diff mode selector correctly toggles the diff', () => {
       const select = element.$.modeSelect;
       const diffDisplay = element.$.diffHost;
-      element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
+      element._userPrefs = {diff_view: DiffViewMode.SIDE_BY_SIDE};
+      _testOnly_setState({screenWidth: 0});
 
+      const userStub = stubUsers('updatePreferences');
+      stubShortcuts('shouldSuppress').returns(false);
+      stubShortcuts('modifierPressed').returns(false);
+
+      flush();
       // The mode selected in the view state reflects the selected option.
-      assert.equal(element._getDiffViewMode(), select.mode);
+      // assert.equal(element._userPrefs.diff_view, select.mode);
 
       // The mode selected in the view state reflects the view rednered in the
       // diff.
       assert.equal(select.mode, diffDisplay.viewMode);
 
       // We will simulate a user change of the selected mode.
-      const newMode = 'UNIFIED_DIFF';
-
-      // Set the mode, and simulate the change event.
-      element.set('changeViewState.diffMode', newMode);
-
-      // Make sure the handler was called and the state is still coherent.
-      assert.equal(element._getDiffViewMode(), newMode);
-      assert.equal(element._getDiffViewMode(), select.mode);
-      assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
-    });
-
-    test('diff mode selector initializes from preferences', () => {
-      let resolvePrefs;
-      const prefsPromise = new Promise(resolve => {
-        resolvePrefs = resolve;
-      });
-      stubRestApi('getPreferences')
-          .callsFake(() => prefsPromise);
-
-      // Attach a new gr-diff-view so we can intercept the preferences fetch.
-      const view = document.createElement('gr-diff-view');
-      blankFixture.instantiate().appendChild(view);
-      flush();
-
-      // At this point the diff mode doesn't yet have the user's preference.
-      assert.equal(view._getDiffViewMode(), 'SIDE_BY_SIDE');
-
-      // Receive the overriding preference.
-      resolvePrefs({default_diff_view: 'UNIFIED'});
-      flush();
-      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+      element._handleToggleDiffMode(new KeyboardEvent('keydown',
+          {keyCode: 39}));
+      assert.isTrue(userStub.calledWithExactly({
+        diff_view: DiffViewMode.UNIFIED}));
     });
 
     test('diff mode selector should be hidden for binary', async () => {
@@ -1509,32 +1490,22 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(getUrlStub.lastCall.args[6]);
     });
 
-    test('_getDiffViewMode', () => {
-      // No user prefs or change view state set.
-      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
-
-      // User prefs but no change view state set.
-      element.changeViewState.diffMode = undefined;
-      element._userPrefs = {default_diff_view: 'UNIFIED_DIFF'};
-      assert.equal(element._getDiffViewMode(), 'UNIFIED_DIFF');
-
-      // User prefs and change view state set.
-      element.changeViewState = {diffMode: 'SIDE_BY_SIDE'};
-      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
-    });
-
     test('_handleToggleDiffMode', () => {
+      const userStub = stubUsers('updatePreferences');
       const e = new CustomEvent('keydown', {
         detail: {keyboardEvent: new KeyboardEvent('keydown'), key: 'x'},
       });
-      // Initial state.
-      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+      element._userPrefs = {diff_view: DiffViewMode.SIDE_BY_SIDE};
 
       element._handleToggleDiffMode(e);
-      assert.equal(element._getDiffViewMode(), 'UNIFIED_DIFF');
+      assert.deepEqual(userStub.lastCall.args[0], {
+        diff_view: DiffViewMode.UNIFIED});
+
+      element._userPrefs = {diff_view: DiffViewMode.UNIFIED};
 
       element._handleToggleDiffMode(e);
-      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+      assert.deepEqual(userStub.lastCall.args[0], {
+        diff_view: DiffViewMode.SIDE_BY_SIDE});
     });
 
     suite('_initPatchRange', () => {

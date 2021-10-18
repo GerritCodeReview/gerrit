@@ -88,10 +88,11 @@ import {DiffContextExpandedEventDetail} from '../gr-diff-builder/gr-diff-builder
 import {TokenHighlightLayer} from '../gr-diff-builder/token-highlight-layer';
 import {Timing} from '../../../constants/reporting';
 import {changeComments$} from '../../../services/comments/comments-model';
-import {takeUntil} from 'rxjs/operators';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subject} from 'rxjs';
 import {RenderPreferences} from '../../../api/diff';
+import {diffView$} from '../../../services/view/view-model';
+import {takeUntil} from 'rxjs/operators';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -205,11 +206,11 @@ export class GrDiffHost extends PolymerElement {
   @property({type: Boolean})
   lineWrapping = false;
 
-  @property({type: String})
-  viewMode = DiffViewMode.SIDE_BY_SIDE;
-
   @property({type: Object})
   lineOfInterest?: LineOfInterest;
+
+  @property({type: String})
+  viewMode = DiffViewMode.SIDE_BY_SIDE;
 
   @property({type: Boolean})
   showLoadFailure?: boolean;
@@ -301,6 +302,7 @@ export class GrDiffHost extends PolymerElement {
     this.addEventListener('diff-context-expanded', event =>
       this._handleDiffContextExpanded(event)
     );
+    diffView$.subscribe(diffView => (this.viewMode = diffView));
   }
 
   override ready() {

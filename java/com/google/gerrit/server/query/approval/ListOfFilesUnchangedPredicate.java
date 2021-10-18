@@ -56,7 +56,8 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
         ctx.changeNotes().getPatchSets().get(ctx.patchSetApproval().patchSetId());
 
     Integer parentNum =
-        isInitialCommit(ctx.changeNotes().getProjectName(), targetPatchSet.commitId()) ? 0 : 1;
+        // use the source patch-set since the target patch-set might not exist yet.
+        isInitialCommit(ctx.changeNotes().getProjectName(), sourcePatchSet.commitId()) ? 0 : 1;
     try {
       Map<String, FileDiffOutput> baseVsCurrent =
           diffOperations.listModifiedFilesAgainstParent(

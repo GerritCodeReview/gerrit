@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2fe5f4b_07c141d7",
+        "filename": "polygerrit-ui/app/services/user/user-service.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T08:46:12Z",
+      "side": 1,
+      "message": "move this cast into the rest-api-interface",
+      "range": {
+        "startLine": 50,
+        "startChar": 29,
+        "endLine": 50,
+        "endChar": 58
+      },
+      "revId": "ffa4f8d7f3e90b26f8e46b9f48419f6f24bfa669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

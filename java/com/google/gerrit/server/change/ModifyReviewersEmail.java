@@ -88,25 +88,33 @@ public class ModifyReviewersEmail {
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
         sendEmailsExecutor.submit(
-            () -> {
-              try {
-                ModifyReviewerSender emailSender =
-                    addReviewerSenderFactory.create(projectNameKey, cId);
-                emailSender.setNotify(notify);
-                emailSender.setFrom(userId);
-                emailSender.addReviewers(immutableToMail);
-                emailSender.addReviewersByEmail(immutableAddedByEmail);
-                emailSender.addExtraCC(immutableToCopy);
-                emailSender.addExtraCCByEmail(immutableCopiedByEmail);
-                emailSender.addRemovedReviewers(immutableToRemove);
-                emailSender.addRemovedByEmailReviewers(immutableRemovedByEmail);
-                emailSender.setMessageId(
-                    messageIdGenerator.fromChangeUpdate(
-                        change.getProject(), change.currentPatchSetId()));
-                emailSender.send();
-              } catch (Exception err) {
-                logger.atSevere().withCause(err).log(
-                    "Cannot send email to new reviewers of change %s", change.getId());
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  ModifyReviewerSender emailSender =
+                      addReviewerSenderFactory.create(projectNameKey, cId);
+                  emailSender.setNotify(notify);
+                  emailSender.setFrom(userId);
+                  emailSender.addReviewers(immutableToMail);
+                  emailSender.addReviewersByEmail(immutableAddedByEmail);
+                  emailSender.addExtraCC(immutableToCopy);
+                  emailSender.addExtraCCByEmail(immutableCopiedByEmail);
+                  emailSender.addRemovedReviewers(immutableToRemove);
+                  emailSender.addRemovedByEmailReviewers(immutableRemovedByEmail);
+                  emailSender.setMessageId(
+                      messageIdGenerator.fromChangeUpdate(
+                          change.getProject(), change.currentPatchSetId()));
+                  emailSender.send();
+                } catch (Exception err) {
+                  logger.atSevere().withCause(err).log(
+                      "Cannot send email to new reviewers of change %s", change.getId());
+                }
+              }
+
+              @Override
+              public String toString() {
+                return "send-email modifyReviewers";
               }
             });
   }

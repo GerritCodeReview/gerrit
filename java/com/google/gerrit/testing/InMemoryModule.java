@@ -137,7 +137,7 @@ public class InMemoryModule extends FactoryModule {
     cfg.setString("user", null, "email", "gerrit@localhost");
     cfg.unset("cache", null, "directory");
     cfg.setBoolean("index", "lucene", "testInmemory", true);
-    cfg.setInt("sendemail", null, "threadPoolSize", 0);
+    cfg.setInt("sendemail", null, "threadPoolSize", 1);
     cfg.setBoolean("receive", null, "enableSignedPush", false);
     cfg.setString("receive", null, "certNonceSeed", "sekret");
   }

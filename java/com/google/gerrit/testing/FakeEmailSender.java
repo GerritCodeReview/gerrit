@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -116,11 +117,15 @@ public class FakeEmailSender implements EmailSender {
       String body,
       String htmlBody)
       throws EmailException {
-    messages.add(Message.create(from, rcpt, headers, body, htmlBody));
+    Message msg = Message.create(from, rcpt, headers, body, htmlBody);
+    synchronized (messages) {
+      if(Thread.currentThread().isInterrupted()) return;
+      messages.add(msg);
+    }
   }
 
   public void clear() {
-    waitForEmails();
+    waitForEmails(true);
     synchronized (messages) {
       messages.clear();
       messagesRead = 0;
@@ -141,7 +146,7 @@ public class FakeEmailSender implements EmailSender {
   }
 
   public ImmutableList<Message> getMessages() {
-    waitForEmails();
+    waitForEmails(false);
     synchronized (messages) {
       return ImmutableList.copyOf(messages);
     }
@@ -155,16 +160,29 @@ public class FakeEmailSender implements EmailSender {
         .collect(toList());
   }
 
-  private void waitForEmails() {
+  private void waitForEmails(boolean mayCancelUnsended) {
     // TODO(dborowitz): This is brittle; consider forcing emails to use
     // a single thread in tests (tricky because most callers just use the
     // default executor).
+    if (mayCancelUnsended) {
+      for (WorkQueue.Task<?> task : workQueue.getTasks()) {
+        if (task.toString().contains("send-email")) {
+          task.cancel(true);
+        }
+      }
+      synchronized (messages) {
+        // Empty block - wait until all running send(...) methods are completed or cancelled
+        // properly
+      }
+    }
     for (WorkQueue.Task<?> task : workQueue.getTasks()) {
       if (task.toString().contains("send-email")) {
         try {
           task.get();
         } catch (ExecutionException | InterruptedException e) {
           logger.atWarning().withCause(e).log("error finishing email task");
+        } catch(CancellationException e) {
+          // task can be cancelled by the previous call to task.cancel(true)
         }
       }
     }

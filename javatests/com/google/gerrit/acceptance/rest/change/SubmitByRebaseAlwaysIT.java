@@ -14,20 +14,27 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.util.Comparator.comparing;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.exceptions.InternalServerWithUserMessageException;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -157,6 +164,56 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
                   + ".onSubmit from plugin modifier-1 returned null instead of new commit"
                   + " message");
     }
+  }
+
+  @Test
+  public void stickyVoteStoredOnSubmitOnNewPatchset_withoutCopyCondition() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(NameKey.parse("All-Projects"))) {
+      u.getConfig()
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+      u.save();
+    }
+    stickyVoteStoredOnSubmitOnNewPatchset();
+  }
+
+  @Test
+  public void stickyVoteStoredOnSubmitOnNewPatchset_withCopyCondition() throws Exception {
+    // Code-Review will be sticky.
+    try (ProjectConfigUpdate u = updateProject(NameKey.parse("All-Projects"))) {
+      u.getConfig()
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
+      u.save();
+    }
+    stickyVoteStoredOnSubmitOnNewPatchset();
+  }
+
+  private void stickyVoteStoredOnSubmitOnNewPatchset() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote.
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Submit, also keeping the Code-Review +2 vote.
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    // The last approval is stored on the submitted patch-set which was created by rebase during
+    // submit.
+    PatchSetApproval patchSetApprovals =
+        Iterables.getLast(
+            r.getChange().notes().getApprovalsWithCopied().values().stream()
+                .filter(a -> a.labelId().equals(LabelId.create(LabelId.CODE_REVIEW)))
+                .sorted(comparing(a -> a.patchSetId().get()))
+                .collect(toImmutableList()));
+
+    assertThat(patchSetApprovals.patchSetId().get()).isEqualTo(2);
+    assertThat(patchSetApprovals.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(patchSetApprovals.value()).isEqualTo((short) 2);
+
+    // The approval is not copied since we don't need to persist copied votes on submit, only
+    // persist votes normally.
+    assertThat(patchSetApprovals.copied()).isFalse();
   }
 
   private void assertLatestRevisionHasFooters(PushOneCommit.Result change) throws Throwable {

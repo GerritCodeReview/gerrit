@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1f8c866_c564d907",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T16:09:05Z",
+      "side": 1,
+      "message": "This is not checking the inverse.\n\nNamely that if modifiers includes ALT_KEY that it should be included and e.altKey should be set.",
+      "revId": "8c85e458fe7c51c6ee12fa6ce81b86ddcc8ee149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f060298a_7e1a2b0b",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-18T16:09:05Z",
+      "side": 1,
+      "message": "Any reason not to make this part of the shortcuts service?",
+      "revId": "8c85e458fe7c51c6ee12fa6ce81b86ddcc8ee149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

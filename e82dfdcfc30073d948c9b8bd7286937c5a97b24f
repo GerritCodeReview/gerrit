@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8841db8_fa7b3a7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-18T22:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2704bc0a_4c034ab0",
+      "revId": "e82dfdcfc30073d948c9b8bd7286937c5a97b24f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0eafb2a_6e0bb8fa",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-10-18T21:05:58Z",
       "side": 1,
       "message": "No need for \"+\" here?",
+      "range": {
+        "startLine": 268,
+        "startChar": 51,
+        "endLine": 268,
+        "endChar": 53
+      },
+      "revId": "e82dfdcfc30073d948c9b8bd7286937c5a97b24f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "998e2ca5_8bff713e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-18T22:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0eafb2a_6e0bb8fa",
       "range": {
         "startLine": 268,
         "startChar": 51,
@@ -126,6 +168,30 @@
       "side": 1,
       "message": "So this method should return list of futures ? \n\nThis would avoid the boilerplate code in single schema files.",
       "parentUuid": "b58f7b02_0e307f9a",
+      "range": {
+        "startLine": 274,
+        "startChar": 8,
+        "endLine": 274,
+        "endChar": 9
+      },
+      "revId": "e82dfdcfc30073d948c9b8bd7286937c5a97b24f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9c8c7a7_4a3049c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-18T22:34:05Z",
+      "side": 1,
+      "message": "Actually IOException didn\u0027t need to be present. Removing it.",
+      "parentUuid": "4599baa0_1aa452e2",
       "range": {
         "startLine": 274,
         "startChar": 8,

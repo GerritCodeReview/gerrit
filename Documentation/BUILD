@@ -53,6 +53,14 @@ license_map(
 )
 
 license_map(
+    name = "backend_licenses",
+    opts = ["--asciidoctor"],
+    targets = [
+        "//java/com/google/gerrit/pgm",
+    ],
+)
+
+license_map(
     name = "js_licenses",
     json_maps = [
         "//polygerrit-ui/app/node_modules_licenses:polygerrit-licenses.json",
@@ -70,6 +78,8 @@ sh_test(
         "js_licenses.txt",
         "licenses.gen.txt",
         "licenses.txt",
+        "backend_licenses.gen.txt",
+        "backend_licenses.txt",
     ],
 )
 

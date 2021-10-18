@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8922658_22b53f5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T18:03:14Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "07067477_4ff66f3d",
+      "revId": "f47f3f9ec4d4cb1bd95c1b3ea08f12b2c6a899d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c13170c_2a46695b",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-18T16:05:40Z",
       "side": 1,
       "message": "Shouldn\u0027t these two be removed as well?",
+      "revId": "f47f3f9ec4d4cb1bd95c1b3ea08f12b2c6a899d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dac4683_4a0e7c2a",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-18T18:03:14Z",
+      "side": 1,
+      "message": "The entire interface `KeyboardShortcutMixinInterfaceTesting` can be removed, yes.\n\n_shortcut_go_table and _shortcut_v_table are still need in the KeyboardShortcutMixin.",
+      "parentUuid": "7c13170c_2a46695b",
       "revId": "f47f3f9ec4d4cb1bd95c1b3ea08f12b2c6a899d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

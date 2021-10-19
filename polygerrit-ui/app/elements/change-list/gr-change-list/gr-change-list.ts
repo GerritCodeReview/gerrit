@@ -50,6 +50,7 @@ import {hasAttention} from '../../../utils/attention-set-util';
 import {fireEvent, fireReload} from '../../../utils/event-util';
 import {ScrollMode} from '../../../constants/constants';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -67,6 +68,7 @@ export const columnNames = [
   'Branch',
   'Updated',
   'Size',
+  'Requirements',
 ];
 
 export interface ChangeListSection {
@@ -262,6 +264,8 @@ export class GrChangeList extends base {
     if (!config || !config.change) return true;
     if (column === 'Assignee') return !!config.change.enable_assignee;
     if (column === 'Comments') return experiments.includes('comments-column');
+    if (column === 'Requirements')
+      return experiments.includes(KnownExperimentId.SUBMIT_REQUIREMENTS_UI);
     return true;
   }
 

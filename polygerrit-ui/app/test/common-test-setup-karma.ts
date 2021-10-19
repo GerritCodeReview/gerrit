@@ -118,7 +118,7 @@ interface TagTestFixture<T extends Element> {
 }
 
 class TestFixture {
-  constructor(private readonly fixtureId: string) {}
+  constructor(readonly fixtureId: string) {}
 
   /**
    * Create an instance of a fixture's template.

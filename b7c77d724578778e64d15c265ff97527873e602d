@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "489242b6_58fc6e10",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-10-19T13:24:14Z",
+      "side": 1,
+      "message": "How did you find this number? Is this from operations that succeed?",
+      "revId": "b7c77d724578778e64d15c265ff97527873e602d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "920de661_4922fdac",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-10-19T13:24:14Z",
+      "side": 1,
+      "message": "nit: @Nullable",
+      "range": {
+        "startLine": 326,
+        "startChar": 9,
+        "endLine": 326,
+        "endChar": 18
+      },
+      "revId": "b7c77d724578778e64d15c265ff97527873e602d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f66f9da_d5243bc2",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-10-19T13:24:14Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be used.",
+      "range": {
+        "startLine": 1334,
+        "startChar": 35,
+        "endLine": 1334,
+        "endChar": 60
+      },
+      "revId": "b7c77d724578778e64d15c265ff97527873e602d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acacf07d_3ef3597b",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-10-19T13:24:14Z",
+      "side": 1,
+      "message": "private",
+      "revId": "b7c77d724578778e64d15c265ff97527873e602d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

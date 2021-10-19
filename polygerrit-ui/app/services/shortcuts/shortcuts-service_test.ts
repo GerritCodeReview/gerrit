@@ -16,12 +16,14 @@
  */
 import '../../test/common-test-setup-karma';
 import {
-  ShortcutsService,
   COMBO_TIMEOUT_MS,
+  describeBinding,
+  ShortcutsService,
 } from '../../services/shortcuts/shortcuts-service';
 import {Shortcut, ShortcutSection} from './shortcuts-config';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {SinonFakeTimers} from 'sinon';
+import {Key, Modifier} from '../../utils/dom-util';
 
 async function keyEventOn(
   el: HTMLElement,
@@ -113,14 +115,18 @@ suite('shortcuts-service tests', () => {
     }
 
     test('single combo description', () => {
-      assert.deepEqual(service.describeBinding('a'), ['a']);
-      assert.deepEqual(service.describeBinding('a:keyup'), ['a']);
-      assert.deepEqual(service.describeBinding('ctrl+a'), ['Ctrl', 'a']);
-      assert.deepEqual(service.describeBinding('ctrl+shift+up:keyup'), [
-        'Ctrl',
-        'Shift',
-        '↑',
-      ]);
+      assert.deepEqual(describeBinding({key: 'a'}), ['a']);
+      assert.deepEqual(
+        describeBinding({key: 'a', modifiers: [Modifier.CTRL_KEY]}),
+        ['Ctrl', 'a']
+      );
+      assert.deepEqual(
+        describeBinding({
+          key: Key.UP,
+          modifiers: [Modifier.CTRL_KEY, Modifier.SHIFT_KEY],
+        }),
+        ['Shift', 'Ctrl', '↑']
+      );
     });
 
     test('combo set description', () => {
@@ -187,7 +193,9 @@ suite('shortcuts-service tests', () => {
     test('active shortcuts by section', () => {
       assert.deepEqual(mapToObject(service.activeShortcutsBySection()), {});
 
-      service.attachHost({}, new Map([[Shortcut.NEXT_FILE, 'null']]));
+      service.attachHost(document.createElement('div'), [
+        {shortcut: Shortcut.NEXT_FILE, listener: _ => {}},
+      ]);
       assert.deepEqual(mapToObject(service.activeShortcutsBySection()), {
         [ShortcutSection.NAVIGATION]: [
           {
@@ -198,7 +206,9 @@ suite('shortcuts-service tests', () => {
         ],
       });
 
-      service.attachHost({}, new Map([[Shortcut.NEXT_LINE, 'null']]));
+      service.attachHost(document.createElement('div'), [
+        {shortcut: Shortcut.NEXT_LINE, listener: _ => {}},
+      ]);
       assert.deepEqual(mapToObject(service.activeShortcutsBySection()), {
         [ShortcutSection.DIFFS]: [
           {
@@ -216,13 +226,10 @@ suite('shortcuts-service tests', () => {
         ],
       });
 
-      service.attachHost(
-        {},
-        new Map([
-          [Shortcut.SEARCH, 'null'],
-          [Shortcut.GO_TO_OPENED_CHANGES, 'null'],
-        ])
-      );
+      service.attachHost(document.createElement('div'), [
+        {shortcut: Shortcut.SEARCH, listener: _ => {}},
+        {shortcut: Shortcut.GO_TO_OPENED_CHANGES, listener: _ => {}},
+      ]);
       assert.deepEqual(mapToObject(service.activeShortcutsBySection()), {
         [ShortcutSection.DIFFS]: [
           {
@@ -256,16 +263,13 @@ suite('shortcuts-service tests', () => {
     test('directory view', () => {
       assert.deepEqual(mapToObject(service.directoryView()), {});
 
-      service.attachHost(
-        {},
-        new Map([
-          [Shortcut.GO_TO_OPENED_CHANGES, 'null'],
-          [Shortcut.NEXT_FILE, 'null'],
-          [Shortcut.NEXT_LINE, 'null'],
-          [Shortcut.SAVE_COMMENT, 'null'],
-          [Shortcut.SEARCH, 'null'],
-        ])
-      );
+      service.attachHost(document.createElement('div'), [
+        {shortcut: Shortcut.GO_TO_OPENED_CHANGES, listener: _ => {}},
+        {shortcut: Shortcut.NEXT_FILE, listener: _ => {}},
+        {shortcut: Shortcut.NEXT_LINE, listener: _ => {}},
+        {shortcut: Shortcut.SAVE_COMMENT, listener: _ => {}},
+        {shortcut: Shortcut.SEARCH, listener: _ => {}},
+      ]);
       assert.deepEqual(mapToObject(service.directoryView()), {
         [ShortcutSection.DIFFS]: [
           {binding: [['j'], ['↓']], text: 'Go to next line'},

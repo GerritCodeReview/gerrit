@@ -17,7 +17,6 @@
 import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '../gr-overlay/gr-overlay';
-import '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/shared-styles';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';

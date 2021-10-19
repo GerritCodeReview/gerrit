@@ -241,30 +241,3 @@ export interface TitleChangeEventDetail {
   title: string;
 }
 export type TitleChangeEvent = CustomEvent<TitleChangeEventDetail>;
-
-/**
- * Keyboard events emitted from elements using IronA11yKeysBehavior: That means
- * that the element returns a list of handlers from either `keyBindings()` or
- * from `keyboardShortcuts()`. This event should not be used in Lit elements
- * and will be obsolete once the Lit migration is completed.
- */
-export interface IronKeyboardEvent extends CustomEvent {
-  detail: IronKeyboardEventDetail;
-}
-
-export interface IronKeyboardEventDetail {
-  keyboardEvent: KeyboardEvent;
-  key: string;
-  combo?: string;
-}
-
-export function isIronKeyboardEvent(
-  e: IronKeyboardEvent | Event | CustomEvent
-): e is IronKeyboardEvent {
-  const ike = e as IronKeyboardEvent;
-  return !!ike?.detail?.keyboardEvent;
-}
-
-export interface IronKeyboardEventListener {
-  (evt: IronKeyboardEvent): void;
-}

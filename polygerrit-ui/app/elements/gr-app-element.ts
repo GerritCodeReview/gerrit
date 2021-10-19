@@ -43,6 +43,7 @@ import {getBaseUrl} from '../utils/url-util';
 import {
   KeyboardShortcutMixin,
   Shortcut,
+  ShortcutListener,
 } from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GerritNav} from './core/gr-navigation/gr-navigation';
 import {appContext} from '../services/app-context';
@@ -68,7 +69,6 @@ import {
 import {GrMainHeader} from './core/gr-main-header/gr-main-header';
 import {GrSettingsView} from './settings/gr-settings-view/gr-settings-view';
 import {
-  IronKeyboardEvent,
   DialogChangeEventDetail,
   EventType,
   LocationChangeEvent,
@@ -81,6 +81,7 @@ import {GerritView} from '../services/router/router-model';
 import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
 import {assertIsDefined} from '../utils/common-util';
+import {listen} from '../services/shortcuts/shortcuts-service';
 
 interface ErrorInfo {
   text: string;
@@ -119,9 +120,6 @@ export class GrAppElement extends base {
 
   @property({type: Object})
   params?: AppElementParams;
-
-  @property({type: Object})
-  keyEventTarget = document.body;
 
   @property({type: Object, observer: '_accountChanged'})
   _account?: AccountDetailInfo;
@@ -214,17 +212,19 @@ export class GrAppElement extends base {
 
   private readonly restApiService = appContext.restApiService;
 
-  private readonly shortcuts = appContext.shortcutsService;
-
-  override keyboardShortcuts() {
-    return {
-      [Shortcut.OPEN_SHORTCUT_HELP_DIALOG]: '_showKeyboardShortcuts',
-      [Shortcut.GO_TO_USER_DASHBOARD]: '_goToUserDashboard',
-      [Shortcut.GO_TO_OPENED_CHANGES]: '_goToOpenedChanges',
-      [Shortcut.GO_TO_MERGED_CHANGES]: '_goToMergedChanges',
-      [Shortcut.GO_TO_ABANDONED_CHANGES]: '_goToAbandonedChanges',
-      [Shortcut.GO_TO_WATCHED_CHANGES]: '_goToWatchedChanges',
-    };
+  override keyboardShortcuts(): ShortcutListener[] {
+    return [
+      listen(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, _ =>
+        this._showKeyboardShortcuts()
+      ),
+      listen(Shortcut.GO_TO_USER_DASHBOARD, _ => this._goToUserDashboard()),
+      listen(Shortcut.GO_TO_OPENED_CHANGES, _ => this._goToOpenedChanges()),
+      listen(Shortcut.GO_TO_MERGED_CHANGES, _ => this._goToMergedChanges()),
+      listen(Shortcut.GO_TO_ABANDONED_CHANGES, _ =>
+        this._goToAbandonedChanges()
+      ),
+      listen(Shortcut.GO_TO_WATCHED_CHANGES, _ => this._goToWatchedChanges()),
+    ];
   }
 
   constructor() {
@@ -502,8 +502,7 @@ export class GrAppElement extends base {
     (this.shadowRoot!.querySelector('#keyboardShortcuts') as GrOverlay).open();
   }
 
-  _showKeyboardShortcuts(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
+  _showKeyboardShortcuts() {
     // same shortcut should close the dialog if pressed again
     // when dialog is open
     this.loadKeyboardShortcutsDialog = true;

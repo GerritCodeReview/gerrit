@@ -126,9 +126,6 @@ export class GrFileListHeader extends base {
   @property({type: Object})
   diffPrefs?: DiffPreferencesInfo;
 
-  @property({type: Boolean})
-  diffPrefsDisabled?: boolean;
-
   @property({type: String, notify: true})
   diffViewMode?: DiffViewMode;
 
@@ -175,11 +172,8 @@ export class GrFileListHeader extends base {
     return classes.join(' ');
   }
 
-  _computePrefsButtonHidden(
-    prefs: DiffPreferencesInfo,
-    diffPrefsDisabled: boolean
-  ) {
-    return diffPrefsDisabled || !prefs;
+  _computePrefsButtonHidden(prefs: DiffPreferencesInfo, loggedIn: boolean) {
+    return !loggedIn || !prefs;
   }
 
   _fileListActionsVisible(

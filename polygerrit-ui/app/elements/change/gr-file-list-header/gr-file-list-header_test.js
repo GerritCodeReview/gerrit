@@ -38,21 +38,11 @@ suite('gr-file-list-header tests', () => {
     await flush();
   });
 
-  test('Diff preferences hidden when no prefs or diffPrefsDisabled', () => {
-    element.diffPrefsDisabled = true;
-    flush();
+  test('Diff preferences hidden when no prefs', () => {
     assert.isTrue(element.$.diffPrefsContainer.hidden);
 
-    element.diffPrefsDisabled = false;
-    flush();
-    assert.isTrue(element.$.diffPrefsContainer.hidden);
-
-    element.diffPrefsDisabled = true;
     element.diffPrefs = {font_size: '12'};
-    flush();
-    assert.isTrue(element.$.diffPrefsContainer.hidden);
-
-    element.diffPrefsDisabled = false;
+    element.loggedIn = true;
     flush();
     assert.isFalse(element.$.diffPrefsContainer.hidden);
   });
@@ -168,7 +158,7 @@ suite('gr-file-list-header tests', () => {
 
   suite('editMode behavior', () => {
     setup(() => {
-      element.diffPrefsDisabled = false;
+      element.loggedIn = true;
       element.diffPrefs = {};
     });
 

@@ -301,15 +301,6 @@ export class GrChangeView extends base {
   @property({type: Boolean})
   disableEdit = false;
 
-  @property({type: Boolean})
-  disableDiffPrefs = false;
-
-  @property({
-    type: Boolean,
-    computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
-  })
-  _diffPrefsDisabled?: boolean;
-
   @property({type: Array})
   _commentThreads?: CommentThread[];
 
@@ -1714,11 +1705,7 @@ export class GrChangeView extends base {
     if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
       return;
     }
-
-    if (this._diffPrefsDisabled) {
-      return;
-    }
-
+    if (!this._loggedIn) return;
     e.preventDefault();
     this.$.fileList.openDiffPrefs();
   }
@@ -2600,10 +2587,6 @@ export class GrChangeView extends base {
     revisions: {[revisionId: string]: RevisionInfo}
   ) {
     return currentRevision && revisions && revisions[currentRevision];
-  }
-
-  _computeDiffPrefsDisabled(disableDiffPrefs: boolean, loggedIn: boolean) {
-    return disableDiffPrefs || !loggedIn;
   }
 
   /**

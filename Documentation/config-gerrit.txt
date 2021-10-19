@@ -1169,6 +1169,14 @@ cache `"pure_revert"`::
 Result of checking if one change or commit is a pure/clean revert of
 another.
 
+cache `"soy_sauce_compiled_templates"`::
++
+Caches compiled soy templates. Stores at most only one key-value pair with
+a constant key value and the value is a compiled SoySauce templates. The value
+is reloaded automatically every few seconds if there are reads from the cache.
+If cache is not used for 1 minute, the item is removed (i.e. emails can be send
+with templates which are max 1 minute old).
+
 cache `"sshkeys"`::
 +
 Caches unpacked versions of user SSH keys, so the internal SSH daemon

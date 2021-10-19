@@ -42,6 +42,7 @@ import {ReviewerState} from '../../../constants/constants';
 import {appContext} from '../../../services/app-context';
 import {fireAlert} from '../../../utils/event-util';
 import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
+import {sortReviewers} from '../../../utils/attention-set-util';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends PolymerElement {

@@ -197,6 +197,11 @@ export class GrLabelInfo extends LitElement {
           color: var(--deemphasized-text-color);
           margin-left: var(--spacing-xs);
         }
+        gr-vote-chip {
+          --gr-vote-chip-width: 14px;
+          --gr-vote-chip-height: 14px;
+          margin-right: var(--spacing-s);
+        }
       `,
     ];
   }

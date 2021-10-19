@@ -127,7 +127,7 @@ suite('gr-reply-dialog-it tests', () => {
     const labelScoreRows = element.getLabelScores().shadowRoot
         .querySelector('gr-label-score-row[name="Code-Review"]');
     const selectedBtn = labelScoreRows.shadowRoot
-        .querySelector('gr-tooltip-content[data-value="+1"] > gr-button');
+        .querySelector('gr-button[data-value="+1"]');
     assert.isOk(selectedBtn);
   });
 });

@@ -21,15 +21,15 @@ import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
 import com.google.gerrit.sshd.DispatchCommandProvider;
 import com.google.gerrit.sshd.SuExec;
-import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
+import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand.LfsPluginAuthCommandModule;
 
 /** Register the commands a Gerrit server supports. */
 public class DefaultCommandModule extends CommandModule {
   private final DownloadConfig downloadConfig;
-  private final LfsPluginAuthCommand.Module lfsPluginAuthModule;
+  private final LfsPluginAuthCommandModule lfsPluginAuthModule;
 
   public DefaultCommandModule(
-      boolean slave, DownloadConfig downloadCfg, LfsPluginAuthCommand.Module module) {
+      boolean slave, DownloadConfig downloadCfg, LfsPluginAuthCommandModule module) {
     slaveMode = slave;
     downloadConfig = downloadCfg;
     lfsPluginAuthModule = module;

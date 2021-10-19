@@ -59,6 +59,7 @@ import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.EmailHeader;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.InternalGroup;
@@ -1246,7 +1247,7 @@ public abstract class AbstractDaemonTest {
 
   protected void assertMailReplyTo(Message message, String email) throws Exception {
     assertThat(message.headers()).containsKey("Reply-To");
-    EmailHeader.String replyTo = (EmailHeader.String) message.headers().get("Reply-To");
+    StringEmailHeader replyTo = (StringEmailHeader) message.headers().get("Reply-To");
     assertThat(replyTo.getString()).contains(email);
   }
 

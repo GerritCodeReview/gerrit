@@ -53,7 +53,7 @@ import java.util.stream.Stream;
 public class InternalAccountDirectory extends AccountDirectory {
   static final Set<FillOptions> ID_ONLY = Collections.unmodifiableSet(EnumSet.of(FillOptions.ID));
 
-  public static class Module extends AbstractModule {
+  public static class InternalAccountDirectoryModule extends AbstractModule {
     @Override
     protected void configure() {
       bind(AccountDirectory.class).to(InternalAccountDirectory.class);

@@ -28,7 +28,7 @@ import org.apache.james.mime4j.dom.field.FieldName;
 public class InboundEmailRejectionSender extends OutgoingEmail {
 
   /** Used by the templating system to determine what error message should be sent */
-  public enum Error {
+  public enum InboundEmailError {
     PARSING_ERROR,
     INACTIVE_ACCOUNT,
     UNKNOWN_ACCOUNT,
@@ -38,11 +38,11 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
   }
 
   public interface Factory {
-    InboundEmailRejectionSender create(Address to, String threadId, Error reason);
+    InboundEmailRejectionSender create(Address to, String threadId, InboundEmailError reason);
   }
 
   private final Address to;
-  private final Error reason;
+  private final InboundEmailError reason;
   private final String threadId;
 
   @Inject
@@ -50,7 +50,7 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
       EmailArguments args,
       @Assisted Address to,
       @Assisted String threadId,
-      @Assisted Error reason) {
+      @Assisted InboundEmailError reason) {
     super(args, "error");
     this.to = requireNonNull(to);
     this.threadId = requireNonNull(threadId);

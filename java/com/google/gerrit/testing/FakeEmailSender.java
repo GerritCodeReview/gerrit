@@ -49,7 +49,7 @@ import java.util.concurrent.ExecutionException;
 public class FakeEmailSender implements EmailSender {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static class Module extends AbstractModule {
+  public static class FakeEmailSenderModule extends AbstractModule {
     @Override
     public void configure() {
       bind(EmailSender.class).to(FakeEmailSender.class);

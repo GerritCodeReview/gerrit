@@ -59,7 +59,7 @@ import org.eclipse.jgit.revwalk.RevSort;
 public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static class Module extends AbstractModule {
+  public static class LocalMergeSuperSetComputationModule extends AbstractModule {
     @Override
     protected void configure() {
       DynamicItem.bind(binder(), MergeSuperSetComputation.class)

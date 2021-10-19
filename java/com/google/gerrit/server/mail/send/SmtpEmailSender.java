@@ -23,6 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.EmailHeader;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -59,7 +60,7 @@ public class SmtpEmailSender implements EmailSender {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static class Module extends AbstractModule {
+  public static class SmtpEmailSenderModule extends AbstractModule {
     @Override
     protected void configure() {
       bind(EmailSender.class).to(SmtpEmailSender.class);
@@ -386,7 +387,7 @@ public class SmtpEmailSender implements EmailSender {
 
   private static void setMissingHeader(Map<String, EmailHeader> hdrs, String name, String value) {
     if (!hdrs.containsKey(name) || hdrs.get(name).isEmpty()) {
-      hdrs.put(name, new EmailHeader.String(value));
+      hdrs.put(name, new StringEmailHeader(value));
     }
   }
 

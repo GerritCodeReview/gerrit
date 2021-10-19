@@ -45,14 +45,14 @@ import org.junit.Test;
 @TestPlugin(
     name = "external-id-update-preprocessor",
     sysModule =
-        "com.google.gerrit.acceptance.server.notedb.ExternalIdNotesUpsertPreprocessorIT$Module")
+        "com.google.gerrit.acceptance.server.notedb.ExternalIdNotesUpsertPreprocessorIT$TestModule")
 public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemonTest {
   @Inject private Sequences sequences;
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
   @Inject private ExternalIdFactory extIdFactory;
 
-  public static class Module extends AbstractModule {
+  public static class TestModule extends AbstractModule {
     @Override
     protected void configure() {
       bind(ExternalIdUpsertPreprocessor.class)

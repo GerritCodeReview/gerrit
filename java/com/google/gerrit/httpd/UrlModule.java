@@ -21,6 +21,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.httpd.RunAsFilter.RunAsFilterModule;
 import com.google.gerrit.httpd.raw.AuthorizationCheckServlet;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
@@ -79,7 +80,7 @@ class UrlModule extends ServletModule {
 
     // Must be after RequireIdentifiedUserFilter so auth happens before checking
     // for RunAs capability.
-    install(new RunAsFilter.Module());
+    install(new RunAsFilterModule());
 
     serveRegex("^/(?:a/)?tools/(.*)$").with(ToolServlet.class);
 

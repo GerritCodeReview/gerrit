@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GarbageCollectionResult;
+import com.google.gerrit.common.data.GarbageCollectionResult.GcError;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.server.git.GarbageCollection;
@@ -89,7 +90,7 @@ public class GarbageCollectionCommand extends SshCommand {
             .create()
             .run(projectNames, aggressive, showProgress ? stdout : null);
     if (result.hasErrors()) {
-      for (GarbageCollectionResult.Error e : result.getErrors()) {
+      for (GcError e : result.getErrors()) {
         String msg;
         switch (e.getType()) {
           case REPOSITORY_NOT_FOUND:

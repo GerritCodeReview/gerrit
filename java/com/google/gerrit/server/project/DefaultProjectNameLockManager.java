@@ -25,7 +25,7 @@ import java.util.concurrent.locks.Lock;
 @Singleton
 public class DefaultProjectNameLockManager implements ProjectNameLockManager {
 
-  public static class Module extends AbstractModule {
+  public static class DefaultProjectNameLockManagerModule extends AbstractModule {
     @Override
     protected void configure() {
       DynamicItem.bind(binder(), ProjectNameLockManager.class)

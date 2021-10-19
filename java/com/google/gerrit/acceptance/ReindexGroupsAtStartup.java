@@ -34,7 +34,7 @@ public class ReindexGroupsAtStartup implements LifecycleListener {
   private final Groups groups;
   private final Config cfg;
 
-  public static class Module extends LifecycleModule {
+  public static class ReindexGroupsAtStartupModule extends LifecycleModule {
     @Override
     protected void configure() {
       listener().to(ReindexGroupsAtStartup.class).in(Scopes.SINGLETON);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3692a4ae_074da6ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:18:20Z",
+      "side": 1,
+      "message": "$ bazel test --test_filter\u003dcom.google.gerrit.acceptance.rest.DynamicOptionsBeanParseListenerIT -- //javatests/com/google/gerrit/acceptance/rest:rest_bindings_collection\n\nINFO: Invocation ID: 2e712fcc-9942-40c7-bf14-ddc97e4d7640\nINFO: Build option --test_filter has changed, discarding analysis cache.\nINFO: Analyzed target //javatests/com/google/gerrit/acceptance/rest:rest_bindings_collection (1 packages loaded, 5494 targets configured).\nINFO: Found 1 test target...\nTarget //javatests/com/google/gerrit/acceptance/rest:rest_bindings_collection up-to-date:\n  bazel-bin/javatests/com/google/gerrit/acceptance/rest/rest_bindings_collection.jar\n  bazel-bin/javatests/com/google/gerrit/acceptance/rest/rest_bindings_collection\nINFO: Elapsed time: 11.981s, Critical Path: 11.16s\nINFO: 6 processes: 4 internal, 1 darwin-sandbox, 1 worker.\nINFO: Build completed successfully, 6 total actions\n//javatests/com/google/gerrit/acceptance/rest:rest_bindings_collection   PASSED in 10.1s\n\nExecuted 1 out of 1 test: 1 test passes.\nINFO: Build completed successfully, 6 total actions\n\n$ bazel test --test_filter\u003dcom.google.gerrit.acceptance.ssh.DynamicOptionsBeanParseListenerIT -- //javatests/com/google/gerrit/acceptance/ssh:ssh\n\nINFO: Invocation ID: bb90a349-5151-4cc8-94ae-d40e41a57f0b\nINFO: Build option --test_filter has changed, discarding analysis cache.\nINFO: Analyzed target //javatests/com/google/gerrit/acceptance/ssh:ssh (33 packages loaded, 5502 targets configured).\nINFO: Found 1 test target...\nTarget //javatests/com/google/gerrit/acceptance/ssh:ssh up-to-date:\n  bazel-bin/javatests/com/google/gerrit/acceptance/ssh/ssh.jar\n  bazel-bin/javatests/com/google/gerrit/acceptance/ssh/ssh\nINFO: Elapsed time: 25.720s, Critical Path: 23.72s\nINFO: 52 processes: 9 remote cache hit, 5 internal, 23 darwin-sandbox, 15 worker.\nINFO: Build completed successfully, 52 total actions\n//javatests/com/google/gerrit/acceptance/ssh:ssh                         PASSED in 13.4s\n\nExecuted 1 out of 1 test: 1 test passes.\nINFO: Build completed successfully, 52 total actions",
+      "revId": "da401839fed016f5cc8daa8ddb64d6be72b01df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

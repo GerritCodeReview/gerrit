@@ -14,8 +14,14 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.server.CacheRefreshExecutor;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
@@ -30,6 +36,9 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 
 /** Configures Soy Sauce object for rendering email templates. */
 @Singleton
@@ -88,19 +97,43 @@ public class MailSoySauceProvider implements Provider<SoySauce> {
   private final SitePaths site;
   private final SoyAstCache cache;
   private final PluginSetContext<MailSoyTemplateProvider> templateProviders;
+  private final LoadingCache<String, SoySauce> soySauceLoadingCache;
 
   @Inject
   MailSoySauceProvider(
       SitePaths site,
       SoyAstCache cache,
+      @CacheRefreshExecutor ListeningExecutorService executor,
       PluginSetContext<MailSoyTemplateProvider> templateProviders) {
     this.site = site;
     this.cache = cache;
     this.templateProviders = templateProviders;
-  }
+    this.soySauceLoadingCache = CacheBuilder.newBuilder()
+        .refreshAfterWrite(Duration.ofSeconds(1))
+        .maximumSize(1)
+        .build(new CacheLoader<String, SoySauce>() {
+          @Override
+          public SoySauce load(String s) throws Exception {
+            return loadSoySauce();
+          }
 
+          @Override
+          public ListenableFuture<SoySauce> reload(String s,
+              SoySauce soySauce) {
+            return executor.submit(() -> loadSoySauce());
+          }
+        });
+  }
   @Override
   public SoySauce get() throws ProvisionException {
+    try {
+      return soySauceLoadingCache.get("KEY");
+    } catch (ExecutionException e) {
+      throw new ProvisionException("Can't get SoySauce from the cache", e);
+    }
+  }
+
+  private SoySauce loadSoySauce() {
     SoyFileSet.Builder builder = SoyFileSet.builder();
     builder.setSoyAstCache(cache);
     for (String name : TEMPLATES) {

@@ -84,8 +84,6 @@ export interface GrCommentThread {
 
 @customElement('gr-comment-thread')
 export class GrCommentThread extends PolymerElement {
-  // KeyboardShortcutMixin Not used in this element rather other elements tests
-
   static get template() {
     return htmlTemplate;
   }

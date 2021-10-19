@@ -22,7 +22,6 @@ import '../../../styles/shared-styles';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-autocomplete_html';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {property, customElement, observe} from '@polymer/decorators';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {PaperInputElementExt} from '../../../types/types';
@@ -65,11 +64,8 @@ export interface AutocompleteCommitEventDetail {
 export type AutocompleteCommitEvent =
   CustomEvent<AutocompleteCommitEventDetail>;
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-autocomplete')
-export class GrAutocomplete extends base {
+export class GrAutocomplete extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

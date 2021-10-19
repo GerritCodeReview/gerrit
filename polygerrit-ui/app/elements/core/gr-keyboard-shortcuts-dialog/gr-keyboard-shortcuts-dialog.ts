@@ -21,7 +21,6 @@ import '../../../styles/gr-font-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-keyboard-shortcuts-dialog_html';
 import {
-  KeyboardShortcutMixin,
   ShortcutSection,
   ShortcutListener,
   SectionView,
@@ -40,11 +39,8 @@ interface SectionShortcut {
   shortcuts?: SectionView;
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-keyboard-shortcuts-dialog')
-export class GrKeyboardShortcutsDialog extends base {
+export class GrKeyboardShortcutsDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

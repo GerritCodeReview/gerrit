@@ -50,7 +50,7 @@ suite('gr-autocomplete-dropdown', () => {
 
   test('escape key', () => {
     const closeSpy = sinon.spy(element, 'close');
-    MockInteractions.pressAndReleaseKeyOn(element, 27);
+    MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'Escape');
     flush();
     assert.isTrue(closeSpy.called);
   });
@@ -59,7 +59,7 @@ suite('gr-autocomplete-dropdown', () => {
     const handleTabSpy = sinon.spy(element, '_handleTab');
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
-    MockInteractions.pressAndReleaseKeyOn(element, 9);
+    MockInteractions.pressAndReleaseKeyOn(element, 9, null, 'Tab');
     assert.isTrue(handleTabSpy.called);
     assert.equal(element.cursor.index, 0);
     assert.isTrue(itemSelectedStub.called);
@@ -73,7 +73,7 @@ suite('gr-autocomplete-dropdown', () => {
     const handleEnterSpy = sinon.spy(element, '_handleEnter');
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
-    MockInteractions.pressAndReleaseKeyOn(element, 13);
+    MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'Enter');
     assert.isTrue(handleEnterSpy.called);
     assert.equal(element.cursor.index, 0);
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
@@ -85,11 +85,11 @@ suite('gr-autocomplete-dropdown', () => {
   test('down key', () => {
     element.isHidden = true;
     const nextSpy = sinon.spy(element.cursor, 'next');
-    MockInteractions.pressAndReleaseKeyOn(element, 40);
+    MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
     assert.isFalse(nextSpy.called);
     assert.equal(element.cursor.index, 0);
     element.isHidden = false;
-    MockInteractions.pressAndReleaseKeyOn(element, 40);
+    MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
     assert.isTrue(nextSpy.called);
     assert.equal(element.cursor.index, 1);
   });
@@ -97,13 +97,13 @@ suite('gr-autocomplete-dropdown', () => {
   test('up key', () => {
     element.isHidden = true;
     const prevSpy = sinon.spy(element.cursor, 'previous');
-    MockInteractions.pressAndReleaseKeyOn(element, 38);
+    MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'ArrowUp');
     assert.isFalse(prevSpy.called);
     assert.equal(element.cursor.index, 0);
     element.isHidden = false;
     element.cursor.setCursorAtIndex(1);
     assert.equal(element.cursor.index, 1);
-    MockInteractions.pressAndReleaseKeyOn(element, 38);
+    MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'ArrowUp');
     assert.isTrue(prevSpy.called);
     assert.equal(element.cursor.index, 0);
   });

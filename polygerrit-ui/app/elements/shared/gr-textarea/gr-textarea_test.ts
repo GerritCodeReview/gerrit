@@ -20,7 +20,6 @@ import './gr-textarea';
 import {GrTextarea} from './gr-textarea';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {IronKeyboardEvent} from '../../../types/events';
 import {ItemSelectedEvent} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 
 const basicFixture = fixtureFromElement('gr-textarea');
@@ -238,32 +237,10 @@ suite('gr-textarea tests', () => {
     const indentCommand = sinon.stub(document, 'execCommand');
     element.$.textarea.value = '    a';
     element._handleEnterByKey(
-      new CustomEvent('keydown', {
-        detail: {keyboardEvent: {keyCode: 13}},
-      }) as IronKeyboardEvent
+      new KeyboardEvent('keydown', {key: 'Enter', keyCode: 13})
     );
     await flush();
     assert.deepEqual(indentCommand.args[0], ['insertText', false, '\n    ']);
-  });
-
-  test('ctrl+enter and meta+enter do not indent', async () => {
-    const indentCommand = sinon.stub(document, 'execCommand');
-    element.$.textarea.value = '    a';
-    element._handleEnterByKey(
-      new CustomEvent('keydown', {
-        detail: {keyboardEvent: {keyCode: 13, ctrlKey: true}},
-      }) as IronKeyboardEvent
-    );
-    await flush();
-    assert.isTrue(indentCommand.notCalled);
-
-    element._handleEnterByKey(
-      new CustomEvent('keydown', {
-        detail: {keyboardEvent: {keyCode: 13, metaKey: true}},
-      }) as IronKeyboardEvent
-    );
-    await flush();
-    assert.isTrue(indentCommand.notCalled);
   });
 
   test('emoji dropdown is closed when iron-overlay-closed is fired', () => {
@@ -301,38 +278,78 @@ suite('gr-textarea tests', () => {
 
     test('escape key', () => {
       const resetSpy = sinon.spy(element, '_resetEmojiDropdown');
-      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
+      MockInteractions.pressAndReleaseKeyOn(
+        element.$.textarea,
+        27,
+        null,
+        'Escape'
+      );
       assert.isFalse(resetSpy.called);
       setupDropdown();
-      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
+      MockInteractions.pressAndReleaseKeyOn(
+        element.$.textarea,
+        27,
+        null,
+        'Escape'
+      );
       assert.isTrue(resetSpy.called);
       assert.isFalse(!element.$.emojiSuggestions.isHidden);
     });
 
     test('up key', () => {
       const upSpy = sinon.spy(element.$.emojiSuggestions, 'cursorUp');
-      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 38);
+      MockInteractions.pressAndReleaseKeyOn(
+        element.$.textarea,
+        38,
+        null,
+        'ArrowUp'
+      );
       assert.isFalse(upSpy.called);
       setupDropdown();
-      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 38);
+      MockInteractions.pressAndReleaseKeyOn(
+        element.$.textarea,
+        38,
+        null,
+        'ArrowUp'
+      );
       assert.isTrue(upSpy.called);
     });
 
     test('down key', () => {
       const downSpy = sinon.spy(element.$.emojiSuggestions, 'cursorDown');
-      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 40);
+      MockInteractions.pressAndReleaseKeyOn(
+        element.$.textarea,
+        40,
+        null,
+        'ArrowDown'
+      );
       assert.isFalse(downSpy.called);
       setupDropdown();
-      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 40);
+      MockInteractions.pressAndReleaseKeyOn(
+        element.$.textarea,
+        40,
+        null,
+        'ArrowDown'
+      );
       assert.isTrue(downSpy.called);
     });
 
     test('enter key', () => {
       const enterSpy = sinon.spy(element.$.emojiSuggestions, 'getCursorTarget');
-      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
+      MockInteractions.pressAndReleaseKeyOn(
+        element.$.textarea,
+        13,
+        null,
+        'Enter'
+      );
       assert.isFalse(enterSpy.called);
       setupDropdown();
-      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
+      MockInteractions.pressAndReleaseKeyOn(
+        element.$.textarea,
+        13,
+        null,
+        'Enter'
+      );
       assert.isTrue(enterSpy.called);
       flush();
       assert.equal(element.text, '💯');

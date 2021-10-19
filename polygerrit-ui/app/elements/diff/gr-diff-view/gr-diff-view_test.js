@@ -426,7 +426,7 @@ suite('gr-diff-view tests', () => {
     test('toggle left diff with a hotkey', () => {
       const toggleLeftDiffStub = sinon.stub(
           element.$.diffHost, 'toggleLeftDiff');
-      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'A');
       assert.isTrue(toggleLeftDiffStub.calledOnce);
     });
 
@@ -498,12 +498,12 @@ suite('gr-diff-view tests', () => {
       assert(scrollStub.calledOnce);
 
       scrollStub = sinon.stub(element.cursor, 'moveToNextCommentThread');
-      MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'N');
       assert(scrollStub.calledOnce);
 
       scrollStub = sinon.stub(element.cursor,
           'moveToPreviousCommentThread');
-      MockInteractions.pressAndReleaseKeyOn(element, 80, 'shift', 'p');
+      MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'P');
       assert(scrollStub.calledOnce);
 
       const computeContainerClassStub = sinon.stub(element.$.diffHost.$.diff,
@@ -516,22 +516,29 @@ suite('gr-diff-view tests', () => {
       assert(computeContainerClassStub.lastCall.calledWithExactly(
           false, 'SIDE_BY_SIDE', false));
 
+      // Note that stubbing _setReviewed means that the value of the
+      // `element.$.reviewed` checkbox is not flipped.
       sinon.stub(element, '_setReviewed');
       sinon.spy(element, '_handleToggleFileReviewed');
       element.$.reviewed.checked = false;
-      MockInteractions.keyUpOn(element, 82, 'shift', 'r');
+      assert.isFalse(element._handleToggleFileReviewed.called);
       assert.isFalse(element._setReviewed.called);
-      assert.isTrue(element._handleToggleFileReviewed.calledOnce);
 
-      MockInteractions.keyUpOn(element, 82, null, 'r');
+      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
       assert.isTrue(element._handleToggleFileReviewed.calledOnce);
+      assert.isTrue(element._setReviewed.calledOnce);
+      assert.equal(element._setReviewed.lastCall.args[0], true);
+
+      // Handler is throttled, so another key press within 500 ms is ignored.
+      clock.tick(100);
+      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+      assert.isTrue(element._handleToggleFileReviewed.calledOnce);
+      assert.isTrue(element._setReviewed.calledOnce);
 
       clock.tick(1000);
-
-      MockInteractions.keyUpOn(element, 82, null, 'r');
+      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
       assert.isTrue(element._handleToggleFileReviewed.calledTwice);
-      assert.isTrue(element._setReviewed.called);
-      assert.equal(element._setReviewed.lastCall.args[0], true);
+      assert.isTrue(element._setReviewed.calledTwice);
     });
 
     test('moveToNextCommentThread navigates to next file', () => {
@@ -563,14 +570,14 @@ suite('gr-diff-view tests', () => {
       element.changeViewState.selectedFileIndex = 1;
       element._loggedIn = true;
 
-      MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'N');
       flush();
       assert.isTrue(diffNavStub.calledWithExactly(
           element._change, 'wheatley.md', 10, PARENT, 21));
 
       element._path = 'wheatley.md'; // navigated to next file
 
-      MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
+      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'N');
       flush();
 
       assert.isTrue(diffChangeStub.called);
@@ -578,7 +585,7 @@ suite('gr-diff-view tests', () => {
 
     test('shift+x shortcut toggles all diff context', () => {
       const toggleStub = sinon.stub(element.$.diffHost, 'toggleAllContext');
-      MockInteractions.pressAndReleaseKeyOn(element, 88, 'shift', 'x');
+      MockInteractions.pressAndReleaseKeyOn(element, 88, null, 'X');
       flush();
       assert.isTrue(toggleStub.called);
     });
@@ -691,7 +698,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
-      MockInteractions.keyUpOn(element, 65, null, 'a');
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       await flush();
       assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
         'should only work when the user is logged in.');
@@ -717,7 +724,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
-      MockInteractions.keyUpOn(element, 65, null, 'a');
+      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       await flush();
       assert.isTrue(element.changeViewState.showReplyDialog);
       assert(changeNavStub.lastCall.calledWithExactly(element._change, 10,
@@ -743,7 +750,7 @@ suite('gr-diff-view tests', () => {
           sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
           const loggedInErrorSpy = sinon.spy();
           element.addEventListener('show-auth-required', loggedInErrorSpy);
-          MockInteractions.keyUpOn(element, 65, null, 'a');
+          MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
           await flush();
           assert.isTrue(element.changeViewState.showReplyDialog);
           assert(changeNavStub.lastCall.calledWithExactly(element._change, 1,
@@ -807,7 +814,7 @@ suite('gr-diff-view tests', () => {
       'Should navigate to /c/42/5..10');
 
       assert.isUndefined(element.changeViewState.showDownloadDialog);
-      MockInteractions.keyUpOn(element, 68, null, 'd');
+      MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
       assert.isTrue(element.changeViewState.showDownloadDialog);
     });
 
@@ -1730,7 +1737,7 @@ suite('gr-diff-view tests', () => {
       test('toggle blame with shortcut', () => {
         const toggleBlame = sinon.stub(
             element.$.diffHost, 'loadBlame').callsFake(() => Promise.resolve());
-        MockInteractions.keyUpOn(element, 66, null, 'b');
+        MockInteractions.pressAndReleaseKeyOn(element, 66, null, 'b');
         assert.isTrue(toggleBlame.calledOnce);
       });
     });
@@ -1890,7 +1897,7 @@ suite('gr-diff-view tests', () => {
       element._path = 'file1';
       const reviewedStub = sinon.stub(element, '_setReviewed');
       const navStub = sinon.stub(element, '_navToFile');
-      MockInteractions.pressAndReleaseKeyOn(element, 77, 'shift', 'm');
+      MockInteractions.pressAndReleaseKeyOn(element, 77, null, 'M');
       flush();
 
       assert.isTrue(reviewedStub.lastCall.args[0]);

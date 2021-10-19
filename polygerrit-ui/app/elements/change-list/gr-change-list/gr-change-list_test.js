@@ -147,38 +147,37 @@ suite('gr-change-list basic tests', () => {
     await flush();
     const promise = mockPromise();
     afterNextRender(element, () => {
-      const elementItems = element.root.querySelectorAll(
-          'gr-change-list-item');
-      assert.equal(elementItems.length, 3);
-
-      assert.isTrue(elementItems[0].hasAttribute('selected'));
-      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      assert.equal(element.selectedIndex, 1);
-      assert.isTrue(elementItems[1].hasAttribute('selected'));
-      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      assert.equal(element.selectedIndex, 2);
-      assert.isTrue(elementItems[2].hasAttribute('selected'));
-
-      const navStub = sinon.stub(GerritNav, 'navigateToChange');
-      assert.equal(element.selectedIndex, 2);
-      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
-      assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
-          'Should navigate to /c/2/');
-
-      MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-      assert.equal(element.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
-      assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
-          'Should navigate to /c/1/');
-
-      MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-      MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-      MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-      assert.equal(element.selectedIndex, 0);
-
       promise.resolve();
     });
     await promise;
+    const elementItems = element.root.querySelectorAll(
+        'gr-change-list-item');
+    assert.equal(elementItems.length, 3);
+
+    assert.isTrue(elementItems[0].hasAttribute('selected'));
+    MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+    assert.equal(element.selectedIndex, 1);
+    assert.isTrue(elementItems[1].hasAttribute('selected'));
+    MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+    assert.equal(element.selectedIndex, 2);
+    assert.isTrue(elementItems[2].hasAttribute('selected'));
+
+    const navStub = sinon.stub(GerritNav, 'navigateToChange');
+    assert.equal(element.selectedIndex, 2);
+    MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
+    assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
+        'Should navigate to /c/2/');
+
+    MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+    assert.equal(element.selectedIndex, 1);
+    MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
+    assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
+        'Should navigate to /c/1/');
+
+    MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+    MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+    MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+    assert.equal(element.selectedIndex, 0);
   });
 
   test('no changes', () => {
@@ -449,45 +448,45 @@ suite('gr-change-list basic tests', () => {
       await flush();
       const promise = mockPromise();
       afterNextRender(element, () => {
-        const elementItems = element.root.querySelectorAll(
-            'gr-change-list-item');
-        assert.equal(elementItems.length, 9);
-
-        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-        assert.equal(element.selectedIndex, 1);
-        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-
-        const navStub = sinon.stub(GerritNav, 'navigateToChange');
-        assert.equal(element.selectedIndex, 2);
-
-        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-        assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
-            'Should navigate to /c/2/');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 75); // 'k'
-        assert.equal(element.selectedIndex, 1);
-        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-        assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
-            'Should navigate to /c/1/');
-
-        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-        assert.equal(element.selectedIndex, 4);
-        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-        assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
-            'Should navigate to /c/4/');
-
-        MockInteractions.keyUpOn(element, 82); // 'r'
-        const change = element._changeForIndex(element.selectedIndex);
-        assert.equal(change.reviewed, true,
-            'Should mark change as reviewed');
-        MockInteractions.keyUpOn(element, 82); // 'r'
-        assert.equal(change.reviewed, false,
-            'Should mark change as unreviewed');
         promise.resolve();
       });
       await promise;
+      const elementItems = element.root.querySelectorAll(
+          'gr-change-list-item');
+      assert.equal(elementItems.length, 9);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      assert.equal(element.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+
+      const navStub = sinon.stub(GerritNav, 'navigateToChange');
+      assert.equal(element.selectedIndex, 2);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'Enter');
+      assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
+          'Should navigate to /c/2/');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
+      assert.equal(element.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'Enter');
+      assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
+          'Should navigate to /c/1/');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      assert.equal(element.selectedIndex, 4);
+      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'Enter');
+      assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
+          'Should navigate to /c/4/');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+      const change = element._changeForIndex(element.selectedIndex);
+      assert.equal(change.reviewed, true,
+          'Should mark change as reviewed');
+      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+      assert.equal(change.reviewed, false,
+          'Should mark change as unreviewed');
     });
 
     test('_computeItemHighlight gives false for null account', () => {

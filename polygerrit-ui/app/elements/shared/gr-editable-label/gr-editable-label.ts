@@ -23,13 +23,13 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-editable-label_html';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PaperInputElementExt} from '../../../types/types';
 import {
   AutocompleteQuery,
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
 import {addShortcut, Key} from '../../../utils/dom-util';
+import {queryAndAssert} from '../../../utils/common-util';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -213,16 +213,18 @@ export class GrEditableLabel extends PolymerElement {
   }
 
   _handleEnter(e: KeyboardEvent) {
-    const target = (dom(e) as EventApi).rootTarget;
-    if (target === this._nativeInput) {
+    const inputContainer = queryAndAssert(this, '.inputContainer');
+    const isEventFromInput = e.composedPath().some(e => e === inputContainer);
+    if (isEventFromInput) {
       e.preventDefault();
       this._save();
     }
   }
 
   _handleEsc(e: KeyboardEvent) {
-    const target = (dom(e) as EventApi).rootTarget;
-    if (target === this._nativeInput) {
+    const inputContainer = queryAndAssert(this, '.inputContainer');
+    const isEventFromInput = e.composedPath().some(e => e === inputContainer);
+    if (isEventFromInput) {
       e.preventDefault();
       this._cancel();
     }

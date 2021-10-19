@@ -47,9 +47,6 @@ export class GrSelectionActionBox extends PolymerElement {
    * @event create-comment-requested
    */
 
-  @property({type: Object})
-  keyEventTarget = document.body;
-
   @property({type: Boolean})
   positionBelow = false;
 

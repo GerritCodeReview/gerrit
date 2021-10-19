@@ -22,6 +22,30 @@
       },
       "revId": "e91cd06f31a2f206113130aa43e1cb598600bf67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51ee5dfe_b345bc18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-19T08:00:17Z",
+      "side": 1,
+      "message": "Hah, this didn\u0027t occur to me. Actually the AutoClosables may be expensive. It\u0027s closing the PerformanceLogContext, that\u0027s where we persist the collected performance log entries, which may take some time. Let me update the commit message to mention this.",
+      "parentUuid": "11783658_ac632dcc",
+      "range": {
+        "startLine": 14,
+        "startChar": 48,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "e91cd06f31a2f206113130aa43e1cb598600bf67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

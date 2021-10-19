@@ -24,10 +24,10 @@ import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-dropdown_html';
 import {getBaseUrl} from '../../../utils/url-util';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {property, customElement, observe} from '@polymer/decorators';
+import {addShortcut, Key} from '../../../utils/dom-util';
 
 const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
@@ -67,11 +67,8 @@ export interface DropdownContent {
   bold?: boolean;
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-dropdown')
-export class GrDropdown extends base {
+export class GrDropdown extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -121,14 +118,8 @@ export class GrDropdown extends base {
   @property({type: Array})
   disabledIds: string[] = [];
 
-  get keyBindings() {
-    return {
-      down: '_handleDown',
-      'enter space': '_handleEnter',
-      tab: '_handleTab',
-      up: '_handleUp',
-    };
-  }
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   // Used within the tests so needs to be non-private.
   cursor = new GrCursorManager();
@@ -139,15 +130,36 @@ export class GrDropdown extends base {
     this.cursor.focusOnMove = true;
   }
 
+  override connectedCallback() {
+    super.connectedCallback();
+    this.cleanups.push(
+      addShortcut(this, {key: Key.UP}, e => this._handleUp(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.DOWN}, e => this._handleDown(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.TAB}, e => this._handleTab(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER}, e => this._handleEnter(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.SPACE}, e => this._handleEnter(e))
+    );
+  }
+
   override disconnectedCallback() {
     this.cursor.unsetCursor();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
     super.disconnectedCallback();
   }
 
   /**
    * Handle the up key.
    */
-  _handleUp(e: MouseEvent) {
+  _handleUp(e: Event) {
     if (this.$.dropdown.opened) {
       e.preventDefault();
       e.stopPropagation();
@@ -160,7 +172,7 @@ export class GrDropdown extends base {
   /**
    * Handle the down key.
    */
-  _handleDown(e: MouseEvent) {
+  _handleDown(e: Event) {
     if (this.$.dropdown.opened) {
       e.preventDefault();
       e.stopPropagation();
@@ -173,7 +185,7 @@ export class GrDropdown extends base {
   /**
    * Handle the tab key.
    */
-  _handleTab(e: MouseEvent) {
+  _handleTab(e: Event) {
     if (this.$.dropdown.opened) {
       // Tab in a native select is a no-op. Emulate this.
       e.preventDefault();
@@ -184,7 +196,7 @@ export class GrDropdown extends base {
   /**
    * Handle the enter key.
    */
-  _handleEnter(e: MouseEvent) {
+  _handleEnter(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     if (this.$.dropdown.opened) {

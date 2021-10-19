@@ -19,6 +19,7 @@ import {AccountInfo, ChangeInfo, ServerInfo} from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
 import {
   getAccountTemplate,
+  isSelf,
   isServiceUser,
   replaceTemplates,
 } from './account-util';
@@ -91,4 +92,28 @@ export function getLastUpdate(account?: AccountInfo, change?: ChangeInfo) {
   if (!hasAttention(account, change)) return '';
   const entry = change!.attention_set![account!._account_id!];
   return entry?.last_update ? entry.last_update : '';
+}
+
+/**
+ *  Sort order:
+ * 1. The user themselves
+ * 2. Human users in the attention set.
+ * 3. Other human users.
+ * 4. Service users.
+ */
+export function sortReviewers(
+  r1: AccountInfo,
+  r2: AccountInfo,
+  change?: ChangeInfo | ParsedChangeInfo,
+  selfAccount?: AccountInfo
+) {
+  if (selfAccount) {
+    if (isSelf(r1, selfAccount)) return -1;
+    if (isSelf(r2, selfAccount)) return 1;
+  }
+  const a1 = hasAttention(r1, change) ? 1 : 0;
+  const a2 = hasAttention(r2, change) ? 1 : 0;
+  const s1 = isServiceUser(r1) ? -2 : 0;
+  const s2 = isServiceUser(r2) ? -2 : 0;
+  return a2 - a1 + s2 - s1;
 }

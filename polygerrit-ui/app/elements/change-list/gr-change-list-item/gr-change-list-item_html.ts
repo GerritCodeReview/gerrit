@@ -290,6 +290,13 @@ export const htmlTemplate = html`
       </template>
     </gr-tooltip-content>
   </td>
+  <td
+    class="cell requirements"
+    hidden$="[[_computeIsColumnHidden('Requirements', visibleChangeTableColumns)]]"
+  >
+    <gr-change-list-column-requirements change="[[change]]">
+    </gr-change-list-column-requirements>
+  </td>
   <template is="dom-repeat" items="[[labelNames]]" as="labelName">
     <td
       title$="[[_computeLabelTitle(change, labelName)]]"

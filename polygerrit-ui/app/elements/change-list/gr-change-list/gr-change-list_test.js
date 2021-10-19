@@ -282,6 +282,7 @@ suite('gr-change-list basic tests', () => {
           'Branch',
           'Updated',
           'Size',
+          'Requirements',
         ],
       };
       element._config = {};
@@ -319,6 +320,7 @@ suite('gr-change-list basic tests', () => {
           'Branch',
           'Updated',
           'Size',
+          'Requirements',
         ],
       };
       element._config = {};

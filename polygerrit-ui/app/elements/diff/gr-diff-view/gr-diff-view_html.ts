@@ -338,14 +338,14 @@ export const htmlTemplate = html`
           <span>Diff view:</span>
           <gr-diff-mode-selector
             id="modeSelect"
-            save-on-change="[[!_diffPrefsDisabled]]"
+            save-on-change="[[_loggedIn]]"
             mode="{{changeViewState.diffMode}}"
             show-tooltip-below=""
           ></gr-diff-mode-selector>
         </div>
         <span
           id="diffPrefsContainer"
-          hidden$="[[_computePrefsButtonHidden(_prefs, _diffPrefsDisabled)]]"
+          hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]"
           hidden=""
         >
           <span class="preferences desktop">

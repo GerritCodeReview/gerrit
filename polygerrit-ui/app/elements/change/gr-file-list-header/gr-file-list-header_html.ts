@@ -170,12 +170,12 @@ export const htmlTemplate = html`
         <gr-diff-mode-selector
           id="modeSelect"
           mode="{{diffViewMode}}"
-          save-on-change="[[!diffPrefsDisabled]]"
+          save-on-change="[[loggenIn]]"
         ></gr-diff-mode-selector>
         <span
           id="diffPrefsContainer"
           class="hideOnEdit"
-          hidden$="[[_computePrefsButtonHidden(diffPrefs, diffPrefsDisabled)]]"
+          hidden$="[[_computePrefsButtonHidden(diffPrefs, loggenIn)]]"
           hidden=""
         >
           <gr-tooltip-content has-tooltip title="Diff preferences">

@@ -343,9 +343,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
     }
 
     // The loop exits as soon as the worker calls end(), but we give it another
-    // maxIntervalNanos to finish up and return.
+    // 2 x maxIntervalNanos to finish up and return.
     try {
-      return workerFuture.get(maxIntervalNanos, NANOSECONDS);
+      return workerFuture.get(2 * maxIntervalNanos, NANOSECONDS);
     } catch (InterruptedException | CancellationException e) {
       logger.atWarning().withCause(e).log(
           "unable to finish processing (task=%s(%s))", taskKind, taskName);

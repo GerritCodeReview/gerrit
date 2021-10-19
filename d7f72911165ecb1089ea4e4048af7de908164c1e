@@ -71,6 +71,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fa42b10_c3f3dc9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed821506_3dbf707d",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64a70831_51d73a5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79f8c6df_0688c8b3",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 11
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "086a3830_f8724213",
@@ -84,6 +132,30 @@
       "writtenOn": "2021-10-18T19:44:59Z",
       "side": 1,
       "message": "s/is/is only/",
+      "range": {
+        "startLine": 13,
+        "startChar": 64,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a28300b_73889684",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "086a3830_f8724213",
       "range": {
         "startLine": 13,
         "startChar": 64,
@@ -117,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79831d5b_5183b080",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc828350_a85ffc02",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3ade84c_0975ea95",
@@ -130,6 +226,24 @@
       "writtenOn": "2021-10-18T19:44:59Z",
       "side": 1,
       "message": "I\u0027m not sure the sentence above is needed, it seems to just repeat was has already been said.",
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c11b5e7_7353aff2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "removed. done.",
+      "parentUuid": "f3ade84c_0975ea95",
       "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -169,6 +283,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "764ba518_4184f2ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d35ff712_d2ec2052",
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90bde9ec_b726e33f",
@@ -182,6 +314,24 @@
       "writtenOn": "2021-10-18T19:44:59Z",
       "side": 1,
       "message": "This two sentences need a subject (although the second one can skip it if rewritten in the imperative).",
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5311765d_ddb11d39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90bde9ec_b726e33f",
       "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -220,6 +370,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f272fbca_7cf53be9",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c02c307_c93e1b12",
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2df7c0dd_0bd4a18e",
@@ -233,6 +401,30 @@
       "writtenOn": "2021-10-18T19:44:59Z",
       "side": 1,
       "message": "I\u0027m not sure saying \"it was tagged with\" conveys the precision that we want. \"Tagging\" could mean all sorts of things, especially in the greater context of Gerrit (not just git). I would think that this description would still be complete even without that last statement?",
+      "range": {
+        "startLine": 1047,
+        "startChar": 57,
+        "endLine": 1047,
+        "endChar": 78
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bda04d75_26da31fc",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2df7c0dd_0bd4a18e",
       "range": {
         "startLine": 1047,
         "startChar": 57,
@@ -336,6 +528,78 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cffbf615_653f9b47",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "563280bc_58ef66c2",
+      "range": {
+        "startLine": 1050,
+        "startChar": 28,
+        "endLine": 1050,
+        "endChar": 32
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cb40888_531ba275",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b93cf9b_e091cf4c",
+      "range": {
+        "startLine": 1050,
+        "startChar": 67,
+        "endLine": 1050,
+        "endChar": 77
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6024a285_2202ddaf",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "524b2d89_6182e343",
+      "range": {
+        "startLine": 1050,
+        "startChar": 11,
+        "endLine": 1050,
+        "endChar": 15
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56f230f8_f942c40f",
@@ -407,6 +671,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d6cbaf_0e42e34e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cae94e40_07df8a33",
+      "range": {
+        "startLine": 1051,
+        "startChar": 51,
+        "endLine": 1051,
+        "endChar": 58
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "678b606b_fd0805da",
@@ -420,6 +708,30 @@
       "writtenOn": "2021-10-18T19:44:59Z",
       "side": 1,
       "message": "s/does/will not/ (to be more inline with the voice of this doc)",
+      "range": {
+        "startLine": 1052,
+        "startChar": 11,
+        "endLine": 1052,
+        "endChar": 16
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "411d84d0_5105f65e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "678b606b_fd0805da",
       "range": {
         "startLine": 1052,
         "startChar": 11,
@@ -453,6 +765,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cf155b6_ff04f211",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Updated to \"Cannot list commits included in refs\". Hope it is clear now.",
+      "parentUuid": "aa0d623e_9ba8522e",
+      "range": {
+        "startLine": 503,
+        "startChar": 42,
+        "endLine": 503,
+        "endChar": 49
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a6e5d86_e23033f3",
@@ -466,6 +802,30 @@
       "writtenOn": "2021-10-18T19:44:59Z",
       "side": 1,
       "message": "This isn\u0027t needed until much later, open it right before its use.",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfff3233_60eff19b",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a6e5d86_e23033f3",
       "range": {
         "startLine": 61,
         "startChar": 8,
@@ -493,6 +853,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16404680_74c100bb",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45deb515_f6f153a0",
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8ca2950_329b1d11",
@@ -506,6 +884,30 @@
       "writtenOn": "2021-10-18T19:44:59Z",
       "side": 1,
       "message": "Comment repeats the code, remove it.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 19
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b017a89_8b9d9f8c",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8ca2950_329b1d11",
       "range": {
         "startLine": 73,
         "startChar": 0,
@@ -539,6 +941,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89e65bbf_d44f7bb5",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf31b468_7ee40b4b",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 14
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02a88990_1ce68646",
@@ -552,6 +978,30 @@
       "writtenOn": "2021-10-18T19:44:59Z",
       "side": 1,
       "message": "Immutable is not relevant at the API level, return interfaces (Map/Set).",
+      "range": {
+        "startLine": 59,
+        "startChar": 16,
+        "endLine": 59,
+        "endChar": 28
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c02cd5c7_cdf57f1f",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02a88990_1ce68646",
       "range": {
         "startLine": 59,
         "startChar": 16,
@@ -579,6 +1029,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43f4663c_b3759a73",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "We need to remove RevFlags which have been retained before. rw.reset() needs the information for which all commits it needs to walk and remove flags for. revWalk on line 109 does not know from where to start because of resetRetain() on Line 121.",
+      "parentUuid": "180e52b5_3eba952e",
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5230bd4_7512f43f",
@@ -592,6 +1060,30 @@
       "writtenOn": "2021-10-18T19:44:59Z",
       "side": 1,
       "message": "s/ref string/full ref name/?",
+      "range": {
+        "startLine": 55,
+        "startChar": 19,
+        "endLine": 55,
+        "endChar": 25
+      },
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e689fcce_a895befc",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsIncludedInRefs.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-19T10:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5230bd4_7512f43f",
       "range": {
         "startLine": 55,
         "startChar": 19,

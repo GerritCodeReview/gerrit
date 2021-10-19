@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a965714_9e75d891",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-19T18:47:35Z",
+      "side": 1,
+      "message": "Thanks for fix. I checked it with VoiceOver on Mac and it reads title of tooltip. What I am missing is reading also value like +1, -1, since titles are very confusing and before it was reading values no title of tooltip. ",
+      "revId": "be9710d14f4b043476f9685e2c77db475db4b11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

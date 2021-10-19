@@ -1145,7 +1145,8 @@ export class GrRestApiInterface
   _getChangesOptionsHex() {
     if (
       window.DEFAULT_DETAIL_HEXES &&
-      window.DEFAULT_DETAIL_HEXES.dashboardPage
+      window.DEFAULT_DETAIL_HEXES.dashboardPage &&
+      !this.flagService?.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)
     ) {
       return window.DEFAULT_DETAIL_HEXES.dashboardPage;
     }
@@ -1153,6 +1154,9 @@ export class GrRestApiInterface
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
     ];
+    if (this.flagService?.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
+      options.push(ListChangesOption.SUBMIT_REQUIREMENTS);
+    }
 
     return listChangesOptionsToHex(...options);
   }

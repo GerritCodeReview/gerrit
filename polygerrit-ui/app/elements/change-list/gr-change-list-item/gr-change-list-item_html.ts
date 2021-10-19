@@ -281,7 +281,7 @@ export const htmlTemplate = html`
     class="cell size"
     hidden$="[[_computeIsColumnHidden('Size', visibleChangeTableColumns)]]"
   >
-    <gr-tooltip-content has-tooltip title="[[_computeSizeTooltip(change)]]">
+    <gr-tooltip-content has-tooltip title="[[_computeSizeTooltip(change)]]"></gr-tooltip-content>
       <template is="dom-if" if="[[_changeSize]]">
         <span>[[_changeSize]]</span>
       </template>
@@ -289,6 +289,12 @@ export const htmlTemplate = html`
         <span class="placeholder">--</span>
       </template>
     </gr-tooltip-content>
+  </td>
+  <td
+    class="cell requirements"
+    hidden$="[[_computeIsColumnHidden('Requirements', visibleChangeTableColumns)]]"
+  >
+    <gr-change-list-column-requirements change="[[change]]"></gr-change-list-column-requirements>
   </td>
   <template is="dom-repeat" items="[[labelNames]]" as="labelName">
     <td

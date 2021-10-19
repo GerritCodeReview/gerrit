@@ -19,16 +19,13 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-dialog/gr-dialog';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-move-dialog_html';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {customElement, property} from '@polymer/decorators';
 import {BranchName, RepoName} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {GrTypedAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 
 const SUGGESTIONS_LIMIT = 15;
-
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
 
 // This is used to make sure 'branch'
 // can be typed as BranchName.
@@ -39,7 +36,7 @@ export interface GrConfirmMoveDialog {
 }
 
 @customElement('gr-confirm-move-dialog')
-export class GrConfirmMoveDialog extends base {
+export class GrConfirmMoveDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -68,10 +65,27 @@ export class GrConfirmMoveDialog extends base {
   @property({type: Object})
   _query?: (input: string) => Promise<{name: BranchName}[]>;
 
-  get keyBindings() {
-    return {
-      'ctrl+enter meta+enter': '_handleConfirmTap',
-    };
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]}, e =>
+        this._handleConfirmTap(e)
+      )
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.META_KEY]}, e =>
+        this._handleConfirmTap(e)
+      )
+    );
   }
 
   private readonly restApiService = appContext.restApiService;

@@ -241,7 +241,7 @@ java_package_configuration(
         "-Xep:InstantTemporalUnit:ERROR",
         "-Xep:IntLongMath:ERROR",
         # "-Xep:InvalidBlockTag:WARN",
-        "-Xep:InvalidInlineTag:WARN",
+        "-Xep:InvalidInlineTag:ERROR",
         "-Xep:InvalidJavaTimeConstant:ERROR",
         "-Xep:InvalidLink:ERROR",
         # "-Xep:InvalidParam:WARN",

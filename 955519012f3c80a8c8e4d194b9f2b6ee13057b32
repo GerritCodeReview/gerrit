@@ -254,6 +254,30 @@
       },
       "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88709bd3_f7955059",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-19T22:30:40Z",
+      "side": 1,
+      "message": "\u003e In order to minimise the moving parts, I agree we can keep it as-is. However, can you add a TODO in the code so that we\u0027ll remember to use a more standard injection/suppliers pattern?\n\nThis class doesn\u0027t exist on master, so that problem solves itself :-)",
+      "parentUuid": "f25bab01_0cfc4861",
+      "range": {
+        "startLine": 237,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 20
+      },
+      "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

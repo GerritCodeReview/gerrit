@@ -206,6 +206,30 @@
       },
       "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7f0c2a4_86aad15c",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-19T19:01:07Z",
+      "side": 1,
+      "message": "\u003e That requires every Schema to perform this load on constructor.\n\nmemoize() doesn\u0027t actually do the load, does it? I think it only happens once someone calls get() on the returned Supplier.\n\nI think if you wanted to use Suppliers.memoize, you would define projects on line 52 as a Supplier\u003cSortedSet\u003cProject.NameKey\u003e\u003e (then make that public?) and then do it in the constructor as Luca suggests (which has the downside of requiring repoManager to be injected, but maybe that\u0027s not a big deal) or keep this method and do almost the same thing you\u0027re doing now, but wrapped in the Supplier.\n\nAll that said, I think keeping the code the way you have it now is preferable, but it was fun to learn about Suppliers 😊\n\nLuca?",
+      "parentUuid": "3e8a6e84_70f4fbe7",
+      "range": {
+        "startLine": 237,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 20
+      },
+      "revId": "955519012f3c80a8c8e4d194b9f2b6ee13057b32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

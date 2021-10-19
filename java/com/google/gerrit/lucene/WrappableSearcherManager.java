@@ -53,7 +53,6 @@ import org.apache.lucene.store.Directory;
  * {@link #maybeRefresh}. Finally, be sure to call {@link #close} once you are done.
  *
  * @see SearcherFactory
- * @lucene.experimental
  */
 // This file was copied from:
 // https://github.com/apache/lucene-solr/blob/lucene_solr_5_0/lucene/core/src/java/org/apache/lucene/search/SearcherManager.java

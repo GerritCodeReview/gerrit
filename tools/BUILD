@@ -240,7 +240,7 @@ java_package_configuration(
         "-Xep:InstanceOfAndCastMatchWrongType:ERROR",
         "-Xep:InstantTemporalUnit:ERROR",
         "-Xep:IntLongMath:ERROR",
-        # "-Xep:InvalidBlockTag:WARN",
+        "-Xep:InvalidBlockTag:ERROR",
         "-Xep:InvalidInlineTag:ERROR",
         "-Xep:InvalidJavaTimeConstant:ERROR",
         "-Xep:InvalidLink:ERROR",

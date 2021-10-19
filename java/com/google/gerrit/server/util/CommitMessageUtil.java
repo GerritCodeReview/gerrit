@@ -51,7 +51,7 @@ public class CommitMessageUtil {
    * the commit message.
    *
    * @throws BadRequestException if the commit message is null or empty
-   * @returns the trimmed message with a trailing newline character
+   * @return the trimmed message with a trailing newline character
    */
   public static String checkAndSanitizeCommitMessage(@Nullable String commitMessage)
       throws BadRequestException {

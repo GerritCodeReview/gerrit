@@ -34,11 +34,11 @@ import org.apache.commons.lang.mutable.MutableLong;
  *
  * <pre>
  * public class MyTest extends AbstractDaemonTest {
- *   @Inject private TestMetricMaker testMetricMaker;
+ *   {@literal @}Inject private TestMetricMaker testMetricMaker;
  *
  *   ...
  *
- *   @Test
+ *   {@literal @}Test
  *   public void testFoo() throws Exception {
  *     testMetricMaker.reset();
  *     doSomething();

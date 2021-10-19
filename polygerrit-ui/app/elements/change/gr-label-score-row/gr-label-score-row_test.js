@@ -102,8 +102,7 @@ suite('gr-label-row-score tests', () => {
     element.addEventListener('labels-changed', labelsChangedHandler);
     assert.ok(element.$.labelSelector);
     MockInteractions.tap(element.shadowRoot
-        .querySelector(
-            'gr-tooltip-content[data-value="-1"] > gr-button'));
+        .querySelector('gr-button[data-value="-1"]'));
     await flush();
     assert.strictEqual(element.selectedValue, '-1');
     assert.strictEqual(element.selectedItem

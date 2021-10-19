@@ -31,6 +31,8 @@ import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever} from './common-util';
 import {AccountAddition} from '../elements/shared/gr-account-list/gr-account-list';
 import {getDisplayName} from './display-name-util';
+import {hasAttention} from './attention-set-util';
+import {ParsedChangeInfo} from '../types/types';
 
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 
@@ -128,4 +130,28 @@ export function replaceTemplates(
       return getDisplayName(config, accountInText);
     }
   );
+}
+
+/**
+ *  Sort order:
+ * 1. The user themselves
+ * 2. Human users in the attention set.
+ * 3. Other human users.
+ * 4. Service users.
+ */
+export function sortReviewers(
+  r1: AccountInfo,
+  r2: AccountInfo,
+  change?: ChangeInfo | ParsedChangeInfo,
+  selfAccount?: AccountInfo
+) {
+  if (selfAccount) {
+    if (isSelf(r1, selfAccount)) return -1;
+    if (isSelf(r2, selfAccount)) return 1;
+  }
+  const a1 = hasAttention(r1, change) ? 1 : 0;
+  const a2 = hasAttention(r2, change) ? 1 : 0;
+  const s1 = isServiceUser(r1) ? -2 : 0;
+  const s2 = isServiceUser(r2) ? -2 : 0;
+  return a2 - a1 + s2 - s1;
 }

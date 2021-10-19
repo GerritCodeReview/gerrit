@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -117,6 +118,16 @@ public class CommitRewriter {
     public boolean verifyCommits = true;
     /** Whether to compute and output the diff of the commit history for the backfilled refs. */
     public boolean outputDiff = true;
+
+    /** Max number of refs to update in a single {@link BatchRefUpdate}. */
+    public int maxRefsInBatch = 10000;
+    /**
+     * Max number of refs to fix by a single {@link RefsUpdate#backfillProject} run. Since second
+     * run on the same set of refs is a no-op, running with this option in a loop will eventually
+     * fix all refs. Number of executed {@link BatchRefUpdate} depends on {@link #maxRefsInBatch}
+     * option.
+     */
+    public int maxRefsToUpdate = 50000;
   }
 
   /** Result of the backfill run for a project. */
@@ -239,15 +250,24 @@ public class CommitRewriter {
    */
   public BackfillResult backfillProject(
       Project.NameKey project, Repository repo, RunOptions options) {
+
+    checkState(
+        options.maxRefsInBatch > 0 && options.maxRefsToUpdate > 0,
+        "Expected maxRefsInBatch>0 && <= maxRefsToUpdate>0");
+    checkState(
+        options.maxRefsInBatch <= options.maxRefsToUpdate,
+        "Expected maxRefsInBatch(%s) <= maxRefsToUpdate(%s)",
+        options.maxRefsInBatch,
+        options.maxRefsToUpdate);
     BackfillResult result = new BackfillResult();
     result.ok = true;
-    try (RevWalk revWalk = new RevWalk(repo);
-        ObjectInserter ins = newPackInserter(repo)) {
-      BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
-      bru.setForceRefLog(true);
-      bru.setRefLogMessage(CommitRewriter.class.getName(), false);
-      bru.setAllowNonFastForwards(true);
+    int refsInUpdate = 0;
+    RefsUpdate refsUpdate = null;
+    try {
       for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
+        if (result.fixedRefDiff.size() >= options.maxRefsToUpdate) {
+          return result;
+        }
         Change.Id changeId = Change.Id.fromRef(ref.getName());
         if (changeId == null || !ref.getName().equals(RefNames.changeMetaRef(changeId))) {
           continue;
@@ -262,14 +282,26 @@ public class CommitRewriter {
               logger.atWarning().withCause(e).log("Failed to run verification on ref %s", ref);
             }
           }
+          if (refsUpdate == null) {
+            refsUpdate = RefsUpdate.create(repo);
+          }
           ChangeFixProgress changeFixProgress =
-              backfillChange(revWalk, ins, ref, accountsInChange, options);
+              backfillChange(refsUpdate, ref, accountsInChange, options);
           if (changeFixProgress.anyFixesApplied) {
-            bru.addCommand(
-                new ReceiveCommand(ref.getObjectId(), changeFixProgress.newTipId, ref.getName()));
+            refsInUpdate++;
+            refsUpdate
+                .batchRefUpdate()
+                .addCommand(
+                    new ReceiveCommand(
+                        ref.getObjectId(), changeFixProgress.newTipId, ref.getName()));
             result.fixedRefDiff.put(ref.getName(), changeFixProgress.commitDiffs);
           }
-
+          if (refsInUpdate >= options.maxRefsInBatch
+              || result.fixedRefDiff.size() >= options.maxRefsToUpdate) {
+            processUpdate(options, refsUpdate);
+            refsUpdate = null;
+            refsInUpdate = 0;
+          }
           if (!changeFixProgress.isValidAfterFix) {
             result.refsStillInvalidAfterFix.add(ref.getName());
           }
@@ -278,19 +310,31 @@ public class CommitRewriter {
           result.refsFailedToFix.add(ref.getName());
         }
       }
-
-      if (!bru.getCommands().isEmpty()) {
-        if (!options.dryRun) {
-          ins.flush();
-          RefUpdateUtil.executeChecked(bru, revWalk);
-        }
-      }
+      processUpdate(options, refsUpdate);
     } catch (IOException e) {
-      logger.atWarning().withCause(e).log("Failed to fix project %s", project.get());
+      logger.atWarning().log("Failed to fix project %s. Reason: %s", project.get(), e.getMessage());
       result.ok = false;
+    } finally {
+      if (refsUpdate != null) {
+        refsUpdate.close();
+      }
     }
 
     return result;
+  }
+
+  /** Executes a single {@link RefsUpdate#batchRefUpdate}. */
+  private void processUpdate(RunOptions options, @Nullable RefsUpdate refsUpdate) throws IOException {
+    if (refsUpdate == null) {
+      return;
+    }
+    if (!refsUpdate.batchRefUpdate().getCommands().isEmpty()) {
+      if (!options.dryRun) {
+        refsUpdate.inserter().flush();
+        RefUpdateUtil.executeChecked(refsUpdate.batchRefUpdate(), refsUpdate.revWalk());
+      }
+    }
+    refsUpdate.close();
   }
 
   /**
@@ -376,8 +420,7 @@ public class CommitRewriter {
    * ChangeFixProgress#newTipId}.
    */
   public ChangeFixProgress backfillChange(
-      RevWalk revWalk,
-      ObjectInserter inserter,
+      RefsUpdate refsUpdate,
       Ref ref,
       ImmutableSet<AccountState> accountsInChange,
       RunOptions options)
@@ -385,17 +428,17 @@ public class CommitRewriter {
 
     ObjectId oldTip = ref.getObjectId();
     // Walk from the first commit of the branch.
-    revWalk.reset();
-    revWalk.markStart(revWalk.parseCommit(oldTip));
-    revWalk.sort(RevSort.TOPO);
+    refsUpdate.revWalk().reset();
+    refsUpdate.revWalk().markStart(refsUpdate.revWalk().parseCommit(oldTip));
+    refsUpdate.revWalk().sort(RevSort.TOPO);
 
-    revWalk.sort(RevSort.REVERSE);
+    refsUpdate.revWalk().sort(RevSort.REVERSE);
 
     RevCommit originalCommit;
 
     boolean rewriteStarted = false;
     ChangeFixProgress changeFixProgress = new ChangeFixProgress(ref.getName());
-    while ((originalCommit = revWalk.next()) != null) {
+    while ((originalCommit = refsUpdate.revWalk().next()) != null) {
 
       changeFixProgress.updateAuthorId =
           parseIdent(changeFixProgress, originalCommit.getAuthorIdent());
@@ -453,7 +496,8 @@ public class CommitRewriter {
       cb.setEncoding(originalCommit.getEncoding());
       byte[] newCommitContent = cb.build();
       checkCommitModification(originalCommit, newCommitContent);
-      changeFixProgress.newTipId = inserter.insert(Constants.OBJ_COMMIT, newCommitContent);
+      changeFixProgress.newTipId =
+          refsUpdate.inserter().insert(Constants.OBJ_COMMIT, newCommitContent);
       // Only compute diff if the content of the commit was actually changed.
       if (options.outputDiff && needsFix) {
         String diff = computeDiff(originalCommit.getRawBuffer(), newCommitContent);
@@ -1282,5 +1326,34 @@ public class CommitRewriter {
     abstract String name();
 
     abstract Optional<String> email();
+  }
+
+  /**
+   * Objects, needed to fix Refs in a single {@link BatchRefUpdate}. Number of changes in a batch
+   * are limited by {@link RunOptions#maxRefsInBatch}.
+   */
+  @AutoValue
+  abstract static class RefsUpdate implements AutoCloseable {
+    static RefsUpdate create(Repository repo) {
+      RevWalk revWalk = new RevWalk(repo);
+      ObjectInserter inserter = newPackInserter(repo);
+      BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+      bru.setForceRefLog(true);
+      bru.setRefLogMessage(CommitRewriter.class.getName(), false);
+      bru.setAllowNonFastForwards(true);
+      return new AutoValue_CommitRewriter_RefsUpdate(bru, revWalk, inserter);
+    }
+
+    @Override
+    public void close() {
+      inserter().close();
+      revWalk().close();
+    }
+
+    abstract BatchRefUpdate batchRefUpdate();
+
+    abstract RevWalk revWalk();
+
+    abstract ObjectInserter inserter();
   }
 }

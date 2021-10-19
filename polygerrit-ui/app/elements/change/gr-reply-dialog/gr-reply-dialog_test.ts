@@ -1799,7 +1799,7 @@ suite('gr-reply-dialog tests', () => {
   test('emits cancel on esc key', () => {
     const cancelHandler = sinon.spy();
     element.addEventListener('cancel', cancelHandler);
-    pressAndReleaseKeyOn(element, 27, null, 'esc');
+    pressAndReleaseKeyOn(element, 27, null, 'Escape');
     flush();
 
     assert.isTrue(cancelHandler.called);
@@ -1808,14 +1808,14 @@ suite('gr-reply-dialog tests', () => {
   test('should not send on enter key', () => {
     stubSaveReview(() => undefined);
     element.addEventListener('send', () => assert.fail('wrongly called'));
-    pressAndReleaseKeyOn(element, 13, null, 'enter');
+    pressAndReleaseKeyOn(element, 13, null, 'Enter');
   });
 
   test('emit send on ctrl+enter key', async () => {
     stubSaveReview(() => undefined);
     const promise = mockPromise();
     element.addEventListener('send', () => promise.resolve());
-    pressAndReleaseKeyOn(element, 13, 'ctrl', 'enter');
+    pressAndReleaseKeyOn(element, 13, 'ctrl', 'Enter');
     await promise;
   });
 

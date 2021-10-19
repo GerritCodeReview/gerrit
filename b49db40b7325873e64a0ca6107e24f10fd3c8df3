@@ -85,6 +85,30 @@
       },
       "revId": "b49db40b7325873e64a0ca6107e24f10fd3c8df3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06a5bc7b_1a7ae4d7",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-19T20:35:23Z",
+      "side": 1,
+      "message": "This isn\u0027t really an explanation, I was hoping to get an explanation like the one you adding to the missing commits below. What does a ref not being \"accessible\" mean here? It sounds like you mean not visible to the user, yet that is not actually being checked here.",
+      "parentUuid": "9dc11b8f_a865facf",
+      "range": {
+        "startLine": 71,
+        "startChar": 54,
+        "endLine": 71,
+        "endChar": 55
+      },
+      "revId": "b49db40b7325873e64a0ca6107e24f10fd3c8df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

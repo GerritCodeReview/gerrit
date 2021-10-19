@@ -534,7 +534,7 @@ export class GrDiffView extends base {
 
   _handleToggleFileReviewed(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
 
     e.preventDefault();
     this._setReviewed(!this.$.reviewed.checked);
@@ -542,7 +542,7 @@ export class GrDiffView extends base {
 
   _handleEscKey(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
 
     e.preventDefault();
     this.$.diffHost.displayLine = false;
@@ -573,7 +573,7 @@ export class GrDiffView extends base {
       this._moveToPreviousFileWithComment();
       return;
     }
-    if (this.modifierPressed(e)) {
+    if (this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -604,7 +604,7 @@ export class GrDiffView extends base {
       this._moveToNextFileWithComment();
       return;
     }
-    if (this.modifierPressed(e)) {
+    if (this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -654,7 +654,7 @@ export class GrDiffView extends base {
 
   _handleNewComment(ike: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(ike)) return;
-    if (this.modifierPressed(ike)) return;
+    if (this.shortcuts.modifierPressed(ike)) return;
 
     ike.preventDefault();
     this.classList.remove('hideComments');
@@ -695,7 +695,7 @@ export class GrDiffView extends base {
         this._navigateToNextFileWithCommentThread();
       }
     } else {
-      if (this.modifierPressed(e)) return;
+      if (this.shortcuts.modifierPressed(e)) return;
       const result = this.cursor.moveToNextChunk();
       // navigate to next file if key is not being held down
       if (
@@ -753,7 +753,7 @@ export class GrDiffView extends base {
     if (e.detail.keyboardEvent?.shiftKey) {
       this.cursor.moveToPreviousCommentThread();
     } else {
-      if (this.modifierPressed(e)) return;
+      if (this.shortcuts.modifierPressed(e)) return;
       this.cursor.moveToPreviousChunk();
       if (!e.detail.keyboardEvent?.repeat && this.cursor.isAtStart()) {
         this.showToastAndNavigateFile('previous', 'p');
@@ -764,7 +764,7 @@ export class GrDiffView extends base {
   // Similar to gr-change-view._handleOpenReplyDialog
   _handleOpenReplyDialog(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
     this._getLoggedIn().then(isLoggedIn => {
       if (!isLoggedIn) {
         fireEvent(this, 'show-auth-required');
@@ -787,7 +787,7 @@ export class GrDiffView extends base {
 
   _handleOpenDownloadDialog(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
 
     this.set('changeViewState.showDownloadDialog', true);
     e.preventDefault();
@@ -796,7 +796,7 @@ export class GrDiffView extends base {
 
   _handleUpToChange(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
 
     e.preventDefault();
     this._navToChangeView();
@@ -804,7 +804,7 @@ export class GrDiffView extends base {
 
   _handleCommaKey(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
     if (this._diffPrefsDisabled) return;
 
     e.preventDefault();
@@ -813,7 +813,7 @@ export class GrDiffView extends base {
 
   _handleToggleDiffMode(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
 
     e.preventDefault();
     if (this._getDiffViewMode() === DiffViewMode.SIDE_BY_SIDE) {
@@ -1703,21 +1703,21 @@ export class GrDiffView extends base {
 
   _handleToggleBlame(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
 
     this._toggleBlame();
   }
 
   _handleToggleHideAllCommentThreads(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
 
     toggleClass(this, 'hideComments');
   }
 
   _handleOpenFileList(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
     this.$.dropdown.open();
   }
 

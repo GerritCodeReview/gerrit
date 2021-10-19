@@ -304,6 +304,54 @@ export function toggleClass(el: Element, className: string, bool?: boolean) {
   }
 }
 
+/**
+ * For matching the `key` property of KeyboardEvents. These are known to work
+ * with Firefox, Safari and Chrome.
+ */
+export enum Key {
+  ENTER = 'Enter',
+  ESC = 'Escape',
+  TAB = 'Tab',
+  SPACE = ' ',
+  LEFT = 'ArrowLeft',
+  RIGHT = 'ArrowRight',
+  UP = 'ArrowUp',
+  DOWN = 'ArrowDown',
+}
+
+export enum Modifier {
+  ALT_KEY,
+  CTRL_KEY,
+  META_KEY,
+  SHIFT_KEY,
+}
+
+export interface Shortcut {
+  key: string;
+  modifiers?: Modifier[];
+}
+
+export function addShortcut(
+  shortcut: Shortcut,
+  listener: (e: KeyboardEvent) => void
+) {
+  const wrappedListener = (e: KeyboardEvent) => {
+    if (e.key !== shortcut.key) return;
+    const modifiers = shortcut.modifiers ?? [];
+    if (e.ctrlKey !== modifiers.includes(Modifier.CTRL_KEY)) return;
+    if (e.metaKey !== modifiers.includes(Modifier.META_KEY)) return;
+    // TODO(brohlfs): Refine the matching of modifiers. For "normal" keys we
+    // don't want to check ALT and SHIFT, because we don't know what the
+    // keyboard layout looks like. The user may have to use ALT and/or SHIFT for
+    // certain keys. Comparing the `key` string is sufficient in that case.
+    // if (e.altKey !== modifiers.includes(Modifier.ALT_KEY)) return;
+    // if (e.shiftKey !== modifiers.includes(Modifier.SHIFT_KEY)) return;
+    listener(e);
+  };
+  document.addEventListener('keydown', wrappedListener);
+  return () => document.removeEventListener('keydown', wrappedListener);
+}
+
 export function modifierPressed(e: KeyboardEvent) {
   return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
 }

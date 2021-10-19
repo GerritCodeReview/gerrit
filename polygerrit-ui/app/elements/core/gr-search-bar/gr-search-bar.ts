@@ -400,7 +400,7 @@ export class GrSearchBar extends base {
     const keyboardEvent = e.detail.keyboardEvent;
     if (
       this.shortcuts.shouldSuppress(e) ||
-      (this.modifierPressed(e) && !keyboardEvent.shiftKey)
+      (this.shortcuts.modifierPressed(e) && !keyboardEvent.shiftKey)
     ) {
       return;
     }

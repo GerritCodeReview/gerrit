@@ -752,7 +752,7 @@ export class GrChangeView extends base {
   }
 
   _handleToggleDiffMode(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -1496,7 +1496,7 @@ export class GrChangeView extends base {
   }
 
   _handleOpenReplyDialog(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
     this._getLoggedIn().then(isLoggedIn => {
@@ -1511,7 +1511,7 @@ export class GrChangeView extends base {
   }
 
   _handleOpenDownloadDialogShortcut(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -1520,7 +1520,7 @@ export class GrChangeView extends base {
   }
 
   _handleEditTopic(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -1672,7 +1672,7 @@ export class GrChangeView extends base {
   }
 
   _handleToggleChangeStar(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
     e.preventDefault();
@@ -1680,7 +1680,7 @@ export class GrChangeView extends base {
   }
 
   _handleUpToDashboard(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -1689,7 +1689,7 @@ export class GrChangeView extends base {
   }
 
   _handleExpandAllMessages(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -1700,7 +1700,7 @@ export class GrChangeView extends base {
   }
 
   _handleCollapseAllMessages(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -1711,7 +1711,7 @@ export class GrChangeView extends base {
   }
 
   _handleOpenDiffPrefsShortcut(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 

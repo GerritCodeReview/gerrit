@@ -902,7 +902,7 @@ export class GrFileList extends base {
   _handleToggleInlineDiff(e: IronKeyboardEvent) {
     if (
       this.shortcuts.shouldSuppress(e) ||
-      this.modifierPressed(e) ||
+      this.shortcuts.modifierPressed(e) ||
       e.detail?.keyboardEvent?.repeat ||
       this.fileCursor.index === -1
     ) {
@@ -923,7 +923,7 @@ export class GrFileList extends base {
   }
 
   _handleToggleHideAllCommentThreads(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -932,7 +932,7 @@ export class GrFileList extends base {
   }
 
   _handleCursorNext(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -952,7 +952,7 @@ export class GrFileList extends base {
   }
 
   _handleCursorPrev(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -972,7 +972,7 @@ export class GrFileList extends base {
   }
 
   _handleNewComment(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
     e.preventDefault();
@@ -1001,7 +1001,7 @@ export class GrFileList extends base {
   }
 
   _handleOpenFile(e: IronKeyboardEvent) {
-    if (this.modifierPressed(e)) return;
+    if (this.shortcuts.modifierPressed(e)) return;
     this.handleOpenFile(e.detail.keyboardEvent);
   }
 
@@ -1022,7 +1022,7 @@ export class GrFileList extends base {
   _handleNextChunk(e: IronKeyboardEvent) {
     if (
       this.shortcuts.shouldSuppress(e) ||
-      (this.modifierPressed(e) && !isShiftPressed(e)) ||
+      (this.shortcuts.modifierPressed(e) && !isShiftPressed(e)) ||
       this._noDiffsExpanded()
     ) {
       return;
@@ -1039,7 +1039,7 @@ export class GrFileList extends base {
   _handlePrevChunk(e: IronKeyboardEvent) {
     if (
       this.shortcuts.shouldSuppress(e) ||
-      (this.modifierPressed(e) && !isShiftPressed(e)) ||
+      (this.shortcuts.modifierPressed(e) && !isShiftPressed(e)) ||
       this._noDiffsExpanded()
     ) {
       return;
@@ -1054,7 +1054,7 @@ export class GrFileList extends base {
   }
 
   _handleToggleFileReviewed(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
 
@@ -1543,7 +1543,7 @@ export class GrFileList extends base {
   }
 
   _handleEscKey(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.modifierPressed(e)) {
+    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
       return;
     }
     e.preventDefault();

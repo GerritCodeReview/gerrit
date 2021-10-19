@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c311bded_09006057",
+        "filename": "java/com/google/gerrit/testing/ConfigSuite.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-19T10:33:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fffa6ac_5597daa6",
+      "range": {
+        "startLine": 57,
+        "startChar": 9,
+        "endLine": 57,
+        "endChar": 10
+      },
+      "revId": "dff9988d39fe0515fe766cd9d360810db52309a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "064f3771_02119890",
@@ -71,6 +95,30 @@
       "writtenOn": "2021-10-18T15:25:40Z",
       "side": 1,
       "message": "drop this word?",
+      "range": {
+        "startLine": 163,
+        "startChar": 50,
+        "endLine": 163,
+        "endChar": 55
+      },
+      "revId": "dff9988d39fe0515fe766cd9d360810db52309a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7efd3dfe_95d9b457",
+        "filename": "java/com/google/gerrit/testing/ConfigSuite.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-19T10:33:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "064f3771_02119890",
       "range": {
         "startLine": 163,
         "startChar": 50,
@@ -98,6 +146,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2655d353_89a5018c",
+        "filename": "java/com/google/gerrit/testing/SystemPropertiesTestRule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-19T10:33:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1afcc835_6c56e684",
+      "revId": "dff9988d39fe0515fe766cd9d360810db52309a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b40bc0a_6a747f89",
@@ -111,6 +177,24 @@
       "writtenOn": "2021-10-18T15:25:40Z",
       "side": 1,
       "message": "nit: missing license header",
+      "revId": "dff9988d39fe0515fe766cd9d360810db52309a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "674eceda_8ff26d5d",
+        "filename": "javatests/com/google/gerrit/testing/ConfigSuiteTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-19T10:33:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b40bc0a_6a747f89",
       "revId": "dff9988d39fe0515fe766cd9d360810db52309a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

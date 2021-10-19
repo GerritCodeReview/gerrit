@@ -38,7 +38,6 @@ import {
   ReviewerState,
   SpecialFilePath,
 } from '../../../constants/constants';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
   accountOrGroupKey,
   isReviewerOrCC,
@@ -116,6 +115,7 @@ import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {Interaction, Timing} from '../../../constants/reporting';
 import {getReplyByReason} from '../../../utils/attention-set-util';
+import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -163,11 +163,8 @@ export interface GrReplyDialog {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-reply-dialog')
-export class GrReplyDialog extends base {
+export class GrReplyDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -368,12 +365,8 @@ export class GrReplyDialog extends base {
 
   private storeTask?: DelayedTask;
 
-  get keyBindings() {
-    return {
-      esc: '_handleEscKey',
-      'ctrl+enter meta+enter': '_handleEnterKey',
-    };
-  }
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   constructor() {
     super();
@@ -391,6 +384,17 @@ export class GrReplyDialog extends base {
       if (account) this._account = account;
     });
 
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]}, _ =>
+        this._submit()
+      )
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.META_KEY]}, _ =>
+        this._submit()
+      )
+    );
+    this.cleanups.push(addShortcut(this, {key: Key.ESC}, _ => this.cancel()));
     this.addEventListener('comment-editing-changed', e => {
       this._commentEditing = (e as CustomEvent).detail;
     });
@@ -418,6 +422,8 @@ export class GrReplyDialog extends base {
 
   override disconnectedCallback() {
     this.storeTask?.cancel();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
     super.disconnectedCallback();
   }
 
@@ -490,14 +496,6 @@ export class GrReplyDialog extends base {
     }
 
     return (selectorEl as GrLabelScoreRow).selectedValue;
-  }
-
-  _handleEscKey() {
-    this.cancel();
-  }
-
-  _handleEnterKey() {
-    this._submit();
   }
 
   @observe('_ccs.splices')

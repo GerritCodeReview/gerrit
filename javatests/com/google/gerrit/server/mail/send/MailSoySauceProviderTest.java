@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.SitePaths;
@@ -42,6 +43,7 @@ public class MailSoySauceProviderTest {
         new MailSoySauceProvider(
             sitePaths,
             new SoyAstCache(),
+            newDirectExecutorService(),
             new PluginSetContext<>(set, PluginMetrics.DISABLED_INSTANCE));
     assertThat(provider.get()).isNotNull(); // should not throw
   }

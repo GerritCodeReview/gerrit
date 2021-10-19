@@ -48,6 +48,7 @@ import {htmlTemplate} from './gr-change-view_html';
 import {
   KeyboardShortcutMixin,
   Shortcut,
+  ShortcutListener,
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
@@ -158,9 +159,7 @@ import {
   ParsedChangeInfo,
 } from '../../../types/types';
 import {
-  IronKeyboardEventListener,
   CloseFixPreviewEvent,
-  IronKeyboardEvent,
   EditableContentSaveEvent,
   EventType,
   OpenFixPreviewEvent,
@@ -538,7 +537,7 @@ export class GrChangeView extends base {
   @property({type: Boolean})
   _showRobotCommentsButton = false;
 
-  _throttledToggleChangeStar?: IronKeyboardEventListener;
+  _throttledToggleChangeStar?: (e: KeyboardEvent) => void;
 
   @property({type: Boolean})
   _showChecksTab = false;
@@ -569,28 +568,89 @@ export class GrChangeView extends base {
 
   private replyDialogResizeObserver?: ResizeObserver;
 
-  override keyboardShortcuts() {
-    return {
-      [Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
-      [Shortcut.EMOJI_DROPDOWN]: null, // DOC_ONLY binding
-      [Shortcut.REFRESH_CHANGE]: '_handleRefreshChange',
-      [Shortcut.OPEN_REPLY_DIALOG]: '_handleOpenReplyDialog',
-      [Shortcut.OPEN_DOWNLOAD_DIALOG]: '_handleOpenDownloadDialogShortcut',
-      [Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
-      [Shortcut.TOGGLE_CHANGE_STAR]: '_throttledToggleChangeStar',
-      [Shortcut.UP_TO_DASHBOARD]: '_handleUpToDashboard',
-      [Shortcut.EXPAND_ALL_MESSAGES]: '_handleExpandAllMessages',
-      [Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
-      [Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
-      [Shortcut.EDIT_TOPIC]: '_handleEditTopic',
-      [Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
-      [Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
-      [Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
-      [Shortcut.DIFF_RIGHT_AGAINST_LATEST]: '_handleDiffRightAgainstLatest',
-      [Shortcut.DIFF_BASE_AGAINST_LATEST]: '_handleDiffBaseAgainstLatest',
-      [Shortcut.OPEN_SUBMIT_DIALOG]: '_handleOpenSubmitDialog',
-      [Shortcut.TOGGLE_ATTENTION_SET]: '_handleToggleAttentionSet',
-    };
+  override keyboardShortcuts(): ShortcutListener[] {
+    return [
+      {
+        shortcut: Shortcut.SEND_REPLY,
+        listener: _ => {}, // doc only
+      },
+      {
+        shortcut: Shortcut.EMOJI_DROPDOWN,
+        listener: _ => {}, // doc only
+      },
+      {
+        shortcut: Shortcut.REFRESH_CHANGE,
+        listener: _ => this._handleRefreshChange(),
+      },
+      {
+        shortcut: Shortcut.OPEN_REPLY_DIALOG,
+        listener: _ => this._handleOpenReplyDialog(),
+      },
+      {
+        shortcut: Shortcut.OPEN_DOWNLOAD_DIALOG,
+        listener: _ => this._handleOpenDownloadDialogShortcut(),
+      },
+      {
+        shortcut: Shortcut.TOGGLE_DIFF_MODE,
+        listener: _ => this._handleToggleDiffMode(),
+      },
+      {
+        shortcut: Shortcut.TOGGLE_CHANGE_STAR,
+        listener: e => {
+          if (this._throttledToggleChangeStar) {
+            this._throttledToggleChangeStar(e);
+          }
+        },
+      },
+      {
+        shortcut: Shortcut.UP_TO_DASHBOARD,
+        listener: _ => this._handleUpToDashboard(),
+      },
+      {
+        shortcut: Shortcut.EXPAND_ALL_MESSAGES,
+        listener: _ => this._handleExpandAllMessages(),
+      },
+      {
+        shortcut: Shortcut.COLLAPSE_ALL_MESSAGES,
+        listener: _ => this._handleCollapseAllMessages(),
+      },
+      {
+        shortcut: Shortcut.OPEN_DIFF_PREFS,
+        listener: _ => this._handleOpenDiffPrefsShortcut(),
+      },
+      {
+        shortcut: Shortcut.EDIT_TOPIC,
+        listener: _ => this._handleEditTopic(),
+      },
+      {
+        shortcut: Shortcut.DIFF_AGAINST_BASE,
+        listener: _ => this._handleDiffAgainstBase(),
+      },
+      {
+        shortcut: Shortcut.DIFF_AGAINST_LATEST,
+        listener: _ => this._handleDiffAgainstLatest(),
+      },
+      {
+        shortcut: Shortcut.DIFF_BASE_AGAINST_LEFT,
+        listener: _ => this._handleDiffBaseAgainstLeft(),
+      },
+      {
+        shortcut: Shortcut.DIFF_RIGHT_AGAINST_LATEST,
+        listener: _ => this._handleDiffRightAgainstLatest(),
+      },
+      {
+        shortcut: Shortcut.DIFF_BASE_AGAINST_LATEST,
+        listener: _ => this._handleDiffBaseAgainstLatest(),
+      },
+      {
+        shortcut: Shortcut.OPEN_SUBMIT_DIALOG,
+        listener: _ => this._handleOpenSubmitDialog(),
+      },
+      {
+        shortcut: Shortcut.TOGGLE_ATTENTION_SET,
+        listener: _ => this._handleToggleAttentionSet(),
+      },
+    ];
   }
 
   disconnected$ = new Subject();
@@ -641,8 +701,8 @@ export class GrChangeView extends base {
 
   override connectedCallback() {
     super.connectedCallback();
-    this._throttledToggleChangeStar = throttleWrap<IronKeyboardEvent>(e =>
-      this._handleToggleChangeStar(e)
+    this._throttledToggleChangeStar = throttleWrap<KeyboardEvent>(_ =>
+      this._handleToggleChangeStar()
     );
     this._getServerConfig().then(config => {
       this._serverConfig = config;
@@ -751,12 +811,7 @@ export class GrChangeView extends base {
     if (e.detail.fixApplied) fireReload(this);
   }
 
-  _handleToggleDiffMode(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleToggleDiffMode() {
     if (this.viewState.diffMode === DiffViewMode.SIDE_BY_SIDE) {
       this.$.fileListHeader.setDiffViewMode(DiffViewMode.UNIFIED);
     } else {
@@ -1495,52 +1550,30 @@ export class GrChangeView extends base {
     return label;
   }
 
-  _handleOpenReplyDialog(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
+  _handleOpenReplyDialog() {
     this._getLoggedIn().then(isLoggedIn => {
       if (!isLoggedIn) {
         fireEvent(this, 'show-auth-required');
         return;
       }
-
-      e.preventDefault();
       this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
     });
   }
 
-  _handleOpenDownloadDialogShortcut(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleOpenDownloadDialogShortcut() {
     this._handleOpenDownloadDialog();
   }
 
-  _handleEditTopic(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleEditTopic() {
     this.$.metadata.editTopic();
   }
 
-  _handleOpenSubmitDialog(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || !this._submitEnabled) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleOpenSubmitDialog() {
+    if (!this._submitEnabled) return;
     this.$.actions.showSubmitDialog();
   }
 
-  _handleToggleAttentionSet(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) {
-      return;
-    }
+  _handleToggleAttentionSet() {
     if (!this._change || !this._account?._account_id) return;
     if (!this._loggedIn || !isInvolved(this._change, this._account)) return;
     if (!this._change.attention_set) this._change.attention_set = {};
@@ -1579,10 +1612,7 @@ export class GrChangeView extends base {
     this._change = {...this._change};
   }
 
-  _handleDiffAgainstBase(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) {
-      return;
-    }
+  _handleDiffAgainstBase() {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
@@ -1593,10 +1623,7 @@ export class GrChangeView extends base {
     GerritNav.navigateToChange(this._change, this._patchRange.patchNum);
   }
 
-  _handleDiffBaseAgainstLeft(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) {
-      return;
-    }
+  _handleDiffBaseAgainstLeft() {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
@@ -1607,10 +1634,7 @@ export class GrChangeView extends base {
     GerritNav.navigateToChange(this._change, this._patchRange.basePatchNum);
   }
 
-  _handleDiffAgainstLatest(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) {
-      return;
-    }
+  _handleDiffAgainstLatest() {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
@@ -1626,10 +1650,7 @@ export class GrChangeView extends base {
     );
   }
 
-  _handleDiffRightAgainstLatest(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) {
-      return;
-    }
+  _handleDiffRightAgainstLatest() {
     assertIsDefined(this._change, '_change');
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (!this._patchRange)
@@ -1645,10 +1666,7 @@ export class GrChangeView extends base {
     );
   }
 
-  _handleDiffBaseAgainstLatest(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) {
-      return;
-    }
+  _handleDiffBaseAgainstLatest() {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
@@ -1663,63 +1681,32 @@ export class GrChangeView extends base {
     GerritNav.navigateToChange(this._change, latestPatchNum);
   }
 
-  _handleRefreshChange(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) {
-      return;
-    }
-    e.preventDefault();
+  _handleRefreshChange() {
     fireReload(this, true);
   }
 
-  _handleToggleChangeStar(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-    e.preventDefault();
+  _handleToggleChangeStar() {
     this.$.changeStar.toggleStar();
   }
 
-  _handleUpToDashboard(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleUpToDashboard() {
     this._determinePageBack();
   }
 
-  _handleExpandAllMessages(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleExpandAllMessages() {
     if (this.messagesList) {
       this.messagesList.handleExpandCollapse(true);
     }
   }
 
-  _handleCollapseAllMessages(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleCollapseAllMessages() {
     if (this.messagesList) {
       this.messagesList.handleExpandCollapse(false);
     }
   }
 
-  _handleOpenDiffPrefsShortcut(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    if (this._diffPrefsDisabled) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleOpenDiffPrefsShortcut() {
+    if (this._diffPrefsDisabled) return;
     this.$.fileList.openDiffPrefs();
   }
 

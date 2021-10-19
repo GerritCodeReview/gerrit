@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Singleton
 public class FakeGroupAuditService extends AuditService {
-  public static class Module extends AbstractModule {
+  public static class FakeGroupAuditServiceModule extends AbstractModule {
     @Override
     public void configure() {
       DynamicSet.setOf(binder(), GroupAuditListener.class);

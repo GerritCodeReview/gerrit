@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 public class ChangeCleanupRunner implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static class Module extends LifecycleModule {
+  public static class ChangeCleanupRunnerModule extends LifecycleModule {
     @Override
     protected void configure() {
       listener().to(Lifecycle.class);

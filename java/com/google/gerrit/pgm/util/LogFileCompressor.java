@@ -42,7 +42,7 @@ import org.eclipse.jgit.lib.Config;
 public class LogFileCompressor implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static class Module extends LifecycleModule {
+  public static class LogFileCompressorModule extends LifecycleModule {
     @Override
     protected void configure() {
       listener().to(Lifecycle.class);

@@ -32,7 +32,7 @@ import com.google.gerrit.server.restapi.group.DeleteMembers.DeleteMember;
 import com.google.gerrit.server.restapi.group.DeleteSubgroups.DeleteSubgroup;
 import com.google.inject.Provides;
 
-public class Module extends RestApiModule {
+public class GroupRestApiModule extends RestApiModule {
 
   @Override
   protected void configure() {

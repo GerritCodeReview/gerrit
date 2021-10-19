@@ -89,7 +89,7 @@ public class StreamEventsApiListener
         VoteDeletedListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static class Module extends AbstractModule {
+  public static class StreamEventsApiListenerModule extends AbstractModule {
     @Override
     protected void configure() {
       DynamicSet.bind(binder(), AssigneeChangedListener.class).to(StreamEventsApiListener.class);

@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api.groups;
+package com.google.gerrit.server.restapi.access;
 
-import com.google.gerrit.extensions.api.groups.Groups;
-import com.google.gerrit.extensions.config.FactoryModule;
+import static com.google.gerrit.server.restapi.access.AccessResource.ACCESS_KIND;
 
-public class Module extends FactoryModule {
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.RestApiModule;
+
+/** Guice module that binds all REST endpoints for {@code /access/}. */
+public class AccessRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
-    bind(Groups.class).to(GroupsImpl.class);
+    bind(AccessCollection.class);
 
-    factory(GroupApiImpl.Factory.class);
+    DynamicMap.mapOf(binder(), ACCESS_KIND);
   }
 }

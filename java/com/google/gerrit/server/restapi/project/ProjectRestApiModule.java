@@ -31,7 +31,7 @@ import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.restapi.change.CherryPickCommit;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 
-public class Module extends RestApiModule {
+public class ProjectRestApiModule extends RestApiModule {
 
   @Override
   protected void configure() {

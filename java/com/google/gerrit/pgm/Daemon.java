@@ -28,7 +28,7 @@ import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritAuthModule;
-import com.google.gerrit.httpd.GetUserFilter;
+import com.google.gerrit.httpd.GetUserFilter.GetUserFilterModule;
 import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.H2CacheBasedWebSession;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
@@ -36,7 +36,7 @@ import com.google.gerrit.httpd.HttpdModule;
 import com.google.gerrit.httpd.RequestCleanupFilter;
 import com.google.gerrit.httpd.RequestContextFilter;
 import com.google.gerrit.httpd.RequestMetricsFilter;
-import com.google.gerrit.httpd.RequireSslFilter;
+import com.google.gerrit.httpd.RequireSslFilter.RequireSslFilterModule;
 import com.google.gerrit.httpd.SetThreadNameFilter;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
@@ -51,28 +51,28 @@ import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
-import com.google.gerrit.pgm.http.jetty.ProjectQoSFilter;
+import com.google.gerrit.pgm.http.jetty.ProjectQoSFilter.ProjectQoSFilterModule;
 import com.google.gerrit.pgm.util.ErrorLogFile;
-import com.google.gerrit.pgm.util.LogFileCompressor;
+import com.google.gerrit.pgm.util.LogFileCompressor.LogFileCompressorModule;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.ModuleOverloader;
-import com.google.gerrit.server.StartupChecks;
-import com.google.gerrit.server.account.AccountDeactivator;
-import com.google.gerrit.server.account.InternalAccountDirectory;
+import com.google.gerrit.server.StartupChecks.StartupChecksModule;
+import com.google.gerrit.server.account.AccountDeactivator.AccountDeactivatorModule;
+import com.google.gerrit.server.account.InternalAccountDirectory.InternalAccountDirectoryModule;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
-import com.google.gerrit.server.change.ChangeCleanupRunner;
+import com.google.gerrit.server.change.ChangeCleanupRunner.ChangeCleanupRunnerModule;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
-import com.google.gerrit.server.config.DefaultUrlFormatter;
+import com.google.gerrit.server.config.DefaultUrlFormatter.DefaultUrlFormatterModule;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceIdModule;
@@ -81,27 +81,27 @@ import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SysExecutorModule;
-import com.google.gerrit.server.events.EventBroker;
-import com.google.gerrit.server.events.StreamEventsApiListener;
+import com.google.gerrit.server.events.EventBroker.EventBrokerModule;
+import com.google.gerrit.server.events.StreamEventsApiListener.StreamEventsApiListenerModule;
 import com.google.gerrit.server.git.GarbageCollectionModule;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.group.PeriodicGroupIndexer;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl.SearchingChangeCacheImplModule;
+import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
+import com.google.gerrit.server.group.PeriodicGroupIndexer.PeriodicGroupIndexerModule;
 import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.OnlineUpgrader;
+import com.google.gerrit.server.index.OnlineUpgrader.OnlineUpgraderModule;
 import com.google.gerrit.server.index.VersionManager;
-import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
-import com.google.gerrit.server.mail.receive.MailReceiver;
-import com.google.gerrit.server.mail.send.SmtpEmailSender;
+import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
+import com.google.gerrit.server.mail.receive.MailReceiver.MailReceiverModule;
+import com.google.gerrit.server.mail.send.SmtpEmailSender.SmtpEmailSenderModule;
 import com.google.gerrit.server.mime.MimeUtil2Module;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
-import com.google.gerrit.server.project.DefaultProjectNameLockManager;
+import com.google.gerrit.server.project.DefaultProjectNameLockManager.DefaultProjectNameLockManagerModule;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
+import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore.JdbcAccountPatchReviewStoreModule;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
@@ -110,9 +110,9 @@ import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
-import com.google.gerrit.server.submit.LocalMergeSuperSetComputation;
-import com.google.gerrit.server.submit.SubscriptionGraph;
-import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener;
+import com.google.gerrit.server.submit.LocalMergeSuperSetComputation.LocalMergeSuperSetComputationModule;
+import com.google.gerrit.server.submit.SubscriptionGraph.SubscriptionGraphModule;
+import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener.SuperprojectUpdateSubmissionListenerModule;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
@@ -120,7 +120,7 @@ import com.google.gerrit.sshd.SshSessionFactoryInitializer;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.gerrit.sshd.commands.SequenceCommandsModule;
-import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
+import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand.LfsPluginAuthCommandModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -427,18 +427,18 @@ public class Daemon extends SiteProgram {
     final List<Module> modules = new ArrayList<>();
     modules.add(NoteDbSchemaVersionCheck.module());
     modules.add(new DropWizardMetricMaker.RestModule());
-    modules.add(new LogFileCompressor.Module());
+    modules.add(new LogFileCompressorModule());
 
     // Index module shutdown must happen before work queue shutdown, otherwise
     // work queue can get stuck waiting on index futures that will never return.
     modules.add(createIndexModule());
 
-    modules.add(new SubscriptionGraph.Module());
-    modules.add(new SuperprojectUpdateSubmissionListener.Module());
-    modules.add(new WorkQueue.Module());
-    modules.add(new StreamEventsApiListener.Module());
-    modules.add(new EventBroker.Module());
-    modules.add(new JdbcAccountPatchReviewStore.Module(config));
+    modules.add(new SubscriptionGraphModule());
+    modules.add(new SuperprojectUpdateSubmissionListenerModule());
+    modules.add(new WorkQueueModule());
+    modules.add(new StreamEventsApiListenerModule());
+    modules.add(new EventBrokerModule());
+    modules.add(new JdbcAccountPatchReviewStoreModule(config));
     modules.add(new SysExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
@@ -446,31 +446,31 @@ public class Daemon extends SiteProgram {
     modules.add(new GerritApiModule());
     modules.add(new PluginApiModule());
 
-    modules.add(new SearchingChangeCacheImpl.Module(replica));
-    modules.add(new InternalAccountDirectory.Module());
+    modules.add(new SearchingChangeCacheImplModule(replica));
+    modules.add(new InternalAccountDirectoryModule());
     modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());
     modules.add(new H2CacheModule());
-    modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
+    modules.add(cfgInjector.getInstance(MailReceiverModule.class));
     if (emailModule != null) {
       modules.add(emailModule);
     } else {
-      modules.add(new SmtpEmailSender.Module());
+      modules.add(new SmtpEmailSenderModule());
     }
     if (auditEventModule != null) {
       modules.add(auditEventModule);
     } else {
       modules.add(new AuditModule());
     }
-    modules.add(new SignedTokenEmailTokenVerifier.Module());
+    modules.add(new SignedTokenEmailTokenVerifierModule());
     modules.add(new PluginModule());
     if (VersionManager.getOnlineUpgrade(config)) {
-      modules.add(new OnlineUpgrader.Module());
+      modules.add(new OnlineUpgraderModule());
     }
     modules.add(new OAuthRestModule());
     modules.add(new RestApiModule());
     modules.add(new GpgModule(config));
-    modules.add(new StartupChecks.Module());
+    modules.add(new StartupChecksModule());
     modules.add(new GerritInstanceNameModule());
     modules.add(new GerritInstanceIdModule());
     if (MoreObjects.firstNonNull(httpd, true)) {
@@ -490,7 +490,7 @@ public class Daemon extends SiteProgram {
             }
           });
     }
-    modules.add(new DefaultUrlFormatter.Module());
+    modules.add(new DefaultUrlFormatterModule());
     SshSessionFactoryInitializer.init(config);
     if (sshd) {
       modules.add(SshKeyCacheImpl.module());
@@ -512,13 +512,13 @@ public class Daemon extends SiteProgram {
         });
     modules.add(new GarbageCollectionModule());
     if (replica) {
-      modules.add(new PeriodicGroupIndexer.Module());
+      modules.add(new PeriodicGroupIndexerModule());
     } else {
-      modules.add(new AccountDeactivator.Module());
-      modules.add(new ChangeCleanupRunner.Module());
+      modules.add(new AccountDeactivatorModule());
+      modules.add(new ChangeCleanupRunnerModule());
     }
-    modules.add(new LocalMergeSuperSetComputation.Module());
-    modules.add(new DefaultProjectNameLockManager.Module());
+    modules.add(new LocalMergeSuperSetComputationModule());
+    modules.add(new DefaultProjectNameLockManagerModule());
 
     List<Module> libModules = LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE);
     libModules.addAll(testSysModules);
@@ -572,7 +572,7 @@ public class Daemon extends SiteProgram {
         new DefaultCommandModule(
             replica,
             sysInjector.getInstance(DownloadConfig.class),
-            sysInjector.getInstance(LfsPluginAuthCommand.Module.class)));
+            sysInjector.getInstance(LfsPluginAuthCommandModule.class)));
 
     modules.addAll(testSshModules);
     if (!replica) {
@@ -604,13 +604,13 @@ public class Daemon extends SiteProgram {
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(HttpdModule.class));
     if (sshd) {
-      modules.add(new ProjectQoSFilter.Module());
+      modules.add(new ProjectQoSFilterModule());
     }
     modules.add(RequestCleanupFilter.module());
     modules.add(AllRequestFilter.module());
     modules.add(SetThreadNameFilter.module());
     modules.add(sysInjector.getInstance(WebModule.class));
-    modules.add(sysInjector.getInstance(RequireSslFilter.Module.class));
+    modules.add(sysInjector.getInstance(RequireSslFilterModule.class));
     modules.add(new HttpPluginModule());
     if (sshd) {
       modules.add(sshInjector.getInstance(WebSshGlueModule.class));
@@ -626,7 +626,7 @@ public class Daemon extends SiteProgram {
       modules.add(new OAuthModule());
     }
 
-    modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
+    modules.add(sysInjector.getInstance(GetUserFilterModule.class));
 
     // StaticModule contains a "/*" wildcard, place it last.
     GerritOptions opts = sysInjector.getInstance(GerritOptions.class);

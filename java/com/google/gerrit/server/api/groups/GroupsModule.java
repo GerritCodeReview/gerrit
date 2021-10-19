@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api.accounts;
+package com.google.gerrit.server.api.groups;
 
-import com.google.gerrit.extensions.api.accounts.Accounts;
+import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.config.FactoryModule;
 
-public class Module extends FactoryModule {
+public class GroupsModule extends FactoryModule {
   @Override
   protected void configure() {
-    bind(Accounts.class).to(AccountsImpl.class);
+    bind(Groups.class).to(GroupsImpl.class);
 
-    factory(AccountApiImpl.Factory.class);
-    factory(EmailApiImpl.Factory.class);
+    factory(GroupApiImpl.Factory.class);
   }
 }

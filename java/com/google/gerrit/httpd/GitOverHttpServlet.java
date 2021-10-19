@@ -111,11 +111,11 @@ public class GitOverHttpServlet extends GitServlet {
     URL_REGEX = url.toString();
   }
 
-  static class Module extends AbstractModule {
+  static class GitOverHttpServletModule extends AbstractModule {
 
     private final boolean enableReceive;
 
-    Module(boolean enableReceive) {
+    GitOverHttpServletModule(boolean enableReceive) {
       this.enableReceive = enableReceive;
     }
 

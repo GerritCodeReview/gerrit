@@ -44,7 +44,7 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.DefaultUrlFormatter;
+import com.google.gerrit.server.config.DefaultUrlFormatter.DefaultUrlFormatterModule;
 import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
@@ -140,7 +140,7 @@ public abstract class AbstractChangeNotesTest {
               public void configure() {
                 install(new GitModule());
 
-                install(new DefaultUrlFormatter.Module());
+                install(new DefaultUrlFormatterModule());
                 install(NoteDbModule.forTest());
                 bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
                 bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");

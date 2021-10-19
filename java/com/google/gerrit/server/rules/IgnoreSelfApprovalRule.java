@@ -38,7 +38,7 @@ import java.util.Optional;
  */
 @Singleton
 public class IgnoreSelfApprovalRule implements SubmitRule {
-  public static class Module extends AbstractModule {
+  public static class IgnoreSelfApprovalRuleModule extends AbstractModule {
     @Override
     public void configure() {
       bind(SubmitRule.class)

@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.EmailHeader;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.mail.MailProcessingUtil;
@@ -114,8 +115,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
     for (Map.Entry<String, Object> entry : want.entrySet()) {
       if (entry.getValue() instanceof String) {
         assertThat(have)
-            .containsEntry(
-                "X-" + entry.getKey(), new EmailHeader.String((String) entry.getValue()));
+            .containsEntry("X-" + entry.getKey(), new StringEmailHeader((String) entry.getValue()));
       } else if (entry.getValue() instanceof Date) {
         assertThat(have)
             .containsEntry("X-" + entry.getKey(), new EmailHeader.Date((Date) entry.getValue()));

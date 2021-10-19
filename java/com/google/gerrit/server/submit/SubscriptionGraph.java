@@ -158,7 +158,7 @@ public class SubscriptionGraph {
         throws SubmoduleConflictException;
   }
 
-  public static class Module extends AbstractModule {
+  public static class SubscriptionGraphModule extends AbstractModule {
     @Override
     protected void configure() {
       bind(Factory.class).annotatedWith(VanillaSubscriptionGraph.class).to(DefaultFactory.class);

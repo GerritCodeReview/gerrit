@@ -71,7 +71,7 @@ public class ProjectQoSFilter implements Filter {
   private static final String FILTER_RE = "^/(.*)/(git-upload-pack|git-receive-pack)$";
   private static final Pattern URI_PATTERN = Pattern.compile(FILTER_RE);
 
-  public static class Module extends ServletModule {
+  public static class ProjectQoSFilterModule extends ServletModule {
     @Override
     protected void configureServlets() {
       bind(QueueProvider.class).to(CommandExecutorQueueProvider.class);

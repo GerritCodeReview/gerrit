@@ -29,7 +29,7 @@ import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
-import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
+import com.google.gerrit.server.git.receive.AsyncReceiveCommits.AsyncReceiveCommitsModule;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
@@ -67,7 +67,7 @@ public class SshModule extends LifecycleModule {
     bind(SshScope.class).in(SINGLETON);
 
     configureRequestScope();
-    install(new AsyncReceiveCommits.Module());
+    install(new AsyncReceiveCommitsModule());
     configureAliases();
 
     bind(SshLog.class);

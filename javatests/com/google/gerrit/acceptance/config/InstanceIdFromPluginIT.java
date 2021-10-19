@@ -36,10 +36,10 @@ import org.junit.Test;
 
 @TestPlugin(
     name = "instance-id-from-plugin",
-    sysModule = "com.google.gerrit.acceptance.config.InstanceIdFromPluginIT$Module")
+    sysModule = "com.google.gerrit.acceptance.config.InstanceIdFromPluginIT$TestModule")
 public class InstanceIdFromPluginIT extends LightweightPluginDaemonTest {
 
-  public static class Module extends AbstractModule {
+  public static class TestModule extends AbstractModule {
 
     @Override
     protected void configure() {

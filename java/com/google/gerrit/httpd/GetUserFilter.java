@@ -40,13 +40,13 @@ public class GetUserFilter implements Filter {
 
   public static final String USER_ATTR_KEY = "User";
 
-  public static class Module extends ServletModule {
+  public static class GetUserFilterModule extends ServletModule {
 
     private final boolean reqEnabled;
     private final boolean resEnabled;
 
     @Inject
-    Module(@GerritServerConfig Config cfg) {
+    GetUserFilterModule(@GerritServerConfig Config cfg) {
       reqEnabled = cfg.getBoolean("http", "addUserAsRequestAttribute", true);
       resEnabled = cfg.getBoolean("http", "addUserAsResponseHeader", false);
     }

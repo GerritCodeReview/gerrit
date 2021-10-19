@@ -270,7 +270,7 @@ java_package_configuration(
         "-Xep:JavaDurationWithNanos:ERROR",
         "-Xep:JavaDurationWithSeconds:ERROR",
         "-Xep:JavaInstantGetSecondsGetNano:ERROR",
-        # "-Xep:JavaLangClash:WARN",
+        "-Xep:JavaLangClash:ERROR",
         "-Xep:JavaLocalDateTimeGetNano:ERROR",
         "-Xep:JavaLocalTimeGetNano:ERROR",
         "-Xep:JavaPeriodGetDays:ERROR",

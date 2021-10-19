@@ -30,7 +30,6 @@ import '../gr-account-label/gr-account-label';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment_html';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {getRootElement} from '../../../scripts/rootElement';
 import {appContext} from '../../../services/app-context';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -60,6 +59,7 @@ import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
+import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -100,11 +100,8 @@ export interface GrComment {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-comment')
-export class GrComment extends base {
+export class GrComment extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -273,12 +270,8 @@ export class GrComment extends base {
   @property({type: Boolean})
   showPortedComment = false;
 
-  get keyBindings() {
-    return {
-      'ctrl+enter meta+enter ctrl+s meta+s': '_handleSaveKey',
-      esc: '_handleEsc',
-    };
-  }
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   private readonly restApiService = appContext.restApiService;
 
@@ -307,9 +300,21 @@ export class GrComment extends base {
     this._getIsAdmin().then(isAdmin => {
       this._isAdmin = !!isAdmin;
     });
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ESC}, e => this._handleEsc(e))
+    );
+    for (const key of ['s', Key.ENTER]) {
+      for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
+        addShortcut(this, {key, modifiers: [modifier]}, e =>
+          this._handleSaveKey(e)
+        );
+      }
+    }
   }
 
   override disconnectedCallback() {
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
     this.fireUpdateTask?.cancel();
     this.storeTask?.cancel();
     this.draftToastTask?.cancel();

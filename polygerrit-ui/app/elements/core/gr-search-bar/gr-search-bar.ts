@@ -22,6 +22,7 @@ import {htmlTemplate} from './gr-search-bar_html';
 import {
   KeyboardShortcutMixin,
   Shortcut,
+  ShortcutListener,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {customElement, property} from '@polymer/decorators';
 import {ServerInfo} from '../../../types/common';
@@ -31,9 +32,9 @@ import {
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getDocsBaseUrl} from '../../../utils/url-util';
-import {IronKeyboardEvent} from '../../../types/events';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {appContext} from '../../../services/app-context';
+import {listen} from '../../../services/shortcuts/shortcuts-service';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -169,9 +170,6 @@ export class GrSearchBar extends base {
   value = '';
 
   @property({type: Object})
-  keyEventTarget: unknown = document.body;
-
-  @property({type: Object})
   query: AutocompleteQuery;
 
   @property({type: Object})
@@ -196,8 +194,6 @@ export class GrSearchBar extends base {
   docBaseUrl: string | null = null;
 
   private readonly restApiService = appContext.restApiService;
-
-  private readonly shortcuts = appContext.shortcutsService;
 
   constructor() {
     super();
@@ -245,10 +241,8 @@ export class GrSearchBar extends base {
     }
   }
 
-  override keyboardShortcuts() {
-    return {
-      [Shortcut.SEARCH]: '_handleSearch',
-    };
+  override keyboardShortcuts(): ShortcutListener[] {
+    return [listen(Shortcut.SEARCH, _ => this._handleSearch())];
   }
 
   _valueChanged(value: string) {
@@ -396,16 +390,7 @@ export class GrSearchBar extends base {
     });
   }
 
-  _handleSearch(e: IronKeyboardEvent) {
-    const keyboardEvent = e.detail.keyboardEvent;
-    if (
-      this.shortcuts.shouldSuppress(e) ||
-      (this.shortcuts.modifierPressed(e) && !keyboardEvent.shiftKey)
-    ) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleSearch() {
     this.$.searchInput.focus();
     this.$.searchInput.selectAll();
   }

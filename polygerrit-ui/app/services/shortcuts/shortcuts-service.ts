@@ -19,26 +19,38 @@ import {
   Shortcut,
   ShortcutHelpItem,
   ShortcutSection,
-  SPECIAL_SHORTCUT,
 } from './shortcuts-config';
 import {disableShortcuts$} from '../user/user-model';
-import {IronKeyboardEvent, isIronKeyboardEvent} from '../../types/events';
-import {isElementTarget, isModifierPressed} from '../../utils/dom-util';
+import {
+  ComboKey,
+  eventMatchesShortcut,
+  isElementTarget,
+  Key,
+  Modifier,
+  Binding,
+} from '../../utils/dom-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
 
+export interface ShortcutListener {
+  shortcut: Shortcut;
+  listener: (e: KeyboardEvent) => void;
+}
+
+export function listen(
+  shortcut: Shortcut,
+  listener: (e: KeyboardEvent) => void
+): ShortcutListener {
+  return {shortcut, listener};
+}
+
 /**
  * The interface for listener for shortcut events.
  */
-export type ShortcutListener = (
+export type ShortcutViewListener = (
   viewMap?: Map<ShortcutSection, SectionView>
 ) => void;
-
-export enum ComboKey {
-  G = 'g',
-  V = 'v',
-}
 
 function isComboKey(key: string): key is ComboKey {
   return Object.values(ComboKey).includes(key as ComboKey);
@@ -55,12 +67,18 @@ export class ShortcutsService {
    * show a shortcut help dialog that only shows the shortcuts that are
    * currently relevant.
    */
-  private readonly activeHosts = new Map<unknown, Map<string, string>>();
+  private readonly activeShortcuts = new Map<HTMLElement, Shortcut[]>();
+
+  /**
+   * Keeps track of cleanup callbacks (which remove keyboard listeners) that
+   * have to be invoked when a component unregisters itself.
+   */
+  private readonly cleanupsPerHost = new Map<HTMLElement, (() => void)[]>();
 
   /** Static map built in the constructor by iterating over the config. */
-  private readonly bindings = new Map<Shortcut, string[]>();
+  private readonly bindings = new Map<Shortcut, Binding[]>();
 
-  private readonly listeners = new Set<ShortcutListener>();
+  private readonly listeners = new Set<ShortcutViewListener>();
 
   /**
    * Stores the timestamp of the last combo key being pressed.
@@ -89,7 +107,7 @@ export class ShortcutsService {
   }
 
   public _testOnly_isEmpty() {
-    return this.activeHosts.size === 0 && this.listeners.size === 0;
+    return this.activeShortcuts.size === 0 && this.listeners.size === 0;
   }
 
   isInComboKeyMode() {
@@ -107,13 +125,35 @@ export class ShortcutsService {
     );
   }
 
-  modifierPressed(e: IronKeyboardEvent) {
-    return isModifierPressed(e) || this.isInComboKeyMode();
+  /**
+   * TODO(brohlfs): Reconcile with the addShortcut() function in dom-util.
+   * Most likely we will just keep this one here, but that is something for a
+   * follow-up change.
+   */
+  addShortcut(
+    element: HTMLElement,
+    shortcut: Binding,
+    listener: (e: KeyboardEvent) => void
+  ) {
+    const wrappedListener = (e: KeyboardEvent) => {
+      if (e.repeat) return;
+      if (!eventMatchesShortcut(e, shortcut)) return;
+      if (shortcut.combo) {
+        if (!this.isInSpecificComboKeyMode(shortcut.combo)) return;
+      } else {
+        if (this.isInComboKeyMode()) return;
+      }
+      if (this.shouldSuppress(e)) return;
+      e.preventDefault();
+      e.stopPropagation();
+      listener(e);
+    };
+    element.addEventListener('keydown', wrappedListener);
+    return () => element.removeEventListener('keydown', wrappedListener);
   }
 
-  shouldSuppress(event: IronKeyboardEvent | KeyboardEvent) {
+  shouldSuppress(e: KeyboardEvent) {
     if (this.shortcutsDisabled) return true;
-    const e = isIronKeyboardEvent(event) ? event.detail.keyboardEvent : event;
 
     // Note that when you listen on document, then `e.currentTarget` will be the
     // document and `e.target` will be `<gr-app>` due to shadow dom, but by
@@ -168,23 +208,37 @@ export class ShortcutsService {
     return this.bindings.get(shortcut);
   }
 
-  attachHost(host: unknown, shortcuts: Map<string, string>) {
-    this.activeHosts.set(host, shortcuts);
-    this.notifyListeners();
+  attachHost(host: HTMLElement, shortcuts: ShortcutListener[]) {
+    this.activeShortcuts.set(
+      host,
+      shortcuts.map(s => s.shortcut)
+    );
+    const cleanups: (() => void)[] = [];
+    for (const s of shortcuts) {
+      const bindings = this.getBindingsForShortcut(s.shortcut);
+      for (const binding of bindings ?? []) {
+        if (binding.docOnly) continue;
+        cleanups.push(this.addShortcut(document.body, binding, s.listener));
+      }
+    }
+    this.cleanupsPerHost.set(host, cleanups);
+    this.notifyViewListeners();
   }
 
-  detachHost(host: unknown) {
-    if (!this.activeHosts.delete(host)) return false;
-    this.notifyListeners();
+  detachHost(host: HTMLElement) {
+    this.activeShortcuts.delete(host);
+    const cleanups = this.cleanupsPerHost.get(host);
+    for (const cleanup of cleanups ?? []) cleanup();
+    this.notifyViewListeners();
     return true;
   }
 
-  addListener(listener: ShortcutListener) {
+  addListener(listener: ShortcutViewListener) {
     this.listeners.add(listener);
     listener(this.directoryView());
   }
 
-  removeListener(listener: ShortcutListener) {
+  removeListener(listener: ShortcutViewListener) {
     return this.listeners.delete(listener);
   }
 
@@ -199,15 +253,17 @@ export class ShortcutsService {
     const bindings = this.bindings.get(shortcutName);
     if (!bindings) return '';
     return bindings
-      .map(binding => this.describeBinding(binding).join('+'))
+      .map(binding => describeBinding(binding).join('+'))
       .join(',');
   }
 
   activeShortcutsBySection() {
-    const activeShortcuts = new Set<string>();
-    this.activeHosts.forEach(shortcuts => {
-      shortcuts.forEach((_, shortcut) => activeShortcuts.add(shortcut));
-    });
+    const activeShortcuts = new Set<Shortcut>();
+    for (const shortcuts of this.activeShortcuts.values()) {
+      for (const shortcut of shortcuts) {
+        activeShortcuts.add(shortcut);
+      }
+    }
 
     const activeShortcutsBySection = new Map<
       ShortcutSection,
@@ -219,8 +275,6 @@ export class ShortcutsService {
           if (!activeShortcutsBySection.has(section)) {
             activeShortcutsBySection.set(section, []);
           }
-          // From previous condition, the `get(section)`
-          // should always return a valid result
           activeShortcutsBySection.get(section)!.push(shortcutHelp);
         }
       });
@@ -282,63 +336,53 @@ export class ShortcutsService {
 
   describeBindings(shortcut: Shortcut): string[][] | null {
     const bindings = this.bindings.get(shortcut);
-    if (!bindings) {
-      return null;
-    }
-    if (bindings[0] === SPECIAL_SHORTCUT.GO_KEY) {
-      return bindings
-        .slice(1)
-        .map(binding => this._describeKey(binding))
-        .map(binding => ['g'].concat(binding));
-    }
-    if (bindings[0] === SPECIAL_SHORTCUT.V_KEY) {
-      return bindings
-        .slice(1)
-        .map(binding => this._describeKey(binding))
-        .map(binding => ['v'].concat(binding));
-    }
-
+    if (!bindings) return null;
     return bindings
-      .filter(binding => binding !== SPECIAL_SHORTCUT.DOC_ONLY)
-      .map(binding => this.describeBinding(binding));
+      .filter(binding => !binding.docOnly)
+      .map(binding => describeBinding(binding));
   }
 
-  _describeKey(key: string) {
-    switch (key) {
-      case 'shift':
-        return 'Shift';
-      case 'meta':
-        return 'Meta';
-      case 'ctrl':
-        return 'Ctrl';
-      case 'enter':
-        return 'Enter';
-      case 'up':
-        return '\u2191'; // ↑
-      case 'down':
-        return '\u2193'; // ↓
-      case 'left':
-        return '\u2190'; // ←
-      case 'right':
-        return '\u2192'; // →
-      default:
-        return key;
-    }
-  }
-
-  describeBinding(binding: string) {
-    // single key bindings
-    if (binding.length === 1) {
-      return [binding];
-    }
-    return binding
-      .split(':')[0]
-      .split('+')
-      .map(part => this._describeKey(part));
-  }
-
-  notifyListeners() {
+  notifyViewListeners() {
     const view = this.directoryView();
     this.listeners.forEach(listener => listener(view));
   }
+}
+
+function describeKey(key: string | Key) {
+  switch (key) {
+    case Key.UP:
+      return '\u2191'; // ↑
+    case Key.DOWN:
+      return '\u2193'; // ↓
+    case Key.LEFT:
+      return '\u2190'; // ←
+    case Key.RIGHT:
+      return '\u2192'; // →
+    default:
+      return key;
+  }
+}
+
+export function describeBinding(binding: Binding): string[] {
+  const description: string[] = [];
+  if (binding.combo === ComboKey.G) {
+    description.push('g');
+  }
+  if (binding.combo === ComboKey.V) {
+    description.push('v');
+  }
+  if (binding.modifiers?.includes(Modifier.SHIFT_KEY)) {
+    description.push('Shift');
+  }
+  if (binding.modifiers?.includes(Modifier.ALT_KEY)) {
+    description.push('Alt');
+  }
+  if (binding.modifiers?.includes(Modifier.CTRL_KEY)) {
+    description.push('Ctrl');
+  }
+  if (binding.modifiers?.includes(Modifier.META_KEY)) {
+    description.push('Meta/Cmd');
+  }
+  description.push(describeKey(binding.key));
+  return description;
 }

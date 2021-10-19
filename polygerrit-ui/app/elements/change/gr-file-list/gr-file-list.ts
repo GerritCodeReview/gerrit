@@ -36,6 +36,7 @@ import {asyncForeach, debounce, DelayedTask} from '../../../utils/async-util';
 import {
   KeyboardShortcutMixin,
   Shortcut,
+  ShortcutListener,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {pluralize} from '../../../utils/string-util';
@@ -50,10 +51,9 @@ import {
 } from '../../../constants/constants';
 import {
   addGlobalShortcut,
+  addShortcut,
   descendedFromClass,
-  isShiftPressed,
   Key,
-  modifierPressed,
   toggleClass,
 } from '../../../utils/dom-util';
 import {
@@ -80,7 +80,6 @@ import {GrDiffCursor} from '../../diff/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
-import {IronKeyboardEvent} from '../../../types/events';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
 import {Timing} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
@@ -88,6 +87,7 @@ import {preferences$} from '../../../services/user/user-model';
 import {changeComments$} from '../../../services/comments/comments-model';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {listen} from '../../../services/shortcuts/shortcuts-service';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -198,9 +198,6 @@ export class GrFileList extends base {
 
   @property({type: Number, notify: true})
   selectedIndex = -1;
-
-  @property({type: Object})
-  keyEventTarget = document.body;
 
   @property({type: Object})
   change?: ParsedChangeInfo;
@@ -324,45 +321,53 @@ export class GrFileList extends base {
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
 
-  override keyboardShortcuts() {
-    return {
-      [Shortcut.LEFT_PANE]: '_handleLeftPane',
-      [Shortcut.RIGHT_PANE]: '_handleRightPane',
-      [Shortcut.TOGGLE_INLINE_DIFF]: '_handleToggleInlineDiff',
-      [Shortcut.TOGGLE_ALL_INLINE_DIFFS]: '_handleToggleAllInlineDiffs',
-      [Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
-        '_handleToggleHideAllCommentThreads',
-      [Shortcut.CURSOR_NEXT_FILE]: '_handleCursorNext',
-      [Shortcut.CURSOR_PREV_FILE]: '_handleCursorPrev',
-      [Shortcut.NEXT_LINE]: '_handleCursorNext',
-      [Shortcut.PREV_LINE]: '_handleCursorPrev',
-      [Shortcut.NEW_COMMENT]: '_handleNewComment',
-      [Shortcut.OPEN_LAST_FILE]: '_handleOpenLastFile',
-      [Shortcut.OPEN_FIRST_FILE]: '_handleOpenFirstFile',
-      [Shortcut.OPEN_FILE]: '_handleOpenFile',
-      [Shortcut.NEXT_CHUNK]: '_handleNextChunk',
-      [Shortcut.PREV_CHUNK]: '_handlePrevChunk',
-      [Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
-      [Shortcut.TOGGLE_LEFT_PANE]: '_handleToggleLeftPane',
-
-      // Final two are actually handled by gr-comment-thread.
-      [Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
-      [Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
-    };
+  override keyboardShortcuts(): ShortcutListener[] {
+    return [
+      listen(Shortcut.LEFT_PANE, _ => this._handleLeftPane()),
+      listen(Shortcut.RIGHT_PANE, _ => this._handleRightPane()),
+      listen(Shortcut.TOGGLE_INLINE_DIFF, _ => this._handleToggleInlineDiff()),
+      listen(Shortcut.TOGGLE_ALL_INLINE_DIFFS, _ => this._toggleInlineDiffs()),
+      listen(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, _ =>
+        toggleClass(this, 'hideComments')
+      ),
+      listen(Shortcut.CURSOR_NEXT_FILE, e => this._handleCursorNext(e)),
+      listen(Shortcut.CURSOR_PREV_FILE, e => this._handleCursorPrev(e)),
+      // This is already been taken care of by CURSOR_NEXT_FILE above. The two
+      // shortcuts share the same bindings. It depends on whether all files
+      // are expanded whether the cursor moves to the next file or line.
+      listen(Shortcut.NEXT_LINE, _ => {}), // docOnly
+      // This is already been taken care of by CURSOR_PREV_FILE above. The two
+      // shortcuts share the same bindings. It depends on whether all files
+      // are expanded whether the cursor moves to the previous file or line.
+      listen(Shortcut.PREV_LINE, _ => {}), // docOnly
+      listen(Shortcut.NEW_COMMENT, _ => this._handleNewComment()),
+      listen(Shortcut.OPEN_LAST_FILE, _ =>
+        this._openSelectedFile(this._files.length - 1)
+      ),
+      listen(Shortcut.OPEN_FIRST_FILE, _ => this._openSelectedFile(0)),
+      listen(Shortcut.OPEN_FILE, _ => this.handleOpenFile()),
+      listen(Shortcut.NEXT_CHUNK, _ => this._handleNextChunk()),
+      listen(Shortcut.PREV_CHUNK, _ => this._handlePrevChunk()),
+      listen(Shortcut.NEXT_COMMENT_THREAD, _ => this._handleNextComment()),
+      listen(Shortcut.PREV_COMMENT_THREAD, _ => this._handlePrevComment()),
+      listen(Shortcut.TOGGLE_FILE_REVIEWED, _ =>
+        this._handleToggleFileReviewed()
+      ),
+      listen(Shortcut.TOGGLE_LEFT_PANE, _ => this._handleToggleLeftPane()),
+      listen(Shortcut.EXPAND_ALL_COMMENT_THREADS, _ => {}), // docOnly
+      listen(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, _ => {}), // docOnly
+    ];
   }
 
   private fileCursor = new GrCursorManager();
 
   private diffCursor = new GrDiffCursor();
 
-  private readonly shortcuts = appContext.shortcutsService;
-
   constructor() {
     super();
     this.fileCursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.fileCursor.cursorTargetClass = 'selected';
     this.fileCursor.focusOnMove = true;
-    this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
   }
 
   override connectedCallback() {
@@ -415,7 +420,8 @@ export class GrFileList extends base {
         }
       });
     this.cleanups.push(
-      addGlobalShortcut({key: Key.ESC}, e => this._handleEscKey(e))
+      addGlobalShortcut({key: Key.ESC}, _ => this._handleEscKey()),
+      addShortcut(this, {key: Key.ENTER}, _ => this.handleOpenFile())
     );
   }
 
@@ -428,17 +434,6 @@ export class GrFileList extends base {
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
     super.disconnectedCallback();
-  }
-
-  /**
-   * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
-   * events must be scoped to a component level (e.g. `enter`) in order to not
-   * override native browser functionality.
-   *
-   * Context: Issue 7277
-   */
-  _scopedKeydownHandler(e: KeyboardEvent) {
-    if (e.keyCode === 13) this.handleOpenFile(e);
   }
 
   reload() {
@@ -885,196 +880,84 @@ export class GrFileList extends base {
     return fileData;
   }
 
-  _handleLeftPane(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this._noDiffsExpanded()) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleLeftPane() {
+    if (this._noDiffsExpanded()) return;
     this.diffCursor.moveLeft();
   }
 
-  _handleRightPane(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this._noDiffsExpanded()) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleRightPane() {
+    if (this._noDiffsExpanded()) return;
     this.diffCursor.moveRight();
   }
 
-  _handleToggleInlineDiff(e: IronKeyboardEvent) {
-    if (
-      this.shortcuts.shouldSuppress(e) ||
-      this.shortcuts.modifierPressed(e) ||
-      e.detail?.keyboardEvent?.repeat ||
-      this.fileCursor.index === -1
-    ) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleToggleInlineDiff() {
+    if (this.fileCursor.index === -1) return;
     this._toggleFileExpandedByIndex(this.fileCursor.index);
   }
 
-  _handleToggleAllInlineDiffs(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || e.detail?.keyboardEvent?.repeat) {
-      return;
-    }
-
-    e.preventDefault();
-    this._toggleInlineDiffs();
-  }
-
-  _handleToggleHideAllCommentThreads(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
-    toggleClass(this, 'hideComments');
-  }
-
-  _handleCursorNext(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
+  _handleCursorNext(e: KeyboardEvent) {
     if (this.filesExpanded === FilesExpandedState.ALL) {
-      e.preventDefault();
       this.diffCursor.moveDown();
       this._displayLine = true;
     } else {
-      // Down key
-      if (e.detail.keyboardEvent.keyCode === 40) {
-        return;
-      }
-      e.preventDefault();
+      if (e.key === Key.DOWN) return;
       this.fileCursor.next({circular: true});
       this.selectedIndex = this.fileCursor.index;
     }
   }
 
-  _handleCursorPrev(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
+  _handleCursorPrev(e: KeyboardEvent) {
     if (this.filesExpanded === FilesExpandedState.ALL) {
-      e.preventDefault();
       this.diffCursor.moveUp();
       this._displayLine = true;
     } else {
-      // Up key
-      if (e.detail.keyboardEvent.keyCode === 38) {
-        return;
-      }
-      e.preventDefault();
+      if (e.key === Key.UP) return;
       this.fileCursor.previous({circular: true});
       this.selectedIndex = this.fileCursor.index;
     }
   }
 
-  _handleNewComment(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-    e.preventDefault();
+  _handleNewComment() {
     this.classList.remove('hideComments');
     this.diffCursor.createCommentInPlace();
   }
 
-  _handleOpenLastFile(e: IronKeyboardEvent) {
-    // Check for meta key to avoid overriding native chrome shortcut.
-    if (this.shortcuts.shouldSuppress(e) || e.detail.keyboardEvent.metaKey) {
-      return;
-    }
-
-    e.preventDefault();
-    this._openSelectedFile(this._files.length - 1);
-  }
-
-  _handleOpenFirstFile(e: IronKeyboardEvent) {
-    // Check for meta key to avoid overriding native chrome shortcut.
-    if (this.shortcuts.shouldSuppress(e) || e.detail.keyboardEvent.metaKey) {
-      return;
-    }
-
-    e.preventDefault();
-    this._openSelectedFile(0);
-  }
-
-  _handleOpenFile(e: IronKeyboardEvent) {
-    if (this.shortcuts.modifierPressed(e)) return;
-    this.handleOpenFile(e.detail.keyboardEvent);
-  }
-
-  handleOpenFile(e: KeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || modifierPressed(e)) {
-      return;
-    }
-    e.preventDefault();
-
+  handleOpenFile() {
     if (this.filesExpanded === FilesExpandedState.ALL) {
       this._openCursorFile();
       return;
     }
-
     this._openSelectedFile();
   }
 
-  _handleNextChunk(e: IronKeyboardEvent) {
-    if (
-      this.shortcuts.shouldSuppress(e) ||
-      (this.shortcuts.modifierPressed(e) && !isShiftPressed(e)) ||
-      this._noDiffsExpanded()
-    ) {
-      return;
-    }
-
-    e.preventDefault();
-    if (isShiftPressed(e)) {
-      this.diffCursor.moveToNextCommentThread();
-    } else {
-      this.diffCursor.moveToNextChunk();
-    }
+  _handleNextChunk() {
+    if (this._noDiffsExpanded()) return;
+    this.diffCursor.moveToNextChunk();
   }
 
-  _handlePrevChunk(e: IronKeyboardEvent) {
-    if (
-      this.shortcuts.shouldSuppress(e) ||
-      (this.shortcuts.modifierPressed(e) && !isShiftPressed(e)) ||
-      this._noDiffsExpanded()
-    ) {
-      return;
-    }
-
-    e.preventDefault();
-    if (isShiftPressed(e)) {
-      this.diffCursor.moveToPreviousCommentThread();
-    } else {
-      this.diffCursor.moveToPreviousChunk();
-    }
+  _handleNextComment() {
+    if (this._noDiffsExpanded()) return;
+    this.diffCursor.moveToNextCommentThread();
   }
 
-  _handleToggleFileReviewed(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
+  _handlePrevChunk() {
+    if (this._noDiffsExpanded()) return;
+    this.diffCursor.moveToPreviousChunk();
+  }
 
-    e.preventDefault();
+  _handlePrevComment() {
+    if (this._noDiffsExpanded()) return;
+    this.diffCursor.moveToPreviousCommentThread();
+  }
+
+  _handleToggleFileReviewed() {
     if (!this._files[this.fileCursor.index]) {
       return;
     }
     this._reviewFile(this._files[this.fileCursor.index].__path);
   }
 
-  _handleToggleLeftPane(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleToggleLeftPane() {
     this._forEachDiff(diff => {
       diff.toggleLeftDiff();
     });
@@ -1546,9 +1429,7 @@ export class GrFileList extends base {
     return undefined;
   }
 
-  _handleEscKey(e: KeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    e.preventDefault();
+  _handleEscKey() {
     this._displayLine = false;
   }
 

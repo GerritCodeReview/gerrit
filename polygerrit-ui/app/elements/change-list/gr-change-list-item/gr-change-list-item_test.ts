@@ -369,6 +369,7 @@ suite('gr-change-list-item tests', () => {
       'Branch',
       'Updated',
       'Size',
+      'Requirements',
     ];
 
     await flush();
@@ -392,6 +393,7 @@ suite('gr-change-list-item tests', () => {
       'Branch',
       'Updated',
       'Size',
+      'Requirements',
     ];
 
     await flush();

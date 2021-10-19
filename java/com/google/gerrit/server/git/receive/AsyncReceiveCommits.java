@@ -355,10 +355,6 @@ public class AsyncReceiveCommits {
       try {
         result = preReceive(commands);
       } catch (TimeoutException e) {
-        metrics.timeouts.increment();
-        logger.atWarning().withCause(e).log(
-            "Timeout in ReceiveCommits while processing changes for project %s",
-            projectState.getName());
         receivePack.sendError("timeout while processing changes");
         rejectCommandsNotAttempted(commands);
         return;
@@ -414,6 +410,12 @@ public class AsyncReceiveCommits {
         throw new IllegalStateException("unable to get receive commits result");
       }
       return runnable.get();
+    } catch (TimeoutException e) {
+      metrics.timeouts.increment();
+      logger.atWarning().withCause(e).log(
+          "Timeout in ReceiveCommits while processing changes for project %s",
+          projectState.getName());
+      throw e;
     } catch (InterruptedException | ExecutionException e) {
       throw new UncheckedExecutionException(e);
     }

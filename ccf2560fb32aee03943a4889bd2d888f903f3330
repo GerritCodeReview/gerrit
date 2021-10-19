@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62ce527c_632e90af",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-19T11:19:54Z",
+      "side": 1,
+      "message": "Not strictly needed. :)",
+      "parentUuid": "8b72cb62_ff2b8b7e",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 189,
+        "endChar": 3
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdabd69e_bfc45963",

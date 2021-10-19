@@ -24,6 +24,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
@@ -33,6 +34,7 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -48,7 +50,9 @@ import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -56,6 +60,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,6 +75,21 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
   @Before
   public void setUp() throws Exception {}
+
+  @After
+  public void cleanUp() throws Exception {
+    BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+    bru.setAllowNonFastForwards(true);
+    for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
+      Change.Id changeId = Change.Id.fromRef(ref.getName());
+      if (changeId == null || !ref.getName().equals(RefNames.changeMetaRef(changeId))) {
+        continue;
+      }
+      bru.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
+    }
+
+    RefUpdateUtil.executeChecked(bru, repo);
+  }
 
   @Test
   public void validHistoryNoOp() throws Exception {
@@ -154,6 +175,138 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
     assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
+  }
+
+  @Test
+  public void numRefs_greater_maxRefsToUpdate_allFixed() throws Exception {
+    int numberOfChanges = 12;
+    ImmutableMap.Builder<String, Ref> refsToOldMetaBuilder = new ImmutableMap.Builder<>();
+    for (int i = 0; i < numberOfChanges; i++) {
+      Change c = newChange();
+      ChangeUpdate update = newUpdate(c, changeOwner);
+      update.setChangeMessage("Change has been successfully merged by " + changeOwner.getName());
+      update.commit();
+      ChangeUpdate updateWithSubject = newUpdate(c, changeOwner);
+      updateWithSubject.setSubjectForCommit("Update with subject");
+      updateWithSubject.commit();
+      String refName = RefNames.changeMetaRef(c.getId());
+      Ref metaRefBeforeRewrite = repo.exactRef(refName);
+      refsToOldMetaBuilder.put(refName, metaRefBeforeRewrite);
+    }
+    ImmutableMap<String, Ref> refsToOldMeta = refsToOldMetaBuilder.build();
+
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    options.outputDiff = false;
+    options.verifyCommits = false;
+    options.maxRefsInBatch = 10;
+    options.maxRefsToUpdate = 12;
+    BackfillResult backfillResult = rewriter.backfillProject(project, repo, options);
+    assertThat(backfillResult.fixedRefDiff.keySet()).isEqualTo(refsToOldMeta.keySet());
+    for (Map.Entry<String, Ref> refEntry : refsToOldMeta.entrySet()) {
+      Ref metaRefAfterRewrite = repo.exactRef(refEntry.getKey());
+      assertThat(refEntry.getValue()).isNotEqualTo(metaRefAfterRewrite);
+    }
+  }
+
+  @Test
+  public void maxRefsToUpdate_coversAllInvalid_inMultipleBatches() throws Exception {
+    testMaxRefsToUpdate(
+        /*numberOfInvalidChanges=*/ 11,
+        /*numberOfValidChanges=*/ 9,
+        /*maxRefsToUpdate=*/ 12,
+        /*maxRefsInBatch=*/ 2);
+  }
+
+  @Test
+  public void maxRefsToUpdate_coversAllInvalid_inSingleBatch() throws Exception {
+    testMaxRefsToUpdate(
+        /*numberOfInvalidChanges=*/ 11,
+        /*numberOfValidChanges=*/ 9,
+        /*maxRefsToUpdate=*/ 12,
+        /*maxRefsInBatch=*/ 12);
+  }
+
+  @Test
+  public void moreInvalidRefs_thenMaxRefsToUpdate_inMultipleBatches() throws Exception {
+    testMaxRefsToUpdate(
+        /*numberOfInvalidChanges=*/ 11,
+        /*numberOfValidChanges=*/ 9,
+        /*maxRefsToUpdate=*/ 10,
+        /*maxRefsInBatch=*/ 2);
+  }
+
+  @Test
+  public void moreInvalidRefs_thenMaxRefsToUpdate_inSingleBatch() throws Exception {
+    testMaxRefsToUpdate(
+        /*numberOfInvalidChanges=*/ 11,
+        /*numberOfValidChanges=*/ 9,
+        /*maxRefsToUpdate=*/ 10,
+        /*maxRefsInBatch=*/ 10);
+  }
+
+  private void testMaxRefsToUpdate(
+      int numberOfInvalidChanges, int numberOfValidChanges, int maxRefsToUpdate, int maxRefsInBatch)
+      throws Exception {
+    ImmutableMap.Builder<String, ObjectId> expectedFixedRefsToOldMetaBuilder =
+        new ImmutableMap.Builder<>();
+    ImmutableMap.Builder<String, ObjectId> expectedSkippedRefsToOldMetaBuilder =
+        new ImmutableMap.Builder<>();
+    for (int i = 0; i < numberOfValidChanges; i++) {
+      Change c = newChange();
+      ChangeUpdate updateWithSubject = newUpdate(c, changeOwner);
+      updateWithSubject.setSubjectForCommit("Update with subject");
+      updateWithSubject.commit();
+      String refName = RefNames.changeMetaRef(c.getId());
+      Ref metaRefBeforeRewrite = repo.exactRef(refName);
+      expectedSkippedRefsToOldMetaBuilder.put(refName, metaRefBeforeRewrite.getObjectId());
+    }
+    for (int i = 0; i < numberOfInvalidChanges; i++) {
+      Change c = newChange();
+      ChangeUpdate update = newUpdate(c, changeOwner);
+      update.setChangeMessage("Change has been successfully merged by " + changeOwner.getName());
+      update.commit();
+      ChangeUpdate updateWithSubject = newUpdate(c, changeOwner);
+      updateWithSubject.setSubjectForCommit("Update with subject");
+      updateWithSubject.commit();
+      String refName = RefNames.changeMetaRef(c.getId());
+      Ref metaRefBeforeRewrite = repo.exactRef(refName);
+      if (i < maxRefsToUpdate) {
+        expectedFixedRefsToOldMetaBuilder.put(refName, metaRefBeforeRewrite.getObjectId());
+      } else {
+        expectedSkippedRefsToOldMetaBuilder.put(refName, metaRefBeforeRewrite.getObjectId());
+      }
+    }
+    ImmutableMap<String, ObjectId> expectedFixedRefsToOldMeta =
+        expectedFixedRefsToOldMetaBuilder.build();
+    ImmutableMap<String, ObjectId> expectedSkippedRefsToOldMeta =
+        expectedSkippedRefsToOldMetaBuilder.build();
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    options.outputDiff = false;
+    options.verifyCommits = false;
+    options.maxRefsInBatch = maxRefsInBatch;
+    options.maxRefsToUpdate = maxRefsToUpdate;
+    BackfillResult backfillResult = rewriter.backfillProject(project, repo, options);
+    assertThat(backfillResult.fixedRefDiff.keySet()).isEqualTo(expectedFixedRefsToOldMeta.keySet());
+    for (Map.Entry<String, ObjectId> refEntry : expectedFixedRefsToOldMeta.entrySet()) {
+      Ref metaRefAfterRewrite = repo.exactRef(refEntry.getKey());
+      assertThat(refEntry.getValue()).isNotEqualTo(metaRefAfterRewrite.getObjectId());
+    }
+    for (Map.Entry<String, ObjectId> refEntry : expectedSkippedRefsToOldMeta.entrySet()) {
+      Ref metaRefAfterRewrite = repo.exactRef(refEntry.getKey());
+      assertThat(refEntry.getValue()).isEqualTo(metaRefAfterRewrite.getObjectId());
+    }
+    RunOptions secondRunOptions = new RunOptions();
+    secondRunOptions.dryRun = false;
+    secondRunOptions.outputDiff = false;
+    secondRunOptions.verifyCommits = false;
+    secondRunOptions.maxRefsInBatch = maxRefsInBatch;
+    secondRunOptions.maxRefsToUpdate = numberOfInvalidChanges + numberOfValidChanges;
+    BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
+    int expectedSecondRunResult =
+        numberOfInvalidChanges > maxRefsToUpdate ? numberOfInvalidChanges - maxRefsToUpdate : 0;
+    assertThat(secondRunResult.fixedRefDiff.keySet().size()).isEqualTo(expectedSecondRunResult);
   }
 
   @Test

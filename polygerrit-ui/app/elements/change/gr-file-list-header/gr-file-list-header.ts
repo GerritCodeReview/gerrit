@@ -175,11 +175,8 @@ export class GrFileListHeader extends base {
     return classes.join(' ');
   }
 
-  _computePrefsButtonHidden(
-    prefs: DiffPreferencesInfo,
-    diffPrefsDisabled: boolean
-  ) {
-    return diffPrefsDisabled || !prefs;
+  _computePrefsButtonHidden(prefs: DiffPreferencesInfo, loggedIn: boolean) {
+    return !loggedIn || !prefs;
   }
 
   _fileListActionsVisible(

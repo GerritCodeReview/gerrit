@@ -174,15 +174,6 @@ export class GrDiffView extends base {
   @property({type: Object, notify: true, observer: '_changeViewStateChanged'})
   changeViewState: Partial<ChangeViewState> = {};
 
-  @property({type: Boolean})
-  disableDiffPrefs = false;
-
-  @property({
-    type: Boolean,
-    computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
-  })
-  _diffPrefsDisabled?: boolean;
-
   @property({type: Object})
   _patchRange?: PatchRange;
 
@@ -805,7 +796,7 @@ export class GrDiffView extends base {
   _handleCommaKey(e: IronKeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
     if (this.modifierPressed(e)) return;
-    if (this._diffPrefsDisabled) return;
+    if (!this._loggedIn) return;
 
     e.preventDefault();
     this.$.diffPreferencesDialog.open();
@@ -1409,11 +1400,8 @@ export class GrDiffView extends base {
     return dropdownContent;
   }
 
-  _computePrefsButtonHidden(
-    prefs?: DiffPreferencesInfo,
-    prefsDisabled?: boolean
-  ) {
-    return prefsDisabled || !prefs;
+  _computePrefsButtonHidden(prefs?: DiffPreferencesInfo, loggedIn?: boolean) {
+    return !loggedIn || !prefs;
   }
 
   _handleFileChange(e: CustomEvent) {
@@ -1840,10 +1828,6 @@ export class GrDiffView extends base {
     if (this.shortcuts.shouldSuppress(e)) return;
 
     this.$.diffHost.toggleAllContext();
-  }
-
-  _computeDiffPrefsDisabled(disableDiffPrefs?: boolean, loggedIn?: boolean) {
-    return disableDiffPrefs || !loggedIn;
   }
 
   _handleNextUnreviewedFile(e: IronKeyboardEvent) {

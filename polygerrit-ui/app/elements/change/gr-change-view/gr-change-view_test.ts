@@ -806,15 +806,10 @@ suite('gr-change-view tests', () => {
         'open'
       );
       element._loggedIn = false;
-      element.disableDiffPrefs = true;
       pressAndReleaseKeyOn(element, 188, null, ',');
       assert.isFalse(stub.called);
 
       element._loggedIn = true;
-      pressAndReleaseKeyOn(element, 188, null, ',');
-      assert.isFalse(stub.called);
-
-      element.disableDiffPrefs = false;
       pressAndReleaseKeyOn(element, 188, null, ',');
       assert.isTrue(stub.called);
     });

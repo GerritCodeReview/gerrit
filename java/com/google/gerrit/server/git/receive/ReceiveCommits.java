@@ -709,10 +709,10 @@ class ReceiveCommits {
       sendErrorMessages();
 
       commandProgress.end();
-      progress.end();
       loggingTags = traceContext.getTags();
       logger.atFine().log("Processing commands done.");
     }
+    progress.end();
     return result.build();
   }
 

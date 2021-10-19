@@ -809,6 +809,63 @@ public class SshModule extends AbstractModule {
 }
 ----
 
+Plugins can receive a bean object for each of the gerrit ssh and the REST API
+commands by implementing BeanParseListener interface and registering it to a
+command class name in the plugin module's `configure()` method. The below
+example shows a plugin that always limits the number of projects returned
+by the ls-projects SSH command.
+
+[source, java]
+----
+protected static class PluginModule extends AbstractModule {
+  @Override
+  public void configure() {
+    bind(DynamicOptions.DynamicBean.class)
+        .annotatedWith(Exports.named(ListProjectsCommand.class))
+        .to(ListProjectsCommandBeanListener.class);
+  }
+
+  protected static class ListProjectsCommandBeanListener
+      implements DynamicOptions.BeanParseListener {
+    @Override
+    public void onBeanParseStart(String plugin, Object bean) {
+      ListProjectsCommand command = (ListProjectsCommand) bean;
+      command.impl.setLimit(1);
+    }
+
+    @Override
+    public void onBeanParseEnd(String plugin, Object bean) {}
+  }
+}
+----
+
+The below example shows a plugin that always limits the number of projects
+returned by the /projects/ REST API.
+
+[source, java]
+----
+protected static class PluginModule extends AbstractModule {
+  @Override
+  public void configure() {
+    bind(DynamicOptions.DynamicBean.class)
+        .annotatedWith(Exports.named(ListProjects.class))
+        .to(ListProjectsBeanListener.class);
+  }
+
+  protected static class ListProjectsBeanListener
+      implements DynamicOptions.BeanParseListener {
+    @Override
+    public void onBeanParseStart(String plugin, Object bean) {
+      ListProjects listProjects = (ListProjects) bean;
+      listProjects.setLimit(1);
+    }
+
+    @Override
+    public void onBeanParseEnd(String plugin, Object bean) {}
+  }
+}
+----
+
 === Calling Command Options ===
 
 Within an OptionHandler, during the processing of an option, plugins can

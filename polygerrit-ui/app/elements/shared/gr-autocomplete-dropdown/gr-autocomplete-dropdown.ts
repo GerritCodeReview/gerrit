@@ -20,12 +20,12 @@ import '../../../styles/shared-styles';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-autocomplete-dropdown_html';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {IronFitMixin} from '../../../mixins/iron-fit-mixin/iron-fit-mixin';
 import {customElement, property, observe} from '@polymer/decorators';
 import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {fireEvent} from '../../../utils/event-util';
+import {addShortcut, Key} from '../../../utils/dom-util';
 
 export interface GrAutocompleteDropdown {
   $: {
@@ -53,10 +53,7 @@ export interface ItemSelectedEvent {
 }
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = IronFitMixin(
-  KeyboardShortcutMixin(PolymerElement),
-  IronFitBehavior as IronFitBehavior
-);
+const base = IronFitMixin(PolymerElement, IronFitBehavior as IronFitBehavior);
 
 @customElement('gr-autocomplete-dropdown')
 export class GrAutocompleteDropdown extends base {
@@ -91,15 +88,8 @@ export class GrAutocompleteDropdown extends base {
   @property({type: Array})
   suggestions: Item[] = [];
 
-  get keyBindings() {
-    return {
-      up: '_handleUp',
-      down: '_handleDown',
-      enter: '_handleEnter',
-      esc: '_handleEscape',
-      tab: '_handleTab',
-    };
-  }
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   // visible for testing
   cursor = new GrCursorManager();
@@ -110,8 +100,29 @@ export class GrAutocompleteDropdown extends base {
     this.cursor.focusOnMove = true;
   }
 
+  override connectedCallback() {
+    super.connectedCallback();
+    this.cleanups.push(
+      addShortcut(this, {key: Key.UP}, e => this._handleUp(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.DOWN}, e => this._handleDown(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER}, e => this._handleEnter(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ESC}, _ => this._handleEscape())
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.TAB}, e => this._handleTab(e))
+    );
+  }
+
   override disconnectedCallback() {
     this.cursor.unsetCursor();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
     super.disconnectedCallback();
   }
 

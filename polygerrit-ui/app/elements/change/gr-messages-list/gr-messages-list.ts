@@ -22,7 +22,6 @@ import '../../../styles/shared-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-messages-list_html';
 import {
-  KeyboardShortcutMixin,
   Shortcut,
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
@@ -201,11 +200,8 @@ export interface GrMessagesList {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-messages-list')
-export class GrMessagesList extends base {
+export class GrMessagesList extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

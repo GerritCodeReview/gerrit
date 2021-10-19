@@ -81,7 +81,7 @@ export class GrSubmitRequirements extends LitElement {
           color: var(--success-foreground);
         }
         iron-icon.close {
-          color: var(--warning-foreground);
+          color: var(--error-foreground);
         }
         .requirements,
         section.trigger-votes {

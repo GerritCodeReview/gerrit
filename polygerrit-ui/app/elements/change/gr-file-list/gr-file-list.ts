@@ -49,8 +49,10 @@ import {
   SpecialFilePath,
 } from '../../../constants/constants';
 import {
+  addGlobalShortcut,
   descendedFromClass,
   isShiftPressed,
+  Key,
   modifierPressed,
   toggleClass,
 } from '../../../utils/dom-util';
@@ -319,11 +321,8 @@ export class GrFileList extends base {
 
   disconnected$ = new Subject();
 
-  get keyBindings() {
-    return {
-      esc: '_handleEscKey',
-    };
-  }
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   override keyboardShortcuts() {
     return {
@@ -415,6 +414,9 @@ export class GrFileList extends base {
           this.reporting.error(new Error('dynamic header/content mismatch'));
         }
       });
+    this.cleanups.push(
+      addGlobalShortcut({key: Key.ESC}, e => this._handleEscKey(e))
+    );
   }
 
   override disconnectedCallback() {
@@ -423,6 +425,8 @@ export class GrFileList extends base {
     this.fileCursor.unsetCursor();
     this._cancelDiffs();
     this.loadingTask?.cancel();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
     super.disconnectedCallback();
   }
 
@@ -1542,10 +1546,8 @@ export class GrFileList extends base {
     return undefined;
   }
 
-  _handleEscKey(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
+  _handleEscKey(e: KeyboardEvent) {
+    if (this.shortcuts.shouldSuppress(e)) return;
     e.preventDefault();
     this._displayLine = false;
   }

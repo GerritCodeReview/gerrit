@@ -33,7 +33,7 @@ import {
   Item,
   ItemSelectedEvent,
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
-import {IronKeyboardEvent} from '../../../types/events';
+import {addShortcut, Key} from '../../../utils/dom-util';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -150,19 +150,37 @@ export class GrTextarea extends base {
 
   disableEnterKeyForSelectingEmoji = false;
 
-  get keyBindings() {
-    return {
-      esc: '_handleEscKey',
-      tab: '_handleTabKey',
-      enter: '_handleEnterByKey',
-      up: '_handleUpKey',
-      down: '_handleDownKey',
-    };
-  }
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   constructor() {
     super();
     this.reporting = appContext.reportingService;
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.cleanups.push(
+      addShortcut(this, {key: Key.UP}, e => this._handleUpKey(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.DOWN}, e => this._handleDownKey(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.TAB}, e => this._handleTabKey(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER}, e => this._handleEnterByKey(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ESC}, e => this._handleEscKey(e))
+    );
   }
 
   override ready() {
@@ -238,16 +256,11 @@ export class GrTextarea extends base {
     this._setEmoji(this.$.emojiSuggestions.getCurrentText());
   }
 
-  _handleEnterByKey(e: IronKeyboardEvent) {
+  _handleEnterByKey(e: KeyboardEvent) {
     // Enter should have newline behavior if the picker is closed or if the user
     // has only typed ':'. Also make sure that shortcuts aren't clobbered.
     if (this._hideEmojiAutocomplete || this.disableEnterKeyForSelectingEmoji) {
-      if (
-        !e.detail.keyboardEvent?.metaKey &&
-        !e.detail.keyboardEvent?.ctrlKey
-      ) {
-        this.indent(e);
-      }
+      this.indent(e);
       return;
     }
 
@@ -420,7 +433,7 @@ export class GrTextarea extends base {
     );
   }
 
-  private indent(e: IronKeyboardEvent): void {
+  private indent(e: KeyboardEvent): void {
     if (!document.queryCommandSupported('insertText')) {
       return;
     }

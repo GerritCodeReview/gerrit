@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dde5053a_57dd9f3f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-19T11:17:24Z",
+      "side": 1,
+      "message": "Strange, I had problems until now but this is fine without it, done.",
+      "parentUuid": "bcd212f4_91f5bed5",
+      "range": {
+        "startLine": 442,
+        "startChar": 4,
+        "endLine": 444,
+        "endChar": 89
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "239839bc_4f3642e4",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-19T09:48:42Z",
       "side": 1,
       "message": "Maybe also add these tests to SubmitByRebaseIfNecessaryIT?",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 189,
+        "endChar": 3
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b72cb62_ff2b8b7e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-19T11:17:24Z",
+      "side": 1,
+      "message": "I don\u0027t see a good reason, since it will just cover the rebase case which we are covering already here. Then I will also need to add a dummy change to ensure a rebase happens.\n\nAnyway if you think it\u0027s useful still just comment and I\u0027ll do it in a follow-up.",
+      "parentUuid": "239839bc_4f3642e4",
       "range": {
         "startLine": 169,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62453d64_91dc5992",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-19T11:17:24Z",
+      "side": 1,
+      "message": "Strange, I had problems until now but this is fine without it, done.",
+      "parentUuid": "bdabd69e_bfc45963",
+      "range": {
+        "startLine": 198,
+        "startChar": 3,
+        "endLine": 200,
+        "endChar": 52
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0046d6c1_9f709fcc",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-10-19T09:48:42Z",
       "side": 1,
       "message": "nit: drop this",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 5
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06b3c2de_bb3c3dfc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-19T11:17:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0046d6c1_9f709fcc",
       "range": {
         "startLine": 201,
         "startChar": 4,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d784e3c_5dcec0a0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-19T11:17:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d3452a9_4625ec90",
+      "range": {
+        "startLine": 208,
+        "startChar": 25,
+        "endLine": 208,
+        "endChar": 27
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb7fd17b_da619ccb",
@@ -129,6 +249,30 @@
       "writtenOn": "2021-10-19T09:48:42Z",
       "side": 1,
       "message": "maybe better: which was created by rebase during submit.",
+      "range": {
+        "startLine": 208,
+        "startChar": 52,
+        "endLine": 209,
+        "endChar": 27
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a762a6c3_2900ad74",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-19T11:17:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb7fd17b_da619ccb",
       "range": {
         "startLine": 208,
         "startChar": 52,

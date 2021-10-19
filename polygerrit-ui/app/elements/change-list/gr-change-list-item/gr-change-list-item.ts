@@ -26,6 +26,8 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import '../gr-change-list-column/gr-change-list-column';
+import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-list-item_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';

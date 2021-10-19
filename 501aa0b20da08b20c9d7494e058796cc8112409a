@@ -274,6 +274,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2797972f_9b962756",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-19T08:02:01Z",
+      "side": 1,
+      "message": "\u003e Querying for group is currently querying if *any patch-set* contains the requested group. I am revamping it to also allow querying for latest patch-set.\n\nI don\u0027t know what the plan for the new endpoint is, but in related changes, outdated patch sets (e.g. you rebase the first change in the series, subsequent changes are shown as outdated) were still related.\n\nBut I guess even for that to work, we don\u0027t need to look at the groups from all patch sets? If the group changes, usually, that means an intentional relation chain break (e.g. in my earlier example, the rebase would not change the group IIRC).\n\nJust wanted to bring this up so you are aware.",
+      "parentUuid": "4add7b62_615f8766",
+      "range": {
+        "startLine": 80,
+        "startChar": 5,
+        "endLine": 80,
+        "endChar": 34
+      },
+      "revId": "501aa0b20da08b20c9d7494e058796cc8112409a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a24ff80_e7f3e2b6",
         "filename": "java/com/google/gerrit/server/submit/ChangeSet.java",
         "patchSetId": 3

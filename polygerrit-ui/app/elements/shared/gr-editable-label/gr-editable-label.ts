@@ -20,17 +20,16 @@ import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-editable-label_html';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PaperInputElementExt} from '../../../types/types';
-import {IronKeyboardEvent} from '../../../types/events';
 import {
   AutocompleteQuery,
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
+import {addShortcut, Key} from '../../../utils/dom-util';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -47,11 +46,8 @@ export interface GrEditableLabel {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-editable-label')
-export class GrEditableLabel extends base {
+export class GrEditableLabel extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -106,11 +102,23 @@ export class GrEditableLabel extends base {
     this._ensureAttribute('tabindex', '0');
   }
 
-  get keyBindings() {
-    return {
-      enter: '_handleEnter',
-      esc: '_handleEsc',
-    };
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER}, e => this._handleEnter(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ESC}, e => this._handleEsc(e))
+    );
   }
 
   _usePlaceholder(value?: string, placeholder?: string) {
@@ -204,8 +212,7 @@ export class GrEditableLabel extends base {
       this.getGrAutocomplete()) as HTMLInputElement;
   }
 
-  _handleEnter(event: IronKeyboardEvent) {
-    const e = event.detail.keyboardEvent;
+  _handleEnter(e: KeyboardEvent) {
     const target = (dom(e) as EventApi).rootTarget;
     if (target === this._nativeInput) {
       e.preventDefault();
@@ -213,8 +220,7 @@ export class GrEditableLabel extends base {
     }
   }
 
-  _handleEsc(event: IronKeyboardEvent) {
-    const e = event.detail.keyboardEvent;
+  _handleEsc(e: KeyboardEvent) {
     const target = (dom(e) as EventApi).rootTarget;
     if (target === this._nativeInput) {
       e.preventDefault();

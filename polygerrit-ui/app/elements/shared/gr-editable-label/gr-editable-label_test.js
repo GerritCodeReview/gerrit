@@ -101,7 +101,7 @@ suite('gr-editable-label tests', () => {
 
     element._inputText = 'new text';
     // Press enter:
-    MockInteractions.keyDownOn(input, 13);
+    MockInteractions.keyDownOn(input, 13, null, 'Enter');
     flush();
 
     assert.isTrue(editedSpy.called);
@@ -122,7 +122,7 @@ suite('gr-editable-label tests', () => {
 
     element._inputText = 'new text';
     // Press enter:
-    MockInteractions.tap(element.$.saveBtn, 13);
+    MockInteractions.tap(element.$.saveBtn, 13, null, 'Enter');
     flush();
 
     assert.isTrue(editedSpy.called);
@@ -143,7 +143,7 @@ suite('gr-editable-label tests', () => {
 
     element._inputText = 'new text';
     // Press escape:
-    MockInteractions.keyDownOn(input, 27);
+    MockInteractions.keyDownOn(input, 27, null, 'Escape');
     flush();
 
     assert.isFalse(editedSpy.called);

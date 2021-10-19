@@ -354,7 +354,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.test.isAdvisory", value = "true")
   @GerritConfig(name = "deadline.default.timeout", value = "2ms")
   public void nonAdvisoryDeadlineIsAppliedIfStricterAdvisoryDeadlineExists() throws Exception {
-    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(4));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
     assertThat(response.getEntityContent())

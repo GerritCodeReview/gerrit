@@ -364,7 +364,7 @@ public class ChangeInserter implements InsertChangeOp {
    * <p>Should not be used in new code, as it doesn't result in a single atomic batch ref update for
    * code and NoteDb meta refs.
    *
-   * @param updateRef whether to update the ref during {@code updateRepo}.
+   * @param updateRef whether to update the ref during {@link #updateRepo(RepoContext)}.
    */
   @Deprecated
   public ChangeInserter setUpdateRef(boolean updateRef) {

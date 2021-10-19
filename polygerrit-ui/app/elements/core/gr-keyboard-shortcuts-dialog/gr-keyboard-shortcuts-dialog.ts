@@ -22,11 +22,11 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-keyboard-shortcuts-dialog_html';
 import {
   ShortcutSection,
-  ShortcutListener,
   SectionView,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {property, customElement} from '@polymer/decorators';
 import {appContext} from '../../../services/app-context';
+import {ShortcutViewListener} from '../../../services/shortcuts/shortcuts-service';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -57,7 +57,7 @@ export class GrKeyboardShortcutsDialog extends PolymerElement {
   @property({type: Array})
   _right?: SectionShortcut[];
 
-  private readonly shortcutListener: ShortcutListener;
+  private readonly shortcutListener: ShortcutViewListener;
 
   private readonly shortcuts = appContext.shortcutsService;
 

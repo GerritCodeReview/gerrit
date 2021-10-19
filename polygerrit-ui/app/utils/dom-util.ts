@@ -16,7 +16,6 @@
  */
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {check} from './common-util';
-import {IronKeyboardEvent} from '../types/events';
 
 /**
  * Event emitted from polymer elements.
@@ -326,8 +325,18 @@ export enum Modifier {
   SHIFT_KEY,
 }
 
-export interface Shortcut {
+export enum ComboKey {
+  G = 'g',
+  V = 'v',
+}
+
+export interface Binding {
   key: string | Key;
+  /** Defaults to false. */
+  docOnly?: boolean;
+  /** Defaults to not being a combo shortcut. */
+  combo?: ComboKey;
+  /** Defaults to no modifiers. */
   modifiers?: Modifier[];
 }
 
@@ -358,7 +367,7 @@ function altMustMatch(key: string | Key) {
 
 export function eventMatchesShortcut(
   e: KeyboardEvent,
-  shortcut: Shortcut
+  shortcut: Binding
 ): boolean {
   if (e.key !== shortcut.key) return false;
   const modifiers = shortcut.modifiers ?? [];
@@ -380,7 +389,7 @@ export function eventMatchesShortcut(
 }
 
 export function addGlobalShortcut(
-  shortcut: Shortcut,
+  shortcut: Binding,
   listener: (e: KeyboardEvent) => void
 ) {
   return addShortcut(document.body, shortcut, listener);
@@ -388,12 +397,14 @@ export function addGlobalShortcut(
 
 export function addShortcut(
   element: HTMLElement,
-  shortcut: Shortcut,
+  shortcut: Binding,
   listener: (e: KeyboardEvent) => void
 ) {
   const wrappedListener = (e: KeyboardEvent) => {
     if (e.repeat) return;
-    if (eventMatchesShortcut(e, shortcut)) listener(e);
+    if (eventMatchesShortcut(e, shortcut)) {
+      listener(e);
+    }
   };
   element.addEventListener('keydown', wrappedListener);
   return () => element.removeEventListener('keydown', wrappedListener);
@@ -405,12 +416,4 @@ export function modifierPressed(e: KeyboardEvent) {
 
 export function shiftPressed(e: KeyboardEvent) {
   return e.shiftKey;
-}
-
-export function isModifierPressed(e: IronKeyboardEvent) {
-  return modifierPressed(e.detail.keyboardEvent);
-}
-
-export function isShiftPressed(e: IronKeyboardEvent) {
-  return shiftPressed(e.detail.keyboardEvent);
 }

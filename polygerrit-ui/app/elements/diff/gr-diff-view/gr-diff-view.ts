@@ -37,6 +37,7 @@ import {htmlTemplate} from './gr-diff-view_html';
 import {
   KeyboardShortcutMixin,
   Shortcut,
+  ShortcutListener,
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
@@ -98,12 +99,7 @@ import {
   getPatchRangeForCommentUrl,
 } from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
-import {
-  IronKeyboardEventListener,
-  IronKeyboardEvent,
-  EventType,
-  OpenFixPreviewEvent,
-} from '../../../types/events';
+import {EventType, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -292,46 +288,149 @@ export class GrDiffView extends base {
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
 
-  override keyboardShortcuts() {
-    return {
-      [Shortcut.LEFT_PANE]: '_handleLeftPane',
-      [Shortcut.RIGHT_PANE]: '_handleRightPane',
-      [Shortcut.NEXT_LINE]: '_handleNextLineOrFileWithComments',
-      [Shortcut.PREV_LINE]: '_handlePrevLineOrFileWithComments',
-      [Shortcut.VISIBLE_LINE]: '_handleVisibleLine',
-      [Shortcut.NEXT_FILE_WITH_COMMENTS]: '_handleNextLineOrFileWithComments',
-      [Shortcut.PREV_FILE_WITH_COMMENTS]: '_handlePrevLineOrFileWithComments',
-      [Shortcut.NEW_COMMENT]: '_handleNewComment',
-      [Shortcut.SAVE_COMMENT]: null, // DOC_ONLY binding
-      [Shortcut.NEXT_FILE]: '_handleNextFile',
-      [Shortcut.PREV_FILE]: '_handlePrevFile',
-      [Shortcut.NEXT_CHUNK]: '_handleNextChunkOrCommentThread',
-      [Shortcut.NEXT_COMMENT_THREAD]: '_handleNextChunkOrCommentThread',
-      [Shortcut.PREV_CHUNK]: '_handlePrevChunkOrCommentThread',
-      [Shortcut.PREV_COMMENT_THREAD]: '_handlePrevChunkOrCommentThread',
-      [Shortcut.OPEN_REPLY_DIALOG]: '_handleOpenReplyDialog',
-      [Shortcut.TOGGLE_LEFT_PANE]: '_handleToggleLeftPane',
-      [Shortcut.OPEN_DOWNLOAD_DIALOG]: '_handleOpenDownloadDialog',
-      [Shortcut.UP_TO_CHANGE]: '_handleUpToChange',
-      [Shortcut.OPEN_DIFF_PREFS]: '_handleCommaKey',
-      [Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
-      [Shortcut.TOGGLE_FILE_REVIEWED]: '_throttledToggleFileReviewed',
-      [Shortcut.TOGGLE_ALL_DIFF_CONTEXT]: '_handleToggleAllDiffContext',
-      [Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
-      [Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
-      [Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
-        '_handleToggleHideAllCommentThreads',
-      [Shortcut.OPEN_FILE_LIST]: '_handleOpenFileList',
-      [Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
-      [Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
-      [Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
-      [Shortcut.DIFF_RIGHT_AGAINST_LATEST]: '_handleDiffRightAgainstLatest',
-      [Shortcut.DIFF_BASE_AGAINST_LATEST]: '_handleDiffBaseAgainstLatest',
-
-      // Final two are actually handled by gr-comment-thread.
-      [Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
-      [Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
-    };
+  override keyboardShortcuts(): ShortcutListener[] {
+    return [
+      {
+        shortcut: Shortcut.LEFT_PANE,
+        listener: _ => this._handleLeftPane(),
+      },
+      {
+        shortcut: Shortcut.RIGHT_PANE,
+        listener: _ => this._handleRightPane(),
+      },
+      {
+        shortcut: Shortcut.NEXT_LINE,
+        listener: _ => this._handleNextLine(),
+      },
+      {
+        shortcut: Shortcut.PREV_LINE,
+        listener: _ => this._handlePrevLine(),
+      },
+      {
+        shortcut: Shortcut.VISIBLE_LINE,
+        listener: _ => this._handleVisibleLine(),
+      },
+      {
+        shortcut: Shortcut.NEXT_FILE_WITH_COMMENTS,
+        listener: _ => this._handleNextFileWithComments(),
+      },
+      {
+        shortcut: Shortcut.PREV_FILE_WITH_COMMENTS,
+        listener: _ => this._handlePrevFileWithComments(),
+      },
+      {
+        shortcut: Shortcut.NEW_COMMENT,
+        listener: _ => this._handleNewComment(),
+      },
+      {
+        shortcut: Shortcut.SAVE_COMMENT,
+        listener: _ => {}, // DOC_ONLY
+      },
+      {
+        shortcut: Shortcut.NEXT_FILE,
+        listener: _ => this._handleNextFile(),
+      },
+      {
+        shortcut: Shortcut.PREV_FILE,
+        listener: _ => this._handlePrevFile(),
+      },
+      {
+        shortcut: Shortcut.NEXT_CHUNK,
+        listener: _ => this._handleNextChunk(),
+      },
+      {
+        shortcut: Shortcut.NEXT_COMMENT_THREAD,
+        listener: _ => this._handleNextCommentThread(),
+      },
+      {
+        shortcut: Shortcut.PREV_CHUNK,
+        listener: _ => this._handlePrevChunk(),
+      },
+      {
+        shortcut: Shortcut.PREV_COMMENT_THREAD,
+        listener: _ => this._handlePrevCommentThread(),
+      },
+      {
+        shortcut: Shortcut.OPEN_REPLY_DIALOG,
+        listener: _ => this._handleOpenReplyDialog(),
+      },
+      {
+        shortcut: Shortcut.TOGGLE_LEFT_PANE,
+        listener: _ => this._handleToggleLeftPane(),
+      },
+      {
+        shortcut: Shortcut.OPEN_DOWNLOAD_DIALOG,
+        listener: _ => this._handleOpenDownloadDialog(),
+      },
+      {
+        shortcut: Shortcut.UP_TO_CHANGE,
+        listener: _ => this._handleUpToChange(),
+      },
+      {
+        shortcut: Shortcut.OPEN_DIFF_PREFS,
+        listener: _ => this._handleCommaKey(),
+      },
+      {
+        shortcut: Shortcut.TOGGLE_DIFF_MODE,
+        listener: _ => this._handleToggleDiffMode(),
+      },
+      {
+        shortcut: Shortcut.TOGGLE_FILE_REVIEWED,
+        listener: e => {
+          if (this._throttledToggleFileReviewed) {
+            this._throttledToggleFileReviewed(e);
+          }
+        },
+      },
+      {
+        shortcut: Shortcut.TOGGLE_ALL_DIFF_CONTEXT,
+        listener: _ => this._handleToggleAllDiffContext(),
+      },
+      {
+        shortcut: Shortcut.NEXT_UNREVIEWED_FILE,
+        listener: _ => this._handleNextUnreviewedFile(),
+      },
+      {
+        shortcut: Shortcut.TOGGLE_BLAME,
+        listener: _ => this._handleToggleBlame(),
+      },
+      {
+        shortcut: Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS,
+        listener: _ => this._handleToggleHideAllCommentThreads(),
+      },
+      {
+        shortcut: Shortcut.OPEN_FILE_LIST,
+        listener: _ => this._handleOpenFileList(),
+      },
+      {
+        shortcut: Shortcut.DIFF_AGAINST_BASE,
+        listener: _ => this._handleDiffAgainstBase(),
+      },
+      {
+        shortcut: Shortcut.DIFF_AGAINST_LATEST,
+        listener: _ => this._handleDiffAgainstLatest(),
+      },
+      {
+        shortcut: Shortcut.DIFF_BASE_AGAINST_LEFT,
+        listener: _ => this._handleDiffBaseAgainstLeft(),
+      },
+      {
+        shortcut: Shortcut.DIFF_RIGHT_AGAINST_LATEST,
+        listener: _ => this._handleDiffRightAgainstLatest(),
+      },
+      {
+        shortcut: Shortcut.DIFF_BASE_AGAINST_LATEST,
+        listener: _ => this._handleDiffBaseAgainstLatest(),
+      },
+      {
+        shortcut: Shortcut.EXPAND_ALL_COMMENT_THREADS,
+        listener: _ => {}, // DOC_ONLY
+      },
+      {
+        shortcut: Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
+        listener: _ => {}, // DOC_ONLY
+      },
+    ];
   }
 
   private readonly reporting = appContext.reportingService;
@@ -342,7 +441,7 @@ export class GrDiffView extends base {
 
   private readonly shortcuts = appContext.shortcutsService;
 
-  _throttledToggleFileReviewed?: IronKeyboardEventListener;
+  _throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
   _onRenderHandler?: EventListener;
 
@@ -352,8 +451,8 @@ export class GrDiffView extends base {
 
   override connectedCallback() {
     super.connectedCallback();
-    this._throttledToggleFileReviewed = throttleWrap(e =>
-      this._handleToggleFileReviewed(e)
+    this._throttledToggleFileReviewed = throttleWrap(_ =>
+      this._handleToggleFileReviewed()
     );
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
@@ -370,7 +469,7 @@ export class GrDiffView extends base {
     };
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
     this.cleanups.push(
-      addGlobalShortcut({key: Key.ESC}, e => this._handleEscKey(e))
+      addGlobalShortcut({key: Key.ESC}, _ => this._handleEscKey())
     );
   }
 
@@ -524,58 +623,32 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleToggleFileReviewed(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.shortcuts.modifierPressed(e)) return;
-
-    e.preventDefault();
+  _handleToggleFileReviewed() {
     this._setReviewed(!this.$.reviewed.checked);
   }
 
-  _handleEscKey(e: KeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    e.preventDefault();
+  _handleEscKey() {
     this.$.diffHost.displayLine = false;
   }
 
-  _handleLeftPane(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-
-    e.preventDefault();
+  _handleLeftPane() {
     this.cursor.moveLeft();
   }
 
-  _handleRightPane(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-
-    e.preventDefault();
+  _handleRightPane() {
     this.cursor.moveRight();
   }
 
-  _handlePrevLineOrFileWithComments(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-
-    if (
-      e.detail.keyboardEvent?.shiftKey &&
-      e.detail.keyboardEvent?.keyCode === 75
-    ) {
-      // 'K'
-      this._moveToPreviousFileWithComment();
-      return;
-    }
-    if (this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _handlePrevLine() {
     this.$.diffHost.displayLine = true;
     this.cursor.moveUp();
   }
 
-  _handleVisibleLine(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
+  _handlePrevFileWithComments() {
+    this._moveToPreviousFileWithComment();
+  }
 
-    e.preventDefault();
+  _handleVisibleLine() {
     this.cursor.moveToVisibleArea();
   }
 
@@ -583,24 +656,13 @@ export class GrDiffView extends base {
     this.$.applyFixDialog.open(e);
   }
 
-  _handleNextLineOrFileWithComments(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-
-    if (
-      e.detail.keyboardEvent?.shiftKey &&
-      e.detail.keyboardEvent?.keyCode === 74
-    ) {
-      // 'J'
-      this._moveToNextFileWithComment();
-      return;
-    }
-    if (this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _handleNextLine() {
     this.$.diffHost.displayLine = true;
     this.cursor.moveDown();
+  }
+
+  _handleNextFileWithComments() {
+    this._moveToNextFileWithComment();
   }
 
   _moveToPreviousFileWithComment() {
@@ -642,59 +704,34 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleNewComment(ike: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(ike)) return;
-    if (this.shortcuts.modifierPressed(ike)) return;
-
-    ike.preventDefault();
+  _handleNewComment() {
     this.classList.remove('hideComments');
     this.cursor.createCommentInPlace();
   }
 
-  _handlePrevFile(ike: IronKeyboardEvent) {
-    const ke = ike.detail.keyboardEvent;
-    if (this.shortcuts.shouldSuppress(ike)) return;
-    // Check for meta key to avoid overriding native chrome shortcut.
-    if (ke.metaKey) return;
+  _handlePrevFile() {
     if (!this._path) return;
     if (!this._fileList) return;
-
-    ike.preventDefault();
     this._navToFile(this._path, this._fileList, -1);
   }
 
-  _handleNextFile(ike: IronKeyboardEvent) {
-    const ke = ike.detail.keyboardEvent;
-    if (this.shortcuts.shouldSuppress(ike)) return;
-    // Check for meta key to avoid overriding native chrome shortcut.
-    if (ke.metaKey) return;
+  _handleNextFile() {
     if (!this._path) return;
     if (!this._fileList) return;
-
-    ike.preventDefault();
     this._navToFile(this._path, this._fileList, 1);
   }
 
-  _handleNextChunkOrCommentThread(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
+  _handleNextChunk() {
+    const result = this.cursor.moveToNextChunk();
+    if (result === CursorMoveResult.CLIPPED && this.cursor.isAtEnd()) {
+      this.showToastAndNavigateFile('next', 'n');
+    }
+  }
 
-    e.preventDefault();
-    if (e.detail.keyboardEvent?.shiftKey) {
-      const result = this.cursor.moveToNextCommentThread();
-      if (result === CursorMoveResult.CLIPPED) {
-        this._navigateToNextFileWithCommentThread();
-      }
-    } else {
-      if (this.shortcuts.modifierPressed(e)) return;
-      const result = this.cursor.moveToNextChunk();
-      // navigate to next file if key is not being held down
-      if (
-        !e.detail.keyboardEvent?.repeat &&
-        result === CursorMoveResult.CLIPPED &&
-        this.cursor.isAtEnd()
-      ) {
-        this.showToastAndNavigateFile('next', 'n');
-      }
+  _handleNextCommentThread() {
+    const result = this.cursor.moveToNextCommentThread();
+    if (result === CursorMoveResult.CLIPPED) {
+      this._navigateToNextFileWithCommentThread();
     }
   }
 
@@ -736,25 +773,19 @@ export class GrDiffView extends base {
     this._navToFile(this._path, unreviewedFiles, direction === 'next' ? 1 : -1);
   }
 
-  _handlePrevChunkOrCommentThread(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-
-    e.preventDefault();
-    if (e.detail.keyboardEvent?.shiftKey) {
-      this.cursor.moveToPreviousCommentThread();
-    } else {
-      if (this.shortcuts.modifierPressed(e)) return;
-      this.cursor.moveToPreviousChunk();
-      if (!e.detail.keyboardEvent?.repeat && this.cursor.isAtStart()) {
-        this.showToastAndNavigateFile('previous', 'p');
-      }
+  _handlePrevChunk() {
+    this.cursor.moveToPreviousChunk();
+    if (this.cursor.isAtStart()) {
+      this.showToastAndNavigateFile('previous', 'p');
     }
   }
 
+  _handlePrevCommentThread() {
+    this.cursor.moveToPreviousCommentThread();
+  }
+
   // Similar to gr-change-view._handleOpenReplyDialog
-  _handleOpenReplyDialog(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.shortcuts.modifierPressed(e)) return;
+  _handleOpenReplyDialog() {
     this._getLoggedIn().then(isLoggedIn => {
       if (!isLoggedIn) {
         fireEvent(this, 'show-auth-required');
@@ -762,50 +793,29 @@ export class GrDiffView extends base {
       }
 
       this.set('changeViewState.showReplyDialog', true);
-      e.preventDefault();
       this._navToChangeView();
     });
   }
 
-  _handleToggleLeftPane(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    if (!e.detail.keyboardEvent?.shiftKey) return;
-
-    e.preventDefault();
+  _handleToggleLeftPane() {
     this.$.diffHost.toggleLeftDiff();
   }
 
-  _handleOpenDownloadDialog(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.shortcuts.modifierPressed(e)) return;
-
+  _handleOpenDownloadDialog() {
     this.set('changeViewState.showDownloadDialog', true);
-    e.preventDefault();
     this._navToChangeView();
   }
 
-  _handleUpToChange(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.shortcuts.modifierPressed(e)) return;
-
-    e.preventDefault();
+  _handleUpToChange() {
     this._navToChangeView();
   }
 
-  _handleCommaKey(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.shortcuts.modifierPressed(e)) return;
+  _handleCommaKey() {
     if (this._diffPrefsDisabled) return;
-
-    e.preventDefault();
     this.$.diffPreferencesDialog.open();
   }
 
-  _handleToggleDiffMode(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.shortcuts.modifierPressed(e)) return;
-
-    e.preventDefault();
+  _handleToggleDiffMode() {
     if (this._getDiffViewMode() === DiffViewMode.SIDE_BY_SIDE) {
       this.$.modeSelect.setMode(DiffViewMode.UNIFIED);
     } else {
@@ -1697,28 +1707,19 @@ export class GrDiffView extends base {
     this._loadBlame();
   }
 
-  _handleToggleBlame(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.shortcuts.modifierPressed(e)) return;
-
+  _handleToggleBlame() {
     this._toggleBlame();
   }
 
-  _handleToggleHideAllCommentThreads(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.shortcuts.modifierPressed(e)) return;
-
+  _handleToggleHideAllCommentThreads() {
     toggleClass(this, 'hideComments');
   }
 
-  _handleOpenFileList(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.shortcuts.modifierPressed(e)) return;
+  _handleOpenFileList() {
     this.$.dropdown.open();
   }
 
-  _handleDiffAgainstBase(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
+  _handleDiffAgainstBase() {
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1734,8 +1735,7 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleDiffBaseAgainstLeft(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
+  _handleDiffBaseAgainstLeft() {
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1755,8 +1755,7 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleDiffAgainstLatest(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
+  _handleDiffAgainstLatest() {
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1775,8 +1774,7 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleDiffRightAgainstLatest(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
+  _handleDiffRightAgainstLatest() {
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1794,8 +1792,7 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleDiffBaseAgainstLatest(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
+  _handleDiffBaseAgainstLatest() {
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1832,9 +1829,7 @@ export class GrDiffView extends base {
     return '';
   }
 
-  _handleToggleAllDiffContext(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-
+  _handleToggleAllDiffContext() {
     this.$.diffHost.toggleAllContext();
   }
 
@@ -1842,8 +1837,7 @@ export class GrDiffView extends base {
     return disableDiffPrefs || !loggedIn;
   }
 
-  _handleNextUnreviewedFile(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
+  _handleNextUnreviewedFile() {
     this._setReviewed(true);
     this.navigateToUnreviewedFile('next');
   }

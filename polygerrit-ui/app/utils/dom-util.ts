@@ -16,7 +16,6 @@
  */
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {check} from './common-util';
-import {IronKeyboardEvent} from '../types/events';
 
 /**
  * Event emitted from polymer elements.
@@ -326,10 +325,22 @@ export enum Modifier {
   SHIFT_KEY,
 }
 
+export enum ComboKey {
+  G = 'g',
+  V = 'v',
+}
+
 export interface Shortcut {
   key: string | Key;
+  /** Defaults to false. */
+  docOnly?: boolean;
+  /** Defaults to not being a combo shortcut. */
+  combo?: ComboKey;
+  /** Defaults to no modifiers. */
   modifiers?: Modifier[];
 }
+
+export type ShortcutKey = Shortcut;
 
 const ALPHA_NUM = new RegExp(/^[A-Za-z0-9]$/);
 
@@ -393,7 +404,10 @@ export function addShortcut(
 ) {
   const wrappedListener = (e: KeyboardEvent) => {
     if (e.repeat) return;
-    if (eventMatchesShortcut(e, shortcut)) listener(e);
+    if (eventMatchesShortcut(e, shortcut)) {
+      console.log(`Keyboard Listener Match ${e.key} ${shortcut.key}`);
+      listener(e);
+    }
   };
   element.addEventListener('keydown', wrappedListener);
   return () => element.removeEventListener('keydown', wrappedListener);
@@ -405,12 +419,4 @@ export function modifierPressed(e: KeyboardEvent) {
 
 export function shiftPressed(e: KeyboardEvent) {
   return e.shiftKey;
-}
-
-export function isModifierPressed(e: IronKeyboardEvent) {
-  return modifierPressed(e.detail.keyboardEvent);
-}
-
-export function isShiftPressed(e: IronKeyboardEvent) {
-  return shiftPressed(e.detail.keyboardEvent);
 }

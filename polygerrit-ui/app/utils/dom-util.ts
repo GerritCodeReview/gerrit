@@ -379,7 +379,15 @@ export function eventMatchesShortcut(
   return true;
 }
 
+export function addGlobalShortcut(
+  shortcut: Shortcut,
+  listener: (e: KeyboardEvent) => void
+) {
+  return addShortcut(document.body, shortcut, listener);
+}
+
 export function addShortcut(
+  element: HTMLElement,
   shortcut: Shortcut,
   listener: (e: KeyboardEvent) => void
 ) {
@@ -387,8 +395,8 @@ export function addShortcut(
     if (e.repeat) return;
     if (eventMatchesShortcut(e, shortcut)) listener(e);
   };
-  document.addEventListener('keydown', wrappedListener);
-  return () => document.removeEventListener('keydown', wrappedListener);
+  element.addEventListener('keydown', wrappedListener);
+  return () => element.removeEventListener('keydown', wrappedListener);
 }
 
 export function modifierPressed(e: KeyboardEvent) {

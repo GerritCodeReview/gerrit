@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcd212f4_91f5bed5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByCherryPickIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-19T09:48:42Z",
+      "side": 1,
+      "message": "I believe this is not needed. A cherry-pick should always be performed even if the change is already based on the head of the target branch (cherry-pick adds footers to the commit message which requires creating a new commit in any case).",
+      "range": {
+        "startLine": 442,
+        "startChar": 4,
+        "endLine": 444,
+        "endChar": 89
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "239839bc_4f3642e4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-19T09:48:42Z",
+      "side": 1,
+      "message": "Maybe also add these tests to SubmitByRebaseIfNecessaryIT?",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 189,
+        "endChar": 3
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdabd69e_bfc45963",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-19T09:48:42Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be necessary for rebase always?",
+      "range": {
+        "startLine": 198,
+        "startChar": 3,
+        "endLine": 200,
+        "endChar": 52
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0046d6c1_9f709fcc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-19T09:48:42Z",
+      "side": 1,
+      "message": "nit: drop this",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 5
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d3452a9_4625ec90",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-19T09:48:42Z",
+      "side": 1,
+      "message": "\"is stored on\"?",
+      "range": {
+        "startLine": 208,
+        "startChar": 25,
+        "endLine": 208,
+        "endChar": 27
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb7fd17b_da619ccb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-19T09:48:42Z",
+      "side": 1,
+      "message": "maybe better: which was created by rebase during submit.",
+      "range": {
+        "startLine": 208,
+        "startChar": 52,
+        "endLine": 209,
+        "endChar": 27
+      },
+      "revId": "ccf2560fb32aee03943a4889bd2d888f903f3330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

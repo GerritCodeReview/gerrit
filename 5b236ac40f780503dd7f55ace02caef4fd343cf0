@@ -83,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66776d07_a5d5d93a",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-19T09:48:42Z",
+      "side": 1,
+      "message": "Thanks, much clearer now.",
+      "parentUuid": "68f6979e_e12582ae",
+      "range": {
+        "startLine": 223,
+        "startChar": 12,
+        "endLine": 223,
+        "endChar": 87
+      },
+      "revId": "5b236ac40f780503dd7f55ace02caef4fd343cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b83f67ca_0753450a",

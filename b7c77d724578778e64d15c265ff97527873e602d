@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "816962cf_8f2db399",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-19T14:38:31Z",
+      "side": 1,
+      "message": "10000 refs per repo succeeds, but I have seen failures trying to update 30000.",
+      "parentUuid": "489242b6_58fc6e10",
+      "revId": "b7c77d724578778e64d15c265ff97527873e602d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "920de661_4922fdac",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-10-19T13:24:14Z",
       "side": 1,
       "message": "nit: @Nullable",
+      "range": {
+        "startLine": 326,
+        "startChar": 9,
+        "endLine": 326,
+        "endChar": 18
+      },
+      "revId": "b7c77d724578778e64d15c265ff97527873e602d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28b4e6c3_b818fd2a",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-19T14:38:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "920de661_4922fdac",
       "range": {
         "startLine": 326,
         "startChar": 9,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b59d11b_375a48a2",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-19T14:38:31Z",
+      "side": 1,
+      "message": "I will keep this in case this class is used in try block and to make the interface more clear (override of #close).",
+      "parentUuid": "8f66f9da_d5243bc2",
+      "range": {
+        "startLine": 1334,
+        "startChar": 35,
+        "endLine": 1334,
+        "endChar": 60
+      },
+      "revId": "b7c77d724578778e64d15c265ff97527873e602d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acacf07d_3ef3597b",
@@ -77,6 +143,24 @@
       "writtenOn": "2021-10-19T13:24:14Z",
       "side": 1,
       "message": "private",
+      "revId": "b7c77d724578778e64d15c265ff97527873e602d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7278e294_54127384",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-10-19T14:38:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acacf07d_3ef3597b",
       "revId": "b7c77d724578778e64d15c265ff97527873e602d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

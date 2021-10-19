@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28a342ba_2aee2136",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-19T20:00:40Z",
+      "side": 1,
+      "message": "nit: Either change this to \"Exposing\" or change the wording after \"level\" below so this reads correctly.",
+      "range": {
+        "startLine": 21,
+        "startChar": 20,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "b49db40b7325873e64a0ca6107e24f10fd3c8df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95a10381_fc4eb3a2",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-19T20:00:40Z",
+      "side": 1,
+      "message": "Simplify this further into something higher level.",
+      "range": {
+        "startLine": 1046,
+        "startChar": 0,
+        "endLine": 1047,
+        "endChar": 12
+      },
+      "revId": "b49db40b7325873e64a0ca6107e24f10fd3c8df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43cec26f_82d2a22a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-19T20:00:40Z",
+      "side": 1,
+      "message": "Add a sentence or two each about the parameters.",
+      "revId": "b49db40b7325873e64a0ca6107e24f10fd3c8df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dc11b8f_a865facf",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-19T20:00:40Z",
+      "side": 1,
+      "message": "is not",
+      "range": {
+        "startLine": 71,
+        "startChar": 54,
+        "endLine": 71,
+        "endChar": 55
+      },
+      "revId": "b49db40b7325873e64a0ca6107e24f10fd3c8df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

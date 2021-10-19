@@ -20,28 +20,18 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.testing.AbstractFakeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.testing.SystemPropertiesTestRule;
 import javax.inject.Inject;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 /** Test to check that the expected index backend was bound depending on sys/env properties. */
 public class DefaultIndexBindingIT extends AbstractDaemonTest {
+  @ClassRule
+  public static SystemPropertiesTestRule systemProperties =
+      new SystemPropertiesTestRule(IndexType.SYS_PROP, "");
 
   @Inject private ChangeIndexCollection changeIndex;
-
-  private static String propertyBeforeTest;
-
-  @BeforeClass
-  public static void setup() {
-    propertyBeforeTest = System.getProperty(IndexType.SYS_PROP);
-    System.setProperty(IndexType.SYS_PROP, "");
-  }
-
-  @AfterClass
-  public static void teardown() {
-    System.setProperty(IndexType.SYS_PROP, propertyBeforeTest);
-  }
 
   @Test
   public void fakeIsBoundByDefault() throws Exception {

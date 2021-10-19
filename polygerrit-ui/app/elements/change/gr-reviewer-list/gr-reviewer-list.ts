@@ -21,8 +21,6 @@ import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-reviewer-list_html';
-import {isSelf, isServiceUser} from '../../../utils/account-util';
-import {hasAttention} from '../../../utils/attention-set-util';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {
   ChangeInfo,
@@ -237,22 +235,7 @@ export class GrReviewerList extends PolymerElement {
     }
     this._reviewers = result
       .filter(reviewer => reviewer._account_id !== owner._account_id)
-      // Sort order:
-      // 1. The user themselves
-      // 2. Human users in the attention set.
-      // 3. Other human users.
-      // 4. Service users.
-      .sort((r1, r2) => {
-        if (this.account) {
-          if (isSelf(r1, this.account)) return -1;
-          if (isSelf(r2, this.account)) return 1;
-        }
-        const a1 = hasAttention(r1, this.change!) ? 1 : 0;
-        const a2 = hasAttention(r2, this.change!) ? 1 : 0;
-        const s1 = isServiceUser(r1) ? -2 : 0;
-        const s2 = isServiceUser(r2) ? -2 : 0;
-        return a2 - a1 + s2 - s1;
-      });
+      .sort((r1, r2) => sortReviewers(r1, r2, this.change, this.account));
 
     if (this._reviewers.length > 8) {
       this._displayedReviewers = this._reviewers.slice(0, 6);

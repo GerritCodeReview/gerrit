@@ -489,10 +489,6 @@ suite('gr-diff-view tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
       assert(showPrefsStub.calledOnce);
 
-      element.disableDiffPrefs = true;
-      MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
-      assert(showPrefsStub.calledOnce);
-
       let scrollStub = sinon.stub(element.cursor, 'moveToNextChunk');
       MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
       assert(scrollStub.calledOnce);
@@ -988,36 +984,18 @@ suite('gr-diff-view tests', () => {
     });
 
     suite('diff prefs hidden', () => {
-      test('when no prefs or logged out', () => {
-        element.disableDiffPrefs = false;
+      test('whenlogged out', () => {
         element._loggedIn = false;
         flush();
         assert.isTrue(element.$.diffPrefsContainer.hidden);
 
         element._loggedIn = true;
         flush();
-        assert.isTrue(element.$.diffPrefsContainer.hidden);
+        assert.isFalse(element.$.diffPrefsContainer.hidden);
 
         element._loggedIn = false;
         element._prefs = {font_size: '12'};
         flush();
-        assert.isTrue(element.$.diffPrefsContainer.hidden);
-
-        element._loggedIn = true;
-        flush();
-        assert.isFalse(element.$.diffPrefsContainer.hidden);
-      });
-
-      test('when disableDiffPrefs is set', () => {
-        element._loggedIn = true;
-        element._prefs = {font_size: '12'};
-        element.disableDiffPrefs = false;
-        flush();
-
-        assert.isFalse(element.$.diffPrefsContainer.hidden);
-        element.disableDiffPrefs = true;
-        flush();
-
         assert.isTrue(element.$.diffPrefsContainer.hidden);
       });
     });

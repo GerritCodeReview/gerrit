@@ -1085,6 +1085,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de51e0e8_0090bc3c",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-20T17:57:02Z",
+      "side": 1,
+      "message": "It looks like all of this is done more safely in the new JGit getMergedInto() method added in https://git.eclipse.org/r/c/jgit/jgit/+/176439, so we should refactor this class first to use that, which might end up removing most of this class. Then we can add this new API on top.",
+      "parentUuid": "10188c3b_145514aa",
+      "revId": "d7f72911165ecb1089ea4e4048af7de908164c1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5230bd4_7512f43f",
         "filename": "java/com/google/gerrit/server/restapi/project/CommitsIncludedInRefs.java",
         "patchSetId": 14

@@ -24,16 +24,16 @@ not detected for REST calls over HTTP, SSH commands and git clone/fetch).
 [[server-side-deadlines]]
 == Server-side deadlines
 
-To limit the maximal execution time for requests, administrators can [configure
-server-side deadlines](config-gerrit.html#deadline.id). If a server-side
-deadline is exceeded by a matching request, the request is automatically
-aborted. In this case the client gets a proper error message informing the user
-about the exceeded deadline.
+To limit the maximal execution time for requests, administrators can
+link:config-gerrit.html#deadline.id[configure server-side deadlines]. If a
+server-side deadline is exceeded by a matching request, the request is
+automatically aborted. In this case the client gets a proper error message
+informing the user about the exceeded deadline.
 
 Clients may override server-side deadlines by setting a
-[deadline](#client-provided-deadline) on the request. This means, if a request
-fails due to an exceeded server-side deadline, the client may repeat the request
-with a higher deadline or no deadline (deadline = 0) to get unblocked.
+link:#client-provided-deadlines[deadline] on the request. This means, if a
+request fails due to an exceeded server-side deadline, the client may repeat the
+request with a higher deadline or no deadline (deadline = 0) to get unblocked.
 
 Server-side deadlines are meant to protect the Gerrit service against resource
 exhaustion due to performence issues with a particular request. E.g. imagine a
@@ -49,15 +49,15 @@ the execution of the request, than letting them wait indefinitely.
 
 Finally server-side deadlines can help ops engineers to detect performance
 issues more reliably and more quicky. For this alerts may be setup that are
-based on the [cancellation metrics](metrics.html#cancellations).
+based on the link:metrics.html#cancellations[cancellation metrics].
 
 [[receive-timeout]]
 === Receive Timeout
 
-For git pushes it is possible to configure a [hard
-timeout](config-gerrit.html#receive.timeout). In contrast to server-side
-deadlines, this timeout is not overridable by [client-provided
-deadlines](#client-provided-deadlines).
+For git pushes it is possible to configure a
+link:config-gerrit.html#receive.timeout[hard timeout]. In contrast to
+server-side deadlines, this timeout is not overridable by
+link:#client-provided-deadlines[client-provided deadlines].
 
 [[client-provided-deadlines]]
 == Client-provided deadlines
@@ -72,30 +72,32 @@ How to set a deadline on a request depends on the request type:
 [options="header",cols="1,6"]
 |=======================
 |Request Type   |How to set a deadline?
-|REST over HTTP |Set the [X-Gerrit-Deadline header](rest-api.html#deadline).
-|SSH command    |Set the [deadline option](cmd-index.html#deadline).
-|git push       |Set the [deadline push option](user-upload.html#deadline).
+|REST over HTTP |Set the link:rest-api.html#deadline[X-Gerrit-Deadline header].
+|SSH command    |Set the link:cmd-index.html#deadline[deadline option].
+|git push       |Set the link:user-upload.html#deadline[deadline push option].
 |git clone/fetch|Not supported.
 |=======================
 
 [[override-server-side-deadline]]
 === Override server-side deadline
 
-By setting a deadline on a request it is possible to override any [server-side
-deadline](#server-side-deadline), e.g. in order to increase it. Setting the
-deadline to `0` disables any server-side deadline. This allows clients to get
-unblocked if a request has previously failed due to an exceeded deadline.
+By setting a deadline on a request it is possible to override any
+link:#server-side-deadlines[server-side deadline], e.g. in order to increase it.
+Setting the deadline to `0` disables any server-side deadline. This allows
+clients to get unblocked if a request has previously failed due to an exceeded
+deadline.
 
 [NOTE]
-It is stronly discouraged for clients to permanently override [server-side
-deadlines](#server-side-deadlines] with a higher deadline or to permanently
-disable them by always setting the deadline to `0`. If this becomes necessary
-the caller should get in touch with the Gerrit administrators to increase the
-server-side deadlines or resolve the performance issue in another way.
+It is stronly discouraged for clients to permanently override
+link:#server-side-deadlines[server-side deadlines] with a higher deadline or to
+permanently disable them by always setting the deadline to `0`. If this becomes
+necessary the caller should get in touch with the Gerrit administrators to
+increase the server-side deadlines or resolve the performance issue in another
+way.
 
 [NOTE]
-It's not possible for clients to override the [receive
-timeout](#receive-timeout) that is enforced on git push.
+It's not possible for clients to override the link:#receive-timeout[receive
+timeout] that is enforced on git push.
 
 [[faqs]]
 == FAQs
@@ -105,7 +107,7 @@ timeout](#receive-timeout) that is enforced on git push.
 
 To get unblocked, you may repeat the request with deadlines disabled. To do this
 set the deadline to `0` on the request as explained
-[above](#override-server-side-deadline).
+link:#override-server-side-deadline[above].
 
 If doing this becomes required frequently, please get in touch with the Gerrit
 administrators in order to investigate the performance issue and increase the
@@ -119,7 +121,7 @@ the Gerrit administrators in order to investigate the performance issue.
 [[push-fails-due-to-exceeded-deadline-but-cannot-be-overridden]]
 === My git push fails due to an exceeded deadline and I cannot override the deadline, what can I do?
 
-As explained [above](#receive-timeout) a configured receive timeout cannot be
+As explained link:#receive-timeout[above] a configured receive timeout cannot be
 overridden by clients. If pushes fail due to this timeout, get in touch with the
 Gerrit administrators in order to investigate the performance issue and increase
 the receive timeout if necessary.
@@ -138,7 +140,7 @@ inside of a step).
 Technically the check whether a request should be aborted is done whenever the
 execution time of an operation or sub-step is captured, either by a timer
 metric or a `TraceTimer` ('TraceTimer` is the class that logs the execution time
-when the request is being [traced](user-request-tracing.html)).
+when the request is being link:user-request-tracing.html[traced]).
 
 [[how-are-requests-aborted]]
 === How does Gerrit abort requests?
@@ -165,8 +167,8 @@ This means clients always get a proper error message telling the user why the
 request has been aborted.
 
 Errors due to aborted requests are usually not counted as internal server errors,
-but the [cancellation metrics](metrics.html#cancellations) may be used to setup
-alerting for performance issues.
+but the link:metrics.html#cancellations[cancellation metrics] may be used to
+setup alerting for performance issues.
 
 [NOTE]
 During a request, cancellations can occur at any time. This means for non-atomic

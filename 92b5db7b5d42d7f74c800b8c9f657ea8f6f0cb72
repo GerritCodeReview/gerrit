@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b368e0b7_63e0ab84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-20T21:39:39Z",
+      "side": 1,
+      "message": "@Marco would that make sense to you? @Edwin can you check if that version is OK for Google to provide a LC+1? Alternatively, you could just change the HTTPCORE_VERS in your build and put that back to the previous version.",
+      "revId": "92b5db7b5d42d7f74c800b8c9f657ea8f6f0cb72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ea45053_d3bdc994",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026270
+      },
+      "writtenOn": "2021-10-20T02:35:38Z",
+      "side": 1,
+      "message": "See also https://groups.google.com/g/repo-discuss/c/565rD1Sjiag/m/aHhYctPTBgAJ",
+      "revId": "e0e3658a6a2210ed68c866fb80f5ff765a83f0ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,103 @@
       "message": "Tests are passing locally, trying to figure out why this is not passing but would appreciate if a round of review can already happen.",
       "revId": "07ee2ac25240d940a7162fe28eb17a4a6a6d58a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c5f5cd3_d0b85e5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-20T14:01:13Z",
+      "side": 1,
+      "message": "Move this derived selector to the pref model.\n\nThe change model has an example of a selector that combines data from change and router: changeAndRouterConsistent$.\n\nThe models should have a clear hierarchy, so that you would put the a combined selector into the model that is more complex and depends on the other.",
+      "range": {
+        "startLine": 371,
+        "startChar": 4,
+        "endLine": 376,
+        "endChar": 6
+      },
+      "revId": "07ee2ac25240d940a7162fe28eb17a4a6a6d58a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "508ff89c_09fab35a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-20T14:01:13Z",
+      "side": 1,
+      "message": "Once the selector is moved to a common place as suggested above, you can then also avoid the code duplication. :-)",
+      "revId": "07ee2ac25240d940a7162fe28eb17a4a6a6d58a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce3311e0_6bdc24de",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-20T14:01:13Z",
+      "side": 1,
+      "message": "Move all the changes in this class into a service.",
+      "range": {
+        "startLine": 261,
+        "startChar": 4,
+        "endLine": 270,
+        "endChar": 38
+      },
+      "revId": "07ee2ac25240d940a7162fe28eb17a4a6a6d58a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71041329_967c4b8f",
+        "filename": "polygerrit-ui/app/services/view/view-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-20T14:01:13Z",
+      "side": 1,
+      "message": "I am not sure what \"view\" relates to here and whether we can maybe find a better name. `ViewState` does not have a documenting comment, so it is unclear what you are targeting to include into this model other than the one boolean.\n\nI would propose that we keep all other models agnostic of the browser and the DOM. So this could maybe become the `browser-model`? It could track all the vars that are changing and are directly related to the browser and the DOM. WDYT?",
+      "revId": "07ee2ac25240d940a7162fe28eb17a4a6a6d58a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c577e55_75e99052",
+        "filename": "polygerrit-ui/app/services/view/view-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-20T14:01:13Z",
+      "side": 1,
+      "message": "I would recommend to just track the raw data (i.e. the width) in the state object.\n\nAnd then add dedicated observables (called selectors) for derived values. That also has the advantage that we are not stuck with a boolean here and that we will have MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX in the model.\n\nThe dedicated selector could then also have `unified diff` somehow in its name.",
+      "revId": "07ee2ac25240d940a7162fe28eb17a4a6a6d58a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

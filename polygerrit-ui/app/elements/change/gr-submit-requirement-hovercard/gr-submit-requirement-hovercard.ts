@@ -119,9 +119,6 @@ export class GrSubmitRequirementHovercard extends base {
           margin-top: var(--spacing-m);
           padding: var(--spacing-m) var(--spacing-xl) 0;
         }
-        .status-placeholder {
-          visibility: hidden;
-        }
       `,
     ];
   }
@@ -161,8 +158,6 @@ export class GrSubmitRequirementHovercard extends base {
     return html` <div class="section">
       <div class="sectionIcon"></div>
       <div class="row">
-        <!-- Hidden placeholder to be aligned as Status line above -->
-        <div class="title status-placeholder">Status</div>
         <div>${labels.map(l => this.renderLabel(l, showLabelName))}</div>
       </div>
     </div>`;

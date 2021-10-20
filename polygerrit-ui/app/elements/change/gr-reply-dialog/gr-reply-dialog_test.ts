@@ -32,7 +32,7 @@ import {appContext} from '../../../services/app-context';
 import {addListenerForTest} from '../../../test/test-utils';
 import {stubRestApi} from '../../../test/test-utils';
 import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {CODE_REVIEW} from '../../../utils/label-util';
+import {StandardLabels} from '../../../utils/label-util';
 import {
   createAccountWithId,
   createChange,
@@ -2116,9 +2116,9 @@ suite('gr-reply-dialog tests', () => {
 
   test('_computeSendButtonDisabled_existingVote', async () => {
     const account = createAccountWithId();
-    (element.change!.labels![CODE_REVIEW]! as DetailedLabelInfo).all = [
-      account,
-    ];
+    (
+      element.change!.labels![StandardLabels.CODE_REVIEW]! as DetailedLabelInfo
+    ).all = [account];
     await flush();
 
     // User has already voted.

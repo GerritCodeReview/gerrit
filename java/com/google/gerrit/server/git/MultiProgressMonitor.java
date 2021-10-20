@@ -280,7 +280,24 @@ public class MultiProgressMonitor implements RequestStateProvider {
       while (!done) {
         long start = System.nanoTime();
         try {
-          NANOSECONDS.timedWait(this, left);
+          // Conditions below gives better granularity for timeouts.
+          // Originally, code always used fixed interval:
+          // NANOSECONDS.timedWait(this, maxIntervalNanos);
+          // As a result, the actual check for timeouts happened only every maxIntervalNanos
+          // (default value 500ms); so even if timout was set to 1ms, the actual timeout was 500ms.
+          // This is not a big issue, however it made our tests for timeouts flaky. For example,
+          // some tests in the CancellationIT set timeout to 1ms and expect that server returns
+          // timeout. However, server often returned OK result, because a request take less than
+          // 500ms.
+          if (deadlineExceeded || deadline == 0) {
+            // We want to set deadlineExceeded flag as earlier as possible. If it is already
+            // set - there is no reason to wait less than maxIntervalNanos
+            NANOSECONDS.timedWait(this, maxIntervalNanos);
+          } else if (start <= deadline) {
+            // if deadlineExceeded is not set, then we should wait until deadline, but no longer
+            // than maxIntervalNanos (because we want to report a progress every maxIntervalNanos).
+            NANOSECONDS.timedWait(this, Math.min(deadline - start + 1, maxIntervalNanos));
+          }
         } catch (InterruptedException e) {
           throw new UncheckedExecutionException(e);
         }

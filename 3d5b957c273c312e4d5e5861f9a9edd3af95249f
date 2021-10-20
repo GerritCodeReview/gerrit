@@ -64,6 +64,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97cdaa19_2ed64200",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-20T12:10:18Z",
+      "side": 1,
+      "message": "I see, this doesn\u0027t contain the term \"drafts\", because the same flag is also used for stars later.",
+      "parentUuid": "8a5fadad_ee4282e5",
+      "range": {
+        "startLine": 41,
+        "startChar": 60,
+        "endLine": 41,
+        "endChar": 93
+      },
+      "revId": "3d5b957c273c312e4d5e5861f9a9edd3af95249f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5847399_74e55e4c",
@@ -77,6 +101,30 @@
       "writtenOn": "2021-10-20T11:59:26Z",
       "side": 1,
       "message": "compute_drafts?",
+      "range": {
+        "startLine": 42,
+        "startChar": 36,
+        "endLine": 42,
+        "endChar": 43
+      },
+      "revId": "3d5b957c273c312e4d5e5861f9a9edd3af95249f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2937f2f1_63304527",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-20T12:10:18Z",
+      "side": 1,
+      "message": "I see, this doesn\u0027t contain the term \"drafts\", because the same flag is also used for stars later.",
+      "parentUuid": "b5847399_74e55e4c",
       "range": {
         "startLine": 42,
         "startChar": 36,
@@ -123,6 +171,30 @@
       "writtenOn": "2021-10-20T11:59:26Z",
       "side": 1,
       "message": "Should the test name reflect that it\u0027s testing the experiment?\nMaybe something like byHasDrafts_draftsComputedFromAllUsersRepository?",
+      "range": {
+        "startLine": 2380,
+        "startChar": 14,
+        "endLine": 2380,
+        "endChar": 38
+      },
+      "revId": "3d5b957c273c312e4d5e5861f9a9edd3af95249f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef9aeb5a_d54ccfe9",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 2380,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-20T12:10:18Z",
+      "side": 1,
+      "message": "I wonder if all draft related test should be executed twice, once with the experiment enabled and once with the experiment disabled?",
+      "parentUuid": "c6032a1c_501e2e81",
       "range": {
         "startLine": 2380,
         "startChar": 14,

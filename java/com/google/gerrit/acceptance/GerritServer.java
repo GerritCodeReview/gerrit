@@ -35,6 +35,7 @@ import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -353,7 +354,8 @@ public class GerritServer implements AutoCloseable {
     cfg.setBoolean("index", null, "onlineUpgrade", false);
     cfg.setString("gitweb", null, "cgi", "");
     daemon.setEnableHttpd(desc.httpd());
-    daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0, isSlave(baseConfig)));
+    daemon.setLuceneModule(
+        LuceneIndexModule.singleVersionAllLatest(0, isSlave(baseConfig), AutoFlush.ENABLED));
     daemon.setDatabaseForTesting(
         ImmutableList.<Module>of(
             new InMemoryTestingDatabaseModule(

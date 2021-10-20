@@ -38,12 +38,14 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.github.rholder.retry.BlockStrategy;
 import com.google.common.base.Strings;
+import com.google.common.base.Ticker;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
+import com.google.common.testing.FakeTicker;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
@@ -148,9 +150,11 @@ import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.SshMode;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gson.Gson;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.multibindings.OptionalBinder;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -289,6 +293,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;
+  @Inject protected TestTicker testTicker;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;
@@ -409,7 +414,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void restart() throws Exception {
-    server = GerritServer.restart(server, createModule(), createSshModule());
+    server = GerritServer.restart(server, createTestSysModule(), createSshModule());
     server.getTestInjector().injectMembers(this);
     if (resetter != null) {
       server.getTestInjector().injectMembers(resetter);
@@ -458,7 +463,7 @@ public abstract class AbstractDaemonTest {
     baseConfig.setInt("index", null, "batchThreads", -1);
 
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
-    Module module = createModule();
+    Module module = createTestSysModule();
     Module auditModule = createAuditModule();
     Module sshModule = createSshModule();
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
@@ -557,6 +562,24 @@ public abstract class AbstractDaemonTest {
       System.setProperty("user.timezone", systemTimeZone);
       systemTimeZone = null;
     }
+  }
+
+  protected Module createTestSysModule() {
+    return new AbstractModule() {
+      @Override
+      protected void configure() {
+        super.configure();
+        TestTicker testTicker = new TestTicker();
+        OptionalBinder.newOptionalBinder(binder(), Ticker.class)
+            .setBinding()
+            .toInstance(testTicker);
+        bind(TestTicker.class).toInstance(testTicker);
+        Module module = createModule();
+        if (module != null) {
+          install(module);
+        }
+      }
+    };
   }
 
   /** Override to bind an additional Guice module */
@@ -702,6 +725,8 @@ public abstract class AbstractDaemonTest {
     }
     SystemReader.setInstance(oldSystemReader);
     oldSystemReader = null;
+    // Set useDefaultTicker in afterTest, so the next beforeTest will use the default ticker
+    testTicker.useDefaultTicker();
   }
 
   protected void closeSsh() {
@@ -1761,6 +1786,31 @@ public abstract class AbstractDaemonTest {
           (moduleClass.getModifiers() & Modifier.STATIC) != 0,
           "module must be static: %s",
           moduleClass.getName());
+    }
+  }
+
+  public static class TestTicker extends Ticker {
+    Ticker actualTicker;
+
+    public TestTicker() {
+      useDefaultTicker();
+    }
+
+    public Ticker useDefaultTicker() {
+      this.actualTicker = Ticker.systemTicker();
+      return actualTicker;
+    }
+
+    public FakeTicker useFakeTicker() {
+      if (!(this.actualTicker instanceof FakeTicker)) {
+        this.actualTicker = new FakeTicker();
+      }
+      return (FakeTicker) actualTicker;
+    }
+
+    @Override
+    public long read() {
+      return actualTicker.read();
     }
   }
 }

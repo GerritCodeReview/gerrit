@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b98cc4c_f3e7f1b7",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-20T17:33:11Z",
+      "side": 1,
+      "message": "Why we can\u0027t use instanceof?\n\nSubmitRequirementPredicate is in the server package [1]. Predicate (and QueryProcessor) are in the index package [2]. Adding this \"instanceof\" check in Predicate (from the index package) adds a dependency to the server package, but our code base does the opposite (i.e. server package depends on the index package). Doing that results in cyclic dependency.\n\n--\u003e Move SubmitRequirementPredicate to the index package. Won\u0027t work either, because the class implements Predicate\u003c*ChangeData*\u003e and ChangeData is in the server package, so we can\u0027t add this dependency (index -\u003e server).\n\nI managed to get it work that way. I think it\u0027s OK to keep it that way but LMK your opinion.\n\n[1] com.google.gerrit.server.query.change.SubmitRequirementPredicate\n[2] com.google.gerrit.index.query.Predicate",
+      "parentUuid": "6c67d500_1bf3f4cd",
+      "range": {
+        "startLine": 174,
+        "startChar": 11,
+        "endLine": 174,
+        "endChar": 15
+      },
+      "revId": "ed78c8ffbb2df6889a1d70d8ada035267c65014a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4da597a4_104d12eb",
         "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementPredicate.java",
         "patchSetId": 1
@@ -54,6 +78,30 @@
       "writtenOn": "2021-10-20T16:50:58Z",
       "side": 1,
       "message": "This should directly extend Predicate.\n\nOperatorPredicate is a helper for index-backed matching where we match a field by name and value.",
+      "range": {
+        "startLine": 24,
+        "startChar": 57,
+        "endLine": 24,
+        "endChar": 74
+      },
+      "revId": "ed78c8ffbb2df6889a1d70d8ada035267c65014a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e069fd_c82e4c93",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-20T17:33:11Z",
+      "side": 1,
+      "message": "mmm, is this true? For example PostFilterPredicate, CheckPredicate, ParentOfPredicate, LimitPredicate and others implement OperatorPredicate, but are not IndexPredicate.\n\nI\u0027m also still interested in storing the operator name/value with submit requirement predicates, for example to print the actual predicate string in case of errors (e.g. using a SR predicate in change query).\n\nWDYT?",
+      "parentUuid": "4da597a4_104d12eb",
       "range": {
         "startLine": 24,
         "startChar": 57,

@@ -560,7 +560,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> status(String statusName) {
+  public Predicate<ChangeData> status(String statusName) throws QueryParseException {
     if ("reviewed".equalsIgnoreCase(statusName)) {
       return ChangePredicates.unreviewed();
     }

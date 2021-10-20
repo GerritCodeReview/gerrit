@@ -34,6 +34,24 @@
       "parentUuid": "0a965714_9e75d891",
       "revId": "be9710d14f4b043476f9685e2c77db475db4b11c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e79bcec_0a80efbb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-20T19:07:46Z",
+      "side": 1,
+      "message": "I checked as well and it works as before. THanks for fix.",
+      "parentUuid": "eb99aecf_cb9885b3",
+      "revId": "be9710d14f4b043476f9685e2c77db475db4b11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

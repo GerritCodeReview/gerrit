@@ -18,6 +18,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GarbageCollectionResult;
+import com.google.gerrit.common.data.GarbageCollectionResult.GcError;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
 import com.google.gerrit.server.config.GcConfig;
@@ -78,9 +79,7 @@ public class GarbageCollection {
     Set<Project.NameKey> projectsToGc = gcQueue.addAll(projectNames);
     for (Project.NameKey projectName :
         Sets.difference(Sets.newHashSet(projectNames), projectsToGc)) {
-      result.addError(
-          new GarbageCollectionResult.Error(
-              GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED, projectName));
+      result.addError(new GcError(GcError.Type.GC_ALREADY_SCHEDULED, projectName));
     }
     for (Project.NameKey p : projectsToGc) {
       try (Repository repo = repoManager.openRepository(p)) {
@@ -97,13 +96,10 @@ public class GarbageCollection {
         fire(p, statistics);
       } catch (RepositoryNotFoundException e) {
         logGcError(writer, p, e);
-        result.addError(
-            new GarbageCollectionResult.Error(
-                GarbageCollectionResult.Error.Type.REPOSITORY_NOT_FOUND, p));
+        result.addError(new GcError(GcError.Type.REPOSITORY_NOT_FOUND, p));
       } catch (Exception e) {
         logGcError(writer, p, e);
-        result.addError(
-            new GarbageCollectionResult.Error(GarbageCollectionResult.Error.Type.GC_FAILED, p));
+        result.addError(new GcError(GcError.Type.GC_FAILED, p));
       } finally {
         gcQueue.gcFinished(p);
       }

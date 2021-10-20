@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.entities.EmailHeader;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -125,7 +125,7 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
   }
 
   private static String getMessageId(FakeEmailSender sender) {
-    return ((EmailHeader.String)
+    return ((StringEmailHeader)
             (Iterables.getOnlyElement(sender.getMessages()).headers().get("Message-ID")))
         .getString();
   }

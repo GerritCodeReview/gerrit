@@ -32,7 +32,7 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.entities.EmailHeader;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -445,7 +445,7 @@ public class MailProcessorIT extends AbstractMailIT {
     assertThat(message.body()).contains("rejected one or more comments");
 
     // ensure the message header contains a valid message id.
-    assertThat(((EmailHeader.String) (message.headers().get("Message-ID"))).getString())
+    assertThat(((StringEmailHeader) (message.headers().get("Message-ID"))).getString())
         .containsMatch("<someid-REJECTION-HTML@" + new URL(canonicalWebUrl.get()).getHost() + ">");
   }
 

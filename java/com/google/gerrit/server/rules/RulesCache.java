@@ -72,7 +72,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  */
 @Singleton
 public class RulesCache {
-  public static class Module extends CacheModule {
+  public static class RulesCacheModule extends CacheModule {
     @Override
     protected void configure() {
       cache(RulesCache.CACHE_NAME, ObjectId.class, PrologMachineCopy.class)

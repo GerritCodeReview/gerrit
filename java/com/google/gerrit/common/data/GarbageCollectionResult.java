@@ -20,17 +20,17 @@ import java.util.List;
 
 /** A list of errors occurred during GC. */
 public class GarbageCollectionResult {
-  protected List<Error> errors;
+  protected List<GcError> errors;
 
   public GarbageCollectionResult() {
     errors = new ArrayList<>();
   }
 
-  public void addError(Error e) {
+  public void addError(GcError e) {
     errors.add(e);
   }
 
-  public List<Error> getErrors() {
+  public List<GcError> getErrors() {
     return errors;
   }
 
@@ -38,7 +38,7 @@ public class GarbageCollectionResult {
     return !errors.isEmpty();
   }
 
-  public static class Error {
+  public static class GcError {
     public enum Type {
       /** Git garbage collection was already scheduled for this project */
       GC_ALREADY_SCHEDULED,
@@ -53,9 +53,9 @@ public class GarbageCollectionResult {
     protected Type type;
     protected Project.NameKey projectName;
 
-    protected Error() {}
+    protected GcError() {}
 
-    public Error(Type type, Project.NameKey projectName) {
+    public GcError(Type type, Project.NameKey projectName) {
       this.type = type;
       this.projectName = projectName;
     }

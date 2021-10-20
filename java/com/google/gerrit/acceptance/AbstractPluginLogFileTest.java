@@ -34,7 +34,7 @@ import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 public class AbstractPluginLogFileTest extends AbstractDaemonTest {
-  protected static class Module extends AbstractModule {
+  protected static class TestModule extends AbstractModule {
     @Override
     public void configure() {
       bind(com.google.gerrit.server.DynamicOptions.DynamicBean.class)

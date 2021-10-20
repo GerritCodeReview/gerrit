@@ -39,7 +39,7 @@ import java.util.Optional;
  */
 @Singleton
 public final class DefaultSubmitRule implements SubmitRule {
-  public static class Module extends FactoryModule {
+  public static class DefaultSubmitRuleModule extends FactoryModule {
     @Override
     public void configure() {
       bind(SubmitRule.class)

@@ -25,7 +25,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class StartupChecks implements LifecycleListener {
-  public static class Module extends LifecycleModule {
+  public static class StartupChecksModule extends LifecycleModule {
     @Override
     protected void configure() {
       DynamicSet.setOf(binder(), StartupCheck.class);

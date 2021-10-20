@@ -43,11 +43,11 @@ public abstract class MailReceiver implements LifecycleListener {
   private WorkQueue workQueue;
   private Timer timer;
 
-  public static class Module extends LifecycleModule {
+  public static class MailReceiverModule extends LifecycleModule {
     private final EmailSettings mailSettings;
 
     @Inject
-    Module(EmailSettings mailSettings) {
+    MailReceiverModule(EmailSettings mailSettings) {
       this.mailSettings = mailSettings;
     }
 

@@ -29,7 +29,7 @@ public class PersistentCacheFactoryIT extends AbstractDaemonTest {
   @Inject PersistentCacheFactory persistentCacheFactory;
 
   @ModuleImpl(name = CacheModule.PERSISTENT_MODULE)
-  public static class Module extends AbstractModule {
+  public static class TestModule extends AbstractModule {
 
     @Override
     protected void configure() {
@@ -39,7 +39,7 @@ public class PersistentCacheFactoryIT extends AbstractDaemonTest {
 
   @Override
   public com.google.inject.Module createModule() {
-    return new Module();
+    return new TestModule();
   }
 
   @Test

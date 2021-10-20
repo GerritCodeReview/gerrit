@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.data.GarbageCollectionResult;
+import com.google.gerrit.common.data.GarbageCollectionResult.GcError;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -125,7 +126,7 @@ public class GarbageCollect
           GarbageCollectionResult result = runGC(project, input, progressWriter);
           String msg = "Garbage collection completed successfully.";
           if (result.hasErrors()) {
-            for (GarbageCollectionResult.Error e : result.getErrors()) {
+            for (GcError e : result.getErrors()) {
               switch (e.getType()) {
                 case REPOSITORY_NOT_FOUND:
                   msg = "Error: project \"" + e.getProjectName() + "\" not found.";

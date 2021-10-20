@@ -35,7 +35,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class MultiBaseLocalDiskRepositoryManager extends LocalDiskRepositoryManager {
 
-  public static class Module extends LifecycleModule {
+  public static class MultiBaseLocalDiskRepositoryManagerModule extends LifecycleModule {
     @Override
     protected void configure() {
       bind(GitRepositoryManager.class).to(MultiBaseLocalDiskRepositoryManager.class);

@@ -25,7 +25,7 @@ import java.util.Optional;
 public class DefaultUrlFormatter implements UrlFormatter {
   private final Provider<String> canonicalWebUrlProvider;
 
-  public static class Module extends AbstractModule {
+  public static class DefaultUrlFormatterModule extends AbstractModule {
     @Override
     protected void configure() {
       DynamicItem.itemOf(binder(), UrlFormatter.class);

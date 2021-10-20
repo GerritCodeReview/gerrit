@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.EmailHeader;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import java.net.URI;
 import java.util.Map;
 import org.junit.Test;
@@ -64,7 +65,7 @@ public class MailSenderIT extends AbstractMailIT {
 
   private String headerString(Map<String, EmailHeader> headers, String name) {
     EmailHeader header = headers.get(name);
-    assertThat(header).isInstanceOf(EmailHeader.String.class);
-    return ((EmailHeader.String) header).getString();
+    assertThat(header).isInstanceOf(StringEmailHeader.class);
+    return ((StringEmailHeader) header).getString();
   }
 }

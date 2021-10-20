@@ -36,11 +36,11 @@ public class LfsPluginAuthCommand extends SshCommand {
     String authenticate(CurrentUser user, List<String> args) throws UnloggedFailure, Failure;
   }
 
-  public static class Module extends CommandModule {
+  public static class LfsPluginAuthCommandModule extends CommandModule {
     private final boolean pluginProvided;
 
     @Inject
-    Module(@GerritServerConfig Config cfg) {
+    LfsPluginAuthCommandModule(@GerritServerConfig Config cfg) {
       pluginProvided = cfg.getString("lfs", null, "plugin") != null;
     }
 

@@ -31,7 +31,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class ConfigExperimentFeatures implements ExperimentFeatures {
 
-  public static class Module extends AbstractModule {
+  public static class ConfigExperimentFeaturesModule extends AbstractModule {
     @Override
     protected void configure() {
       bind(ExperimentFeatures.class).to(ConfigExperimentFeatures.class);

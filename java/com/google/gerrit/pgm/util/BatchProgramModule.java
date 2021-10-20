@@ -53,7 +53,7 @@ import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DefaultPreferencesCacheImpl;
-import com.google.gerrit.server.config.DefaultUrlFormatter;
+import com.google.gerrit.server.config.DefaultUrlFormatter.DefaultUrlFormatterModule;
 import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
 import com.google.gerrit.server.config.EnablePeerIPInReflogRecordProvider;
 import com.google.gerrit.server.config.GitReceivePackGroups;
@@ -87,8 +87,8 @@ import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.restapi.group.GroupModule;
-import com.google.gerrit.server.rules.DefaultSubmitRule;
-import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
+import com.google.gerrit.server.rules.DefaultSubmitRule.DefaultSubmitRuleModule;
+import com.google.gerrit.server.rules.IgnoreSelfApprovalRule.IgnoreSelfApprovalRuleModule;
 import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -118,7 +118,7 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(new SysExecutorModule());
     modules.add(BatchUpdate.module());
     modules.add(PatchListCacheImpl.module());
-    modules.add(new DefaultUrlFormatter.Module());
+    modules.add(new DefaultUrlFormatterModule());
     modules.add(DiffOperationsImpl.module());
 
     // There is the concept of LifecycleModule, in Gerrit's own extension to Guice, which has these:
@@ -203,8 +203,8 @@ public class BatchProgramModule extends FactoryModule {
     DynamicSet.setOf(binder(), SubmitRule.class);
     factory(SubmitRuleEvaluator.Factory.class);
     modules.add(new PrologModule());
-    modules.add(new DefaultSubmitRule.Module());
-    modules.add(new IgnoreSelfApprovalRule.Module());
+    modules.add(new DefaultSubmitRuleModule());
+    modules.add(new IgnoreSelfApprovalRuleModule());
 
     bind(ChangeJson.Factory.class).toProvider(Providers.of(null));
     bind(EventUtil.class).toProvider(Providers.of(null));

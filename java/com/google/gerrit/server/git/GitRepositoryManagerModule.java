@@ -16,6 +16,8 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.RepositoryConfig;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager.LocalDiskRepositoryManagerModule;
+import com.google.gerrit.server.git.MultiBaseLocalDiskRepositoryManager.MultiBaseLocalDiskRepositoryManagerModule;
 import com.google.inject.Inject;
 
 /**
@@ -34,9 +36,9 @@ public class GitRepositoryManagerModule extends LifecycleModule {
   @Override
   protected void configure() {
     if (repoConfig.getAllBasePaths().isEmpty()) {
-      install(new LocalDiskRepositoryManager.Module());
+      install(new LocalDiskRepositoryManagerModule());
     } else {
-      install(new MultiBaseLocalDiskRepositoryManager.Module());
+      install(new MultiBaseLocalDiskRepositoryManagerModule());
     }
   }
 }

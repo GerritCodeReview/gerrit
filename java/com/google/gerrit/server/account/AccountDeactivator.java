@@ -33,7 +33,7 @@ import org.eclipse.jgit.lib.Config;
 public class AccountDeactivator implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static class Module extends LifecycleModule {
+  public static class AccountDeactivatorModule extends LifecycleModule {
     @Override
     protected void configure() {
       listener().to(Lifecycle.class);

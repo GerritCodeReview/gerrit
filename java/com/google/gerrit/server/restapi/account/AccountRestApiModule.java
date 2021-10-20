@@ -30,7 +30,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.inject.Provides;
 
-public class Module extends RestApiModule {
+public class AccountRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(AccountsCollection.class);

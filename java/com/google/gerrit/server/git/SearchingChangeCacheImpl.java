@@ -59,14 +59,14 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
 
   static final String ID_CACHE = "changes";
 
-  public static class Module extends CacheModule {
+  public static class SearchingChangeCacheImplModule extends CacheModule {
     private final boolean slave;
 
-    public Module() {
+    public SearchingChangeCacheImplModule() {
       this(false);
     }
 
-    public Module(boolean slave) {
+    public SearchingChangeCacheImplModule(boolean slave) {
       this.slave = slave;
     }
 

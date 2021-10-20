@@ -34,7 +34,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
   private final SignedToken emailRegistrationToken;
   private final AuthRequest.Factory authRequestFactory;
 
-  public static class Module extends AbstractModule {
+  public static class SignedTokenEmailTokenVerifierModule extends AbstractModule {
     @Override
     protected void configure() {
       bind(EmailTokenVerifier.class).to(SignedTokenEmailTokenVerifier.class);

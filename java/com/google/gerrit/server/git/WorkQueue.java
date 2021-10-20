@@ -76,7 +76,7 @@ public class WorkQueue {
     }
   }
 
-  public static class Module extends LifecycleModule {
+  public static class WorkQueueModule extends LifecycleModule {
     @Override
     protected void configure() {
       bind(WorkQueue.class);

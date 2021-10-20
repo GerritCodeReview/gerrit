@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.config.FactoryModule;
 
-public class Module extends FactoryModule {
+public class ConfigModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(Config.class).to(ConfigImpl.class);

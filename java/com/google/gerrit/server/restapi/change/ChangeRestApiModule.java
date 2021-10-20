@@ -53,7 +53,7 @@ import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
 import com.google.gerrit.server.util.AttentionSetEmail;
 
-public class Module extends RestApiModule {
+public class ChangeRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(ChangesCollection.class);

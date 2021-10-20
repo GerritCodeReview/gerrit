@@ -39,7 +39,7 @@ public class SuperprojectUpdateSubmissionListener implements SubmissionListener 
   private ImmutableList<BatchUpdate> batchUpdates = ImmutableList.of();
   private boolean dryrun;
 
-  public static class Module extends AbstractModule {
+  public static class SuperprojectUpdateSubmissionListenerModule extends AbstractModule {
     @Provides
     @SuperprojectUpdateOnSubmission
     ImmutableList<SubmissionListener> provideSubmissionListeners(

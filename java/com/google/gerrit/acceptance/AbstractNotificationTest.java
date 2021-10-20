@@ -31,6 +31,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.EmailHeader;
 import com.google.gerrit.entities.EmailHeader.AddressList;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -135,13 +136,13 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
             fact("expected to have message sent with", "X-Gerrit-MessageType header"));
       }
       EmailHeader header = message.headers().get("X-Gerrit-MessageType");
-      if (!header.equals(new EmailHeader.String(messageType))) {
+      if (!header.equals(new StringEmailHeader(messageType))) {
         failWithoutActual(
             fact("expected message of type", messageType),
             fact(
                 "actual",
-                header instanceof EmailHeader.String
-                    ? ((EmailHeader.String) header).getString()
+                header instanceof StringEmailHeader
+                    ? ((StringEmailHeader) header).getString()
                     : header));
       }
 

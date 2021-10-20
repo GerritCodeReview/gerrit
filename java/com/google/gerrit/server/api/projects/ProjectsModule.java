@@ -12,26 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api.changes;
+package com.google.gerrit.server.api.projects;
 
-import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.config.FactoryModule;
 
-public class Module extends FactoryModule {
+public class ProjectsModule extends FactoryModule {
   @Override
   protected void configure() {
-    bind(Changes.class).to(ChangesImpl.class);
+    bind(Projects.class).to(ProjectsImpl.class);
 
-    factory(ChangeApiImpl.Factory.class);
-    factory(CommentApiImpl.Factory.class);
-    factory(RobotCommentApiImpl.Factory.class);
-    factory(DraftApiImpl.Factory.class);
-    factory(RevisionApiImpl.Factory.class);
-    factory(FileApiImpl.Factory.class);
-    factory(ReviewerApiImpl.Factory.class);
-    factory(RevisionReviewerApiImpl.Factory.class);
-    factory(ChangeEditApiImpl.Factory.class);
-    factory(ChangeMessageApiImpl.Factory.class);
-    factory(AttentionSetApiImpl.Factory.class);
+    factory(BranchApiImpl.Factory.class);
+    factory(TagApiImpl.Factory.class);
+    factory(ProjectApiImpl.Factory.class);
+    factory(ChildProjectApiImpl.Factory.class);
+    factory(CommitApiImpl.Factory.class);
+    factory(DashboardApiImpl.Factory.class);
+    factory(LabelApiImpl.Factory.class);
   }
 }

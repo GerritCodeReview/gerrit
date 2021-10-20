@@ -20,7 +20,7 @@ import com.google.inject.Inject;
 
 /** Listener to handle upgrading index schema versions at startup. */
 public class OnlineUpgrader implements LifecycleListener {
-  public static class Module extends LifecycleModule {
+  public static class OnlineUpgraderModule extends LifecycleModule {
     @Override
     protected void configure() {
       listener().to(OnlineUpgrader.class);

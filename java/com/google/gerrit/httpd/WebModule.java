@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 
+import com.google.gerrit.httpd.GitOverHttpServlet.GitOverHttpServletModule;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
@@ -27,7 +28,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GitwebCgiConfig;
-import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
+import com.google.gerrit.server.git.receive.AsyncReceiveCommits.AsyncReceiveCommitsModule;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
@@ -57,13 +58,13 @@ public class WebModule extends LifecycleModule {
       install(new UrlModule(authConfig));
     }
     install(new GerritRequestModule());
-    install(new GitOverHttpServlet.Module(options.enableMasterFeatures()));
+    install(new GitOverHttpServletModule(options.enableMasterFeatures()));
 
     if (gitwebCgiConfig.getGitwebCgi() != null) {
       install(new GitwebModule());
     }
 
-    install(new AsyncReceiveCommits.Module());
+    install(new AsyncReceiveCommitsModule());
 
     bind(SocketAddress.class)
         .annotatedWith(RemotePeer.class)

@@ -66,10 +66,10 @@ public abstract class JdbcAccountPatchReviewStore
   private static final String POSTGRESQL = "postgresql";
   private static final String URL = "url";
 
-  public static class Module extends LifecycleModule {
+  public static class JdbcAccountPatchReviewStoreModule extends LifecycleModule {
     private final Config cfg;
 
-    public Module(Config cfg) {
+    public JdbcAccountPatchReviewStoreModule(Config cfg) {
       this.cfg = cfg;
     }
 

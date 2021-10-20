@@ -31,14 +31,14 @@ public abstract class EmailHeader {
 
   public abstract void write(Writer w) throws IOException;
 
-  public static class String extends EmailHeader {
-    private final java.lang.String value;
+  public static class StringEmailHeader extends EmailHeader {
+    private final String value;
 
-    public String(java.lang.String v) {
+    public StringEmailHeader(String v) {
       value = v;
     }
 
-    public java.lang.String getString() {
+    public String getString() {
       return value;
     }
 
@@ -63,16 +63,17 @@ public abstract class EmailHeader {
 
     @Override
     public boolean equals(Object o) {
-      return (o instanceof String) && Objects.equals(value, ((String) o).value);
+      return (o instanceof StringEmailHeader)
+          && Objects.equals(value, ((StringEmailHeader) o).value);
     }
 
     @Override
-    public java.lang.String toString() {
+    public String toString() {
       return MoreObjects.toStringHelper(this).addValue(value).toString();
     }
   }
 
-  public static boolean needsQuotedPrintable(java.lang.String value) {
+  public static boolean needsQuotedPrintable(String value) {
     for (int i = 0; i < value.length(); i++) {
       if (value.charAt(i) < ' ' || '~' < value.charAt(i)) {
         return true;
@@ -99,7 +100,7 @@ public abstract class EmailHeader {
     }
   }
 
-  public static java.lang.String quotedPrintable(java.lang.String value) {
+  public static String quotedPrintable(String value) {
     final StringBuilder r = new StringBuilder();
 
     r.append("=?UTF-8?Q?");
@@ -109,7 +110,7 @@ public abstract class EmailHeader {
         r.append('_');
 
       } else if (needsQuotedPrintableWithinPhrase(cp)) {
-        byte[] buf = new java.lang.String(Character.toChars(cp)).getBytes(UTF_8);
+        byte[] buf = new String(Character.toChars(cp)).getBytes(UTF_8);
         for (byte b : buf) {
           r.append('=');
           r.append(Integer.toHexString((b >>> 4) & 0x0f).toUpperCase());
@@ -160,7 +161,7 @@ public abstract class EmailHeader {
     }
 
     @Override
-    public java.lang.String toString() {
+    public String toString() {
       return MoreObjects.toStringHelper(this).addValue(value).toString();
     }
   }
@@ -182,7 +183,7 @@ public abstract class EmailHeader {
       list.add(addr);
     }
 
-    public void remove(java.lang.String email) {
+    public void remove(String email) {
       list.removeIf(address -> address.email().equals(email));
     }
 
@@ -197,7 +198,7 @@ public abstract class EmailHeader {
       boolean firstAddress = true;
       boolean needComma = false;
       for (Address addr : list) {
-        java.lang.String s = addr.toHeaderString();
+        String s = addr.toHeaderString();
         if (firstAddress) {
           firstAddress = false;
         } else if (72 < len + s.length()) {
@@ -226,7 +227,7 @@ public abstract class EmailHeader {
     }
 
     @Override
-    public java.lang.String toString() {
+    public String toString() {
       return MoreObjects.toStringHelper(this).addValue(list).toString();
     }
   }

@@ -57,6 +57,7 @@ import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
+import com.google.gerrit.server.mail.send.InboundEmailRejectionSender.InboundEmailError;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -184,7 +185,7 @@ public class MailProcessor {
       logger.atSevere().log(
           "Message %s is missing required metadata, have %s. Will delete message.",
           message.id(), metadata);
-      sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
+      sendRejectionEmail(message, InboundEmailError.PARSING_ERROR);
       return;
     }
 
@@ -198,7 +199,7 @@ public class MailProcessor {
 
       // We don't want to send an email if no accounts are linked to it.
       if (accountIds.size() > 1) {
-        sendRejectionEmail(message, InboundEmailRejectionSender.Error.UNKNOWN_ACCOUNT);
+        sendRejectionEmail(message, InboundEmailError.UNKNOWN_ACCOUNT);
       }
       return;
     }
@@ -210,14 +211,14 @@ public class MailProcessor {
     }
     if (!accountState.get().account().isActive()) {
       logger.atWarning().log("Mail: Account %s is inactive. Will delete message.", accountId);
-      sendRejectionEmail(message, InboundEmailRejectionSender.Error.INACTIVE_ACCOUNT);
+      sendRejectionEmail(message, InboundEmailError.INACTIVE_ACCOUNT);
       return;
     }
 
     persistComments(buf, message, metadata, accountId);
   }
 
-  private void sendRejectionEmail(MailMessage message, InboundEmailRejectionSender.Error reason) {
+  private void sendRejectionEmail(MailMessage message, InboundEmailError reason) {
     try {
       InboundEmailRejectionSender emailSender =
           emailRejectionSender.create(message.from(), message.id(), reason);
@@ -238,7 +239,7 @@ public class MailProcessor {
               .enforceVisibility(true)
               .byLegacyChangeId(Change.id(metadata.changeNumber));
       if (changeDataList.isEmpty()) {
-        sendRejectionEmail(message, InboundEmailRejectionSender.Error.CHANGE_NOT_FOUND);
+        sendRejectionEmail(message, InboundEmailError.CHANGE_NOT_FOUND);
         return;
       }
       if (changeDataList.size() != 1) {
@@ -248,7 +249,7 @@ public class MailProcessor {
                 + " Will delete message.",
             message.id(), metadata.changeNumber, changeDataList.size());
 
-        sendRejectionEmail(message, InboundEmailRejectionSender.Error.INTERNAL_EXCEPTION);
+        sendRejectionEmail(message, InboundEmailError.INTERNAL_EXCEPTION);
         return;
       }
       ChangeData cd = Iterables.getOnlyElement(changeDataList);
@@ -284,7 +285,7 @@ public class MailProcessor {
       if (parsedComments.isEmpty()) {
         logger.atWarning().log(
             "Could not parse any comments from %s. Will delete message.", message.id());
-        sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
+        sendRejectionEmail(message, InboundEmailError.PARSING_ERROR);
         return;
       }
 
@@ -305,7 +306,7 @@ public class MailProcessor {
           PublishCommentUtil.findInvalidComments(
               commentValidationCtx, commentValidators, parsedCommentsForValidation);
       if (!commentValidationFailures.isEmpty()) {
-        sendRejectionEmail(message, InboundEmailRejectionSender.Error.COMMENT_REJECTED);
+        sendRejectionEmail(message, InboundEmailError.COMMENT_REJECTED);
         return;
       }
 

@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GarbageCollectionResult;
+import com.google.gerrit.common.data.GarbageCollectionResult.GcError;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GarbageCollectionQueue;
@@ -91,8 +92,8 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
             .run(Arrays.asList(allProjects, project, project2, project3));
     assertThat(result.hasErrors()).isTrue();
     assertThat(result.getErrors()).hasSize(1);
-    GarbageCollectionResult.Error error = result.getErrors().get(0);
-    assertThat(error.getType()).isEqualTo(GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED);
+    GcError error = result.getErrors().get(0);
+    assertThat(error.getType()).isEqualTo(GcError.Type.GC_ALREADY_SCHEDULED);
     assertThat(error.getProjectName()).isEqualTo(project);
   }
 

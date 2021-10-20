@@ -49,7 +49,7 @@ class RunAsFilter implements Filter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String RUN_AS = "X-Gerrit-RunAs";
 
-  static class Module extends ServletModule {
+  static class RunAsFilterModule extends ServletModule {
     @Override
     protected void configureServlets() {
       filter("/*").through(RunAsFilter.class);

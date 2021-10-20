@@ -17,12 +17,13 @@ package com.google.gerrit.server.rules;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.rules.RulesCache.RulesCacheModule;
 
 public class PrologModule extends FactoryModule {
   @Override
   protected void configure() {
     install(new EnvironmentModule());
-    install(new RulesCache.Module());
+    install(new RulesCacheModule());
     bind(PrologEnvironment.Args.class);
     factory(PrologRuleEvaluator.Factory.class);
 

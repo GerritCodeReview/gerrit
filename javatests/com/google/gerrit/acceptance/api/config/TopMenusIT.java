@@ -30,13 +30,13 @@ import org.junit.Test;
 
 @TestPlugin(
     name = "test-topmenus",
-    sysModule = "com.google.gerrit.acceptance.api.config.TopMenusIT$Module")
+    sysModule = "com.google.gerrit.acceptance.api.config.TopMenusIT$TestModule")
 public class TopMenusIT extends LightweightPluginDaemonTest {
 
   static final TopMenu.MenuEntry TEST_MENU_ENTRY =
       new TopMenu.MenuEntry("MyMenu", Collections.emptyList());
 
-  public static class Module extends AbstractModule {
+  public static class TestModule extends AbstractModule {
 
     @Override
     protected void configure() {

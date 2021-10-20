@@ -47,7 +47,7 @@ import java.util.Optional;
 public class EventBroker implements EventDispatcher {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static class Module extends LifecycleModule {
+  public static class EventBrokerModule extends LifecycleModule {
     @Override
     protected void configure() {
       DynamicItem.itemOf(binder(), EventDispatcher.class);

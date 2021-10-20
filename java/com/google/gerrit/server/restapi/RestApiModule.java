@@ -15,20 +15,26 @@
 package com.google.gerrit.server.restapi;
 
 import com.google.gerrit.server.plugins.PluginRestApiModule;
+import com.google.gerrit.server.restapi.access.AccessRestApiModule;
+import com.google.gerrit.server.restapi.account.AccountRestApiModule;
+import com.google.gerrit.server.restapi.change.ChangeRestApiModule;
+import com.google.gerrit.server.restapi.config.ConfigRestApiModule;
 import com.google.gerrit.server.restapi.config.RestCacheAdminModule;
+import com.google.gerrit.server.restapi.group.GroupRestApiModule;
+import com.google.gerrit.server.restapi.project.ProjectRestApiModule;
 import com.google.inject.AbstractModule;
 
 public class RestApiModule extends AbstractModule {
   @Override
   protected void configure() {
-    install(new com.google.gerrit.server.restapi.access.Module());
-    install(new com.google.gerrit.server.restapi.account.Module());
-    install(new com.google.gerrit.server.restapi.change.Module());
-    install(new com.google.gerrit.server.restapi.config.Module());
+    install(new AccessRestApiModule());
+    install(new AccountRestApiModule());
+    install(new ChangeRestApiModule());
+    install(new ConfigRestApiModule());
     install(new RestCacheAdminModule());
-    install(new com.google.gerrit.server.restapi.group.Module());
+    install(new GroupRestApiModule());
     install(new PluginRestApiModule());
-    install(new com.google.gerrit.server.restapi.project.Module());
-    install(new com.google.gerrit.server.restapi.project.Module.BatchModule());
+    install(new ProjectRestApiModule());
+    install(new ProjectRestApiModule.BatchModule());
   }
 }

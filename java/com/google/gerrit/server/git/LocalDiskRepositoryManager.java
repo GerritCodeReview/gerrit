@@ -53,7 +53,7 @@ import org.eclipse.jgit.util.FS;
 public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static class Module extends LifecycleModule {
+  public static class LocalDiskRepositoryManagerModule extends LifecycleModule {
     @Override
     protected void configure() {
       listener().to(LocalDiskRepositoryManager.Lifecycle.class);

@@ -16,16 +16,21 @@ package com.google.gerrit.server.api;
 
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.api.accounts.AccountsModule;
+import com.google.gerrit.server.api.changes.ChangesModule;
+import com.google.gerrit.server.api.config.ConfigModule;
+import com.google.gerrit.server.api.groups.GroupsModule;
+import com.google.gerrit.server.api.projects.ProjectsModule;
 
 public class GerritApiModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(GerritApi.class).to(GerritApiImpl.class);
 
-    install(new com.google.gerrit.server.api.accounts.Module());
-    install(new com.google.gerrit.server.api.changes.Module());
-    install(new com.google.gerrit.server.api.config.Module());
-    install(new com.google.gerrit.server.api.groups.Module());
-    install(new com.google.gerrit.server.api.projects.Module());
+    install(new AccountsModule());
+    install(new ChangesModule());
+    install(new ConfigModule());
+    install(new GroupsModule());
+    install(new ProjectsModule());
   }
 }

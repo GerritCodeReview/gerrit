@@ -54,7 +54,7 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
-import com.google.gerrit.server.config.DefaultUrlFormatter;
+import com.google.gerrit.server.config.DefaultUrlFormatter.DefaultUrlFormatterModule;
 import com.google.gerrit.server.config.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.config.FileBasedGlobalPluginConfigProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
@@ -70,11 +70,11 @@ import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
-import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
+import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl.SearchingChangeCacheImplModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.account.AllAccountsIndexer;
@@ -83,11 +83,11 @@ import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.group.AllGroupsIndexer;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
-import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
+import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
-import com.google.gerrit.server.project.DefaultProjectNameLockManager;
+import com.google.gerrit.server.project.DefaultProjectNameLockManager.DefaultProjectNameLockManagerModule;
 import com.google.gerrit.server.restapi.RestApiModule;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -95,10 +95,11 @@ import com.google.gerrit.server.schema.SchemaCreatorImpl;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
-import com.google.gerrit.server.submit.LocalMergeSuperSetComputation;
-import com.google.gerrit.server.submit.SubscriptionGraph;
-import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener;
+import com.google.gerrit.server.submit.LocalMergeSuperSetComputation.LocalMergeSuperSetComputationModule;
+import com.google.gerrit.server.submit.SubscriptionGraph.SubscriptionGraphModule;
+import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener.SuperprojectUpdateSubmissionListenerModule;
 import com.google.gerrit.server.util.ReplicaUtil;
+import com.google.gerrit.testing.FakeEmailSender.FakeEmailSenderModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -185,11 +186,11 @@ public class InMemoryModule extends FactoryModule {
     factory(PluginUser.Factory.class);
     install(new PluginApiModule());
     install(new DefaultPermissionBackendModule());
-    install(new SearchingChangeCacheImpl.Module());
+    install(new SearchingChangeCacheImplModule());
     factory(GarbageCollection.Factory.class);
     install(new AuditModule());
-    install(new SubscriptionGraph.Module());
-    install(new SuperprojectUpdateSubmissionListener.Module());
+    install(new SubscriptionGraphModule());
+    install(new SuperprojectUpdateSubmissionListenerModule());
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 
@@ -217,7 +218,7 @@ public class InMemoryModule extends FactoryModule {
             return CanonicalWebUrlProvider.class;
           }
         });
-    install(new DefaultUrlFormatter.Module());
+    install(new DefaultUrlFormatterModule());
     // Replacement of DiffExecutorModule to not use thread pool in the tests
     install(
         new AbstractModule() {
@@ -233,10 +234,10 @@ public class InMemoryModule extends FactoryModule {
         });
     install(new DefaultMemoryCacheModule());
     install(new H2CacheModule());
-    install(new FakeEmailSender.Module());
-    install(new SignedTokenEmailTokenVerifier.Module());
+    install(new FakeEmailSenderModule());
+    install(new SignedTokenEmailTokenVerifierModule());
     install(new GpgModule(cfg));
-    install(new LocalMergeSuperSetComputation.Module());
+    install(new LocalMergeSuperSetComputationModule());
 
     bind(AllAccountsIndexer.class).toProvider(Providers.of(null));
     bind(AllChangesIndexer.class).toProvider(Providers.of(null));
@@ -256,9 +257,9 @@ public class InMemoryModule extends FactoryModule {
     bind(ServerInformation.class).to(ServerInformationImpl.class);
     install(new RestApiModule());
     install(new OAuthRestModule());
-    install(new DefaultProjectNameLockManager.Module());
+    install(new DefaultProjectNameLockManagerModule());
     install(new FileInfoJsonModule());
-    install(new ConfigExperimentFeatures.Module());
+    install(new ConfigExperimentFeaturesModule());
 
     bind(ProjectOperations.class).to(ProjectOperationsImpl.class);
   }

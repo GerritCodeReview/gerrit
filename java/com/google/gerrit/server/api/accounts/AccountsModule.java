@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.access;
+package com.google.gerrit.server.api.accounts;
 
-import static com.google.gerrit.server.restapi.access.AccessResource.ACCESS_KIND;
+import com.google.gerrit.extensions.api.accounts.Accounts;
+import com.google.gerrit.extensions.config.FactoryModule;
 
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.RestApiModule;
-
-/** Guice module that binds all REST endpoints for {@code /access/}. */
-public class Module extends RestApiModule {
+public class AccountsModule extends FactoryModule {
   @Override
   protected void configure() {
-    bind(AccessCollection.class);
+    bind(Accounts.class).to(AccountsImpl.class);
 
-    DynamicMap.mapOf(binder(), ACCESS_KIND);
+    factory(AccountApiImpl.Factory.class);
+    factory(EmailApiImpl.Factory.class);
   }
 }

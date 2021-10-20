@@ -26,6 +26,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.EmailHeader;
 import com.google.gerrit.entities.EmailHeader.AddressList;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -301,7 +302,7 @@ public abstract class OutgoingEmail {
     if (messageId != null) {
       String message = "<" + messageId.id() + suffix + "@" + getGerritHost() + ">";
       message = message.replaceAll("\\s", "");
-      va.headers.put(FieldName.MESSAGE_ID, new EmailHeader.String(message));
+      va.headers.put(FieldName.MESSAGE_ID, new StringEmailHeader(message));
     }
   }
 
@@ -383,7 +384,7 @@ public abstract class OutgoingEmail {
 
   /** Set a header in the outgoing message. */
   protected void setHeader(String name, String value) {
-    headers.put(name, new EmailHeader.String(value));
+    headers.put(name, new StringEmailHeader(value));
   }
 
   /** Remove a header from the outgoing message. */

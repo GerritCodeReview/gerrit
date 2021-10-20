@@ -41,11 +41,11 @@ import org.junit.Test;
  */
 @TestPlugin(
     name = "account-listener-it-plugin",
-    sysModule = "com.google.gerrit.acceptance.api.accounts.AccountListenersIT$Module")
+    sysModule = "com.google.gerrit.acceptance.api.accounts.AccountListenersIT$TestModule")
 public class AccountListenersIT extends LightweightPluginDaemonTest {
   @Inject private AccountOperations accountOperations;
 
-  public static class Module extends AbstractModule {
+  public static class TestModule extends AbstractModule {
     @Override
     protected void configure() {
       DynamicSet.bind(binder(), AccountActivationValidationListener.class).to(Validator.class);

@@ -105,7 +105,7 @@ public class AsyncReceiveCommits {
         @Nullable MessageSender messageSender);
   }
 
-  public static class Module extends PrivateModule {
+  public static class AsyncReceiveCommitsModule extends PrivateModule {
     @Override
     public void configure() {
       install(new FactoryModuleBuilder().build(LazyPostReceiveHookChain.Factory.class));

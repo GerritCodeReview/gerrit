@@ -26,7 +26,7 @@ public class ReindexProjectsAtStartup implements LifecycleListener {
   private final ProjectIndexer projectIndexer;
   private final GitRepositoryManager repoMgr;
 
-  public static class Module extends LifecycleModule {
+  public static class ReindexProjectsAtStartupModule extends LifecycleModule {
     @Override
     protected void configure() {
       listener().to(ReindexProjectsAtStartup.class).in(Scopes.SINGLETON);

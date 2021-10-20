@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d932055a_83911900",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-20T06:47:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a18bae5e_d8201178",
+      "revId": "7eba5e612b36ba474ed0c8ce4a9f79523e112cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fddd7de0_56d05ce5",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-10-19T20:35:23Z",
       "side": 1,
       "message": "Should this be renamed now since it is not the only \"Result\" object that this class now returns?",
+      "range": {
+        "startLine": 181,
+        "startChar": 31,
+        "endLine": 181,
+        "endChar": 38
+      },
+      "revId": "7eba5e612b36ba474ed0c8ce4a9f79523e112cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4146f1b0_7dc0c99c",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-20T06:47:00Z",
+      "side": 1,
+      "message": "Sure, makes sense. Shall we call it CommitIncludedInResult ..?",
+      "parentUuid": "fddd7de0_56d05ce5",
       "range": {
         "startLine": 181,
         "startChar": 31,

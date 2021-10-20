@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bb7b2ec_ce951a40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-20T06:47:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28a342ba_2aee2136",
+      "range": {
+        "startLine": 21,
+        "startChar": 20,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "b49db40b7325873e64a0ca6107e24f10fd3c8df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95a10381_fc4eb3a2",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb0ea206_b8496f89",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-20T06:47:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95a10381_fc4eb3a2",
+      "range": {
+        "startLine": 1046,
+        "startChar": 0,
+        "endLine": 1047,
+        "endChar": 12
+      },
+      "revId": "b49db40b7325873e64a0ca6107e24f10fd3c8df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43cec26f_82d2a22a",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-10-19T20:00:40Z",
       "side": 1,
       "message": "Add a sentence or two each about the parameters.",
+      "revId": "b49db40b7325873e64a0ca6107e24f10fd3c8df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6335f4a6_22a41dc2",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-20T06:47:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43cec26f_82d2a22a",
       "revId": "b49db40b7325873e64a0ca6107e24f10fd3c8df3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -101,6 +167,30 @@
       "side": 1,
       "message": "This isn\u0027t really an explanation, I was hoping to get an explanation like the one you adding to the missing commits below. What does a ref not being \"accessible\" mean here? It sounds like you mean not visible to the user, yet that is not actually being checked here.",
       "parentUuid": "9dc11b8f_a865facf",
+      "range": {
+        "startLine": 71,
+        "startChar": 54,
+        "endLine": 71,
+        "endChar": 55
+      },
+      "revId": "b49db40b7325873e64a0ca6107e24f10fd3c8df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dbe9674_daae8963",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-20T06:47:00Z",
+      "side": 1,
+      "message": "\u003e This isn\u0027t really an explanation, I was hoping to get an explanation like the one you adding to the missing commits below\nDone. Updated.\n\n\u003e What does a ref not being \"accessible\" mean here?\nAs per exactRef docs, IOException is being thrown when the reference space cannot be accessed, I was trying to convey that. Updated the explanation in new PS.",
+      "parentUuid": "06a5bc7b_1a7ae4d7",
       "range": {
         "startLine": 71,
         "startChar": 54,

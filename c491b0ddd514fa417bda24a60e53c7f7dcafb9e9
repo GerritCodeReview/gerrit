@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24cb7b97_e76233a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T21:46:41Z",
+      "side": 1,
+      "message": "Minor nits only.",
+      "revId": "c491b0ddd514fa417bda24a60e53c7f7dcafb9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93a7fa59_589375a8",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T21:46:41Z",
+      "side": 1,
+      "message": "Not for this change: This pattern is repeating a lot.\n\nIn Lit we could have a controller that keeps track of cleanups to avoid having to duplicate the code of cleaning up in every Element.",
+      "revId": "c491b0ddd514fa417bda24a60e53c7f7dcafb9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e42391e_fe54af7e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T21:46:41Z",
+      "side": 1,
+      "message": "for (const key of [KEY.ENTER, \u0027s\u0027]) {\n  for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {\n    addShortcut(this, {key: key, modifiers: [modifier]}, e \u003d\u003e this._handleSaveKey(e);\n   }\n }",
+      "revId": "c491b0ddd514fa417bda24a60e53c7f7dcafb9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

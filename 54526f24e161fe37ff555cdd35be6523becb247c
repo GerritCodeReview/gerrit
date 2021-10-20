@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae699e21_c4f80b45",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T15:24:47Z",
+      "side": 1,
+      "message": "Minor nit: Put params first inside of gr-endpoint-decorator.",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d25a938_08a79868",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T15:24:47Z",
+      "side": 1,
+      "message": "Same nit.",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "731f1743_bf06eee0",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T15:24:47Z",
+      "side": 1,
+      "message": "Unrelated to this change, so maybe split into a separate change?",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6206bff0_68e6080e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T15:24:47Z",
+      "side": 1,
+      "message": "Unrelated to this change: Should we be using the same timeout as for plugin registration?",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "279ffcb5_7646f629",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T15:24:47Z",
+      "side": 1,
+      "message": "Do you want this line to run if this.name is not set?\n\nWhy not have `if (!this.name) return; before this line?",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd386564_52b2d332",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T15:24:47Z",
+      "side": 1,
+      "message": "This code is very similar as applyReplyTextChangedCallback. \nConsider factoring out a templatized function that takes the type of the CustomEvent and the \u0027labels-changed\u0027 or \u0027value-changed\u0027 string.",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

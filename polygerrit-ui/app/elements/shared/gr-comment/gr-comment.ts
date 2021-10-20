@@ -682,7 +682,7 @@ export class GrComment extends base {
      * comment triggered a recomputation of comments and the text written by
      * the user was lost.
      */
-    if (!this._messageText) this._messageText = message || '';
+    if (!this._messageText || !this.editing) this._messageText = message || '';
   }
 
   _messageTextChanged(_: string, oldValue: string) {

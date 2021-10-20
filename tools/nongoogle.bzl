@@ -1,6 +1,8 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
+HTTPCORE_VERS = "4.4.12"
+
 def declare_nongoogle_deps():
     """loads dependencies that are not used at Google.
 
@@ -64,7 +66,7 @@ def declare_nongoogle_deps():
     # elasticsearch-rest-client explicitly depends on this version
     maven_jar(
         name = "httpcore-nio",
-        artifact = "org.apache.httpcomponents:httpcore-nio:4.4.12",
+        artifact = "org.apache.httpcomponents:httpcore-nio:" + HTTPCORE_VERS,
         sha1 = "84cd29eca842f31db02987cfedea245af020198b",
     )
 

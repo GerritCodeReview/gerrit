@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "172b4839_f7e9b187",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-20T15:27:16Z",
+      "side": 1,
+      "message": "That\u0027s impressive change. Thanks a lot! I don\u0027t have any blocking comments, therefore +2. But I would wait for second review from Chris.",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c5cca15_5e3021cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-20T15:27:16Z",
+      "side": 1,
+      "message": "Nit: maybe write // docOnly as on other places?",
+      "range": {
+        "startLine": 364,
+        "startChar": 8,
+        "endLine": 364,
+        "endChar": 26
+      },
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca151847_61c0a999",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-20T15:27:16Z",
+      "side": 1,
+      "message": "Nit: I would switch these two so NEXT_CHUNK is next to PREV_CHUNK",
+      "range": {
+        "startLine": 330,
+        "startChar": 1,
+        "endLine": 337,
+        "endChar": 8
+      },
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f491640_7fc17737",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-20T15:27:16Z",
+      "side": 1,
+      "message": "I think {key: \u0027n\u0027, combo: ComboKey.Shift} would be better - more clear if you need to press shift or not.",
+      "range": {
+        "startLine": 354,
+        "startChar": 3,
+        "endLine": 354,
+        "endChar": 11
+      },
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

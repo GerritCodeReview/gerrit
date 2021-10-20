@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52c2e786_15a709ee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-20T15:27:16Z",
+      "side": 0,
+      "message": "Is this ok to remove? Is this not executed when metaKey is pressed as well?",
+      "range": {
+        "startLine": 658,
+        "startChar": 3,
+        "endLine": 659,
+        "endChar": 27
+      },
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f22f7b6c_8b69a512",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-20T15:27:16Z",
+      "side": 0,
+      "message": "I am surprised that this is not needed. I tested behavior and it works, but I don\u0027t understand how it knows it just don\u0027t jump on first \u0027n\u0027 and show toast, and then it jumps on second \u0027n\u0027",
+      "range": {
+        "startLine": 693,
+        "startChar": 9,
+        "endLine": 693,
+        "endChar": 39
+      },
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

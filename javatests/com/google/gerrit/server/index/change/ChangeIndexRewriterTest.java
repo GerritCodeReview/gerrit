@@ -207,12 +207,10 @@ public class ChangeIndexRewriterTest {
     assertThat(status("file:a")).isEqualTo(all);
     assertThat(status("is:new")).containsExactly(NEW);
     assertThat(status("is:new OR is:merged")).containsExactly(NEW, MERGED);
-    assertThat(status("is:new OR is:x")).isEqualTo(all);
 
     assertThat(status("is:new is:merged")).isEmpty();
     assertThat(status("(is:new) (is:merged)")).isEmpty();
     assertThat(status("(is:new) (is:merged)")).isEmpty();
-    assertThat(status("is:new is:x")).containsExactly(NEW);
   }
 
   @Test

@@ -128,6 +128,15 @@ java_library(
 )
 
 java_library(
+    name = "guava-testlib",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = [
+        "@guava-testlib//jar",
+    ],
+)
+
+java_library(
     name = "caffeine",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = [

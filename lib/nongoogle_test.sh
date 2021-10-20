@@ -23,6 +23,7 @@ flogger
 flogger-log4j-backend
 flogger-system-backend
 guava
+guava-testlib
 guice-assistedinject
 guice-library
 guice-servlet

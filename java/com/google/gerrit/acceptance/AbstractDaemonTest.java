@@ -38,12 +38,14 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.github.rholder.retry.BlockStrategy;
 import com.google.common.base.Strings;
+import com.google.common.base.Ticker;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
+import com.google.common.testing.FakeTicker;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
@@ -289,6 +291,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;
+  @Inject protected TestTicker testTicker;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;
@@ -702,6 +705,8 @@ public abstract class AbstractDaemonTest {
     }
     SystemReader.setInstance(oldSystemReader);
     oldSystemReader = null;
+    // Set useDefaultTicker in afterTest, so the next beforeTest will use the default ticker
+    testTicker.useDefaultTicker();
   }
 
   protected void closeSsh() {
@@ -1761,6 +1766,34 @@ public abstract class AbstractDaemonTest {
           (moduleClass.getModifiers() & Modifier.STATIC) != 0,
           "module must be static: %s",
           moduleClass.getName());
+    }
+  }
+
+  /** {@link Ticker} implementation for mocking without restarting GerritServer */
+  public static class TestTicker extends Ticker {
+    Ticker actualTicker;
+
+    public TestTicker() {
+      useDefaultTicker();
+    }
+
+    /** Switches to system ticker */
+    public Ticker useDefaultTicker() {
+      this.actualTicker = Ticker.systemTicker();
+      return actualTicker;
+    }
+
+    /** Switches to {@link FakeTicker} */
+    public FakeTicker useFakeTicker() {
+      if (!(this.actualTicker instanceof FakeTicker)) {
+        this.actualTicker = new FakeTicker();
+      }
+      return (FakeTicker) actualTicker;
+    }
+
+    @Override
+    public long read() {
+      return actualTicker.read();
     }
   }
 }

@@ -22,7 +22,9 @@ import static java.util.Objects.requireNonNull;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.base.Ticker;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.AbstractDaemonTest.TestTicker;
 import com.google.gerrit.acceptance.config.ConfigAnnotationParser;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.config.GerritConfigs;
@@ -72,6 +74,7 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.multibindings.OptionalBinder;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.reflect.Field;
@@ -424,6 +427,25 @@ public class GerritServer implements AutoCloseable {
             bind(CommitValidationListener.class)
                 .annotatedWith(Exports.named("object-visibility-listener"))
                 .to(GitObjectVisibilityChecker.class);
+          }
+        });
+    daemon.addAdditionalSysModuleForTesting(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            super.configure();
+            // GerritServer isn't restarted between tests. TestTicker allows to replace actual
+            // Ticker in
+            // tests without restarting server and transparently for other code.
+            // Alternative option with Provider<Ticker> is less convinient, because it affects how
+            // gerrit code should be written - i.e. Ticker must not be stored in fields and must
+            // always
+            // be obtained from the provider.
+            TestTicker testTicker = new TestTicker();
+            OptionalBinder.newOptionalBinder(binder(), Ticker.class)
+                .setBinding()
+                .toInstance(testTicker);
+            bind(TestTicker.class).toInstance(testTicker);
           }
         });
 

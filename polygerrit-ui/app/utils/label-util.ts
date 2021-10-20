@@ -94,7 +94,7 @@ export function hasNeutralStatus(
   label: DetailedLabelInfo,
   approvalInfo?: ApprovalInfo
 ) {
-  if (!approvalInfo) return true;
+  if (approvalInfo?.value === undefined) return true;
   return getLabelStatus(label, approvalInfo.value) === LabelStatus.NEUTRAL;
 }
 

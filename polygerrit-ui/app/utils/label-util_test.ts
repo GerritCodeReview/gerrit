@@ -24,6 +24,7 @@ import {
   getRepresentativeValue,
   getVotingRange,
   getVotingRangeOrDefault,
+  hasNeutralStatus,
   labelCompare,
   LabelStatus,
 } from './label-util';
@@ -191,6 +192,15 @@ suite('label-util', () => {
       rejected: createAccountWithEmail(),
     };
     assert.equal(getLabelStatus(labelInfo), LabelStatus.NEUTRAL);
+  });
+
+  test('hasNeutralStatus', () => {
+    const labelInfo: DetailedLabelInfo = {all: [], values: VALUES_2};
+    assert.isTrue(hasNeutralStatus(labelInfo));
+    assert.isTrue(hasNeutralStatus(labelInfo, {}));
+    assert.isTrue(hasNeutralStatus(labelInfo, {value: 0}));
+    assert.isFalse(hasNeutralStatus(labelInfo, {value: -1}));
+    assert.isFalse(hasNeutralStatus(labelInfo, {value: 1}));
   });
 
   test('getRepresentativeValue', () => {

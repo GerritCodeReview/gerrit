@@ -30,7 +30,7 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
-load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
+load("//tools:nongoogle.bzl", "declare_nongoogle_deps", "HTTPCORE_VERS")
 
 http_archive(
     name = "bazel_toolchains",
@@ -795,8 +795,8 @@ maven_jar(
 
 maven_jar(
     name = "httpcore",
-    artifact = "org.apache.httpcomponents:httpcore:4.4.4",
-    sha1 = "b31526a230871fbe285fbcbe2813f9c0839ae9b0",
+    artifact = "org.apache.httpcomponents:httpcore:" + HTTPCORE_VERS,
+    sha1 = "21ebaf6d532bc350ba95bd81938fa5f0e511c132",
 )
 
 # Test-only dependencies below.

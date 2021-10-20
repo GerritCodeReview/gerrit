@@ -16,6 +16,24 @@
       "message": "This should probably mention the removal of the inline packrefs?",
       "revId": "09d31ead0d552d885dc3188913384642933f57d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f4b5535_b596c72a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-20T00:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "492a4b56_af3de01f",
+      "revId": "09d31ead0d552d885dc3188913384642933f57d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

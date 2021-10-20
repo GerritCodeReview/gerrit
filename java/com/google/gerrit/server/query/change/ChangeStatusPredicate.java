@@ -21,6 +21,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
     return status.name().toLowerCase();
   }
 
-  public static Predicate<ChangeData> parse(String value) {
+  public static Predicate<ChangeData> parse(String value) throws QueryParseException {
     String lower = value.toLowerCase();
     NavigableMap<String, Predicate<ChangeData>> head = PREDICATES.tailMap(lower, true);
     if (!head.isEmpty()) {
@@ -85,7 +86,7 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
         return e.getValue();
       }
     }
-    return NONE;
+    throw new QueryParseException("Unrecognized value: " + value);
   }
 
   public static Predicate<ChangeData> open() {

@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82bc40fa_0715ea2a",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-20T17:42:28Z",
+      "side": 1,
+      "message": "Too bad :-).\n\nFine this way then.",
+      "parentUuid": "8b98cc4c_f3e7f1b7",
+      "range": {
+        "startLine": 174,
+        "startChar": 11,
+        "endLine": 174,
+        "endChar": 15
+      },
+      "revId": "ed78c8ffbb2df6889a1d70d8ada035267c65014a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4da597a4_104d12eb",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "mmm, is this true? For example PostFilterPredicate, CheckPredicate, ParentOfPredicate, LimitPredicate and others implement OperatorPredicate, but are not IndexPredicate.\n\nI\u0027m also still interested in storing the operator name/value with submit requirement predicates, for example to print the actual predicate string in case of errors (e.g. using a SR predicate in change query).\n\nWDYT?",
       "parentUuid": "4da597a4_104d12eb",
+      "range": {
+        "startLine": 24,
+        "startChar": 57,
+        "endLine": 24,
+        "endChar": 74
+      },
+      "revId": "ed78c8ffbb2df6889a1d70d8ada035267c65014a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d6ad6ac_1425d43f",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-20T17:42:28Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "d7e069fd_c82e4c93",
       "range": {
         "startLine": 24,
         "startChar": 57,

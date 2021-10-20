@@ -90,6 +90,7 @@ import org.apache.lucene.store.Directory;
 @SuppressWarnings("deprecation")
 public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  public static final String IS_AUTO_FLUSH_DISABLED = "IS_AUTO_FLUSH_DISABLED";
 
   static String sortFieldName(FieldDef<?, ?> f) {
     return f.getName() + "_SORT";
@@ -105,6 +106,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final ReferenceManager<IndexSearcher> searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
+  private final boolean isAutoFlushDisabled;
   private ScheduledExecutorService autoCommitExecutor;
 
   AbstractLuceneIndex(
@@ -115,13 +117,15 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       ImmutableSet<String> skipFields,
       String subIndex,
       GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory)
+      SearcherFactory searcherFactory,
+      boolean isAutoFlushDisabled)
       throws IOException {
     this.schema = schema;
     this.sitePaths = sitePaths;
     this.dir = dir;
     this.name = name;
     this.skipFields = skipFields;
+    this.isAutoFlushDisabled = isAutoFlushDisabled;
     String index = Joiner.on('_').skipNulls().join(name, subIndex);
     long commitPeriod = writerConfig.getCommitWithinMs();
 
@@ -215,7 +219,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
           }
         });
 
-    reopenThread.start();
+    if (!isAutoFlushDisabled) {
+      reopenThread.start();
+    }
   }
 
   @Override
@@ -484,6 +490,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
 
     private boolean isGenAvailableNowForCurrentSearcher() {
+      if (isAutoFlushDisabled) {
+        return true;
+      }
       try {
         return reopenThread.waitForGeneration(gen, 0);
       } catch (InterruptedException e) {

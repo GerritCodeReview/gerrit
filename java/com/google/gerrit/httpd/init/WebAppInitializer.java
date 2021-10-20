@@ -361,7 +361,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
   private Module createIndexModule() {
     if (indexType.isLucene()) {
-      return LuceneIndexModule.latestVersion(false);
+      return LuceneIndexModule.latestVersion(false, false);
     } else if (indexType.isElasticsearch()) {
       return ElasticIndexModule.latestVersion(false);
     } else {

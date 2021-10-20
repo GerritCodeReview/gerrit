@@ -52,7 +52,8 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       Path path,
       ImmutableSet<String> skipFields,
       GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory)
+      SearcherFactory searcherFactory,
+      boolean isAutoFlushDisabled)
       throws IOException {
     this(
         schema,
@@ -61,7 +62,8 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
         path.getFileName().toString(),
         skipFields,
         writerConfig,
-        searcherFactory);
+        searcherFactory,
+        isAutoFlushDisabled);
   }
 
   ChangeSubIndex(
@@ -71,9 +73,19 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       String subIndex,
       ImmutableSet<String> skipFields,
       GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory)
+      SearcherFactory searcherFactory,
+      boolean isAutoFlushDisabled)
       throws IOException {
-    super(schema, sitePaths, dir, NAME, skipFields, subIndex, writerConfig, searcherFactory);
+    super(
+        schema,
+        sitePaths,
+        dir,
+        NAME,
+        skipFields,
+        subIndex,
+        writerConfig,
+        searcherFactory,
+        isAutoFlushDisabled);
   }
 
   @Override

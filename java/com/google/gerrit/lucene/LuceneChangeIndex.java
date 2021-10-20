@@ -16,6 +16,7 @@ package com.google.gerrit.lucene;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.lucene.AbstractLuceneIndex.IS_AUTO_FLUSH_DISABLED;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
@@ -70,6 +71,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import com.google.protobuf.MessageLite;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -183,7 +185,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       SitePaths sitePaths,
       @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       ChangeData.Factory changeDataFactory,
-      @Assisted Schema<ChangeData> schema)
+      @Assisted Schema<ChangeData> schema,
+      @Named(IS_AUTO_FLUSH_DISABLED) boolean isAutoFlushDisabled)
       throws IOException {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
@@ -208,7 +211,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               "ramOpen",
               skipFields,
               openConfig,
-              searcherFactory);
+              searcherFactory,
+              isAutoFlushDisabled);
       closedIndex =
           new ChangeSubIndex(
               schema,
@@ -217,7 +221,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               "ramClosed",
               skipFields,
               closedConfig,
-              searcherFactory);
+              searcherFactory,
+              isAutoFlushDisabled);
     } else {
       Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES, schema);
       openIndex =
@@ -227,7 +232,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               dir.resolve(CHANGES_OPEN),
               skipFields,
               openConfig,
-              searcherFactory);
+              searcherFactory,
+              isAutoFlushDisabled);
       closedIndex =
           new ChangeSubIndex(
               schema,
@@ -235,7 +241,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               dir.resolve(CHANGES_CLOSED),
               skipFields,
               closedConfig,
-              searcherFactory);
+              searcherFactory,
+              isAutoFlushDisabled);
     }
 
     idField = this.schema.useLegacyNumericFields() ? LEGACY_ID : LEGACY_ID_STR;

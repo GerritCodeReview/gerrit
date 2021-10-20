@@ -150,7 +150,8 @@ public class Reindex extends SiteProgram {
     Module indexModule;
     IndexType indexType = IndexModule.getIndexType(dbInjector);
     if (indexType.isLucene()) {
-      indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);
+      indexModule =
+          LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, replica, true);
     } else if (indexType.isElasticsearch()) {
       indexModule =
           ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);
@@ -166,7 +167,6 @@ public class Reindex extends SiteProgram {
             factory(ChangeResource.Factory.class);
           }
         });
-
     return dbInjector.createChildInjector(modules);
   }
 

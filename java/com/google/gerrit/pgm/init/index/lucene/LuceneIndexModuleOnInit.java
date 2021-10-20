@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm.init.index.lucene;
 
+import static com.google.gerrit.lucene.AbstractLuceneIndex.IS_AUTO_FLUSH_DISABLED;
+
 import com.google.gerrit.lucene.LuceneAccountIndex;
 import com.google.gerrit.lucene.LuceneGroupIndex;
 import com.google.gerrit.pgm.init.index.IndexModuleOnInit;
@@ -21,6 +23,7 @@ import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.name.Names;
 
 public class LuceneIndexModuleOnInit extends AbstractModule {
   @Override
@@ -36,5 +39,7 @@ public class LuceneIndexModuleOnInit extends AbstractModule {
             .build(GroupIndex.Factory.class));
 
     install(new IndexModuleOnInit());
+
+    bind(Boolean.class).annotatedWith(Names.named(IS_AUTO_FLUSH_DISABLED)).toInstance(true);
   }
 }

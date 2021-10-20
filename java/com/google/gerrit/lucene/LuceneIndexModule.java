@@ -14,6 +14,9 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.gerrit.lucene.AbstractLuceneIndex.IS_AUTO_FLUSH_DISABLED;
+
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.project.ProjectIndex;
@@ -23,30 +26,49 @@ import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.inject.name.Names;
 import java.util.Map;
 import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneIndexModule extends AbstractIndexModule {
+  private final boolean disableAutoFlush;
+
   public static LuceneIndexModule singleVersionAllLatest(int threads, boolean slave) {
-    return new LuceneIndexModule(ImmutableMap.of(), threads, slave);
+    return new LuceneIndexModule(ImmutableMap.of(), threads, slave, false);
+  }
+
+  @VisibleForTesting
+  public static LuceneIndexModule singleVersionWithExplicitVersions(
+      Map<String, Integer> versions, int threads, boolean slave) {
+    return singleVersionWithExplicitVersions(versions, threads, slave, false);
   }
 
   public static LuceneIndexModule singleVersionWithExplicitVersions(
-      Map<String, Integer> versions, int threads, boolean slave) {
-    return new LuceneIndexModule(versions, threads, slave);
+      Map<String, Integer> versions, int threads, boolean slave, boolean disableAutoFlush) {
+    return new LuceneIndexModule(versions, threads, slave, disableAutoFlush);
   }
 
-  public static LuceneIndexModule latestVersion(boolean slave) {
-    return new LuceneIndexModule(null, 0, slave);
+  public static LuceneIndexModule latestVersion(boolean slave, boolean disableAutoFlush) {
+    return new LuceneIndexModule(null, 0, slave, disableAutoFlush);
   }
 
   static boolean isInMemoryTest(Config cfg) {
     return cfg.getBoolean("index", "lucene", "testInmemory", false);
   }
 
-  private LuceneIndexModule(Map<String, Integer> singleVersions, int threads, boolean slave) {
+  private LuceneIndexModule(
+      Map<String, Integer> singleVersions, int threads, boolean slave, boolean disableAutoFlush) {
     super(singleVersions, threads, slave);
+    this.disableAutoFlush = disableAutoFlush;
+  }
+
+  @Override
+  protected void configure() {
+    super.configure();
+    bind(Boolean.class)
+        .annotatedWith(Names.named(IS_AUTO_FLUSH_DISABLED))
+        .toInstance(disableAutoFlush);
   }
 
   @Override

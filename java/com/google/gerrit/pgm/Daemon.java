@@ -526,7 +526,7 @@ public class Daemon extends SiteProgram {
       return luceneModule;
     }
     if (indexType.isLucene()) {
-      return LuceneIndexModule.latestVersion(replica);
+      return LuceneIndexModule.latestVersion(replica, false);
     }
     if (indexType.isElasticsearch()) {
       return ElasticIndexModule.latestVersion(replica);

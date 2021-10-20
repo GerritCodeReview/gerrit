@@ -154,6 +154,7 @@ export const htmlTemplate = html`
           mutable="[[mutable]]"
           label="[[item.labelName]]"
           label-info="[[item.labelInfo]]"
+          showAlwaysOldUI
         ></gr-label-info>
       </div>
     </section>
@@ -204,6 +205,7 @@ export const htmlTemplate = html`
           mutable="[[mutable]]"
           label="[[item.labelName]]"
           label-info="[[item.labelInfo]]"
+          showAlwaysOldUI
         ></gr-label-info>
       </div>
     </section>

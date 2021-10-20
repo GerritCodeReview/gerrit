@@ -4343,7 +4343,7 @@ defines how much time the task has to react to the cancellation signal
 before it is focefully cancelled.
 +
 The receive timeout cannot be overriden by setting a higher
-link:user-upload#deadline[deadline] on the git push request.
+link:user-upload.html#deadline[deadline] on the git push request.
 +
 Default is 4 minutes. If no unit is specified, milliseconds
 is assumed.

@@ -102,6 +102,10 @@ export class GrLabelInfo extends LitElement {
   @property({type: Boolean})
   showAllReviewers = true;
 
+  /** temporary until submit requirements are finished */
+  @property({type: Boolean})
+  showAlwaysOldUI = false;
+
   private readonly restApiService = appContext.restApiService;
 
   private readonly reporting = appContext.reportingService;
@@ -203,7 +207,10 @@ export class GrLabelInfo extends LitElement {
   private readonly flagsService = appContext.flagsService;
 
   override render() {
-    if (this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
+    if (
+      this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI) &&
+      !this.showAlwaysOldUI
+    ) {
       return this.renderNewSubmitRequirements();
     } else {
       return this.renderOldSubmitRequirements();

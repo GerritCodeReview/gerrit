@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e00b380_a64bd803",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1552,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:18:53Z",
+      "side": 1,
+      "message": "What does this do? I can\u0027t see any effect when I press the esc key.",
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7269836b_8f7b5c22",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:18:53Z",
+      "side": 1,
+      "message": "What does this actually do?\n\nAlso, we have a disconnect between how shorcuts are registered and the help-panel that has the shortcut keys in it.",
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5aaed61_19f9c3fe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:18:53Z",
+      "side": 1,
+      "message": "Why was this necessary?",
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10c5b4a1_1d43cbab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:18:53Z",
+      "side": 1,
+      "message": "Does the new code depend on these extra parameters to pass the tests? If so, do we know that we\u0027ll get these extra parameters in the browser?",
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

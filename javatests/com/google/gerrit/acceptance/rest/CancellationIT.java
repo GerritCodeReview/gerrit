@@ -35,6 +35,7 @@ import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.message.BasicHeader;
@@ -194,6 +195,7 @@ public class CancellationIT extends AbstractDaemonTest {
 
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   public void abortIfServerDeadlineExceeded() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
     assertThat(response.getEntityContent()).isEqualTo("Server Deadline Exceeded\n\ntimeout=1ms");
@@ -203,6 +205,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.foo.timeout", value = "1ms")
   @GerritConfig(name = "deadline.bar.timeout", value = "100ms")
   public void stricterDeadlineTakesPrecedence() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
     assertThat(response.getEntityContent())
@@ -213,6 +216,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.requestType", value = "REST")
   public void abortIfServerDeadlineExceeded_requestType() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
     assertThat(response.getEntityContent())
@@ -223,6 +227,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.requestUriPattern", value = "/projects/.*")
   public void abortIfServerDeadlineExceeded_requestUriPattern() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
     assertThat(response.getEntityContent())
@@ -235,6 +240,7 @@ public class CancellationIT extends AbstractDaemonTest {
       name = "deadline.default.excludedRequestUriPattern",
       value = "/projects/non-matching")
   public void abortIfServerDeadlineExceeded_excludedRequestUriPattern() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
     assertThat(response.getEntityContent())
@@ -249,6 +255,7 @@ public class CancellationIT extends AbstractDaemonTest {
       value = "/projects/non-matching")
   public void abortIfServerDeadlineExceeded_requestUriPatternAndExcludedRequestUriPattern()
       throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
     assertThat(response.getEntityContent())
@@ -259,6 +266,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.projectPattern", value = ".*new.*")
   public void abortIfServerDeadlineExceeded_projectPattern() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
     assertThat(response.getEntityContent())
@@ -269,6 +277,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.account", value = "1000000")
   public void abortIfServerDeadlineExceeded_account() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
     assertThat(response.getEntityContent())
@@ -279,6 +288,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.requestType", value = "SSH")
   public void nonMatchingServerDeadlineIsIgnored_requestType() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -287,6 +297,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.requestUriPattern", value = "/changes/.*")
   public void nonMatchingServerDeadlineIsIgnored_requestUriPattern() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -295,6 +306,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.excludedRequestUriPattern", value = "/projects/.*")
   public void nonMatchingServerDeadlineIsIgnored_excludedRequestUriPattern() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -305,6 +317,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.excludedRequestUriPattern", value = "/projects/.*new")
   public void nonMatchingServerDeadlineIsIgnored_requestUriPatternAndExcludedRequestUriPattern()
       throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -313,6 +326,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.projectPattern", value = ".*foo.*")
   public void nonMatchingServerDeadlineIsIgnored_projectPattern() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -321,6 +335,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.account", value = "999")
   public void nonMatchingServerDeadlineIsIgnored_account() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -329,6 +344,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.isAdvisory", value = "true")
   public void advisoryServerDeadlineIsIgnored() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -338,6 +354,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.test.isAdvisory", value = "true")
   @GerritConfig(name = "deadline.default.timeout", value = "2ms")
   public void nonAdvisoryDeadlineIsAppliedIfStricterAdvisoryDeadlineExists() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(4));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     assertThat(response.getStatusCode()).isEqualTo(SC_REQUEST_TIMEOUT);
     assertThat(response.getEntityContent())
@@ -347,6 +364,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "deadline.default.timeout", value = "1")
   public void invalidServerDeadlineIsIgnored_missingTimeUnit() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -354,6 +372,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "deadline.default.timeout", value = "1x")
   public void invalidServerDeadlineIsIgnored_invalidTimeUnit() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -369,6 +388,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.requestType", value = "INVALID")
   public void invalidServerDeadlineIsIgnored_invalidRequestType() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -377,6 +397,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.requestUriPattern", value = "][")
   public void invalidServerDeadlineIsIgnored_invalidRequestUriPattern() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -385,6 +406,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.excludedRequestUriPattern", value = "][")
   public void invalidServerDeadlineIsIgnored_invalidExcludedRequestUriPattern() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -393,6 +415,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.projectPattern", value = "][")
   public void invalidServerDeadlineIsIgnored_invalidProjectPattern() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -401,6 +424,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.account", value = "invalid")
   public void invalidServerDeadlineIsIgnored_invalidAccount() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -416,6 +440,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "deadline.default.timeout", value = "0ms")
   @GerritConfig(name = "deadline.default.requestType", value = "REST")
   public void deadlineConfigWithZeroTimeoutIsIgnored() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response = adminRestSession.putWithHeaders("/projects/" + name("new"));
     response.assertCreated();
   }
@@ -449,6 +474,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   public void clientProvidedDeadlineOverridesServerDeadline() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response =
         adminRestSession.putWithHeaders(
             "/projects/" + name("new"), new BasicHeader(RestApiServlet.X_GERRIT_DEADLINE, "2ms"));
@@ -460,6 +486,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   public void clientCanDisableDeadlineBySettingZeroAsDeadline() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     RestResponse response =
         adminRestSession.putWithHeaders(
             "/projects/" + name("new"), new BasicHeader(RestApiServlet.X_GERRIT_DEADLINE, "0"));
@@ -574,6 +601,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   public void abortPushIfServerDeadlineExceeded() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertErrorStatus("Server Deadline Exceeded (default.timeout=1ms)");
@@ -582,6 +610,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "receive.timeout", value = "1ms")
   public void abortPushIfTimeoutExceeded() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertErrorStatus("Server Deadline Exceeded (receive.timeout=1ms)");
@@ -591,6 +620,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @GerritConfig(name = "receive.timeout", value = "1ms")
   @GerritConfig(name = "deadline.default.timeout", value = "10s")
   public void receiveTimeoutTakesPrecedence() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertErrorStatus("Server Deadline Exceeded (receive.timeout=1ms)");
@@ -649,6 +679,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   public void clientProvidedDeadlineOnPushOverridesServerDeadline() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     List<String> pushOptions = new ArrayList<>();
     pushOptions.add("deadline=2ms");
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
@@ -660,6 +691,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "receive.timeout", value = "1ms")
   public void clientProvidedDeadlineOnPushDoesntOverrideServerTimeout() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     List<String> pushOptions = new ArrayList<>();
     pushOptions.add("deadline=10m");
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
@@ -671,6 +703,7 @@ public class CancellationIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "deadline.default.timeout", value = "1ms")
   public void clientCanDisableDeadlineOnPushBySettingZeroAsDeadline() throws Exception {
+    testTicker.useFakeTicker().setAutoIncrementStep(Duration.ofMillis(2));
     List<String> pushOptions = new ArrayList<>();
     pushOptions.add("deadline=0");
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);

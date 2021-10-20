@@ -4,6 +4,8 @@ GUAVA_VERSION = "30.1-jre"
 
 GUAVA_BIN_SHA1 = "00d0c3ce2311c9e36e73228da25a6e99b2ab826f"
 
+GUAVA_TESTLIB_BIN_SHA1 = "798c3827308605cd69697d8f1596a1735d3ef6e2"
+
 GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
 
 TESTCONTAINERS_VERSION = "1.15.3"
@@ -145,6 +147,12 @@ def declare_nongoogle_deps():
         name = "guava",
         artifact = "com.google.guava:guava:" + GUAVA_VERSION,
         sha1 = GUAVA_BIN_SHA1,
+    )
+
+    maven_jar(
+        name = "guava-testlib",
+        artifact = "com.google.guava:guava-testlib:" + GUAVA_VERSION,
+        sha1 = GUAVA_TESTLIB_BIN_SHA1,
     )
 
     GUICE_VERS = "5.0.1"

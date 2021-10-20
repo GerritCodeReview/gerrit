@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 
+import com.google.common.base.Ticker;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
@@ -60,6 +61,7 @@ import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+import com.google.inject.multibindings.OptionalBinder;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -112,6 +114,9 @@ public class IndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     factory(MultiProgressMonitor.Factory.class);
+    OptionalBinder.newOptionalBinder(binder(), Ticker.class)
+        .setDefault()
+        .toInstance(Ticker.systemTicker());
 
     bind(AccountIndexRewriter.class);
     bind(AccountIndexCollection.class);

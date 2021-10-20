@@ -14,6 +14,8 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.gerrit.lucene.AbstractLuceneIndex.IS_AUTO_FLUSH_DISABLED;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.project.ProjectIndex;
@@ -23,6 +25,7 @@ import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.inject.name.Names;
 import java.util.Map;
 import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
@@ -47,6 +50,12 @@ public class LuceneIndexModule extends AbstractIndexModule {
 
   private LuceneIndexModule(Map<String, Integer> singleVersions, int threads, boolean slave) {
     super(singleVersions, threads, slave);
+  }
+
+  @Override
+  protected void configure() {
+    super.configure();
+    bind(Boolean.class).annotatedWith(Names.named(IS_AUTO_FLUSH_DISABLED)).toInstance(false);
   }
 
   @Override

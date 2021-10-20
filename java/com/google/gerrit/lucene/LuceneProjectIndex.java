@@ -37,6 +37,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
@@ -84,7 +85,8 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
-      @Assisted Schema<ProjectData> schema)
+      @Assisted Schema<ProjectData> schema,
+      @Named(IS_AUTO_FLUSH_DISABLED) boolean isAutoFlushDisabled)
       throws IOException {
     super(
         schema,
@@ -94,7 +96,8 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
         ImmutableSet.of(),
         null,
         new GerritIndexWriterConfig(cfg, PROJECTS),
-        new SearcherFactory());
+        new SearcherFactory(),
+        isAutoFlushDisabled);
     this.projectCache = projectCache;
 
     indexWriterConfig = new GerritIndexWriterConfig(cfg, PROJECTS);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.gerrit.lucene.AbstractLuceneIndex.IS_AUTO_FLUSH_DISABLED;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
@@ -35,10 +36,12 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.util.ReplicaUtil;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.name.Names;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -166,7 +169,13 @@ public class Reindex extends SiteProgram {
             factory(ChangeResource.Factory.class);
           }
         });
-
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(Boolean.class).annotatedWith(Names.named(IS_AUTO_FLUSH_DISABLED)).toInstance(true);
+          }
+        });
     return dbInjector.createChildInjector(modules);
   }
 

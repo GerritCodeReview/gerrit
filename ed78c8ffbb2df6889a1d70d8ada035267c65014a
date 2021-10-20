@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9ea1c9d_4753d6dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-20T16:50:58Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "ed78c8ffbb2df6889a1d70d8ada035267c65014a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c67d500_1bf3f4cd",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-20T16:50:58Z",
+      "side": 1,
+      "message": "I think you could implement the method here as:\n\nreturn getFlattenedPredicateList().anyMatch(p -\u003e p instanceOf SubmitRequirementPredicate).\n\nThen there is no need to override it in other classes. That would follow the existing structure (use class hierarchies to make decisions, check for example where we check instanceof IndexPredicate etc) better.",
+      "range": {
+        "startLine": 174,
+        "startChar": 11,
+        "endLine": 174,
+        "endChar": 15
+      },
+      "revId": "ed78c8ffbb2df6889a1d70d8ada035267c65014a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4da597a4_104d12eb",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-20T16:50:58Z",
+      "side": 1,
+      "message": "This should directly extend Predicate.\n\nOperatorPredicate is a helper for index-backed matching where we match a field by name and value.",
+      "range": {
+        "startLine": 24,
+        "startChar": 57,
+        "endLine": 24,
+        "endChar": 74
+      },
+      "revId": "ed78c8ffbb2df6889a1d70d8ada035267c65014a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

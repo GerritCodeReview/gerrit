@@ -34,8 +34,8 @@ public class ExperimentFeaturesConstants {
    * submit requirements by the {@link
    * com.google.gerrit.server.project.SubmitRequirementsEvaluator}.
    */
-  public static final String GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS =
-      "GerritBackendRequestFeature__enable_legacy_submit_requirements";
+  public static final String GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS =
+      "GerritBackendRequestFeature__enable_submit_requirements";
 
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES =

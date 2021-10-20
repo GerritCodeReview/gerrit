@@ -45,6 +45,30 @@
       },
       "revId": "0d4358d02da52585c63f432a18441b6f78a39f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "510a8cb5_fef8237b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-20T18:01:15Z",
+      "side": 1,
+      "message": "I would also vote for consistency and make it a predicate available to change queries.",
+      "parentUuid": "7a3d948d_5e30045a",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "0d4358d02da52585c63f432a18441b6f78a39f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

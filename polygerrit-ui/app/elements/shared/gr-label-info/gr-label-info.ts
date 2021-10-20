@@ -44,6 +44,7 @@ import {
   getVotingRangeOrDefault,
   hasNeutralStatus,
   hasVoted,
+  valueString,
 } from '../../../utils/label-util';
 import {appContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -255,7 +256,7 @@ export class GrLabelInfo extends LitElement {
         ></gr-vote-chip
       ></gr-account-chip>
       ${noVoteYet
-        ? html`<span class="no-votes">No votes</span>`
+        ? this.renderVoteAbility(reviewer)
         : html`${this.renderRemoveVote(reviewer)}`}
     </div>`;
   }
@@ -281,6 +282,19 @@ export class GrLabelInfo extends LitElement {
       </td>
       <td>${this.renderRemoveVote(mappedLabel.account)}</td>
     </tr>`;
+  }
+
+  private renderVoteAbility(reviewer: AccountInfo) {
+    if (this.labelInfo && isDetailedLabelInfo(this.labelInfo)) {
+      const approvalInfo = getApprovalInfo(this.labelInfo, reviewer);
+      if (approvalInfo?.permitted_voting_range) {
+        const {min, max} = approvalInfo?.permitted_voting_range;
+        return html`<span class="no-votes"
+          >Can vote ${valueString(min)}/${valueString(max)}</span
+        >`;
+      }
+    }
+    return html`<span class="no-votes">No votes</span>`;
   }
 
   private renderRemoveVote(reviewer: AccountInfo) {

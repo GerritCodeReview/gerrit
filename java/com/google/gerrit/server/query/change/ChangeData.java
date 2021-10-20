@@ -985,7 +985,15 @@ public class ChangeData {
 
   public void setSubmitRequirements(
       Map<SubmitRequirement, SubmitRequirementResult> submitRequirements) {
-    this.submitRequirements = submitRequirements;
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants
+            .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS_BACKFILLING_ON_DASHBOARD)) {
+      // Only set back values from the index if the experiment is not active. While the experiment
+      // is active, we want
+      // to compute SRs from scratch to ensure fresh results.
+      // TODO(ghareeb, hiesel): Remove this.
+      this.submitRequirements = submitRequirements;
+    }
   }
 
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {

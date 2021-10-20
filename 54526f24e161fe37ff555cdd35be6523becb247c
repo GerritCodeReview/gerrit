@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e2a92c5_ce14b876",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-20T16:04:25Z",
+      "side": 1,
+      "message": "I did that. And then debugged for 30 minutes to find out what broke. Apparently the `content` is set to the first element child. That is why I have moved the \u003cgr-endpoint-param\u003e to the end.",
+      "parentUuid": "ae699e21_c4f80b45",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d25a938_08a79868",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-20T15:24:47Z",
       "side": 1,
       "message": "Same nit.",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9744dfe_a680c8e9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-20T16:04:25Z",
+      "side": 1,
+      "message": "Same reply.",
+      "parentUuid": "1d25a938_08a79868",
       "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a623e55_e161bddd",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-20T16:04:25Z",
+      "side": 1,
+      "message": "I find the cost of splitting this into a separate change not worth it. If we force splitting doc updates into separate changes, then we might generally discourage engineers to add useful comments about things that they have stumbled over. WDYT?",
+      "parentUuid": "731f1743_bf06eee0",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6206bff0_68e6080e",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
         "patchSetId": 2
@@ -65,6 +119,24 @@
       "writtenOn": "2021-10-20T15:24:47Z",
       "side": 1,
       "message": "Unrelated to this change: Should we be using the same timeout as for plugin registration?",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1992262_b9d12fd1",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-20T16:04:25Z",
+      "side": 1,
+      "message": "Have not thought about that. Maybe.",
+      "parentUuid": "6206bff0_68e6080e",
       "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a21e433_f69646f4",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-20T16:04:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "279ffcb5_7646f629",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd386564_52b2d332",
@@ -99,6 +189,24 @@
       "writtenOn": "2021-10-20T15:24:47Z",
       "side": 1,
       "message": "This code is very similar as applyReplyTextChangedCallback. \nConsider factoring out a templatized function that takes the type of the CustomEvent and the \u0027labels-changed\u0027 or \u0027value-changed\u0027 string.",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1a145e1_3a82abc3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-20T16:04:25Z",
+      "side": 1,
+      "message": "Not sure whether it was worth it, but here we go. :-)",
+      "parentUuid": "bd386564_52b2d332",
       "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

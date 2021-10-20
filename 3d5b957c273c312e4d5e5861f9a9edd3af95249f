@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8dab825_cb11939a",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-20T11:59:26Z",
+      "side": 1,
+      "message": "Needs to be updated (copy \u0026 pasted from above?)",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 5
+      },
+      "revId": "3d5b957c273c312e4d5e5861f9a9edd3af95249f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a5fadad_ee4282e5",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-20T11:59:26Z",
+      "side": 1,
+      "message": "COMPUTE_DRAFTS_FROM_ALL_USERS_REPOSITORY?",
+      "range": {
+        "startLine": 41,
+        "startChar": 60,
+        "endLine": 41,
+        "endChar": 93
+      },
+      "revId": "3d5b957c273c312e4d5e5861f9a9edd3af95249f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5847399_74e55e4c",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-20T11:59:26Z",
+      "side": 1,
+      "message": "compute_drafts?",
+      "range": {
+        "startLine": 42,
+        "startChar": 36,
+        "endLine": 42,
+        "endChar": 43
+      },
+      "revId": "3d5b957c273c312e4d5e5861f9a9edd3af95249f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da1e7cf2_6baecafb",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-20T11:59:26Z",
+      "side": 1,
+      "message": "nit: can be written as method reference \"ChangePredicates::idStr\" which we prefer",
+      "range": {
+        "startLine": 90,
+        "startChar": 17,
+        "endLine": 90,
+        "endChar": 47
+      },
+      "revId": "3d5b957c273c312e4d5e5861f9a9edd3af95249f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6032a1c_501e2e81",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 2380,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-20T11:59:26Z",
+      "side": 1,
+      "message": "Should the test name reflect that it\u0027s testing the experiment?\nMaybe something like byHasDrafts_draftsComputedFromAllUsersRepository?",
+      "range": {
+        "startLine": 2380,
+        "startChar": 14,
+        "endLine": 2380,
+        "endChar": 38
+      },
+      "revId": "3d5b957c273c312e4d5e5861f9a9edd3af95249f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca1f214d_b97883fd",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 2381,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-20T11:59:26Z",
+      "side": 1,
+      "message": "Maybe also create a change without draft comment to verify that this change is not being returned?",
+      "revId": "3d5b957c273c312e4d5e5861f9a9edd3af95249f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27be08d0_3ee742a4",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 2395,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-20T11:59:26Z",
+      "side": 1,
+      "message": "Maybe also check that these changes a not returned for another user:\n\n  requestContext.setContext(newRequestContext(user2));\n  assertQuery(\"has:draft\");",
+      "revId": "3d5b957c273c312e4d5e5861f9a9edd3af95249f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

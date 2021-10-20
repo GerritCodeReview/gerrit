@@ -97,7 +97,8 @@ export class GrAttributeHelper implements AttributeHelperPluginApi {
   }
 
   /**
-   * Sets value and dispatches event to force notify.
+   * Sets value of property (not attribute!) and dispatches event to force
+   * notify.
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   set(name: string, value: any) {

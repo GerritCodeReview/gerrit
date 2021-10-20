@@ -71,7 +71,7 @@ export class GrEndpointDecorator extends PolymerElement {
     plugin: PluginApi,
     slot?: string
   ): Promise<HTMLElement> {
-    const el = document.createElement(name);
+    const el = document.createElement(name) as PluginElement;
     return this._initProperties(
       el,
       plugin,
@@ -113,33 +113,31 @@ export class GrEndpointDecorator extends PolymerElement {
   }
 
   _initProperties(
-    htmlEl: HTMLElement,
+    el: PluginElement,
     plugin: PluginApi,
     content?: Element | null
   ) {
-    const el = htmlEl as HTMLElement & {
-      plugin?: PluginApi;
-      content?: Element;
-    };
     el.plugin = plugin;
     // The content is (only?) used in ChangeReplyPluginApi.
     // Maybe it would be better for the consumer side to figure out the content
     // with something like el.getRootNode().host, etc.
+    // Also note that the content element could easily end up being an instance
+    // of <gr-endpoint-param>.
     if (content) {
-      el.content = content;
+      el.content = content as HTMLElement;
     }
     const expectProperties = this._getEndpointParams().map(paramEl => {
       const helper = plugin.attributeHelper(paramEl);
       // TODO: this should be replaced by accessing the property directly
       const paramName = paramEl.getAttribute('name');
       if (!paramName) throw Error('plugin endpoint parameter missing a name');
-      return helper
-        .get('value')
-        .then(() =>
-          helper.bind('value', value =>
-            plugin.attributeHelper(el).set(paramName, value)
-          )
-        );
+      return helper.get('value').then(() =>
+        helper.bind('value', value =>
+          // Note that despite the naming this sets the property, not the
+          // attribute. :-)
+          plugin.attributeHelper(el).set(paramName, value)
+        )
+      );
     });
     let timeoutId: number;
     const timeout = new Promise(
@@ -197,17 +195,16 @@ export class GrEndpointDecorator extends PolymerElement {
 
   override ready() {
     super.ready();
+    if (!this.name) return;
     this._endpointCallBack = (info: ModuleInfo) => this._initModule(info);
     getPluginEndpoints().onNewEndpoint(this.name, this._endpointCallBack);
-    if (this.name) {
-      getPluginLoader()
-        .awaitPluginsLoaded()
-        .then(() =>
-          getPluginEndpoints()
-            .getDetails(this.name)
-            .forEach(this._initModule, this)
-        );
-    }
+    getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() =>
+        getPluginEndpoints()
+          .getDetails(this.name)
+          .forEach(this._initModule, this)
+      );
   }
 }
 

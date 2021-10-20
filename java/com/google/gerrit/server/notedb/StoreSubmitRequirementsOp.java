@@ -14,16 +14,19 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
+import org.eclipse.jgit.lib.Config;
 
 /** A {@link BatchUpdateOp} that stores the evaluated submit requirements of a change in NoteDb. */
 public class StoreSubmitRequirementsOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final SubmitRequirementsEvaluator evaluator;
+  private final boolean storeRequirementsInNoteDb;
 
   public interface Factory {
     StoreSubmitRequirementsOp create();
@@ -31,13 +34,21 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
 
   @Inject
   public StoreSubmitRequirementsOp(
-      ChangeData.Factory changeDataFactory, SubmitRequirementsEvaluator evaluator) {
+      @GerritServerConfig Config cfg,
+      ChangeData.Factory changeDataFactory,
+      SubmitRequirementsEvaluator evaluator) {
     this.changeDataFactory = changeDataFactory;
     this.evaluator = evaluator;
+    this.storeRequirementsInNoteDb =
+        cfg.getBoolean("change", null, "storeSubmitRequirementsInNoteDb", false);
   }
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws Exception {
+    if (!storeRequirementsInNoteDb) {
+      // Temporarily stop storing submit requirements in NoteDb when the change is merged.
+      return false;
+    }
     // Create ChangeData using the project/change IDs instead of ctx.getChange(). We do that because
     // for changes requiring a rebase before submission (e.g. if submit type = RebaseAlways), the
     // RebaseOp inserts a new patchset that is visible here (via Change#getCurrentPatchset). If we

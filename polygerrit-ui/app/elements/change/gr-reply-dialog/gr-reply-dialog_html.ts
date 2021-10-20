@@ -329,6 +329,7 @@ export const htmlTemplate = html`
           on-labels-changed="_handleLabelsChanged"
           permitted-labels="[[permittedLabels]]"
         ></gr-label-scores>
+        <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
       </gr-endpoint-decorator>
       <div id="pluginMessage">[[_pluginMessage]]</div>
     </section>

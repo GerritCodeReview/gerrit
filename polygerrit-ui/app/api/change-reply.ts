@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {ChangeInfo} from './rest-api';
+
 export declare interface LabelsChangedDetail {
   name: string;
   value: string;
+  change?: ChangeInfo;
 }
 export declare interface ValueChangedDetail {
   value: string;

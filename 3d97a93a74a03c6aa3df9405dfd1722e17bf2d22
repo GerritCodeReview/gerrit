@@ -16,6 +16,24 @@
       "message": "Unfortunately, I think that throwing even a RuntimeException here will only kill the thread in the executor. If this happens for all threads, it will likely deadlock and then never complete. So maybe it\u0027s just better to also just do a ui.message here (like IOException) and continue?",
       "revId": "3d97a93a74a03c6aa3df9405dfd1722e17bf2d22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e467fd9_a0f0966e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-20T00:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4894e793_27f81833",
+      "revId": "3d97a93a74a03c6aa3df9405dfd1722e17bf2d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

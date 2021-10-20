@@ -18,6 +18,125 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbec0290_9bcd7023",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Overall looks good.  The only thing that\u0027s hard to deduce easily is which keyboard shortcuts are registered on document/document.body and which ones on specific elements.",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35cfd28c_f21d36d8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider a helper function \n```\nmakeShortcut(Shortcut.CURSOR_NEXT_CHANGE, _ \u003d\u003e this._nextChange())\n```",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77f96df6_be1981ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1551,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider inlining",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1923eef_8db766a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1556,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider inlining",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3545f41c_201e30fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1673,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider inlining",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f87f936_be352e1e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1677,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider inlining",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56dfb379_089b7547",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1681,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider inlining.",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c5cca15_5e3021cd",
@@ -37,6 +156,108 @@
         "endLine": 364,
         "endChar": 26
       },
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f23b649_69f187bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Should this be adding the dom-util function addShortCut?",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82f18228_09c49d7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider inlining.",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e0fc80b_e5e7915f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider inlining",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb3f7add_b514947e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider inlining",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30b28044_22757b4e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider inlining",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "082b9740_924b72fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider inlining",
       "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -66,6 +287,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9080b0c_4a42ff7c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Same nit as below. Consider using some(p \u003d\u003e p  ....",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca90c66c_19ddd04a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "s/e \u003d\u003e e/p \u003d\u003e p/\n\nYou\u0027re already using \u0027e\u0027 so it would make it a little less error-prone.",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3f491640_7fc17737",
         "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
         "patchSetId": 4
@@ -83,6 +338,64 @@
         "endLine": 354,
         "endChar": 11
       },
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac00e348_6e37a600",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "I assume you mean Modifier.SHIFT_KEY, but +1 here and throughout.",
+      "parentUuid": "3f491640_7fc17737",
+      "range": {
+        "startLine": 354,
+        "startChar": 3,
+        "endLine": 354,
+        "endChar": 11
+      },
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c4bf96e_90c7e5bc",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "Consider making a keyboard-util. Not as part of this change.",
+      "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72c90f22_44424881",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T22:58:39Z",
+      "side": 1,
+      "message": "This is a noob-ts question: Why do you need this? Why can\u0027t you simply refer to the \u0027Shortcut\u0027 type directly?",
       "revId": "4d13578f153a362bc12050982108f43c96f4e0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -3691,6 +3691,32 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void bySubmitRequirement_notAllowed() throws Exception {
+    Exception thrown =
+        assertThrows(
+            QueryParseException.class,
+            () ->
+                queryProcessorProvider
+                    .get()
+                    .query(
+                        new SubmitRequirementPredicate("submit-requirement", "value") {
+                          @Override
+                          public boolean match(ChangeData object) {
+                            return false;
+                          }
+
+                          @Override
+                          public int getCost() {
+                            return 0;
+                          }
+                        }));
+
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Operator 'submit-requirement:value' cannot be used in queries");
+  }
+
+  @Test
   public void selfFailsForAnonymousUser() throws Exception {
     for (String query : ImmutableList.of("assignee:self", "has:star", "is:starred", "star:star")) {
       assertQuery(query);

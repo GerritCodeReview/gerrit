@@ -27,7 +27,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -40,7 +40,7 @@ import java.util.Optional;
 /** Evaluates submit requirements for different change data. */
 public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvaluator {
 
-  private final Provider<ChangeQueryBuilder> changeQueryBuilderProvider;
+  private final Provider<SubmitRequirementChangeQueryBuilder> queryBuilder;
   private final ProjectCache projectCache;
   private final SubmitRuleEvaluator.Factory legacyEvaluator;
   private final ExperimentFeatures experimentFeatures;
@@ -58,11 +58,11 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   @Inject
   private SubmitRequirementsEvaluatorImpl(
-      Provider<ChangeQueryBuilder> changeQueryBuilderProvider,
+      Provider<SubmitRequirementChangeQueryBuilder> queryBuilder,
       ProjectCache projectCache,
       SubmitRuleEvaluator.Factory legacyEvaluator,
       ExperimentFeatures experimentFeatures) {
-    this.changeQueryBuilderProvider = changeQueryBuilderProvider;
+    this.queryBuilder = queryBuilder;
     this.projectCache = projectCache;
     this.legacyEvaluator = legacyEvaluator;
     this.experimentFeatures = experimentFeatures;
@@ -71,7 +71,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   @Override
   public void validateExpression(SubmitRequirementExpression expression)
       throws QueryParseException {
-    changeQueryBuilderProvider.get().parse(expression.expressionString());
+    queryBuilder.get().parse(expression.expressionString());
   }
 
   @Override
@@ -121,8 +121,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   public SubmitRequirementExpressionResult evaluateExpression(
       SubmitRequirementExpression expression, ChangeData changeData) {
     try {
-      Predicate<ChangeData> predicate =
-          changeQueryBuilderProvider.get().parse(expression.expressionString());
+      Predicate<ChangeData> predicate = queryBuilder.get().parse(expression.expressionString());
       PredicateResult predicateResult = evaluatePredicateTree(predicate, changeData);
       return SubmitRequirementExpressionResult.create(expression, predicateResult);
     } catch (QueryParseException e) {

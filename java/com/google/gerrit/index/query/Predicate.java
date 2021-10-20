@@ -18,9 +18,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.Iterables;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * An abstract predicate tree for any form of query.
@@ -146,11 +149,29 @@ public abstract class Predicate<T> {
     return leafCount;
   }
 
+  /** Returns a list of this predicate and all its descendants. */
+  public List<Predicate<T>> getFlattenedPredicateList() {
+    List<Predicate<T>> result = new ArrayList<>();
+    Queue<Predicate<T>> queue = new LinkedList<>();
+    queue.add(this);
+    while (!queue.isEmpty()) {
+      Predicate<T> current = queue.poll();
+      result.add(current);
+      current.getChildren().forEach(p -> queue.add(p));
+    }
+    return result;
+  }
+
   /** Create a copy of this predicate, with new children. */
   public abstract Predicate<T> copy(Collection<? extends Predicate<T>> children);
 
   public boolean isMatchable() {
     return this instanceof Matchable;
+  }
+
+  /** Whether this predicate can be used in search queries. */
+  public boolean supportedForQueries() {
+    return true;
   }
 
   @SuppressWarnings("unchecked")

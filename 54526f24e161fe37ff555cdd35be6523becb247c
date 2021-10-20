@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09e3103a_d31e33dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T16:13:20Z",
+      "side": 1,
+      "message": "That feels a little brittle, but that also feels like a different change than this one.",
+      "parentUuid": "2e2a92c5_ce14b876",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d25a938_08a79868",
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "I find the cost of splitting this into a separate change not worth it. If we force splitting doc updates into separate changes, then we might generally discourage engineers to add useful comments about things that they have stumbled over. WDYT?",
       "parentUuid": "731f1743_bf06eee0",
+      "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "242b6544_bf47a699",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-20T16:13:20Z",
+      "side": 1,
+      "message": "Fair point. I feel differently about unrelated code changes.",
+      "parentUuid": "1a623e55_e161bddd",
       "revId": "54526f24e161fe37ff555cdd35be6523becb247c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

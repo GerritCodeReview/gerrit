@@ -31,7 +31,11 @@ import {
 import {assertNever, unique} from './common-util';
 
 // Name of the standard Code-Review label.
-export const CODE_REVIEW = 'Code-Review';
+export enum STANDARD_LABELS {
+  CODE_REVIEW = 'Code-Review',
+  CODE_OWNERS = 'Code Owners',
+  PRESUBMIT_VERIFIED = 'Presubmit-Verified',
+}
 
 export enum LabelStatus {
   APPROVED = 'APPROVED',
@@ -178,9 +182,13 @@ export function hasVotes(labelInfo: LabelInfo): boolean {
 }
 
 export function labelCompare(labelName1: string, labelName2: string) {
-  if (labelName1 === CODE_REVIEW && labelName2 === CODE_REVIEW) return 0;
-  if (labelName1 === CODE_REVIEW) return -1;
-  if (labelName2 === CODE_REVIEW) return 1;
+  if (
+    labelName1 === STANDARD_LABELS.CODE_REVIEW &&
+    labelName2 === STANDARD_LABELS.CODE_REVIEW
+  )
+    return 0;
+  if (labelName1 === STANDARD_LABELS.CODE_REVIEW) return -1;
+  if (labelName2 === STANDARD_LABELS.CODE_REVIEW) return 1;
 
   return labelName1.localeCompare(labelName2);
 }
@@ -189,7 +197,7 @@ export function getCodeReviewLabel(
   labels: LabelNameToInfoMap
 ): LabelInfo | undefined {
   for (const label of Object.keys(labels)) {
-    if (label === CODE_REVIEW) {
+    if (label === STANDARD_LABELS.CODE_REVIEW) {
       return labels[label];
     }
   }
@@ -225,4 +233,24 @@ export function iconForStatus(status: SubmitRequirementStatus) {
     default:
       assertNever(status, `Unsupported status: ${status}`);
   }
+}
+
+// TODO(milutin): This may be temporary for demo purposes
+const PRIORITY_REQUIREMENTS_ORDER: string[] = [
+  STANDARD_LABELS.CODE_REVIEW,
+  STANDARD_LABELS.CODE_OWNERS,
+  STANDARD_LABELS.PRESUBMIT_VERIFIED,
+];
+export function orderSubmitRequirements(
+  requirements: SubmitRequirementResultInfo[]
+) {
+  const priorityRequirements = [];
+  for (const label of PRIORITY_REQUIREMENTS_ORDER) {
+    const priorityRequirement = requirements.find(r => r.name === label);
+    if (priorityRequirement) priorityRequirements.push(priorityRequirement);
+  }
+  const nonPriorityRequirements = requirements.filter(
+    r => !PRIORITY_REQUIREMENTS_ORDER.includes(r.name)
+  );
+  return priorityRequirements.concat(nonPriorityRequirements);
 }

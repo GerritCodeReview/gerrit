@@ -36,6 +36,7 @@ import {
   hasNeutralStatus,
   hasVotes,
   iconForStatus,
+  orderSubmitRequirements,
 } from '../../../utils/label-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {charsOnly, pluralize} from '../../../utils/string-util';
@@ -130,9 +131,10 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   override render() {
-    const submit_requirements = (this.change?.submit_requirements ?? []).filter(
-      req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
-    );
+    const submit_requirements = orderSubmitRequirements(
+      this.change?.submit_requirements ?? []
+    ).filter(req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE);
+
     return html` <h3
         class="metadata-title heading-3"
         id="submit-requirements-caption"

@@ -124,6 +124,7 @@ exported_deps = [
     "//lib/truth",
     "//lib/truth:truth-java8-extension",
     "//lib/greenmail",
+    "//lib:guava-testlib",
 ] + TEST_DEPS
 
 java_library(

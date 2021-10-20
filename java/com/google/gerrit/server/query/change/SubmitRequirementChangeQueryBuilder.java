@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.inject.Inject;
 
 /**
@@ -31,5 +33,18 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   @Inject
   SubmitRequirementChangeQueryBuilder(Arguments args) {
     super(def, args);
+  }
+
+  @Operator
+  @Override
+  public Predicate<ChangeData> is(String value) throws QueryParseException {
+    try {
+      return super.is(value);
+    } catch (QueryParseException e) {
+      if ("pure_revert".equalsIgnoreCase(value)) {
+        return new PureRevertPredicate("is", value);
+      }
+      throw new QueryParseException("Unknown argument " + value, e);
+    }
   }
 }

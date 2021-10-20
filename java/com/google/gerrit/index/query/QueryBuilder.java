@@ -44,8 +44,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.tree.CommonTree;
@@ -108,6 +110,7 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
 
     public Definition(Class<? extends Q> clazz) {
       ImmutableMap.Builder<String, OperatorFactory<T, Q>> b = ImmutableMap.builder();
+      Set<String> overridden = new HashSet<>();
       Class<?> c = clazz;
       while (c != QueryBuilder.class) {
         for (Method method : c.getDeclaredMethods()) {
@@ -129,6 +132,14 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
               method.getName(),
               method);
           String name = Ascii.toLowerCase(method.getName());
+          if (overridden.contains(name)) {
+            // Skip method if it was previously included by any of the sub-classes
+            continue;
+          }
+          if (isOverriden(c, method)) {
+            // Add the method name to overridden to prevent processing it again in the parent
+            overridden.add(name);
+          }
           b.put(name, new ReflectionFactory<>(name, method));
         }
         c = c.getSuperclass();
@@ -336,6 +347,24 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
                 "Unsupported %s node in operator %s: %s",
                 QueryParser.tokenNames[r.getType()], r.getParent(), r));
     }
+  }
+
+  /**
+   * Checks if method {@code m} of class {@code c} is overridden, that is if it's defined with the
+   * same signature in any of the superclasses of {@code c}.
+   */
+  @SuppressWarnings("unused")
+  private static boolean isOverriden(Class<?> c, Method m) {
+    c = c.getSuperclass();
+    while (c != null) {
+      try {
+        c.getMethod(m.getName(), m.getParameterTypes());
+        return true;
+      } catch (Exception e) {
+      }
+      c = c.getSuperclass();
+    }
+    return false;
   }
 
   @SuppressWarnings("unchecked")

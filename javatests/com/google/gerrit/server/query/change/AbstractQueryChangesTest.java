@@ -3721,6 +3721,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void isPureRevert_notAllowed() throws Exception {
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("is:pure_revert"));
+    assertThat(thrown).hasMessageThat().isEqualTo("Unrecognized value: pure_revert");
+  }
+
+  @Test
   public void selfFailsForAnonymousUser() throws Exception {
     for (String query : ImmutableList.of("assignee:self", "has:star", "is:starred", "star:star")) {
       assertQuery(query);

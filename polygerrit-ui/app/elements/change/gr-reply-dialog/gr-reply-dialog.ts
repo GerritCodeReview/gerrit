@@ -99,9 +99,9 @@ import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {
-  CODE_REVIEW,
   getApprovalInfo,
   getMaxAccounts,
+  StandardLabels,
 } from '../../../utils/label-util';
 import {pluralize} from '../../../utils/string-util';
 import {
@@ -986,7 +986,7 @@ export class GrReplyDialog extends base {
   }
 
   _computeCommentAccounts(threads: CommentThread[]) {
-    const crLabel = this.change?.labels?.[CODE_REVIEW];
+    const crLabel = this.change?.labels?.[StandardLabels.CODE_REVIEW];
     const maxCrVoteAccountIds = getMaxAccounts(crLabel).map(a => a._account_id);
     const accountIds = new Set<AccountId>();
     threads.forEach(thread => {

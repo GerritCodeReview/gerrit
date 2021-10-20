@@ -95,9 +95,9 @@ import {
 } from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
 import {fireAlert, fireEvent, fireReload} from '../../../utils/event-util';
 import {
-  CODE_REVIEW,
   getApprovalInfo,
   getVotingRange,
+  StandardLabels,
 } from '../../../utils/label-util';
 import {CommentThread} from '../../../utils/comment-util';
 import {ShowAlertEventDetail} from '../../../types/events';
@@ -975,8 +975,9 @@ export class GrChangeActions
     // Allow the user to use quick approve to vote the max score on code review
     // even if it is already granted by someone else. Does not apply if the
     // user owns the change or has already granted the max score themselves.
-    const codeReviewLabel = this.change.labels[CODE_REVIEW];
-    const codeReviewPermittedValues = this.change.permitted_labels[CODE_REVIEW];
+    const codeReviewLabel = this.change.labels[StandardLabels.CODE_REVIEW];
+    const codeReviewPermittedValues =
+      this.change.permitted_labels[StandardLabels.CODE_REVIEW];
     if (
       !result &&
       codeReviewLabel &&
@@ -988,7 +989,7 @@ export class GrChangeActions
       getApprovalInfo(codeReviewLabel, this.account)?.value !==
         getVotingRange(codeReviewLabel)?.max
     ) {
-      result = CODE_REVIEW;
+      result = StandardLabels.CODE_REVIEW;
     }
 
     if (result) {

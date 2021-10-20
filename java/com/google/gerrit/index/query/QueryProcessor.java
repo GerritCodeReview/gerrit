@@ -227,6 +227,7 @@ public abstract class QueryProcessor<T> {
       List<DataSource<T>> sources = new ArrayList<>(cnt);
       int queryCount = 0;
       for (Predicate<T> q : queries) {
+        checkSupportedForQueries(q);
         int limit = getEffectiveLimit(q);
         limits.add(limit);
 
@@ -292,6 +293,15 @@ public abstract class QueryProcessor<T> {
       throw e;
     }
     return out;
+  }
+
+  private void checkSupportedForQueries(Predicate<T> predicate) throws QueryParseException {
+    List<Predicate<T>> descendants = predicate.getFlattenedPredicateList();
+    for (Predicate<T> p : descendants) {
+      if (!p.supportedForQueries()) {
+        throw new QueryParseException(String.format("Operator '%s' cannot be used in queries", p));
+      }
+    }
   }
 
   private static <T> ImmutableList<QueryResult<T>> disabledResults(

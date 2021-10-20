@@ -54,6 +54,7 @@ import {votingStyles} from '../../../styles/gr-voting-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {fireReload} from '../../../utils/event-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {sortReviewers} from '../../../utils/attention-set-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -214,11 +215,13 @@ export class GrLabelInfo extends LitElement {
   private renderNewSubmitRequirements() {
     const labelInfo = this.labelInfo;
     if (!labelInfo) return;
-    const reviewers = (this.change?.reviewers['REVIEWER'] ?? []).filter(
-      reviewer =>
-        (this.showAllReviewers && canVote(labelInfo, reviewer)) ||
-        (!this.showAllReviewers && hasVoted(labelInfo, reviewer))
-    );
+    const reviewers = (this.change?.reviewers['REVIEWER'] ?? [])
+      .filter(
+        reviewer =>
+          (this.showAllReviewers && canVote(labelInfo, reviewer)) ||
+          (!this.showAllReviewers && hasVoted(labelInfo, reviewer))
+      )
+      .sort((r1, r2) => sortReviewers(r1, r2, this.change, this.account));
     return html`<div>
       ${reviewers.map(reviewer => this.renderReviewerVote(reviewer))}
     </div>`;

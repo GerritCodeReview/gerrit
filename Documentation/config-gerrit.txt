@@ -3130,6 +3130,10 @@ Lucene documentation] for further details.
 +
 Defaults to true (throttling enabled).
 
+During offline reindexing, having ramBufferSize greater than the size of
+index and maxBufferedDocs as -1 would avoid unnecessary flushes and triggers
+only a single flush at the end of process.
+
 Sample Lucene index configuration:
 ----
 [index]

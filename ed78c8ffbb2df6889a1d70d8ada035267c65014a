@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7ad3145_78b6b6e8",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-20T16:53:00Z",
+      "side": 0,
+      "message": "These were valid operators in the past. Please check our logs to make sure they aren\u0027t used anymore before merging this change.",
+      "range": {
+        "startLine": 341,
+        "startChar": 20,
+        "endLine": 342,
+        "endChar": 28
+      },
+      "revId": "ed78c8ffbb2df6889a1d70d8ada035267c65014a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -24,6 +26,7 @@ import com.google.inject.Inject;
 public class StoreSubmitRequirementsOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final SubmitRequirementsEvaluator evaluator;
+  private final boolean storeRequirementsInNoteDb;
 
   public interface Factory {
     StoreSubmitRequirementsOp create();
@@ -31,13 +34,23 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
 
   @Inject
   public StoreSubmitRequirementsOp(
-      ChangeData.Factory changeDataFactory, SubmitRequirementsEvaluator evaluator) {
+      ChangeData.Factory changeDataFactory,
+      ExperimentFeatures experimentFeatures,
+      SubmitRequirementsEvaluator evaluator) {
     this.changeDataFactory = changeDataFactory;
     this.evaluator = evaluator;
+    this.storeRequirementsInNoteDb =
+        experimentFeatures.isFeatureEnabled(
+            ExperimentFeaturesConstants
+                .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE);
   }
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws Exception {
+    if (!storeRequirementsInNoteDb) {
+      // Temporarily stop storing submit requirements in NoteDb when the change is merged.
+      return false;
+    }
     // Create ChangeData using the project/change IDs instead of ctx.getChange(). We do that because
     // for changes requiring a rebase before submission (e.g. if submit type = RebaseAlways), the
     // RebaseOp inserts a new patchset that is visible here (via Change#getCurrentPatchset). If we

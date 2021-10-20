@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -28,6 +29,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LegacySubmitRequirementInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Inject;
@@ -198,6 +200,35 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
         .get();
 
     // Submit rule evaluation results from the change index are reused
+    assertThat(rule.numberOfEvaluations.get()).isEqualTo(0);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS_BACKFILLING_ON_DASHBOARD)
+  public void submitRuleIsInvokedWhenQueryingChangeWithExperiment() throws Exception {
+    PushOneCommit.Result r = createChange("Some Change", "foo.txt", "some content");
+    String changeId = r.getChangeId();
+
+    rule.numberOfEvaluations.set(0);
+    gApi.changes().query(changeId).withOptions(ListChangesOption.SUBMIT_REQUIREMENTS).get();
+
+    // Submit rules are invoked
+    assertThat(rule.numberOfEvaluations.get()).isEqualTo(1);
+  }
+
+  @Test
+  public void submitRuleIsNotInvokedWhenQueryingChangeWithoutExperiment() throws Exception {
+    PushOneCommit.Result r = createChange("Some Change", "foo.txt", "some content");
+    String changeId = r.getChangeId();
+
+    rule.numberOfEvaluations.set(0);
+    gApi.changes().query(changeId).withOptions(ListChangesOption.SUBMIT_REQUIREMENTS).get();
+
+    // Submit rules are not invoked
     assertThat(rule.numberOfEvaluations.get()).isEqualTo(0);
   }
 

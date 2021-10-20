@@ -99,6 +99,8 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -253,6 +255,7 @@ public class ChangeJson {
       TrackingFooters trackingFooters,
       Metrics metrics,
       RevisionJson.Factory revisionJsonFactory,
+      ExperimentFeatures experimentFeatures,
       @GerritServerConfig Config cfg,
       @Assisted Iterable<ListChangesOption> options,
       @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
@@ -271,7 +274,9 @@ public class ChangeJson {
     this.revisionJson = revisionJsonFactory.create(options);
     this.options = Sets.immutableEnumSet(options);
     this.includeMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
-    this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
+    this.lazyLoad =
+        containsAnyOf(this.options, REQUIRE_LAZY_LOAD)
+            || lazyloadSubmitRequirements(this.options, experimentFeatures);
     this.pluginDefinedInfosFactory = pluginDefinedInfosFactory;
 
     logger.atFine().log("options = %s", options);
@@ -937,5 +942,21 @@ public class ChangeJson {
       return pluginDefinedInfosFactory.get().createPluginDefinedInfos(cds);
     }
     return ImmutableListMultimap.of();
+  }
+
+  private static boolean lazyloadSubmitRequirements(
+      Set<ListChangesOption> changeOptions, ExperimentFeatures experimentFeatures) {
+    // TODO(ghareeb,hiesel): Remove this method.
+    // We are testing the new submit requirements with users in lieu of upgrading the change index
+    // to a version that supports the new requirements.
+    // Upgrading now, before the feature is finalized would be counter productive, because the index
+    // format might change while we iterate over the feature.
+    // Allowing changes to lazyload parameters will slow down dashboards for users who have this
+    // feature enabled, but will backfill submit requirements that weren't loaded from the index by
+    // simply computing them.
+    return changeOptions.contains(SUBMIT_REQUIREMENTS)
+        && experimentFeatures.isFeatureEnabled(
+            ExperimentFeaturesConstants
+                .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS_BACKFILLING_ON_DASHBOARD);
   }
 }

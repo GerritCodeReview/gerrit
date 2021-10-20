@@ -33,6 +33,14 @@ public class ExperimentFeaturesConstants {
   public static final String GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS =
       "GerritBackendRequestFeature__enable_legacy_submit_requirements";
 
+  /**
+   * Allow SubmitRequirements to be computed freshly on dashboards irrespective of the value we
+   * retrieved from the change index.
+   */
+  public static final String
+      GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS_BACKFILLING_ON_DASHBOARD =
+          "GerritBackendRequestFeature__enable_submit_requirements_backfilling_on_dashboard";
+
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES =
       ImmutableSet.of(UI_FEATURE_PATCHSET_COMMENTS);

@@ -24,8 +24,6 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateRes
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
 import com.google.inject.AbstractModule;
@@ -43,7 +41,6 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final Provider<SubmitRequirementChangeQueryBuilder> queryBuilder;
   private final ProjectCache projectCache;
   private final SubmitRuleEvaluator.Factory legacyEvaluator;
-  private final ExperimentFeatures experimentFeatures;
 
   public static Module module() {
     return new AbstractModule() {
@@ -60,12 +57,10 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private SubmitRequirementsEvaluatorImpl(
       Provider<SubmitRequirementChangeQueryBuilder> queryBuilder,
       ProjectCache projectCache,
-      SubmitRuleEvaluator.Factory legacyEvaluator,
-      ExperimentFeatures experimentFeatures) {
+      SubmitRuleEvaluator.Factory legacyEvaluator) {
     this.queryBuilder = queryBuilder;
     this.projectCache = projectCache;
     this.legacyEvaluator = legacyEvaluator;
-    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -79,10 +74,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       ChangeData cd, boolean includeLegacy) {
     Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements = getRequirements(cd);
     Map<SubmitRequirement, SubmitRequirementResult> result = projectConfigRequirements;
-    if (includeLegacy
-        && experimentFeatures.isFeatureEnabled(
-            ExperimentFeaturesConstants
-                .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)) {
+    if (includeLegacy) {
       Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
           SubmitRequirementsAdapter.getLegacyRequirements(legacyEvaluator, cd);
       result =

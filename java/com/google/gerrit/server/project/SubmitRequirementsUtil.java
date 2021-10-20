@@ -50,10 +50,10 @@ public class SubmitRequirementsUtil {
     result.putAll(projectConfigRequirements);
     Map<String, SubmitRequirementResult> requirementsByName =
         projectConfigRequirements.entrySet().stream()
-            .collect(Collectors.toMap(sr -> sr.getKey().name(), sr -> sr.getValue()));
+            .collect(Collectors.toMap(sr -> sr.getKey().name().toLowerCase(), sr -> sr.getValue()));
     for (Map.Entry<SubmitRequirement, SubmitRequirementResult> legacy :
         legacyRequirements.entrySet()) {
-      String name = legacy.getKey().name();
+      String name = legacy.getKey().name().toLowerCase();
       SubmitRequirementResult projectConfigResult = requirementsByName.get(name);
       SubmitRequirementResult legacyResult = legacy.getValue();
       if (projectConfigResult != null && matchByStatus(projectConfigResult, legacyResult)) {

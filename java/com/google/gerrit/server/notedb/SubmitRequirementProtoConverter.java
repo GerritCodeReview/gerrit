@@ -34,14 +34,18 @@ public enum SubmitRequirementProtoConverter
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(2);
   private static final FieldDescriptor SR_OVERRIDE_EXPR_RESULT_FIELD =
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(4);
+  private static final FieldDescriptor SR_LEGACY_FIELD =
+      SubmitRequirementResultProto.getDescriptor().findFieldByNumber(6);
 
   @Override
   public SubmitRequirementResultProto toProto(SubmitRequirementResult r) {
     SubmitRequirementResultProto.Builder builder = SubmitRequirementResultProto.newBuilder();
     builder
         .setSubmitRequirement(SubmitRequirementSerializer.serialize(r.submitRequirement()))
-        .setLegacy(r.legacy())
         .setCommit(ObjectIdConverter.create().toByteString(r.patchSetCommitId()));
+    if (r.legacy().isPresent()) {
+      builder.setLegacy(r.legacy().get());
+    }
     if (r.applicabilityExpressionResult().isPresent()) {
       builder.setApplicabilityExpressionResult(
           SubmitRequirementExpressionResultSerializer.serialize(
@@ -61,10 +65,12 @@ public enum SubmitRequirementProtoConverter
   public SubmitRequirementResult fromProto(SubmitRequirementResultProto proto) {
     SubmitRequirementResult.Builder builder =
         SubmitRequirementResult.builder()
-            .legacy(proto.getLegacy())
             .patchSetCommitId(ObjectIdConverter.create().fromByteString(proto.getCommit()))
             .submitRequirement(
                 SubmitRequirementSerializer.deserialize(proto.getSubmitRequirement()));
+    if (proto.hasField(SR_LEGACY_FIELD)) {
+      builder.legacy(Optional.of(proto.getLegacy()));
+    }
     if (proto.hasField(SR_APPLICABILITY_EXPR_RESULT_FIELD)) {
       builder.applicabilityExpressionResult(
           Optional.of(

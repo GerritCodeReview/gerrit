@@ -29,6 +29,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
@@ -88,7 +89,7 @@ public class SubmitRequirementsAdapter {
               .setAllowOverrideInChildProjects(labelType.isCanOverride());
       result.add(
           SubmitRequirementResult.builder()
-              .legacy(true)
+              .legacy(Optional.of(true))
               .submitRequirement(req.build())
               .submittabilityExpressionResult(
                   createExpressionResult(toExpression(atoms), mapStatus(label), atoms))
@@ -111,7 +112,7 @@ public class SubmitRequirementsAdapter {
               .build();
       return ImmutableList.of(
           SubmitRequirementResult.builder()
-              .legacy(true)
+              .legacy(Optional.of(true))
               .submitRequirement(sr)
               .submittabilityExpressionResult(
                   createExpressionResult(
@@ -130,7 +131,7 @@ public class SubmitRequirementsAdapter {
               .build();
       result.add(
           SubmitRequirementResult.builder()
-              .legacy(true)
+              .legacy(Optional.of(true))
               .submitRequirement(sr)
               .submittabilityExpressionResult(
                   createExpressionResult(

@@ -44,8 +44,14 @@ public abstract class SubmitRequirementResult {
   /**
    * Whether this result was created from a legacy {@link SubmitRecord}, or by evaluating a {@link
    * SubmitRequirement}.
+   *
+   * <p>If equals {@link Optional#empty()}, we treat the result as non-legacy (false).
    */
-  public abstract boolean legacy();
+  public abstract Optional<Boolean> legacy();
+
+  public boolean isLegacy() {
+    return legacy().orElse(false);
+  }
 
   @Memoized
   public Status status() {
@@ -122,7 +128,7 @@ public abstract class SubmitRequirementResult {
 
     public abstract Builder patchSetCommitId(ObjectId value);
 
-    public abstract Builder legacy(boolean value);
+    public abstract Builder legacy(Optional<Boolean> value);
 
     public abstract SubmitRequirementResult build();
   }

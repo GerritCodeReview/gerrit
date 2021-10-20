@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {ChangeInfo} from './rest-api';
+
 export declare interface LabelsChangedDetail {
   name: string;
   value: string;
@@ -21,8 +23,11 @@ export declare interface LabelsChangedDetail {
 export declare interface ValueChangedDetail {
   value: string;
 }
-export type ReplyChangedCallback = (text: string) => void;
-export type LabelsChangedCallback = (detail: LabelsChangedDetail) => void;
+export type ReplyChangedCallback = (text: string, change?: ChangeInfo) => void;
+export type LabelsChangedCallback = (
+  detail: LabelsChangedDetail,
+  change?: ChangeInfo
+) => void;
 
 export declare interface ChangeReplyPluginApi {
   getLabelValue(label: string): string;

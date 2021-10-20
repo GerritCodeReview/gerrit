@@ -26,7 +26,7 @@ import {
   ValueChangedDetail,
 } from '../../../api/change-reply';
 import {appContext} from '../../../services/app-context';
-import {HookApi, PluginElement} from '../../../api/hook';
+import {PluginElement} from '../../../api/hook';
 
 /**
  * GrChangeReplyInterface, provides a set of handy methods on reply dialog.
@@ -59,46 +59,37 @@ export class GrChangeReplyInterface implements ChangeReplyPluginApi {
 
   addReplyTextChangedCallback(handler: ReplyChangedCallback) {
     this.reporting.trackApi(this.plugin, 'reply', 'addReplyTextChangedCb');
-    const hookApi = this.plugin.hook('reply-text') as HookApi<PluginElement>;
-    const registeredHandler = (e: Event) => {
-      const ce = e as CustomEvent<ValueChangedDetail>;
-      handler(ce.detail.value);
-    };
+    const hookApi = this.plugin.hook<PluginElement>('reply-text');
+    let registeredHandler: (e: Event) => void;
     hookApi.onAttached(el => {
-      if (!el.content) {
-        return;
-      }
-      el.content.addEventListener('value-changed', registeredHandler);
+      registeredHandler = (e: Event) => {
+        const ce = e as CustomEvent<ValueChangedDetail>;
+        handler(ce.detail.value, el.change);
+      };
+      el.content?.addEventListener('value-changed', registeredHandler);
     });
     hookApi.onDetached(el => {
-      if (!el.content) {
-        return;
+      if (registeredHandler) {
+        el.content?.removeEventListener('value-changed', registeredHandler);
       }
-      el.content.removeEventListener('value-changed', registeredHandler);
     });
   }
 
   addLabelValuesChangedCallback(handler: LabelsChangedCallback) {
     this.reporting.trackApi(this.plugin, 'reply', 'addLabelValuesChangedCb');
-    const hookApi = this.plugin.hook(
-      'reply-label-scores'
-    ) as HookApi<PluginElement>;
-    const registeredHandler = (e: Event) => {
-      const ce = e as CustomEvent<LabelsChangedDetail>;
-      handler(ce.detail);
-    };
+    const hookApi = this.plugin.hook<PluginElement>('reply-label-scores');
+    let registeredHandler: (e: Event) => void;
     hookApi.onAttached(el => {
-      if (!el.content) {
-        return;
-      }
-      el.content.addEventListener('labels-changed', registeredHandler);
+      registeredHandler = (e: Event) => {
+        const ce = e as CustomEvent<LabelsChangedDetail>;
+        handler(ce.detail, el.change);
+      };
+      el.content?.addEventListener('labels-changed', registeredHandler);
     });
-
     hookApi.onDetached(el => {
-      if (!el.content) {
-        return;
+      if (registeredHandler) {
+        el.content?.removeEventListener('labels-changed', registeredHandler);
       }
-      el.content.removeEventListener('labels-changed', registeredHandler);
     });
   }
 

@@ -4159,6 +4159,11 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirement_withLabelEqualsMax() throws Exception {
     configSubmitRequirement(
         project,
@@ -4185,6 +4190,11 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirement_withLabelEqualsMax_fromNonUploader() throws Exception {
     configLabel("my-label", LabelFunction.NO_OP); // label function has no effect
     projectOperations
@@ -4204,14 +4214,15 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     ChangeInfo change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    // The second requirement is coming from the legacy code-review label function
+    assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
         change.submitRequirements, "my-label", Status.UNSATISFIED, /* isLegacy= */ false);
 
     // Voting with a max vote as the uploader will not satisfy the submit requirement.
     voteLabel(changeId, "my-label", 1);
     change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
         change.submitRequirements, "my-label", Status.UNSATISFIED, /* isLegacy= */ false);
 
@@ -4219,12 +4230,17 @@ public class ChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     voteLabel(changeId, "my-label", 1);
     change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
         change.submitRequirements, "my-label", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirement_withLabelEqualsMinBlockingSubmission() throws Exception {
     configSubmitRequirement(
         project,
@@ -4239,17 +4255,23 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
 
     ChangeInfo change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    assertThat(change.submitRequirements).hasSize(2);
     // Requirement is satisfied because there are no votes
     assertSubmitRequirementStatus(
         change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+    // Legacy requirement (coming from the label function definition) is not satisfied. We return
+    // both legacy and non-legacy requirements in this case since their statuses are not identical.
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
 
     voteLabel(changeId, "code-review", -1);
     change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    assertThat(change.submitRequirements).hasSize(2);
     // Requirement is still satisfied because -1 is not the max negative value
     assertSubmitRequirementStatus(
         change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
 
     voteLabel(changeId, "code-review", -2);
     change = gApi.changes().id(changeId).get();
@@ -4260,6 +4282,11 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirement_withMaxWithBlock_ignoringSelfApproval() throws Exception {
     configLabel("my-label", LabelFunction.MAX_WITH_BLOCK);
     projectOperations
@@ -4286,7 +4313,8 @@ public class ChangeIT extends AbstractDaemonTest {
     // Admin (a.k.a uploader) adds a -1 min vote. This is going to block submission.
     voteLabel(changeId, "my-label", -1);
     ChangeInfo change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    // The other requirement is coming from the code-review label function
+    assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
         change.submitRequirements, "my-label", Status.UNSATISFIED, /* isLegacy= */ false);
 
@@ -4294,7 +4322,7 @@ public class ChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     voteLabel(changeId, "my-label", 1);
     change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
         change.submitRequirements, "my-label", Status.UNSATISFIED, /* isLegacy= */ false);
 
@@ -4302,12 +4330,17 @@ public class ChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
     voteLabel(changeId, "my-label", 0);
     change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
         change.submitRequirements, "my-label", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirement_withLabelEqualsAny() throws Exception {
     configSubmitRequirement(
         project,
@@ -4328,12 +4361,20 @@ public class ChangeIT extends AbstractDaemonTest {
 
     voteLabel(changeId, "code-review", 1);
     change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    assertThat(change.submitRequirements).hasSize(2);
+    // Legacy and non-legacy requirements have mismatching status. Both are returned from the API.
     assertSubmitRequirementStatus(
         change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirementIsSatisfied_whenSubmittabilityExpressionIsFulfilled()
       throws Exception {
     configSubmitRequirement(
@@ -4372,6 +4413,11 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirementIsNotApplicable_whenApplicabilityExpressionIsNotFulfilled()
       throws Exception {
     configSubmitRequirement(
@@ -4387,14 +4433,21 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
 
     ChangeInfo change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
         change.submitRequirements, "code-review", Status.NOT_APPLICABLE, /* isLegacy= */ false);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirementIsOverridden_whenOverrideExpressionIsFulfilled() throws Exception {
-    configLabel("build-cop-override", LabelFunction.MAX_WITH_BLOCK);
+    configLabel("build-cop-override", LabelFunction.NO_BLOCK);
     projectOperations
         .project(project)
         .forUpdate()
@@ -4424,9 +4477,11 @@ public class ChangeIT extends AbstractDaemonTest {
     voteLabel(changeId, "build-cop-override", 1);
 
     change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
         change.submitRequirements, "code-review", Status.OVERRIDDEN, /* isLegacy= */ false);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
   }
 
   @Test
@@ -4472,6 +4527,11 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirement_inheritedFromParentProject() throws Exception {
     configSubmitRequirement(
         allProjects,
@@ -4491,12 +4551,20 @@ public class ChangeIT extends AbstractDaemonTest {
 
     voteLabel(changeId, "code-review", 1);
     change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
         change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+    // Legacy requirement is coming from the label MaxWithBlock function. Still unsatisfied.
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirement_ignoredInChildProject_ifParentDoesNotAllowOverride()
       throws Exception {
     configSubmitRequirement(
@@ -4528,14 +4596,22 @@ public class ChangeIT extends AbstractDaemonTest {
 
     voteLabel(changeId, "code-review", 1);
     change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(1);
+    assertThat(change.submitRequirements).hasSize(2);
     // +1 was enough to fulfill the requirement: override in child project was ignored
     assertSubmitRequirementStatus(
         change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+    // Legacy requirement is coming from the label MaxWithBlock function. Still unsatisfied.
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
   }
 
   // TODO(ghareeb): remove the storeSubmitRequirementsInNoteDb config
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   @GerritConfig(name = "change.storeSubmitRequirementsInNoteDb", value = "true")
   public void submitRequirement_storedForClosedChanges() throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
@@ -4579,6 +4655,11 @@ public class ChangeIT extends AbstractDaemonTest {
 
   // TODO(ghareeb): remove the storeSubmitRequirementsInNoteDb config
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   @GerritConfig(name = "change.storeSubmitRequirementsInNoteDb", value = "true")
   public void submitRequirement_retrievedFromNoteDbForClosedChanges() throws Exception {
     configSubmitRequirement(
@@ -4805,6 +4886,11 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   public void submitRequirement_backFilledFromIndexForActiveChanges() throws Exception {
     configSubmitRequirement(
         project,
@@ -4836,6 +4922,11 @@ public class ChangeIT extends AbstractDaemonTest {
 
   // TODO(ghareeb): remove the storeSubmitRequirementsInNoteDb config
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)
   @GerritConfig(name = "change.storeSubmitRequirementsInNoteDb", value = "true")
   public void submitRequirement_backFilledFromIndexForClosedChanges() throws Exception {
     configSubmitRequirement(

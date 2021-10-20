@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {ChangeInfo, ConfigInfo, RevisionInfo} from './rest-api';
+import {PluginApi} from './plugin';
 
 export declare interface GerritElementExtensions {
   content?: HTMLElement & {hidden?: boolean};
@@ -23,6 +24,7 @@ export declare interface GerritElementExtensions {
   token?: string;
   repoName?: string;
   config?: ConfigInfo;
+  plugin?: PluginApi;
 }
 
 export type PluginElement = HTMLElement & GerritElementExtensions;

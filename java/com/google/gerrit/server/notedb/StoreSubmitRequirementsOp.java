@@ -15,6 +15,8 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -25,6 +27,7 @@ import org.eclipse.jgit.lib.Config;
 /** A {@link BatchUpdateOp} that stores the evaluated submit requirements of a change in NoteDb. */
 public class StoreSubmitRequirementsOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
+  private final ExperimentFeatures experimentFeatures;
   private final SubmitRequirementsEvaluator evaluator;
   private final boolean storeRequirementsInNoteDb;
 
@@ -36,8 +39,10 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
   public StoreSubmitRequirementsOp(
       @GerritServerConfig Config cfg,
       ChangeData.Factory changeDataFactory,
+      ExperimentFeatures experimentFeatures,
       SubmitRequirementsEvaluator evaluator) {
     this.changeDataFactory = changeDataFactory;
+    this.experimentFeatures = experimentFeatures;
     this.evaluator = evaluator;
     this.storeRequirementsInNoteDb =
         cfg.getBoolean("change", null, "storeSubmitRequirementsInNoteDb", false);
@@ -45,7 +50,10 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws Exception {
-    if (!storeRequirementsInNoteDb) {
+    if (!storeRequirementsInNoteDb
+        || !experimentFeatures.isFeatureEnabled(
+            ExperimentFeaturesConstants
+                .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_LEGACY_SUBMIT_REQUIREMENTS)) {
       // Temporarily stop storing submit requirements in NoteDb when the change is merged.
       return false;
     }

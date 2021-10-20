@@ -240,6 +240,29 @@ suite('gr-comment tests', () => {
       assert.equal(element._messageText, 'hello world');
     });
 
+    test('comment message sets messageText when not edited', () => {
+      element.changeNum = 1 as NumericChangeId;
+      element.patchNum = 1 as PatchSetNum;
+      element._messageText = 'Some text';
+      element.comment = {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com' as EmailAddress,
+        },
+        line: 5,
+        path: 'test',
+        __editing: false,
+        __draft: true,
+        message: 'hello world',
+      };
+      // messageText was empty so overwrite the message now
+      assert.equal(element._messageText, 'hello world');
+
+      element.comment!.message = 'new message';
+      // messageText was already set so do not overwrite it
+      assert.equal(element._messageText, 'hello world');
+    });
+
     test('_getPatchNum', () => {
       element.side = 'PARENT';
       element.patchNum = 1 as PatchSetNum;

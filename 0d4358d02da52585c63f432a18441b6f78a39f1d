@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df40d06b_4a3a86bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-20T16:59:59Z",
+      "side": 1,
+      "message": "nit: most other names in Gerrit (e.g. labels like Code-Review) use dashes, not underscores.\n\nShall we use dashes here as well? I\u0027d favor them over underscores.",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "0d4358d02da52585c63f432a18441b6f78a39f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a3d948d_5e30045a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-20T16:59:59Z",
+      "side": 1,
+      "message": "This works, but we would not have to do it if we just made this an index predicate and I think that would be the better solution.\n\nIt can easily be an index predicate because ChangeData already has isPureRevert. Users might benefit from the additional query operator.\n\nIf you make this an IndexPredicate, you\u0027ll have the problem that the ChangeQueryBuilder will check for field existence a la:\n    ...\n    if (!args.getSchema().hasField(ChangeField.IS_PURE_REVERT)) {\n      throw new QueryParseException(\"\u0027is:pure-revert\u0027 operator is not supported by change index version\");\n    }\n   ... actual logic.\n  }\n  \nSo we could only use it as SR once we have migrated the index. If we refactor ChangeQueryBuilder a bit, we can make it so that SubmitRequirementChangeQueryBuilder skips all the hasField checks. Example:\n\nChangeQueryBuilder:\n  boolean hasField(FieldDef\u003cChangeData, ?\u003e field) {\n    return args.getSchema().hasField(field);\n  }\n  \nSubmitRequirementChangeQueryBuilder\n  @Override\n  boolean hasField(FieldDef\u003cChangeData, ?\u003e field) {\n    return true; // Matching happens in-memory where all fields can be loaded.\n  }",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "0d4358d02da52585c63f432a18441b6f78a39f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "284ef57a_1980e579",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-21T10:41:24Z",
+      "side": 1,
+      "message": "Unresolved",
+      "parentUuid": "53d8e75c_0e21b2d3",
+      "revId": "cc5d2cb84854818fceec6c84da51a4368200b9d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85fb91d4_ca7dd8f9",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
         "patchSetId": 2
@@ -162,6 +180,30 @@
       "side": 1,
       "message": "Test 2",
       "parentUuid": "01d1e352_3ea208a7",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 13
+      },
+      "revId": "cc5d2cb84854818fceec6c84da51a4368200b9d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "600ece67_e81d58b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-21T10:41:24Z",
+      "side": 1,
+      "message": "Test 3",
+      "parentUuid": "c8818e1b_b471becb",
       "range": {
         "startLine": 32,
         "startChar": 0,

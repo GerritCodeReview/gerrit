@@ -503,14 +503,6 @@ export class GrChangeActions
     },
     {
       type: ActionType.CHANGE,
-      key: ChangeActions.IGNORE,
-    },
-    {
-      type: ActionType.CHANGE,
-      key: ChangeActions.UNIGNORE,
-    },
-    {
-      type: ActionType.CHANGE,
       key: ChangeActions.REVIEWED,
     },
     {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16d483c3_6fea1fa3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-21T07:42:13Z",
+      "side": 1,
+      "message": "Just checking: The current, old UI is powered by labels, so not serving SRs will not do anything to the old UI?",
+      "revId": "d6b5193307ad55cd1dd4e928a2c544b47a514aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

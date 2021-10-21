@@ -170,8 +170,12 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
         r,
         "Invalid project configuration",
         String.format(
-            "project.config: Submit requirement '%s' does not define a submittability expression.",
-            submitRequirementName));
+            "project.config: Setting a submittability expression for submit requirement '%s' is"
+                + " required: Missing %s.%s.%s",
+            submitRequirementName,
+            ProjectConfig.SUBMIT_REQUIREMENT,
+            submitRequirementName,
+            ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION));
   }
 
   private void fetchRefsMetaConfig() throws Exception {

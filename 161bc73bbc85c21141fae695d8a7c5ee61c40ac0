@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38492abf_c06e1b21",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-21T10:29:15Z",
+      "side": 1,
+      "message": "nit: uploaded.\n\nMarking as optional (resolved).",
+      "range": {
+        "startLine": 143,
+        "startChar": 54,
+        "endLine": 143,
+        "endChar": 59
+      },
+      "revId": "161bc73bbc85c21141fae695d8a7c5ee61c40ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "143273a5_febecc37",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-21T10:29:15Z",
+      "side": 1,
+      "message": "by",
+      "range": {
+        "startLine": 149,
+        "startChar": 48,
+        "endLine": 149,
+        "endChar": 49
+      },
+      "revId": "161bc73bbc85c21141fae695d8a7c5ee61c40ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

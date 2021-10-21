@@ -52,7 +52,6 @@ export enum Shortcut {
   OPEN_CHANGE = 'OPEN_CHANGE',
   NEXT_PAGE = 'NEXT_PAGE',
   PREV_PAGE = 'PREV_PAGE',
-  TOGGLE_CHANGE_REVIEWED = 'TOGGLE_CHANGE_REVIEWED',
   TOGGLE_CHANGE_STAR = 'TOGGLE_CHANGE_STAR',
   REFRESH_CHANGE_LIST = 'REFRESH_CHANGE_LIST',
   OPEN_SUBMIT_DIALOG = 'OPEN_SUBMIT_DIALOG',
@@ -237,12 +236,6 @@ describe(
   ShortcutSection.ACTIONS,
   'Reload the change at the latest patch',
   {key: 'R'}
-);
-describe(
-  Shortcut.TOGGLE_CHANGE_REVIEWED,
-  ShortcutSection.ACTIONS,
-  'Mark/unmark change as reviewed',
-  {key: 'r'}
 );
 describe(
   Shortcut.TOGGLE_FILE_REVIEWED,

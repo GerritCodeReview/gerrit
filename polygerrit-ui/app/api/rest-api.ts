@@ -386,7 +386,6 @@ export declare interface ChangeInfo {
   submitter?: AccountInfo;
   starred?: boolean; // not set if false
   stars?: StarLabel[];
-  reviewed?: boolean; // not set if false
   submit_type?: SubmitType;
   mergeable?: boolean;
   submittable?: boolean;

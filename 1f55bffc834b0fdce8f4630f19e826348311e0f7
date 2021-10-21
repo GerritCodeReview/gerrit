@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9d8b7b9_496b7be7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T13:49:56Z",
+      "side": 0,
+      "message": "Yes, ok to remove, because the new shortcut matching does take this into account natively.",
+      "parentUuid": "52c2e786_15a709ee",
+      "range": {
+        "startLine": 658,
+        "startChar": 3,
+        "endLine": 659,
+        "endChar": 27
+      },
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f22f7b6c_8b69a512",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-20T15:27:16Z",
       "side": 0,
       "message": "I am surprised that this is not needed. I tested behavior and it works, but I don\u0027t understand how it knows it just don\u0027t jump on first \u0027n\u0027 and show toast, and then it jumps on second \u0027n\u0027",
+      "range": {
+        "startLine": 693,
+        "startChar": 9,
+        "endLine": 693,
+        "endChar": 39
+      },
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bf0124d_c94c8d29",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T13:49:56Z",
+      "side": 0,
+      "message": "I have changed the default in the shortcut-service handler wrapper to always ignore `repeat` events. I think that is the better default. I do anticipate that some users may want to actually use \"press and hold\" for some shortcuts like j/k and [/]. But I am deliberately waiting for users to actually call us out on that. :-)",
+      "parentUuid": "f22f7b6c_8b69a512",
       "range": {
         "startLine": 693,
         "startChar": 9,

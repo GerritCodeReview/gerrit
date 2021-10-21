@@ -100,6 +100,7 @@ export const htmlTemplate = html`
     </gr-page-nav>
     <div class="main gr-form-styles">
       <h1 class="heading-1">User Settings</h1>
+      <h2 id="Theme">Theme</h2>
       <section class="darkToggle">
         <div class="toggle">
           <paper-toggle-button
@@ -108,13 +109,10 @@ export const htmlTemplate = html`
             on-change="_handleToggleDark"
             on-click="_onTapDarkToggle"
           ></paper-toggle-button>
-          <div id="darkThemeToggleLabel">Dark theme (alpha)</div>
+          <div id="darkThemeToggleLabel">
+            Dark theme (the toggle reloads the page)
+          </div>
         </div>
-        <p>
-          Gerrit's dark theme is in early alpha, and almost definitely will not
-          play nicely with themes set by specific Gerrit hosts. Filing feedback
-          via the link in the app footer is strongly encouraged!
-        </p>
       </section>
       <h2 id="Profile" class$="[[_computeHeaderClass(_accountInfoChanged)]]">
         Profile

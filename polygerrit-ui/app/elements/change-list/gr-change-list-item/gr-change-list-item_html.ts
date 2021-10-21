@@ -164,20 +164,6 @@ export const htmlTemplate = html`
     ></gr-account-link>
   </td>
   <td
-    class="cell assignee"
-    hidden$="[[_computeIsColumnHidden('Assignee', visibleChangeTableColumns)]]"
-  >
-    <template is="dom-if" if="[[change.assignee]]">
-      <gr-account-link
-        id="assigneeAccountLink"
-        account="[[change.assignee]]"
-      ></gr-account-link>
-    </template>
-    <template is="dom-if" if="[[!change.assignee]]">
-      <span class="placeholder">--</span>
-    </template>
-  </td>
-  <td
     class="cell reviewers"
     hidden$="[[_computeIsColumnHidden('Reviewers', visibleChangeTableColumns)]]"
   >

@@ -360,7 +360,6 @@ export function createChangeConfig(): ChangeConfigInfo {
     update_delay: 0,
     mergeability_computation_behavior:
       MergeabilityComputationBehavior.REF_UPDATED_AND_CHANGE_REINDEX,
-    enable_assignee: false,
   };
 }
 

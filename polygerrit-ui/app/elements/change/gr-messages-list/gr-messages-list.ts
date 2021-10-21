@@ -133,9 +133,6 @@ function computeTag(message: CombinedMessage) {
   if (message.tag === MessageTag.TAG_NEW_WIP_PATCHSET) {
     return MessageTag.TAG_NEW_PATCHSET;
   }
-  if (message.tag === MessageTag.TAG_UNSET_ASSIGNEE) {
-    return MessageTag.TAG_SET_ASSIGNEE;
-  }
   if (message.tag === MessageTag.TAG_UNSET_PRIVATE) {
     return MessageTag.TAG_SET_PRIVATE;
   }

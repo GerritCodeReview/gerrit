@@ -42,7 +42,6 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'after:',
   'age:',
   'age:1week', // Give an example age
-  'assignee:',
   'attention:',
   'author:',
   'before:',
@@ -76,7 +75,6 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'intopic:',
   'is:',
   'is:abandoned',
-  'is:assigned',
   'is:attention',
   'is:cherrypick',
   'is:closed',
@@ -315,7 +313,6 @@ export class GrSearchBar extends base {
         // Fetch projects.
         return this.projectSuggestions(predicate, expression);
 
-      case 'assignee':
       case 'attention':
       case 'author':
       case 'cc':

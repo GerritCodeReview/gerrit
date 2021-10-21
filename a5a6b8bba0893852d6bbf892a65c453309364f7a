@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e09df35d_cd86a030",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-21T11:12:29Z",
+      "side": 1,
+      "message": "Seems you were correct: https://google.github.io/styleguide/tsguide.html#identifiers\n\nSorry about that.",
+      "revId": "a5a6b8bba0893852d6bbf892a65c453309364f7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

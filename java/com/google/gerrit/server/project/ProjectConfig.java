@@ -988,8 +988,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         continue;
       }
 
-      // TODO(SR): add expressions validation. Expressions are stored as strings so we need to
-      // validate their syntax.
+      // The expressions are validated in SubmitRequirementExpressionsValidator.
 
       SubmitRequirement submitRequirement =
           SubmitRequirement.builder()

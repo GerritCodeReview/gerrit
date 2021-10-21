@@ -251,6 +251,105 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirementWithInvalidSubmittabilityExpressionIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    String invalidExpression = "invalid_field:invalid_value";
+    updateProjectConfig(
+        projectConfig ->
+            projectConfig.setString(
+                ProjectConfig.SUBMIT_REQUIREMENT,
+                /* subsection= */ submitRequirementName,
+                /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+                /* value= */ invalidExpression));
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Expression '%s' of submit requirement '%s' (parameter %s.%s.%s) is"
+                + " invalid: Unsupported operator %s",
+            invalidExpression,
+            submitRequirementName,
+            ProjectConfig.SUBMIT_REQUIREMENT,
+            submitRequirementName,
+            ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+            invalidExpression));
+  }
+
+  @Test
+  public void submitRequirementWithInvalidApplicabilityExpressionIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    String invalidExpression = "invalid_field:invalid_value";
+    updateProjectConfig(
+        projectConfig -> {
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+              /* value= */ "label:\"code-review=+2\"");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+              /* value= */ invalidExpression);
+        });
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Expression '%s' of submit requirement '%s' (parameter %s.%s.%s) is"
+                + " invalid: Unsupported operator %s",
+            invalidExpression,
+            submitRequirementName,
+            ProjectConfig.SUBMIT_REQUIREMENT,
+            submitRequirementName,
+            ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+            invalidExpression));
+  }
+
+  @Test
+  public void submitRequirementWithInvalidOverrideExpressionIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    String invalidExpression = "invalid_field:invalid_value";
+    updateProjectConfig(
+        projectConfig -> {
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+              /* value= */ "label:\"code-review=+2\"");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
+              /* value= */ invalidExpression);
+        });
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Expression '%s' of submit requirement '%s' (parameter %s.%s.%s) is"
+                + " invalid: Unsupported operator %s",
+            invalidExpression,
+            submitRequirementName,
+            ProjectConfig.SUBMIT_REQUIREMENT,
+            submitRequirementName,
+            ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
+            invalidExpression));
+  }
+
+  @Test
   public void submitRequirementWithInvalidAllowOverrideInChildProjectsIsRejected()
       throws Exception {
     fetchRefsMetaConfig();

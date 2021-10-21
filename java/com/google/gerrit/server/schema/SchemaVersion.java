@@ -29,14 +29,24 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.SortedSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /** A version of the database schema. */
 public abstract class SchemaVersion {
@@ -240,5 +250,58 @@ public abstract class SchemaVersion {
       projects = repoManager.list();
     }
     return projects;
+    }
+
+  protected int getThreads() {
+    return Runtime.getRuntime().availableProcessors();
+  }
+
+  protected ExecutorService createExecutor(UpdateUI ui) {
+    int threads = getThreads();
+    ui.message(String.format("... using %d threads ...", threads));
+    return Executors.newFixedThreadPool(threads);
+  }
+
+  @FunctionalInterface
+  protected interface ThrowingFunction<I, T> {
+    default T accept(I input) {
+      try {
+        return acceptWithThrow(input);
+      } catch (OrmException | IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
+    T acceptWithThrow(I input) throws OrmException, IOException;
+  }
+
+  protected Collection<?> runParallelTasks(
+      ExecutorService executor, Collection<?> lst, ThrowingFunction task, UpdateUI ui) {
+    Collection<Object> returnSet = new HashSet<>();
+    Set<Future> futures =
+        lst.stream()
+            .map(each -> executor.submit(() -> task.accept(each)))
+            .collect(Collectors.toSet());
+    for (Future each : futures) {
+      try {
+        Object rtn = each.get();
+        if (Objects.nonNull(rtn)) {
+          returnSet.add(rtn);
+        }
+      } catch (InterruptedException e) {
+        ui.message(
+            String.format(
+                "Migration step was interrupted. Only %d of %d tasks done.",
+                countDone(futures), lst.size()));
+        throw new RuntimeException(e);
+      } catch (ExecutionException e) {
+        ui.message(e.getCause().getMessage());
+      }
+    }
+    return returnSet;
+  }
+
+  private static long countDone(Collection<Future> futures) {
+    return futures.stream().filter(Future::isDone).count();
   }
 }

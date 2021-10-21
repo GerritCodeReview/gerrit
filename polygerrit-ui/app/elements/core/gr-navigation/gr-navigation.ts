@@ -174,36 +174,33 @@ const WIP: DashboardSection = {
   suffixForDashboard: 'limit:25',
 };
 const OUTGOING: DashboardSection = {
-  // Non-WIP open changes owned by viewed user. Filter out changes ignored
-  // by the viewing user.
+  // Non-WIP open changes owned by viewed user.
   name: 'Outgoing reviews',
-  query: 'is:open owner:${user} -is:wip -is:ignored',
+  query: 'is:open owner:${user} -is:wip',
   isOutgoing: true,
   suffixForDashboard: 'limit:25',
 };
 const INCOMING: DashboardSection = {
   // Non-WIP open changes not owned by the viewed user, that the viewed user
-  // is associated with as a reviewer. Changes ignored by the viewing user are
-  // filtered out.
+  // is associated with as a reviewer.
   name: 'Incoming reviews',
-  query: 'is:open -owner:${user} -is:wip -is:ignored reviewer:${user}',
+  query: 'is:open -owner:${user} -is:wip reviewer:${user}',
   suffixForDashboard: 'limit:25',
 };
 const CCED: DashboardSection = {
-  // Open changes the viewed user is CCed on. Changes ignored by the viewing
-  // user are filtered out.
+  // Open changes the viewed user is CCed on.
   name: 'CCed on',
-  query: 'is:open -is:ignored -is:wip cc:${user}',
+  query: 'is:open -is:wip cc:${user}',
   suffixForDashboard: 'limit:10',
 };
 export const CLOSED: DashboardSection = {
   name: 'Recently closed',
   // Closed changes where viewed user is owner or reviewer.
-  // Changes ignored by the viewing user are filtered out, and so are WIP
-  // changes not owned by the viewing user (the one instance of
-  // 'owner:self' is intentional and implements this logic).
+  // WIP changes not owned by the viewing user (the one instance of
+  // 'owner:self' is intentional and implements this logic)
+  // are filtered out.
   query:
-    'is:closed -is:ignored (-is:wip OR owner:self) ' +
+    'is:closed (-is:wip OR owner:self) ' +
     '(owner:${user} OR reviewer:${user} OR cc:${user})',
   suffixForDashboard: '-age:4w limit:10',
 };

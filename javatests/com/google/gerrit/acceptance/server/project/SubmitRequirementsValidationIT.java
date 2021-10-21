@@ -250,6 +250,34 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
             ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION));
   }
 
+  @Test
+  public void submitRequirementWithInvalidAllowOverrideInChildProjectsIsRejected()
+      throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    String invalidValue = "invalid";
+    updateProjectConfig(
+        projectConfig ->
+            projectConfig.setString(
+                ProjectConfig.SUBMIT_REQUIREMENT,
+                /* subsection= */ submitRequirementName,
+                /* name= */ ProjectConfig.KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+                /* value= */ invalidValue));
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Invalid value %s.%s.%s for submit requirement '%s': %s",
+            ProjectConfig.SUBMIT_REQUIREMENT,
+            submitRequirementName,
+            ProjectConfig.KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+            submitRequirementName,
+            invalidValue));
+  }
+
   private void fetchRefsMetaConfig() throws Exception {
     fetch(testRepo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
     testRepo.reset(RefNames.REFS_CONFIG);

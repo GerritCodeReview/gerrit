@@ -256,5 +256,18 @@ suite('label-util', () => {
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['Verified', 'Code-Review']);
     });
+    test('overridden label', () => {
+      const submitRequirement = {
+        ...createSubmitRequirementExpressionInfoWith(
+          'label:Verified=MAX -label:Verified=MIN'
+        ),
+        override_expression_result: {
+          ...createSubmitRequirementExpressionInfo(),
+          expression: 'label:Build-cop-override',
+        },
+      };
+      const labels = extractAssociatedLabels(submitRequirement);
+      assert.deepEqual(labels, ['Verified', 'Build-cop-override']);
+    });
   });
 });

@@ -204,18 +204,26 @@ export function getCodeReviewLabel(
   return;
 }
 
-export function extractAssociatedLabels(
-  requirement: SubmitRequirementResultInfo
-): string[] {
+function extractLabelsFrom(expression: string) {
   const pattern = new RegExp('label[0-9]*:([\\w-]+)', 'g');
   const labels = [];
   let match;
-  while (
-    (match = pattern.exec(
-      requirement.submittability_expression_result.expression
-    )) !== null
-  ) {
+  while ((match = pattern.exec(expression)) !== null) {
     labels.push(match[1]);
+  }
+  return labels;
+}
+
+export function extractAssociatedLabels(
+  requirement: SubmitRequirementResultInfo
+): string[] {
+  let labels = extractLabelsFrom(
+    requirement.submittability_expression_result.expression
+  );
+  if (requirement.override_expression_result) {
+    labels = labels.concat(
+      extractLabelsFrom(requirement.override_expression_result.expression)
+    );
   }
   return labels.filter(unique);
 }

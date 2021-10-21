@@ -16,6 +16,24 @@
       "message": "Is it ok to log this? What about a hash instead?",
       "revId": "c69bf47ae3015772ca3b6bf9483147c83c7df4cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1072f291_83938e5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T12:07:04Z",
+      "side": 1,
+      "message": "Good point. Removed. Not sure what a hash would help and how to implement hash in js.",
+      "parentUuid": "528c9894_7733b53e",
+      "revId": "c69bf47ae3015772ca3b6bf9483147c83c7df4cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

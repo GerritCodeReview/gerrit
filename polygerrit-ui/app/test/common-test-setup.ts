@@ -30,6 +30,7 @@ import {
   registerTestCleanup,
   addIronOverlayBackdropStyleEl,
   removeIronOverlayBackdropStyleEl,
+  removeThemeStyles,
 } from './test-utils';
 import {safeTypesBridge} from '../utils/safe-types-util';
 import {_testOnly_initGerritPluginApi} from '../elements/shared/gr-js-api-interface/gr-gerrit';
@@ -197,6 +198,7 @@ teardown(() => {
   cleanupTestUtils();
   checkGlobalSpace();
   removeIronOverlayBackdropStyleEl();
+  removeThemeStyles();
   cancelAllTasks();
   cleanUpStorage();
   // Reset state

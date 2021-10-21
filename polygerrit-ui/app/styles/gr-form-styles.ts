@@ -28,6 +28,7 @@ export const formStyles = css`
   .gr-form-styles h1,
   .gr-form-styles h2 {
     margin-bottom: var(--spacing-s);
+    margin-top: var(--spacing-m);
   }
   .gr-form-styles h4 {
     font-weight: var(--font-weight-bold);

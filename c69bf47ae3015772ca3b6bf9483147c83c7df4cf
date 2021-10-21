@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "528c9894_7733b53e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-21T11:54:47Z",
+      "side": 1,
+      "message": "Is it ok to log this? What about a hash instead?",
+      "revId": "c69bf47ae3015772ca3b6bf9483147c83c7df4cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

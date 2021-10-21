@@ -25,7 +25,6 @@ export enum AccessPermissionId {
   DELETE = 'delete',
   DELETE_CHANGES = 'deleteChanges',
   DELETE_OWN_CHANGES = 'deleteOwnChanges',
-  EDIT_ASSIGNEE = 'editAssignee',
   EDIT_HASHTAGS = 'editHashtags',
   EDIT_TOPIC_NAME = 'editTopicName',
   FORGE_AUTHOR = 'forgeAuthor',
@@ -78,10 +77,6 @@ export const AccessPermissions: {[id: string]: AccessPermission} = {
   [AccessPermissionId.DELETE_OWN_CHANGES]: {
     id: AccessPermissionId.DELETE_OWN_CHANGES,
     name: 'Delete Own Changes',
-  },
-  [AccessPermissionId.EDIT_ASSIGNEE]: {
-    id: AccessPermissionId.EDIT_ASSIGNEE,
-    name: 'Edit Assignee',
   },
   [AccessPermissionId.EDIT_HASHTAGS]: {
     id: AccessPermissionId.EDIT_HASHTAGS,

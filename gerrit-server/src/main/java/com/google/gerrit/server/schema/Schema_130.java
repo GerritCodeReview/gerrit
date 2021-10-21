@@ -19,14 +19,16 @@ import static java.util.stream.Collectors.joining;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.Collection;
 import java.util.SortedSet;
-import java.util.TreeSet;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
@@ -39,36 +41,49 @@ public class Schema_130 extends SchemaVersion {
 
   private final GitRepositoryManager repoManager;
   private final PersonIdent serverUser;
+  private final Config cfg;
 
   @Inject
   Schema_130(
       Provider<Schema_129> prior,
       GitRepositoryManager repoManager,
-      @GerritPersonIdent PersonIdent serverUser) {
+      @GerritPersonIdent PersonIdent serverUser,
+      @GerritServerConfig Config cfg) {
     super(prior);
     this.repoManager = repoManager;
     this.serverUser = serverUser;
+    this.cfg = cfg;
   }
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     SortedSet<Project.NameKey> repoList = repoManager.list();
-    SortedSet<Project.NameKey> repoUpgraded = new TreeSet<>();
     ui.message("\tMigrating " + repoList.size() + " repositories ...");
-    for (Project.NameKey projectName : repoList) {
-      try (Repository git = repoManager.openRepository(projectName);
-          MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, git)) {
-        ProjectConfigSchemaUpdate cfg = ProjectConfigSchemaUpdate.read(md);
-        cfg.removeForceFromPermission("pushTag");
-        if (cfg.isUpdated()) {
-          repoUpgraded.add(projectName);
-        }
-        cfg.save(serverUser, COMMIT_MSG);
-      } catch (Exception ex) {
-        throw new OrmException("Cannot migrate project " + projectName, ex);
-      }
-    }
+    Collection<Project.NameKey> repoUpgraded =
+        (Collection<Project.NameKey>)
+            runParallelTasks(
+                createExecutor(ui),
+                repoList,
+                (repo) -> removePushTagForcePerms((Project.NameKey) repo),
+                ui);
     ui.message("\tMigration completed:  " + repoUpgraded.size() + " repositories updated:");
     ui.message("\t" + repoUpgraded.stream().map(n -> n.get()).collect(joining(" ")));
+  }
+
+  @Override
+  protected int getThreads() {
+    return cfg.getInt("cache", "projects", "loadThreads", super.getThreads());
+  }
+
+  private Project.NameKey removePushTagForcePerms(Project.NameKey project) throws OrmException {
+    try (Repository git = repoManager.openRepository(project);
+        MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, project, git)) {
+      ProjectConfigSchemaUpdate cfg = ProjectConfigSchemaUpdate.read(md);
+      cfg.removeForceFromPermission("pushTag");
+      cfg.save(serverUser, COMMIT_MSG);
+      return cfg.isUpdated() ? project : null;
+    } catch (Exception ex) {
+      throw new OrmException("Cannot migrate project " + project, ex);
+    }
   }
 }

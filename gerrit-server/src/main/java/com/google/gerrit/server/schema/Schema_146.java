@@ -120,15 +120,13 @@ public class Schema_146 extends SchemaVersion {
     ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
   }
 
-  private ExecutorService createExecutor(UpdateUI ui) {
-    int threads;
+  @Override
+  protected int getThreads() {
     try {
-      threads = Integer.parseInt(System.getProperty("threadcount"));
+      return Integer.parseInt(System.getProperty("threadcount"));
     } catch (NumberFormatException e) {
-      threads = Runtime.getRuntime().availableProcessors();
+      return super.getThreads();
     }
-    ui.message(String.format("... using %d threads ...", threads));
-    return Executors.newFixedThreadPool(threads);
   }
 
   private void processBatch(List<Entry<Account.Id, Timestamp>> batch, UpdateUI ui) {

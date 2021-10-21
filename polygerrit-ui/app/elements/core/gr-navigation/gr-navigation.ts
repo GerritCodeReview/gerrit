@@ -132,7 +132,6 @@ export interface DashboardSection {
   suffixForDashboard?: string;
   selfOnly?: boolean;
   hideIfEmpty?: boolean;
-  assigneeOnly?: boolean;
   isOutgoing?: boolean;
   results?: ChangeInfo[];
 }
@@ -165,16 +164,6 @@ export const YOUR_TURN: DashboardSection = {
   hideIfEmpty: false,
   suffixForDashboard: 'limit:25',
 };
-const ASSIGNED: DashboardSection = {
-  // Changes that are assigned to the viewed user.
-  name: 'Assigned reviews',
-  query:
-    'assignee:${user} (-is:wip OR owner:self OR assignee:self) ' +
-    'is:open -is:ignored',
-  hideIfEmpty: true,
-  suffixForDashboard: 'limit:25',
-  assigneeOnly: true,
-};
 const WIP: DashboardSection = {
   // WIP open changes owned by viewing user. This section is omitted when
   // viewing other users, so we don't need to filter anything out.
@@ -194,12 +183,10 @@ const OUTGOING: DashboardSection = {
 };
 const INCOMING: DashboardSection = {
   // Non-WIP open changes not owned by the viewed user, that the viewed user
-  // is associated with (as either a reviewer or the assignee). Changes
-  // ignored by the viewing user are filtered out.
+  // is associated with as a reviewer. Changes ignored by the viewing user are
+  // filtered out.
   name: 'Incoming reviews',
-  query:
-    'is:open -owner:${user} -is:wip -is:ignored ' +
-    '(reviewer:${user} OR assignee:${user})',
+  query: 'is:open -owner:${user} -is:wip -is:ignored reviewer:${user}',
   suffixForDashboard: 'limit:25',
 };
 const CCED: DashboardSection = {
@@ -211,20 +198,18 @@ const CCED: DashboardSection = {
 };
 export const CLOSED: DashboardSection = {
   name: 'Recently closed',
-  // Closed changes where viewed user is owner, reviewer, or assignee.
+  // Closed changes where viewed user is owner or reviewer.
   // Changes ignored by the viewing user are filtered out, and so are WIP
   // changes not owned by the viewing user (the one instance of
   // 'owner:self' is intentional and implements this logic).
   query:
     'is:closed -is:ignored (-is:wip OR owner:self) ' +
-    '(owner:${user} OR reviewer:${user} OR assignee:${user} ' +
-    'OR cc:${user})',
+    '(owner:${user} OR reviewer:${user} OR cc:${user})',
   suffixForDashboard: '-age:4w limit:10',
 };
 const DEFAULT_SECTIONS: DashboardSection[] = [
   HAS_DRAFTS,
   YOUR_TURN,
-  ASSIGNED,
   WIP,
   OUTGOING,
   INCOMING,
@@ -1027,12 +1012,9 @@ export const GerritNav = {
   getUserDashboard(
     user = 'self',
     sections = DEFAULT_SECTIONS,
-    title = '',
-    config: UserDashboardConfig = {}
+    title = ''
   ): UserDashboard {
-    const assigneeEnabled = config.change && !!config.change.enable_assignee;
     sections = sections
-      .filter(section => assigneeEnabled || !section.assigneeOnly)
       .filter(section => user === 'self' || !section.selfOnly)
       .map(section => {
         return {

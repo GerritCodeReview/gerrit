@@ -48,7 +48,6 @@ import {
   AccountId,
   AccountInfo,
   ActionNameToActionInfoMap,
-  AssigneeInput,
   Base64File,
   Base64FileContent,
   Base64ImageFile,
@@ -2934,29 +2933,6 @@ export class GrRestApiInterface
       url: '/config/server/top-menus',
       reportUrlAsIs: true,
     }) as Promise<TopMenuEntryInfo[] | undefined>;
-  }
-
-  setAssignee(
-    changeNum: NumericChangeId,
-    assignee: AccountId
-  ): Promise<Response> {
-    const body: AssigneeInput = {assignee};
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.PUT,
-      endpoint: '/assignee',
-      body,
-      reportUrlAsIs: true,
-    });
-  }
-
-  deleteAssignee(changeNum: NumericChangeId): Promise<Response> {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.DELETE,
-      endpoint: '/assignee',
-      reportUrlAsIs: true,
-    });
   }
 
   probePath(path: string) {

@@ -963,14 +963,6 @@ export interface DeleteDraftCommentsInput {
 }
 
 /**
- * The AssigneeInput entity contains the identity of the user to be set as assignee
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#assignee-input
- */
-export interface AssigneeInput {
-  assignee: AccountId;
-}
-
-/**
  * The SshKeyInfo entity contains information about an SSH key of a user
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#ssh-key-info
  */

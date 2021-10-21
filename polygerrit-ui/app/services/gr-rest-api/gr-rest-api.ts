@@ -726,13 +726,6 @@ export interface RestApiService {
 
   deleteDraftComments(query: string): Promise<Response>;
 
-  setAssignee(
-    changeNum: NumericChangeId,
-    assignee: AccountId
-  ): Promise<Response>;
-
-  deleteAssignee(changeNum: NumericChangeId): Promise<Response>;
-
   setChangeHashtag(
     changeNum: NumericChangeId,
     hashtag: HashtagsInput

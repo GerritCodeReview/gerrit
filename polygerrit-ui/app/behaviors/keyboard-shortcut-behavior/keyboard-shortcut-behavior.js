@@ -523,8 +523,9 @@ export const KeyboardShortcutBehavior = [
         // Suppress shortcuts if the key is 'enter' and target is an anchor.
         return true;
       }
-      for (let i = 0; e.path && i < e.path.length; i++) {
-        if (e.path[i].tagName === 'GR-OVERLAY') { return true; }
+      const path = e.composedPath();
+      for (let i = 0; path && i < path.length; i++) {
+        if (path[i].tagName === 'GR-OVERLAY') { return true; }
       }
 
       this.dispatchEvent(new CustomEvent('shortcut-triggered', {

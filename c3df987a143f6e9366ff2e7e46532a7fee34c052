@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0456732f_02a37b77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-21T09:54:34Z",
+      "side": 1,
+      "message": "LGTM. The speed improvements for running the tests are really impressive!\n\nAdding Patrick to also have a look.",
+      "revId": "c3df987a143f6e9366ff2e7e46532a7fee34c052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

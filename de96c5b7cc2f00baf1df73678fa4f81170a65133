@@ -22,6 +22,30 @@
       },
       "revId": "de96c5b7cc2f00baf1df73678fa4f81170a65133",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "811d0d6f_b0439f41",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T12:19:50Z",
+      "side": 1,
+      "message": "Good catch, but yeah, not related to this change. Would like to punt on it.",
+      "parentUuid": "901c573d_4e14a3c1",
+      "range": {
+        "startLine": 397,
+        "startChar": 23,
+        "endLine": 397,
+        "endChar": 34
+      },
+      "revId": "de96c5b7cc2f00baf1df73678fa4f81170a65133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

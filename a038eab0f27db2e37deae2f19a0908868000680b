@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d83342d4_9ab9d621",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T14:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0363d588_08e86060",
+      "revId": "a038eab0f27db2e37deae2f19a0908868000680b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f398f744_8c0c1ac6",
         "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-21T14:07:35Z",
       "side": 1,
       "message": "Is this function a stop-gap until we migrate to Lit? Or will this also be used in Lit? In the latter case I would consider renaming it to something like \"makeListener\" or \"createListener\". \u0027listen\u0027 gives the impression that it will actually set up a listener, not just create an object.",
+      "revId": "a038eab0f27db2e37deae2f19a0908868000680b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aab7348d_24ff212c",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T14:28:46Z",
+      "side": 1,
+      "message": "Yeah, this will be further refactored when moving to Lit. I was torn between a short name (more one-liners) and a more descriptive name, but you are right. A better name has precedence.",
+      "parentUuid": "f398f744_8c0c1ac6",
       "revId": "a038eab0f27db2e37deae2f19a0908868000680b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

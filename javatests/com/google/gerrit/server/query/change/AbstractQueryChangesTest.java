@@ -601,6 +601,28 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byUploader() throws Exception {
+    Account.Id user2 =
+        accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
+    CurrentUser user2CurrentUser = userFactory.create(user2);
+
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo), userId);
+    assertQuery("is:uploader", change1);
+    assertQuery("uploader:" + userId.get(), change1);
+    change1 = newPatchSet(repo, change1, user2CurrentUser);
+    // Uploader has changed
+    assertQuery("uploader:" + userId.get());
+    assertQuery("uploader:" + user2.get(), change1);
+
+    requestContext.setContext(newRequestContext(user2));
+    assertQuery("is:uploader", change1);
+
+    String nameEmail = user2CurrentUser.asIdentifiedUser().getNameEmail();
+    assertQuery("uploader: \"" + nameEmail + "\"", change1);
+  }
+
+  @Test
   public void byAuthorExact() throws Exception {
     assume().that(getSchema().hasField(ChangeField.EXACT_AUTHOR)).isTrue();
     byAuthorOrCommitterExact("author:");
@@ -713,6 +735,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("ownerin:\"Registered Users\"", change3, change2, change1);
     assertQuery("ownerin:\"Registered Users\" project:repo", change3, change2, change1);
     assertQuery("ownerin:\"Registered Users\" status:merged", change3);
+  }
+
+  @Test
+  public void byUploaderIn() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo), userId);
+    assertQuery("uploaderin:Administrators", change1);
+
+    Account.Id user2 =
+        accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
+    CurrentUser user2CurrentUser = userFactory.create(user2);
+    newPatchSet(repo, change1, user2CurrentUser);
+    assertQuery("uploaderin:Administrators");
   }
 
   @Test
@@ -2569,7 +2604,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(change2.getId().get()).current().review(new ReviewInput().message("comment"));
 
     PatchSet.Id ps3_1 = change3.currentPatchSetId();
-    change3 = newPatchSet(repo, change3);
+    change3 = newPatchSet(repo, change3, user);
     assertThat(change3.currentPatchSetId()).isNotEqualTo(ps3_1);
     // Response to previous patch set still counts as reviewing.
     gApi.changes()
@@ -3849,7 +3884,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
   }
 
-  protected Change newPatchSet(TestRepository<Repo> repo, Change c) throws Exception {
+  protected Change newPatchSet(TestRepository<Repo> repo, Change c, CurrentUser user)
+      throws Exception {
     // Add a new file so the patch set is not a trivial rebase, to avoid default
     // Code-Review label copying.
     int n = c.currentPatchSetId().get() + 1;

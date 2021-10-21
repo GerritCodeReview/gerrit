@@ -1,6 +1,69 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f06c5c19_709e4069",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-21T11:08:02Z",
+      "side": 1,
+      "message": "I like this idea and the performance improvements in tests are awesome!\n\nDmitrii and I chatted about a few specifics offline:\n\nWe want to reload mail templates from disk so that you can change templates without restarting Gerrit. So a simple Future isn\u0027t enough. It\u0027s fine to reuse an old value once more and refresh asynchronously.\n\nOther solutions would include stating files, etc. So seem more complicated.\n\nLeft some minor comments in the files.",
+      "revId": "cee88298f9383e3c3e157efec6fe72ae473631cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be6e2582_960d7d89",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-21T11:08:02Z",
+      "side": 1,
+      "message": "Please document this new cache.",
+      "range": {
+        "startLine": 100,
+        "startChar": 47,
+        "endLine": 100,
+        "endChar": 67
+      },
+      "revId": "cee88298f9383e3c3e157efec6fe72ae473631cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7be2f61_3399f459",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-21T11:08:02Z",
+      "side": 1,
+      "message": "Please use the CacheModule (e.g. check how AccountCache and other caches are constructed).",
+      "range": {
+        "startLine": 111,
+        "startChar": 32,
+        "endLine": 111,
+        "endChar": 44
+      },
+      "revId": "cee88298f9383e3c3e157efec6fe72ae473631cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "026734bc_45b60270",
@@ -19,6 +82,52 @@
         "startChar": 8,
         "endLine": 112,
         "endChar": 49
+      },
+      "revId": "cee88298f9383e3c3e157efec6fe72ae473631cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74dc659d_1e49c614",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-21T11:08:02Z",
+      "side": 1,
+      "message": "This should be configurable and the default can be higher IMO.",
+      "range": {
+        "startLine": 112,
+        "startChar": 46,
+        "endLine": 112,
+        "endChar": 47
+      },
+      "revId": "cee88298f9383e3c3e157efec6fe72ae473631cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7610e54_e9e866d5",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-21T11:08:02Z",
+      "side": 1,
+      "message": "Please use a static final member for the singleton key.",
+      "range": {
+        "startLine": 130,
+        "startChar": 39,
+        "endLine": 130,
+        "endChar": 42
       },
       "revId": "cee88298f9383e3c3e157efec6fe72ae473631cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

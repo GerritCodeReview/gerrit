@@ -16,6 +16,24 @@
       "message": "Why the check first? Just filter and 5 lines less code?",
       "revId": "7e65e999b90bb5b5493979bff6205501b18986dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f82d7ced_02a20cb9",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-21T21:55:36Z",
+      "side": 1,
+      "message": "Because I don\u0027t want to filter, if there are no non-legacy requirements. Then it would be empty.",
+      "parentUuid": "28ebe781_c3333451",
+      "revId": "7e65e999b90bb5b5493979bff6205501b18986dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

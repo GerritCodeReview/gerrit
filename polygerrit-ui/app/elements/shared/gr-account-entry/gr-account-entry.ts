@@ -62,9 +62,6 @@ export class GrAccountEntry extends PolymerElement {
   @property({type: String})
   placeholder = '';
 
-  @property({type: Number})
-  suggestFrom = 0;
-
   @property({type: Object, notify: true})
   querySuggestions: AutocompleteQuery = () => Promise.resolve([]);
 

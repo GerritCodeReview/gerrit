@@ -943,8 +943,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       if (lowerNames.containsKey(lower)) {
         error(
             String.format(
-                "Submit requirement \"%s\" conflicts with \"%s\". Skipping the former.",
-                name, lowerNames.get(lower)));
+                "Submit requirement '%s' conflicts with '%s'.", name, lowerNames.get(lower)));
         continue;
       }
       lowerNames.put(lower, name);
@@ -958,9 +957,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       if (blockExpr == null) {
         error(
             String.format(
-                "Submit requirement \"%s\" does not define a submittability expression."
-                    + " Skipping this requirement.",
-                name));
+                "Submit requirement '%s' does not define a submittability expression.", name));
         continue;
       }
 

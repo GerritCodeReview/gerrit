@@ -88,7 +88,9 @@ export class GrButton extends LitElement {
           background-color: var(--background-color);
           color: var(--text-color);
           display: flex;
-          font-family: inherit;
+          font-family: var(--font-family, inherit);
+          /** Without this '.keyboard-focus' buttons will get bolded. */
+          font-weight: var(--font-weight-normal, inherit);
           justify-content: center;
           margin: var(--margin, 0);
           min-width: var(--border, 0);

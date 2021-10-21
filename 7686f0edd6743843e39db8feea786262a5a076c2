@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b801fd96_160c3dc4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 4632,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-21T10:10:17Z",
+      "side": 1,
+      "message": "This also needed replacement.\n\nDone.",
+      "revId": "7686f0edd6743843e39db8feea786262a5a076c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

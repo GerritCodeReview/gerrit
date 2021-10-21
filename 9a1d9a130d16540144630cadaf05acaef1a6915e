@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "be3aa343_64f2f3ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-21T08:37:06Z",
+      "side": 1,
+      "message": "Since this issue was also raised upstream now, maybe add it here too:\n\n  Bug: Issue 15189",
+      "revId": "9a1d9a130d16540144630cadaf05acaef1a6915e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0e1f288b_c46c0386",

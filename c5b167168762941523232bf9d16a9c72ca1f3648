@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c2276f8_ebb5aa46",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-21T18:04:46Z",
+      "side": 1,
+      "message": "Is this relevant at all given you\u0027re reloading the page at after?",
+      "revId": "c5b167168762941523232bf9d16a9c72ca1f3648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c7e2c4_2454a678",
+        "filename": "polygerrit-ui/app/styles/gr-form-styles.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-21T18:04:46Z",
+      "side": 1,
+      "message": "Unrelated?",
+      "revId": "c5b167168762941523232bf9d16a9c72ca1f3648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

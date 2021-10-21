@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a97f325b_abea9203",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-21T18:04:46Z",
+      "side": 0,
+      "message": "These functions don\u0027t seem to be used anywhere so can probably remove.",
+      "revId": "f7418e73cc5140ed392233d49b3219522aa9bd0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

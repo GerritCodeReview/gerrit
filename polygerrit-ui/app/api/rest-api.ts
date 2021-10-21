@@ -286,7 +286,6 @@ export declare interface ActionNameToActionInfoMap {
   submit?: ActionInfo;
   topic?: ActionInfo;
   hashtags?: ActionInfo;
-  assignee?: ActionInfo;
   ready?: ActionInfo;
   includedIn?: ActionInfo;
 }
@@ -363,7 +362,6 @@ export declare interface ChangeConfigInfo {
   submit_whole_topic?: boolean;
   disable_private_changes?: boolean;
   mergeability_computation_behavior: MergeabilityComputationBehavior;
-  enable_assignee: boolean;
 }
 
 export type ChangeId = BrandType<string, '_changeId'>;
@@ -378,7 +376,6 @@ export declare interface ChangeInfo {
   branch: BranchName;
   topic?: TopicName;
   attention_set?: IdToAttentionSetMap;
-  assignee?: AccountInfo;
   hashtags?: Hashtag[];
   change_id: ChangeId;
   subject: string;

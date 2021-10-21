@@ -362,7 +362,6 @@ suite('gr-change-list-item tests', () => {
       'Subject',
       'Status',
       'Owner',
-      'Assignee',
       'Reviewers',
       'Comments',
       'Repo',
@@ -386,7 +385,6 @@ suite('gr-change-list-item tests', () => {
       'Subject',
       'Status',
       'Owner',
-      'Assignee',
       'Reviewers',
       'Comments',
       'Branch',
@@ -471,25 +469,6 @@ suite('gr-change-list-item tests', () => {
     await flush();
     const elementClass = '.bad';
     assert.isNotOk(query(element, elementClass));
-  });
-
-  test('assignee only displayed if there is one', async () => {
-    element.change = change;
-    await flush();
-    assert.isNotOk(query(element, '.assignee gr-account-link'));
-    assert.equal(
-      queryAndAssert(element, '.assignee').textContent!.trim(),
-      '--'
-    );
-    element.change = {
-      ...change,
-      assignee: {
-        name: 'test',
-        status: 'test',
-      },
-    };
-    await flush();
-    queryAndAssert(element, '.assignee gr-account-link');
   });
 
   test('TShirt sizing tooltip', () => {

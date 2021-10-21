@@ -1081,6 +1081,7 @@ export declare interface SubmitRequirementResultInfo {
   applicability_expression_result?: SubmitRequirementExpressionInfo;
   submittability_expression_result: SubmitRequirementExpressionInfo;
   override_expression_result?: SubmitRequirementExpressionInfo;
+  is_legacy?: boolean;
 }
 
 /**

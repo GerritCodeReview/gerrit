@@ -132,9 +132,18 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   override render() {
-    const submit_requirements = orderSubmitRequirements(
+    let submit_requirements = orderSubmitRequirements(
       this.change?.submit_requirements ?? []
     ).filter(req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE);
+
+    const hasNonLegacyRequirements = submit_requirements.some(
+      req => req.is_legacy === false
+    );
+    if (hasNonLegacyRequirements) {
+      submit_requirements = submit_requirements.filter(
+        req => req.is_legacy === false
+      );
+    }
 
     return html` <h3
         class="metadata-title heading-3"

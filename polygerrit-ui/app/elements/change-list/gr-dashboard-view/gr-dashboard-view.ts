@@ -225,19 +225,13 @@ export class GrDashboardView extends PolymerElement {
     const {project, dashboard, title, user, sections} = params;
     const dashboardPromise: Promise<UserDashboard | undefined> = project
       ? this._getProjectDashboard(project, dashboard)
-      : this.restApiService
-          .getConfig()
-          .then(config =>
-            Promise.resolve(
-              GerritNav.getUserDashboard(
-                user,
-                sections,
-                title || this._computeTitle(user),
-                config
-              )
-            )
-          );
-
+      : Promise.resolve(
+          GerritNav.getUserDashboard(
+            user,
+            sections,
+            title || this._computeTitle(user)
+          )
+        );
     // Checking `this.account` to make sure that the user is logged in.
     // Otherwise sending a query for 'owner:self' will result in an error.
     const checkForNewUser = !project && !!this.account && user === 'self';

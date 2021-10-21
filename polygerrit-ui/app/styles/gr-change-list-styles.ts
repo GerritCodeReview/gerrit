@@ -89,7 +89,6 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       .label,
       .number,
       .owner,
-      .assignee,
       .updated,
       .submitted,
       .waiting,
@@ -122,7 +121,6 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
         display: none;
       }
       @media only screen and (max-width: 150em) {
-        .assignee,
         .branch {
           overflow: hidden;
           max-width: 18rem;
@@ -136,7 +134,6 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
         }
       }
       @media only screen and (max-width: 100em) {
-        .assignee,
         .branch {
           max-width: 10rem;
         }
@@ -175,7 +172,6 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
         .submitted,
         .waiting,
         .label,
-        .assignee,
         .groupHeader .star,
         .noChanges .star {
           display: none;

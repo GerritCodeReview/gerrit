@@ -50,7 +50,6 @@ import {changeIsOpen} from '../../../utils/change-util';
 import {customElement, property, observe} from '@polymer/decorators';
 import {
   AccountDetailInfo,
-  AccountInfo,
   BranchName,
   ChangeInfo,
   CommitId,
@@ -190,9 +189,6 @@ export class GrChangeMetadata extends PolymerElement {
   @property({type: Boolean, computed: '_computeShowRequirements(change)'})
   _showRequirements = false;
 
-  @property({type: Array})
-  _assignee?: AccountInfo[];
-
   @property({type: Boolean, computed: '_computeIsWip(change)'})
   _isWip = false;
 
@@ -240,37 +236,8 @@ export class GrChangeMetadata extends PolymerElement {
   }
 
   @observe('change')
-  _changeChanged(change?: ParsedChangeInfo) {
-    this._assignee = change?.assignee ? [change.assignee] : [];
+  _changeChanged(_: ParsedChangeInfo) {
     this._settingTopic = false;
-  }
-
-  @observe('_assignee.*')
-  _assigneeChanged(
-    assigneeRecord: ElementPropertyDeepChange<GrChangeMetadata, '_assignee'>
-  ) {
-    if (!this.change || !this._isAssigneeEnabled(this.serverConfig)) {
-      return;
-    }
-    const assignee = assigneeRecord.base;
-    if (assignee?.length) {
-      const acct = assignee[0];
-      if (
-        !acct._account_id ||
-        (this.change.assignee &&
-          acct._account_id === this.change.assignee._account_id)
-      ) {
-        return;
-      }
-      this.set(['change', 'assignee'], acct);
-      this.restApiService.setAssignee(this.change._number, acct._account_id);
-    } else {
-      if (!this.change.assignee) {
-        return;
-      }
-      this.set(['change', 'assignee'], undefined);
-      this.restApiService.deleteAssignee(this.change._number);
-    }
   }
 
   _computeHideStrategy(change?: ParsedChangeInfo) {
@@ -300,10 +267,6 @@ export class GrChangeMetadata extends PolymerElement {
 
   _isChangeMerged(change?: ParsedChangeInfo) {
     return change?.status === ChangeStatus.MERGED;
-  }
-
-  _isAssigneeEnabled(serverConfig?: ServerInfo) {
-    return !!serverConfig?.change?.enable_assignee;
   }
 
   _computeStrategy(change?: ParsedChangeInfo) {
@@ -386,10 +349,6 @@ export class GrChangeMetadata extends PolymerElement {
 
   _computeHashtagReadOnly(mutable?: boolean, change?: ParsedChangeInfo) {
     return !mutable || !change?.actions?.hashtags?.enabled;
-  }
-
-  _computeAssigneeReadOnly(mutable?: boolean, change?: ParsedChangeInfo) {
-    return !mutable || !change?.actions?.assignee?.enabled;
   }
 
   _computeTopicPlaceholder(_topicReadOnly?: boolean) {

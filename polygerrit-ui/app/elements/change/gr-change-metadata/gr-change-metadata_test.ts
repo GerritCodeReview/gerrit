@@ -35,7 +35,6 @@ import {
   createCommit,
   createRevision,
   createAccountDetailWithId,
-  createChangeConfig,
 } from '../../../test/test-data-generators';
 import {
   ChangeStatus,
@@ -57,8 +56,6 @@ import {
   LabelValueToDescriptionMap,
   Hashtag,
 } from '../../../types/common';
-import {SinonStubbedMember} from 'sinon';
-import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {PluginApi} from '../../../api/plugin';
@@ -808,64 +805,6 @@ suite('gr-change-metadata tests', () => {
         removable_reviewers: [],
       };
       flush();
-    });
-
-    suite('assignee field', () => {
-      const dummyAccount = createAccountWithId();
-      const change: ParsedChangeInfo = {
-        ...createParsedChange(),
-        actions: {
-          assignee: {enabled: false},
-        },
-        assignee: dummyAccount,
-      };
-      let deleteStub: SinonStubbedMember<RestApiService['deleteAssignee']>;
-      let setStub: SinonStubbedMember<RestApiService['setAssignee']>;
-
-      setup(() => {
-        deleteStub = stubRestApi('deleteAssignee');
-        setStub = stubRestApi('setAssignee');
-        element.serverConfig = {
-          ...createServerInfo(),
-          change: {
-            ...createChangeConfig(),
-            enable_assignee: true,
-          },
-        };
-      });
-
-      test('changing change recomputes _assignee', () => {
-        assert.isFalse(!!element._assignee?.length);
-        const change = element.change;
-        change!.assignee = dummyAccount;
-        element._changeChanged(change);
-        assert.deepEqual(element?._assignee?.[0], dummyAccount);
-      });
-
-      test('modifying _assignee calls API', () => {
-        assert.isFalse(!!element._assignee?.length);
-        element.set('_assignee', [dummyAccount]);
-        assert.isTrue(setStub.calledOnce);
-        assert.deepEqual(element.change!.assignee, dummyAccount);
-        element.set('_assignee', [dummyAccount]);
-        assert.isTrue(setStub.calledOnce);
-        element.set('_assignee', []);
-        assert.isTrue(deleteStub.calledOnce);
-        assert.equal(element.change!.assignee, undefined);
-        element.set('_assignee', []);
-        assert.isTrue(deleteStub.calledOnce);
-      });
-
-      test('_computeAssigneeReadOnly', () => {
-        let mutable = false;
-        assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
-        mutable = true;
-        assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
-        change.actions!.assignee!.enabled = true;
-        assert.isFalse(element._computeAssigneeReadOnly(mutable, change));
-        mutable = false;
-        assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
-      });
     });
 
     test('changing topic', () => {

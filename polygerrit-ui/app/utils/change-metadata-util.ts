@@ -33,7 +33,6 @@ export enum Metadata {
   UPLOADER = 'Uploader',
   AUTHOR = 'Author',
   COMMITTER = 'Committer',
-  ASSIGNEE = 'Assignee',
   CHERRY_PICK_OF = 'Cherry pick of',
 }
 
@@ -51,7 +50,6 @@ export const DisplayRules = {
     Metadata.UPLOADER,
     Metadata.AUTHOR,
     Metadata.COMMITTER,
-    Metadata.ASSIGNEE,
     Metadata.CHERRY_PICK_OF,
   ],
   ALWAYS_HIDE: [
@@ -74,7 +72,6 @@ export function isSectionSet(section: Metadata, change?: ParsedChangeInfo) {
     case Metadata.UPLOADER:
     case Metadata.AUTHOR:
     case Metadata.COMMITTER:
-    case Metadata.ASSIGNEE:
       return false;
     case Metadata.CHERRY_PICK_OF:
       return !!change?.cherry_pick_of_change;

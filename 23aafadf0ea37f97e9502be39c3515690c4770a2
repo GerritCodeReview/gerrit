@@ -70,6 +70,30 @@
       },
       "revId": "23aafadf0ea37f97e9502be39c3515690c4770a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56a84bf2_20898b7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-21T18:56:15Z",
+      "side": 1,
+      "message": "Done in PS3.",
+      "parentUuid": "78bce5f3_df2c2b80",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "23aafadf0ea37f97e9502be39c3515690c4770a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

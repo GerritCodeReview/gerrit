@@ -39,8 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
@@ -83,6 +81,7 @@ public class Schema_146 extends SchemaVersion {
   private Stopwatch sw = Stopwatch.createStarted();
   ReentrantLock gcLock = new ReentrantLock();
   private int size;
+  private UpdateUI ui;
 
   @Inject
   Schema_146(
@@ -98,21 +97,17 @@ public class Schema_146 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
+    this.ui = ui;
     ui.message("Migrating accounts");
     Set<Entry<Account.Id, Timestamp>> accounts = scanAccounts(db, ui).entrySet();
     ui.message("Run full gc as preparation for the migration");
     gc(ui);
     ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
-    Set<List<Entry<Account.Id, Timestamp>>> batches =
-        Sets.newHashSet(Iterables.partition(accounts, 500));
-    ExecutorService pool = createExecutor(ui);
-    try {
-      batches.stream().forEach(batch -> pool.submit(() -> processBatch(batch, ui)));
-      pool.shutdown();
-      pool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    }
+    runParallelTasks(
+        createExecutor(ui),
+        Sets.newHashSet(Iterables.partition(accounts, 500)),
+        (batch) -> processBatch((List<Entry<Account.Id, Timestamp>>) batch),
+        ui);
     ui.message(
         String.format("... (%.3f s) Migrated all %d accounts to schema 146", elapsed(), i.get()));
     ui.message("Run full gc");
@@ -120,18 +115,17 @@ public class Schema_146 extends SchemaVersion {
     ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
   }
 
-  private ExecutorService createExecutor(UpdateUI ui) {
-    int threads;
+  @Override
+  protected int getThreads() {
     try {
-      threads = Integer.parseInt(System.getProperty("threadcount"));
+      return Integer.parseInt(System.getProperty("threadcount"));
     } catch (NumberFormatException e) {
-      threads = Runtime.getRuntime().availableProcessors();
+      return super.getThreads();
     }
-    ui.message(String.format("... using %d threads ...", threads));
-    return Executors.newFixedThreadPool(threads);
   }
 
-  private void processBatch(List<Entry<Account.Id, Timestamp>> batch, UpdateUI ui) {
+  private List<Entry<Account.Id, Timestamp>> processBatch(
+      List<Entry<Account.Id, Timestamp>> batch) {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter oi = repo.newObjectInserter()) {
@@ -161,6 +155,7 @@ public class Schema_146 extends SchemaVersion {
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
+    return null;
   }
 
   private double elapsed() {

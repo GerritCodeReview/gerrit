@@ -961,8 +961,23 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       String appExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_APPLICABILITY_EXPRESSION);
       String blockExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
       String overrideExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_EXPRESSION);
-      boolean canInherit =
-          rc.getBoolean(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS, false);
+      boolean canInherit;
+      try {
+        canInherit =
+            rc.getBoolean(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS, false);
+      } catch (IllegalArgumentException e) {
+        String canInheritValue =
+            rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS);
+        error(
+            String.format(
+                "Invalid value %s.%s.%s for submit requirement '%s': %s",
+                SUBMIT_REQUIREMENT,
+                name,
+                KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+                name,
+                canInheritValue));
+        continue;
+      }
 
       if (blockExpr == null) {
         error(

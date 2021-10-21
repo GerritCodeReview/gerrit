@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dc79ec9_49972568",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1552,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T13:49:27Z",
+      "side": 1,
+      "message": "I have no idea. :-)",
+      "parentUuid": "7e00b380_a64bd803",
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7269836b_8f7b5c22",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-20T22:18:53Z",
       "side": 1,
       "message": "What does this actually do?\n\nAlso, we have a disconnect between how shorcuts are registered and the help-panel that has the shortcut keys in it.",
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bff46f29_53f73106",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T13:49:27Z",
+      "side": 1,
+      "message": "I don\u0027t know what the ESC key is supposed to do. Maybe this is broken or maybe this is obsolete. I am just migrating all shortcuts as is.\n\nWe have two different kinds of shortcuts: APP and LOCAL:\n\nAPP:\n- Known to the shortcuts help dialog.\n- Defined in shortcuts-config.\n- Must be registered via keyboardShortcuts().\n- Always defined on document.body.\n\nLOCAL:\n- Only have meaning within the component.\n- No benefit gained by declaring and documenting them as app wide shortcuts.\n- Often registered on the local element.\n- Registered using dom-utils add(Gloabl)Shortcut() methods.\n- Often these are ENTER, ESC, or similar things for standard selection and cancel.",
+      "parentUuid": "7269836b_8f7b5c22",
       "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "613dc3db_f78cb816",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T13:49:27Z",
+      "side": 1,
+      "message": "Because we now rely on `key`, not on the deprecated `keyCode` property in KeyboardEvent. We should probably not be using the pressAndReleaseKeyOn() utility method anymore ...",
+      "parentUuid": "b5aaed61_19f9c3fe",
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10c5b4a1_1d43cbab",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-10-20T22:18:53Z",
       "side": 1,
       "message": "Does the new code depend on these extra parameters to pass the tests? If so, do we know that we\u0027ll get these extra parameters in the browser?",
+      "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2adb04a4_35c9a602",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T13:49:27Z",
+      "side": 1,
+      "message": "Yes, the new code is based on the `key` property of the KeyboardEvent, while the old code was at least falling back to the deprecated `keyCode` property. So this is intentional and more inline with the latest browser standards. I have tested this with Chrome, Safari and Firefox on Mac.\n\nA potential cleanup would be to actually create our own test utils instead of using the MockInteractions...",
+      "parentUuid": "10c5b4a1_1d43cbab",
       "revId": "1f55bffc834b0fdce8f4630f19e826348311e0f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

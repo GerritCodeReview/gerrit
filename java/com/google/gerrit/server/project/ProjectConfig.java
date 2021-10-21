@@ -642,7 +642,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (rc.getStringList(ACCESS, null, KEY_INHERIT_FROM).length > 1) {
       // The config must not contain more than one parent to inherit from
       // as there is no guarantee which of the parents would be used then.
-      error(ValidationError.create(PROJECT_CONFIG, "Cannot inherit from multiple projects"));
+      error("Cannot inherit from multiple projects");
     }
     p.setParent(rc.getString(ACCESS, null, KEY_INHERIT_FROM));
 
@@ -695,10 +695,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       String lower = name.toLowerCase();
       if (lowerNames.containsKey(lower)) {
         error(
-            ValidationError.create(
-                PROJECT_CONFIG,
-                String.format(
-                    "Extension Panels \"%s\" conflicts with \"%s\"", name, lowerNames.get(lower))));
+            String.format(
+                "Extension Panels \"%s\" conflicts with \"%s\"", name, lowerNames.get(lower)));
       }
       lowerNames.put(lower, name);
       extensionPanelSections.put(
@@ -724,26 +722,22 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         ca.setAutoVerify(null);
       } else if (rules.size() > 1) {
         error(
-            ValidationError.create(
-                PROJECT_CONFIG,
-                "Invalid rule in "
-                    + CONTRIBUTOR_AGREEMENT
-                    + "."
-                    + name
-                    + "."
-                    + KEY_AUTO_VERIFY
-                    + ": at most one group may be set"));
+            "Invalid rule in "
+                + CONTRIBUTOR_AGREEMENT
+                + "."
+                + name
+                + "."
+                + KEY_AUTO_VERIFY
+                + ": at most one group may be set");
       } else if (rules.get(0).getAction() != Action.ALLOW) {
         error(
-            ValidationError.create(
-                PROJECT_CONFIG,
-                "Invalid rule in "
-                    + CONTRIBUTOR_AGREEMENT
-                    + "."
-                    + name
-                    + "."
-                    + KEY_AUTO_VERIFY
-                    + ": the group must be allowed"));
+            "Invalid rule in "
+                + CONTRIBUTOR_AGREEMENT
+                + "."
+                + name
+                + "."
+                + KEY_AUTO_VERIFY
+                + ": the group must be allowed");
       } else {
         ca.setAutoVerify(rules.get(0).getGroup());
       }
@@ -791,21 +785,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           if (ref.getUUID() != null) {
             n.addGroup(ref);
           } else {
-            error(
-                ValidationError.create(
-                    PROJECT_CONFIG,
-                    "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
+            error("group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME);
           }
         } else if (dst.startsWith("user ")) {
-          error(ValidationError.create(PROJECT_CONFIG, dst + " not supported"));
+          error(dst + " not supported");
         } else {
           try {
             n.addAddress(Address.parse(dst));
           } catch (IllegalArgumentException err) {
-            error(
-                ValidationError.create(
-                    PROJECT_CONFIG,
-                    "notify section \"" + sectionName + "\" has invalid email \"" + dst + "\""));
+            error("notify section \"" + sectionName + "\" has invalid email \"" + dst + "\"");
           }
         }
       }
@@ -866,7 +854,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     try {
       RefPattern.validateRegExp(refPattern);
     } catch (InvalidNameException e) {
-      error(ValidationError.create(PROJECT_CONFIG, "Invalid ref name: " + e.getMessage()));
+      error("Invalid ref name: " + e.getMessage());
       return false;
     }
     return true;
@@ -894,9 +882,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         // to fail fast if any of the patterns are invalid.
         patterns.add(Pattern.compile(patternString).pattern());
       } catch (PatternSyntaxException e) {
-        error(
-            ValidationError.create(
-                PROJECT_CONFIG, "Invalid regular expression: " + e.getMessage()));
+        error("Invalid regular expression: " + e.getMessage());
         continue;
       }
     }
@@ -923,15 +909,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         rule = PermissionRule.fromString(ruleString, useRange);
       } catch (IllegalArgumentException notRule) {
         error(
-            ValidationError.create(
-                PROJECT_CONFIG,
-                "Invalid rule in "
-                    + section
-                    + (subsection != null ? "." + subsection : "")
-                    + "."
-                    + varName
-                    + ": "
-                    + notRule.getMessage()));
+            "Invalid rule in "
+                + section
+                + (subsection != null ? "." + subsection : "")
+                + "."
+                + varName
+                + ": "
+                + notRule.getMessage());
         continue;
       }
 
@@ -942,9 +926,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         // all rules in the same file share the same GroupReference.
         //
         ref = groupList.resolve(rule.getGroup());
-        error(
-            ValidationError.create(
-                PROJECT_CONFIG, "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
+        error("group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME);
       }
 
       perm.add(rule.toBuilder().setGroup(ref));
@@ -969,11 +951,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       String lower = name.toLowerCase();
       if (lowerNames.containsKey(lower)) {
         error(
-            ValidationError.create(
-                PROJECT_CONFIG,
-                String.format(
-                    "Submit requirement \"%s\" conflicts with \"%s\". Skipping the former.",
-                    name, lowerNames.get(lower))));
+            String.format(
+                "Submit requirement \"%s\" conflicts with \"%s\". Skipping the former.",
+                name, lowerNames.get(lower)));
         continue;
       }
       lowerNames.put(lower, name);
@@ -986,12 +966,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
       if (blockExpr == null) {
         error(
-            ValidationError.create(
-                PROJECT_CONFIG,
-                (String.format(
-                    "Submit requirement \"%s\" does not define a submittability expression."
-                        + " Skipping this requirement.",
-                    name))));
+            String.format(
+                "Submit requirement \"%s\" does not define a submittability expression."
+                    + " Skipping this requirement.",
+                name));
         continue;
       }
 
@@ -1018,10 +996,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     for (String name : rc.getSubsections(LABEL)) {
       String lower = name.toLowerCase();
       if (lowerNames.containsKey(lower)) {
-        error(
-            ValidationError.create(
-                PROJECT_CONFIG,
-                String.format("Label \"%s\" conflicts with \"%s\"", name, lowerNames.get(lower))));
+        error(String.format("Label \"%s\" conflicts with \"%s\"", name, lowerNames.get(lower)));
       }
       lowerNames.put(lower, name);
 
@@ -1033,18 +1008,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           if (allValues.add(labelValue.getValue())) {
             values.add(labelValue);
           } else {
-            error(
-                ValidationError.create(
-                    PROJECT_CONFIG,
-                    String.format("Duplicate %s \"%s\" for label \"%s\"", KEY_VALUE, value, name)));
+            error(String.format("Duplicate %s \"%s\" for label \"%s\"", KEY_VALUE, value, name));
           }
         } catch (IllegalArgumentException notValue) {
           error(
-              ValidationError.create(
-                  PROJECT_CONFIG,
-                  String.format(
-                      "Invalid %s \"%s\" for label \"%s\": %s",
-                      KEY_VALUE, value, name, notValue.getMessage())));
+              String.format(
+                  "Invalid %s \"%s\" for label \"%s\": %s",
+                  KEY_VALUE, value, name, notValue.getMessage()));
         }
       }
 
@@ -1052,7 +1022,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       try {
         label = LabelType.builder(name, values);
       } catch (IllegalArgumentException badName) {
-        error(ValidationError.create(PROJECT_CONFIG, String.format("Invalid label \"%s\"", name)));
+        error(String.format("Invalid label \"%s\"", name));
         continue;
       }
 
@@ -1063,11 +1033,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               : Optional.of(LabelFunction.MAX_WITH_BLOCK);
       if (!function.isPresent()) {
         error(
-            ValidationError.create(
-                PROJECT_CONFIG,
-                String.format(
-                    "Invalid %s for label \"%s\". Valid names are: %s",
-                    KEY_FUNCTION, name, Joiner.on(", ").join(LabelFunction.ALL.keySet()))));
+            String.format(
+                "Invalid %s for label \"%s\". Valid names are: %s",
+                KEY_FUNCTION, name, Joiner.on(", ").join(LabelFunction.ALL.keySet())));
       }
       label.setFunction(function.orElse(null));
       label.setCopyCondition(rc.getString(LABEL, name, KEY_COPY_CONDITION));
@@ -1077,11 +1045,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         if (isInRange(dv, values)) {
           label.setDefaultValue(dv);
         } else {
-          error(
-              ValidationError.create(
-                  PROJECT_CONFIG,
-                  String.format(
-                      "Invalid %s \"%s\" for label \"%s\"", KEY_DEFAULT_VALUE, dv, name)));
+          error(String.format("Invalid %s \"%s\" for label \"%s\"", KEY_DEFAULT_VALUE, dv, name));
         }
       }
       label.setAllowPostSubmit(
@@ -1130,18 +1094,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           short copyValue = Shorts.checkedCast(PermissionRule.parseInt(value));
           if (!copyValues.add(copyValue)) {
             error(
-                ValidationError.create(
-                    PROJECT_CONFIG,
-                    String.format(
-                        "Duplicate %s \"%s\" for label \"%s\"", KEY_COPY_VALUE, value, name)));
+                String.format("Duplicate %s \"%s\" for label \"%s\"", KEY_COPY_VALUE, value, name));
           }
         } catch (IllegalArgumentException notValue) {
           error(
-              ValidationError.create(
-                  PROJECT_CONFIG,
-                  String.format(
-                      "Invalid %s \"%s\" for label \"%s\": %s",
-                      KEY_COPY_VALUE, value, name, notValue.getMessage())));
+              String.format(
+                  "Invalid %s \"%s\" for label \"%s\": %s",
+                  KEY_COPY_VALUE, value, name, notValue.getMessage()));
         }
       }
       label.setCopyValues(copyValues);
@@ -1176,18 +1135,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         commentLinkSections.put(name, buildCommentLink(rc, name, false));
       } catch (PatternSyntaxException e) {
         error(
-            ValidationError.create(
-                PROJECT_CONFIG,
-                String.format(
-                    "Invalid pattern \"%s\" in commentlink.%s.match: %s",
-                    rc.getString(COMMENTLINK, name, KEY_MATCH), name, e.getMessage())));
+            String.format(
+                "Invalid pattern \"%s\" in commentlink.%s.match: %s",
+                rc.getString(COMMENTLINK, name, KEY_MATCH), name, e.getMessage()));
       } catch (IllegalArgumentException e) {
         error(
-            ValidationError.create(
-                PROJECT_CONFIG,
-                String.format(
-                    "Error in pattern \"%s\" in commentlink.%s.match: %s",
-                    rc.getString(COMMENTLINK, name, KEY_MATCH), name, e.getMessage())));
+            String.format(
+                "Error in pattern \"%s\" in commentlink.%s.match: %s",
+                rc.getString(COMMENTLINK, name, KEY_MATCH), name, e.getMessage()));
       }
     }
   }
@@ -1229,9 +1184,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         if (groupName != null) {
           GroupReference ref = groupList.byName(groupName);
           if (ref == null) {
-            error(
-                ValidationError.create(
-                    PROJECT_CONFIG, "group \"" + groupName + "\" not in " + GroupList.FILE_NAME));
+            error("group \"" + groupName + "\" not in " + GroupList.FILE_NAME);
           }
           rc.setString(PLUGIN, plugin, name, value);
         }
@@ -1781,9 +1734,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     try {
       return rc.getEnum(section, subsection, name, defaultValue);
     } catch (IllegalArgumentException err) {
-      error(ValidationError.create(PROJECT_CONFIG, err.getMessage()));
+      error(err.getMessage());
       return defaultValue;
     }
+  }
+
+  private void error(String errorMessage) {
+    error(ValidationError.create(PROJECT_CONFIG, errorMessage));
   }
 
   @Override

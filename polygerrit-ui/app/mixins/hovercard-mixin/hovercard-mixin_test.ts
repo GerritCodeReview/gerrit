@@ -130,12 +130,12 @@ suite('gr-hovercard tests', () => {
   test('card is scheduled to show on enter and hides on leave', async () => {
     const button = document.querySelector('button');
     const enterPromise = mockPromise();
-    button!.addEventListener('mouseenter', () => enterPromise.resolve());
+    button!.addEventListener('mousemove', () => enterPromise.resolve());
     const leavePromise = mockPromise();
     button!.addEventListener('mouseleave', () => leavePromise.resolve());
 
     assert.isFalse(element._isShowing);
-    button!.dispatchEvent(new CustomEvent('mouseenter'));
+    button!.dispatchEvent(new CustomEvent('mousemove'));
 
     await enterPromise;
     await flush();
@@ -158,12 +158,12 @@ suite('gr-hovercard tests', () => {
     const button = document.querySelector('button');
     const enterPromise = mockPromise();
     const clickPromise = mockPromise();
-    button!.addEventListener('mouseenter', () => enterPromise.resolve());
+    button!.addEventListener('mousemove', () => enterPromise.resolve());
     button!.addEventListener('click', () => clickPromise.resolve());
 
     assert.isFalse(element._isShowing);
 
-    button!.dispatchEvent(new CustomEvent('mouseenter'));
+    button!.dispatchEvent(new CustomEvent('mousemove'));
 
     await enterPromise;
     await flush();

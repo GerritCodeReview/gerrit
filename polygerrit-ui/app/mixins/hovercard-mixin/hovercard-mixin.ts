@@ -159,7 +159,12 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     }
 
     private addTargetEventListeners() {
-      this._target?.addEventListener('mouseenter', this.debounceShow);
+      // We intentionally listen on 'mousemove' instead of 'mouseenter', because
+      // otherwise the target appearing under the mouse cursor would also
+      // trigger the hovercard, which can annoying for the user, for example
+      // when added reviewer chips appear in the reply dialog via keyboard
+      // interaction.
+      this._target?.addEventListener('mousemove', this.debounceShow);
       this._target?.addEventListener('focus', this.debounceShow);
       this._target?.addEventListener('mouseleave', this.debounceHide);
       this._target?.addEventListener('blur', this.debounceHide);
@@ -167,7 +172,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     }
 
     private removeTargetEventListeners() {
-      this._target?.removeEventListener('mouseenter', this.debounceShow);
+      this._target?.removeEventListener('mousemove', this.debounceShow);
       this._target?.removeEventListener('focus', this.debounceShow);
       this._target?.removeEventListener('mouseleave', this.debounceHide);
       this._target?.removeEventListener('blur', this.debounceHide);

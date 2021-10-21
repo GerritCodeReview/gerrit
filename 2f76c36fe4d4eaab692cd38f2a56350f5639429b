@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31a45df3_1b502af2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-21T06:59:38Z",
+      "side": 1,
+      "message": "Preventing submission: I\u0027m thinking of adding a third change to rename the experiment, since current experiment is configured with staged rollout.\n\nNew experiment (the renamed one) can be launched per user.",
+      "revId": "2f76c36fe4d4eaab692cd38f2a56350f5639429b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

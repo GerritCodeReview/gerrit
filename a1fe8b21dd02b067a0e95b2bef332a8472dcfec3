@@ -16,6 +16,24 @@
       "message": "Edwin, I am a bit worried about the owners rule. However, I do recall that we had instances where we recomputed owners on change queries for large queries/more users.\n\nIn this case, the number of users in the experiment will be really small (\u003c20), so I think the only affect would be slow dashboards for them (not actual problems with the service). If we see stability problems, we could always just opt everyone out of the experiment. WDYT?",
       "revId": "a1fe8b21dd02b067a0e95b2bef332a8472dcfec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ef1c68e_57180f2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-21T10:11:43Z",
+      "side": 1,
+      "message": "SGTM, I think the risk is acceptable. Since we have set deadlines now, change query requests will also be aborted after 90m.",
+      "parentUuid": "c171c5e3_950c379d",
+      "revId": "a1fe8b21dd02b067a0e95b2bef332a8472dcfec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

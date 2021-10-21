@@ -47,7 +47,7 @@ public class SubmitRequirementsJson {
         submitRequirementExpressionToInfo(
             req.submittabilityExpression(), result.submittabilityExpressionResult());
     info.status = SubmitRequirementResultInfo.Status.valueOf(result.status().toString());
-    info.isLegacy = result.legacy();
+    info.isLegacy = result.isLegacy();
     return info;
   }
 

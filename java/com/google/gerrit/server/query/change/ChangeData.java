@@ -962,7 +962,7 @@ public class ChangeData {
       // Closed changes: Load submit requirement results from NoteDb.
       Map<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements =
           notes().getSubmitRequirementsResult().stream()
-              .filter(r -> !r.legacy())
+              .filter(r -> !r.isLegacy())
               .collect(Collectors.toMap(r -> r.submitRequirement(), Function.identity()));
       if (!experimentFeatures.isFeatureEnabled(
           ExperimentFeaturesConstants

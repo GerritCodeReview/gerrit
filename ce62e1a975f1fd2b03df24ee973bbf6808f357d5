@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27df8da3_928f4448",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-21T09:39:11Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "ce62e1a975f1fd2b03df24ee973bbf6808f357d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb76c742_1a71ac4f",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-21T09:39:11Z",
+      "side": 1,
+      "message": "takes",
+      "range": {
+        "startLine": 290,
+        "startChar": 82,
+        "endLine": 290,
+        "endChar": 86
+      },
+      "revId": "ce62e1a975f1fd2b03df24ee973bbf6808f357d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "941886f6_3e5a9135",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-21T09:39:11Z",
+      "side": 1,
+      "message": "earliest",
+      "range": {
+        "startLine": 293,
+        "startChar": 55,
+        "endLine": 293,
+        "endChar": 62
+      },
+      "revId": "ce62e1a975f1fd2b03df24ee973bbf6808f357d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

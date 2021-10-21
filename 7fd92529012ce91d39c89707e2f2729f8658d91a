@@ -22,6 +22,30 @@
       },
       "revId": "7fd92529012ce91d39c89707e2f2729f8658d91a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "415094bd_32f9cd10",
+        "filename": "polygerrit-ui/app/test/common-test-setup-karma.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T12:19:11Z",
+      "side": 0,
+      "message": "A test references it. That only became apparent because of my js-\u003ets migration of that test.",
+      "parentUuid": "746dfd82_5000370f",
+      "range": {
+        "startLine": 121,
+        "startChar": 14,
+        "endLine": 121,
+        "endChar": 21
+      },
+      "revId": "7fd92529012ce91d39c89707e2f2729f8658d91a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

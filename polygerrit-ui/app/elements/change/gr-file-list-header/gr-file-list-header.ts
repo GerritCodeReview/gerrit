@@ -45,7 +45,6 @@ import {DiffViewMode} from '../../../constants/constants';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fireEvent} from '../../../utils/event-util';
 import {
-  KeyboardShortcutMixin,
   Shortcut,
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
@@ -65,11 +64,8 @@ export interface GrFileListHeader {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-file-list-header')
-export class GrFileListHeader extends base {
+export class GrFileListHeader extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

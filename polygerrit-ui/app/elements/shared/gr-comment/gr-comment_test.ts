@@ -322,43 +322,43 @@ suite('gr-comment tests', () => {
         });
 
         test('esc closes comment when text is empty', () => {
-          pressAndReleaseKeyOn(element.textarea!, 27); // esc
+          pressAndReleaseKeyOn(element.textarea!, 27, null, 'Escape');
           assert.isTrue(handleCancelStub.called);
         });
 
         test('ctrl+enter does not save', () => {
-          pressAndReleaseKeyOn(element.textarea!, 13, 'ctrl'); // ctrl + enter
+          pressAndReleaseKeyOn(element.textarea!, 13, 'ctrl', 'Enter');
           assert.isFalse(handleSaveStub.called);
         });
 
         test('meta+enter does not save', () => {
-          pressAndReleaseKeyOn(element.textarea!, 13, 'meta'); // meta + enter
+          pressAndReleaseKeyOn(element.textarea!, 13, 'meta', 'Enter');
           assert.isFalse(handleSaveStub.called);
         });
 
         test('ctrl+s does not save', () => {
-          pressAndReleaseKeyOn(element.textarea!, 83, 'ctrl'); // ctrl + s
+          pressAndReleaseKeyOn(element.textarea!, 83, 'ctrl', 's');
           assert.isFalse(handleSaveStub.called);
         });
       });
 
       test('esc does not close comment that has content', () => {
-        pressAndReleaseKeyOn(element.textarea!, 27); // esc
+        pressAndReleaseKeyOn(element.textarea!, 27, null, 'Escape');
         assert.isFalse(handleCancelStub.called);
       });
 
       test('ctrl+enter saves', () => {
-        pressAndReleaseKeyOn(element.textarea!, 13, 'ctrl'); // ctrl + enter
+        pressAndReleaseKeyOn(element.textarea!, 13, 'ctrl', 'Enter');
         assert.isTrue(handleSaveStub.called);
       });
 
       test('meta+enter saves', () => {
-        pressAndReleaseKeyOn(element.textarea!, 13, 'meta'); // meta + enter
+        pressAndReleaseKeyOn(element.textarea!, 13, 'meta', 'Enter');
         assert.isTrue(handleSaveStub.called);
       });
 
       test('ctrl+s saves', () => {
-        pressAndReleaseKeyOn(element.textarea!, 83, 'ctrl'); // ctrl + s
+        pressAndReleaseKeyOn(element.textarea!, 83, 'ctrl', 's');
         assert.isTrue(handleSaveStub.called);
       });
     });
@@ -1015,7 +1015,7 @@ suite('gr-comment tests', () => {
       element._messageText = '';
       element.editing = true;
       await flush();
-      pressAndReleaseKeyOn(element.textarea!, 27); // esc
+      pressAndReleaseKeyOn(element.textarea!, 27, null, 'Escape');
       await promise;
     });
 
@@ -1093,7 +1093,12 @@ suite('gr-comment tests', () => {
       element._messageText = 'is that the horse from horsing around??';
       element.editing = true;
       await flush();
-      pressAndReleaseKeyOn(element.textarea!.$.textarea.textarea, 83, 'ctrl'); // 'ctrl + s'
+      pressAndReleaseKeyOn(
+        element.textarea!.$.textarea.textarea,
+        83,
+        'ctrl',
+        's'
+      );
       await promise;
     });
 

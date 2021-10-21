@@ -170,18 +170,18 @@ suite('gr-dropdown tests', () => {
     test('down', () => {
       const stub = sinon.stub(element.cursor, 'next');
       assert.isFalse(element.$.dropdown.opened);
-      MockInteractions.pressAndReleaseKeyOn(element, 40);
+      MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
       assert.isTrue(element.$.dropdown.opened);
-      MockInteractions.pressAndReleaseKeyOn(element, 40);
+      MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
       assert.isTrue(stub.called);
     });
 
     test('up', () => {
       const stub = sinon.stub(element.cursor, 'previous');
       assert.isFalse(element.$.dropdown.opened);
-      MockInteractions.pressAndReleaseKeyOn(element, 38);
+      MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'ArrowUp');
       assert.isTrue(element.$.dropdown.opened);
-      MockInteractions.pressAndReleaseKeyOn(element, 38);
+      MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'ArrowUp');
       assert.isTrue(stub.called);
     });
 
@@ -189,7 +189,7 @@ suite('gr-dropdown tests', () => {
       // Because enter and space are handled by the same fn, we need only to
       // test one.
       assert.isFalse(element.$.dropdown.opened);
-      MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
+      MockInteractions.pressAndReleaseKeyOn(element, 32, null, ' ');
       assert.isTrue(element.$.dropdown.opened);
 
       const el = queryAndAssert<HTMLAnchorElement>(
@@ -197,7 +197,7 @@ suite('gr-dropdown tests', () => {
         ':not([hidden]) a'
       );
       const stub = sinon.stub(el, 'click');
-      MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
+      MockInteractions.pressAndReleaseKeyOn(element, 32, null, ' ');
       assert.isTrue(stub.called);
     });
   });

@@ -327,29 +327,76 @@ export enum Modifier {
 }
 
 export interface Shortcut {
-  key: string;
+  key: string | Key;
   modifiers?: Modifier[];
 }
 
+const ALPHA_NUM = new RegExp(/^[A-Za-z0-9]$/);
+
+/**
+ * For "normal" keys we do not check that the SHIFT modifier is pressed or not,
+ * because that depends on the keyboard layout. Just checking the key string is
+ * sufficient.
+ *
+ * But for some special keys it is important whether SHIFT is pressed at the
+ * same time, for example we want to distinguish Enter from Shift+Enter.
+ */
+function shiftMustMatch(key: string | Key) {
+  return Object.values(Key).includes(key as Key);
+}
+
+/**
+ * For a-zA-Z0-9 and for Enter, Tab, etc. we want to check the ALT modifier.
+ *
+ * But for special chars like []/? we don't care whether the user is pressing
+ * the ALT modifier to produce the special char. For example on a German
+ * keyboard layout you have to press ALT to produce a [.
+ */
+function altMustMatch(key: string | Key) {
+  return ALPHA_NUM.test(key) || Object.values(Key).includes(key as Key);
+}
+
+export function eventMatchesShortcut(
+  e: KeyboardEvent,
+  shortcut: Shortcut
+): boolean {
+  if (e.key !== shortcut.key) return false;
+  const modifiers = shortcut.modifiers ?? [];
+  if (e.ctrlKey !== modifiers.includes(Modifier.CTRL_KEY)) return false;
+  if (e.metaKey !== modifiers.includes(Modifier.META_KEY)) return false;
+  if (
+    altMustMatch(e.key) &&
+    e.altKey !== modifiers.includes(Modifier.ALT_KEY)
+  ) {
+    return false;
+  }
+  if (
+    shiftMustMatch(e.key) &&
+    e.shiftKey !== modifiers.includes(Modifier.SHIFT_KEY)
+  ) {
+    return false;
+  }
+  return true;
+}
+
+export function addGlobalShortcut(
+  shortcut: Shortcut,
+  listener: (e: KeyboardEvent) => void
+) {
+  return addShortcut(document.body, shortcut, listener);
+}
+
 export function addShortcut(
+  element: HTMLElement,
   shortcut: Shortcut,
   listener: (e: KeyboardEvent) => void
 ) {
   const wrappedListener = (e: KeyboardEvent) => {
-    if (e.key !== shortcut.key) return;
-    const modifiers = shortcut.modifiers ?? [];
-    if (e.ctrlKey !== modifiers.includes(Modifier.CTRL_KEY)) return;
-    if (e.metaKey !== modifiers.includes(Modifier.META_KEY)) return;
-    // TODO(brohlfs): Refine the matching of modifiers. For "normal" keys we
-    // don't want to check ALT and SHIFT, because we don't know what the
-    // keyboard layout looks like. The user may have to use ALT and/or SHIFT for
-    // certain keys. Comparing the `key` string is sufficient in that case.
-    // if (e.altKey !== modifiers.includes(Modifier.ALT_KEY)) return;
-    // if (e.shiftKey !== modifiers.includes(Modifier.SHIFT_KEY)) return;
-    listener(e);
+    if (e.repeat) return;
+    if (eventMatchesShortcut(e, shortcut)) listener(e);
   };
-  document.addEventListener('keydown', wrappedListener);
-  return () => document.removeEventListener('keydown', wrappedListener);
+  element.addEventListener('keydown', wrappedListener);
+  return () => element.removeEventListener('keydown', wrappedListener);
 }
 
 export function modifierPressed(e: KeyboardEvent) {

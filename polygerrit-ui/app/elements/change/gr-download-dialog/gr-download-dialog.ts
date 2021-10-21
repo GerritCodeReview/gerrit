@@ -31,8 +31,8 @@ import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {GrOverlayStops} from '../../shared/gr-overlay/gr-overlay';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
+import {addShortcut} from '../../../utils/dom-util';
 
 export interface GrDownloadDialog {
   $: {
@@ -42,11 +42,8 @@ export interface GrDownloadDialog {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-download-dialog')
-export class GrDownloadDialog extends base {
+export class GrDownloadDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -69,14 +66,22 @@ export class GrDownloadDialog extends base {
   @property({type: String})
   _selectedScheme?: string;
 
-  get keyBindings() {
-    return {
-      1: '_handleNumberKey',
-      2: '_handleNumberKey',
-      3: '_handleNumberKey',
-      4: '_handleNumberKey',
-      5: '_handleNumberKey',
-    };
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    for (const key of ['1', '2', '3', '4', '5']) {
+      this.cleanups.push(
+        addShortcut(this, {key}, e => this._handleNumberKey(e))
+      );
+    }
   }
 
   @computed('change', 'patchNum')
@@ -98,8 +103,8 @@ export class GrDownloadDialog extends base {
     return [];
   }
 
-  _handleNumberKey(e: CustomEvent) {
-    const index = Number(e.detail.key) - 1;
+  _handleNumberKey(e: KeyboardEvent) {
+    const index = Number(e.key) - 1;
     const commands = this._computeDownloadCommands(
       this.change,
       this.patchNum,

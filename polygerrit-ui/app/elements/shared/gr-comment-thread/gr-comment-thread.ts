@@ -70,7 +70,7 @@ import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-la
 import {anyLineTooLong} from '../../diff/gr-diff/gr-diff-utils';
 import {getUserName} from '../../../utils/display-name-util';
 import {generateAbsoluteUrl} from '../../../utils/url-util';
-import {addShortcut} from '../../../utils/dom-util';
+import {addGlobalShortcut} from '../../../utils/dom-util';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -84,8 +84,6 @@ export interface GrCommentThread {
 
 @customElement('gr-comment-thread')
 export class GrCommentThread extends PolymerElement {
-  // KeyboardShortcutMixin Not used in this element rather other elements tests
-
   static get template() {
     return htmlTemplate;
   }
@@ -239,10 +237,10 @@ export class GrCommentThread extends PolymerElement {
   override connectedCallback() {
     super.connectedCallback();
     this.cleanups.push(
-      addShortcut({key: 'e'}, e => this.handleExpandShortcut(e))
+      addGlobalShortcut({key: 'e'}, e => this.handleExpandShortcut(e))
     );
     this.cleanups.push(
-      addShortcut({key: 'E'}, e => this.handleCollapseShortcut(e))
+      addGlobalShortcut({key: 'E'}, e => this.handleCollapseShortcut(e))
     );
     this._getLoggedIn().then(loggedIn => {
       this._showActions = loggedIn;

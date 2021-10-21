@@ -512,7 +512,7 @@ suite('gr-diff-view tests', () => {
       assert(computeContainerClassStub.lastCall.calledWithExactly(
           false, 'SIDE_BY_SIDE', true));
 
-      MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
+      MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'Escape');
       assert(computeContainerClassStub.lastCall.calledWithExactly(
           false, 'SIDE_BY_SIDE', false));
 

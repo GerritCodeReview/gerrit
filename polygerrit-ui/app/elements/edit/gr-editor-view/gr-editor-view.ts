@@ -22,7 +22,6 @@ import '../gr-default-editor/gr-default-editor';
 import '../../../styles/shared-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-editor-view_html';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
   GerritNav,
   GenerateUrlEditViewParameters,
@@ -47,7 +46,7 @@ import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDefaultEditor} from '../gr-default-editor/gr-default-editor';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import {IronKeyboardEvent} from '../../../types/events';
+import {addShortcut, Modifier} from '../../../utils/dom-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -69,11 +68,8 @@ export interface GrEditorView {
   };
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(PolymerElement);
-
 @customElement('gr-editor-view')
-export class GrEditorView extends base {
+export class GrEditorView extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -141,11 +137,8 @@ export class GrEditorView extends base {
   // Tests use this so needs to be non private
   storeTask?: DelayedTask;
 
-  get keyBindings() {
-    return {
-      'ctrl+s meta+s': '_handleSaveShortcut',
-    };
-  }
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   constructor() {
     super();
@@ -159,10 +152,22 @@ export class GrEditorView extends base {
     this._getEditPrefs().then(prefs => {
       this._prefs = prefs;
     });
+    this.cleanups.push(
+      addShortcut(this, {key: 's', modifiers: [Modifier.CTRL_KEY]}, e =>
+        this._handleSaveShortcut(e)
+      )
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: 's', modifiers: [Modifier.META_KEY]}, e =>
+        this._handleSaveShortcut(e)
+      )
+    );
   }
 
   override disconnectedCallback() {
     this.storeTask?.cancel();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
     super.disconnectedCallback();
   }
 
@@ -394,7 +399,7 @@ export class GrEditorView extends base {
     );
   }
 
-  _handleSaveShortcut(e: IronKeyboardEvent) {
+  _handleSaveShortcut(e: KeyboardEvent) {
     e.preventDefault();
     if (!this._saveDisabled) {
       this._saveEdit();

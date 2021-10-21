@@ -107,7 +107,7 @@ import {
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
-import {toggleClass} from '../../../utils/dom-util';
+import {addGlobalShortcut, Key, toggleClass} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {throttleWrap} from '../../../utils/async-util';
 import {changeComments$} from '../../../services/comments/comments-model';
@@ -281,11 +281,8 @@ export class GrDiffView extends base {
     patchNum?: PatchSetNum;
   } = {};
 
-  get keyBindings() {
-    return {
-      esc: '_handleEscKey',
-    };
-  }
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   override keyboardShortcuts() {
     return {
@@ -373,6 +370,9 @@ export class GrDiffView extends base {
       this.cursor.reInitCursor();
     };
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
+    this.cleanups.push(
+      addGlobalShortcut({key: Key.ESC}, e => this._handleEscKey(e))
+    );
   }
 
   override disconnectedCallback() {
@@ -381,6 +381,8 @@ export class GrDiffView extends base {
     if (this._onRenderHandler) {
       this.$.diffHost.removeEventListener('render', this._onRenderHandler);
     }
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
     super.disconnectedCallback();
   }
 
@@ -531,10 +533,8 @@ export class GrDiffView extends base {
     this._setReviewed(!this.$.reviewed.checked);
   }
 
-  _handleEscKey(e: IronKeyboardEvent) {
+  _handleEscKey(e: KeyboardEvent) {
     if (this.shortcuts.shouldSuppress(e)) return;
-    if (this.shortcuts.modifierPressed(e)) return;
-
     e.preventDefault();
     this.$.diffHost.displayLine = false;
   }

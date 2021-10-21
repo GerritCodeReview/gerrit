@@ -19,7 +19,6 @@ import '../test/common-test-setup-karma.js';
 import {getComputedStyleValue} from '../utils/dom-util.js';
 import './gr-app.js';
 import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
-import {removeTheme} from '../styles/themes/dark-theme.js';
 
 const basicFixture = fixtureFromElement('gr-app');
 
@@ -36,7 +35,6 @@ suite('gr-app custom dark theme tests', () => {
 
   teardown(() => {
     window.localStorage.removeItem('dark-theme');
-    removeTheme();
     // The app sends requests to server. This can lead to
     // unexpected gr-alert elements in document.body
     document.body.querySelectorAll('gr-alert').forEach(grAlert => {

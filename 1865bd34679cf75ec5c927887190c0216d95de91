@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7446f7e_e36d0bd1",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-21T07:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd623be_b6dd5b41",
+      "revId": "1865bd34679cf75ec5c927887190c0216d95de91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0160b5f5_920d3c9e",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6290af46_e5864c54",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-21T07:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0160b5f5_920d3c9e",
+      "revId": "1865bd34679cf75ec5c927887190c0216d95de91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1597ab3_689717e6",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-10-20T22:03:05Z",
       "side": 1,
       "message": "What if there\u0027s more than one for a given label?",
+      "revId": "1865bd34679cf75ec5c927887190c0216d95de91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45833e31_6d4bae87",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-21T07:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1597ab3_689717e6",
       "revId": "1865bd34679cf75ec5c927887190c0216d95de91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

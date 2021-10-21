@@ -160,6 +160,8 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="feedback"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/></g>
       <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=description -->
       <g id="description"><path xmlns="http://www.w3.org/2000/svg" d="M0 0h24v24H0V0z" fill="none"/><path xmlns="http://www.w3.org/2000/svg" d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></g>
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=settings_backup_restore and 0.65 scale and 4 translate https://fonts.google.com/icons?selected=Material+Icons&icon.query=done-->
+      <g id="overridden"><path xmlns="http://www.w3.org/2000/svg" d="M0 0h24v24H0V0z" fill="none"/><path xmlns="http://www.w3.org/2000/svg" d="M12 15 zM2 4v6h6V8H5.09C6.47 5.61 9.04 4 12 4c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8H2c0 5.52 4.48 10 10.01 10C17.53 22 22 17.52 22 12S17.53 2 12.01 2C8.73 2 5.83 3.58 4 6.01V4H2z"/><path xmlns="http://www.w3.org/2000/svg" d="M9.85 14.53 7.12 11.8l-.91.91L9.85 16.35 17.65 8.55l-.91-.91L9.85 14.53z"/></g>
     </defs>
   </svg>
 </iron-iconset-svg>`;

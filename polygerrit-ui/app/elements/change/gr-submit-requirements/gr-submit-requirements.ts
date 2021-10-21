@@ -78,7 +78,8 @@ export class GrSubmitRequirements extends LitElement {
           width: var(--line-height-normal, 20px);
           height: var(--line-height-normal, 20px);
         }
-        iron-icon.check {
+        iron-icon.check,
+        iron-icon.overridden {
           color: var(--success-foreground);
         }
         iron-icon.close {

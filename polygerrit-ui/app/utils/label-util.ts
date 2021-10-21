@@ -227,7 +227,7 @@ export function iconForStatus(status: SubmitRequirementStatus) {
     case SubmitRequirementStatus.UNSATISFIED:
       return 'close';
     case SubmitRequirementStatus.OVERRIDDEN:
-      return 'warning';
+      return 'overridden';
     case SubmitRequirementStatus.NOT_APPLICABLE:
       return 'info';
     default:

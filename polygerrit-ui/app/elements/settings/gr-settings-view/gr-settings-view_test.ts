@@ -16,7 +16,6 @@
  */
 
 import '../../../test/common-test-setup-karma';
-import {getComputedStyleValue} from '../../../utils/dom-util';
 import './gr-settings-view';
 import {GrSettingsView} from './gr-settings-view';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
@@ -131,22 +130,21 @@ suite('gr-settings-view tests', () => {
   });
 
   test('theme changing', () => {
+    const reloadStub = sinon.stub(element, 'reloadPage');
+
     window.localStorage.removeItem('dark-theme');
     assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
     const themeToggle = queryAndAssert(
       element,
       '.darkToggle paper-toggle-button'
     );
-    /* const themeToggle = element.shadowRoot
-        .querySelector('.darkToggle paper-toggle-button'); */
     MockInteractions.tap(themeToggle);
     assert.isTrue(window.localStorage.getItem('dark-theme') === 'true');
-    assert.equal(
-      getComputedStyleValue('--primary-text-color', document.body),
-      '#e8eaed'
-    );
+    assert.isTrue(reloadStub.calledOnce);
+
     MockInteractions.tap(themeToggle);
     assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
+    assert.isTrue(reloadStub.calledTwice);
   });
 
   test('calls the title-change event', () => {

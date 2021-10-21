@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "053bc145_432f7705",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-10-21T07:39:29Z",
+      "side": 1,
+      "message": "Nice to see the icon! Thank you for creating the icon \"mix\" :D ",
+      "revId": "225270a06ed19ed8c622d4dbf60cb1eba1f828d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

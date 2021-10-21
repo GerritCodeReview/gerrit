@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a75adbc_24eb1fce",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-21T07:01:34Z",
+      "side": 1,
+      "message": "Can we use a new experiment name for this?",
+      "range": {
+        "startLine": 996,
+        "startChar": 17,
+        "endLine": 996,
+        "endChar": 81
+      },
+      "revId": "39f030d3c1204a038e229bd45ee5243681fa5e67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -722,22 +722,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         ca.setAutoVerify(null);
       } else if (rules.size() > 1) {
         error(
-            "Invalid rule in "
-                + CONTRIBUTOR_AGREEMENT
-                + "."
-                + name
-                + "."
-                + KEY_AUTO_VERIFY
-                + ": at most one group may be set");
+            String.format(
+                "Invalid rule in %s.%s.%s: at most one group may be set",
+                CONTRIBUTOR_AGREEMENT, name, KEY_AUTO_VERIFY));
       } else if (rules.get(0).getAction() != Action.ALLOW) {
         error(
-            "Invalid rule in "
-                + CONTRIBUTOR_AGREEMENT
-                + "."
-                + name
-                + "."
-                + KEY_AUTO_VERIFY
-                + ": the group must be allowed");
+            String.format(
+                "Invalid rule in %s.%s.%s: the group must be allowed",
+                CONTRIBUTOR_AGREEMENT, name, KEY_AUTO_VERIFY));
       } else {
         ca.setAutoVerify(rules.get(0).getGroup());
       }
@@ -785,15 +777,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           if (ref.getUUID() != null) {
             n.addGroup(ref);
           } else {
-            error("group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME);
+            error(String.format("group \"%s\" not in %s", ref.getName(), GroupList.FILE_NAME));
           }
         } else if (dst.startsWith("user ")) {
-          error(dst + " not supported");
+          error(String.format("%s not supported", dst));
         } else {
           try {
             n.addAddress(Address.parse(dst));
           } catch (IllegalArgumentException err) {
-            error("notify section \"" + sectionName + "\" has invalid email \"" + dst + "\"");
+            error(
+                String.format("notify section \"%s\" has invalid email \"%s\"", sectionName, dst));
           }
         }
       }
@@ -854,7 +847,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     try {
       RefPattern.validateRegExp(refPattern);
     } catch (InvalidNameException e) {
-      error("Invalid ref name: " + e.getMessage());
+      error(String.format("Invalid ref name: %s", e.getMessage()));
       return false;
     }
     return true;
@@ -882,7 +875,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         // to fail fast if any of the patterns are invalid.
         patterns.add(Pattern.compile(patternString).pattern());
       } catch (PatternSyntaxException e) {
-        error("Invalid regular expression: " + e.getMessage());
+        error(String.format("Invalid regular expression: %s", e.getMessage()));
         continue;
       }
     }
@@ -909,13 +902,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         rule = PermissionRule.fromString(ruleString, useRange);
       } catch (IllegalArgumentException notRule) {
         error(
-            "Invalid rule in "
-                + section
-                + (subsection != null ? "." + subsection : "")
-                + "."
-                + varName
-                + ": "
-                + notRule.getMessage());
+            String.format(
+                "Invalid rule in %s.%s: %s",
+                section + (subsection != null ? "." + subsection : ""),
+                varName,
+                notRule.getMessage()));
         continue;
       }
 
@@ -926,7 +917,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         // all rules in the same file share the same GroupReference.
         //
         ref = groupList.resolve(rule.getGroup());
-        error("group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME);
+        error(String.format("group \"%s\" not in %s", ref.getName(), GroupList.FILE_NAME));
       }
 
       perm.add(rule.toBuilder().setGroup(ref));
@@ -1184,7 +1175,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         if (groupName != null) {
           GroupReference ref = groupList.byName(groupName);
           if (ref == null) {
-            error("group \"" + groupName + "\" not in " + GroupList.FILE_NAME);
+            error(String.format("group \"%s\" not in %s", groupName, GroupList.FILE_NAME));
           }
           rc.setString(PLUGIN, plugin, name, value);
         }

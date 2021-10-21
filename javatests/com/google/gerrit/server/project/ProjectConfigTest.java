@@ -330,8 +330,9 @@ public class ProjectConfigTest {
     assertThat(cfg.getValidationErrors()).hasSize(1);
     assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
         .isEqualTo(
-            "project.config: Submit requirement 'code-review' does not define a submittability"
-                + " expression.");
+            "project.config: Setting a submittability expression for submit requirement"
+                + "'code-review' is required:"
+                + "Missingsubmit-requirement.code-review.submittableIf");
   }
 
   @Test

@@ -957,7 +957,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       if (blockExpr == null) {
         error(
             String.format(
-                "Submit requirement '%s' does not define a submittability expression.", name));
+                "Setting a submittability expression for submit requirement '%s' is required:"
+                    + " Missing %s.%s.%s",
+                name, SUBMIT_REQUIREMENT, name, KEY_SR_SUBMITTABILITY_EXPRESSION));
         continue;
       }
 

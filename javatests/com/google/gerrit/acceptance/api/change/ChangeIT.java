@@ -5500,7 +5500,9 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
-    gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
+    ReviewResult result = gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
+    assertThat(result.labels).isNotNull();
+    assertThat(result.labels).containsExactly(labelName, (short) score);
   }
 
   private void assertSubmitRequirementStatus(

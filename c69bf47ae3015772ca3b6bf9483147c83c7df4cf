@@ -34,6 +34,24 @@
       "parentUuid": "528c9894_7733b53e",
       "revId": "c69bf47ae3015772ca3b6bf9483147c83c7df4cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7bbaeed_f05fec75",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-21T12:12:46Z",
+      "side": 1,
+      "message": "You could consider extending this with the comment location (path, line, range).",
+      "parentUuid": "1072f291_83938e5e",
+      "revId": "c69bf47ae3015772ca3b6bf9483147c83c7df4cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

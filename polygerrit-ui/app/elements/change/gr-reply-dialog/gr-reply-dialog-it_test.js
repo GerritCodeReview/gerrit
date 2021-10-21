@@ -16,10 +16,11 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import {queryAndAssert, resetPlugins, stubRestApi} from '../../../test/test-utils.js';
 import './gr-reply-dialog.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+
+import {queryAndAssert, resetPlugins, stubRestApi} from '../../../test/test-utils.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 const pluginApi = _testOnly_initGerritPluginApi();
@@ -89,14 +90,12 @@ suite('gr-reply-dialog-it tests', () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
 
     element.$.ccs.$.entry.setText('test');
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('gr-button.send'));
+    MockInteractions.tap(element.shadowRoot.querySelector('gr-button.send'));
     assert.isFalse(sendStub.called);
     flush();
 
     element.$.ccs.$.entry.setText('test@test.test');
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('gr-button.send'));
+    MockInteractions.tap(element.shadowRoot.querySelector('gr-button.send'));
     assert.isTrue(sendStub.called);
   });
 
@@ -107,9 +106,7 @@ suite('gr-reply-dialog-it tests', () => {
       replyApi.addReplyTextChangedCallback(text => {
         const label = 'Code-Review';
         const labelValue = replyApi.getLabelValue(label);
-        if (labelValue &&
-            labelValue === ' 0' &&
-            text.indexOf('LGTM') === 0) {
+        if (labelValue && labelValue === ' 0' && text.indexOf('LGTM') === 0) {
           replyApi.setLabelValue(label, '+1');
         }
       });
@@ -121,13 +118,13 @@ suite('gr-reply-dialog-it tests', () => {
     await flush();
     const textarea = queryAndAssert(element, 'gr-textarea').getNativeTextarea();
     textarea.value = 'LGTM';
-    textarea.dispatchEvent(new CustomEvent(
-        'input', {bubbles: true, composed: true}));
+    textarea.dispatchEvent(
+        new CustomEvent('input', {bubbles: true, composed: true}));
     await flush();
-    const labelScoreRows = element.getLabelScores().shadowRoot
-        .querySelector('gr-label-score-row[name="Code-Review"]');
-    const selectedBtn = labelScoreRows.shadowRoot
-        .querySelector('gr-tooltip-content[data-value="+1"] > gr-button');
+    const labelScoreRows = element.getLabelScores().shadowRoot.querySelector(
+        'gr-label-score-row[name="Code-Review"]');
+    const selectedBtn =
+        labelScoreRows.shadowRoot.querySelector('gr-button[data-value="+1"]');
     assert.isOk(selectedBtn);
   });
 });

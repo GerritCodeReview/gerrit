@@ -294,6 +294,10 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Integer> OWNER =
       integer(ChangeQueryBuilder.FIELD_OWNER).build(changeGetter(c -> c.getOwner().get()));
 
+  /** Uploader of the latest patch set. */
+  public static final FieldDef<ChangeData, Integer> UPLOADER =
+      integer(ChangeQueryBuilder.FIELD_UPLOADER).build(cd -> cd.currentPatchSet().uploader().get());
+
   /** References the source change number that this change was cherry-picked from. */
   public static final FieldDef<ChangeData, Integer> CHERRY_PICK_OF_CHANGE =
       integer(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_CHANGE)

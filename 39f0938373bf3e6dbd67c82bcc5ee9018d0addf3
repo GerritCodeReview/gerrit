@@ -22,6 +22,30 @@
       },
       "revId": "39f0938373bf3e6dbd67c82bcc5ee9018d0addf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab7b0b18_d5af74c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-21T07:29:23Z",
+      "side": 1,
+      "message": "AFAIK we had this short timeout here since the early days and this is the first time we had a problem with this (actually only because we accidentally send the end event in ReceiveCommits too early, which was fixed in [1]). So at this point I don\u0027t see a reason to increase it further. But since the metric for this didn\u0027t work for us so far (see [2]), we don\u0027t know if this timeout is actually hit more often. Now that the metric will be working for us, we will keep on eye on it to see if this still happens, in which case we will come back to this. Please let me know if you have any metric data from QT that indicates that this timeout hits you frequently.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/321336\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/321338",
+      "parentUuid": "e2b33f9b_b0e515d0",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "39f0938373bf3e6dbd67c82bcc5ee9018d0addf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

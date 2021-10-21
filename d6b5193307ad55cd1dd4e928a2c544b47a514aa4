@@ -16,6 +16,24 @@
       "message": "Just checking: The current, old UI is powered by labels, so not serving SRs will not do anything to the old UI?",
       "revId": "d6b5193307ad55cd1dd4e928a2c544b47a514aa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30276e30_879b93bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-21T08:16:02Z",
+      "side": 1,
+      "message": "I think yes: FE falls back to the old UI if no SRs are served from the API. I re-call Milutin told me he does that but I sent to him to confirm.",
+      "parentUuid": "16d483c3_6fea1fa3",
+      "revId": "d6b5193307ad55cd1dd4e928a2c544b47a514aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

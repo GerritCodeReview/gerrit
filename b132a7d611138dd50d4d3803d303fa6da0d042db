@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdb9d9a3_af13fabd",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-21T22:49:21Z",
+      "side": 1,
+      "message": "Make a non-exported helper function that contains the while loop?\n\nThat way it simply becomes.\n\n```\nconst labels \u003d matchLabelExpression(requirement.override_expression_result).concat(matchLabelExpression(requirement.override_expression_result));\n```",
+      "revId": "b132a7d611138dd50d4d3803d303fa6da0d042db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc671fb6_3bac37e1",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-21T22:49:21Z",
+      "side": 1,
+      "message": "What does labels.filter(unique) do?\n\nShould labels be a set and then the response be [...labels] or does the order matter?",
+      "revId": "b132a7d611138dd50d4d3803d303fa6da0d042db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

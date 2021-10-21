@@ -101,14 +101,12 @@ suite('gr-label-row-score tests', () => {
     const labelsChangedHandler = sinon.stub();
     element.addEventListener('labels-changed', labelsChangedHandler);
     assert.ok(element.$.labelSelector);
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('gr-button[data-value="-1"]'));
+    MockInteractions.tap(
+        element.shadowRoot.querySelector('gr-button[data-value="-1"]'));
     await flush();
     assert.strictEqual(element.selectedValue, '-1');
-    assert.strictEqual(element.selectedItem
-        .textContent.trim(), '-1');
-    assert.strictEqual(
-        element.$.selectedValueLabel.textContent.trim(), 'bad');
+    assert.strictEqual(element.selectedItem.textContent.trim(), '-1');
+    assert.strictEqual(element.$.selectedValueLabel.textContent.trim(), 'bad');
     const detail = labelsChangedHandler.args[0][0].detail;
     assert.equal(detail.name, 'Verified');
     assert.equal(detail.value, '-1');
@@ -120,49 +118,48 @@ suite('gr-label-row-score tests', () => {
     let index = 0;
     const totalItems = 5;
     // positive and first position
-    assert.equal(element._computeVoteAttribute(value, index,
-        totalItems), 'positive');
+    assert.equal(
+        element._computeVoteAttribute(value, index, totalItems), 'positive');
     // negative and first position
     value = -1;
-    assert.equal(element._computeVoteAttribute(value, index,
-        totalItems), 'min');
+    assert.equal(
+        element._computeVoteAttribute(value, index, totalItems), 'min');
     // negative but not first position
     index = 1;
-    assert.equal(element._computeVoteAttribute(value, index,
-        totalItems), 'negative');
+    assert.equal(
+        element._computeVoteAttribute(value, index, totalItems), 'negative');
     // neutral
     value = 0;
-    assert.equal(element._computeVoteAttribute(value, index,
-        totalItems), 'neutral');
+    assert.equal(
+        element._computeVoteAttribute(value, index, totalItems), 'neutral');
     // positive but not last position
     value = 1;
-    assert.equal(element._computeVoteAttribute(value, index,
-        totalItems), 'positive');
+    assert.equal(
+        element._computeVoteAttribute(value, index, totalItems), 'positive');
     // positive and last position
     index = 4;
-    assert.equal(element._computeVoteAttribute(value, index,
-        totalItems), 'max');
+    assert.equal(
+        element._computeVoteAttribute(value, index, totalItems), 'max');
     // negative and last position
     value = -1;
-    assert.equal(element._computeVoteAttribute(value, index,
-        totalItems), 'negative');
+    assert.equal(
+        element._computeVoteAttribute(value, index, totalItems), 'negative');
   });
 
   test('correct item is selected', () => {
     // 1 should be the value of the selected item
     assert.strictEqual(element.$.labelSelector.selected, '+1');
     assert.strictEqual(
-        element.$.labelSelector.selectedItem
-            .textContent.trim(), '+1');
-    assert.strictEqual(
-        element.$.selectedValueLabel.textContent.trim(), 'good');
+        element.$.labelSelector.selectedItem.textContent.trim(), '+1');
+    assert.strictEqual(element.$.selectedValueLabel.textContent.trim(), 'good');
     checkAriaCheckedValid();
   });
 
   test('_computeLabelValue', () => {
-    assert.strictEqual(element._computeLabelValue(element.labels,
-        element.permittedLabels,
-        element.label), '+1');
+    assert.strictEqual(
+        element._computeLabelValue(
+            element.labels, element.permittedLabels, element.label),
+        '+1');
   });
 
   test('_computeBlankItems', () => {
@@ -174,18 +171,21 @@ suite('gr-label-row-score tests', () => {
       '2': 4,
     };
 
-    assert.strictEqual(element._computeBlankItems(element.permittedLabels,
-        'Code-Review').length, 0);
+    assert.strictEqual(
+        element._computeBlankItems(element.permittedLabels, 'Code-Review')
+            .length,
+        0);
 
-    assert.strictEqual(element._computeBlankItems(element.permittedLabels,
-        'Verified').length, 1);
+    assert.strictEqual(
+        element._computeBlankItems(element.permittedLabels, 'Verified').length,
+        1);
   });
 
   test('labelValues returns no keys', () => {
     element.labelValues = {};
 
-    assert.deepEqual(element._computeBlankItems(element.permittedLabels,
-        'Code-Review'), []);
+    assert.deepEqual(
+        element._computeBlankItems(element.permittedLabels, 'Code-Review'), []);
   });
 
   test('changes in label score are reflected in the DOM', async () => {
@@ -259,11 +259,8 @@ suite('gr-label-row-score tests', () => {
       ],
     };
     await flush();
-    assert.strictEqual(element.$.labelSelector
-        .items.length, 2);
-    assert.strictEqual(
-        element.root.querySelectorAll('.placeholder').length,
-        3);
+    assert.strictEqual(element.$.labelSelector.items.length, 2);
+    assert.strictEqual(element.root.querySelectorAll('.placeholder').length, 3);
 
     element.permittedLabels = {
       'Code-Review': [
@@ -279,11 +276,8 @@ suite('gr-label-row-score tests', () => {
       ],
     };
     await flush();
-    assert.strictEqual(element.$.labelSelector
-        .items.length, 5);
-    assert.strictEqual(
-        element.root.querySelectorAll('.placeholder').length,
-        0);
+    assert.strictEqual(element.$.labelSelector.items.length, 5);
+    assert.strictEqual(element.root.querySelectorAll('.placeholder').length, 0);
   });
 
   test('default_value', () => {
@@ -343,4 +337,3 @@ suite('gr-label-row-score tests', () => {
     assert.isNull(element.selectedValue);
   });
 });
-

@@ -1971,7 +1971,7 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ true,
-        /* draftCommentThreads= */ [],
+        /* draftCommentThreads= */[],
         /* text= */ '',
         /* reviewersMutated= */ false,
         /* labelsChanged= */ false,
@@ -1989,7 +1989,7 @@ suite('gr-reply-dialog tests', () => {
     assert.isTrue(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [],
+        /* draftCommentThreads= */[],
         /* text= */ '',
         /* reviewersMutated= */ false,
         /* labelsChanged= */ false,
@@ -2007,7 +2007,7 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [
+        /* draftCommentThreads= */[
           {...createCommentThread([{__draft: true}])},
         ],
         /* text= */ '',
@@ -2027,7 +2027,7 @@ suite('gr-reply-dialog tests', () => {
     assert.isTrue(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [
+        /* draftCommentThreads= */[
           {...createCommentThread([{__draft: true}])},
         ],
         /* text= */ '',
@@ -2047,7 +2047,7 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [{...createCommentThread([{}])}],
+        /* draftCommentThreads= */[{...createCommentThread([{}])}],
         /* text= */ 'test',
         /* reviewersMutated= */ false,
         /* labelsChanged= */ false,
@@ -2065,7 +2065,7 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [{...createCommentThread([{}])}],
+        /* draftCommentThreads= */[{...createCommentThread([{}])}],
         /* text= */ '',
         /* reviewersMutated= */ true,
         /* labelsChanged= */ false,
@@ -2083,7 +2083,7 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [{...createCommentThread([{}])}],
+        /* draftCommentThreads= */[{...createCommentThread([{}])}],
         /* text= */ '',
         /* reviewersMutated= */ false,
         /* labelsChanged= */ true,
@@ -2101,7 +2101,7 @@ suite('gr-reply-dialog tests', () => {
     assert.isTrue(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [{...createCommentThread([{}])}],
+        /* draftCommentThreads= */[{...createCommentThread([{}])}],
         /* text= */ '',
         /* reviewersMutated= */ false,
         /* labelsChanged= */ true,
@@ -2125,7 +2125,7 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [{...createCommentThread([{}])}],
+        /* draftCommentThreads= */[{...createCommentThread([{}])}],
         /* text= */ '',
         /* reviewersMutated= */ false,
         /* labelsChanged= */ false,

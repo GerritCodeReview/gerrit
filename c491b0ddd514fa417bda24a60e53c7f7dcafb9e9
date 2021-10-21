@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13f96a07_23ad23f2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T13:49:13Z",
+      "side": 1,
+      "message": "+1 I also had this in mind: Let\u0027s accept this repetition for Polymer elements and for Lit elements let\u0027s create a proper controller!",
+      "parentUuid": "93a7fa59_589375a8",
+      "revId": "c491b0ddd514fa417bda24a60e53c7f7dcafb9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e42391e_fe54af7e",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-10-20T21:46:41Z",
       "side": 1,
       "message": "for (const key of [KEY.ENTER, \u0027s\u0027]) {\n  for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {\n    addShortcut(this, {key: key, modifiers: [modifier]}, e \u003d\u003e this._handleSaveKey(e);\n   }\n }",
+      "revId": "c491b0ddd514fa417bda24a60e53c7f7dcafb9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05a8a418_4782e1d2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T13:49:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e42391e_fe54af7e",
       "revId": "c491b0ddd514fa417bda24a60e53c7f7dcafb9e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

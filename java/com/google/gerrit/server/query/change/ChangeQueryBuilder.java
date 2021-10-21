@@ -195,6 +195,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_SUBMISSIONID = "submissionid";
   public static final String FIELD_TR = "tr";
   public static final String FIELD_UNRESOLVED_COMMENT_COUNT = "unresolved";
+  public static final String FIELD_UPLOADER = "uploader";
+  public static final String FIELD_UPLOADERIN = "uploaderin";
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";
   public static final String FIELD_WIP = "wip";
@@ -659,6 +661,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     if ("owner".equalsIgnoreCase(value)) {
       return ChangePredicates.owner(self());
+    }
+
+    if ("uploader".equalsIgnoreCase(value)) {
+      if (!args.getSchema().hasField(ChangeField.UPLOADER)) {
+        throw new QueryParseException(
+            "'is:uploader' operator is not supported by change index version");
+      }
+      return ChangePredicates.uploader(self());
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
@@ -1163,6 +1173,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
+  public Predicate<ChangeData> uploader(String who)
+      throws QueryParseException, IOException, ConfigInvalidException {
+    if (!args.getSchema().hasField(ChangeField.UPLOADER)) {
+      throw new QueryParseException("'uploader' operator is not supported by change index version");
+    }
+    return uploader(parseAccount(who, (AccountState s) -> true));
+  }
+
+  private Predicate<ChangeData> uploader(Set<Account.Id> who) {
+    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(who.size());
+    for (Account.Id id : who) {
+      p.add(ChangePredicates.uploader(id));
+    }
+    return Predicate.or(p);
+  }
+
+  @Operator
   public Predicate<ChangeData> attention(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
     if (!args.index.getSchema().hasField(ChangeField.ATTENTION_SET_USERS)) {
@@ -1207,6 +1234,31 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(accounts.size());
     for (Account.Id id : accounts) {
       p.add(ChangePredicates.owner(id));
+    }
+    return Predicate.or(p);
+  }
+
+  @Operator
+  public Predicate<ChangeData> uploaderin(String group) throws QueryParseException, IOException {
+    if (!args.getSchema().hasField(ChangeField.UPLOADER)) {
+      throw new QueryParseException("'uploader' operator is not supported by change index version");
+    }
+
+    GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
+    if (g == null) {
+      throw error("Group " + group + " not found");
+    }
+
+    AccountGroup.UUID groupId = g.getUUID();
+    GroupDescription.Basic groupDescription = args.groupBackend.get(groupId);
+    if (!(groupDescription instanceof GroupDescription.Internal)) {
+      return new UploaderinPredicate(args.userFactory, groupId);
+    }
+
+    Set<Account.Id> accounts = getMembers(groupId);
+    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(accounts.size());
+    for (Account.Id id : accounts) {
+      p.add(ChangePredicates.uploader(id));
     }
     return Predicate.or(p);
   }

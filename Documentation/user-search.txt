@@ -136,6 +136,19 @@ ownerin:'GROUP'::
 +
 Changes originally submitted by a user in 'GROUP'.
 
+[[uploader]]
+uploader:'USER'::
++
+Changes where the latest patch set was uploaded by 'USER'.
+The special case of `uploader:self` will find changes uploaded
+by the caller.
+
+[[uploaderin]]
+uploaderin:'GROUP'::
++
+Changes where the latest patch set was uploaded by a user in
+'GROUP'.
+
 [[query]]
 query:'[name=]NAME[,user=USER]'::
 +
@@ -465,6 +478,12 @@ is:owner::
 +
 True on any change where the current user is the change owner.
 Same as `owner:self`.
+
+is:uploader::
++
+True on any change where the current user is the uploader of
+the latest patch set.
+Same as `uploader:self`.
 
 is:reviewer::
 +

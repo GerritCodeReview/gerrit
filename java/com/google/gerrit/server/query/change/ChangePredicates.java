@@ -125,6 +125,14 @@ public class ChangePredicates {
   }
 
   /**
+   * Returns a predicate that matches changes where the latest patch set was uploaded by the
+   * provided {@link com.google.gerrit.entities.Account.Id}.
+   */
+  public static Predicate<ChangeData> uploader(Account.Id id) {
+    return new ChangeIndexPredicate(ChangeField.UPLOADER, id.toString());
+  }
+
+  /**
    * Returns a predicate that matches changes that are a cherry pick of the provided {@link
    * com.google.gerrit.entities.Change.Id}.
    */

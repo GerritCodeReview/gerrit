@@ -16,6 +16,24 @@
       "message": "@Marco would that make sense to you? @Edwin can you check if that version is OK for Google to provide a LC+1? Alternatively, you could just change the HTTPCORE_VERS in your build and put that back to the previous version.",
       "revId": "92b5db7b5d42d7f74c800b8c9f657ea8f6f0cb72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57a7cf73_1bc025c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-10-21T12:59:38Z",
+      "side": 1,
+      "message": "Google would then need its own WORKSPACE version, if they are to change HTTPCORE_VERS back to 4.4.4, for httpcore\u0027s sha1 to match again. With this change, Google already likely have to (re?)define HTTPCORE_VERS to 4.4.4, unless this new 4.4.12 is ok for them. Up to Edwin \u0026co.",
+      "parentUuid": "b368e0b7_63e0ab84",
+      "revId": "92b5db7b5d42d7f74c800b8c9f657ea8f6f0cb72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -95,6 +95,78 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void parametersDirectlyInSubmitRequirementsSectionAreRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    updateProjectConfig(
+        projectConfig -> {
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ null,
+              /* name= */ ProjectConfig.KEY_SR_DESCRIPTION,
+              /* value= */ "foo bar description");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ null,
+              /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+              /* value= */ "label:\"code-review=+2\"");
+        });
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Submit requirements must be defined in submit-requirement.<name>"
+                + " subsections. Setting parameters directly in the submit-requirement section is"
+                + " not allowed: [%s, %s]",
+            ProjectConfig.KEY_SR_DESCRIPTION, ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION));
+  }
+
+  @Test
+  public void unsupportedParameterDirectlyInSubmitRequirementsSectionIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    updateProjectConfig(
+        projectConfig ->
+            projectConfig.setString(
+                ProjectConfig.SUBMIT_REQUIREMENT,
+                /* subsection= */ null,
+                /* name= */ "unknown",
+                /* value= */ "value"));
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        "project.config: Submit requirements must be defined in submit-requirement.<name>"
+            + " subsections. Setting parameters directly in the submit-requirement section is"
+            + " not allowed: [unknown]");
+  }
+
+  @Test
+  public void unsupportedParameterForSubmitRequirementIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    updateProjectConfig(
+        projectConfig ->
+            projectConfig.setString(
+                ProjectConfig.SUBMIT_REQUIREMENT,
+                /* subsection= */ submitRequirementName,
+                /* name= */ "unknown",
+                /* value= */ "value"));
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Unsupported parameters for submit requirement '%s': [unknown]",
+            submitRequirementName));
+  }
+
+  @Test
   public void conflictingSubmitRequirementsAreRejected() throws Exception {
     fetchRefsMetaConfig();
 

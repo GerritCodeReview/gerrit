@@ -249,10 +249,3 @@ function getStyleEl() {
 export function applyTheme() {
   document.head.appendChild(getStyleEl());
 }
-
-export function removeTheme() {
-  const darkThemeEls = document.head.querySelectorAll('#dark-theme');
-  if (darkThemeEls.length) {
-    darkThemeEls.forEach(darkThemeEl => darkThemeEl.remove());
-  }
-}

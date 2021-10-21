@@ -217,6 +217,15 @@ export function extractAssociatedLabels(
   ) {
     labels.push(match[1]);
   }
+  if (requirement.override_expression_result) {
+    while (
+      (match = pattern.exec(
+        requirement.override_expression_result.expression
+      )) !== null
+    ) {
+      labels.push(match[1]);
+    }
+  }
   return labels.filter(unique);
 }
 

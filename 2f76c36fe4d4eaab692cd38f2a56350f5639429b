@@ -39,6 +39,30 @@
       },
       "revId": "2f76c36fe4d4eaab692cd38f2a56350f5639429b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e8b9d43_de1a66a5",
+        "filename": "java/com/google/gerrit/server/notedb/StoreSubmitRequirementsOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-21T08:03:48Z",
+      "side": 1,
+      "message": "Nice. SGTM. All will be three new experiments.",
+      "parentUuid": "e04cdeec_f11e1375",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 81
+      },
+      "revId": "2f76c36fe4d4eaab692cd38f2a56350f5639429b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

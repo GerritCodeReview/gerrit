@@ -16,6 +16,29 @@
       "message": "Preventing submission: I\u0027m thinking of adding a third change to rename the experiment, since current experiment is configured with staged rollout.\n\nNew experiment (the renamed one) can be launched per user.",
       "revId": "2f76c36fe4d4eaab692cd38f2a56350f5639429b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e04cdeec_f11e1375",
+        "filename": "java/com/google/gerrit/server/notedb/StoreSubmitRequirementsOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-21T07:37:18Z",
+      "side": 1,
+      "message": "This should be an experiment flag IMO.\n\nI think we should split experiments up a bit so that we can disable faulty behavior more fine grained compared to a single switch (that, if we had to use it, would mean we can\u0027t test with users).\n\nThree separate experiments would make sense to me:\n\n1) Dashboard backfilling\n2) NoteDb writing (expected to be kept off)\n3) Computing SRs, adding them to the API\n\nWDYT?",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 81
+      },
+      "revId": "2f76c36fe4d4eaab692cd38f2a56350f5639429b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

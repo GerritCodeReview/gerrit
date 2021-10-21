@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28ebe781_c3333451",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-21T19:13:41Z",
+      "side": 1,
+      "message": "Why the check first? Just filter and 5 lines less code?",
+      "revId": "7e65e999b90bb5b5493979bff6205501b18986dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

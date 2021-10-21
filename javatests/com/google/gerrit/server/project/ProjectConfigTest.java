@@ -310,9 +310,7 @@ public class ProjectConfigTest {
     assertThat(cfg.getValidationErrors()).hasSize(1);
     assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
         .isEqualTo(
-            "project.config: "
-                + "Submit requirement \"Code-Review\" conflicts with \"code-review\". "
-                + "Skipping the former.");
+            "project.config: Submit requirement 'Code-Review' conflicts with 'code-review'.");
   }
 
   @Test
@@ -332,8 +330,8 @@ public class ProjectConfigTest {
     assertThat(cfg.getValidationErrors()).hasSize(1);
     assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
         .isEqualTo(
-            "project.config: Submit requirement \"code-review\" does not define a submittability"
-                + " expression. Skipping this requirement.");
+            "project.config: Submit requirement 'code-review' does not define a submittability"
+                + " expression.");
   }
 
   @Test

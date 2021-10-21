@@ -27,6 +27,7 @@ import {appContext} from '../../../services/app-context';
 import {
   KeyboardShortcutMixin,
   Shortcut,
+  ShortcutListener,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
   GerritNav,
@@ -46,10 +47,9 @@ import {
   PreferencesInput,
 } from '../../../types/common';
 import {hasAttention} from '../../../utils/attention-set-util';
-import {IronKeyboardEvent} from '../../../types/events';
 import {fireEvent, fireReload} from '../../../utils/event-util';
-import {isShiftPressed, modifierPressed} from '../../../utils/dom-util';
 import {ScrollMode} from '../../../constants/constants';
+import {listen} from '../../../services/shortcuts/shortcuts-service';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -135,9 +135,6 @@ export class GrChangeList extends base {
   @property({type: Boolean})
   showReviewedState = false;
 
-  @property({type: Object})
-  keyEventTarget: HTMLElement = document.body;
-
   @property({type: Array})
   changeTableColumns?: string[];
 
@@ -157,19 +154,19 @@ export class GrChangeList extends base {
 
   private readonly restApiService = appContext.restApiService;
 
-  private readonly shortcuts = appContext.shortcutsService;
-
-  override keyboardShortcuts() {
-    return {
-      [Shortcut.CURSOR_NEXT_CHANGE]: '_nextChange',
-      [Shortcut.CURSOR_PREV_CHANGE]: '_prevChange',
-      [Shortcut.NEXT_PAGE]: '_nextPage',
-      [Shortcut.PREV_PAGE]: '_prevPage',
-      [Shortcut.OPEN_CHANGE]: '_openChange',
-      [Shortcut.TOGGLE_CHANGE_REVIEWED]: '_toggleChangeReviewed',
-      [Shortcut.TOGGLE_CHANGE_STAR]: '_toggleChangeStar',
-      [Shortcut.REFRESH_CHANGE_LIST]: '_refreshChangeList',
-    };
+  override keyboardShortcuts(): ShortcutListener[] {
+    return [
+      listen(Shortcut.CURSOR_NEXT_CHANGE, _ => this._nextChange()),
+      listen(Shortcut.CURSOR_PREV_CHANGE, _ => this._prevChange()),
+      listen(Shortcut.NEXT_PAGE, _ => this._nextPage()),
+      listen(Shortcut.PREV_PAGE, _ => this._prevPage()),
+      listen(Shortcut.OPEN_CHANGE, _ => this.openChange()),
+      listen(Shortcut.TOGGLE_CHANGE_REVIEWED, _ =>
+        this._toggleChangeReviewed()
+      ),
+      listen(Shortcut.TOGGLE_CHANGE_STAR, _ => this._toggleChangeStar()),
+      listen(Shortcut.REFRESH_CHANGE_LIST, _ => this._refreshChangeList()),
+    ];
   }
 
   private cursor = new GrCursorManager();
@@ -204,7 +201,7 @@ export class GrChangeList extends base {
   }
 
   /**
-   * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
+   * shortcut-service catches keyboard events globally. Some keyboard
    * events must be scoped to a component level (e.g. `enter`) in order to not
    * override native browser functionality.
    *
@@ -213,7 +210,7 @@ export class GrChangeList extends base {
   _scopedKeydownHandler(e: KeyboardEvent) {
     if (e.keyCode === 13) {
       // Enter.
-      this.openChange(e);
+      this.openChange();
     }
   }
 
@@ -406,63 +403,30 @@ export class GrChangeList extends base {
     );
   }
 
-  _nextChange(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _nextChange() {
     this.isCursorMoving = true;
     this.cursor.next();
     this.isCursorMoving = false;
     this.selectedIndex = this.cursor.index;
   }
 
-  _prevChange(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _prevChange() {
     this.isCursorMoving = true;
     this.cursor.previous();
     this.isCursorMoving = false;
     this.selectedIndex = this.cursor.index;
   }
 
-  _openChange(e: IronKeyboardEvent) {
-    if (this.shortcuts.modifierPressed(e)) return;
-    this.openChange(e.detail.keyboardEvent);
-  }
-
-  openChange(e: KeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || modifierPressed(e)) return;
-    e.preventDefault();
+  openChange() {
     const change = this._changeForIndex(this.selectedIndex);
     if (change) GerritNav.navigateToChange(change);
   }
 
-  _nextPage(e: IronKeyboardEvent) {
-    if (
-      this.shortcuts.shouldSuppress(e) ||
-      (this.shortcuts.modifierPressed(e) && !isShiftPressed(e))
-    ) {
-      return;
-    }
-
-    e.preventDefault();
+  _nextPage() {
     fireEvent(this, 'next-page');
   }
 
-  _prevPage(e: IronKeyboardEvent) {
-    if (
-      this.shortcuts.shouldSuppress(e) ||
-      (this.shortcuts.modifierPressed(e) && !isShiftPressed(e))
-    ) {
-      return;
-    }
-
-    e.preventDefault();
+  _prevPage() {
     this.dispatchEvent(
       new CustomEvent('previous-page', {
         composed: true,
@@ -471,12 +435,7 @@ export class GrChangeList extends base {
     );
   }
 
-  _toggleChangeReviewed(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _toggleChangeReviewed() {
     this._toggleReviewedForIndex(this.selectedIndex);
   }
 
@@ -490,21 +449,11 @@ export class GrChangeList extends base {
     changeEl.toggleReviewed();
   }
 
-  _refreshChangeList(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _refreshChangeList() {
     fireReload(this);
   }
 
-  _toggleChangeStar(e: IronKeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e) || this.shortcuts.modifierPressed(e)) {
-      return;
-    }
-
-    e.preventDefault();
+  _toggleChangeStar() {
     this._toggleStarForIndex(this.selectedIndex);
   }
 

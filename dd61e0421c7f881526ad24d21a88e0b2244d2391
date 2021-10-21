@@ -168,6 +168,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d9bfb25_01eb8e69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-21T15:21:35Z",
+      "side": 1,
+      "message": "We\u0027ll keep that in mind if this seems like it will end up the long pole, thanks. In general, we\u0027re trying to keep steps to the bare minimum other than things we can completely do in production now (like add columns to the changes table!). For those steps like that where we can do them early we\u0027re going to update the 2.16 release notes to note for others the possible optimization.\n\nI think you still have a -1 on this, did you have a concern with the code or approach?\n\nWe\u0027re doing testing with h2 and postgres to ensure there\u0027s a reasonable default and we\u0027ll update this change with that data once it\u0027s ready.",
+      "parentUuid": "9268498c_fc0de08c",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "dd61e0421c7f881526ad24d21a88e0b2244d2391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "843c9fe5_c6014e2f",

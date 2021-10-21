@@ -53,6 +53,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,7 +109,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 @Singleton
 public class CommitRewriter {
   /** Options to run {@link #backfillProject}. */
-  public static class RunOptions {
+  public static class RunOptions implements Serializable {
     /** Whether to rewrite the commit history or only find refs that need to be fixed. */
     public boolean dryRun = true;
     /**

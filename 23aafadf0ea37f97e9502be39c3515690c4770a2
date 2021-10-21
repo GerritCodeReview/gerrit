@@ -22,6 +22,30 @@
       },
       "revId": "23aafadf0ea37f97e9502be39c3515690c4770a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dddc556f_c60b78e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-10-21T18:19:01Z",
+      "side": 1,
+      "message": "So just fix the conflicting methods in this change ?",
+      "parentUuid": "ce9494b5_6ce2e552",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "23aafadf0ea37f97e9502be39c3515690c4770a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -256,7 +256,6 @@ export const htmlTemplate = html`
             id="assigneeValue"
             placeholder="Set assignee..."
             max-count="1"
-            skip-suggest-on-empty=""
             accounts="{{_assignee}}"
             readonly="[[_computeAssigneeReadOnly(_mutable, change)]]"
             suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]"

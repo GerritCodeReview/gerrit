@@ -398,53 +398,6 @@ suite('gr-account-list tests', () => {
     assert.equal(makeSuggestionItemSpy.getCalls().length, 2);
   });
 
-  test('suggestion on empty', async () => {
-    element.skipSuggestOnEmpty = false;
-    const suggestions: Suggestion[] = [
-      {
-        email: 'abc@example.com' as EmailAddress,
-        text: 'abcd',
-      } as AccountInfo,
-      {
-        email: 'qwe@example.com' as EmailAddress,
-        text: 'qwer',
-      } as AccountInfo,
-    ];
-    const getSuggestionsStub = sinon
-      .stub(suggestionsProvider, 'getSuggestions')
-      .returns(Promise.resolve(suggestions));
-
-    const makeSuggestionItemSpy = sinon.spy(
-      suggestionsProvider,
-      'makeSuggestionItem'
-    );
-
-    const input = element.$.entry.$.input;
-
-    input.text = '';
-    MockInteractions.focus(input.$.input);
-    input.noDebounce = true;
-    await flush();
-    assert.isTrue(getSuggestionsStub.calledOnce);
-    assert.equal(getSuggestionsStub.lastCall.args[0], '');
-    assert.equal(makeSuggestionItemSpy.getCalls().length, 2);
-  });
-
-  test('skip suggestion on empty', async () => {
-    element.skipSuggestOnEmpty = true;
-    const getSuggestionsStub = sinon
-      .stub(suggestionsProvider, 'getSuggestions')
-      .returns(Promise.resolve([]));
-
-    const input = element.$.entry.$.input;
-
-    input.text = '';
-    MockInteractions.focus(input.$.input);
-    input.noDebounce = true;
-    await flush();
-    assert.isTrue(getSuggestionsStub.notCalled);
-  });
-
   suite('allowAnyInput', () => {
     setup(() => {
       element.allowAnyInput = true;

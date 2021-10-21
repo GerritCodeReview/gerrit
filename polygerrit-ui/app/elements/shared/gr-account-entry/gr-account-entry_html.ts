@@ -28,7 +28,6 @@ export const htmlTemplate = html`
     id="input"
     borderless="[[borderless]]"
     placeholder="[[placeholder]]"
-    threshold="[[suggestFrom]]"
     query="[[querySuggestions]]"
     allow-non-suggested-values="[[allowAnyInput]]"
     on-commit="_handleInputCommit"

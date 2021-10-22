@@ -53,11 +53,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Migrate groups from ReviewDb to NoteDb. */
 public class Schema_167 extends SchemaVersion {
@@ -95,18 +99,30 @@ public class Schema_167 extends SchemaVersion {
       return;
     }
 
-    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsersName);
+        PackInserter packInserter =
+            ((FileRepository) allUsersRepo).getObjectDatabase().newPackInserter();
+        ObjectReader reader = packInserter.newReader();
+        RevWalk rw = new RevWalk(reader)) {
       List<GroupReference> allGroupReferences = readGroupReferencesFromReviewDb(db);
 
       BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
-      writeAllGroupNamesToNoteDb(allUsersRepo, allGroupReferences, batchRefUpdate);
+      writeAllGroupNamesToNoteDb(allUsersRepo, allGroupReferences, packInserter, batchRefUpdate);
 
       GroupRebuilder groupRebuilder = createGroupRebuilder(db, allUsersRepo);
       for (GroupReference groupReference : allGroupReferences) {
         migrateOneGroupToNoteDb(
-            db, allUsersRepo, groupRebuilder, groupReference.getUUID(), batchRefUpdate);
+            db,
+            allUsersRepo,
+            groupRebuilder,
+            groupReference.getUUID(),
+            batchRefUpdate,
+            packInserter,
+            reader,
+            rw);
       }
 
+      packInserter.flush();
       RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     } catch (IOException | ConfigInvalidException e) {
       throw new OrmException(
@@ -130,13 +146,11 @@ public class Schema_167 extends SchemaVersion {
   private void writeAllGroupNamesToNoteDb(
       Repository allUsersRepo,
       List<GroupReference> allGroupReferences,
+      ObjectInserter inserter,
       BatchRefUpdate batchRefUpdate)
       throws IOException {
-    try (ObjectInserter inserter = allUsersRepo.newObjectInserter()) {
-      GroupNameNotes.updateAllGroups(
-          allUsersRepo, inserter, batchRefUpdate, allGroupReferences, serverIdent);
-      inserter.flush();
-    }
+    GroupNameNotes.updateAllGroups(
+        allUsersRepo, inserter, batchRefUpdate, allGroupReferences, serverIdent);
   }
 
   private GroupRebuilder createGroupRebuilder(ReviewDb db, Repository allUsersRepo)
@@ -169,11 +183,14 @@ public class Schema_167 extends SchemaVersion {
       Repository allUsersRepo,
       GroupRebuilder rebuilder,
       AccountGroup.UUID uuid,
-      BatchRefUpdate batchRefUpdate)
+      BatchRefUpdate batchRefUpdate,
+      ObjectInserter inserter,
+      ObjectReader reader,
+      RevWalk rw)
       throws ConfigInvalidException, IOException, OrmException {
     GroupBundle reviewDbBundle = GroupBundle.Factory.fromReviewDb(db, uuid);
     RefUpdateUtil.deleteChecked(allUsersRepo, RefNames.refsGroups(uuid));
-    rebuilder.rebuild(allUsersRepo, reviewDbBundle, batchRefUpdate);
+    rebuilder.rebuild(allUsersRepo, reviewDbBundle, batchRefUpdate, inserter, reader, rw);
   }
 
   // The regular account cache isn't available during init. -> Use a simple replacement which tries

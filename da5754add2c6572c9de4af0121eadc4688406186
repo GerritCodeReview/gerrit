@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c235ca1a_15811d38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-10-22T06:56:32Z",
+      "side": 1,
+      "message": "Explain why and/or a link to the basis/decision for the removal.",
+      "revId": "da5754add2c6572c9de4af0121eadc4688406186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "07ecddb6_fbcf570c",

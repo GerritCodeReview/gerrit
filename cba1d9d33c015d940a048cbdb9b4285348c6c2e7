@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3abb8d93_4d8b8b4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-10-22T06:54:02Z",
+      "side": 1,
+      "message": "An explanation to why this is done and a link to the basis for the removal. Like f.i. the Attention-Set design document, a link to an Issue or similar.",
+      "revId": "cba1d9d33c015d940a048cbdb9b4285348c6c2e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

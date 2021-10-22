@@ -46,6 +46,30 @@
       },
       "revId": "39f0938373bf3e6dbd67c82bcc5ee9018d0addf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7170735_f9408a9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-10-22T18:23:04Z",
+      "side": 1,
+      "message": "that was meant as a general remark about arbitrary (and esp. non-configurable) timeouts within systems without real-time guarantees. as the timing by definition can\u0027t be actually critical under such circumstances, \"destructive\" timeouts should be chosen such that they don\u0027t cause disruption even if things don\u0027t go quite as smoothly as intended, basically only as a last resort so things don\u0027t get entirely wedged. ensuring that things actually go smoothly (most of the time) is what the metrics are for, not hard timeouts. my opinion, anyway.",
+      "parentUuid": "ab7b0b18_d5af74c8",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "39f0938373bf3e6dbd67c82bcc5ee9018d0addf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

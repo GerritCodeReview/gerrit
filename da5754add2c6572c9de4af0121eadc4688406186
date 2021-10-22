@@ -16,6 +16,24 @@
       "message": "A reason why this is being done?",
       "revId": "da5754add2c6572c9de4af0121eadc4688406186",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a150ac2_765f19ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-22T00:08:00Z",
+      "side": 1,
+      "message": "*Any",
+      "parentUuid": "07ecddb6_fbcf570c",
+      "revId": "da5754add2c6572c9de4af0121eadc4688406186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

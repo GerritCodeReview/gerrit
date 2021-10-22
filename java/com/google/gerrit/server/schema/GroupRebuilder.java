@@ -56,8 +56,11 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Helper for rebuilding an entire group's NoteDb refs. */
 class GroupRebuilder {
@@ -73,6 +76,17 @@ class GroupRebuilder {
   }
 
   public void rebuild(Repository allUsersRepo, GroupBundle bundle, @Nullable BatchRefUpdate bru)
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+    rebuild(allUsersRepo, bundle, bru, null, null, null);
+  }
+
+  public void rebuild(
+      Repository allUsersRepo,
+      GroupBundle bundle,
+      @Nullable BatchRefUpdate bru,
+      @Nullable ObjectInserter inserter,
+      @Nullable ObjectReader reader,
+      @Nullable RevWalk rw)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     AccountGroup group = bundle.group();
     InternalGroupCreation groupCreation =
@@ -105,7 +119,7 @@ class GroupRebuilder {
     md.getCommitBuilder().setCommitter(created);
 
     // Rebuild group ref.
-    try (BatchMetaDataUpdate batch = groupConfig.openUpdate(md)) {
+    try (BatchMetaDataUpdate batch = groupConfig.openUpdate(md, inserter, reader, rw)) {
       batch.write(groupConfig, md.getCommitBuilder());
 
       for (Map.Entry<Key, Collection<Event>> e : events.entrySet()) {

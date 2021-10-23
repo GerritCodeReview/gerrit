@@ -81,6 +81,30 @@
       },
       "revId": "7eba5e612b36ba474ed0c8ce4a9f79523e112cd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e6b6848_343638af",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-23T15:36:31Z",
+      "side": 1,
+      "message": "No more a concern in new PS.",
+      "parentUuid": "4146f1b0_7dc0c99c",
+      "range": {
+        "startLine": 181,
+        "startChar": 31,
+        "endLine": 181,
+        "endChar": 38
+      },
+      "revId": "7eba5e612b36ba474ed0c8ce4a9f79523e112cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

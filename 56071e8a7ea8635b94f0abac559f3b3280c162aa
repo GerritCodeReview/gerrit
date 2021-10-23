@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cdbef1d_be04ec75",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-23T01:47:31Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure how to fix this. It fails to compile and when i do [{}] the test fails with:\n\n    + expected - actual\n\n      - (3 comments, 2 unresolved)\n      + (3 comments, 1 unresolved)\n      \nany ideas how to fix?",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 427,
+        "endChar": 12
+      },
+      "revId": "56071e8a7ea8635b94f0abac559f3b3280c162aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

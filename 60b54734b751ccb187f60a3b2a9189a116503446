@@ -16,6 +16,24 @@
       "message": "Can you post any steps you have done to verify the validity of this change?",
       "revId": "60b54734b751ccb187f60a3b2a9189a116503446",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47ca0b4e_813d1229",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-23T19:46:44Z",
+      "side": 1,
+      "message": "Verified that the diff of refs on All-Users.git with and without this change is empty. Following steps were followed (assuming All-Users-A.git is the copy without this change and All-Users-B.git is the copy with this change):\n\n1. cd All-Users-B.git\n2. git remote add orig \u003cpath to All-Users-A.git\u003e\n3. git fetch --all (update git config as needed to fetch ALL refs)\n4. For each ref in All-Users-A.git, assert that \u0027git diff ref..orig/ref\u0027 is empty.",
+      "parentUuid": "627fbc2f_a033774d",
+      "revId": "60b54734b751ccb187f60a3b2a9189a116503446",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

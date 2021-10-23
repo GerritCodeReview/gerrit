@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "410a8e51_e4566bdd",
+        "filename": "java/com/google/gerrit/server/schema/Schema_115.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-23T19:46:34Z",
+      "side": 1,
+      "message": "I haven\u0027t really used spaces in the other changes. https://gerrit-review.googlesource.com/c/gerrit/+/321055/1/java/com/google/gerrit/server/schema/Schema_144.java for example.",
+      "parentUuid": "b8727e59_a243c783",
+      "range": {
+        "startLine": 91,
+        "startChar": 68,
+        "endLine": 91,
+        "endChar": 70
+      },
+      "revId": "1c490b384e58273a84ec8fb4fa530e4017aba118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05080326_08f4ef9a",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-10-15T15:40:22Z",
       "side": 1,
       "message": "Combine this with the loop below to create one less packfile and perform fewer ref updates?",
+      "revId": "1c490b384e58273a84ec8fb4fa530e4017aba118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07d85112_dad06d34",
+        "filename": "java/com/google/gerrit/server/schema/Schema_115.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-23T19:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05080326_08f4ef9a",
       "revId": "1c490b384e58273a84ec8fb4fa530e4017aba118",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

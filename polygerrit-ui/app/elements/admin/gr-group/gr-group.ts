@@ -109,7 +109,7 @@ export class GrGroup extends PolymerElement {
   _groupConfigOwner?: string;
 
   @property({type: Object})
-  _groupName?: string;
+  _groupName?: GroupName;
 
   @property({type: Boolean})
   _groupOwner = false;
@@ -315,5 +315,15 @@ export class GrGroup extends PolymerElement {
     if (!id) return;
 
     return id.match(INTERNAL_GROUP_REGEX) ? id : decodeURIComponent(id);
+  }
+
+  /**
+   * value has type string so we have to convert
+   * anything inputed to string.
+   *
+   * This is so typescript checker doesn't fail.
+   */
+  _convertToString(key?: GroupName) {
+    return key !== undefined ? String(key) : '';
   }
 }

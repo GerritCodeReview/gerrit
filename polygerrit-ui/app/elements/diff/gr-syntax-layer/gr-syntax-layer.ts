@@ -54,6 +54,7 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['text/x-erlang', 'erlang'],
   ['text/x-fortran', 'fortran'],
   ['text/x-fsharp', 'fsharp'],
+  ['text/x-gherkin', 'gherkin'],
   ['text/x-go', 'go'],
   ['text/x-groovy', 'groovy'],
   ['text/x-haml', 'haml'],

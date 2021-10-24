@@ -45,3 +45,4 @@ export function createCommentApiMockWithTemplateElement(tagName, template) {
   customElements.define(tagName, elementClass);
   return elementClass;
 }
+

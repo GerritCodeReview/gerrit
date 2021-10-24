@@ -22,8 +22,8 @@ import './gr-patch-range-select';
 import {GrPatchRangeSelect} from './gr-patch-range-select';
 import '../../../test/mocks/comment-api';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
-import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+// import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
+// import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {stubRestApi} from '../../../test/test-utils';
 import {
@@ -48,7 +48,7 @@ import {
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {queryAndAssert} from '../../../test/test-utils';
 
-const commentApiMockElement = createCommentApiMockWithTemplateElement(
+/* const commentApiMockElement = createCommentApiMockWithTemplateElement(
   'gr-patch-range-select-comment-api-mock',
   html`
     <gr-patch-range-select
@@ -58,9 +58,10 @@ const commentApiMockElement = createCommentApiMockWithTemplateElement(
     ></gr-patch-range-select>
     <gr-comment-api id="commentAPI"></gr-comment-api>
   `
-);
+); */
 
-const basicFixture = fixtureFromElement(commentApiMockElement.is);
+// const basicFixture = fixtureFromElement(commentApiMockElement.is);
+const basicFixture = fixtureFromElement('gr-patch-range-select');
 
 type RevIdToRevisionInfo = {
   [revisionId: string]: RevisionInfo | EditRevisionInfo;
@@ -69,7 +70,7 @@ type RevIdToRevisionInfo = {
 suite('gr-patch-range-select tests', () => {
   let element: GrPatchRangeSelect;
 
-  let commentApiWrapper;
+  // let commentApiWrapper;
 
   function getInfo(revisions: RevisionInfo[]) {
     const revisionObj: Partial<RevIdToRevisionInfo> = {};
@@ -79,19 +80,19 @@ suite('gr-patch-range-select tests', () => {
     return new RevisionInfoClass({revisions: revisionObj} as ParsedChangeInfo);
   }
 
-  setup(() => {
+  setup(async () => {
     stubRestApi('getDiffComments').returns(Promise.resolve({}));
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
     // Element must be wrapped in an element with direct access to the
     // comment API.
-    commentApiWrapper = basicFixture.instantiate();
-    element = commentApiWrapper.$.patchRange;
+    element = basicFixture.instantiate();
 
     // Stub methods on the changeComments object after changeComments has
     // been initialized.
     element.changeComments = new ChangeComments();
+    await flush();
   });
 
   test('enabled/disabled options', () => {
@@ -259,7 +260,7 @@ suite('gr-patch-range-select tests', () => {
     const baseDropDownStub = sinon.stub(element, '_computeBaseDropdownContent');
 
     // Should be recomputed for each available patch
-    element.set('patchNum', 1);
+    element.patchNum = 1 as PatchSetNum;
     assert.equal(baseDropDownStub.callCount, 1);
   });
 
@@ -311,7 +312,7 @@ suite('gr-patch-range-select tests', () => {
       element,
       '_computePatchDropdownContent'
     );
-    element.set('basePatchNum', 1);
+    element.basePatchNum = 1 as BasePatchSetNum;
     assert.equal(baseDropDownStub.callCount, 1);
   });
 

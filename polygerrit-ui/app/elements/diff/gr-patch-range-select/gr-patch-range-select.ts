@@ -14,13 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-a11y-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-select/gr-select';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-patch-range-select_html';
 import {convertToString, pluralize} from '../../../utils/string-util';
 import {appContext} from '../../../services/app-context';
 import {
@@ -33,7 +28,6 @@ import {
   PatchSet,
   convertToPatchSetNum,
 } from '../../../utils/patch-set-util';
-import {customElement, property, observe} from '@polymer/decorators';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
@@ -44,7 +38,6 @@ import {
   Timestamp,
 } from '../../../types/common';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {
   DropdownItem,
@@ -53,6 +46,10 @@ import {
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GeneratedWebLink} from '../../core/gr-navigation/gr-navigation';
 import {EditRevisionInfo} from '../../../types/types';
+import {a11yStyles} from '../../../styles/gr-a11y-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, css, html} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -67,12 +64,6 @@ export type PatchRangeChangeEvent = CustomEvent<PatchRangeChangeDetail>;
 export interface FilesWebLinks {
   meta_a: GeneratedWebLink[];
   meta_b: GeneratedWebLink[];
-}
-
-export interface GrPatchRangeSelect {
-  $: {
-    patchNumDropdown: GrDropdownList;
-  };
 }
 
 declare global {
@@ -93,29 +84,12 @@ declare global {
  * @property {string} basePatchNum
  */
 @customElement('gr-patch-range-select')
-export class GrPatchRangeSelect extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrPatchRangeSelect extends LitElement {
+  @query('#patchNumDropdown')
+  patchNumDropdown?: GrDropdownList;
 
   @property({type: Array})
   availablePatches?: PatchSet[];
-
-  @property({
-    type: Object,
-    computed:
-      '_computeBaseDropdownContent(availablePatches, patchNum,' +
-      '_sortedRevisions, changeComments, revisionInfo)',
-  })
-  _baseDropdownContent?: DropdownItem[];
-
-  @property({
-    type: Object,
-    computed:
-      '_computePatchDropdownContent(availablePatches,' +
-      'basePatchNum, _sortedRevisions, changeComments)',
-  })
-  _patchDropdownContent?: DropdownItem[];
 
   @property({type: String})
   changeNum?: string;
@@ -139,13 +113,106 @@ export class GrPatchRangeSelect extends PolymerElement {
   revisionInfo?: RevisionInfoClass;
 
   @property({type: Array})
-  _sortedRevisions?: RevisionInfo[];
+  @state()
+  protected sortedRevisions?: RevisionInfo[];
 
   private readonly reporting: ReportingService = appContext.reportingService;
 
-  constructor() {
-    super();
-    this.reporting = appContext.reportingService;
+  static override get styles() {
+    return [
+      a11yStyles,
+      sharedStyles,
+      css`
+        :host {
+          align-items: center;
+          display: flex;
+        }
+        select {
+          max-width: 15em;
+        }
+        .arrow {
+          color: var(--deemphasized-text-color);
+          margin: 0 var(--spacing-m);
+        }
+        gr-dropdown-list {
+          --trigger-style-text-color: var(--deemphasized-text-color);
+          --trigger-style-font-family: var(--font-family);
+        }
+        @media screen and (max-width: 50em) {
+          .filesWeblinks {
+            display: none;
+          }
+          gr-dropdown-list {
+            --native-select-style: {
+              max-width: 5.25em;
+            }
+          }
+        }
+      `,
+    ];
+  }
+
+  private renderWeblinks(fileLink?: FilesWebLinks) {
+    if (!fileLink) return;
+
+    return html`<span class="filesWeblinks">
+      ${fileLink.map(
+        weblink => html`
+          <a target="_blank" rel="noopener" href="${weblink.url}">
+            ${weblink.name}
+          </a>
+        `
+      )}</span
+    > `;
+  }
+
+  override render() {
+    return html`
+      <h3 class="assistive-tech-only">Patchset Range Selection</h3>
+      <span class="patchRange" aria-label="patch range starts with">
+        <gr-dropdown-list
+          id="basePatchDropdown"
+          .value="${convertToString(this.basePatchNum)}"
+          .items="${this._computeBaseDropdownContent(
+            this.availablePatches,
+            this.patchNum,
+            this.sortedRevisions,
+            this.changeComments,
+            this.revisionInfo
+          )}"
+          @value-change=${this._handlePatchChange}
+        >
+        </gr-dropdown-list>
+      </span>
+      ${this.renderWeblinks(this.filesWeblinks?.meta_a)}
+      <span aria-hidden="true" class="arrow">→</span>
+      <span class="patchRange" aria-label="patch range ends with">
+        <gr-dropdown-list
+          id="patchNumDropdown"
+          .value="${convertToString(this.patchNum)}"
+          .items="${this._computePatchDropdownContent(
+            this.availablePatches,
+            this.basePatchNum,
+            this.sortedRevisions,
+            this.changeComments
+          )}"
+          @value-change=${this._handlePatchChange}
+        >
+        </gr-dropdown-list>
+        ${this.renderWeblinks(this.filesWeblinks?.meta_b)}
+      </span>
+    `;
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('revisions')) {
+      this._updateSortedRevisions(this.revisions);
+    }
+  }
+
+  _updateSortedRevisions(revisions?: RevisionInfo[]) {
+    if (!revisions) return;
+    this.sortedRevisions = sortRevisions(Object.values(revisions));
   }
 
   _getShaForPatch(patch: PatchSet) {
@@ -155,19 +222,19 @@ export class GrPatchRangeSelect extends PolymerElement {
   _computeBaseDropdownContent(
     availablePatches?: PatchSet[],
     patchNum?: PatchSetNum,
-    _sortedRevisions?: (RevisionInfo | EditRevisionInfo)[],
+    sortedRevisions?: (RevisionInfo | EditRevisionInfo)[],
     changeComments?: ChangeComments,
     revisionInfo?: RevisionInfoClass
-  ): DropdownItem[] | undefined {
+  ): DropdownItem[] {
     // Polymer 2: check for undefined
     if (
       availablePatches === undefined ||
       patchNum === undefined ||
-      _sortedRevisions === undefined ||
+      sortedRevisions === undefined ||
       changeComments === undefined ||
       revisionInfo === undefined
     ) {
-      return undefined;
+      return [];
     }
 
     const parentCounts = revisionInfo.getParentCountMap();
@@ -183,7 +250,7 @@ export class GrPatchRangeSelect extends PolymerElement {
       const entry: DropdownItem = this._createDropdownEntry(
         basePatchNum,
         'Patchset ',
-        _sortedRevisions,
+        sortedRevisions,
         changeComments,
         this._getShaForPatch(basePatch)
       );
@@ -192,7 +259,7 @@ export class GrPatchRangeSelect extends PolymerElement {
         disabled: this._computeLeftDisabled(
           basePatch.num,
           patchNum,
-          _sortedRevisions
+          sortedRevisions
         ),
       });
     }
@@ -230,17 +297,17 @@ export class GrPatchRangeSelect extends PolymerElement {
   _computePatchDropdownContent(
     availablePatches?: PatchSet[],
     basePatchNum?: BasePatchSetNum,
-    _sortedRevisions?: (RevisionInfo | EditRevisionInfo)[],
+    sortedRevisions?: (RevisionInfo | EditRevisionInfo)[],
     changeComments?: ChangeComments
-  ): DropdownItem[] | undefined {
+  ): DropdownItem[] {
     // Polymer 2: check for undefined
     if (
       availablePatches === undefined ||
       basePatchNum === undefined ||
-      _sortedRevisions === undefined ||
+      sortedRevisions === undefined ||
       changeComments === undefined
     ) {
-      return undefined;
+      return [];
     }
 
     const dropdownContent: DropdownItem[] = [];
@@ -249,7 +316,7 @@ export class GrPatchRangeSelect extends PolymerElement {
       const entry = this._createDropdownEntry(
         patchNum,
         patchNum === 'edit' ? '' : 'Patchset ',
-        _sortedRevisions,
+        sortedRevisions,
         changeComments,
         this._getShaForPatch(patch)
       );
@@ -258,7 +325,7 @@ export class GrPatchRangeSelect extends PolymerElement {
         disabled: this._computeRightDisabled(
           basePatchNum,
           patchNum,
-          _sortedRevisions
+          sortedRevisions
         ),
       });
     }
@@ -304,15 +371,6 @@ export class GrPatchRangeSelect extends PolymerElement {
       entry.date = date;
     }
     return entry;
-  }
-
-  @observe('revisions.*')
-  _updateSortedRevisions(
-    revisionsRecord: PolymerDeepPropertyChange<RevisionInfo[], RevisionInfo[]>
-  ) {
-    const revisions = revisionsRecord.base;
-    if (!revisions) return;
-    this._sortedRevisions = sortRevisions(Object.values(revisions));
   }
 
   /**
@@ -439,10 +497,10 @@ export class GrPatchRangeSelect extends PolymerElement {
       patchNum: this.patchNum,
       basePatchNum: this.basePatchNum,
     };
-    const target = (dom(e) as EventApi).localTarget;
+    const target = e.target;
     const patchSetValue = convertToPatchSetNum(e.detail.value)!;
     const latestPatchNum = computeLatestPatchNum(this.availablePatches);
-    if (target === this.$.patchNumDropdown) {
+    if (target === this.patchNumDropdown) {
       if (detail.patchNum === e.detail.value) return;
       this.reporting.reportInteraction('right-patchset-changed', {
         previous: detail.patchNum,
@@ -468,9 +526,5 @@ export class GrPatchRangeSelect extends PolymerElement {
     this.dispatchEvent(
       new CustomEvent('patch-range-change', {detail, bubbles: false})
     );
-  }
-
-  convertToString(value?: unknown) {
-    return convertToString(value);
   }
 }

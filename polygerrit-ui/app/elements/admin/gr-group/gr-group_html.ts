@@ -37,7 +37,7 @@ export const htmlTemplate = html`
       Loading...
     </div>
     <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
-      <h1 id="Title" class="heading-1">[[_groupName]]</h1>
+      <h1 id="Title" class="heading-1">[[convertToString(_groupName)]]</h1>
       <h2 id="configurations" class="heading-2">General</h2>
       <div id="form">
         <fieldset>
@@ -58,8 +58,9 @@ export const htmlTemplate = html`
             <span class="value">
               <gr-autocomplete
                 id="groupNameInput"
-                text="{{_groupConfig.name}}"
+                text="[[convertToString(_groupConfig.name)]]"
                 disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]"
+                on-text-changed="handleNameTextChanged"
               ></gr-autocomplete>
             </span>
             <span
@@ -85,10 +86,12 @@ export const htmlTemplate = html`
             <span class="value">
               <gr-autocomplete
                 id="groupOwnerInput"
-                text="{{_groupConfig.owner}}"
-                value="{{_groupConfigOwner}}"
+                text="[[convertToString(_groupConfig.owner)]]"
+                value="[[convertToString(_groupConfigOwner)]]"
                 query="[[_query]]"
                 disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]"
+                on-text-changed="handleOwnerTextChanged"
+                on-value-changed="handleOwnerValueChanged"
               >
               </gr-autocomplete>
             </span>
@@ -113,8 +116,9 @@ export const htmlTemplate = html`
               <iron-autogrow-textarea
                 class="description"
                 autocomplete="on"
-                bind-value="{{_groupConfig.description}}"
+                bind-value="[[convertToString(_groupConfig.description)]]"
                 disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]"
+                on-bind-value-changed="handleDescriptionBindValueChanged"
               ></iron-autogrow-textarea>
             </div>
             <span
@@ -146,7 +150,7 @@ export const htmlTemplate = html`
                     disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]"
                   >
                     <template is="dom-repeat" items="[[_submitTypes]]">
-                      <option value="[[item.value]]">[[item.label]]</option>
+                      <option value="[[convertToString(item.value)]]">[[item.label]]</option>
                     </template>
                   </select>
                 </gr-select>

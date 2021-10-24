@@ -22,6 +22,7 @@ import {Category, RunStatus} from '../api/checks';
 import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 
 export enum EventType {
+  BIND_VALUE_CHANGED = 'bind-value-changed',
   CHANGE = 'change',
   CHANGED = 'changed',
   CHANGE_MESSAGE_DELETED = 'change-message-deleted',
@@ -55,6 +56,8 @@ export enum EventType {
 
 declare global {
   interface HTMLElementEventMap {
+    /* prettier-ignore */
+    'bind-value-changed': BindValueChangeEvent;
     /* prettier-ignore */
     'change': ChangeEvent;
     /* prettier-ignore */
@@ -101,6 +104,11 @@ declare global {
     'show-error': ShowErrorEvent;
   }
 }
+
+export interface BindValueChangeEventDetail {
+  value: string;
+}
+export type BindValueChangeEvent = CustomEvent<BindValueChangeEventDetail>;
 
 export type ChangeEvent = InputEvent;
 

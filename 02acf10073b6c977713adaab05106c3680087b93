@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6bba5fa_a24fc3c9",
+        "filename": "java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-24T03:33:49Z",
+      "side": 1,
+      "message": "Attempted in patchset#3.",
+      "parentUuid": "e7a79a73_7ea56e04",
+      "revId": "02acf10073b6c977713adaab05106c3680087b93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "771edf45_176fb83d",

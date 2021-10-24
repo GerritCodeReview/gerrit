@@ -37,7 +37,7 @@ export const htmlTemplate = html`
       Loading...
     </div>
     <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
-      <h1 id="Title" class="heading-1">[[_groupName]]</h1>
+      <h1 id="Title" class="heading-1">[[_convertToString(_groupName)]]</h1>
       <h2 id="configurations" class="heading-2">General</h2>
       <div id="form">
         <fieldset>
@@ -166,3 +166,4 @@ export const htmlTemplate = html`
     </div>
   </div>
 `;
+

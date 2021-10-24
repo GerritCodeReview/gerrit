@@ -34,7 +34,7 @@ export class GrSelect extends PolymerElement {
   }
 
   @property({type: String, notify: true})
-  bindValue?: string | number;
+  bindValue?: string | number | boolean;
 
   get nativeSelect() {
     // gr-select is not a shadow component

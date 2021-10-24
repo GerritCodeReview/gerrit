@@ -32,6 +32,7 @@ import {
   ItemSelectedEvent,
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {addShortcut, Key} from '../../../utils/dom-util';
+import {BindValueChangeEvent} from '../../../types/events';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -63,10 +64,6 @@ interface EmojiSuggestion extends Item {
   match: string;
 }
 
-interface ValueChangeEvent {
-  value: string;
-}
-
 export interface GrTextarea {
   $: {
     textarea: IronAutogrowTextareaElement;
@@ -79,7 +76,6 @@ export interface GrTextarea {
 declare global {
   interface HTMLElementEventMap {
     'item-selected': CustomEvent<ItemSelectedEvent>;
-    'bind-value-changed': CustomEvent<ValueChangeEvent>;
   }
 }
 
@@ -316,7 +312,7 @@ export class GrTextarea extends PolymerElement {
    * _handleKeydown used for key handling in the this.$.textarea AND all child
    * autocomplete options.
    */
-  _onValueChanged(e: CustomEvent<ValueChangeEvent>) {
+  _onValueChanged(e: BindValueChangeEvent) {
     // Relay the event.
     this.dispatchEvent(
       new CustomEvent('bind-value-changed', {
@@ -357,7 +353,7 @@ export class GrTextarea extends PolymerElement {
       return;
     }
 
-    this._currentSearchString = e.detail.value.substr(
+    this._currentSearchString = e.detail.value!.substr(
       this._colonIndex + 1,
       this.$.textarea.selectionStart - this._colonIndex - 1
     );

@@ -74,8 +74,8 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
         p.setAlgorithm(KeyUtils.RSA_ALGORITHM);
         p.setPath(objKey.toAbsolutePath());
         logger.atWarning().log(
-            "Defaulting to RSA algorithm for SSH key exchange."
-                + "This is a weak security setting, consider changing it (see 'sshd.kex' documentation section).");
+            "Only an ssh-rsa host key type exists. This is a weak key type, consider adding newer"
+                + " key types by running gerrit init.");
         return p;
       }
       stdKeys.add(objKey);

@@ -58,7 +58,7 @@ suite('gr-group tests', () => {
     element.groupId = 1;
     await element._loadGroup();
     assert.isTrue(element._groupIsInternal);
-    assert.isFalse(element.$.visibleToAll.bindValue);
+    assert.isFalse(element.$.visibleToAll.bindValue); //
   });
 
   test('default values with external group', async () => {

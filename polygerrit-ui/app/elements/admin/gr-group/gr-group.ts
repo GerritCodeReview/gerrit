@@ -38,6 +38,8 @@ import {
 } from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
+import {convertToString} from '../../../utils/string-util';
+import {BindValueChangeEvent} from '../../../types/events';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -64,6 +66,10 @@ export interface GroupNameChangedDetail {
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'text-changed': CustomEvent;
+    'value-changed': CustomEvent;
+  }
   interface HTMLElementTagNameMap {
     'gr-group': GrGroup;
   }
@@ -109,7 +115,7 @@ export class GrGroup extends PolymerElement {
   _groupConfigOwner?: string;
 
   @property({type: Object})
-  _groupName?: string;
+  _groupName?: GroupName;
 
   @property({type: Boolean})
   _groupOwner = false;
@@ -315,5 +321,25 @@ export class GrGroup extends PolymerElement {
     if (!id) return;
 
     return id.match(INTERNAL_GROUP_REGEX) ? id : decodeURIComponent(id);
+  }
+
+  handleNameTextChanged(e: CustomEvent) {
+    this.set('_groupConfig.name', e.detail.value as GroupName);
+  }
+
+  handleOwnerTextChanged(e: CustomEvent) {
+    this.set('_groupConfig.owner', e.detail.value);
+  }
+
+  handleOwnerValueChanged(e: CustomEvent) {
+    this._groupConfigOwner = e.detail.value;
+  }
+
+  handleDescriptionBindValueChanged(e: BindValueChangeEvent) {
+    this.set('_groupConfig.description', e.detail.value);
+  }
+
+  convertToString(value?: unknown) {
+    return convertToString(value);
   }
 }

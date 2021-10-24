@@ -22,8 +22,6 @@ import './gr-patch-range-select';
 import {GrPatchRangeSelect} from './gr-patch-range-select';
 import '../../../test/mocks/comment-api';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
-import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {stubRestApi} from '../../../test/test-utils';
 import {
@@ -48,19 +46,7 @@ import {
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {queryAndAssert} from '../../../test/test-utils';
 
-const commentApiMockElement = createCommentApiMockWithTemplateElement(
-  'gr-patch-range-select-comment-api-mock',
-  html`
-    <gr-patch-range-select
-      id="patchRange"
-      auto
-      change-comments="[[_changeComments]]"
-    ></gr-patch-range-select>
-    <gr-comment-api id="commentAPI"></gr-comment-api>
-  `
-);
-
-const basicFixture = fixtureFromElement(commentApiMockElement.is);
+const basicFixture = fixtureFromElement('gr-patch-range-select');
 
 type RevIdToRevisionInfo = {
   [revisionId: string]: RevisionInfo | EditRevisionInfo;
@@ -68,8 +54,6 @@ type RevIdToRevisionInfo = {
 
 suite('gr-patch-range-select tests', () => {
   let element: GrPatchRangeSelect;
-
-  let commentApiWrapper;
 
   function getInfo(revisions: RevisionInfo[]) {
     const revisionObj: Partial<RevIdToRevisionInfo> = {};
@@ -79,19 +63,19 @@ suite('gr-patch-range-select tests', () => {
     return new RevisionInfoClass({revisions: revisionObj} as ParsedChangeInfo);
   }
 
-  setup(() => {
+  setup(async () => {
     stubRestApi('getDiffComments').returns(Promise.resolve({}));
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
     // Element must be wrapped in an element with direct access to the
     // comment API.
-    commentApiWrapper = basicFixture.instantiate();
-    element = commentApiWrapper.$.patchRange;
+    element = basicFixture.instantiate();
 
     // Stub methods on the changeComments object after changeComments has
     // been initialized.
     element.changeComments = new ChangeComments();
+    await element.updateComplete;
   });
 
   test('enabled/disabled options', () => {
@@ -238,7 +222,7 @@ suite('gr-patch-range-select tests', () => {
     );
   });
 
-  test('_computeBaseDropdownContent called when patchNum updates', () => {
+  test('_computeBaseDropdownContent called when patchNum updates', async () => {
     element.revisions = [
       createRevision(2),
       createRevision(3),
@@ -254,12 +238,13 @@ suite('gr-patch-range-select tests', () => {
     ];
     element.patchNum = 2 as PatchSetNum;
     element.basePatchNum = 'PARENT' as BasePatchSetNum;
-    flush();
+    await element.updateComplete;
 
     const baseDropDownStub = sinon.stub(element, '_computeBaseDropdownContent');
 
     // Should be recomputed for each available patch
-    element.set('patchNum', 1);
+    element.patchNum = 1 as PatchSetNum;
+    await element.updateComplete;
     assert.equal(baseDropDownStub.callCount, 1);
   });
 
@@ -278,17 +263,17 @@ suite('gr-patch-range-select tests', () => {
     ];
     element.patchNum = 2 as PatchSetNum;
     element.basePatchNum = 'PARENT' as BasePatchSetNum;
-    await flush();
+    await element.updateComplete;
 
     // Should be recomputed for each available patch
     const baseDropDownStub = sinon.stub(element, '_computeBaseDropdownContent');
     assert.equal(baseDropDownStub.callCount, 0);
     element.changeComments = new ChangeComments();
-    await flush();
+    await element.updateComplete;
     assert.equal(baseDropDownStub.callCount, 1);
   });
 
-  test('_computePatchDropdownContent called when basePatchNum updates', () => {
+  test('_computePatchDropdownContent called when basePatchNum updates', async () => {
     element.revisions = [
       createRevision(2),
       createRevision(3),
@@ -304,14 +289,15 @@ suite('gr-patch-range-select tests', () => {
     ];
     element.patchNum = 2 as PatchSetNum;
     element.basePatchNum = 'PARENT' as BasePatchSetNum;
-    flush();
+    await element.updateComplete;
 
     // Should be recomputed for each available patch
     const baseDropDownStub = sinon.stub(
       element,
       '_computePatchDropdownContent'
     );
-    element.set('basePatchNum', 1);
+    element.basePatchNum = 1 as BasePatchSetNum;
+    await element.updateComplete;
     assert.equal(baseDropDownStub.callCount, 1);
   });
 
@@ -394,9 +380,15 @@ suite('gr-patch-range-select tests', () => {
         },
       ],
     };
-    await flush();
-    assert.equal(queryAndAssert(element, 'a[href="f.oo"]').textContent, 'foo');
-    assert.equal(queryAndAssert(element, 'a[href="ba.r"]').textContent, 'bar');
+    await element.updateComplete;
+    assert.equal(
+      queryAndAssert(element, 'a[href="f.oo"]').textContent!.trim(),
+      'foo'
+    );
+    assert.equal(
+      queryAndAssert(element, 'a[href="ba.r"]').textContent!.trim(),
+      'bar'
+    );
   });
 
   test('_computePatchSetCommentsString', () => {

@@ -46,6 +46,30 @@
       },
       "revId": "75aea4f45f7230ee9a04b85e80b16c3589596ab2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b26e69d5_4874518d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateLabelIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-25T10:54:45Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a57cbd9b_bbeab174",
+      "range": {
+        "startLine": 116,
+        "startChar": 19,
+        "endLine": 116,
+        "endChar": 78
+      },
+      "revId": "75aea4f45f7230ee9a04b85e80b16c3589596ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

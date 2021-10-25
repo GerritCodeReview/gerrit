@@ -696,7 +696,7 @@ public class ChangeNotesStateTest {
                                 .setApplicabilityExpression(
                                     SubmitRequirementExpression.of("project:foo"))
                                 .setSubmittabilityExpression(
-                                    SubmitRequirementExpression.create("label:code-review=+2"))
+                                    SubmitRequirementExpression.create("label:Code-Review=+2"))
                                 .setAllowOverrideInChildProjects(false)
                                 .build())
                         .applicabilityExpressionResult(
@@ -708,10 +708,10 @@ public class ChangeNotesStateTest {
                                     ImmutableList.of())))
                         .submittabilityExpressionResult(
                             SubmitRequirementExpressionResult.create(
-                                SubmitRequirementExpression.create("label:code-review=+2"),
+                                SubmitRequirementExpression.create("label:Code-Review=+2"),
                                 SubmitRequirementExpressionResult.Status.FAIL,
                                 ImmutableList.of(),
-                                ImmutableList.of("label:code-review=+2")))
+                                ImmutableList.of("label:Code-Review=+2")))
                         .build()))
             .build(),
         newProtoBuilder()
@@ -726,7 +726,7 @@ public class ChangeNotesStateTest {
                         SubmitRequirementProto.newBuilder()
                             .setName("Code-Review")
                             .setApplicabilityExpression("project:foo")
-                            .setSubmittabilityExpression("label:code-review=+2")
+                            .setSubmittabilityExpression("label:Code-Review=+2")
                             .setAllowOverrideInChildProjects(false)
                             .build())
                     .setApplicabilityExpressionResult(
@@ -737,9 +737,9 @@ public class ChangeNotesStateTest {
                             .build())
                     .setSubmittabilityExpressionResult(
                         SubmitRequirementExpressionResultProto.newBuilder()
-                            .setExpression("label:code-review=+2")
+                            .setExpression("label:Code-Review=+2")
                             .setStatus("FAIL")
-                            .addFailingAtoms("label:code-review=+2")
+                            .addFailingAtoms("label:Code-Review=+2")
                             .build())
                     .build())
             .build());

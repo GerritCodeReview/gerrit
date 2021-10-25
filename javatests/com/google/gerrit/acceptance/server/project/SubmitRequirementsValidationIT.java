@@ -50,7 +50,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
                 ProjectConfig.SUBMIT_REQUIREMENT,
                 /* subsection= */ submitRequirementName,
                 /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
-                /* value= */ "label:\"code-review=+2\""));
+                /* value= */ "label:\"Code-Review=+2\""));
 
     PushResult r = pushRefsMetaConfig();
     assertOkStatus(r);
@@ -77,7 +77,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
               ProjectConfig.SUBMIT_REQUIREMENT,
               /* subsection= */ submitRequirementName,
               /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
-              /* value= */ "label:\"code-review=+2\"");
+              /* value= */ "label:\"Code-Review=+2\"");
           projectConfig.setString(
               ProjectConfig.SUBMIT_REQUIREMENT,
               /* subsection= */ submitRequirementName,
@@ -109,7 +109,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
               ProjectConfig.SUBMIT_REQUIREMENT,
               /* subsection= */ null,
               /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
-              /* value= */ "label:\"code-review=+2\"");
+              /* value= */ "label:\"Code-Review=+2\"");
         });
 
     PushResult r = pushRefsMetaConfig();
@@ -177,12 +177,12 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
               ProjectConfig.SUBMIT_REQUIREMENT,
               /* subsection= */ submitRequirementName,
               /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
-              /* value= */ "label:\"code-review=+2\"");
+              /* value= */ "label:\"Code-Review=+2\"");
           projectConfig.setString(
               ProjectConfig.SUBMIT_REQUIREMENT,
               /* subsection= */ submitRequirementName.toLowerCase(Locale.US),
               /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
-              /* value= */ "label:\"code-review=+2\"");
+              /* value= */ "label:\"Code-Review=+2\"");
         });
 
     PushResult r = pushRefsMetaConfig();
@@ -204,7 +204,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
                 ProjectConfig.SUBMIT_REQUIREMENT,
                 /* subsection= */ submitRequirementName,
                 /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
-                /* value= */ "label:\"code-review=+2\""));
+                /* value= */ "label:\"Code-Review=+2\""));
     PushResult r = pushRefsMetaConfig();
     assertOkStatus(r);
 
@@ -214,7 +214,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
                 ProjectConfig.SUBMIT_REQUIREMENT,
                 /* subsection= */ submitRequirementName.toLowerCase(Locale.US),
                 /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
-                /* value= */ "label:\"code-review=+2\""));
+                /* value= */ "label:\"Code-Review=+2\""));
     r = pushRefsMetaConfig();
     assertErrorStatus(
         r,
@@ -291,7 +291,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
               ProjectConfig.SUBMIT_REQUIREMENT,
               /* subsection= */ submitRequirementName,
               /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
-              /* value= */ "label:\"code-review=+2\"");
+              /* value= */ "label:\"Code-Review=+2\"");
           projectConfig.setString(
               ProjectConfig.SUBMIT_REQUIREMENT,
               /* subsection= */ submitRequirementName,
@@ -326,7 +326,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
               ProjectConfig.SUBMIT_REQUIREMENT,
               /* subsection= */ submitRequirementName,
               /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
-              /* value= */ "label:\"code-review=+2\"");
+              /* value= */ "label:\"Code-Review=+2\"");
           projectConfig.setString(
               ProjectConfig.SUBMIT_REQUIREMENT,
               /* subsection= */ submitRequirementName,

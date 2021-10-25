@@ -28,6 +28,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -130,6 +131,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_SR_SUBMITTABILITY_EXPRESSION = "submittableIf";
   public static final String KEY_SR_OVERRIDE_EXPRESSION = "overrideIf";
   public static final String KEY_SR_OVERRIDE_IN_CHILD_PROJECTS = "canOverrideInChildProjects";
+  public static final ImmutableSet<String> SR_KEYS =
+      ImmutableSet.of(
+          KEY_SR_DESCRIPTION,
+          KEY_SR_APPLICABILITY_EXPRESSION,
+          KEY_SR_SUBMITTABILITY_EXPRESSION,
+          KEY_SR_OVERRIDE_EXPRESSION,
+          KEY_SR_OVERRIDE_IN_CHILD_PROJECTS);
 
   public static final String KEY_MATCH = "match";
   private static final String KEY_HTML = "html";
@@ -936,6 +944,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void loadSubmitRequirementSections(Config rc) {
+    checkForUnsupportedSubmitRequirementParams(rc);
+
     Map<String, String> lowerNames = new HashMap<>();
     submitRequirementSections = new LinkedHashMap<>();
     for (String name : rc.getSubsections(SUBMIT_REQUIREMENT)) {
@@ -951,18 +961,34 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       String appExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_APPLICABILITY_EXPRESSION);
       String blockExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
       String overrideExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_EXPRESSION);
-      boolean canInherit =
-          rc.getBoolean(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS, false);
+      boolean canInherit;
+      try {
+        canInherit =
+            rc.getBoolean(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS, false);
+      } catch (IllegalArgumentException e) {
+        String canInheritValue =
+            rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS);
+        error(
+            String.format(
+                "Invalid value %s.%s.%s for submit requirement '%s': %s",
+                SUBMIT_REQUIREMENT,
+                name,
+                KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+                name,
+                canInheritValue));
+        continue;
+      }
 
       if (blockExpr == null) {
         error(
             String.format(
-                "Submit requirement '%s' does not define a submittability expression.", name));
+                "Setting a submittability expression for submit requirement '%s' is required:"
+                    + " Missing %s.%s.%s",
+                name, SUBMIT_REQUIREMENT, name, KEY_SR_SUBMITTABILITY_EXPRESSION));
         continue;
       }
 
-      // TODO(SR): add expressions validation. Expressions are stored as strings so we need to
-      // validate their syntax.
+      // The expressions are validated in SubmitRequirementExpressionsValidator.
 
       SubmitRequirement submitRequirement =
           SubmitRequirement.builder()
@@ -975,6 +1001,43 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               .build();
 
       submitRequirementSections.put(name, submitRequirement);
+    }
+  }
+
+  /**
+   * Report unsupported submit requirement parameters as errors.
+   *
+   * <p>Unsupported are submit requirements parameters that
+   *
+   * <ul>
+   *   <li>are directly set in the {@code submit-requirement} section (as submit requirements are
+   *       solely defined in subsections)
+   *   <li>are unknown (maybe they were accidentally misspelled?)
+   * </ul>
+   */
+  private void checkForUnsupportedSubmitRequirementParams(Config rc) {
+    Set<String> directSubmitRequirementParams = rc.getNames(SUBMIT_REQUIREMENT);
+    if (!directSubmitRequirementParams.isEmpty()) {
+      error(
+          String.format(
+              "Submit requirements must be defined in %s.<name> subsections."
+                  + " Setting parameters directly in the %s section is not allowed: %s",
+              SUBMIT_REQUIREMENT,
+              SUBMIT_REQUIREMENT,
+              directSubmitRequirementParams.stream().sorted().collect(toImmutableList())));
+    }
+
+    for (String subsection : rc.getSubsections(SUBMIT_REQUIREMENT)) {
+      ImmutableList<String> unknownSubmitRequirementParams =
+          rc.getNames(SUBMIT_REQUIREMENT, subsection).stream()
+              .filter(p -> !SR_KEYS.contains(p))
+              .collect(toImmutableList());
+      if (!unknownSubmitRequirementParams.isEmpty()) {
+        error(
+            String.format(
+                "Unsupported parameters for submit requirement '%s': %s",
+                subsection, unknownSubmitRequirementParams));
+      }
     }
   }
 

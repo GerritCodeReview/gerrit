@@ -95,6 +95,78 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void parametersDirectlyInSubmitRequirementsSectionAreRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    updateProjectConfig(
+        projectConfig -> {
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ null,
+              /* name= */ ProjectConfig.KEY_SR_DESCRIPTION,
+              /* value= */ "foo bar description");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ null,
+              /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+              /* value= */ "label:\"code-review=+2\"");
+        });
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Submit requirements must be defined in submit-requirement.<name>"
+                + " subsections. Setting parameters directly in the submit-requirement section is"
+                + " not allowed: [%s, %s]",
+            ProjectConfig.KEY_SR_DESCRIPTION, ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION));
+  }
+
+  @Test
+  public void unsupportedParameterDirectlyInSubmitRequirementsSectionIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    updateProjectConfig(
+        projectConfig ->
+            projectConfig.setString(
+                ProjectConfig.SUBMIT_REQUIREMENT,
+                /* subsection= */ null,
+                /* name= */ "unknown",
+                /* value= */ "value"));
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        "project.config: Submit requirements must be defined in submit-requirement.<name>"
+            + " subsections. Setting parameters directly in the submit-requirement section is"
+            + " not allowed: [unknown]");
+  }
+
+  @Test
+  public void unsupportedParameterForSubmitRequirementIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    updateProjectConfig(
+        projectConfig ->
+            projectConfig.setString(
+                ProjectConfig.SUBMIT_REQUIREMENT,
+                /* subsection= */ submitRequirementName,
+                /* name= */ "unknown",
+                /* value= */ "value"));
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Unsupported parameters for submit requirement '%s': [unknown]",
+            submitRequirementName));
+  }
+
+  @Test
   public void conflictingSubmitRequirementsAreRejected() throws Exception {
     fetchRefsMetaConfig();
 
@@ -170,8 +242,139 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
         r,
         "Invalid project configuration",
         String.format(
-            "project.config: Submit requirement '%s' does not define a submittability expression.",
-            submitRequirementName));
+            "project.config: Setting a submittability expression for submit requirement '%s' is"
+                + " required: Missing %s.%s.%s",
+            submitRequirementName,
+            ProjectConfig.SUBMIT_REQUIREMENT,
+            submitRequirementName,
+            ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION));
+  }
+
+  @Test
+  public void submitRequirementWithInvalidSubmittabilityExpressionIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    String invalidExpression = "invalid_field:invalid_value";
+    updateProjectConfig(
+        projectConfig ->
+            projectConfig.setString(
+                ProjectConfig.SUBMIT_REQUIREMENT,
+                /* subsection= */ submitRequirementName,
+                /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+                /* value= */ invalidExpression));
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Expression '%s' of submit requirement '%s' (parameter %s.%s.%s) is"
+                + " invalid: Unsupported operator %s",
+            invalidExpression,
+            submitRequirementName,
+            ProjectConfig.SUBMIT_REQUIREMENT,
+            submitRequirementName,
+            ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+            invalidExpression));
+  }
+
+  @Test
+  public void submitRequirementWithInvalidApplicabilityExpressionIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    String invalidExpression = "invalid_field:invalid_value";
+    updateProjectConfig(
+        projectConfig -> {
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+              /* value= */ "label:\"code-review=+2\"");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+              /* value= */ invalidExpression);
+        });
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Expression '%s' of submit requirement '%s' (parameter %s.%s.%s) is"
+                + " invalid: Unsupported operator %s",
+            invalidExpression,
+            submitRequirementName,
+            ProjectConfig.SUBMIT_REQUIREMENT,
+            submitRequirementName,
+            ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+            invalidExpression));
+  }
+
+  @Test
+  public void submitRequirementWithInvalidOverrideExpressionIsRejected() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    String invalidExpression = "invalid_field:invalid_value";
+    updateProjectConfig(
+        projectConfig -> {
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+              /* value= */ "label:\"code-review=+2\"");
+          projectConfig.setString(
+              ProjectConfig.SUBMIT_REQUIREMENT,
+              /* subsection= */ submitRequirementName,
+              /* name= */ ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
+              /* value= */ invalidExpression);
+        });
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Expression '%s' of submit requirement '%s' (parameter %s.%s.%s) is"
+                + " invalid: Unsupported operator %s",
+            invalidExpression,
+            submitRequirementName,
+            ProjectConfig.SUBMIT_REQUIREMENT,
+            submitRequirementName,
+            ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
+            invalidExpression));
+  }
+
+  @Test
+  public void submitRequirementWithInvalidAllowOverrideInChildProjectsIsRejected()
+      throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    String invalidValue = "invalid";
+    updateProjectConfig(
+        projectConfig ->
+            projectConfig.setString(
+                ProjectConfig.SUBMIT_REQUIREMENT,
+                /* subsection= */ submitRequirementName,
+                /* name= */ ProjectConfig.KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+                /* value= */ invalidValue));
+
+    PushResult r = pushRefsMetaConfig();
+    assertErrorStatus(
+        r,
+        "Invalid project configuration",
+        String.format(
+            "project.config: Invalid value %s.%s.%s for submit requirement '%s': %s",
+            ProjectConfig.SUBMIT_REQUIREMENT,
+            submitRequirementName,
+            ProjectConfig.KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+            submitRequirementName,
+            invalidValue));
   }
 
   private void fetchRefsMetaConfig() throws Exception {

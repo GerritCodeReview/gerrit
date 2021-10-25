@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "607c3eba_8614df24",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T14:22:08Z",
+      "side": 0,
+      "message": "DiffViewMode management is through the model now and individual components don\u0027t need to initialise it.\nChange 321283 has more details.",
+      "parentUuid": "78beba98_e4fd80a4",
+      "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52e4d69e_8f65c850",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-10-18T13:13:26Z",
       "side": 0,
       "message": "You are not using `default_diff_view` anymore? What about \n\n  prefInfo.default_diff_view \u003d DiffViewMode.UNIFIED;\n \nbeing set for small screen?",
+      "range": {
+        "startLine": 736,
+        "startChar": 47,
+        "endLine": 736,
+        "endChar": 64
+      },
+      "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03c83018_281e16be",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T14:22:08Z",
+      "side": 0,
+      "message": "Tackled separately in Change 321283",
+      "parentUuid": "52e4d69e_8f65c850",
       "range": {
         "startLine": 736,
         "startChar": 47,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76c5a69a_fa8049d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T14:22:08Z",
+      "side": 0,
+      "message": "See change 321283",
+      "parentUuid": "4fd17ffc_b4e48d87",
+      "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22a6dab6_ec1620df",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdda3894_691094ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1314,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T14:22:08Z",
+      "side": 0,
+      "message": "Don\u0027t think it\u0027s doing much. Diff mode is now determined by the model.",
+      "parentUuid": "22a6dab6_ec1620df",
+      "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6ba3749_26f81ea8",
@@ -88,6 +166,24 @@
       "writtenOn": "2021-10-18T13:53:41Z",
       "side": 0,
       "message": "Is this just a cleanup of an unused method?",
+      "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a38eea38_0dd9b3f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T14:22:08Z",
+      "side": 0,
+      "message": "It wasn\u0027t unused,  change-view was using this method to set the mode directly in the diff mode selector but now it happens through the model.",
+      "parentUuid": "d6ba3749_26f81ea8",
       "revId": "86be2a337946858501a177d01f7e773e0aa50e2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

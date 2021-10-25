@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d548779_0143226a",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-25T07:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdb9d9a3_af13fabd",
+      "revId": "b132a7d611138dd50d4d3803d303fa6da0d042db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc671fb6_3bac37e1",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "Maybe add a test for what `labels.filter(unique)` is doing?",
       "parentUuid": "fc671fb6_3bac37e1",
+      "revId": "b132a7d611138dd50d4d3803d303fa6da0d042db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5fe59af_2b87ce3a",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-25T07:48:41Z",
+      "side": 1,
+      "message": "There is already test\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/utils/label-util_test.ts;l\u003d243?q\u003dlabel-util\u0026ss\u003dgerrit\n\nunique is making each label in labels unique. So it doesn\u0027t return [\u0027Verified\u0027, \u0027Verified\u0027] but just [\u0027Verified\u0027]",
+      "parentUuid": "252cc221_def86c75",
       "revId": "b132a7d611138dd50d4d3803d303fa6da0d042db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

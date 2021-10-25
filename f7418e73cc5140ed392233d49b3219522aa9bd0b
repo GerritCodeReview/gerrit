@@ -16,6 +16,24 @@
       "message": "These functions don\u0027t seem to be used anywhere so can probably remove.",
       "revId": "f7418e73cc5140ed392233d49b3219522aa9bd0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0019d7e6_f9358a73",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T08:58:32Z",
+      "side": 0,
+      "message": "removeDarkTheme done.\napplyDarkTheme still used by gr-app-element.",
+      "parentUuid": "a97f325b_abea9203",
+      "revId": "f7418e73cc5140ed392233d49b3219522aa9bd0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e88d3024_4acd17b1",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-25T13:56:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "118d4a89_6ace0dee",
+      "range": {
+        "startLine": 440,
+        "startChar": 12,
+        "endLine": 446,
+        "endChar": 45
+      },
+      "revId": "b1474dfdcc7f2c1914805ac88412af7debefca6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b02e92b_fbc58ec1",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-10-25T13:40:43Z",
       "side": 1,
       "message": "Would it work if we would just use TimeUtil.nowNanos() here and below?\n\nI wonder if we can safe the overhead of binding a Ticker.\n\nSee commit message of [1] for why TimeUtil.nowNanos() should work better than System.nanoTime().\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/318295",
+      "revId": "b1474dfdcc7f2c1914805ac88412af7debefca6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9467a129_3408e8a9",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-25T13:56:39Z",
+      "side": 1,
+      "message": "Yes, it would work, but TimeUtil.nowNanos uses System::currentTimeMillis and it can\u0027t be mocked (which is the main purpose of this change).\n\nIn the change [1] the TimeUtil.nowNanos is better because constructor can receive startTime, but in in this code we measure only difference between 2 points in time, so Ticker.nanoTime is safe + it can be mocked.",
+      "parentUuid": "6b02e92b_fbc58ec1",
       "revId": "b1474dfdcc7f2c1914805ac88412af7debefca6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.server.account.AccountResolver.isSelf;
+import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -70,6 +71,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.HasOperandAliasConfig;
 import com.google.gerrit.server.config.OperatorAliasConfig;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -253,6 +255,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final OperatorAliasConfig operatorAliasConfig;
     final boolean indexMergeable;
     final boolean conflictsPredicateEnabled;
+    final ExperimentFeatures experimentFeatures;
     final HasOperandAliasConfig hasOperandAliasConfig;
     final PluginSetContext<SubmitRule> submitRules;
 
@@ -288,6 +291,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         GroupMembers groupMembers,
         OperatorAliasConfig operatorAliasConfig,
         @GerritServerConfig Config gerritConfig,
+        ExperimentFeatures experimentFeatures,
         HasOperandAliasConfig hasOperandAliasConfig,
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
         PluginSetContext<SubmitRule> submitRules) {
@@ -320,6 +324,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           operatorAliasConfig,
           MergeabilityComputationBehavior.fromConfig(gerritConfig).includeInIndex(),
           gerritConfig.getBoolean("change", null, "conflictsPredicateEnabled", true),
+          experimentFeatures,
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory,
           submitRules);
@@ -354,6 +359,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         OperatorAliasConfig operatorAliasConfig,
         boolean indexMergeable,
         boolean conflictsPredicateEnabled,
+        ExperimentFeatures experimentFeatures,
         HasOperandAliasConfig hasOperandAliasConfig,
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
         PluginSetContext<SubmitRule> submitRules) {
@@ -386,6 +392,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.operatorAliasConfig = operatorAliasConfig;
       this.indexMergeable = indexMergeable;
       this.conflictsPredicateEnabled = conflictsPredicateEnabled;
+      this.experimentFeatures = experimentFeatures;
       this.hasOperandAliasConfig = hasOperandAliasConfig;
       this.submitRules = submitRules;
     }
@@ -420,6 +427,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           operatorAliasConfig,
           indexMergeable,
           conflictsPredicateEnabled,
+          experimentFeatures,
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory,
           submitRules);
@@ -1089,15 +1097,29 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> ignoredBySelf() throws QueryParseException {
-    return new StarPredicate(self(), StarredChangesUtil.IGNORE_LABEL);
+    return ChangePredicates.starBy(
+        args.experimentFeatures.isFeatureEnabled(
+            GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY),
+        args.starredChangesUtil,
+        self(),
+        StarredChangesUtil.IGNORE_LABEL);
   }
 
   private Predicate<ChangeData> starredBySelf() throws QueryParseException {
-    return new StarPredicate(self(), StarredChangesUtil.DEFAULT_LABEL);
+    return ChangePredicates.starBy(
+        args.experimentFeatures.isFeatureEnabled(
+            GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY),
+        args.starredChangesUtil,
+        self(),
+        StarredChangesUtil.DEFAULT_LABEL);
   }
 
   private Predicate<ChangeData> draftBySelf() throws QueryParseException {
-    return ChangePredicates.draftBy(self());
+    return ChangePredicates.draftBy(
+        args.experimentFeatures.isFeatureEnabled(
+            GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY),
+        args.commentsUtil,
+        self());
   }
 
   @Operator

@@ -45,6 +45,13 @@ public class ExperimentFeaturesConstants {
       GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS_BACKFILLING_ON_DASHBOARD =
           "GerritBackendRequestFeature__enable_submit_requirements_backfilling_on_dashboard";
 
+  /**
+   * When set, we compute information from All-Users repository if able, instead of computing it
+   * from the change index.
+   */
+  public static final String GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY =
+      "GerritBackendRequestFeature__compute_from_all_users_repository";
+
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES =
       ImmutableSet.of(UI_FEATURE_PATCHSET_COMMENTS);

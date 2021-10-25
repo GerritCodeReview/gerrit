@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90abd150_6fee9aef",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column/gr-change-list-column.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-25T07:35:03Z",
+      "side": 1,
+      "message": "Ok, thanks, I will change it to array.\n\nYes, I don\u0027t need any shared styles. I think shared styles should be use only when necessary.",
+      "parentUuid": "77a7dee2_d8014688",
+      "revId": "b7256d3c1f0bdab5af6c1ff181dab16b8eb48ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3b77a8e_df28645f",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb48fbd_6214341e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-25T07:35:03Z",
+      "side": 1,
+      "message": "Thanks, probably my autocompletion did something wrong here.",
+      "parentUuid": "f3b77a8e_df28645f",
+      "revId": "b7256d3c1f0bdab5af6c1ff181dab16b8eb48ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf456b66_fc7aa3a1",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-10-21T22:44:45Z",
       "side": 1,
       "message": "Are these options the default that matches with DEFAULT_DETAIL_HEXES? If not this logic is slightly altered.",
+      "revId": "b7256d3c1f0bdab5af6c1ff181dab16b8eb48ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0abc224_ac87b082",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-25T07:35:03Z",
+      "side": 1,
+      "message": "Yes, they are default and should be in sync. DEFAULT_DETAIL_HEXES is for prefetching of data.",
+      "parentUuid": "bf456b66_fc7aa3a1",
       "revId": "b7256d3c1f0bdab5af6c1ff181dab16b8eb48ff9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

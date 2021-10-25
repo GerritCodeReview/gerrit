@@ -70,6 +70,30 @@
       },
       "revId": "2db3398feb6ad878f9caa7c03eb42b0a7b1f0e8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ed063fe_3ff41627",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-25T14:09:00Z",
+      "side": 1,
+      "message": "I\u0027ve decided to put it in string-util since i think we\u0027ll be using it in other places. I\u0027ve put the type as unknown in the param for obvious reasons :)\n\nI cannot set the function to private otherwise the tests fail (later on in a further change when we switch to lit i can change it so i can use convertToString directly. rather then having to create a function within gr-patch-range-select class in order to call convertToString within the html template.",
+      "parentUuid": "763958fa_59980003",
+      "range": {
+        "startLine": 475,
+        "startChar": 2,
+        "endLine": 475,
+        "endChar": 18
+      },
+      "revId": "2db3398feb6ad878f9caa7c03eb42b0a7b1f0e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

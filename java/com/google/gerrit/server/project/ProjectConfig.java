@@ -131,13 +131,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_SR_SUBMITTABILITY_EXPRESSION = "submittableIf";
   public static final String KEY_SR_OVERRIDE_EXPRESSION = "overrideIf";
   public static final String KEY_SR_OVERRIDE_IN_CHILD_PROJECTS = "canOverrideInChildProjects";
+  public static final String KEY_SR_HIDE_APPLICABILITY_EXPRESSION = "hideApplicableIf";
+
   public static final ImmutableSet<String> SR_KEYS =
       ImmutableSet.of(
           KEY_SR_DESCRIPTION,
           KEY_SR_APPLICABILITY_EXPRESSION,
           KEY_SR_SUBMITTABILITY_EXPRESSION,
           KEY_SR_OVERRIDE_EXPRESSION,
-          KEY_SR_OVERRIDE_IN_CHILD_PROJECTS);
+          KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+          KEY_SR_HIDE_APPLICABILITY_EXPRESSION);
 
   public static final String KEY_MATCH = "match";
   private static final String KEY_HTML = "html";
@@ -978,6 +981,23 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                 canInheritValue));
         continue;
       }
+      boolean hideApplicabilityExpression;
+      try {
+        hideApplicabilityExpression =
+            rc.getBoolean(SUBMIT_REQUIREMENT, name, KEY_SR_HIDE_APPLICABILITY_EXPRESSION, false);
+      } catch (IllegalArgumentException e) {
+        String hideApplicabilityExpressionValue =
+            rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_HIDE_APPLICABILITY_EXPRESSION);
+        error(
+            String.format(
+                "Invalid value %s.%s.%s for submit requirement '%s': %s",
+                SUBMIT_REQUIREMENT,
+                name,
+                KEY_SR_HIDE_APPLICABILITY_EXPRESSION,
+                name,
+                hideApplicabilityExpressionValue));
+        continue;
+      }
 
       if (blockExpr == null) {
         error(
@@ -998,6 +1018,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               .setSubmittabilityExpression(SubmitRequirementExpression.create(blockExpr))
               .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
               .setAllowOverrideInChildProjects(canInherit)
+              .setHideApplicabilityExpression(Optional.of(hideApplicabilityExpression))
               .build();
 
       submitRequirementSections.put(name, submitRequirement);
@@ -1712,6 +1733,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               name,
               KEY_SR_OVERRIDE_EXPRESSION,
               sr.overrideExpression().get().expressionString());
+        }
+        if (sr.hideApplicabilityExpression().isPresent()) {
+          rc.setBoolean(
+              SUBMIT_REQUIREMENT,
+              name,
+              KEY_SR_HIDE_APPLICABILITY_EXPRESSION,
+              sr.hideApplicabilityExpression().get());
         }
         rc.setBoolean(
             SUBMIT_REQUIREMENT,

@@ -473,7 +473,7 @@ message LabelTypeProto {
 }
 
 // Serialized form of com.google.gerrit.entities.SubmitRequirement.
-// Next ID: 7
+// Next ID: 8
 message SubmitRequirementProto {
   string name = 1;
   string description = 2;
@@ -481,6 +481,7 @@ message SubmitRequirementProto {
   string submittability_expression = 4;
   string override_expression = 5;
   bool allow_override_in_child_projects = 6;
+  bool hide_applicability_expression = 7;
 }
 
 // Serialized form of com.google.gerrit.entities.SubmitRequirementResult.

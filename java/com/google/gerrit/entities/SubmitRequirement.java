@@ -60,6 +60,12 @@ public abstract class SubmitRequirement {
    */
   public abstract boolean allowOverrideInChildProjects();
 
+  /**
+   * Whether the applicability expression should be hidden when submit requirement results are
+   * returned to the users. Default is false.
+   */
+  public abstract Optional<Boolean> hideApplicabilityExpression();
+
   public static SubmitRequirement.Builder builder() {
     return new AutoValue_SubmitRequirement.Builder();
   }
@@ -85,6 +91,9 @@ public abstract class SubmitRequirement {
         Optional<SubmitRequirementExpression> overrideExpression);
 
     public abstract Builder setAllowOverrideInChildProjects(boolean allowOverrideInChildProjects);
+
+    public abstract Builder setHideApplicabilityExpression(
+        Optional<Boolean> hideApplicabilityExpression);
 
     public abstract SubmitRequirement build();
   }

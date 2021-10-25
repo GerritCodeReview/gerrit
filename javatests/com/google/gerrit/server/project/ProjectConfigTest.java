@@ -218,6 +218,7 @@ public class ProjectConfigTest {
                     + "  description =  At least one Code Review +2\n"
                     + "  applicableIf =branch(refs/heads/master)\n"
                     + "  submittableIf =  label(Code-Review, +2)\n"
+                    + "  hideApplicableIf = true\n"
                     + "[submit-requirement \"api-review\"]\n"
                     + "  description =  Additional review required for API modifications\n"
                     + "  applicableIf =commit_filepath_contains(\\\"/api/.*\\\")\n"
@@ -240,6 +241,7 @@ public class ProjectConfigTest {
                     SubmitRequirementExpression.create("label(Code-Review, +2)"))
                 .setOverrideExpression(Optional.empty())
                 .setAllowOverrideInChildProjects(false)
+                .setHideApplicabilityExpression(Optional.of(true))
                 .build(),
             "api-review",
             SubmitRequirement.builder()
@@ -252,6 +254,7 @@ public class ProjectConfigTest {
                 .setOverrideExpression(
                     SubmitRequirementExpression.of("label(build-cop-override, +1)"))
                 .setAllowOverrideInChildProjects(true)
+                .setHideApplicabilityExpression(Optional.of(false))
                 .build());
   }
 
@@ -276,6 +279,7 @@ public class ProjectConfigTest {
                 .setSubmittabilityExpression(
                     SubmitRequirementExpression.create("label(Code-Review, +2)"))
                 .setAllowOverrideInChildProjects(false)
+                .setHideApplicabilityExpression(Optional.of(false))
                 .build());
   }
 
@@ -306,6 +310,7 @@ public class ProjectConfigTest {
                 .setSubmittabilityExpression(
                     SubmitRequirementExpression.create("label(code-review, +2)"))
                 .setAllowOverrideInChildProjects(false)
+                .setHideApplicabilityExpression(Optional.of(false))
                 .build());
     assertThat(cfg.getValidationErrors()).hasSize(1);
     assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())

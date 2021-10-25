@@ -32,10 +32,26 @@ public class SubmitRequirementSerializerTest {
           .setSubmittabilityExpression(SubmitRequirementExpression.create("label(code-review, 2+)"))
           .setOverrideExpression(Optional.empty())
           .setAllowOverrideInChildProjects(true)
+          .setHideApplicabilityExpression(Optional.empty())
+          .build();
+
+  private static final SubmitRequirement submitReqHideApplicabilityExprTrue =
+      SubmitRequirement.builder()
+          .setName("Code-Review")
+          .setDescription(Optional.of("require code review +2"))
+          .setSubmittabilityExpression(SubmitRequirementExpression.create("label(code-review, 2+)"))
+          .setAllowOverrideInChildProjects(true)
+          .setHideApplicabilityExpression(Optional.of(true))
           .build();
 
   @Test
   public void roundTrip() {
     assertThat(deserialize(serialize(submitReq))).isEqualTo(submitReq);
+  }
+
+  @Test
+  public void roundTrip_hideApplicabilityExprTrue() {
+    assertThat(deserialize(serialize(submitReqHideApplicabilityExprTrue)))
+        .isEqualTo(submitReqHideApplicabilityExprTrue);
   }
 }

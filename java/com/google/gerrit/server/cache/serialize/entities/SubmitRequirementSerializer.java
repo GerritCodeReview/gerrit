@@ -18,35 +18,51 @@ import com.google.common.base.Strings;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.server.cache.proto.Cache;
+import com.google.gerrit.server.cache.proto.Cache.SubmitRequirementProto;
+import com.google.protobuf.Descriptors.FieldDescriptor;
 import java.util.Optional;
 
 /** Serializer for {@link com.google.gerrit.entities.SubmitRequirement}. */
 public class SubmitRequirementSerializer {
+  private static final FieldDescriptor SR_HIDE_APPLICABILITY_EXPRESSION_FIELD =
+      SubmitRequirementProto.getDescriptor().findFieldByNumber(7);
+
   public static SubmitRequirement deserialize(Cache.SubmitRequirementProto proto) {
-    return SubmitRequirement.builder()
-        .setName(proto.getName())
-        .setDescription(Optional.ofNullable(Strings.emptyToNull(proto.getDescription())))
-        .setApplicabilityExpression(
-            SubmitRequirementExpression.of(proto.getApplicabilityExpression()))
-        .setSubmittabilityExpression(
-            SubmitRequirementExpression.create(proto.getSubmittabilityExpression()))
-        .setOverrideExpression(SubmitRequirementExpression.of(proto.getOverrideExpression()))
-        .setAllowOverrideInChildProjects(proto.getAllowOverrideInChildProjects())
-        .build();
+    SubmitRequirement.Builder builder =
+        SubmitRequirement.builder()
+            .setName(proto.getName())
+            .setDescription(Optional.ofNullable(Strings.emptyToNull(proto.getDescription())))
+            .setApplicabilityExpression(
+                SubmitRequirementExpression.of(proto.getApplicabilityExpression()))
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create(proto.getSubmittabilityExpression()))
+            .setOverrideExpression(SubmitRequirementExpression.of(proto.getOverrideExpression()))
+            .setAllowOverrideInChildProjects(proto.getAllowOverrideInChildProjects());
+    if (proto.hasField(SR_HIDE_APPLICABILITY_EXPRESSION_FIELD)) {
+      builder.setHideApplicabilityExpression(Optional.of(proto.getHideApplicabilityExpression()));
+    }
+    return builder.build();
   }
 
   public static Cache.SubmitRequirementProto serialize(SubmitRequirement submitRequirement) {
     SubmitRequirementExpression emptyExpression = SubmitRequirementExpression.create("");
-    return Cache.SubmitRequirementProto.newBuilder()
-        .setName(submitRequirement.name())
-        .setDescription(submitRequirement.description().orElse(""))
-        .setApplicabilityExpression(
-            submitRequirement.applicabilityExpression().orElse(emptyExpression).expressionString())
-        .setSubmittabilityExpression(
-            submitRequirement.submittabilityExpression().expressionString())
-        .setOverrideExpression(
-            submitRequirement.overrideExpression().orElse(emptyExpression).expressionString())
-        .setAllowOverrideInChildProjects(submitRequirement.allowOverrideInChildProjects())
-        .build();
+    SubmitRequirementProto.Builder builder =
+        SubmitRequirementProto.newBuilder()
+            .setName(submitRequirement.name())
+            .setDescription(submitRequirement.description().orElse(""))
+            .setApplicabilityExpression(
+                submitRequirement
+                    .applicabilityExpression()
+                    .orElse(emptyExpression)
+                    .expressionString())
+            .setSubmittabilityExpression(
+                submitRequirement.submittabilityExpression().expressionString())
+            .setOverrideExpression(
+                submitRequirement.overrideExpression().orElse(emptyExpression).expressionString())
+            .setAllowOverrideInChildProjects(submitRequirement.allowOverrideInChildProjects());
+    if (submitRequirement.hideApplicabilityExpression().isPresent()) {
+      builder.setHideApplicabilityExpression(submitRequirement.hideApplicabilityExpression().get());
+    }
+    return builder.build();
   }
 }

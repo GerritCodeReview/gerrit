@@ -36,7 +36,14 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 import {EventType, PluginApi} from '../../../api/plugin';
 
 import 'lodash/lodash';
-import {mockPromise, stubRestApi, stubUsers} from '../../../test/test-utils';
+import {
+  mockPromise,
+  queryAndAssert,
+  stubRestApi,
+  stubUsers,
+  waitQueryAndAssert,
+  waitUntil,
+} from '../../../test/test-utils';
 import {
   createAppElementChangeViewParams,
   createApproval,
@@ -96,6 +103,8 @@ import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-change
 import {appContext} from '../../../services/app-context';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {_testOnly_setState} from '../../../services/user/user-model';
+import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -680,9 +689,7 @@ suite('gr-change-view tests', () => {
       element.$.replyOverlay.close();
       assert.isFalse(element.$.replyOverlay.opened);
       assert(
-        openSpy.lastCall.calledWithExactly(
-          element.$.replyDialog.FocusTarget.ANY
-        ),
+        openSpy.lastCall.calledWithExactly(FocusTarget.ANY),
         '_openReplyDialog should have been passed ANY'
       );
       assert.equal(openSpy.callCount, 1);
@@ -704,7 +711,8 @@ suite('gr-change-view tests', () => {
         },
       };
       const handlerSpy = sinon.spy(element, '_handleHideBackgroundContent');
-      element.$.replyDialog.dispatchEvent(
+      const overlay = queryAndAssert<GrOverlay>(element, '#replyOverlay');
+      overlay.dispatchEvent(
         new CustomEvent('fullscreen-overlay-opened', {
           composed: true,
           bubbles: true,
@@ -731,7 +739,8 @@ suite('gr-change-view tests', () => {
         },
       };
       const handlerSpy = sinon.spy(element, '_handleShowBackgroundContent');
-      element.$.replyDialog.dispatchEvent(
+      const overlay = queryAndAssert<GrOverlay>(element, '#replyOverlay');
+      overlay.dispatchEvent(
         new CustomEvent('fullscreen-overlay-closed', {
           composed: true,
           bubbles: true,
@@ -1601,9 +1610,7 @@ suite('gr-change-view tests', () => {
     const openStub = sinon.stub(element, '_openReplyDialog');
     tap(element.$.replyBtn);
     assert(
-      openStub.lastCall.calledWithExactly(
-        element.$.replyDialog.FocusTarget.ANY
-      ),
+      openStub.lastCall.calledWithExactly(FocusTarget.ANY),
       '_openReplyDialog should have been passed ANY'
     );
     assert.equal(openStub.callCount, 1);
@@ -1622,18 +1629,12 @@ suite('gr-change-view tests', () => {
           bubbles: true,
         })
       );
-      assert(
-        openStub.lastCall.calledWithExactly(
-          element.$.replyDialog.FocusTarget.BODY
-        ),
-        '_openReplyDialog should have been passed BODY'
-      );
-      assert.equal(openStub.callCount, 1);
+      assert.isTrue(openStub.calledOnce);
+      assert.equal(openStub.lastCall.args[0], FocusTarget.BODY);
     }
   );
 
   test('reply dialog focus can be controlled', () => {
-    const FocusTarget = element.$.replyDialog.FocusTarget;
     const openStub = sinon.stub(element, '_openReplyDialog');
 
     const e = new CustomEvent('show-reply-dialog', {
@@ -1709,7 +1710,6 @@ suite('gr-change-view tests', () => {
 
   suite('reply dialog tests', () => {
     setup(() => {
-      sinon.stub(element.$.replyDialog, '_draftChanged');
       element._change = {
         ...createChangeViewChange(),
         revisions: createRevisions(1),
@@ -1740,52 +1740,32 @@ suite('gr-change-view tests', () => {
       assert.isTrue(openReplyDialogStub.calledOnce);
     });
 
-    test('reply from comment adds quote text', () => {
+    test('reply from comment adds quote text', async () => {
       const e = new CustomEvent('', {
         detail: {message: {message: 'quote text'}},
       });
       element._handleMessageReply(e);
-      assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
-    });
-
-    test('reply from comment replaces quote text', () => {
-      element.$.replyDialog.draft = '> old quote text\n\n some draft text';
-      element.$.replyDialog.quote = '> old quote text\n\n';
-      const e = new CustomEvent('', {
-        detail: {message: {message: 'quote text'}},
-      });
-      element._handleMessageReply(e);
-      assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
-    });
-
-    test('reply from same comment preserves quote text', () => {
-      element.$.replyDialog.draft = '> quote text\n\n some draft text';
-      element.$.replyDialog.quote = '> quote text\n\n';
-      const e = new CustomEvent('', {
-        detail: {message: {message: 'quote text'}},
-      });
-      element._handleMessageReply(e);
-      assert.equal(
-        element.$.replyDialog.draft,
-        '> quote text\n\n some draft text'
+      const dialog = await waitQueryAndAssert<GrReplyDialog>(
+        element,
+        '#replyDialog'
       );
-      assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      await waitUntil(() => !!dialog.draft, '');
+      assert.equal(dialog.draft, '> quote text\n\n');
     });
 
-    test('reply from top of page contains previous draft', () => {
-      const div = document.createElement('div');
-      element.$.replyDialog.draft = '> quote text\n\n some draft text';
-      element.$.replyDialog.quote = '> quote text\n\n';
-      const e = {
-        target: div,
-        preventDefault: sinon.spy(),
-      } as unknown as MouseEvent;
-      element._handleReplyTap(e);
-      assert.equal(
-        element.$.replyDialog.draft,
-        '> quote text\n\n some draft text'
+    test('reply from comment replaces quote text', async () => {
+      element._openReplyDialog();
+      const dialog = await waitQueryAndAssert<GrReplyDialog>(
+        element,
+        '#replyDialog'
       );
-      assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
+      dialog.draft = '> old quote text\n\n some draft text';
+      const e = new CustomEvent('', {
+        detail: {message: {message: 'quote text'}},
+      });
+      element._handleMessageReply(e);
+      await waitUntil(() => dialog.draft === '> quote text\n\n');
+      assert.equal(dialog.draft, '> quote text\n\n');
     });
   });
 

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "299f916f_95306db9",
+        "filename": "polygerrit-ui/app/services/browser/browser-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T13:16:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3029f143_abf473b7",
+      "revId": "7638181eb8b8b7086b99a7c4c178d8281604b95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34132600_2200399e",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "183a20ac_4569b746",
+        "filename": "polygerrit-ui/app/services/browser/browser-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T13:16:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34132600_2200399e",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 75
+      },
+      "revId": "7638181eb8b8b7086b99a7c4c178d8281604b95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56e363c2_5373add2",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-10-25T13:09:00Z",
       "side": 1,
       "message": "/* */ instead of //",
+      "revId": "7638181eb8b8b7086b99a7c4c178d8281604b95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d2f2056_fbbc99cd",
+        "filename": "polygerrit-ui/app/services/browser/browser-service.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T13:16:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56e363c2_5373add2",
       "revId": "7638181eb8b8b7086b99a7c4c178d8281604b95d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

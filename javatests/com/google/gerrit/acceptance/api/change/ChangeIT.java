@@ -225,7 +225,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
-import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
@@ -4059,7 +4058,7 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(testLabel.status).isEqualTo(SubmitRecordInfo.Label.Status.OK);
       assertThat(testLabel.appliedBy).isNull();
 
-      voteLabel(changeId, "code-review", 2);
+      voteLabel(changeId, "Code-Review", 2);
       // Code review record is satisfied after voting +2
       change = gApi.changes().id(changeId).get();
       assertThat(change.submitRecords).hasSize(2);
@@ -4166,9 +4165,9 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
+            .setName("Code-Review")
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("label:code-review=MAX"))
+                SubmitRequirementExpression.create("label:Code-Review=MAX"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4178,13 +4177,13 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
 
-    voteLabel(changeId, "code-review", 2);
+    voteLabel(changeId, "Code-Review", 2);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4239,9 +4238,9 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
+            .setName("Code-Review")
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("-label:code-review=MIN"))
+                SubmitRequirementExpression.create("-label:Code-Review=MIN"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4252,27 +4251,27 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.submitRequirements).hasSize(2);
     // Requirement is satisfied because there are no votes
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
     // Legacy requirement (coming from the label function definition) is not satisfied. We return
     // both legacy and non-legacy requirements in this case since their statuses are not identical.
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
 
-    voteLabel(changeId, "code-review", -1);
+    voteLabel(changeId, "Code-Review", -1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(2);
     // Requirement is still satisfied because -1 is not the max negative value
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
 
-    voteLabel(changeId, "code-review", -2);
+    voteLabel(changeId, "Code-Review", -2);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     // Requirement is now unsatisfied because -2 is the max negative value
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4335,9 +4334,9 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
+            .setName("Code-Review")
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("label:code-review=ANY"))
+                SubmitRequirementExpression.create("label:Code-Review=ANY"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4347,14 +4346,14 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
 
-    voteLabel(changeId, "code-review", 1);
+    voteLabel(changeId, "Code-Review", 1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(2);
     // Legacy and non-legacy requirements have mismatching status. Both are returned from the API.
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
   }
@@ -4368,15 +4367,15 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("verified")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:verified=+1"))
+            .setName("Verified")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Verified=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4386,18 +4385,18 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "verified", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Verified", Status.UNSATISFIED, /* isLegacy= */ false);
 
-    voteLabel(changeId, "code-review", 2);
+    voteLabel(changeId, "Code-Review", 2);
 
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "verified", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Verified", Status.UNSATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4409,9 +4408,9 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
+            .setName("Code-Review")
             .setApplicabilityExpression(SubmitRequirementExpression.of("project:foo"))
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4421,7 +4420,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.NOT_APPLICABLE, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.NOT_APPLICABLE, /* isLegacy= */ false);
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
   }
@@ -4445,8 +4444,8 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4456,26 +4455,25 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
 
     voteLabel(changeId, "build-cop-override", 1);
 
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.OVERRIDDEN, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.OVERRIDDEN, /* isLegacy= */ false);
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
   }
 
   @Test
-  @Ignore("Test is flaky")
   public void submitRequirement_overriddenInChildProject() throws Exception {
     configSubmitRequirement(
         allProjects,
         SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+1"))
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+1"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(true)
             .build());
@@ -4484,8 +4482,8 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4495,19 +4493,19 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
 
-    voteLabel(changeId, "code-review", 1);
+    voteLabel(changeId, "Code-Review", 1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
 
-    voteLabel(changeId, "code-review", 2);
+    voteLabel(changeId, "Code-Review", 2);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4518,8 +4516,8 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         allProjects,
         SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+1"))
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+1"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4529,13 +4527,13 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
 
-    voteLabel(changeId, "code-review", 1);
+    voteLabel(changeId, "Code-Review", 1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
     // Legacy requirement is coming from the label MaxWithBlock function. Still unsatisfied.
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
@@ -4550,8 +4548,8 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         allProjects,
         SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+1"))
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+1"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4561,8 +4559,8 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4572,14 +4570,14 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
 
-    voteLabel(changeId, "code-review", 1);
+    voteLabel(changeId, "Code-Review", 1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(2);
     // +1 was enough to fulfill the requirement: override in child project was ignored
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
     // Legacy requirement is coming from the label MaxWithBlock function. Still unsatisfied.
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
@@ -4600,9 +4598,9 @@ public class ChangeIT extends AbstractDaemonTest {
       configSubmitRequirement(
           project,
           SubmitRequirement.builder()
-              .setName("code-review")
+              .setName("Code-Review")
               .setSubmittabilityExpression(
-                  SubmitRequirementExpression.create("label:code-review=+2"))
+                  SubmitRequirementExpression.create("label:Code-Review=+2"))
               .setAllowOverrideInChildProjects(false)
               .build());
 
@@ -4610,12 +4608,12 @@ public class ChangeIT extends AbstractDaemonTest {
           createChange(repo, "master", "Add a file", "foo", "content", "topic");
       String changeId = r.getChangeId();
 
-      voteLabel(changeId, "code-review", 2);
+      voteLabel(changeId, "Code-Review", 2);
 
       ChangeInfo change = gApi.changes().id(changeId).get();
       assertThat(change.submitRequirements).hasSize(1);
       assertSubmitRequirementStatus(
-          change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
 
       RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
       revision.review(ReviewInput.approve());
@@ -4629,7 +4627,7 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(result.submittabilityExpressionResult().status())
           .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
       assertThat(result.submittabilityExpressionResult().expression().expressionString())
-          .isEqualTo("label:code-review=+2");
+          .isEqualTo("label:Code-Review=+2");
     }
   }
 
@@ -4645,8 +4643,8 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4656,14 +4654,14 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.UNSATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
 
-    voteLabel(changeId, "code-review", 2);
+    voteLabel(changeId, "Code-Review", 2);
 
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
 
     gApi.changes().id(changeId).current().submit();
 
@@ -4671,16 +4669,16 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("verified")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:verified=+1"))
+            .setName("Verified")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Verified=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
-    // The new "verified" submit requirement is not returned, since this change is closed
+    // The new "Verified" submit requirement is not returned, since this change is closed
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
-        change.submitRequirements, "code-review", Status.SATISFIED, /* isLegacy= */ false);
+        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
   }
 
   @Test
@@ -4869,15 +4867,15 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
 
-    voteLabel(changeId, "code-review", 2);
+    voteLabel(changeId, "Code-Review", 2);
 
     // Query the change. ChangeInfo is back-filled from the change index.
     List<ChangeInfo> changeInfos =
@@ -4889,7 +4887,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(changeInfos).hasSize(1);
     assertSubmitRequirementStatus(
         changeInfos.get(0).submitRequirements,
-        "code-review",
+        "Code-Review",
         Status.SATISFIED,
         /* isLegacy= */ false);
   }
@@ -4906,15 +4904,15 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
 
-    voteLabel(changeId, "code-review", 2);
+    voteLabel(changeId, "Code-Review", 2);
     gApi.changes().id(changeId).current().submit();
 
     // Query the change. ChangeInfo is back-filled from the change index.
@@ -4927,7 +4925,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(changeInfos).hasSize(1);
     assertSubmitRequirementStatus(
         changeInfos.get(0).submitRequirements,
-        "code-review",
+        "Code-Review",
         Status.SATISFIED,
         /* isLegacy= */ false);
   }
@@ -4937,8 +4935,8 @@ public class ChangeIT extends AbstractDaemonTest {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
-            .setName("code-review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4948,11 +4946,11 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).isEmpty();
 
-    voteLabel(changeId, "code-review", -1);
+    voteLabel(changeId, "Code-Review", -1);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).isEmpty();
 
-    voteLabel(changeId, "code-review", 2);
+    voteLabel(changeId, "Code-Review", 2);
     change = gApi.changes().id(changeId).get();
     assertThat(change.submitRequirements).isEmpty();
 

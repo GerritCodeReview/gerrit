@@ -270,9 +270,9 @@ public class ProjectConfigTest {
     Map<String, SubmitRequirement> submitRequirements = cfg.getSubmitRequirementSections();
     assertThat(submitRequirements)
         .containsExactly(
-            "code-review",
+            "Code-Review",
             SubmitRequirement.builder()
-                .setName("code-review")
+                .setName("Code-Review")
                 .setSubmittabilityExpression(
                     SubmitRequirementExpression.create("label(code-review, +2)"))
                 .setAllowOverrideInChildProjects(false)
@@ -299,9 +299,9 @@ public class ProjectConfigTest {
     Map<String, SubmitRequirement> submitRequirements = cfg.getSubmitRequirementSections();
     assertThat(submitRequirements)
         .containsExactly(
-            "code-review",
+            "Code-Review",
             SubmitRequirement.builder()
-                .setName("code-review")
+                .setName("Code-Review")
                 .setDescription(Optional.of("At least one Code Review +2"))
                 .setSubmittabilityExpression(
                     SubmitRequirementExpression.create("label(code-review, +2)"))

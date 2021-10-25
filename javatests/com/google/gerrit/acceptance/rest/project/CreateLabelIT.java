@@ -109,7 +109,7 @@ public class CreateLabelIT extends AbstractDaemonTest {
             () ->
                 gApi.projects()
                     .name(allProjects.get())
-                    .label("code-review")
+                    .label("Code-Review")
                     .create(new LabelDefinitionInput()));
     assertThat(thrown)
         .hasMessageThat()

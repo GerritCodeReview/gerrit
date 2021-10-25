@@ -236,6 +236,7 @@ export class GrCommentThread extends PolymerElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    console.log('comment thread connected');
     this.cleanups.push(
       addGlobalShortcut({key: 'e'}, e => this.handleExpandShortcut(e))
     );

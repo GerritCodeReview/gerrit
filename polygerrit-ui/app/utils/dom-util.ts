@@ -463,3 +463,24 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
   }
   return false;
 }
+
+export function waitUntil(
+  predicate: () => boolean,
+  maxMillis = 1000
+): Promise<void> {
+  const start = Date.now();
+  let sleep = 1;
+  return new Promise((resolve, reject) => {
+    const waiter = () => {
+      if (predicate()) {
+        return resolve();
+      }
+      if (Date.now() - start >= maxMillis) {
+        return reject(new Error('Took to long to waitUntil'));
+      }
+      setTimeout(waiter, sleep);
+      sleep *= 2;
+    };
+    waiter();
+  });
+}

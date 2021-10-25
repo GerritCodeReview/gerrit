@@ -36,5 +36,7 @@ export const htmlTemplate = html`
       }
     }
   </style>
-  <slot></slot>
+  <template is="dom-if" if="[[opened]]">
+    <slot></slot>
+  </template>
 `;

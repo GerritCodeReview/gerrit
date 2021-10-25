@@ -580,7 +580,10 @@ export class ChangeComments {
   /**
    * Computes a number of unresolved comment threads in a given file and path.
    */
-  computeUnresolvedNum(file: PatchSetFile | PatchNumOnly) {
+  computeUnresolvedNum(
+    file: PatchSetFile | PatchNumOnly,
+    ignorePatchsetLevelComments?: boolean
+  ) {
     let comments: Comment[] = [];
     let drafts: Comment[] = [];
 
@@ -595,7 +598,11 @@ export class ChangeComments {
 
     comments = comments.concat(drafts);
     const threads = createCommentThreads(comments);
-    const unresolvedThreads = threads.filter(isUnresolved);
+    let unresolvedThreads = threads.filter(isUnresolved);
+    if (ignorePatchsetLevelComments)
+      unresolvedThreads = unresolvedThreads.filter(
+        thread => !isPatchsetLevel(thread)
+      );
     return unresolvedThreads.length;
   }
 

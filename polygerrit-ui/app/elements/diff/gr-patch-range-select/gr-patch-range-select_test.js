@@ -351,15 +351,15 @@ suite('gr-patch-range-select tests', () => {
       ],
       abc: [],
       // Patchset level comment does not contribute to the count
-      [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: {
+      [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
         id: '27dcee4d_f7b77cfa',
         message: 'test',
         patch_set: 1,
         unresolved: true,
         updated: '2017-10-11 20:48:40.000000000',
-      },
+      }],
     };
-    element.changeComments = new ChangeComments(comments, {}, {}, 123);
+    element.changeComments = new ChangeComments(comments);
 
     assert.equal(element._computePatchSetCommentsString(
         element.changeComments, 1), ' (3 comments, 1 unresolved)');

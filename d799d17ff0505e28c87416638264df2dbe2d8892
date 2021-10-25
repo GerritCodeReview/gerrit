@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98f3022c_010038e6",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-25T21:25:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b03cb28d_cdf2c59d",
+      "range": {
+        "startLine": 251,
+        "startChar": 66,
+        "endLine": 251,
+        "endChar": 78
+      },
+      "revId": "d799d17ff0505e28c87416638264df2dbe2d8892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6187a826_7d39ae88",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-10-25T19:56:37Z",
       "side": 1,
       "message": "test?",
+      "revId": "d799d17ff0505e28c87416638264df2dbe2d8892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7224b5b4_b7963c4e",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-25T21:25:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6187a826_7d39ae88",
       "revId": "d799d17ff0505e28c87416638264df2dbe2d8892",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

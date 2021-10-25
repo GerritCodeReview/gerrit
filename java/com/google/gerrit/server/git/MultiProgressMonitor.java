@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.base.Strings;
+import com.google.common.base.Ticker;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.server.CancellationMetrics;
@@ -180,6 +181,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
   private Optional<Long> timeout = Optional.empty();
 
   private final long maxIntervalNanos;
+  private final Ticker ticker;
 
   /**
    * Create a new progress monitor for multiple sub-tasks.
@@ -190,10 +192,11 @@ public class MultiProgressMonitor implements RequestStateProvider {
   @AssistedInject
   private MultiProgressMonitor(
       CancellationMetrics cancellationMetrics,
+      Ticker ticker,
       @Assisted OutputStream out,
       @Assisted TaskKind taskKind,
       @Assisted String taskName) {
-    this(cancellationMetrics, out, taskKind, taskName, 500, MILLISECONDS);
+    this(cancellationMetrics, ticker, out, taskKind, taskName, 500, MILLISECONDS);
   }
 
   /**
@@ -207,12 +210,14 @@ public class MultiProgressMonitor implements RequestStateProvider {
   @AssistedInject
   private MultiProgressMonitor(
       CancellationMetrics cancellationMetrics,
+      Ticker ticker,
       @Assisted OutputStream out,
       @Assisted TaskKind taskKind,
       @Assisted String taskName,
       @Assisted long maxIntervalTime,
       @Assisted TimeUnit maxIntervalUnit) {
     this.cancellationMetrics = cancellationMetrics;
+    this.ticker = ticker;
     this.out = out;
     this.taskKind = taskKind;
     this.taskName = taskName;
@@ -262,7 +267,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
       long cancellationTimeoutTime,
       TimeUnit cancellationTimeoutUnit)
       throws TimeoutException {
-    long overallStart = System.nanoTime();
+    long overallStart = ticker.read();
     long cancellationNanos =
         cancellationTimeoutTime > 0
             ? NANOSECONDS.convert(cancellationTimeoutTime, cancellationTimeoutUnit)
@@ -278,16 +283,33 @@ public class MultiProgressMonitor implements RequestStateProvider {
     synchronized (this) {
       long left = maxIntervalNanos;
       while (!done) {
-        long start = System.nanoTime();
+        long start = ticker.read();
         try {
-          NANOSECONDS.timedWait(this, left);
+          // Conditions below gives better granularity for timeouts.
+          // Originally, code always used fixed interval:
+          // NANOSECONDS.timedWait(this, maxIntervalNanos);
+          // As a result, the actual check for timeouts happened only every maxIntervalNanos
+          // (default value 500ms); so even if timout was set to 1ms, the actual timeout was 500ms.
+          // This is not a big issue, however it made our tests for timeouts flaky. For example,
+          // some tests in the CancellationIT set timeout to 1ms and expect that server returns
+          // timeout. However, server often returned OK result, because a request takes less than
+          // 500ms.
+          if (deadlineExceeded || deadline == 0) {
+            // We want to set deadlineExceeded flag as earliest as possible. If it is already
+            // set - there is no reason to wait less than maxIntervalNanos
+            NANOSECONDS.timedWait(this, maxIntervalNanos);
+          } else if (start <= deadline) {
+            // if deadlineExceeded is not set, then we should wait until deadline, but no longer
+            // than maxIntervalNanos (because we want to report a progress every maxIntervalNanos).
+            NANOSECONDS.timedWait(this, Math.min(deadline - start + 1, maxIntervalNanos));
+          }
         } catch (InterruptedException e) {
           throw new UncheckedExecutionException(e);
         }
 
         // Send an update on every wakeup (manual or spurious), but only move
         // the spinner every maxInterval.
-        long now = System.nanoTime();
+        long now = ticker.read();
 
         if (deadline > 0 && now > deadline) {
           if (!deadlineExceeded) {

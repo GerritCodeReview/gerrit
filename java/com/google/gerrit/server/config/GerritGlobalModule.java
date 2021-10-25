@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.base.Ticker;
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
@@ -225,6 +226,7 @@ import com.google.gitiles.blame.cache.BlameCacheImpl;
 import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
+import com.google.inject.multibindings.OptionalBinder;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
@@ -338,6 +340,9 @@ public class GerritGlobalModule extends FactoryModule {
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     bind(AccountControl.Factory.class);
+    OptionalBinder.newOptionalBinder(binder(), Ticker.class)
+        .setDefault()
+        .toInstance(Ticker.systemTicker());
 
     bind(UiActions.class);
 

@@ -735,6 +735,7 @@ export class GrDiffHost extends PolymerElement {
   }
 
   _threadsChanged(threads: CommentThread[]) {
+    console.log('COMMENT diff host _threadsChanged()');
     const threadEls = new Set<GrCommentThread>();
     const rootIdToThreadEl = new Map<UrlEncodedCommentId, GrCommentThread>();
     for (const threadEl of this.getThreadEls()) {
@@ -863,10 +864,12 @@ export class GrDiffHost extends PolymerElement {
   }
 
   _attachThreadElement(threadEl: Element) {
+    console.log('COMMENT diff host _attachThreadElement()');
     this.$.diff.appendChild(threadEl);
   }
 
   _clearThreads() {
+    console.log('COMMENT diff host _clearThreads()');
     for (const threadEl of this.getThreadEls()) {
       const parent = threadEl.parentNode;
       if (parent) parent.removeChild(threadEl);
@@ -874,6 +877,7 @@ export class GrDiffHost extends PolymerElement {
   }
 
   _createThreadElement(thread: CommentThread) {
+    console.log('COMMENT diff host _createThreadElement()');
     const threadEl = document.createElement('gr-comment-thread');
     threadEl.className = 'comment-thread';
     threadEl.setAttribute(
@@ -885,6 +889,7 @@ export class GrDiffHost extends PolymerElement {
   }
 
   _updateThreadElement(threadEl: GrCommentThread, thread: CommentThread) {
+    console.log('COMMENT diff host _updateThreadElement()');
     threadEl.comments = thread.comments;
     threadEl.diffSide = thread.diffSide;
     threadEl.isOnParent = thread.commentSide === CommentSide.PARENT;

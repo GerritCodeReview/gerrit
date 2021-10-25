@@ -59,7 +59,12 @@ import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
-import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
+import {
+  addShortcut,
+  commentLocation,
+  Key,
+  Modifier,
+} from '../../../utils/dom-util';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -289,6 +294,13 @@ export class GrComment extends PolymerElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    console.log(
+      `COMMENT gr-comment connected ${commentLocation(
+        this
+      )} ${this.comment?.message?.substring(0, 10)} ${this.comment?.id} ${
+        this.comment?.in_reply_to
+      }`
+    );
     this.restApiService.getAccount().then(account => {
       this._selfAccount = account;
     });

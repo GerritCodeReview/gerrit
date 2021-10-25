@@ -70,7 +70,7 @@ import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-la
 import {anyLineTooLong} from '../../diff/gr-diff/gr-diff-utils';
 import {getUserName} from '../../../utils/display-name-util';
 import {generateAbsoluteUrl} from '../../../utils/url-util';
-import {addGlobalShortcut} from '../../../utils/dom-util';
+import {addGlobalShortcut, commentLocation} from '../../../utils/dom-util';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -230,12 +230,26 @@ export class GrCommentThread extends PolymerElement {
 
   override disconnectedCallback() {
     super.disconnectedCallback();
+    console.log(
+      `COMMENT gr-comment-thread disconnectedCallback ${commentLocation(
+        this
+      )} ${this.comments[0]?.message?.substring(0, 10)} ${
+        this.comments[0]?.id
+      } ${this.comments[0]?.in_reply_to}`
+    );
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
   }
 
   override connectedCallback() {
     super.connectedCallback();
+    console.log(
+      `COMMENT gr-comment-thread connected ${commentLocation(
+        this
+      )} ${this.comments[0]?.message?.substring(0, 10)} ${
+        this.comments[0]?.id
+      } ${this.comments[0]?.in_reply_to}`
+    );
     this.cleanups.push(
       addGlobalShortcut({key: 'e'}, e => this.handleExpandShortcut(e))
     );

@@ -39,6 +39,10 @@ export function isElement(node: Node): node is Element {
   return node.nodeType === 1;
 }
 
+export function isShadowRoot(node: Node): node is ShadowRoot {
+  return node.nodeType === 11 && !!(node as ShadowRoot).host;
+}
+
 export function isElementTarget(
   target: EventTarget | null | undefined
 ): target is Element {
@@ -46,8 +50,25 @@ export function isElementTarget(
   return 'nodeType' in target && isElement(target as Node);
 }
 
+export function getFullPath(el: Node): string {
+  const path: string = getPathFromNode(el);
+  if (el.parentNode) return getFullPath(el.parentNode) + '>' + path;
+  if (isShadowRoot(el))
+    return getFullPath((el as ShadowRoot).host) + '>' + path;
+  return path;
+}
+
+export function commentLocation(el: Node) {
+  const path = getFullPath(el);
+  if (path.includes('section.patchInfo>gr-thread-list')) return 'COMMENTS TAB';
+  if (path.includes('gr-reply-dialog#replyDialog')) return 'REPLY DIALOG';
+  if (path.includes('section.changeLog>gr-messages-list')) return 'CHANGE LOG';
+  if (path.includes('gr-diff-host')) return 'DIFF';
+  return 'UNKNOWN';
+}
+
 // TODO: maybe should have a better name for this
-function getPathFromNode(el: EventTarget) {
+function getPathFromNode(el: EventTarget | Node) {
   let tagName = '';
   let id = '';
   let className = '';

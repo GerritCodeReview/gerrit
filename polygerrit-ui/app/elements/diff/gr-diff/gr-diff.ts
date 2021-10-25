@@ -321,11 +321,13 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   override connectedCallback() {
     super.connectedCallback();
+    console.log('COMMENT gr-diff connectedCallback()');
     this._observeNodes();
     this.isAttached = true;
   }
 
   override disconnectedCallback() {
+    console.log('COMMENT gr-diff disconnectedCallback()');
     this.isAttached = false;
     this.renderDiffTableTask?.cancel();
     this._unobserveIncrementalNodes();
@@ -668,7 +670,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   _getOrCreateThreadGroup(contentEl: Element, commentSide: Side) {
     // Check if thread group exists.
     let threadGroupEl = this._getThreadGroupForLine(contentEl);
+    console.log('COMMENT getOrCreateThreadGroup');
     if (!threadGroupEl) {
+      console.log('COMMENT createThreadGroup');
       threadGroupEl = document.createElement('div');
       threadGroupEl.className = 'thread-group';
       threadGroupEl.setAttribute('data-side', commentSide);
@@ -892,6 +896,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       // to keep them around. Medium term we can even consider to add one slot
       // for each line from the start.
       let lastEl;
+      console.log(`COMMENT observeNodes ${addedThreadEls.length}`);
       for (const threadEl of addedThreadEls) {
         const lineNum = getLine(threadEl);
         const commentSide = getSide(threadEl);
@@ -941,6 +946,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
         // The thread group may already have a slot with the right name, but
         // that is okay because the first matching slot is used and the rest
         // are ignored.
+        console.log('COMMENT create and append slot');
         const slot = document.createElement('slot') as HTMLSlotElement;
         if (slotAtt) slot.name = slotAtt;
         threadGroupEl.appendChild(slot);
@@ -951,7 +957,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       // with the slot somehow, replace itself will rebind it
       // @see Issue 11182
       if (lastEl && lastEl.replaceWith) {
+        console.log('COMMENT before replace');
         lastEl.replaceWith(lastEl);
+        console.log('COMMENT after replace');
       }
 
       const removedThreadEls = info.removedNodes.filter(isThreadEl);

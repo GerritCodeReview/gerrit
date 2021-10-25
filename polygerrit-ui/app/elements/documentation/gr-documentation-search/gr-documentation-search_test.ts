@@ -20,7 +20,7 @@ import './gr-documentation-search';
 import {GrDocumentationSearch} from './gr-documentation-search';
 import {page} from '../../../utils/page-wrapper-utils';
 import 'lodash/lodash';
-import {stubRestApi} from '../../../test/test-utils';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {DocResult} from '../../../types/common';
 import {ListViewParams} from '../../gr-app-types';
 
@@ -40,10 +40,11 @@ suite('gr-documentation-search tests', () => {
 
   let value: ListViewParams;
 
-  setup(() => {
+  setup(async () => {
     sinon.stub(page, 'show');
     element = basicFixture.instantiate();
     counter = 0;
+    await flush();
   });
 
   suite('list with searches for documentation', () => {
@@ -87,13 +88,19 @@ suite('gr-documentation-search tests', () => {
     test('correct contents are displayed', async () => {
       assert.isTrue(element._loading);
       assert.equal(element.computeLoadingClass(element._loading), 'loading');
-      assert.equal(getComputedStyle(element.$.loading).display, 'block');
+      assert.equal(
+        getComputedStyle(queryAndAssert(element, '#loading')).display,
+        'block'
+      );
 
       element._loading = false;
 
       await flush();
       assert.equal(element.computeLoadingClass(element._loading), '');
-      assert.equal(getComputedStyle(element.$.loading).display, 'none');
+      assert.equal(
+        getComputedStyle(queryAndAssert(element, '#loading')).display,
+        'none'
+      );
     });
   });
 });

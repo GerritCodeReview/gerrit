@@ -51,6 +51,7 @@ import {assertIsDefined, assertNever} from '../../../utils/common-util';
 import {CommentTabState} from '../../../types/events';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
+import {commentLocation} from '../../../utils/dom-util';
 
 interface CommentThreadWithInfo {
   thread: CommentThread;
@@ -398,6 +399,11 @@ export class GrThreadList extends PolymerElement {
     selectedAuthors?: AccountInfo[]
   ) {
     if (!sortedThreadsRecord || !sortedThreadsRecord.base) return [];
+    console.log(
+      `COMMENT _computeDisplayedThreads: ${unresolvedOnly} ${draftsOnly} ${selectedAuthors} ${commentLocation(
+        this
+      )}`
+    );
     return sortedThreadsRecord.base.filter(t =>
       this._shouldShowThread(
         t,

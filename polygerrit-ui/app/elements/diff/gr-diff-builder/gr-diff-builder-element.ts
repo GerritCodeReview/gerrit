@@ -191,6 +191,7 @@ export class GrDiffBuilderElement extends PolymerElement {
     prefs: DiffPreferencesInfo,
     renderPrefs?: RenderPreferences
   ) {
+    console.log('render()');
     // Setting up annotation layers must happen after plugins are
     // installed, and |render| satisfies the requirement, however,
     // |attached| doesn't because in the diff view page, the element is
@@ -386,6 +387,7 @@ export class GrDiffBuilderElement extends PolymerElement {
   }
 
   _clearDiffContent() {
+    console.log('_clearDiffContent');
     this.diffElement.innerHTML = '';
   }
 

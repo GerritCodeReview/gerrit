@@ -321,11 +321,13 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   override connectedCallback() {
     super.connectedCallback();
+    console.log('COMMENT gr-diff connectedCallback()');
     this._observeNodes();
     this.isAttached = true;
   }
 
   override disconnectedCallback() {
+    console.log('COMMENT gr-diff disconnectedCallback()');
     this.isAttached = false;
     this.renderDiffTableTask?.cancel();
     this._unobserveIncrementalNodes();
@@ -668,7 +670,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   _getOrCreateThreadGroup(contentEl: Element, commentSide: Side) {
     // Check if thread group exists.
     let threadGroupEl = this._getThreadGroupForLine(contentEl);
+    console.log('COMMENT getOrCreateThreadGroup');
     if (!threadGroupEl) {
+      console.log('COMMENT createThreadGroup');
       threadGroupEl = document.createElement('div');
       threadGroupEl.className = 'thread-group';
       threadGroupEl.setAttribute('data-side', commentSide);
@@ -739,6 +743,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this._updatePreferenceStyles(prefs, this.renderPrefs);
 
     if (this.diff && !this.noRenderOnPrefsChange) {
+      console.log('call _debounceRenderDiffTable() _prefsChanged');
       this._debounceRenderDiffTable();
     }
   }
@@ -823,6 +828,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this._cleanup();
     if (newValue) {
       this._diffLength = this.getDiffLength(newValue);
+      console.log('call _debounceRenderDiffTable() _diffChanged');
       this._debounceRenderDiffTable();
     }
   }
@@ -863,6 +869,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
     const keyLocations = this._computeKeyLocations();
     const bypassPrefs = this._getBypassPrefs(this.prefs);
+    console.log('gr-diff calls render()');
     this.$.diffBuilder
       .render(keyLocations, bypassPrefs, this.renderPrefs)
       .then(() => {
@@ -892,6 +899,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       // to keep them around. Medium term we can even consider to add one slot
       // for each line from the start.
       let lastEl;
+      console.log(`COMMENT observeNodes ${addedThreadEls.length}`);
       for (const threadEl of addedThreadEls) {
         const lineNum = getLine(threadEl);
         const commentSide = getSide(threadEl);
@@ -941,6 +949,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
         // The thread group may already have a slot with the right name, but
         // that is okay because the first matching slot is used and the rest
         // are ignored.
+        console.log('COMMENT create and append slot');
         const slot = document.createElement('slot') as HTMLSlotElement;
         if (slotAtt) slot.name = slotAtt;
         threadGroupEl.appendChild(slot);
@@ -951,7 +960,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       // with the slot somehow, replace itself will rebind it
       // @see Issue 11182
       if (lastEl && lastEl.replaceWith) {
+        console.log('COMMENT before replace');
         lastEl.replaceWith(lastEl);
+        console.log('COMMENT after replace');
       }
 
       const removedThreadEls = info.removedNodes.filter(isThreadEl);
@@ -1030,6 +1041,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   _handleFullBypass() {
     this._safetyBypass = FULL_CONTEXT;
+    console.log('call _debounceRenderDiffTable() _handleFullBypass');
     this._debounceRenderDiffTable();
   }
 
@@ -1039,6 +1051,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       this.prefs?.context && this.prefs.context >= 0
         ? null
         : createDefaultDiffPrefs().context;
+    console.log('call _debounceRenderDiffTable() _collapseContext');
     this._debounceRenderDiffTable();
   }
 

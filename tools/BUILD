@@ -244,7 +244,7 @@ java_package_configuration(
         "-Xep:InvalidInlineTag:ERROR",
         "-Xep:InvalidJavaTimeConstant:ERROR",
         "-Xep:InvalidLink:ERROR",
-        # "-Xep:InvalidParam:WARN",
+        "-Xep:InvalidParam:ERROR",
         "-Xep:InvalidPatternSyntax:ERROR",
         "-Xep:InvalidThrows:ERROR",
         "-Xep:InvalidThrowsLink:ERROR",

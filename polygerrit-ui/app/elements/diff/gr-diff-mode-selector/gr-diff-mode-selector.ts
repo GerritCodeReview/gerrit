@@ -26,6 +26,9 @@ import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announce
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
+import {diffViewMode$} from '../../../services/browser/browser-model';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @customElement('gr-diff-mode-selector')
 export class GrDiffModeSelector extends PolymerElement {
@@ -34,7 +37,7 @@ export class GrDiffModeSelector extends PolymerElement {
   }
 
   @property({type: String, notify: true})
-  mode?: DiffViewMode;
+  mode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
 
   /**
    * If set to true, the user's preference will be updated every time a
@@ -48,11 +51,24 @@ export class GrDiffModeSelector extends PolymerElement {
 
   private readonly userService = appContext.userService;
 
+  disconnected$ = new Subject();
+
+  constructor() {
+    super();
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     (
       IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
     ).requestAvailability();
+    diffViewMode$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(diffView => (this.mode = diffView));
+  }
+
+  override disconnectedCallback() {
+    this.disconnected$.next();
   }
 
   /**

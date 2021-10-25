@@ -169,7 +169,6 @@ export const htmlTemplate = html`
         <span class="fileViewActionsLabel">Diff view:</span>
         <gr-diff-mode-selector
           id="modeSelect"
-          mode="{{diffViewMode}}"
           save-on-change="[[loggedIn]]"
         ></gr-diff-mode-selector>
         <span

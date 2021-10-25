@@ -212,6 +212,8 @@ export class GrAppElement extends base {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly browserService = appContext.browserService;
+
   override keyboardShortcuts(): ShortcutListener[] {
     return [
       listen(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, _ =>
@@ -252,6 +254,8 @@ export class GrAppElement extends base {
       this.handleRecreateView(GerritView.DIFF)
     );
     document.addEventListener(EventType.GR_RPC_LOG, e => this._handleRpcLog(e));
+    const resizeObserver = this.browserService.observeWidth();
+    resizeObserver.observe(this);
   }
 
   override ready() {

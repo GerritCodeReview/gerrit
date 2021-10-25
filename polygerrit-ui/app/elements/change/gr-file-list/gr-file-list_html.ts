@@ -643,7 +643,6 @@ export const htmlTemplate = html`
             prefs="[[diffPrefs]]"
             project-name="[[change.project]]"
             no-render-on-prefs-change=""
-            view-mode="[[diffViewMode]]"
           ></gr-diff-host>
         </template>
       </div>

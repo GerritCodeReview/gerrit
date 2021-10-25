@@ -16,6 +16,24 @@
       "message": "IIUC the issue was that there was a keyboard listener for the Enter that should be suppressed but was not suppressed.\n\nDoes this mean all shortcuts not intended to listen to the input textarea have to remember to add this option? \n\nI would expect the opposite, shortcuts meant to listen to keypresses on input textarea have to specify some option and the default is to suppress them(without explicitly sending an option).\n\nJust confirming my understanding(if it\u0027s correct, don\u0027t think that is a huge deal and definitely not a blocker for this fix).",
       "revId": "4c832c4ddc85d917bb947fb88b7ceede93bf70d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd5d8eeb_5c3215ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T12:57:50Z",
+      "side": 1,
+      "message": "For normal shortcuts that are registered with shortcuts-service and piped through its wrapped handler we indeed suppress those always for \u003cinput\u003e.\n\nThe key handlers that call `addShortcut()` directly as a DOM utility are different. I have checked them all and a lot of them are Ctrl-Enter and related, where you explicitly want the event to be handled, even on \u003cinput\u003e elements. So I just chose the default such that I don\u0027t have to touch 10 places, but just 1.",
+      "parentUuid": "620e56bc_3bc0e149",
+      "revId": "4c832c4ddc85d917bb947fb88b7ceede93bf70d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

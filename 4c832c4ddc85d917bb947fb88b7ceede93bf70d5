@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "620e56bc_3bc0e149",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T12:52:56Z",
+      "side": 1,
+      "message": "IIUC the issue was that there was a keyboard listener for the Enter that should be suppressed but was not suppressed.\n\nDoes this mean all shortcuts not intended to listen to the input textarea have to remember to add this option? \n\nI would expect the opposite, shortcuts meant to listen to keypresses on input textarea have to specify some option and the default is to suppress them(without explicitly sending an option).\n\nJust confirming my understanding(if it\u0027s correct, don\u0027t think that is a huge deal and definitely not a blocker for this fix).",
+      "revId": "4c832c4ddc85d917bb947fb88b7ceede93bf70d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

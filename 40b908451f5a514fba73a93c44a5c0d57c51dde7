@@ -16,6 +16,24 @@
       "message": "It would be nice to have some stats about this impact.",
       "revId": "40b908451f5a514fba73a93c44a5c0d57c51dde7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0aee77c_35594e3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-25T19:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3256d9f5_e3805e48",
+      "revId": "40b908451f5a514fba73a93c44a5c0d57c51dde7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

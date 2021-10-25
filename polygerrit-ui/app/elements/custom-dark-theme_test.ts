@@ -15,16 +15,20 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
-import {getComputedStyleValue} from '../utils/dom-util.js';
-import './gr-app.js';
-import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
-import {removeTheme} from '../styles/themes/dark-theme.js';
+import '../test/common-test-setup-karma';
+import {getComputedStyleValue} from '../utils/dom-util';
+import './gr-app';
+import {GrApp} from './gr-app';
+import {GrAlert} from './shared/gr-alert/gr-alert';
+import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {removeTheme} from '../styles/themes/dark-theme';
+import {query, queryAll} from '../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-app');
 
 suite('gr-app custom dark theme tests', () => {
-  let element;
+  let element: GrApp;
+
   setup(async () => {
     window.localStorage.setItem('dark-theme', 'true');
 
@@ -39,25 +43,23 @@ suite('gr-app custom dark theme tests', () => {
     removeTheme();
     // The app sends requests to server. This can lead to
     // unexpected gr-alert elements in document.body
-    document.body.querySelectorAll('gr-alert').forEach(grAlert => {
+    queryAll<GrAlert>(document.body, 'gr-alert').forEach(grAlert => {
       grAlert.remove();
     });
   });
 
   test('should tried to load dark theme', () => {
-    assert.isTrue(
-        !!document.head.querySelector('#dark-theme')
-    );
+    assert.isTrue(!!query(document.head, '#dark-theme'));
   });
 
   test('applies the right theme', () => {
     assert.equal(
-        getComputedStyleValue('--header-background-color', element)
-            .toLowerCase(),
-        '#3c4043');
+      getComputedStyleValue('--header-background-color', element).toLowerCase(),
+      '#3c4043'
+    );
     assert.equal(
-        getComputedStyleValue('--footer-background-color', element)
-            .toLowerCase(),
-        '#3c4043');
+      getComputedStyleValue('--footer-background-color', element).toLowerCase(),
+      '#3c4043'
+    );
   });
 });

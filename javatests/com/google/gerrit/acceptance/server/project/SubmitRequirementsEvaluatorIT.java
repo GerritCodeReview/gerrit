@@ -138,13 +138,13 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* submittabilityExpr= */ "label:\"code-review=+2\"",
+            /* submittabilityExpr= */ "label:\"Code-Review=+2\"",
             /* overrideExpr= */ "");
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.UNSATISFIED);
     assertThat(result.submittabilityExpressionResult().failingAtoms())
-        .containsExactly("label:\"code-review=+2\"");
+        .containsExactly("label:\"Code-Review=+2\"");
   }
 
   @Test
@@ -160,7 +160,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* submittabilityExpr= */ "label:\"code-review=+2\"",
+            /* submittabilityExpr= */ "label:\"Code-Review=+2\"",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
@@ -175,7 +175,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "invalid_field:invalid_value",
-            /* submittabilityExpr= */ "label:\"code-review=+2\"",
+            /* submittabilityExpr= */ "label:\"Code-Review=+2\"",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
@@ -206,7 +206,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* submittabilityExpr= */ "label:\"code-review=+2\"",
+            /* submittabilityExpr= */ "label:\"Code-Review=+2\"",
             /* overrideExpr= */ "invalid_field:invalid_value");
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);

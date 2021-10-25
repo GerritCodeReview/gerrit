@@ -109,11 +109,9 @@ public class CreateLabelIT extends AbstractDaemonTest {
             () ->
                 gApi.projects()
                     .name(allProjects.get())
-                    .label("code-review")
+                    .label("Code-Review")
                     .create(new LabelDefinitionInput()));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("label code-review conflicts with existing label Code-Review");
+    assertThat(thrown).hasMessageThat().contains("label Code-Review already exists");
   }
 
   @Test

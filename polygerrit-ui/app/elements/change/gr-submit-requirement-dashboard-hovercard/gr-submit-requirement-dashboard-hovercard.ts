@@ -44,7 +44,7 @@ export class GrSubmitRequirementDashboardHovercard extends base {
     return html`<div id="container" role="tooltip" tabindex="-1">
       <gr-submit-requirements
         .change=${this.change}
-        inHovercard
+        suppress-title
       ></gr-submit-requirements>
     </div>`;
   }

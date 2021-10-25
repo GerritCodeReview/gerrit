@@ -244,7 +244,7 @@ export function iconForStatus(status: SubmitRequirementStatus) {
 }
 
 // TODO(milutin): This may be temporary for demo purposes
-const PRIORITY_REQUIREMENTS_ORDER: string[] = [
+export const PRIORITY_REQUIREMENTS_ORDER: string[] = [
   StandardLabels.CODE_REVIEW,
   StandardLabels.CODE_OWNERS,
   StandardLabels.PRESUBMIT_VERIFIED,

@@ -51,6 +51,7 @@ import {fireEvent, fireReload} from '../../../utils/event-util';
 import {ScrollMode} from '../../../constants/constants';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {PRIORITY_REQUIREMENTS_ORDER} from '../../../utils/label-util';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -319,6 +320,13 @@ export class GrChangeList extends base {
         const currentLabels = Object.keys(change.labels);
         labels = labels.concat(currentLabels.filter(nonExistingLabel));
       }
+    }
+    if (
+      this.flagsService.enabledExperiments.includes(
+        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+      )
+    ) {
+      labels = labels.filter(l => PRIORITY_REQUIREMENTS_ORDER.includes(l));
     }
     return labels.sort();
   }

@@ -81,6 +81,24 @@
       "parentUuid": "6b02e92b_fbc58ec1",
       "revId": "b1474dfdcc7f2c1914805ac88412af7debefca6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33ece730_43edf841",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-25T14:05:22Z",
+      "side": 1,
+      "message": "OK, makes sense.",
+      "parentUuid": "9467a129_3408e8a9",
+      "revId": "b1474dfdcc7f2c1914805ac88412af7debefca6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

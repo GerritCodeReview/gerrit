@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
@@ -71,7 +72,9 @@ export class GrChangeListColumRequirements extends LitElement {
 
   renderState(icon: string, message: string) {
     return html`<span class="${icon}"
-      ><iron-icon class="${icon}" icon="gr-icons:${icon}" role="img"></iron-icon
+      ><gr-submit-requirement-dashboard-hovercard .change=${this.change}>
+      </gr-submit-requirement-dashboard-hovercard>
+      <iron-icon class="${icon}" icon="gr-icons:${icon}" role="img"></iron-icon
       >${message}</span
     >`;
   }

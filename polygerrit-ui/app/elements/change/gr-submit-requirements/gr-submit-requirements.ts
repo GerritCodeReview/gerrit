@@ -67,6 +67,9 @@ export class GrSubmitRequirements extends LitElement {
     return [
       fontStyles,
       css`
+        :host([inHovercard]) .metadata-title {
+          display: none;
+        }
         .metadata-title {
           color: var(--deemphasized-text-color);
           padding-left: var(--metadata-horizontal-padding);
@@ -108,6 +111,7 @@ export class GrSubmitRequirements extends LitElement {
         }
         td {
           padding: var(--spacing-s);
+          white-space: nowrap;
         }
         .votes-cell {
           display: flex;

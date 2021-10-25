@@ -76,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a0573e3_c83adadb",
+        "filename": "polygerrit-ui/app/utils/dom-util_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T14:02:03Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/321820",
+      "parentUuid": "b0fb8431_b284fd74",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 39
+      },
+      "revId": "4c832c4ddc85d917bb947fb88b7ceede93bf70d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b63871e4_01314c82",
@@ -89,6 +113,30 @@
       "writtenOn": "2021-10-25T13:01:35Z",
       "side": 1,
       "message": "use this? https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/test/test-utils.ts",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 65
+      },
+      "revId": "4c832c4ddc85d917bb947fb88b7ceede93bf70d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e2084a_49ad8637",
+        "filename": "polygerrit-ui/app/utils/dom-util_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T14:02:03Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/321820",
+      "parentUuid": "b63871e4_01314c82",
       "range": {
         "startLine": 40,
         "startChar": 0,

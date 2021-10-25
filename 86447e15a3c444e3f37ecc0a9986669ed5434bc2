@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf3bef3a_5b25c9f0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-25T14:11:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "16802d48_aec09540",
+      "range": {
+        "startLine": 116,
+        "startChar": 2,
+        "endLine": 116,
+        "endChar": 18
+      },
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ea2e5f1_71422df4",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c53e354_15385491",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-25T14:11:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9ea2e5f1_71422df4",
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19f45dac_7a5fadd0",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-10-25T08:43:20Z",
       "side": 1,
       "message": "Instead of ternaries (x ? y : z) prefer dedicated `renderSomething()` methods. That breaks down the template into smaller parts and allows you to just add guard statements like `if (!this.filesWeblinks?.meta_a) return;`.\n\nIn this case it even allows you to avoid using code duplication by calling the method twice.",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 34
+      },
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8c8d4fb_fba6801e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-25T14:11:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "19f45dac_7a5fadd0",
       "range": {
         "startLine": 171,
         "startChar": 8,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc66c405_b54fd794",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-25T14:11:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "05d228f5_a2e933a3",
+      "range": {
+        "startLine": 162,
+        "startChar": 5,
+        "endLine": 181,
+        "endChar": 13
+      },
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2676022_3d4bd8f6",
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5c9c119_6c2afd82",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-25T14:11:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a2676022_3d4bd8f6",
+      "range": {
+        "startLine": 218,
+        "startChar": 16,
+        "endLine": 218,
+        "endChar": 43
+      },
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35615691_c3063a40",
@@ -123,6 +237,24 @@
       "writtenOn": "2021-10-25T08:43:20Z",
       "side": 1,
       "message": "flush() is Polymer speak. Prefer `await element.updateComplete;` for Lit.",
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81cfa036_9794a3ae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-25T14:11:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "35615691_c3063a40",
       "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

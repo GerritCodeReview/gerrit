@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f320be2d_1b4a2c55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T10:19:13Z",
+      "side": 1,
+      "message": "nice",
+      "revId": "c6714070e0a93b9de052a0cde020df50354f6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cefd3f9_43b9d3bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T10:19:13Z",
+      "side": 1,
+      "message": "Move to connectedCallback() and add\n\n  .pipe(takeUntil(this.disconnected$))",
+      "revId": "c6714070e0a93b9de052a0cde020df50354f6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f93b877a_66b27b74",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T10:19:13Z",
+      "side": 1,
+      "message": "Move to connectedCallback() and add\n\n  .pipe(takeUntil(this.disconnected$))",
+      "revId": "c6714070e0a93b9de052a0cde020df50354f6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68423277_2011dc4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-selector/gr-diff-mode-selector.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T10:19:13Z",
+      "side": 1,
+      "message": "Move to connectedCallback() and add\n\n  .pipe(takeUntil(this.disconnected$))",
+      "revId": "c6714070e0a93b9de052a0cde020df50354f6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e60fe27b_849ed958",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T10:19:13Z",
+      "side": 1,
+      "message": "Can this just be a local var instead of a field?",
+      "revId": "c6714070e0a93b9de052a0cde020df50354f6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ef5ad46_b048b229",
+        "filename": "polygerrit-ui/app/services/browser/browser-model.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T10:19:13Z",
+      "side": 1,
+      "message": "Rename to BrowserState?",
+      "revId": "c6714070e0a93b9de052a0cde020df50354f6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e45a5d8_48510193",
+        "filename": "polygerrit-ui/app/services/browser/browser-model.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T10:19:13Z",
+      "side": 1,
+      "message": "add a comment",
+      "revId": "c6714070e0a93b9de052a0cde020df50354f6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cab6cbf6_bb610ccd",
+        "filename": "polygerrit-ui/app/services/browser/browser-model.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T10:19:13Z",
+      "side": 1,
+      "message": "Rename method to something more specific.",
+      "range": {
+        "startLine": 49,
+        "startChar": 16,
+        "endLine": 49,
+        "endChar": 27
+      },
+      "revId": "c6714070e0a93b9de052a0cde020df50354f6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "367c0219_d5dfb014",
+        "filename": "polygerrit-ui/app/services/browser/browser-model.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T10:19:13Z",
+      "side": 1,
+      "message": "With this default does the app initially render in UNIFIED mode, and then once more in SBS mode? Maybe the default should be that the screen is not too small as to avoid re-rendering?",
+      "range": {
+        "startLine": 54,
+        "startChar": 36,
+        "endLine": 54,
+        "endChar": 37
+      },
+      "revId": "c6714070e0a93b9de052a0cde020df50354f6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98cb782a_3e7576ff",
+        "filename": "polygerrit-ui/app/services/browser/browser-service.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T10:19:13Z",
+      "side": 1,
+      "message": "add a comment",
+      "revId": "c6714070e0a93b9de052a0cde020df50354f6583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

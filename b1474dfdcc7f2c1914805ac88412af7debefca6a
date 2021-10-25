@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "118d4a89_6ace0dee",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-25T13:40:43Z",
+      "side": 1,
+      "message": "nit: bad line wrapping",
+      "range": {
+        "startLine": 440,
+        "startChar": 12,
+        "endLine": 446,
+        "endChar": 45
+      },
+      "revId": "b1474dfdcc7f2c1914805ac88412af7debefca6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b02e92b_fbc58ec1",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-25T13:40:43Z",
+      "side": 1,
+      "message": "Would it work if we would just use TimeUtil.nowNanos() here and below?\n\nI wonder if we can safe the overhead of binding a Ticker.\n\nSee commit message of [1] for why TimeUtil.nowNanos() should work better than System.nanoTime().\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/318295",
+      "revId": "b1474dfdcc7f2c1914805ac88412af7debefca6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

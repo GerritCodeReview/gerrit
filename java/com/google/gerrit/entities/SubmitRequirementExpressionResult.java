@@ -39,17 +39,17 @@ public abstract class SubmitRequirementExpressionResult {
   /**
    * List leaf predicates that are fulfilled, for example the expression
    *
-   * <p><i>label:code-review=+2 and branch:refs/heads/master</i>
+   * <p><i>label:Code-Review=+2 and branch:refs/heads/master</i>
    *
    * <p>has two leaf predicates:
    *
    * <ul>
-   *   <li>label:code-review=+2
+   *   <li>label:Code-Review=+2
    *   <li>branch:refs/heads/master
    * </ul>
    *
    * This method will return the leaf predicates that were fulfilled, for example if only the first
-   * predicate was fulfilled, the returned list will be equal to ["label:code-review=+2"].
+   * predicate was fulfilled, the returned list will be equal to ["label:Code-Review=+2"].
    */
   public abstract ImmutableList<String> passingAtoms();
 

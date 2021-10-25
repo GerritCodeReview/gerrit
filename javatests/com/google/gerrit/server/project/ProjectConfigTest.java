@@ -217,7 +217,7 @@ public class ProjectConfigTest {
                 "[submit-requirement \"Code-review\"]\n"
                     + "  description =  At least one Code Review +2\n"
                     + "  applicableIf =branch(refs/heads/master)\n"
-                    + "  submittableIf =  label(code-review, +2)\n"
+                    + "  submittableIf =  label(Code-Review, +2)\n"
                     + "[submit-requirement \"api-review\"]\n"
                     + "  description =  Additional review required for API modifications\n"
                     + "  applicableIf =commit_filepath_contains(\\\"/api/.*\\\")\n"
@@ -237,7 +237,7 @@ public class ProjectConfigTest {
                 .setApplicabilityExpression(
                     SubmitRequirementExpression.of("branch(refs/heads/master)"))
                 .setSubmittabilityExpression(
-                    SubmitRequirementExpression.create("label(code-review, +2)"))
+                    SubmitRequirementExpression.create("label(Code-Review, +2)"))
                 .setOverrideExpression(Optional.empty())
                 .setAllowOverrideInChildProjects(false)
                 .build(),
@@ -262,19 +262,19 @@ public class ProjectConfigTest {
             .add("groups", group(developers))
             .add(
                 "project.config",
-                "[submit-requirement \"code-review\"]\n"
-                    + "  submittableIf =  label(code-review, +2)\n")
+                "[submit-requirement \"Code-Review\"]\n"
+                    + "  submittableIf =  label(Code-Review, +2)\n")
             .create();
 
     ProjectConfig cfg = read(rev);
     Map<String, SubmitRequirement> submitRequirements = cfg.getSubmitRequirementSections();
     assertThat(submitRequirements)
         .containsExactly(
-            "code-review",
+            "Code-Review",
             SubmitRequirement.builder()
-                .setName("code-review")
+                .setName("Code-Review")
                 .setSubmittabilityExpression(
-                    SubmitRequirementExpression.create("label(code-review, +2)"))
+                    SubmitRequirementExpression.create("label(Code-Review, +2)"))
                 .setAllowOverrideInChildProjects(false)
                 .build());
   }
@@ -320,8 +320,8 @@ public class ProjectConfigTest {
             .add("groups", group(developers))
             .add(
                 "project.config",
-                "[submit-requirement \"code-review\"]\n"
-                    + "  applicableIf =label(code-review, +2)\n")
+                "[submit-requirement \"Code-Review\"]\n"
+                    + "  applicableIf =label(Code-Review, +2)\n")
             .create();
 
     ProjectConfig cfg = read(rev);
@@ -331,8 +331,8 @@ public class ProjectConfigTest {
     assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
         .isEqualTo(
             "project.config: Setting a submittability expression for submit requirement"
-                + " 'code-review' is required: Missing"
-                + " submit-requirement.code-review.submittableIf");
+                + " 'Code-Review' is required: Missing"
+                + " submit-requirement.Code-Review.submittableIf");
   }
 
   @Test
@@ -953,10 +953,10 @@ public class ProjectConfigTest {
         tr.commit()
             .add(
                 "project.config",
-                "[submit-requirement \"code-review\"]\n"
+                "[submit-requirement \"Code-Review\"]\n"
                     + "  description =  At least one Code Review +2\n"
                     + "  applicableIf =branch(refs/heads/master)\n"
-                    + "  submittableIf =  label(code-review, +2)\n"
+                    + "  submittableIf =  label(Code-Review, +2)\n"
                     + "[notify \"name\"]\n"
                     + "  email = example@example.com\n")
             .create();

@@ -34,6 +34,24 @@
       "parentUuid": "231ce3f5_179fb2d3",
       "revId": "273cb85f36886e393ed65baf5117b95867de700b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef4997c2_a3ed9d38",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T19:54:37Z",
+      "side": 0,
+      "message": "gr-router reads it, but it is never written. So you can remove it.",
+      "parentUuid": "82d19967_5102ba77",
+      "revId": "273cb85f36886e393ed65baf5117b95867de700b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4d7576f_e37e49a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T19:54:37Z",
+      "side": 1,
+      "message": "Maybe change \u0027recreated\u0027 to \u0027created\u0027?\n\nOr change this line to \u0027The change has already been rendered once before in this change-view instance. So a full reload is probably not required.\u0027",
+      "range": {
+        "startLine": 1227,
+        "startChar": 27,
+        "endLine": 1227,
+        "endChar": 36
+      },
+      "revId": "88b5951db0bfede04c587671314b20cd6d85dcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2623418a_2c915209",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T19:54:37Z",
+      "side": 1,
+      "message": "Maybe add `forceReload` directly to the first if-clause:\n\n  if (this._changeNum !\u003d\u003d undefined \u0026\u0026 !value.forceReload) {",
+      "revId": "88b5951db0bfede04c587671314b20cd6d85dcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80e8ac8f_61764d26",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 1688,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T19:54:37Z",
+      "side": 1,
+      "message": "No history.replaceState here?",
+      "revId": "88b5951db0bfede04c587671314b20cd6d85dcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

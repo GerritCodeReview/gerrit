@@ -46,6 +46,30 @@
       },
       "revId": "2db3398feb6ad878f9caa7c03eb42b0a7b1f0e8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "763958fa_59980003",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T13:25:14Z",
+      "side": 1,
+      "message": "Move the method as a function to utils/patch-set-util.ts.",
+      "parentUuid": "55600ada_9b694bb2",
+      "range": {
+        "startLine": 475,
+        "startChar": 2,
+        "endLine": 475,
+        "endChar": 18
+      },
+      "revId": "2db3398feb6ad878f9caa7c03eb42b0a7b1f0e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

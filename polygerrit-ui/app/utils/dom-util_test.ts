@@ -28,22 +28,19 @@ import {
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {queryAndAssert} from '../test/test-utils';
+import {mockPromise, queryAndAssert} from '../test/test-utils';
 
-async function keyEventOn(
+function keyEventOn(
   el: HTMLElement,
-  callback: (e: KeyboardEvent) => void,
   keyCode = 75,
   key = 'k'
 ): Promise<KeyboardEvent> {
-  let resolve: (e: KeyboardEvent) => void;
-  const promise = new Promise<KeyboardEvent>(r => (resolve = r));
+  const promise = mockPromise<KeyboardEvent>();
   el.addEventListener('keydown', (e: KeyboardEvent) => {
-    callback(e);
-    resolve(e);
+    promise.resolve(e);
   });
   MockInteractions.keyDownOn(el, keyCode, null, key);
-  return await promise;
+  return promise;
 }
 
 class TestEle extends PolymerElement {
@@ -286,50 +283,40 @@ suite('dom-util tests', () => {
 
   suite('shouldSuppress', () => {
     test('do not suppress shortcut event from <div>', async () => {
-      await keyEventOn(document.createElement('div'), e => {
-        assert.isFalse(shouldSuppress(e));
-      });
+      const e = await keyEventOn(document.createElement('div'));
+      assert.isFalse(shouldSuppress(e));
     });
 
     test('suppress shortcut event from <input>', async () => {
-      await keyEventOn(document.createElement('input'), e => {
-        assert.isTrue(shouldSuppress(e));
-      });
+      const e = await keyEventOn(document.createElement('input'));
+      assert.isTrue(shouldSuppress(e));
     });
 
     test('suppress shortcut event from <textarea>', async () => {
-      await keyEventOn(document.createElement('textarea'), e => {
-        assert.isTrue(shouldSuppress(e));
-      });
+      const e = await keyEventOn(document.createElement('textarea'));
+      assert.isTrue(shouldSuppress(e));
     });
 
     test('do not suppress shortcut event from checkbox <input>', async () => {
       const inputEl = document.createElement('input');
       inputEl.setAttribute('type', 'checkbox');
-      await keyEventOn(inputEl, e => {
-        assert.isFalse(shouldSuppress(e));
-      });
+      const e = await keyEventOn(inputEl);
+      assert.isFalse(shouldSuppress(e));
     });
 
     test('suppress shortcut event from children of <gr-overlay>', async () => {
       const overlay = document.createElement('gr-overlay');
       const div = document.createElement('div');
       overlay.appendChild(div);
-      await keyEventOn(div, e => {
-        assert.isTrue(shouldSuppress(e));
-      });
+      const e = await keyEventOn(div);
+      assert.isTrue(shouldSuppress(e));
     });
 
     test('suppress "enter" shortcut event from <a>', async () => {
-      await keyEventOn(document.createElement('a'), e => {
-        assert.isFalse(shouldSuppress(e));
-      });
-      await keyEventOn(
-        document.createElement('a'),
-        e => assert.isTrue(shouldSuppress(e)),
-        13,
-        'enter'
-      );
+      const e1 = await keyEventOn(document.createElement('a'));
+      assert.isFalse(shouldSuppress(e1));
+      const e2 = await keyEventOn(document.createElement('a'), 13, 'enter');
+      assert.isTrue(shouldSuppress(e2));
     });
   });
 });

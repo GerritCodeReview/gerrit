@@ -22,12 +22,29 @@ import {
   getEventPath,
   Modifier,
   querySelectorAll,
+  shouldSuppress,
   strToClassName,
 } from './dom-util';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {queryAndAssert} from '../test/test-utils';
+
+async function keyEventOn(
+  el: HTMLElement,
+  callback: (e: KeyboardEvent) => void,
+  keyCode = 75,
+  key = 'k'
+): Promise<KeyboardEvent> {
+  let resolve: (e: KeyboardEvent) => void;
+  const promise = new Promise<KeyboardEvent>(r => (resolve = r));
+  el.addEventListener('keydown', (e: KeyboardEvent) => {
+    callback(e);
+    resolve(e);
+  });
+  MockInteractions.keyDownOn(el, keyCode, null, key);
+  return await promise;
+}
 
 class TestEle extends PolymerElement {
   static get is() {
@@ -264,6 +281,55 @@ suite('dom-util tests', () => {
       const sShift = {key: '[', modifiers: [Modifier.SHIFT_KEY]};
       assert.isTrue(eventMatchesShortcut(eShift, s));
       assert.isTrue(eventMatchesShortcut(e, sShift));
+    });
+  });
+
+  suite('shouldSuppress', () => {
+    test('do not suppress shortcut event from <div>', async () => {
+      await keyEventOn(document.createElement('div'), e => {
+        assert.isFalse(shouldSuppress(e));
+      });
+    });
+
+    test('suppress shortcut event from <input>', async () => {
+      await keyEventOn(document.createElement('input'), e => {
+        assert.isTrue(shouldSuppress(e));
+      });
+    });
+
+    test('suppress shortcut event from <textarea>', async () => {
+      await keyEventOn(document.createElement('textarea'), e => {
+        assert.isTrue(shouldSuppress(e));
+      });
+    });
+
+    test('do not suppress shortcut event from checkbox <input>', async () => {
+      const inputEl = document.createElement('input');
+      inputEl.setAttribute('type', 'checkbox');
+      await keyEventOn(inputEl, e => {
+        assert.isFalse(shouldSuppress(e));
+      });
+    });
+
+    test('suppress shortcut event from children of <gr-overlay>', async () => {
+      const overlay = document.createElement('gr-overlay');
+      const div = document.createElement('div');
+      overlay.appendChild(div);
+      await keyEventOn(div, e => {
+        assert.isTrue(shouldSuppress(e));
+      });
+    });
+
+    test('suppress "enter" shortcut event from <a>', async () => {
+      await keyEventOn(document.createElement('a'), e => {
+        assert.isFalse(shouldSuppress(e));
+      });
+      await keyEventOn(
+        document.createElement('a'),
+        e => assert.isTrue(shouldSuppress(e)),
+        13,
+        'enter'
+      );
     });
   });
 });

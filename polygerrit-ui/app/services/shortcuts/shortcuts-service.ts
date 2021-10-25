@@ -28,6 +28,7 @@ import {
   Key,
   Modifier,
   Binding,
+  shouldSuppress,
 } from '../../utils/dom-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
 
@@ -154,34 +155,8 @@ export class ShortcutsService {
 
   shouldSuppress(e: KeyboardEvent) {
     if (this.shortcutsDisabled) return true;
+    if (shouldSuppress(e)) return true;
 
-    // Note that when you listen on document, then `e.currentTarget` will be the
-    // document and `e.target` will be `<gr-app>` due to shadow dom, but by
-    // using the composedPath() you can actually find the true origin of the
-    // event.
-    const rootTarget = e.composedPath()[0];
-    if (!isElementTarget(rootTarget)) return false;
-    const tagName = rootTarget.tagName;
-    const type = rootTarget.getAttribute('type');
-
-    if (
-      // Suppress shortcuts on <input> and <textarea>, but not on
-      // checkboxes, because we want to enable workflows like 'click
-      // mark-reviewed and then press ] to go to the next file'.
-      (tagName === 'INPUT' && type !== 'checkbox') ||
-      tagName === 'TEXTAREA' ||
-      // Suppress shortcuts if the key is 'enter'
-      // and target is an anchor or button or paper-tab.
-      (e.keyCode === 13 &&
-        (tagName === 'A' || tagName === 'BUTTON' || tagName === 'PAPER-TAB'))
-    ) {
-      return true;
-    }
-    const path: EventTarget[] = e.composedPath() ?? [];
-    for (const el of path) {
-      if (!isElementTarget(el)) continue;
-      if (el.tagName === 'GR-OVERLAY') return true;
-    }
     // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
     let key = `${e.key}:${e.type}`;
     if (this.isInSpecificComboKeyMode(ComboKey.G)) key = 'g+' + key;

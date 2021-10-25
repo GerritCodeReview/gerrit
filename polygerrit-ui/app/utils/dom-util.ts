@@ -398,10 +398,16 @@ export function addGlobalShortcut(
 export function addShortcut(
   element: HTMLElement,
   shortcut: Binding,
-  listener: (e: KeyboardEvent) => void
+  listener: (e: KeyboardEvent) => void,
+  options: {
+    shouldSuppress: boolean;
+  } = {
+    shouldSuppress: false,
+  }
 ) {
   const wrappedListener = (e: KeyboardEvent) => {
     if (e.repeat) return;
+    if (options.shouldSuppress && shouldSuppress(e)) return;
     if (eventMatchesShortcut(e, shortcut)) {
       listener(e);
     }
@@ -416,4 +422,44 @@ export function modifierPressed(e: KeyboardEvent) {
 
 export function shiftPressed(e: KeyboardEvent) {
   return e.shiftKey;
+}
+
+/**
+ * When you listen on keyboard events, then within Gerrit's web app you may want
+ * to avoid firing in certain common scenarios such as key strokes from <input>
+ * elements. But this can also be undesirable, for example Ctrl-Enter from
+ * <input> should trigger a save event.
+ *
+ * The shortcuts-service has a stateful method `shouldSuppress()` with
+ * reporting functionality, which delegates to here.
+ */
+export function shouldSuppress(e: KeyboardEvent): boolean {
+  // Note that when you listen on document, then `e.currentTarget` will be the
+  // document and `e.target` will be `<gr-app>` due to shadow dom, but by
+  // using the composedPath() you can actually find the true origin of the
+  // event.
+  const rootTarget = e.composedPath()[0];
+  if (!isElementTarget(rootTarget)) return false;
+  const tagName = rootTarget.tagName;
+  const type = rootTarget.getAttribute('type');
+
+  if (
+    // Suppress shortcuts on <input> and <textarea>, but not on
+    // checkboxes, because we want to enable workflows like 'click
+    // mark-reviewed and then press ] to go to the next file'.
+    (tagName === 'INPUT' && type !== 'checkbox') ||
+    tagName === 'TEXTAREA' ||
+    // Suppress shortcuts if the key is 'enter'
+    // and target is an anchor or button or paper-tab.
+    (e.keyCode === 13 &&
+      (tagName === 'A' || tagName === 'BUTTON' || tagName === 'PAPER-TAB'))
+  ) {
+    return true;
+  }
+  const path: EventTarget[] = e.composedPath() ?? [];
+  for (const el of path) {
+    if (!isElementTarget(el)) continue;
+    if (el.tagName === 'GR-OVERLAY') return true;
+  }
+  return false;
 }

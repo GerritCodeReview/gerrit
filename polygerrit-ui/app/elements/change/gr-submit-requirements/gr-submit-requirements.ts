@@ -49,6 +49,9 @@ import {getResultsOf, hasResultsOf} from '../../../services/checks/checks-util';
 import {Category} from '../../../api/checks';
 import '../../shared/gr-vote-chip/gr-vote-chip';
 
+/**
+ * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
+ */
 @customElement('gr-submit-requirements')
 export class GrSubmitRequirements extends LitElement {
   @property({type: Object})
@@ -67,7 +70,7 @@ export class GrSubmitRequirements extends LitElement {
     return [
       fontStyles,
       css`
-        :host([inHovercard]) .metadata-title {
+        :host([suppress-title]) .metadata-title {
           display: none;
         }
         .metadata-title {

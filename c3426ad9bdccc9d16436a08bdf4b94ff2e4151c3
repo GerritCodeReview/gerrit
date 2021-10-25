@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ba28e58_39e797b3",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-25T12:24:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3e81d76_6ed86014",
+      "range": {
+        "startLine": 110,
+        "startChar": 17,
+        "endLine": 110,
+        "endChar": 47
+      },
+      "revId": "c3426ad9bdccc9d16436a08bdf4b94ff2e4151c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd6d0987_d2d27faf",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-20T12:11:18Z",
       "side": 1,
       "message": "better if the name reflects that the experiment is enabled\n\nI wonder if all star related test should be executed twice, once with the experiment enabled and once with the experiment disabled?",
+      "range": {
+        "startLine": 2471,
+        "startChar": 14,
+        "endLine": 2471,
+        "endChar": 33
+      },
+      "revId": "c3426ad9bdccc9d16436a08bdf4b94ff2e4151c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e244bd2b_e78113b5",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2471,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-10-25T12:24:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd6d0987_d2d27faf",
       "range": {
         "startLine": 2471,
         "startChar": 14,

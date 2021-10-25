@@ -359,7 +359,7 @@ suite('gr-patch-range-select tests', () => {
         updated: '2017-10-11 20:48:40.000000000',
       },
     };
-    element.changeComments = new ChangeComments(comments, {}, {}, 123);
+    element.changeComments = new ChangeComments(comments);
 
     assert.equal(element._computePatchSetCommentsString(
         element.changeComments, 1), ' (3 comments, 1 unresolved)');

@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16802d48_aec09540",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T08:43:20Z",
+      "side": 1,
+      "message": "Remove underscore and change `property` to `state`. @state is for all props that are not set from the outside.",
+      "range": {
+        "startLine": 116,
+        "startChar": 2,
+        "endLine": 116,
+        "endChar": 18
+      },
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ea2e5f1_71422df4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T08:43:20Z",
+      "side": 1,
+      "message": "Not this change, but this is redundant. You can remove the entire constructor.",
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19f45dac_7a5fadd0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T08:43:20Z",
+      "side": 1,
+      "message": "Instead of ternaries (x ? y : z) prefer dedicated `renderSomething()` methods. That breaks down the template into smaller parts and allows you to just add guard statements like `if (!this.filesWeblinks?.meta_a) return;`.\n\nIn this case it even allows you to avoid using code duplication by calling the method twice.",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 34
+      },
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05d228f5_a2e933a3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T08:43:20Z",
+      "side": 1,
+      "message": "Maybe move this into its own render method and call this method twice, once for base, once for patch.",
+      "range": {
+        "startLine": 162,
+        "startChar": 5,
+        "endLine": 181,
+        "endChar": 13
+      },
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2676022_3d4bd8f6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T08:43:20Z",
+      "side": 1,
+      "message": "Just call `_computeBaseDropdownContent()` directly. Why the getter?",
+      "range": {
+        "startLine": 218,
+        "startChar": 16,
+        "endLine": 218,
+        "endChar": 43
+      },
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35615691_c3063a40",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T08:43:20Z",
+      "side": 1,
+      "message": "flush() is Polymer speak. Prefer `await element.updateComplete;` for Lit.",
+      "revId": "86447e15a3c444e3f37ecc0a9986669ed5434bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

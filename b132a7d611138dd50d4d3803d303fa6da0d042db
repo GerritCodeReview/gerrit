@@ -33,6 +33,24 @@
       "message": "What does labels.filter(unique) do?\n\nShould labels be a set and then the response be [...labels] or does the order matter?",
       "revId": "b132a7d611138dd50d4d3803d303fa6da0d042db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "252cc221_def86c75",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T05:30:58Z",
+      "side": 1,
+      "message": "Maybe add a test for what `labels.filter(unique)` is doing?",
+      "parentUuid": "fc671fb6_3bac37e1",
+      "revId": "b132a7d611138dd50d4d3803d303fa6da0d042db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

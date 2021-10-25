@@ -46,6 +46,30 @@
       },
       "revId": "56071e8a7ea8635b94f0abac559f3b3280c162aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34109ec4_06322ff4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T12:30:18Z",
+      "side": 1,
+      "message": "Yeah, thanks Paladox for discovering the bug and Ben for pointing out the fix.\n\nChange 321817 has the fix. Rebasing on top of that should ensure the test passes.",
+      "parentUuid": "3061fa84_6a9d813e",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 427,
+        "endChar": 12
+      },
+      "revId": "56071e8a7ea8635b94f0abac559f3b3280c162aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

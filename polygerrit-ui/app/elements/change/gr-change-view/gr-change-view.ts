@@ -131,7 +131,11 @@ import {
   ChangeComments,
   GrCommentApi,
 } from '../../diff/gr-comment-api/gr-comment-api';
-import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
+import {
+  assertIsDefined,
+  hasOwnProperty,
+  query,
+} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
@@ -234,7 +238,6 @@ export interface GrChangeView {
     downloadOverlay: GrOverlay;
     downloadDialog: GrDownloadDialog;
     replyOverlay: GrOverlay;
-    replyDialog: GrReplyDialog;
     mainContent: HTMLDivElement;
     changeStar: GrChangeStar;
     actions: GrChangeActions;
@@ -544,6 +547,10 @@ export class GrChangeView extends base {
   @property({type: String})
   scrollCommentId?: UrlEncodedCommentId;
 
+  /** Just reflects the `opened` prop of the overlay. */
+  @property({type: Boolean})
+  replyOverlayOpened = false;
+
   @property({
     type: Array,
     computed: '_computeResolveWeblinks(_change, _commitInfo, _serverConfig)',
@@ -555,8 +562,6 @@ export class GrChangeView extends base {
   private readonly commentsService = appContext.commentsService;
 
   private readonly shortcuts = appContext.shortcutsService;
-
-  private replyDialogResizeObserver?: ResizeObserver;
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [
@@ -677,11 +682,6 @@ export class GrChangeView extends base {
         });
       }
     });
-
-    this.replyDialogResizeObserver = new ResizeObserver(() =>
-      this.$.replyOverlay.center()
-    );
-    this.replyDialogResizeObserver.observe(this.$.replyDialog);
 
     getPluginLoader()
       .awaitPluginsLoaded()
@@ -1055,7 +1055,7 @@ export class GrChangeView extends base {
 
   _handleReplyTap(e: MouseEvent) {
     e.preventDefault();
-    this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
+    this._openReplyDialog(FocusTarget.ANY);
   }
 
   onReplyOverlayCanceled() {
@@ -1099,8 +1099,7 @@ export class GrChangeView extends base {
         .split('\n')
         .map(line => '> ' + line)
         .join('\n') + '\n\n';
-    this.$.replyDialog.quote = quoteStr;
-    this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
+    this._openReplyDialog(FocusTarget.BODY, quoteStr);
   }
 
   _handleHideBackgroundContent() {
@@ -1137,9 +1136,9 @@ export class GrChangeView extends base {
   }
 
   _handleShowReplyDialog(e: CustomEvent<{value: {ccsOnly: boolean}}>) {
-    let target = this.$.replyDialog.FocusTarget.REVIEWERS;
+    let target = FocusTarget.REVIEWERS;
     if (e.detail.value && e.detail.value.ccsOnly) {
-      target = this.$.replyDialog.FocusTarget.CCS;
+      target = FocusTarget.CCS;
     }
     this._openReplyDialog(target);
   }
@@ -1390,7 +1389,7 @@ export class GrChangeView extends base {
       }
 
       if (this.viewState.showReplyDialog) {
-        this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
+        this._openReplyDialog(FocusTarget.ANY);
         this.set('viewState.showReplyDialog', false);
       }
     });
@@ -1496,7 +1495,7 @@ export class GrChangeView extends base {
         fireEvent(this, 'show-auth-required');
         return;
       }
-      this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
+      this._openReplyDialog(FocusTarget.ANY);
     });
   }
 
@@ -1681,12 +1680,17 @@ export class GrChangeView extends base {
     });
   }
 
-  _openReplyDialog(section?: FocusTarget) {
+  _openReplyDialog(focusTarget?: FocusTarget, quote?: string) {
     if (!this._change) return;
-    this.$.replyOverlay.open().finally(() => {
+    const overlay = this.$.replyOverlay;
+    overlay.open().finally(async () => {
       // the following code should be executed no matter open succeed or not
+      const dialog = query<GrReplyDialog>(this, '#replyDialog');
+      assertIsDefined(dialog, 'reply dialog');
       this._resetReplyOverlayFocusStops();
-      this.$.replyDialog.open(section);
+      dialog.open(focusTarget, quote);
+      const observer = new ResizeObserver(() => overlay.center());
+      observer.observe(dialog);
     });
     fireDialogChange(this, {opened: true});
     this._changeViewAriaHidden = true;
@@ -2481,7 +2485,9 @@ export class GrChangeView extends base {
   }
 
   _resetReplyOverlayFocusStops() {
-    this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
+    const dialog = query<GrReplyDialog>(this, '#replyDialog');
+    if (!dialog) return;
+    this.$.replyOverlay.setFocusStops(dialog.getFocusStops());
   }
 
   _handleToggleStar(e: CustomEvent<{change: ChangeInfo; starred: boolean}>) {

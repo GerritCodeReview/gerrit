@@ -18,9 +18,11 @@
 import '../../../test/common-test-setup-karma';
 import './gr-reply-dialog';
 import {
+  addListenerForTest,
   mockPromise,
   queryAll,
   queryAndAssert,
+  stubRestApi,
   stubStorage,
 } from '../../../test/test-utils';
 import {
@@ -29,8 +31,6 @@ import {
   SpecialFilePath,
 } from '../../../constants/constants';
 import {appContext} from '../../../services/app-context';
-import {addListenerForTest} from '../../../test/test-utils';
-import {stubRestApi} from '../../../test/test-utils';
 import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {StandardLabels} from '../../../utils/label-util';
 import {
@@ -44,7 +44,7 @@ import {
   pressAndReleaseKeyOn,
   tap,
 } from '@polymer/iron-test-helpers/mock-interactions';
-import {GrReplyDialog} from './gr-reply-dialog';
+import {FocusTarget, GrReplyDialog} from './gr-reply-dialog';
 import {
   AccountId,
   AccountInfo,
@@ -1317,11 +1317,9 @@ suite('gr-reply-dialog tests', () => {
     const storedDraft = 'hello world';
     const quote = '> foo bar';
     getDraftCommentStub.returns({message: storedDraft});
-    element.quote = quote;
-    element.open();
+    element.open(FocusTarget.ANY, quote);
     assert.isFalse(getDraftCommentStub.called);
     assert.equal(element.draft, quote);
-    assert.isNotOk(element.quote);
   });
 
   test('updates stored draft on edits', async () => {

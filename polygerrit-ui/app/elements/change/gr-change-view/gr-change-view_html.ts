@@ -695,24 +695,27 @@ export const htmlTemplate = html`
     no-cancel-on-esc-key=""
     scroll-action="lock"
     with-backdrop=""
+    opened="{{replyOverlayOpened}}"
     on-iron-overlay-canceled="onReplyOverlayCanceled"
   >
-    <gr-reply-dialog
-      id="replyDialog"
-      change="{{_change}}"
-      patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
-      permitted-labels="[[_change.permitted_labels]]"
-      draft-comment-threads="[[_draftCommentThreads]]"
-      project-config="[[_projectConfig]]"
-      server-config="[[_serverConfig]]"
-      can-be-started="[[_canStartReview]]"
-      on-send="_handleReplySent"
-      on-cancel="_handleReplyCancel"
-      on-autogrow="_handleReplyAutogrow"
-      on-send-disabled-changed="_resetReplyOverlayFocusStops"
-      hidden$="[[!_loggedIn]]"
-    >
-    </gr-reply-dialog>
+    <template is="dom-if" if="[[replyOverlayOpened]]">
+      <gr-reply-dialog
+        id="replyDialog"
+        change="{{_change}}"
+        patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
+        permitted-labels="[[_change.permitted_labels]]"
+        draft-comment-threads="[[_draftCommentThreads]]"
+        project-config="[[_projectConfig]]"
+        server-config="[[_serverConfig]]"
+        can-be-started="[[_canStartReview]]"
+        on-send="_handleReplySent"
+        on-cancel="_handleReplyCancel"
+        on-autogrow="_handleReplyAutogrow"
+        on-send-disabled-changed="_resetReplyOverlayFocusStops"
+        hidden$="[[!_loggedIn]]"
+      >
+      </gr-reply-dialog>
+    </template>
   </gr-overlay>
   <gr-comment-api id="commentAPI"></gr-comment-api>
 `;

@@ -26,7 +26,7 @@ import org.junit.Test;
 public class SubmitRequirementSerializerTest {
   private static final SubmitRequirement submitReq =
       SubmitRequirement.builder()
-          .setName("code-review")
+          .setName("Code-Review")
           .setDescription(Optional.of("require code review +2"))
           .setApplicabilityExpression(SubmitRequirementExpression.of("branch(refs/heads/master)"))
           .setSubmittabilityExpression(SubmitRequirementExpression.create("label(code-review, 2+)"))

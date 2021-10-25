@@ -178,12 +178,6 @@ export class GrAccountList extends PolymerElement {
   @property({type: Object})
   _querySuggestions: (input: string) => Promise<SuggestionItem[]>;
 
-  /**
-   * Set to true to disable suggestions on empty input.
-   */
-  @property({type: Boolean})
-  skipSuggestOnEmpty = false;
-
   reporting: ReportingService;
 
   private pendingRemoval: Set<AccountInput> = new Set();
@@ -206,17 +200,10 @@ export class GrAccountList extends PolymerElement {
   }
 
   _getSuggestions(input: string) {
-    if (this.skipSuggestOnEmpty && !input) {
-      return Promise.resolve([]);
-    }
     const provider = this.suggestionsProvider;
-    if (!provider) {
-      return Promise.resolve([]);
-    }
+    if (!provider) return Promise.resolve([]);
     return provider.getSuggestions(input).then(suggestions => {
-      if (!suggestions) {
-        return [];
-      }
+      if (!suggestions) return [];
       if (this.filter) {
         suggestions = suggestions.filter(this.filter);
       }

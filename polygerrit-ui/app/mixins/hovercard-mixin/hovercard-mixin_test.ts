@@ -47,7 +47,7 @@ suite('gr-hovercard tests', () => {
   let element: HovercardMixinTest;
 
   let button: HTMLElement;
-  let testPromise: MockPromise;
+  let testPromise: MockPromise<void>;
 
   setup(() => {
     testPromise = mockPromise();

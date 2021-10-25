@@ -28,22 +28,28 @@ import {
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {queryAndAssert} from '../test/test-utils';
+import {mockPromise, queryAndAssert} from '../test/test-utils';
 
-async function keyEventOn(
+/**
+ * You might think that instead of passing in the callback with assertions as a
+ * parameter that you could as well just `await keyEventOn()` and *then* run
+ * your assertions. But at that point the event is not "hot" anymore, so most
+ * likely you want to assert stuff about the event within the callback
+ * parameter.
+ */
+function keyEventOn(
   el: HTMLElement,
   callback: (e: KeyboardEvent) => void,
   keyCode = 75,
   key = 'k'
 ): Promise<KeyboardEvent> {
-  let resolve: (e: KeyboardEvent) => void;
-  const promise = new Promise<KeyboardEvent>(r => (resolve = r));
+  const promise = mockPromise<KeyboardEvent>();
   el.addEventListener('keydown', (e: KeyboardEvent) => {
     callback(e);
-    resolve(e);
+    promise.resolve(e);
   });
   MockInteractions.keyDownOn(el, keyCode, null, key);
-  return await promise;
+  return promise;
 }
 
 class TestEle extends PolymerElement {

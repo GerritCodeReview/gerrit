@@ -22,6 +22,30 @@
       },
       "revId": "56071e8a7ea8635b94f0abac559f3b3280c162aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3061fa84_6a9d813e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T08:25:57Z",
+      "side": 1,
+      "message": "I think you have uncovered a bug.\n\nIn change 303786 Dhruv has modified `computeCommentThreadCount()` to take into account whether a comment thread is a patchset level thread. But `computeUnresolvedNum()` was not touched.\n\nSo my guess is that `unresolved: false` would fix the test, but maybe the code needs fixing.\n\nI am assigning Dhruv as the reviewer for this change, so you can work it out together. :-)",
+      "parentUuid": "1cdbef1d_be04ec75",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 427,
+        "endChar": 12
+      },
+      "revId": "56071e8a7ea8635b94f0abac559f3b3280c162aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

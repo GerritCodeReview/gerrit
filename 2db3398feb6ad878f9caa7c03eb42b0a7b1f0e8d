@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30b40d93_8904ab03",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T08:28:24Z",
+      "side": 1,
+      "message": "For new code we are trying to avoid underscores. Rather make methods private.\n\nIn this case it is even a utility function that should be moved to patchset-util.",
+      "range": {
+        "startLine": 475,
+        "startChar": 2,
+        "endLine": 475,
+        "endChar": 18
+      },
+      "revId": "2db3398feb6ad878f9caa7c03eb42b0a7b1f0e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

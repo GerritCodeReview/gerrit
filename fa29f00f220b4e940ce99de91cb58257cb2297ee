@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21c06901_c161d677",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2370,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-25T13:46:20Z",
+      "side": 1,
+      "message": "nit: The way how this is written, this seems to be something that should rather be mentioned in the commit message than here. Alternatively re-write this as a TODO.",
+      "range": {
+        "startLine": 2369,
+        "startChar": 72,
+        "endLine": 2370,
+        "endChar": 37
+      },
+      "revId": "fa29f00f220b4e940ce99de91cb58257cb2297ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

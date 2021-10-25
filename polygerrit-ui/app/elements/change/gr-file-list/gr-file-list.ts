@@ -421,7 +421,9 @@ export class GrFileList extends base {
       });
     this.cleanups.push(
       addGlobalShortcut({key: Key.ESC}, _ => this._handleEscKey()),
-      addShortcut(this, {key: Key.ENTER}, _ => this.handleOpenFile())
+      addShortcut(this, {key: Key.ENTER}, _ => this.handleOpenFile(), {
+        shouldSuppress: true,
+      })
     );
   }
 

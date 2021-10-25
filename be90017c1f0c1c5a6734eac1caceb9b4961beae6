@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aadf0367_3291a799",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T13:19:11Z",
+      "side": 1,
+      "message": "Attributes should not be camelcase, because they are case insensitive.\n\nin-hovercard or inhovercard\n\nMaybe consider naming the attribute after what it should be doing instead of where it is used, e.g. `suppress-title` or something like that.",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 19
+      },
+      "revId": "be90017c1f0c1c5a6734eac1caceb9b4961beae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

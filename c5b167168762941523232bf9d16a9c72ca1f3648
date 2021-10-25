@@ -33,6 +33,24 @@
       "message": "Unrelated?",
       "revId": "c5b167168762941523232bf9d16a9c72ca1f3648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a3f6041_9e0332d6",
+        "filename": "polygerrit-ui/app/styles/gr-form-styles.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-25T07:08:33Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "e7c7e2c4_2454a678",
+      "revId": "c5b167168762941523232bf9d16a9c72ca1f3648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

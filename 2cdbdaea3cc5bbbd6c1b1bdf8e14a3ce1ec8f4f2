@@ -16,6 +16,46 @@
       "message": "Thanks!",
       "revId": "2cdbdaea3cc5bbbd6c1b1bdf8e14a3ce1ec8f4f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f8b3658_1ae0402e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T13:23:10Z",
+      "side": 1,
+      "message": "Thanks for the quick fix.",
+      "revId": "2cdbdaea3cc5bbbd6c1b1bdf8e14a3ce1ec8f4f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97f70826_b9cd537a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T13:23:10Z",
+      "side": 1,
+      "message": "Optionally more fluent:\n\n  return createCommentThreads(comments.concat(drafts))\n    .filter(isUnresolved)\n    .filter(t \u003d\u003e !ignorePatchsetLevelComments || !isPatchsetLevel(t))\n    .length;",
+      "range": {
+        "startLine": 599,
+        "startChar": 4,
+        "endLine": 606,
+        "endChar": 36
+      },
+      "revId": "2cdbdaea3cc5bbbd6c1b1bdf8e14a3ce1ec8f4f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

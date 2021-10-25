@@ -33,6 +33,7 @@ import {unique} from '../../../utils/common-util';
 import {
   extractAssociatedLabels,
   getAllUniqueApprovals,
+  getRequirements,
   hasNeutralStatus,
   hasVotes,
   iconForStatus,
@@ -136,18 +137,9 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   override render() {
-    let submit_requirements = orderSubmitRequirements(
-      this.change?.submit_requirements ?? []
-    ).filter(req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE);
-
-    const hasNonLegacyRequirements = submit_requirements.some(
-      req => req.is_legacy === false
+    const submit_requirements = orderSubmitRequirements(
+      getRequirements(this.change)
     );
-    if (hasNonLegacyRequirements) {
-      submit_requirements = submit_requirements.filter(
-        req => req.is_legacy === false
-      );
-    }
 
     return html` <h3
         class="metadata-title heading-3"

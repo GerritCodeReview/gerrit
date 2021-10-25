@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3256d9f5_e3805e48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-25T19:11:28Z",
+      "side": 1,
+      "message": "It would be nice to have some stats about this impact.",
+      "revId": "40b908451f5a514fba73a93c44a5c0d57c51dde7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

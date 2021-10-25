@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84b0cf8c_779f6583",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T16:31:33Z",
+      "side": 1,
+      "message": "The other change is for the diff view and this is for the change view.",
+      "parentUuid": "a40d069a_095e7c40",
+      "revId": "c984eef11d47260d7872b286491563f73e7a9822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db377660_9307aadf",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-10-18T08:40:55Z",
       "side": 1,
       "message": "queryMap should be removed from AppElementChangeViewParams. Both, `tab` and `forceReload` should be dedicated props of AppElementChangeViewParams.\n\nThe change view and AppElementChangeViewParams should not be aware of the notion of a URL. They should not depend on the concept of a URL. The router should handle that.",
+      "range": {
+        "startLine": 1231,
+        "startChar": 32,
+        "endLine": 1231,
+        "endChar": 40
+      },
+      "revId": "c984eef11d47260d7872b286491563f73e7a9822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1250004_c5a6f348",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T16:31:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db377660_9307aadf",
       "range": {
         "startLine": 1231,
         "startChar": 32,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0b26706_b5201359",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T16:31:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c69d3a7f_589c0145",
+      "revId": "c984eef11d47260d7872b286491563f73e7a9822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98cc5d93_ed48e09a",
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0c55d2a_72c98512",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 2143,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T16:31:33Z",
+      "side": 1,
+      "message": "Added a TODO.",
+      "parentUuid": "98cc5d93_ed48e09a",
+      "range": {
+        "startLine": 2140,
+        "startChar": 8,
+        "endLine": 2143,
+        "endChar": 18
+      },
+      "revId": "c984eef11d47260d7872b286491563f73e7a9822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdb05787_cf15b187",
@@ -94,6 +178,24 @@
       "writtenOn": "2021-10-14T12:14:52Z",
       "side": 1,
       "message": "Don\u0027t modify the incoming parameter.",
+      "revId": "c984eef11d47260d7872b286491563f73e7a9822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47e7486c_122a9c5a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-25T16:31:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdb05787_cf15b187",
       "revId": "c984eef11d47260d7872b286491563f73e7a9822",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

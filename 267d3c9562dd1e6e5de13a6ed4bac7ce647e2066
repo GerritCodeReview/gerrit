@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9f42a0b_5d9ff6e7",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-25T19:27:04Z",
+      "side": 1,
+      "message": "The comment does not make sense for a generic utility method anymore. :-/\n\nAlso starting the comment with a capital char and using the 80 chars length limit would be nice.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "267d3c9562dd1e6e5de13a6ed4bac7ce647e2066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc9810cb_fc48d8d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T11:12:36Z",
+      "side": 1,
+      "message": "You actually have to use a callback. Added a comment. PTAL",
+      "revId": "db18f4eda84ef49ef8468b9ca6f413a376907f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

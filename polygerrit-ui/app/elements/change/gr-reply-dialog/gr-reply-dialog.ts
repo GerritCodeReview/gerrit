@@ -240,9 +240,6 @@ export class GrReplyDialog extends PolymerElement {
   @property({type: String, observer: '_draftChanged'})
   draft = '';
 
-  @property({type: String})
-  quote = '';
-
   @property({type: Object})
   filterReviewerSuggestion: (input: Suggestion) => boolean;
 
@@ -427,7 +424,13 @@ export class GrReplyDialog extends PolymerElement {
     super.disconnectedCallback();
   }
 
-  open(focusTarget?: FocusTarget) {
+  /**
+   * Note that this method is not actually *opening* the dialog. Opening and
+   * showing the dialog is dealt with by the overlay. This method is used by the
+   * change view for initializing the dialog after opening the overlay. Maybe it
+   * should be called `onOpened()` or `initialize()`?
+   */
+  open(focusTarget?: FocusTarget, quote?: string) {
     assertIsDefined(this.change, 'change');
     this.knownLatestState = LatestPatchState.CHECKING;
     this.changeService.fetchChangeUpdates(this.change).then(result => {
@@ -437,10 +440,9 @@ export class GrReplyDialog extends PolymerElement {
     });
 
     this._focusOn(focusTarget);
-    if (this.quote && this.quote.length) {
-      // If a reply quote has been provided, use it and clear the property.
-      this.draft = this.quote;
-      this.quote = '';
+    if (quote?.length) {
+      // If a reply quote has been provided, use it.
+      this.draft = quote;
     } else {
       // Otherwise, check for an unsaved draft in localstorage.
       this.draft = this._loadStoredDraft();

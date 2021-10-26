@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import '../test/common-test-setup-karma.js';
-import {getComputedStyleValue} from '../utils/dom-util.js';
-import './gr-app.js';
-import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
-import {removeTheme} from '../styles/themes/dark-theme.js';
+import '../test/common-test-setup-karma';
+import {getComputedStyleValue} from '../utils/dom-util';
+import './gr-app';
+import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {GrApp} from './gr-app';
 
 const basicFixture = fixtureFromElement('gr-app');
 
 suite('gr-app custom dark theme tests', () => {
-  let element;
+  let element: GrApp;
   setup(async () => {
     window.localStorage.setItem('dark-theme', 'true');
 
@@ -36,7 +35,6 @@ suite('gr-app custom dark theme tests', () => {
 
   teardown(() => {
     window.localStorage.removeItem('dark-theme');
-    removeTheme();
     // The app sends requests to server. This can lead to
     // unexpected gr-alert elements in document.body
     document.body.querySelectorAll('gr-alert').forEach(grAlert => {
@@ -45,19 +43,17 @@ suite('gr-app custom dark theme tests', () => {
   });
 
   test('should tried to load dark theme', () => {
-    assert.isTrue(
-        !!document.head.querySelector('#dark-theme')
-    );
+    assert.isTrue(!!document.head.querySelector('#dark-theme'));
   });
 
   test('applies the right theme', () => {
     assert.equal(
-        getComputedStyleValue('--header-background-color', element)
-            .toLowerCase(),
-        '#3c4043');
+      getComputedStyleValue('--header-background-color', element).toLowerCase(),
+      '#3c4043'
+    );
     assert.equal(
-        getComputedStyleValue('--footer-background-color', element)
-            .toLowerCase(),
-        '#3c4043');
+      getComputedStyleValue('--footer-background-color', element).toLowerCase(),
+      '#3c4043'
+    );
   });
 });

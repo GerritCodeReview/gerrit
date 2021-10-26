@@ -26,6 +26,7 @@ import {ReportingService} from '../services/gr-reporting/gr-reporting';
 import {CommentsService} from '../services/comments/comments-service';
 import {UserService} from '../services/user/user-service';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
+import {queryAndAssert, query} from '../utils/common-util';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise extends Promise<unknown> {
@@ -160,22 +161,40 @@ export function removeIronOverlayBackdropStyleEl() {
   el.parentNode?.removeChild(el);
 }
 
+export function removeThemeStyles() {
+  // Do not remove the light theme, because it is only added once statically,
+  // not once per gr-app instantiation.
+  // document.head.querySelector('#light-theme')?.remove();
+  document.head.querySelector('#dark-theme')?.remove();
+}
+
+export async function waitQueryAndAssert<E extends Element = Element>(
+  el: Element | null | undefined,
+  selector: string
+): Promise<E> {
+  await waitUntil(
+    () => !!query<E>(el, selector),
+    `The element '${selector}' did not appear in the DOM within 1000 ms.`
+  );
+  return queryAndAssert<E>(el, selector);
+}
+
 export function waitUntil(
   predicate: () => boolean,
-  maxMillis = 100
+  message = 'The waitUntil() predicate is still false after 1000 ms.'
 ): Promise<void> {
   const start = Date.now();
-  let sleep = 1;
+  let sleep = 0;
   return new Promise((resolve, reject) => {
     const waiter = () => {
       if (predicate()) {
         return resolve();
       }
-      if (Date.now() - start >= maxMillis) {
-        return reject(new Error('Took to long to waitUntil'));
+      if (Date.now() - start >= 1000) {
+        return reject(new Error(message));
       }
       setTimeout(waiter, sleep);
-      sleep *= 2;
+      sleep = sleep === 0 ? 1 : sleep * 4;
     };
     waiter();
   });

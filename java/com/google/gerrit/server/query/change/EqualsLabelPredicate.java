@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
@@ -34,17 +35,34 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
   protected final ProjectCache projectCache;
   protected final PermissionBackend permissionBackend;
   protected final IdentifiedUser.GenericFactory userFactory;
+  /** label name to be matched. */
   protected final String label;
+
+  /** Expected vote value for the label. */
   protected final int expVal;
+
+  /**
+   * Number of times the value {@link #expVal} for label {@link #label} should occur. If null, match
+   * with any count greater or equal to 1.
+   */
+  @Nullable protected final Integer count;
+
+  /** Account ID that has voted on the label. */
   protected final Account.Id account;
+
   protected final AccountGroup.UUID group;
 
   public EqualsLabelPredicate(
-      LabelPredicate.Args args, String label, int expVal, Account.Id account) {
-    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
+      LabelPredicate.Args args,
+      String label,
+      int expVal,
+      Account.Id account,
+      @Nullable Integer count) {
+    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account, count));
     this.permissionBackend = args.permissionBackend;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
+    this.count = count;
     this.group = args.group;
     this.label = label;
     this.expVal = expVal;
@@ -73,12 +91,13 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     }
 
     boolean hasVote = false;
+    int matchingVotes = 0;
     object.setStorageConstraint(ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;
         if (match(object, p.value(), p.accountId())) {
-          return true;
+          matchingVotes += 1;
         }
       }
     }
@@ -87,7 +106,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       return true;
     }
 
-    return false;
+    return count == null ? matchingVotes >= 1 : matchingVotes == count;
   }
 
   protected static LabelType type(LabelTypes types, String toFind) {

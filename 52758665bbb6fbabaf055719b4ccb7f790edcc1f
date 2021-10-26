@@ -34,6 +34,46 @@
       "parentUuid": "0ecc956a_87289f88",
       "revId": "52758665bbb6fbabaf055719b4ccb7f790edcc1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0afe6c00_1d2207f0",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-26T08:19:50Z",
+      "side": 1,
+      "message": "document id param.\n\nmake a note that it\u0027s not sanity checked against anything.",
+      "revId": "52758665bbb6fbabaf055719b4ccb7f790edcc1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1fac972_cc6dc62f",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-26T08:19:50Z",
+      "side": 1,
+      "message": "this catch is too wide. I\u0027d prefer\n\n```\n   ObjectId id \n   try { id \u003d fromString()} catch  (InvalidObjId ) {\n   \n   }\n   return verifyMetaId()\n```",
+      "range": {
+        "startLine": 132,
+        "startChar": 13,
+        "endLine": 132,
+        "endChar": 37
+      },
+      "revId": "52758665bbb6fbabaf055719b4ccb7f790edcc1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

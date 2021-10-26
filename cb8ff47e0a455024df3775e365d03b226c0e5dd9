@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e51151b_59604639",
+        "filename": "plugins/delete-project",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-26T20:19:42Z",
+      "side": 1,
+      "message": "Unintentional change?",
+      "revId": "cb8ff47e0a455024df3775e365d03b226c0e5dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

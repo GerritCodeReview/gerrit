@@ -16,6 +16,24 @@
       "message": "Explain why and/or a link to the basis/decision for the removal.",
       "revId": "9ef68346ba78d3c175bcc7e49dd6a5dff61e229f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07242862_3871880c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-26T11:12:53Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6b228207_e9c8c8cb",
+      "revId": "9ef68346ba78d3c175bcc7e49dd6a5dff61e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

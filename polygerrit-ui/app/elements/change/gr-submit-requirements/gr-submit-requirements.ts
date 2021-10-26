@@ -29,11 +29,11 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../../../api/rest-api';
-import {unique} from '../../../utils/common-util';
 import {
   extractAssociatedLabels,
   getAllUniqueApprovals,
   getRequirements,
+  getTriggerVotes,
   hasNeutralStatus,
   hasVotes,
   iconForStatus,
@@ -192,7 +192,7 @@ export class GrSubmitRequirements extends LitElement {
           ></gr-submit-requirement-hovercard>
         `
       )}
-      ${this.renderTriggerVotes(submit_requirements)}`;
+      ${this.renderTriggerVotes()}`;
   }
 
   renderStatus(status: SubmitRequirementStatus) {
@@ -267,15 +267,11 @@ export class GrSubmitRequirements extends LitElement {
     return;
   }
 
-  renderTriggerVotes(submitReqs: SubmitRequirementResultInfo[]) {
+  renderTriggerVotes() {
     const labels = this.change?.labels ?? {};
-    const allLabels = Object.keys(labels);
-    const labelAssociatedWithSubmitReqs = submitReqs
-      .flatMap(req => extractAssociatedLabels(req))
-      .filter(unique);
-    const triggerVotes = allLabels
-      .filter(label => !labelAssociatedWithSubmitReqs.includes(label))
-      .filter(label => hasVotes(labels[label]));
+    const triggerVotes = getTriggerVotes(this.change).filter(label =>
+      hasVotes(labels[label])
+    );
     if (!triggerVotes.length) return;
     return html`<h3 class="metadata-title heading-3">Trigger Votes</h3>
       <section class="trigger-votes">

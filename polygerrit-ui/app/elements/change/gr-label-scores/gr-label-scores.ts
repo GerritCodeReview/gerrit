@@ -33,9 +33,10 @@ import {
   LabelValuesMap,
 } from '../gr-label-score-row/gr-label-score-row';
 import {appContext} from '../../../services/app-context';
-import {labelCompare} from '../../../utils/label-util';
+import {getTriggerVotes, labelCompare} from '../../../utils/label-util';
 import {Execution} from '../../../constants/reporting';
 import {ChangeStatus} from '../../../constants/constants';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 @customElement('gr-label-scores')
 export class GrLabelScores extends LitElement {
@@ -49,6 +50,8 @@ export class GrLabelScores extends LitElement {
   account?: AccountInfo;
 
   private readonly reporting = appContext.reportingService;
+
+  private readonly flagsService = appContext.flagsService;
 
   static override get styles() {
     return [
@@ -72,26 +75,74 @@ export class GrLabelScores extends LitElement {
         gr-label-score-row.no-access {
           display: none;
         }
+        .heading-3 {
+          padding-left: var(--spacing-xl);
+          margin-bottom: var(--spacing-m);
+          margin-top: var(--spacing-l);
+        }
+        .heading-3:first-of-type {
+          margin-top: 0;
+        }
       `,
     ];
   }
 
   override render() {
+    if (this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
+      return this.renderNewSubmitRequirements();
+    } else {
+      return this.renderOldSubmitRequirements();
+    }
+  }
+
+  private renderOldSubmitRequirements() {
     const labels = this._computeLabels();
+    return html`${this.renderLabels(labels)}${this.renderErrorMessages()}`;
+  }
+
+  private renderNewSubmitRequirements() {
+    return html`${this.renderSubmitReqsLabels()}${this.renderTriggerVotes()}
+    ${this.renderErrorMessages()}`;
+  }
+
+  private renderSubmitReqsLabels() {
+    const triggerVotes = getTriggerVotes(this.change);
+    const labels = this._computeLabels().filter(
+      label => !triggerVotes.includes(label.name)
+    );
+    if (!labels.length) return;
+    return html`<h3 class="heading-3">Submit requirements votes</h3>
+      ${this.renderLabels(labels)}`;
+  }
+
+  private renderTriggerVotes() {
+    const triggerVotes = getTriggerVotes(this.change);
+    const labels = this._computeLabels().filter(label =>
+      triggerVotes.includes(label.name)
+    );
+    if (!labels.length) return;
+    return html`<h3 class="heading-3">Trigger Votes</h3>
+      ${this.renderLabels(labels)}`;
+  }
+
+  private renderLabels(labels: Label[]) {
     const labelValues = this._computeColumns();
     return html`<div class="scoresTable">
-        ${labels.map(
-          label => html`<gr-label-score-row
-            class="${this.computeLabelAccessClass(label.name)}"
-            .label="${label}"
-            .name="${label.name}"
-            .labels="${this.change?.labels}"
-            .permittedLabels="${this.permittedLabels}"
-            .labelValues="${labelValues}"
-          ></gr-label-score-row>`
-        )}
-      </div>
-      <div
+      ${labels.map(
+        label => html`<gr-label-score-row
+          class="${this.computeLabelAccessClass(label.name)}"
+          .label="${label}"
+          .name="${label.name}"
+          .labels="${this.change?.labels}"
+          .permittedLabels="${this.permittedLabels}"
+          .labelValues="${labelValues}"
+        ></gr-label-score-row>`
+      )}
+    </div>`;
+  }
+
+  private renderErrorMessages() {
+    return html`<div
         class="mergedMessage"
         ?hidden=${this.change?.status !== ChangeStatus.MERGED}
       >

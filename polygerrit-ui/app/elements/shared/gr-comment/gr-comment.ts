@@ -38,11 +38,11 @@ import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
 import {
   AccountDetailInfo,
-  NumericChangeId,
+  BasePatchSetNum,
   ConfigInfo,
+  NumericChangeId,
   PatchSetNum,
   RepoName,
-  BasePatchSetNum,
 } from '../../../types/common';
 import {GrButton} from '../gr-button/gr-button';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
@@ -60,6 +60,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
+import {Interaction} from '../../../constants/reporting';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -489,6 +490,8 @@ export class GrComment extends PolymerElement {
       return this._discardDraft();
     }
 
+    const details = this.commentDetailsForReporting();
+    this.reporting.reportInteraction(Interaction.SAVE_COMMENT, details);
     this._xhrPromise = this._saveDraft(comment)
       .then(response => {
         this.disabled = false;
@@ -508,6 +511,8 @@ export class GrComment extends PolymerElement {
           }
           if (!resComment.patch_set) resComment.patch_set = this.patchNum;
           this.comment = resComment;
+          const details = this.commentDetailsForReporting();
+          this.reporting.reportInteraction(Interaction.COMMENT_SAVED, details);
           this._fireSave();
           return obj;
         });
@@ -518,6 +523,17 @@ export class GrComment extends PolymerElement {
       });
 
     return this._xhrPromise;
+  }
+
+  private commentDetailsForReporting() {
+    return {
+      id: this.comment?.id,
+      message_length: this.comment?.message?.length,
+      in_reply_to: this.comment?.in_reply_to,
+      unresolved: this.comment?.unresolved,
+      path_length: this.comment?.path?.length,
+      line: this.comment?.range?.start_line ?? this.comment?.line,
+    };
   }
 
   _eraseDraftCommentFromStorage() {
@@ -765,7 +781,7 @@ export class GrComment extends PolymerElement {
     const timer = this.reporting.getTimer(timingLabel);
     this.set('comment.__editing', false);
     return this.save().then(() => {
-      timer.end();
+      timer.end({id: this.comment?.id});
     });
   }
 
@@ -849,7 +865,7 @@ export class GrComment extends PolymerElement {
         if (!response.ok) {
           this.discarding = false;
         }
-        timer.end();
+        timer.end({id: this.comment?.id});
         this._fireDiscard();
         return response;
       })

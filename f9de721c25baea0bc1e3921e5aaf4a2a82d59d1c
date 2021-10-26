@@ -22,6 +22,30 @@
       },
       "revId": "f9de721c25baea0bc1e3921e5aaf4a2a82d59d1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f05c016_144376d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-26T13:05:54Z",
+      "side": 1,
+      "message": "The _patchRange object needs to be updated to trigger observers in gr-file-list otherwise the bug still remains.\nUpdated the above usage as well.",
+      "parentUuid": "e41904b2_87180e87",
+      "range": {
+        "startLine": 1247,
+        "startChar": 8,
+        "endLine": 1250,
+        "endChar": 10
+      },
+      "revId": "f9de721c25baea0bc1e3921e5aaf4a2a82d59d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

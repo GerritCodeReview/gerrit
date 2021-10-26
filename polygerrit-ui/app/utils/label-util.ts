@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {
+  ChangeInfo,
   isQuickLabelInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
@@ -28,6 +29,7 @@ import {
   LabelNameToInfoMap,
   VotingRangeInfo,
 } from '../types/common';
+import {ParsedChangeInfo} from '../types/types';
 import {assertNever, unique} from './common-util';
 
 // Name of the standard Code-Review label.
@@ -243,6 +245,28 @@ export function iconForStatus(status: SubmitRequirementStatus) {
   }
 }
 
+/**
+ * Show only applicable.
+ * If there are only legacy requirements, show all legacy requirements.
+ * If there is at least one non-legacy requirement, filter legacy requirements.
+ */
+export function getRequirements(change?: ParsedChangeInfo | ChangeInfo) {
+  let submit_requirements = (change?.submit_requirements ?? []).filter(
+    req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
+  );
+
+  const hasNonLegacyRequirements = submit_requirements.some(
+    req => req.is_legacy === false
+  );
+  if (hasNonLegacyRequirements) {
+    submit_requirements = submit_requirements.filter(
+      req => req.is_legacy === false
+    );
+  }
+
+  return submit_requirements;
+}
+
 // TODO(milutin): This may be temporary for demo purposes
 export const PRIORITY_REQUIREMENTS_ORDER: string[] = [
   StandardLabels.CODE_REVIEW,
@@ -262,4 +286,15 @@ export function orderSubmitRequirements(
     r => !PRIORITY_REQUIREMENTS_ORDER.includes(r.name)
   );
   return priorityRequirementList.concat(nonPriorityRequirements);
+}
+
+export function getTriggerVotes(change?: ParsedChangeInfo | ChangeInfo) {
+  const allLabels = Object.keys(change?.labels ?? {});
+  const submitReqs = getRequirements(change);
+  const labelAssociatedWithSubmitReqs = submitReqs
+    .flatMap(req => extractAssociatedLabels(req))
+    .filter(unique);
+  return allLabels.filter(
+    label => !labelAssociatedWithSubmitReqs.includes(label)
+  );
 }

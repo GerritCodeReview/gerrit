@@ -16,6 +16,24 @@
       "message": "This API is not the best, it seems to not respect the contract of loading with the load from line 195. Better to use a BatchMetadDataUpdate to perform multiple writes.",
       "revId": "eb5d47b4d3922d3bbf7cfca9d044f6f3f7016bf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd574be9_b298e89e",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-26T16:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e05ef98f_a29e53a8",
+      "revId": "eb5d47b4d3922d3bbf7cfca9d044f6f3f7016bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

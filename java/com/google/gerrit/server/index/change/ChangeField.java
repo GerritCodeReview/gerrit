@@ -614,31 +614,47 @@ public class ChangeField {
     Set<String> distinctApprovals = new HashSet<>();
     for (PatchSetApproval a : cd.currentApprovals()) {
       if (a.value() != 0 && !a.isLegacySubmit()) {
-        allApprovals.add(formatLabel(a.label(), a.value(), a.accountId()));
         Optional<LabelType> labelType = cd.getLabelTypes().byLabel(a.labelId());
-        allApprovals.addAll(getMaxMinAnyLabels(a.label(), a.value(), labelType, a.accountId()));
-        if (cd.change().getOwner().equals(a.accountId())) {
-          allApprovals.add(formatLabel(a.label(), a.value(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
-          allApprovals.addAll(
-              getMaxMinAnyLabels(
-                  a.label(), a.value(), labelType, ChangeQueryBuilder.OWNER_ACCOUNT_ID));
-        }
-        if (!cd.currentPatchSet().uploader().equals(a.accountId())) {
-          allApprovals.add(
-              formatLabel(a.label(), a.value(), ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID));
-          allApprovals.addAll(
-              getMaxMinAnyLabels(
-                  a.label(), a.value(), labelType, ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID));
-        }
+
+        allApprovals.add(formatLabel(a.label(), a.value(), a.accountId()));
+        allApprovals.addAll(getMagicLabelFormats(a.label(), a.value(), labelType, a.accountId()));
+        allApprovals.addAll(getLabelOwnerFormats(a, cd, labelType));
+        allApprovals.addAll(getLabelNonUploaderFormats(a, cd, labelType));
         distinctApprovals.add(formatLabel(a.label(), a.value()));
-        distinctApprovals.addAll(getMaxMinAnyLabels(a.label(), a.value(), labelType, null));
+        distinctApprovals.addAll(
+            getMagicLabelFormats(a.label(), a.value(), labelType, /* accountId= */ null));
       }
     }
     allApprovals.addAll(distinctApprovals);
     return allApprovals;
   }
 
-  private static List<String> getMaxMinAnyLabels(
+  private static List<String> getLabelOwnerFormats(
+      PatchSetApproval a, ChangeData cd, Optional<LabelType> labelType) {
+    List<String> allFormats = new ArrayList<>();
+    if (cd.change().getOwner().equals(a.accountId())) {
+      allFormats.add(formatLabel(a.label(), a.value(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
+      allFormats.addAll(
+          getMagicLabelFormats(
+              a.label(), a.value(), labelType, ChangeQueryBuilder.OWNER_ACCOUNT_ID));
+    }
+    return allFormats;
+  }
+
+  private static List<String> getLabelNonUploaderFormats(
+      PatchSetApproval a, ChangeData cd, Optional<LabelType> labelType) {
+    List<String> allFormats = new ArrayList<>();
+    if (!cd.currentPatchSet().uploader().equals(a.accountId())) {
+      allFormats.add(formatLabel(a.label(), a.value(), ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID));
+      allFormats.addAll(
+          getMagicLabelFormats(
+              a.label(), a.value(), labelType, ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID));
+    }
+    return allFormats;
+  }
+
+  /** Get magic label formats corresponding to the {MIN, MAX, ANY} label votes. */
+  private static List<String> getMagicLabelFormats(
       String label, short labelVal, Optional<LabelType> labelType, @Nullable Account.Id accountId) {
     List<String> labels = new ArrayList<>();
     if (labelType.isPresent()) {
@@ -735,10 +751,6 @@ public class ChangeField {
         + (value >= 0 ? "+" : "")
         + value
         + (accountId != null ? "," + formatAccount(accountId) : "");
-  }
-
-  public static String formatLabel(String label, String value) {
-    return formatLabel(label, value, null);
   }
 
   public static String formatLabel(String label, String value, @Nullable Account.Id accountId) {

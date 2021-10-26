@@ -2,6 +2,10 @@ load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
 load("@npm//@bazel/terser:index.bzl", "terser_minified")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 
+# The following karma:index.bzl is generated automatically by bazel
+# See https://bazelbuild.github.io/rules_nodejs/repositories.html#npm
+load("@ui_dev_npm//karma:index.bzl", karma_test_rule = "karma_test")
+
 ComponentInfo = provider()
 
 def _js_component(ctx):
@@ -143,8 +147,8 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
         ]),
     )
 
-def karma_test(name, srcs, data):
-    """Creates a Karma test target.
+def karma_test(name, data, root):
+    """Creates a Karma test target by wrapping the raw karma_test_rule
 
     It can be used both for the main Gerrit js bundle, but also for plugins. So
     it should be extremely easy to add Karma test capabilities for new plugins.
@@ -155,23 +159,29 @@ def karma_test(name, srcs, data):
 
     Args:
       name: The name of the test rule.
-      srcs: The shell script to invoke, where you can set command line
-        arguments for Karma and its config.
       data: The bundle of JavaScript files with the tests included.
+      root: where javascript tests files are located (for typescript tests this
+        is a location of generated files).
     """
 
-    native.sh_test(
+    karma_test_rule(
         name = name,
         size = "enormous",
-        srcs = srcs,
         args = [
-            "$(location //polygerrit-ui:karma_bin)",
+            "start",
             "$(location //polygerrit-ui:karma.conf.js)",
+            "--root",
+            root,
+            "--test-files '*_test.js'",
         ],
         data = data + [
-            "//polygerrit-ui:karma_bin",
+            "@ui_dev_npm//@open-wc/karma-esm",
+            "@ui_dev_npm//chai",
+            "@ui_dev_npm//karma-chrome-launcher",
+            "@ui_dev_npm//karma-mocha",
+            "@ui_dev_npm//karma-mocha-reporter",
+            "@ui_dev_npm//mocha",
             "//polygerrit-ui:karma.conf.js",
         ],
-        # Should not run sandboxed.
         tags = ["karma", "local", "manual"],
     )

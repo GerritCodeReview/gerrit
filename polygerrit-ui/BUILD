@@ -34,22 +34,8 @@ go_binary(
     ],
 )
 
-sh_binary(
-    name = "karma_bin",
-    srcs = ["@ui_dev_npm//:node_modules/karma/bin/karma"],
-    data = [
-        "@ui_dev_npm//@open-wc/karma-esm",
-        "@ui_dev_npm//chai",
-        "@ui_dev_npm//karma-chrome-launcher",
-        "@ui_dev_npm//karma-mocha",
-        "@ui_dev_npm//karma-mocha-reporter",
-        "@ui_dev_npm//karma/bin:karma",
-        "@ui_dev_npm//mocha",
-    ],
-)
-
 karma_test(
     name = "karma_test",
-    srcs = ["karma_test.sh"],
     data = ["//polygerrit-ui/app:test-srcs-fg"],
+    root = "polygerrit-ui/app/_pg_with_tests_out/",
 )

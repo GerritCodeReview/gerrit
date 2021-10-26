@@ -37,8 +37,8 @@
     "eslint": "npm run safe_bazelisk test polygerrit-ui/app:lint_test",
     "eslintfix": "npm run safe_bazelisk run polygerrit-ui/app:lint_bin -- -- --fix $(pwd)/polygerrit-ui/app",
     "litlint": "npm run safe_bazelisk run polygerrit-ui/app:lit_analysis",
-    "test:debug": "npm run compile:local && npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --root '.ts-out/polygerrit-ui/app/' --browsers ChromeDev --no-single-run --test-files",
-    "test:single": "npm run compile:local && npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --root '.ts-out/polygerrit-ui/app/' --test-files",
+    "test:debug": "npm run compile:local && npm run safe_bazelisk run @ui_dev_npm//karma/bin:karma -- -- start $(pwd)/polygerrit-ui/karma.conf.js --root '.ts-out/polygerrit-ui/app/' --browsers ChromeDev --no-single-run --test-files",
+    "test:single": "npm run compile:local && npm run safe_bazelisk run @ui_dev_npm//karma/bin:karma -- -- start $(pwd)/polygerrit-ui/karma.conf.js --root '.ts-out/polygerrit-ui/app/' --test-files",
     "polylint": "npm run safe_bazelisk test //polygerrit-ui/app:polylint_test",
     "polylint:dev": "rm -rf ./polygerrit-ui/app/tmpl_out && npm run safe_bazelisk build //polygerrit-ui/app:template_test_tar && mkdir ./polygerrit-ui/app/tmpl_out && tar -xf bazel-bin/polygerrit-ui/app/template_test_tar.tar -C ./polygerrit-ui/app/tmpl_out"
   },

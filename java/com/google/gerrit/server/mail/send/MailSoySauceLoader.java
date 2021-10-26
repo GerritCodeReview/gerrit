@@ -19,7 +19,6 @@ import com.google.common.io.Resources;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.template.soy.SoyFileSet;
@@ -31,9 +30,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-/** Configures Soy Sauce object for rendering email templates. */
+/**
+ * Configures and loads Soy Sauce object for rendering email templates.
+ *
+ * <p>It reloads templates each time when {@link #load()} is called.
+ */
 @Singleton
-public class MailSoySauceProvider implements Provider<SoySauce> {
+class MailSoySauceLoader {
 
   // Note: will fail to construct the tofu object if this array is empty.
   private static final String[] TEMPLATES = {
@@ -90,7 +93,7 @@ public class MailSoySauceProvider implements Provider<SoySauce> {
   private final PluginSetContext<MailSoyTemplateProvider> templateProviders;
 
   @Inject
-  MailSoySauceProvider(
+  MailSoySauceLoader(
       SitePaths site,
       SoyAstCache cache,
       PluginSetContext<MailSoyTemplateProvider> templateProviders) {
@@ -99,8 +102,7 @@ public class MailSoySauceProvider implements Provider<SoySauce> {
     this.templateProviders = templateProviders;
   }
 
-  @Override
-  public SoySauce get() throws ProvisionException {
+  public SoySauce load() {
     SoyFileSet.Builder builder = SoyFileSet.builder();
     builder.setSoyAstCache(cache);
     for (String name : TEMPLATES) {

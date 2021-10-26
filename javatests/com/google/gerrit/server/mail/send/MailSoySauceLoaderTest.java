@@ -25,7 +25,7 @@ import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MailSoySauceProviderTest {
+public class MailSoySauceLoaderTest {
 
   private SitePaths sitePaths;
   private DynamicSet<MailSoyTemplateProvider> set;
@@ -38,11 +38,11 @@ public class MailSoySauceProviderTest {
 
   @Test
   public void soyCompilation() {
-    MailSoySauceProvider provider =
-        new MailSoySauceProvider(
+    MailSoySauceLoader loader =
+        new MailSoySauceLoader(
             sitePaths,
             new SoyAstCache(),
             new PluginSetContext<>(set, PluginMetrics.DISABLED_INSTANCE));
-    assertThat(provider.get()).isNotNull(); // should not throw
+    assertThat(loader.load()).isNotNull(); // should not throw
   }
 }

@@ -54,6 +54,7 @@ junit_tests(
         "//java/com/google/gerrit/proto/testing",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/account/externalids/testing",
+        "//java/com/google/gerrit/server/cache/mem",
         "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/cache/testing",
         "//java/com/google/gerrit/server/cancellation",

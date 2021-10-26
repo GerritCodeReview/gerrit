@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e41904b2_87180e87",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T12:28:30Z",
+      "side": 1,
+      "message": "That is the same as\n\n  patchRange.patchNum \u003d computeLatestPatchNum(this._allPatchSets);\n  \nAnd thus maybe just it outside of the `if (patchChanged)` clause?",
+      "range": {
+        "startLine": 1247,
+        "startChar": 8,
+        "endLine": 1250,
+        "endChar": 10
+      },
+      "revId": "f9de721c25baea0bc1e3921e5aaf4a2a82d59d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa89308e_5f03dd0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-26T10:10:48Z",
+      "side": 1,
+      "message": "Nice, nice, nice! I really like this refactoring.\n\nI double-checked the fields where you dropped the check.\n\nThanks!",
+      "revId": "8a0d1fb86f71c10085887f90dd6e2e40f6790e67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

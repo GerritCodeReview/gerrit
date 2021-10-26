@@ -173,6 +173,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d32ebb9a_7f466742",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-26T11:15:40Z",
+      "side": 1,
+      "message": "In that scenario value.patchNum !\u003d patchRange.patchNum and _reloadPatchNumDependentResources is called(as expected). If _reloadPatchNumDependentResources does it\u0027s job then that I would have hoped that somehow worked.\n\nPerhaps it\u0027s a failure of that method.\n\nThe use case(quite unlikely :D ) is possible though. Added patchKnown back and treating !patchKnown as forceReload.",
+      "parentUuid": "5786f5af_7b1aac77",
+      "revId": "81beed90bd1aca43048e0a53da010ebe16942fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d0338b9_5f62780a",

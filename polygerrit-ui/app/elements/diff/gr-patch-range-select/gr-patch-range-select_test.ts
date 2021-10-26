@@ -38,6 +38,7 @@ import {SpecialFilePath} from '../../../constants/constants';
 import {
   createEditRevision,
   createRevision,
+  TEST_CHANGE_CREATED,
 } from '../../../test/test-data-generators';
 import {PatchSet} from '../../../utils/patch-set-util';
 import {
@@ -68,6 +69,7 @@ suite('gr-patch-range-select tests', () => {
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
+    console.log(`TEST_CHANGE_CREATED ${TEST_CHANGE_CREATED}`);
     // Element must be wrapped in an element with direct access to the
     // comment API.
     element = basicFixture.instantiate();
@@ -185,7 +187,7 @@ suite('gr-patch-range-select tests', () => {
         mobileText: '3',
         bottomText: '',
         value: 3,
-        date: '2021-03-30 01:02:03.000000000' as Timestamp,
+        date: '2020-02-01 01:02:03.000000000' as Timestamp,
       } as DropdownItem,
       {
         disabled: true,
@@ -194,7 +196,7 @@ suite('gr-patch-range-select tests', () => {
         mobileText: '2',
         bottomText: '',
         value: 2,
-        date: '2021-03-30 01:02:03.000000000' as Timestamp,
+        date: '2020-02-01 01:02:03.000000000' as Timestamp,
       } as DropdownItem,
       {
         disabled: true,
@@ -203,7 +205,7 @@ suite('gr-patch-range-select tests', () => {
         mobileText: '1',
         bottomText: '',
         value: 1,
-        date: '2021-03-30 01:02:03.000000000' as Timestamp,
+        date: '2020-02-01 01:02:03.000000000' as Timestamp,
       } as DropdownItem,
       {
         text: 'Base',
@@ -332,7 +334,7 @@ suite('gr-patch-range-select tests', () => {
         mobileText: '3',
         bottomText: '',
         value: 3,
-        date: '2021-03-30 01:02:03.000000000' as Timestamp,
+        date: '2020-02-01 01:02:03.000000000' as Timestamp,
       } as DropdownItem,
       {
         disabled: false,
@@ -341,7 +343,7 @@ suite('gr-patch-range-select tests', () => {
         mobileText: '2 description',
         bottomText: 'description',
         value: 2,
-        date: '2021-03-30 01:02:03.000000000' as Timestamp,
+        date: '2020-02-01 01:02:03.000000000' as Timestamp,
       } as DropdownItem,
       {
         disabled: true,
@@ -350,7 +352,7 @@ suite('gr-patch-range-select tests', () => {
         mobileText: '1',
         bottomText: '',
         value: 1,
-        date: '2021-03-30 01:02:03.000000000' as Timestamp,
+        date: '2020-02-01 01:02:03.000000000' as Timestamp,
       } as DropdownItem,
     ];
 

@@ -274,7 +274,7 @@ export function createRevisions(count: number): {
   [revisionId: string]: RevisionInfo;
 } {
   const revisions: {[revisionId: string]: RevisionInfo} = {};
-  const revisionDate = TEST_CHANGE_CREATED;
+  let revisionDate = TEST_CHANGE_CREATED;
   const revisionIdStart = 1; // The same as getCurrentRevision
   for (let i = 0; i < count; i++) {
     const revisionId = (i + revisionIdStart).toString(16);
@@ -285,6 +285,7 @@ export function createRevisions(count: number): {
     };
     revisions[revisionId] = revision;
     // advance 1 day
+    revisionDate = new Date(revisionDate);
     revisionDate.setDate(revisionDate.getDate() + 1);
   }
   return revisions;
@@ -298,12 +299,13 @@ export function getCurrentRevision(count: number): CommitId {
 export function createChangeMessages(count: number): ChangeMessageInfo[] {
   const messageIdStart = 1000;
   const messages: ChangeMessageInfo[] = [];
-  const messageDate = TEST_CHANGE_CREATED;
+  let messageDate = TEST_CHANGE_CREATED;
   for (let i = 0; i < count; i++) {
     messages.push({
       ...createChangeMessageInfo((i + messageIdStart).toString(16)),
       date: dateToTimestamp(messageDate),
     });
+    messageDate = new Date(messageDate);
     messageDate.setDate(messageDate.getDate() + 1);
   }
   return messages;

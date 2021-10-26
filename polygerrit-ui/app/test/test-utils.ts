@@ -160,6 +160,13 @@ export function removeIronOverlayBackdropStyleEl() {
   el.parentNode?.removeChild(el);
 }
 
+export function removeThemeStyles() {
+  // Do not remove the light theme, because it is only added once statically,
+  // not once per gr-app instantiation.
+  // document.head.querySelector('#light-theme')?.remove();
+  document.head.querySelector('#dark-theme')?.remove();
+}
+
 export function waitUntil(
   predicate: () => boolean,
   maxMillis = 100

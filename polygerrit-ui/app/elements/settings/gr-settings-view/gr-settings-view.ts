@@ -21,10 +21,6 @@ import '../../../styles/gr-form-styles';
 import '../../../styles/gr-menu-page-styles';
 import '../../../styles/gr-page-nav-styles';
 import '../../../styles/shared-styles';
-import {
-  applyTheme as applyDarkTheme,
-  removeTheme as removeDarkTheme,
-} from '../../../styles/themes/dark-theme';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../gr-change-table-editor/gr-change-table-editor';
 import '../../shared/gr-button/gr-button';
@@ -74,6 +70,7 @@ import {
   TimeFormat,
 } from '../../../constants/constants';
 import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
+import {windowLocationReload} from '../../../utils/dom-util';
 
 const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'changes_per_page',
@@ -536,13 +533,14 @@ export class GrSettingsView extends PolymerElement {
   _handleToggleDark() {
     if (this._isDark) {
       window.localStorage.removeItem('dark-theme');
-      removeDarkTheme();
     } else {
       window.localStorage.setItem('dark-theme', 'true');
-      applyDarkTheme();
     }
-    this._isDark = !!window.localStorage.getItem('dark-theme');
-    fireAlert(this, `Theme changed to ${this._isDark ? 'dark' : 'light'}.`);
+    this.reloadPage();
+  }
+
+  reloadPage() {
+    windowLocationReload();
   }
 
   _showHttpAuth(config?: ServerInfo) {

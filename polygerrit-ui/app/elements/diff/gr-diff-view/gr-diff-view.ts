@@ -98,7 +98,7 @@ import {
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {AppElementParams} from '../../gr-app-types';
+import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
 import {EventType, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
@@ -109,8 +109,11 @@ import {throttleWrap} from '../../../utils/async-util';
 import {changeComments$} from '../../../services/comments/comments-model';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {preferences$} from '../../../services/user/user-model';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
+import {
+  preferences$,
+  diffPreferences$,
+} from '../../../services/user/user-model';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const LOADING_BLAME = 'Loading blame...';
@@ -365,10 +368,6 @@ export class GrDiffView extends base {
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
-    // TODO(brohlfs): This just ensures that the userService is instantiated at
-    // all. We need the service to manage the model, but we are not making any
-    // direct calls. Will need to find a better solution to this problem ...
-    assertIsDefined(appContext.userService);
 
     changeComments$
       .pipe(takeUntil(this.disconnected$))
@@ -379,6 +378,11 @@ export class GrDiffView extends base {
     preferences$.pipe(takeUntil(this.disconnected$)).subscribe(preferences => {
       this._userPrefs = preferences;
     });
+    diffPreferences$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(diffPreferences => {
+        this._prefs = diffPreferences;
+      });
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
@@ -496,12 +500,6 @@ export class GrDiffView extends base {
           changeFilesByPath: files,
         };
       });
-  }
-
-  _getDiffPreferences() {
-    return this.restApiService.getDiffPreferences().then(prefs => {
-      this._prefs = prefs;
-    });
   }
 
   _getPreferences() {
@@ -1016,6 +1014,14 @@ export class GrDiffView extends base {
     );
   }
 
+  private isSameDiffLoaded(value: AppElementDiffViewParam) {
+    return (
+      this._patchRange?.basePatchNum === value.basePatchNum &&
+      this._patchRange?.patchNum === value.patchNum &&
+      this._path === value.path
+    );
+  }
+
   _paramsChanged(value: AppElementParams) {
     if (value.view !== GerritView.DIFF) {
       return;
@@ -1026,6 +1032,10 @@ export class GrDiffView extends base {
     const changeChanged = this._changeNum !== value.changeNum;
     if (this._changeNum !== undefined && changeChanged) {
       fireEvent(this, EventType.RECREATE_DIFF_VIEW);
+      return;
+    } else if (this._changeNum !== undefined && this.isSameDiffLoaded(value)) {
+      // changeNum has not changed, so check if there are changes in patchRange
+      // path. If no changes then we can simply render the view as is.
       return;
     }
 
@@ -1054,8 +1064,6 @@ export class GrDiffView extends base {
     }
 
     const promises: Promise<unknown>[] = [];
-
-    promises.push(this._getDiffPreferences());
 
     if (!this._change) promises.push(this._getChangeDetail(this._changeNum));
 
@@ -1709,7 +1717,7 @@ export class GrDiffView extends base {
   }
 
   _handleReloadingDiffPreference() {
-    this._getDiffPreferences();
+    this.userService.getDiffPreferences();
   }
 
   _computeCanEdit(

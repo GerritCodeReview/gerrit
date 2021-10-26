@@ -41,7 +41,7 @@ import {
   SpecialFilePath,
 } from '../../../constants/constants';
 import {computeDisplayPath} from '../../../utils/path-list-util';
-import {computed, customElement, observe, property} from '@polymer/decorators';
+import {customElement, observe, property} from '@polymer/decorators';
 import {
   AccountDetailInfo,
   CommentRange,
@@ -201,6 +201,9 @@ export class GrCommentThread extends PolymerElement {
   @property({type: Array})
   layers: DiffLayer[] = [];
 
+  @property({type: Object, computed: 'computeDiff(comments, path)'})
+  _diff?: DiffInfo;
+
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
 
@@ -261,15 +264,19 @@ export class GrCommentThread extends PolymerElement {
     this._setInitialExpandedState();
   }
 
-  @computed('comments', 'path')
-  get _diff() {
-    if (this.comments === undefined || this.path === undefined) return;
-    if (!this.comments[0]?.context_lines?.length) return;
+  computeDiff(comments?: UIComment[], path?: string) {
+    if (comments === undefined || path === undefined) return undefined;
+    if (!comments[0]?.context_lines?.length) return undefined;
     const diff = computeDiffFromContext(
-      this.comments[0].context_lines,
-      this.path,
-      this.comments[0].source_content_type
+      comments[0].context_lines,
+      path,
+      comments[0].source_content_type
     );
+    // Do we really have to re-compute (and re-render) the diff?
+    if (this._diff && JSON.stringify(this._diff) === JSON.stringify(diff)) {
+      return this._diff;
+    }
+
     if (!anyLineTooLong(diff)) {
       this.syntaxLayer.init(diff);
       waitForEventOnce(this, 'render').then(() => {

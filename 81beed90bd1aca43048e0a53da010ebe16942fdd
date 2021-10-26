@@ -103,6 +103,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea27f19c_fbf0a971",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T10:54:56Z",
+      "side": 1,
+      "message": "Yeah, let\u0027s treat `!patchKnown` in the same way as `value.forceReload`.",
+      "parentUuid": "17daf2fb_b810dfb7",
+      "revId": "81beed90bd1aca43048e0a53da010ebe16942fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d0338b9_5f62780a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 22

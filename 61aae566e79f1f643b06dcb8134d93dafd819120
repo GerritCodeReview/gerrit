@@ -33,6 +33,24 @@
       "message": "Nit: Maybe change the comment to\n\n  Value of the \"target\" attribute for anchor elements.",
       "revId": "61aae566e79f1f643b06dcb8134d93dafd819120",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6a6e3cf_ddcc6368",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-26T20:58:29Z",
+      "side": 1,
+      "message": "Done: https://gerrit-review.googlesource.com/c/gerrit/+/322016",
+      "parentUuid": "974b2e1e_dd7df219",
+      "revId": "61aae566e79f1f643b06dcb8134d93dafd819120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

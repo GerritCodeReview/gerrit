@@ -198,7 +198,6 @@ export class TokenHighlightLayer implements DiffLayer {
       element,
     } = this.findTokenAncestor(e?.target);
     if (!newHighlight || newHighlight === this.currentHighlight) return;
-    if (this.countOccurrences(newHighlight) <= 1) return;
     this.hoveredElement = element;
     this.updateTokenTask = debounce(
       this.updateTokenTask,

@@ -290,6 +290,34 @@ suite('token-highlight-layer', () => {
       assert.deepEqual(tokenHighlightingCalls[1].details, undefined);
     });
 
+    test('triggers listener on token with single occurrence', async () => {
+      const clock = sinon.useFakeTimers();
+      const line1 = createLine('a tokenWithSingleOccurence');
+      const line2 = createLine('can be highlighted', 2);
+      annotate(line1);
+      annotate(line2, Side.RIGHT, 2);
+      const tokenNode = queryAndAssert(line1, '.tk-tokenWithSingleOccurence');
+      assert.isTrue(tokenNode.classList.contains('token'));
+      dispatchMouseEvent(
+        'mouseover',
+        MockInteractions.middleOfNode(tokenNode),
+        tokenNode
+      );
+      assert.equal(tokenHighlightingCalls.length, 0);
+      clock.tick(HOVER_DELAY_MS);
+      assert.equal(tokenHighlightingCalls.length, 1);
+      assert.deepEqual(tokenHighlightingCalls[0].details, {
+        token: 'tokenWithSingleOccurence',
+        side: Side.RIGHT,
+        element: tokenNode,
+        range: {start_line: 1, start_column: 3, end_line: 1, end_column: 26},
+      });
+
+      MockInteractions.click(container);
+      assert.equal(tokenHighlightingCalls.length, 2);
+      assert.deepEqual(tokenHighlightingCalls[1].details, undefined);
+    });
+
     test('clicking clears highlight', async () => {
       const clock = sinon.useFakeTimers();
       const line1 = createLine('two words');

@@ -16,6 +16,29 @@
       "message": "Nice!!",
       "revId": "e681560334bab9eb7f7c89b6db0d4b8f4a8791f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f259bec_e1fbb54e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-26T11:25:56Z",
+      "side": 1,
+      "message": "Do you know if this object can be very large and if this can be performance issue? I assume this is limited by context_lines and it can be only better then rerendering.",
+      "range": {
+        "startLine": 276,
+        "startChar": 37,
+        "endLine": 276,
+        "endChar": 47
+      },
+      "revId": "e681560334bab9eb7f7c89b6db0d4b8f4a8791f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "609a72fb_0db08cc6",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T10:59:55Z",
+      "side": 1,
+      "message": "test?",
+      "revId": "ef4f1886b898f3ea23a614d2a1e9377b609ddad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

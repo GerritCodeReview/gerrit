@@ -691,17 +691,12 @@ export class GrRelatedCollapse extends LitElement {
       css`
         .title {
           color: var(--deemphasized-text-color);
-          padding-left: var(--metadata-horizontal-padding);
-        }
-        h4 {
           display: flex;
           align-self: flex-end;
+          margin-left: 20px;
         }
         gr-button {
           display: flex;
-        }
-        h4 {
-          margin-left: 20px;
         }
         gr-button iron-icon {
           color: inherit;

@@ -39,6 +39,30 @@
       },
       "revId": "e681560334bab9eb7f7c89b6db0d4b8f4a8791f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2ddf53b_edc519ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T12:31:39Z",
+      "side": 1,
+      "message": "Yeah, comparing it using stringify is at least orders of magnitudes faster than throwing away and re-creating an entire gr-diff component. :-)",
+      "parentUuid": "1f259bec_e1fbb54e",
+      "range": {
+        "startLine": 276,
+        "startChar": 37,
+        "endLine": 276,
+        "endChar": 47
+      },
+      "revId": "e681560334bab9eb7f7c89b6db0d4b8f4a8791f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

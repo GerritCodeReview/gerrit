@@ -46,6 +46,30 @@
       },
       "revId": "67e28881fa553ffea7ce5df04f693e00c33449a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a7a5528_74207e56",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-26T21:35:32Z",
+      "side": 1,
+      "message": "So it is. 😊 Thanks for doing some teaching today.\n\nThat said, I don\u0027t see anything using the date set by createRevisions(). Do you even need to be doing that +1?",
+      "parentUuid": "548504f6_aadd1fc6",
+      "range": {
+        "startLine": 188,
+        "startChar": 15,
+        "endLine": 188,
+        "endChar": 25
+      },
+      "revId": "67e28881fa553ffea7ce5df04f693e00c33449a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

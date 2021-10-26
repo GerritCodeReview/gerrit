@@ -16,6 +16,24 @@
       "message": "This method is now no longer being used. Can you remove it?",
       "revId": "6dc8e3f0a03b140fe6442bec4c46af397a495d56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53dff496_1cc4fdc7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-10-26T22:12:15Z",
+      "side": 1,
+      "message": "done!",
+      "parentUuid": "0ea2d4db_898e002e",
+      "revId": "6dc8e3f0a03b140fe6442bec4c46af397a495d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

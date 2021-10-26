@@ -1065,7 +1065,7 @@ export declare interface WebLinkInfo {
   url: string;
   /** URL to the icon of the link. */
   image_url?: string;
-  /* The links target. */
+  /* Value of the "target" attribute for anchor elements. */
   target?: string;
 }
 

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b1b229_fc8255cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T08:57:39Z",
+      "side": 1,
+      "message": "End sentences with a full stop.",
+      "range": {
+        "startLine": 1228,
+        "startChar": 52,
+        "endLine": 1228,
+        "endChar": 60
+      },
+      "revId": "81beed90bd1aca43048e0a53da010ebe16942fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46065528_684124a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T08:57:39Z",
+      "side": 1,
+      "message": "What is supposed to happen when `patchChanged \u0026\u0026 !patchKnown`? Nothing?",
+      "revId": "81beed90bd1aca43048e0a53da010ebe16942fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d0338b9_5f62780a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T08:57:39Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "81beed90bd1aca43048e0a53da010ebe16942fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,7 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
 import {changeIsMerged} from '../../../utils/change-util';
+import {getRequirements} from '../../../utils/label-util';
 
 @customElement('gr-change-list-column-requirements')
 export class GrChangeListColumRequirements extends LitElement {
@@ -52,9 +53,7 @@ export class GrChangeListColumRequirements extends LitElement {
       return this.renderState('check', 'Merged');
     }
 
-    const submitRequirements = (this.change?.submit_requirements ?? []).filter(
-      req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
-    );
+    const submitRequirements = getRequirements(this.change);
     if (!submitRequirements.length) return html`n/a`;
     const numOfRequirements = submitRequirements.length;
     const numOfSatisfiedRequirements = submitRequirements.filter(

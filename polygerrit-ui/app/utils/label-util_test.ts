@@ -24,6 +24,7 @@ import {
   getRepresentativeValue,
   getVotingRange,
   getVotingRangeOrDefault,
+  getRequirements,
   hasNeutralStatus,
   labelCompare,
   LabelStatus,
@@ -38,9 +39,14 @@ import {
 } from '../types/common';
 import {
   createAccountWithEmail,
+  createChange,
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
 } from '../test/test-data-generators';
+import {
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../api/rest-api';
 
 const VALUES_0 = {
   '0': 'neutral',
@@ -268,6 +274,49 @@ suite('label-util', () => {
       };
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['Verified', 'Build-cop-override']);
+    });
+  });
+
+  suite('getRequirements()', () => {
+    function createChangeInfoWith(
+      submit_requirements: SubmitRequirementResultInfo[]
+    ) {
+      return {
+        ...createChange(),
+        submit_requirements,
+      };
+    }
+    test('only legacy', () => {
+      const requirement = {
+        ...createSubmitRequirementResultInfo(),
+        is_legacy: true,
+      };
+      const change = createChangeInfoWith([requirement]);
+      assert.deepEqual(getRequirements(change), [requirement]);
+    });
+    test('legacy and non-legacy - filter legacy', () => {
+      const requirement = {
+        ...createSubmitRequirementResultInfo(),
+        is_legacy: true,
+      };
+      const requirement2 = {
+        ...createSubmitRequirementResultInfo(),
+        is_legacy: false,
+      };
+      const change = createChangeInfoWith([requirement, requirement2]);
+      assert.deepEqual(getRequirements(change), [requirement2]);
+    });
+    test('filter not applicable', () => {
+      const requirement = {
+        ...createSubmitRequirementResultInfo(),
+        is_legacy: true,
+      };
+      const requirement2 = {
+        ...createSubmitRequirementResultInfo(),
+        status: SubmitRequirementStatus.NOT_APPLICABLE,
+      };
+      const change = createChangeInfoWith([requirement, requirement2]);
+      assert.deepEqual(getRequirements(change), [requirement]);
     });
   });
 });

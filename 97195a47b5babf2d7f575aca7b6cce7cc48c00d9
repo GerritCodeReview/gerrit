@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a882e916_76fd55a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-26T13:56:03Z",
+      "side": 0,
+      "message": "This was never used, because \u003cgr-related-changes-list\u003e are not under #metadata",
+      "range": {
+        "startLine": 694,
+        "startChar": 28,
+        "endLine": 694,
+        "endChar": 57
+      },
+      "revId": "97195a47b5babf2d7f575aca7b6cce7cc48c00d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

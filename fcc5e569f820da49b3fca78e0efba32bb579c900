@@ -34,6 +34,23 @@
       "parentUuid": "5a2c736c_c2beb0a7",
       "revId": "fcc5e569f820da49b3fca78e0efba32bb579c900",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d46167be_cc87c3cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-26T22:17:40Z",
+      "side": 1,
+      "message": "@Martin, can you +2 as well since moving the change and clicking rebase made me the uploader?",
+      "revId": "fcc5e569f820da49b3fca78e0efba32bb579c900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

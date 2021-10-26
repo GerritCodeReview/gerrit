@@ -198,7 +198,6 @@ export class TokenHighlightLayer implements DiffLayer {
       element,
     } = this.findTokenAncestor(e?.target);
     if (!newHighlight || newHighlight === this.currentHighlight) return;
-    if (this.countOccurrences(newHighlight) <= 1) return;
     this.hoveredElement = element;
     this.updateTokenTask = debounce(
       this.updateTokenTask,
@@ -245,13 +244,6 @@ export class TokenHighlightLayer implements DiffLayer {
     if (el.tagName === 'TD')
       return {line: 0, token: undefined, element: undefined};
     return this.findTokenAncestor(el.parentElement);
-  }
-
-  countOccurrences(token: string | undefined) {
-    if (!token) return 0;
-    const linesLeft = this.tokenToLinesLeft.get(token);
-    const linesRight = this.tokenToLinesRight.get(token);
-    return (linesLeft?.size ?? 0) + (linesRight?.size ?? 0);
   }
 
   private updateTokenHighlight(

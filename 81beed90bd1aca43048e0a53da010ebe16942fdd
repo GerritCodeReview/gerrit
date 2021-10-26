@@ -157,6 +157,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5786f5af_7b1aac77",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T11:05:02Z",
+      "side": 1,
+      "message": "If `this._allPatchSets` does not contain `patchRange.patchNum`, then you cannot render it without a full reload.\n\nSuppose the latest ps in 5 and that is what I have loaded as my current change view. Then someone else (or I myself in a different tab) uploads ps 6. Then suppose I manipulate my URL and append \u0027/6\u0027. The change-view will pick up the param change and it will think \"oh great, I know that change already, I don\u0027t have to fully reload, let\u0027s just switch patchsets\". But that will fail and that is what we are guarding against.",
+      "parentUuid": "b0a0b9f1_3a9aefae",
+      "revId": "81beed90bd1aca43048e0a53da010ebe16942fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d0338b9_5f62780a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 22

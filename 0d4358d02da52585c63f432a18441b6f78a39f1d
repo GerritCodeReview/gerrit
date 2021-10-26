@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3633c62_49570c36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-26T12:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df40d06b_4a3a86bc",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "0d4358d02da52585c63f432a18441b6f78a39f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a3d948d_5e30045a",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "I would also vote for consistency and make it a predicate available to change queries.",
       "parentUuid": "7a3d948d_5e30045a",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "0d4358d02da52585c63f432a18441b6f78a39f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc27ac10_71d6b354",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-26T12:11:28Z",
+      "side": 1,
+      "message": "Thanks for the refactoring in https://gerrit-review.googlesource.com/c/gerrit/+/321556.\n\nI converted to index predicate and update AbstractQueryChangesTest.\n\nDone.",
+      "parentUuid": "510a8cb5_fef8237b",
       "range": {
         "startLine": 13,
         "startChar": 0,

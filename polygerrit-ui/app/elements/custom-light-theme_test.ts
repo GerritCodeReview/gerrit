@@ -14,21 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import '../test/common-test-setup-karma.js';
-import {getComputedStyleValue} from '../utils/dom-util.js';
-import './gr-app.js';
-import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
-import {stubRestApi} from '../test/test-utils.js';
+import '../test/common-test-setup-karma';
+import {getComputedStyleValue} from '../utils/dom-util';
+import './gr-app';
+import '../styles/themes/app-theme';
+import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {stubRestApi} from '../test/test-utils';
+import {GrApp} from './gr-app';
+import {
+  createAccountDetailWithId,
+  createServerInfo,
+} from '../test/test-data-generators';
 
 const basicFixture = fixtureFromElement('gr-app');
 
 suite('gr-app custom light theme tests', () => {
-  let element;
+  let element: GrApp;
   setup(async () => {
     window.localStorage.removeItem('dark-theme');
-    stubRestApi('getConfig').returns(Promise.resolve({test: 'config'}));
-    stubRestApi('getAccount').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
+    stubRestApi('getAccount').returns(
+      Promise.resolve(createAccountDetailWithId())
+    );
     stubRestApi('getDiffComments').returns(Promise.resolve({}));
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
@@ -52,12 +59,12 @@ suite('gr-app custom light theme tests', () => {
 
   test('applies the right theme', () => {
     assert.equal(
-        getComputedStyleValue('--header-background-color', element)
-            .toLowerCase(),
-        '#f1f3f4');
+      getComputedStyleValue('--header-background-color', element).toLowerCase(),
+      '#f1f3f4'
+    );
     assert.equal(
-        getComputedStyleValue('--footer-background-color', element)
-            .toLowerCase(),
-        'transparent');
+      getComputedStyleValue('--footer-background-color', element).toLowerCase(),
+      'transparent'
+    );
   });
 });

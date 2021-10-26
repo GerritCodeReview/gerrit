@@ -47,12 +47,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -162,7 +165,9 @@ public class Schema_115 extends SchemaVersion {
     }
 
     try (Repository git = mgr.openRepository(allUsersName);
-        RevWalk rw = new RevWalk(git)) {
+        PackInserter packInserter = ((FileRepository) git).getObjectDatabase().newPackInserter();
+        ObjectReader reader = packInserter.newReader();
+        RevWalk rw = new RevWalk(reader)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       for (Map.Entry<Account.Id, DiffPreferencesInfo> e : imports.entrySet()) {
         try (MetaDataUpdate md =
@@ -170,10 +175,11 @@ public class Schema_115 extends SchemaVersion {
           Account.Id accountId = e.getKey();
           VersionedAccountPreferences p = VersionedAccountPreferences.forUser(accountId);
           p.load(md);
-          BatchMetaDataUpdate batch = p.openUpdate(md);
+          BatchMetaDataUpdate batch = p.openUpdate(md, packInserter, reader, rw);
           if (p.getRevision() == null) {
             batch.write(
-                buildInitialEmptyCommit(emptyTree(git), registeredOnByAccount.get(accountId)));
+                buildInitialEmptyCommit(
+                    emptyTree(packInserter), registeredOnByAccount.get(accountId)));
           }
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);
@@ -188,6 +194,7 @@ public class Schema_115 extends SchemaVersion {
         }
       }
 
+      packInserter.flush();
       bru.execute(rw, NullProgressMonitor.INSTANCE);
     } catch (ConfigInvalidException | IOException ex) {
       throw new OrmException(ex);
@@ -238,12 +245,7 @@ public class Schema_115 extends SchemaVersion {
     return cb;
   }
 
-  private static ObjectId emptyTree(Repository git) throws IOException {
-    ObjectId id;
-    try (ObjectInserter oi = git.newObjectInserter()) {
-      id = oi.insert(Constants.OBJ_TREE, new byte[] {});
-      oi.flush();
-    }
-    return id;
+  private static ObjectId emptyTree(ObjectInserter oi) throws IOException {
+    return oi.insert(Constants.OBJ_TREE, new byte[] {});
   }
 }

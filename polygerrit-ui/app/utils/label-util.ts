@@ -287,3 +287,14 @@ export function orderSubmitRequirements(
   );
   return priorityRequirementList.concat(nonPriorityRequirements);
 }
+
+export function getTriggerVotes(change?: ParsedChangeInfo | ChangeInfo) {
+  const allLabels = Object.keys(change?.labels ?? {});
+  const submitReqs = getRequirements(change);
+  const labelAssociatedWithSubmitReqs = submitReqs
+    .flatMap(req => extractAssociatedLabels(req))
+    .filter(unique);
+  return allLabels.filter(
+    label => !labelAssociatedWithSubmitReqs.includes(label)
+  );
+}

@@ -25,6 +25,7 @@ import {
   getVotingRange,
   getVotingRangeOrDefault,
   getRequirements,
+  getTriggerVotes,
   hasNeutralStatus,
   labelCompare,
   LabelStatus,
@@ -42,6 +43,7 @@ import {
   createChange,
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
+  createDetailedLabelInfo,
 } from '../test/test-data-generators';
 import {
   SubmitRequirementResultInfo,
@@ -317,6 +319,38 @@ suite('label-util', () => {
       };
       const change = createChangeInfoWith([requirement, requirement2]);
       assert.deepEqual(getRequirements(change), [requirement]);
+    });
+  });
+
+  suite('getTriggerVotes()', () => {
+    test('no requirements', () => {
+      const triggerVote = 'Trigger-Vote';
+      const change = {
+        ...createChange(),
+        labels: {
+          [triggerVote]: createDetailedLabelInfo(),
+        },
+      };
+      assert.deepEqual(getTriggerVotes(change), [triggerVote]);
+    });
+    test('no trigger votes, all labels associated with sub requirement', () => {
+      const triggerVote = 'Trigger-Vote';
+      const change = {
+        ...createChange(),
+        submit_requirements: [
+          {
+            ...createSubmitRequirementResultInfo(),
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${triggerVote}=MAX`,
+            },
+          },
+        ],
+        labels: {
+          [triggerVote]: createDetailedLabelInfo(),
+        },
+      };
+      assert.deepEqual(getTriggerVotes(change), []);
     });
   });
 });

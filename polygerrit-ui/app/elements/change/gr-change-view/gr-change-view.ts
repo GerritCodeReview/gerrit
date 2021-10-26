@@ -1233,7 +1233,10 @@ export class GrChangeView extends base {
         // existing diff is not requested. See Issue 125270 for more details.
         this.$.fileList.collapseAllDiffs();
         if (!patchRange.patchNum) {
-          patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
+          this._patchRange = {
+            ...this._patchRange,
+            patchNum: computeLatestPatchNum(this._allPatchSets),
+          };
           rightPatchNumChanged = true;
         }
         this._reloadPatchNumDependentResources(rightPatchNumChanged).then(
@@ -1243,6 +1246,12 @@ export class GrChangeView extends base {
         );
       }
 
+      if (!patchRange.patchNum) {
+        this._patchRange = {
+          ...this._patchRange,
+          patchNum: computeLatestPatchNum(this._allPatchSets),
+        };
+      }
       // If there is no change in patchset or changeNum, such as when user goes
       // to the diff view and then comes back to change page then there is no
       // need to reload anything and we render the change view component as is.

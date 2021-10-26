@@ -40,6 +40,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import com.google.common.collect.Streams;
 import com.google.common.truth.ThrowableSubject;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -141,7 +144,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -1038,6 +1040,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ChangeInserter ins3 = newChange(repo);
     ChangeInserter ins4 = newChange(repo);
     ChangeInserter ins5 = newChange(repo);
+    ChangeInserter ins6 = newChange(repo);
 
     Change reviewMinus2Change = insert(repo, ins);
     gApi.changes().id(reviewMinus2Change.getId().get()).current().review(ReviewInput.reject());
@@ -1050,7 +1053,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change reviewPlus1Change = insert(repo, ins4);
     gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
 
-    Change reviewPlus2Change = insert(repo, ins5);
+    Change reviewTwoPlus1Change = insert(repo, ins5);
+    gApi.changes().id(reviewTwoPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    requestContext.setContext(newRequestContext(createAccount("user1")));
+    gApi.changes().id(reviewTwoPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    requestContext.setContext(newRequestContext(userId));
+
+    Change reviewPlus2Change = insert(repo, ins6);
     gApi.changes().id(reviewPlus2Change.getId().get()).current().review(ReviewInput.approve());
 
     Map<String, Short> m =
@@ -1061,8 +1070,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(m).hasSize(1);
     assertThat(m).containsEntry("Code-Review", Short.valueOf((short) 1));
 
-    Map<Integer, Change> changes = new LinkedHashMap<>(5);
+    Multimap<Integer, Change> changes =
+        Multimaps.newListMultimap(Maps.newLinkedHashMap(), () -> Lists.newArrayList());
     changes.put(2, reviewPlus2Change);
+    changes.put(1, reviewTwoPlus1Change);
     changes.put(1, reviewPlus1Change);
     changes.put(0, noLabelChange);
     changes.put(-1, reviewMinus1Change);
@@ -1074,9 +1085,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=-1", reviewMinus1Change);
     assertQuery("label:Code-Review-1", reviewMinus1Change);
     assertQuery("label:Code-Review=0", noLabelChange);
-    assertQuery("label:Code-Review=+1", reviewPlus1Change);
-    assertQuery("label:Code-Review=1", reviewPlus1Change);
-    assertQuery("label:Code-Review+1", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=1", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review+1", reviewTwoPlus1Change, reviewPlus1Change);
     assertQuery("label:Code-Review=+2", reviewPlus2Change);
     assertQuery("label:Code-Review=2", reviewPlus2Change);
     assertQuery("label:Code-Review+2", reviewPlus2Change);
@@ -1084,6 +1095,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery(
         "label:Code-Review=ANY",
         reviewPlus2Change,
+        reviewTwoPlus1Change,
         reviewPlus1Change,
         reviewMinus1Change,
         reviewMinus2Change);
@@ -1112,14 +1124,75 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review<-2");
 
     assertQuery("label:Code-Review=+1,anotheruser");
-    assertQuery("label:Code-Review=+1,user", reviewPlus1Change);
-    assertQuery("label:Code-Review=+1,user=user", reviewPlus1Change);
-    assertQuery("label:Code-Review=+1,Administrators", reviewPlus1Change);
-    assertQuery("label:Code-Review=+1,group=Administrators", reviewPlus1Change);
-    assertQuery("label:Code-Review=+1,user=owner", reviewPlus1Change);
-    assertQuery("label:Code-Review=+1,owner", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,user", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,user=user", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,Administrators", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery(
+        "label:Code-Review=+1,group=Administrators", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,user=owner", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,owner", reviewTwoPlus1Change, reviewPlus1Change);
     assertQuery("label:Code-Review=+2,owner", reviewPlus2Change);
     assertQuery("label:Code-Review=-2,owner", reviewMinus2Change);
+
+    assertQuery(
+        "label:Code-Review=+2,count=0",
+        reviewTwoPlus1Change,
+        reviewPlus1Change,
+        noLabelChange,
+        reviewMinus1Change,
+        reviewMinus2Change);
+    assertQuery("label:Code-Review=1,count=1", reviewPlus1Change);
+    assertQuery("label:Code-Review=1,count=2", reviewTwoPlus1Change);
+    assertQuery("label:Code-Review=1,count>=2", reviewTwoPlus1Change);
+    assertQuery("label:Code-Review=1,count>1", reviewTwoPlus1Change);
+    assertQuery("label:Code-Review=1,count>=1", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=1,count=3");
+
+    // Less than operator includes count=0 (i.e. non voted labels) so it matches with all changes
+    assertQuery("label:Code-Review=1,count<5", codeReviewInRange(changes, -2, 2));
+    assertQuery("label:Code-Review=1,count<=5", codeReviewInRange(changes, -2, 2));
+    assertQuery(
+        "label:Code-Review=1,count<=1", // reviewTwoPlus1Change is not matched since its count=2
+        reviewPlus2Change,
+        reviewPlus1Change,
+        noLabelChange,
+        reviewMinus1Change,
+        reviewMinus2Change);
+    // Use another >=1 operator to exclude count=0
+    assertQuery(
+        "label:Code-Review=1,count<5 label:Code-Review=1,count>=1",
+        reviewTwoPlus1Change,
+        reviewPlus1Change);
+    assertQuery(
+        "label:Code-Review=1,count<=5 label:Code-Review=1,count>=1",
+        reviewTwoPlus1Change,
+        reviewPlus1Change);
+    assertQuery("label:Code-Review=1,count<=1 label:Code-Review=1,count>=1", reviewPlus1Change);
+
+    assertQuery("label:Code-Review=MAX,count=1", reviewPlus2Change);
+    assertQuery("label:Code-Review=MAX,count=2");
+    assertQuery("label:Code-Review=MIN,count=1", reviewMinus2Change);
+    assertQuery("label:Code-Review=MIN,count>1");
+    assertQuery("label:Code-Review=MAX,count<2", codeReviewInRange(changes, -2, 2));
+    assertQuery(
+        "label:Code-Review=MIN,count<1", // reviewMinusTwoChange is not matched since its count=1
+        reviewPlus2Change,
+        reviewTwoPlus1Change,
+        reviewPlus1Change,
+        noLabelChange,
+        reviewMinus1Change);
+    assertQuery("label:Code-Review=MAX,count<2 label:Code-Review=MAX,count>=1", reviewPlus2Change);
+    assertQuery("label:Code-Review=MIN,count<1 label:Code-Review=MIN,count>=1");
+    assertQuery("label:Code-Review>=+1,count=2", reviewTwoPlus1Change);
+
+    // "count" and "user" args cannot be used simultaneously.
+    assertThrows(
+        BadRequestException.class,
+        () -> assertQuery("label:Code-Review=+1,user=non_uploader,count=2"));
+
+    // "count" and "group" args cannot be used simultaneously.
+    assertThrows(
+        BadRequestException.class, () -> assertQuery("label:Code-Review=+1,group=gerrit,count=2"));
   }
 
   @Test
@@ -1224,16 +1297,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,non_uploader", reviewPlus1Change);
   }
 
-  private Change[] codeReviewInRange(Map<Integer, Change> changes, int start, int end) {
-    int size = 0;
-    Change[] range = new Change[end - start + 1];
-    for (int i : changes.keySet()) {
+  private Change[] codeReviewInRange(Multimap<Integer, Change> changes, int start, int end) {
+    List<Change> range = new ArrayList<>();
+    for (Map.Entry<Integer, Change> entry : changes.entries()) {
+      int i = entry.getKey();
       if (i >= start && i <= end) {
-        range[size] = changes.get(i);
-        size++;
+        range.add(entry.getValue());
       }
     }
-    return range;
+    return range.toArray(new Change[0]);
   }
 
   private String createGroup(String name, String owner) throws Exception {

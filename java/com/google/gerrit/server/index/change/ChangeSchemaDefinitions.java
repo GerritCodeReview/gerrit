@@ -186,6 +186,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V71 =
       new Schema.Builder<ChangeData>().add(V70).add(ChangeField.UPLOADER).build();
 
+  /** Added new "count=$count" argument to the {@link ChangeField#LABEL} operator. */
+  static final Schema<ChangeData> V72 = schema(V71, false);
+
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.
    */

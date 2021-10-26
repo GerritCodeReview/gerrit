@@ -772,6 +772,21 @@ Matches changes with label voted with the lowest possible score.
 +
 Matches changes with label voted with any score.
 
+`label:Code-Review=+1,count=2`::
++
+Matches changes with exactly two +1 votes to the code-review label. The {MAX,
+MIN, ANY} votes can also be used, for example `label:Code-Review=MAX,count=2` is
+equivalent to `label:Code-Review=2,count=2` (if 2 is the maximum positive vote
+for the code review label).
+
+`label:Code-Review=+1,count>=2`::
++
+Matches changes having two or more +1 votes to the code-review label. Can also
+be used with the {MAX, MIN, ANY} label votes. All operators `>`, `>=`, `<`, `<=`
+are supported.
+Note that a query like `label:Code-Review=+1,count<x` will also match with
+changes having zero +1 votes to this label.
+
 `label:Non-Author-Code-Review=need`::
 +
 Matches changes where the submit rules indicate that a label named

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "396f6829_25ef0feb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-26T18:05:37Z",
+      "side": 1,
+      "message": "Can we move this to stable-3.5 for releasing it with v3.5.0?",
+      "revId": "0716666008bc015692f54af4262d2ba104dabef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,7 @@
  */
 import '@polymer/paper-tabs/paper-tabs';
 import '../../../styles/gr-a11y-styles';
+import '../../../styles/gr-paper-styles';
 import '../../../styles/shared-styles';
 import '../../diff/gr-comment-api/gr-comment-api';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';

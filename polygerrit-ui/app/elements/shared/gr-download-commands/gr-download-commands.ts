@@ -17,6 +17,7 @@
 import '@polymer/paper-tabs/paper-tab';
 import '@polymer/paper-tabs/paper-tabs';
 import '../gr-shell-command/gr-shell-command';
+import '../../../styles/gr-paper-styles';
 import '../../../styles/shared-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-download-commands_html';

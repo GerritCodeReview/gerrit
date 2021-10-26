@@ -20,6 +20,7 @@ import '../../../styles/gr-font-styles';
 import '../../../styles/gr-form-styles';
 import '../../../styles/gr-menu-page-styles';
 import '../../../styles/gr-page-nav-styles';
+import '../../../styles/gr-paper-styles';
 import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../gr-change-table-editor/gr-change-table-editor';

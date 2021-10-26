@@ -565,6 +565,11 @@ or WebUI only. It is not able to identify changes which are
 cherry-picked locally using the git cherry-pick command and then
 pushed to Gerrit.
 
+[[pure-revert]]
+is:pure-revert::
++
+True if the change is a pure revert.
+
 [[status]]
 status:open, status:pending, status:new::
 +

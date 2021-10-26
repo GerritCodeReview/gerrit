@@ -204,6 +204,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_WATCHEDBY = "watchedby";
   public static final String FIELD_WIP = "wip";
   public static final String FIELD_REVERTOF = "revertof";
+  public static final String FIELD_PURE_REVERT = "ispurerevert";
   public static final String FIELD_CHERRYPICK = "cherrypick";
   public static final String FIELD_CHERRY_PICK_OF_CHANGE = "cherrypickofchange";
   public static final String FIELD_CHERRY_PICK_OF_PATCHSET = "cherrypickofpatchset";
@@ -702,6 +703,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     if ("unassigned".equalsIgnoreCase(value)) {
       return ChangePredicates.assignee(Account.id(ChangeField.NO_ASSIGNEE));
+    }
+
+    if ("pure-revert".equalsIgnoreCase(value)) {
+      checkFieldAvailable(ChangeField.IS_PURE_REVERT, "is:pure-revert");
+      return ChangePredicates.pureRevert("true");
     }
 
     if ("submittable".equalsIgnoreCase(value)) {

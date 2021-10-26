@@ -16,6 +16,24 @@
       "message": "Do we think this is because it is creating more loose objects? If so, then perhaps the order of this change and the packwriter one that follows should be inverted?",
       "revId": "e1fa200ae1784dfcd32f3b2012a2add911c42113",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b3210e9_1d7e287b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-26T22:30:00Z",
+      "side": 1,
+      "message": "\u003e Do we think this is because it is creating more loose objects?\nYes. Let me flip their order.",
+      "parentUuid": "79e05cd5_3cb9d04a",
+      "revId": "e1fa200ae1784dfcd32f3b2012a2add911c42113",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

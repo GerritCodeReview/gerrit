@@ -18,7 +18,7 @@ import {PluginApi} from './plugin';
 import {Styles} from './styles';
 
 declare global {
-  interface Window {
+    interface Window {
     Gerrit: Gerrit;
     VERSION_INFO?: string;
     ENABLED_EXPERIMENTS?: string[];

@@ -1228,14 +1228,17 @@ export class GrChangeView extends base {
     // If changeNum is defined that means the change has already been
     // rendered once before so a full reload is not required.
     if (this._changeNum !== undefined && !forceReload) {
+      if (!patchRange.patchNum) {
+        this._patchRange = {
+          ...this._patchRange,
+          patchNum: computeLatestPatchNum(this._allPatchSets),
+        };
+        rightPatchNumChanged = true;
+      }
       if (patchChanged) {
         // We need to collapse all diffs when params change so that a non
         // existing diff is not requested. See Issue 125270 for more details.
         this.$.fileList.collapseAllDiffs();
-        if (!patchRange.patchNum) {
-          patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
-          rightPatchNumChanged = true;
-        }
         this._reloadPatchNumDependentResources(rightPatchNumChanged).then(
           () => {
             this._sendShowChangeEvent();

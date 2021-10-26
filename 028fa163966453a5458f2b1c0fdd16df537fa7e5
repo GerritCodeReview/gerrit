@@ -22,6 +22,30 @@
       },
       "revId": "028fa163966453a5458f2b1c0fdd16df537fa7e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb97b01b_0823d5d7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-26T18:00:31Z",
+      "side": 1,
+      "message": "\u003e Is this doing anything? Won\u0027t the repo already be at this commit?\nyep not need. done.\n\n\u003e Also, can you use the parent commit-id of change1 instead of creating and keeping track of a baseChange?\nyes. done.",
+      "parentUuid": "9cd29320_0074f64e",
+      "range": {
+        "startLine": 1050,
+        "startChar": 4,
+        "endLine": 1050,
+        "endChar": 43
+      },
+      "revId": "028fa163966453a5458f2b1c0fdd16df537fa7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

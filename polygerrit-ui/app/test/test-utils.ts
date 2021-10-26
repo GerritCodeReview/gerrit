@@ -29,18 +29,18 @@ import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {queryAndAssert, query} from '../utils/common-util';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
-export interface MockPromise extends Promise<unknown> {
-  resolve: (value?: unknown) => void;
+export interface MockPromise<T> extends Promise<T> {
+  resolve: (value?: T) => void;
 }
 
-export const mockPromise = () => {
-  let res: (value?: unknown) => void;
-  const promise: MockPromise = new Promise(resolve => {
+export function mockPromise<T = unknown>(): MockPromise<T> {
+  let res: (value?: T) => void;
+  const promise: MockPromise<T> = new Promise<T | undefined>(resolve => {
     res = resolve;
-  }) as MockPromise;
+  }) as MockPromise<T>;
   promise.resolve = res!;
   return promise;
-};
+}
 
 export function isHidden(el: Element | undefined | null) {
   if (!el) return true;

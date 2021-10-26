@@ -183,8 +183,13 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       new Schema.Builder<ChangeData>().add(V69).add(ChangeField.ATTENTION_SET_USERS_COUNT).build();
 
   /** Added new field {@link ChangeField#UPLOADER}. */
+  @Deprecated
   static final Schema<ChangeData> V71 =
       new Schema.Builder<ChangeData>().add(V70).add(ChangeField.UPLOADER).build();
+
+  /** Added new field {@link ChangeField#IS_PURE_REVERT}. */
+  static final Schema<ChangeData> V72 =
+      new Schema.Builder<ChangeData>().add(V71).add(ChangeField.IS_PURE_REVERT).build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

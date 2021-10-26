@@ -342,4 +342,12 @@ public class ChangePredicates {
   public static Predicate<ChangeData> submitRuleStatus(String value) {
     return new ChangeIndexPredicate(ChangeField.SUBMIT_RULE_RESULT, value);
   }
+
+  /**
+   * Returns a predicate that matches with changes that are pure reverts if {@code value} is equal
+   * to "1", or non-pure reverts if {@code value} is "0".
+   */
+  public static Predicate<ChangeData> pureRevert(String value) {
+    return new ChangeIndexPredicate(ChangeField.IS_PURE_REVERT, value);
+  }
 }

@@ -412,6 +412,10 @@ public class ChangeField {
       integer(ChangeQueryBuilder.FIELD_REVERTOF)
           .build(cd -> cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null);
 
+  public static final FieldDef<ChangeData, String> IS_PURE_REVERT =
+      fullText(ChangeQueryBuilder.FIELD_PURE_REVERT)
+          .build(cd -> Boolean.TRUE.equals(cd.isPureRevert()) ? "1" : "0");
+
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {
     List<String> r = new ArrayList<>(reviewers.asTable().size() * 2);

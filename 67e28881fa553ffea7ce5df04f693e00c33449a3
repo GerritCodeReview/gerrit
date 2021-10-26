@@ -22,6 +22,30 @@
       },
       "revId": "67e28881fa553ffea7ce5df04f693e00c33449a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "548504f6_aadd1fc6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T21:00:48Z",
+      "side": 1,
+      "message": "Month in JavaScript\u0027s Date object is 0 based:\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date\n\nnew Date(2020, 1, 1, 1, 2, 3) translates to \u00272020-02-01 01:02:03\u0027",
+      "parentUuid": "c453f371_58f8dc64",
+      "range": {
+        "startLine": 188,
+        "startChar": 15,
+        "endLine": 188,
+        "endChar": 25
+      },
+      "revId": "67e28881fa553ffea7ce5df04f693e00c33449a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

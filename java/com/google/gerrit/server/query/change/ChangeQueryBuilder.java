@@ -84,6 +84,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.PredicateArgs.ValOp;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.submit.SubmitDryRun;
 import com.google.inject.Inject;
@@ -213,6 +214,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String ARG_ID_GROUP = "group";
   public static final String ARG_ID_OWNER = "owner";
   public static final String ARG_ID_NON_UPLOADER = "non_uploader";
+  public static final String ARG_COUNT = "count";
   public static final Account.Id OWNER_ACCOUNT_ID = Account.id(0);
   public static final Account.Id NON_UPLOADER_ACCOUNT_ID = Account.id(-1);
 
@@ -940,6 +942,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       throws QueryParseException, IOException, ConfigInvalidException {
     Set<Account.Id> accounts = null;
     AccountGroup.UUID group = null;
+    Integer count = null;
+    PredicateArgs.Operator countOp = null;
 
     // Parse for:
     // label:Code-Review=1,user=jsmith or
@@ -950,6 +954,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     // Special case: votes by owners can be tracked with ",owner":
     // label:Code-Review+2,owner
     // label:Code-Review+2,user=owner
+    // label:Code-Review+1,count=2
     List<String> splitReviewer = Lists.newArrayList(Splitter.on(',').limit(2).split(name));
     name = splitReviewer.get(0); // remove all but the vote piece, e.g.'CodeReview=1'
 
@@ -957,17 +962,31 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       // process the user/group piece
       PredicateArgs lblArgs = new PredicateArgs(splitReviewer.get(1));
 
-      for (Map.Entry<String, String> pair : lblArgs.keyValue.entrySet()) {
-        if (pair.getKey().equalsIgnoreCase(ARG_ID_USER)) {
-          if (pair.getValue().equals(ARG_ID_OWNER)) {
+      // Disallow using the "count=" arg in conjunction with the "user=" or "group=" args. to avoid
+      // unnecessary complexity.
+      assertDisjunctive(lblArgs, ARG_COUNT, ARG_ID_USER);
+      assertDisjunctive(lblArgs, ARG_COUNT, ARG_ID_GROUP);
+
+      for (Map.Entry<String, ValOp> pair : lblArgs.keyValue.entrySet()) {
+        String key = pair.getKey();
+        String value = pair.getValue().value();
+        PredicateArgs.Operator operator = pair.getValue().operator();
+        if (key.equalsIgnoreCase(ARG_ID_USER)) {
+          if (value.equals(ARG_ID_OWNER)) {
             accounts = Collections.singleton(OWNER_ACCOUNT_ID);
-          } else if (pair.getValue().equals(ARG_ID_NON_UPLOADER)) {
+          } else if (value.equals(ARG_ID_NON_UPLOADER)) {
             accounts = Collections.singleton(NON_UPLOADER_ACCOUNT_ID);
           } else {
-            accounts = parseAccount(pair.getValue());
+            accounts = parseAccount(value);
           }
-        } else if (pair.getKey().equalsIgnoreCase(ARG_ID_GROUP)) {
-          group = parseGroup(pair.getValue()).getUUID();
+        } else if (key.equalsIgnoreCase(ARG_ID_GROUP)) {
+          group = parseGroup(value).getUUID();
+        } else if (key.equalsIgnoreCase(ARG_COUNT)) {
+          if (!isInt(value)) {
+            throw new QueryParseException("Invalid count argument. Value should be an integer");
+          }
+          count = Integer.parseInt(value);
+          countOp = operator;
         } else {
           throw new QueryParseException("Invalid argument identifier '" + pair.getKey() + "'");
         }
@@ -1016,7 +1035,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       }
     }
 
-    return new LabelPredicate(args, name, accounts, group);
+    return new LabelPredicate(args, name, accounts, group, count, countOp);
+  }
+
+  /** Assert that keys {@code k1} and {@code k2} do not exist in {@code labelArgs} together. */
+  private void assertDisjunctive(PredicateArgs labelArgs, String k1, String k2)
+      throws QueryParseException {
+    Map<String, ValOp> keyValArgs = labelArgs.keyValue;
+    if (keyValArgs.containsKey(k1) && keyValArgs.containsKey(k2)) {
+      throw new QueryParseException(
+          String.format(
+              "Cannot use the '%s' argument in conjunction with the '%s' argument", k1, k2));
+    }
   }
 
   private static boolean isInt(String s) {
@@ -1339,7 +1369,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
       // [name=]<name>
       if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
-        name = inputArgs.keyValue.get(ARG_ID_NAME);
+        name = inputArgs.keyValue.get(ARG_ID_NAME).value();
       } else if (inputArgs.positional.size() == 1) {
         name = Iterables.getOnlyElement(inputArgs.positional);
       } else if (inputArgs.positional.size() > 1) {
@@ -1348,7 +1378,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
       // [,user=<user>]
       if (inputArgs.keyValue.containsKey(ARG_ID_USER)) {
-        Set<Account.Id> accounts = parseAccount(inputArgs.keyValue.get(ARG_ID_USER));
+        Set<Account.Id> accounts = parseAccount(inputArgs.keyValue.get(ARG_ID_USER).value());
         if (accounts != null && accounts.size() > 1) {
           throw error(
               String.format(
@@ -1390,7 +1420,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
       // [name=]<name>
       if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
-        name = inputArgs.keyValue.get(ARG_ID_NAME);
+        name = inputArgs.keyValue.get(ARG_ID_NAME).value();
       } else if (inputArgs.positional.size() == 1) {
         name = Iterables.getOnlyElement(inputArgs.positional);
       } else if (inputArgs.positional.size() > 1) {
@@ -1399,7 +1429,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
       // [,user=<user>]
       if (inputArgs.keyValue.containsKey(ARG_ID_USER)) {
-        Set<Account.Id> accounts = parseAccount(inputArgs.keyValue.get(ARG_ID_USER));
+        Set<Account.Id> accounts = parseAccount(inputArgs.keyValue.get(ARG_ID_USER).value());
         if (accounts != null && accounts.size() > 1) {
           throw error(
               String.format(

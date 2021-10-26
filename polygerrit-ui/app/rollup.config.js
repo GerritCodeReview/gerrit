@@ -85,6 +85,7 @@ export default {
       // when importing 'page/page'.
       extensions: ['.js'],
       moduleDirectory: 'external/ui_npm/node_modules',
-    }
+    },
+    extensions: ['.js'],
   }), importLocalFontMetaUrlResolver()],
 };

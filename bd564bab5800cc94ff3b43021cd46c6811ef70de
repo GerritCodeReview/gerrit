@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8b7d7cc_fde720df",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T13:57:00Z",
+      "side": 1,
+      "message": "Can this be moved to line 1231? Then you don\u0027t have to write the 6 lines twice?",
+      "revId": "bd564bab5800cc94ff3b43021cd46c6811ef70de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

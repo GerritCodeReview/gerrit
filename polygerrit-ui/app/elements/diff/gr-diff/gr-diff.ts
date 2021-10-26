@@ -950,7 +950,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       // Safari is not binding newly created comment-thread
       // with the slot somehow, replace itself will rebind it
       // @see Issue 11182
-      if (lastEl && lastEl.replaceWith) {
+      if (isSafari() && lastEl && lastEl.replaceWith) {
         lastEl.replaceWith(lastEl);
       }
 

@@ -16,6 +16,24 @@
       "message": "nit: Don\u0027t line wrap a URL and it would be better to use the gitiles url to the file at our JGit revision (from parent change): https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/60b81c5a9280e44fa48d533a61f915382b2b9ce2/org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkMergedIntoTest.java",
       "revId": "114434b797777d51c35d450da71ceb2acf7671a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e122f2c_0080122e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-26T16:58:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72195ac8_f0ce1e01",
+      "revId": "114434b797777d51c35d450da71ceb2acf7671a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

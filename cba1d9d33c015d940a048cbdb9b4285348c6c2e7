@@ -16,6 +16,24 @@
       "message": "Does this need a backend change to deprecate is:ignored?",
       "revId": "cba1d9d33c015d940a048cbdb9b4285348c6c2e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32273f79_587ddc9c",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-26T17:59:48Z",
+      "side": 0,
+      "message": "Yes, IndexPreloadingUtil.java will also have to be changed. Will follow up.",
+      "parentUuid": "e930db9f_dcb26263",
+      "revId": "cba1d9d33c015d940a048cbdb9b4285348c6c2e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

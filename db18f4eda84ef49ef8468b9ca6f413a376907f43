@@ -16,6 +16,29 @@
       "message": "You actually have to use a callback. Added a comment. PTAL",
       "revId": "db18f4eda84ef49ef8468b9ca6f413a376907f43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9f0cd20_52f7f2d3",
+        "filename": "polygerrit-ui/app/utils/dom-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-26T11:29:52Z",
+      "side": 1,
+      "message": "Thanks for checking this out. Is there a real term or any reference for this? I could not find anything googling \"hot event mdn\" and similar.",
+      "range": {
+        "startLine": 36,
+        "startChar": 56,
+        "endLine": 36,
+        "endChar": 59
+      },
+      "revId": "db18f4eda84ef49ef8468b9ca6f413a376907f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

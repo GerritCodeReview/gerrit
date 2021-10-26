@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03c0ea7e_e3f17599",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-26T12:29:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e525c72b_986f31cf",
+      "revId": "7bf4ee9f51df794829930cbc93403c2e638a771a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56e9a94a_fe689d67",
@@ -54,6 +72,30 @@
       "writtenOn": "2021-10-26T11:07:16Z",
       "side": 1,
       "message": "does not need to be",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "7bf4ee9f51df794829930cbc93403c2e638a771a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dfb84d2_1e6bfa83",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-10-26T12:29:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56e9a94a_fe689d67",
       "range": {
         "startLine": 24,
         "startChar": 44,

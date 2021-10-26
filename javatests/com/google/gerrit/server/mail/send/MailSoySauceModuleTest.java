@@ -22,7 +22,10 @@ import java.nio.file.Paths;
 import javax.inject.Provider;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class MailSoySauceModuleTest {
   @Test
   public void soySauceProviderReturnsCachedValue() throws Exception {

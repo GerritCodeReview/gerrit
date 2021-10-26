@@ -24,7 +24,10 @@ import com.google.template.soy.shared.SoyAstCache;
 import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class MailSoySauceLoaderTest {
 
   private SitePaths sitePaths;

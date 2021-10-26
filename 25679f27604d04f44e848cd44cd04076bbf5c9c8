@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fc96df9_bfa23b46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-26T11:11:29Z",
+      "side": 1,
+      "message": "I was wondering if - for the sake of simplicity and less configs - we should just consider the applicability expression as visible only to admins? So we don\u0027t add a config, but we implicitly assume the same as if this config was set to true?\n\nYoussef, Edwin, WDYT?",
+      "revId": "25679f27604d04f44e848cd44cd04076bbf5c9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4590c6a0_2ee3de46",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-26T11:11:29Z",
+      "side": 1,
+      "message": "This should just be \u0027boolean\u0027.\n\nI guess you used an option to prevent the regression we saw for \u0027legacy\u0027? In that case it\u0027s better to set the default in the \u0027builder\u0027 method.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 35
+      },
+      "revId": "25679f27604d04f44e848cd44cd04076bbf5c9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61b96b94_8d9fd1a9",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-26T11:11:29Z",
+      "side": 1,
+      "message": ".hideApplicabilityExpr(false)",
+      "range": {
+        "startLine": 70,
+        "startChar": 52,
+        "endLine": 70,
+        "endChar": 53
+      },
+      "revId": "25679f27604d04f44e848cd44cd04076bbf5c9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdbab550_49e5844a",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-26T11:11:29Z",
+      "side": 1,
+      "message": "this can just be boolean.\n\nAutoValue and builders understand optionals and have special logic.",
+      "range": {
+        "startLine": 96,
+        "startChar": 8,
+        "endLine": 96,
+        "endChar": 25
+      },
+      "revId": "25679f27604d04f44e848cd44cd04076bbf5c9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

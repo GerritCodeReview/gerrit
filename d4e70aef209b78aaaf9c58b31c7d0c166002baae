@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bd9e2ac_39f2c482",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-26T16:36:55Z",
+      "side": 1,
+      "message": "This change seems to also be converting to using a single packInserter. We probably want to split this change into 2 so that the stats below can be attributed directly to specific improvements.",
+      "revId": "d4e70aef209b78aaaf9c58b31c7d0c166002baae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

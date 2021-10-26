@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df8e2dfd_f67d1a44",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-26T18:47:17Z",
+      "side": 1,
+      "message": "Bug: if counts.isEmpty(), the result array size will be zero.\n\nDone.",
+      "range": {
+        "startLine": 150,
+        "startChar": 67,
+        "endLine": 150,
+        "endChar": 80
+      },
+      "revId": "42759008413f2beaafb242a0914e4a10525aefae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

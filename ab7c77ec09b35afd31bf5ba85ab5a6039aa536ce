@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3426592b_704617f7",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-26T15:32:45Z",
+      "side": 1,
+      "message": "I think you had a point. I already tried to cap the counts by setting an upper bound of 5, but yes that\u0027s still a O(counts*num_labels*vote_range).\n\nI reworked the implementation (tests are intact) such that we expand count\u003e1 to an OR\u0027ed of (count\u003d2 OR count\u003d3 ... OR count\u003d5 - I\u0027m still keeping max\u003d5).\n\nDone (also updated the commit message).",
+      "parentUuid": "93cda7f3_63e37788",
+      "range": {
+        "startLine": 668,
+        "startChar": 30,
+        "endLine": 668,
+        "endChar": 50
+      },
+      "revId": "ab7c77ec09b35afd31bf5ba85ab5a6039aa536ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bb9f850_7f4f5286",

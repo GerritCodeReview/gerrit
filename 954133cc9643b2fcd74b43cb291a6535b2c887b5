@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bf298f4_3cd276a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-26T15:32:45Z",
+      "side": 1,
+      "message": "Yes, this is addressed by this change.\n\n\u003e label:Code-Review\u003e\u003d1,count\u003d2 \n\nmeans `label:Code-Review\u003e\u003d1` is repeated twice, so {+1, +2} will match.",
+      "parentUuid": "a2b794b4_e8e8098b",
+      "revId": "954133cc9643b2fcd74b43cb291a6535b2c887b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfaa9489_a34d7865",
@@ -125,6 +143,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a793ba2_2560ab64",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-26T15:32:45Z",
+      "side": 1,
+      "message": "I reworked the implementation such that we expand the counts outside the index (similar to what we do with the vote range).",
+      "parentUuid": "dfaa9489_a34d7865",
+      "revId": "954133cc9643b2fcd74b43cb291a6535b2c887b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fd499a2_6f6e5625",
@@ -138,6 +174,24 @@
       "writtenOn": "2021-09-29T16:28:24Z",
       "side": 1,
       "message": "Maybe add explicit test(s) for count\u003d0?",
+      "revId": "954133cc9643b2fcd74b43cb291a6535b2c887b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "642de3ea_48dbafd8",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-26T15:32:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fd499a2_6f6e5625",
       "revId": "954133cc9643b2fcd74b43cb291a6535b2c887b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

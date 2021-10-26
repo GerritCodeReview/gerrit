@@ -16,6 +16,24 @@
       "message": "Can this be moved to line 1231? Then you don\u0027t have to write the 6 lines twice?",
       "revId": "bd564bab5800cc94ff3b43021cd46c6811ef70de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e02afbe7_93618316",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-26T14:04:37Z",
+      "side": 1,
+      "message": "Yeah I thought of that but I saw rightPatchNumChanged doesn\u0027t need to be assigned in that case but it\u0027s fine to assign it before.\nUpdated.",
+      "parentUuid": "f8b7d7cc_fde720df",
+      "revId": "bd564bab5800cc94ff3b43021cd46c6811ef70de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

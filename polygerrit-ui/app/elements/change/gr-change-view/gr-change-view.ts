@@ -519,7 +519,7 @@ export class GrChangeView extends base {
   _activeTabs: string[] = [PrimaryTab.FILES, SecondaryTab.CHANGE_LOG];
 
   @property({type: Boolean})
-  unresolvedOnly = false;
+  unresolvedOnly = true;
 
   @property({type: Boolean})
   _showAllRobotComments = false;
@@ -865,7 +865,7 @@ export class GrChangeView extends base {
       const hasUnresolvedThreads =
         (this._commentThreads ?? []).filter(thread => isUnresolved(thread))
           .length > 0;
-      if (hasUnresolvedThreads) this.unresolvedOnly = true;
+      if (!hasUnresolvedThreads) this.unresolvedOnly = false;
     }
 
     this.reporting.reportInteraction(Interaction.SHOW_TAB, {

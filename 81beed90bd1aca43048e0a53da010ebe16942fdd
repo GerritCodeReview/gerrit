@@ -61,6 +61,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17daf2fb_b810dfb7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-26T10:34:04Z",
+      "side": 1,
+      "message": "The edit flow can be solved with the new forceReload parameter. I think patchKnown can now simply be removed.\nI tested this change on staging and seems to be working fine when editing and publishing edits(I make sure there\u0027s a reload).\nWDYT?",
+      "parentUuid": "700e3580_5e1e6b51",
+      "revId": "81beed90bd1aca43048e0a53da010ebe16942fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d0338b9_5f62780a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 22

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c085e471_1afe4687",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-26T09:16:16Z",
+      "side": 1,
+      "message": "Looks good, this looks like nice performance improvement. I tested it little bit. Focus was returned to elements that invoke reply dialog as before. ",
+      "revId": "00049652c39d66108e4354caba899d4a75680234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

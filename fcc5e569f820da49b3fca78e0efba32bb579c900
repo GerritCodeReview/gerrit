@@ -16,6 +16,24 @@
       "message": "@nasser : is GerritCI going to comment on this after moving branches?  Or should I just add verified tag myself?",
       "revId": "fcc5e569f820da49b3fca78e0efba32bb579c900",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1d20ef5_25152202",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-26T16:18:38Z",
+      "side": 1,
+      "message": "\u003e @nasser : is GerritCI going to comment on this after moving branches?  Or should I just add verified tag myself?\n\nI thought it would automatically, but I just clicked the \"RUN\" buttons for the checks now, so hopefully soon.",
+      "parentUuid": "5a2c736c_c2beb0a7",
+      "revId": "fcc5e569f820da49b3fca78e0efba32bb579c900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

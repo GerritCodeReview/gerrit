@@ -37,6 +37,7 @@ import {getTriggerVotes, labelCompare} from '../../../utils/label-util';
 import {Execution} from '../../../constants/reporting';
 import {ChangeStatus} from '../../../constants/constants';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {fontStyles} from '../../../styles/gr-font-styles';
 
 @customElement('gr-label-scores')
 export class GrLabelScores extends LitElement {
@@ -55,6 +56,7 @@ export class GrLabelScores extends LitElement {
 
   static override get styles() {
     return [
+      fontStyles,
       css`
         .scoresTable {
           display: table;

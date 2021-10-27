@@ -370,10 +370,7 @@ export class GrCommentThread extends PolymerElement {
   }
 
   _initLayers(disableTokenHighlighting: boolean) {
-    if (
-      this.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING) &&
-      !disableTokenHighlighting
-    ) {
+    if (!disableTokenHighlighting) {
       this.layers.push(new TokenHighlightLayer(this));
     }
     this.layers.push(this.syntaxLayer);

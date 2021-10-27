@@ -974,16 +974,32 @@ or multiple replica nodes.
 The cache should be flushed whenever the database changes table is modified
 outside of Gerrit.
 
-cache `"diff"`::
+cache `"git_modified_files"`::
 +
-Each item caches the differences between two commits, at both the
-directory and file levels.  Gerrit uses this cache to accelerate
-the display of affected file names, as well as file contents.
+Each item caches the list of git modified files between two git trees
+corresponding to two different commits. This cache does not read the actual
+file contents nor does it include the edits (modified regions) of the files.
+
+cache `"modified_files"`::
 +
-Entries in this cache are relatively large, so memoryLimit is an
-estimate in bytes of memory used. Administrators should try to target
-cache.diff.memoryLimit to fit all changes users will view in a 1 or 2
-day span.
+Each item caches the list of modified files between two commits. This cache
+is similar to the `git_modified_files` cache but performs extra logic including
+filtering out files that are untouched by both commits because they were purely
+modified between the parent commits.
+
+cache `"git_file_diff"`::
++
+Each item caches the pure git diff between two git trees for a specific file
+path. The diff includes all the file attributes (old/new paths, change/patch
+types) as well as the list of edits corresponding to the modified regions in
+the file.
+
+cache `"gerrit_file_diff"`::
++
+Each item caches the diff between two git commits for a specific file path.
+This cache is similar to the `git_file_diff` cache but performs extra logic
+including identifying the edits that are due to rebase. The diff for the
+"commit message" and "merge list" can also be requested from this cache.
 
 cache `"diff_intraline"`::
 +

@@ -26,6 +26,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -48,6 +49,7 @@ import com.google.gerrit.acceptance.FakeSubmitRule;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
@@ -3888,6 +3890,33 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo("Operator 'submit-requirement:value' cannot be used in queries");
+  }
+
+  @Test
+  public void isPureRevert() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.IS_PURE_REVERT)).isTrue();
+    TestRepository<Repo> repo = createProject("repo");
+    // Create two commits and revert second commit (initial commit can't be reverted)
+    Change initial = insert(repo, newChange(repo));
+    gApi.changes().id(initial.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(initial.getChangeId()).current().submit();
+
+    ChangeInfo changeToRevert =
+        gApi.changes().create(new ChangeInput("repo", "master", "commit to revert")).get();
+    gApi.changes().id(changeToRevert.id).current().review(ReviewInput.approve());
+    gApi.changes().id(changeToRevert.id).current().submit();
+
+    ChangeInfo changeThatReverts = gApi.changes().id(changeToRevert.id).revert().get();
+    Change.Id changeThatRevertsId = Change.id(changeThatReverts._number);
+    assertQueryByIds("is:pure-revert", changeThatRevertsId);
+
+    // Update the change that reverts such that it's not a pure revert
+    gApi.changes()
+        .id(changeThatReverts.id)
+        .edit()
+        .modifyFile("some-file.txt", RawInputUtil.create("newcontent".getBytes(UTF_8)));
+    gApi.changes().id(changeThatReverts.id).edit().publish();
+    assertQueryByIds("is:pure-revert");
   }
 
   @Test

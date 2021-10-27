@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
@@ -32,6 +33,7 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -213,6 +215,33 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
     assertThat(result.overrideExpressionResult().get().errorMessage().get())
         .isEqualTo("Unsupported operator invalid_field:invalid_value");
+  }
+
+  @Test
+  public void byPureRevert() throws Exception {
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result pushResult =
+        createChange(testRepo, "refs/heads/master", "Fix a bug", "file.txt", "content", "topic");
+    changeData = pushResult.getChange();
+    changeId = pushResult.getChangeId();
+
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "project:" + project.get(),
+            /* submittabilityExpr= */ "is:pure-revert",
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.UNSATISFIED);
+    approve(changeId);
+    gApi.changes().id(changeId).current().submit();
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).revert().get();
+    String revertId = Integer.toString(changeInfo._number);
+    ChangeData revertChangeData =
+        changeQueryProvider.get().byLegacyChangeId(Change.Id.parse(revertId)).get(0);
+    result = evaluator.evaluateRequirement(sr, revertChangeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

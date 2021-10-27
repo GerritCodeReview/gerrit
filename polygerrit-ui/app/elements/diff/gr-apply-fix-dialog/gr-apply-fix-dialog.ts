@@ -109,10 +109,7 @@ export class GrApplyFixDialog extends PolymerElement {
   constructor() {
     super();
     this.restApiService.getPreferences().then(prefs => {
-      if (
-        !prefs?.disable_token_highlighting &&
-        appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)
-      ) {
+      if (!prefs?.disable_token_highlighting) {
         this.layers = [new TokenHighlightLayer(this)];
       }
     });

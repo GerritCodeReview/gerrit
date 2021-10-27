@@ -102,7 +102,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     // Reduce flakiness of tests. (If tests aren't fast enough, we would use a fall-back
     // computation, which might yield different results.)
-    baseConfig.setString("cache", "diff", "timeout", "1 minute");
+    baseConfig.setString("cache", "git_file_diff", "timeout", "1 minute");
     baseConfig.setString("cache", "diff_intraline", "timeout", "1 minute");
 
     intraline = baseConfig.getBoolean(TEST_PARAMETER_MARKER, "intraline", false);

@@ -55,7 +55,7 @@ export class GrRangeHeader extends LitElement {
   override render() {
     const icon = this.icon ?? '';
     return html` <div class="row">
-      <iron-icon class="icon" .icon=${icon}></iron-icon>
+      <iron-icon class="icon" .icon=${icon} aria-hidden="true"></iron-icon>
       <slot></slot>
     </div>`;
   }

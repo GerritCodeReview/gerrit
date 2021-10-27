@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de68f78b_f2a788f0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-10-27T08:15:58Z",
+      "side": 1,
+      "message": "Don\u0027t you need to \n```import \u0027../../../styles/shared-styles\u0027;```\nBut it looks like \n```import \u0027../../../styles/gr-change-list-styles\u0027;```\nis also missing",
+      "range": {
+        "startLine": 22,
+        "startChar": 10,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "294d6fa2f6fe422345160c166ba16dbf89a0fca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

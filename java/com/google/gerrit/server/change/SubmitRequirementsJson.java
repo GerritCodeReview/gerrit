@@ -36,28 +36,37 @@ public class SubmitRequirementsJson {
     if (req.applicabilityExpression().isPresent()) {
       info.applicabilityExpressionResult =
           submitRequirementExpressionToInfo(
-              req.applicabilityExpression().get(), result.applicabilityExpressionResult().get());
+              req.applicabilityExpression().get(),
+              result.applicabilityExpressionResult().get(),
+              /* hide= */ true); // Always hide applicability expressions on the API
     }
     if (req.overrideExpression().isPresent()) {
       info.overrideExpressionResult =
           submitRequirementExpressionToInfo(
-              req.overrideExpression().get(), result.overrideExpressionResult().get());
+              req.overrideExpression().get(),
+              result.overrideExpressionResult().get(),
+              /* hide= */ false);
     }
     info.submittabilityExpressionResult =
         submitRequirementExpressionToInfo(
-            req.submittabilityExpression(), result.submittabilityExpressionResult());
+            req.submittabilityExpression(),
+            result.submittabilityExpressionResult(),
+            /* hide= */ false);
     info.status = SubmitRequirementResultInfo.Status.valueOf(result.status().toString());
     info.isLegacy = result.isLegacy();
     return info;
   }
 
   private static SubmitRequirementExpressionInfo submitRequirementExpressionToInfo(
-      SubmitRequirementExpression expression, SubmitRequirementExpressionResult result) {
+      SubmitRequirementExpression expression,
+      SubmitRequirementExpressionResult result,
+      boolean hide) {
     SubmitRequirementExpressionInfo info = new SubmitRequirementExpressionInfo();
-    info.expression = expression.expressionString();
+    info.expression = hide ? null : expression.expressionString();
     info.fulfilled = result.status().equals(SubmitRequirementExpressionResult.Status.PASS);
-    info.passingAtoms = result.passingAtoms();
-    info.failingAtoms = result.failingAtoms();
+    info.passingAtoms = hide ? null : result.passingAtoms();
+    info.failingAtoms = hide ? null : result.failingAtoms();
+    info.hidden = hide;
     return info;
   }
 }

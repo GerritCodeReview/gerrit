@@ -8263,21 +8263,25 @@ the failure of the rule predicate.
 The `SubmitRequirementExpressionInfo` describes the result of evaluating a
 single submit requirement expression, for example `label:code-review=+2`.
 
-[options="header",cols="1,6"]
+[options="header",cols="1,^1,5"]
 |===========================
-|Field Name      |Description
-|`expression`|
+|Field Name      ||Description
+|`expression`|optional|
 The submit requirement expression as a string, for example
 `branch:refs/heads/foo and label:verified=+1`.
-|`fulfilled`|
+|`fulfilled`||
 True if the submit requirement is fulfilled for the change.
-|`passing_atoms`|
+|`passing_atoms`|optional|
 A list of passing atoms as strings. For the above expression,
 `passing_atoms` can contain ["branch:refs/heads/foo"] if the branch predicate is
 fulfilled for the change.
-|`failing_atoms`|
+|`failing_atoms`|optional|
 A list of failing atoms. This is similar to `passing_atoms` except that it
 contains the list of predicates that are not fulfilled for the change.
+|`hidden`||
+Always true for the `applicability` expression, and false for the
+`submittability` and `override` expressions. If true, `expression`,
+`passing_atoms` and `failing_atoms` will be set to null.
 |===========================
 
 [[submit-requirement-input]]

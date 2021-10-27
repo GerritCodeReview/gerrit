@@ -36,4 +36,10 @@ public class SubmitRequirementExpressionInfo {
    * has two atoms: ["branch:refs/heads/foo", "project:bar"].
    */
   public List<String> failingAtoms;
+
+  /**
+   * If true, {@link #expression}, {@link #passingAtoms} and {@link #failingAtoms} will be null.
+   * This is used to hide the submit requirement expressions from calling users.
+   */
+  public boolean hidden;
 }

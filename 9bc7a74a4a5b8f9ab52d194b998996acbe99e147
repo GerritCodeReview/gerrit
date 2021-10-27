@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "680260c2_bebb72a6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-10-27T08:56:36Z",
+      "side": 1,
+      "message": "there was a test (ChangeMetaIT) in the original change. What\u0027s the added benefit of these tests here?",
+      "range": {
+        "startLine": 279,
+        "startChar": 14,
+        "endLine": 279,
+        "endChar": 28
+      },
+      "revId": "9bc7a74a4a5b8f9ab52d194b998996acbe99e147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -55,7 +55,6 @@ import {GrComment} from '../gr-comment/gr-comment';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FILE, LineNumber} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffLayer, RenderPreferences} from '../../../api/diff';
 import {
@@ -208,8 +207,6 @@ export class GrCommentThread extends PolymerElement {
   private cleanups: (() => void)[] = [];
 
   private readonly reporting = appContext.reportingService;
-
-  private readonly flagsService = appContext.flagsService;
 
   private readonly commentsService = appContext.commentsService;
 
@@ -377,10 +374,7 @@ export class GrCommentThread extends PolymerElement {
   }
 
   _initLayers(disableTokenHighlighting: boolean) {
-    if (
-      this.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING) &&
-      !disableTokenHighlighting
-    ) {
+    if (!disableTokenHighlighting) {
       this.layers.push(new TokenHighlightLayer(this));
     }
     this.layers.push(this.syntaxLayer);

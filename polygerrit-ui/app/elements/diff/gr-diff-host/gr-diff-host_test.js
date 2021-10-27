@@ -1304,7 +1304,7 @@ suite('gr-diff-host tests', () => {
     test('gr-diff-host provides syntax highlighting layer', async () => {
       stubRestApi('getDiff').returns(Promise.resolve({content: []}));
       await element.reload();
-      assert.equal(element.$.diff.layers[0], element.syntaxLayer);
+      assert.equal(element.$.diff.layers[1], element.syntaxLayer);
     });
 
     test('rendering normal-sized diff does not disable syntax', () => {
@@ -1358,7 +1358,7 @@ suite('gr-diff-host tests', () => {
     test('gr-diff-host provides syntax highlighting layer', async () => {
       stubRestApi('getDiff').returns(Promise.resolve({content: []}));
       await element.reload();
-      assert.equal(element.$.diff.layers[0], element.syntaxLayer);
+      assert.equal(element.$.diff.layers[1], element.syntaxLayer);
     });
 
     test('syntax layer should be disabled', () => {

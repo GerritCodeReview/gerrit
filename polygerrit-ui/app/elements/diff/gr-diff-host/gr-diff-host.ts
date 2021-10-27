@@ -336,9 +336,7 @@ export class GrDiffHost extends PolymerElement {
     const preferencesPromise = appContext.restApiService.getPreferences();
     await getPluginLoader().awaitPluginsLoaded();
     const prefs = await preferencesPromise;
-    const enableTokenHighlight =
-      appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING) &&
-      !prefs?.disable_token_highlighting;
+    const enableTokenHighlight = !prefs?.disable_token_highlighting;
 
     assertIsDefined(this.path, 'path');
     this._layers = this.getLayers(this.path, enableTokenHighlight);

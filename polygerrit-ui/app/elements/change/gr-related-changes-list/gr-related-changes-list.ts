@@ -146,6 +146,45 @@ export class GrRelatedChangesList extends LitElement {
       this.conflictingChanges.length,
       this.cherryPickChanges.length
     );
+
+    const sectionRenderers = [
+      this.renderRelationChain,
+      this.renderSubmittedTogether,
+      this.renderSameTopic,
+      this.renderMergeConflicts,
+      this.renderCherryPicks,
+    ];
+
+    let firstNonEmptySectionFound = false;
+    const sections = [];
+    for (const renderer of sectionRenderers) {
+      const section: TemplateResult<1> | undefined = renderer.call(
+        this,
+        !firstNonEmptySectionFound,
+        sectionSize
+      );
+      firstNonEmptySectionFound = firstNonEmptySectionFound || !!section;
+      sections.push(section);
+    }
+
+    return html`<gr-endpoint-decorator name="related-changes-section">
+      <gr-endpoint-param
+        name="change"
+        .value=${this.change}
+      ></gr-endpoint-param>
+      <gr-endpoint-slot name="top"></gr-endpoint-slot>
+      ${sections}
+      <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
+    </gr-endpoint-decorator>`;
+  }
+
+  private renderRelationChain(
+    isFirst: boolean,
+    sectionSize: (section: Section) => number
+  ) {
+    if (this.relatedChanges.length === 0) {
+      return undefined;
+    }
     const relatedChangesMarkersPredicate = this.markersPredicateFactory(
       this.relatedChanges.length,
       this.relatedChanges.findIndex(relatedChange =>
@@ -158,17 +197,11 @@ export class GrRelatedChangesList extends LitElement {
       this.patchNum,
       this.relatedChanges
     );
-    let firstNonEmptySectionFound = false;
-    let isFirstNonEmpty =
-      !firstNonEmptySectionFound && !!this.relatedChanges.length;
-    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
-    const relatedChangeSection = html` <section
-      id="relatedChanges"
-      ?hidden=${!this.relatedChanges.length}
-    >
+
+    return html`<section id="relatedChanges">
       <gr-related-collapse
         title="Relation chain"
-        class="${classMap({first: isFirstNonEmpty})}"
+        class="${classMap({first: isFirst})}"
         .length=${this.relatedChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
       >
@@ -200,8 +233,19 @@ export class GrRelatedChangesList extends LitElement {
         )}
       </gr-related-collapse>
     </section>`;
+  }
 
+  private renderSubmittedTogether(
+    isFirst: boolean,
+    sectionSize: (section: Section) => number
+  ) {
     const submittedTogetherChanges = this.submittedTogether?.changes ?? [];
+    if (
+      !submittedTogetherChanges.length &&
+      !this.submittedTogether?.non_visible_changes
+    ) {
+      return undefined;
+    }
     const countNonVisibleChanges =
       this.submittedTogether?.non_visible_changes ?? 0;
     const submittedTogetherMarkersPredicate = this.markersPredicateFactory(
@@ -211,19 +255,10 @@ export class GrRelatedChangesList extends LitElement {
       ),
       sectionSize(Section.SUBMITTED_TOGETHER)
     );
-    isFirstNonEmpty =
-      !firstNonEmptySectionFound &&
-      (!!submittedTogetherChanges?.length ||
-        !!this.submittedTogether?.non_visible_changes);
-    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
-    const submittedTogetherSection = html`<section
-      id="submittedTogether"
-      ?hidden=${!submittedTogetherChanges?.length &&
-      !this.submittedTogether?.non_visible_changes}
-    >
+    return html`<section id="submittedTogether">
       <gr-related-collapse
         title="Submitted together"
-        class="${classMap({first: isFirstNonEmpty})}"
+        class="${classMap({first: isFirst})}"
         .length=${submittedTogetherChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.SUBMITTED_TOGETHER)}
       >
@@ -245,8 +280,7 @@ export class GrRelatedChangesList extends LitElement {
                   change.project
                 )}"
                 .showSubmittableCheck=${true}
-                >${change.project}: ${change.branch}:
-                ${change.subject}</gr-related-change
+                >${this.renderChangeLine(change)}</gr-related-change
               >
             </div>`
         )}
@@ -255,22 +289,25 @@ export class GrRelatedChangesList extends LitElement {
         (+ ${pluralize(countNonVisibleChanges, 'non-visible change')})
       </div>
     </section>`;
+  }
+
+  private renderSameTopic(
+    isFirst: boolean,
+    sectionSize: (section: Section) => number
+  ) {
+    if (!this.sameTopicChanges?.length) {
+      return undefined;
+    }
 
     const sameTopicMarkersPredicate = this.markersPredicateFactory(
       this.sameTopicChanges.length,
       -1,
       sectionSize(Section.SAME_TOPIC)
     );
-    isFirstNonEmpty =
-      !firstNonEmptySectionFound && !!this.sameTopicChanges?.length;
-    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
-    const sameTopicSection = html`<section
-      id="sameTopic"
-      ?hidden=${!this.sameTopicChanges?.length}
-    >
+    return html`<section id="sameTopic">
       <gr-related-collapse
         title="Same topic"
-        class="${classMap({first: isFirstNonEmpty})}"
+        class="${classMap({first: isFirst})}"
         .length=${this.sameTopicChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.SAME_TOPIC)}
       >
@@ -291,29 +328,30 @@ export class GrRelatedChangesList extends LitElement {
                   change._number,
                   change.project
                 )}"
-                >${change.project}: ${change.branch}:
-                ${change.subject}</gr-related-change
+                >${this.renderChangeLine(change)}</gr-related-change
               >
             </div>`
         )}
       </gr-related-collapse>
     </section>`;
+  }
 
+  private renderMergeConflicts(
+    isFirst: boolean,
+    sectionSize: (section: Section) => number
+  ) {
+    if (!this.conflictingChanges?.length) {
+      return undefined;
+    }
     const mergeConflictsMarkersPredicate = this.markersPredicateFactory(
       this.conflictingChanges.length,
       -1,
       sectionSize(Section.MERGE_CONFLICTS)
     );
-    isFirstNonEmpty =
-      !firstNonEmptySectionFound && !!this.conflictingChanges?.length;
-    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
-    const mergeConflictsSection = html`<section
-      id="mergeConflicts"
-      ?hidden=${!this.conflictingChanges?.length}
-    >
+    return html`<section id="mergeConflicts">
       <gr-related-collapse
         title="Merge conflicts"
-        class="${classMap({first: isFirstNonEmpty})}"
+        class="${classMap({first: isFirst})}"
         .length=${this.conflictingChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.MERGE_CONFLICTS)}
       >
@@ -340,22 +378,24 @@ export class GrRelatedChangesList extends LitElement {
         )}
       </gr-related-collapse>
     </section>`;
+  }
 
+  private renderCherryPicks(
+    isFirst: boolean,
+    sectionSize: (section: Section) => number
+  ) {
+    if (!this.cherryPickChanges.length) {
+      return undefined;
+    }
     const cherryPicksMarkersPredicate = this.markersPredicateFactory(
       this.cherryPickChanges.length,
       -1,
       sectionSize(Section.CHERRY_PICKS)
     );
-    isFirstNonEmpty =
-      !firstNonEmptySectionFound && !!this.cherryPickChanges?.length;
-    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
-    const cherryPicksSection = html`<section
-      id="cherryPicks"
-      ?hidden=${!this.cherryPickChanges?.length}
-    >
+    return html`<section id="cherryPicks">
       <gr-related-collapse
         title="Cherry picks"
-        class="${classMap({first: isFirstNonEmpty})}"
+        class="${classMap({first: isFirst})}"
         .length=${this.cherryPickChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.CHERRY_PICKS)}
       >
@@ -382,17 +422,10 @@ export class GrRelatedChangesList extends LitElement {
         )}
       </gr-related-collapse>
     </section>`;
+  }
 
-    return html`<gr-endpoint-decorator name="related-changes-section">
-      <gr-endpoint-param
-        name="change"
-        .value=${this.change}
-      ></gr-endpoint-param>
-      <gr-endpoint-slot name="top"></gr-endpoint-slot>
-      ${relatedChangeSection} ${submittedTogetherSection} ${sameTopicSection}
-      ${mergeConflictsSection} ${cherryPicksSection}
-      <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
-    </gr-endpoint-decorator>`;
+  private renderChangeLine(change: ChangeInfo) {
+    return `${change.project}: ${change.branch}: ${change.subject}`;
   }
 
   sectionSizeFactory(

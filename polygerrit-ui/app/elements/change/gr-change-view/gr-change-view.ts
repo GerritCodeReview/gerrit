@@ -1178,6 +1178,33 @@ export class GrChangeView extends base {
     return this._changeNum !== this.params?.changeNum;
   }
 
+  getPatchnumChanged(value: AppElementChangeViewParams) {
+    if (!this._patchRange) return false;
+    let patchChanged = this._patchRange.basePatchNum !== value.basePatchNum;
+    if (value.patchNum !== undefined) {
+      patchChanged =
+        patchChanged || this._patchRange.patchNum !== value.patchNum;
+    } else {
+      // value.patchNum === undefined specifies the latest patchset
+      patchChanged =
+        patchChanged ||
+        this._patchRange.patchNum !== computeLatestPatchNum(this._allPatchSets);
+    }
+    return patchChanged;
+  }
+
+  getRightPatchNumChanged(value: AppElementChangeViewParams) {
+    if (!this._patchRange) return false;
+    if (value.patchNum !== undefined) {
+      return this._patchRange.patchNum !== value.patchNum;
+    } else {
+      // value.patchNum === undefined specifies the latest patchset
+      return (
+        this._patchRange.patchNum !== computeLatestPatchNum(this._allPatchSets)
+      );
+    }
+  }
+
   _paramsChanged(value: AppElementChangeViewParams) {
     if (value.view !== GerritView.CHANGE) {
       this._initialLoadComplete = false;
@@ -1201,35 +1228,28 @@ export class GrChangeView extends base {
     if (value.basePatchNum === undefined)
       value.basePatchNum = ParentPatchSetNum;
 
-    const patchChanged =
-      this._patchRange &&
-      value.patchNum !== undefined &&
-      (this._patchRange.patchNum !== value.patchNum ||
-        this._patchRange.basePatchNum !== value.basePatchNum);
+    const patchChanged = this.getPatchnumChanged(value);
 
-    let rightPatchNumChanged =
-      this._patchRange &&
-      value.patchNum !== undefined &&
-      this._patchRange.patchNum !== value.patchNum;
+    let rightPatchNumChanged = this.getRightPatchNumChanged(value);
 
-    const patchRange: ChangeViewPatchRange = {
+    this._patchRange = {
       patchNum: value.patchNum,
       basePatchNum: value.basePatchNum,
     };
-
-    this._patchRange = patchRange;
     this.scrollCommentId = value.commentId;
 
     const patchKnown =
-      !patchRange.patchNum ||
-      (this._allPatchSets ?? []).some(ps => ps.num === patchRange.patchNum);
+      !this._patchRange.patchNum ||
+      (this._allPatchSets ?? []).some(
+        ps => ps.num === this._patchRange.patchNum
+      );
     // _allPatchsets does not know value.patchNum so force a reload.
     const forceReload = value.forceReload || !patchKnown;
 
     // If changeNum is defined that means the change has already been
     // rendered once before so a full reload is not required.
     if (this._changeNum !== undefined && !forceReload) {
-      if (!patchRange.patchNum) {
+      if (!this._patchRange.patchNum) {
         this._patchRange = {
           ...this._patchRange,
           patchNum: computeLatestPatchNum(this._allPatchSets),

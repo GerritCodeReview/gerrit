@@ -113,7 +113,7 @@ The following metrics are reported.
 * `receivecommits/ps_revision_missing`: errors due to patch set revision missing
 * `receivecommits/push_count`: number of pushes
 ** `kind`:
-   The push kind (direct vs. magic).
+   The push kind (magic, direct or direct_submit).
 ** `project`:
    The name of the project for which the push is done.
 ** `type`:

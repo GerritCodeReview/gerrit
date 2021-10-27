@@ -89,6 +89,7 @@ import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
@@ -153,6 +154,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.LegacySubmitRequirementInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.SubmitRecordInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementExpressionInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
@@ -4934,6 +4936,35 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
+  public void submitRequirement_applicabilityExpressionIsAlwaysHidden() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setApplicabilityExpression(SubmitRequirementExpression.of("branch:refs/heads/master"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    voteLabel(changeId, "Code-Review", 2);
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    SubmitRequirementResultInfo requirement =
+        changeInfo.submitRequirements.stream().collect(MoreCollectors.onlyElement());
+    assertSubmitRequirementExpression(
+        requirement.applicabilityExpressionResult,
+        /* expression= */ null,
+        /* passingAtoms= */ null,
+        /* failingAtoms= */ null,
+        /* fulfilled= */ true);
+  }
+
+  @Test
   public void submitRequirements_notServedIfExperimentNotEnabled() throws Exception {
     configSubmitRequirement(
         project,
@@ -5548,6 +5579,26 @@ public class ChangeIT extends AbstractDaemonTest {
             results.stream()
                 .map(r -> String.format("%s=%s", r.name, r.status))
                 .collect(toImmutableList())));
+  }
+
+  private void assertSubmitRequirementExpression(
+      SubmitRequirementExpressionInfo result,
+      @Nullable String expression,
+      @Nullable List<String> passingAtoms,
+      @Nullable List<String> failingAtoms,
+      boolean fulfilled) {
+    assertThat(result.expression).isEqualTo(expression);
+    if (passingAtoms == null) {
+      assertThat(result.passingAtoms).isNull();
+    } else {
+      assertThat(result.passingAtoms).containsExactlyElementsIn(passingAtoms);
+    }
+    if (failingAtoms == null) {
+      assertThat(result.failingAtoms).isNull();
+    } else {
+      assertThat(result.failingAtoms).containsExactlyElementsIn(failingAtoms);
+    }
+    assertThat(result.fulfilled).isEqualTo(fulfilled);
   }
 
   private Project.NameKey createProjectForPush(SubmitType submitType) throws Exception {

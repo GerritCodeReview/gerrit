@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2417505_e577d918",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-27T23:33:08Z",
+      "side": 1,
+      "message": "The API feels more like getting refs which commits are included in (that is what the first sentence of on line 1046 says)?",
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e728eb_6f49461b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-27T23:33:08Z",
+      "side": 1,
+      "message": "s/set/sets/",
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72d5b606_94abd7a1",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-27T23:33:08Z",
+      "side": 1,
+      "message": "s/which/and it/",
+      "range": {
+        "startLine": 1049,
+        "startChar": 42,
+        "endLine": 1049,
+        "endChar": 48
+      },
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "164c1fd0_89d5e38d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-27T23:33:08Z",
+      "side": 1,
+      "message": "If you word this as: s/The \u0027ref\u0027 query parameter /One or more \u0027ref\u0027 query parameters/ then you can remove the next sentence. Also make a similar change for \u0027commit\u0027?",
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5adfd3a5_0ade4c75",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-27T23:33:08Z",
+      "side": 1,
+      "message": "s/Refs that/Refs which/  (you use \"which\" on line 156, it sounds better, and it is good to keep \"parallel\" sentence structure).",
+      "range": {
+        "startLine": 1055,
+        "startChar": 53,
+        "endLine": 1055,
+        "endChar": 58
+      },
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef9744eb_2ace85fd",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-27T23:33:08Z",
+      "side": 1,
+      "message": "Put this loop (and possibly line 78) in a function?",
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "363037a6_369bc569",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-27T23:33:08Z",
+      "side": 1,
+      "message": "Put this loop in a function?",
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

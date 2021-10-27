@@ -48,6 +48,7 @@ import {
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {appContext} from '../../../services/app-context';
+import {assertIsDefined} from '../../../utils/common-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -180,6 +181,18 @@ export class GrFileListHeader extends PolymerElement {
       return;
     }
     GerritNav.navigateToChange(this.change, patchNum, basePatchNum);
+  }
+
+  _navigateToLatestPatchset() {
+    assertIsDefined(this.change, 'change');
+    GerritNav.navigateToChange(
+      this.change,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      true
+    );
   }
 
   _handlePrefsTap(e: Event) {

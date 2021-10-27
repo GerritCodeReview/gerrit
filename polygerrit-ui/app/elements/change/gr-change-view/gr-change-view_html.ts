@@ -530,7 +530,6 @@ export const htmlTemplate = html`
           revision-info="[[_revisionInfo]]"
           change-comments="[[_changeComments]]"
           commit-info="[[_commitInfo]]"
-          change-url="[[_computeChangeUrl(_change)]]"
           edit-mode="[[_editMode]]"
           logged-in="[[_loggedIn]]"
           server-config="[[_serverConfig]]"

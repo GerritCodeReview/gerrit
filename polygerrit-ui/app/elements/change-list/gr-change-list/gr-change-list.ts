@@ -16,9 +16,10 @@
  */
 
 import '../../../styles/gr-change-list-styles';
+import '../../../styles/gr-font-styles';
+import '../../../styles/shared-styles';
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
 import '../gr-change-list-item/gr-change-list-item';
-import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {PolymerElement} from '@polymer/polymer/polymer-element';

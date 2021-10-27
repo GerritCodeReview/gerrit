@@ -159,25 +159,8 @@ export class GrSubmitRequirements extends LitElement {
           </tr>
         </thead>
         <tbody>
-          ${submit_requirements.map(
-            requirement => html`<tr
-              id="requirement-${charsOnly(requirement.name)}"
-            >
-              <td>${this.renderStatus(requirement.status)}</td>
-              <td class="name">
-                <gr-limited-text
-                  class="name"
-                  limit="25"
-                  .text="${requirement.name}"
-                ></gr-limited-text>
-              </td>
-              <td>
-                <div class="votes-cell">
-                  ${this.renderVotes(requirement)}
-                  ${this.renderChecks(requirement)}
-                </div>
-              </td>
-            </tr>`
+          ${submit_requirements.map(requirement =>
+            this.renderRequirement(requirement)
           )}
         </tbody>
       </table>
@@ -193,6 +176,38 @@ export class GrSubmitRequirements extends LitElement {
         `
       )}
       ${this.renderTriggerVotes()}`;
+  }
+
+  renderRequirement(requirement: SubmitRequirementResultInfo) {
+    return html` <gr-endpoint-decorator
+      class="submit-requirement-endpoints"
+      .name=${`submit-requirement-item-${requirement.name}`}
+    >
+      <gr-endpoint-param
+        name="change"
+        value.=${this.change}
+      ></gr-endpoint-param>
+      <gr-endpoint-param
+        name="requirement"
+        value.=${requirement}
+      ></gr-endpoint-param>
+      <tr id="requirement-${charsOnly(requirement.name)}">
+        <td>${this.renderStatus(requirement.status)}</td>
+        <td class="name">
+          <gr-limited-text
+            class="name"
+            limit="25"
+            .text="${requirement.name}"
+          ></gr-limited-text>
+        </td>
+        <td>
+          <div class="votes-cell">
+            ${this.renderVotes(requirement)} ${this.renderChecks(requirement)}
+            <gr-endpoint-slot name="value"></gr-endpoint-slot>
+          </div>
+        </td>
+      </tr>
+    </gr-endpoint-decorator>`;
   }
 
   renderStatus(status: SubmitRequirementStatus) {

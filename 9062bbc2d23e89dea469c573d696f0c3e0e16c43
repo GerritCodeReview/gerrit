@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca292342_26f9f2a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-27T08:03:36Z",
+      "side": 1,
+      "message": "We do not add @RunWith annotations in upstream. Instead we have bzl / BUILD file internally that adds @RunWith dynamically.",
+      "revId": "9062bbc2d23e89dea469c573d696f0c3e0e16c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

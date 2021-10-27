@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41bc0b75_89a02578",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-10-27T11:11:59Z",
+      "side": 1,
+      "message": "nit: put space in between.\n(just mentioning that as you seem to make that mistake again and again.)",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "f2de7cd48c8e104eef4b705230eac295b03e0f42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

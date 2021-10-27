@@ -2028,6 +2028,39 @@ suite('gr-change-view tests', () => {
     });
   });
 
+  test('patch range changed', () => {
+    element._patchRange = undefined;
+    element._change = createChangeViewChange();
+    element._change!.revisions = createRevisions(4);
+    element._change.current_revision = '1' as CommitId;
+    element._change = {...element._change};
+
+    const params = createAppElementChangeViewParams();
+
+    assert.isFalse(element.hasPatchRangeChanged(params));
+    assert.isFalse(element.hasPatchNumChanged(params));
+
+    params.basePatchNum = ParentPatchSetNum;
+    // undefined means navigate to latest patchset
+    params.patchNum = undefined;
+
+    element._patchRange = {
+      patchNum: 2 as RevisionPatchSetNum,
+      basePatchNum: ParentPatchSetNum,
+    };
+
+    assert.isTrue(element.hasPatchRangeChanged(params));
+    assert.isTrue(element.hasPatchNumChanged(params));
+
+    element._patchRange = {
+      patchNum: 4 as RevisionPatchSetNum,
+      basePatchNum: ParentPatchSetNum,
+    };
+
+    assert.isFalse(element.hasPatchRangeChanged(params));
+    assert.isFalse(element.hasPatchNumChanged(params));
+  });
+
   suite('_handleEditTap', () => {
     let fireEdit: () => void;
 

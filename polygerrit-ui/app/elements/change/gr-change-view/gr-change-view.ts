@@ -1196,6 +1196,24 @@ export class GrChangeView extends base {
     return this._changeNum !== this.params?.changeNum;
   }
 
+  hasPatchRangeChanged(value: AppElementChangeViewParams) {
+    if (!this._patchRange) return false;
+    if (this._patchRange.basePatchNum !== value.basePatchNum) return true;
+    return this.hasPatchNumChanged(value);
+  }
+
+  hasPatchNumChanged(value: AppElementChangeViewParams) {
+    if (!this._patchRange) return false;
+    if (value.patchNum !== undefined) {
+      return this._patchRange.patchNum !== value.patchNum;
+    } else {
+      // value.patchNum === undefined specifies the latest patchset
+      return (
+        this._patchRange.patchNum !== computeLatestPatchNum(this._allPatchSets)
+      );
+    }
+  }
+
   _paramsChanged(value: AppElementChangeViewParams) {
     if (value.view !== GerritView.CHANGE) {
       this._initialLoadComplete = false;
@@ -1219,50 +1237,40 @@ export class GrChangeView extends base {
     if (value.basePatchNum === undefined)
       value.basePatchNum = ParentPatchSetNum;
 
-    const patchChanged =
-      this._patchRange &&
-      value.patchNum !== undefined &&
-      (this._patchRange.patchNum !== value.patchNum ||
-        this._patchRange.basePatchNum !== value.basePatchNum);
+    const patchChanged = this.hasPatchRangeChanged(value);
+    let patchNumChanged = this.hasPatchNumChanged(value);
 
-    let rightPatchNumChanged =
-      this._patchRange &&
-      value.patchNum !== undefined &&
-      this._patchRange.patchNum !== value.patchNum;
-
-    const patchRange: ChangeViewPatchRange = {
+    this._patchRange = {
       patchNum: value.patchNum,
       basePatchNum: value.basePatchNum,
     };
-
-    this._patchRange = patchRange;
     this.scrollCommentId = value.commentId;
 
     const patchKnown =
-      !patchRange.patchNum ||
-      (this._allPatchSets ?? []).some(ps => ps.num === patchRange.patchNum);
+      !this._patchRange.patchNum ||
+      (this._allPatchSets ?? []).some(
+        ps => ps.num === this._patchRange!.patchNum
+      );
     // _allPatchsets does not know value.patchNum so force a reload.
     const forceReload = value.forceReload || !patchKnown;
 
     // If changeNum is defined that means the change has already been
     // rendered once before so a full reload is not required.
     if (this._changeNum !== undefined && !forceReload) {
-      if (!patchRange.patchNum) {
+      if (!this._patchRange.patchNum) {
         this._patchRange = {
           ...this._patchRange,
           patchNum: computeLatestPatchNum(this._allPatchSets),
         };
-        rightPatchNumChanged = true;
+        patchNumChanged = true;
       }
       if (patchChanged) {
         // We need to collapse all diffs when params change so that a non
         // existing diff is not requested. See Issue 125270 for more details.
         this.$.fileList.collapseAllDiffs();
-        this._reloadPatchNumDependentResources(rightPatchNumChanged).then(
-          () => {
-            this._sendShowChangeEvent();
-          }
-        );
+        this._reloadPatchNumDependentResources(patchNumChanged).then(() => {
+          this._sendShowChangeEvent();
+        });
       }
 
       // If there is no change in patchset or changeNum, such as when user goes
@@ -2218,11 +2226,11 @@ export class GrChangeView extends base {
    * Kicks off requests for resources that rely on the patch range
    * (`this._patchRange`) being defined.
    */
-  _reloadPatchNumDependentResources(rightPatchNumChanged?: boolean) {
+  _reloadPatchNumDependentResources(patchNumChanged?: boolean) {
     assertIsDefined(this._changeNum, '_changeNum');
     if (!this._patchRange?.patchNum) throw new Error('missing patchNum');
     const promises = [this._getCommitInfo(), this.$.fileList.reload()];
-    if (rightPatchNumChanged)
+    if (patchNumChanged)
       promises.push(
         this.$.commentAPI.reloadPortedComments(
           this._changeNum,

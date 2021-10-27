@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "507f9e64_5aa7615f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-27T11:33:36Z",
+      "side": 1,
+      "message": "Can all of this be moved into its own method and get a couple of tests?",
+      "range": {
+        "startLine": 1201,
+        "startChar": 4,
+        "endLine": 1235,
+        "endChar": 34
+      },
+      "revId": "75ffdc9d7e2354861fde097f580306a9f68e9603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15dffef0_54216f99",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-27T11:33:36Z",
+      "side": 1,
+      "message": "Can this be folded into the above?",
+      "range": {
+        "startLine": 1247,
+        "startChar": 6,
+        "endLine": 1253,
+        "endChar": 7
+      },
+      "revId": "75ffdc9d7e2354861fde097f580306a9f68e9603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "396f6829_25ef0feb",
       "revId": "0716666008bc015692f54af4262d2ba104dabef8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f00eb430_f5300d15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-10-27T11:23:32Z",
+      "side": 1,
+      "message": "\u003e I would like to finalize the review here.\n\nit would be still \"here\" - you only need to change the change\u0027s target branch.\n\n\u003e And maybe we can also just pick to 3.5?\n\ni think that mixing picks and forward merges is a no-no due to the confusing history it creates. the gerrit community doesn\u0027t seem to care about that, but i\u0027d recommend to at least avoid doing it unnecessarily, i.e., when subsequent picking is expected.",
+      "parentUuid": "dc9104c8_18ce8a63",
+      "revId": "0716666008bc015692f54af4262d2ba104dabef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

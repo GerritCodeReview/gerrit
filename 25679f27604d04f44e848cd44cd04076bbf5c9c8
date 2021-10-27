@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfbad08e_12046e4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-27T13:51:15Z",
+      "side": 1,
+      "message": "Thanks for highlighting these potential problems. They all make sense.\n\nThen I reworked my change such that:\n1) I kept the \"hidden\" boolean on the API (in SubmitRequirementExpressionInfo)\n2) Always omit the applicability expressions, set hidden\u003dtrue.\n3) Keep submit requirements and storage intact.",
+      "parentUuid": "781e4b43_511d0cb9",
+      "revId": "25679f27604d04f44e848cd44cd04076bbf5c9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4590c6a0_2ee3de46",

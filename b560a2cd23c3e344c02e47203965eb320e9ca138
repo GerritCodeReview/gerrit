@@ -64,6 +64,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f308bd6_74f2d070",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-27T11:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0386ae5a_92018707",
+      "range": {
+        "startLine": 419,
+        "startChar": 14,
+        "endLine": 420,
+        "endChar": 97
+      },
+      "revId": "b560a2cd23c3e344c02e47203965eb320e9ca138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b880b11b_14f467a8",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-27T11:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcea7d69_3d38c89c",
+      "range": {
+        "startLine": 420,
+        "startChar": 81,
+        "endLine": 420,
+        "endChar": 86
+      },
+      "revId": "b560a2cd23c3e344c02e47203965eb320e9ca138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff3c8ed1_9b75a876",
@@ -77,6 +125,30 @@
       "writtenOn": "2021-10-27T11:17:31Z",
       "side": 1,
       "message": "1",
+      "range": {
+        "startLine": 710,
+        "startChar": 42,
+        "endLine": 710,
+        "endChar": 46
+      },
+      "revId": "b560a2cd23c3e344c02e47203965eb320e9ca138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80e69c70_03c780bf",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-27T11:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff3c8ed1_9b75a876",
       "range": {
         "startLine": 710,
         "startChar": 42,

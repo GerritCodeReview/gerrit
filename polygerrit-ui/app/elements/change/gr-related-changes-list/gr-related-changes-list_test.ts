@@ -30,6 +30,7 @@ import {
   createSubmittedTogetherInfo,
 } from '../../../test/test-data-generators';
 import {
+  query,
   queryAndAssert,
   resetPlugins,
   stubRestApi,
@@ -227,11 +228,8 @@ suite('gr-related-changes-list', () => {
         Promise.resolve(submittedTogether)
       );
       await element.reload();
-      const relatedChanges = queryAndAssert<GrRelatedCollapse>(
-        queryAndAssert<HTMLElement>(element, '#relatedChanges'),
-        'gr-related-collapse'
-      );
-      assert.isFalse(relatedChanges!.classList.contains('first'));
+      const relatedChanges = query<HTMLElement>(element, '#relatedChanges');
+      assert.notExists(relatedChanges);
       const submittedTogetherSection = queryAndAssert<GrRelatedCollapse>(
         queryAndAssert<HTMLElement>(element, '#submittedTogether'),
         'gr-related-collapse'
@@ -255,11 +253,9 @@ suite('gr-related-changes-list', () => {
         'gr-related-collapse'
       );
       assert.isTrue(relatedChanges!.classList.contains('first'));
-      const submittedTogetherSection = queryAndAssert<GrRelatedCollapse>(
-        queryAndAssert<HTMLElement>(element, '#submittedTogether'),
-        'gr-related-collapse'
-      );
-      assert.isFalse(submittedTogetherSection!.classList.contains('first'));
+      const submittedTogetherSection = query<HTMLElement>(
+        element, '#submittedTogether');
+      assert.notExists(submittedTogetherSection);
       const cherryPicks = queryAndAssert<GrRelatedCollapse>(
         queryAndAssert<HTMLElement>(element, '#cherryPicks'),
         'gr-related-collapse'

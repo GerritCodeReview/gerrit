@@ -228,7 +228,6 @@ public class Schema_146 extends SchemaVersion {
       Ref ref,
       Timestamp registeredOn)
       throws IOException {
-    ObjectId current = createInitialEmptyCommit(oi, emptyTree, registeredOn);
 
     rw.reset();
     rw.sort(RevSort.TOPO);
@@ -236,9 +235,14 @@ public class Schema_146 extends SchemaVersion {
     rw.markStart(rw.parseCommit(ref.getObjectId()));
 
     RevCommit c;
+    ObjectId current = null;
     while ((c = rw.next()) != null) {
       if (isInitialEmptyCommit(emptyTree, c)) {
         return;
+      }
+
+      if (current == null) {
+        current = createInitialEmptyCommit(oi, emptyTree, registeredOn);
       }
 
       CommitBuilder cb = new CommitBuilder();

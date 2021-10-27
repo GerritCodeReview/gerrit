@@ -20,6 +20,9 @@ export const htmlTemplate = html`
   <style include="shared-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
+  <style include="gr-font-styles">
+    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+  </style>
   <style include="gr-change-list-styles">
     #changeList {
       border-collapse: collapse;

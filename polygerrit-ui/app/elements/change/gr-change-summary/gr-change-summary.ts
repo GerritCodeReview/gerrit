@@ -232,6 +232,9 @@ export class GrChecksChip extends LitElement {
           height: var(--line-height-small);
           vertical-align: top;
         }
+        .checksChip a iron-icon.launch {
+          color: var(--link-color);
+        }
         .checksChip.error {
           color: var(--error-foreground);
           border-color: var(--error-foreground);

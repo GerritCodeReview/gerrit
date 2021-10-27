@@ -94,6 +94,30 @@
       },
       "revId": "67e28881fa553ffea7ce5df04f693e00c33449a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "905fab40_f6b7fa50",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-27T16:25:51Z",
+      "side": 1,
+      "message": "\u003e OTOH it seems useful to create meaningful test data, so having all revisions be created with the same timestamp is maybe not preferable.\n\nAgreed. Maybe we\u0027d want to add a timestamp check into one of those tests that does call createRevisions()? I\u0027m not sure how valuable that really is though.",
+      "parentUuid": "60ed6d3f_f23fb350",
+      "range": {
+        "startLine": 188,
+        "startChar": 15,
+        "endLine": 188,
+        "endChar": 25
+      },
+      "revId": "67e28881fa553ffea7ce5df04f693e00c33449a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

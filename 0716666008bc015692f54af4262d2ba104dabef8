@@ -16,6 +16,24 @@
       "message": "Can we move this to stable-3.5 for releasing it with v3.5.0?",
       "revId": "0716666008bc015692f54af4262d2ba104dabef8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc9104c8_18ce8a63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-27T08:27:51Z",
+      "side": 1,
+      "message": "I would like to finalize the review here. And maybe we can also just pick to 3.5?",
+      "parentUuid": "396f6829_25ef0feb",
+      "revId": "0716666008bc015692f54af4262d2ba104dabef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,75 @@
       "message": "Friendly ping. This is now ready for review.",
       "revId": "b560a2cd23c3e344c02e47203965eb320e9ca138",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0386ae5a_92018707",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-27T11:17:31Z",
+      "side": 1,
+      "message": "nit:\n\ncd -\u003e Boolean.TRUE.equals(cd.isPureRevert()) ? \"1\" : \"0\"\n\nThis is null-safe and shorter",
+      "range": {
+        "startLine": 419,
+        "startChar": 14,
+        "endLine": 420,
+        "endChar": 97
+      },
+      "revId": "b560a2cd23c3e344c02e47203965eb320e9ca138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcea7d69_3d38c89c",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-27T11:17:31Z",
+      "side": 1,
+      "message": "We use \"1\" and \"0\" here for other booleans. I\u0027d stick with that.",
+      "range": {
+        "startLine": 420,
+        "startChar": 81,
+        "endLine": 420,
+        "endChar": 86
+      },
+      "revId": "b560a2cd23c3e344c02e47203965eb320e9ca138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff3c8ed1_9b75a876",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-27T11:17:31Z",
+      "side": 1,
+      "message": "1",
+      "range": {
+        "startLine": 710,
+        "startChar": 42,
+        "endLine": 710,
+        "endChar": 46
+      },
+      "revId": "b560a2cd23c3e344c02e47203965eb320e9ca138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

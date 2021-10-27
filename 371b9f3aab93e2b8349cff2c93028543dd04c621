@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae78d543_c6380432",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-27T09:35:37Z",
+      "side": 1,
+      "message": "At this moment, this API is not trying to maintain certain order for refs in the output.",
+      "parentUuid": "5a430ba8_f3312200",
+      "range": {
+        "startLine": 1076,
+        "startChar": 0,
+        "endLine": 1077,
+        "endChar": 25
+      },
+      "revId": "371b9f3aab93e2b8349cff2c93028543dd04c621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa16b931_3d69ade5",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-10-27T09:13:09Z",
       "side": 1,
       "message": "s/not visible/not visible but corrupted/",
+      "range": {
+        "startLine": 71,
+        "startChar": 33,
+        "endLine": 75,
+        "endChar": 57
+      },
+      "revId": "371b9f3aab93e2b8349cff2c93028543dd04c621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fbfc611_94bd9f46",
+        "filename": "java/com/google/gerrit/server/change/IncludedInRefs.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-27T09:35:37Z",
+      "side": 1,
+      "message": "Do you mean to say we would hit IOException here only when the ref is corrupted ..?",
+      "parentUuid": "aa16b931_3d69ade5",
       "range": {
         "startLine": 71,
         "startChar": 33,

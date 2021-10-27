@@ -1201,16 +1201,31 @@ export class GrChangeView extends base {
     if (value.basePatchNum === undefined)
       value.basePatchNum = ParentPatchSetNum;
 
-    const patchChanged =
-      this._patchRange &&
-      value.patchNum !== undefined &&
-      (this._patchRange.patchNum !== value.patchNum ||
-        this._patchRange.basePatchNum !== value.basePatchNum);
+    let patchChanged = false;
+    if (this._patchRange) {
+      patchChanged = this._patchRange.basePatchNum !== value.basePatchNum;
+      if (value.patchNum !== undefined) {
+        patchChanged =
+          patchChanged || this._patchRange.patchNum !== value.patchNum;
+      } else {
+        // value.patchNum === undefined specifies the latest patchset
+        patchChanged =
+          patchChanged ||
+          this._patchRange.patchNum !==
+            computeLatestPatchNum(this._allPatchSets);
+      }
+    }
 
-    let rightPatchNumChanged =
-      this._patchRange &&
-      value.patchNum !== undefined &&
-      this._patchRange.patchNum !== value.patchNum;
+    let rightPatchNumChanged = false;
+    if (this._patchRange) {
+      if (value.patchNum !== undefined)
+        rightPatchNumChanged = this._patchRange.patchNum !== value.patchNum;
+      // value.patchNum === undefined specifies the latest patchset
+      else
+        rightPatchNumChanged =
+          this._patchRange.patchNum !==
+          computeLatestPatchNum(this._allPatchSets);
+    }
 
     const patchRange: ChangeViewPatchRange = {
       patchNum: value.patchNum,

@@ -30,6 +30,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.git.meta.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -40,6 +41,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -49,12 +51,14 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class Schema_115 extends SchemaVersion {
+  private static final String CREATE_ACCOUNT_MSG = "Create Account";
   private final GitRepositoryManager mgr;
   private final AllUsersName allUsersName;
   private final PersonIdent serverUser;
@@ -74,11 +78,12 @@ public class Schema_115 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     Map<Account.Id, DiffPreferencesInfo> imports = new HashMap<>();
+    HashMap<Account.Id, Timestamp> registeredOnByAccount = new HashMap<>();
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
         ResultSet rs =
             stmt.executeQuery(
-                "SELECT * FROM account_diff_preferences JOIN accounts ON "
-                    + "account_diff_preferences.id=accounts.account_id")) {
+                "SELECT *, accounts.registered_on FROM account_diff_preferences "
+                    + "JOIN accounts ON account_diff_preferences.id=accounts.account_id")) {
       Set<String> availableColumns = getColumns(rs);
       while (rs.next()) {
         Account.Id accountId = new Account.Id(rs.getInt("id"));
@@ -145,6 +150,9 @@ public class Schema_115 extends SchemaVersion {
         if (availableColumns.contains("auto_hide_diff_table_header")) {
           prefs.autoHideDiffTableHeader = toBoolean(rs.getString("auto_hide_diff_table_header"));
         }
+        if (availableColumns.contains("registered_on")) {
+          registeredOnByAccount.put(accountId, rs.getTimestamp("registered_on"));
+        }
         imports.put(accountId, prefs);
       }
     }
@@ -158,20 +166,31 @@ public class Schema_115 extends SchemaVersion {
         ObjectReader reader = packInserter.newReader();
         RevWalk rw = new RevWalk(reader)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      ObjectId emptyTree = emptyTree(packInserter);
       for (Map.Entry<Account.Id, DiffPreferencesInfo> e : imports.entrySet()) {
         try (MetaDataUpdate md =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
+          Account.Id accountId = e.getKey();
+          VersionedAccountPreferences p = VersionedAccountPreferences.forUser(accountId);
+          p.load(md);
+          BatchMetaDataUpdate batch = p.openUpdate(md, packInserter, reader, rw);
+          if (p.getRevision() == null) {
+            batch.write(
+                buildCommit(
+                    new PersonIdent(serverUser, registeredOnByAccount.get(accountId)),
+                    emptyTree,
+                    CREATE_ACCOUNT_MSG));
+          }
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);
-          VersionedAccountPreferences p = VersionedAccountPreferences.forUser(e.getKey());
-          p.load(md);
           storeSection(
               p.getConfig(),
               UserConfigSections.DIFF,
               null,
               e.getValue(),
               DiffPreferencesInfo.defaults());
-          p.commit(md, packInserter, reader, rw);
+          batch.write(md.getCommitBuilder());
+          batch.commit();
         }
       }
 

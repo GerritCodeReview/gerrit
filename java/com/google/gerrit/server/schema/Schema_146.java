@@ -47,7 +47,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -293,24 +292,14 @@ public class Schema_146 extends SchemaVersion {
 
   private ObjectId createInitialEmptyCommit(
       ObjectInserter oi, ObjectId emptyTree, Timestamp registrationDate) throws IOException {
-    PersonIdent ident = new PersonIdent(serverIdent, registrationDate);
-
-    CommitBuilder cb = new CommitBuilder();
-    cb.setTreeId(emptyTree);
-    cb.setCommitter(ident);
-    cb.setAuthor(ident);
-    cb.setMessage(CREATE_ACCOUNT_MSG);
-    return oi.insert(cb);
+    return oi.insert(
+        buildCommit(new PersonIdent(serverIdent, registrationDate), emptyTree, CREATE_ACCOUNT_MSG));
   }
 
   private boolean isInitialEmptyCommit(ObjectId emptyTree, RevCommit c) {
     return c.getParentCount() == 0
         && c.getTree().equals(emptyTree)
         && c.getShortMessage().equals(CREATE_ACCOUNT_MSG);
-  }
-
-  private static ObjectId emptyTree(ObjectInserter oi) throws IOException {
-    return oi.insert(Constants.OBJ_TREE, new byte[] {});
   }
 
   private Map<Account.Id, Timestamp> scanAccounts(ReviewDb db, UpdateUI ui) throws SQLException {

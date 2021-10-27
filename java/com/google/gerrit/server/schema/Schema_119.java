@@ -39,6 +39,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.git.meta.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -48,6 +49,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -55,13 +57,18 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class Schema_119 extends SchemaVersion {
+  private static final String CREATE_ACCOUNT_MSG = "Create Account";
   private static final ImmutableMap<String, String> LEGACY_DISPLAYNAME_MAP =
       ImmutableMap.<String, String>of(
           "ANON_GIT", ANON_GIT,
@@ -94,6 +101,7 @@ public class Schema_119 extends SchemaVersion {
     String emailStrategy = "email_strategy";
     Set<String> columns = schema.getDialect().listColumns(connection, tableName);
     Map<Account.Id, GeneralPreferencesInfo> imports = new HashMap<>();
+    HashMap<Account.Id, Timestamp> registeredOnByAccount = new HashMap<>();
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
         ResultSet rs =
             stmt.executeQuery(
@@ -114,7 +122,8 @@ public class Schema_119 extends SchemaVersion {
                     + "size_bar_in_change_table, "
                     + "legacycid_in_change_table, "
                     + "review_category_strategy, "
-                    + "mute_common_path_prefixes "
+                    + "mute_common_path_prefixes, "
+                    + "registered_on "
                     + "from "
                     + tableName)) {
       while (rs.next()) {
@@ -136,6 +145,7 @@ public class Schema_119 extends SchemaVersion {
         p.muteCommonPathPrefixes = toBoolean(rs.getString(15));
         p.defaultBaseForMerges = GeneralPreferencesInfo.defaults().defaultBaseForMerges;
         imports.put(accountId, p);
+        registeredOnByAccount.put(accountId, rs.getTimestamp(16));
       }
     }
 
@@ -151,17 +161,25 @@ public class Schema_119 extends SchemaVersion {
       for (Map.Entry<Account.Id, GeneralPreferencesInfo> e : imports.entrySet()) {
         try (MetaDataUpdate md =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
+          Account.Id accountId = e.getKey();
+          VersionedAccountPreferences p = VersionedAccountPreferences.forUser(accountId);
+          p.load(md);
+          BatchMetaDataUpdate batch = p.openUpdate(md, packInserter, reader, rw);
+          if (p.getRevision() == null) {
+            batch.write(
+                buildInitialEmptyCommit(
+                    emptyTree(packInserter), registeredOnByAccount.get(accountId)));
+          }
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);
-          VersionedAccountPreferences p = VersionedAccountPreferences.forUser(e.getKey());
-          p.load(md);
           storeSection(
               p.getConfig(),
               UserConfigSections.GENERAL,
               null,
               e.getValue(),
               GeneralPreferencesInfo.defaults());
-          p.commit(md, packInserter, reader, rw);
+          batch.write(md.getCommitBuilder());
+          batch.commit();
         }
       }
 
@@ -235,5 +253,19 @@ public class Schema_119 extends SchemaVersion {
   private static boolean toBoolean(String v) {
     checkState(!Strings.isNullOrEmpty(v));
     return v.equals("Y");
+  }
+
+  private CommitBuilder buildInitialEmptyCommit(ObjectId emptyTree, Timestamp registrationDate) {
+    PersonIdent ident = new PersonIdent(serverUser, registrationDate);
+    CommitBuilder cb = new CommitBuilder();
+    cb.setTreeId(emptyTree);
+    cb.setCommitter(ident);
+    cb.setAuthor(ident);
+    cb.setMessage(CREATE_ACCOUNT_MSG);
+    return cb;
+  }
+
+  private static ObjectId emptyTree(ObjectInserter oi) throws IOException {
+    return oi.insert(Constants.OBJ_TREE, new byte[] {});
   }
 }

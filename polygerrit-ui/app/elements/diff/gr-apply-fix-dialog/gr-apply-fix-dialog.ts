@@ -41,7 +41,6 @@ import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../gr-diff-builder/token-highlight-layer';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 export interface GrApplyFixDialog {
   $: {
@@ -109,10 +108,7 @@ export class GrApplyFixDialog extends PolymerElement {
   constructor() {
     super();
     this.restApiService.getPreferences().then(prefs => {
-      if (
-        !prefs?.disable_token_highlighting &&
-        appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)
-      ) {
+      if (!prefs?.disable_token_highlighting) {
         this.layers = [new TokenHighlightLayer(this)];
       }
     });

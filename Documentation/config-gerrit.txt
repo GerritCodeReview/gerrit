@@ -1222,9 +1222,9 @@ See also link:cmd-flush-caches.html[gerrit flush-caches].
 
 ==== [[cache_options]]Cache Options
 
-[[cache.diff.timeout]]cache.diff.timeout::
+[[cache.git_file_diff.timeout]]cache.git_file_diff.timeout::
 +
-Maximum number of milliseconds to wait for diff data before giving up and
+Maximum number of milliseconds to wait for git diff data before giving up and
 falling back on a simpler diff algorithm that will not be able to break down
 modified regions into smaller ones. This is a work around for an infinite loop
 bug in the default difference algorithm implementation.

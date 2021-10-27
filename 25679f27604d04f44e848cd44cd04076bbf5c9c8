@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "781e4b43_511d0cb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-27T12:04:10Z",
+      "side": 1,
+      "message": "I\u0027m not sure that a config option on the submit requirements to control the visibility of the applicability expression is the right approach to solve this problem. What concerns me is that this option will be persisted in NoteDb. This means you basically cannot change the hidden option of an existing submit requirement, as all the persisted submit requirements in NoteDb will still have the old value (e.g. imagine you configure a submit requirement, then after some days you realise that the applicability condition should not be visible, but setting the hidden flag only hides it for new/open changes). Another problem is that you only have the choice between hiding and showing it for all users, but maybe you want to show it only for admins, or only for project owners, or only for Googlers etc.\nUnfortunately I don\u0027t have a solution for this to offer, but if this is not a super important feature, I would defer this and for now do what Patrick suggests. Always hide it, except for admins and project owners who anyway can see it by looking at the project.config in refs/meta/config.",
+      "parentUuid": "29ead9d2_128ff177",
+      "revId": "25679f27604d04f44e848cd44cd04076bbf5c9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4590c6a0_2ee3de46",
         "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
         "patchSetId": 1

@@ -36,7 +36,7 @@ public class FilesInCommitIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    baseConfig.setString("cache", "diff", "timeout", "1 minute");
+    baseConfig.setString("cache", "git_file_diff", "timeout", "1 minute");
 
     ObjectId headCommit = testRepo.getRepository().resolve("HEAD");
     addCommit(

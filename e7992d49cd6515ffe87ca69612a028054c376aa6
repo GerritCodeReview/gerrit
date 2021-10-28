@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe07ebbe_10f6958f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-28T23:17:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f747b96c_8d1ab33a",
+      "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cd3e9c4_275549e1",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-28T13:21:51Z",
       "side": 1,
       "message": "Use the same trick as suggested above to avoid calling `updateStyles()`. You will not even need to override `updated` then.",
+      "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "333b7812_4a758803",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-28T23:17:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6cd3e9c4_275549e1",
       "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -70,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "feac8152_de487416",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-28T23:17:15Z",
+      "side": 1,
+      "message": "Removed, thanks, done.",
+      "parentUuid": "a46edce3_c1b6bb44",
+      "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a7b3964_b4aa1323",
@@ -83,6 +137,24 @@
       "writtenOn": "2021-10-28T11:50:00Z",
       "side": 1,
       "message": "Shouldn\u0027t we already have this defined somewhere?",
+      "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "778f3649_c68bc14c",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-28T23:17:15Z",
+      "side": 1,
+      "message": "Removed, thanks, done.",
+      "parentUuid": "5a7b3964_b4aa1323",
       "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

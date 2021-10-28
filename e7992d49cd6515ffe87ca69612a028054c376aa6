@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83cd2492_c883aeed",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-28T11:50:00Z",
+      "side": 1,
+      "message": "What if we don\u0027t have ShadyCSS?\n@brohlfs: I\u0027m not too familiar with ShadyCSS so would love your input here.",
+      "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a7b3964_b4aa1323",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-28T11:50:00Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we already have this defined somewhere?",
+      "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

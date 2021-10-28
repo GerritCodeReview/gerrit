@@ -747,14 +747,19 @@ class ReceiveCommits {
       return;
     }
 
-    if (!magicCommands.isEmpty()) {
-      metrics.pushCount.increment("magic", project.getName(), getUpdateType(magicCommands));
-    }
-    if (!regularCommands.isEmpty()) {
-      metrics.pushCount.increment("direct", project.getName(), getUpdateType(regularCommands));
-    }
-
     try {
+      if (!magicCommands.isEmpty()) {
+        parseMagicBranch(Iterables.getLast(magicCommands));
+        // Using the submit option submits the created change(s) immediately without checking labels
+        // nor submit rules. Hence we shouldn't record such pushes as "magic" which implies that
+        // code review is being done.
+        String pushKind = magicBranch != null && magicBranch.submit ? "direct_submit" : "magic";
+        metrics.pushCount.increment(pushKind, project.getName(), getUpdateType(magicCommands));
+      }
+      if (!regularCommands.isEmpty()) {
+        metrics.pushCount.increment("direct", project.getName(), getUpdateType(regularCommands));
+      }
+
       if (!regularCommands.isEmpty()) {
         handleRegularCommands(regularCommands, progress);
         return;
@@ -763,7 +768,6 @@ class ReceiveCommits {
       boolean first = true;
       for (ReceiveCommand cmd : magicCommands) {
         if (first) {
-          parseMagicBranch(cmd);
           first = false;
         } else {
           reject(cmd, "duplicate request");

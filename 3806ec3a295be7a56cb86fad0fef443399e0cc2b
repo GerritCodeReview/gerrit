@@ -51,6 +51,24 @@
       "message": "Can we show it for project owners?\n\nAnd do we need the boolean field in the API (vs just leaving the expression etc blank/null?). What additional value does this give?",
       "revId": "3806ec3a295be7a56cb86fad0fef443399e0cc2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f4a302a_b2028485",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-28T07:12:10Z",
+      "side": 1,
+      "message": "Ah wait, it\u0027s inherited, so project owners might be overly board already. Let\u0027s leave as-is :-)",
+      "parentUuid": "0d6e9c8b_a1a88c42",
+      "revId": "3806ec3a295be7a56cb86fad0fef443399e0cc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "7a16408e424ddf9fc5d8c3e00c98d8449c16d8da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6150b146_7f072509",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-10-28T08:13:37Z",
+      "side": 1,
+      "message": "Is the cache fully functional and the default in 3.5? If so, then +1 to moving. If not, then I\u0027d leave the change on master.",
+      "parentUuid": "0ce0077e_a143b0c5",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "7a16408e424ddf9fc5d8c3e00c98d8449c16d8da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

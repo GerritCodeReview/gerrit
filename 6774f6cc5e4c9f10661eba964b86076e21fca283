@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8621c53d_ce1467dc",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T00:11:47Z",
+      "side": 1,
+      "message": "Hadn\u0027t really noticed this before, but why is this API at this place in the doc? I don\u0027t see a clear organization within each Endpoints section, so I would assume this new API just goes at the end of the \"Project Endpoints\" section.",
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2417505_e577d918",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 21
@@ -20,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0fa68774_28816580",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T00:11:47Z",
+      "side": 1,
+      "message": "How do you say \"getting refs which commits are included in\" in a shorter form though? I think you end up with \"Get Commits Included In Refs\".\n\nOptions I can think of right now:\n \"Get Refs Which Commits Are Included In\" # the literal of what you said\n \"Get Refs Which Commits Have Merged Into\" # real ugly\n \"Get Refs By Included Commits\" # maybe?\n \"Get Refs With Merged Commits\" # seems misleading, but maybe ok\n \"Get Refs With Commits\" # doesn\u0027t tell you enough about what it\u0027s doing\n \"Get Commits Included In Refs\" # PS21, seems best",
+      "parentUuid": "a2417505_e577d918",
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e5e728eb_6f49461b",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 21
@@ -31,6 +66,24 @@
       "writtenOn": "2021-10-27T23:33:08Z",
       "side": 1,
       "message": "s/set/sets/",
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6568f6c_0e11569f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T00:11:47Z",
+      "side": 1,
+      "message": "I couldn\u0027t decide if singular or plural was correct here. Each commit has one set of full ref names. \"sets\" makes me think each commit could have multiple sets of refs.",
+      "parentUuid": "e5e728eb_6f49461b",
       "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -60,6 +113,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06d98db3_c6f7c5e2",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T00:11:47Z",
+      "side": 1,
+      "message": "Even better (using your suggestion below):\n\n One or more `commit` query parameters are required and each specifies a\n commit-id (SHA-1 in 40 digit hex representation). When a ...",
+      "parentUuid": "72d5b606_94abd7a1",
+      "range": {
+        "startLine": 1049,
+        "startChar": 42,
+        "endLine": 1049,
+        "endChar": 48
+      },
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "533c568f_ed749f05",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T00:11:47Z",
+      "side": 1,
+      "message": "Mirror the wording for commits below (using Martin\u0027s recommendation):\n\n Commits which do not exist or are not reachable from visible, specified refs,\n will not be contained in the map.",
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "164c1fd0_89d5e38d",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 21
@@ -71,6 +165,24 @@
       "writtenOn": "2021-10-27T23:33:08Z",
       "side": 1,
       "message": "If you word this as: s/The \u0027ref\u0027 query parameter /One or more \u0027ref\u0027 query parameters/ then you can remove the next sentence. Also make a similar change for \u0027commit\u0027?",
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "776540fa_b4172655",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T00:11:47Z",
+      "side": 1,
+      "message": "And I would use my \"and each specifies\" wording like above.",
+      "parentUuid": "164c1fd0_89d5e38d",
       "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

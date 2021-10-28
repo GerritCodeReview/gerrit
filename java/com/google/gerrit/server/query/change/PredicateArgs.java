@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.gerrit.index.query.QueryParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class is used to extract comma separated values in a predicate.
@@ -30,8 +33,35 @@ import java.util.Map;
  * appear in the map and others in the positional list (e.g. "vote=approved,jb_2.3).
  */
 public class PredicateArgs {
+  private static final Pattern SPLIT_PATTERN = Pattern.compile("(>|>=|=|<|<=)([^=].*)$");
+
   public List<String> positional;
-  public Map<String, String> keyValue;
+  public Map<String, ValOp> keyValue;
+
+  enum Operator {
+    EQUAL("="),
+    GREATER_EQUAL(">="),
+    GREATER(">"),
+    LESS_EQUAL("<="),
+    LESS("<");
+
+    final String op;
+
+    Operator(String op) {
+      this.op = op;
+    }
+  };
+
+  @AutoValue
+  public abstract static class ValOp {
+    abstract String value();
+
+    abstract Operator operator();
+
+    static ValOp create(String value, Operator operator) {
+      return new AutoValue_PredicateArgs_ValOp(value, operator);
+    }
+  }
 
   /**
    * Parses query arguments into {@link #keyValue} and/or {@link #positional}..
@@ -46,19 +76,39 @@ public class PredicateArgs {
     keyValue = new HashMap<>();
 
     for (String arg : Splitter.on(',').split(args)) {
-      List<String> splitKeyValue = Splitter.on('=').splitToList(arg);
+      Matcher m = SPLIT_PATTERN.matcher(arg);
 
-      if (splitKeyValue.size() == 1) {
-        positional.add(splitKeyValue.get(0));
-      } else if (splitKeyValue.size() == 2) {
-        if (!keyValue.containsKey(splitKeyValue.get(0))) {
-          keyValue.put(splitKeyValue.get(0), splitKeyValue.get(1));
+      if (!m.find()) {
+        positional.add(arg);
+      } else if (m.groupCount() == 2) {
+        String key = arg.substring(0, m.start());
+        String op = m.group(1);
+        String val = m.group(2);
+        if (!keyValue.containsKey(key)) {
+          keyValue.put(key, ValOp.create(val, getOperator(op)));
         } else {
-          throw new QueryParseException("Duplicate key " + splitKeyValue.get(0));
+          throw new QueryParseException("Duplicate key " + key);
         }
       } else {
-        throw new QueryParseException("invalid arg " + arg);
+        throw new QueryParseException("Invalid arg " + arg);
       }
+    }
+  }
+
+  private Operator getOperator(String operator) {
+    switch (operator) {
+      case "<":
+        return Operator.LESS;
+      case "<=":
+        return Operator.LESS_EQUAL;
+      case "=":
+        return Operator.EQUAL;
+      case ">=":
+        return Operator.GREATER_EQUAL;
+      case ">":
+        return Operator.GREATER;
+      default:
+        throw new IllegalArgumentException("Invalid Operator " + operator);
     }
   }
 }

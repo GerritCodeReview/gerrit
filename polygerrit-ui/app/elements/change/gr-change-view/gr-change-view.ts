@@ -622,6 +622,8 @@ export class GrChangeView extends base {
 
   private diffViewMode?: DiffViewMode;
 
+  private scrollPosition?: number;
+
   override ready() {
     super.ready();
     aPluginHasRegistered$.pipe(takeUntil(this.disconnected$)).subscribe(b => {
@@ -710,6 +712,7 @@ export class GrChangeView extends base {
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.addEventListener('close-fix-preview', e => this._onCloseFixPreview(e));
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    document.addEventListener('scroll', this.handleScroll);
 
     this.addEventListener(EventType.SHOW_PRIMARY_TAB, e =>
       this._setActivePrimaryTab(e)
@@ -744,6 +747,20 @@ export class GrChangeView extends base {
   get threadList(): GrThreadList | null {
     return this.shadowRoot!.querySelector<GrThreadList>('gr-thread-list');
   }
+
+  private readonly handleScroll = () => {
+    if (!this.isViewCurrent) return;
+    this.scrollTask = debounce(
+      this.scrollTask,
+      () =>
+        (this.scrollPosition =
+          window.pageYOffset ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop ||
+          0),
+      150
+    );
+  };
 
   _onOpenFixPreview(e: OpenFixPreviewEvent) {
     this.$.applyFixDialog.open(e);
@@ -1250,6 +1267,8 @@ export class GrChangeView extends base {
       // If there is no change in patchset or changeNum, such as when user goes
       // to the diff view and then comes back to change page then there is no
       // need to reload anything and we render the change view component as is.
+      document.documentElement.scrollTop = document.body.scrollTop =
+        this.scrollPosition ?? 0;
       return;
     }
 

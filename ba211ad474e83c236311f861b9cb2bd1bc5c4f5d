@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa103b8f_6db2dbf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T17:50:47Z",
+      "side": 1,
+      "message": "You might need to squash these together. It\u0027s strange to still have a timeout setting for a cache that doesn\u0027t exist.\n\nObviously it would have been best to catch this all in I52738c85, but I don\u0027t know if there\u0027s a way we could have improved tools or process to help catch that.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 21
+      },
+      "revId": "ba211ad474e83c236311f861b9cb2bd1bc5c4f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

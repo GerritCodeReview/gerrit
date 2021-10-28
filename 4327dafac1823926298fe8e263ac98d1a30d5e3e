@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d81d136_bb328a89",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T17:50:47Z",
+      "side": 0,
+      "message": "Do we have advice like this for the new caches?\n\nRelated, do/should the new caches inherit any settings from cache.diff? Should we have a migration for that (not sure if we typically do that or not for gerrit.config settings)?",
+      "range": {
+        "startLine": 983,
+        "startChar": 0,
+        "endLine": 986,
+        "endChar": 9
+      },
+      "revId": "4327dafac1823926298fe8e263ac98d1a30d5e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

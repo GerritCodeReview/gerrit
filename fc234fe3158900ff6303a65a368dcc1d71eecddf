@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca53d9c7_d8278d86",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-28T12:37:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a14f0ed_99dfdd66",
+      "revId": "fc234fe3158900ff6303a65a368dcc1d71eecddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5459072e_1eff5ca0",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-28T12:31:15Z",
       "side": 1,
       "message": "Event listeners on document must be removed in the disconnectedCallback.",
+      "revId": "fc234fe3158900ff6303a65a368dcc1d71eecddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "554dab98_6d04c256",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-28T12:37:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5459072e_1eff5ca0",
       "revId": "fc234fe3158900ff6303a65a368dcc1d71eecddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

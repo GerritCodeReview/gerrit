@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d712491f_537e4861",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T13:30:16Z",
+      "side": 1,
+      "message": "Revert all changes in this file. GrChangeStar is already setting the `starred` property of the change info. And they share the same object.",
+      "revId": "fd1e4a7b013fdf732a60e3a768fb56b3663548ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5217a4e_190a3894",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2553,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T13:30:16Z",
+      "side": 1,
+      "message": "Remove. GrChangeStar takes care of that. The `change` object is the same.",
+      "range": {
+        "startLine": 2552,
+        "startChar": 3,
+        "endLine": 2553,
+        "endChar": 44
+      },
+      "revId": "fd1e4a7b013fdf732a60e3a768fb56b3663548ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fceb14ac_10ff1cf5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T13:30:16Z",
+      "side": 1,
+      "message": "inline the method call",
+      "range": {
+        "startLine": 87,
+        "startChar": 21,
+        "endLine": 87,
+        "endChar": 32
+      },
+      "revId": "fd1e4a7b013fdf732a60e3a768fb56b3663548ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01ddb77c_b118b198",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T13:30:16Z",
+      "side": 1,
+      "message": "Move computation of these 3 methods into render() and just compute local vars that you then use in the template.",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 3
+      },
+      "revId": "fd1e4a7b013fdf732a60e3a768fb56b3663548ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

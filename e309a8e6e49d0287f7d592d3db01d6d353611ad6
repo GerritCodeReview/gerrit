@@ -1,0 +1,268 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30dfa032_05284a80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "clarify this only applies to Lucene? \"offline Lucene indexing\"?",
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "091bc19e_955bed85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "Maybe explain a bit what flushes do? Something like \"writes segment(s?) to disk\". Also explain this a bit where you say \"flush completely\" below.",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9752c15_cc21d5cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "This sentence follows the first strangely, almost like a bullet list of items. Can you reword to make them flow a bit better?\n\nI would also mention that online indexing functionality is unchanged and use it as an explanation for why, before this change, all indexing waited for flushes.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 3
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee0fcc75_85356462",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "this change",
+      "range": {
+        "startLine": 14,
+        "startChar": 35,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c918e74_303ea683",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "Maybe word as: \"Using pre-populated disk caches from a previous reindex run\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71c7b763_220c2822",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "Since you\u0027re saying \"this\" again to mean \"this change\", can you reword this paragraph to only say it once?",
+      "range": {
+        "startLine": 15,
+        "startChar": 50,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f23bfdd_34273214",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "\"with no disk caches\"",
+      "range": {
+        "startLine": 16,
+        "startChar": 43,
+        "endLine": 16,
+        "endChar": 61
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "651c3995_f0c783a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "Flushes",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 13
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c47d37c8_38a0f012",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "missing \" settings.\"",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 33
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39a66d67_477cce22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "This is redundant with the last part of your sentence \"at the end of reindex command\".",
+      "range": {
+        "startLine": 20,
+        "startChar": 34,
+        "endLine": 20,
+        "endChar": 59
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc6bd9d1_6bc1cf78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "This feels like advice that should go into the init \u0026 reindex pgm docs. You\u0027re already justifying it in the rest of this commit message.",
+      "range": {
+        "startLine": 20,
+        "startChar": 61,
+        "endLine": 22,
+        "endChar": 47
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e615e66_9008648f",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 1,
+      "message": "It\u0027s a better pattern to use a two-valued Enum instead of a boolean.\n\n public enum AutoFlush {\n   ENABLED,\n   DISABLED\n }",
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

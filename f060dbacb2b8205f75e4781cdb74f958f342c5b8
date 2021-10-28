@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c81e15_976ae6ec",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T23:01:47Z",
+      "side": 0,
+      "message": "unrelated?",
+      "revId": "f060dbacb2b8205f75e4781cdb74f958f342c5b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

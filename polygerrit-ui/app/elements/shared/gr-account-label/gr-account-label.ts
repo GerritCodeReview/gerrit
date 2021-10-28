@@ -32,6 +32,7 @@ import {classMap} from 'lit/directives/class-map';
 import {modifierPressed} from '../../../utils/dom-util';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
 
+// Change 1.
 @customElement('gr-account-label')
 export class GrAccountLabel extends LitElement {
   @property({type: Object})

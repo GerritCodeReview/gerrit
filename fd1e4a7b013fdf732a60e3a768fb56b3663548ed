@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28a13c52_4d1325d9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-28T23:41:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d712491f_537e4861",
+      "revId": "fd1e4a7b013fdf732a60e3a768fb56b3663548ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5217a4e_190a3894",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-10-28T13:30:16Z",
       "side": 1,
       "message": "Remove. GrChangeStar takes care of that. The `change` object is the same.",
+      "range": {
+        "startLine": 2552,
+        "startChar": 3,
+        "endLine": 2553,
+        "endChar": 44
+      },
+      "revId": "fd1e4a7b013fdf732a60e3a768fb56b3663548ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f16ad635_acb21830",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2553,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-28T23:41:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f5217a4e_190a3894",
       "range": {
         "startLine": 2552,
         "startChar": 3,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48594625_75c89631",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-28T23:41:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fceb14ac_10ff1cf5",
+      "range": {
+        "startLine": 87,
+        "startChar": 21,
+        "endLine": 87,
+        "endChar": 32
+      },
+      "revId": "fd1e4a7b013fdf732a60e3a768fb56b3663548ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01ddb77c_b118b198",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-10-28T13:30:16Z",
       "side": 1,
       "message": "Move computation of these 3 methods into render() and just compute local vars that you then use in the template.",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 3
+      },
+      "revId": "fd1e4a7b013fdf732a60e3a768fb56b3663548ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67541a73_7e841329",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-28T23:41:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "01ddb77c_b118b198",
       "range": {
         "startLine": 102,
         "startChar": 2,

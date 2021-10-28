@@ -46,6 +46,30 @@
       },
       "revId": "2d4a70e70fc09e37871d562b173fff0e59890535",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6011725a_31303043",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-28T16:41:55Z",
+      "side": 1,
+      "message": "No, this is correct. See rule 6 in https://owl.purdue.edu/owl/general_writing/punctuation/commas/extended_rules_for_commas.html",
+      "parentUuid": "bf3f1ffa_543fca37",
+      "range": {
+        "startLine": 1555,
+        "startChar": 30,
+        "endLine": 1555,
+        "endChar": 32
+      },
+      "revId": "2d4a70e70fc09e37871d562b173fff0e59890535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

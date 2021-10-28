@@ -33,6 +33,24 @@
       "message": "Seems like these two new methods should at least be shared with 115 and 146?",
       "revId": "c0f1f16475bdf95fafef42a797c72875055fd2f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c566885b_a26f2402",
+        "filename": "java/com/google/gerrit/server/schema/Schema_119.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-10-28T16:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c89bc978_452806c7",
+      "revId": "c0f1f16475bdf95fafef42a797c72875055fd2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

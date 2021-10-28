@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c35f801_e6192333",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-28T12:10:13Z",
+      "side": 1,
+      "message": "nit: use",
+      "range": {
+        "startLine": 17,
+        "startChar": 24,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "dc2cbcf542cc9405a5a13de7e2d0ed7f859af449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6490177e_6e30f2bb",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-28T12:10:13Z",
+      "side": 1,
+      "message": "Should the behaviour of count\u003d0 be documented?\nIIUC it\u0027s not matching anything? Maybe trying to specify count\u003d0 should even be rejected with a QueryParseException?",
+      "revId": "dc2cbcf542cc9405a5a13de7e2d0ed7f859af449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e39effd7_ed014e11",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-10-28T12:10:13Z",
+      "side": 1,
+      "message": "why is this commented out?",
+      "range": {
+        "startLine": 1139,
+        "startChar": 4,
+        "endLine": 1145,
+        "endChar": 31
+      },
+      "revId": "dc2cbcf542cc9405a5a13de7e2d0ed7f859af449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -44,10 +44,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -98,8 +97,8 @@ public class Schema_124 extends SchemaVersion {
     }
 
     try (Repository git = repoManager.openRepository(allUsersName);
-        PackInserter packInserter = ((FileRepository) git).getObjectDatabase().newPackInserter();
-        ObjectReader reader = packInserter.newReader();
+        ObjectInserter inserter = getPackInserterFirst(git);
+        ObjectReader reader = inserter.newReader();
         RevWalk rw = new RevWalk(reader)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       for (Map.Entry<Account.Id, Collection<AccountSshKey>> e : imports.asMap().entrySet()) {
@@ -112,10 +111,10 @@ public class Schema_124 extends SchemaVersion {
               new VersionedAuthorizedKeys(new SimpleSshKeyCreator(), e.getKey());
           authorizedKeys.load(md);
           authorizedKeys.setKeys(fixInvalidSequenceNumbers(e.getValue()));
-          authorizedKeys.commit(md, packInserter, reader, rw);
+          authorizedKeys.commit(md, inserter, reader, rw);
         }
       }
-      packInserter.flush();
+      inserter.flush();
       bru.execute(rw, NullProgressMonitor.INSTANCE);
     } catch (ConfigInvalidException | IOException ex) {
       throw new OrmException(ex);

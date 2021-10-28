@@ -47,11 +47,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -162,18 +161,18 @@ public class Schema_115 extends SchemaVersion {
     }
 
     try (Repository git = mgr.openRepository(allUsersName);
-        PackInserter packInserter = ((FileRepository) git).getObjectDatabase().newPackInserter();
-        ObjectReader reader = packInserter.newReader();
+        ObjectInserter inserter = getPackInserterFirst(git);
+        ObjectReader reader = inserter.newReader();
         RevWalk rw = new RevWalk(reader)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
-      ObjectId emptyTree = emptyTree(packInserter);
+      ObjectId emptyTree = emptyTree(inserter);
       for (Map.Entry<Account.Id, DiffPreferencesInfo> e : imports.entrySet()) {
         try (MetaDataUpdate md =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
           Account.Id accountId = e.getKey();
           VersionedAccountPreferences p = VersionedAccountPreferences.forUser(accountId);
           p.load(md);
-          BatchMetaDataUpdate batch = p.openUpdate(md, packInserter, reader, rw);
+          BatchMetaDataUpdate batch = p.openUpdate(md, inserter, reader, rw);
           if (p.getRevision() == null) {
             batch.write(
                 buildCommit(
@@ -194,7 +193,7 @@ public class Schema_115 extends SchemaVersion {
         }
       }
 
-      packInserter.flush();
+      inserter.flush();
       bru.execute(rw, NullProgressMonitor.INSTANCE);
     } catch (ConfigInvalidException | IOException ex) {
       throw new OrmException(ex);

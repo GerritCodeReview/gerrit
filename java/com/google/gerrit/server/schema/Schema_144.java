@@ -34,10 +34,9 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -87,9 +86,8 @@ public class Schema_144 extends SchemaVersion {
 
     try {
       try (Repository repo = repoManager.openRepository(allUsersName);
-          PackInserter packInserter =
-              ((FileRepository) repo).getObjectDatabase().newPackInserter();
-          ObjectReader reader = packInserter.newReader();
+          ObjectInserter inserter = getPackInserterFirst(repo);
+          ObjectReader reader = inserter.newReader();
           RevWalk rw = new RevWalk(reader)) {
         BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
         ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsersName, repo);
@@ -99,9 +97,9 @@ public class Schema_144 extends SchemaVersion {
           metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
           metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
           metaDataUpdate.getCommitBuilder().setMessage(COMMIT_MSG);
-          extIdNotes.commit(metaDataUpdate, packInserter, reader, rw);
+          extIdNotes.commit(metaDataUpdate, inserter, reader, rw);
         }
-        packInserter.flush();
+        inserter.flush();
         bru.execute(rw, NullProgressMonitor.INSTANCE);
       }
     } catch (IOException | ConfigInvalidException e) {

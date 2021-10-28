@@ -42,8 +42,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -87,9 +85,8 @@ public class Schema_154 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     try {
       try (Repository repo = repoManager.openRepository(allUsersName);
-          PackInserter packInserter =
-              ((FileRepository) repo).getObjectDatabase().newPackInserter();
-          ObjectReader reader = packInserter.newReader();
+          ObjectInserter inserter = getPackInserterFirst(repo);
+          ObjectReader reader = inserter.newReader();
           RevWalk rw = new RevWalk(reader)) {
         BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
         ProgressMonitor pm = new TextProgressMonitor();
@@ -98,9 +95,9 @@ public class Schema_154 extends SchemaVersion {
         pm.endTask();
         pm.beginTask("Migrating accounts to NoteDb", accounts.size());
         for (Account account : accounts) {
-          updateAccountInNoteDb(repo, account, bru, packInserter, reader, rw);
+          updateAccountInNoteDb(repo, account, bru, inserter, reader, rw);
         }
-        packInserter.flush();
+        inserter.flush();
         bru.execute(rw, pm);
         pm.endTask();
       }

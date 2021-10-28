@@ -48,10 +48,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -114,8 +113,8 @@ public class Schema_139 extends SchemaVersion {
     }
 
     try (Repository git = repoManager.openRepository(allUsersName);
-        PackInserter packInserter = ((FileRepository) git).getObjectDatabase().newPackInserter();
-        ObjectReader reader = packInserter.newReader();
+        ObjectInserter inserter = getPackInserterFirst(git);
+        ObjectReader reader = inserter.newReader();
         RevWalk rw = new RevWalk(reader)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       bru.setRefLogIdent(serverUser);
@@ -162,10 +161,10 @@ public class Schema_139 extends SchemaVersion {
                   .deleteProjectWatches(accountConfig.getProjectWatches().keySet())
                   .updateProjectWatches(projectWatches)
                   .build());
-          accountConfig.commit(md, packInserter, reader, rw);
+          accountConfig.commit(md, inserter, reader, rw);
         }
       }
-      packInserter.flush();
+      inserter.flush();
       bru.execute(rw, NullProgressMonitor.INSTANCE);
     } catch (IOException | ConfigInvalidException ex) {
       throw new OrmException(ex);

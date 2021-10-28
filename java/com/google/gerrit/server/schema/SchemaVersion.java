@@ -47,11 +47,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 
 /** A version of the database schema. */
 public abstract class SchemaVersion {
@@ -317,6 +319,13 @@ public abstract class SchemaVersion {
 
   protected static ObjectId emptyTree(ObjectInserter oi) throws IOException {
     return oi.insert(Constants.OBJ_TREE, new byte[] {});
+  }
+
+  protected static ObjectInserter getPackInserterFirst(Repository repo) {
+    if (repo instanceof FileRepository) {
+      return ((FileRepository) repo).getObjectDatabase().newPackInserter();
+    }
+    return repo.getObjectDatabase().newInserter();
   }
 
   private static long countDone(Collection<Future> futures) {

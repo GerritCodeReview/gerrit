@@ -16,20 +16,25 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_GLOBAL;
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_PARENT;
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_GLOBAL;
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_PARENT;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toSet;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -41,6 +46,7 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelId;
@@ -74,9 +80,13 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -92,6 +102,7 @@ public class ProjectIT extends AbstractDaemonTest {
   private static final String JIRA = "jira";
   private static final String JIRA_LINK = "http://jira.example.com/?id=$2";
   private static final String JIRA_MATCH = "(jira\\\\s+#?)(\\\\d+)";
+  private static final String R_HEADS_MASTER = R_HEADS + "master";
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -1000,6 +1011,156 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(afterRename).hasValue(newName);
   }
 
+  @Test
+  public void commitsIncludedInRefsEmptyCommitAndEmptyRefs() throws Exception {
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> getCommitsIncludedInRefs(Collections.emptyList(), Arrays.asList(R_HEADS_MASTER)));
+    assertThat(thrown).hasMessageThat().contains("commit is required");
+    PushOneCommit.Result result = createChange();
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> getCommitsIncludedInRefs(result.getCommit().getName(), Collections.emptyList()));
+    assertThat(thrown).hasMessageThat().contains("ref is required");
+  }
+
+  @Test
+  public void commitsIncludedInRefsNonExistentCommits() throws Exception {
+    assertThat(
+            getCommitsIncludedInRefs(
+                Arrays.asList("foo", "4fa12ab8f257034ec793dacb2ae2752ae2e9f5f3"),
+                Arrays.asList(R_HEADS_MASTER)))
+        .isEmpty();
+  }
+
+  @Test
+  public void commitsIncludedInRefsNonExistentRefs() throws Exception {
+    PushOneCommit.Result change = createChange();
+    assertThat(
+            getCommitsIncludedInRefs(
+                Arrays.asList(change.getCommit().getName()), Arrays.asList(R_HEADS + "foo")))
+        .isEmpty();
+  }
+
+  @Test
+  public void commitsIncludedInRefsOpenChange() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    testRepo.reset(change1.getCommit().getParent(0));
+    PushOneCommit.Result change2 = createChange();
+
+    Map<String, Set<String>> refsByCommit =
+        getCommitsIncludedInRefs(
+            Arrays.asList(change1.getCommit().getName(), change2.getCommit().getName()),
+            Arrays.asList(
+                R_HEADS_MASTER, change1.getPatchSet().refName(), change2.getPatchSet().refName()));
+    assertThat(refsByCommit.get(change2.getCommit().getName()))
+        .containsExactly(change2.getPatchSet().refName());
+    assertThat(refsByCommit.get(change1.getCommit().getName()))
+        .containsExactly(change1.getPatchSet().refName());
+  }
+
+  @Test
+  public void commitsIncludedInRefsMergedChange() throws Exception {
+    String branchWithoutChanges = R_HEADS + "branch-without-changes";
+    String tagWithChange1 = R_TAGS + "tag-with-change1";
+    String branchWithChange1 = R_HEADS + "branch-with-change1";
+
+    createBranch(BranchNameKey.create(project, "branch-without-changes"));
+    PushOneCommit.Result change1 = createAndSubmitChange("refs/for/master");
+
+    assertThat(
+            getCommitsIncludedInRefs(change1.getCommit().getName(), Arrays.asList(R_HEADS_MASTER)))
+        .containsExactly(R_HEADS_MASTER);
+    assertThat(
+            getCommitsIncludedInRefs(
+                change1.getCommit().getName(), Arrays.asList(R_HEADS_MASTER, branchWithoutChanges)))
+        .containsExactly(R_HEADS_MASTER);
+
+    pushHead(testRepo, tagWithChange1, false, false);
+    createBranch(BranchNameKey.create(project, "branch-with-change1"));
+
+    PushOneCommit.Result change2 = createAndSubmitChange("refs/for/master");
+    Map<String, Set<String>> refsByCommit =
+        getCommitsIncludedInRefs(
+            Arrays.asList(change1.getCommit().getName(), change2.getCommit().getName()),
+            Arrays.asList(R_HEADS_MASTER, tagWithChange1, branchWithoutChanges, branchWithChange1));
+    assertThat(refsByCommit.get(change1.getCommit().getName()))
+        .containsExactly(R_HEADS_MASTER, tagWithChange1, branchWithChange1);
+    assertThat(refsByCommit.get(change2.getCommit().getName())).containsExactly(R_HEADS_MASTER);
+  }
+
+  @Test
+  public void commitsIncludedInRefsMergedChangeNonTipCommit() throws Exception {
+    String branchWithChange1 = R_HEADS + "branch-with-change1";
+    String tagWithChange1 = R_TAGS + "tag-with-change1";
+    String branchWithChange1Change2 = R_HEADS + "branch-with-change1-change2";
+    String tagWithChange1Change2 = R_TAGS + "tag-with-change1-change2";
+
+    createBranch(BranchNameKey.create(project, "branch-with-change1"));
+    PushOneCommit.Result change1 = createAndSubmitChange("refs/for/branch-with-change1");
+    pushHead(testRepo, tagWithChange1, false, false);
+    createBranch(BranchNameKey.create(project, "branch-with-change1-change2"));
+    PushOneCommit.Result change2 = createAndSubmitChange("refs/for/branch-with-change1-change2");
+    pushHead(testRepo, tagWithChange1Change2, false, false);
+
+    Map<String, Set<String>> refsByCommit =
+        getCommitsIncludedInRefs(
+            Arrays.asList(change1.getCommit().getName(), change2.getCommit().getName()),
+            Arrays.asList(
+                branchWithChange1,
+                branchWithChange1Change2,
+                tagWithChange1,
+                tagWithChange1Change2));
+    assertThat(refsByCommit.get(change1.getCommit().getName()))
+        .containsExactly(
+            branchWithChange1, branchWithChange1Change2, tagWithChange1, tagWithChange1Change2);
+    assertThat(refsByCommit.get(change2.getCommit().getName()))
+        .containsExactly(branchWithChange1Change2, tagWithChange1Change2);
+  }
+
+  @Test
+  public void commitsIncludedInRefsMergedChangeFilterNonVisibleBranchRef() throws Exception {
+    String nonVisibleBranch = R_HEADS + "non-visible-branch";
+    PushOneCommit.Result change = createAndSubmitChange("refs/for/master");
+    createBranch(BranchNameKey.create(project, "non-visible-branch"));
+    blockReadPermission(nonVisibleBranch);
+
+    assertThat(
+            getCommitsIncludedInRefs(
+                change.getCommit().getName(), Arrays.asList(R_HEADS_MASTER, nonVisibleBranch)))
+        .containsExactly(R_HEADS_MASTER);
+  }
+
+  @Test
+  public void commitsIncludedInRefsMergedChangeFilterNonVisibleTagRef() throws Exception {
+    String nonVisibleTag = R_TAGS + "non-visible-tag";
+    PushOneCommit.Result change = createAndSubmitChange("refs/for/master");
+    pushHead(testRepo, nonVisibleTag, false, false);
+    // Tag permissions are controlled by read permissions on branches. Blocking read permission
+    // on master so that tag-with-change becomes non-visible
+    blockReadPermission(R_HEADS_MASTER);
+
+    assertThat(
+            getCommitsIncludedInRefs(
+                change.getCommit().getName(), Arrays.asList(R_HEADS_MASTER, nonVisibleTag)))
+        .isNull();
+  }
+
+  @Test
+  public void commitsIncludedInRefsFilterNonVisibleChangeRef() throws Exception {
+    PushOneCommit.Result change = createChange("refs/for/master");
+    // change ref permissions are controlled by read permissions on destination branch.
+    // Blocking read permission on master so that refs/changes/01/1/1 becomes non-visible
+    blockReadPermission(R_HEADS_MASTER);
+
+    assertThat(
+            getCommitsIncludedInRefs(
+                change.getCommit().getName(), Arrays.asList(change.getPatchSet().refName())))
+        .isNull();
+  }
+
   private CommentLinkInfo commentLinkInfo(String name, String match, String link) {
     CommentLinkInfo info = new CommentLinkInfo();
     info.name = name;
@@ -1037,6 +1198,30 @@ public class ProjectIT extends AbstractDaemonTest {
 
   private ConfigInfo getConfig() throws Exception {
     return getConfig(project);
+  }
+
+  private Set<String> getCommitsIncludedInRefs(String commit, List<String> refs) throws Exception {
+    return getCommitsIncludedInRefs(Lists.newArrayList(commit), refs).get(commit);
+  }
+
+  private Map<String, Set<String>> getCommitsIncludedInRefs(List<String> commits, List<String> refs)
+      throws Exception {
+    return gApi.projects().name(project.get()).commitsIn(commits, refs);
+  }
+
+  private PushOneCommit.Result createAndSubmitChange(String branch) throws Exception {
+    PushOneCommit.Result r = createChange(branch);
+    approve(r.getChangeId());
+    gApi.changes().id(r.getChangeId()).current().submit();
+    return r;
+  }
+
+  private void blockReadPermission(String ref) {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref(ref).group(REGISTERED_USERS))
+        .update();
   }
 
   private ConfigInput createTestConfigInput() {

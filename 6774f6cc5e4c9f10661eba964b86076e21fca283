@@ -142,6 +142,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce13ab03_6eb95036",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-28T15:56:01Z",
+      "side": 1,
+      "message": "\u003e I couldn\u0027t decide if singular or plural was correct here. Each commit has one set of full ref names. \"sets\" makes me think each commit could have multiple sets of refs.\n\nI think it\u0027s plural because you are using \"to\" which makes both sides plural, \"commits\" TO \"sets\". However if you use the term \"by\", then it would be singular \"commit\" BY \"set\".",
+      "parentUuid": "b73e2cf2_076ecfe3",
+      "revId": "6774f6cc5e4c9f10661eba964b86076e21fca283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72d5b606_94abd7a1",

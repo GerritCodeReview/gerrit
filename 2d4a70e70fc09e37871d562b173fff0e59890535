@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf3f1ffa_543fca37",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-28T15:56:01Z",
+      "side": 1,
+      "message": "Nit: This \"comma\" here seems to disrupt associating \"visible\" with \"refs\"?",
+      "range": {
+        "startLine": 1555,
+        "startChar": 30,
+        "endLine": 1555,
+        "endChar": 32
+      },
+      "revId": "2d4a70e70fc09e37871d562b173fff0e59890535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

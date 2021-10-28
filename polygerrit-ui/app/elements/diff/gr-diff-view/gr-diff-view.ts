@@ -1027,6 +1027,13 @@ export class GrDiffView extends base {
       return;
     }
 
+    // The diff view is kept in the background once created. If the user
+    // scrolls in the change page, the scrolling is reflected in the diff view
+    // as well, which means the diff is scrolled to a random position based
+    // on how much the change view was scrolled.
+    // Hence, reset the scroll position here.
+    document.documentElement.scrollTop = 0;
+
     // Everything in the diff view is tied to the change. It seems better to
     // force the re-creation of the diff view when the change number changes.
     const changeChanged = this._changeNum !== value.changeNum;

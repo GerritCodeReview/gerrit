@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52c0cc8c_09855a3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-28T16:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "febd515b_b46eb94c",
+      "revId": "f04e0056e9ca7d9ef132de222d6a7a23d4e3493f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4060b0ea_1356008c",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8c82922_2d3e2519",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-28T16:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4060b0ea_1356008c",
+      "revId": "f04e0056e9ca7d9ef132de222d6a7a23d4e3493f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c503588b_428e9d55",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-10-28T12:38:57Z",
       "side": 1,
       "message": "remove empty line",
+      "revId": "f04e0056e9ca7d9ef132de222d6a7a23d4e3493f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f2d5ace_31dfd917",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-28T16:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c503588b_428e9d55",
       "revId": "f04e0056e9ca7d9ef132de222d6a7a23d4e3493f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -82,6 +136,24 @@
       "writtenOn": "2021-10-28T12:38:57Z",
       "side": 1,
       "message": "Remove this local variable?",
+      "revId": "f04e0056e9ca7d9ef132de222d6a7a23d4e3493f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "635797e4_bd0541a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-28T16:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e77f8bd6_505fee8a",
       "revId": "f04e0056e9ca7d9ef132de222d6a7a23d4e3493f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -117,6 +117,30 @@
       },
       "revId": "75ffdc9d7e2354861fde097f580306a9f68e9603",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e2616ed_8894a75d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-10-28T16:14:55Z",
+      "side": 1,
+      "message": "This code path is only triggered when we are sure that we don\u0027t need to reload.\n\nIn case we need to reload, we will request a new ChangeDetail object. Using the old\nchange object means that using computeLatestPatchNum(this._allPatchSets) will return the incorrect patchset.\n\nUnless you meant passing the forceReload information to the newly created methods?",
+      "parentUuid": "d2c5839a_2fadd2df",
+      "range": {
+        "startLine": 1247,
+        "startChar": 6,
+        "endLine": 1253,
+        "endChar": 7
+      },
+      "revId": "75ffdc9d7e2354861fde097f580306a9f68e9603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

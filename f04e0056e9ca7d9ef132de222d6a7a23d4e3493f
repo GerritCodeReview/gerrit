@@ -1,6 +1,57 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "febd515b_b46eb94c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T12:38:57Z",
+      "side": 1,
+      "message": "Add empty line after paragraph.",
+      "revId": "f04e0056e9ca7d9ef132de222d6a7a23d4e3493f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4060b0ea_1356008c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T12:38:57Z",
+      "side": 1,
+      "message": "add empty line before Google-Bug-Id",
+      "revId": "f04e0056e9ca7d9ef132de222d6a7a23d4e3493f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c503588b_428e9d55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T12:38:57Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "f04e0056e9ca7d9ef132de222d6a7a23d4e3493f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f5c53e55_d5da9e75",
@@ -14,6 +65,23 @@
       "writtenOn": "2021-10-28T07:36:02Z",
       "side": 1,
       "message": "PTAL",
+      "revId": "f04e0056e9ca7d9ef132de222d6a7a23d4e3493f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e77f8bd6_505fee8a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T12:38:57Z",
+      "side": 1,
+      "message": "Remove this local variable?",
       "revId": "f04e0056e9ca7d9ef132de222d6a7a23d4e3493f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

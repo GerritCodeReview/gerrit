@@ -61,7 +61,7 @@ This option automatically implies '--enable-sshd'.
 	Run init before starting the daemon. This will create a new site or
 	upgrade an existing site.
 
---s::
+-s::
 	Start link:dev-inspector.html[Gerrit Inspector] on the console, a
 	built-in interactive inspection environment to assist debugging and
 	troubleshooting of Gerrit code.

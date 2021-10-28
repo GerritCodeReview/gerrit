@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f747b96c_8d1ab33a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T13:21:51Z",
+      "side": 1,
+      "message": "I would recommend adding a `arrowCenterOffset` property to GrTooltip, then do\n\n  styles \u003d { marginLeft: this.arrowCenterOffset };\n  \nin line 90 and then\n\n  \u003ci class\u003d\"arrowPositionBelow arrow\" style\u003d\"${styleMap(this.styles)}\"\u003e\n  \nIn GrTooltipContent you can then just do\n\n  tooltip.arrowCenterOffset \u003d ...\n  \nThus you avoid the entire updateStyle() problems.",
+      "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cd3e9c4_275549e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T13:21:51Z",
+      "side": 1,
+      "message": "Use the same trick as suggested above to avoid calling `updateStyles()`. You will not even need to override `updated` then.",
+      "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83cd2492_c883aeed",
         "filename": "polygerrit-ui/app/utils/dom-util.ts",
         "patchSetId": 8
@@ -14,6 +48,24 @@
       "writtenOn": "2021-10-28T11:50:00Z",
       "side": 1,
       "message": "What if we don\u0027t have ShadyCSS?\n@brohlfs: I\u0027m not too familiar with ShadyCSS so would love your input here.",
+      "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a46edce3_c1b6bb44",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T13:21:51Z",
+      "side": 1,
+      "message": "We should get rid of `updateStyles()` and the dependency on ShadyCSS while migrating to Lit.",
+      "parentUuid": "83cd2492_c883aeed",
       "revId": "e7992d49cd6515ffe87ca69612a028054c376aa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

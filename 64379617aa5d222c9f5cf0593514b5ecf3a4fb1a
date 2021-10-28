@@ -16,6 +16,23 @@
       "message": "Thanks @Orgad for re-mergeing it, was in the middle of the process when realised that someone did it already ;)",
       "revId": "64379617aa5d222c9f5cf0593514b5ecf3a4fb1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d33dc5a3_c8707cb3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-10-28T07:12:50Z",
+      "side": 1,
+      "message": "Any update on when this change is going to be merged ..? (waiting for a fix to be merged to stable-3.4)",
+      "revId": "64379617aa5d222c9f5cf0593514b5ecf3a4fb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

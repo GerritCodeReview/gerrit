@@ -46,7 +46,8 @@ export const htmlTemplate = html`
       width: 100%;
     }
     .comments,
-    .reviewers {
+    .reviewers,
+    .requirements {
       white-space: nowrap;
     }
     .reviewers {

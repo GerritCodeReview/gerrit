@@ -46,6 +46,30 @@
       },
       "revId": "7a16408e424ddf9fc5d8c3e00c98d8449c16d8da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6320411_25e7b39e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-28T10:20:50Z",
+      "side": 1,
+      "message": "Yes, 3.5 was created few days ago https://gerrit-review.googlesource.com/c/gerrit/+/321715.\n\nAdded these two changes in stable-3.5 https://gerrit-review.googlesource.com/c/gerrit/+/322256/1.\n\nWe can abandon this change and merge from stable-3.5 into master.",
+      "parentUuid": "6150b146_7f072509",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "7a16408e424ddf9fc5d8c3e00c98d8449c16d8da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

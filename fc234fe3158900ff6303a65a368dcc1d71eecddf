@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a14f0ed_99dfdd66",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T12:31:15Z",
+      "side": 1,
+      "message": "Change comment style from // to /** */.",
+      "revId": "fc234fe3158900ff6303a65a368dcc1d71eecddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5459072e_1eff5ca0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-28T12:31:15Z",
+      "side": 1,
+      "message": "Event listeners on document must be removed in the disconnectedCallback.",
+      "revId": "fc234fe3158900ff6303a65a368dcc1d71eecddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,7 @@ import {
 import {appContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {truncatePath} from '../../../utils/path-list-util';
 import {pluralize} from '../../../utils/string-util';
 import {
   changeIsOpen,
@@ -274,6 +275,7 @@ export class GrRelatedChangesList extends LitElement {
               ${this.renderMarkers(
                 submittedTogetherMarkersPredicate(index)
               )}<gr-related-change
+                .label="${this.renderChangeTitle(change)}"
                 .change="${change}"
                 .href="${GerritNav.getUrlForChangeById(
                   change._number,
@@ -324,6 +326,7 @@ export class GrRelatedChangesList extends LitElement {
                 sameTopicMarkersPredicate(index)
               )}<gr-related-change
                 .change="${change}"
+                .label="${this.renderChangeTitle(change)}"
                 .href="${GerritNav.getUrlForChangeById(
                   change._number,
                   change.project
@@ -424,8 +427,14 @@ export class GrRelatedChangesList extends LitElement {
     </section>`;
   }
 
-  private renderChangeLine(change: ChangeInfo) {
+  private renderChangeTitle(change: ChangeInfo) {
     return `${change.project}: ${change.branch}: ${change.subject}`;
+  }
+
+  private renderChangeLine(change: ChangeInfo) {
+    const truncatedRepo = truncatePath(change.project, 2);
+    return html`<span class="truncatedRepo" .title="${change.project}"
+      >${truncatedRepo}</span>: ${change.branch}: ${change.subject}`;
   }
 
   sectionSizeFactory(

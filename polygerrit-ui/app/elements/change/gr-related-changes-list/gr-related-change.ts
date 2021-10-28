@@ -35,6 +35,9 @@ export class GrRelatedChange extends LitElement {
   href?: string;
 
   @property()
+  label?: string;
+
+  @property()
   showSubmittableCheck = false;
 
   @property()
@@ -110,7 +113,10 @@ export class GrRelatedChange extends LitElement {
     const linkClass = this._computeLinkClass(change);
     return html`
       <div class="changeContainer">
-        <a href="${ifDefined(this.href)}" class="${linkClass}"><slot></slot></a>
+        <a
+          href="${ifDefined(this.href)}"
+          aria-label="${ifDefined(this.label)}"
+          class="${linkClass}"><slot></slot></a>
         ${this.showSubmittableCheck
           ? html`<span
               tabindex="-1"

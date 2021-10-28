@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4398737b_07196cf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-28T12:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c35f801_e6192333",
+      "range": {
+        "startLine": 17,
+        "startChar": 24,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "dc2cbcf542cc9405a5a13de7e2d0ed7f859af449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6490177e_6e30f2bb",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64a9cb9f_073984e9",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-28T12:42:40Z",
+      "side": 1,
+      "message": "Right. I updated the documentation and modified the code s.t. it throws an exception.",
+      "parentUuid": "6490177e_6e30f2bb",
+      "revId": "dc2cbcf542cc9405a5a13de7e2d0ed7f859af449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e39effd7_ed014e11",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-10-28T12:10:13Z",
       "side": 1,
       "message": "why is this commented out?",
+      "range": {
+        "startLine": 1139,
+        "startChar": 4,
+        "endLine": 1145,
+        "endChar": 31
+      },
+      "revId": "dc2cbcf542cc9405a5a13de7e2d0ed7f859af449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73afe891_3a674cc5",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1145,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-28T12:42:40Z",
+      "side": 1,
+      "message": "Thanks for catching, I forgot to delete. I uncommented and adjusted the assert statement to throw a QueryParseException.\n\nDone.",
+      "parentUuid": "e39effd7_ed014e11",
       "range": {
         "startLine": 1139,
         "startChar": 4,

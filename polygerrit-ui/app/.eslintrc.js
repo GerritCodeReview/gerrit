@@ -435,7 +435,7 @@ module.exports = {
     'html',
     'jsdoc',
     'import',
-    'lit',
+    // 'lit',
     'prettier',
     'regex',
   ],

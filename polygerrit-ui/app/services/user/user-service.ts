@@ -16,12 +16,17 @@
  */
 import {from, of, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
-import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
+import {
+  AccountCapabilityInfo,
+  AccountDetailInfo,
+  PreferencesInfo,
+} from '../../types/common';
 import {
   account$,
   updateAccount,
   updatePreferences,
   updateDiffPreferences,
+  updateCapabilities,
 } from './user-model';
 import {
   createDefaultPreferences,
@@ -35,10 +40,12 @@ export class UserService implements Finalizable {
   private readonly subscriptions: Subscription[] = [];
 
   constructor(readonly restApiService: RestApiService) {
-    from(this.restApiService.getAccount()).subscribe(
-      (account?: AccountDetailInfo) => {
-        updateAccount(account);
-      }
+    this.subscriptions.push(
+      from(this.restApiService.getAccount()).subscribe(
+        (account?: AccountDetailInfo) => {
+          updateAccount(account);
+        }
+      )
     );
     this.subscriptions.push(
       account$
@@ -50,6 +57,18 @@ export class UserService implements Finalizable {
         )
         .subscribe((preferences?: PreferencesInfo) => {
           updatePreferences(preferences ?? createDefaultPreferences());
+        })
+    );
+    this.subscriptions.push(
+      account$
+        .pipe(
+          switchMap(account => {
+            if (!account) return of(undefined);
+            return from(this.restApiService.getAccountCapabilities());
+          })
+        )
+        .subscribe((capabilities?: AccountCapabilityInfo) => {
+          updateCapabilities(capabilities);
         })
     );
     this.subscriptions.push(

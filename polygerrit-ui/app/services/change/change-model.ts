@@ -38,6 +38,7 @@ import {
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
 import {ParsedChangeInfo} from '../../types/types';
+import {fireAlert} from '../../utils/event-util';
 
 import {ChangeInfo} from '../../types/common';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
@@ -64,6 +65,12 @@ export interface ChangeState {
    * Does not apply to change-view or edit-view.
    */
   diffPath?: string;
+  /**
+   * The list of reviewed files, kept in the model because we want changes made
+   * in one view to reflect on other views without re-rendering the other views.
+   * Undefined means it's still loading and empty set means no files reviewed.
+   */
+  reviewedFiles?: string[];
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?

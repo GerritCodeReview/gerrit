@@ -678,6 +678,14 @@ have to be deleted manually by deleting the respective external ID.
 +
 Default is false.
 
+[[auth.userNameCaseInsensitiveMigrationMode]]auth.userNameCaseInsensitiveMigrationMode::
++
+Setting migration mode to true allows to fallback to case sensitive
+behaviour if the migrated external ID cannot be found. This allows to
+trigger the migration while Gerrit process is running.
++
+Default is false.
+
 [[auth.enableRunAs]]auth.enableRunAs::
 +
 If true HTTP REST APIs will accept the `X-Gerrit-RunAs` HTTP request

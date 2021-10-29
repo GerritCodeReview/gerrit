@@ -948,10 +948,6 @@ public class ChangeData {
    * com.google.gerrit.server.index.change.ChangeField#STORED_SUBMIT_REQUIREMENTS}.
    */
   public Map<SubmitRequirement, SubmitRequirementResult> submitRequirements() {
-    if (!experimentFeatures.isFeatureEnabled(
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)) {
-      return Collections.emptyMap();
-    }
     if (submitRequirements == null) {
       if (!lazyload()) {
         return Collections.emptyMap();

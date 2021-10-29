@@ -40,7 +40,6 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   private final Provider<SubmitRequirementChangeQueryBuilder> queryBuilder;
   private final ProjectCache projectCache;
-  private final SubmitRuleEvaluator.Factory legacyEvaluator;
 
   public static Module module() {
     return new AbstractModule() {
@@ -55,12 +54,9 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   @Inject
   private SubmitRequirementsEvaluatorImpl(
-      Provider<SubmitRequirementChangeQueryBuilder> queryBuilder,
-      ProjectCache projectCache,
-      SubmitRuleEvaluator.Factory legacyEvaluator) {
+      Provider<SubmitRequirementChangeQueryBuilder> queryBuilder, ProjectCache projectCache) {
     this.queryBuilder = queryBuilder;
     this.projectCache = projectCache;
-    this.legacyEvaluator = legacyEvaluator;
   }
 
   @Override
@@ -76,7 +72,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     Map<SubmitRequirement, SubmitRequirementResult> result = projectConfigRequirements;
     if (includeLegacy) {
       Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
-          SubmitRequirementsAdapter.getLegacyRequirements(legacyEvaluator, cd);
+          SubmitRequirementsAdapter.getLegacyRequirements(cd);
       result =
           SubmitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
               projectConfigRequirements, legacyReqs);

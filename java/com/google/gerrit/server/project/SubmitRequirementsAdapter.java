@@ -48,11 +48,11 @@ public class SubmitRequirementsAdapter {
    * com.google.gerrit.server.rules.SubmitRule}s) and convert them to submit requirement results.
    */
   public static Map<SubmitRequirement, SubmitRequirementResult> getLegacyRequirements(
-      SubmitRuleEvaluator.Factory evaluator, ChangeData cd) {
+      ChangeData cd) {
     // We use SubmitRuleOptions.defaults() which does not recompute submit rules for closed changes.
     // This doesn't have an effect since we never call this class (i.e. to evaluate submit
     // requirements) for closed changes.
-    List<SubmitRecord> records = evaluator.create(SubmitRuleOptions.defaults()).evaluate(cd);
+    List<SubmitRecord> records = cd.submitRecords(SubmitRuleOptions.defaults());
     List<LabelType> labelTypes = cd.getLabelTypes().getLabelTypes();
     ObjectId commitId = cd.currentPatchSet().commitId();
     return records.stream()

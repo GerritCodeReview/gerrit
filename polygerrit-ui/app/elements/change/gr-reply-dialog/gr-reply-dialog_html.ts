@@ -394,9 +394,6 @@ export const htmlTemplate = html`
         id="commentList"
         hidden$="[[!_includeComments]]"
         threads="[[draftCommentThreads]]"
-        change="[[change]]"
-        change-num="[[change._number]]"
-        logged-in="true"
         hide-dropdown=""
       >
       </gr-thread-list>

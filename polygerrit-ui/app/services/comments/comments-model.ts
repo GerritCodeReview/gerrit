@@ -16,22 +16,35 @@
  */
 
 import {BehaviorSubject, Observable} from 'rxjs';
-import {distinctUntilChanged, map} from 'rxjs/operators';
+import {distinctUntilChanged, map, shareReplay} from 'rxjs/operators';
 import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
 import {
   CommentInfo,
   PathToCommentsInfoMap,
   RobotCommentInfo,
+  UrlEncodedCommentId,
 } from '../../types/common';
-import {addPath, DraftInfo} from '../../utils/comment-util';
+import {
+  addDraftProp,
+  addPath,
+  DraftInfo,
+  isDraft,
+  isUnsaved,
+} from '../../utils/comment-util';
+import {deepEqual} from '../../utils/deep-util';
 
 interface CommentState {
   /** undefined means 'still loading' */
   comments?: PathToCommentsInfoMap;
   /** undefined means 'still loading' */
   robotComments?: {[path: string]: RobotCommentInfo[]};
+  // All drafts are DraftInfo objects and have __draft = true set.
+  // Drafts have an id and are known to the backend. Unsaved drafts
+  // (see UnsavedInfo) do NOT belong in the application model.
   /** undefined means 'still loading' */
   drafts?: {[path: string]: DraftInfo[]};
+  // Ported comments only affect `CommentThread` properties, not individual
+  // comments.
   /** undefined means 'still loading' */
   portedComments?: PathToCommentsInfoMap;
   /** undefined means 'still loading' */
@@ -80,27 +93,31 @@ export const commentsLoading$ = commentState$.pipe(
       commentState.robotComments === undefined ||
       commentState.drafts === undefined
   ),
-  distinctUntilChanged()
+  distinctUntilChanged(deepEqual)
 );
 
 export const comments$ = commentState$.pipe(
   map(commentState => commentState.comments),
-  distinctUntilChanged()
+  distinctUntilChanged(deepEqual),
+  shareReplay(1)
 );
 
 export const drafts$ = commentState$.pipe(
   map(commentState => commentState.drafts),
-  distinctUntilChanged()
+  distinctUntilChanged(deepEqual),
+  shareReplay(1)
 );
 
 export const portedComments$ = commentState$.pipe(
   map(commentState => commentState.portedComments),
-  distinctUntilChanged()
+  distinctUntilChanged(deepEqual),
+  shareReplay(1)
 );
 
 export const discardedDrafts$ = commentState$.pipe(
   map(commentState => commentState.discardedDrafts),
-  distinctUntilChanged()
+  distinctUntilChanged(deepEqual),
+  shareReplay(1)
 );
 
 // Emits a new value even if only a single draft is changed. Components should
@@ -115,12 +132,18 @@ export const changeComments$ = commentState$.pipe(
         commentState.portedComments,
         commentState.portedDrafts
       )
-  )
+  ),
+  shareReplay(1)
 );
 
 export const threads$ = changeComments$.pipe(
-  map(changeComments => changeComments.getAllThreadsForChange())
+  map(changeComments => changeComments.getAllThreadsForChange()),
+  shareReplay(1)
 );
+
+export function thread$(id: UrlEncodedCommentId) {
+  return threads$.pipe(map(threads => threads.find(t => t.rootId === id)));
+}
 
 function publishState(state: CommentState) {
   privateState$.next(state);
@@ -135,6 +158,7 @@ export function updateStateComments(comments?: {
   [path: string]: CommentInfo[];
 }) {
   const nextState = {...privateState$.getValue()};
+  if (deepEqual(comments, nextState.comments)) return;
   nextState.comments = addPath(comments) || {};
   publishState(nextState);
 }
@@ -143,13 +167,15 @@ export function updateStateRobotComments(robotComments?: {
   [path: string]: RobotCommentInfo[];
 }) {
   const nextState = {...privateState$.getValue()};
+  if (deepEqual(robotComments, nextState.robotComments)) return;
   nextState.robotComments = addPath(robotComments) || {};
   publishState(nextState);
 }
 
 export function updateStateDrafts(drafts?: {[path: string]: DraftInfo[]}) {
   const nextState = {...privateState$.getValue()};
-  nextState.drafts = addPath(drafts) || {};
+  if (deepEqual(drafts, nextState.drafts)) return;
+  nextState.drafts = addDraftProp(addPath(drafts));
   publishState(nextState);
 }
 
@@ -157,23 +183,25 @@ export function updateStatePortedComments(
   portedComments?: PathToCommentsInfoMap
 ) {
   const nextState = {...privateState$.getValue()};
+  if (deepEqual(portedComments, nextState.portedComments)) return;
   nextState.portedComments = portedComments || {};
   publishState(nextState);
 }
 
 export function updateStatePortedDrafts(portedDrafts?: PathToCommentsInfoMap) {
   const nextState = {...privateState$.getValue()};
+  if (deepEqual(portedDrafts, nextState.portedDrafts)) return;
   nextState.portedDrafts = portedDrafts || {};
   publishState(nextState);
 }
 
-export function updateStateAddDiscardedDraft(draft: DraftInfo) {
+export function updateStateSetDiscardedDraft(draft: DraftInfo) {
   const nextState = {...privateState$.getValue()};
   nextState.discardedDrafts = [...nextState.discardedDrafts, draft];
   publishState(nextState);
 }
 
-export function updateStateUndoDiscardedDraft(draftID?: string) {
+export function updateStateDeleteDiscardedDraft(draftID?: string) {
   const nextState = {...privateState$.getValue()};
   const drafts = [...nextState.discardedDrafts];
   const index = drafts.findIndex(d => d.id === draftID);
@@ -185,18 +213,18 @@ export function updateStateUndoDiscardedDraft(draftID?: string) {
   publishState(nextState);
 }
 
-export function updateStateAddDraft(draft: DraftInfo) {
+/** Adds or updates a draft. */
+export function updateStateSetDraft(draft: DraftInfo) {
   const nextState = {...privateState$.getValue()};
   if (!draft.path) throw new Error('draft path undefined');
+  if (!isDraft(draft)) throw new Error('draft is not a draft');
+  if (isUnsaved(draft)) throw new Error('unsaved drafts dont belong to model');
+
   nextState.drafts = {...nextState.drafts};
   const drafts = nextState.drafts;
   if (!drafts[draft.path]) drafts[draft.path] = [] as DraftInfo[];
   else drafts[draft.path] = [...drafts[draft.path]];
-  const index = drafts[draft.path].findIndex(
-    d =>
-      (d.__draftID && d.__draftID === draft.__draftID) ||
-      (d.id && d.id === draft.id)
-  );
+  const index = drafts[draft.path].findIndex(d => d.id && d.id === draft.id);
   if (index !== -1) {
     drafts[draft.path][index] = draft;
   } else {
@@ -205,38 +233,20 @@ export function updateStateAddDraft(draft: DraftInfo) {
   publishState(nextState);
 }
 
-export function updateStateUpdateDraft(draft: DraftInfo) {
-  const nextState = {...privateState$.getValue()};
-  if (!draft.path) throw new Error('draft path undefined');
-  nextState.drafts = {...nextState.drafts};
-  const drafts = nextState.drafts;
-  if (!drafts[draft.path])
-    throw new Error('draft: trying to edit non-existent draft');
-  drafts[draft.path] = [...drafts[draft.path]];
-  const index = drafts[draft.path].findIndex(
-    d =>
-      (d.__draftID && d.__draftID === draft.__draftID) ||
-      (d.id && d.id === draft.id)
-  );
-  if (index === -1) return;
-  drafts[draft.path][index] = draft;
-  publishState(nextState);
-}
-
 export function updateStateDeleteDraft(draft: DraftInfo) {
   const nextState = {...privateState$.getValue()};
   if (!draft.path) throw new Error('draft path undefined');
+  if (!isDraft(draft)) throw new Error('draft is not a draft');
+  if (isUnsaved(draft)) throw new Error('unsaved drafts dont belong to model');
   nextState.drafts = {...nextState.drafts};
   const drafts = nextState.drafts;
   const index = (drafts[draft.path] || []).findIndex(
-    d =>
-      (d.__draftID && d.__draftID === draft.__draftID) ||
-      (d.id && d.id === draft.id)
+    d => d.id && d.id === draft.id
   );
   if (index === -1) return;
   const discardedDraft = drafts[draft.path][index];
   drafts[draft.path] = [...drafts[draft.path]];
   drafts[draft.path].splice(index, 1);
   publishState(nextState);
-  updateStateAddDiscardedDraft(discardedDraft);
+  updateStateSetDiscardedDraft(discardedDraft);
 }

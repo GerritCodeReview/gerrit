@@ -15,14 +15,27 @@
  * limitations under the License.
  */
 import {routerChangeNum$} from '../router/router-model';
-import {change$, updateStateChange, updateStatePath} from './change-model';
+import {
+  change$,
+  updateStateChange,
+  updateStatePath,
+  currentPatchNum$,
+  changeNum$,
+  updateStateReviewedFiles,
+  updateStateFileReviewed,
+} from './change-model';
 import {ParsedChangeInfo} from '../../types/types';
 import {appContext} from '../app-context';
-import {ChangeInfo} from '../../types/common';
+import {ChangeInfo, PatchSetNum, NumericChangeId} from '../../types/common';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
+import {combineLatest} from 'rxjs';
+import {fireAlert} from '../../utils/event-util';
+import { filter } from 'rxjs/operators';
+
+const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
 export class ChangeService {
   private change?: ParsedChangeInfo | ChangeInfo;
@@ -39,6 +52,43 @@ export class ChangeService {
     change$.subscribe(change => {
       this.change = change;
     });
+    combineLatest([currentPatchNum$, changeNum$]).pipe(
+      filter(
+        ([currentPatchNum, changeNum]) => !!currentPatchNum && !!changeNum
+      )
+    ).subscribe(
+      ([currentPatchNum, changeNum]) => {
+        this.getReviewedFiles(currentPatchNum, changeNum);
+      }
+    );
+  }
+
+  getReviewedFiles(currentPatchNum?: PatchSetNum, changeNum?: NumericChangeId) {
+    if (!currentPatchNum || !changeNum) return;
+    this.restApiService.getLoggedIn().then(loggedIn => {
+      if (!loggedIn) return;
+      this.restApiService
+        .getReviewedFiles(changeNum, currentPatchNum)
+        .then(files => {
+          updateStateReviewedFiles(new Set(files ?? []));
+        });
+    });
+  }
+
+  setReviewedFilesStatus(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    file: string,
+    reviewed: boolean
+  ) {
+    return this.restApiService
+      .saveFileReviewed(changeNum, patchNum, file, reviewed)
+      .then(() => {
+        updateStateFileReviewed(file, reviewed);
+      })
+      .catch(() => {
+        fireAlert(document, ERR_REVIEW_STATUS);
+      });
   }
 
   /**

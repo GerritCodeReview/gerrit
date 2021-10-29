@@ -93,6 +93,8 @@ import org.eclipse.jgit.util.MutableInteger;
 import org.junit.Test;
 
 public class ExternalIdIT extends AbstractDaemonTest {
+  private static final boolean IS_USER_NAME_CASE_INSENSITIVE_MIGRATION_MODE = false;
+
   @Inject @ServerInitiated private Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private ExternalIds externalIds;
   @Inject private ExternalIdReader externalIdReader;
@@ -918,7 +920,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       // Inserting an external ID "behind Gerrit's back" means that the caches are not updated.
       ExternalIdNotes extIdNotes =
-          ExternalIdNotes.loadNoCacheUpdate(allUsers, repo, externalIdFactory);
+          ExternalIdNotes.loadNoCacheUpdate(
+              allUsers, repo, externalIdFactory, IS_USER_NAME_CASE_INSENSITIVE_MIGRATION_MODE);
       extIdNotes.insert(extId);
       try (MetaDataUpdate metaDataUpdate =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {

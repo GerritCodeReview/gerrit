@@ -65,6 +65,11 @@ public class ExternalIdKeyFactory {
    * @return the created external ID key
    */
   public ExternalId.Key create(@Nullable String scheme, String id) {
+    return create(scheme, id, isUserNameCaseInsensitive);
+  }
+
+  public ExternalId.Key create(
+      @Nullable String scheme, String id, boolean isUserNameCaseInsensitive) {
     if (scheme != null
         && (scheme.equals(ExternalId.SCHEME_USERNAME) || scheme.equals(ExternalId.SCHEME_GERRIT))) {
       return ExternalId.Key.create(scheme, id, isUserNameCaseInsensitive);

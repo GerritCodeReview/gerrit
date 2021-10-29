@@ -87,6 +87,24 @@
       "parentUuid": "c9d01321_cdef084a",
       "revId": "3806ec3a295be7a56cb86fad0fef443399e0cc2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0df79d5f_8153ceb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-29T08:29:04Z",
+      "side": 1,
+      "message": "\u003e Ah wait, it\u0027s inherited, so project owners might be overly board already.\n\nI didn\u0027t get that. Could you please explain?\n\n\u003e And do we need the boolean field in the API (vs just leaving the expression etc blank/null?)\n\nYes, to make the distinction between \"there is no applicability condition, i.e. SR is applicable to all changes\" vs. \"there is, but it\u0027s hidden\".",
+      "parentUuid": "0f4a302a_b2028485",
+      "revId": "3806ec3a295be7a56cb86fad0fef443399e0cc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ae3c0c2_ac6af363",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-29T09:14:34Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "93987da0d3161c144401b6918527c3cec82e0aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d295e1e6_e0fcfc0f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group_test.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-29T09:14:34Z",
+      "side": 1,
+      "message": "revert",
+      "revId": "93987da0d3161c144401b6918527c3cec82e0aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

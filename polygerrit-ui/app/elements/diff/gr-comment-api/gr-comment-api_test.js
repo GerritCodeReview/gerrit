@@ -20,7 +20,7 @@ import './gr-comment-api.js';
 import {ChangeComments} from './gr-comment-api.js';
 import {isInRevisionOfPatchRange, isInBaseOfPatchRange, isDraftThread, isUnresolved, createCommentThreads} from '../../../utils/comment-util.js';
 import {createDraft, createComment, createChangeComments, createCommentThread} from '../../../test/test-data-generators.js';
-import {CommentSide, Side} from '../../../constants/constants.js';
+import {CommentSide} from '../../../constants/constants.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
@@ -207,7 +207,6 @@ suite('gr-comment-api tests', () => {
             {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'});
         assert.equal(portedThreads.length, 1);
         assert.equal(portedThreads[0].line, 31);
-        assert.equal(portedThreads[0].diffSide, Side.LEFT);
 
         assert.equal(changeComments._getPortedCommentThreads(
             {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: -2}
@@ -363,6 +362,7 @@ suite('gr-comment-api tests', () => {
           ...createComment(),
           id: '01',
           patch_set: 2,
+          path: 'file/one',
           side: PARENT,
           line: 1,
           updated: makeTime(1),
@@ -379,6 +379,7 @@ suite('gr-comment-api tests', () => {
           id: '02',
           in_reply_to: '04',
           patch_set: 2,
+          path: 'file/one',
           unresolved: true,
           line: 1,
           updated: makeTime(3),
@@ -388,6 +389,7 @@ suite('gr-comment-api tests', () => {
           ...createComment(),
           id: '03',
           patch_set: 2,
+          path: 'file/one',
           side: PARENT,
           line: 2,
           updated: makeTime(1),
@@ -397,6 +399,7 @@ suite('gr-comment-api tests', () => {
           ...createComment(),
           id: '04',
           patch_set: 2,
+          path: 'file/one',
           line: 1,
           updated: makeTime(1),
         };
@@ -470,6 +473,7 @@ suite('gr-comment-api tests', () => {
           side: PARENT,
           line: 1,
           updated: makeTime(3),
+          path: 'file/one',
         };
 
         commentObjs['13'] = {
@@ -481,6 +485,7 @@ suite('gr-comment-api tests', () => {
           // Draft gets lower timestamp than published comment, because we
           // want to test that the draft still gets sorted to the end.
           updated: makeTime(2),
+          path: 'file/one',
         };
 
         commentObjs['14'] = {
@@ -597,10 +602,6 @@ suite('gr-comment-api tests', () => {
         const path = 'file/one';
         const drafts = element._changeComments.getAllDraftsForPath(path);
         assert.equal(drafts.length, 2);
-        const aCopyOfDrafts = element._changeComments
-            .getAllDraftsForPath(path);
-        assert.deepEqual(drafts, aCopyOfDrafts);
-        assert.notEqual(drafts[0], aCopyOfDrafts[0]);
       });
 
       test('computeUnresolvedNum', () => {
@@ -827,24 +828,6 @@ suite('gr-comment-api tests', () => {
         ];
         const threads = element._changeComments.getAllThreadsForChange();
         assert.deepEqual(threads, expectedThreads);
-      });
-
-      test('getCommentsForThreadGroup', () => {
-        let expectedComments = [
-          {...commentObjs['04'], path: 'file/one'},
-          {...commentObjs['02'], path: 'file/one'},
-          {...commentObjs['13'], path: 'file/one'},
-        ];
-        assert.deepEqual(element._changeComments.getCommentsForThread('04'),
-            expectedComments);
-
-        expectedComments = [{...commentObjs['12'], path: 'file/one'}];
-
-        assert.deepEqual(element._changeComments.getCommentsForThread('12'),
-            expectedComments);
-
-        assert.deepEqual(element._changeComments.getCommentsForThread('1000'),
-            null);
       });
     });
   });

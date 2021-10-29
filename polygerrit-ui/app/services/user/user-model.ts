@@ -14,7 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
+import {
+  AccountCapabilityInfo,
+  AccountDetailInfo,
+  PreferencesInfo,
+} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
 import {
@@ -30,6 +34,7 @@ interface UserState {
   account?: AccountDetailInfo;
   preferences: PreferencesInfo;
   diffPreferences: DiffPreferencesInfo;
+  capabilities?: AccountCapabilityInfo;
 }
 
 const initialState: UserState = {
@@ -72,6 +77,11 @@ export function updateDiffPreferences(diffPreferences: DiffPreferencesInfo) {
   privateState$.next({...current, diffPreferences});
 }
 
+export function updateCapabilities(capabilities?: AccountCapabilityInfo) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, capabilities});
+}
+
 export const account$ = userState$.pipe(
   map(userState => userState.account),
   distinctUntilChanged()
@@ -93,6 +103,11 @@ export const diffPreferences$ = userState$.pipe(
   distinctUntilChanged()
 );
 
+export const syntaxHighlightingEnabled$ = diffPreferences$.pipe(
+  map(diffPrefs => !!diffPrefs.syntax_highlighting),
+  distinctUntilChanged()
+);
+
 export const preferenceDiffViewMode$ = preferences$.pipe(
   map(preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE),
   distinctUntilChanged()
@@ -110,5 +125,20 @@ export const sizeBarInChangeTable$ = preferences$.pipe(
 
 export const disableShortcuts$ = preferences$.pipe(
   map(preferences => preferences?.disable_keyboard_shortcuts ?? false),
+  distinctUntilChanged()
+);
+
+export const disableTokenHighlighting$ = preferences$.pipe(
+  map(preferences => preferences?.disable_token_highlighting ?? false),
+  distinctUntilChanged()
+);
+
+export const capabilities$ = userState$.pipe(
+  map(userState => userState.capabilities),
+  distinctUntilChanged()
+);
+
+export const isAdmin$ = capabilities$.pipe(
+  map(capabilities => capabilities?.administrateServer ?? false),
   distinctUntilChanged()
 );

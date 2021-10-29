@@ -54,7 +54,7 @@ import {
 import {Timer} from '../../../services/gr-reporting/gr-reporting';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
 import {CreateFixCommentEvent} from '../../../types/events';
-import {DraftInfo, UIRobot} from '../../../utils/comment-util';
+import {DraftInfo, RobotCommentInfo} from '../../../utils/comment-util';
 import {MockTimer} from '../../../services/gr-reporting/gr-reporting_mock';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 
@@ -93,7 +93,7 @@ suite('gr-comment tests', () => {
         updated: '2015-12-08 19:48:33.843000000' as Timestamp,
       };
 
-      openOverlaySpy = sinon.spy(element, '_openOverlay');
+      openOverlaySpy = sinon.spy(element, 'openOverlay');
     });
 
     teardown(() => {
@@ -158,7 +158,7 @@ suite('gr-comment tests', () => {
 
     test('message is not retrieved from storage when missing path', async () => {
       const storageStub = stubStorage('getDraftComment');
-      const loadSpy = sinon.spy(element, '_loadLocalDraft');
+      const loadSpy = sinon.spy(element, 'loadLocalDraft');
 
       element.changeNum = 1 as NumericChangeId;
       element.patchNum = 1 as PatchSetNum;
@@ -176,7 +176,7 @@ suite('gr-comment tests', () => {
 
     test('message is not retrieved from storage when message present', async () => {
       const storageStub = stubStorage('getDraftComment');
-      const loadSpy = sinon.spy(element, '_loadLocalDraft');
+      const loadSpy = sinon.spy(element, 'loadLocalDraft');
 
       element.changeNum = 1 as NumericChangeId;
       element.patchNum = 1 as PatchSetNum;
@@ -198,7 +198,7 @@ suite('gr-comment tests', () => {
 
     test('message is retrieved from storage for drafts in edit', async () => {
       const storageStub = stubStorage('getDraftComment');
-      const loadSpy = sinon.spy(element, '_loadLocalDraft');
+      const loadSpy = sinon.spy(element, 'loadLocalDraft');
 
       element.changeNum = 1 as NumericChangeId;
       element.patchNum = 1 as PatchSetNum;
@@ -220,7 +220,7 @@ suite('gr-comment tests', () => {
     test('comment message sets messageText only when empty', () => {
       element.changeNum = 1 as NumericChangeId;
       element.patchNum = 1 as PatchSetNum;
-      element._messageText = '';
+      element.messageText = '';
       element.comment = {
         author: {
           name: 'Mr. Peanutbutter',
@@ -233,17 +233,17 @@ suite('gr-comment tests', () => {
         message: 'hello world',
       };
       // messageText was empty so overwrite the message now
-      assert.equal(element._messageText, 'hello world');
+      assert.equal(element.messageText, 'hello world');
 
       element.comment!.message = 'new message';
       // messageText was already set so do not overwrite it
-      assert.equal(element._messageText, 'hello world');
+      assert.equal(element.messageText, 'hello world');
     });
 
     test('comment message sets messageText when not edited', () => {
       element.changeNum = 1 as NumericChangeId;
       element.patchNum = 1 as PatchSetNum;
-      element._messageText = 'Some text';
+      element.messageText = 'Some text';
       element.comment = {
         author: {
           name: 'Mr. Peanutbutter',
@@ -256,19 +256,19 @@ suite('gr-comment tests', () => {
         message: 'hello world',
       };
       // messageText was empty so overwrite the message now
-      assert.equal(element._messageText, 'hello world');
+      assert.equal(element.messageText, 'hello world');
 
       element.comment!.message = 'new message';
       // messageText was already set so do not overwrite it
-      assert.equal(element._messageText, 'hello world');
+      assert.equal(element.messageText, 'hello world');
     });
 
-    test('_getPatchNum', () => {
+    test('getPatchNum', () => {
       element.side = 'PARENT';
       element.patchNum = 1 as PatchSetNum;
-      assert.equal(element._getPatchNum(), 'PARENT' as PatchSetNum);
+      assert.equal(element.getPatchNum(), 'PARENT' as PatchSetNum);
       element.side = 'REVISION';
-      assert.equal(element._getPatchNum(), 1 as PatchSetNum);
+      assert.equal(element.getPatchNum(), 1 as PatchSetNum);
     });
 
     test('comment expand and collapse', () => {
@@ -309,15 +309,15 @@ suite('gr-comment tests', () => {
       let handleSaveStub: sinon.SinonStub;
       setup(() => {
         element.editing = true;
-        element._messageText = 'test';
-        handleCancelStub = sinon.stub(element, '_handleCancel');
-        handleSaveStub = sinon.stub(element, '_handleSave');
+        element.messageText = 'test';
+        handleCancelStub = sinon.stub(element, 'handleCancel');
+        handleSaveStub = sinon.stub(element, 'handleSave');
         flush();
       });
 
       suite('when text is empty', () => {
         setup(() => {
-          element._messageText = '';
+          element.messageText = '';
           element.comment = {};
         });
 
@@ -364,7 +364,7 @@ suite('gr-comment tests', () => {
     });
 
     test('delete comment button for non-admins is hidden', () => {
-      element._isAdmin = false;
+      element.isAdmin = false;
       assert.isFalse(
         queryAndAssert(element, '.action.delete').classList.contains(
           'showDeleteButtons'
@@ -373,7 +373,7 @@ suite('gr-comment tests', () => {
     });
 
     test('delete comment button for admins with draft is hidden', () => {
-      element._isAdmin = false;
+      element.isAdmin = false;
       element.draft = true;
       assert.isFalse(
         queryAndAssert(element, '.action.delete').classList.contains(
@@ -389,7 +389,7 @@ suite('gr-comment tests', () => {
       const openSpy = sinon.spy(element.confirmDeleteOverlay!, 'open');
       element.changeNum = 42 as NumericChangeId;
       element.patchNum = 1 as PatchSetNum;
-      element._isAdmin = true;
+      element.isAdmin = true;
       assert.isTrue(
         queryAndAssert(element, '.action.delete').classList.contains(
           'showDeleteButtons'
@@ -402,7 +402,7 @@ suite('gr-comment tests', () => {
         '#confirmDeleteComment'
       ) as GrConfirmDeleteCommentDialog;
       dialog.message = 'removal reason';
-      element._handleConfirmDeleteComment();
+      element.handleConfirmDeleteComment();
       assert.isTrue(
         stub.calledWith(
           42 as NumericChangeId,
@@ -429,8 +429,8 @@ suite('gr-comment tests', () => {
       test('create', async () => {
         element.patchNum = 1 as PatchSetNum;
         element.comment = {};
-        sinon.stub(element, '_discardDraft').returns(Promise.resolve({}));
-        await element._handleSave(mockEvent);
+        sinon.stub(element, 'discardDraft').returns(Promise.resolve({}));
+        await element.handleSave(mockEvent);
         await flush();
         const grAccountLabel = queryAndAssert(element, 'gr-account-label');
         const spanName = queryAndAssert<HTMLSpanElement>(
@@ -448,8 +448,8 @@ suite('gr-comment tests', () => {
           ...createComment(),
           id: 'abc_123' as UrlEncodedCommentId as UrlEncodedCommentId,
         };
-        sinon.stub(element, '_discardDraft').returns(Promise.resolve({}));
-        return element._handleSave(mockEvent)!.then(() => {
+        sinon.stub(element, 'discardDraft').returns(Promise.resolve({}));
+        return element.handleSave(mockEvent)!.then(() => {
           assert.isTrue(endStub.calledOnce);
           assert.isTrue(getTimerStub.calledOnce);
           assert.equal(getTimerStub.lastCall.args[0], 'UpdateDraftComment');
@@ -462,12 +462,12 @@ suite('gr-comment tests', () => {
           id: 'abc_123' as UrlEncodedCommentId as UrlEncodedCommentId,
         };
         element.comment = createDraft();
-        sinon.stub(element, '_fireDiscard');
-        sinon.stub(element, '_eraseDraftCommentFromStorage');
+        sinon.stub(element, 'fireDiscard');
+        sinon.stub(element, 'eraseDraftCommentFromStorage');
         sinon
-          .stub(element, '_deleteDraft')
+          .stub(element, 'deleteDraft')
           .returns(Promise.resolve(new Response()));
-        return element._discardDraft().then(() => {
+        return element.discardDraft().then(() => {
           assert.isTrue(endStub.calledOnce);
           assert.isTrue(getTimerStub.calledOnce);
           assert.equal(getTimerStub.lastCall.args[0], 'DiscardDraftComment');
@@ -476,37 +476,33 @@ suite('gr-comment tests', () => {
     });
 
     test('edit reports interaction', () => {
-      const reportStub = stubReporting('recordDraftInteraction');
-      sinon.stub(element, '_fireEdit');
+      sinon.stub(element, 'fireEdit');
       element.draft = true;
       flush();
       tap(queryAndAssert(element, '.edit'));
-      assert.isTrue(reportStub.calledOnce);
     });
 
     test('discard reports interaction', () => {
-      const reportStub = stubReporting('recordDraftInteraction');
-      sinon.stub(element, '_eraseDraftCommentFromStorage');
-      sinon.stub(element, '_fireDiscard');
+      sinon.stub(element, 'eraseDraftCommentFromStorage');
+      sinon.stub(element, 'fireDiscard');
       sinon
-        .stub(element, '_deleteDraft')
+        .stub(element, 'deleteDraft')
         .returns(Promise.resolve(new Response()));
       element.draft = true;
       element.comment = createDraft();
       flush();
       tap(queryAndAssert(element, '.discard'));
-      assert.isTrue(reportStub.calledOnce);
     });
 
     test('failed save draft request', async () => {
       element.draft = true;
       element.changeNum = 1 as NumericChangeId;
       element.patchNum = 1 as PatchSetNum;
-      const updateRequestStub = sinon.stub(element, '_updateRequestToast');
+      const updateRequestStub = sinon.stub(element, 'updateRequestToast');
       const diffDraftStub = stubRestApi('saveDiffDraft').returns(
         Promise.resolve({...new Response(), ok: false})
       );
-      element._saveDraft({
+      element.saveDraft({
         ...createComment(),
         id: 'abc_123' as UrlEncodedCommentId,
       });
@@ -514,7 +510,7 @@ suite('gr-comment tests', () => {
       let args = updateRequestStub.lastCall.args;
       assert.deepEqual(args, [0, true]);
       assert.equal(
-        element._getSavingMessage(...args),
+        element.getSavingMessage(...args),
         __testOnly_UNSAVED_MESSAGE
       );
       assert.equal(
@@ -526,14 +522,14 @@ suite('gr-comment tests', () => {
         'save is visible'
       );
       diffDraftStub.returns(Promise.resolve({...new Response(), ok: true}));
-      element._saveDraft({
+      element.saveDraft({
         ...createComment(),
         id: 'abc_123' as UrlEncodedCommentId,
       });
       await flush();
       args = updateRequestStub.lastCall.args;
       assert.deepEqual(args, [0]);
-      assert.equal(element._getSavingMessage(...args), 'All changes saved');
+      assert.equal(element.getSavingMessage(...args), 'All changes saved');
       assert.equal(
         (queryAndAssert(element, '.draftLabel') as HTMLSpanElement).innerText,
         'DRAFT'
@@ -542,18 +538,18 @@ suite('gr-comment tests', () => {
         isVisible(queryAndAssert(element, '.save')),
         'save is not visible'
       );
-      assert.isFalse(element._unableToSave);
+      assert.isFalse(element.unableToSave);
     });
 
     test('failed save draft request with promise failure', async () => {
       element.draft = true;
       element.changeNum = 1 as NumericChangeId;
       element.patchNum = 1 as PatchSetNum;
-      const updateRequestStub = sinon.stub(element, '_updateRequestToast');
+      const updateRequestStub = sinon.stub(element, 'updateRequestToast');
       const diffDraftStub = stubRestApi('saveDiffDraft').returns(
         Promise.reject(new Error())
       );
-      element._saveDraft({
+      element.saveDraft({
         ...createComment(),
         id: 'abc_123' as UrlEncodedCommentId,
       });
@@ -561,7 +557,7 @@ suite('gr-comment tests', () => {
       let args = updateRequestStub.lastCall.args;
       assert.deepEqual(args, [0, true]);
       assert.equal(
-        element._getSavingMessage(...args),
+        element.getSavingMessage(...args),
         __testOnly_UNSAVED_MESSAGE
       );
       assert.equal(
@@ -573,14 +569,14 @@ suite('gr-comment tests', () => {
         'save is visible'
       );
       diffDraftStub.returns(Promise.resolve({...new Response(), ok: true}));
-      element._saveDraft({
+      element.saveDraft({
         ...createComment(),
         id: 'abc_123' as UrlEncodedCommentId,
       });
       await flush();
       args = updateRequestStub.lastCall.args;
       assert.deepEqual(args, [0]);
-      assert.equal(element._getSavingMessage(...args), 'All changes saved');
+      assert.equal(element.getSavingMessage(...args), 'All changes saved');
       assert.equal(
         (queryAndAssert(element, '.draftLabel') as HTMLSpanElement).innerText,
         'DRAFT'
@@ -589,7 +585,7 @@ suite('gr-comment tests', () => {
         isVisible(queryAndAssert(element, '.save')),
         'save is not visible'
       );
-      assert.isFalse(element._unableToSave);
+      assert.isFalse(element.unableToSave);
     });
   });
 
@@ -800,7 +796,7 @@ suite('gr-comment tests', () => {
     });
 
     test('collapsible drafts', async () => {
-      const fireEditStub = sinon.stub(element, '_fireEdit');
+      const fireEditStub = sinon.stub(element, 'fireEdit');
       assert.isTrue(element.collapsed);
       assert.isFalse(
         isVisible(queryAndAssert(element, 'gr-formatted-text')),
@@ -915,7 +911,9 @@ suite('gr-comment tests', () => {
         '.robotRunLink'
       ) as HTMLAnchorElement;
       assert.isTrue(
-        runDetailsLink.href.indexOf((element.comment as UIRobot).url!) !== -1
+        runDetailsLink.href.indexOf(
+          (element.comment as RobotCommentInfo).url!
+        ) !== -1
       );
 
       const robotServiceName = queryAndAssert(element, '.robotName');
@@ -949,7 +947,7 @@ suite('gr-comment tests', () => {
     });
 
     test('patchset level comment', async () => {
-      const fireEditStub = sinon.stub(element, '_fireEdit');
+      const fireEditStub = sinon.stub(element, 'fireEdit');
       const comment = {
         ...element.comment,
         path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
@@ -962,16 +960,16 @@ suite('gr-comment tests', () => {
       assert.isTrue(fireEditStub.called);
       assert.isTrue(element.editing);
 
-      element._messageText = 'hello world';
+      element.messageText = 'hello world';
       const eraseMessageDraftSpy = spyStorage('eraseDraftComment');
       const mockEvent = {...new Event('click'), preventDefault: sinon.stub()};
-      element._handleSave(mockEvent);
+      element.handleSave(mockEvent);
       await flush();
       assert.isTrue(eraseMessageDraftSpy.called);
     });
 
     test('draft creation/cancellation', async () => {
-      const fireEditStub = sinon.stub(element, '_fireEdit');
+      const fireEditStub = sinon.stub(element, 'fireEdit');
       assert.isFalse(element.editing);
       element.draft = true;
       await flush();
@@ -980,16 +978,16 @@ suite('gr-comment tests', () => {
       assert.isTrue(element.editing);
 
       element.comment!.message = '';
-      element._messageText = '';
+      element.messageText = '';
       const eraseMessageDraftSpy = sinon.spy(
         element,
-        '_eraseDraftCommentFromStorage'
+        'eraseDraftCommentFromStorage'
       );
 
       // Save should be disabled on an empty message.
       let disabled = queryAndAssert(element, '.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
-      element._messageText = '     ';
+      element.messageText = '     ';
       disabled = queryAndAssert(element, '.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
 
@@ -1008,7 +1006,7 @@ suite('gr-comment tests', () => {
       });
       tap(queryAndAssert(element, '.cancel'));
       await flush();
-      element._messageText = '';
+      element.messageText = '';
       element.editing = true;
       await flush();
       pressAndReleaseKeyOn(element.textarea!, 27, null, 'Escape');
@@ -1016,10 +1014,10 @@ suite('gr-comment tests', () => {
     });
 
     test('draft discard removes message from storage', async () => {
-      element._messageText = '';
+      element.messageText = '';
       const eraseMessageDraftSpy = sinon.spy(
         element,
-        '_eraseDraftCommentFromStorage'
+        'eraseDraftCommentFromStorage'
       );
 
       const promise = mockPromise();
@@ -1027,7 +1025,7 @@ suite('gr-comment tests', () => {
         assert.isTrue(eraseMessageDraftSpy.called);
         promise.resolve();
       });
-      element._handleDiscard({
+      element.handleDiscard({
         ...new Event('click'),
         preventDefault: sinon.stub(),
       });
@@ -1035,13 +1033,13 @@ suite('gr-comment tests', () => {
     });
 
     test('storage is cleared only after save success', () => {
-      element._messageText = 'test';
-      const eraseStub = sinon.stub(element, '_eraseDraftCommentFromStorage');
+      element.messageText = 'test';
+      const eraseStub = sinon.stub(element, 'eraseDraftCommentFromStorage');
       stubRestApi('getResponseObject').returns(
         Promise.resolve({...(createDraft() as ParsedJSON)})
       );
       const saveDraftStub = sinon
-        .stub(element, '_saveDraft')
+        .stub(element, 'saveDraft')
         .returns(Promise.resolve({...new Response(), ok: false}));
 
       const savePromise = element.save();
@@ -1051,7 +1049,7 @@ suite('gr-comment tests', () => {
 
         saveDraftStub.restore();
         sinon
-          .stub(element, '_saveDraft')
+          .stub(element, 'saveDraft')
           .returns(Promise.resolve({...new Response(), ok: true}));
         return element.save().then(() => {
           assert.isTrue(eraseStub.called);
@@ -1059,23 +1057,23 @@ suite('gr-comment tests', () => {
       });
     });
 
-    test('_computeSaveDisabled', () => {
+    test('computeSaveDisabled', () => {
       const comment = {unresolved: true};
       const msgComment = {message: 'test', unresolved: true};
-      assert.equal(element._computeSaveDisabled('', comment, false), true);
-      assert.equal(element._computeSaveDisabled('test', comment, false), false);
-      assert.equal(element._computeSaveDisabled('', msgComment, false), true);
+      assert.equal(element.isSaveDisabled('', comment, false), true);
+      assert.equal(element.isSaveDisabled('test', comment, false), false);
+      assert.equal(element.isSaveDisabled('', msgComment, false), true);
       assert.equal(
-        element._computeSaveDisabled('test', msgComment, false),
+        element.isSaveDisabled('test', msgComment, false),
         false
       );
       assert.equal(
-        element._computeSaveDisabled('test2', msgComment, false),
+        element.isSaveDisabled('test2', msgComment, false),
         false
       );
-      assert.equal(element._computeSaveDisabled('test', comment, true), false);
-      assert.equal(element._computeSaveDisabled('', comment, true), true);
-      assert.equal(element._computeSaveDisabled('', comment, false), true);
+      assert.equal(element.isSaveDisabled('test', comment, true), false);
+      assert.equal(element.isSaveDisabled('', comment, true), true);
+      assert.equal(element.isSaveDisabled('', comment, false), true);
     });
 
     test('ctrl+s saves comment', async () => {
@@ -1086,7 +1084,7 @@ suite('gr-comment tests', () => {
         promise.resolve();
         return Promise.resolve();
       });
-      element._messageText = 'is that the horse from horsing around??';
+      element.messageText = 'is that the horse from horsing around??';
       element.editing = true;
       await flush();
       pressAndReleaseKeyOn(
@@ -1100,7 +1098,7 @@ suite('gr-comment tests', () => {
 
     test('draft saving/editing', async () => {
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
-      const fireEditStub = sinon.stub(element, '_fireEdit');
+      const fireEditStub = sinon.stub(element, 'fireEdit');
       const clock: SinonFakeTimers = sinon.useFakeTimers();
       const tickAndFlush = async (repetitions: number) => {
         for (let i = 1; i <= repetitions; i++) {
@@ -1114,12 +1112,12 @@ suite('gr-comment tests', () => {
       tap(queryAndAssert(element, '.edit'));
       assert.isTrue(fireEditStub.called);
       tickAndFlush(1);
-      element._messageText = 'good news, everyone!';
+      element.messageText = 'good news, everyone!';
       tickAndFlush(1);
       assert.equal(dispatchEventStub.lastCall.args[0].type, 'comment-update');
       assert.isTrue(dispatchEventStub.calledTwice);
 
-      element._messageText = 'good news, everyone!';
+      element.messageText = 'good news, everyone!';
       await flush();
       assert.isTrue(dispatchEventStub.calledTwice);
 
@@ -1130,7 +1128,7 @@ suite('gr-comment tests', () => {
         'Element should be disabled when creating draft.'
       );
 
-      let draft = await element._xhrPromise!;
+      let draft = await element.xhrPromise!;
       const evt = dispatchEventStub.lastCall.args[0] as CustomEvent<{
         comment: DraftInfo;
       }>;
@@ -1159,7 +1157,7 @@ suite('gr-comment tests', () => {
       assert.isFalse(element.editing);
       tap(queryAndAssert(element, '.edit'));
       assert.isTrue(fireEditStub.calledTwice);
-      element._messageText =
+      element.messageText =
         'You’ll be delivering a package to Chapek 9, ' +
         'a world where humans are killed on sight.';
       tap(queryAndAssert(element, '.save'));
@@ -1167,7 +1165,7 @@ suite('gr-comment tests', () => {
         element.disabled,
         'Element should be disabled when updating draft.'
       );
-      draft = await element._xhrPromise!;
+      draft = await element.xhrPromise!;
       assert.isFalse(
         element.disabled,
         'Element should be enabled when done updating draft.'
@@ -1185,7 +1183,7 @@ suite('gr-comment tests', () => {
       await flush();
       tap(element.$.header);
       tap(queryAndAssert(element, '.edit'));
-      element._messageText = 'good news, everyone!';
+      element.messageText = 'good news, everyone!';
       await flush();
 
       element.disabled = true;
@@ -1242,31 +1240,31 @@ suite('gr-comment tests', () => {
     });
 
     suite('draft saving messages', () => {
-      test('_getSavingMessage', () => {
-        assert.equal(element._getSavingMessage(0), 'All changes saved');
-        assert.equal(element._getSavingMessage(1), 'Saving 1 draft...');
-        assert.equal(element._getSavingMessage(2), 'Saving 2 drafts...');
-        assert.equal(element._getSavingMessage(3), 'Saving 3 drafts...');
+      test('getSavingMessage', () => {
+        assert.equal(element.getSavingMessage(0), 'All changes saved');
+        assert.equal(element.getSavingMessage(1), 'Saving 1 draft...');
+        assert.equal(element.getSavingMessage(2), 'Saving 2 drafts...');
+        assert.equal(element.getSavingMessage(3), 'Saving 3 drafts...');
       });
 
-      test('_show{Start,End}Request', () => {
-        const updateStub = sinon.stub(element, '_updateRequestToast');
-        element._numPendingDraftRequests.number = 1;
+      test('show{Start,End}Request', () => {
+        const updateStub = sinon.stub(element, 'updateRequestToast');
+        element.numPendingDraftRequests.number = 1;
 
-        element._showStartRequest();
+        element.showStartRequest();
         assert.isTrue(updateStub.calledOnce);
         assert.equal(updateStub.lastCall.args[0], 2);
-        assert.equal(element._numPendingDraftRequests.number, 2);
+        assert.equal(element.numPendingDraftRequests.number, 2);
 
-        element._showEndRequest();
+        element.showEndRequest();
         assert.isTrue(updateStub.calledTwice);
         assert.equal(updateStub.lastCall.args[0], 1);
-        assert.equal(element._numPendingDraftRequests.number, 1);
+        assert.equal(element.numPendingDraftRequests.number, 1);
 
-        element._showEndRequest();
+        element.showEndRequest();
         assert.isTrue(updateStub.calledThrice);
         assert.equal(updateStub.lastCall.args[0], 0);
-        assert.equal(element._numPendingDraftRequests.number, 0);
+        assert.equal(element.numPendingDraftRequests.number, 0);
       });
     });
 
@@ -1278,16 +1276,16 @@ suite('gr-comment tests', () => {
           await flush();
         }
       };
-      const discardSpy = sinon.spy(element, '_fireDiscard');
+      const discardSpy = sinon.spy(element, 'fireDiscard');
       const storeStub = stubStorage('setDraftComment');
       const eraseStub = stubStorage('eraseDraftComment');
       element.comment!.id = undefined; // set id undefined for draft
-      element._messageText = 'test text';
+      element.messageText = 'test text';
       tickAndFlush(1);
 
       assert.isTrue(storeStub.called);
       assert.equal(storeStub.lastCall.args[1], 'test text');
-      element._handleCancel({
+      element.handleCancel({
         ...new Event('click'),
         preventDefault: sinon.stub(),
       });
@@ -1298,14 +1296,14 @@ suite('gr-comment tests', () => {
 
     test('cancelling edit on a saved draft does not store', () => {
       element.comment!.id = 'foo' as UrlEncodedCommentId;
-      const discardSpy = sinon.spy(element, '_fireDiscard');
+      const discardSpy = sinon.spy(element, 'fireDiscard');
       const storeStub = stubStorage('setDraftComment');
       element.comment!.id = undefined; // set id undefined for draft
-      element._messageText = 'test text';
+      element.messageText = 'test text';
       flush();
 
       assert.isFalse(storeStub.called);
-      element._handleCancel({...new Event('click'), preventDefault: () => {}});
+      element.handleCancel({...new Event('click'), preventDefault: () => {}});
       assert.isTrue(discardSpy.called);
     });
 
@@ -1315,19 +1313,19 @@ suite('gr-comment tests', () => {
         id: 'foo' as UrlEncodedCommentId,
         message: 'test',
       };
-      element._messageText = '';
-      const discardStub = sinon.stub(element, '_discardDraft');
+      element.messageText = '';
+      const discardStub = sinon.stub(element, 'discardDraft');
 
       element.save();
       assert.isTrue(discardStub.called);
     });
 
-    test('_handleFix fires create-fix event', async () => {
+    test('handleFix fires create-fix event', async () => {
       const promise = mockPromise();
       element.addEventListener(
         'create-fix-comment',
         (e: CreateFixCommentEvent) => {
-          assert.deepEqual(e.detail, element._getEventPayload());
+          assert.deepEqual(e.detail, element.getEventPayload());
           promise.resolve();
         }
       );
@@ -1482,10 +1480,10 @@ suite('gr-comment tests', () => {
       queryAndAssert(element, '.robotActions gr-button');
     });
 
-    test('_handleShowFix fires open-fix-preview event', async () => {
+    test('handleShowFix fires open-fix-preview event', async () => {
       const promise = mockPromise();
       element.addEventListener('open-fix-preview', e => {
-        assert.deepEqual(e.detail, element._getEventPayload());
+        assert.deepEqual(e.detail, element.getEventPayload());
         promise.resolve();
       });
       element.comment = {

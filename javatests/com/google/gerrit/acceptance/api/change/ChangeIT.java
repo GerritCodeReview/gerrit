@@ -4642,6 +4642,49 @@ public class ChangeIT extends AbstractDaemonTest {
         ExperimentFeaturesConstants
             .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
       })
+  public void submitRequirement_storedForAbandonedChanges() throws Exception {
+    for (SubmitType submitType : SubmitType.values()) {
+      Project.NameKey project = createProjectForPush(submitType);
+      TestRepository<InMemoryRepository> repo = cloneProject(project);
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("Code-Review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
+
+      PushOneCommit.Result r =
+          createChange(repo, "master", "Add a file", "foo", "content", "topic");
+      String changeId = r.getChangeId();
+
+      voteLabel(changeId, "Code-Review", 2);
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+
+      gApi.changes().id(r.getChangeId()).abandon();
+      ChangeNotes notes = notesFactory.create(project, r.getChange().getId());
+      SubmitRequirementResult result =
+          notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
+      assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+      assertThat(result.submittabilityExpressionResult().status())
+          .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+      assertThat(result.submittabilityExpressionResult().expression().expressionString())
+          .isEqualTo("label:Code-Review=+2");
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {
+        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
+        ExperimentFeaturesConstants
+            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
+      })
   public void submitRequirement_retrievedFromNoteDbForClosedChanges() throws Exception {
     configSubmitRequirement(
         project,

@@ -15,29 +15,34 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-group.js';
+import '../../../test/common-test-setup-karma';
+import './gr-group';
+import {GrGroup} from './gr-group';
 import {
   addListenerForTest,
   mockPromise,
   stubRestApi,
-} from '../../../test/test-utils.js';
+} from '../../../test/test-utils';
+import {createGroupInfo} from '../../../test/test-data-generators.js';
+import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-group');
 
 suite('gr-group tests', () => {
-  let element;
+  let element: GrGroup;
+  let groupStub: sinon.SinonStub;
 
-  let groupStub;
-  const group = {
-    id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
+  const group: GroupInfo = {
+    ...createGroupInfo('6a1e70e1a88782771a91808c8af9bbb7a9871389'),
     url: '#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389',
-    options: {},
+    options: {
+      visible_to_all: false,
+    },
     description: 'Gerrit Site Administrators',
     group_id: 1,
     owner: 'Administrators',
     owner_id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
-    name: 'Administrators',
+    name: 'Administrators' as GroupName,
   };
 
   setup(() => {
@@ -49,13 +54,12 @@ suite('gr-group tests', () => {
     assert.isTrue(element.$.loading.classList.contains('loading'));
     assert.isFalse(getComputedStyle(element.$.loading).display === 'none');
     assert.isTrue(element.$.loadedContent.classList.contains('loading'));
-    assert.isTrue(getComputedStyle(element.$.loadedContent)
-        .display === 'none');
+    assert.isTrue(getComputedStyle(element.$.loadedContent).display === 'none');
   });
 
   test('default values are populated with internal group', async () => {
     stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
-    element.groupId = 1;
+    element.groupId = '1' as GroupId;
     await element._loadGroup();
     assert.isTrue(element._groupIsInternal);
     assert.isFalse(element.$.visibleToAll.bindValue);
@@ -63,12 +67,13 @@ suite('gr-group tests', () => {
 
   test('default values with external group', async () => {
     const groupExternal = {...group};
-    groupExternal.id = 'external-group-id';
+    groupExternal.id = 'external-group-id' as GroupId;
     groupStub.restore();
     groupStub = stubRestApi('getGroupConfig').returns(
-        Promise.resolve(groupExternal));
+      Promise.resolve(groupExternal)
+    );
     stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
-    element.groupId = 1;
+    element.groupId = '1' as GroupId;
     await element._loadGroup();
     assert.isFalse(element._groupIsInternal);
     assert.isFalse(element.$.visibleToAll.bindValue);
@@ -77,14 +82,17 @@ suite('gr-group tests', () => {
   test('rename group', async () => {
     const groupName = 'test-group';
     const groupName2 = 'test-group2';
-    element.groupId = 1;
+    element.groupId = '1' as GroupId;
     element._groupConfig = {
-      name: groupName,
+      name: groupName as GroupName,
+      id: '1' as GroupId,
     };
-    element._groupName = groupName;
+    element._groupName = groupName as GroupName;
 
     stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
-    stubRestApi('saveGroupName').returns(Promise.resolve({status: 200}));
+    stubRestApi('saveGroupName').returns(
+      Promise.resolve({...new Response(), status: 200})
+    );
 
     const button = element.$.inputUpdateNameBtn;
 
@@ -106,14 +114,15 @@ suite('gr-group tests', () => {
 
   test('rename group owner', async () => {
     const groupName = 'test-group';
-    element.groupId = 1;
+    element.groupId = '1' as GroupId;
     element._groupConfig = {
-      name: groupName,
+      name: groupName as GroupName,
+      id: '1' as GroupId,
     };
     element._groupConfigOwner = 'testId';
     element._groupOwner = true;
 
-    stubRestApi('getIsGroupOwner').returns(Promise.resolve({status: 200}));
+    stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
 
     const button = element.$.inputUpdateOwnerBtn;
 
@@ -135,11 +144,11 @@ suite('gr-group tests', () => {
   test('test for undefined group name', async () => {
     groupStub.restore();
 
-    stubRestApi('getGroupConfig').returns(Promise.resolve({}));
+    stubRestApi('getGroupConfig').returns(Promise.resolve(undefined));
 
     assert.isUndefined(element.groupId);
 
-    element.groupId = 1;
+    element.groupId = '1' as GroupId;
 
     assert.isDefined(element.groupId);
 
@@ -153,10 +162,13 @@ suite('gr-group tests', () => {
 
   test('test fire event', async () => {
     element._groupConfig = {
-      name: 'test-group',
+      name: 'test-group' as GroupName,
+      id: '1' as GroupId,
     };
-    element.groupId = 'gg';
-    stubRestApi('saveGroupName').returns(Promise.resolve({status: 200}));
+    element.groupId = 'gg' as GroupId;
+    stubRestApi('saveGroupName').returns(
+      Promise.resolve({...new Response(), status: 200})
+    );
 
     const showStub = sinon.stub(element, 'dispatchEvent');
     await element._handleSaveName();
@@ -167,28 +179,40 @@ suite('gr-group tests', () => {
     let admin = true;
     let owner = false;
     let groupIsInternal = true;
-    assert.equal(element._computeGroupDisabled(owner, admin,
-        groupIsInternal), false);
+    assert.equal(
+      element._computeGroupDisabled(owner, admin, groupIsInternal),
+      false
+    );
 
     admin = false;
-    assert.equal(element._computeGroupDisabled(owner, admin,
-        groupIsInternal), true);
+    assert.equal(
+      element._computeGroupDisabled(owner, admin, groupIsInternal),
+      true
+    );
 
     owner = true;
-    assert.equal(element._computeGroupDisabled(owner, admin,
-        groupIsInternal), false);
+    assert.equal(
+      element._computeGroupDisabled(owner, admin, groupIsInternal),
+      false
+    );
 
     owner = false;
-    assert.equal(element._computeGroupDisabled(owner, admin,
-        groupIsInternal), true);
+    assert.equal(
+      element._computeGroupDisabled(owner, admin, groupIsInternal),
+      true
+    );
 
     groupIsInternal = false;
-    assert.equal(element._computeGroupDisabled(owner, admin,
-        groupIsInternal), true);
+    assert.equal(
+      element._computeGroupDisabled(owner, admin, groupIsInternal),
+      true
+    );
 
     admin = true;
-    assert.equal(element._computeGroupDisabled(owner, admin,
-        groupIsInternal), true);
+    assert.equal(
+      element._computeGroupDisabled(owner, admin, groupIsInternal),
+      true
+    );
   });
 
   test('_computeLoadingClass', () => {
@@ -199,17 +223,21 @@ suite('gr-group tests', () => {
   test('fires page-error', async () => {
     groupStub.restore();
 
-    element.groupId = 1;
+    element.groupId = '1' as GroupId;
 
-    const response = {status: 404};
-    stubRestApi('getGroupConfig').callsFake((group, errFn) => {
-      errFn(response);
+    const response = {...new Response(), status: 404};
+    stubRestApi('getGroupConfig').callsFake((_, errFn) => {
+      if (errFn !== undefined) {
+        errFn(response);
+      } else {
+        assert.fail('errFn is undefined');
+      }
       return Promise.resolve(undefined);
     });
 
     const promise = mockPromise();
     addListenerForTest(document, 'page-error', e => {
-      assert.deepEqual(e.detail.response, response);
+      assert.deepEqual((e as CustomEvent).detail.response, response);
       promise.resolve();
     });
 
@@ -219,16 +247,15 @@ suite('gr-group tests', () => {
 
   test('uuid', () => {
     element._groupConfig = {
-      id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
+      id: '6a1e70e1a88782771a91808c8af9bbb7a9871389' as GroupId,
     };
 
     assert.equal(element._groupConfig.id, element.$.uuid.text);
 
     element._groupConfig = {
-      id: 'user%2Fgroup',
+      id: 'user%2Fgroup' as GroupId,
     };
 
     assert.equal('user/group', element.$.uuid.text);
   });
 });
-

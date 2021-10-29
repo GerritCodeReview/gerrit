@@ -21,8 +21,13 @@ import '../../../styles/gr-form-styles';
 import '../../../styles/gr-subpage-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-select/gr-select';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import {GrSelect} from '../../shared/gr-select/gr-select';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-group_html';
 import {customElement, property, observe} from '@polymer/decorators';
@@ -57,6 +62,16 @@ const OPTIONS = {
 export interface GrGroup {
   $: {
     loading: HTMLDivElement;
+    loadedContent: HTMLDivElement;
+    visibleToAll: GrSelect;
+    inputUpdateNameBtn: GrButton;
+    Title: HTMLHeadingElement;
+    groupNameInput: GrAutocomplete;
+    groupName: HTMLHeadingElement;
+    groupOwnerInput: GrAutocomplete;
+    groupOwner: HTMLHeadingElement;
+    inputUpdateOwnerBtn: GrButton;
+    uuid: GrCopyClipboard;
   };
 }
 

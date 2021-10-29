@@ -29,6 +29,7 @@ import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {queryAndAssert, query} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';
 import {Key, Modifier} from '../utils/dom-util';
+import {ChangeService} from '../services/change/change-service';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise<T> extends Promise<T> {
@@ -110,6 +111,10 @@ export function stubRestApi<K extends keyof RestApiService>(method: K) {
 
 export function spyRestApi<K extends keyof RestApiService>(method: K) {
   return sinon.spy(getAppContext().restApiService, method);
+}
+
+export function stubChange<K extends keyof ChangeService>(method: K) {
+  return sinon.stub(getAppContext().changeService, method);
 }
 
 export function stubComments<K extends keyof CommentsService>(method: K) {

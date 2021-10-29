@@ -29,6 +29,7 @@ import {
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
 import {ParsedChangeInfo} from '../../types/types';
+import {fireAlert} from '../../utils/event-util';
 
 interface ChangeState {
   change?: ParsedChangeInfo;
@@ -38,6 +39,12 @@ interface ChangeState {
    * Does not apply to change-view or edit-view.
    */
   diffPath?: string;
+  /**
+   * The list of reviewed files, kept in the model because we want changes made
+   * in one view to reflect on other views without re-rendering the other views.
+   * Undefined means it's still loading and empty set means no files reviewed.
+   */
+  reviewedFiles?: Set<string>;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
@@ -85,6 +92,41 @@ export function updateStatePath(diffPath?: string) {
   const current = privateState$.getValue();
   privateState$.next({...current, diffPath});
 }
+
+export function updateStateReviewedFiles(reviewedFiles: Set<string>) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, reviewedFiles});
+}
+
+export function updateStateFileReviewed(file: string, reviewed: boolean) {
+  const current = privateState$.getValue();
+  if (current.reviewedFiles === undefined) {
+    // Reviewed files haven't loaded yet.
+    // TODO(dhruvsri): disable updating status if reviewed files are not loaded.
+    fireAlert(
+      document,
+      'Updating status failed. Reviewed files not loaded yet.'
+    );
+    return;
+  }
+  const reviewedFiles = current.reviewedFiles
+    ? new Set(current.reviewedFiles)
+    : new Set<string>();
+
+  // File is already reviewed and is being marked reviewed
+  if (reviewedFiles.has(file) && reviewed) return;
+  // File is not reviewed and is being marked not reviewed
+  if (!reviewedFiles.has(file) && !reviewed) return;
+
+  if (reviewed) reviewedFiles.add(file);
+  else reviewedFiles.delete(file);
+  privateState$.next({...current, reviewedFiles});
+}
+
+export const reviewedFiles$ = changeState$.pipe(
+  map(changeState => changeState.reviewedFiles && Array.from(changeState.reviewedFiles)),
+  distinctUntilChanged()
+);
 
 /**
  * If you depend on both, router and change state, then you want to filter out

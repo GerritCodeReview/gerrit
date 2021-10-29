@@ -106,6 +106,7 @@ import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {_testOnly_setState} from '../../../services/user/user-model';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -2168,17 +2169,19 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  test('_handleToggleStar called when star is tapped', () => {
+  test('_handleToggleStar called when star is tapped', async () => {
     element._change = {
       ...createChangeViewChange(),
       owner: {_account_id: 1 as AccountId},
       starred: false,
     };
     element._loggedIn = true;
-    const stub = sinon.stub(element, '_handleToggleStar');
-    flush();
+    await flush();
 
-    tap(element.$.changeStar.shadowRoot!.querySelector('button')!);
+    const stub = sinon.stub(element, '_handleToggleStar');
+
+    const changeStar = queryAndAssert<GrChangeStar>(element, '#changeStar');
+    tap(queryAndAssert<HTMLButtonElement>(changeStar, 'button')!);
     assert.isTrue(stub.called);
   });
 

@@ -15,10 +15,6 @@
  * limitations under the License.
  */
 import '../gr-icons/gr-icons';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-change-star_html';
-import {customElement, property} from '@polymer/decorators';
 import {ChangeInfo} from '../../../types/common';
 import {fireAlert} from '../../../utils/event-util';
 import {
@@ -26,6 +22,9 @@ import {
   ShortcutSection,
 } from '../../../services/shortcuts/shortcuts-config';
 import {appContext} from '../../../services/app-context';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -39,44 +38,78 @@ export interface ChangeStarToggleStarDetail {
 }
 
 @customElement('gr-change-star')
-export class GrChangeStar extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrChangeStar extends LitElement {
   /**
    * Fired when star state is toggled.
    *
    * @event toggle-star
    */
 
-  @property({type: Object, notify: true})
+  @property({type: Object})
   change?: ChangeInfo;
 
   private readonly shortcuts = appContext.shortcutsService;
 
-  _computeStarClass(starred?: boolean) {
-    return starred ? 'active' : '';
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        button {
+          background-color: transparent;
+          cursor: pointer;
+        }
+        iron-icon.active {
+          fill: var(--link-color);
+        }
+        iron-icon {
+          vertical-align: top;
+          --iron-icon-height: var(
+            --gr-change-star-size,
+            var(--line-height-normal, 20px)
+          );
+          --iron-icon-width: var(
+            --gr-change-star-size,
+            var(--line-height-normal, 20px)
+          );
+        }
+        :host([hidden]) {
+          visibility: hidden;
+          display: block !important;
+        }
+      `,
+    ];
   }
 
-  _computeStarIcon(starred?: boolean) {
-    // Hollow star is used to indicate inactive state.
-    return `gr-icons:star${starred ? '' : '-border'}`;
-  }
-
-  _computeAriaLabel(starred?: boolean) {
-    return starred ? 'Unstar this change' : 'Star this change';
+  override render() {
+    return html`
+      <button
+        role="checkbox"
+        title=${this.shortcuts.createTitle(
+          Shortcut.TOGGLE_CHANGE_STAR,
+          ShortcutSection.ACTIONS
+        )}
+        aria-label=${this.change?.starred
+          ? 'Unstar this change'
+          : 'Star this change'}
+        @click=${this.toggleStar}
+      >
+        <iron-icon
+          class=${this.change?.starred ? 'active' : ''}
+          .icon=${`gr-icons:star${this.change?.starred ? '' : '-border'}`}
+        ></iron-icon>
+      </button>
+    `;
   }
 
   toggleStar() {
     // Note: change should always be defined when use gr-change-star
     // but since we don't have a good way to enforce usage to always
     // set the change, we still check it here.
-    if (!this.change) {
-      return;
-    }
+    if (!this.change) return;
+
     const newVal = !this.change.starred;
-    this.set('change.starred', newVal);
+    this.change.starred = newVal;
+    this.requestUpdate('change');
     const detail: ChangeStarToggleStarDetail = {
       change: this.change,
       starred: newVal,
@@ -89,9 +122,5 @@ export class GrChangeStar extends PolymerElement {
         detail,
       })
     );
-  }
-
-  createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-    return this.shortcuts.createTitle(shortcutName, section);
   }
 }

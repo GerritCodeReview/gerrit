@@ -121,7 +121,7 @@ export const htmlTemplate = html`
   </style>
   <td aria-hidden="true" class="cell leftPadding"></td>
   <td class="cell star" hidden$="[[!showStar]]" hidden="">
-    <gr-change-star change="{{change}}"></gr-change-star>
+    <gr-change-star change="[[change]]"></gr-change-star>
   </td>
   <td class="cell number" hidden$="[[!showNumber]]" hidden="">
     <a href$="[[changeURL]]">[[change._number]]</a>

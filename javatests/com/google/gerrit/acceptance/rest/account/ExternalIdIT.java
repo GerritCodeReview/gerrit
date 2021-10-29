@@ -918,7 +918,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       // Inserting an external ID "behind Gerrit's back" means that the caches are not updated.
       ExternalIdNotes extIdNotes =
-          ExternalIdNotes.loadNoCacheUpdate(allUsers, repo, externalIdFactory);
+          ExternalIdNotes.loadNoCacheUpdate(allUsers, repo, externalIdFactory, false);
       extIdNotes.insert(extId);
       try (MetaDataUpdate metaDataUpdate =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {

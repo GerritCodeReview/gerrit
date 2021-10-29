@@ -23,6 +23,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.HashedPassword;
+import com.google.gerrit.server.config.AuthConfig;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -34,10 +35,12 @@ import org.eclipse.jgit.lib.ObjectId;
 public class ExternalIdFactory {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final ExternalIdKeyFactory externalIdKeyFactory;
+  private AuthConfig authConfig;
 
   @Inject
-  public ExternalIdFactory(ExternalIdKeyFactory externalIdKeyFactory) {
+  public ExternalIdFactory(ExternalIdKeyFactory externalIdKeyFactory, AuthConfig authConfig) {
     this.externalIdKeyFactory = externalIdKeyFactory;
+    this.authConfig = authConfig;
   }
 
   /**
@@ -250,10 +253,20 @@ public class ExternalIdFactory {
     }
 
     if (!externalIdKey.sha1().getName().equals(noteId)) {
-      throw invalidConfig(
-          noteId,
-          String.format(
-              "SHA1 of external ID '%s' does not match note ID '%s'", externalIdKeyStr, noteId));
+      if (!authConfig.isUserNameCaseInsensitiveMigrationMode()) {
+        throw invalidConfig(
+            noteId,
+            String.format(
+                "SHA1 of external ID '%s' does not match note ID '%s'", externalIdKeyStr, noteId));
+      }
+
+      if (!externalIdKey.caseSensitiveSha1().getName().equals(noteId)) {
+        throw invalidConfig(
+            noteId,
+            String.format(
+                "Case sensitive SHA1 of external ID '%s' does not match note ID '%s'",
+                externalIdKeyStr, noteId));
+      }
     }
 
     String email =

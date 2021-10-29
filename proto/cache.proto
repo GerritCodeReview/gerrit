@@ -276,6 +276,7 @@ message AllExternalIdsProto {
     string password = 4;
     bytes blobId = 5;
     bool isCaseInsensitive = 6;
+    bool isCaseInsensitiveMigrationMode = 7;
   }
   repeated ExternalIdProto external_id = 1;
 }

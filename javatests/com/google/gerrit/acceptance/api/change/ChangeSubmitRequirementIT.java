@@ -206,11 +206,9 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "experiments.enabled",
-      values = {
-        ExperimentFeaturesConstants
-            .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS_BACKFILLING_ON_DASHBOARD,
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS
-      })
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS_BACKFILLING_ON_DASHBOARD)
   public void submitRuleIsInvokedWhenQueryingChangeWithExperiment() throws Exception {
     PushOneCommit.Result r = createChange("Some Change", "foo.txt", "some content");
     String changeId = r.getChangeId();

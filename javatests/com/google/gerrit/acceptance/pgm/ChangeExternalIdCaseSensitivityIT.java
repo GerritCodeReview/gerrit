@@ -45,6 +45,7 @@ import org.junit.Test;
 public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
 
   private static final boolean CASE_SENSITIVE = false;
+  private static final boolean CASE_SENSITIVE_MIGRATION_MODE = false;
   private static final boolean CASE_INSENSITIVE = true;
 
   private ServerContext ctx;
@@ -62,37 +63,37 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
 
   @Test
   public void externalIdNoteNameIsMigratedToCaseInsensitive() throws Exception {
-    prepareExternalIdNotes(CASE_SENSITIVE);
+    prepareExternalIdNotes(CASE_SENSITIVE, CASE_SENSITIVE_MIGRATION_MODE);
 
     ctx.close();
     runChangeExternalIdCaseSensitivity();
     ctx = startServer();
     extIdNotes = getExternalIdNotes(ctx);
 
-    assertExternalIdNotes(CASE_INSENSITIVE);
+    assertExternalIdNotes(CASE_INSENSITIVE, CASE_SENSITIVE_MIGRATION_MODE);
   }
 
   @Test
   public void externalIdNoteNameIsMigratedToCaseSensitive() throws Exception {
-    prepareExternalIdNotes(CASE_INSENSITIVE);
+    prepareExternalIdNotes(CASE_INSENSITIVE, CASE_SENSITIVE_MIGRATION_MODE);
 
     ctx.close();
     runChangeExternalIdCaseSensitivity();
     ctx = startServer();
     extIdNotes = getExternalIdNotes(ctx);
 
-    assertExternalIdNotes(CASE_SENSITIVE);
+    assertExternalIdNotes(CASE_SENSITIVE, CASE_SENSITIVE_MIGRATION_MODE);
   }
 
   @Test
   public void migrationFailsWithDuplicates() throws Exception {
-    prepareExternalIdNotes(CASE_SENSITIVE);
+    prepareExternalIdNotes(CASE_SENSITIVE, CASE_SENSITIVE_MIGRATION_MODE);
     extIdNotes.insert(extIdFactory.create(SCHEME_USERNAME, "JohnDoe", Account.id(1)));
     extIdNotes.commit(md);
 
-    assertThat(extIdNotes.get(ExternalId.Key.parse("username:johndoe", false)).isPresent())
+    assertThat(extIdNotes.get(ExternalId.Key.parse("username:johndoe", false, false)).isPresent())
         .isTrue();
-    assertThat(extIdNotes.get(ExternalId.Key.parse("username:JohnDoe", false)).isPresent())
+    assertThat(extIdNotes.get(ExternalId.Key.parse("username:JohnDoe", false, false)).isPresent())
         .isTrue();
 
     ctx.close();
@@ -100,10 +101,10 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
     ctx = startServer();
     extIdNotes = getExternalIdNotes(ctx);
 
-    assertExternalIdNotes(CASE_SENSITIVE);
-    assertThat(extIdNotes.get(ExternalId.Key.parse("username:johndoe", false)).isPresent())
+    assertExternalIdNotes(CASE_SENSITIVE, CASE_SENSITIVE_MIGRATION_MODE);
+    assertThat(extIdNotes.get(ExternalId.Key.parse("username:johndoe", false, false)).isPresent())
         .isTrue();
-    assertThat(extIdNotes.get(ExternalId.Key.parse("username:JohnDoe", false)).isPresent())
+    assertThat(extIdNotes.get(ExternalId.Key.parse("username:JohnDoe", false, false)).isPresent())
         .isTrue();
   }
 
@@ -121,7 +122,7 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
 
   @Test
   public void dryrunDoesNotPersistChanges() throws Exception {
-    prepareExternalIdNotes(CASE_SENSITIVE);
+    prepareExternalIdNotes(CASE_SENSITIVE, CASE_SENSITIVE_MIGRATION_MODE);
     ctx.close();
     runGerrit("ChangeExternalIdCaseSensitivity", "-d", sitePaths.site_path.toString(), "--dryrun");
 
@@ -129,10 +130,11 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
     assertThat(config.getBoolean("auth", "userNameCaseInsensitive", false)).isFalse();
 
     ctx = startServer();
-    assertExternalIdNotes(CASE_SENSITIVE);
+    assertExternalIdNotes(CASE_SENSITIVE, CASE_SENSITIVE_MIGRATION_MODE);
   }
 
-  private void prepareExternalIdNotes(boolean userNameCaseInsensitive) throws Exception {
+  private void prepareExternalIdNotes(
+      boolean userNameCaseInsensitive, boolean userNameCaseInsensitiveTrialMode) throws Exception {
     configureUserNameCaseInsensitive(userNameCaseInsensitive);
     initSite();
     ctx = startServer();
@@ -153,47 +155,76 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
     extIdNotes.insert(extIdFactory.create(SCHEME_EXTERNAL, "saml/JaneDoe", Account.id(1)));
     extIdNotes.commit(md);
 
-    assertExternalIdNotes(userNameCaseInsensitive);
+    assertExternalIdNotes(userNameCaseInsensitive, userNameCaseInsensitiveTrialMode);
   }
 
-  private void assertExternalIdNotes(boolean userNameCaseInsensitive) throws Exception {
+  private void assertExternalIdNotes(
+      boolean userNameCaseInsensitive, boolean userNameCaseInsensitiveTrialMode) throws Exception {
     assertThat(
             extIdNotes
-                .get(ExternalId.Key.parse("username:johndoe", userNameCaseInsensitive))
+                .get(
+                    ExternalId.Key.parse(
+                        "username:johndoe",
+                        userNameCaseInsensitive,
+                        userNameCaseInsensitiveTrialMode))
                 .isPresent())
         .isTrue();
     assertThat(
             extIdNotes
-                .get(ExternalId.Key.parse("username:JaneDoe", !userNameCaseInsensitive))
+                .get(
+                    ExternalId.Key.parse(
+                        "username:JaneDoe",
+                        !userNameCaseInsensitive,
+                        userNameCaseInsensitiveTrialMode))
                 .isPresent())
         .isFalse();
     assertThat(
             extIdNotes
-                .get(ExternalId.Key.parse("username:JaneDoe", userNameCaseInsensitive))
+                .get(
+                    ExternalId.Key.parse(
+                        "username:JaneDoe",
+                        userNameCaseInsensitive,
+                        userNameCaseInsensitiveTrialMode))
                 .isPresent())
         .isTrue();
 
     assertThat(
             extIdNotes
-                .get(ExternalId.Key.parse("gerrit:johndoe", userNameCaseInsensitive))
+                .get(
+                    ExternalId.Key.parse(
+                        "gerrit:johndoe",
+                        userNameCaseInsensitive,
+                        userNameCaseInsensitiveTrialMode))
                 .isPresent())
         .isTrue();
     assertThat(
             extIdNotes
-                .get(ExternalId.Key.parse("gerrit:JaneDoe", !userNameCaseInsensitive))
+                .get(
+                    ExternalId.Key.parse(
+                        "gerrit:JaneDoe",
+                        !userNameCaseInsensitive,
+                        userNameCaseInsensitiveTrialMode))
                 .isPresent())
         .isFalse();
     assertThat(
             extIdNotes
-                .get(ExternalId.Key.parse("gerrit:JaneDoe", userNameCaseInsensitive))
+                .get(
+                    ExternalId.Key.parse(
+                        "gerrit:JaneDoe",
+                        userNameCaseInsensitive,
+                        userNameCaseInsensitiveTrialMode))
                 .isPresent())
         .isTrue();
 
-    assertThat(extIdNotes.get(ExternalId.Key.parse("mailto:Jane@Doe.com", false)).isPresent())
+    assertThat(
+            extIdNotes.get(ExternalId.Key.parse("mailto:Jane@Doe.com", false, false)).isPresent())
         .isTrue();
-    assertThat(extIdNotes.get(ExternalId.Key.parse("uuid:Abc123", false)).isPresent()).isTrue();
-    assertThat(extIdNotes.get(ExternalId.Key.parse("gpgkey:Abc123", false)).isPresent()).isTrue();
-    assertThat(extIdNotes.get(ExternalId.Key.parse("external:saml/JaneDoe", false)).isPresent())
+    assertThat(extIdNotes.get(ExternalId.Key.parse("uuid:Abc123", false, false)).isPresent())
+        .isTrue();
+    assertThat(extIdNotes.get(ExternalId.Key.parse("gpgkey:Abc123", false, false)).isPresent())
+        .isTrue();
+    assertThat(
+            extIdNotes.get(ExternalId.Key.parse("external:saml/JaneDoe", false, false)).isPresent())
         .isTrue();
   }
 

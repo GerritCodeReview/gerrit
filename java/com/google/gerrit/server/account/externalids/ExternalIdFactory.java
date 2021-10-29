@@ -250,10 +250,20 @@ public class ExternalIdFactory {
     }
 
     if (!externalIdKey.sha1().getName().equals(noteId)) {
-      throw invalidConfig(
-          noteId,
-          String.format(
-              "SHA1 of external ID '%s' does not match note ID '%s'", externalIdKeyStr, noteId));
+      if (!externalIdKey.isUserNameCaseInsensitiveMigrationMode()) {
+        throw invalidConfig(
+            noteId,
+            String.format(
+                "SHA1 of external ID '%s' does not match note ID '%s'", externalIdKeyStr, noteId));
+      }
+
+      if (!externalIdKey.caseSensitiveSha1().getName().equals(noteId)) {
+        throw invalidConfig(
+            noteId,
+            String.format(
+                "Case sensitive SHA1 of external ID '%s' does not match note ID '%s'",
+                externalIdKeyStr, noteId));
+      }
     }
 
     String email =

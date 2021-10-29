@@ -92,7 +92,10 @@ public abstract class AllExternalIds {
 
     private static ExternalId toExternalId(ObjectIdConverter idConverter, ExternalIdProto proto) {
       return ExternalId.create(
-          ExternalId.Key.parse(proto.getKey(), proto.getIsCaseInsensitive()),
+          ExternalId.Key.parse(
+              proto.getKey(),
+              proto.getIsCaseInsensitive(),
+              proto.getIsCaseInsensitiveMigrationMode()),
           Account.id(proto.getAccountId()),
           // ExternalId treats null and empty strings the same, so no need to distinguish here.
           proto.getEmail(),

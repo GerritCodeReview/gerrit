@@ -158,8 +158,13 @@ public abstract class ExternalId implements Serializable {
      * @return the created external ID key
      */
     @VisibleForTesting
-    public static Key create(@Nullable String scheme, String id, boolean isCaseInsensitive) {
-      return new AutoValue_ExternalId_Key(Strings.emptyToNull(scheme), id, isCaseInsensitive);
+    public static Key create(
+        @Nullable String scheme,
+        String id,
+        boolean isCaseInsensitive,
+        boolean isCaseInsensitiveMigrationMode) {
+      return new AutoValue_ExternalId_Key(
+          Strings.emptyToNull(scheme), id, isCaseInsensitive, isCaseInsensitiveMigrationMode);
     }
 
     /**
@@ -168,12 +173,19 @@ public abstract class ExternalId implements Serializable {
      * @return the parsed external ID key
      */
     @VisibleForTesting
-    public static Key parse(String externalId, boolean isCaseInsensitive) {
+    public static Key parse(
+        String externalId,
+        boolean isCaseInsensitive,
+        boolean isUserNameCaseInsensitiveMigrationMode) {
       int c = externalId.indexOf(':');
       if (c < 1 || c >= externalId.length() - 1) {
-        return create(null, externalId, isCaseInsensitive);
+        return create(null, externalId, isCaseInsensitive, isUserNameCaseInsensitiveMigrationMode);
       }
-      return create(externalId.substring(0, c), externalId.substring(c + 1), isCaseInsensitive);
+      return create(
+          externalId.substring(0, c),
+          externalId.substring(c + 1),
+          isCaseInsensitive,
+          isUserNameCaseInsensitiveMigrationMode);
     }
 
     public abstract @Nullable String scheme();
@@ -182,8 +194,15 @@ public abstract class ExternalId implements Serializable {
 
     public abstract boolean isCaseInsensitive();
 
+    public abstract boolean isUserNameCaseInsensitiveMigrationMode();
+
     public boolean isScheme(String scheme) {
       return scheme.equals(scheme());
+    }
+
+    @Memoized
+    public ObjectId sha1() {
+      return sha1(isCaseInsensitive());
     }
 
     /**
@@ -191,10 +210,13 @@ public abstract class ExternalId implements Serializable {
      * notes branch.
      */
     @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
-    @Memoized
-    public ObjectId sha1() {
-      String keyString = isCaseInsensitive() ? get().toLowerCase(Locale.US) : get();
+    private ObjectId sha1(Boolean isCaseInsensitive) {
+      String keyString = isCaseInsensitive ? get().toLowerCase(Locale.US) : get();
       return ObjectId.fromRaw(Hashing.sha1().hashString(keyString, UTF_8).asBytes());
+    }
+
+    public ObjectId caseSensitiveSha1() {
+      return sha1(false);
     }
 
     /**

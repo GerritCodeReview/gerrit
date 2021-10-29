@@ -146,6 +146,10 @@ public class AccountManager {
     try {
       Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
       if (!optionalExtId.isPresent()) {
+        optionalExtId =
+            externalIds.get(
+                externalIdKeyFactory.create(
+                    who.getExternalIdKey().scheme(), who.getExternalIdKey().id()));
         logger.atFine().log(
             "External ID for account %s not found. A new account will be automatically created.",
             who.getUserName());

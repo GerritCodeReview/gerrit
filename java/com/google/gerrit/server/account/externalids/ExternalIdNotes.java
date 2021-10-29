@@ -37,6 +37,7 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.index.account.AccountIndexer;
@@ -100,18 +101,21 @@ public class ExternalIdNotes extends VersionedMetaData {
     protected final AllUsersName allUsersName;
     protected final DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors;
     protected final ExternalIdFactory externalIdFactory;
+    protected final AuthConfig authConfig;
 
     protected ExternalIdNotesLoader(
         ExternalIdCache externalIdCache,
         MetricMaker metricMaker,
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
-        ExternalIdFactory externalIdFactory) {
+        ExternalIdFactory externalIdFactory,
+        AuthConfig authConfig) {
       this.externalIdCache = externalIdCache;
       this.metricMaker = metricMaker;
       this.allUsersName = allUsersName;
       this.upsertPreprocessors = upsertPreprocessors;
       this.externalIdFactory = externalIdFactory;
+      this.authConfig = authConfig;
     }
 
     /**
@@ -203,8 +207,15 @@ public class ExternalIdNotes extends VersionedMetaData {
         MetricMaker metricMaker,
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
-        ExternalIdFactory externalIdFactory) {
-      super(externalIdCache, metricMaker, allUsersName, upsertPreprocessors, externalIdFactory);
+        ExternalIdFactory externalIdFactory,
+        AuthConfig authConfig) {
+      super(
+          externalIdCache,
+          metricMaker,
+          allUsersName,
+          upsertPreprocessors,
+          externalIdFactory,
+          authConfig);
       this.accountIndexer = accountIndexer;
     }
 
@@ -212,7 +223,12 @@ public class ExternalIdNotes extends VersionedMetaData {
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(
-              metricMaker, allUsersName, allUsersRepo, upsertPreprocessors, externalIdFactory)
+              metricMaker,
+              allUsersName,
+              allUsersRepo,
+              upsertPreprocessors,
+              externalIdFactory,
+              authConfig.isUserNameCaseInsensitiveMigrationMode())
           .load();
     }
 
@@ -220,7 +236,12 @@ public class ExternalIdNotes extends VersionedMetaData {
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(
-              metricMaker, allUsersName, allUsersRepo, upsertPreprocessors, externalIdFactory)
+              metricMaker,
+              allUsersName,
+              allUsersRepo,
+              upsertPreprocessors,
+              externalIdFactory,
+              authConfig.isUserNameCaseInsensitiveMigrationMode())
           .load(rev);
     }
 
@@ -239,15 +260,27 @@ public class ExternalIdNotes extends VersionedMetaData {
         MetricMaker metricMaker,
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
-        ExternalIdFactory externalIdFactory) {
-      super(externalIdCache, metricMaker, allUsersName, upsertPreprocessors, externalIdFactory);
+        ExternalIdFactory externalIdFactory,
+        AuthConfig authConfig) {
+      super(
+          externalIdCache,
+          metricMaker,
+          allUsersName,
+          upsertPreprocessors,
+          externalIdFactory,
+          authConfig);
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(
-              metricMaker, allUsersName, allUsersRepo, upsertPreprocessors, externalIdFactory)
+              metricMaker,
+              allUsersName,
+              allUsersRepo,
+              upsertPreprocessors,
+              externalIdFactory,
+              authConfig.isUserNameCaseInsensitiveMigrationMode())
           .setNoReindex()
           .load();
     }
@@ -256,7 +289,12 @@ public class ExternalIdNotes extends VersionedMetaData {
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(
-              metricMaker, allUsersName, allUsersRepo, upsertPreprocessors, externalIdFactory)
+              metricMaker,
+              allUsersName,
+              allUsersRepo,
+              upsertPreprocessors,
+              externalIdFactory,
+              authConfig.isUserNameCaseInsensitiveMigrationMode())
           .setNoReindex()
           .load(rev);
     }
@@ -281,14 +319,16 @@ public class ExternalIdNotes extends VersionedMetaData {
       AllUsersName allUsersName,
       Repository allUsersRepo,
       @Nullable ObjectId rev,
-      ExternalIdFactory externalIdFactory)
+      ExternalIdFactory externalIdFactory,
+      boolean isUserNameCaseInsensitiveMigrationMode)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(
             new DisabledMetricMaker(),
             allUsersName,
             allUsersRepo,
             DynamicMap.emptyMap(),
-            externalIdFactory)
+            externalIdFactory,
+            isUserNameCaseInsensitiveMigrationMode)
         .setReadOnly()
         .setNoCacheUpdate()
         .setNoReindex()
@@ -306,14 +346,18 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @return {@link ExternalIdNotes} instance that doesn't updates caches on save
    */
   public static ExternalIdNotes loadNoCacheUpdate(
-      AllUsersName allUsersName, Repository allUsersRepo, ExternalIdFactory externalIdFactory)
+      AllUsersName allUsersName,
+      Repository allUsersRepo,
+      ExternalIdFactory externalIdFactory,
+      boolean isUserNameCaseInsensitiveMigrationMode)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(
             new DisabledMetricMaker(),
             allUsersName,
             allUsersRepo,
             DynamicMap.emptyMap(),
-            externalIdFactory)
+            externalIdFactory,
+            isUserNameCaseInsensitiveMigrationMode)
         .setNoCacheUpdate()
         .setNoReindex()
         .load();
@@ -350,13 +394,15 @@ public class ExternalIdNotes extends VersionedMetaData {
   private boolean readOnly = false;
   private boolean noCacheUpdate = false;
   private boolean noReindex = false;
+  private boolean isUserNameCaseInsensitiveMigrationMode = false;
 
   private ExternalIdNotes(
       MetricMaker metricMaker,
       AllUsersName allUsersName,
       Repository allUsersRepo,
       DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
-      ExternalIdFactory externalIdFactory) {
+      ExternalIdFactory externalIdFactory,
+      boolean isUserNameCaseInsensitiveMigrationMode) {
     this.updateCount =
         metricMaker.newCounter(
             "notedb/external_id_update_count",
@@ -378,6 +424,7 @@ public class ExternalIdNotes extends VersionedMetaData {
             .addTarget(ExternalIdNotes.class)
             .build();
     this.externalIdFactory = externalIdFactory;
+    this.isUserNameCaseInsensitiveMigrationMode = isUserNameCaseInsensitiveMigrationMode;
   }
 
   public ExternalIdNotes setAfterReadRevision(Runnable afterReadRevision) {
@@ -449,16 +496,26 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   public Optional<ExternalId> get(ExternalId.Key key) throws IOException, ConfigInvalidException {
     checkLoaded();
+    ObjectId noteId = getNoteId(key);
+    if (noteMap.contains(noteId)) {
+
+      try (RevWalk rw = new RevWalk(repo)) {
+        ObjectId noteDataId = noteMap.get(noteId);
+        byte[] raw = readNoteData(rw, noteDataId);
+        return Optional.of(externalIdFactory.parse(noteId.name(), raw, noteDataId));
+      }
+    }
+    return Optional.empty();
+  }
+
+  protected ObjectId getNoteId(ExternalId.Key key) throws IOException {
     ObjectId noteId = key.sha1();
-    if (!noteMap.contains(noteId)) {
-      return Optional.empty();
+
+    if (!noteMap.contains(noteId) && isUserNameCaseInsensitiveMigrationMode) {
+      noteId = key.caseSensitiveSha1();
     }
 
-    try (RevWalk rw = new RevWalk(repo)) {
-      ObjectId noteDataId = noteMap.get(noteId);
-      byte[] raw = readNoteData(rw, noteDataId);
-      return Optional.of(externalIdFactory.parse(noteId.name(), raw, noteDataId));
-    }
+    return noteId;
   }
 
   /**
@@ -865,7 +922,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   private ExternalId upsert(RevWalk rw, ObjectInserter ins, NoteMap noteMap, ExternalId extId)
       throws IOException, ConfigInvalidException {
-    ObjectId noteId = extId.key().sha1();
+    ObjectId noteId = getNoteId(extId.key());
     Config c = new Config();
     if (noteMap.contains(noteId)) {
       ObjectId noteDataId = noteMap.get(noteId);
@@ -892,7 +949,8 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   private void remove(RevWalk rw, NoteMap noteMap, ExternalId extId)
       throws IOException, ConfigInvalidException {
-    ObjectId noteId = extId.key().sha1();
+    ObjectId noteId = getNoteId(extId.key());
+
     if (!noteMap.contains(noteId)) {
       return;
     }
@@ -919,7 +977,8 @@ public class ExternalIdNotes extends VersionedMetaData {
   private ExternalId remove(
       RevWalk rw, NoteMap noteMap, ExternalId.Key extIdKey, Account.Id expectedAccountId)
       throws IOException, ConfigInvalidException {
-    ObjectId noteId = extIdKey.sha1();
+    ObjectId noteId = getNoteId(extIdKey);
+
     if (!noteMap.contains(noteId)) {
       return null;
     }

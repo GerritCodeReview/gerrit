@@ -21,9 +21,9 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {SpecialFilePath, Side} from '../../../constants/constants';
 import {
   sortComments,
-  UIComment,
-  UIRobot,
-  UIDraft,
+  Comment,
+  RobotCommentInfo,
+  DraftInfo,
 } from '../../../utils/comment-util';
 import {GrCommentThread} from './gr-comment-thread';
 import {
@@ -77,7 +77,7 @@ suite('gr-comment-thread tests', () => {
     });
 
     test('comments are sorted correctly', () => {
-      const comments: UIComment[] = [
+      const comments: Comment[] = [
         {
           message: 'i like you, too',
           in_reply_to: 'sallys_confession' as UrlEncodedCommentId,
@@ -184,7 +184,7 @@ suite('gr-comment-thread tests', () => {
 
     test('_shouldDisableAction', () => {
       let showActions = true;
-      const lastComment: UIComment = {};
+      const lastComment: Comment = {};
       assert.equal(
         element._shouldDisableAction(showActions, lastComment),
         false
@@ -200,7 +200,7 @@ suite('gr-comment-thread tests', () => {
         element._shouldDisableAction(showActions, lastComment),
         true
       );
-      const robotComment: UIRobot = {
+      const robotComment: RobotCommentInfo = {
         id: '1234' as UrlEncodedCommentId,
         updated: '1234' as Timestamp,
         robot_id: 'robot_id' as RobotId,
@@ -216,14 +216,14 @@ suite('gr-comment-thread tests', () => {
 
     test('_hideActions', () => {
       let showActions = true;
-      const lastComment: UIComment = {};
+      const lastComment: Comment = {};
       assert.equal(element._hideActions(showActions, lastComment), false);
       showActions = false;
       assert.equal(element._hideActions(showActions, lastComment), true);
       showActions = true;
       lastComment.__draft = true;
       assert.equal(element._hideActions(showActions, lastComment), true);
-      const robotComment: UIRobot = {
+      const robotComment: RobotCommentInfo = {
         id: '1234' as UrlEncodedCommentId,
         updated: '1234' as Timestamp,
         robot_id: 'robot_id' as RobotId,
@@ -372,10 +372,9 @@ suite('comment action tests with unresolved thread', () => {
     saveDiffDraftPromiseResolver(mockResponse);
 
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
-    const reportStub = stubReporting('recordDraftInteraction');
     assert.ok(commentEl);
 
-    const replyBtn = element.$.replyBtn;
+    const replyBtn = element.replyBtn;
     tap(replyBtn);
     flush();
     const draft = addDraftServiceStub.firstCall.args[0];
@@ -385,17 +384,15 @@ suite('comment action tests with unresolved thread', () => {
       draft.in_reply_to,
       'baf0414d_60047215' as UrlEncodedCommentId as UrlEncodedCommentId
     );
-    assert.isTrue(reportStub.calledOnce);
   });
 
   test('quote reply', () => {
     saveDiffDraftPromiseResolver(mockResponse);
 
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
-    const reportStub = stubReporting('recordDraftInteraction');
     assert.ok(commentEl);
 
-    const quoteBtn = element.$.quoteBtn;
+    const quoteBtn = element.quoteBtn;
     tap(quoteBtn);
     flush();
 
@@ -409,12 +406,10 @@ suite('comment action tests with unresolved thread', () => {
       draft.in_reply_to,
       'baf0414d_60047215' as UrlEncodedCommentId as UrlEncodedCommentId
     );
-    assert.isTrue(reportStub.calledOnce);
   });
 
   test('quote reply multiline', () => {
     saveDiffDraftPromiseResolver(mockResponse);
-    const reportStub = stubReporting('recordDraftInteraction');
     element.comments = [
       {
         author: {
@@ -433,7 +428,7 @@ suite('comment action tests with unresolved thread', () => {
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
     assert.ok(commentEl);
 
-    const quoteBtn = element.$.quoteBtn;
+    const quoteBtn = element.quoteBtn;
     tap(quoteBtn);
     flush();
 
@@ -443,7 +438,6 @@ suite('comment action tests with unresolved thread', () => {
       '> is this a crossover episode!?\n> It might be!\n\n'
     );
     assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
-    assert.isTrue(reportStub.calledOnce);
   });
 
   test('ack', async () => {
@@ -456,7 +450,6 @@ suite('comment action tests with unresolved thread', () => {
       updated: '2015-12-21 02:01:10.850000000',
       message: 'Ack',
     };
-    const reportStub = stubReporting('recordDraftInteraction');
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
 
@@ -471,7 +464,6 @@ suite('comment action tests with unresolved thread', () => {
     assert.equal(draft.message, 'Ack');
     assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
     assert.isNotOk(draft.unresolved);
-    assert.isTrue(reportStub.calledOnce);
   });
 
   test('done', async () => {
@@ -484,7 +476,6 @@ suite('comment action tests with unresolved thread', () => {
       updated: '2015-12-21 02:01:10.850000000',
       message: 'Done',
     };
-    const reportStub = stubReporting('recordDraftInteraction');
     assert.isFalse(saveDiffDraftStub.called);
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
@@ -502,7 +493,6 @@ suite('comment action tests with unresolved thread', () => {
     assert.equal(draft.message, 'Done');
     assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
     assert.isNotOk(draft.unresolved);
-    assert.isTrue(reportStub.calledOnce);
     assert.isTrue(saveDiffDraftStub.called);
   });
 
@@ -714,7 +704,7 @@ suite('comment action tests with unresolved thread', () => {
 
     test('_setInitialExpandedState with robot_ids', () => {
       for (let i = 0; i < element.comments.length; i++) {
-        (element.comments[i] as UIRobot).robot_id = '123' as RobotId;
+        (element.comments[i] as RobotCommentInfo).robot_id = '123' as RobotId;
       }
       element._setInitialExpandedState();
       for (let i = 0; i < element.comments.length; i++) {
@@ -781,9 +771,9 @@ suite('comment action tests with unresolved thread', () => {
     flush();
     assert.equal(element.comments.length, 1);
     // Mock a submitted comment.
-    element.comments[0].id = (element.comments[0] as UIDraft)
+    element.comments[0].id = (element.comments[0] as DraftInfo)
       .__draftID as UrlEncodedCommentId;
-    delete (element.comments[0] as UIDraft).__draft;
+    delete (element.comments[0] as DraftInfo).__draft;
     element.addOrEditDraft(1);
     assert.equal(addDraftServiceStub.callCount, 2);
   });

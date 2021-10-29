@@ -643,6 +643,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (!contentEl) throw new Error('content el not found for line el');
     side = side ?? this._getCommentSideByLineAndContent(lineEl, contentEl);
     assertIsDefined(this.path, 'path');
+    // Triggers a selection event and thus allows gr-diff-highlight to remove
+    // the selection-action-box.
+    document.getSelection()?.removeAllRanges();
     this.dispatchEvent(
       new CustomEvent<CreateCommentEventDetail>('create-comment', {
         bubbles: true,
@@ -885,6 +888,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this._incrementalNodeObserver = (
       dom(this) as PolymerDomWrapper
     ).observeNodes(info => {
+      console.log(
+        `gr-diff node observer for thread elements ${info.addedNodes.length}`
+      );
       const addedThreadEls = info.addedNodes.filter(isThreadEl);
       // Removed nodes do not need to be handled because all this code does is
       // adding a slot for the added thread elements, and the extra slots do
@@ -896,6 +902,11 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
         const lineNum = getLine(threadEl);
         const commentSide = getSide(threadEl);
         const range = getRange(threadEl);
+        console.log(
+          `gr-diff added thread el ${lineNum} ${commentSide} ${JSON.stringify(
+            range
+          )}`
+        );
         if (!commentSide) continue;
         const lineEl = this.$.diffBuilder.getLineElByNumber(
           lineNum,
@@ -914,7 +925,10 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
           continue;
         }
         const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
-        if (!contentEl) continue;
+        if (!contentEl) {
+          console.log('gr-diff content el not found');
+          continue;
+        }
         if (lineNum === 'LOST' && !contentEl.hasChildNodes()) {
           contentEl.appendChild(this._portedCommentsWithoutRangeMessage());
         }
@@ -945,6 +959,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
         if (slotAtt) slot.name = slotAtt;
         threadGroupEl.appendChild(slot);
         lastEl = threadEl;
+        console.log('gr-diff created slot and appended child');
       }
 
       // Safari is not binding newly created comment-thread

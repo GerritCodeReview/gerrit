@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {
   AccountDetailInfo,
   AccountId,
@@ -31,6 +30,7 @@ import {
   ChangeMessageId,
   ChangeMessageInfo,
   ChangeViewChangeInfo,
+  CommentInfo,
   CommentLinkInfo,
   CommentLinks,
   CommitId,
@@ -62,6 +62,9 @@ import {
   RequirementType,
   Reviewers,
   RevisionInfo,
+  RobotCommentInfo,
+  RobotId,
+  RobotRunId,
   SchemesInfoMap,
   ServerInfo,
   SubmittedTogetherInfo,
@@ -95,12 +98,7 @@ import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
 import {AppElementChangeViewParams} from '../elements/gr-app-types';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
-import {
-  createCommentThreads,
-  UIComment,
-  UIDraft,
-  UIHuman,
-} from '../utils/comment-util';
+import {createCommentThreads, DraftInfo} from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
@@ -493,7 +491,7 @@ export function createWebLinkInfo(): WebLinkInfo {
   };
 }
 
-export function createComment(): UIHuman {
+export function createComment(): CommentInfo {
   return {
     patch_set: 1 as PatchSetNum,
     id: '12345' as UrlEncodedCommentId,
@@ -506,12 +504,20 @@ export function createComment(): UIHuman {
   };
 }
 
-export function createDraft(): UIDraft {
+export function createDraft(): DraftInfo {
   return {
     ...createComment(),
-    collapsed: false,
     __draft: true,
-    __editing: false,
+  };
+}
+
+export function createRobotComment(): RobotCommentInfo {
+  return {
+    ...createComment(),
+    robot_id: 'robot-id-123' as RobotId,
+    robot_run_id: 'robot-run-id-456' as RobotRunId,
+    properties: {},
+    fix_suggestions: [],
   };
 }
 
@@ -618,7 +624,9 @@ export function createChangeComments(): ChangeComments {
   return new ChangeComments(comments, {}, drafts, {}, {});
 }
 
-export function createCommentThread(comments: UIComment[]) {
+export function createCommentThread(
+  comments: Array<CommentInfo | DraftInfo | RobotCommentInfo>
+) {
   if (!comments.length) {
     throw new Error('comment is required to create a thread');
   }

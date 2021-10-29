@@ -23,9 +23,8 @@ import {
   sortComments,
 } from './comment-util';
 import {createComment, createCommentThread} from '../test/test-data-generators';
-import {CommentSide, Side} from '../constants/constants';
+import {CommentSide} from '../constants/constants';
 import {
-  BasePatchSetNum,
   ParentPatchSetNum,
   PatchSetNum,
   RevisionPatchSetNum,
@@ -37,7 +36,6 @@ suite('comment-util', () => {
   test('isUnresolved', () => {
     const thread = createCommentThread([createComment()]);
 
-    assert.isFalse(isUnresolved(undefined));
     assert.isFalse(isUnresolved(thread));
 
     assert.isTrue(
@@ -97,7 +95,6 @@ suite('comment-util', () => {
       {
         id: 'new_draft' as UrlEncodedCommentId,
         message: 'i do not like either of you',
-        diffSide: Side.LEFT,
         __draft: true,
         updated: '2015-12-20 15:01:20.396000000' as Timestamp,
       },
@@ -106,13 +103,11 @@ suite('comment-util', () => {
         message: 'i like you, jack',
         updated: '2015-12-23 15:00:20.396000000' as Timestamp,
         line: 1,
-        diffSide: Side.LEFT,
       },
       {
         id: 'jacks_reply' as UrlEncodedCommentId,
         message: 'i like you, too',
         updated: '2015-12-24 15:01:20.396000000' as Timestamp,
-        diffSide: Side.LEFT,
         line: 1,
         in_reply_to: 'sallys_confession',
       },
@@ -153,21 +148,16 @@ suite('comment-util', () => {
         },
       ];
 
-      const actualThreads = createCommentThreads(comments, {
-        basePatchNum: 1 as BasePatchSetNum,
-        patchNum: 4 as RevisionPatchSetNum,
-      });
+      const actualThreads = createCommentThreads(comments);
 
       assert.equal(actualThreads.length, 2);
 
-      assert.equal(actualThreads[0].diffSide, Side.LEFT);
       assert.equal(actualThreads[0].comments.length, 2);
       assert.deepEqual(actualThreads[0].comments[0], comments[0]);
       assert.deepEqual(actualThreads[0].comments[1], comments[1]);
       assert.equal(actualThreads[0].patchNum, 1 as PatchSetNum);
       assert.equal(actualThreads[0].line, 1);
 
-      assert.equal(actualThreads[1].diffSide, Side.LEFT);
       assert.equal(actualThreads[1].comments.length, 1);
       assert.deepEqual(actualThreads[1].comments[0], comments[2]);
       assert.equal(actualThreads[1].patchNum, 1 as PatchSetNum);
@@ -194,7 +184,6 @@ suite('comment-util', () => {
 
       const expectedThreads = [
         {
-          diffSide: Side.LEFT,
           commentSide: CommentSide.REVISION,
           path: '/p',
           rootId: 'betsys_confession' as UrlEncodedCommentId,
@@ -226,13 +215,7 @@ suite('comment-util', () => {
         },
       ];
 
-      assert.deepEqual(
-        createCommentThreads(comments, {
-          basePatchNum: 5 as BasePatchSetNum,
-          patchNum: 10 as RevisionPatchSetNum,
-        }),
-        expectedThreads
-      );
+      assert.deepEqual(createCommentThreads(comments), expectedThreads);
     });
 
     test('does not thread unrelated comments at same location', () => {
@@ -241,14 +224,12 @@ suite('comment-util', () => {
           id: 'sallys_confession' as UrlEncodedCommentId,
           message: 'i like you, jack',
           updated: '2015-12-23 15:00:20.396000000' as Timestamp,
-          diffSide: Side.LEFT,
           path: '/p',
         },
         {
           id: 'jacks_reply' as UrlEncodedCommentId,
           message: 'i like you, too',
           updated: '2015-12-24 15:01:20.396000000' as Timestamp,
-          diffSide: Side.LEFT,
           path: '/p',
         },
       ];

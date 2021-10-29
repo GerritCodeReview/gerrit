@@ -92,6 +92,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {diffViewMode$} from '../../../services/browser/browser-model';
+import {reviewedFiles$} from '../../../services/change/change-model';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -225,7 +226,7 @@ export class GrFileList extends base {
   _loggedIn = false;
 
   @property({type: Array})
-  _reviewed?: string[] = [];
+  reviewed?: string[] = [];
 
   @property({type: Object, notify: true, observer: '_updateDiffPreferences'})
   diffPrefs?: DiffPreferencesInfo;
@@ -320,6 +321,8 @@ export class GrFileList extends base {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly changeService = appContext.changeService;
+
   private readonly userService = appContext.userService;
 
   disconnected$ = new Subject();
@@ -396,6 +399,11 @@ export class GrFileList extends base {
       .subscribe(sizeBarInChangeTable => {
         this._showSizeBars = sizeBarInChangeTable;
       });
+    reviewedFiles$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(reviewedFiles => {
+        if (reviewedFiles) this.reviewed = Array.from(reviewedFiles);
+      });
 
     getPluginLoader()
       .awaitPluginsLoaded()
@@ -468,7 +476,7 @@ export class GrFileList extends base {
     this._loading = true;
 
     this.collapseAllDiffs();
-    const promises = [];
+    const promises: Promise<boolean | void>[]  = [];
 
     promises.push(
       this.restApiService
@@ -479,19 +487,7 @@ export class GrFileList extends base {
     );
 
     promises.push(
-      this._getLoggedIn()
-        .then(loggedIn => (this._loggedIn = loggedIn))
-        .then(loggedIn => {
-          if (!loggedIn) {
-            return;
-          }
-
-          return this._getReviewedFiles(changeNum, patchRange).then(
-            reviewed => {
-              this._reviewed = reviewed;
-            }
-          );
-        })
+      this._getLoggedIn().then(loggedIn => (this._loggedIn = loggedIn))
     );
 
     return Promise.all(promises).then(() => {
@@ -753,7 +749,7 @@ export class GrFileList extends base {
       throw new Error('changeNum and patchRange must be set');
     }
 
-    return this.restApiService.saveFileReviewed(
+    return this.changeService.setReviewedFilesStatus(
       this.changeNum,
       this.patchRange.patchNum,
       path,
@@ -1137,7 +1133,7 @@ export class GrFileList extends base {
     '_filesByPath',
     'changeComments',
     'patchRange',
-    '_reviewed',
+    'reviewed',
     '_loading'
   )
   _computeFiles(
@@ -1202,6 +1198,7 @@ export class GrFileList extends base {
       filesShown.length - previousNumFilesShown
     );
 
+    this._shownFiles = [...filesShown];
     return filesShown;
   }
 
@@ -1466,12 +1463,12 @@ export class GrFileList extends base {
     this.classList.toggle('editMode', editMode);
   }
 
-  _computeReviewedClass(isReviewed?: boolean) {
-    return isReviewed ? 'isReviewed' : '';
+  _computeReviewedClass(file?: NormalizedFileInfo) {
+    return file?.isReviewed ? 'isReviewed' : '';
   }
 
-  _computeReviewedText(isReviewed?: boolean) {
-    return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
+  _computeReviewedText(file?: NormalizedFileInfo) {
+    return file?.isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
   }
 
   /**
@@ -1641,8 +1638,8 @@ export class GrFileList extends base {
     return '';
   }
 
-  _reviewedTitle(reviewed?: boolean) {
-    if (reviewed) {
+  _reviewedTitle(file?: NormalizedFileInfo) {
+    if (file?.isReviewed) {
       return 'Mark as not reviewed (shortcut: r)';
     }
 

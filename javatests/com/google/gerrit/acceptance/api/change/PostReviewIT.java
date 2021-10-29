@@ -699,7 +699,9 @@ public class PostReviewIT extends AbstractDaemonTest {
       gApi.changes().id(r.getChangeId()).current().review(input);
     }
 
-    assertThat(testSubmitRule.count).isEqualTo(1);
+    // Submit rules are evaluated twice: once from the normal SubmitRuleEvaluator path, and once
+    // from SubmitRequirementsEvaluator to compute the legacy submit records.
+    assertThat(testSubmitRule.count).isEqualTo(2);
   }
 
   @Test

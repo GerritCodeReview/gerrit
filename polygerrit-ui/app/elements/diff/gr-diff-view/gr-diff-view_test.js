@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-diff-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus, DiffViewMode, createDefaultDiffPrefs} from '../../../constants/constants.js';
-import {stubRestApi, stubUsers, waitUntil} from '../../../test/test-utils.js';
+import {stubRestApi, stubUsers, waitUntil, stubChange} from '../../../test/test-utils.js';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
 import {GerritView} from '../../../services/router/router-model.js';
 import {
@@ -1190,7 +1190,7 @@ suite('gr-diff-view tests', () => {
 
     test('_prefs.manual_review true means set reviewed is not ' +
       'automatically called', async () => {
-      const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
+      const saveReviewedStub = stubChange('setReviewedFilesStatus')
           .callsFake(() => Promise.resolve());
       const getReviewedStub = sinon.stub(element, '_getReviewedStatus')
           .returns(false);
@@ -1229,7 +1229,7 @@ suite('gr-diff-view tests', () => {
 
     test('_prefs.manual_review false means set reviewed is called',
         async () => {
-          const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
+          const saveReviewedStub = stubChange('setReviewedFilesStatus')
               .callsFake(() => Promise.resolve());
           const getReviewedStub = sinon.stub(element, '_getReviewedStatus')
               .returns(false);
@@ -1262,7 +1262,7 @@ suite('gr-diff-view tests', () => {
 
     test('file review status', async () => {
       sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-      const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
+      const saveReviewedStub = stubChange('setReviewedFilesStatus')
           .callsFake(() => Promise.resolve());
       sinon.stub(element.$.diffHost, 'reload');
 
@@ -1286,15 +1286,18 @@ suite('gr-diff-view tests', () => {
           'input[type="checkbox"]');
 
       assert.isTrue(reviewedStatusCheckBox.checked);
-      assert.deepEqual(saveReviewedStub.lastCall.args, [true, 2]);
+      assert.deepEqual(saveReviewedStub.lastCall.args,
+          ['42', 2, '/COMMIT_MSG', true]);
 
       MockInteractions.tap(reviewedStatusCheckBox);
       assert.isFalse(reviewedStatusCheckBox.checked);
-      assert.deepEqual(saveReviewedStub.lastCall.args, [false, 2]);
+      assert.deepEqual(saveReviewedStub.lastCall.args,
+          ['42', 2, '/COMMIT_MSG', false]);
 
       MockInteractions.tap(reviewedStatusCheckBox);
       assert.isTrue(reviewedStatusCheckBox.checked);
-      assert.deepEqual(saveReviewedStub.lastCall.args, [true, 2]);
+      assert.deepEqual(saveReviewedStub.lastCall.args,
+          ['42', 2, '/COMMIT_MSG', true]);
 
       const callCount = saveReviewedStub.callCount;
 
@@ -1307,7 +1310,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('file review status with edit loaded', () => {
-      const saveReviewedStub = sinon.stub(element, '_saveReviewedState');
+      const saveReviewedStub = stubChange('setReviewedFilesStatus');
 
       element._patchRange = {patchNum: EditPatchSetNum};
       flush();
@@ -1796,7 +1799,7 @@ suite('gr-diff-view tests', () => {
         isAtEndStub.returns(true);
 
         element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
-        element._reviewedFiles = new Set(['file2']);
+        element.reviewedFiles = new Set(['file2']);
         element._path = 'file1';
 
         nowStub.returns(5);
@@ -1840,7 +1843,7 @@ suite('gr-diff-view tests', () => {
         isAtStartStub.returns(true);
 
         element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
-        element._reviewedFiles = new Set(['file2']);
+        element.reviewedFiles = new Set(['file2']);
         element._path = 'file3';
 
         nowStub.returns(5);
@@ -1887,7 +1890,7 @@ suite('gr-diff-view tests', () => {
 
     test('shift+m navigates to next unreviewed file', () => {
       element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
-      element._reviewedFiles = new Set(['file1', 'file2']);
+      element.reviewedFiles = new Set(['file1', 'file2']);
       element._path = 'file1';
       const reviewedStub = sinon.stub(element, '_setReviewed');
       const navStub = sinon.stub(element, '_navToFile');

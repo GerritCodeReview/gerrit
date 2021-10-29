@@ -662,7 +662,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('file review status', () => {
-      element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
+      element.reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element._filesByPath = {
         '/COMMIT_MSG': {},
         'file_added_in_rev2.txt': {},
@@ -1521,7 +1521,7 @@ suite('gr-file-list tests', () => {
           size: 100,
         },
       };
-      element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
+      element.reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element._loggedIn = true;
       element.changeNum = '42';
       element.patchRange = {

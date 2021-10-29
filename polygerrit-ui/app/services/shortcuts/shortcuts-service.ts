@@ -119,7 +119,7 @@ export class ShortcutsService implements Finalizable {
     );
     this.keydownListener = (e: KeyboardEvent) => {
       if (!isComboKey(e.key)) return;
-      if (this.shouldSuppress(e)) return;
+      if (this.shortcutsDisabled || shouldSuppress(e)) return;
       this.comboKeyLastPressed = {key: e.key, timestampMs: Date.now()};
     };
     document.addEventListener('keydown', this.keydownListener);
@@ -159,7 +159,12 @@ export class ShortcutsService implements Finalizable {
   addShortcut(
     element: HTMLElement,
     shortcut: Binding,
-    listener: (e: KeyboardEvent) => void
+    listener: (e: KeyboardEvent) => void,
+    options: {
+      shouldSuppress: boolean;
+    } = {
+      shouldSuppress: true,
+    }
   ) {
     const wrappedListener = (e: KeyboardEvent) => {
       if (e.repeat && !shortcut.allowRepeat) return;
@@ -169,19 +174,21 @@ export class ShortcutsService implements Finalizable {
       } else {
         if (this.isInComboKeyMode()) return;
       }
-      if (this.shouldSuppress(e)) return;
+      if (options.shouldSuppress && shouldSuppress(e)) return;
+      // `shortcutsDisabled` refers to disabling global shortcuts like 'n'. If
+      // `shouldSuppress` is false (e.g.for Ctrl - ENTER), then don't disable
+      // the shortcut.
+      if (options.shouldSuppress && this.shortcutsDisabled) return;
       e.preventDefault();
       e.stopPropagation();
+      this.reportTriggered(e);
       listener(e);
     };
     element.addEventListener('keydown', wrappedListener);
     return () => element.removeEventListener('keydown', wrappedListener);
   }
 
-  shouldSuppress(e: KeyboardEvent) {
-    if (this.shortcutsDisabled) return true;
-    if (shouldSuppress(e)) return true;
-
+  private reportTriggered(e: KeyboardEvent) {
     // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
     let key = `${e.key}:${e.type}`;
     if (this.isInSpecificComboKeyMode(ComboKey.G)) key = 'g+' + key;
@@ -195,7 +202,6 @@ export class ShortcutsService implements Finalizable {
       from = e.currentTarget.tagName;
     }
     this.reporting?.reportInteraction('shortcut-triggered', {key, from});
-    return false;
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {

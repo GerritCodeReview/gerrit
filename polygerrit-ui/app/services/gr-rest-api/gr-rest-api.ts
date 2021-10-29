@@ -109,6 +109,7 @@ import {
 } from '../../types/diff';
 import {ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
+import {DraftInfo} from '../../utils/comment-util';
 
 export type CancelConditionCallback = () => boolean;
 
@@ -402,10 +403,6 @@ export interface RestApiService extends Finalizable {
     draft: CommentInput
   ): Promise<Response>;
 
-  getDiffChangeDetail(
-    changeNum: NumericChangeId
-  ): Promise<ChangeInfo | undefined | null>;
-
   getPortedComments(
     changeNum: NumericChangeId,
     revision: RevisionId
@@ -454,21 +451,7 @@ export interface RestApiService extends Finalizable {
 
   getDiffDrafts(
     changeNum: NumericChangeId
-  ): Promise<PathToCommentsInfoMap | undefined>;
-  getDiffDrafts(
-    changeNum: NumericChangeId,
-    basePatchNum: PatchSetNum,
-    patchNum: PatchSetNum,
-    path: string
-  ): Promise<GetDiffCommentsOutput>;
-  getDiffDrafts(
-    changeNum: NumericChangeId,
-    basePatchNum?: BasePatchSetNum,
-    patchNum?: PatchSetNum,
-    path?: string
-  ):
-    | Promise<GetDiffCommentsOutput>
-    | Promise<PathToCommentsInfoMap | undefined>;
+  ): Promise<{[path: string]: DraftInfo[]} | undefined>;
 
   createGroup(config: GroupInput & {name: string}): Promise<Response>;
 

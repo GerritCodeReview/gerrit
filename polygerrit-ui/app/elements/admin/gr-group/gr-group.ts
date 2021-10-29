@@ -15,17 +15,24 @@
  * limitations under the License.
  */
 
+<<<<<<< HEAD   (b591c9 Merge branch 'stable-3.4' into 'stable-3.5')
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/gr-font-styles';
 import '../../../styles/gr-form-styles';
 import '../../../styles/gr-subpage-styles';
 import '../../../styles/shared-styles';
+=======
+>>>>>>> CHANGE (278bbf gr-group: Use gr-textarea)
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-select/gr-select';
+<<<<<<< HEAD   (b591c9 Merge branch 'stable-3.4' into 'stable-3.5')
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-group_html';
 import {customElement, property, observe} from '@polymer/decorators';
+=======
+import '../../shared/gr-textarea/gr-textarea';
+>>>>>>> CHANGE (278bbf gr-group: Use gr-textarea)
 import {
   AutocompleteSuggestion,
   AutocompleteQuery,
@@ -135,7 +142,202 @@ export class GrGroup extends PolymerElement {
     this._loadGroup();
   }
 
+<<<<<<< HEAD   (b591c9 Merge branch 'stable-3.4' into 'stable-3.5')
   _loadGroup() {
+=======
+  static override get styles() {
+    return [
+      fontStyles,
+      formStyles,
+      sharedStyles,
+      subpageStyles,
+      css`
+        h3.edited:after {
+          color: var(--deemphasized-text-color);
+          content: ' *';
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <div class="main gr-form-styles read-only">
+        <div id="loading" class="${this.computeLoadingClass()}">Loading...</div>
+        <div id="loadedContent" class="${this.computeLoadingClass()}">
+          <h1 id="Title" class="heading-1">
+            ${convertToString(this.originalName)}
+          </h1>
+          <h2 id="configurations" class="heading-2">General</h2>
+          <div id="form">
+            <fieldset>
+              ${this.renderGroupUUID()} ${this.renderGroupName()}
+              ${this.renderGroupOwner()} ${this.renderGroupDescription()}
+              ${this.renderGroupOptions()}
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderGroupUUID() {
+    return html`
+      <h3 id="groupUUID" class="heading-3">Group UUID</h3>
+      <fieldset>
+        <gr-copy-clipboard
+          id="uuid"
+          .text=${this.getGroupUUID()}
+        ></gr-copy-clipboard>
+      </fieldset>
+    `;
+  }
+
+  private renderGroupName() {
+    const groupNameEdited = this.originalName !== this.groupConfig?.name;
+    return html`
+      <h3
+        id="groupName"
+        class="heading-3 ${this.computeHeaderClass(groupNameEdited)}"
+      >
+        Group Name
+      </h3>
+      <fieldset>
+        <span class="value">
+          <gr-autocomplete
+            id="groupNameInput"
+            .text=${convertToString(this.groupConfig?.name)}
+            ?disabled=${this.computeGroupDisabled()}
+            @text-changed=${this.handleNameTextChanged}
+          ></gr-autocomplete>
+        </span>
+        <span class="value" ?disabled=${this.computeGroupDisabled()}>
+          <gr-button
+            id="inputUpdateNameBtn"
+            ?disabled=${!groupNameEdited}
+            @click=${this.handleSaveName}
+          >
+            Rename Group</gr-button
+          >
+        </span>
+      </fieldset>
+    `;
+  }
+
+  private renderGroupOwner() {
+    const groupOwnerNameEdited =
+      this.originalOwnerName !== this.groupConfig?.owner;
+    return html`
+      <h3
+        id="groupOwner"
+        class="heading-3 ${this.computeHeaderClass(groupOwnerNameEdited)}"
+      >
+        Owners
+      </h3>
+      <fieldset>
+        <span class="value">
+          <gr-autocomplete
+            id="groupOwnerInput"
+            .text=${convertToString(this.groupConfig?.owner)}
+            .value=${convertToString(this.groupConfigOwner)}
+            .query=${this.query}
+            ?disabled=${this.computeGroupDisabled()}
+            @text-changed=${this.handleOwnerTextChanged}
+            @value-changed=${this.handleOwnerValueChanged}
+          >
+          </gr-autocomplete>
+        </span>
+        <span class="value" ?disabled=${this.computeGroupDisabled()}>
+          <gr-button
+            id="inputUpdateOwnerBtn"
+            ?disabled=${!groupOwnerNameEdited}
+            @click=${this.handleSaveOwner}
+          >
+            Change Owners</gr-button
+          >
+        </span>
+      </fieldset>
+    `;
+  }
+
+  private renderGroupDescription() {
+    const groupDescriptionEdited =
+      this.originalDescriptionName !== this.groupConfig?.description;
+    return html`
+      <h3 class="heading-3 ${this.computeHeaderClass(groupDescriptionEdited)}">
+        Description
+      </h3>
+      <fieldset>
+        <div>
+          <gr-textarea
+            class="description"
+            autocomplete="on"
+            rows="4"
+            monospace
+            ?disabled=${this.computeGroupDisabled()}
+            .text=${convertToString(this.groupConfig?.description)}
+            @text-changed=${this.handleDescriptionTextChanged}
+          >
+        </div>
+        <span class="value" ?disabled=${this.computeGroupDisabled()}>
+          <gr-button
+            ?disabled=${!groupDescriptionEdited}
+            @click=${this.handleSaveDescription}
+          >
+            Save Description
+          </gr-button>
+        </span>
+      </fieldset>
+    `;
+  }
+
+  private renderGroupOptions() {
+    const groupOptionsEdited =
+      this.originalOptionsVisibleToAll !==
+      this.groupConfig?.options?.visible_to_all;
+    return html`
+      <h3
+        id="options"
+        class="heading-3 ${this.computeHeaderClass(groupOptionsEdited)}"
+      >
+        Group Options
+      </h3>
+      <fieldset>
+        <section>
+          <span class="title">
+            Make group visible to all registered users
+          </span>
+          <span class="value">
+            <gr-select
+              id="visibleToAll"
+              .bindValue="${this.groupConfig?.options?.visible_to_all}"
+              @bind-value-changed=${this.handleOptionsBindValueChanged}
+            >
+              <select ?disabled=${this.computeGroupDisabled()}>
+                ${this.submitTypes.map(
+                  item => html`
+                    <option value=${item.value}>${item.label}</option>
+                  `
+                )}
+              </select>
+            </gr-select>
+          </span>
+        </section>
+        <span class="value" ?disabled=${this.computeGroupDisabled()}>
+          <gr-button
+            ?disabled=${!groupOptionsEdited}
+            @click=${this.handleSaveOptions}
+          >
+            Save Group Options
+          </gr-button>
+        </span>
+      </fieldset>
+    `;
+  }
+
+  /* private but used in test */
+  async loadGroup() {
+>>>>>>> CHANGE (278bbf gr-group: Use gr-textarea)
     if (!this.groupId) {
       return;
     }
@@ -316,4 +518,38 @@ export class GrGroup extends PolymerElement {
 
     return id.match(INTERNAL_GROUP_REGEX) ? id : decodeURIComponent(id);
   }
+<<<<<<< HEAD   (b591c9 Merge branch 'stable-3.4' into 'stable-3.5')
+=======
+
+  private handleNameTextChanged(e: CustomEvent) {
+    if (!this.groupConfig || this.loading) return;
+    this.groupConfig.name = e.detail.value as GroupName;
+    this.requestUpdate();
+  }
+
+  private handleOwnerTextChanged(e: CustomEvent) {
+    if (!this.groupConfig || this.loading) return;
+    this.groupConfig.owner = e.detail.value;
+    this.requestUpdate();
+  }
+
+  private handleOwnerValueChanged(e: CustomEvent) {
+    if (this.loading) return;
+    this.groupConfigOwner = e.detail.value;
+    this.requestUpdate();
+  }
+
+  private handleDescriptionTextChanged(e: CustomEvent) {
+    if (!this.groupConfig || this.loading) return;
+    this.groupConfig.description = e.detail.value;
+    this.requestUpdate();
+  }
+
+  private handleOptionsBindValueChanged(e: BindValueChangeEvent) {
+    if (!this.groupConfig || !this.groupConfig.options || this.loading) return;
+    this.groupConfig.options.visible_to_all = e.detail
+      .value as unknown as boolean;
+    this.requestUpdate();
+  }
+>>>>>>> CHANGE (278bbf gr-group: Use gr-textarea)
 }

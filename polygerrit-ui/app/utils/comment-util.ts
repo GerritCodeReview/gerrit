@@ -54,11 +54,7 @@ export interface UIStateCommentProps {
   collapsed?: boolean;
 }
 
-export interface UIStateDraftProps {
-  __editing?: boolean;
-}
-
-export type UIDraft = DraftInfo & UIStateCommentProps & UIStateDraftProps;
+export type UIDraft = DraftInfo & UIStateCommentProps;
 
 export type UIHuman = CommentInfo & UIStateCommentProps;
 

@@ -57,7 +57,6 @@ interface CommentThreadWithInfo {
   hasRobotComment: boolean;
   hasHumanReplyToRobotComment: boolean;
   unresolved: boolean;
-  isEditing: boolean;
   hasDraft: boolean;
   updated?: Date;
 }
@@ -510,10 +509,6 @@ export class GrThreadList extends PolymerElement {
 
     const threadInfo = this._getThreadWithStatusInfo(thread);
 
-    if (threadInfo.isEditing) {
-      return true;
-    }
-
     if (
       threadInfo.hasRobotComment &&
       onlyShowRobotCommentsWithHumanReply &&
@@ -553,7 +548,6 @@ export class GrThreadList extends PolymerElement {
       hasRobotComment,
       hasHumanReplyToRobotComment,
       unresolved: !!lastComment && !!lastComment.unresolved,
-      isEditing: isDraft(lastComment) && !!lastComment.__editing,
       hasDraft: !!lastComment && isDraft(lastComment),
       updated,
     };

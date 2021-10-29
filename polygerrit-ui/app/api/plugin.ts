@@ -49,7 +49,22 @@ export enum EventType {
 }
 
 export declare interface PluginApi {
+  /**
+   * The raw URL of the plugin's js bundle, e.g.:
+   * https://cdn.googlesource.com/polygerrit_assets/533.0/plugins/codemirror_editor/static/codemirror_editor.js'
+   */
   _url?: URL;
+  /**
+   * The base path of plugin related resources. Depends on whether the plugin
+   * was loaded from the same origin as the Gerrit web app itself.
+   *
+   * Same origin: The base path of all Gerrit URLs, e.g.:
+   * https://gerrit-review.googlesource.com/
+   *
+   * Different origin: The root path of plugin files, e.g.:
+   * https://cdn.googlesource.com/polygerrit_assets/533.0/plugins/codemirror_editor/'
+   */
+  url(): string;
   admin(): AdminPluginApi;
   annotationApi(): AnnotationPluginApi;
   attributeHelper(element: Element): AttributeHelperPluginApi;

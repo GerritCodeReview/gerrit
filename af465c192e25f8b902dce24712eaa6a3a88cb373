@@ -16,6 +16,41 @@
       "message": "Should this be backported to 3.5?",
       "revId": "af465c192e25f8b902dce24712eaa6a3a88cb373",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "580d899d_fbcd7151",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-29T13:41:45Z",
+      "side": 1,
+      "message": "Hi Luca,\n\nHow do we backport this into 3.5?",
+      "revId": "af465c192e25f8b902dce24712eaa6a3a88cb373",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9674f27f_72115da5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-29T13:41:45Z",
+      "side": 1,
+      "message": "Probably yes.",
+      "parentUuid": "2f241077_f0aeccd6",
+      "revId": "af465c192e25f8b902dce24712eaa6a3a88cb373",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

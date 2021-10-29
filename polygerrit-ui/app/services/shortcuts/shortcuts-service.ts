@@ -102,7 +102,7 @@ export class ShortcutsService {
     disableShortcuts$.subscribe(x => (this.shortcutsDisabled = x));
     document.addEventListener('keydown', (e: KeyboardEvent) => {
       if (!isComboKey(e.key)) return;
-      if (this.shouldSuppress(e)) return;
+      if (this.shortcutsDisabled || shouldSuppress(e)) return;
       this.comboKeyLastPressed = {key: e.key, timestampMs: Date.now()};
     });
   }
@@ -134,7 +134,12 @@ export class ShortcutsService {
   addShortcut(
     element: HTMLElement,
     shortcut: Binding,
-    listener: (e: KeyboardEvent) => void
+    listener: (e: KeyboardEvent) => void,
+    options: {
+      shouldSuppress: boolean;
+    } = {
+      shouldSuppress: true,
+    }
   ) {
     const wrappedListener = (e: KeyboardEvent) => {
       if (e.repeat && !shortcut.allowRepeat) return;
@@ -144,19 +149,19 @@ export class ShortcutsService {
       } else {
         if (this.isInComboKeyMode()) return;
       }
-      if (this.shouldSuppress(e)) return;
+      if (options.shouldSuppress && shouldSuppress(e)) return;
+      if (options.shouldSuppress && this.shortcutsDisabled) return;
       e.preventDefault();
       e.stopPropagation();
+      console.log(`wrappedListener LISTENER CALLED ${shortcut.key}`);
+      this.reportTriggered(e);
       listener(e);
     };
     element.addEventListener('keydown', wrappedListener);
     return () => element.removeEventListener('keydown', wrappedListener);
   }
 
-  shouldSuppress(e: KeyboardEvent) {
-    if (this.shortcutsDisabled) return true;
-    if (shouldSuppress(e)) return true;
-
+  private reportTriggered(e: KeyboardEvent) {
     // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
     let key = `${e.key}:${e.type}`;
     if (this.isInSpecificComboKeyMode(ComboKey.G)) key = 'g+' + key;
@@ -170,7 +175,6 @@ export class ShortcutsService {
       from = e.currentTarget.tagName;
     }
     this.reporting?.reportInteraction('shortcut-triggered', {key, from});
-    return false;
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {

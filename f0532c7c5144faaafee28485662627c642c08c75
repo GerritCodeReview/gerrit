@@ -70,6 +70,30 @@
       },
       "revId": "f0532c7c5144faaafee28485662627c642c08c75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8ec11b8_5a2a3d81",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-29T10:11:11Z",
+      "side": 1,
+      "message": "Hi Nasser, sorry for the very late reply.\n\nThe \u0027rule\u0027 operator should be temporary and I mainly introduced it for migrating submit rules to submit requirements. This operator should be deprecated anyway in the future; i.e. when an installation fully relies on submit requirements, there will be no need for this operator.\n\nI also prefer to keep as is since the change was merged. We have on-going experiments on gerrit-review to test SRs. Data has been written to NoteDb in gerrit-review using this format (we store SR results in NoteDb when changes are merged), and changing the format will require extra code to handle both formats. I\u0027d avoid this extra complexity.",
+      "parentUuid": "04ebeab1_3bb862cd",
+      "range": {
+        "startLine": 618,
+        "startChar": 1,
+        "endLine": 618,
+        "endChar": 24
+      },
+      "revId": "f0532c7c5144faaafee28485662627c642c08c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

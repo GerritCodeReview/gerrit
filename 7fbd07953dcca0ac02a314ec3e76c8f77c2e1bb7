@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41220570_31214dfb",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-10-29T10:44:20Z",
+      "side": 1,
+      "message": "should shortening be done in this component instead of in gr-related-changes-list and then passed as a property? It seems more the responsibility of the row component than the list.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 17
+      },
+      "revId": "7fbd07953dcca0ac02a314ec3e76c8f77c2e1bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

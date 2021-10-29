@@ -89,7 +89,6 @@ import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.FooterConstants;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
@@ -154,7 +153,6 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.LegacySubmitRequirementInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.SubmitRecordInfo;
-import com.google.gerrit.extensions.common.SubmitRequirementExpressionInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
@@ -4160,9 +4158,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirement_withLabelEqualsMax() throws Exception {
     configSubmitRequirement(
         project,
@@ -4189,9 +4184,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirement_withLabelEqualsMax_fromNonUploader() throws Exception {
     configLabel("my-label", LabelFunction.NO_OP); // label function has no effect
     projectOperations
@@ -4233,9 +4225,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirement_withLabelEqualsMinBlockingSubmission() throws Exception {
     configSubmitRequirement(
         project,
@@ -4277,9 +4266,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirement_withMaxWithBlock_ignoringSelfApproval() throws Exception {
     configLabel("my-label", LabelFunction.MAX_WITH_BLOCK);
     projectOperations
@@ -4329,9 +4315,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirement_withLabelEqualsAny() throws Exception {
     configSubmitRequirement(
         project,
@@ -4361,9 +4344,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirementIsSatisfied_whenSubmittabilityExpressionIsFulfilled()
       throws Exception {
     configSubmitRequirement(
@@ -4402,9 +4382,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirementIsNotApplicable_whenApplicabilityExpressionIsNotFulfilled()
       throws Exception {
     configSubmitRequirement(
@@ -4428,9 +4405,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirementIsOverridden_whenOverrideExpressionIsFulfilled() throws Exception {
     configLabel("build-cop-override", LabelFunction.NO_BLOCK);
     projectOperations
@@ -4470,9 +4444,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirement_overriddenInChildProject() throws Exception {
     configSubmitRequirement(
         allProjects,
@@ -4514,9 +4485,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirement_inheritedFromParentProject() throws Exception {
     configSubmitRequirement(
         allProjects,
@@ -4545,9 +4513,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirement_ignoredInChildProject_ifParentDoesNotAllowOverride()
       throws Exception {
     configSubmitRequirement(
@@ -4591,11 +4556,9 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "experiments.enabled",
-      values = {
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
-        ExperimentFeaturesConstants
-            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
-      })
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_storedForClosedChanges() throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
@@ -4639,11 +4602,9 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "experiments.enabled",
-      values = {
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
-        ExperimentFeaturesConstants
-            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
-      })
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_storedForAbandonedChanges() throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
@@ -4682,93 +4643,9 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "experiments.enabled",
-      values = {
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
-        ExperimentFeaturesConstants
-            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
-      })
-  public void submitRequirement_retrievedFromNoteDbForAbandonedChanges() throws Exception {
-    for (SubmitType submitType : SubmitType.values()) {
-      Project.NameKey project = createProjectForPush(submitType);
-      TestRepository<InMemoryRepository> repo = cloneProject(project);
-      configSubmitRequirement(
-          project,
-          SubmitRequirement.builder()
-              .setName("Code-Review")
-              .setSubmittabilityExpression(
-                  SubmitRequirementExpression.create("label:Code-Review=+2"))
-              .setAllowOverrideInChildProjects(false)
-              .build());
-
-      PushOneCommit.Result r =
-          createChange(repo, "master", "Add a file", "foo", "content", "topic");
-      String changeId = r.getChangeId();
-      voteLabel(changeId, "Code-Review", 2);
-      gApi.changes().id(changeId).abandon();
-
-      // Add another submit requirement. This will not get returned for the abandoned change, since
-      // we return the state of the SR results when the change was abandoned.
-      configSubmitRequirement(
-          project,
-          SubmitRequirement.builder()
-              .setName("New-Requirement")
-              .setSubmittabilityExpression(SubmitRequirementExpression.create("-has:unresolved"))
-              .setAllowOverrideInChildProjects(false)
-              .build());
-      ChangeInfo changeInfo =
-          gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS);
-      assertThat(changeInfo.submitRequirements).hasSize(1);
-      assertSubmitRequirementStatus(
-          changeInfo.submitRequirements,
-          "Code-Review",
-          Status.SATISFIED,
-          /* isLegacy= */ false,
-          /* submittabilityCondition= */ "label:Code-Review=+2");
-
-      // Restore the change, the new requirement will show up
-      gApi.changes().id(changeId).restore();
-      changeInfo = gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS);
-      assertThat(changeInfo.submitRequirements).hasSize(2);
-      assertSubmitRequirementStatus(
-          changeInfo.submitRequirements,
-          "Code-Review",
-          Status.SATISFIED,
-          /* isLegacy= */ false,
-          /* submittabilityCondition= */ "label:Code-Review=+2");
-      assertSubmitRequirementStatus(
-          changeInfo.submitRequirements,
-          "New-Requirement",
-          Status.SATISFIED,
-          /* isLegacy= */ false,
-          /* submittabilityCondition= */ "-has:unresolved");
-
-      // Abandon again, make sure the new requirement was persisted
-      gApi.changes().id(changeId).abandon();
-      changeInfo = gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS);
-      assertThat(changeInfo.submitRequirements).hasSize(2);
-      assertSubmitRequirementStatus(
-          changeInfo.submitRequirements,
-          "Code-Review",
-          Status.SATISFIED,
-          /* isLegacy= */ false,
-          /* submittabilityCondition= */ "label:Code-Review=+2");
-      assertSubmitRequirementStatus(
-          changeInfo.submitRequirements,
-          "New-Requirement",
-          Status.SATISFIED,
-          /* isLegacy= */ false,
-          /* submittabilityCondition= */ "-has:unresolved");
-    }
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
-        ExperimentFeaturesConstants
-            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
-      })
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_retrievedFromNoteDbForClosedChanges() throws Exception {
     configSubmitRequirement(
         project,
@@ -4814,11 +4691,9 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "experiments.enabled",
-      values = {
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
-        ExperimentFeaturesConstants
-            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
-      })
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void
       submitRequirements_returnOneEntryForMatchingLegacyAndNonLegacyResultsWithTheSameName_ifLegacySubmitRecordsAreEnabled()
           throws Exception {
@@ -4879,9 +4754,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void
       submitRequirements_returnTwoEntriesForMismatchingLegacyAndNonLegacyResultsWithTheSameName_ifLegacySubmitRecordsAreEnabled()
           throws Exception {
@@ -4935,9 +4807,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirements_returnForLegacySubmitRecords_ifEnabled() throws Exception {
     configLabel("build-cop-override", LabelFunction.MAX_WITH_BLOCK);
     projectOperations
@@ -4990,9 +4859,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirement_backFilledFromIndexForActiveChanges() throws Exception {
     configSubmitRequirement(
         project,
@@ -5025,11 +4891,9 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "experiments.enabled",
-      values = {
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
-        ExperimentFeaturesConstants
-            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
-      })
+      value =
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE)
   public void submitRequirement_backFilledFromIndexForClosedChanges() throws Exception {
     configSubmitRequirement(
         project,
@@ -5058,64 +4922,6 @@ public class ChangeIT extends AbstractDaemonTest {
         "Code-Review",
         Status.SATISFIED,
         /* isLegacy= */ false);
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
-  public void submitRequirement_applicabilityExpressionIsAlwaysHidden() throws Exception {
-    configSubmitRequirement(
-        project,
-        SubmitRequirement.builder()
-            .setName("Code-Review")
-            .setApplicabilityExpression(SubmitRequirementExpression.of("branch:refs/heads/master"))
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
-            .setAllowOverrideInChildProjects(false)
-            .build());
-
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-
-    voteLabel(changeId, "Code-Review", 2);
-    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    SubmitRequirementResultInfo requirement =
-        changeInfo.submitRequirements.stream().collect(MoreCollectors.onlyElement());
-    assertSubmitRequirementExpression(
-        requirement.applicabilityExpressionResult,
-        /* expression= */ null,
-        /* passingAtoms= */ null,
-        /* failingAtoms= */ null,
-        /* fulfilled= */ true);
-  }
-
-  @Test
-  public void submitRequirements_notServedIfExperimentNotEnabled() throws Exception {
-    configSubmitRequirement(
-        project,
-        SubmitRequirement.builder()
-            .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
-            .setAllowOverrideInChildProjects(false)
-            .build());
-
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-
-    ChangeInfo change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).isEmpty();
-
-    voteLabel(changeId, "Code-Review", -1);
-    change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).isEmpty();
-
-    voteLabel(changeId, "Code-Review", 2);
-    change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).isEmpty();
-
-    gApi.changes().id(changeId).current().submit();
-    change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).isEmpty();
   }
 
   @Test
@@ -5704,26 +5510,6 @@ public class ChangeIT extends AbstractDaemonTest {
             results.stream()
                 .map(r -> String.format("%s=%s", r.name, r.status))
                 .collect(toImmutableList())));
-  }
-
-  private void assertSubmitRequirementExpression(
-      SubmitRequirementExpressionInfo result,
-      @Nullable String expression,
-      @Nullable List<String> passingAtoms,
-      @Nullable List<String> failingAtoms,
-      boolean fulfilled) {
-    assertThat(result.expression).isEqualTo(expression);
-    if (passingAtoms == null) {
-      assertThat(result.passingAtoms).isNull();
-    } else {
-      assertThat(result.passingAtoms).containsExactlyElementsIn(passingAtoms);
-    }
-    if (failingAtoms == null) {
-      assertThat(result.failingAtoms).isNull();
-    } else {
-      assertThat(result.failingAtoms).containsExactlyElementsIn(failingAtoms);
-    }
-    assertThat(result.fulfilled).isEqualTo(fulfilled);
   }
 
   private Project.NameKey createProjectForPush(SubmitType submitType) throws Exception {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f134e3d_e2e123d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-10-29T17:15:02Z",
+      "side": 1,
+      "message": "nit: these lines are too long and are wrapping and look bad on the main change screen.",
+      "revId": "bd3c3b89fcfc5fa570bf783612d36f6554b5b265",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

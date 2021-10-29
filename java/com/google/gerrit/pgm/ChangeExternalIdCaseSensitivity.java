@@ -108,7 +108,6 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
 
     this.isUserNameCaseInsensitive =
         globalConfig.getBoolean("auth", "userNameCaseInsensitive", false);
-
     String message =
         "auth.userNameCaseInsensitive is set to %b. "
             + "External IDs will be migrated to be case %ssensitive. Continue?";
@@ -164,6 +163,11 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
                 @Override
                 public boolean isUserNameCaseInsensitive() {
                   return !isUserNameCaseInsensitive;
+                }
+
+                @Override
+                public boolean isUserNameCaseInsensitiveMigrationMode() {
+                  return false;
                 }
               });
       ExternalId.Key updatedKey = keyFactory.create(extId.key().scheme(), extId.key().id());

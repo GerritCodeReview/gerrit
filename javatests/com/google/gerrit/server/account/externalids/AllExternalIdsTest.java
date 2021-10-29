@@ -45,6 +45,11 @@ public class AllExternalIdsTest {
                   public boolean isUserNameCaseInsensitive() {
                     return false;
                   }
+
+                  @Override
+                  public boolean isUserNameCaseInsensitiveMigrationMode() {
+                    return false;
+                  }
                 }));
   }
 

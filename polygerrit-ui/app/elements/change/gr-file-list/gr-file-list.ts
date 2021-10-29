@@ -92,6 +92,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {diffViewMode$} from '../../../services/browser/browser-model';
+import {reviewedFiles$} from '../../../services/change/change-model';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -225,7 +226,7 @@ export class GrFileList extends base {
   _loggedIn = false;
 
   @property({type: Array})
-  _reviewed?: string[] = [];
+  reviewed?: string[] = [];
 
   @property({type: Object, notify: true, observer: '_updateDiffPreferences'})
   diffPrefs?: DiffPreferencesInfo;
@@ -319,6 +320,8 @@ export class GrFileList extends base {
   private readonly reporting = appContext.reportingService;
 
   private readonly restApiService = appContext.restApiService;
+
+  private readonly changeService = appContext.changeService;
 
   private readonly userService = appContext.userService;
 
@@ -478,21 +481,11 @@ export class GrFileList extends base {
         })
     );
 
-    promises.push(
-      this._getLoggedIn()
-        .then(loggedIn => (this._loggedIn = loggedIn))
-        .then(loggedIn => {
-          if (!loggedIn) {
-            return;
-          }
-
-          return this._getReviewedFiles(changeNum, patchRange).then(
-            reviewed => {
-              this._reviewed = reviewed;
-            }
-          );
-        })
-    );
+    reviewedFiles$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(reviewedFiles => {
+        if (reviewedFiles) this.reviewed = Array.from(reviewedFiles);
+      });
 
     return Promise.all(promises).then(() => {
       this._loading = false;
@@ -753,7 +746,7 @@ export class GrFileList extends base {
       throw new Error('changeNum and patchRange must be set');
     }
 
-    return this.restApiService.saveFileReviewed(
+    return this.changeService.setReviewedFilesStatus(
       this.changeNum,
       this.patchRange.patchNum,
       path,
@@ -1137,7 +1130,7 @@ export class GrFileList extends base {
     '_filesByPath',
     'changeComments',
     'patchRange',
-    '_reviewed',
+    'reviewed',
     '_loading'
   )
   _computeFiles(

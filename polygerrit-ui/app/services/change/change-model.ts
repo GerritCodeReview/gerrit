@@ -32,6 +32,7 @@ import {ParsedChangeInfo} from '../../types/types';
 
 interface ChangeState {
   change?: ParsedChangeInfo | ChangeInfo;
+  reviewedFiles?: Set<string>;
   // The path of the file that user is viewing in diff view.
   diffPath?: string;
 }
@@ -78,6 +79,26 @@ export function updateStatePath(diffPath?: string) {
   const current = privateState$.getValue();
   privateState$.next({...current, diffPath});
 }
+
+export function updateStateReviewedFiles(reviewedFiles: Set<string>) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, reviewedFiles});
+}
+
+export function updateStateFileReviewed(file: string, reviewed: boolean) {
+  const current = privateState$.getValue();
+  const reviewedFiles = current.reviewedFiles
+    ? new Set(current.reviewedFiles)
+    : new Set<string>();
+  if (reviewed) reviewedFiles.add(file);
+  else reviewedFiles.delete(file);
+  privateState$.next({...current, reviewedFiles});
+}
+
+export const reviewedFiles$ = changeState$.pipe(
+  map(changeState => changeState.reviewedFiles),
+  distinctUntilChanged()
+);
 
 /**
  * If you depend on both, router and change state, then you want to filter out

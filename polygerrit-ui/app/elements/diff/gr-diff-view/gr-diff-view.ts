@@ -117,9 +117,9 @@ import {
 import {
   diffPath$,
   currentPatchNum$,
+  reviewedFiles$,
 } from '../../../services/change/change-model';
 
-const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
 
@@ -264,19 +264,13 @@ export class GrDiffView extends base {
   @property({type: Object, computed: '_getRevisionInfo(_change)'})
   _revisionInfo?: RevisionInfoObj;
 
-  @property({type: Object})
-  _reviewedFiles = new Set<string>();
-
   @property({type: Number})
   _focusLineNum?: number;
 
-  private getReviewedParams: {
-    changeNum?: NumericChangeId;
-    patchNum?: PatchSetNum;
-  } = {};
-
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
+
+  private reviewedFiles = new Set<string>();
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [
@@ -364,6 +358,8 @@ export class GrDiffView extends base {
   disconnected$ = new Subject();
 
   override connectedCallback() {
+    appContext.changeService;
+
     super.connectedCallback();
     this._throttledToggleFileReviewed = throttleWrap(_ =>
       this._handleToggleFileReviewed()
@@ -386,19 +382,31 @@ export class GrDiffView extends base {
       .subscribe(diffPreferences => {
         this._prefs = diffPreferences;
       });
+    reviewedFiles$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(reviewedFiles => {
+        if (reviewedFiles) this.reviewedFiles = reviewedFiles;
+      });
 
     // When user initially loads the diff view, we want to autmatically mark
     // the file as reviewed if they have it enabled. We can't observe these
     // properties since the method will be called anytime a property updates
     // but we only want to call this on the initial load.
-    combineLatest(currentPatchNum$, routerView$, diffPath$, diffPreferences$)
+    combineLatest(
+      currentPatchNum$,
+      routerView$,
+      diffPath$,
+      diffPreferences$,
+      reviewedFiles$
+    )
       .pipe(
         filter(
-          ([currentPatchNum, routerView, path, diffPrefs]) =>
+          ([currentPatchNum, routerView, path, diffPrefs, reviewedFiles]) =>
             !!currentPatchNum &&
             routerView === GerritView.DIFF &&
             !!path &&
-            !!diffPrefs
+            !!diffPrefs &&
+            !!reviewedFiles
         ),
         take(1)
       )
@@ -440,7 +448,6 @@ export class GrDiffView extends base {
   ) {
     const loggedIn = await this._getLoggedIn();
     if (!loggedIn) return;
-    await this._getReviewedFiles();
     if (diffPrefs.manual_review) {
       this.$.reviewed.checked = this._getReviewedStatus(path!);
     } else {
@@ -559,31 +566,16 @@ export class GrDiffView extends base {
   ) {
     if (this._editMode) return;
     this.$.reviewed.checked = reviewed;
-    if (!patchNum || !this._path) return;
+    if (!patchNum || !this._path || !this._changeNum) return;
     const path = this._path;
     // if file is already reviewed then do not make a saveReview request
-    if (this._reviewedFiles.has(path) && reviewed) return;
-    if (reviewed) this._reviewedFiles.add(path);
-    else this._reviewedFiles.delete(path);
-    this._saveReviewedState(reviewed, patchNum).catch(err => {
-      if (this._reviewedFiles.has(path)) this._reviewedFiles.delete(path);
-      else this._reviewedFiles.add(path);
-      fireAlert(this, ERR_REVIEW_STATUS);
-      throw err;
-    });
-  }
-
-  _saveReviewedState(
-    reviewed: boolean,
-    patchNum?: RevisionPatchSetNum
-  ): Promise<Response | undefined> {
-    if (!this._changeNum) return Promise.resolve(undefined);
-    if (!patchNum) return Promise.resolve(undefined);
-    if (!this._path) return Promise.resolve(undefined);
-    return this.restApiService.saveFileReviewed(
+    if (this.reviewedFiles.has(path) && reviewed) return;
+    if (reviewed) this.reviewedFiles.add(path);
+    else this.reviewedFiles.delete(path);
+    this.changeService.setReviewedFilesStatus(
       this._changeNum,
       patchNum,
-      this._path,
+      path,
       reviewed
     );
   }
@@ -704,11 +696,11 @@ export class GrDiffView extends base {
   private navigateToUnreviewedFile(direction: string) {
     if (!this._path) return;
     if (!this._fileList) return;
-    if (!this._reviewedFiles) return;
+    if (!this.reviewedFiles) return;
     // Ensure that the currently viewed file always appears in unreviewedFiles
     // so we resolve the right "next" file.
     const unreviewedFiles = this._fileList.filter(
-      file => file === this._path || !this._reviewedFiles.has(file)
+      file => file === this._path || !this.reviewedFiles.has(file)
     );
 
     this._navToFile(this._path, unreviewedFiles, direction === 'next' ? 1 : -1);
@@ -900,28 +892,9 @@ export class GrDiffView extends base {
     return {path: fileList[idx]};
   }
 
-  _getReviewedFiles(changeNum?: NumericChangeId, patchNum?: PatchSetNum) {
-    if (!changeNum || !patchNum) return;
-    if (
-      this.getReviewedParams.changeNum === changeNum &&
-      this.getReviewedParams.patchNum === patchNum
-    ) {
-      return Promise.resolve();
-    }
-    this.getReviewedParams = {
-      changeNum,
-      patchNum,
-    };
-    return this.restApiService
-      .getReviewedFiles(changeNum, patchNum)
-      .then(files => {
-        this._reviewedFiles = new Set(files);
-      });
-  }
-
   _getReviewedStatus(path: string) {
     if (this._editMode) return false;
-    return this._reviewedFiles.has(path);
+    return this.reviewedFiles.has(path);
   }
 
   _initLineOfInterestAndCursor(leftSide: boolean) {
@@ -1185,23 +1158,6 @@ export class GrDiffView extends base {
         // another file, then we load the blame for this file too
         if (this._isBlameLoaded) this._loadBlame();
       });
-  }
-
-  @observe('_loggedIn', '_changeNum', '_patchRange')
-  getReviewedFiles(
-    _loggedIn?: boolean,
-    _changeNum?: NumericChangeId,
-    patchRange?: PatchRange
-  ) {
-    if (_loggedIn === undefined) return;
-    if (_changeNum === undefined) return;
-    if (patchRange === undefined) return;
-
-    if (!_loggedIn) {
-      return;
-    }
-
-    this._getReviewedFiles(this._changeNum, patchRange.patchNum);
   }
 
   /**

@@ -64,7 +64,6 @@ import {
 } from '../../../utils/common-util';
 import {fireAlert, waitForEventOnce} from '../../../utils/event-util';
 import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
-import {StorageLocation} from '../../../services/storage/gr-storage';
 import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-layer';
 import {anyLineTooLong} from '../../diff/gr-diff/gr-diff-utils';
 import {getUserName} from '../../../utils/display-name-util';
@@ -332,7 +331,6 @@ export class GrCommentThread extends PolymerElement {
 
   addDraft(lineNum?: LineNumber, range?: CommentRange, unresolved?: boolean) {
     const draft = this._newDraft(lineNum, range);
-    draft.__editing = true;
     draft.unresolved = unresolved === false ? unresolved : true;
     this.commentsService.addDraft(draft);
   }
@@ -557,7 +555,6 @@ export class GrCommentThread extends PolymerElement {
     const reply = this._newReply(id, content, unresolved);
 
     if (isEditing) {
-      reply.__editing = true;
       this.commentsService.addDraft(reply);
     } else {
       assertIsDefined(this.changeNum, 'changeNum');
@@ -694,27 +691,6 @@ export class GrCommentThread extends PolymerElement {
       return this.rootId;
     }
     return computeId(comments.base[0]);
-  }
-
-  _handleCommentDiscard() {
-    assertIsDefined(this.changeNum, 'changeNum');
-    assertIsDefined(this.patchNum, 'patchNum');
-    // Check to see if there are any other open comments getting edited and
-    // set the local storage value to its message value.
-    for (const changeComment of this.comments) {
-      if (isDraft(changeComment) && changeComment.__editing) {
-        const commentLocation: StorageLocation = {
-          changeNum: this.changeNum,
-          patchNum: this.patchNum,
-          path: changeComment.path,
-          line: changeComment.line,
-        };
-        this.storage.setDraftComment(
-          commentLocation,
-          changeComment.message ?? ''
-        );
-      }
-    }
   }
 
   _handleCommentUpdate(e: CustomEvent) {

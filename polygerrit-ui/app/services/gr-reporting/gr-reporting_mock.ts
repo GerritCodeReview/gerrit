@@ -57,7 +57,6 @@ export const grReportingMock: ReportingService = {
   pluginLoaded: () => {},
   pluginsLoaded: () => {},
   pluginsFailed: () => {},
-  recordDraftInteraction: () => {},
   reporter: () => {},
   reportErrorDialog: (message: string) => {
     log(`reportErrorDialog: ${message}`);

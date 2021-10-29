@@ -17,6 +17,7 @@
 import {ConfigInfo, ServerInfo} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
+import {deepEqual} from '../../utils/deep-util';
 
 interface ConfigState {
   repoConfig?: ConfigInfo;
@@ -44,10 +45,15 @@ export function updateServerConfig(serverConfig?: ServerInfo) {
 
 export const repoConfig$ = configState$.pipe(
   map(configState => configState.repoConfig),
-  distinctUntilChanged()
+  distinctUntilChanged(deepEqual)
+);
+
+export const repoCommentLinks$ = repoConfig$.pipe(
+  map(repoConfig => repoConfig?.commentlinks ?? {}),
+  distinctUntilChanged(deepEqual)
 );
 
 export const serverConfig$ = configState$.pipe(
   map(configState => configState.serverConfig),
-  distinctUntilChanged()
+  distinctUntilChanged(deepEqual)
 );

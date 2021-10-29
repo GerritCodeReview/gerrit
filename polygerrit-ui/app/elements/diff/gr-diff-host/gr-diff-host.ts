@@ -25,9 +25,7 @@ import {
 import {
   anyLineTooLong,
   getLine,
-  getRange,
   getSide,
-  rangesEqual,
   SYNTAX_MAX_LINE_LENGTH,
 } from '../gr-diff/gr-diff-utils';
 import {appContext} from '../../../services/app-context';
@@ -37,7 +35,11 @@ import {
   isMergeParent,
   isNumber,
 } from '../../../utils/patch-set-util';
-import {CommentThread} from '../../../utils/comment-util';
+import {
+  CommentThread,
+  isInBaseOfPatchRange,
+  isInRevisionOfPatchRange,
+} from '../../../utils/comment-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
   CommitRange,
@@ -275,6 +277,8 @@ export class GrDiffHost extends PolymerElement {
   private readonly flags = appContext.flagsService;
 
   private readonly restApiService = appContext.restApiService;
+
+  // private readonly comments = appContext.commentsService;
 
   private readonly jsAPI = appContext.jsApiService;
 
@@ -519,6 +523,11 @@ export class GrDiffHost extends PolymerElement {
   ) {
     if (!changeComments || !patchRange || !file) return;
     this.threads = changeComments.getThreadsBySideForFile(file, patchRange);
+    console.log(
+      `gr-diff-host computeFileThreads done ${
+        this.threads.length
+      } ${JSON.stringify(file)} ${JSON.stringify(this.threads)}`
+    );
   }
 
   _getFilesWeblinks(diff: DiffInfo) {
@@ -733,30 +742,36 @@ export class GrDiffHost extends PolymerElement {
   }
 
   _threadsChanged(threads: CommentThread[]) {
-    const threadEls = new Set<GrCommentThread>();
+    console.log(`gr-diff-host threads changed: ${threads.length}`);
     const rootIdToThreadEl = new Map<UrlEncodedCommentId, GrCommentThread>();
     for (const threadEl of this.getThreadEls()) {
       if (threadEl.rootId) {
         rootIdToThreadEl.set(threadEl.rootId, threadEl);
       }
     }
+    const dontRemove = new Set<GrCommentThread>();
     for (const thread of threads) {
       const existingThreadEl =
         thread.rootId && rootIdToThreadEl.get(thread.rootId);
       if (existingThreadEl) {
-        this._updateThreadElement(existingThreadEl, thread);
-        threadEls.add(existingThreadEl);
+        existingThreadEl.thread = thread;
+        console.log(
+          `gr-diff-host skip existing thread ${JSON.stringify(thread)}`
+        );
+        dontRemove.add(existingThreadEl);
       } else {
+        console.log(
+          `gr-diff-host create and attach thread el ${JSON.stringify(thread)}`
+        );
         const threadEl = this._createThreadElement(thread);
         this._attachThreadElement(threadEl);
-        threadEls.add(threadEl);
+        dontRemove.add(threadEl);
       }
     }
     // Remove all threads that are no longer existing.
     for (const threadEl of this.getThreadEls()) {
-      if (threadEls.has(threadEl)) continue;
-      const parent = threadEl.parentNode;
-      if (parent) parent.removeChild(threadEl);
+      if (dontRemove.has(threadEl)) continue;
+      threadEl.remove();
     }
     const portedThreadsCount = threads.filter(thread => thread.ported).length;
     const portedThreadsWithoutRange = threads.filter(
@@ -805,18 +820,21 @@ export class GrDiffHost extends PolymerElement {
         ? CommentSide.PARENT
         : CommentSide.REVISION;
     if (!this.canCommentOnPatchSetNum(patchNum)) return;
-    const threadEl = this._getOrCreateThread({
+
+    const newThread: CommentThread = {
+      rootId: undefined,
       comments: [],
-      path,
-      diffSide: side,
-      commentSide,
       patchNum,
+      commentSide,
+      // TODO: Maybe just compute from patchRange.base on the fly?
+      mergeParentNum: this._parentIndex ?? undefined,
+      path,
       line: lineNum,
       range,
-    });
-    threadEl.addOrEditDraft(lineNum, range);
-
-    this.reporting.recordDraftInteraction();
+    };
+    console.log(`gr-diff-host: adding new draft ${JSON.stringify(newThread)}`);
+    const el = this._createThreadElement(newThread);
+    this._attachThreadElement(el);
   }
 
   private canCommentOnPatchSetNum(patchNum: PatchSetNum) {
@@ -845,21 +863,6 @@ export class GrDiffHost extends PolymerElement {
     return true;
   }
 
-  /**
-   * Gets or creates a comment thread at a given location.
-   * May provide a range, to get/create a range comment.
-   */
-  _getOrCreateThread(thread: CommentThread): GrCommentThread {
-    let threadEl = this._getThreadEl(thread);
-    if (!threadEl) {
-      threadEl = this._createThreadElement(thread);
-      this._attachThreadElement(threadEl);
-    } else {
-      this._updateThreadElement(threadEl, thread);
-    }
-    return threadEl;
-  }
-
   _attachThreadElement(threadEl: Element) {
     this.$.diff.appendChild(threadEl);
   }
@@ -872,67 +875,36 @@ export class GrDiffHost extends PolymerElement {
   }
 
   _createThreadElement(thread: CommentThread) {
+    assertIsDefined(this.patchRange, 'patchRange');
+    const commentProps = {
+      patch_set: thread.patchNum,
+      side: thread.commentSide,
+      parent: thread.mergeParentNum,
+    };
+    let diffSide: Side;
+    if (isInBaseOfPatchRange(commentProps, this.patchRange)) {
+      diffSide = Side.LEFT;
+    } else if (isInRevisionOfPatchRange(commentProps, this.patchRange)) {
+      diffSide = Side.RIGHT;
+    } else {
+      throw new Error('comment does not match patch range of gr-diff-host');
+    }
+
     const threadEl = document.createElement('gr-comment-thread');
     threadEl.className = 'comment-thread';
-    threadEl.setAttribute(
-      'slot',
-      `${thread.diffSide}-${thread.line || 'LOST'}`
-    );
-    this._updateThreadElement(threadEl, thread);
-    return threadEl;
-  }
-
-  _updateThreadElement(threadEl: GrCommentThread, thread: CommentThread) {
-    threadEl.comments = thread.comments;
-    threadEl.diffSide = thread.diffSide;
-    threadEl.isOnParent = thread.commentSide === CommentSide.PARENT;
-    threadEl.parentIndex = this._parentIndex;
-    // Use path before renmaing when comment added on the left when comparing
-    // two patch sets (not against base)
-    if (
-      this.file &&
-      this.file.basePath &&
-      thread.diffSide === Side.LEFT &&
-      !threadEl.isOnParent
-    ) {
-      threadEl.path = this.file.basePath;
-    } else {
-      threadEl.path = this.path;
-    }
-    threadEl.changeNum = this.changeNum;
-    threadEl.patchNum = thread.patchNum;
+    threadEl.rootId = thread.rootId;
+    threadEl.thread = thread;
     threadEl.showPatchset = false;
     threadEl.showPortedComment = !!thread.ported;
-    if (thread.rangeInfoLost) threadEl.lineNum = 'LOST';
-    // GrCommentThread does not understand 'FILE', but requires undefined.
-    else threadEl.lineNum = thread.line !== 'FILE' ? thread.line : undefined;
-    threadEl.projectName = this.projectName;
-    threadEl.range = thread.range;
-  }
-
-  /**
-   * Gets a comment thread element at a given location.
-   * May provide a range, to get a range comment.
-   */
-  _getThreadEl(thread: CommentThread): GrCommentThread | null {
-    let line: LineInfo;
-    if (thread.diffSide === Side.LEFT) {
-      line = {beforeNumber: thread.line};
-    } else if (thread.diffSide === Side.RIGHT) {
-      line = {afterNumber: thread.line};
-    } else {
-      throw new Error(`Unknown side: ${thread.diffSide}`);
+    // These attributes are the "interface" between comment threads and gr-diff.
+    // <gr-comment-thread> does not care about them and is not affected by them.
+    threadEl.setAttribute('slot', `${diffSide}-${thread.line || 'LOST'}`);
+    threadEl.setAttribute('diff-side', `${diffSide}`);
+    threadEl.setAttribute('line-num', `${thread.line || 'LOST'}`);
+    if (thread.range) {
+      threadEl.setAttribute('range', `${JSON.stringify(thread.range)}`);
     }
-    function matchesRange(threadEl: GrCommentThread) {
-      return rangesEqual(getRange(threadEl), thread.range);
-    }
-
-    const filteredThreadEls = this._filterThreadElsForLocation(
-      this.getThreadEls(),
-      line,
-      thread.diffSide
-    ).filter(matchesRange);
-    return filteredThreadEls.length ? filteredThreadEls[0] : null;
+    return threadEl;
   }
 
   _filterThreadElsForLocation(
@@ -1180,8 +1152,6 @@ declare global {
     'normalize-range': CustomEvent;
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'create-comment': CustomEvent;
-    'comment-update': CustomEvent;
-    'comment-save': CustomEvent;
     'root-id-changed': CustomEvent;
   }
 }

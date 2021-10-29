@@ -565,10 +565,6 @@ export const htmlTemplate = html`
         <h3 class="assistive-tech-only">Comments</h3>
         <gr-thread-list
           threads="[[_commentThreads]]"
-          change="[[_change]]"
-          change-num="[[_changeNum]]"
-          logged-in="[[_loggedIn]]"
-          account="[[_account]]"
           comment-tab-state="[[_tabState.commentTab]]"
           only-show-robot-comments-with-human-reply=""
           unresolved-only="[[unresolvedOnly]]"
@@ -597,14 +593,7 @@ export const htmlTemplate = html`
           value="[[_currentRobotCommentsPatchSet]]"
         >
         </gr-dropdown-list>
-        <gr-thread-list
-          threads="[[_robotCommentThreads]]"
-          change="[[_change]]"
-          change-num="[[_changeNum]]"
-          logged-in="[[_loggedIn]]"
-          hide-dropdown
-          empty-thread-msg="[[_messages.NO_ROBOT_COMMENTS_THREADS_MSG]]"
-        >
+        <gr-thread-list threads="[[_robotCommentThreads]]" hide-dropdown>
         </gr-thread-list>
         <template is="dom-if" if="[[_showRobotCommentsButton]]">
           <gr-button

@@ -14,13 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
+import {
+  AccountCapabilityInfo,
+  AccountDetailInfo,
+  PreferencesInfo,
+} from '../../types/common';
 import {from, of} from 'rxjs';
 import {
   account$,
   updateAccount,
   updatePreferences,
   updateDiffPreferences,
+  updateCapabilities,
 } from './user-model';
 import {switchMap} from 'rxjs/operators';
 import {
@@ -37,6 +42,16 @@ export class UserService {
         updateAccount(account);
       }
     );
+    account$
+      .pipe(
+        switchMap(account => {
+          if (!account) return of(undefined);
+          return from(this.restApiService.getAccountCapabilities());
+        })
+      )
+      .subscribe((capabilities?: AccountCapabilityInfo) => {
+        updateCapabilities(capabilities);
+      });
     account$
       .pipe(
         switchMap(account => {

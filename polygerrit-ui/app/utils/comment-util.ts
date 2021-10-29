@@ -30,84 +30,102 @@ import {
   AccountInfo,
   AccountDetailInfo,
 } from '../types/common';
-import {CommentSide, Side, SpecialFilePath} from '../constants/constants';
+import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
-import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
 import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {isMergeParent, getParentIndex} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
+import {LineNumber} from '../api/diff';
 
 export interface DraftCommentProps {
-  __draft?: boolean;
-  __draftID?: string;
-  __date?: Date;
+  // This must be true for all drafts. Drafts received from the backend will be
+  // modified immediately with __draft:true before allowing them to get into
+  // the application state.
+  __draft: boolean;
+  // This is just for easier conversion of types when an unsaved comment becomes
+  // a draft.
+  __unsaved?: undefined;
 }
 
-export type DraftInfo = CommentBasics & DraftCommentProps;
-
-/**
- * Each of the type implements or extends CommentBasics.
- */
-export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
-
-export interface UIStateCommentProps {
-  collapsed?: boolean;
+export interface UnsavedCommentProps {
+  // This must be true for all unsaved comment drafts. An unsaved draft is
+  // always just local to a comment component like <gr-comment> or
+  // <gr-comment-thread>. Unsaved drafts will never appear in the application
+  // state.
+  __unsaved: boolean;
 }
 
-export interface UIStateDraftProps {
-  __editing?: boolean;
-}
+export type DraftInfo = CommentInfo & DraftCommentProps;
 
-export type UIDraft = DraftInfo & UIStateCommentProps & UIStateDraftProps;
+export type UnsavedInfo = CommentBasics & UnsavedCommentProps;
 
-export type UIHuman = CommentInfo & UIStateCommentProps;
-
-export type UIRobot = RobotCommentInfo & UIStateCommentProps;
-
-export type UIComment = UIHuman | UIRobot | UIDraft;
+export type Comment = UnsavedInfo | DraftInfo | CommentInfo | RobotCommentInfo;
 
 export type CommentMap = {[path: string]: boolean};
 
-export function isRobot<T extends CommentInfo>(
+export function isRobot<T extends CommentBasics>(
   x: T | DraftInfo | RobotCommentInfo | undefined
 ): x is RobotCommentInfo {
   return !!x && !!(x as RobotCommentInfo).robot_id;
 }
 
-export function isDraft<T extends CommentInfo>(
-  x: T | UIDraft | undefined
-): x is UIDraft {
-  return !!x && !!(x as UIDraft).__draft;
+export function isDraft<T extends CommentBasics>(
+  x: T | DraftInfo | undefined
+): x is DraftInfo {
+  return !!x && !!(x as DraftInfo).__draft;
+}
+
+export function isUnsaved<T extends CommentBasics>(
+  x: T | UnsavedInfo | undefined
+): x is UnsavedInfo {
+  return !!x && !!(x as UnsavedInfo).__unsaved;
+}
+
+export function isDraftOrUnsaved<T extends CommentBasics>(
+  x: T | DraftInfo | UnsavedInfo | undefined
+): x is UnsavedInfo | DraftInfo {
+  return isDraft(x) || isUnsaved(x);
 }
 
 interface SortableComment {
-  __draft?: boolean;
-  __date?: Date;
-  updated?: Timestamp;
-  id?: UrlEncodedCommentId;
+  updated: Timestamp;
+  id: UrlEncodedCommentId;
 }
 
 export function sortComments<T extends SortableComment>(comments: T[]): T[] {
   return comments.slice(0).sort((c1, c2) => {
-    const d1 = !!c1.__draft;
-    const d2 = !!c2.__draft;
-    if (d1 !== d2) return d1 ? 1 : -1;
-
-    const date1 = (c1.updated && parseDate(c1.updated)) || c1.__date;
-    const date2 = (c2.updated && parseDate(c2.updated)) || c2.__date;
+    const date1 = parseDate(c1.updated);
+    const date2 = parseDate(c2.updated);
     const dateDiff = date1!.valueOf() - date2!.valueOf();
     if (dateDiff !== 0) return dateDiff;
 
-    const id1 = c1.id ?? '';
-    const id2 = c2.id ?? '';
+    const id1 = c1.id;
+    const id2 = c2.id;
     return id1.localeCompare(id2);
   });
 }
 
-export function createCommentThreads(
-  comments: UIComment[],
-  patchRange?: PatchRange
-) {
+export function createUnsavedComment(
+  thread: CommentThread,
+  message: string,
+  unresolved: boolean,
+  in_reply_to?: UrlEncodedCommentId
+): UnsavedInfo {
+  return {
+    path: thread.path,
+    patch_set: thread.patchNum,
+    side: thread.commentSide ?? CommentSide.REVISION,
+    line: typeof thread.line === 'number' ? thread.line : undefined,
+    range: thread.range,
+    parent: thread.mergeParentNum,
+    message,
+    unresolved,
+    in_reply_to,
+    __unsaved: true,
+  };
+}
+
+export function createCommentThreads(comments: CommentInfo[]) {
   const sortedComments = sortComments(comments);
   const threads: CommentThread[] = [];
   const idThreadMap: CommentIdToCommentThreadMap = {};
@@ -129,7 +147,6 @@ export function createCommentThreads(
     const newThread: CommentThread = {
       comments: [comment],
       patchNum: comment.patch_set,
-      diffSide: Side.LEFT,
       commentSide: comment.side ?? CommentSide.REVISION,
       mergeParentNum: comment.parent,
       path: comment.path,
@@ -137,13 +154,6 @@ export function createCommentThreads(
       range: comment.range,
       rootId: comment.id,
     };
-    if (patchRange) {
-      if (isInBaseOfPatchRange(comment, patchRange))
-        newThread.diffSide = Side.LEFT;
-      else if (isInRevisionOfPatchRange(comment, patchRange))
-        newThread.diffSide = Side.RIGHT;
-      else throw new Error('comment does not belong in given patchrange');
-    }
     if (!comment.line && !comment.range) {
       newThread.line = 'FILE';
     }
@@ -154,68 +164,87 @@ export function createCommentThreads(
 }
 
 export interface CommentThread {
-  comments: UIComment[];
+  /**
+   * This can only contain at most one draft. And if so, then it is the last
+   * comment in this list. This must not contain unsaved drafts.
+   */
+  comments: CommentInfo[];
+  /**
+   * Identical to the id of the first comment. If this is undefined, then the
+   * thread only contains an unsaved draft.
+   */
+  rootId?: UrlEncodedCommentId;
   path: string;
   commentSide: CommentSide;
   /* mergeParentNum is the merge parent number only valid for merge commits
      when commentSide is PARENT.
      mergeParentNum is undefined for auto merge commits
+     Same as `parent` in CommentInfo.
   */
   mergeParentNum?: number;
   patchNum?: PatchSetNum;
+  /* Different from CommentInfo, which just keeps the line undefined for
+     FILE comments. */
   line?: LineNumber;
-  /* rootId is optional since we create a empty comment thread element for
-     drafts and then create the draft which becomes the root */
-  rootId?: UrlEncodedCommentId;
-  diffSide?: Side;
   range?: CommentRange;
   ported?: boolean; // is the comment ported over from a previous patchset
   rangeInfoLost?: boolean; // if BE was unable to determine a range for this
 }
 
-export function getLastComment(thread?: CommentThread): UIComment | undefined {
-  const len = thread?.comments.length;
-  return thread && len ? thread.comments[len - 1] : undefined;
+export function getLastComment(thread: CommentThread): CommentInfo | undefined {
+  const len = thread.comments.length;
+  return thread.comments[len - 1];
 }
 
-export function getFirstComment(thread?: CommentThread): UIComment | undefined {
-  return thread?.comments?.[0];
+export function getFirstComment(
+  thread: CommentThread
+): CommentInfo | undefined {
+  return thread.comments[0];
 }
 
-export function countComments(thread?: CommentThread) {
-  return thread?.comments?.length ?? 0;
+export function countComments(thread: CommentThread) {
+  return thread.comments.length;
 }
 
-export function isPatchsetLevel(thread?: CommentThread): boolean {
-  return thread?.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
+export function isPatchsetLevel(thread: CommentThread): boolean {
+  return thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
 }
 
-export function isUnresolved(thread?: CommentThread): boolean {
+export function isUnresolved(thread: CommentThread): boolean {
   return !isResolved(thread);
 }
 
-export function isResolved(thread?: CommentThread): boolean {
-  return !getLastComment(thread)?.unresolved;
+export function isResolved(thread: CommentThread): boolean {
+  const lastUnresolved = getLastComment(thread)?.unresolved;
+  return !lastUnresolved ?? false;
 }
 
-export function isDraftThread(thread?: CommentThread): boolean {
+export function isDraftThread(thread: CommentThread): boolean {
   return isDraft(getLastComment(thread));
 }
 
-export function isRobotThread(thread?: CommentThread): boolean {
+export function isRobotThread(thread: CommentThread): boolean {
   return isRobot(getFirstComment(thread));
 }
 
-export function hasHumanReply(thread?: CommentThread): boolean {
+export function hasHumanReply(thread: CommentThread): boolean {
   return countComments(thread) > 1 && !isRobot(getLastComment(thread));
 }
 
+export function lastUpdated(thread: CommentThread): Date | undefined {
+  const lastUpdated = getLastComment(thread)?.updated;
+  return lastUpdated !== undefined ? parseDate(lastUpdated) : undefined;
+}
 /**
  * Whether the given comment should be included in the base side of the
  * given patch range.
  */
 export function isInBaseOfPatchRange(
-  comment: CommentBasics,
+  comment: {
+    patch_set?: PatchSetNum;
+    side?: CommentSide;
+    parent?: number;
+  },
   range: PatchRange
 ) {
   // If the base of the patch range is a parent of a merge, and the comment
@@ -249,7 +278,10 @@ export function isInBaseOfPatchRange(
  * given patch range.
  */
 export function isInRevisionOfPatchRange(
-  comment: CommentBasics,
+  comment: {
+    patch_set?: PatchSetNum;
+    side?: CommentSide;
+  },
   range: PatchRange
 ) {
   return (
@@ -271,7 +303,7 @@ export function isInPatchRange(
 }
 
 export function getPatchRangeForCommentUrl(
-  comment: UIComment,
+  comment: Comment,
   latestPatchNum: RevisionPatchSetNum
 ) {
   if (!comment.patch_set) throw new Error('Missing comment.patch_set');
@@ -279,7 +311,7 @@ export function getPatchRangeForCommentUrl(
   // TODO(dhruvsri): Add handling for comment left on parents of merge commits
   if (comment.side === CommentSide.PARENT) {
     if (comment.patch_set === ParentPatchSetNum)
-      throw new Error('diffSide cannot be PARENT');
+      throw new Error('comment.patch_set cannot be PARENT');
     return {
       patchNum: comment.patch_set as RevisionPatchSetNum,
       basePatchNum: ParentPatchSetNum,
@@ -355,30 +387,44 @@ export function getCommentAuthors(
   return authors;
 }
 
-export function computeId(comment: UIComment) {
-  if (comment.id) return comment.id;
-  if (isDraft(comment)) return comment.__draftID;
-  throw new Error('Missing id in root comment.');
-}
-
 /**
- * Add path info to every comment as CommentInfo returned
- * from server does not have that.
- *
- * TODO(taoalpha): should consider changing BE to send path
- * back within CommentInfo
+ * Add path info to every comment as CommentInfo returned from server does not
+ * have that.
  */
 export function addPath<T>(comments: {[path: string]: T[]} = {}): {
   [path: string]: Array<T & {path: string}>;
 } {
   const updatedComments: {[path: string]: Array<T & {path: string}>} = {};
   for (const filePath of Object.keys(comments)) {
-    const allCommentsForPath = comments[filePath] || [];
-    if (allCommentsForPath.length) {
-      updatedComments[filePath] = allCommentsForPath.map(comment => {
-        return {...comment, path: filePath};
-      });
-    }
+    updatedComments[filePath] = (comments[filePath] || []).map(comment => {
+      return {...comment, path: filePath};
+    });
   }
   return updatedComments;
+}
+
+/**
+ * Add __draft:true to all drafts returned from server so that they can be told
+ * apart from published comments easily.
+ */
+export function addDraftProp(draftsByPath: {[path: string]: DraftInfo[]} = {}) {
+  const updated: {[path: string]: DraftInfo[]} = {};
+  for (const filePath of Object.keys(draftsByPath)) {
+    updated[filePath] = (draftsByPath[filePath] ?? []).map(draft => {
+      return {...draft, __draft: true};
+    });
+  }
+  return updated;
+}
+
+export function reportingDetails(comment: CommentBasics) {
+  return {
+    id: comment?.id,
+    message_length: comment?.message?.trim().length,
+    in_reply_to: comment?.in_reply_to,
+    unresolved: comment?.unresolved,
+    path_length: comment?.path?.length,
+    line: comment?.range?.start_line ?? comment?.line,
+    unsaved: isUnsaved(comment),
+  };
 }

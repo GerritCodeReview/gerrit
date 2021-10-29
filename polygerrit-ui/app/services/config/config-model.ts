@@ -47,6 +47,11 @@ export const repoConfig$ = configState$.pipe(
   distinctUntilChanged()
 );
 
+export const repoCommentLinks$ = repoConfig$.pipe(
+  map(repoConfig => repoConfig?.commentlinks ?? {}),
+  distinctUntilChanged()
+);
+
 export const serverConfig$ = configState$.pipe(
   map(configState => configState.serverConfig),
   distinctUntilChanged()

@@ -423,6 +423,9 @@ export class GrTextarea extends PolymerElement {
   }
 
   _handleTextChanged(text: string) {
+    // This is a bit redundant, because the `text` property has `notify:true`,
+    // so whenever the `text` changes the component fires two identical events
+    // `text-changed` and `value-changed`.
     this.dispatchEvent(
       new CustomEvent('value-changed', {detail: {value: text}})
     );

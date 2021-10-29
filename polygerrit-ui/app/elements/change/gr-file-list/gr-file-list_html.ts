@@ -559,7 +559,7 @@ export const htmlTemplate = html`
             hidden$="[[!_loggedIn]]"
           >
             <span
-              class$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]"
+              class$="reviewedLabel [[_computeReviewedClass(file, _shownFiles)]]"
               aria-hidden$="[[!file.isReviewed]]"
               >Reviewed</span
             >
@@ -581,8 +581,8 @@ export const htmlTemplate = html`
               <span
                 tabindex="-1"
                 class="markReviewed"
-                title$="[[_reviewedTitle(file.isReviewed)]]"
-                >[[_computeReviewedText(file.isReviewed)]]</span
+                title$="[[_reviewedTitle(file, _shownFiles)]]"
+                >[[_computeReviewedText(file, _shownFiles)]]</span
               >
             </span>
           </div>

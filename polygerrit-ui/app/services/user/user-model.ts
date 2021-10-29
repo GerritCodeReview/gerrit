@@ -14,14 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {from, of, BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {
   DiffPreferencesInfo as DiffPreferencesInfoAPI,
   DiffViewMode,
 } from '../../api/diff';
-import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
+import {
+  AccountCapabilityInfo,
+  AccountDetailInfo,
+  PreferencesInfo,
+} from '../../types/common';
 import {
   createDefaultPreferences,
   createDefaultDiffPrefs,
@@ -38,6 +41,7 @@ export interface UserState {
   account?: AccountDetailInfo;
   preferences: PreferencesInfo;
   diffPreferences: DiffPreferencesInfo;
+  capabilities?: AccountCapabilityInfo;
 }
 
 export class UserModel implements Finalizable {
@@ -56,6 +60,14 @@ export class UserModel implements Finalizable {
   readonly loggedIn$: Observable<boolean> = select(
     this.account$,
     account => !!account
+  );
+
+  readonly capabilities$: Observable<AccountCapabilityInfo | undefined> =
+    select(this.userState$, userState => userState.capabilities);
+
+  readonly isAdmin$: Observable<boolean> = select(
+    this.capabilities$,
+    capabilities => capabilities?.administrateServer ?? false
   );
 
   readonly preferences$: Observable<PreferencesInfo> = select(
@@ -106,6 +118,16 @@ export class UserModel implements Finalizable {
         .subscribe((diffPrefs?: DiffPreferencesInfoAPI) => {
           this.setDiffPreferences(diffPrefs ?? createDefaultDiffPrefs());
         }),
+      this.account$
+        .pipe(
+          switchMap(account => {
+            if (!account) return of(undefined);
+            return from(this.restApiService.getAccountCapabilities());
+          })
+        )
+        .subscribe((capabilities?: AccountCapabilityInfo) => {
+          this.setCapabilities(capabilities);
+        }),
     ];
   }
 
@@ -152,6 +174,11 @@ export class UserModel implements Finalizable {
   setDiffPreferences(diffPreferences: DiffPreferencesInfo) {
     const current = this.privateState$.getValue();
     this.privateState$.next({...current, diffPreferences});
+  }
+
+  setCapabilities(capabilities?: AccountCapabilityInfo) {
+    const current = this.privateState$.getValue();
+    this.privateState$.next({...current, capabilities});
   }
 
   private setAccount(account?: AccountDetailInfo) {

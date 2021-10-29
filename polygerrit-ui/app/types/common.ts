@@ -692,9 +692,10 @@ export interface TopMenuItemInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
  */
 export interface CommentInfo {
-  // TODO(TS): Make this required.
-  patch_set?: PatchSetNum;
   id: UrlEncodedCommentId;
+  updated: Timestamp;
+  // TODO(TS): Make this required. Every comment must have patch_set set.
+  patch_set?: PatchSetNum;
   path?: string;
   side?: CommentSide;
   parent?: number;
@@ -702,7 +703,6 @@ export interface CommentInfo {
   range?: CommentRange;
   in_reply_to?: UrlEncodedCommentId;
   message?: string;
-  updated: Timestamp;
   author?: AccountInfo;
   tag?: string;
   unresolved?: boolean;

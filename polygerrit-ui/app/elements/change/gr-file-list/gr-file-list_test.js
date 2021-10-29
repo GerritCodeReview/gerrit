@@ -1469,12 +1469,6 @@ suite('gr-file-list tests', () => {
         ignore_whitespace: 'IGNORE_NONE',
       };
       diff.diff = getMockDiffResponse();
-      sinon.stub(diff.changeComments, 'getCommentsForPath')
-          .withArgs('/COMMIT_MSG', {
-            basePatchNum: 'PARENT',
-            patchNum: 2,
-          })
-          .returns(diff.comments);
       await listenOnce(diff, 'render');
     }
 

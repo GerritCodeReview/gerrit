@@ -22,6 +22,30 @@
       },
       "revId": "7fbd07953dcca0ac02a314ec3e76c8f77c2e1bb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b580de1_82e110be",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-29T11:37:50Z",
+      "side": 1,
+      "message": "This component gets the whole string of \"project: branch: description\" (or less) as input and just \u003cslots\u003e it.  So it\u0027d be non-trivial to do this in this component without a significant API refactor.",
+      "parentUuid": "41220570_31214dfb",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 17
+      },
+      "revId": "7fbd07953dcca0ac02a314ec3e76c8f77c2e1bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

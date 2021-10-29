@@ -39,6 +39,30 @@
       },
       "revId": "541a9709f16149c7c2a59e9d0cc280fc6c3d00a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d575259_4ccbfbc7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-29T12:23:57Z",
+      "side": 1,
+      "message": "I was planning that when converting to lit.",
+      "parentUuid": "76d6c25a_796aa50b",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 1
+      },
+      "revId": "541a9709f16149c7c2a59e9d0cc280fc6c3d00a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

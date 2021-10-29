@@ -16,6 +16,23 @@
       "message": "The refactoring is nice and is simplifying the logic a lot. I\u0027m still making up my mind if this will break existing use cases.",
       "revId": "f130fc84e1f4fa62d9fa61dd3cb0c1d33f847052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c32f118_b5b0efc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-10-29T10:15:22Z",
+      "side": 1,
+      "message": "@Patrick, @Edwin: any strong opinion against this change? I should also CC milutin to make sure this won\u0027t affect the UI.",
+      "revId": "f130fc84e1f4fa62d9fa61dd3cb0c1d33f847052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -86,6 +86,8 @@ import {RevisionInfo} from '../../shared/revision-info/revision-info';
 import {changeComments$} from '../../../services/comments/comments-model';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {select} from '../../../utils/observable-util';
+import {diffViewMode$} from '../../../services/browser/browser-model';
+import {reviewedFiles$} from '../../../services/change/change-model';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -219,7 +221,7 @@ export class GrFileList extends base {
   _loggedIn = false;
 
   @property({type: Array})
-  _reviewed?: string[] = [];
+  reviewed?: string[] = [];
 
   @property({type: Object, notify: true, observer: '_updateDiffPreferences'})
   diffPrefs?: DiffPreferencesInfo;
@@ -316,6 +318,8 @@ export class GrFileList extends base {
 
   private readonly userModel = getAppContext().userModel;
 
+  private readonly changeService = appContext.changeService;
+
   private readonly browserModel = getAppContext().browserModel;
 
   private subscriptions: Subscription[] = [];
@@ -392,6 +396,12 @@ export class GrFileList extends base {
       }),
     ];
 
+    reviewedFiles$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(reviewedFiles => {
+        this.reviewed = reviewedFiles ? Array.from(reviewedFiles) : [];
+      });
+
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -466,7 +476,7 @@ export class GrFileList extends base {
     this._loading = true;
 
     this.collapseAllDiffs();
-    const promises = [];
+    const promises: Promise<boolean | void>[] = [];
 
     promises.push(
       this.restApiService
@@ -477,19 +487,7 @@ export class GrFileList extends base {
     );
 
     promises.push(
-      this._getLoggedIn()
-        .then(loggedIn => (this._loggedIn = loggedIn))
-        .then(loggedIn => {
-          if (!loggedIn) {
-            return;
-          }
-
-          return this._getReviewedFiles(changeNum, patchRange).then(
-            reviewed => {
-              this._reviewed = reviewed;
-            }
-          );
-        })
+      this._getLoggedIn().then(loggedIn => (this._loggedIn = loggedIn))
     );
 
     return Promise.all(promises).then(() => {
@@ -751,7 +749,7 @@ export class GrFileList extends base {
       throw new Error('changeNum and patchRange must be set');
     }
 
-    return this.restApiService.saveFileReviewed(
+    return this.changeService.setReviewedFilesStatus(
       this.changeNum,
       this.patchRange.patchNum,
       path,
@@ -776,8 +774,7 @@ export class GrFileList extends base {
     const paths = Object.keys(response).sort(specialFilePathCompare);
     const files: NormalizedFileInfo[] = [];
     for (let i = 0; i < paths.length; i++) {
-      // TODO(TS): make copy instead of as NormalizedFileInfo
-      const info = response[paths[i]] as NormalizedFileInfo;
+      const info = {...response[paths[i]]} as NormalizedFileInfo;
       info.__path = paths[i];
       info.lines_inserted = info.lines_inserted || 0;
       info.lines_deleted = info.lines_deleted || 0;
@@ -1134,7 +1131,7 @@ export class GrFileList extends base {
     '_filesByPath',
     'changeComments',
     'patchRange',
-    '_reviewed',
+    'reviewed',
     '_loading'
   )
   _computeFiles(

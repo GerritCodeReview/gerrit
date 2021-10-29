@@ -65,7 +65,7 @@ export function createAppContext(): AppContext {
     },
     commentsService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new CommentsService(ctx.restApiService!);
+      return new CommentsService(ctx.restApiService!, ctx.reportingService!);
     },
     checksService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');

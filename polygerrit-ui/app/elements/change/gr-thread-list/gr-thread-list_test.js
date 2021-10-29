@@ -299,12 +299,12 @@ suite('gr-thread-list tests', () => {
   test('showing file name takes visible threads into account', () => {
     element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
-        element._sortedThreads[2], element.unresolvedOnly, element._draftsOnly,
+        element._sortedThreads[2], element.unresolvedOnly, element.draftsOnly,
         element.onlyShowRobotCommentsWithHumanReply, element.selectedAuthors),
     true);
     element.unresolvedOnly = true;
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
-        element._sortedThreads[2], element.unresolvedOnly, element._draftsOnly,
+        element._sortedThreads[2], element.unresolvedOnly, element.draftsOnly,
         element.onlyShowRobotCommentsWithHumanReply, element.selectedAuthors),
     false);
   });

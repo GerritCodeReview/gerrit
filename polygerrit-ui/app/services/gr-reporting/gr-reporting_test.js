@@ -282,30 +282,6 @@ suite('gr-reporting tests', () => {
     assert.isTrue(service.reporter.calledOnce);
   });
 
-  test('recordDraftInteraction', () => {
-    const key = 'TimeBetweenDraftActions';
-    const nowStub = sinon.stub(window.performance, 'now').returns(100);
-    const timingStub = sinon.stub(service, '_reportTiming');
-    service.recordDraftInteraction();
-    assert.isFalse(timingStub.called);
-
-    nowStub.returns(200);
-    service.recordDraftInteraction();
-    assert.isTrue(timingStub.calledOnce);
-    assert.equal(timingStub.lastCall.args[0], key);
-    assert.equal(timingStub.lastCall.args[1], 100);
-
-    nowStub.returns(350);
-    service.recordDraftInteraction();
-    assert.isTrue(timingStub.calledTwice);
-    assert.equal(timingStub.lastCall.args[0], key);
-    assert.equal(timingStub.lastCall.args[1], 150);
-
-    nowStub.returns(370 + 2 * 60 * 1000);
-    service.recordDraftInteraction();
-    assert.isFalse(timingStub.calledThrice);
-  });
-
   test('timeEndWithAverage', () => {
     const nowStub = sinon.stub(window.performance, 'now').returns(0);
     nowStub.returns(1000);

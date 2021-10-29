@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {PatchSetNum} from './common';
-import {UIComment} from '../utils/comment-util';
+import {Comment} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
@@ -168,7 +168,7 @@ export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
 
 export interface OpenFixPreviewEventDetail {
   patchNum?: PatchSetNum;
-  comment?: UIComment;
+  comment?: Comment;
 }
 export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
 
@@ -178,7 +178,7 @@ export interface CloseFixPreviewEventDetail {
 export type CloseFixPreviewEvent = CustomEvent<CloseFixPreviewEventDetail>;
 export interface CreateFixCommentEventDetail {
   patchNum?: PatchSetNum;
-  comment?: UIComment;
+  comment?: Comment;
 }
 export type CreateFixCommentEvent = CustomEvent<CreateFixCommentEventDetail>;
 
@@ -249,3 +249,12 @@ export interface TitleChangeEventDetail {
   title: string;
 }
 export type TitleChangeEvent = CustomEvent<TitleChangeEventDetail>;
+
+/**
+ * This event can be used for Polymer properties that have `notify: true` set.
+ * But it is also generally recommended when you want to notify your parent
+ * elements about a property update, also for Lit elements.
+ *
+ * The name of the event should be `prop-name-changed`.
+ */
+export type ValueChangedEvent<T = string> = CustomEvent<{value: T}>;

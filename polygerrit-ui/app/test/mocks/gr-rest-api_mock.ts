@@ -276,9 +276,6 @@ export const grRestApiMock: RestApiService = {
   getDiff(): Promise<DiffInfo | undefined> {
     throw new Error('getDiff() not implemented by RestApiMock.');
   },
-  getDiffChangeDetail(): Promise<ChangeInfo | undefined | null> {
-    throw new Error('getDiffChangeDetail() not implemented by RestApiMock.');
-  },
   getDiffComments() {
     // NOTE: This method can not be typed properly due to overloads.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

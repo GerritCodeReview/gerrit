@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {
   AccountDetailInfo,
   AccountId,
@@ -31,6 +30,7 @@ import {
   ChangeMessageId,
   ChangeMessageInfo,
   ChangeViewChangeInfo,
+  CommentInfo,
   CommentLinkInfo,
   CommentLinks,
   CommitId,
@@ -62,6 +62,9 @@ import {
   RequirementType,
   Reviewers,
   RevisionInfo,
+  RobotCommentInfo,
+  RobotId,
+  RobotRunId,
   SchemesInfoMap,
   ServerInfo,
   SubmittedTogetherInfo,
@@ -96,10 +99,9 @@ import {AppElementChangeViewParams} from '../elements/gr-app-types';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
 import {
+  CommentThread,
   createCommentThreads,
-  UIComment,
-  UIDraft,
-  UIHuman,
+  DraftInfo,
 } from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
@@ -504,7 +506,9 @@ export function createWebLinkInfo(): WebLinkInfo {
   };
 }
 
-export function createComment(): UIHuman {
+export function createComment(
+  extra: Partial<CommentInfo | DraftInfo> = {}
+): CommentInfo {
   return {
     patch_set: 1 as PatchSetNum,
     id: '12345' as UrlEncodedCommentId,
@@ -514,15 +518,28 @@ export function createComment(): UIHuman {
     updated: '2018-02-13 22:48:48.018000000' as Timestamp,
     unresolved: false,
     path: 'abc.txt',
+    ...extra,
   };
 }
 
-export function createDraft(): UIDraft {
+export function createDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
   return {
     ...createComment(),
-    collapsed: false,
     __draft: true,
-    __editing: false,
+    ...extra,
+  };
+}
+
+export function createRobotComment(
+  extra: Partial<CommentInfo> = {}
+): RobotCommentInfo {
+  return {
+    ...createComment(),
+    robot_id: 'robot-id-123' as RobotId,
+    robot_run_id: 'robot-run-id-456' as RobotRunId,
+    properties: {},
+    fix_suggestions: [],
+    ...extra,
   };
 }
 
@@ -629,14 +646,27 @@ export function createChangeComments(): ChangeComments {
   return new ChangeComments(comments, {}, drafts, {}, {});
 }
 
-export function createCommentThread(comments: UIComment[]) {
+export function createThread(
+  ...comments: Partial<CommentInfo | DraftInfo>[]
+): CommentThread {
+  return {
+    comments: comments.map(c => createComment(c)),
+    rootId: 'test-root-id-comment-thread' as UrlEncodedCommentId,
+    path: 'test-path-comment-thread',
+    commentSide: CommentSide.REVISION,
+    patchNum: 1 as PatchSetNum,
+    line: 314,
+  };
+}
+
+export function createCommentThread(comments: Array<Partial<CommentInfo>>) {
   if (!comments.length) {
     throw new Error('comment is required to create a thread');
   }
-  comments = comments.map(comment => {
+  const filledComments = comments.map(comment => {
     return {...createComment(), ...comment};
   });
-  const threads = createCommentThreads(comments);
+  const threads = createCommentThreads(filledComments);
   return threads[0];
 }
 

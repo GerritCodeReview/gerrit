@@ -156,6 +156,7 @@ import {firePageError, fireServerError} from '../../../utils/event-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {ErrorCallback} from '../../../api/rest';
 import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
+import {DraftInfo} from '../../../utils/comment-util';
 
 const MAX_PROJECT_RESULTS = 25;
 
@@ -1178,20 +1179,6 @@ export class GrRestApiInterface
       options.push(ListChangesOption.PUSH_CERTIFICATES);
     }
     return listChangesOptionsToHex(...options);
-  }
-
-  getDiffChangeDetail(changeNum: NumericChangeId) {
-    let optionsHex = '';
-    if (window.DEFAULT_DETAIL_HEXES?.diffPage) {
-      optionsHex = window.DEFAULT_DETAIL_HEXES.diffPage;
-    } else {
-      optionsHex = listChangesOptionsToHex(
-        ListChangesOption.ALL_COMMITS,
-        ListChangesOption.ALL_REVISIONS,
-        ListChangesOption.SKIP_DIFFSTAT
-      );
-    }
-    return this._getChangeDetail(changeNum, optionsHex);
   }
 
   /**
@@ -2286,42 +2273,13 @@ export class GrRestApiInterface
    */
   getDiffDrafts(
     changeNum: NumericChangeId
-  ): Promise<PathToCommentsInfoMap | undefined>;
-
-  getDiffDrafts(
-    changeNum: NumericChangeId,
-    basePatchNum: BasePatchSetNum,
-    patchNum: PatchSetNum,
-    path: string
-  ): Promise<GetDiffCommentsOutput>;
-
-  getDiffDrafts(
-    changeNum: NumericChangeId,
-    basePatchNum?: BasePatchSetNum,
-    patchNum?: PatchSetNum,
-    path?: string
-  ) {
+  ): Promise<{[path: string]: DraftInfo[]} | undefined> {
     return this.getLoggedIn().then(loggedIn => {
-      if (!loggedIn) {
-        return {};
-      }
-      if (!basePatchNum && !patchNum && !path) {
-        return this._getDiffComments(changeNum, '/drafts', {
-          'enable-context': true,
-          'context-padding': 3,
-        });
-      }
-      return this._getDiffComments(
-        changeNum,
-        '/drafts',
-        {
-          'enable-context': true,
-          'context-padding': 3,
-        },
-        basePatchNum,
-        patchNum,
-        path
-      );
+      if (!loggedIn) return {};
+      return this._getDiffComments(changeNum, '/drafts', {
+        'enable-context': true,
+        'context-padding': 3,
+      });
     });
   }
 

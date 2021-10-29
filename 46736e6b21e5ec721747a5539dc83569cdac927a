@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4a4cd93_8f99e4df",
+        "filename": "polygerrit-ui/app/api/plugin.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-29T11:41:47Z",
+      "side": 1,
+      "message": "How does this differ from _url?",
+      "revId": "46736e6b21e5ec721747a5539dc83569cdac927a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

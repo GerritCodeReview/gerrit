@@ -21,7 +21,7 @@ public final class ReceiveConstants {
 
   @VisibleForTesting
   public static final String ONLY_USERS_WITH_TOGGLE_WIP_STATE_PERM_CAN_MODIFY_WIP =
-      "only users with Toogle-Wip-State permission can modify Work-in-Progress";
+      "only users with Toggle-Wip-State permission can modify Work-in-Progress";
 
   static final String COMMAND_REJECTION_MESSAGE_FOOTER =
       "Contact an administrator to fix the permissions";

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {PatchSetNum} from '../../types/common';
+import {PatchSetNum, ChangeInfo} from '../../types/common';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {
   map,
@@ -31,7 +31,7 @@ import {
 import {ParsedChangeInfo} from '../../types/types';
 
 interface ChangeState {
-  change?: ParsedChangeInfo;
+  change?: ParsedChangeInfo | ChangeInfo;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
@@ -45,7 +45,7 @@ export const changeState$: Observable<ChangeState> = privateState$;
 
 // Must only be used by the change service or whatever is in control of this
 // model.
-export function updateState(change?: ParsedChangeInfo) {
+export function updateState(change?: ParsedChangeInfo | ChangeInfo) {
   const current = privateState$.getValue();
   // We want to make it easy for subscribers to react to change changes, so we
   // are explicitly emitting an additional `undefined` when the change number

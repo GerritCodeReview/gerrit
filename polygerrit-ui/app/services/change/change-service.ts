@@ -25,7 +25,7 @@ import {
 } from '../../utils/patch-set-util';
 
 export class ChangeService {
-  private change?: ParsedChangeInfo;
+  private change?: ParsedChangeInfo | ChangeInfo;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -48,7 +48,7 @@ export class ChangeService {
    * amount of code from change-view and move it into this change-service. This
    * will take some time ...
    */
-  updateChange(change: ParsedChangeInfo) {
+  updateChange(change: ChangeInfo | ParsedChangeInfo) {
     updateState(change);
   }
 

@@ -346,6 +346,8 @@ export class GrDiffView extends base {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly changeService = appContext.changeService;
+
   private readonly userService = appContext.userService;
 
   private readonly commentsService = appContext.commentsService;
@@ -443,6 +445,7 @@ export class GrDiffView extends base {
   _getChangeDetail(changeNum: NumericChangeId) {
     return this.restApiService.getDiffChangeDetail(changeNum).then(change => {
       if (!change) throw new Error('Missing "change" in API response.');
+      this.changeService.updateChange(change);
       this._change = change;
       return change;
     });

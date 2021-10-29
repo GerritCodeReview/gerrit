@@ -14,42 +14,79 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {NumericChangeId, PatchSetNum, RevisionId} from '../../types/common';
-import {DraftInfo, UIDraft} from '../../utils/comment-util';
-import {fireAlert} from '../../utils/event-util';
+import {
+  CommentBasics,
+  CommentInfo,
+  NumericChangeId,
+  PatchSetNum,
+  RevisionId,
+  UrlEncodedCommentId,
+} from '../../types/common';
+import {
+  reportingDetails,
+  DraftInfo,
+  UnsavedInfo,
+} from '../../utils/comment-util';
+import {fire, fireAlert} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {
-  updateStateAddDraft,
+  updateStateSetDraft,
   updateStateDeleteDraft,
-  updateStateUpdateDraft,
   updateStateComments,
   updateStateRobotComments,
   updateStateDrafts,
   updateStatePortedComments,
   updateStatePortedDrafts,
-  updateStateUndoDiscardedDraft,
+  updateStateDeleteDiscardedDraft,
   discardedDrafts$,
   updateStateReset,
+  drafts$,
 } from './comments-model';
 import {changeNum$, currentPatchNum$} from '../change/change-model';
 import {combineLatest} from 'rxjs';
 import {routerChangeNum$} from '../router/router-model';
+import {Interaction} from '../../constants/reporting';
+import {assertIsDefined} from '../../utils/common-util';
+import {debounce, DelayedTask} from '../../utils/async-util';
+import {pluralize} from '../../utils/string-util';
+import {ReportingService} from '../gr-reporting/gr-reporting';
+
+const TOAST_DEBOUNCE_INTERVAL = 200;
+
+function getSavingMessage(numPending: number, requestFailed?: boolean) {
+  if (requestFailed) {
+    return 'Unable to save draft';
+  }
+  if (numPending === 0) {
+    return 'All changes saved';
+  }
+  return `Saving ${pluralize(numPending, 'draft')}...`;
+}
 
 export class CommentsService {
-  private discardedDrafts?: UIDraft[] = [];
+  private numPendingDraftRequests = 0;
 
   private changeNum?: NumericChangeId;
 
   private patchNum?: PatchSetNum;
 
-  constructor(readonly restApiService: RestApiService) {
-    discardedDrafts$.subscribe(
-      discardedDrafts => (this.discardedDrafts = discardedDrafts)
-    );
+  private drafts: {[path: string]: DraftInfo[]} = {};
+
+  private draftToastTask?: DelayedTask;
+
+  private discardedDrafts: DraftInfo[] = [];
+
+  constructor(
+    readonly restApiService: RestApiService,
+    readonly reporting: ReportingService
+  ) {
+    discardedDrafts$.subscribe(x => (this.discardedDrafts = x));
+    drafts$.subscribe(x => (this.drafts = x ?? {}));
+    currentPatchNum$.subscribe(x => (this.patchNum = x));
     routerChangeNum$.subscribe(changeNum => {
       this.changeNum = changeNum;
+      console.log(`change-service load comments for change ${changeNum}`);
       updateStateReset();
       this.reloadAllComments();
     });
@@ -117,44 +154,158 @@ export class CommentsService {
       .then(portedDrafts => updateStatePortedDrafts(portedDrafts));
   }
 
-  restoreDraft(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
-    draftID: string
-  ) {
-    const draft = {...this.discardedDrafts?.find(d => d.id === draftID)};
-    if (!draft) throw new Error('discarded draft not found');
-    // delete draft ID since we want to treat this as a new draft creation
-    delete draft.id;
-    this.restApiService
-      .saveDiffDraft(changeNum, patchNum, draft)
-      .then(result => {
-        if (!result.ok) {
-          fireAlert(document, 'Unable to restore draft');
-          return;
-        }
-        this.restApiService.getResponseObject(result).then(obj => {
-          const resComment = obj as unknown as DraftInfo;
-          resComment.patch_set = draft.patch_set;
-          updateStateAddDraft(resComment);
-          updateStateUndoDiscardedDraft(draftID);
-        });
-      });
+  async restoreDraft(id: UrlEncodedCommentId) {
+    assertIsDefined(this.changeNum, 'change number');
+    assertIsDefined(this.patchNum, 'patchset number');
+
+    const found = this.discardedDrafts?.find(d => d.id === id);
+    if (!found) throw new Error('discarded draft not found');
+    const newDraft = {
+      ...found,
+      id: undefined,
+    };
+    const changeNum = this.changeNum;
+    const patchNum = this.patchNum;
+    const result = await this.restApiService.saveDiffDraft(
+      changeNum,
+      patchNum,
+      newDraft
+    );
+    if (!result.ok) {
+      fireAlert(document, 'Unable to restore draft');
+      return;
+    }
+    const obj = await this.restApiService.getResponseObject(result);
+    const savedComment = obj as unknown as CommentInfo;
+    updateStateSetDraft({
+      ...newDraft,
+      ...savedComment,
+      __draft: true,
+    });
+    updateStateDeleteDiscardedDraft(id);
   }
 
-  addDraft(draft: DraftInfo) {
-    updateStateAddDraft(draft);
+  /**
+   * Saves a new or updates an existing draft.
+   * The model will only be updated when a successful response comes back.
+   */
+  async saveDraft(draft: DraftInfo | UnsavedInfo) {
+    console.log(
+      `service.saveDraft: ${draft.id} ${draft.message} ${draft.unresolved}`
+    );
+    assertIsDefined(this.changeNum, 'change number');
+    assertIsDefined(draft.patch_set, 'patchset number of comment draft');
+    if (!draft.message?.trim()) throw new Error('Cannot save empty draft.');
+
+    // Saving the change number as to make sure that the response is still
+    // relevant when it comes back. The user maybe have navigated away.
+    const changeNum = this.changeNum;
+    this.report(Interaction.SAVE_COMMENT, draft);
+    this.showStartRequest();
+    const result = await this.restApiService.saveDiffDraft(
+      changeNum,
+      draft.patch_set,
+      draft
+    );
+    if (changeNum !== this.changeNum) throw new Error('change changed');
+    if (!result.ok) {
+      this.handleFailedDraftRequest();
+      throw new Error(
+        `Failed to save draft comment: ${JSON.stringify(result)}`
+      );
+    }
+    const obj = await this.restApiService.getResponseObject(result);
+    const savedComment = obj as unknown as CommentInfo;
+    const updatedDraft = {
+      ...draft,
+      id: savedComment.id,
+      updated: savedComment.updated,
+      __draft: true,
+      __unsaved: undefined,
+    };
+    this.showEndRequest();
+    updateStateSetDraft(updatedDraft);
+    this.report(Interaction.COMMENT_SAVED, updatedDraft);
   }
 
-  cancelDraft(draft: DraftInfo) {
-    updateStateUpdateDraft(draft);
-  }
+  async discardDraft(draftId: UrlEncodedCommentId) {
+    console.log(`service.discardDraft: ${draftId}`);
+    const draft = this.lookupDraft(draftId);
+    assertIsDefined(this.changeNum, 'change number');
+    assertIsDefined(draft, `draft not found by id ${draftId}`);
+    assertIsDefined(draft.patch_set, 'patchset number of comment draft');
 
-  editDraft(draft: DraftInfo) {
-    updateStateUpdateDraft(draft);
-  }
-
-  deleteDraft(draft: DraftInfo) {
+    if (!draft.message?.trim()) throw new Error('saved draft cant be empty');
+    // Saving the change number as to make sure that the response is still
+    // relevant when it comes back. The user maybe have navigated away.
+    const changeNum = this.changeNum;
+    this.report(Interaction.DISCARD_COMMENT, draft);
+    this.showStartRequest();
+    const result = await this.restApiService.deleteDiffDraft(
+      changeNum,
+      draft.patch_set,
+      {id: draft.id}
+    );
+    if (changeNum !== this.changeNum) throw new Error('change changed');
+    if (!result.ok) {
+      this.handleFailedDraftRequest();
+      throw new Error(
+        `Failed to discard draft comment: ${JSON.stringify(result)}`
+      );
+    }
+    this.showEndRequest();
     updateStateDeleteDraft(draft);
+    // We don't store empty discarded drafts and don't need an UNDO then.
+    if (draft.message?.trim()) {
+      fire(document, 'show-alert', {
+        message: 'Draft Discarded',
+        action: 'Undo',
+        callback: () => this.restoreDraft(draft.id),
+      });
+    }
+    this.report(Interaction.COMMENT_DISCARDED, draft);
+  }
+
+  private report(interaction: Interaction, comment: CommentBasics) {
+    const details = reportingDetails(comment);
+    this.reporting.reportInteraction(interaction, details);
+  }
+
+  private showStartRequest() {
+    this.numPendingDraftRequests += 1;
+    this.updateRequestToast();
+  }
+
+  private showEndRequest() {
+    this.numPendingDraftRequests -= 1;
+    this.updateRequestToast();
+  }
+
+  private handleFailedDraftRequest() {
+    this.numPendingDraftRequests -= 1;
+    this.updateRequestToast(/* requestFailed=*/ true);
+  }
+
+  private updateRequestToast(requestFailed?: boolean) {
+    const message = getSavingMessage(
+      this.numPendingDraftRequests,
+      requestFailed
+    );
+    this.draftToastTask = debounce(
+      this.draftToastTask,
+      () => {
+        // Note: the event is fired on the body rather than this element because
+        // this element may not be attached by the time this executes, in which
+        // case the event would not bubble.
+        fireAlert(document.body, message);
+      },
+      TOAST_DEBOUNCE_INTERVAL
+    );
+  }
+
+  private lookupDraft(id: UrlEncodedCommentId): DraftInfo | undefined {
+    return Object.values(this.drafts)
+      .flat()
+      .find(d => d.id === id);
   }
 }

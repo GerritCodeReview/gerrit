@@ -14,23 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export function deepEqual<T>(a: T, b: T): boolean {
-  if (a === b) return true;
-  if (a === undefined || b === undefined) return false;
-  if (a === null || b === null) return false;
 
-  if (typeof a === 'object') {
-    if (typeof b !== 'object') return false;
-    const aObj = a as Record<string, unknown>;
-    const bObj = b as Record<string, unknown>;
-    const aKeys = Object.keys(aObj);
-    const bKeys = Object.keys(bObj);
-    if (aKeys.length !== bKeys.length) return false;
-    for (const key of aKeys) {
-      if (!deepEqual(aObj[key], bObj[key])) return false;
-    }
-    return true;
-  }
-
-  return false;
+/**
+ * Returns a random integer between `from` and `to`, both included.
+ * So getRandomInt(0, 2) returns 0, 1, or 2 each with probability 1/3.
+ */
+export function getRandomInt(from: number, to: number) {
+  return Math.floor(Math.random() * (to - from) + from);
 }

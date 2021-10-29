@@ -30,7 +30,7 @@ import {distinctUntilChanged, map} from 'rxjs/operators';
 import {PatchSetNumber} from '../../types/common';
 import {AttemptDetail, createAttemptMap} from './checks-util';
 import {assertIsDefined} from '../../utils/common-util';
-import {deepEqualStringDict, equalArray} from '../../utils/compare-util';
+import {deepEqual} from '../../utils/compare-util';
 
 /**
  * The checks model maintains the state of checks for two patchsets: the latest
@@ -217,7 +217,7 @@ export const errorMessagesLatest$ = checksLatest$.pipe(
     }
     return errorMessages;
   }),
-  distinctUntilChanged(deepEqualStringDict)
+  distinctUntilChanged(deepEqual)
 );
 
 export const loginCallbackLatest$ = checksLatest$.pipe(
@@ -240,7 +240,7 @@ export const topLevelActionsLatest$ = checksLatest$.pipe(
       []
     )
   ),
-  distinctUntilChanged<Action[]>(equalArray)
+  distinctUntilChanged<Action[]>(deepEqual)
 );
 
 export const topLevelActionsSelected$ = checksSelected$.pipe(
@@ -253,7 +253,7 @@ export const topLevelActionsSelected$ = checksSelected$.pipe(
       []
     )
   ),
-  distinctUntilChanged<Action[]>(equalArray)
+  distinctUntilChanged<Action[]>(deepEqual)
 );
 
 export const topLevelLinksSelected$ = checksSelected$.pipe(
@@ -266,7 +266,7 @@ export const topLevelLinksSelected$ = checksSelected$.pipe(
       []
     )
   ),
-  distinctUntilChanged<Link[]>(equalArray)
+  distinctUntilChanged<Link[]>(deepEqual)
 );
 
 export const allRunsLatestPatchset$ = checksLatest$.pipe(
@@ -279,7 +279,7 @@ export const allRunsLatestPatchset$ = checksLatest$.pipe(
       []
     )
   ),
-  distinctUntilChanged<CheckRun[]>(equalArray)
+  distinctUntilChanged<CheckRun[]>(deepEqual)
 );
 
 export const allRunsSelectedPatchset$ = checksSelected$.pipe(
@@ -292,7 +292,7 @@ export const allRunsSelectedPatchset$ = checksSelected$.pipe(
       []
     )
   ),
-  distinctUntilChanged<CheckRun[]>(equalArray)
+  distinctUntilChanged<CheckRun[]>(deepEqual)
 );
 
 export const allRunsLatestPatchsetLatestAttempt$ = allRunsLatestPatchset$.pipe(

@@ -117,9 +117,9 @@ import {
 import {
   diffPath$,
   currentPatchNum$,
+  reviewedFiles$
 } from '../../../services/change/change-model';
 
-const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
 
@@ -264,19 +264,13 @@ export class GrDiffView extends base {
   @property({type: Object, computed: '_getRevisionInfo(_change)'})
   _revisionInfo?: RevisionInfoObj;
 
-  @property({type: Object})
-  _reviewedFiles = new Set<string>();
-
   @property({type: Number})
   _focusLineNum?: number;
 
-  private getReviewedParams: {
-    changeNum?: NumericChangeId;
-    patchNum?: PatchSetNum;
-  } = {};
-
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
+
+  private reviewedFiles = new Set<string>();
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [
@@ -385,6 +379,12 @@ export class GrDiffView extends base {
       .pipe(takeUntil(this.disconnected$))
       .subscribe(diffPreferences => {
         this._prefs = diffPreferences;
+        if (!this._prefs.manual_review) this._setReviewed(true);
+      });
+    reviewedFiles$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(reviewedFiles => {
+        if (reviewedFiles) this.reviewedFiles = reviewedFiles;
       });
 
     // When user initially loads the diff view, we want to autmatically mark
@@ -557,6 +557,13 @@ export class GrDiffView extends base {
     patchNum: RevisionPatchSetNum | undefined = this._patchRange?.patchNum
   ) {
     if (this._editMode) return;
+    if (
+      !this._patchRange?.patchNum ||
+      !this._path ||
+      !this._changeNum ||
+      !this._patchRange?.patchNum
+    )
+      return;
     this.$.reviewed.checked = reviewed;
     if (!patchNum || !this._path) return;
     const path = this._path;
@@ -583,6 +590,15 @@ export class GrDiffView extends base {
       this._changeNum,
       patchNum,
       this._path,
+    const path = this._path;
+    // if file is already reviewed then do not make a saveReview request
+    if (this.reviewedFiles.has(path) && reviewed) return;
+    // if file is not reviewed then do not request to mark unreviewed
+    if (!this.reviewedFiles.has(path) && !reviewed) return;
+    this.changeService.setReviewedFilesStatus(
+      this._changeNum,
+      this._patchRange.patchNum,
+      path,
       reviewed
     );
   }
@@ -703,11 +719,11 @@ export class GrDiffView extends base {
   private navigateToUnreviewedFile(direction: string) {
     if (!this._path) return;
     if (!this._fileList) return;
-    if (!this._reviewedFiles) return;
+    if (!this.reviewedFiles) return;
     // Ensure that the currently viewed file always appears in unreviewedFiles
     // so we resolve the right "next" file.
     const unreviewedFiles = this._fileList.filter(
-      file => file === this._path || !this._reviewedFiles.has(file)
+      file => file === this._path || !this.reviewedFiles.has(file)
     );
 
     this._navToFile(this._path, unreviewedFiles, direction === 'next' ? 1 : -1);
@@ -899,28 +915,9 @@ export class GrDiffView extends base {
     return {path: fileList[idx]};
   }
 
-  _getReviewedFiles(changeNum?: NumericChangeId, patchNum?: PatchSetNum) {
-    if (!changeNum || !patchNum) return;
-    if (
-      this.getReviewedParams.changeNum === changeNum &&
-      this.getReviewedParams.patchNum === patchNum
-    ) {
-      return Promise.resolve();
-    }
-    this.getReviewedParams = {
-      changeNum,
-      patchNum,
-    };
-    return this.restApiService
-      .getReviewedFiles(changeNum, patchNum)
-      .then(files => {
-        this._reviewedFiles = new Set(files);
-      });
-  }
-
   _getReviewedStatus(path: string) {
     if (this._editMode) return false;
-    return this._reviewedFiles.has(path);
+    return this.reviewedFiles.has(path);
   }
 
   _initLineOfInterestAndCursor(leftSide: boolean) {

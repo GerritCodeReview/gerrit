@@ -53,7 +53,8 @@ export function _testOnlyInitAppContext() {
     },
     commentsService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
-      return new CommentsService(ctx.restApiService!);
+      assertIsDefined(ctx.reportingService, 'reportingService');
+      return new CommentsService(ctx.restApiService!, ctx.reportingService!);
     },
     checksService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');

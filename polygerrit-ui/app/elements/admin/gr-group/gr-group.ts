@@ -16,21 +16,10 @@
  */
 
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import '../../../styles/gr-font-styles';
-import '../../../styles/gr-form-styles';
-import '../../../styles/gr-subpage-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-select/gr-select';
-import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {GrButton} from '../../shared/gr-button/gr-button';
-import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
-import {GrSelect} from '../../shared/gr-select/gr-select';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-group_html';
-import {customElement, property, observe} from '@polymer/decorators';
 import {
   AutocompleteSuggestion,
   AutocompleteQuery,
@@ -45,6 +34,12 @@ import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {convertToString} from '../../../utils/string-util';
 import {BindValueChangeEvent} from '../../../types/events';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {subpageStyles} from '../../../styles/gr-subpage-styles';
+import {LitElement, PropertyValues, css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -58,22 +53,6 @@ const OPTIONS = {
     label: 'True',
   },
 };
-
-export interface GrGroup {
-  $: {
-    loading: HTMLDivElement;
-    loadedContent: HTMLDivElement;
-    visibleToAll: GrSelect;
-    inputUpdateNameBtn: GrButton;
-    Title: HTMLHeadingElement;
-    groupNameInput: GrAutocomplete;
-    groupName: HTMLHeadingElement;
-    groupOwnerInput: GrAutocomplete;
-    groupOwner: HTMLHeadingElement;
-    inputUpdateOwnerBtn: GrButton;
-    uuid: GrCopyClipboard;
-  };
-}
 
 export interface GroupNameChangedDetail {
   name: GroupName;
@@ -91,11 +70,7 @@ declare global {
 }
 
 @customElement('gr-group')
-export class GrGroup extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrGroup extends LitElement {
   /**
    * Fired when the group name changes.
    *
@@ -154,6 +129,196 @@ export class GrGroup extends PolymerElement {
   override connectedCallback() {
     super.connectedCallback();
     this._loadGroup();
+  }
+
+  static override get styles() {
+    return [
+      fontStyles,
+      formStyles,
+      sharedStyles,
+      subpageStyles,
+      css`
+        h3.edited:after {
+          color: var(--deemphasized-text-color);
+          content: ' *';
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    const groupDisable = this._computeGroupDisabled(
+      this._groupOwner,
+      this._isAdmin,
+      this._groupIsInternal
+    );
+    return html`
+      <div class="main gr-form-styles read-only">
+        <div id="loading" class="${this._computeLoadingClass(this._loading)}">
+          Loading...
+        </div>
+        <div
+          id="loadedContent"
+          class="${this._computeLoadingClass(this._loading)}"
+        >
+          <h1 id="Title" class="heading-1">
+            ${convertToString(this._groupName)}
+          </h1>
+          <h2 id="configurations" class="heading-2">General</h2>
+          <div id="form">
+            <fieldset>
+              <h3 id="groupUUID" class="heading-3">Group UUID</h3>
+              <fieldset>
+                <gr-copy-clipboard
+                  id="uuid"
+                  .text="${this.getGroupUUID(this._groupConfig?.id)}"
+                ></gr-copy-clipboard>
+              </fieldset>
+              <h3
+                id="groupName"
+                class="heading-3 ${this._computeHeaderClass(this._rename)}"
+              >
+                Group Name
+              </h3>
+              <fieldset>
+                <span class="value">
+                  <gr-autocomplete
+                    id="groupNameInput"
+                    .text=${convertToString(this._groupConfig?.name)}
+                    .disabled=${groupDisable}
+                    @text-changed=${this.handleNameTextChanged}
+                  ></gr-autocomplete>
+                </span>
+                <span class="value" disabled=${groupDisable}>
+                  <gr-button
+                    id="inputUpdateNameBtn"
+                    disabled=${!this._rename}
+                    @click=${this._handleSaveName}
+                  >
+                    Rename Group</gr-button
+                  >
+                </span>
+              </fieldset>
+              <h3
+                id="groupOwner"
+                class="heading-3 ${this._computeHeaderClass(this._owner)}"
+              >
+                Owners
+              </h3>
+              <fieldset>
+                <span class="value">
+                  <gr-autocomplete
+                    id="groupOwnerInput"
+                    .text=${convertToString(this._groupConfig?.owner)}
+                    .value=${convertToString(this._groupConfigOwner)}
+                    .query=${this._query}
+                    .disabled=${groupDisable}
+                    @text-changed=${this.handleOwnerTextChanged}
+                    @value-changed=${this.handleOwnerValueChanged}
+                  >
+                  </gr-autocomplete>
+                </span>
+                <span class="value" disabled=${groupDisable}>
+                  <gr-button
+                    id="inputUpdateOwnerBtn"
+                    disabled=${!this._owner}
+                    @click=${this._handleSaveOwner}
+                  >
+                    Change Owners</gr-button
+                  >
+                </span>
+              </fieldset>
+              <h3
+                class="heading-3 ${this._computeHeaderClass(this._description)}"
+              >
+                Description
+              </h3>
+              <fieldset>
+                <div>
+                  <iron-autogrow-textarea
+                    class="description"
+                    autocomplete="on"
+                    disabled=${groupDisable}
+                    .bind-value=${convertToString(
+                      this._groupConfig?.description
+                    )}
+                    @bind-value-changed=${this
+                      .handleDescriptionBindValueChanged}
+                  ></iron-autogrow-textarea>
+                </div>
+                <span class="value" disabled=${groupDisable}>
+                  <gr-button
+                    disabled=${!this._description}
+                    @click=${this._handleSaveDescription}
+                  >
+                    Save Description
+                  </gr-button>
+                </span>
+              </fieldset>
+              <h3
+                id="options"
+                class="heading-3 ${this._computeHeaderClass(this._options)}"
+              >
+                Group Options
+              </h3>
+              <fieldset>
+                <section>
+                  <span class="title">
+                    Make group visible to all registered users
+                  </span>
+                  <span class="value">
+                    <gr-select
+                      id="visibleToAll"
+                      .bind-value=${this._groupConfig?.options?.visible_to_all}
+                      @bind-value-changed=${this.handleOptionsBindValueChanged}
+                    >
+                      <select disabled=${groupDisable}>
+                        ${this._submitTypes.map(
+                          item => html`
+                            <option value=${convertToString(item.value)}>
+                              ${item.label}
+                            </option>
+                          `
+                        )}
+                      </select>
+                    </gr-select>
+                  </span>
+                </section>
+                <span class="value" disabled=${groupDisable}>
+                  <gr-button
+                    disabled=${!this._options}
+                    @click=${this._handleSaveOptions}
+                  >
+                    Save Group Options
+                  </gr-button>
+                </span>
+              </fieldset>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('_groupConfig.name')) {
+      this._handleConfigName();
+    }
+
+    if (
+      changedProperties.has('_groupConfig.owner') ||
+      changedProperties.has('_groupConfigOwner')
+    ) {
+      this._handleConfigOwner();
+    }
+
+    if (changedProperties.has('_groupConfig.description')) {
+      this._handleConfigDescription();
+    }
+
+    if (changedProperties.has('_groupConfig.options.visible_to_all')) {
+      this._handleConfigOptions();
+    }
   }
 
   _loadGroup() {
@@ -278,7 +443,6 @@ export class GrGroup extends PolymerElement {
       });
   }
 
-  @observe('_groupConfig.name')
   _handleConfigName() {
     if (this._isLoading()) {
       return;
@@ -286,7 +450,6 @@ export class GrGroup extends PolymerElement {
     this._rename = true;
   }
 
-  @observe('_groupConfig.owner', '_groupConfigOwner')
   _handleConfigOwner() {
     if (this._isLoading()) {
       return;
@@ -294,7 +457,6 @@ export class GrGroup extends PolymerElement {
     this._owner = true;
   }
 
-  @observe('_groupConfig.description')
   _handleConfigDescription() {
     if (this._isLoading()) {
       return;
@@ -302,7 +464,6 @@ export class GrGroup extends PolymerElement {
     this._description = true;
   }
 
-  @observe('_groupConfig.options.visible_to_all')
   _handleConfigOptions() {
     if (this._isLoading()) {
       return;
@@ -332,29 +493,38 @@ export class GrGroup extends PolymerElement {
     return !(groupIsInternal && (admin || owner));
   }
 
-  _getGroupUUID(id: GroupId) {
+  private getGroupUUID(id?: GroupId) {
     if (!id) return;
 
     return id.match(INTERNAL_GROUP_REGEX) ? id : decodeURIComponent(id);
   }
 
-  handleNameTextChanged(e: CustomEvent) {
-    this.set('_groupConfig.name', e.detail.value as GroupName);
+  private handleNameTextChanged(e: CustomEvent) {
+    if (!this._groupConfig) return;
+    this._groupConfig.name = e.detail.value as GroupName;
+    this.requestUpdate('_groupConfig');
   }
 
-  handleOwnerTextChanged(e: CustomEvent) {
-    this.set('_groupConfig.owner', e.detail.value);
+  private handleOwnerTextChanged(e: CustomEvent) {
+    if (!this._groupConfig) return;
+    this._groupConfig.owner = e.detail.value;
+    this.requestUpdate('_groupConfig');
   }
 
-  handleOwnerValueChanged(e: CustomEvent) {
+  private handleOwnerValueChanged(e: CustomEvent) {
     this._groupConfigOwner = e.detail.value;
+    this.requestUpdate('_groupConfigOwner');
   }
 
-  handleDescriptionBindValueChanged(e: BindValueChangeEvent) {
-    this.set('_groupConfig.description', e.detail.value);
+  private handleDescriptionBindValueChanged(e: BindValueChangeEvent) {
+    if (!this._groupConfig) return;
+    this._groupConfig.description = e.detail.value;
+    this.requestUpdate('_groupConfig');
   }
 
-  convertToString(value?: unknown) {
-    return convertToString(value);
+  private handleOptionsBindValueChanged(e: BindValueChangeEvent) {
+    if (!this._groupConfig || !this._groupConfig.options) return;
+    this._groupConfig.options.visible_to_all = e.detail.value as unknown as boolean;
+    this.requestUpdate('_groupConfig');
   }
 }

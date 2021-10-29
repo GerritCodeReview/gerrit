@@ -21,10 +21,15 @@ import {GrGroup} from './gr-group';
 import {
   addListenerForTest,
   mockPromise,
+  queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
 import {createGroupInfo} from '../../../test/test-data-generators.js';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import {GrSelect} from '../../shared/gr-select/gr-select';
 
 const basicFixture = fixtureFromElement('gr-group');
 
@@ -45,16 +50,17 @@ suite('gr-group tests', () => {
     name: 'Administrators' as GroupName,
   };
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
     groupStub = stubRestApi('getGroupConfig').returns(Promise.resolve(group));
   });
 
   test('loading displays before group config is loaded', () => {
-    assert.isTrue(element.$.loading.classList.contains('loading'));
-    assert.isFalse(getComputedStyle(element.$.loading).display === 'none');
-    assert.isTrue(element.$.loadedContent.classList.contains('loading'));
-    assert.isTrue(getComputedStyle(element.$.loadedContent).display === 'none');
+    assert.isTrue(queryAndAssert<HTMLDivElement>(element, '#loading').classList.contains('loading'));
+    assert.isFalse(getComputedStyle(queryAndAssert<HTMLDivElement>(element, '#loading')).display === 'none');
+    assert.isTrue(queryAndAssert<HTMLDivElement>(element, '#loadedContent').classList.contains('loading'));
+    assert.isTrue(getComputedStyle(queryAndAssert<HTMLDivElement>(element, '#loadedContent')).display === 'none');
   });
 
   test('default values are populated with internal group', async () => {
@@ -62,7 +68,7 @@ suite('gr-group tests', () => {
     element.groupId = '1' as GroupId;
     await element._loadGroup();
     assert.isTrue(element._groupIsInternal);
-    assert.isFalse(element.$.visibleToAll.bindValue);
+    assert.equal(queryAndAssert<GrSelect>(element, '#visibleToAll').bindValue, 'false');
   });
 
   test('default values with external group', async () => {
@@ -76,7 +82,7 @@ suite('gr-group tests', () => {
     element.groupId = '1' as GroupId;
     await element._loadGroup();
     assert.isFalse(element._groupIsInternal);
-    assert.isFalse(element.$.visibleToAll.bindValue);
+    assert.equal(queryAndAssert<GrSelect>(element, '#visibleToAll').bindValue, 'false');
   });
 
   test('rename group', async () => {
@@ -94,21 +100,21 @@ suite('gr-group tests', () => {
       Promise.resolve({...new Response(), status: 200})
     );
 
-    const button = element.$.inputUpdateNameBtn;
+    const button = queryAndAssert<GrButton>(element, '#inputUpdateNameBtn');
 
     await element._loadGroup();
-    assert.isTrue(button.hasAttribute('disabled'));
-    assert.isFalse(element.$.Title.classList.contains('edited'));
+    assert.isTrue(button.disabled);
+    assert.isFalse(queryAndAssert<HTMLHeadingElement>(element, '#Title').classList.contains('edited'));
 
-    element.$.groupNameInput.text = groupName2;
+    queryAndAssert<GrAutocomplete>(element, '#groupNameInput').text = groupName2;
 
-    await flush();
-    assert.isFalse(button.hasAttribute('disabled'));
-    assert.isTrue(element.$.groupName.classList.contains('edited'));
+    await element.updateComplete;
+    assert.isFalse(button.disabled);
+    assert.isTrue(queryAndAssert<HTMLHeadingElement>(element, '#groupName').classList.contains('edited'));
 
     await element._handleSaveName();
-    assert.isTrue(button.hasAttribute('disabled'));
-    assert.isFalse(element.$.Title.classList.contains('edited'));
+    assert.isTrue(button.disabled);
+    assert.isFalse(queryAndAssert<HTMLHeadingElement>(element, '#Title').classList.contains('edited'));
     assert.equal(element._groupName, groupName2);
   });
 
@@ -124,21 +130,21 @@ suite('gr-group tests', () => {
 
     stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
 
-    const button = element.$.inputUpdateOwnerBtn;
+    const button = queryAndAssert<GrButton>(element, '#inputUpdateOwnerBtn');
 
     await element._loadGroup();
-    assert.isTrue(button.hasAttribute('disabled'));
-    assert.isFalse(element.$.Title.classList.contains('edited'));
+    assert.isTrue(button.disabled);
+    assert.isFalse(queryAndAssert<HTMLHeadingElement>(element, '#Title').classList.contains('edited'));
 
-    element.$.groupOwnerInput.text = 'testId2';
+    queryAndAssert<GrAutocomplete>(element, '#groupOwnerInput').text = 'testId2';
 
-    await flush();
-    assert.isFalse(button.hasAttribute('disabled'));
-    assert.isTrue(element.$.groupOwner.classList.contains('edited'));
+    await element.updateComplete;
+    assert.isFalse(button.disabled);
+    assert.isTrue(queryAndAssert<HTMLHeadingElement>(element, '#groupOwner').classList.contains('edited'));
 
     await element._handleSaveOwner();
-    assert.isTrue(button.hasAttribute('disabled'));
-    assert.isFalse(element.$.Title.classList.contains('edited'));
+    assert.isTrue(button.disabled);
+    assert.isFalse(queryAndAssert<HTMLHeadingElement>(element, '#Title').classList.contains('edited'));
   });
 
   test('test for undefined group name', async () => {
@@ -155,7 +161,7 @@ suite('gr-group tests', () => {
     // Test that loading shows instead of filling
     // in group details
     await element._loadGroup();
-    assert.isTrue(element.$.loading.classList.contains('loading'));
+    assert.isTrue(queryAndAssert<HTMLDivElement>(element, '#loading').classList.contains('loading'));
 
     assert.isTrue(element._loading);
   });
@@ -250,12 +256,12 @@ suite('gr-group tests', () => {
       id: '6a1e70e1a88782771a91808c8af9bbb7a9871389' as GroupId,
     };
 
-    assert.equal(element._groupConfig.id, element.$.uuid.text);
+    assert.equal(element._groupConfig.id, queryAndAssert<GrCopyClipboard>(element, '#uuid').text);
 
     element._groupConfig = {
       id: 'user%2Fgroup' as GroupId,
     };
 
-    assert.equal('user/group', element.$.uuid.text);
+    assert.equal('user/group', queryAndAssert<GrCopyClipboard>(element, '#uuid').text);
   });
 });

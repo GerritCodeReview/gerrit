@@ -86,7 +86,7 @@ export class GrLibLoader {
         reject(new Error('Unable to load blank script url.'));
         return;
       }
-
+      script.setAttribute('crossorigin', 'anonymous');
       script.setAttribute('src', src);
       script.onload = resolve;
       script.onerror = reject;

@@ -16,6 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma';
+import './gr-editor-view';
 import {GrEditorView} from './gr-editor-view';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {HttpMethod} from '../../../constants/constants';
@@ -45,7 +46,7 @@ suite('gr-editor-view tests', () => {
     element = basicFixture.instantiate();
     savePathStub = stubRestApi('renameFileInChangeEdit');
     saveFileStub = stubRestApi('saveChangeEdit');
-    changeDetailStub = stubRestApi('getDiffChangeDetail');
+    changeDetailStub = stubRestApi('getChangeDetail');
     navigateStub = sinon.stub(element, '_viewEditInChangeView');
   });
 

@@ -24,6 +24,7 @@ import {
   BasePatchSetNum,
   EditPatchSetNum,
   PatchSetNum,
+  RobotCommentInfo,
   RobotId,
   RobotRunId,
   Timestamp,
@@ -37,7 +38,6 @@ import {
 } from '../../../test/test-data-generators';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {DiffInfo} from '../../../types/diff';
-import {UIRobot} from '../../../utils/comment-util';
 import {
   CloseFixPreviewEventDetail,
   EventType,
@@ -50,7 +50,7 @@ const basicFixture = fixtureFromElement('gr-apply-fix-dialog');
 suite('gr-apply-fix-dialog tests', () => {
   let element: GrApplyFixDialog;
 
-  const ROBOT_COMMENT_WITH_TWO_FIXES: UIRobot = {
+  const ROBOT_COMMENT_WITH_TWO_FIXES: RobotCommentInfo = {
     id: '1' as UrlEncodedCommentId,
     updated: '2018-02-08 18:49:18.000000000' as Timestamp,
     robot_id: 'robot_1' as RobotId,
@@ -62,7 +62,7 @@ suite('gr-apply-fix-dialog tests', () => {
     ],
   };
 
-  const ROBOT_COMMENT_WITH_ONE_FIX: UIRobot = {
+  const ROBOT_COMMENT_WITH_ONE_FIX: RobotCommentInfo = {
     id: '2' as UrlEncodedCommentId,
     updated: '2018-02-08 18:49:18.000000000' as Timestamp,
     robot_id: 'robot_1' as RobotId,

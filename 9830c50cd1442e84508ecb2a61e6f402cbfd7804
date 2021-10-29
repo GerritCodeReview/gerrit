@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0f15859_e2b2c3f1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-29T09:09:01Z",
+      "side": 1,
+      "message": "Optional: I would appreciated, if all of these would be replaced by queryAndAssert() calls.",
+      "range": {
+        "startLine": 65,
+        "startChar": 1,
+        "endLine": 74,
+        "endChar": 26
+      },
+      "revId": "9830c50cd1442e84508ecb2a61e6f402cbfd7804",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

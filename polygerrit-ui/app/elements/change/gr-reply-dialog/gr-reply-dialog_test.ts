@@ -35,6 +35,7 @@ import {StandardLabels} from '../../../utils/label-util';
 import {
   createAccountWithId,
   createChange,
+  createComment,
   createCommentThread,
   createDraft,
   createRevision,
@@ -318,18 +319,13 @@ suite('gr-reply-dialog tests', () => {
     if (hasDraft) {
       draftThreads = [
         {
-          ...createCommentThread([
-            {
-              ...createDraft(),
-              __draft: true,
-              unresolved: true,
-            },
-          ]),
+          ...createCommentThread([{...createDraft(), unresolved: true}]),
         },
       ];
     }
     replyToIds?.forEach(id =>
       draftThreads[0].comments.push({
+        ...createComment(),
         author: {_account_id: id},
       })
     );
@@ -878,11 +874,13 @@ suite('gr-reply-dialog tests', () => {
       {
         ...createCommentThread([
           {
+            ...createComment(),
             id: '1' as UrlEncodedCommentId,
             author: {_account_id: 1 as AccountId},
             unresolved: false,
           },
           {
+            ...createComment(),
             id: '2' as UrlEncodedCommentId,
             in_reply_to: '1' as UrlEncodedCommentId,
             author: {_account_id: 2 as AccountId},
@@ -893,11 +891,13 @@ suite('gr-reply-dialog tests', () => {
       {
         ...createCommentThread([
           {
+            ...createComment(),
             id: '3' as UrlEncodedCommentId,
             author: {_account_id: 3 as AccountId},
             unresolved: false,
           },
           {
+            ...createComment(),
             id: '4' as UrlEncodedCommentId,
             in_reply_to: '3' as UrlEncodedCommentId,
             author: {_account_id: 4 as AccountId},
@@ -2003,7 +2003,7 @@ suite('gr-reply-dialog tests', () => {
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ [
-          {...createCommentThread([{__draft: true}])},
+          {...createCommentThread([createComment()])},
         ],
         /* text= */ '',
         /* reviewersMutated= */ false,
@@ -2023,7 +2023,7 @@ suite('gr-reply-dialog tests', () => {
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ [
-          {...createCommentThread([{__draft: true}])},
+          {...createCommentThread([createComment()])},
         ],
         /* text= */ '',
         /* reviewersMutated= */ false,
@@ -2042,7 +2042,9 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [{...createCommentThread([{}])}],
+        /* draftCommentThreads= */ [
+          {...createCommentThread([createComment()])},
+        ],
         /* text= */ 'test',
         /* reviewersMutated= */ false,
         /* labelsChanged= */ false,
@@ -2060,7 +2062,9 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [{...createCommentThread([{}])}],
+        /* draftCommentThreads= */ [
+          {...createCommentThread([createComment()])},
+        ],
         /* text= */ '',
         /* reviewersMutated= */ true,
         /* labelsChanged= */ false,
@@ -2078,7 +2082,9 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [{...createCommentThread([{}])}],
+        /* draftCommentThreads= */ [
+          {...createCommentThread([createComment()])},
+        ],
         /* text= */ '',
         /* reviewersMutated= */ false,
         /* labelsChanged= */ true,
@@ -2096,7 +2102,9 @@ suite('gr-reply-dialog tests', () => {
     assert.isTrue(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [{...createCommentThread([{}])}],
+        /* draftCommentThreads= */ [
+          {...createCommentThread([createComment()])},
+        ],
         /* text= */ '',
         /* reviewersMutated= */ false,
         /* labelsChanged= */ true,
@@ -2120,7 +2128,9 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(
       element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [{...createCommentThread([{}])}],
+        /* draftCommentThreads= */ [
+          {...createCommentThread([createComment()])},
+        ],
         /* text= */ '',
         /* reviewersMutated= */ false,
         /* labelsChanged= */ false,
@@ -2144,7 +2154,12 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [
       {
         ...createCommentThread([
-          {__draft: true, path: 'test', line: 1, patch_set: 1 as PatchSetNum},
+          {
+            ...createDraft(),
+            path: 'test',
+            line: 1,
+            patch_set: 1 as PatchSetNum,
+          },
         ]),
       },
     ];
@@ -2167,7 +2182,12 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [
       {
         ...createCommentThread([
-          {__draft: true, path: 'test', line: 1, patch_set: 1 as PatchSetNum},
+          {
+            ...createDraft(),
+            path: 'test',
+            line: 1,
+            patch_set: 1 as PatchSetNum,
+          },
         ]),
       },
     ];

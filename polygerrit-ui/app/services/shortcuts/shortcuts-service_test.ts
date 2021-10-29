@@ -21,26 +21,9 @@ import {
   ShortcutsService,
 } from '../../services/shortcuts/shortcuts-service';
 import {Shortcut, ShortcutSection} from './shortcuts-config';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {SinonFakeTimers} from 'sinon';
 import {Key, Modifier} from '../../utils/dom-util';
 import {getAppContext} from '../app-context';
-
-async function keyEventOn(
-  el: HTMLElement,
-  callback: (e: KeyboardEvent) => void,
-  keyCode = 75,
-  key = 'k'
-): Promise<KeyboardEvent> {
-  let resolve: (e: KeyboardEvent) => void;
-  const promise = new Promise<KeyboardEvent>(r => (resolve = r));
-  el.addEventListener('keydown', (e: KeyboardEvent) => {
-    callback(e);
-    resolve(e);
-  });
-  MockInteractions.keyDownOn(el, keyCode, null, key);
-  return await promise;
-}
 
 suite('shortcuts-service tests', () => {
   let service: ShortcutsService;
@@ -50,55 +33,6 @@ suite('shortcuts-service tests', () => {
       getAppContext().userModel,
       getAppContext().reportingService
     );
-  });
-
-  suite('shouldSuppress', () => {
-    test('do not suppress shortcut event from <div>', async () => {
-      await keyEventOn(document.createElement('div'), e => {
-        assert.isFalse(service.shouldSuppress(e));
-      });
-    });
-
-    test('suppress shortcut event from <input>', async () => {
-      await keyEventOn(document.createElement('input'), e => {
-        assert.isTrue(service.shouldSuppress(e));
-      });
-    });
-
-    test('suppress shortcut event from <textarea>', async () => {
-      await keyEventOn(document.createElement('textarea'), e => {
-        assert.isTrue(service.shouldSuppress(e));
-      });
-    });
-
-    test('do not suppress shortcut event from checkbox <input>', async () => {
-      const inputEl = document.createElement('input');
-      inputEl.setAttribute('type', 'checkbox');
-      await keyEventOn(inputEl, e => {
-        assert.isFalse(service.shouldSuppress(e));
-      });
-    });
-
-    test('suppress shortcut event from children of <gr-overlay>', async () => {
-      const overlay = document.createElement('gr-overlay');
-      const div = document.createElement('div');
-      overlay.appendChild(div);
-      await keyEventOn(div, e => {
-        assert.isTrue(service.shouldSuppress(e));
-      });
-    });
-
-    test('suppress "enter" shortcut event from <a>', async () => {
-      await keyEventOn(document.createElement('a'), e => {
-        assert.isFalse(service.shouldSuppress(e));
-      });
-      await keyEventOn(
-        document.createElement('a'),
-        e => assert.isTrue(service.shouldSuppress(e)),
-        13,
-        'enter'
-      );
-    });
   });
 
   test('getShortcut', () => {

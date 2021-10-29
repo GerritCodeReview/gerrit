@@ -100,4 +100,6 @@ export enum Interaction {
   ATTENTION_SET_CHIP = 'attention-set-chip',
   SAVE_COMMENT = 'save-comment',
   COMMENT_SAVED = 'comment-saved',
+  DISCARD_COMMENT = 'discard-comment',
+  COMMENT_DISCARDED = 'comment-discarded',
 }

@@ -211,10 +211,8 @@ export class GrEditorView extends PolymerElement {
     return Promise.all(promises);
   }
 
-  _getChangeDetail(changeNum: NumericChangeId) {
-    return this.restApiService.getChangeDetail(changeNum).then(change => {
-      this._change = change;
-    });
+  async _getChangeDetail(changeNum: NumericChangeId) {
+    this._change = await this.restApiService.getChangeDetail(changeNum);
   }
 
   _editChange(value?: ParsedChangeInfo | null) {

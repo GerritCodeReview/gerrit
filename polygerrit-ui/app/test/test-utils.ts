@@ -218,11 +218,14 @@ export function waitUntilCalled(stub: SinonStub, name: string) {
  *   await listenOnce(el, 'render');
  *   ...
  */
-export function listenOnce(el: EventTarget, eventType: string) {
-  return new Promise<void>(resolve => {
-    const listener = () => {
+export function listenOnce<T extends Event>(
+  el: EventTarget,
+  eventType: string
+) {
+  return new Promise<T>(resolve => {
+    const listener = (e: Event) => {
       removeEventListener();
-      resolve();
+      resolve(e as T);
     };
     el.addEventListener(eventType, listener);
     let removeEventListener = () => {

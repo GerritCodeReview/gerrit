@@ -59,7 +59,6 @@ export const grReportingMock: ReportingService & Finalizable = {
   pluginLoaded: () => {},
   pluginsLoaded: () => {},
   pluginsFailed: () => {},
-  recordDraftInteraction: () => {},
   reporter: () => {},
   reportErrorDialog: (message: string) => {
     log(`reportErrorDialog: ${message}`);

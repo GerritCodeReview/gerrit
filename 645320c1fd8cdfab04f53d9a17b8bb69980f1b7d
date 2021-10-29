@@ -68,6 +68,24 @@
       "parentUuid": "81b6e525_ca5513b2",
       "revId": "645320c1fd8cdfab04f53d9a17b8bb69980f1b7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f878705_5bec6109",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-10-29T12:25:09Z",
+      "side": 1,
+      "message": "maxWidth is not reflected to an attribute, did you mean positionBelow?\n\nIn general we should only reflect to attributes if we have CSS targetting those attributes.",
+      "parentUuid": "08e84375_f403d8aa",
+      "revId": "645320c1fd8cdfab04f53d9a17b8bb69980f1b7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

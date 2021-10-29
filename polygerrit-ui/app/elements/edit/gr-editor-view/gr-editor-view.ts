@@ -47,6 +47,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDefaultEditor} from '../gr-default-editor/gr-default-editor';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {addShortcut, Modifier} from '../../../utils/dom-util';
+import {ParsedChangeInfo} from '../../../types/types';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -90,7 +91,7 @@ export class GrEditorView extends PolymerElement {
   params?: GenerateUrlEditViewParameters;
 
   @property({type: Object, observer: '_editChange'})
-  _change?: ChangeInfo | null;
+  _change?: ParsedChangeInfo | null;
 
   @property({type: Number})
   _changeNum?: NumericChangeId;
@@ -212,7 +213,7 @@ export class GrEditorView extends PolymerElement {
   }
 
   _getChangeDetail(changeNum: NumericChangeId) {
-    return this.restApiService.getDiffChangeDetail(changeNum).then(change => {
+    return this.restApiService.getChangeDetail(changeNum).then(change => {
       this._change = change;
     });
   }

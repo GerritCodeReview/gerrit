@@ -120,6 +120,39 @@ export function queryAndAssert<E extends Element = Element>(
   return found;
 }
 
+export async function waitQueryAndAssert<E extends Element = Element>(
+  el: Element | null | undefined,
+  selector: string
+): Promise<E> {
+  await waitUntil(
+    () => !!query<E>(el, selector),
+    `The element '${selector}' did not appear in the DOM within 1000 ms.`
+  );
+  return queryAndAssert<E>(el, selector);
+}
+
+export function waitUntil(
+  predicate: () => boolean,
+  message = 'The waitUntil() predicate is still false after 1000 ms.'
+): Promise<void> {
+  const start = Date.now();
+  let sleep = 0;
+  if (predicate()) return Promise.resolve();
+  return new Promise((resolve, reject) => {
+    const waiter = () => {
+      if (predicate()) {
+        return resolve();
+      }
+      if (Date.now() - start >= 1000) {
+        return reject(new Error(message));
+      }
+      setTimeout(waiter, sleep);
+      sleep = sleep === 0 ? 1 : sleep * 4;
+    };
+    waiter();
+  });
+}
+
 /**
  * Returns true, if both sets contain the same members.
  */

@@ -102,17 +102,10 @@ function computeThreads(
   message: CombinedMessage,
   allThreadsForChange: CommentThread[]
 ): CommentThread[] {
-  if (message._index === undefined) {
-    return [];
-  }
+  if (message._index === undefined) return [];
   const messageId = getMessageId(message);
   return allThreadsForChange.filter(thread =>
-    thread.comments.some(comment => {
-      const matchesMessage = comment.change_message_id === messageId;
-      if (!matchesMessage) return false;
-      comment.collapsed = !matchesMessage;
-      return matchesMessage;
-    })
+    thread.comments.some(comment => comment.change_message_id === messageId)
   );
 }
 
@@ -379,13 +372,6 @@ export class GrMessagesList extends PolymerElement {
       } else {
         combinedMessages.push(messages[mi++]);
         mDate = null;
-      }
-    }
-
-    // collapse all by default
-    for (const thread of commentThreads) {
-      for (const comment of thread.comments) {
-        comment.collapsed = true;
       }
     }
 

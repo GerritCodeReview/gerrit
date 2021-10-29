@@ -110,10 +110,12 @@ export const htmlTemplate = html`
           </h3>
           <fieldset>
             <div>
-              <iron-autogrow-textarea
+              <gr-textarea
                 class="description"
                 autocomplete="on"
-                bind-value="{{_groupConfig.description}}"
+                rows="4"
+                monospace=""
+                text="{{_groupConfig.description}}"
                 disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]"
               ></iron-autogrow-textarea>
             </div>

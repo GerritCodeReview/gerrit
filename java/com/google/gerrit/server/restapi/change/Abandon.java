@@ -30,6 +30,7 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -48,6 +49,7 @@ public class Abandon
   private final AbandonOp.Factory abandonOpFactory;
   private final NotifyResolver notifyResolver;
   private final PatchSetUtil patchSetUtil;
+  private final StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory;
 
   @Inject
   Abandon(
@@ -55,12 +57,14 @@ public class Abandon
       ChangeJson.Factory json,
       AbandonOp.Factory abandonOpFactory,
       NotifyResolver notifyResolver,
-      PatchSetUtil patchSetUtil) {
+      PatchSetUtil patchSetUtil,
+      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory) {
     this.updateFactory = updateFactory;
     this.json = json;
     this.abandonOpFactory = abandonOpFactory;
     this.notifyResolver = notifyResolver;
     this.patchSetUtil = patchSetUtil;
+    this.storeSubmitRequirementsOpFactory = storeSubmitRequirementsOpFactory;
   }
 
   @Override
@@ -119,7 +123,9 @@ public class Abandon
     AbandonOp op = abandonOpFactory.create(accountState, msgTxt);
     try (BatchUpdate u = updateFactory.create(notes.getProjectName(), user, TimeUtil.nowTs())) {
       u.setNotify(notify);
-      u.addOp(notes.getChangeId(), op).execute();
+      u.addOp(notes.getChangeId(), op);
+      u.addOp(notes.getChangeId(), storeSubmitRequirementsOpFactory.create());
+      u.execute();
     }
     return op.getChange();
   }

@@ -4642,6 +4642,114 @@ public class ChangeIT extends AbstractDaemonTest {
         ExperimentFeaturesConstants
             .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
       })
+  public void submitRequirement_storedForAbandonedChanges() throws Exception {
+    for (SubmitType submitType : SubmitType.values()) {
+      Project.NameKey project = createProjectForPush(submitType);
+      TestRepository<InMemoryRepository> repo = cloneProject(project);
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("Code-Review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
+
+      PushOneCommit.Result r =
+          createChange(repo, "master", "Add a file", "foo", "content", "topic");
+      String changeId = r.getChangeId();
+
+      voteLabel(changeId, "Code-Review", 2);
+      ChangeInfo change = gApi.changes().id(changeId).get();
+      assertThat(change.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+
+      gApi.changes().id(r.getChangeId()).abandon();
+      ChangeNotes notes = notesFactory.create(project, r.getChange().getId());
+      SubmitRequirementResult result =
+          notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
+      assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+      assertThat(result.submittabilityExpressionResult().status())
+          .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+      assertThat(result.submittabilityExpressionResult().expression().expressionString())
+          .isEqualTo("label:Code-Review=+2");
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {
+        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
+        ExperimentFeaturesConstants
+            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
+      })
+  public void submitRequirement_retrievedFromNoteDbForAbandonedChanges() throws Exception {
+    for (SubmitType submitType : SubmitType.values()) {
+      Project.NameKey project = createProjectForPush(submitType);
+      TestRepository<InMemoryRepository> repo = cloneProject(project);
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("Code-Review")
+              .setSubmittabilityExpression(
+                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
+
+      PushOneCommit.Result r =
+          createChange(repo, "master", "Add a file", "foo", "content", "topic");
+      String changeId = r.getChangeId();
+      voteLabel(changeId, "Code-Review", 2);
+      gApi.changes().id(changeId).abandon();
+
+      // Add another submit requirement. This will not get returned for the abandoned change, since
+      // we return the state of the SR results when the change was abandoned.
+      configSubmitRequirement(
+          project,
+          SubmitRequirement.builder()
+              .setName("New-Requirement")
+              .setSubmittabilityExpression(SubmitRequirementExpression.create("-has:unresolved"))
+              .setAllowOverrideInChildProjects(false)
+              .build());
+      ChangeInfo changeInfo =
+          gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS);
+      assertThat(changeInfo.submitRequirements).hasSize(1);
+      assertSubmitRequirementStatus(
+          changeInfo.submitRequirements,
+          "Code-Review",
+          Status.SATISFIED,
+          /* isLegacy= */ false,
+          /* submittabilityCondition= */ "label:Code-Review=+2");
+
+      // Restore the change, the new requirement will show up again
+      gApi.changes().id(changeId).restore();
+      changeInfo = gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS);
+      assertThat(changeInfo.submitRequirements).hasSize(2);
+      assertSubmitRequirementStatus(
+          changeInfo.submitRequirements,
+          "Code-Review",
+          Status.SATISFIED,
+          /* isLegacy= */ false,
+          /* submittabilityCondition= */ "label:Code-Review=+2");
+      assertSubmitRequirementStatus(
+          changeInfo.submitRequirements,
+          "New-Requirement",
+          Status.SATISFIED,
+          /* isLegacy= */ false,
+          /* submittabilityCondition= */ "-has:unresolved");
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {
+        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS,
+        ExperimentFeaturesConstants
+            .GERRIT_BACKEND_REQUEST_FEATURE_STORE_SUBMIT_REQUIREMENTS_ON_MERGE
+      })
   public void submitRequirement_retrievedFromNoteDbForClosedChanges() throws Exception {
     configSubmitRequirement(
         project,

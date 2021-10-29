@@ -15,29 +15,44 @@
  * limitations under the License.
  */
 import '../test/common-test-setup-karma';
-import {deepEqualStringDict, equalArray} from './compare-util';
+import {deepEqual} from './compare-util';
 
-suite('compare-utils tests', () => {
-  test('deepEqual', () => {
-    assert.isTrue(deepEqualStringDict({}, {}));
-    assert.isTrue(deepEqualStringDict({x: 'y'}, {x: 'y'}));
-    assert.isTrue(deepEqualStringDict({x: 'y', p: 'q'}, {p: 'q', x: 'y'}));
+suite('compare-util tests', () => {
+  test('deepEqual primitives', () => {
+    assert.isTrue(deepEqual(undefined, undefined));
+    assert.isTrue(deepEqual(null, null));
+    assert.isTrue(deepEqual(0, 0));
+    assert.isTrue(deepEqual('', ''));
 
-    assert.isFalse(deepEqualStringDict({}, {x: 'y'}));
-    assert.isFalse(deepEqualStringDict({x: 'y'}, {x: 'z'}));
-    assert.isFalse(deepEqualStringDict({x: 'y'}, {z: 'y'}));
+    assert.isFalse(deepEqual(1, 2));
+    assert.isFalse(deepEqual('a', 'b'));
   });
 
-  test('equalArray', () => {
-    assert.isTrue(equalArray(undefined, undefined));
-    assert.isTrue(equalArray([], []));
-    assert.isTrue(equalArray([1], [1]));
-    assert.isTrue(equalArray(['a', 'b'], ['a', 'b']));
+  test('deepEqual objects', () => {
+    assert.isTrue(deepEqual({}, {}));
+    assert.isTrue(deepEqual({x: 'y'}, {x: 'y'}));
+    assert.isTrue(deepEqual({x: 'y', p: 'q'}, {p: 'q', x: 'y'}));
 
-    assert.isFalse(equalArray(undefined, []));
-    assert.isFalse(equalArray([], undefined));
-    assert.isFalse(equalArray([], [1]));
-    assert.isFalse(equalArray([1], [2]));
-    assert.isFalse(equalArray([1, 2], [1]));
+    assert.isFalse(deepEqual(undefined, {}));
+    assert.isFalse(deepEqual(null, {}));
+    assert.isFalse(deepEqual({}, undefined));
+    assert.isFalse(deepEqual({}, null));
+    assert.isFalse(deepEqual({}, {x: 'y'}));
+    assert.isFalse(deepEqual({x: 'y'}, {x: 'z'}));
+    assert.isFalse(deepEqual({x: 'y'}, {z: 'y'}));
+  });
+
+  test('deepEqual arrays', () => {
+    assert.isTrue(deepEqual([], []));
+    assert.isTrue(deepEqual([1], [1]));
+    assert.isTrue(deepEqual(['a', 'b'], ['a', 'b']));
+
+    assert.isFalse(deepEqual(undefined, []));
+    assert.isFalse(deepEqual(null, []));
+    assert.isFalse(deepEqual([], undefined));
+    assert.isFalse(deepEqual([], null));
+    assert.isFalse(deepEqual([], [1]));
+    assert.isFalse(deepEqual([1], [2]));
+    assert.isFalse(deepEqual([1, 2], [1]));
   });
 });

@@ -98,8 +98,6 @@ const STARTUP_TIMERS: {[name: string]: number} = {
   [Timing.WEB_COMPONENTS_READY]: 0,
 };
 
-const DRAFT_ACTION_TIMER = 'TimeBetweenDraftActions';
-const DRAFT_ACTION_TIMER_MAX = 2 * 60 * 1000; // 2 minutes.
 const SLOW_RPC_THRESHOLD = 500;
 
 export function initErrorReporter(appContext: AppContext) {
@@ -285,10 +283,6 @@ export class GrReporting implements ReportingService {
   private reportRepoName: string | undefined;
 
   private reportChangeId: NumericChangeId | undefined;
-
-  private timers: {timeBetweenDraftActions: Timer | null} = {
-    timeBetweenDraftActions: null,
-  };
 
   private pending: PendingReportInfo[] = [];
 
@@ -855,27 +849,6 @@ export class GrReporting implements ReportingService {
   ) {
     const plugin = pluginApi?.getPluginName() ?? 'unknown';
     this.reportExecution(Execution.PLUGIN_API, {plugin, object, method});
-  }
-
-  /**
-   * A draft interaction was started. Update the time-between-draft-actions
-   * Timing.
-   */
-  recordDraftInteraction() {
-    // If there is no timer defined, then this is the first interaction.
-    // Set up the timer so that it's ready to record the intervening time when
-    // called again.
-    const timer = this.timers.timeBetweenDraftActions;
-    if (!timer) {
-      // Create a timer with a maximum length.
-      this.timers.timeBetweenDraftActions = this.getTimer(
-        DRAFT_ACTION_TIMER
-      ).withMaximum(DRAFT_ACTION_TIMER_MAX);
-      return;
-    }
-
-    // Mark the time and reinitialize the timer.
-    timer.end().reset();
   }
 
   error(error: Error, errorSource?: string, details?: EventDetails) {

@@ -20,7 +20,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-thread-list/gr-thread-list';
-import {ActionInfo} from '../../../types/common';
+import {ActionInfo, ChangeInfo} from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {pluralize} from '../../../utils/string-util';
 import {CommentThread, isUnresolved} from '../../../utils/comment-util';
@@ -54,7 +54,7 @@ export class GrConfirmSubmitDialog extends LitElement {
   action?: ActionInfo;
 
   @state()
-  change?: ParsedChangeInfo;
+  change?: ParsedChangeInfo | ChangeInfo;
 
   @state()
   unresolvedThreads: CommentThread[] = [];

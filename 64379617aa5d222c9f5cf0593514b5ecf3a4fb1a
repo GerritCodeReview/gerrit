@@ -33,6 +33,24 @@
       "message": "Any update on when this change is going to be merged ..? (waiting for a fix to be merged to stable-3.4)",
       "revId": "64379617aa5d222c9f5cf0593514b5ecf3a4fb1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c700891_d5629bd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-10-29T06:34:26Z",
+      "side": 1,
+      "message": "Hard to say as according to @Nasser it depends on [1] and should be re-done once that chain gets merged and there are some open issues there...\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/320924",
+      "parentUuid": "d33dc5a3_c8707cb3",
+      "revId": "64379617aa5d222c9f5cf0593514b5ecf3a4fb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

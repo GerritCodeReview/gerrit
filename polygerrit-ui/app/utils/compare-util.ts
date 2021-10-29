@@ -14,26 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export function deepEqualStringDict(
-  a: {[name: string]: string},
-  b: {[name: string]: string}
-): boolean {
-  const aKeys = Object.keys(a);
-  const bKeys = Object.keys(b);
-  if (aKeys.length !== bKeys.length) return false;
-  for (const key of aKeys) {
-    if (a[key] !== b[key]) return false;
-  }
-  return true;
-}
-
-export function equalArray(a?: unknown[], b?: unknown[]): boolean {
+export function deepEqual<T>(a: T, b: T): boolean {
   if (a === b) return true;
-  if (a === undefined) return b === undefined;
-  if (b === undefined) return a === undefined;
-  if (a.length !== b.length) return false;
-  for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) return false;
+  if (a === undefined || b === undefined) return false;
+  if (a === null || b === null) return false;
+
+  if (typeof a === 'object') {
+    if (typeof b !== 'object') return false;
+    const aObj = a as Record<string, unknown>;
+    const bObj = b as Record<string, unknown>;
+    const aKeys = Object.keys(aObj);
+    const bKeys = Object.keys(bObj);
+    if (aKeys.length !== bKeys.length) return false;
+    for (const key of aKeys) {
+      if (!deepEqual(aObj[key], bObj[key])) return false;
+    }
+    return true;
   }
-  return true;
+
+  return false;
 }

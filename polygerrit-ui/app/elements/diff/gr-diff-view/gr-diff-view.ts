@@ -497,13 +497,12 @@ export class GrDiffView extends base {
     });
   }
 
-  _getChangeDetail(changeNum: NumericChangeId) {
-    return this.restApiService.getChangeDetail(changeNum).then(change => {
-      if (!change) throw new Error('Missing "change" in API response.');
-      this.changeService.updateChange(change);
-      this._change = change;
-      return change;
-    });
+  async _getChangeDetail(changeNum: NumericChangeId) {
+    const change = await this.restApiService.getChangeDetail(changeNum);
+    if (!change) throw new Error('Missing "change" in API response.');
+    this.changeService.updateChange(change);
+    this._change = change;
+    return change;
   }
 
   _getChangeEdit() {

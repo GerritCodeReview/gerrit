@@ -165,6 +165,11 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
                 public boolean isUserNameCaseInsensitive() {
                   return !isUserNameCaseInsensitive;
                 }
+
+                @Override
+                public boolean isUserNameCaseInsensitiveMigrationMode() {
+                  return false;
+                }
               });
       ExternalId.Key updatedKey = keyFactory.create(extId.key().scheme(), extId.key().id());
       if (!extId.key().sha1().getName().equals(updatedKey.sha1().getName())) {

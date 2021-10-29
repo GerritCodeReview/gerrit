@@ -25,15 +25,19 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.AllExternalIds.Serializer;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto.ExternalIdProto;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 public class AllExternalIdsTest {
   private ExternalIdFactory externalIdFactory;
+
+  @Mock AuthConfig authConfig;
 
   @Before
   public void setUp() throws Exception {
@@ -45,7 +49,13 @@ public class AllExternalIdsTest {
                   public boolean isUserNameCaseInsensitive() {
                     return false;
                   }
-                }));
+
+                  @Override
+                  public boolean isUserNameCaseInsensitiveMigrationMode() {
+                    return false;
+                  }
+                }),
+            authConfig);
   }
 
   @Test

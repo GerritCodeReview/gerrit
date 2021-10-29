@@ -114,8 +114,8 @@ import {
   preferences$,
   diffPreferences$,
 } from '../../../services/user/user-model';
+import {reviewedFiles$} from '../../../services/change/change-model';
 
-const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
 
@@ -261,9 +261,6 @@ export class GrDiffView extends base {
   @property({type: Object, computed: '_getRevisionInfo(_change)'})
   _revisionInfo?: RevisionInfoObj;
 
-  @property({type: Object})
-  _reviewedFiles = new Set<string>();
-
   @property({type: Number})
   _focusLineNum?: number;
 
@@ -274,6 +271,8 @@ export class GrDiffView extends base {
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
+
+  private reviewedFiles = new Set<string>();
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [
@@ -348,6 +347,8 @@ export class GrDiffView extends base {
 
   private readonly userService = appContext.userService;
 
+  private readonly changeService = appContext.changeService;
+
   private readonly commentsService = appContext.commentsService;
 
   private readonly shortcuts = appContext.shortcutsService;
@@ -382,6 +383,11 @@ export class GrDiffView extends base {
       .pipe(takeUntil(this.disconnected$))
       .subscribe(diffPreferences => {
         this._prefs = diffPreferences;
+      });
+    reviewedFiles$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(reviewedFiles => {
+        if (reviewedFiles) this.reviewedFiles = reviewedFiles;
       });
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.cursor.replaceDiffs([this.$.diffHost]);
@@ -443,6 +449,8 @@ export class GrDiffView extends base {
   _getChangeDetail(changeNum: NumericChangeId) {
     return this.restApiService.getDiffChangeDetail(changeNum).then(change => {
       if (!change) throw new Error('Missing "change" in API response.');
+      change.revisions = {};
+      this.changeService.updateChange(change);
       this._change = change;
       return change;
     });
@@ -514,29 +522,21 @@ export class GrDiffView extends base {
 
   _setReviewed(reviewed: boolean) {
     if (this._editMode) return;
+    if (
+      !this._patchRange?.patchNum ||
+      !this._path ||
+      !this._changeNum ||
+      !this._patchRange?.patchNum
+    )
+      return;
     this.$.reviewed.checked = reviewed;
-    if (!this._patchRange?.patchNum || !this._path) return;
     const path = this._path;
     // if file is already reviewed then do not make a saveReview request
-    if (this._reviewedFiles.has(path) && reviewed) return;
-    if (reviewed) this._reviewedFiles.add(path);
-    else this._reviewedFiles.delete(path);
-    this._saveReviewedState(reviewed).catch(err => {
-      if (this._reviewedFiles.has(path)) this._reviewedFiles.delete(path);
-      else this._reviewedFiles.add(path);
-      fireAlert(this, ERR_REVIEW_STATUS);
-      throw err;
-    });
-  }
-
-  _saveReviewedState(reviewed: boolean): Promise<Response | undefined> {
-    if (!this._changeNum) return Promise.resolve(undefined);
-    if (!this._patchRange?.patchNum) return Promise.resolve(undefined);
-    if (!this._path) return Promise.resolve(undefined);
-    return this.restApiService.saveFileReviewed(
+    if (this.reviewedFiles.has(path) && reviewed) return;
+    this.changeService.setReviewedFilesStatus(
       this._changeNum,
-      this._patchRange?.patchNum,
-      this._path,
+      this._patchRange.patchNum,
+      path,
       reviewed
     );
   }
@@ -657,11 +657,11 @@ export class GrDiffView extends base {
   private navigateToUnreviewedFile(direction: string) {
     if (!this._path) return;
     if (!this._fileList) return;
-    if (!this._reviewedFiles) return;
+    if (!this.reviewedFiles) return;
     // Ensure that the currently viewed file always appears in unreviewedFiles
     // so we resolve the right "next" file.
     const unreviewedFiles = this._fileList.filter(
-      file => file === this._path || !this._reviewedFiles.has(file)
+      file => file === this._path || !this.reviewedFiles.has(file)
     );
 
     this._navToFile(this._path, unreviewedFiles, direction === 'next' ? 1 : -1);
@@ -866,13 +866,13 @@ export class GrDiffView extends base {
       patchNum,
     };
     this.restApiService.getReviewedFiles(changeNum, patchNum).then(files => {
-      this._reviewedFiles = new Set(files);
+      this.reviewedFiles = new Set(files);
     });
   }
 
   _getReviewedStatus(path: string) {
     if (this._editMode) return false;
-    return this._reviewedFiles.has(path);
+    return this.reviewedFiles.has(path);
   }
 
   _initLineOfInterestAndCursor(leftSide: boolean) {
@@ -1133,7 +1133,7 @@ export class GrDiffView extends base {
       });
   }
 
-  @observe('_path', '_prefs', '_reviewedFiles', '_patchRange')
+  @observe('_path', '_prefs', 'reviewedFiles', '_patchRange')
   _setReviewedObserver(
     path?: string,
     prefs?: DiffPreferencesInfo,

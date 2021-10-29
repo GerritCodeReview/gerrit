@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-select/gr-select';
+import '../../shared/gr-textarea/gr-textarea';
 import {
   AutocompleteSuggestion,
   AutocompleteQuery,
@@ -226,14 +226,16 @@ export class GrGroup extends LitElement {
               </h3>
               <fieldset>
                 <div>
-                  <iron-autogrow-textarea
+                  <gr-textarea
                     class="description"
-                    autocomplete="on"
+                    .autocomplete="on"
+                    .fixedPositionDropdown=""
+                    .monospace="true"
                     ?disabled=${this._computeGroupDisabled()}
-                    .bindValue=${convertToString(this.groupConfig?.description)}
-                    @bind-value-changed=${this
-                      .handleDescriptionBindValueChanged}
-                  ></iron-autogrow-textarea>
+                    rows="4"
+                    .text=${convertToString(this.groupConfig?.description)}
+                    @text-changed=${this.handleDescriptionBindValueChanged}
+                  >
                 </div>
                 <span class="value" ?disabled=${this._computeGroupDisabled()}>
                   <gr-button
@@ -456,8 +458,15 @@ export class GrGroup extends LitElement {
     this.requestUpdate();
   }
 
+<<<<<<< HEAD
   private handleDescriptionBindValueChanged(e: BindValueChangeEvent) {
     if (!this.groupConfig || this.loading) return;
+=======
+  private handleDescriptionBindValueChanged(e: CustomEvent) {
+    if (!this.groupConfig || this._isLoading()) return;
+
+    this.description = this.groupDescriptionName !== e.detail.value;
+>>>>>>> bcdc6d7afb (gr-group: Use gr-textarea)
     this.groupConfig.description = e.detail.value;
     this.requestUpdate();
   }

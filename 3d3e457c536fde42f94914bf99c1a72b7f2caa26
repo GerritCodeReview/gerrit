@@ -106,6 +106,24 @@
       "parentUuid": "ed0d3911_5ef5196e",
       "revId": "3d3e457c536fde42f94914bf99c1a72b7f2caa26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64e281f4_bc3455af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-10-29T15:50:42Z",
+      "side": 1,
+      "message": "@Han-Wen, if Google can update to this version, now is the right time to bump libraries according to https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries\n\nFeasible? If not, is there anything the community could do to help? (Maybe Paladox wants to add bazel build support to upstream asciidoctor... 😊)",
+      "parentUuid": "64346c67_6ea397fe",
+      "revId": "3d3e457c536fde42f94914bf99c1a72b7f2caa26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

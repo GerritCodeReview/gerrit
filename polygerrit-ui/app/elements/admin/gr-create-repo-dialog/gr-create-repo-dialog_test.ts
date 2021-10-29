@@ -15,14 +15,16 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-create-repo-dialog.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-create-repo-dialog';
+import {GrCreateRepoDialog} from './gr-create-repo-dialog';
+import {stubRestApi} from '../../../test/test-utils';
+import {BranchName, GroupId, RepoName} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-create-repo-dialog');
 
 suite('gr-create-repo-dialog tests', () => {
-  let element;
+  let element: GrCreateRepoDialog;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -35,46 +37,45 @@ suite('gr-create-repo-dialog tests', () => {
 
   test('repo created', async () => {
     const configInputObj = {
-      name: 'test-repo',
+      name: 'test-repo' as RepoName,
       create_empty_commit: true,
-      parent: 'All-Project',
+      parent: 'All-Project' as RepoName,
       permissions_only: false,
     };
 
-    const saveStub = stubRestApi('createRepo').returns(Promise.resolve({}));
+    const saveStub = stubRestApi('createRepo').returns(
+      Promise.resolve(new Response())
+    );
 
     assert.isFalse(element.hasNewRepoName);
 
     element._repoConfig = {
-      name: 'test-repo',
+      name: 'test-repo' as RepoName,
       create_empty_commit: true,
-      parent: 'All-Project',
+      parent: 'All-Project' as RepoName,
       permissions_only: false,
     };
 
     element._repoOwner = 'test';
-    element._repoOwnerId = 'testId';
-    element._defaultBranch = 'main';
+    element._repoOwnerId = 'testId' as GroupId;
+    element._defaultBranch = 'main' as BranchName;
 
-    element.$.repoNameInput.bindValue = configInputObj.name;
-    element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
-    element.$.initialCommit.bindValue =
-        configInputObj.create_empty_commit;
-    element.$.parentRepo.bindValue =
-        configInputObj.permissions_only;
+    element.$.repoNameInput.value = configInputObj.name;
+    element.$.rightsInheritFromInput.value = configInputObj.parent;
+    element.$.initialCommit.bindValue = configInputObj.create_empty_commit;
+    element.$.parentRepo.bindValue = configInputObj.permissions_only;
 
     assert.isTrue(element.hasNewRepoName);
 
     assert.deepEqual(element._repoConfig, configInputObj);
 
     await element.handleCreateRepo();
-    assert.isTrue(saveStub.lastCall.calledWithExactly(
-        {
-          ...configInputObj,
-          owners: ['testId'],
-          branches: ['main'],
-        }
-    ));
+    assert.isTrue(
+      saveStub.lastCall.calledWithExactly({
+        ...configInputObj,
+        owners: ['testId' as GroupId],
+        branches: ['main' as BranchName],
+      })
+    );
   });
 });
-

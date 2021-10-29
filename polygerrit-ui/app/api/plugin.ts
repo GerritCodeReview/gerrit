@@ -50,6 +50,7 @@ export enum EventType {
 
 export declare interface PluginApi {
   _url?: URL;
+  url(): string;
   admin(): AdminPluginApi;
   annotationApi(): AnnotationPluginApi;
   attributeHelper(element: Element): AttributeHelperPluginApi;

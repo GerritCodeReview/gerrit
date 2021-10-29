@@ -50,7 +50,7 @@ export class GrSubmitRequirementHovercard extends base {
   mutable = false;
 
   @property({type: Boolean})
-  expanded = false;
+  expanded = true;
 
   static override get styles() {
     return [
@@ -88,6 +88,9 @@ export class GrSubmitRequirementHovercard extends base {
           margin: 0 var(--spacing-xl) var(--spacing-m) var(--spacing-xl);
           display: flex;
           align-items: center;
+        }
+        div.section.conditions {
+          align-items: flex-start;
         }
         div.sectionIcon {
           flex: 0 0 30px;
@@ -190,24 +193,32 @@ export class GrSubmitRequirementHovercard extends base {
       </div>`;
     } else {
       return html`
-        <div class="section">
+        <div class="section conditions">
           <div class="sectionIcon">
             <iron-icon icon="gr-icons:description"></iron-icon>
           </div>
-          <div class="sectionContent">${this.requirement?.description}</div>
+          <div class="sectionContent">
+            ${this.requirement?.description
+              ? html`
+                  <div class="description">
+                    ${this.requirement?.description}
+                  </div>
+                `
+              : ''}
+            ${this.renderCondition(
+              'Blocking condition',
+              this.requirement?.submittability_expression_result
+            )}
+            ${this.renderCondition(
+              'Application condition',
+              this.requirement?.applicability_expression_result
+            )}
+            ${this.renderCondition(
+              'Override condition',
+              this.requirement?.override_expression_result
+            )}
+          </div>
         </div>
-        ${this.renderCondition(
-          'Blocking condition',
-          this.requirement?.submittability_expression_result
-        )}
-        ${this.renderCondition(
-          'Application condition',
-          this.requirement?.applicability_expression_result
-        )}
-        ${this.renderCondition(
-          'Override condition',
-          this.requirement?.override_expression_result
-        )}
       `;
     }
   }
@@ -238,12 +249,9 @@ export class GrSubmitRequirementHovercard extends base {
   ) {
     if (!expression) return '';
     return html`
-      <div class="section">
-        <div class="sectionIcon"></div>
-        <div class="sectionContent condition">
-          ${name}:<br />
-          <span class="expression"> ${expression.expression} </span>
-        </div>
+      <div class="condition">
+        ${name}:<br />
+        <span class="expression"> ${expression.expression} </span>
       </div>
     `;
   }

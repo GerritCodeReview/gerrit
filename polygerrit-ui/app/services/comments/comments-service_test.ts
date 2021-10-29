@@ -34,7 +34,7 @@ import {PathToCommentsInfoMap} from '../../types/common';
 
 suite('change service tests', () => {
   test('loads comments', async () => {
-    new CommentsService(appContext.restApiService);
+    new CommentsService(appContext.restApiService, appContext.reportingService);
     const diffCommentsSpy = stubRestApi('getDiffComments').returns(
       Promise.resolve({'foo.c': [createComment()]})
     );

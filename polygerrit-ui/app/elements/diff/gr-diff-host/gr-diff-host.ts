@@ -1180,8 +1180,6 @@ declare global {
     'normalize-range': CustomEvent;
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'create-comment': CustomEvent;
-    'comment-update': CustomEvent;
-    'comment-save': CustomEvent;
     'root-id-changed': CustomEvent;
   }
 }

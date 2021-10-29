@@ -32,6 +32,7 @@ import {ParsedChangeInfo} from '../../types/types';
 
 interface ChangeState {
   change?: ParsedChangeInfo;
+  reviewedFiles?: Set<string>;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
@@ -59,6 +60,26 @@ export function updateState(change?: ParsedChangeInfo) {
   }
   privateState$.next({...current, change});
 }
+
+export function updateStateReviewedFiles(reviewedFiles: Set<string>) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, reviewedFiles});
+}
+
+export function updateStateFileReviewed(file: string, reviewed: boolean) {
+  const current = privateState$.getValue();
+  const reviewedFiles = current.reviewedFiles
+    ? new Set(current.reviewedFiles)
+    : new Set<string>();
+  if (reviewed) reviewedFiles.delete(file);
+  else reviewedFiles.add(file);
+  privateState$.next({...current, reviewedFiles});
+}
+
+export const reviewedFiles$ = changeState$.pipe(
+  map(changeState => changeState.reviewedFiles),
+  distinctUntilChanged()
+);
 
 /**
  * If you depend on both, router and change state, then you want to filter out

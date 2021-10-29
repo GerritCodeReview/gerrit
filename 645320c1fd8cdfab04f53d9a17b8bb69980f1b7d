@@ -86,6 +86,24 @@
       "parentUuid": "08e84375_f403d8aa",
       "revId": "645320c1fd8cdfab04f53d9a17b8bb69980f1b7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af509065_a824da30",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-10-29T13:33:38Z",
+      "side": 1,
+      "message": "Ah, yes! Thanks! And i\u0027ll change it, thanks!",
+      "parentUuid": "0f878705_5bec6109",
+      "revId": "645320c1fd8cdfab04f53d9a17b8bb69980f1b7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

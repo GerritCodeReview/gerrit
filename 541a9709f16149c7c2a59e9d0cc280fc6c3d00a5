@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ce5e927_afae486d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-29T09:19:42Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "541a9709f16149c7c2a59e9d0cc280fc6c3d00a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76d6c25a_796aa50b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-10-29T09:19:42Z",
+      "side": 1,
+      "message": "Optional: Ideally we get rid of all the $ Polymer legacy and use queryAndAssert() instead in tests and @query() in Lit elements.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 1
+      },
+      "revId": "541a9709f16149c7c2a59e9d0cc280fc6c3d00a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

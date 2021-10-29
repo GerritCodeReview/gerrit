@@ -16,6 +16,24 @@
       "message": "How does this differ from _url?",
       "revId": "46736e6b21e5ec721747a5539dc83569cdac927a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7041647f_95e54b86",
+        "filename": "polygerrit-ui/app/api/plugin.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1088583
+      },
+      "writtenOn": "2021-10-29T18:49:15Z",
+      "side": 1,
+      "message": "Not familiar with _url but url() is the method described here: https://gerrit-review.googlesource.com/Documentation/pg-plugin-dev.html#_url",
+      "parentUuid": "d4a4cd93_8f99e4df",
+      "revId": "46736e6b21e5ec721747a5539dc83569cdac927a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

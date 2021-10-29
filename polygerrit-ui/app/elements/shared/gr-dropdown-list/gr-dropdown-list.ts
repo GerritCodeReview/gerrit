@@ -78,7 +78,7 @@ export class GrDropdownList extends PolymerElement {
   @property({type: Number})
   initialCount = 75;
 
-  @property({type: Object})
+  @property({type: Array})
   items?: DropdownItem[];
 
   @property({type: String})

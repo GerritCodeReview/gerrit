@@ -115,11 +115,6 @@ export interface ReportingService {
     eventName: string | Interaction,
     details?: EventDetails
   ): void;
-  /**
-   * A draft interaction was started. Update the time-between-draft-actions
-   * timer.
-   */
-  recordDraftInteraction(): void;
   reportErrorDialog(message: string): void;
   setRepoName(repoName: string): void;
   setChangeId(changeId: NumericChangeId): void;

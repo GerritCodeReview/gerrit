@@ -56,21 +56,21 @@ public class AccountFieldTest {
             .build();
     ExternalId extId1 =
         ExternalId.create(
-            ExternalId.Key.create(ExternalId.SCHEME_MAILTO, "foo.bar@example.com", false),
+            ExternalId.Key.create(ExternalId.SCHEME_MAILTO, "foo.bar@example.com", false, false),
             id,
             "foo.bar@example.com",
             null,
             ObjectId.fromString("1b9a0cf038ea38a0ab08617c39aa8e28413a27ca"));
     ExternalId extId2 =
         ExternalId.create(
-            ExternalId.Key.create(ExternalId.SCHEME_USERNAME, "foo", false),
+            ExternalId.Key.create(ExternalId.SCHEME_USERNAME, "foo", false, false),
             id,
             null,
             "secret",
             ObjectId.fromString("5b3a73dc9a668a5b89b5f049225261e3e3291d1a"));
     ExternalId extId3 =
         ExternalId.create(
-            ExternalId.Key.create(ExternalId.SCHEME_USERNAME, "Bar", true),
+            ExternalId.Key.create(ExternalId.SCHEME_USERNAME, "Bar", true, false),
             id,
             null,
             "secret",

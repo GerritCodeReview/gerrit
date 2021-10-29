@@ -47,7 +47,7 @@ public class ExternalIdTestUtil {
         (ins, noteMap) -> {
           ExternalId extId =
               ExternalId.create(
-                  ExternalId.Key.parse(externalId, false), accountId, null, null, null);
+                  ExternalId.Key.parse(externalId, false, false), accountId, null, null, null);
           ObjectId noteId = extId.key().sha1();
           Config c = new Config();
           extId.writeToConfig(c);
@@ -69,8 +69,8 @@ public class ExternalIdTestUtil {
         (ins, noteMap) -> {
           ExternalId extId =
               ExternalId.create(
-                  ExternalId.Key.parse(externalId, false), accountId, null, null, null);
-          ObjectId noteId = ExternalId.Key.parse(externalId + "x", false).sha1();
+                  ExternalId.Key.parse(externalId, false, false), accountId, null, null, null);
+          ObjectId noteId = ExternalId.Key.parse(externalId + "x", false, false).sha1();
           Config c = new Config();
           extId.writeToConfig(c);
           byte[] raw = c.toText().getBytes(UTF_8);
@@ -87,7 +87,7 @@ public class ExternalIdTestUtil {
         rw,
         ident,
         (ins, noteMap) -> {
-          ObjectId noteId = ExternalId.Key.parse(externalId, false).sha1();
+          ObjectId noteId = ExternalId.Key.parse(externalId, false, false).sha1();
           byte[] raw = "bad-config".getBytes(UTF_8);
           ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
           noteMap.set(noteId, dataBlob);
@@ -102,7 +102,7 @@ public class ExternalIdTestUtil {
         rw,
         ident,
         (ins, noteMap) -> {
-          ObjectId noteId = ExternalId.Key.parse(externalId, false).sha1();
+          ObjectId noteId = ExternalId.Key.parse(externalId, false, false).sha1();
           byte[] raw = "".getBytes(UTF_8);
           ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
           noteMap.set(noteId, dataBlob);

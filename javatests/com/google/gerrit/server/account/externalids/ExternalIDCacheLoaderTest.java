@@ -28,6 +28,7 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.account.externalids.testing.ExternalIdTestUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -44,6 +45,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -58,9 +60,11 @@ public class ExternalIDCacheLoaderTest {
   private ExternalIdReader externalIdReaderSpy;
 
   private ExternalIdFactory externalIdFactory;
+  @Mock private AuthConfig authConfig;
 
   @Before
   public void setUp() throws Exception {
+
     externalIdFactory =
         new ExternalIdFactory(
             new ExternalIdKeyFactory(
@@ -69,11 +73,17 @@ public class ExternalIDCacheLoaderTest {
                   public boolean isUserNameCaseInsensitive() {
                     return false;
                   }
+
+                  @Override
+                  public boolean isUserNameCaseInsensitiveMigrationMode() {
+                    return false;
+                  }
                 }));
     externalIdCache = CacheBuilder.newBuilder().build();
     repoManager.createRepository(ALL_USERS).close();
     externalIdReader =
-        new ExternalIdReader(repoManager, ALL_USERS, new DisabledMetricMaker(), externalIdFactory);
+        new ExternalIdReader(
+            repoManager, ALL_USERS, new DisabledMetricMaker(), externalIdFactory, authConfig);
     externalIdReaderSpy = Mockito.spy(externalIdReader);
     loader = createLoader(true);
   }
@@ -277,7 +287,7 @@ public class ExternalIDCacheLoaderTest {
     try (Repository repo = repoManager.openRepository(ALL_USERS)) {
       PersonIdent updater = new PersonIdent("Foo bar", "foo@bar.com");
       ExternalIdNotes extIdNotes =
-          ExternalIdNotes.loadNoCacheUpdate(ALL_USERS, repo, externalIdFactory);
+          ExternalIdNotes.loadNoCacheUpdate(ALL_USERS, repo, externalIdFactory, false);
       update.accept(extIdNotes);
       try (MetaDataUpdate metaDataUpdate =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {

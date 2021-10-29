@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {combineLatest, from, fromEvent, Observable, Subscription} from 'rxjs';
+import {
+  combineLatest,
+  from,
+  fromEvent,
+  Observable,
+  Subscription,
+  of,
+} from 'rxjs';
 import {map, startWith, switchMap} from 'rxjs/operators';
 import {routerChangeNum$} from '../router/router-model';
 import {
@@ -22,15 +29,22 @@ import {
   updateStateChange,
   updateStateLoading,
   updateStatePath,
+  currentPatchNum$,
+  changeNum$,
+  updateStateReviewedFiles,
+  updateStateFileReviewed,
 } from './change-model';
 import {ParsedChangeInfo} from '../../types/types';
-import {ChangeInfo} from '../../types/common';
+import {ChangeInfo, PatchSetNum, NumericChangeId} from '../../types/common';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {Finalizable} from '../registry';
+import {fireAlert} from '../../utils/event-util';
+
+const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
 export class ChangeService implements Finalizable {
   private change?: ParsedChangeInfo;
@@ -70,6 +84,42 @@ export class ChangeService implements Finalizable {
         this.change = change;
       })
     );
+    combineLatest([currentPatchNum$, changeNum$]).pipe(
+      switchMap(([currentPatchNum, changeNum]) => {
+        if (!changeNum || !currentPatchNum) {
+          updateStateReviewedFiles([]);
+          return of(undefined);
+        }
+        return from(this.fetchReviewedFiles(currentPatchNum!, changeNum!));
+      })
+    );
+  }
+
+  fetchReviewedFiles(currentPatchNum: PatchSetNum, changeNum: NumericChangeId) {
+    return this.restApiService.getLoggedIn().then(loggedIn => {
+      if (!loggedIn) return;
+      this.restApiService
+        .getReviewedFiles(changeNum, currentPatchNum)
+        .then(files => {
+          updateStateReviewedFiles(files ?? []);
+        });
+    });
+  }
+
+  setReviewedFilesStatus(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    file: string,
+    reviewed: boolean
+  ) {
+    return this.restApiService
+      .saveFileReviewed(changeNum, patchNum, file, reviewed)
+      .then(() => {
+        updateStateFileReviewed(file, reviewed);
+      })
+      .catch(() => {
+        fireAlert(document, ERR_REVIEW_STATUS);
+      });
   }
 
   finalize() {

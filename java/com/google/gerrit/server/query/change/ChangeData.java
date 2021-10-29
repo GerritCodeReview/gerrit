@@ -948,10 +948,6 @@ public class ChangeData {
    * com.google.gerrit.server.index.change.ChangeField#STORED_SUBMIT_REQUIREMENTS}.
    */
   public Map<SubmitRequirement, SubmitRequirementResult> submitRequirements() {
-    if (!experimentFeatures.isFeatureEnabled(
-        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)) {
-      return Collections.emptyMap();
-    }
     if (submitRequirements == null) {
       if (!lazyload()) {
         return Collections.emptyMap();
@@ -969,7 +965,7 @@ public class ChangeData {
               .filter(r -> !r.isLegacy())
               .collect(Collectors.toMap(r -> r.submitRequirement(), Function.identity()));
       Map<SubmitRequirement, SubmitRequirementResult> legacyRequirements =
-          SubmitRequirementsAdapter.getLegacyRequirements(submitRuleEvaluatorFactory, this);
+          SubmitRequirementsAdapter.getLegacyRequirements(this);
       submitRequirements =
           SubmitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
               projectConfigRequirements, legacyRequirements);

@@ -23,6 +23,7 @@ import {
   BehaviorSubject,
   Observable,
   Subscription,
+  of,
 } from 'rxjs';
 import {
   map,
@@ -38,6 +39,7 @@ import {
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
 import {ParsedChangeInfo} from '../../types/types';
+import {fireAlert} from '../../utils/event-util';
 
 import {ChangeInfo} from '../../types/common';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
@@ -50,6 +52,8 @@ export enum LoadingStatus {
   RELOADING = 'RELOADING',
   LOADED = 'LOADED',
 }
+
+const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
 export interface ChangeState {
   /**
@@ -64,6 +68,12 @@ export interface ChangeState {
    * Does not apply to change-view or edit-view.
    */
   diffPath?: string;
+  /**
+   * The list of reviewed files, kept in the model because we want changes made
+   * in one view to reflect on other views without re-rendering the other views.
+   * Undefined means it's still loading and empty set means no files reviewed.
+   */
+  reviewedFiles?: string[];
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
@@ -74,6 +84,10 @@ const initialState: ChangeState = {
 
 export class ChangeModel implements Finalizable {
   private readonly privateState$ = new BehaviorSubject(initialState);
+
+  private change?: ParsedChangeInfo;
+
+  private currentPatchNum?: PatchSetNum;
 
   public readonly changeState$: Observable<ChangeState> =
     this.privateState$.asObservable();
@@ -91,6 +105,11 @@ export class ChangeModel implements Finalizable {
   public readonly diffPath$ = select(
     this.privateState$,
     changeState => changeState?.diffPath
+  );
+
+  public readonly reviewedFiles$ = select(
+    this.privateState$,
+    changeState => changeState?.reviewedFiles
   );
 
   public readonly changeNum$ = select(this.change$, change => change?._number);
@@ -164,7 +183,20 @@ export class ChangeModel implements Finalizable {
           // helps with that.
           this.updateStateChange(change ?? undefined);
         }),
+      this.change$.subscribe(change => (this.change = change)),
+      this.currentPatchNum$.subscribe(
+        currentPatchNum => (this.currentPatchNum = currentPatchNum)
+      ),
     ];
+    combineLatest([this.currentPatchNum$, this.changeNum$]).pipe(
+      switchMap(([currentPatchNum, changeNum]) => {
+        if (!changeNum || !currentPatchNum) {
+          this.updateStateReviewedFiles([]);
+          return of(undefined);
+        }
+        return from(this.fetchReviewedFiles(currentPatchNum!, changeNum!));
+      })
+    );
   }
 
   finalize() {
@@ -178,6 +210,71 @@ export class ChangeModel implements Finalizable {
   updatePath(diffPath?: string) {
     const current = this.getState();
     this.setState({...current, diffPath});
+  }
+
+  updateStateReviewedFiles(reviewedFiles: string[]) {
+    const current = this.getState();
+    this.setState({...current, reviewedFiles});
+  }
+
+  updateStateFileReviewed(file: string, reviewed: boolean) {
+    const current = this.getState();
+    if (current.reviewedFiles === undefined) {
+      // Reviewed files haven't loaded yet.
+      // TODO(dhruvsri): disable updating status if reviewed files are not loaded.
+      fireAlert(
+        document,
+        'Updating status failed. Reviewed files not loaded yet.'
+      );
+      return;
+    }
+    const reviewedFiles = [...current.reviewedFiles];
+
+    // File is already reviewed and is being marked reviewed
+    if (reviewedFiles.includes(file) && reviewed) return;
+    // File is not reviewed and is being marked not reviewed
+    if (!reviewedFiles.includes(file) && !reviewed) return;
+
+    if (reviewed) reviewedFiles.push(file);
+    else reviewedFiles.splice(reviewedFiles.indexOf(file), 1);
+    this.setState({...current, reviewedFiles});
+  }
+
+  fetchReviewedFiles(currentPatchNum: PatchSetNum, changeNum: NumericChangeId) {
+    return this.restApiService.getLoggedIn().then(loggedIn => {
+      if (!loggedIn) return;
+      this.restApiService
+        .getReviewedFiles(changeNum, currentPatchNum)
+        .then(files => {
+          if (
+            changeNum !== this.change?._number ||
+            currentPatchNum !== this.currentPatchNum
+          )
+            return;
+          this.updateStateReviewedFiles(files ?? []);
+        });
+    });
+  }
+
+  setReviewedFilesStatus(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    file: string,
+    reviewed: boolean
+  ) {
+    return this.restApiService
+      .saveFileReviewed(changeNum, patchNum, file, reviewed)
+      .then(() => {
+        if (
+          changeNum !== this.change?._number ||
+          patchNum !== this.currentPatchNum
+        )
+          return;
+        this.updateStateFileReviewed(file, reviewed);
+      })
+      .catch(() => {
+        fireAlert(document, ERR_REVIEW_STATUS);
+      });
   }
 
   /**

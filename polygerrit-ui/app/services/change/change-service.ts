@@ -25,7 +25,7 @@ import {
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 
 export class ChangeService {
-  private change?: ParsedChangeInfo;
+  private change?: ParsedChangeInfo | ChangeInfo;
 
   constructor(readonly restApiService: RestApiService) {
     // TODO: In the future we will want to make restApiService.getChangeDetail()
@@ -46,7 +46,7 @@ export class ChangeService {
    * amount of code from change-view and move it into this change-service. This
    * will take some time ...
    */
-  updateChange(change: ParsedChangeInfo) {
+  updateChange(change: ChangeInfo | ParsedChangeInfo) {
     updateStateChange(change);
   }
 

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {PatchSetNum} from '../../types/common';
+import {PatchSetNum, ChangeInfo} from '../../types/common';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {
   map,
@@ -31,7 +31,7 @@ import {
 import {ParsedChangeInfo} from '../../types/types';
 
 interface ChangeState {
-  change?: ParsedChangeInfo;
+  change?: ParsedChangeInfo | ChangeInfo;
   /**
    * The name of the file user is viewing in the diff view mode. File path is
    * specified in the url or derived from the commentId.
@@ -66,7 +66,7 @@ export const changeState$: Observable<ChangeState> = privateState$;
 
 // Must only be used by the change service or whatever is in control of this
 // model.
-export function updateStateChange(change?: ParsedChangeInfo) {
+export function updateStateChange(change?: ParsedChangeInfo | ChangeInfo) {
   const current = privateState$.getValue();
   // We want to make it easy for subscribers to react to change changes, so we
   // are explicitly emitting an additional `undefined` when the change number

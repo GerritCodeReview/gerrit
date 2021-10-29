@@ -241,3 +241,12 @@ export interface TitleChangeEventDetail {
   title: string;
 }
 export type TitleChangeEvent = CustomEvent<TitleChangeEventDetail>;
+
+/**
+ * This event can be used for Polymer properties that have `notify: true` set.
+ * But it is also generally recommended when you want to notify your parent
+ * elements about a property update, also for Lit elements.
+ *
+ * The name of the event should be `prop-name-changed`.
+ */
+export type ValueChangedEvent<T = string> = CustomEvent<{value: T}>;

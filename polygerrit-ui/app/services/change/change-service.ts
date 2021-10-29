@@ -17,15 +17,27 @@
 import {from, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {routerChangeNum$} from '../router/router-model';
-import {change$, updateStateChange, updateStatePath} from './change-model';
+import {
+  change$,
+  updateStateChange,
+  updateStatePath,
+  currentPatchNum$,
+  changeNum$,
+  updateStateReviewedFiles,
+  updateStateFileReviewed,
+} from './change-model';
 import {ParsedChangeInfo} from '../../types/types';
-import {ChangeInfo} from '../../types/common';
+import {ChangeInfo, PatchSetNum, NumericChangeId} from '../../types/common';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {Finalizable} from '../registry';
+import {combineLatest} from 'rxjs';
+import {fireAlert} from '../../utils/event-util';
+
+const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
 export class ChangeService implements Finalizable {
   private change?: ParsedChangeInfo;
@@ -59,6 +71,44 @@ export class ChangeService implements Finalizable {
         this.change = change;
       })
     );
+    this.subscriptions.push(
+      combineLatest([currentPatchNum$, changeNum$]).subscribe(
+        ([currentPatchNum, changeNum]) => {
+          if (!changeNum || !currentPatchNum) {
+            updateStateReviewedFiles(new Set([]));
+            return;
+          }
+          this.fetchReviewedFiles(currentPatchNum!, changeNum!);
+        }
+      )
+    );
+  }
+
+  fetchReviewedFiles(currentPatchNum: PatchSetNum, changeNum: NumericChangeId) {
+    this.restApiService.getLoggedIn().then(loggedIn => {
+      if (!loggedIn) return;
+      this.restApiService
+        .getReviewedFiles(changeNum, currentPatchNum)
+        .then(files => {
+          updateStateReviewedFiles(new Set(files ?? []));
+        });
+    });
+  }
+
+  setReviewedFilesStatus(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    file: string,
+    reviewed: boolean
+  ) {
+    return this.restApiService
+      .saveFileReviewed(changeNum, patchNum, file, reviewed)
+      .then(() => {
+        updateStateFileReviewed(file, reviewed);
+      })
+      .catch(() => {
+        fireAlert(document, ERR_REVIEW_STATUS);
+      });
   }
 
   finalize() {

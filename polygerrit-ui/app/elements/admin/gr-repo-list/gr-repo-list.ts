@@ -14,16 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-table-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-repo-list_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property, observe, computed} from '@polymer/decorators';
 import {AppElementAdminParams} from '../../gr-app-types';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RepoName, ProjectInfoWithName} from '../../../types/common';
@@ -32,6 +27,10 @@ import {ProjectState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
+import {tableStyles} from '../../../styles/gr-table-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, css, html} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -39,49 +38,35 @@ declare global {
   }
 }
 
-export interface GrRepoList {
-  $: {
-    createOverlay: GrOverlay;
-    createNewModal: GrCreateRepoDialog;
-  };
-}
-
 @customElement('gr-repo-list')
-export class GrRepoList extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrRepoList extends LitElement {
+  @query('#createOverlay')
+  createOverlay?: GrOverlay;
+
+  @query('#createNewModal')
+  createNewModal?: GrCreateRepoDialog;
 
   @property({type: Object})
   params?: AppElementAdminParams;
 
-  @property({type: Number})
-  _offset = 0;
+  @state() offset = 0;
 
-  @property({type: String})
-  readonly _path = '/admin/repos';
+  @state() readonly path = '/admin/repos';
 
-  @property({type: Boolean})
-  _newRepoName = false;
+  @state() newRepoName = false;
 
-  @property({type: Boolean})
-  _createNewCapability = false;
+  @state() createNewCapability = false;
 
-  @property({type: Array})
-  _repos: ProjectInfoWithName[] = [];
+  @state() repos: ProjectInfoWithName[] = [];
 
-  @property({type: Number})
-  _reposPerPage = 25;
+  @state() reposPerPage = 25;
 
-  @property({type: Boolean})
-  _loading = true;
+  @state() loading = true;
 
-  @property({type: String})
-  _filter = '';
+  @state() filter = '';
 
-  @computed('_repos')
-  get _shownRepos() {
-    return this._repos.slice(0, SHOWN_ITEMS_COUNT);
+  get shownRepos() {
+    return this.repos.slice(0, SHOWN_ITEMS_COUNT);
   }
 
   private readonly restApiService = appContext.restApiService;
@@ -93,13 +78,128 @@ export class GrRepoList extends PolymerElement {
     this._maybeOpenCreateOverlay(this.params);
   }
 
-  @observe('params')
-  _paramsChanged(params: AppElementAdminParams) {
-    this._loading = true;
-    this._filter = params?.filter ?? '';
-    this._offset = Number(params?.offset ?? 0);
+  static override get styles() {
+    return [
+      tableStyles,
+      sharedStyles,
+      css`
+        .genericList tr td:last-of-type {
+          text-align: left;
+        }
+        .genericList tr th:last-of-type {
+          text-align: left;
+        }
+        .readOnly {
+          text-align: center;
+        }
+        .changesLink,
+        .name,
+        .repositoryBrowser,
+        .readOnly {
+          white-space: nowrap;
+        }
+      `,
+    ];
+  }
 
-    return this._getRepos(this._filter, this._reposPerPage, this._offset);
+  override render() {
+    return html`
+      <gr-list-view
+        .createNew=${this.createNewCapability}
+        .filter=${this.filter}
+        .itemsPerPage=${this.reposPerPage}
+        .items=${this.repos}
+        .loading=${this.loading}
+        .offset=${this.offset}
+        .path=${this.path}
+        @create-clicked=${this._handleCreateClicked}
+      >
+        <table id="list" class="genericList">
+          <tbody>
+            <tr class="headerRow">
+              <th class="name topHeader">Repository Name</th>
+              <th class="repositoryBrowser topHeader">Repository Browser</th>
+              <th class="changesLink topHeader">Changes</th>
+              <th class="topHeader readOnly">Read only</th>
+              <th class="description topHeader">Repository Description</th>
+            </tr>
+            <tr
+              id="loading"
+              class="loadingMsg ${this.computeLoadingClass(this.loading)}"
+            >
+              <td>Loading...</td>
+            </tr>
+          </tbody>
+          <tbody class="${this.computeLoadingClass(this.loading)}">
+            ${this.renderRepoList()}
+          </tbody>
+        </table>
+      </gr-list-view>
+      <gr-overlay id="createOverlay" with-backdrop>
+        <gr-dialog
+          id="createDialog"
+          class="confirmDialog"
+          ?disabled=${!this.newRepoName}
+          confirm-label="Create"
+          @confirm=${this._handleCreateRepo}
+          @cancel=${this._handleCloseCreate}
+        >
+          <div class="header" slot="header">Create Repository</div>
+          <div class="main" slot="main">
+            <gr-create-repo-dialog
+              id="createNewModal"
+              @new-repo-name=${this.handleNewRepoName}
+            ></gr-create-repo-dialog>
+          </div>
+        </gr-dialog>
+      </gr-overlay>
+    `;
+  }
+
+  private renderRepoList() {
+    return html`
+      ${this.shownRepos.map(
+        item => html`
+          <tr class="table">
+            <td class="name">
+              <a href="${this._computeRepoUrl(item.name)}">${item.name}</a>
+            </td>
+            <td class="repositoryBrowser">${this.renderWebLinks(item)}</td>
+            <td class="changesLink">
+              <a href="${this._computeChangesLink(item.name)}">view all</a>
+            </td>
+            <td class="readOnly">${this._readOnly(item)}</td>
+            <td class="description">${item.description}</td>
+          </tr>
+        `
+      )}
+    `;
+  }
+
+  private renderWebLinks(links: ProjectInfoWithName) {
+    return html`
+      ${this._computeWeblink(links).map(
+        link => html`
+          <a href="${link.url}" class="webLink" rel="noopener" target="_blank">
+            ${link.name}
+          </a>
+        `
+      )}
+    `;
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this._paramsChanged(this.params);
+    }
+  }
+
+  _paramsChanged(params?: AppElementAdminParams) {
+    this.loading = true;
+    this.filter = params?.filter ?? '';
+    this.offset = Number(params?.offset ?? 0);
+
+    return this._getRepos(this.filter, this.reposPerPage, this.offset);
   }
 
   /**
@@ -107,12 +207,12 @@ export class GrRepoList extends PolymerElement {
    */
   _maybeOpenCreateOverlay(params?: AppElementAdminParams) {
     if (params?.openCreateModal) {
-      this.$.createOverlay.open();
+      this.createOverlay?.open();
     }
   }
 
   _computeRepoUrl(name: string) {
-    return getBaseUrl() + this._path + '/' + encodeURL(name, true);
+    return `${getBaseUrl()}${this.path}/${encodeURL(name, true)}`;
   }
 
   _computeChangesLink(name: string) {
@@ -128,45 +228,45 @@ export class GrRepoList extends PolymerElement {
         .getAccountCapabilities(['createProject'])
         .then(capabilities => {
           if (capabilities?.createProject) {
-            this._createNewCapability = true;
+            this.createNewCapability = true;
           }
         });
     });
   }
 
   _getRepos(filter: string, reposPerPage: number, offset?: number) {
-    this._repos = [];
+    this.repos = [];
     return this.restApiService
       .getRepos(filter, reposPerPage, offset)
       .then(repos => {
         // Late response.
-        if (filter !== this._filter || !repos) {
+        if (filter !== this.filter || !repos) {
           return;
         }
-        this._repos = repos.filter(repo =>
+        this.repos = repos.filter(repo =>
           repo.name.toLowerCase().includes(filter.toLowerCase())
         );
-        this._loading = false;
+        this.loading = false;
       });
   }
 
   _refreshReposList() {
     this.restApiService.invalidateReposCache();
-    return this._getRepos(this._filter, this._reposPerPage, this._offset);
+    return this._getRepos(this.filter, this.reposPerPage, this.offset);
   }
 
   async _handleCreateRepo() {
-    await this.$.createNewModal.handleCreateRepo();
+    await this.createNewModal?.handleCreateRepo();
     this._refreshReposList();
   }
 
   _handleCloseCreate() {
-    this.$.createOverlay.close();
+    this.createOverlay?.close();
   }
 
   _handleCreateClicked() {
-    this.$.createOverlay.open().then(() => {
-      this.$.createNewModal.focus();
+    this.createOverlay?.open().then(() => {
+      this.createNewModal?.focus();
     });
   }
 
@@ -176,17 +276,17 @@ export class GrRepoList extends PolymerElement {
 
   _computeWeblink(repo: ProjectInfoWithName) {
     if (!repo.web_links) {
-      return '';
+      return [];
     }
     const webLinks = repo.web_links;
-    return webLinks.length ? webLinks : null;
+    return webLinks.length ? webLinks : [];
   }
 
   computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
   }
 
-  _handleNewRepoName() {
-    this._newRepoName = this.$.createNewModal.nameChanged;
+  private handleNewRepoName() {
+    this.newRepoName = this.createNewModal?.nameChanged;
   }
 }

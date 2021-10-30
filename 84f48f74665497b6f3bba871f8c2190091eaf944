@@ -167,6 +167,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4f1685d_55155491",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-30T21:50:26Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll include that in a separate follow-up change, so that I separate the pure relocation of the validation logic and the subsequent memory optimisation.",
+      "parentUuid": "f788acd8_90c20369",
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c02e1d05_7263f08b",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
         "patchSetId": 3

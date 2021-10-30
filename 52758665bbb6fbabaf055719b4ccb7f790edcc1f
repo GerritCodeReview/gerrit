@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9fcb4f9_62c03173",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-30T21:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0afe6c00_1d2207f0",
+      "revId": "52758665bbb6fbabaf055719b4ccb7f790edcc1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1fac972_cc6dc62f",
@@ -66,6 +84,30 @@
       "writtenOn": "2021-10-26T08:19:50Z",
       "side": 1,
       "message": "this catch is too wide. I\u0027d prefer\n\n```\n   ObjectId id \n   try { id \u003d fromString()} catch  (InvalidObjId ) {\n   \n   }\n   return verifyMetaId()\n```",
+      "range": {
+        "startLine": 132,
+        "startChar": 13,
+        "endLine": 132,
+        "endChar": 37
+      },
+      "revId": "52758665bbb6fbabaf055719b4ccb7f790edcc1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cf843b3_3644bb71",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-30T21:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1fac972_cc6dc62f",
       "range": {
         "startLine": 132,
         "startChar": 13,

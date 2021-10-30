@@ -34,6 +34,9 @@ import {appContext} from '../../../services/app-context';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 
 declare global {
+  interface HTMLElementEventMap {
+    'has-new-repo-name': CustomEvent;
+  }
   interface HTMLElementTagNameMap {
     'gr-repo-list': GrRepoList;
   }
@@ -185,5 +188,9 @@ export class GrRepoList extends PolymerElement {
 
   computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
+  }
+
+  _handleHasNewRepoName(e: CustomEvent) {
+    this._hasNewRepoName = e.detail.value;
   }
 }

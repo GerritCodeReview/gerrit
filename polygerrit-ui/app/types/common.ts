@@ -206,6 +206,7 @@ export {
   UrlEncodedRepoName,
   UserConfigInfo,
   VotingRangeInfo,
+  WebLinkInfo,
   isDetailedLabelInfo,
   isQuickLabelInfo,
 };

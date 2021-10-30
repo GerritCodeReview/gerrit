@@ -183,6 +183,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86d340df_4634c3e5",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-30T22:18:33Z",
+      "side": 1,
+      "message": "Done Change-Id: I66fe2103d",
+      "parentUuid": "a4f1685d_55155491",
+      "revId": "84f48f74665497b6f3bba871f8c2190091eaf944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c02e1d05_7263f08b",

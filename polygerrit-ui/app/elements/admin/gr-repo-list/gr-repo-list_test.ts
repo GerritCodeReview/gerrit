@@ -19,14 +19,18 @@ import '../../../test/common-test-setup-karma';
 import './gr-repo-list';
 import {GrRepoList} from './gr-repo-list';
 import {page} from '../../../utils/page-wrapper-utils';
-import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {
+  mockPromise,
+  queryAndAssert,
+  stubRestApi,
+} from '../../../test/test-utils';
 import {
   UrlEncodedRepoName,
   ProjectInfoWithName,
   RepoName,
 } from '../../../types/common';
 import {AppElementAdminParams} from '../../gr-app-types';
-import {ProjectState} from '../../../constants/constants';
+import {ProjectState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {GerritView} from '../../../services/router/router-model';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -60,47 +64,46 @@ suite('gr-repo-list tests', () => {
   let element: GrRepoList;
   let repos: ProjectInfoWithName[];
 
-  const value: AppElementAdminParams = {view: GerritView.ADMIN, adminView: ''};
-
-  setup(() => {
+  setup(async () => {
     sinon.stub(page, 'show');
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
   suite('list with repos', () => {
     setup(async () => {
       repos = createRepoList('test', 26);
       stubRestApi('getRepos').returns(Promise.resolve(repos));
-      await element._paramsChanged(value);
-      await flush();
+      await element._paramsChanged();
+      await element.updateComplete;
     });
 
     test('test for test repo in the list', async () => {
-      await flush();
-      assert.equal(element._repos[0].id, 'test0');
-      assert.equal(element._repos[1].id, 'test1');
-      assert.equal(element._repos[2].id, 'test2');
+      await element.updateComplete;
+      assert.equal(element.repos[0].id, 'test0');
+      assert.equal(element.repos[1].id, 'test1');
+      assert.equal(element.repos[2].id, 'test2');
     });
 
-    test('_shownRepos', () => {
-      assert.equal(element._shownRepos.length, 25);
+    test('shownRepos', () => {
+      assert.equal(element.repos.slice(0, SHOWN_ITEMS_COUNT).length, 25);
     });
 
-    test('_maybeOpenCreateOverlay', () => {
+    test('maybeOpenCreateOverlay', () => {
       const overlayOpen = sinon.stub(
         queryAndAssert<GrOverlay>(element, '#createOverlay'),
         'open'
       );
-      element._maybeOpenCreateOverlay();
+      element.maybeOpenCreateOverlay();
       assert.isFalse(overlayOpen.called);
-      element._maybeOpenCreateOverlay(undefined);
+      element.maybeOpenCreateOverlay(undefined);
       assert.isFalse(overlayOpen.called);
       const params: AppElementAdminParams = {
         view: GerritView.ADMIN,
         adminView: '',
         openCreateModal: true,
       };
-      element._maybeOpenCreateOverlay(params);
+      element.maybeOpenCreateOverlay(params);
       assert.isTrue(overlayOpen.called);
     });
   });
@@ -109,12 +112,12 @@ suite('gr-repo-list tests', () => {
     setup(async () => {
       repos = createRepoList('test', 25);
       stubRestApi('getRepos').returns(Promise.resolve(repos));
-      await element._paramsChanged(value);
-      await flush();
+      await element._paramsChanged();
+      await element.updateComplete;
     });
 
-    test('_shownRepos', () => {
-      assert.equal(element._shownRepos.length, 25);
+    test('shownRepos', () => {
+      assert.equal(element.repos.slice(0, SHOWN_ITEMS_COUNT).length, 25);
     });
   });
 
@@ -129,41 +132,51 @@ suite('gr-repo-list tests', () => {
     test('_paramsChanged', async () => {
       const repoStub = stubRestApi('getRepos');
       repoStub.returns(Promise.resolve(repos));
-      const value: AppElementAdminParams = {
+      element.params = {
         view: GerritView.ADMIN,
         adminView: '',
         filter: 'test',
         offset: 25,
-      };
-      await element._paramsChanged(value);
+      } as AppElementAdminParams;
+      await element._paramsChanged();
       assert.isTrue(repoStub.lastCall.calledWithExactly('test', 25, 25));
     });
 
     test('latest repos requested are always set', async () => {
       const repoStub = stubRestApi('getRepos');
-      repoStub.withArgs('test', 25).returns(Promise.resolve(repos));
-      repoStub.withArgs('filter', 25).returns(Promise.resolve(reposFiltered));
-      element._filter = 'test';
+      const promise = mockPromise<ProjectInfoWithName[]>();
+      repoStub.withArgs('filter', 25).returns(promise);
 
-      // Repos are not set because the element._filter differs.
-      await element._getRepos('filter', 25, 0);
-      assert.deepEqual(element._repos, []);
+      element.filter = 'test';
+      element.reposPerPage = 25;
+      element.offset = 0;
+
+      // Repos are not set because the element.filter differs.
+      const p = element.getRepos();
+      element.filter = 'filter';
+      promise.resolve(reposFiltered);
+      await p;
+      assert.deepEqual(element.repos, []);
     });
 
     test('filter is case insensitive', async () => {
       const repoStub = stubRestApi('getRepos');
       const repos = [createRepo('aSDf', 0)];
       repoStub.withArgs('asdf', 25).returns(Promise.resolve(repos));
-      element._filter = 'asdf';
-      await element._getRepos('asdf', 25, 0);
-      assert.equal(element._repos.length, 1);
+
+      element.filter = 'asdf';
+      element.reposPerPage = 25;
+      element.offset = 0;
+
+      await element.getRepos();
+      assert.equal(element.repos.length, 1);
     });
   });
 
   suite('loading', () => {
-    test('correct contents are displayed', () => {
-      assert.isTrue(element._loading);
-      assert.equal(element.computeLoadingClass(element._loading), 'loading');
+    test('correct contents are displayed', async () => {
+      assert.isTrue(element.loading);
+      assert.equal(element.computeLoadingClass(element.loading), 'loading');
       assert.equal(
         getComputedStyle(
           queryAndAssert<HTMLTableRowElement>(element, '#loading')
@@ -171,11 +184,11 @@ suite('gr-repo-list tests', () => {
         'block'
       );
 
-      element._loading = false;
-      element._repos = createRepoList('test', 25);
+      element.loading = false;
+      element.repos = createRepoList('test', 25);
 
-      flush();
-      assert.equal(element.computeLoadingClass(element._loading), '');
+      await element.updateComplete;
+      assert.equal(element.computeLoadingClass(element.loading), '');
       assert.equal(
         getComputedStyle(
           queryAndAssert<HTMLTableRowElement>(element, '#loading')
@@ -186,11 +199,9 @@ suite('gr-repo-list tests', () => {
   });
 
   suite('create new', () => {
-    test('_handleCreateClicked called when create-click fired', () => {
-      const handleCreateClickedStub = sinon.stub(
-        element,
-        '_handleCreateClicked'
-      );
+    test('handleCreateClicked called when create-clicked fired', () => {
+      const handleCreateClickedStub = sinon.stub();
+      element.addEventListener('create-clicked', handleCreateClickedStub);
       queryAndAssert<GrListView>(element, 'gr-list-view').dispatchEvent(
         new CustomEvent('create-clicked', {
           composed: true,
@@ -200,31 +211,33 @@ suite('gr-repo-list tests', () => {
       assert.isTrue(handleCreateClickedStub.called);
     });
 
-    test('_handleCreateClicked opens modal', () => {
+    test('handleCreateClicked opens modal', () => {
       const openStub = sinon
         .stub(queryAndAssert<GrOverlay>(element, '#createOverlay'), 'open')
         .returns(Promise.resolve());
-      element._handleCreateClicked();
+      element.handleCreateClicked();
       assert.isTrue(openStub.called);
     });
 
-    test('_handleCreateRepo called when confirm fired', () => {
-      const handleCreateRepoStub = sinon.stub(element, '_handleCreateRepo');
+    test('handleCreateRepo called when confirm fired', () => {
+      const handleCreateRepoStub = sinon.stub();
+      element.addEventListener('confirm', handleCreateRepoStub);
       queryAndAssert<GrDialog>(element, '#createDialog').dispatchEvent(
         new CustomEvent('confirm', {
           composed: true,
-          bubbles: true,
+          bubbles: false,
         })
       );
       assert.isTrue(handleCreateRepoStub.called);
     });
 
-    test('_handleCloseCreate called when cancel fired', () => {
-      const handleCloseCreateStub = sinon.stub(element, '_handleCloseCreate');
+    test('handleCloseCreate called when cancel fired', () => {
+      const handleCloseCreateStub = sinon.stub();
+      element.addEventListener('cancel', handleCloseCreateStub);
       queryAndAssert<GrDialog>(element, '#createDialog').dispatchEvent(
         new CustomEvent('cancel', {
           composed: true,
-          bubbles: true,
+          bubbles: false,
         })
       );
       assert.isTrue(handleCloseCreateStub.called);

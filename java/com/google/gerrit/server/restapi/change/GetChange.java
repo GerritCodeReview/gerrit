@@ -152,6 +152,7 @@ public class GetChange
     String changeMetaRefName = RefNames.changeMetaRef(change.getId());
     try (Repository repo = repoMgr.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo)) {
+      rw.setRetainBody(false);
       Ref ref = repo.getRefDatabase().exactRef(changeMetaRefName);
       RevCommit tip = rw.parseCommit(ref.getObjectId());
       rw.markStart(tip);

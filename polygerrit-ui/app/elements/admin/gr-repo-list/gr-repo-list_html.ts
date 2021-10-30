@@ -107,8 +107,8 @@ export const htmlTemplate = html`
       <div class="header" slot="header">Create Repository</div>
       <div class="main" slot="main">
         <gr-create-repo-dialog
-          has-new-repo-name="{{_hasNewRepoName}}"
           id="createNewModal"
+          on-has-new-repo-name="_handleHasNewRepoName"
         ></gr-create-repo-dialog>
       </div>
     </gr-dialog>

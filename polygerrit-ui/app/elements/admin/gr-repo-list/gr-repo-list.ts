@@ -186,4 +186,8 @@ export class GrRepoList extends PolymerElement {
   computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
   }
+
+  _handleHasNewRepoName(e: CustomEvent) {
+    this._hasNewRepoName = e.detail.value;
+  }
 }

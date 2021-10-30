@@ -67,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ea717db_e7daf35c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-30T01:03:17Z",
+      "side": 1,
+      "message": "I am expecting ChangeIT to use the triplets ONLY when it wants to explicitly verify that the indexing works as expected. Most of the tests in this suite aren\u0027t about indexing at all, therefore it won\u0027t be appropriate to test the index.\n\nFor that reason, it won\u0027t be useful to repeat all the tests of the suite here for the triplets *and* for project~changeNum.",
+      "parentUuid": "8e24dfb7_2bb9f616",
+      "revId": "751e2c7741acef944f1491ee5a94e7ad05c53e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c4266ca_10a89831",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 2
@@ -78,6 +96,30 @@
       "writtenOn": "2021-10-15T17:00:41Z",
       "side": 1,
       "message": "I think this looks cleaner if you put it into PushOneCommit.Result, maybe called projectNumericId()? That matches the enum value name in ChangeFinder. Or... use that enum? Have a method like \u0027Result.id(ChangeIdType type)\u0027, then you can use a static import. Summary of options:\n\n PushOneCommit.Result r \u003d createChange();\n String id \u003d projectAndChangeNumId(r); # this PS\n String id \u003d r.id(PROJECT_NUMERIC_ID); # using the enum\n String id \u003d r.projectNumericId(); # my other proposal above\n \nThe advantage of using the enum is that it\u0027s more self-documenting. If anyone is unclear on what \u0027PROJECT_NUMERIC_ID\u0027 is, they can look at ChangeFinder and it\u0027s explained there.\n\nI\u0027d also be in favor of adding that id(ChangeIdType type) method to Change itself, since that seems appropriate. That also probably leads to moving the enum itself to Change. If that doesn\u0027t seem right to you, then maybe my first proposal (Result.projectNumericId()) is best for now?",
+      "range": {
+        "startLine": 5402,
+        "startChar": 17,
+        "endLine": 5402,
+        "endChar": 38
+      },
+      "revId": "751e2c7741acef944f1491ee5a94e7ad05c53e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7a8e0eb_83fb2d19",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5402,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-30T01:03:17Z",
+      "side": 1,
+      "message": "I won\u0027t mix test refactoring and code-changes: I would prefer this change to have only modifications in the ChangeIT suite rather than having to modify Change as well.\n\nI\u0027ve applied the suggestion of improving Result with projectNumericId(), which was indeed a very useful addition.",
+      "parentUuid": "4c4266ca_10a89831",
       "range": {
         "startLine": 5402,
         "startChar": 17,

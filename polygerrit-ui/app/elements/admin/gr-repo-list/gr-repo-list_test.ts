@@ -58,9 +58,10 @@ suite('gr-repo-list tests', () => {
 
   const value: AppElementAdminParams = {view: GerritView.ADMIN, adminView: ''};
 
-  setup(() => {
+  setup(async () => {
     sinon.stub(page, 'show');
     element = basicFixture.instantiate();
+    await element.updateComplete;
     counter = 0;
   });
 
@@ -69,11 +70,11 @@ suite('gr-repo-list tests', () => {
       repos = _.times(26, repoGenerator);
       stubRestApi('getRepos').returns(Promise.resolve(repos));
       await element._paramsChanged(value);
-      await flush();
+      await element.updateComplete;
     });
 
     test('test for test repo in the list', async () => {
-      await flush();
+      await element.updateComplete;
       assert.equal(element._repos[1].id, 'test2');
     });
 
@@ -105,7 +106,7 @@ suite('gr-repo-list tests', () => {
       repos = _.times(25, repoGenerator);
       stubRestApi('getRepos').returns(Promise.resolve(repos));
       await element._paramsChanged(value);
-      await flush();
+      await element.updateComplete;
     });
 
     test('_shownRepos', () => {
@@ -156,7 +157,7 @@ suite('gr-repo-list tests', () => {
   });
 
   suite('loading', () => {
-    test('correct contents are displayed', () => {
+    test('correct contents are displayed', async () => {
       assert.isTrue(element._loading);
       assert.equal(element.computeLoadingClass(element._loading), 'loading');
       assert.equal(
@@ -169,7 +170,7 @@ suite('gr-repo-list tests', () => {
       element._loading = false;
       element._repos = _.times(25, repoGenerator);
 
-      flush();
+      await element.updateComplete;
       assert.equal(element.computeLoadingClass(element._loading), '');
       assert.equal(
         getComputedStyle(
@@ -181,11 +182,9 @@ suite('gr-repo-list tests', () => {
   });
 
   suite('create new', () => {
-    test('_handleCreateClicked called when create-click fired', () => {
-      const handleCreateClickedStub = sinon.stub(
-        element,
-        '_handleCreateClicked'
-      );
+    test('_handleCreateClicked called when create-clicked fired', () => {
+      const handleCreateClickedStub = sinon.stub();
+      element.addEventListener('create-clicked', handleCreateClickedStub);
       queryAndAssert<GrListView>(element, 'gr-list-view').dispatchEvent(
         new CustomEvent('create-clicked', {
           composed: true,
@@ -204,22 +203,24 @@ suite('gr-repo-list tests', () => {
     });
 
     test('_handleCreateRepo called when confirm fired', () => {
-      const handleCreateRepoStub = sinon.stub(element, '_handleCreateRepo');
+      const handleCreateRepoStub = sinon.stub();
+      element.addEventListener('confirm', handleCreateRepoStub);
       queryAndAssert<GrDialog>(element, '#createDialog').dispatchEvent(
         new CustomEvent('confirm', {
           composed: true,
-          bubbles: true,
+          bubbles: false,
         })
       );
       assert.isTrue(handleCreateRepoStub.called);
     });
 
     test('_handleCloseCreate called when cancel fired', () => {
-      const handleCloseCreateStub = sinon.stub(element, '_handleCloseCreate');
+      const handleCloseCreateStub = sinon.stub();
+      element.addEventListener('cancel', handleCloseCreateStub);
       queryAndAssert<GrDialog>(element, '#createDialog').dispatchEvent(
         new CustomEvent('cancel', {
           composed: true,
-          bubbles: true,
+          bubbles: false,
         })
       );
       assert.isTrue(handleCloseCreateStub.called);

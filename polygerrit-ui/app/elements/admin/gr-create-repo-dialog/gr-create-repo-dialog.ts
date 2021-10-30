@@ -30,13 +30,19 @@ import {customElement, observe, property} from '@polymer/decorators';
 import {
   BranchName,
   GroupId,
+  GroupName,
   ProjectInput,
   RepoName,
 } from '../../../types/common';
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {appContext} from '../../../services/app-context';
+import {convertToString} from '../../../utils/string-util';
 
 declare global {
+  interface HTMLElementEventMap {
+    'text-changed': CustomEvent;
+    'value-changed': CustomEvent;
+  }
   interface HTMLElementTagNameMap {
     'gr-create-repo-dialog': GrCreateRepoDialog;
   }
@@ -138,5 +144,21 @@ export class GrCreateRepoDialog extends PolymerElement {
       }
       return groups;
     });
+  }
+
+  handleRightsTextChanged(e: CustomEvent) {
+    this.set('_repoConfig.parent', e.detail.value as GroupName);
+  }
+
+  handleOwnerTextChanged(e: CustomEvent) {
+    this._repoOwner = e.detail.value;
+  }
+
+  handleOwnerValueChanged(e: CustomEvent) {
+    this._repoOwnerId = e.detail.value as GroupId;
+  }
+
+  convertToString(value?: unknown) {
+    return convertToString(value);
   }
 }

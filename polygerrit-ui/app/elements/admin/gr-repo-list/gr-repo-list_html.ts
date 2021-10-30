@@ -99,7 +99,7 @@ export const htmlTemplate = html`
     <gr-dialog
       id="createDialog"
       class="confirmDialog"
-      disabled="[[!_hasNewRepoName]]"
+      disabled="[[!_newRepoName]]"
       confirm-label="Create"
       on-confirm="_handleCreateRepo"
       on-cancel="_handleCloseCreate"
@@ -107,8 +107,8 @@ export const htmlTemplate = html`
       <div class="header" slot="header">Create Repository</div>
       <div class="main" slot="main">
         <gr-create-repo-dialog
-          has-new-repo-name="{{_hasNewRepoName}}"
           id="createNewModal"
+          on-new-repo-name="_handleNewRepoName"
         ></gr-create-repo-dialog>
       </div>
     </gr-dialog>

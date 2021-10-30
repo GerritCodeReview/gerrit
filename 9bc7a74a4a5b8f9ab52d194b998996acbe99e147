@@ -22,6 +22,30 @@
       },
       "revId": "9bc7a74a4a5b8f9ab52d194b998996acbe99e147",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "690374eb_8d6556d8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-30T21:36:55Z",
+      "side": 1,
+      "message": "I believe you are right: my bad how did I manage to miss it? Apologies for the noise created with this change. Abandoning now.",
+      "parentUuid": "680260c2_bebb72a6",
+      "range": {
+        "startLine": 279,
+        "startChar": 14,
+        "endLine": 279,
+        "endChar": 28
+      },
+      "revId": "9bc7a74a4a5b8f9ab52d194b998996acbe99e147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

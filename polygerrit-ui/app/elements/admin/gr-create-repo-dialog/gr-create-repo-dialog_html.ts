@@ -51,9 +51,10 @@ export const htmlTemplate = html`
         <span class="value">
           <gr-autocomplete
             id="rightsInheritFromInput"
-            text="{{_repoConfig.parent}}"
+            text="[[convertToString(_repoConfig.parent)]]"
             query="[[_query]]"
             placeholder="Optional, defaults to 'All-Projects'"
+            on-text-changed="handleRightsTextChanged"
           >
           </gr-autocomplete>
         </span>
@@ -63,9 +64,11 @@ export const htmlTemplate = html`
         <span class="value">
           <gr-autocomplete
             id="ownerInput"
-            text="{{_repoOwner}}"
-            value="{{_repoOwnerId}}"
+            text="[[convertToString(_repoOwner)]]"
+            value="[[convertToString(_repoOwnerId)]]"
             query="[[_queryGroups]]"
+            on-text-changed="handleOwnerTextChanged"
+            on-value-changed="handleOwnerValueChanged"
           >
           </gr-autocomplete>
         </span>

@@ -62,7 +62,7 @@ export class GrRepoList extends PolymerElement {
   readonly _path = '/admin/repos';
 
   @property({type: Boolean})
-  _hasNewRepoName = false;
+  _newRepoName = false;
 
   @property({type: Boolean})
   _createNewCapability = false;
@@ -155,10 +155,9 @@ export class GrRepoList extends PolymerElement {
     return this._getRepos(this._filter, this._reposPerPage, this._offset);
   }
 
-  _handleCreateRepo() {
-    this.$.createNewModal.handleCreateRepo().then(() => {
-      this._refreshReposList();
-    });
+  async _handleCreateRepo() {
+    await this.$.createNewModal.handleCreateRepo();
+    this._refreshReposList();
   }
 
   _handleCloseCreate() {
@@ -185,5 +184,9 @@ export class GrRepoList extends PolymerElement {
 
   computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
+  }
+
+  _handleNewRepoName() {
+    this._newRepoName = this.$.createNewModal.nameChanged;
   }
 }

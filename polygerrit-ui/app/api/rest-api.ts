@@ -524,6 +524,7 @@ export declare interface ConfigInfo {
   plugin_config?: PluginNameToPluginParametersMap;
   actions?: {[viewName: string]: ActionInfo};
   reject_empty_commit?: InheritedBooleanInfo;
+  enable_reviewer_by_email: InheritedBooleanInfo;
 }
 
 export declare interface ConfigListParameterInfo

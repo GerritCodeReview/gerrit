@@ -18,6 +18,7 @@ import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '@polymer/iron-input/iron-input';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import '../../shared/gr-button/gr-button';
 import '../../shared/gr-download-commands/gr-download-commands';
 import '../../shared/gr-select/gr-select';
 import '../../../styles/gr-font-styles';
@@ -148,7 +149,7 @@ export class GrRepo extends PolymerElement {
   }
 
   _computePluginData(
-    configRecord: PolymerDeepPropertyChange<
+    configRecord?: PolymerDeepPropertyChange<
       PluginNameToPluginParametersMap,
       PluginNameToPluginParametersMap
     >
@@ -211,7 +212,7 @@ export class GrRepo extends PolymerElement {
           config.submit_type = config.default_submit_type.configured_value;
         }
         if (!config.state) {
-          config.state = STATES.active.value;
+          config.state = STATES.active.value as ProjectState;
         }
         this._repoConfig = config;
         this._loading = false;
@@ -314,7 +315,9 @@ export class GrRepo extends PolymerElement {
     return this.restApiService.getLoggedIn();
   }
 
-  _formatRepoConfigForSave(repoConfig: ConfigInfo): ConfigInput {
+  _formatRepoConfigForSave(repoConfig?: ConfigInfo): ConfigInput {
+    if (!repoConfig) return {};
+
     const configInputObj: ConfigInput = {};
     for (const configKey of Object.keys(repoConfig)) {
       const key = configKey as keyof ConfigInfo;

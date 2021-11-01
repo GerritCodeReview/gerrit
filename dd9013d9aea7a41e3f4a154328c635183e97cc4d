@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11305e6b_124b1e0b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "Add in the comments for this class that it exports a new event has-new-repo-name.\n\nSomething like this before your property definitions:\n\n```\n/**\n * Fired when ...\n *\n * @event has-new-repo-name\n */\n \nHave you thought about simplifying it to be simply \"new-repo-name\" and not making it a boolean?",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02a3e92a_bc9d4227",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "Make @state() variables private unless they\u0027re used by tests in which case add a comment to each that they should be private but are used by tests.",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f855b6a_5f78874f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "Maybe inline these and get rid of the properties on the class.\n\nIf not, don\u0027t make them @state because they\u0027re not variables we care to observe  changing.  In fact I\u0027d make them const so it\u0027s clear they can\u0027t be changed except in the constructor",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa627351_69eab51e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "How does autocomplete work here?",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b8850fa_0994f76b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "async method.",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8cd642a_3ef56c5a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "async method.",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a362bf9f_87686203",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "async method.",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2eaf222_135a2013",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "This won\u0027t cause a redraw. You might want to add this.requestUpdate();",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ffd8d30_02aff8b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "Who listens to this event?",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51760180_486d22a4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "Why are you not bubbling the full repo-name?",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e69c5e56_eb71fa50",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "Consider extending fireEvent to take in a detail.value\n\nfireEvent(this, \u0027has-new-repo-name\u0027, !!e.detail.value);",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d242cbe_7ccfc7a0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:15:12Z",
+      "side": 1,
+      "message": "Why is this specified here and not in the class that throws it?",
+      "revId": "dd9013d9aea7a41e3f4a154328c635183e97cc4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

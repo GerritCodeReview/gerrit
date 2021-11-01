@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f171d4_bca59901",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-01T22:22:06Z",
+      "side": 1,
+      "message": "I\u0027ve removed it because uneeded now with the change asked below.",
+      "parentUuid": "1dc659c7_b36d45a5",
+      "revId": "fdc3183366d09d9080a25d462d7178f8679e1284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "679a3027_726d4719",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de22a05f_1e071461",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-01T22:22:06Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "679a3027_726d4719",
+      "revId": "fdc3183366d09d9080a25d462d7178f8679e1284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acd0cd0e_45b2c657",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-11-01T22:03:06Z",
       "side": 1,
       "message": "Simplify this to reposFiltered \u003d [repoGenerator()];",
+      "revId": "fdc3183366d09d9080a25d462d7178f8679e1284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05a82705_2b9cc7cf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-01T22:22:06Z",
+      "side": 1,
+      "message": "Not needed now because it\u0027s put into an array with your change from above (createRepoList).",
+      "parentUuid": "acd0cd0e_45b2c657",
       "revId": "fdc3183366d09d9080a25d462d7178f8679e1284",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

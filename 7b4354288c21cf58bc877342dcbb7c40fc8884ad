@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "978d280f_10db9e3f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-01T22:04:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1779d5f1_bb0c89cc",
+      "revId": "7b4354288c21cf58bc877342dcbb7c40fc8884ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c35f7a9c_b2479763",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-01T21:57:13Z",
       "side": 1,
       "message": "You don\u0027t need set syntax if you\u0027re just updating an @property.",
+      "revId": "7b4354288c21cf58bc877342dcbb7c40fc8884ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27b15b44_cabeb394",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-01T22:04:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c35f7a9c_b2479763",
       "revId": "7b4354288c21cf58bc877342dcbb7c40fc8884ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

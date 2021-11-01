@@ -16,6 +16,24 @@
       "message": "Could you specify what the problem is that you\u0027re fixing?",
       "revId": "96476938c40db5207d06558760c47cdf60107c80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9945a7c6_73e8483c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-01T19:40:39Z",
+      "side": 1,
+      "message": "This fixes issues found by uncommenting it in app/BUILD and running npm run polylint.",
+      "parentUuid": "007aaf5f_2dcde8ff",
+      "revId": "96476938c40db5207d06558760c47cdf60107c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

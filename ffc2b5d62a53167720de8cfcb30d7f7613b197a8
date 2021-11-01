@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7f81f41_f293a482",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T23:44:46Z",
+      "side": 1,
+      "message": "Overall, could you change the methods to no longer start with _?  And mark those as private that can be marked as private and leave a comment before those that can not be marked as private with something like:\n\n/* private but used in tests */",
+      "revId": "ffc2b5d62a53167720de8cfcb30d7f7613b197a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b4e15d6_8b2600e4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T23:44:46Z",
+      "side": 1,
+      "message": "Remove _",
+      "revId": "ffc2b5d62a53167720de8cfcb30d7f7613b197a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "873d0777_612be050",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T23:44:46Z",
+      "side": 1,
+      "message": "Remove _",
+      "revId": "ffc2b5d62a53167720de8cfcb30d7f7613b197a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8e94efb_a3ac55d7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T23:44:46Z",
+      "side": 1,
+      "message": "Remove _",
+      "revId": "ffc2b5d62a53167720de8cfcb30d7f7613b197a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "111f08e0_ac11e4ae",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T23:44:46Z",
+      "side": 1,
+      "message": "Remove _",
+      "revId": "ffc2b5d62a53167720de8cfcb30d7f7613b197a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "160e7e32_79954db9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T23:44:46Z",
+      "side": 1,
+      "message": "Remove _",
+      "revId": "ffc2b5d62a53167720de8cfcb30d7f7613b197a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

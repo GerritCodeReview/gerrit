@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8456ad1d_4c2897f8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Why protected and not private?",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6a16c70_5a76ccfa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Why is query an @state? As far as I can tell it never changes.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27b85b73_1b78655b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Why are these @state but not private/protected?\n\nIf this is because they\u0027re being used by tests, please add a comment to them saying something like\n /* private but used in test */",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21010c71_3ca0ae91",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Remove parameters from this call and simply use the this. properties inside of the method.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04977a8f_07f5d93e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Remove this.loading as parameter",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5566a3a4_e773a476",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Remove this.loading as parameter.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5b003d7_e755d7e1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Remove this.groupConfig?.id as parameter.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d857cd5c_9c8f2501",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Comment why this method isn\u0027t private.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d4843a_5a8c80dc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "If you\u0027re using an async method. What about something like:\n\n```\nconst config \u003d await this.restApiService.getGroupConfig(this.groupId, errFn);\nif (!config || !config.name) return;\n// rest of not nested logic\nawait Promises.all(promises);\nthis.loading \u003d false;",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e83b5c47_67bf4916",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Make this method private, and don\u0027t pass in this.loading, it already has access to it.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad7aac27_922a3f74",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Remove _ prefix and mark as private.\n\nAdditionally, this.loading can not be undefined anymore. So this method could also be inlined and removed.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23ae0734_9c4f4414",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "private method?\n\nMake this method async so we no longer have .then(....)",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c80be509_e0434909",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Make method async.\nRemove _ and add a comment saying this is private except for tests.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c46552de_707a7ba7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Same comment as for handleSaveOwner",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "961d39a9_de9861bc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Same comment as _handleSaveOwner",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c9103ed_ba1e31d7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "Consider giving \"rename\" \"owner\" \"description\" and \"options\" a more meaningfulname.\n\nMaybe something like:\ngroupNameDirty\ngroupOwnerNameDirty\ngroupIdNameDirty\ngroupDescriptionNameDirty\ngroupOptionsVisibleToAllDirty",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "253540de_eddfe2b4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:41:02Z",
+      "side": 1,
+      "message": "This isn\u0027t quite correct.\n\nWhat if the handleOwnerTextChanged fired first, then handleOwnerValueChanged fired, and then we change the OwnerText again to be what it was? Then this.owner will be false, not true.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

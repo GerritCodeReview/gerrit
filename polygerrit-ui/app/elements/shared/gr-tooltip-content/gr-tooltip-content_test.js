@@ -26,10 +26,14 @@ suite('gr-tooltip-content tests', () => {
   function makeTooltip(tooltipRect, parentRect) {
     return {
       arrowCenterOffset: '0',
-      getBoundingClientRect() { return tooltipRect; },
+      getBoundingClientRect() {
+        return tooltipRect;
+      },
       style: {left: 0, top: 0},
       parentElement: {
-        getBoundingClientRect() { return parentRect; },
+        getBoundingClientRect() {
+          return parentRect;
+        },
       },
     };
   }

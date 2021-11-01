@@ -366,6 +366,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cc47650_c0a7b7b1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-01T16:59:25Z",
+      "side": 1,
+      "message": "This is at least partially covered in https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java#70 where it updates the subject line and then confirms the subject line is the \"before\" line when doing get(before.metaRevId).",
+      "parentUuid": "8509570e_cf7b41d8",
+      "revId": "5656f81a8de53090a8ac98323d865af7df319e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14305970_6bfa916f",

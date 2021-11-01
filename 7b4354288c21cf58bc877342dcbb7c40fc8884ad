@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1779d5f1_bb0c89cc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:57:13Z",
+      "side": 1,
+      "message": "You don\u0027t need this.set if you\u0027re just updating an @property.",
+      "revId": "7b4354288c21cf58bc877342dcbb7c40fc8884ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c35f7a9c_b2479763",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T21:57:13Z",
+      "side": 1,
+      "message": "You don\u0027t need set syntax if you\u0027re just updating an @property.",
+      "revId": "7b4354288c21cf58bc877342dcbb7c40fc8884ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

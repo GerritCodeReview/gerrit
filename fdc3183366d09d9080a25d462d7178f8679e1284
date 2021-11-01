@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "397f50a5_c642e24b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:03:06Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "fdc3183366d09d9080a25d462d7178f8679e1284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dc659c7_b36d45a5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:03:06Z",
+      "side": 1,
+      "message": "Initialize this variable to 0.",
+      "revId": "fdc3183366d09d9080a25d462d7178f8679e1284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "679a3027_726d4719",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:03:06Z",
+      "side": 1,
+      "message": "Maybe a helper function\n\nfunction createRepoList(n: number){ \n  const repos \u003d [];\n  for (let i \u003d 0; i \u003c n; ++i) {\n    repos.push(createRepo());\n  }\n  return repos;\n}\n\nThat way we can get rid of the lodash dependency.",
+      "revId": "fdc3183366d09d9080a25d462d7178f8679e1284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acd0cd0e_45b2c657",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-01T22:03:06Z",
+      "side": 1,
+      "message": "Simplify this to reposFiltered \u003d [repoGenerator()];",
+      "revId": "fdc3183366d09d9080a25d462d7178f8679e1284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4728cf79_4c7289ab",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-02T09:31:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43972f3a_a6315cc1",
+      "range": {
+        "startLine": 1184,
+        "startChar": 4,
+        "endLine": 1191,
+        "endChar": 5
+      },
+      "revId": "2cd9c66143da6d13906c7077033fe7d45478700d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dab2a0ff_19863bdf",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-11-02T09:27:42Z",
       "side": 1,
       "message": "This probably has to be moved back to line 1230. If this is called after `this._patchRange \u003d ...`, then it will *always* be false, or not?",
+      "revId": "2cd9c66143da6d13906c7077033fe7d45478700d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2e0d9e0_3208d11a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-02T09:31:39Z",
+      "side": 1,
+      "message": "Yeah, sorry.\nReverted.",
+      "parentUuid": "dab2a0ff_19863bdf",
       "revId": "2cd9c66143da6d13906c7077033fe7d45478700d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

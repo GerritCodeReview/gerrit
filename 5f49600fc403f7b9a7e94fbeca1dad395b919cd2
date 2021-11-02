@@ -63,6 +63,30 @@
       },
       "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a52fcb77_e650beb7",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T16:33:11Z",
+      "side": 1,
+      "message": "\u003e the error below doesn\u0027t leak. If you provide a fake ID, the condition in l.159 never triggers, and you get to l.172.\n\nBad id should throw a MissingObjectException from l.156, which is an IOException, so we\u0027ll hit this catch, correct?\n\n\u003e The l.172 just reproduces the input data, so it doesn\u0027t leak.\n\n\"not reachable from\" is more than just the input data, right? That\u0027s our internal analysis. I agree that if both missing objects and unreachable objects have this same message, then attackers couldn\u0027t learn anything new, but as of this patchset, they have different messages.\n\nAnd I assume by \"doesn\u0027t leak\" you mean the data going to the client isn\u0027t privileged, not that data doesn\u0027t go to the client, correct? If it\u0027s the latter, javadoc at https://gerrit.googlesource.com/gerrit/+/f060dbacb2b8205f75e4781cdb74f958f342c5b8/java/com/google/gerrit/extensions/restapi/PreconditionFailedException.java#21 would need an update.",
+      "parentUuid": "929ee55a_aa40a833",
+      "range": {
+        "startLine": 165,
+        "startChar": 10,
+        "endLine": 168,
+        "endChar": 37
+      },
+      "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

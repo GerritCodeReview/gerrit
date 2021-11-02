@@ -135,6 +135,30 @@
       },
       "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d516fef4_a11e73bb",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-11-02T17:43:22Z",
+      "side": 1,
+      "message": "\u003e l.130 parses the input id and fails with \"invalid meta SHA1\" if it\u0027s not an object we have. \n\nIt just converts the hex digits into 5 32-bit integers. It doesn\u0027t check for existence; you\u0027d need a repo for that.\n\n\u003e I think a lot (all?) of the time that we give a \"bad data/request\" response, we also need to ensure there isn\u0027t a separate \"inaccessible\" response.\n\nIn the aftermath of the hole we plugged about one year ago, I and Patrick went over all of the REST API to look for info leaks, and we found a couple (which were fixed). So I\u0027m skeptical that there is a widespread problem.",
+      "parentUuid": "1e6b4648_18562043",
+      "range": {
+        "startLine": 165,
+        "startChar": 10,
+        "endLine": 168,
+        "endChar": 37
+      },
+      "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67df0d08_0491d938",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-02T21:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8498274_42cf9723",
+      "range": {
+        "startLine": 89,
+        "startChar": 23,
+        "endLine": 89,
+        "endChar": 35
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "542e1f21_f914ddd3",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-02T18:10:02Z",
       "side": 1,
       "message": "you could shorten this to \u0027slice\u0027 if you want",
+      "range": {
+        "startLine": 159,
+        "startChar": 22,
+        "endLine": 159,
+        "endChar": 34
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e30992f_ab715024",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-02T21:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "542e1f21_f914ddd3",
       "range": {
         "startLine": 159,
         "startChar": 22,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a4f66a_4258ae90",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-02T21:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dae0e11_0029a0e3",
+      "range": {
+        "startLine": 161,
+        "startChar": 30,
+        "endLine": 161,
+        "endChar": 35
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c30c84e_8d82bdcc",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-11-02T18:10:02Z",
       "side": 1,
       "message": "single use, call it inline below",
+      "range": {
+        "startLine": 162,
+        "startChar": 6,
+        "endLine": 162,
+        "endChar": 21
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b72dd0cc_62e8d159",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-02T21:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c30c84e_8d82bdcc",
       "range": {
         "startLine": 162,
         "startChar": 6,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b5ce7fb_d4b847c9",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-02T21:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41380faa_d723f9d4",
+      "range": {
+        "startLine": 209,
+        "startChar": 49,
+        "endLine": 209,
+        "endChar": 56
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48a70ef7_e8bb4cb6",
@@ -129,6 +249,30 @@
       "writtenOn": "2021-11-02T18:10:02Z",
       "side": 1,
       "message": "changes",
+      "range": {
+        "startLine": 215,
+        "startChar": 30,
+        "endLine": 215,
+        "endChar": 35
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eea1337_fb20ab66",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-02T21:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a70ef7_e8bb4cb6",
       "range": {
         "startLine": 215,
         "startChar": 30,
@@ -164,6 +308,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "93533ee8_25daa3fd",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-02T21:17:11Z",
+      "side": 1,
+      "message": "I think this is the only naming change being done which can be moved to a parent change. I\u0027d like to keep it here unless you want to strongly move it to a new change.",
+      "parentUuid": "632d381b_7a40a358",
+      "range": {
+        "startLine": 221,
+        "startChar": 16,
+        "endLine": 221,
+        "endChar": 35
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8533b6bc_446b2a17",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1
@@ -175,6 +343,30 @@
       "writtenOn": "2021-11-02T18:10:02Z",
       "side": 1,
       "message": "changes",
+      "range": {
+        "startLine": 224,
+        "startChar": 42,
+        "endLine": 224,
+        "endChar": 47
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2efcfa6b_e1dd1ec6",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-02T21:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8533b6bc_446b2a17",
       "range": {
         "startLine": 224,
         "startChar": 42,
@@ -198,6 +390,30 @@
       "writtenOn": "2021-11-02T18:10:02Z",
       "side": 1,
       "message": "\"all\" is a little confusing here, since you only add to it once you\u0027re done populating a slice. Would \u0027populatedSlices\u0027 (or \u0027filledSlices\u0027, \u0027doneSlices\u0027?) work?",
+      "range": {
+        "startLine": 287,
+        "startChar": 23,
+        "endLine": 287,
+        "endChar": 32
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d229bb42_3f82d398",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-02T21:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25d879b1_619dc5a3",
       "range": {
         "startLine": 287,
         "startChar": 23,
@@ -233,6 +449,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae3449fa_067daa43",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-02T21:17:11Z",
+      "side": 1,
+      "message": "\u003e previous code has slices starting at 0\nI suspect the previous code had slice numbers starting from 0 for the math to work  in ProjectIndexer.call(). Do you see a good reason to continue doing that? I think, we can now have slice numbers starting from 1, given that, we only use it in line 167.\n\n\u003e Why use an AtomicInteger at all though?\n\nI see an error if I use an int, probably because it is being updated in a lambda statement? Do you have any suggestions to improve this?\n\n \"Local variable sliceNumber defined in an enclosing scope must be final or effectively final\"",
+      "parentUuid": "6d657e44_0aa5b74c",
+      "range": {
+        "startLine": 304,
+        "startChar": 67,
+        "endLine": 304,
+        "endChar": 82
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "43cbc082_aca1f0ef",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1
@@ -244,6 +484,24 @@
       "writtenOn": "2021-11-02T18:10:02Z",
       "side": 1,
       "message": "This line is duplicated still. Can you pass a Predicate instead of a boolean to popAndQueueIf, get the slice size inside there, and then use the Predicate to evaluate the slice size?",
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf6406d0_deeac740",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-02T21:17:11Z",
+      "side": 1,
+      "message": "Attempted",
+      "parentUuid": "43cbc082_aca1f0ef",
       "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

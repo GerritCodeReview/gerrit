@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad5cb645_d06d9e37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T16:24:07Z",
+      "side": 1,
+      "message": "Thanks, last round :)",
+      "revId": "2a150f0e0e210e5e5be82e23c2f4e977673982aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46649841_fb19feed",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T16:24:07Z",
+      "side": 1,
+      "message": "Make private and remove _",
+      "revId": "2a150f0e0e210e5e5be82e23c2f4e977673982aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "370f8139_2043f688",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T16:24:07Z",
+      "side": 1,
+      "message": "Make private and remove _",
+      "revId": "2a150f0e0e210e5e5be82e23c2f4e977673982aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0179c608_ecf357d5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T16:24:07Z",
+      "side": 1,
+      "message": "Remove _ and say this is private but used in tests.",
+      "revId": "2a150f0e0e210e5e5be82e23c2f4e977673982aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

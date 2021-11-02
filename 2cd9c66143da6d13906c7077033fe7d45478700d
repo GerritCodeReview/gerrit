@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43972f3a_a6315cc1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-02T09:27:42Z",
+      "side": 1,
+      "message": "Can these 8 lines be replaced by\n\n  return this.hasPatchNumChanged(value);\n  \n?",
+      "range": {
+        "startLine": 1184,
+        "startChar": 4,
+        "endLine": 1191,
+        "endChar": 5
+      },
+      "revId": "2cd9c66143da6d13906c7077033fe7d45478700d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dab2a0ff_19863bdf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-02T09:27:42Z",
+      "side": 1,
+      "message": "This probably has to be moved back to line 1230. If this is called after `this._patchRange \u003d ...`, then it will *always* be false, or not?",
+      "revId": "2cd9c66143da6d13906c7077033fe7d45478700d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97b5fbd5_ecc302db",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:25:43Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a6a5a333_5c8ef915",
+      "revId": "7368411ed728f46060b2314240f95498f27f92e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87c20dd2_3fd81b88",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "288a3c1e_67026939",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:25:43Z",
+      "side": 1,
+      "message": "Removed, thanks.",
+      "parentUuid": "87c20dd2_3fd81b88",
+      "revId": "7368411ed728f46060b2314240f95498f27f92e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb160cfa_f430f29a",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-11-02T07:39:53Z",
       "side": 1,
       "message": "Either \n\n  .monospace\u003d\"${true}\"\n  \nor (I think better) just\n\n  monospace",
+      "range": {
+        "startLine": 233,
+        "startChar": 20,
+        "endLine": 233,
+        "endChar": 37
+      },
+      "revId": "7368411ed728f46060b2314240f95498f27f92e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "402bbf77_9ce81662",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:25:43Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "eb160cfa_f430f29a",
       "range": {
         "startLine": 233,
         "startChar": 20,

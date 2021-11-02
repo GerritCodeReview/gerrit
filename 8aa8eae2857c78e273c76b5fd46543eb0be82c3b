@@ -105,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d177150_66beb66f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:22:35Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "68dade43_41c98b15",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09178283_69d6bab3",

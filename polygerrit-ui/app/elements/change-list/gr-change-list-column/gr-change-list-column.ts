@@ -57,7 +57,9 @@ export class GrChangeListColumRequirements extends LitElement {
     if (!submitRequirements.length) return html`n/a`;
     const numOfRequirements = submitRequirements.length;
     const numOfSatisfiedRequirements = submitRequirements.filter(
-      req => req.status === SubmitRequirementStatus.SATISFIED
+      req =>
+        req.status === SubmitRequirementStatus.SATISFIED ||
+        req.status === SubmitRequirementStatus.OVERRIDDEN
     ).length;
 
     if (numOfSatisfiedRequirements === numOfRequirements) {

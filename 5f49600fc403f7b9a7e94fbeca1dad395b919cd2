@@ -111,6 +111,30 @@
       },
       "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e6b4648_18562043",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T17:37:40Z",
+      "side": 1,
+      "message": "\u003e \u003e Bad id should throw a MissingObjectException from l.156, which is an IOException, so we\u0027ll hit this catch, correct?\n\u003e \n\u003e l.156 doesn\u0027t do parseCommit on the user-supplied fake ID. It does parseCommit on the meta ref, ie. it will throw if the meta ref is fubar.\n\nSorry, need more coffee. Thanks for pointing that out. I was thrown off by the exception text which talks about \"reading meta-ref id\" and uses id.getName().\n\n\u003e \n\u003e \u003e \"not reachable from\" is more than just the input data, right? \n\u003e \n\u003e if you can call this endpoint, you can see the change. Then you can fetch the meta ref, and walk back through its history. This would give you the same information that we expose here.\n\nGot it, thanks. Now that I\u0027m reading this correctly (I think), I do still think there\u0027s a leak, but the \u0027id\u0027 part is above this. l.130 parses the input id and fails with \"invalid meta SHA1\" if it\u0027s not an object we have. So you could probe SHA1s and see which fail with invalid there (HTTP 400) vs \"not reachable\" here (HTTP 412).\n\nWe probably have this problem elsewhere too. I think a lot (all?) of the time that we give a \"bad data/request\" response, we also need to ensure there isn\u0027t a separate \"inaccessible\" response.\n\nThere\u0027s also this unresolved earlier comment from you. @Luca?\n\n\u003e not sure why you need to handle IOException. I think it\u0027s fine to propagate?",
+      "parentUuid": "0fa34cea_2872632e",
+      "range": {
+        "startLine": 165,
+        "startChar": 10,
+        "endLine": 168,
+        "endChar": 37
+      },
+      "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

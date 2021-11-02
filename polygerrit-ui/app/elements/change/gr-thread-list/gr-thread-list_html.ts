@@ -153,16 +153,13 @@ export const htmlTemplate = html`
         show-file-path=""
         show-ported-comment="[[thread.ported]]"
         show-comment-context="[[showCommentContext]]"
-        change-num="[[changeNum]]"
         comments="[[thread.comments]]"
         diff-side="[[thread.diffSide]]"
         show-file-name="[[_isFirstThreadWithFileName(_displayedThreads, thread, unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply, selectedAuthors)]]"
-        project-name="[[change.project]]"
         is-on-parent="[[_isOnParent(thread.commentSide)]]"
         line-num="[[thread.line]]"
         patch-num="[[thread.patchNum]]"
         path="[[thread.path]]"
-        root-id="{{thread.rootId}}"
         should-scroll-into-view="[[computeShouldScrollIntoView(thread.comments, scrollCommentId)]]"
       ></gr-comment-thread>
     </template>

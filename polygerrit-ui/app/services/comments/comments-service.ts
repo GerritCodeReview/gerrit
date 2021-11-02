@@ -16,7 +16,7 @@
  */
 
 import {NumericChangeId, PatchSetNum, RevisionId} from '../../types/common';
-import {DraftInfo, UIDraft} from '../../utils/comment-util';
+import {DraftInfo} from '../../utils/comment-util';
 import {fireAlert} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
@@ -37,7 +37,7 @@ import {changeNum$, currentPatchNum$} from '../change/change-model';
 import {combineLatest} from 'rxjs';
 
 export class CommentsService {
-  private discardedDrafts?: UIDraft[] = [];
+  private discardedDrafts?: DraftInfo[] = [];
 
   private changeNum?: NumericChangeId;
 

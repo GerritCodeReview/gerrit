@@ -31,7 +31,6 @@ import {
   CommentThread,
   DraftInfo,
   isUnresolved,
-  UIComment,
   createCommentThreads,
   isInPatchRange,
   isDraftThread,
@@ -114,7 +113,7 @@ export class ChangeComments {
    * patchNum and basePatchNum properties to represent the range.
    */
   getPaths(patchRange?: PatchRange): CommentMap {
-    const responses: {[path: string]: UIComment[]}[] = [
+    const responses: {[path: string]: Comment[]}[] = [
       this._comments,
       this.drafts,
       this._robotComments,
@@ -367,7 +366,7 @@ export class ChangeComments {
     // ported comments will involve comments that may not belong to the
     // current patchrange, so we need to form threads for them using all
     // comments
-    const allComments: UIComment[] = this.getAllCommentsForFile(file, true);
+    const allComments: Comment[] = this.getAllCommentsForFile(file, true);
 
     return createCommentThreads(allComments).filter(thread => {
       // Robot comments and drafts are not ported over. A human reply to

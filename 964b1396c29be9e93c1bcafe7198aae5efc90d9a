@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87a3ff1e_f28f6e0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T15:01:50Z",
+      "side": 1,
+      "message": "Thanks, some minor nits",
+      "revId": "964b1396c29be9e93c1bcafe7198aae5efc90d9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2e5c17d_0f49f640",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T15:01:50Z",
+      "side": 1,
+      "message": "Should this requestUpdate?",
+      "revId": "964b1396c29be9e93c1bcafe7198aae5efc90d9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b30f158c_b1e90cfd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T15:01:50Z",
+      "side": 1,
+      "message": "Should this requestUpdate()?",
+      "revId": "964b1396c29be9e93c1bcafe7198aae5efc90d9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

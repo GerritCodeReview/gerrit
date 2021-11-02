@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "437aaddb_e1e97a71",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:09:49Z",
+      "side": 1,
+      "message": "Changed to groupConfigOwner.",
+      "parentUuid": "0b9fca68_932804a1",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f793b3b_0e9c1e94",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-11-02T14:15:24Z",
       "side": 1,
       "message": "What if `groupIdNameDirty` has changed?",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "668c447a_7d56cc78",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:09:49Z",
+      "side": 1,
+      "message": "It should change groupOwnerName. I\u0027ve tested a variety of different things such as typing in manually and also using the dropdown query (autocomplete).",
+      "parentUuid": "1f793b3b_0e9c1e94",
       "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +122,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb853d40_bce187fa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:09:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "09178283_69d6bab3",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14a9c3a9_f81b6f9b",
@@ -99,6 +153,24 @@
       "writtenOn": "2021-11-02T14:15:24Z",
       "side": 1,
       "message": "When is this value ever reset?",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a52e26e4_6297ec93",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:09:49Z",
+      "side": 1,
+      "message": "I\u0027ve made sure it is set back to undefined after saving.",
+      "parentUuid": "14a9c3a9_f81b6f9b",
       "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +192,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba5a9cd6_4ec831b8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:09:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6fab9c4f_a42aeb9d",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a374cd6c_950c11ba",
@@ -133,6 +223,24 @@
       "writtenOn": "2021-11-02T14:15:24Z",
       "side": 1,
       "message": "This doesn\u0027t require a requestUpdate, you\u0027re mutating an @state variable",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9128cae_f756a620",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:09:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a374cd6c_950c11ba",
       "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -154,6 +262,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c196611_60658c18",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:09:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "eb6b821e_431d2797",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67aa2f8f_ba8a921b",
@@ -167,6 +293,24 @@
       "writtenOn": "2021-11-02T14:15:24Z",
       "side": 1,
       "message": "This should probably be:\nthis.groupConfigOwner \u003d e.detail.value; ?",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7afdadf8_08855f05",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T16:09:49Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "67aa2f8f_ba8a921b",
       "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

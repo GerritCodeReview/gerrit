@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eda7fbe1_d4e0e2c4",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T23:01:53Z",
+      "side": 1,
+      "message": "optional: Since this is nice and compact now, you could inline it in the two usages below",
+      "range": {
+        "startLine": 153,
+        "startChar": 29,
+        "endLine": 153,
+        "endChar": 41
+      },
+      "revId": "49a660276330554481975bae01d6581a3487b2e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc5a0345_8a8a26d4",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T23:01:53Z",
+      "side": 1,
+      "message": "I think this is cleaner if you move it inside the try?\n\n try (Repository repo \u003d repoManager.openRepository(project)) {\n   Set\u003cChangeNotesResult\u003e changes \u003d notesFactory.scan(repo, project, null).collect(Collectors.toSet());\n   return reindexProjectSlice(indexer, project, changes, done, failed);\n } catch (IOException e) {\n   logger.atSevere().log(e.getMessage());\n   return null;\n }",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 5
+      },
+      "revId": "49a660276330554481975bae01d6581a3487b2e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7df9fe8_a62d0a8c",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T23:01:53Z",
+      "side": 1,
+      "message": "Might be nice to have a method that does the work for a single project? Basically lines 295-307 since I think the stuff in the catch block is more about the overall work.",
+      "revId": "49a660276330554481975bae01d6581a3487b2e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f7b126b_93d99df4",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T23:01:53Z",
+      "side": 1,
+      "message": "nit: shorten to \u0027slice\u0027",
+      "range": {
+        "startLine": 301,
+        "startChar": 33,
+        "endLine": 301,
+        "endChar": 45
+      },
+      "revId": "49a660276330554481975bae01d6581a3487b2e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c37ad06_0fc826c1",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T23:01:53Z",
+      "side": 1,
+      "message": "Do this in ProjectSlice.create() and then you don\u0027t need this method?",
+      "range": {
+        "startLine": 328,
+        "startChar": 42,
+        "endLine": 328,
+        "endChar": 74
+      },
+      "revId": "49a660276330554481975bae01d6581a3487b2e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13eb34fc_4d1d582e",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T23:01:53Z",
+      "side": 1,
+      "message": "nit: Maybe \u0027pred\u0027? \u0027p\u0027 could easily be confused for a project.\n\nAlso, this looks very nice now with the Predicate.",
+      "range": {
+        "startLine": 342,
+        "startChar": 82,
+        "endLine": 342,
+        "endChar": 83
+      },
+      "revId": "49a660276330554481975bae01d6581a3487b2e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42e1b38a_4761718e",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T23:01:53Z",
+      "side": 1,
+      "message": "I think this goes higher in the file https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#code-organization",
+      "revId": "49a660276330554481975bae01d6581a3487b2e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

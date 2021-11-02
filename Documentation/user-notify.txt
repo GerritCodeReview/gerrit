@@ -11,9 +11,9 @@ or after the change has been submitted to a branch.
 
 Those are the available recipient types:
 
-* `to`: The standard To field is used; addresses are visible to all.
-* `cc`: The standard CC field is used; addresses are visible to all.
-* `bcc`: SMTP RCPT TO is used to hide the address.
+* `TO`: The standard To field is used; addresses are visible to all.
+* `CC`: The standard CC field is used; addresses are visible to all.
+* `BCC`: SMTP RCPT TO is used to hide the address.
 
 [[user]]
 == User Level Settings

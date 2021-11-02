@@ -16,6 +16,24 @@
       "message": "Should this be backported to 3.5?",
       "revId": "e8dbc2110d9a2296f954c384119ba763a6f16ade",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57e16b0e_0bffc48d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-02T15:50:39Z",
+      "side": 1,
+      "message": "The issue only came up because of Change 320096 so I think it\u0027s fine to not backport it. Shouldn\u0027t affect the earlier releases.",
+      "parentUuid": "930380c5_274b6174",
+      "revId": "e8dbc2110d9a2296f954c384119ba763a6f16ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

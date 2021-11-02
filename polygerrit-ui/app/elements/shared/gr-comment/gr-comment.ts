@@ -41,14 +41,14 @@ import {
   NumericChangeId,
   PatchSetNum,
   RepoName,
+  RobotCommentInfo,
 } from '../../../types/common';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
   isDraft,
   isRobot,
-  UIComment,
-  UIDraft,
-  UIRobot,
+  Comment,
+  DraftInfo,
 } from '../../../utils/comment-util';
 import {
   OpenFixPreviewEventDetail,
@@ -67,7 +67,7 @@ import {account$, isAdmin$} from '../../../services/user/user-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {repoCommentLinks$} from '../../../services/config/config-model';
 import {classMap} from 'lit/directives/class-map';
-import {PluginApi} from '../../../api/plugin';
+import {changeNum$, repo$} from '../../../services/change/change-model';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -111,7 +111,7 @@ declare global {
 
 export interface CommentEventDetail {
   patchNum?: PatchSetNum;
-  comment?: UIComment;
+  comment?: Comment;
 }
 
 @customElement('gr-comment')
@@ -173,25 +173,33 @@ export class GrComment extends LitElement {
   @query('#resolvedCheckbox')
   resolvedCheckbox?: HTMLInputElement;
 
-  @property({type: Number})
-  changeNum?: NumericChangeId;
-
-  @property({type: String})
-  projectName?: RepoName;
-
   @property({type: Object})
-  comment?: UIComment;
+  comment?: Comment;
 
   // TODO: Move this out of gr-comment. gr-comment should not have a comments
   // property. This is only used for hasHumanReply at the moment.
   @property({type: Array})
-  comments?: UIComment[];
+  comments?: Comment[];
 
   @property({type: String})
   patchNum?: PatchSetNum;
 
+  /**
+   * Initial collapsed state of the comment.
+   */
+  @property({type: Boolean, attribute: 'initially-collapsed'})
+  initiallyCollapsed?: boolean;
+
+  /**
+   * This is the *current* (internal) collapsed state of the comment. Do not set
+   * from the outside. Use `initiallyCollapsed` instead. This is just a
+   * reflected property such that css rules can be based on it.
+   */
   @property({type: Boolean, reflect: true})
-  collapsed = true;
+  collapsed?: boolean;
+
+  @property({type: Boolean, attribute: 'robot-button-disabled'})
+  robotButtonDisabled = false;
 
   /* internal only, but used in css rules */
   @property({type: Boolean, reflect: true})
@@ -202,16 +210,19 @@ export class GrComment extends LitElement {
   discarding = false;
 
   @state()
+  changeNum?: NumericChangeId;
+
+  @state()
   editing = false;
 
   @state()
   commentLinks: CommentLinks = {};
 
-  @property({type: Boolean})
-  robotButtonDisabled = false;
+  @state()
+  repoName?: RepoName;
 
   /* This is just what the editing textarea contains. */
-  @property({type: String})
+  @state()
   messageText = '';
 
   /* Can probably be derived. */
@@ -238,7 +249,7 @@ export class GrComment extends LitElement {
   @property({type: Boolean})
   showRespectfulTip = false;
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'show-patchset'})
   showPatchset = true;
 
   @property({type: String})
@@ -256,7 +267,7 @@ export class GrComment extends LitElement {
   @state()
   isAdmin = false;
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'show-ported-comment'})
   showPortedComment = false;
 
   // for testing only
@@ -279,17 +290,13 @@ export class GrComment extends LitElement {
 
   private draftToastTask?: DelayedTask;
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(this, account$, x => (this.account = x));
     subscribe(this, isAdmin$, x => (this.isAdmin = x));
     subscribe(this, repoCommentLinks$, x => (this.commentLinks = x));
-
-    if (this.editing) {
-      this.collapsed = false;
-    } else if (this.comment) {
-      this.collapsed = !!this.comment.collapsed;
-    }
+    subscribe(this, repo$, x => (this.repoName = x));
+    subscribe(this, changeNum$, x => (this.changeNum = x));
     this.shortcuts.addLocal({key: Key.ESC}, e => this.handleEsc(e));
     for (const key of ['s', Key.ENTER]) {
       for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
@@ -810,11 +817,7 @@ export class GrComment extends LitElement {
     return html`
       <gr-button
         link
-        ?disabled="${this.computeSaveDisabled(
-          this.messageText,
-          this.comment,
-          this.resolved
-        )}"
+        ?disabled="${this.computeSaveDisabled()}"
         class="action save"
         @click="${this.handleSave}"
         >Save</gr-button
@@ -839,7 +842,7 @@ export class GrComment extends LitElement {
   }
 
   private renderShowFixButton() {
-    if (!(this.comment as UIRobot)?.fix_suggestions) return;
+    if (!(this.comment as RobotCommentInfo)?.fix_suggestions) return;
     return html`
       <gr-button
         link
@@ -882,13 +885,26 @@ export class GrComment extends LitElement {
 
   private getUrlForComment() {
     const comment = this.comment;
-    if (!comment || !this.changeNum || !this.projectName) return '';
+    if (!comment || !this.changeNum || !this.repoName) return '';
     if (!comment.id) throw new Error('comment must have an id');
     return GerritNav.getUrlForComment(
       this.changeNum as NumericChangeId,
-      this.projectName,
+      this.repoName,
       comment.id
     );
+  }
+
+  override willUpdate() {
+    if (this.collapsed === undefined) {
+      if (this.editing) {
+        this.collapsed = false;
+      } else if (this.initiallyCollapsed !== undefined) {
+        this.collapsed = this.initiallyCollapsed;
+      } else {
+        // TODO: Refine the rules for initial collapsed state.
+        this.collapsed = true;
+      }
+    }
   }
 
   override updated(changedProperties: PropertyValues) {
@@ -967,7 +983,7 @@ export class GrComment extends LitElement {
     fireEvent(this, 'copy-comment-link');
   }
 
-  private save(opt_comment?: UIComment) {
+  private save(opt_comment?: Comment) {
     assertIsDefined(this.comment, 'comment');
     let comment = opt_comment;
     if (!comment) {
@@ -993,7 +1009,7 @@ export class GrComment extends LitElement {
 
         this.eraseDraftCommentFromStorage();
         return this.restApiService.getResponseObject(response).then(obj => {
-          const resComment = obj as unknown as UIDraft;
+          const resComment = obj as unknown as DraftInfo;
           if (!isDraft(this.comment)) throw new Error('Can only save drafts.');
           resComment.__draft = true;
           // Maintain the ephemeral draft ID for identification by other
@@ -1028,6 +1044,18 @@ export class GrComment extends LitElement {
     };
   }
 
+  /** Enter editing mode. */
+  edit() {
+    if (!isDraft(this.comment)) {
+      throw new Error('Cannot edit published comment.');
+    }
+    if (this.editing) return;
+    if (this.comment?.message) this.messageText = this.comment.message;
+    this.editing = true;
+    this.collapsed = false;
+    this.reporting.recordDraftInteraction();
+  }
+
   eraseDraftCommentFromStorage() {
     // Prevents a race condition in which removing the draft comment occurs
     // prior to it being saved.
@@ -1055,11 +1083,6 @@ export class GrComment extends LitElement {
 
   getEventPayload(): OpenFixPreviewEventDetail {
     return {comment: this.comment, patchNum: this.patchNum};
-  }
-
-  fireEdit() {
-    if (this.comment) this.commentsService.editDraft(this.comment);
-    fire(this, 'comment-edit', this.getEventPayload());
   }
 
   fireSave() {
@@ -1099,25 +1122,21 @@ export class GrComment extends LitElement {
     }
   }
 
-  computeSaveDisabled(
-    draft: string,
-    comment: UIComment | undefined,
-    resolved?: boolean
-  ) {
+  computeSaveDisabled() {
     // If resolved state has changed and a msg exists, save should be enabled.
-    if (!comment || (comment.unresolved === resolved && draft)) {
+    if (
+      !this.comment ||
+      (this.comment.unresolved === this.resolved && this.messageText)
+    ) {
       return false;
     }
-    return !draft || draft.trim() === '';
+    return !this.messageText || this.messageText.trim() === '';
   }
 
   handleSaveKey(e: Event) {
-    if (
-      !this.computeSaveDisabled(this.messageText, this.comment, this.resolved)
-    ) {
-      e.preventDefault();
-      this.handleSave(e);
-    }
+    if (this.computeSaveDisabled()) return;
+    e.preventDefault();
+    this.handleSave(e);
   }
 
   handleEsc(e: Event) {
@@ -1195,10 +1214,7 @@ export class GrComment extends LitElement {
 
   handleEdit(e: Event) {
     e.preventDefault();
-    if (this.comment?.message) this.messageText = this.comment.message;
-    this.editing = true;
-    this.fireEdit();
-    this.reporting.recordDraftInteraction();
+    this.edit();
   }
 
   handleSave(e: Event) {
@@ -1354,7 +1370,7 @@ export class GrComment extends LitElement {
     this.handleFailedDraftRequest();
   }
 
-  saveDraft(draft?: UIComment) {
+  saveDraft(draft?: Comment) {
     if (!draft || this.changeNum === undefined || this.patchNum === undefined) {
       throw new Error('undefined draft or changeNum or patchNum');
     }
@@ -1376,7 +1392,7 @@ export class GrComment extends LitElement {
       });
   }
 
-  deleteDraft(draft: UIComment) {
+  deleteDraft(draft: Comment) {
     const changeNum = this.changeNum;
     const patchNum = this.patchNum;
     if (changeNum === undefined || patchNum === undefined) {

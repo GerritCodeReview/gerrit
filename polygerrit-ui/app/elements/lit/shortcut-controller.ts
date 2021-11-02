@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 import {ReactiveController, ReactiveControllerHost} from 'lit';
-import {addShortcut, Binding} from '../../utils/dom-util';
+import {Binding} from '../../utils/dom-util';
+import {ShortcutsService} from '../../services/shortcuts/shortcuts-service';
+import {appContext} from '../../services/app-context';
 
 interface ShortcutListener {
   binding: Binding;
@@ -25,19 +27,36 @@ interface ShortcutListener {
 type Cleanup = () => void;
 
 export class ShortcutController implements ReactiveController {
-  private readonly listeners: ShortcutListener[] = [];
+  private readonly service: ShortcutsService = appContext.shortcutsService;
+
+  private readonly listenersLocal: ShortcutListener[] = [];
+
+  private readonly listenersGlobal: ShortcutListener[] = [];
 
   private cleanups: Cleanup[] = [];
 
   constructor(private readonly host: ReactiveControllerHost & HTMLElement) {}
 
   addLocal(binding: Binding, listener: (e: KeyboardEvent) => void) {
-    this.listeners.push({binding, listener});
+    this.listenersLocal.push({binding, listener});
+    this.listenersGlobal.push({binding, listener});
+  }
+
+  addGlobal(binding: Binding, listener: (e: KeyboardEvent) => void) {
+    this.listenersGlobal.push({binding, listener});
   }
 
   hostConnected() {
-    for (const {binding, listener} of this.listeners) {
-      const cleanup = addShortcut(this.host, binding, listener);
+    for (const {binding, listener} of this.listenersLocal) {
+      const cleanup = this.service.addShortcut(this.host, binding, listener);
+      this.cleanups.push(cleanup);
+    }
+    for (const {binding, listener} of this.listenersGlobal) {
+      const cleanup = this.service.addShortcut(
+        document.body,
+        binding,
+        listener
+      );
       this.cleanups.push(cleanup);
     }
   }

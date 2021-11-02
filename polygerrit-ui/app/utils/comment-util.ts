@@ -39,28 +39,13 @@ import {DiffInfo} from '../types/diff';
 
 export interface DraftCommentProps {
   __draft?: boolean;
-  __draftID?: string;
+  __draftID?: UrlEncodedCommentId;
   __date?: Date;
 }
 
 export type DraftInfo = CommentBasics & DraftCommentProps;
 
-/**
- * Each of the type implements or extends CommentBasics.
- */
 export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
-
-export interface UIStateCommentProps {
-  collapsed?: boolean;
-}
-
-export type UIDraft = DraftInfo & UIStateCommentProps;
-
-export type UIHuman = CommentInfo & UIStateCommentProps;
-
-export type UIRobot = RobotCommentInfo & UIStateCommentProps;
-
-export type UIComment = UIHuman | UIRobot | UIDraft;
 
 export type CommentMap = {[path: string]: boolean};
 
@@ -71,9 +56,9 @@ export function isRobot<T extends CommentInfo>(
 }
 
 export function isDraft<T extends CommentInfo>(
-  x: T | UIDraft | undefined
-): x is UIDraft {
-  return !!x && !!(x as UIDraft).__draft;
+  x: T | DraftInfo | undefined
+): x is DraftInfo {
+  return !!x && !!(x as DraftInfo).__draft;
 }
 
 interface SortableComment {
@@ -101,7 +86,7 @@ export function sortComments<T extends SortableComment>(comments: T[]): T[] {
 }
 
 export function createCommentThreads(
-  comments: UIComment[],
+  comments: Comment[],
   patchRange?: PatchRange
 ) {
   const sortedComments = sortComments(comments);
@@ -150,7 +135,7 @@ export function createCommentThreads(
 }
 
 export interface CommentThread {
-  comments: UIComment[];
+  comments: Comment[];
   path: string;
   commentSide: CommentSide;
   /* mergeParentNum is the merge parent number only valid for merge commits
@@ -169,12 +154,12 @@ export interface CommentThread {
   rangeInfoLost?: boolean; // if BE was unable to determine a range for this
 }
 
-export function getLastComment(thread?: CommentThread): UIComment | undefined {
+export function getLastComment(thread?: CommentThread): Comment | undefined {
   const len = thread?.comments.length;
   return thread && len ? thread.comments[len - 1] : undefined;
 }
 
-export function getFirstComment(thread?: CommentThread): UIComment | undefined {
+export function getFirstComment(thread?: CommentThread): Comment | undefined {
   return thread?.comments?.[0];
 }
 
@@ -267,7 +252,7 @@ export function isInPatchRange(
 }
 
 export function getPatchRangeForCommentUrl(
-  comment: UIComment,
+  comment: Comment,
   latestPatchNum: RevisionPatchSetNum
 ) {
   if (!comment.patch_set) throw new Error('Missing comment.patch_set');
@@ -351,9 +336,9 @@ export function getCommentAuthors(
   return authors;
 }
 
-export function computeId(comment: UIComment) {
+export function computeId(comment: Comment): UrlEncodedCommentId {
   if (comment.id) return comment.id;
-  if (isDraft(comment)) return comment.__draftID;
+  if (isDraft(comment) && comment.__draftID) return comment.__draftID;
   throw new Error('Missing id in root comment.');
 }
 

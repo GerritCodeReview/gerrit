@@ -19,18 +19,16 @@ import '../../../styles/shared-styles';
 import '../gr-comment/gr-comment';
 import '../../diff/gr-diff/gr-diff';
 import '../gr-copy-clipboard/gr-copy-clipboard';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-comment-thread_html';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query, queryAll, state} from 'lit/decorators';
 import {
   computeDiffFromContext,
   computeId,
-  DraftInfo,
   isDraft,
   isRobot,
   sortComments,
-  UIComment,
-  UIDraft,
-  UIRobot,
+  Comment,
+  DraftInfo,
 } from '../../../utils/comment-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
@@ -41,81 +39,99 @@ import {
   SpecialFilePath,
 } from '../../../constants/constants';
 import {computeDisplayPath} from '../../../utils/path-list-util';
-import {customElement, observe, property} from '@polymer/decorators';
 import {
   AccountDetailInfo,
   CommentRange,
-  ConfigInfo,
   NumericChangeId,
   PatchSetNum,
   RepoName,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {GrComment} from '../gr-comment/gr-comment';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FILE, LineNumber} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffLayer, RenderPreferences} from '../../../api/diff';
-import {
-  assertIsDefined,
-  check,
-  queryAndAssert,
-} from '../../../utils/common-util';
+import {assertIsDefined, check} from '../../../utils/common-util';
 import {fireAlert, waitForEventOnce} from '../../../utils/event-util';
 import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
 import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-layer';
 import {anyLineTooLong} from '../../diff/gr-diff/gr-diff-utils';
 import {getUserName} from '../../../utils/display-name-util';
 import {generateAbsoluteUrl} from '../../../utils/url-util';
-import {addGlobalShortcut} from '../../../utils/dom-util';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {a11yStyles} from '../../../styles/gr-a11y-styles';
+import {subscribe} from '../../lit/subscription-controller';
+import {
+  account$,
+  diffPreferences$,
+  syntaxHighlightingEnabled$,
+} from '../../../services/user/user-model';
+import {repeat} from 'lit/directives/repeat';
+import {classMap} from 'lit/directives/class-map';
+import {changeNum$, repo$} from '../../../services/change/change-model';
+import {ShortcutController} from '../../lit/shortcut-controller';
 
-const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
 
-export interface GrCommentThread {
-  $: {
-    replyBtn: GrButton;
-    quoteBtn: GrButton;
-  };
-}
-
+/**
+ * gr-comment-thread exposes the following attributes that allow a
+ * diff widget like gr-diff to show the thread in the right location:
+ *
+ * line-num:
+ *     1-based line number or 'FILE' if it refers to the entire file.
+ *
+ * diff-side:
+ *     "left" or "right". These indicate which of the two diffed versions
+ *     the comment relates to. In the case of unified diff, the left
+ *     version is the one whose line number column is further to the left.
+ *
+ * range:
+ *     The range of text that the comment refers to (start_line,
+ *     start_character, end_line, end_character), serialized as JSON. If
+ *     set, range's end_line will have the same value as line-num. Line
+ *     numbers are 1-based, char numbers are 0-based. The start position
+ *     (start_line, start_character) is inclusive, and the end position
+ *     (end_line, end_character) is exclusive.
+ */
 @customElement('gr-comment-thread')
-export class GrCommentThread extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrCommentThread extends LitElement {
+  @query('#replyBtn')
+  replyBtn?: GrButton;
 
-  /**
-   * gr-comment-thread exposes the following attributes that allow a
-   * diff widget like gr-diff to show the thread in the right location:
-   *
-   * line-num:
-   *     1-based line number or 'FILE' if it refers to the entire file.
-   *
-   * diff-side:
-   *     "left" or "right". These indicate which of the two diffed versions
-   *     the comment relates to. In the case of unified diff, the left
-   *     version is the one whose line number column is further to the left.
-   *
-   * range:
-   *     The range of text that the comment refers to (start_line,
-   *     start_character, end_line, end_character), serialized as JSON. If
-   *     set, range's end_line will have the same value as line-num. Line
-   *     numbers are 1-based, char numbers are 0-based. The start position
-   *     (start_line, start_character) is inclusive, and the end position
-   *     (end_line, end_character) is exclusive.
-   */
-  @property({type: Number})
-  changeNum?: NumericChangeId;
+  @query('#quoteBtn')
+  quoteBtn?: GrButton;
+
+  @query('.comment-box')
+  commentBox?: HTMLElement;
+
+  @queryAll('gr-comment')
+  commentElements?: GrComment[];
 
   @property({type: Array})
-  comments: UIComment[] = [];
+  comments: Comment[] = [];
 
-  @property({type: Object, reflectToAttribute: true})
+  /** Ordered version of `comments`. Updated in willUpdate(). */
+  @state()
+  orderedComments: Comment[] = [];
+
+  /**
+   * Id of the first comment and thus must not change. Will be derived from
+   * `comments` property in the first willUpdate() cycle.
+   *
+   * The `rootId` property is also used in gr-diff for maintaining lists and
+   * maps of threads and their associated elements.
+   *
+   * TODO: How does this behave for new threads when the first comment is a
+   * draft and then gets saved?
+   */
+  @property()
+  rootId?: UrlEncodedCommentId;
+
+  @property({type: Object, reflect: true})
   range?: CommentRange;
 
-  @property({type: String, reflectToAttribute: true})
+  @property({type: String, reflect: true, attribute: 'diff-side'})
   diffSide?: Side;
 
   @property({type: String})
@@ -124,153 +140,428 @@ export class GrCommentThread extends PolymerElement {
   @property({type: String})
   path: string | undefined;
 
-  @property({type: String, observer: '_projectNameChanged'})
-  projectName?: RepoName;
-
-  @property({type: Boolean, notify: true, reflectToAttribute: true})
-  hasDraft?: boolean;
-
   @property({type: Boolean})
   isOnParent = false;
 
   @property({type: Number})
   parentIndex: number | null = null;
 
-  @property({
-    type: String,
-    notify: true,
-    computed: '_computeRootId(comments.*)',
-  })
-  rootId?: UrlEncodedCommentId;
-
-  @property({type: Boolean, observer: 'handleShouldScrollIntoViewChanged'})
+  /** Will be inspected on firstUpdated() only. */
+  @property({type: Boolean, attribute: 'should-scroll-into-view'})
   shouldScrollIntoView = false;
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'show-file-path'})
   showFilePath = false;
 
-  @property({type: Object, reflectToAttribute: true})
+  @property({type: Boolean, attribute: 'show-file-name'})
+  showFileName = true;
+
+  @property({type: Boolean, attribute: 'show-ported-comment'})
+  showPortedComment = false;
+
+  @property({type: Boolean, attribute: 'show-patchset'})
+  showPatchset = true;
+
+  @property({type: Boolean, attribute: 'show-comment-context'})
+  showCommentContext = false;
+
+  @property({type: Object, reflect: true, attribute: 'line-num'})
   lineNum?: LineNumber;
 
-  @property({type: Boolean, notify: true, reflectToAttribute: true})
+  /** This attribute is only used by css filtering rules in <gr-thread-list>. */
+  @property({type: Boolean, reflect: true, attribute: 'has-draft'})
+  hasDraft?: boolean;
+
+  /** This attribute is only used by css filtering rules in <gr-thread-list>. */
+  @property({type: Boolean, reflect: true})
   unresolved?: boolean;
 
-  @property({type: Boolean})
-  _showActions?: boolean;
+  @state()
+  changeNum?: NumericChangeId;
 
-  @property({type: Object})
-  _lastComment?: UIComment;
+  @state()
+  prefs: DiffPreferencesInfo = createDefaultDiffPrefs();
 
-  @property({type: Array})
-  _orderedComments: UIComment[] = [];
-
-  @property({type: Object})
-  _projectConfig?: ConfigInfo;
-
-  @property({type: Object})
-  _prefs: DiffPreferencesInfo = createDefaultDiffPrefs();
-
-  @property({type: Object})
-  _renderPrefs: RenderPreferences = {
+  @state()
+  renderPrefs: RenderPreferences = {
     hide_left_side: true,
     disable_context_control_buttons: true,
     show_file_comment_button: false,
     hide_line_length_indicator: true,
   };
 
-  @property({type: Boolean, reflectToAttribute: true})
-  isRobotComment = false;
+  @state()
+  repoName?: RepoName;
 
-  @property({type: Boolean})
-  showFileName = true;
+  @state()
+  account?: AccountDetailInfo;
 
-  @property({type: Boolean})
-  showPortedComment = false;
-
-  @property({type: Boolean})
-  showPatchset = true;
-
-  @property({type: Boolean})
-  showCommentContext = false;
-
-  @property({type: Object})
-  _selfAccount?: AccountDetailInfo;
-
-  @property({type: Array})
+  @state()
   layers: DiffLayer[] = [];
 
-  @property({type: Object, computed: 'computeDiff(comments, path)'})
-  _diff?: DiffInfo;
+  /** Computed during willUpdate(). */
+  @state()
+  diff?: DiffInfo;
 
-  /** Called in disconnectedCallback. */
-  private cleanups: (() => void)[] = [];
+  /** Computed during willUpdate(). */
+  @state()
+  highlightRange?: CommentRange;
 
   private readonly reporting = appContext.reportingService;
 
   private readonly commentsService = appContext.commentsService;
 
-  readonly storage = appContext.storageService;
+  private readonly restApiService = appContext.restApiService;
+
+  private readonly shortcuts = new ShortcutController(this);
 
   private readonly syntaxLayer = new GrSyntaxLayer();
 
-  readonly restApiService = appContext.restApiService;
-
-  private readonly shortcuts = appContext.shortcutsService;
-
   constructor() {
     super();
-    this.addEventListener('comment-update', e =>
-      this._handleCommentUpdate(e as CustomEvent)
+    subscribe(this, changeNum$, x => (this.changeNum = x));
+    subscribe(this, account$, x => (this.account = x));
+    subscribe(this, repo$, x => (this.repoName = x));
+    subscribe(this, syntaxHighlightingEnabled$, x =>
+      this.syntaxLayer.setEnabled(x)
     );
-    appContext.restApiService.getPreferences().then(prefs => {
-      this._initLayers(!!prefs?.disable_token_highlighting);
-    });
-  }
-
-  override disconnectedCallback() {
-    super.disconnectedCallback();
-    for (const cleanup of this.cleanups) cleanup();
-    this.cleanups = [];
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.cleanups.push(
-      addGlobalShortcut({key: 'e'}, e => this.handleExpandShortcut(e))
-    );
-    this.cleanups.push(
-      addGlobalShortcut({key: 'E'}, e => this.handleCollapseShortcut(e))
-    );
-    this._getLoggedIn().then(loggedIn => {
-      this._showActions = loggedIn;
-    });
-    this.restApiService.getDiffPreferences().then(prefs => {
-      if (!prefs) return;
-      this._prefs = {
+    subscribe(this, diffPreferences$, prefs => {
+      this.prefs = {
         ...prefs,
         // set line_wrapping to true so that the context can take all the
         // remaining space after comment card has rendered
         line_wrapping: true,
       };
-      this.syntaxLayer.setEnabled(!!prefs.syntax_highlighting);
     });
-    this.restApiService.getAccount().then(account => {
-      this._selfAccount = account;
+    this.shortcuts.addGlobal({key: 'e'}, () => this.handleExpandShortcut());
+    this.shortcuts.addGlobal({key: 'E'}, () => this.handleCollapseShortcut());
+    this.addEventListener('comment-update', e =>
+      this.handleCommentUpdate(e as CustomEvent)
+    );
+    appContext.restApiService.getPreferences().then(prefs => {
+      this.initLayers(!!prefs?.disable_token_highlighting);
     });
-    this._setInitialExpandedState();
   }
 
-  computeDiff(comments?: UIComment[], path?: string) {
-    if (comments === undefined || path === undefined) return undefined;
-    if (!comments[0]?.context_lines?.length) return undefined;
+  static override get styles() {
+    return [
+      a11yStyles,
+      sharedStyles,
+      css`
+        :host {
+          font-family: var(--font-family);
+          font-size: var(--font-size-normal);
+          font-weight: var(--font-weight-normal);
+          line-height: var(--line-height-normal);
+          /* Explicitly set the background color of the diff. We
+           * cannot use the diff content type ab because of the skip chunk preceding
+           * it, diff processor assumes the chunk of type skip/ab can be collapsed
+           * and hides our diff behind context control buttons.
+           *  */
+          --dark-add-highlight-color: var(--background-color-primary);
+        }
+        gr-button {
+          margin-left: var(--spacing-m);
+        }
+        gr-comment {
+          border-bottom: 1px solid var(--comment-separator-color);
+        }
+        #actions {
+          margin-left: auto;
+          padding: var(--spacing-s) var(--spacing-m);
+        }
+        .comment-box {
+          width: 80ch;
+          max-width: 100%;
+          background-color: var(--comment-background-color);
+          color: var(--comment-text-color);
+          box-shadow: var(--elevation-level-2);
+          border-radius: var(--border-radius);
+          flex-shrink: 0;
+        }
+        #container {
+          display: var(--gr-comment-thread-display, flex);
+          align-items: flex-start;
+          margin: 0 var(--spacing-s) var(--spacing-s);
+          white-space: normal;
+          /** This is required for firefox to continue the inheritance */
+          -webkit-user-select: inherit;
+          -moz-user-select: inherit;
+          -ms-user-select: inherit;
+          user-select: inherit;
+        }
+        .comment-box.unresolved {
+          background-color: var(--unresolved-comment-background-color);
+        }
+        .comment-box.robotComment {
+          background-color: var(--robot-comment-background-color);
+        }
+        #actionsContainer {
+          display: flex;
+        }
+        #unresolvedLabel {
+          font-family: var(--font-family);
+          margin: auto 0;
+          padding: var(--spacing-m);
+        }
+        .pathInfo {
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+          padding: 0 var(--spacing-s) var(--spacing-s);
+        }
+        .fileName {
+          padding: var(--spacing-m) var(--spacing-s) var(--spacing-m);
+        }
+        @media only screen and (max-width: 1200px) {
+          .diff-container {
+            display: none;
+          }
+        }
+        .diff-container {
+          margin-left: var(--spacing-l);
+          border: 1px solid var(--border-color);
+          flex-grow: 1;
+          flex-shrink: 1;
+          max-width: 1200px;
+        }
+        .view-diff-button {
+          margin: var(--spacing-s) var(--spacing-m);
+        }
+        .view-diff-container {
+          border-top: 1px solid var(--border-color);
+          background-color: var(--background-color-primary);
+        }
+
+        /* In saved state the "reply" and "quote" buttons are 28px height.
+         * top:4px  positions the 20px icon vertically centered.
+         * Currently in draft state the "save" and "cancel" buttons are 20px
+         * height, so the link icon does not need a top:4px in gr-comment_html.
+         */
+        .link-icon {
+          position: relative;
+          top: 4px;
+          cursor: pointer;
+        }
+        .fileName gr-copy-clipboard {
+          display: inline-block;
+          visibility: hidden;
+          vertical-align: top;
+          --gr-button-padding: 0px;
+        }
+        .fileName:focus-within gr-copy-clipboard,
+        .fileName:hover gr-copy-clipboard {
+          visibility: visible;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    if (this.isEmpty()) return;
+    if (!this.path || !this.patchNum) return;
+    const dynamicBoxClasses = {
+      robotComment: this.isRobotComment(),
+      unresolved: this.isUnresolved(),
+    };
+    return html`
+      ${this.renderFilePath()}
+      <div id="container">
+        <h3 class="assistive-tech-only">${this.computeAriaHeading()}</h3>
+        <div class="comment-box ${classMap(dynamicBoxClasses)}" tabindex="0">
+          ${this.renderComments()} ${this.renderActions()}
+        </div>
+        ${this.renderContextualDiff()}
+      </div>
+    `;
+  }
+
+  renderFilePath() {
+    if (!this.showFilePath) return;
+    const href = this.getDiffUrlForComment();
+    console.log(`renderFilePath: ${href}`);
+    const line = this.computeDisplayLine();
+    return html`
+      ${this.renderFileName()}
+      <div class="pathInfo">
+        ${href
+          ? html`<a href="${href}">${line}</a>`
+          : html`<span>${line}</span>`}
+      </div>
+    `;
+  }
+
+  renderFileName() {
+    if (!this.showFileName) return;
+    if (this.isPatchsetLevel()) {
+      return html`<div class="fileName"><span>Patchset</span></div>`;
+    }
+    const href = this.getDiffUrlForPath();
+    const displayPath = this.getDisplayPath();
+    return html`
+      <div class="fileName">
+        ${href
+          ? html`<a href="${href}">${displayPath}</a>`
+          : html`<span>${displayPath}</span>`}
+        <gr-copy-clipboard hideInput .text="${displayPath}"></gr-copy-clipboard>
+      </div>
+    `;
+  }
+
+  renderComments() {
+    if (this.isEmpty()) return;
+    const robotButtonDisabled = !this.account || this.isDraft();
+    return repeat(
+      this.orderedComments,
+      comment => comment.id,
+      comment => html`
+        <gr-comment
+          .comment="${comment}"
+          .comments="${this.comments}"
+          .patchNum="${this.patchNum}"
+          ?robot-button-disabled="${robotButtonDisabled}"
+          ?show-patchset="${this.showPatchset}"
+          ?show-ported-comment="${this.showPortedComment &&
+          comment.id === this.rootId}"
+          @create-fix-comment="${this.handleCommentFix}"
+          @copy-comment-link="${this.handleCopyLink}"
+        ></gr-comment>
+      `
+    );
+  }
+
+  renderActions() {
+    if (!this.account || this.isDraft() || this.isRobotComment()) return;
+    return html`
+      <div id="actionsContainer">
+        <span id="unresolvedLabel">${
+          this.isUnresolved() ? 'Unresolved' : 'Resolved'
+        }</span>
+        <div id="actions">
+          <iron-icon
+              class="link-icon"
+              @click="${this.handleCopyLink}"
+              class="copy"
+              title="Copy link to this comment"
+              icon="gr-icons:link"
+              role="button"
+              tabindex="0"
+          >
+          </iron-icon>
+          <gr-button
+              id="replyBtn"
+              link
+              class="action reply"
+              @click="${() => this.handleCommentReply(false)}"
+          >Reply</gr-button
+          >
+          <gr-button
+              id="quoteBtn"
+              link
+              class="action quote"
+              @click="${() => this.handleCommentReply(true)}"
+          >Quote</gr-button
+          >
+          ${
+            this.isUnresolved()
+              ? html`
+                  <gr-button
+                    id="ackBtn"
+                    link
+                    class="action ack"
+                    @click="${this.handleCommentAck}"
+                    >Ack</gr-button
+                  >
+                  <gr-button
+                    id="doneBtn"
+                    link
+                    class="action done"
+                    @click="${this.handleCommentDone}"
+                    >Done</gr-button
+                  >
+                `
+              : ''
+          }
+        </div>
+      </div>
+      </div>
+    `;
+  }
+
+  renderContextualDiff() {
+    if (!this.changeNum || !this.showCommentContext || !this.diff) return;
+    const href = this.getUrlForViewDiff();
+    return html`
+      <div class="diff-container">
+        <gr-diff
+          id="diff"
+          .changeNum="${this.changeNum}"
+          .diff="${this.diff}"
+          .layers="${this.layers}"
+          .path="${this.path}"
+          .prefs="${this.prefs}"
+          .renderPrefs="${this.renderPrefs}"
+          .highlightRange="${this.highlightRange}"
+        >
+        </gr-diff>
+        <div class="view-diff-container">
+          <a href="${href}">
+            <gr-button link class="view-diff-button">View Diff</gr-button>
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    this.hasDraft = this.isDraft();
+    if (changedProperties.has('comments') || changedProperties.has('path')) {
+      this.diff = this.computeDiff();
+    }
+    if (changedProperties.has('comments')) {
+      this.orderedComments = sortComments(this.comments);
+      if (!this.rootId) {
+        this.rootId = computeId(this.getFirstComment());
+      }
+      this.unresolved = this.getLastComment().unresolved;
+      this.highlightRange = this.computeHighlightRange();
+    }
+  }
+
+  override firstUpdated() {
+    if (this.shouldScrollIntoView) {
+      this.commentBox?.focus();
+      this.scrollIntoView();
+    }
+  }
+
+  private isEmpty() {
+    return !this.comments || this.comments.length === 0;
+  }
+
+  private isDraft() {
+    return isDraft(this.getLastComment());
+  }
+
+  private isUnresolved() {
+    return this.getLastComment()?.unresolved ?? false;
+  }
+
+  private isPatchsetLevel() {
+    return this.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
+  }
+
+  private computeDiff() {
+    if (!this.comments || !this.path || !this.showCommentContext) return;
+    if (!this.comments[0]?.context_lines?.length) return;
     const diff = computeDiffFromContext(
-      comments[0].context_lines,
-      path,
-      comments[0].source_content_type
+      this.comments[0].context_lines,
+      this.path,
+      this.comments[0].source_content_type
     );
     // Do we really have to re-compute (and re-render) the diff?
-    if (this._diff && JSON.stringify(this._diff) === JSON.stringify(diff)) {
-      return this._diff;
+    if (this.diff && JSON.stringify(this.diff) === JSON.stringify(diff)) {
+      return this.diff;
     }
 
     if (!anyLineTooLong(diff)) {
@@ -282,42 +573,15 @@ export class GrCommentThread extends PolymerElement {
     return diff;
   }
 
-  handleShouldScrollIntoViewChanged(shouldScrollIntoView?: boolean) {
-    // Wait for comment to be rendered before scrolling to it
-    if (shouldScrollIntoView) {
-      const resizeObserver = new ResizeObserver(
-        (_entries: ResizeObserverEntry[], observer: ResizeObserver) => {
-          if (this.offsetHeight > 0) {
-            queryAndAssert<HTMLDivElement>(this, '.comment-box').focus();
-            this.scrollIntoView();
-          }
-          observer.unobserve(this);
-        }
-      );
-      resizeObserver.observe(this);
-    }
-  }
-
-  _shouldShowCommentContext(
-    changeNum?: NumericChangeId,
-    showCommentContext?: boolean,
-    diff?: DiffInfo
-  ) {
-    return changeNum && showCommentContext && !!diff;
-  }
-
+  /** Is being called by the gr-diff-host. */
   addOrEditDraft(lineNum?: LineNumber, rangeParam?: CommentRange) {
-    const lastComment = this.comments[this.comments.length - 1] || {};
+    const lastComment = this.getLastComment() || {};
     if (isDraft(lastComment)) {
-      const commentEl = this._commentElWithDraftID(
+      const commentEl = this.commentElWithDraftID(
         lastComment.id || lastComment.__draftID
       );
       if (!commentEl) throw new Error('Failed to find draft.');
-      commentEl.editing = true;
-
-      // If the comment was collapsed, re-open it to make it clear which
-      // actions are available.
-      commentEl.collapsed = false;
+      commentEl.edit();
     } else {
       const range = rangeParam
         ? rangeParam
@@ -325,38 +589,28 @@ export class GrCommentThread extends PolymerElement {
         ? lastComment.range
         : undefined;
       const unresolved = lastComment ? lastComment.unresolved : undefined;
-      this.addDraft(lineNum, range, unresolved);
+      const draft = this.newDraft(lineNum, range);
+      draft.unresolved = unresolved === false ? unresolved : true;
+      this.commentsService.addDraft(draft);
     }
   }
 
-  addDraft(lineNum?: LineNumber, range?: CommentRange, unresolved?: boolean) {
-    const draft = this._newDraft(lineNum, range);
-    draft.unresolved = unresolved === false ? unresolved : true;
-    this.commentsService.addDraft(draft);
-  }
-
-  _getDiffUrlForPath(
-    projectName?: RepoName,
-    changeNum?: NumericChangeId,
-    path?: string,
-    patchNum?: PatchSetNum
-  ) {
-    if (!changeNum || !projectName || !path) return undefined;
+  private getDiffUrlForPath() {
+    if (!this.changeNum || !this.repoName || !this.path) return undefined;
     if (isDraft(this.comments[0])) {
       return GerritNav.getUrlForDiffById(
-        changeNum,
-        projectName,
-        path,
-        patchNum
+        this.changeNum,
+        this.repoName,
+        this.path,
+        this.patchNum
       );
     }
     const id = this.comments[0].id;
     if (!id) throw new Error('A published comment is missing the id.');
-    return GerritNav.getUrlForComment(changeNum, projectName, id);
+    return GerritNav.getUrlForComment(this.changeNum, this.repoName, id);
   }
 
-  /** The parameter is for triggering re-computation only. */
-  getHighlightRange(_: unknown) {
+  private computeHighlightRange() {
     const comment = this.comments?.[0];
     if (!comment) return undefined;
     if (comment.range) return comment.range;
@@ -371,57 +625,55 @@ export class GrCommentThread extends PolymerElement {
     return undefined;
   }
 
-  _initLayers(disableTokenHighlighting: boolean) {
+  private initLayers(disableTokenHighlighting: boolean) {
     if (!disableTokenHighlighting) {
       this.layers.push(new TokenHighlightLayer(this));
     }
     this.layers.push(this.syntaxLayer);
   }
 
-  _getUrlForViewDiff(
-    comments: UIComment[],
-    changeNum?: NumericChangeId,
-    projectName?: RepoName
-  ): string {
-    if (!changeNum) return '';
-    if (!projectName) return '';
-    check(comments.length > 0, 'comment not found');
-    return GerritNav.getUrlForComment(changeNum, projectName, comments[0].id!);
+  private getUrlForViewDiff(): string {
+    if (!this.changeNum) return '';
+    if (!this.repoName) return '';
+    check(this.comments.length > 0, 'comment not found');
+    return GerritNav.getUrlForComment(
+      this.changeNum,
+      this.repoName,
+      this.comments[0].id!
+    );
   }
 
-  _getDiffUrlForComment(
-    projectName?: RepoName,
-    changeNum?: NumericChangeId,
-    path?: string,
-    patchNum?: PatchSetNum
-  ) {
-    if (!projectName || !changeNum || !path) return undefined;
+  private getDiffUrlForComment() {
+    console.log(
+      `getDiffUrlForComment: ${this.repoName} ${this.changeNum} ${this.path}`
+    );
+    if (!this.repoName || !this.changeNum || !this.path) return undefined;
     if (
       (this.comments.length && this.comments[0].side === 'PARENT') ||
       isDraft(this.comments[0])
     ) {
       if (this.lineNum === 'LOST') throw new Error('invalid lineNum lost');
       return GerritNav.getUrlForDiffById(
-        changeNum,
-        projectName,
-        path,
-        patchNum,
+        this.changeNum,
+        this.repoName,
+        this.path,
+        this.patchNum,
         undefined,
         this.lineNum === FILE ? undefined : this.lineNum
       );
     }
     const id = this.comments[0].id;
     if (!id) throw new Error('A published comment is missing the id.');
-    return GerritNav.getUrlForComment(changeNum, projectName, id);
+    return GerritNav.getUrlForComment(this.changeNum, this.repoName, id);
   }
 
-  handleCopyLink() {
+  private handleCopyLink() {
     assertIsDefined(this.changeNum, 'changeNum');
-    assertIsDefined(this.projectName, 'projectName');
+    assertIsDefined(this.repoName, 'repoName');
     const url = generateAbsoluteUrl(
       GerritNav.getUrlForCommentsTab(
         this.changeNum,
-        this.projectName,
+        this.repoName,
         this.comments[0].id!
       )
     );
@@ -430,129 +682,54 @@ export class GrCommentThread extends PolymerElement {
     });
   }
 
-  _isPatchsetLevelComment(path?: string) {
-    return path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
+  private getDisplayPath() {
+    if (this.isPatchsetLevel()) return 'Patchset';
+    return computeDisplayPath(this.path);
   }
 
-  _computeShowPortedComment(comment: UIComment) {
-    if (this._orderedComments.length === 0) return false;
-    return this.showPortedComment && comment.id === this._orderedComments[0].id;
-  }
-
-  _computeDisplayPath(path?: string) {
-    const displayPath = computeDisplayPath(path);
-    if (displayPath === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
-      return 'Patchset';
-    }
-    return displayPath;
-  }
-
-  _computeDisplayLine(lineNum?: LineNumber, range?: CommentRange) {
-    if (lineNum === FILE) {
-      if (this.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
-        return '';
-      }
-      return FILE;
-    }
-    if (lineNum) return `#${lineNum}`;
+  private computeDisplayLine() {
+    if (this.lineNum === FILE) return this.isPatchsetLevel() ? '' : FILE;
+    if (this.lineNum) return `#${this.lineNum}`;
     // If range is set, then lineNum equals the end line of the range.
-    if (range) return `#${range.end_line}`;
+    if (this.range) return `#${this.range.end_line}`;
     return '';
   }
 
-  _getLoggedIn() {
-    return this.restApiService.getLoggedIn();
+  private isRobotComment() {
+    return isRobot(this.getLastComment());
   }
 
-  _getUnresolvedLabel(unresolved?: boolean) {
-    return unresolved ? 'Unresolved' : 'Resolved';
+  private getFirstComment() {
+    return this.orderedComments[0];
   }
 
-  @observe('comments.*')
-  _commentsChanged() {
-    this._orderedComments = sortComments(this.comments);
-    this.updateThreadProperties();
+  private getLastComment() {
+    return this.orderedComments[this.orderedComments.length - 1];
   }
 
-  updateThreadProperties() {
-    if (this._orderedComments.length) {
-      this._lastComment = this._getLastComment();
-      this.unresolved = this._lastComment.unresolved;
-      this.hasDraft = isDraft(this._lastComment);
-      this.isRobotComment = isRobot(this._lastComment);
-    }
+  private handleExpandShortcut() {
+    this.expandCollapseComments(false);
   }
 
-  _shouldDisableAction(_showActions?: boolean, _lastComment?: UIComment) {
-    return !_showActions || !_lastComment || isDraft(_lastComment);
+  private handleCollapseShortcut() {
+    this.expandCollapseComments(true);
   }
 
-  _hideActions(_showActions?: boolean, _lastComment?: UIComment) {
-    return (
-      this._shouldDisableAction(_showActions, _lastComment) ||
-      isRobot(_lastComment)
-    );
-  }
-
-  _getLastComment() {
-    return this._orderedComments[this._orderedComments.length - 1] || {};
-  }
-
-  private handleExpandShortcut(e: KeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    this._expandCollapseComments(false);
-  }
-
-  private handleCollapseShortcut(e: KeyboardEvent) {
-    if (this.shortcuts.shouldSuppress(e)) return;
-    this._expandCollapseComments(true);
-  }
-
-  _expandCollapseComments(actionIsCollapse: boolean) {
-    const comments = this.root?.querySelectorAll('gr-comment');
-    if (!comments) return;
-    for (const comment of comments) {
+  private expandCollapseComments(actionIsCollapse: boolean) {
+    for (const comment of this.commentElements ?? []) {
       comment.collapsed = actionIsCollapse;
     }
   }
 
-  /**
-   * Sets the initial state of the comment thread.
-   * Expands the thread if one of the following is true:
-   * - last {UNRESOLVED_EXPAND_COUNT} comments expanded by default if the
-   * thread is unresolved,
-   * - it's a robot comment.
-   * - it's a draft
-   */
-  _setInitialExpandedState() {
-    if (this._orderedComments) {
-      for (let i = 0; i < this._orderedComments.length; i++) {
-        const comment = this._orderedComments[i];
-        if (isDraft(comment)) {
-          comment.collapsed = false;
-          continue;
-        }
-        const isRobotComment = !!(comment as UIRobot).robot_id;
-        // False if it's an unresolved comment under UNRESOLVED_EXPAND_COUNT.
-        const resolvedThread =
-          !this.unresolved ||
-          this._orderedComments.length - i - 1 >= UNRESOLVED_EXPAND_COUNT;
-        if (comment.collapsed === undefined) {
-          comment.collapsed = !isRobotComment && resolvedThread;
-        }
-      }
-    }
-  }
-
-  _createReplyComment(
+  private createReplyComment(
     content?: string,
     isEditing?: boolean,
     unresolved?: boolean
   ) {
     this.reporting.recordDraftInteraction();
-    const id = this._orderedComments[this._orderedComments.length - 1].id;
+    const id = this.orderedComments[this.orderedComments.length - 1].id;
     if (!id) throw new Error('Cannot reply to comment without id.');
-    const reply = this._newReply(id, content, unresolved);
+    const reply = this.newReply(id, content, unresolved);
 
     if (isEditing) {
       this.commentsService.addDraft(reply);
@@ -575,12 +752,8 @@ export class GrCommentThread extends PolymerElement {
     }
   }
 
-  _isDraft(comment: UIComment) {
-    return isDraft(comment);
-  }
-
-  _processCommentReply(quote?: boolean) {
-    const comment = this._lastComment;
+  private handleCommentReply(quote: boolean) {
+    const comment = this.getLastComment();
     if (!comment) throw new Error('Failed to find last comment.');
     let content = undefined;
     if (quote) {
@@ -588,39 +761,29 @@ export class GrCommentThread extends PolymerElement {
       if (!msg) throw new Error('Quoting empty comment.');
       content = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
     }
-    this._createReplyComment(content, true, comment.unresolved);
+    this.createReplyComment(content, true, comment.unresolved);
   }
 
-  _handleCommentReply() {
-    this._processCommentReply();
+  private handleCommentAck() {
+    this.createReplyComment('Ack', false, false);
   }
 
-  _handleCommentQuote() {
-    this._processCommentReply(true);
+  private handleCommentDone() {
+    this.createReplyComment('Done', false, false);
   }
 
-  _handleCommentAck() {
-    this._createReplyComment('Ack', false, false);
-  }
-
-  _handleCommentDone() {
-    this._createReplyComment('Done', false, false);
-  }
-
-  _handleCommentFix(e: CustomEvent) {
+  private handleCommentFix(e: CustomEvent) {
     const comment = e.detail.comment;
     const msg = comment.message;
     const quoted = msg.replace(NEWLINE_PATTERN, '\n> ') as string;
     const quoteStr = '> ' + quoted + '\n\n';
     const response = quoteStr + 'Please fix.';
-    this._createReplyComment(response, false, true);
+    this.createReplyComment(response, false, true);
   }
 
-  _commentElWithDraftID(id?: string): GrComment | null {
+  private commentElWithDraftID(id?: string): GrComment | null {
     if (!id) return null;
-    const els = this.root?.querySelectorAll('gr-comment');
-    if (!els) return null;
-    for (const el of els) {
+    for (const el of this.commentElements ?? []) {
       const c = el.comment;
       if (isRobot(c)) continue;
       if (c?.id === id || (isDraft(c) && c?.__draftID === id)) return el;
@@ -628,12 +791,12 @@ export class GrCommentThread extends PolymerElement {
     return null;
   }
 
-  _newReply(
+  private newReply(
     inReplyTo: UrlEncodedCommentId,
     message?: string,
     unresolved?: boolean
   ) {
-    const d = this._newDraft();
+    const d = this.newDraft();
     d.in_reply_to = inReplyTo;
     if (message !== undefined) {
       d.message = message;
@@ -644,10 +807,11 @@ export class GrCommentThread extends PolymerElement {
     return d;
   }
 
-  _newDraft(lineNum?: LineNumber, range?: CommentRange) {
-    const d: UIDraft = {
+  private newDraft(lineNum?: LineNumber, range?: CommentRange) {
+    const randomString = Math.random().toString(36);
+    const d: DraftInfo = {
       __draft: true,
-      __draftID: 'draft__' + Math.random().toString(36),
+      __draftID: `draft__${randomString}` as UrlEncodedCommentId,
       __date: new Date(),
     };
     if (lineNum === 'LOST') throw new Error('invalid lineNum lost');
@@ -665,7 +829,7 @@ export class GrCommentThread extends PolymerElement {
       // Set meta info for root comment.
       d.path = this.path;
       d.patch_set = this.patchNum;
-      d.side = this._getSide(this.isOnParent);
+      d.side = this.isOnParent ? CommentSide.PARENT : CommentSide.REVISION;
 
       if (lineNum && lineNum !== FILE) {
         d.line = lineNum;
@@ -680,22 +844,9 @@ export class GrCommentThread extends PolymerElement {
     return d;
   }
 
-  _getSide(isOnParent: boolean): CommentSide {
-    return isOnParent ? CommentSide.PARENT : CommentSide.REVISION;
-  }
-
-  _computeRootId(comments: PolymerDeepPropertyChange<UIComment[], unknown>) {
-    // Keep the root ID even if the comment was removed, so that notification
-    // to sync will know which thread to remove.
-    if (!comments.base.length) {
-      return this.rootId;
-    }
-    return computeId(comments.base[0]);
-  }
-
-  _handleCommentUpdate(e: CustomEvent) {
+  private handleCommentUpdate(e: CustomEvent) {
     const comment = e.detail.comment;
-    const index = this._indexOf(comment, this.comments);
+    const index = this.indexOf(comment, this.comments);
     if (index === -1) {
       // This should never happen: comment belongs to another thread.
       this.reporting.error(
@@ -703,15 +854,11 @@ export class GrCommentThread extends PolymerElement {
       );
       return;
     }
-    this.set(['comments', index], comment);
-    // Because of the way we pass these comment objects around by-ref, in
-    // combination with the fact that Polymer does dirty checking in
-    // observers, the this.set() call above will not cause a thread update in
-    // some situations.
-    this.updateThreadProperties();
+    // TODO: this.set('comments') was being used here. Move into model/service.
+    this.requestUpdate();
   }
 
-  _indexOf(comment: UIComment | undefined, arr: UIComment[]) {
+  private indexOf(comment: Comment | undefined, arr: Comment[]) {
     if (!comment) return -1;
     for (let i = 0; i < arr.length; i++) {
       const c = arr[i];
@@ -725,35 +872,11 @@ export class GrCommentThread extends PolymerElement {
     return -1;
   }
 
-  /** 2nd parameter is for triggering re-computation only. */
-  _computeHostClass(unresolved?: boolean, _?: unknown) {
-    if (this.isRobotComment) {
-      return 'robotComment';
-    }
-    return unresolved ? 'unresolved' : '';
-  }
-
-  /**
-   * Load the project config when a project name has been provided.
-   *
-   * @param name The project name.
-   */
-  _projectNameChanged(name?: RepoName) {
-    if (!name) {
-      return;
-    }
-    this.restApiService.getProjectConfig(name).then(config => {
-      this._projectConfig = config;
-    });
-  }
-
-  _computeAriaHeading(_orderedComments: UIComment[]) {
-    const firstComment = _orderedComments[0];
-    const author = firstComment?.author ?? this._selfAccount;
-    const lastComment = _orderedComments[_orderedComments.length - 1] || {};
+  private computeAriaHeading() {
+    const author = this.getFirstComment().author ?? this.account;
     const status = [
-      lastComment.unresolved ? 'Unresolved' : '',
-      isDraft(lastComment) ? 'Draft' : '',
+      this.getLastComment().unresolved ? 'Unresolved' : '',
+      this.isDraft() ? 'Draft' : '',
     ].join(' ');
     return `${status} Comment thread by ${getUserName(undefined, author)}`;
   }

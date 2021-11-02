@@ -54,7 +54,7 @@ import {
 import {Timer} from '../../../services/gr-reporting/gr-reporting';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
 import {CreateFixCommentEvent} from '../../../types/events';
-import {DraftInfo, UIRobot} from '../../../utils/comment-util';
+import {DraftInfo, RobotCommentInfo} from '../../../utils/comment-util';
 import {MockTimer} from '../../../services/gr-reporting/gr-reporting_mock';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 
@@ -919,7 +919,9 @@ suite('gr-comment tests', () => {
         '.robotRunLink'
       ) as HTMLAnchorElement;
       assert.isTrue(
-        runDetailsLink.href.indexOf((element.comment as UIRobot).url!) !== -1
+        runDetailsLink.href.indexOf(
+          (element.comment as RobotCommentInfo).url!
+        ) !== -1
       );
 
       const robotServiceName = queryAndAssert(element, '.robotName');

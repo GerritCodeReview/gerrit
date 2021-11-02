@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {PatchSetNum} from './common';
-import {UIComment} from '../utils/comment-util';
+import {Comment} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
@@ -160,7 +160,7 @@ export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
 
 export interface OpenFixPreviewEventDetail {
   patchNum?: PatchSetNum;
-  comment?: UIComment;
+  comment?: Comment;
 }
 export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
 
@@ -170,7 +170,7 @@ export interface CloseFixPreviewEventDetail {
 export type CloseFixPreviewEvent = CustomEvent<CloseFixPreviewEventDetail>;
 export interface CreateFixCommentEventDetail {
   patchNum?: PatchSetNum;
-  comment?: UIComment;
+  comment?: Comment;
 }
 export type CreateFixCommentEvent = CustomEvent<CreateFixCommentEventDetail>;
 

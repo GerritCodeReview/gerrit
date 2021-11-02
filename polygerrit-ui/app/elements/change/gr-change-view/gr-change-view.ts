@@ -144,7 +144,7 @@ import {
   isDraftThread,
   isRobot,
   isUnresolved,
-  UIDraft,
+  DraftInfo,
 } from '../../../utils/comment-util';
 import {
   PolymerDeepPropertyChange,
@@ -364,7 +364,7 @@ export class GrChangeView extends base {
   _changeNum?: NumericChangeId;
 
   @property({type: Object})
-  _diffDrafts?: {[path: string]: UIDraft[]} = {};
+  _diffDrafts?: {[path: string]: DraftInfo[]} = {};
 
   @property({type: Boolean})
   _editingCommitMessage = false;
@@ -1517,7 +1517,7 @@ export class GrChangeView extends base {
   }
 
   _computeReplyButtonLabel(
-    drafts?: {[path: string]: UIDraft[]},
+    drafts?: {[path: string]: DraftInfo[]},
     canStartReview?: boolean
   ) {
     if (drafts === undefined || canStartReview === undefined) {

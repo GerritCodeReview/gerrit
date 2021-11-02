@@ -97,7 +97,7 @@ import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {AppElementChangeViewParams} from '../../gr-app-types';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
-import {CommentThread, UIRobot} from '../../../utils/comment-util';
+import {CommentThread, RobotCommentInfo} from '../../../utils/comment-util';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
@@ -928,11 +928,13 @@ suite('gr-change-view tests', () => {
     test('only robot comments are rendered', () => {
       assert.equal(element._robotCommentThreads!.length, 2);
       assert.equal(
-        (element._robotCommentThreads![0].comments[0] as UIRobot).robot_id,
+        (element._robotCommentThreads![0].comments[0] as RobotCommentInfo)
+          .robot_id,
         'rc1'
       );
       assert.equal(
-        (element._robotCommentThreads![1].comments[0] as UIRobot).robot_id,
+        (element._robotCommentThreads![1].comments[0] as RobotCommentInfo)
+          .robot_id,
         'rc2'
       );
     });

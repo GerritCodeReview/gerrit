@@ -101,7 +101,6 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager.DefaultProjectNameLockManagerModule;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore.JdbcAccountPatchReviewStoreModule;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
@@ -438,7 +437,6 @@ public class Daemon extends SiteProgram {
     modules.add(new WorkQueueModule());
     modules.add(new StreamEventsApiListenerModule());
     modules.add(new EventBrokerModule());
-    modules.add(new JdbcAccountPatchReviewStoreModule(config));
     modules.add(new SysExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());

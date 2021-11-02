@@ -33,19 +33,6 @@ java_library(
 )
 
 java_library(
-    name = "dbcp",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@commons-dbcp//jar"],
-    runtime_deps = [":pool"],
-)
-
-java_library(
-    name = "pool",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@commons-pool//jar"],
-)
-
-java_library(
     name = "text",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

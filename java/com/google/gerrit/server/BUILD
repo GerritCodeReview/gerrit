@@ -110,7 +110,6 @@ java_library(
         "//lib/bouncycastle:bcprov-neverlink",
         "//lib/commons:codec",
         "//lib/commons:compress",
-        "//lib/commons:dbcp",
         "//lib/commons:lang",
         "//lib/commons:lang3",
         "//lib/commons:net",

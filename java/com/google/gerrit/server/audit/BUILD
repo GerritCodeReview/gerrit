@@ -57,7 +57,6 @@ java_library(
         "//lib/bouncycastle:bcpkix-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",
         "//lib/commons:compress",
-        "//lib/commons:dbcp",
         "//lib/commons:lang",
         "//lib/commons:net",
         "//lib/commons:validator",

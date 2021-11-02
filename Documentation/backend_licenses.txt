@@ -47,11 +47,9 @@ Apache2.0
 * auto:auto-value-gson
 * commons:codec
 * commons:compress
-* commons:dbcp
 * commons:lang
 * commons:lang3
 * commons:net
-* commons:pool
 * commons:validator
 * dropwizard:dropwizard-core
 * errorprone:annotations

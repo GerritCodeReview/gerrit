@@ -61,7 +61,6 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits.AsyncReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
-import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.ReplicaUtil;
 import com.google.gerrit.server.util.SocketUtil;
@@ -475,8 +474,6 @@ public class GerritServer implements AutoCloseable {
     cfg.setBoolean("index", "lucene", "testInmemory", true);
     cfg.setBoolean("index", null, "onlineUpgrade", false);
     cfg.setString("gitweb", null, "cgi", "");
-    cfg.setString(
-        "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
 
     String configuredIndexBackend = cfg.getString("index", null, "type");
     IndexType indexType;

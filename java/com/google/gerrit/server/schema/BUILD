@@ -23,7 +23,6 @@ java_library(
         "//lib:jgit-archive",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
-        "//lib/commons:dbcp",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/log:log4j",

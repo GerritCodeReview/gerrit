@@ -324,20 +324,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "commons-dbcp",
-    artifact = "commons-dbcp:commons-dbcp:1.4",
-    sha1 = "30be73c965cc990b153a100aaaaafcf239f82d39",
-)
-
-# Transitive dependency of commons-dbcp, do not update without
-# also updating commons-dbcp
-maven_jar(
-    name = "commons-pool",
-    artifact = "commons-pool:commons-pool:1.5.5",
-    sha1 = "7d8ffbdc47aa0c5a8afe5dc2aaf512f369f1d19b",
-)
-
-maven_jar(
     name = "commons-net",
     artifact = "commons-net:commons-net:3.6",
     sha1 = "b71de00508dcb078d2b24b5fa7e538636de9b3da",

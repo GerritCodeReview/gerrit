@@ -92,7 +92,6 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager.DefaultProjectNameLockManagerModule;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore.JdbcAccountPatchReviewStoreModule;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
@@ -298,7 +297,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressorModule());
     modules.add(new EventBrokerModule());
-    modules.add(new JdbcAccountPatchReviewStoreModule(config));
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new StreamEventsApiListenerModule());
     modules.add(new SysExecutorModule());

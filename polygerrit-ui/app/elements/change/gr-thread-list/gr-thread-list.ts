@@ -44,7 +44,7 @@ import {
   hasHumanReply,
   getCommentAuthors,
   computeId,
-  UIComment,
+  Comment,
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined, assertNever} from '../../../utils/common-util';
@@ -230,7 +230,7 @@ export class GrThreadList extends PolymerElement {
   }
 
   computeShouldScrollIntoView(
-    comments: UIComment[],
+    comments: Comment[],
     scrollCommentId?: UrlEncodedCommentId
   ) {
     const comment = comments?.[0];

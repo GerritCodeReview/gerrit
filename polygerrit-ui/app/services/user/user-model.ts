@@ -97,6 +97,11 @@ export const diffPreferences$ = userState$.pipe(
   distinctUntilChanged()
 );
 
+export const syntaxHighlightingEnabled$ = diffPreferences$.pipe(
+  map(diffPrefs => !!diffPrefs.syntax_highlighting),
+  distinctUntilChanged()
+);
+
 export const preferenceDiffViewMode$ = preferences$.pipe(
   map(preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE),
   distinctUntilChanged()

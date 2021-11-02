@@ -249,6 +249,30 @@
       },
       "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6373c268_c6c767f7",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-02T20:26:25Z",
+      "side": 1,
+      "message": "\u003e Just this earlier comment from Han-Wen:\n\u003e \n\u003e \u003e not sure why you need to handle IOException. I think it\u0027s fine to propagate?\n\nI don\u0027t think it is fine to simply propagate the IOException because it will change the all chain of methods signatures, which also include the exceptions thrown.\n\nWhat it could be instead more appropriate is to throw a BadRequestException instead of PreconditionFailedException. What do you think?",
+      "parentUuid": "22c81919_2d908fcf",
+      "range": {
+        "startLine": 165,
+        "startChar": 10,
+        "endLine": 168,
+        "endChar": 37
+      },
+      "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

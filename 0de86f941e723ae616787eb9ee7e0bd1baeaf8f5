@@ -16,6 +16,24 @@
       "message": "Can you replace the 5 `rightPatchNum...` with `patchNum...` in this file? Thanks!",
       "revId": "0de86f941e723ae616787eb9ee7e0bd1baeaf8f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acec7a38_a4bd058e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-02T09:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3165e2d2_dcd1eb9f",
+      "revId": "0de86f941e723ae616787eb9ee7e0bd1baeaf8f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

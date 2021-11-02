@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61bd0e8b_814efdbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T14:15:24Z",
+      "side": 1,
+      "message": "Thanks, another round on this one as it\u0027s more complicated code.",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b9fca68_932804a1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T14:15:24Z",
+      "side": 1,
+      "message": "This name feels off. \u0027dirty\u0027 is typically a boolean referring to the fact that some other variable has changed value.",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f793b3b_0e9c1e94",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T14:15:24Z",
+      "side": 1,
+      "message": "What if `groupIdNameDirty` has changed?",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68dade43_41c98b15",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T14:15:24Z",
+      "side": 1,
+      "message": "Consider making each \u003ch3\u003e and \u003cfieldset\u003e pair into a separate method for readability.",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09178283_69d6bab3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T14:15:24Z",
+      "side": 1,
+      "message": "It seems that you don\u0027t mutate these but rather the config itself.\n\n\nMaybe these should be called this.originalName, this.originalOwnerName, ...",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14a9c3a9_f81b6f9b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T14:15:24Z",
+      "side": 1,
+      "message": "When is this value ever reset?",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fab9c4f_a42aeb9d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T14:15:24Z",
+      "side": 1,
+      "message": "This doesn\u0027t need a requestUpdate, you\u0027re mutating an @state variable",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a374cd6c_950c11ba",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T14:15:24Z",
+      "side": 1,
+      "message": "This doesn\u0027t require a requestUpdate, you\u0027re mutating an @state variable",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb6b821e_431d2797",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T14:15:24Z",
+      "side": 1,
+      "message": "No need for this.requestUpdate, you\u0027re mutating an @state variable.",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67aa2f8f_ba8a921b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-02T14:15:24Z",
+      "side": 1,
+      "message": "This should probably be:\nthis.groupConfigOwner \u003d e.detail.value; ?",
+      "revId": "8aa8eae2857c78e273c76b5fd46543eb0be82c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0092ce52_a43648bc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Changed to private, thanks!",
+      "parentUuid": "8456ad1d_4c2897f8",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6a16c70_5a76ccfa",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-01T21:41:02Z",
       "side": 1,
       "message": "Why is query an @state? As far as I can tell it never changes.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae48909d_6c4eaaee",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Changed to readonly and also private",
+      "parentUuid": "c6a16c70_5a76ccfa",
       "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9208048e_76d758e8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "It\u0027s because of the tests, thanks, done.",
+      "parentUuid": "27b85b73_1b78655b",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21010c71_3ca0ae91",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-11-01T21:41:02Z",
       "side": 1,
       "message": "Remove parameters from this call and simply use the this. properties inside of the method.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12842de2_1a921f91",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "21010c71_3ca0ae91",
       "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b90fb52c_d1027efb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "04977a8f_07f5d93e",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5566a3a4_e773a476",
@@ -99,6 +189,24 @@
       "writtenOn": "2021-11-01T21:41:02Z",
       "side": 1,
       "message": "Remove this.loading as parameter.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03a6b51d_77d08aad",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5566a3a4_e773a476",
       "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "690363e3_45db38f8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c5b003d7_e755d7e1",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d857cd5c_9c8f2501",
@@ -133,6 +259,24 @@
       "writtenOn": "2021-11-01T21:41:02Z",
       "side": 1,
       "message": "Comment why this method isn\u0027t private.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f08cd000_3d27042a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d857cd5c_9c8f2501",
       "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -154,6 +298,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db4c2172_45e04d4c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Thanks, done! Learnt a new thing!",
+      "parentUuid": "a6d4843a_5a8c80dc",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e83b5c47_67bf4916",
@@ -167,6 +329,24 @@
       "writtenOn": "2021-11-01T21:41:02Z",
       "side": 1,
       "message": "Make this method private, and don\u0027t pass in this.loading, it already has access to it.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56e5847c_2d86493e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "It\u0027s used in the tests.",
+      "parentUuid": "e83b5c47_67bf4916",
       "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -188,6 +368,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de7cf445_e34b14d0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ad7aac27_922a3f74",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23ae0734_9c4f4414",
@@ -201,6 +399,24 @@
       "writtenOn": "2021-11-01T21:41:02Z",
       "side": 1,
       "message": "private method?\n\nMake this method async so we no longer have .then(....)",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb4999de_d5f0d2f4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "It\u0027s used in the tests.",
+      "parentUuid": "23ae0734_9c4f4414",
       "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -222,6 +438,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72cfa1c0_b9a50330",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c80be509_e0434909",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c46552de_707a7ba7",
@@ -235,6 +469,24 @@
       "writtenOn": "2021-11-01T21:41:02Z",
       "side": 1,
       "message": "Same comment as for handleSaveOwner",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4753409_322986a0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c46552de_707a7ba7",
       "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -256,6 +508,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d582004f_360cc06b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "961d39a9_de9861bc",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c9103ed_ba1e31d7",
@@ -273,6 +543,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9b0acf4_fea13806",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5c9103ed_ba1e31d7",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "253540de_eddfe2b4",
@@ -286,6 +574,24 @@
       "writtenOn": "2021-11-01T21:41:02Z",
       "side": 1,
       "message": "This isn\u0027t quite correct.\n\nWhat if the handleOwnerTextChanged fired first, then handleOwnerValueChanged fired, and then we change the OwnerText again to be what it was? Then this.owner will be false, not true.",
+      "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba28cef2_3e6f7543",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-02T01:39:11Z",
+      "side": 1,
+      "message": "Fixed, thanks!",
+      "parentUuid": "253540de_eddfe2b4",
       "revId": "d5822776a000c183e60a4ae4ed8e00d4ba00f7ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

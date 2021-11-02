@@ -105,6 +105,24 @@
       "parentUuid": "0f4a302a_b2028485",
       "revId": "3806ec3a295be7a56cb86fad0fef443399e0cc2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0df3e12_9d25b00d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-02T13:32:54Z",
+      "side": 1,
+      "message": "I was thinking if we can fill the applicability condition in for project owners. However, the SR might be inherited, so it\u0027s not trivial to say that project owners should always be able to see the applicability condition. It\u0027s good the way you have it, sorry for the noise.\n\n\u003e Yes, to make the distinction between \"there is no applicability condition, i.e. SR is applicable to all changes\" vs. \"there is, but it\u0027s hidden\".\n\nDo we have to? In what places is that distinction used/required?",
+      "parentUuid": "0df79d5f_8153ceb0",
+      "revId": "3806ec3a295be7a56cb86fad0fef443399e0cc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -341,7 +341,6 @@ export const htmlTemplate = html`
             class="message newReplyDialog"
             autocomplete="on"
             placeholder="[[_messagePlaceholder]]"
-            fixed-position-dropdown=""
             monospace="true"
             disabled="{{disabled}}"
             rows="4"

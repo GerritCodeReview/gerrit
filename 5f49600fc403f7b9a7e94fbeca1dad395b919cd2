@@ -87,6 +87,30 @@
       },
       "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fa34cea_2872632e",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-11-02T16:55:11Z",
+      "side": 1,
+      "message": "\u003e Bad id should throw a MissingObjectException from l.156, which is an IOException, so we\u0027ll hit this catch, correct?\n\nl.156 doesn\u0027t do parseCommit on the user-supplied fake ID. It does parseCommit on the meta ref, ie. it will throw if the meta ref is fubar.\n\n\u003e \"not reachable from\" is more than just the input data, right? \n\nif you can call this endpoint, you can see the change. Then you can fetch the meta ref, and walk back through its history. This would give you the same information that we expose here.",
+      "parentUuid": "a52fcb77_e650beb7",
+      "range": {
+        "startLine": 165,
+        "startChar": 10,
+        "endLine": 168,
+        "endChar": 37
+      },
+      "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

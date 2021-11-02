@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8498274_42cf9723",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T18:10:02Z",
+      "side": 1,
+      "message": "Before you use this in the sliceByProject hash map, you should convert it to AutoValue. It\u0027s small enough to do in this change, but I\u0027d be fine with it in a parent change too.",
+      "range": {
+        "startLine": 89,
+        "startChar": 23,
+        "endLine": 89,
+        "endChar": 35
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "542e1f21_f914ddd3",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T18:10:02Z",
+      "side": 1,
+      "message": "you could shorten this to \u0027slice\u0027 if you want",
+      "range": {
+        "startLine": 159,
+        "startChar": 22,
+        "endLine": 159,
+        "endChar": 34
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dae0e11_0029a0e3",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T18:10:02Z",
+      "side": 1,
+      "message": "single use, call it inline below",
+      "range": {
+        "startLine": 161,
+        "startChar": 30,
+        "endLine": 161,
+        "endChar": 35
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c30c84e_8d82bdcc",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T18:10:02Z",
+      "side": 1,
+      "message": "single use, call it inline below",
+      "range": {
+        "startLine": 162,
+        "startChar": 6,
+        "endLine": 162,
+        "endChar": 21
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41380faa_d723f9d4",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T18:10:02Z",
+      "side": 1,
+      "message": "Does it make sense to pass an empty list of changes?\n\nIt looks like if the scan() had failed in this route before, we would do no indexing and then return null here. Keep that behavior?",
+      "range": {
+        "startLine": 209,
+        "startChar": 49,
+        "endLine": 209,
+        "endChar": 56
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48a70ef7_e8bb4cb6",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T18:10:02Z",
+      "side": 1,
+      "message": "changes",
+      "range": {
+        "startLine": 215,
+        "startChar": 30,
+        "endLine": 215,
+        "endChar": 35
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "632d381b_7a40a358",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T18:10:02Z",
+      "side": 1,
+      "message": "Maybe fix some of this naming in a parent change?",
+      "range": {
+        "startLine": 221,
+        "startChar": 16,
+        "endLine": 221,
+        "endChar": 35
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8533b6bc_446b2a17",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T18:10:02Z",
+      "side": 1,
+      "message": "changes",
+      "range": {
+        "startLine": 224,
+        "startChar": 42,
+        "endLine": 224,
+        "endChar": 47
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d879b1_619dc5a3",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T18:10:02Z",
+      "side": 1,
+      "message": "\"all\" is a little confusing here, since you only add to it once you\u0027re done populating a slice. Would \u0027populatedSlices\u0027 (or \u0027filledSlices\u0027, \u0027doneSlices\u0027?) work?",
+      "range": {
+        "startLine": 287,
+        "startChar": 23,
+        "endLine": 287,
+        "endChar": 32
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d657e44_0aa5b74c",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T18:10:02Z",
+      "side": 1,
+      "message": "I think this should be getAndIncrement() since you don\u0027t use sliceNumber before this and previous code has slices starting at 0. Why use an AtomicInteger at all though?",
+      "range": {
+        "startLine": 304,
+        "startChar": 67,
+        "endLine": 304,
+        "endChar": 82
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43cbc082_aca1f0ef",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-02T18:10:02Z",
+      "side": 1,
+      "message": "This line is duplicated still. Can you pass a Predicate instead of a boolean to popAndQueueIf, get the slice size inside there, and then use the Predicate to evaluate the slice size?",
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

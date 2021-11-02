@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6a5a333_5c8ef915",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-02T07:39:53Z",
+      "side": 1,
+      "message": "I would do\n\n  autocomplete\u003d\"on\"\n  \nin this case, because this is just the standard *attribute* of \u003ctextarea\u003e being mimicked by gr-textarea and iron-autogrow-textarea.",
+      "revId": "7368411ed728f46060b2314240f95498f27f92e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87c20dd2_3fd81b88",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-02T07:39:53Z",
+      "side": 1,
+      "message": "fixed-position-dropdown was removed a long time ago: https://gerrit-review.googlesource.com/c/gerrit/+/322576",
+      "revId": "7368411ed728f46060b2314240f95498f27f92e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb160cfa_f430f29a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-02T07:39:53Z",
+      "side": 1,
+      "message": "Either \n\n  .monospace\u003d\"${true}\"\n  \nor (I think better) just\n\n  monospace",
+      "range": {
+        "startLine": 233,
+        "startChar": 20,
+        "endLine": 233,
+        "endChar": 37
+      },
+      "revId": "7368411ed728f46060b2314240f95498f27f92e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -395,6 +395,12 @@ export function addGlobalShortcut(
   return addShortcut(document.body, shortcut, listener);
 }
 
+/**
+ * Deprecated.
+ *
+ * For LitElement use the shortcut-controller.
+ * For PolymerElement use the keyboard-shortcut-mixin.
+ */
 export function addShortcut(
   element: HTMLElement,
   shortcut: Binding,

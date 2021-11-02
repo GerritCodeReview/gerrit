@@ -899,14 +899,12 @@ export class GrDiffHost extends PolymerElement {
     } else {
       threadEl.path = this.path;
     }
-    threadEl.changeNum = this.changeNum;
     threadEl.patchNum = thread.patchNum;
     threadEl.showPatchset = false;
     threadEl.showPortedComment = !!thread.ported;
     if (thread.rangeInfoLost) threadEl.lineNum = 'LOST';
     // GrCommentThread does not understand 'FILE', but requires undefined.
     else threadEl.lineNum = thread.line !== 'FILE' ? thread.line : undefined;
-    threadEl.projectName = this.projectName;
     threadEl.range = thread.range;
   }
 

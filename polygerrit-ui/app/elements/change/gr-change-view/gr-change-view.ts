@@ -2480,8 +2480,8 @@ export class GrChangeView extends base {
   }
 
   @observe('_patchRange.patchNum')
-  _patchNumChanged(patchNumStr: PatchSetNum) {
-    if (!this._selectedRevision) {
+  _patchNumChanged(patchNumStr?: PatchSetNum) {
+    if (!this._selectedRevision || !patchNumStr) {
       return;
     }
     assertIsDefined(this._change, '_change');

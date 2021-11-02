@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32a0dcb6_2ecb37eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-02T09:01:12Z",
+      "side": 1,
+      "message": "Can you include why this is needed or why it\u0027s good?",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "c729d068d737b80691993d45cc29dab0f5a1b1f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

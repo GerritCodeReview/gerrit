@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "380dca7a_942a76f4",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-02T19:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a988aff_1584c809",
+      "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa6f13ad_4f13e029",

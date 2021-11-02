@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e43e95c4_6ab28427",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-02T08:48:26Z",
+      "side": 1,
+      "message": "I\u0027m afraid we cannot delete the *AccountPatchReviewStore files. The AccountPatchReviewStore extension point lets you chose where to store the reviewed flags (which files in a change have been marked as reviewed by which user). The reviewed flags are not stored in NoteDb. Also see [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-accounts.html#reviewed-flags",
+      "revId": "95e5c7f39eee3c1eaf5f954dedca3dbe9346e7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

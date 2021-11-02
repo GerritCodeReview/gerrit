@@ -16,6 +16,24 @@
       "message": "I am slightly concerned that we may also see `_paramsChanged` being called or navigation \"within the page\". For example when you jump to a different line or something similar.\n\nIf you have looked into that, then feel free to resolve and proceed.\n\nNote that after Lit migration that be easier to do, because we would individually subscribe to the router-model and a page change, so we could easily set something up that triggers only when `value.view` has changed from something else to DIFF.",
       "revId": "626e41921bd038aa7ea17ee875be9e54d4f6577d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4b7ea4e_d11c2cde",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-02T10:51:59Z",
+      "side": 1,
+      "message": "As far as I could see, most of the scrolling is done through the url and after paramsChanged is called, so this will be overwritten.\n\nI agree this is a bit fragile if we do scrolling without updating the url but for now this looks acceptable.",
+      "parentUuid": "729d75cb_800d12f9",
+      "revId": "626e41921bd038aa7ea17ee875be9e54d4f6577d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

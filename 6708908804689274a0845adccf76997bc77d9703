@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "340a3dae_0b396f63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-03T16:00:54Z",
+      "side": 1,
+      "message": "Approach looks good.",
+      "revId": "6708908804689274a0845adccf76997bc77d9703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0f1cfd2_2c7cd226",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-03T16:00:54Z",
+      "side": 1,
+      "message": "I am not sure whether `distinctUntilChanged` works as expected on an array of items. You are doing `take(1)` anyway, so I think you can just drop it?",
+      "revId": "6708908804689274a0845adccf76997bc77d9703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97e69313_02ff67e2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-03T16:00:54Z",
+      "side": 1,
+      "message": "Move into pipe above:\n\n    ...\n    distinctUntilChanged(),\n    take(1)\n  )",
+      "revId": "6708908804689274a0845adccf76997bc77d9703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "345d2540_dac34b51",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-03T16:00:54Z",
+      "side": 1,
+      "message": "Use {} when the if statement consumes more than one line. And then also use {} for the else block.",
+      "revId": "6708908804689274a0845adccf76997bc77d9703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc41b716_48f0fd36",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-03T16:00:54Z",
+      "side": 1,
+      "message": "Maybe move to its own method. connectedCallback is getting too large.",
+      "range": {
+        "startLine": 390,
+        "startChar": 4,
+        "endLine": 415,
+        "endChar": 9
+      },
+      "revId": "6708908804689274a0845adccf76997bc77d9703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84109e86_7ed6108c",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-03T16:00:54Z",
+      "side": 1,
+      "message": "Needs comment. Is this only affecting the diff view?\n\nMaybe rename to `diffPath`?\n\nMaybe move into router-model?",
+      "revId": "6708908804689274a0845adccf76997bc77d9703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

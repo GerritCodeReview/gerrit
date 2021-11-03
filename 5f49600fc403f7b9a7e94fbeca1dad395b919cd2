@@ -273,6 +273,30 @@
       },
       "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64da0fe2_f9fc79d8",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-11-03T09:49:17Z",
+      "side": 1,
+      "message": "IOException happens when something is corrupted on the server, so it should translate in a 5xx.",
+      "parentUuid": "6373c268_c6c767f7",
+      "range": {
+        "startLine": 165,
+        "startChar": 10,
+        "endLine": 168,
+        "endChar": 37
+      },
+      "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

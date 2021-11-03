@@ -18,19 +18,22 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-view.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {ChangeStatus, DiffViewMode} from '../../../constants/constants.js';
-import {stubRestApi, stubUsers} from '../../../test/test-utils.js';
+import {ChangeStatus, DiffViewMode, createDefaultDiffPrefs} from '../../../constants/constants.js';
+import {stubRestApi, stubUsers, waitUntil} from '../../../test/test-utils.js';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
-import {GerritView} from '../../../services/router/router-model.js';
+import {GerritView, _testOnly_setState as setRouterModelState} from '../../../services/router/router-model.js';
 import {
   createChange,
   createRevisions,
   createComment,
+  TEST_NUMERIC_CHANGE_ID,
 } from '../../../test/test-data-generators.js';
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
 import {EventType} from '../../../types/events.js';
-import {_testOnly_setState} from '../../../services/browser/browser-model.js';
+import {_testOnly_setState as browserModelSetState} from '../../../services/browser/browser-model.js';
+import {_testOnly_setState as setUserModelState, _testOnly_getState as getUserModelState} from '../../../services/user/user-model.js';
+import {_testOnly_setState as setChangeModelState} from '../../../services/change/change-model.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -55,7 +58,6 @@ suite('gr-diff-view tests', () => {
 
     let getDiffChangeDetailStub;
     setup(async () => {
-      clock = sinon.useFakeTimers();
       stubRestApi('getConfig').returns(Promise.resolve({change: {}}));
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getProjectConfig').returns(Promise.resolve({}));
@@ -97,7 +99,7 @@ suite('gr-diff-view tests', () => {
     });
 
     teardown(() => {
-      clock.restore();
+      clock && clock.restore();
       sinon.restore();
     });
 
@@ -431,8 +433,9 @@ suite('gr-diff-view tests', () => {
     });
 
     test('keyboard shortcuts', () => {
+      clock = sinon.useFakeTimers();
       element._changeNum = '42';
-      _testOnly_setState({screenWidth: 0});
+      browserModelSetState({screenWidth: 0});
       element._patchRange = {
         basePatchNum: PARENT,
         patchNum: 10,
@@ -540,6 +543,7 @@ suite('gr-diff-view tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
       assert.isTrue(element._handleToggleFileReviewed.calledTwice);
       assert.isTrue(element._setReviewed.calledTwice);
+      clock.restore();
     });
 
     test('moveToNextCommentThread navigates to next file', () => {
@@ -1202,77 +1206,115 @@ suite('gr-diff-view tests', () => {
           element._path, 1, 'PARENT'));
     });
 
-    test('_prefs.manual_review is respected', () => {
+    test('_prefs.manual_review true means set reviewed is not ' +
+      'automatically called', async () => {
       const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
           .callsFake(() => Promise.resolve());
       const getReviewedStub = sinon.stub(element, '_getReviewedStatus')
           .returns(false);
 
       sinon.stub(element.$.diffHost, 'reload');
-      element._loggedIn = true;
-      element._prefs = {manual_review: true};
-      element.params = {
-        view: GerritNav.View.DIFF,
-        changeNum: '42',
-        patchNum: 2,
-        basePatchNum: 1,
-        path: '/COMMIT_MSG',
+      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      const diffPreferences = {
+        ...createDefaultDiffPrefs(),
+        manual_review: true,
       };
+      setUserModelState({...getUserModelState(), diffPreferences});
+      setChangeModelState({change: createChange(), diffPath: '/COMMIT_MSG'});
+
+      setRouterModelState({
+        changeNum: TEST_NUMERIC_CHANGE_ID, view: GerritView.DIFF, patchNum: 2}
+      );
       element._patchRange = {
         patchNum: 2,
         basePatchNum: 1,
       };
-      flush();
+
+      await waitUntil(() => getReviewedStub.called);
 
       assert.isFalse(saveReviewedStub.called);
       assert.isTrue(getReviewedStub.called);
 
-      const oldCount = getReviewedStub.callCount;
+      // if prefs are updated then the reviewed status should not be set again
+      setUserModelState({...getUserModelState(),
+        diffPreferences: createDefaultDiffPrefs()});
 
-      element._prefs = {};
-      element._path = 'abcd';
-      flush();
-
-      assert.isTrue(saveReviewedStub.called);
-      assert.equal(getReviewedStub.callCount, oldCount);
+      await flush();
+      assert.isFalse(saveReviewedStub.called);
+      assert.isTrue(getReviewedStub.calledOnce);
     });
 
-    test('file review status', () => {
+    test('_prefs.manual_review false means set reviewed is called',
+        async () => {
+          const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
+              .callsFake(() => Promise.resolve());
+          const getReviewedStub = sinon.stub(element, '_getReviewedStatus')
+              .returns(false);
+
+          sinon.stub(element.$.diffHost, 'reload');
+          sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+          const diffPreferences = {
+            ...createDefaultDiffPrefs(),
+            manual_review: false,
+          };
+          setUserModelState({...getUserModelState(), diffPreferences});
+          setChangeModelState({change: createChange(),
+            diffPath: '/COMMIT_MSG'});
+
+          setRouterModelState({
+            changeNum: TEST_NUMERIC_CHANGE_ID, view: GerritView.DIFF,
+            patchNum: 22}
+          );
+          element._patchRange = {
+            patchNum: 2,
+            basePatchNum: 1,
+          };
+
+          await waitUntil(() => saveReviewedStub.called);
+
+          assert.isTrue(saveReviewedStub.called);
+          assert.isFalse(getReviewedStub.called);
+        });
+
+    test('file review status', async () => {
+      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
       const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
           .callsFake(() => Promise.resolve());
       sinon.stub(element.$.diffHost, 'reload');
 
-      element._loggedIn = true;
-      element.params = {
-        view: GerritNav.View.DIFF,
-        changeNum: '42',
-        patchNum: 2,
-        basePatchNum: 1,
-        path: '/COMMIT_MSG',
-      };
+      setUserModelState({...getUserModelState(),
+        diffPreferences: createDefaultDiffPrefs()});
+      setChangeModelState({change: createChange(), diffPath: '/COMMIT_MSG'});
+
+      setRouterModelState({
+        changeNum: TEST_NUMERIC_CHANGE_ID, view: GerritView.DIFF, patchNum: 2}
+      );
+
       element._patchRange = {
         patchNum: 2,
         basePatchNum: 1,
       };
-      element._path = 'abcd';
-      element._prefs = {};
-      flush();
 
-      const commitMsg = element.root.querySelector(
+      await waitUntil(() => saveReviewedStub.called);
+
+      const reviewedStatusCheckBox = element.root.querySelector(
           'input[type="checkbox"]');
 
-      assert.isTrue(commitMsg.checked);
-      MockInteractions.tap(commitMsg);
-      assert.isFalse(commitMsg.checked);
-      assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(false));
+      assert.isTrue(reviewedStatusCheckBox.checked);
+      assert.deepEqual(saveReviewedStub.lastCall.args, [true, 2]);
 
-      MockInteractions.tap(commitMsg);
-      assert.isTrue(commitMsg.checked);
-      assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(true));
+      MockInteractions.tap(reviewedStatusCheckBox);
+      assert.isFalse(reviewedStatusCheckBox.checked);
+      assert.deepEqual(saveReviewedStub.lastCall.args, [false, 2]);
+
+      MockInteractions.tap(reviewedStatusCheckBox);
+      assert.isTrue(reviewedStatusCheckBox.checked);
+      assert.deepEqual(saveReviewedStub.lastCall.args, [true, 2]);
+
       const callCount = saveReviewedStub.callCount;
 
       element.set('params.view', GerritNav.View.CHANGE);
-      flush();
+      await flush();
 
       // saveReviewedState observer observes params, but should not fire when
       // view !== GerritNav.View.DIFF.
@@ -1312,7 +1354,7 @@ suite('gr-diff-view tests', () => {
       const select = element.$.modeSelect;
       const diffDisplay = element.$.diffHost;
       element._userPrefs = {diff_view: DiffViewMode.SIDE_BY_SIDE};
-      _testOnly_setState({screenWidth: 0});
+      browserModelSetState({screenWidth: 0});
 
       const userStub = stubUsers('updatePreferences');
 

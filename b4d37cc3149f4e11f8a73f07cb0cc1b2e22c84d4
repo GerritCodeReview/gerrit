@@ -545,6 +545,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "30cd1ca2_75b85e84",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-11-03T03:20:49Z",
+      "side": 1,
+      "message": "Can you put an Integer in an Optional and make the Optional final? You def don\u0027t want to use AtomicInteger as that will have a performance cost.",
+      "parentUuid": "22bda6ce_259baf34",
+      "range": {
+        "startLine": 304,
+        "startChar": 67,
+        "endLine": 304,
+        "endChar": 82
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "43cbc082_aca1f0ef",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1

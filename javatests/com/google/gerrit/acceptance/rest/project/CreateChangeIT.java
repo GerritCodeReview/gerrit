@@ -20,6 +20,7 @@ import static com.google.gerrit.entities.RefNames.REFS_HEADS;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.CreateChangeFromDiffInput;
 import com.google.gerrit.extensions.common.ChangeInput;
 import org.junit.Test;
 
@@ -45,5 +46,21 @@ public class CreateChangeIT extends AbstractDaemonTest {
     input.subject = "subject";
     RestResponse cr = adminRestSession.post("/projects/" + project.get() + "/create.change", input);
     cr.assertCreated();
+  }
+
+  @Test
+  public void createFromDiff() throws Exception {
+    CreateChangeFromDiffInput input = new CreateChangeFromDiffInput();
+    input.diff =
+        "diff --git a/A1 b/A1\n"
+            + "new file mode 100644\n"
+            + "index 0000000..de98044\n"
+            + "--- /dev/null\n"
+            + "+++ b/A1\n"
+            + "@@ -0,0 +1,3 @@\n"
+            + "+a\n"
+            + "+b\n"
+            + "+c";
+    gApi.projects().name(project.get()).createChangeFromDiff(input);
   }
 }

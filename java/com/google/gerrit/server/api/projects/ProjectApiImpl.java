@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.api.projects.ChildProjectApi;
 import com.google.gerrit.extensions.api.projects.CommitApi;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.CreateChangeFromDiffInput;
 import com.google.gerrit.extensions.api.projects.DashboardApi;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
@@ -64,6 +65,7 @@ import com.google.gerrit.server.restapi.project.CheckAccess;
 import com.google.gerrit.server.restapi.project.ChildProjectsCollection;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.CreateAccessChange;
+import com.google.gerrit.server.restapi.project.CreateChangeFromDiff;
 import com.google.gerrit.server.restapi.project.CreateProject;
 import com.google.gerrit.server.restapi.project.DeleteBranches;
 import com.google.gerrit.server.restapi.project.DeleteTags;
@@ -134,6 +136,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final IndexChanges indexChanges;
   private final Provider<ListLabels> listLabels;
   private final PostLabels postLabels;
+  private final CreateChangeFromDiff createChangeFromDiff;
   private final LabelApiImpl.Factory labelApi;
 
   @AssistedInject
@@ -172,6 +175,7 @@ public class ProjectApiImpl implements ProjectApi {
       IndexChanges indexChanges,
       Provider<ListLabels> listLabels,
       PostLabels postLabels,
+      CreateChangeFromDiff createChangeFromDiff,
       LabelApiImpl.Factory labelApi,
       @Assisted ProjectResource project) {
     this(
@@ -210,6 +214,7 @@ public class ProjectApiImpl implements ProjectApi {
         indexChanges,
         listLabels,
         postLabels,
+        createChangeFromDiff,
         labelApi,
         null);
   }
@@ -250,6 +255,7 @@ public class ProjectApiImpl implements ProjectApi {
       IndexChanges indexChanges,
       Provider<ListLabels> listLabels,
       PostLabels postLabels,
+      CreateChangeFromDiff createChangeFromDiff,
       LabelApiImpl.Factory labelApi,
       @Assisted String name) {
     this(
@@ -288,6 +294,7 @@ public class ProjectApiImpl implements ProjectApi {
         indexChanges,
         listLabels,
         postLabels,
+        createChangeFromDiff,
         labelApi,
         name);
   }
@@ -328,6 +335,7 @@ public class ProjectApiImpl implements ProjectApi {
       IndexChanges indexChanges,
       Provider<ListLabels> listLabels,
       PostLabels postLabels,
+      CreateChangeFromDiff createChangeFromDiff,
       LabelApiImpl.Factory labelApi,
       String name) {
     this.permissionBackend = permissionBackend;
@@ -366,6 +374,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.indexChanges = indexChanges;
     this.listLabels = listLabels;
     this.postLabels = postLabels;
+    this.createChangeFromDiff = createChangeFromDiff;
     this.labelApi = labelApi;
   }
 
@@ -726,6 +735,15 @@ public class ProjectApiImpl implements ProjectApi {
   public void labels(BatchLabelInput input) throws RestApiException {
     try {
       postLabels.apply(checkExists(), input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot update labels", e);
+    }
+  }
+
+  @Override
+  public void createChangeFromDiff(CreateChangeFromDiffInput input) throws RestApiException {
+    try {
+      createChangeFromDiff.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot update labels", e);
     }

@@ -228,6 +228,9 @@ public interface ProjectApi {
    */
   void labels(BatchLabelInput input) throws RestApiException;
 
+  /** TODO */
+  void createChangeFromDiff(CreateChangeFromDiffInput input) throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -415,6 +418,11 @@ public interface ProjectApi {
 
     @Override
     public void labels(BatchLabelInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void createChangeFromDiff(CreateChangeFromDiffInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

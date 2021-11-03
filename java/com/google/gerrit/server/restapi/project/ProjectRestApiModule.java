@@ -81,6 +81,8 @@ public class ProjectRestApiModule extends RestApiModule {
     get(PROJECT_KIND, "HEAD").to(GetHead.class);
     put(PROJECT_KIND, "HEAD").to(SetHead.class);
 
+    post(PROJECT_KIND, "create.diff").to(CreateChangeFromDiff.class);
+
     put(PROJECT_KIND, "ban").to(BanCommit.class);
 
     post(PROJECT_KIND, "index").to(Index.class);

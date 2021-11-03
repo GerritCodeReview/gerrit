@@ -521,6 +521,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22bda6ce_259baf34",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-03T02:51:47Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e previous code has slices starting at 0\n\u003e \u003e I suspect the previous code had slice numbers starting from 0 for the math to work  in ProjectIndexer.call(). Do you see a good reason to continue doing that? I think, we can now have slice numbers starting from 1, given that, we only use it in line 167.\n\u003e \n\u003e I think starting with slice 1 is fine, but that should at least be noted in the commit message, and maybe even deserves its own change?\nAlright, in this change, I will continue to start slices from 0. Let me create a new change if needed to switch it to 1.\n\u003e \n\u003e \u003e \n\u003e \u003e \u003e Why use an AtomicInteger at all though?\n\u003e \u003e \n\u003e \u003e I see an error if I use an int, probably because it is being updated in a lambda statement? Do you have any suggestions to improve this?\n\u003e \u003e \n\u003e \u003e  \"Local variable sliceNumber defined in an enclosing scope must be final or effectively final\"\n\u003e \n\u003e I think it works if you use Integer then?\n\nDoesn\u0027t seem to work. I see a similar compiler error.",
+      "parentUuid": "a0418abe_65d3b621",
+      "range": {
+        "startLine": 304,
+        "startChar": 67,
+        "endLine": 304,
+        "endChar": 82
+      },
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "43cbc082_aca1f0ef",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1
@@ -550,6 +574,24 @@
       "side": 1,
       "message": "Attempted",
       "parentUuid": "43cbc082_aca1f0ef",
+      "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4296679c_c4dc5001",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-03T02:51:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf6406d0_deeac740",
       "revId": "b4d37cc3149f4e11f8a73f07cb0cc1b2e22c84d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

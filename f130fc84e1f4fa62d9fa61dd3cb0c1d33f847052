@@ -33,6 +33,29 @@
       "message": "@Patrick, @Edwin: any strong opinion against this change? I should also CC milutin to make sure this won\u0027t affect the UI.",
       "revId": "f130fc84e1f4fa62d9fa61dd3cb0c1d33f847052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92bdb295_5e87d93a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3577,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-03T07:40:51Z",
+      "side": 1,
+      "message": "I agree with the intention of the change, but have a feeling that this will be a functional change for some users (users that use prolog to hide labels e.g. when they don\u0027t apply to a change).\n\nWould it make sense to gate this behind an experiment - so have two permittedLabels functions one is the old the other one is the new one. Then decide based on the experiment which one you call?\n\nIf we have this live in production for a few weeks, it would be safe to remove the experiment IMO. WDYT?",
+      "range": {
+        "startLine": 3576,
+        "startChar": 0,
+        "endLine": 3577,
+        "endChar": 30
+      },
+      "revId": "f130fc84e1f4fa62d9fa61dd3cb0c1d33f847052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

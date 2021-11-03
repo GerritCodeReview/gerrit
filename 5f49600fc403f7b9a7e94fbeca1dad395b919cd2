@@ -297,6 +297,30 @@
       },
       "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d18b7ee8_2edf4597",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-03T09:54:15Z",
+      "side": 1,
+      "message": "Cool, let me do that and report a 500 instead. We should also add a test for that, isn\u0027t it?",
+      "parentUuid": "64da0fe2_f9fc79d8",
+      "range": {
+        "startLine": 165,
+        "startChar": 10,
+        "endLine": 168,
+        "endChar": 37
+      },
+      "revId": "5f49600fc403f7b9a7e94fbeca1dad395b919cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

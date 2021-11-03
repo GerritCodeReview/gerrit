@@ -52,6 +52,24 @@
       "parentUuid": "bf70495e_901f2e3b",
       "revId": "703219e1bd2d1e798a892024c7d005e5152417f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27b11635_2cafbfc4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4678,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-03T12:59:00Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "8f2f8567_4c44328a",
+      "revId": "703219e1bd2d1e798a892024c7d005e5152417f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

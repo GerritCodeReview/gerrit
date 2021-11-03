@@ -24,7 +24,7 @@ import {
 import {stubRestApi, waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {appContext} from '../app-context';
 import {CommentsService} from './comments-service';
-import {updateState as updateChangeState} from '../change/change-model';
+import {updateStateChange} from '../change/change-model';
 import {
   GerritView,
   updateState as updateRouterState,
@@ -56,7 +56,7 @@ suite('change service tests', () => {
     portedComments$.subscribe(c => (portedComments = c));
 
     updateRouterState(GerritView.CHANGE, TEST_NUMERIC_CHANGE_ID);
-    updateChangeState(createParsedChange());
+    updateStateChange(createParsedChange());
 
     await waitUntilCalled(diffCommentsSpy, 'diffCommentsSpy');
     await waitUntilCalled(diffRobotCommentsSpy, 'diffRobotCommentsSpy');

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "371126cd_07c3bfe9",
+        "filename": "polygerrit-ui/app/services/comments/comments-service_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-03T10:38:34Z",
+      "side": 1,
+      "message": "This test is so much cleaner now.\nNice!",
+      "revId": "150300967dbccb9cdc4577dae7725a003ea4c310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "864906ea_2f4ded6a",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-03T10:38:34Z",
+      "side": 1,
+      "message": "in other models we define the testOnly function slightly differently.\n\nPerhaps worth considering making this a util function for all models?",
+      "revId": "150300967dbccb9cdc4577dae7725a003ea4c310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

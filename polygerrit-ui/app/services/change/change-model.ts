@@ -32,6 +32,7 @@ import {ParsedChangeInfo} from '../../types/types';
 
 interface ChangeState {
   change?: ParsedChangeInfo;
+  path?: string;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
@@ -40,12 +41,24 @@ const initialState: ChangeState = {};
 
 const privateState$ = new BehaviorSubject(initialState);
 
+export function _testOnly_resetState() {
+  privateState$.next(initialState);
+}
+
+export function _testOnly_setState(state: ChangeState) {
+  privateState$.next(state);
+}
+
+export function _testOnly_getState() {
+  return privateState$.getValue();
+}
+
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const changeState$: Observable<ChangeState> = privateState$;
 
 // Must only be used by the change service or whatever is in control of this
 // model.
-export function updateState(change?: ParsedChangeInfo) {
+export function updateStateChange(change?: ParsedChangeInfo) {
   const current = privateState$.getValue();
   // We want to make it easy for subscribers to react to change changes, so we
   // are explicitly emitting an additional `undefined` when the change number
@@ -58,6 +71,11 @@ export function updateState(change?: ParsedChangeInfo) {
     }
   }
   privateState$.next({...current, change});
+}
+
+export function updateStatePath(path?: string) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, path});
 }
 
 /**
@@ -79,6 +97,11 @@ export const changeAndRouterConsistent$ = combineLatest([
 
 export const change$ = changeState$.pipe(
   map(changeState => changeState.change),
+  distinctUntilChanged()
+);
+
+export const path$ = changeState$.pipe(
+  map(changeState => changeState?.path),
   distinctUntilChanged()
 );
 

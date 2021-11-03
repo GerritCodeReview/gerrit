@@ -57,6 +57,14 @@ export function _testOnly_resetState() {
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const routerState$: Observable<RouterState> = privateState$;
 
+export function _testOnly_setState(state: RouterState) {
+  privateState$.next(state);
+}
+
+export function _testOnly_getState() {
+  return privateState$.getValue();
+}
+
 // Must only be used by the router service or whatever is in control of this
 // model.
 export function updateState(

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a076cec_51f6a304",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-03T09:50:19Z",
+      "side": 1,
+      "message": "I would put a +2 on this one, but I\u0027ll self-limit myself to +1 as I don\u0027t consider myself a front-end developer :-)",
+      "revId": "a935276367d743709c9a4ea7712e60bce21443fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

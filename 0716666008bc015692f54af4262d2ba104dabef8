@@ -52,6 +52,24 @@
       "parentUuid": "dc9104c8_18ce8a63",
       "revId": "0716666008bc015692f54af4262d2ba104dabef8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "567b0895_a5387b76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-03T09:50:19Z",
+      "side": 1,
+      "message": "I believe @Ben\u0027s point is more for allowing two different conscious decisions:\n\nDecision 1: do we want to remove the assignee feature in Gerrit altogether? (+2 on this change on master)\nDecision 2: do we want the removal to happen on v3.5 already? (cherry-pick to stable-3.5 and +2 on that)\n\n@Ben did I get it right?",
+      "parentUuid": "f00eb430_f5300d15",
+      "revId": "0716666008bc015692f54af4262d2ba104dabef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

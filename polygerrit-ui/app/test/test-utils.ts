@@ -19,7 +19,7 @@ import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interfac
 import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/gr-plugin-endpoints';
 import {appContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
-import {SinonSpy} from 'sinon';
+import {SinonSpy, SinonStub} from 'sinon';
 import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
@@ -185,6 +185,7 @@ export function waitUntil(
 ): Promise<void> {
   const start = Date.now();
   let sleep = 0;
+  if (predicate()) return Promise.resolve();
   return new Promise((resolve, reject) => {
     const waiter = () => {
       if (predicate()) {
@@ -198,6 +199,10 @@ export function waitUntil(
     };
     waiter();
   });
+}
+
+export function waitUntilCalled(stub: SinonStub, name: string) {
+  return waitUntil(() => stub.called, `${name} was not called`);
 }
 
 /**

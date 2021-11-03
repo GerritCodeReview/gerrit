@@ -31,7 +31,10 @@ import {
   updateStatePortedDrafts,
   updateStateUndoDiscardedDraft,
   discardedDrafts$,
+  updateStateReset,
 } from './comments-model';
+import {changeNum$, currentPatchNum$} from '../change/change-model';
+import {combineLatest} from 'rxjs';
 
 export class CommentsService {
   private discardedDrafts?: UIDraft[] = [];
@@ -40,21 +43,20 @@ export class CommentsService {
     discardedDrafts$.subscribe(
       discardedDrafts => (this.discardedDrafts = discardedDrafts)
     );
-  }
-
-  /**
-   * Load all comments (with drafts and robot comments) for the given change
-   * number. The returned promise resolves when the comments have loaded, but
-   * does not yield the comment data.
-   */
-  // TODO(dhruvsri): listen to changeNum changes or reload event to update
-  // automatically
-  reloadAll(changeNum: NumericChangeId, patchNum = CURRENT as RevisionId) {
-    this.reloadComments(changeNum);
-    this.reloadRobotComments(changeNum);
-    this.reloadDrafts(changeNum);
-    this.reloadPortedComments(changeNum, patchNum);
-    this.reloadPortedDrafts(changeNum, patchNum);
+    changeNum$.subscribe(changeNum => {
+      updateStateReset();
+      if (!changeNum) return;
+      this.reloadComments(changeNum);
+      this.reloadRobotComments(changeNum);
+      this.reloadDrafts(changeNum);
+    });
+    combineLatest([changeNum$, currentPatchNum$]).subscribe(
+      ([changeNum, currentPatchNum]) => {
+        if (!changeNum || !currentPatchNum) return;
+        this.reloadPortedComments(changeNum, currentPatchNum);
+        this.reloadPortedDrafts(changeNum, currentPatchNum);
+      }
+    );
   }
 
   reloadComments(changeNum: NumericChangeId): Promise<void> {

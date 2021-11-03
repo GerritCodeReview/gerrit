@@ -16,7 +16,7 @@
  */
 import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {map, distinctUntilChanged} from 'rxjs/operators';
+import {map, distinctUntilChanged, tap} from 'rxjs/operators';
 import {
   createDefaultPreferences,
   createDefaultDiffPrefs,
@@ -37,11 +37,13 @@ const initialState: UserState = {
   diffPreferences: createDefaultDiffPrefs(),
 };
 
-// Mutable for testing
-let privateState$ = new BehaviorSubject(initialState);
+const privateState$ = new BehaviorSubject(initialState);
 
 export function _testOnly_resetState() {
-  privateState$ = new BehaviorSubject(initialState);
+  // We cannot assign a new subject to privateState$, because all the selectors
+  // have already subscribed to the original subject. So we have to emit the
+  // initial state on the existing subject.
+  privateState$.next(initialState);
 }
 
 export function _testOnly_setState(state: UserState) {

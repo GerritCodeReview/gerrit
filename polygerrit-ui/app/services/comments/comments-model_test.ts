@@ -22,13 +22,11 @@ import './comments-model';
 import {
   updateStateDeleteDraft,
   _testOnly_getState,
-  _testOnly_resetState,
   _testOnly_setState,
 } from './comments-model';
 
 suite('comments model tests', () => {
   test('updateStateDeleteDraft', () => {
-    _testOnly_resetState();
     const draft = createDraft();
     draft.id = '1' as UrlEncodedCommentId;
     _testOnly_setState({

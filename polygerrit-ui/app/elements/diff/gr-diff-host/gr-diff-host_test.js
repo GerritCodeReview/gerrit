@@ -20,7 +20,6 @@ import './gr-diff-host.js';
 
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {createDefaultDiffPrefs, Side} from '../../../constants/constants.js';
-import {_testOnly_resetState} from '../../../services/comments/comments-model.js';
 import {createChange, createComment, createCommentThread} from '../../../test/test-data-generators.js';
 import {addListenerForTest, mockPromise, stubRestApi} from '../../../test/test-utils.js';
 import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
@@ -43,7 +42,6 @@ suite('gr-diff-host tests', () => {
     element.path = 'some/path';
     sinon.stub(element.reporting, 'time');
     sinon.stub(element.reporting, 'timeEnd');
-    _testOnly_resetState();
     await flush();
   });
 

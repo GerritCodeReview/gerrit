@@ -18,7 +18,6 @@ import '../../test/common-test-setup-karma';
 import './checks-model';
 import {
   _testOnly_getState,
-  _testOnly_resetState,
   ChecksPatchset,
   updateStateSetLoading,
   updateStateSetProvider,
@@ -52,7 +51,6 @@ function current() {
 
 suite('checks-model tests', () => {
   test('updateStateSetProvider', () => {
-    _testOnly_resetState();
     updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
     assert.deepEqual(current(), {
       pluginName: PLUGIN_NAME,
@@ -65,7 +63,6 @@ suite('checks-model tests', () => {
   });
 
   test('loading and first time load', () => {
-    _testOnly_resetState();
     updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
     assert.isFalse(current().loading);
     assert.isTrue(current().firstTimeLoad);
@@ -84,14 +81,12 @@ suite('checks-model tests', () => {
   });
 
   test('updateStateSetResults', () => {
-    _testOnly_resetState();
     updateStateSetResults(PLUGIN_NAME, RUNS, [], [], ChecksPatchset.LATEST);
     assert.lengthOf(current().runs, 1);
     assert.lengthOf(current().runs[0].results!, 1);
   });
 
   test('updateStateUpdateResult', () => {
-    _testOnly_resetState();
     updateStateSetResults(PLUGIN_NAME, RUNS, [], [], ChecksPatchset.LATEST);
     assert.equal(
       current().runs[0].results![0].summary,

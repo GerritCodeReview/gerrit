@@ -40,6 +40,13 @@ const initialState: ChangeState = {};
 
 const privateState$ = new BehaviorSubject(initialState);
 
+export function _testOnly_resetState() {
+  // We cannot assign a new subject to privateState$, because all the selectors
+  // have already subscribed to the original subject. So we have to emit the
+  // initial state on the existing subject.
+  privateState$.next(initialState);
+}
+
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const changeState$: Observable<ChangeState> = privateState$;
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b145fab_2e63d6f4",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-03T02:54:20Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "2a0208c05ae90cfc089c6512102d409bd62d8585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96f32db7_05c9c3df",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-11-03T11:12:19Z",
+      "side": 1,
+      "message": "--gray-900-04 \n\nPer Material specs, hovered state as a 4% overlay on Grey 700",
+      "range": {
+        "startLine": 316,
+        "startChar": 26,
+        "endLine": 316,
+        "endChar": 39
+      },
+      "revId": "a63beb2dc6af30bbbec8a95ea2f83d80344edc39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "688ffeee_c480fd9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-11-03T11:12:19Z",
+      "side": 1,
+      "message": "We will also need to add a focused state \n\nAt the moment we have the focus blue border. We will need to add the overlay --gray-900-12: #2021241f",
+      "revId": "a63beb2dc6af30bbbec8a95ea2f83d80344edc39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

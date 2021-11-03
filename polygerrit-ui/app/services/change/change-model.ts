@@ -32,6 +32,12 @@ import {ParsedChangeInfo} from '../../types/types';
 
 interface ChangeState {
   change?: ParsedChangeInfo;
+  /**
+   * The name of the file user is viewing in the diff view mode. File path is
+   * specified in the url or derived from the commentId.
+   * Does not apply to change-view or edit-view.
+   */
+  diffPath?: string;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
@@ -47,12 +53,20 @@ export function _testOnly_resetState() {
   privateState$.next({...initialState});
 }
 
+export function _testOnly_setState(state: ChangeState) {
+  privateState$.next(state);
+}
+
+export function _testOnly_getState() {
+  return privateState$.getValue();
+}
+
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const changeState$: Observable<ChangeState> = privateState$;
 
 // Must only be used by the change service or whatever is in control of this
 // model.
-export function updateState(change?: ParsedChangeInfo) {
+export function updateStateChange(change?: ParsedChangeInfo) {
   const current = privateState$.getValue();
   // We want to make it easy for subscribers to react to change changes, so we
   // are explicitly emitting an additional `undefined` when the change number
@@ -65,6 +79,11 @@ export function updateState(change?: ParsedChangeInfo) {
     }
   }
   privateState$.next({...current, change});
+}
+
+export function updateStatePath(diffPath?: string) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, diffPath});
 }
 
 /**
@@ -86,6 +105,11 @@ export const changeAndRouterConsistent$ = combineLatest([
 
 export const change$ = changeState$.pipe(
   map(changeState => changeState.change),
+  distinctUntilChanged()
+);
+
+export const diffPath$ = changeState$.pipe(
+  map(changeState => changeState?.diffPath),
   distinctUntilChanged()
 );
 

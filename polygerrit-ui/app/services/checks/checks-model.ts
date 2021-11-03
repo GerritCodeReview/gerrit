@@ -126,11 +126,13 @@ const initialState: ChecksState = {
   pluginStateSelected: {},
 };
 
-// Mutable for testing
-let privateState$ = new BehaviorSubject(initialState);
+const privateState$ = new BehaviorSubject(initialState);
 
 export function _testOnly_resetState() {
-  privateState$ = new BehaviorSubject(initialState);
+  // We cannot assign a new subject to privateState$, because all the selectors
+  // have already subscribed to the original subject. So we have to emit the
+  // initial state on the existing subject.
+  privateState$.next({...initialState});
 }
 
 export function _testOnly_setState(state: ChecksState) {

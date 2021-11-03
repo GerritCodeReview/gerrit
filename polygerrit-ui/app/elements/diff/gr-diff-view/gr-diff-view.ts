@@ -347,8 +347,6 @@ export class GrDiffView extends base {
 
   private readonly userService = appContext.userService;
 
-  private readonly commentsService = appContext.commentsService;
-
   private readonly shortcuts = appContext.shortcutsService;
 
   _throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
@@ -1073,8 +1071,6 @@ export class GrDiffView extends base {
 
     if (!this._change) promises.push(this._getChangeDetail(this._changeNum));
 
-    if (!this._changeComments) this._loadComments(value.patchNum);
-
     promises.push(this._getChangeEdit());
 
     this.$.diffHost.cancel();
@@ -1461,11 +1457,6 @@ export class GrDiffView extends base {
     let url = changeBaseURL(project, changeNum, patchRange.patchNum);
     url += '/patch?zip&path=' + encodeURIComponent(path);
     return url;
-  }
-
-  _loadComments(patchSet?: PatchSetNum) {
-    assertIsDefined(this._changeNum, '_changeNum');
-    return this.commentsService.reloadAll(this._changeNum, patchSet);
   }
 
   @observe(

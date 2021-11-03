@@ -51,7 +51,10 @@ const initialState: CommentState = {
 const privateState$ = new BehaviorSubject(initialState);
 
 export function _testOnly_resetState() {
-  privateState$.next(initialState);
+  // We cannot assign a new subject to privateState$, because all the selectors
+  // have already subscribed to the original subject. So we have to emit the
+  // initial state on the existing subject.
+  privateState$.next({...initialState});
 }
 
 // Re-exporting as Observable so that you can only subscribe, but not emit.
@@ -65,8 +68,18 @@ export function _testOnly_setState(state: CommentState) {
   privateState$.next(state);
 }
 
+export const comments$ = commentState$.pipe(
+  map(commentState => commentState.comments),
+  distinctUntilChanged()
+);
+
 export const drafts$ = commentState$.pipe(
   map(commentState => commentState.drafts),
+  distinctUntilChanged()
+);
+
+export const portedComments$ = commentState$.pipe(
+  map(commentState => commentState.portedComments),
   distinctUntilChanged()
 );
 
@@ -93,6 +106,11 @@ export const changeComments$ = commentState$.pipe(
 
 function publishState(state: CommentState) {
   privateState$.next(state);
+}
+
+/** Called when the change number changes. Wipes out all data from the state. */
+export function updateStateReset() {
+  publishState({...initialState});
 }
 
 export function updateStateComments(comments?: {

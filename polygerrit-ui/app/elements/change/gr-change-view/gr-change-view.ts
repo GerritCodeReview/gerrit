@@ -2021,23 +2021,6 @@ export class GrChangeView extends base {
       });
   }
 
-  /**
-   * Fetches a new changeComment object, and data for all types of comments
-   * (comments, robot comments, draft comments) is requested.
-   */
-  _reloadComments() {
-    // We are resetting all comment related properties, because we want to avoid
-    // a new change being loaded and then paired with outdated comments.
-    this._changeComments = undefined;
-    this._commentThreads = undefined;
-    this._draftCommentThreads = undefined;
-    this._robotCommentThreads = undefined;
-    if (!this._changeNum)
-      throw new Error('missing required changeNum property');
-
-    this.commentsService.reloadAll(this._changeNum, this._patchRange?.patchNum);
-  }
-
   @observe('_changeComments')
   changeCommentsChanged(comments?: ChangeComments) {
     if (!comments) return;
@@ -2118,8 +2101,6 @@ export class GrChangeView extends base {
       return this._getProjectConfig();
     });
     allDataPromises.push(projectConfigLoaded);
-
-    this._reloadComments();
 
     let coreDataPromise;
 

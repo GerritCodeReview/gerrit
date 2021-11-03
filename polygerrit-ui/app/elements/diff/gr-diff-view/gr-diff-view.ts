@@ -101,19 +101,20 @@ import {
 import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
 import {EventType, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
-import {GerritView} from '../../../services/router/router-model';
+import {GerritView, routerView$} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {addGlobalShortcut, Key, toggleClass} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {throttleWrap} from '../../../utils/async-util';
 import {changeComments$} from '../../../services/comments/comments-model';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import {takeUntil, filter, take, distinctUntilChanged} from 'rxjs/operators';
+import {Subject, combineLatest} from 'rxjs';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {
   preferences$,
   diffPreferences$,
 } from '../../../services/user/user-model';
+import {path$, currentPatchNum$} from '../../../services/change/change-model';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const LOADING_BLAME = 'Loading blame...';
@@ -350,6 +351,8 @@ export class GrDiffView extends base {
 
   private readonly commentsService = appContext.commentsService;
 
+  private readonly changeService = appContext.changeService;
+
   private readonly shortcuts = appContext.shortcutsService;
 
   _throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
@@ -383,6 +386,29 @@ export class GrDiffView extends base {
       .subscribe(diffPreferences => {
         this._prefs = diffPreferences;
       });
+
+    // When user initially loads the diff view, we want to autmatically mark
+    // the file as reviewed if they have it enabled. We can't observe these
+    // properties since the method will be called anytime a property updates
+    // but we only want to call this on the initial load.
+    combineLatest(currentPatchNum$, routerView$, path$, diffPreferences$)
+      .pipe(
+        filter(
+          ([currentPatchNum, routerView, path, diffPrefs]) =>
+            !!currentPatchNum &&
+            routerView === GerritView.DIFF &&
+            !!path &&
+            !!diffPrefs
+        ),
+        distinctUntilChanged()
+      )
+      .pipe(take(1))
+      .subscribe(async ([currentPatchNum, _routerView, path, diffPrefs]) => {
+        this.setReviewedStatus(currentPatchNum!, path!, diffPrefs);
+      });
+    path$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(path => (this._path = path));
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
@@ -406,6 +432,20 @@ export class GrDiffView extends base {
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
     super.disconnectedCallback();
+  }
+
+  async setReviewedStatus(
+    currentPatchNum: PatchSetNum,
+    path: string,
+    diffPrefs: DiffPreferencesInfo
+  ) {
+    const loggedIn = await this._getLoggedIn();
+    if (!loggedIn) return;
+    await this._getReviewedFiles();
+    // without this "as" there is the strange TS lint error
+    if (diffPrefs.manual_review)
+      this.$.reviewed.checked = this._getReviewedStatus(path!);
+    else this._setReviewed(true, currentPatchNum as RevisionPatchSetNum);
   }
 
   @observe('_changeComments', '_path', '_patchRange')
@@ -512,16 +552,19 @@ export class GrDiffView extends base {
     );
   }
 
-  _setReviewed(reviewed: boolean) {
+  _setReviewed(
+    reviewed: boolean,
+    patchNum: RevisionPatchSetNum | undefined = this._patchRange?.patchNum
+  ) {
     if (this._editMode) return;
     this.$.reviewed.checked = reviewed;
-    if (!this._patchRange?.patchNum || !this._path) return;
+    if (!patchNum || !this._path) return;
     const path = this._path;
     // if file is already reviewed then do not make a saveReview request
     if (this._reviewedFiles.has(path) && reviewed) return;
     if (reviewed) this._reviewedFiles.add(path);
     else this._reviewedFiles.delete(path);
-    this._saveReviewedState(reviewed).catch(err => {
+    this._saveReviewedState(reviewed, patchNum).catch(err => {
       if (this._reviewedFiles.has(path)) this._reviewedFiles.delete(path);
       else this._reviewedFiles.add(path);
       fireAlert(this, ERR_REVIEW_STATUS);
@@ -529,13 +572,16 @@ export class GrDiffView extends base {
     });
   }
 
-  _saveReviewedState(reviewed: boolean): Promise<Response | undefined> {
+  _saveReviewedState(
+    reviewed: boolean,
+    patchNum: RevisionPatchSetNum
+  ): Promise<Response | undefined> {
     if (!this._changeNum) return Promise.resolve(undefined);
-    if (!this._patchRange?.patchNum) return Promise.resolve(undefined);
+    if (!patchNum) return Promise.resolve(undefined);
     if (!this._path) return Promise.resolve(undefined);
     return this.restApiService.saveFileReviewed(
       this._changeNum,
-      this._patchRange?.patchNum,
+      patchNum,
       this._path,
       reviewed
     );
@@ -859,15 +905,17 @@ export class GrDiffView extends base {
       this.getReviewedParams.changeNum === changeNum &&
       this.getReviewedParams.patchNum === patchNum
     ) {
-      return;
+      return Promise.resolve();
     }
     this.getReviewedParams = {
       changeNum,
       patchNum,
     };
-    this.restApiService.getReviewedFiles(changeNum, patchNum).then(files => {
-      this._reviewedFiles = new Set(files);
-    });
+    return this.restApiService
+      .getReviewedFiles(changeNum, patchNum)
+      .then(files => {
+        this._reviewedFiles = new Set(files);
+      });
   }
 
   _getReviewedStatus(path: string) {
@@ -972,7 +1020,7 @@ export class GrDiffView extends base {
         GerritNav.navigateToChange(this._change);
         return;
       }
-      this._path = comment.path;
+      this.changeService.updatePath(comment.path);
 
       const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
       if (!latestPatchNum) throw new Error('Missing _allPatchSets');
@@ -982,7 +1030,7 @@ export class GrDiffView extends base {
       this._focusLineNum = comment.line;
     } else {
       if (this.params.path) {
-        this._path = this.params.path;
+        this.changeService.updatePath(this.params.path);
       }
       if (this.params.patchNum) {
         this._patchRange = {
@@ -1047,7 +1095,7 @@ export class GrDiffView extends base {
     }
 
     this._files = {sortedFileList: [], changeFilesByPath: {}};
-    this._path = undefined;
+    this.changeService.updatePath(undefined);
     this._patchRange = undefined;
     this._commitRange = undefined;
     this._focusLineNum = undefined;
@@ -1138,26 +1186,6 @@ export class GrDiffView extends base {
         // another file, then we load the blame for this file too
         if (this._isBlameLoaded) this._loadBlame();
       });
-  }
-
-  @observe('_path', '_prefs', '_reviewedFiles', '_patchRange')
-  _setReviewedObserver(
-    path?: string,
-    prefs?: DiffPreferencesInfo,
-    reviewedFiles?: Set<string>,
-    patchRange?: PatchRange
-  ) {
-    if (prefs === undefined) return;
-    if (path === undefined) return;
-    if (reviewedFiles === undefined) return;
-    if (patchRange === undefined) return;
-    if (prefs.manual_review) {
-      // Checkbox state needs to be set explicitly only when manual_review
-      // is specified.
-      this.$.reviewed.checked = this._getReviewedStatus(path);
-    } else {
-      this._setReviewed(true);
-    }
   }
 
   @observe('_loggedIn', '_changeNum', '_patchRange')

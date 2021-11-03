@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {routerChangeNum$} from '../router/router-model';
-import {change$, updateState} from './change-model';
+import {change$, updateStateChange, updateStatePath} from './change-model';
 import {ParsedChangeInfo} from '../../types/types';
 import {ChangeInfo} from '../../types/common';
 import {
@@ -32,7 +32,7 @@ export class ChangeService {
     // calls from a switchMap() here. For now just make sure to invalidate the
     // change when no changeNum is set.
     routerChangeNum$.subscribe(changeNum => {
-      if (!changeNum) updateState(undefined);
+      if (!changeNum) updateStateChange(undefined);
     });
     change$.subscribe(change => {
       this.change = change;
@@ -47,7 +47,11 @@ export class ChangeService {
    * will take some time ...
    */
   updateChange(change: ParsedChangeInfo) {
-    updateState(change);
+    updateStateChange(change);
+  }
+
+  updatePath(path?: string) {
+    updateStatePath(path);
   }
 
   /**

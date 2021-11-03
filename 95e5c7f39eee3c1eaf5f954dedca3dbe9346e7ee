@@ -34,6 +34,24 @@
       "parentUuid": "e43e95c4_6ab28427",
       "revId": "95e5c7f39eee3c1eaf5f954dedca3dbe9346e7ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f7c54c2_239a88f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-11-03T07:35:34Z",
+      "side": 1,
+      "message": "Yes, that should be possible.",
+      "parentUuid": "ab3539d1_32cfd4f8",
+      "revId": "95e5c7f39eee3c1eaf5f954dedca3dbe9346e7ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

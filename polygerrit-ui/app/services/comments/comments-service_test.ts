@@ -73,7 +73,7 @@ suite('change service tests', () => {
       Promise.resolve({})
     );
 
-    commentsService.loadAll(changeNum);
+    commentsService.reloadAll(changeNum);
     assert.isTrue(diffCommentsSpy.calledWithExactly(changeNum));
     assert.isTrue(diffRobotCommentsSpy.calledWithExactly(changeNum));
     assert.isTrue(diffDraftsSpy.calledWithExactly(changeNum));
@@ -118,7 +118,7 @@ suite('change service tests', () => {
       Promise.resolve({})
     );
 
-    commentsService.loadAll(changeNum);
+    commentsService.reloadAll(changeNum);
     assert.isTrue(diffCommentsSpy.calledWithExactly(changeNum));
     assert.isTrue(diffRobotCommentsSpy.calledWithExactly(changeNum));
     assert.isTrue(diffDraftsSpy.calledWithExactly(changeNum));

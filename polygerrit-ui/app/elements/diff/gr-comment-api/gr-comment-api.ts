@@ -14,16 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-comment-api_html';
-import {customElement, property} from '@polymer/decorators';
 import {
   CommentBasics,
   PatchRange,
   PatchSetNum,
   RobotCommentInfo,
   UrlEncodedCommentId,
-  NumericChangeId,
   PathToCommentsInfoMap,
   FileInfo,
   ParentPatchSetNum,
@@ -45,7 +41,6 @@ import {
   addPath,
 } from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
-import {appContext} from '../../../services/app-context';
 import {CommentSide, Side} from '../../../constants/constants';
 import {pluralize} from '../../../utils/string-util';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
@@ -609,40 +604,5 @@ export class ChangeComments {
   getAllThreadsForChange() {
     const comments = this._commentObjToArray(this.getAllComments(true));
     return createCommentThreads(comments);
-  }
-}
-
-@customElement('gr-comment-api')
-export class GrCommentApi extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: Object})
-  _changeComments?: ChangeComments;
-
-  private readonly restApiService = appContext.restApiService;
-
-  private readonly commentsService = appContext.commentsService;
-
-  reloadPortedComments(changeNum: NumericChangeId, patchNum: PatchSetNum) {
-    if (!this._changeComments) {
-      this.commentsService.loadAll(changeNum);
-      return Promise.resolve();
-    }
-    return Promise.all([
-      this.restApiService.getPortedComments(changeNum, patchNum),
-      this.restApiService.getPortedDrafts(changeNum, patchNum),
-    ]).then(res => {
-      if (!this._changeComments) return;
-      this._changeComments =
-        this._changeComments.cloneWithUpdatedPortedComments(res[0], res[1]);
-    });
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-comment-api': GrCommentApi;
   }
 }

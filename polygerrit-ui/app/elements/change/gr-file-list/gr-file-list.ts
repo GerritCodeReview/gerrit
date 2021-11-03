@@ -18,7 +18,6 @@ import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../../diff/gr-diff-cursor/gr-diff-cursor';
 import '../../diff/gr-diff-host/gr-diff-host';
-import '../../diff/gr-comment-api/gr-comment-api';
 import '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import '../../shared/gr-button/gr-button';

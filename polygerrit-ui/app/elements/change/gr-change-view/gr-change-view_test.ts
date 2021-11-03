@@ -40,6 +40,7 @@ import 'lodash/lodash';
 import {
   mockPromise,
   queryAndAssert,
+  stubComments,
   stubRestApi,
   stubUsers,
   waitQueryAndAssert,
@@ -1346,10 +1347,8 @@ suite('gr-change-view tests', () => {
     sinon.stub(element, '_getCommitInfo');
     sinon.stub(element.$.fileList, 'reload');
     flush();
-    const reloadPortedCommentsStub = sinon.stub(
-      element.$.commentAPI,
-      'reloadPortedComments'
-    );
+    const reloadPortedCommentsStub = stubComments('reloadPortedComments');
+    const reloadPortedDraftsStub = stubComments('reloadPortedDrafts');
     sinon.stub(element.$.fileList, 'collapseAllDiffs');
 
     const value: AppElementChangeViewParams = {
@@ -1374,6 +1373,7 @@ suite('gr-change-view tests', () => {
     element.params = {...value};
     await flush();
     assert.isTrue(reloadPortedCommentsStub.calledOnce);
+    assert.isTrue(reloadPortedDraftsStub.calledOnce);
   });
 
   test('do not reload entire page when patchRange doesnt change', async () => {

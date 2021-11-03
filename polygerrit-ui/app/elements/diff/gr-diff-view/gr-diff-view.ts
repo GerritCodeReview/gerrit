@@ -65,7 +65,7 @@ import {
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {ChangeComments, GrCommentApi} from '../gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
 import {
   BasePatchSetNum,
@@ -134,7 +134,6 @@ interface CommentSkips {
 
 export interface GrDiffView {
   $: {
-    commentAPI: GrCommentApi;
     diffHost: GrDiffHost;
     reviewed: HTMLInputElement;
     dropdown: GrDropdownList;
@@ -1466,7 +1465,7 @@ export class GrDiffView extends base {
 
   _loadComments(patchSet?: PatchSetNum) {
     assertIsDefined(this._changeNum, '_changeNum');
-    return this.commentsService.loadAll(this._changeNum, patchSet);
+    return this.commentsService.reloadAll(this._changeNum, patchSet);
   }
 
   @observe(

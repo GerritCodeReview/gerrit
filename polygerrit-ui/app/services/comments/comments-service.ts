@@ -49,22 +49,47 @@ export class CommentsService {
    */
   // TODO(dhruvsri): listen to changeNum changes or reload event to update
   // automatically
-  loadAll(changeNum: NumericChangeId, patchNum = CURRENT as RevisionId) {
-    const revision = patchNum;
-    this.restApiService
+  reloadAll(changeNum: NumericChangeId, patchNum = CURRENT as RevisionId) {
+    this.reloadComments(changeNum);
+    this.reloadRobotComments(changeNum);
+    this.reloadDrafts(changeNum);
+    this.reloadPortedComments(changeNum, patchNum);
+    this.reloadPortedDrafts(changeNum, patchNum);
+  }
+
+  reloadComments(changeNum: NumericChangeId): Promise<void> {
+    return this.restApiService
       .getDiffComments(changeNum)
       .then(comments => updateStateComments(comments));
-    this.restApiService
+  }
+
+  reloadRobotComments(changeNum: NumericChangeId): Promise<void> {
+    return this.restApiService
       .getDiffRobotComments(changeNum)
       .then(robotComments => updateStateRobotComments(robotComments));
-    this.restApiService
+  }
+
+  reloadDrafts(changeNum: NumericChangeId): Promise<void> {
+    return this.restApiService
       .getDiffDrafts(changeNum)
       .then(drafts => updateStateDrafts(drafts));
-    this.restApiService
-      .getPortedComments(changeNum, revision)
+  }
+
+  reloadPortedComments(
+    changeNum: NumericChangeId,
+    patchNum = CURRENT as RevisionId
+  ): Promise<void> {
+    return this.restApiService
+      .getPortedComments(changeNum, patchNum)
       .then(portedComments => updateStatePortedComments(portedComments));
-    this.restApiService
-      .getPortedDrafts(changeNum, revision)
+  }
+
+  reloadPortedDrafts(
+    changeNum: NumericChangeId,
+    patchNum = CURRENT as RevisionId
+  ): Promise<void> {
+    return this.restApiService
+      .getPortedDrafts(changeNum, patchNum)
       .then(portedDrafts => updateStatePortedDrafts(portedDrafts));
   }
 

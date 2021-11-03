@@ -16,6 +16,24 @@
       "message": "unrelated?",
       "revId": "f060dbacb2b8205f75e4781cdb74f958f342c5b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c599047_27d1e58d",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "f1c81e15_976ae6ec",
+      "revId": "f060dbacb2b8205f75e4781cdb74f958f342c5b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a488c3b_c65cfbaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dfa032_05284a80",
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "091bc19e_955bed85",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-10-28T23:01:47Z",
       "side": 1,
       "message": "Maybe explain a bit what flushes do? Something like \"writes segment(s?) to disk\". Also explain this a bit where you say \"flush completely\" below.",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "402287a6_a3f153a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "091bc19e_955bed85",
       "range": {
         "startLine": 9,
         "startChar": 61,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "838426ef_608acd33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9752c15_cc21d5cf",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 3
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee0fcc75_85356462",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-10-28T23:01:47Z",
       "side": 1,
       "message": "this change",
+      "range": {
+        "startLine": 14,
+        "startChar": 35,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a985b61_3455316c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0fcc75_85356462",
       "range": {
         "startLine": 14,
         "startChar": 35,
@@ -133,6 +223,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e3bad96_09eb912f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71c7b763_220c2822",
+      "range": {
+        "startLine": 15,
+        "startChar": 50,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04d09a11_378bbe00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c918e74_303ea683",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f23bfdd_34273214",
@@ -156,6 +294,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f55ed89_dd605ae7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f23bfdd_34273214",
+      "range": {
+        "startLine": 16,
+        "startChar": 43,
+        "endLine": 16,
+        "endChar": 61
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "651c3995_f0c783a3",
@@ -169,6 +331,30 @@
       "writtenOn": "2021-10-28T23:01:47Z",
       "side": 1,
       "message": "Flushes",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 13
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0d672d1_0ec34e6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "651c3995_f0c783a3",
       "range": {
         "startLine": 19,
         "startChar": 0,
@@ -225,6 +411,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e0ce7f0_93b8afd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c47d37c8_38a0f012",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 33
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5818202c_0750b04f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39a66d67_477cce22",
+      "range": {
+        "startLine": 20,
+        "startChar": 34,
+        "endLine": 20,
+        "endChar": 59
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc6bd9d1_6bc1cf78",
@@ -238,6 +472,30 @@
       "writtenOn": "2021-10-28T23:01:47Z",
       "side": 1,
       "message": "This feels like advice that should go into the init \u0026 reindex pgm docs. You\u0027re already justifying it in the rest of this commit message.",
+      "range": {
+        "startLine": 20,
+        "startChar": 61,
+        "endLine": 22,
+        "endChar": 47
+      },
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d1feb9f_7557a649",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc6bd9d1_6bc1cf78",
       "range": {
         "startLine": 20,
         "startChar": 61,
@@ -296,6 +554,24 @@
       "writtenOn": "2021-10-28T23:01:47Z",
       "side": 1,
       "message": "It\u0027s a better pattern to use a two-valued Enum instead of a boolean.\n\n public enum AutoFlush {\n   ENABLED,\n   DISABLED\n }",
+      "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abd3d345_1294ee9f",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-03T08:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e615e66_9008648f",
       "revId": "e309a8e6e49d0287f7d592d3db01d6d353611ad6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

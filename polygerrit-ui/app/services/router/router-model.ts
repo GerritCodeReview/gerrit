@@ -47,6 +47,10 @@ const initialState: RouterState = {};
 
 const privateState$ = new BehaviorSubject<RouterState>(initialState);
 
+export function _testOnly_resetState() {
+  privateState$.next(initialState);
+}
+
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const routerState$: Observable<RouterState> = privateState$;
 

@@ -65,8 +65,18 @@ export function _testOnly_setState(state: CommentState) {
   privateState$.next(state);
 }
 
+export const comments$ = commentState$.pipe(
+  map(commentState => commentState.comments),
+  distinctUntilChanged()
+);
+
 export const drafts$ = commentState$.pipe(
   map(commentState => commentState.drafts),
+  distinctUntilChanged()
+);
+
+export const portedComments$ = commentState$.pipe(
+  map(commentState => commentState.portedComments),
   distinctUntilChanged()
 );
 
@@ -93,6 +103,11 @@ export const changeComments$ = commentState$.pipe(
 
 function publishState(state: CommentState) {
   privateState$.next(state);
+}
+
+/** Called when the change number changes. Wipes out all data from the state. */
+export function updateStateReset() {
+  publishState({...initialState});
 }
 
 export function updateStateComments(comments?: {

@@ -2040,7 +2040,7 @@ suite('gr-diff-view tests', () => {
           Promise.resolve([]));
       element = basicFixture.instantiate();
       element._changeNum = '42';
-      return element._loadComments();
+      element._loadComments();
     });
 
     test('_getFiles add files with comments without changes', () => {

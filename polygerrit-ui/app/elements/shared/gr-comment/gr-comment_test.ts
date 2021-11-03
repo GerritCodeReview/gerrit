@@ -384,11 +384,7 @@ suite('gr-comment tests', () => {
 
     test('delete comment', async () => {
       const stub = stubRestApi('deleteComment').returns(
-        Promise.resolve({
-          id: '1' as UrlEncodedCommentId,
-          updated: '1' as Timestamp,
-          ...createComment(),
-        })
+        Promise.resolve(createComment())
       );
       const openSpy = sinon.spy(element.confirmDeleteOverlay!, 'open');
       element.changeNum = 42 as NumericChangeId;

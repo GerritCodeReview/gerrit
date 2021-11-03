@@ -40,6 +40,10 @@ const initialState: ChangeState = {};
 
 const privateState$ = new BehaviorSubject(initialState);
 
+export function _testOnly_resetState() {
+  privateState$.next(initialState);
+}
+
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const changeState$: Observable<ChangeState> = privateState$;
 

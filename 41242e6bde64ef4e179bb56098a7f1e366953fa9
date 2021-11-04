@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c76b944_a99c1fb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-04T14:24:53Z",
+      "side": 1,
+      "message": "I\u0027m not sure i understand the left to right text selection being broken. When i go to a diff and select some lines to comment on, it works. Unless i\u0027m doing it wrong? A video would be helpful.",
+      "revId": "41242e6bde64ef4e179bb56098a7f1e366953fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

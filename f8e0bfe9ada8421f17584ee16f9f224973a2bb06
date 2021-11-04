@@ -16,6 +16,24 @@
       "message": "This logic is no longer being called, is that an issue?",
       "revId": "f8e0bfe9ada8421f17584ee16f9f224973a2bb06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30c726d1_f2d0b437",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-04T21:27:28Z",
+      "side": 0,
+      "message": "I don\u0027t think this is an issue, because state updates are always clones, because state objects are immutable.",
+      "parentUuid": "fc449e19_73f085fe",
+      "revId": "f8e0bfe9ada8421f17584ee16f9f224973a2bb06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

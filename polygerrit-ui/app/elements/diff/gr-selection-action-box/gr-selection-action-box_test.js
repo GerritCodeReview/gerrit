@@ -83,35 +83,35 @@ suite('gr-selection-action-box', () => {
           {width: 10, height: 10});
     });
 
-    test('placeAbove for Element argument', () => {
-      element.placeAbove(target);
+    test('placeAbove for Element argument', async () => {
+      await element.placeAbove(target);
       assert.equal(element.style.top, '25px');
       assert.equal(element.style.left, '72px');
     });
 
-    test('placeAbove for Text Node argument', () => {
-      element.placeAbove(target.firstChild);
+    test('placeAbove for Text Node argument', async () => {
+      await element.placeAbove(target.firstChild);
       assert.equal(element.style.top, '25px');
       assert.equal(element.style.left, '72px');
     });
 
-    test('placeBelow for Element argument', () => {
-      element.placeBelow(target);
+    test('placeBelow for Element argument', async () => {
+      await element.placeBelow(target);
       assert.equal(element.style.top, '45px');
       assert.equal(element.style.left, '72px');
     });
 
-    test('placeBelow for Text Node argument', () => {
-      element.placeBelow(target.firstChild);
+    test('placeBelow for Text Node argument', async () => {
+      await element.placeBelow(target.firstChild);
       assert.equal(element.style.top, '45px');
       assert.equal(element.style.left, '72px');
     });
 
-    test('uses document.createRange', () => {
+    test('uses document.createRange', async () => {
       sinon.spy(document, 'createRange');
       element._getTargetBoundingRect.restore();
       sinon.spy(element, '_getTargetBoundingRect');
-      element.placeAbove(target.firstChild);
+      await element.placeAbove(target.firstChild);
       assert.isTrue(document.createRange.called);
     });
   });

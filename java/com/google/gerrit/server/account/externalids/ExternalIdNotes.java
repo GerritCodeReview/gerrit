@@ -922,7 +922,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   private ExternalId upsert(RevWalk rw, ObjectInserter ins, NoteMap noteMap, ExternalId extId)
       throws IOException, ConfigInvalidException {
-    ObjectId noteId = getNoteId(extId.key());
+    ObjectId noteId = extId.key().sha1();
     Config c = new Config();
     if (noteMap.contains(noteId)) {
       ObjectId noteDataId = noteMap.get(noteId);

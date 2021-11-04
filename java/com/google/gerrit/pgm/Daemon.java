@@ -526,7 +526,16 @@ public class Daemon extends SiteProgram {
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     modules.add(new AuthModule(authConfig));
 
+    if (migrateExternalIds(authConfig)) {
+      modules.add(
+          new OnlineExternalIdCaseSensivityMigrator.OnlineExternalIdCaseSensivityMigratorModule());
+    }
+
     return cfgInjector.createChildInjector(ModuleOverloader.override(modules, libModules));
+  }
+
+  private boolean migrateExternalIds(AuthConfig authConfig) {
+    return authConfig.isUserNameCaseInsensitiveOnlineMigration();
   }
 
   private Module createIndexModule() {

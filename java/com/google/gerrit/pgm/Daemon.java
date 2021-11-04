@@ -62,6 +62,7 @@ import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks.StartupChecksModule;
 import com.google.gerrit.server.account.AccountDeactivator.AccountDeactivatorModule;
 import com.google.gerrit.server.account.InternalAccountDirectory.InternalAccountDirectoryModule;
+import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensivityMigrator;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.audit.AuditModule;
@@ -526,7 +527,16 @@ public class Daemon extends SiteProgram {
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     modules.add(new AuthModule(authConfig));
 
+    if (migrateExternalIds(authConfig)) {
+      modules.add(
+          new OnlineExternalIdCaseSensivityMigrator.OnlineExternalIdCaseSensivityMigratorModule());
+    }
+
     return cfgInjector.createChildInjector(ModuleOverloader.override(modules, libModules));
+  }
+
+  private boolean migrateExternalIds(AuthConfig authConfig) {
+    return authConfig.isUserNameCaseInsensitiveOnlineMigration();
   }
 
   private Module createIndexModule() {

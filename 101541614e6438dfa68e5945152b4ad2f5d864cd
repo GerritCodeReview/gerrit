@@ -50,6 +50,23 @@
       "message": "Explain why you\u0027re saving it.",
       "revId": "101541614e6438dfa68e5945152b4ad2f5d864cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16b62e1f_2dacbebd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T20:50:57Z",
+      "side": 1,
+      "message": "Does this actually work? By the time you reach this code the function call to repoStub has already been made.",
+      "revId": "101541614e6438dfa68e5945152b4ad2f5d864cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

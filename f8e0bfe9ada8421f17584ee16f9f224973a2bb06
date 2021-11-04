@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc449e19_73f085fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:28:35Z",
+      "side": 0,
+      "message": "This logic is no longer being called, is that an issue?",
+      "revId": "f8e0bfe9ada8421f17584ee16f9f224973a2bb06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

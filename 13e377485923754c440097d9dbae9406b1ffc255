@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "498a0572_cbcadf36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T21:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38719854_2b3b309a",
+      "range": {
+        "startLine": 7,
+        "startChar": 32,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "13e377485923754c440097d9dbae9406b1ffc255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82d76a1e_d612af0a",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df70c129_50b7a655",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T21:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82d76a1e_d612af0a",
+      "range": {
+        "startLine": 12,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 16
+      },
+      "revId": "13e377485923754c440097d9dbae9406b1ffc255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d29c779_979adb6c",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-11-04T20:58:10Z",
       "side": 1,
       "message": "If this.threads\u003d\u003d-1, we won\u0027t create a direct executor, but I think we should. It\u0027s still confusing to mix config vs cmd-line options policies in here. If we can have a simple policy of \"command line option is always used when invoking the command\", that would be best.\n\nWhy not copy lines 213-222 from above?",
+      "range": {
+        "startLine": 240,
+        "startChar": 30,
+        "endLine": 240,
+        "endChar": 42
+      },
+      "revId": "13e377485923754c440097d9dbae9406b1ffc255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec0be41f_b6606e9a",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T21:21:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d29c779_979adb6c",
       "range": {
         "startLine": 240,
         "startChar": 30,

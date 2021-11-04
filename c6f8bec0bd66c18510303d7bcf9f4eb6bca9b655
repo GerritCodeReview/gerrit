@@ -16,6 +16,24 @@
       "message": "Thinking about lifecycle. By what point in time do these actually get filled in?",
       "revId": "c6f8bec0bd66c18510303d7bcf9f4eb6bca9b655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b401ad25_d4cae097",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-04T13:47:40Z",
+      "side": 1,
+      "message": "The controller subscribes when the component is connected. And the BehaviorSubject emits immediately. So this will be set before the first update cycle.",
+      "parentUuid": "ee224b38_e8a51294",
+      "revId": "c6f8bec0bd66c18510303d7bcf9f4eb6bca9b655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

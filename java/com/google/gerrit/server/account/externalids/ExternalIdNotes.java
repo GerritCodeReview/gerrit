@@ -918,9 +918,6 @@ public class ExternalIdNotes extends VersionedMetaData {
   private ExternalId upsert(RevWalk rw, ObjectInserter ins, NoteMap noteMap, ExternalId extId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = extId.key().sha1();
-    if (isUserNameCaseInsensitiveMigrationMode && !noteMap.contains(noteId)) {
-      noteId = extId.key().sha1(false);
-    }
     Config c = new Config();
     if (noteMap.contains(noteId)) {
       ObjectId noteDataId = noteMap.get(noteId);

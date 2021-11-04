@@ -14,11 +14,7 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -26,28 +22,22 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
-import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
-import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
-import com.google.inject.Provider;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import java.io.IOException;
 import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -73,12 +63,8 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
   private boolean isUserNameCaseInsensitive;
   private ConsoleUI ui;
 
-  @Inject private GitRepositoryManager repoManager;
-  @Inject private AllUsersName allUsersName;
-  @Inject private Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory;
-  @Inject private ExternalIdNotes.FactoryNoReindex externalIdNotesFactory;
   @Inject private ExternalIds externalIds;
-  @Inject private ExternalIdFactory externalIdFactory;
+  @Inject private ChangeExternalIdCaseSensitivityMigrator.Factory migratorFactory;
 
   @Override
   public int run() throws Exception {
@@ -93,6 +79,9 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
               @Override
               protected void configure() {
                 bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+                install(
+                    new FactoryModuleBuilder()
+                        .build(ChangeExternalIdCaseSensitivityMigrator.Factory.class));
                 factory(MetaDataUpdate.InternalFactory.class);
                 DynamicMap.mapOf(binder(), ExternalIdUpsertPreprocessor.class);
 
@@ -121,23 +110,9 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
 
     manager.start();
     try {
-      try (Repository repo = repoManager.openRepository(allUsersName)) {
-        ExternalIdNotes extIdNotes = externalIdNotesFactory.load(repo);
-        for (ExternalId extId : todo) {
-          recomputeExternalIdNoteId(extIdNotes, extId);
-          monitor.update(1);
-        }
-        if (!dryrun) {
-          try (MetaDataUpdate metaDataUpdate =
-              metaDataUpdateServerFactory.get().create(allUsersName)) {
-            metaDataUpdate.setMessage(
-                String.format(
-                    "Migration to case %ssensitive usernames",
-                    isUserNameCaseInsensitive ? "" : "in"));
-            extIdNotes.commit(metaDataUpdate);
-          }
-        }
-      }
+      migratorFactory
+          .create(!isUserNameCaseInsensitive, dryrun)
+          .migrate(todo, () -> monitor.update(1));
     } finally {
       manager.stop();
       monitor.endTask();
@@ -152,33 +127,6 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
       exitCode = 0;
     }
     return exitCode;
-  }
-
-  private void recomputeExternalIdNoteId(ExternalIdNotes extIdNotes, ExternalId extId)
-      throws DuplicateKeyException, IOException {
-    if (extId.isScheme(SCHEME_GERRIT) || extId.isScheme(SCHEME_USERNAME)) {
-      ExternalIdKeyFactory keyFactory =
-          new ExternalIdKeyFactory(
-              new ExternalIdKeyFactory.Config() {
-                @Override
-                public boolean isUserNameCaseInsensitive() {
-                  return !isUserNameCaseInsensitive;
-                }
-
-                @Override
-                public boolean isUserNameCaseInsensitiveMigrationMode() {
-                  return false;
-                }
-              });
-      ExternalId.Key updatedKey = keyFactory.create(extId.key().scheme(), extId.key().id());
-      if (!extId.key().sha1().getName().equals(updatedKey.sha1().getName())) {
-        logger.atInfo().log("Converting note name of external ID: %s", extId.key());
-        ExternalId updatedExtId =
-            externalIdFactory.create(
-                updatedKey, extId.accountId(), extId.email(), extId.password(), extId.blobId());
-        extIdNotes.replace(extId, updatedExtId);
-      }
-    }
   }
 
   private void updateGerritConfig() throws IOException, ConfigInvalidException {

@@ -62,6 +62,7 @@ import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks.StartupChecksModule;
 import com.google.gerrit.server.account.AccountDeactivator.AccountDeactivatorModule;
 import com.google.gerrit.server.account.InternalAccountDirectory.InternalAccountDirectoryModule;
+import com.google.gerrit.server.account.externalids.ExternalIdCaseSensitivityMigrator;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.audit.AuditModule;
@@ -118,6 +119,7 @@ import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.SshSessionFactoryInitializer;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
+import com.google.gerrit.sshd.commands.ExternalIdCommandsModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.gerrit.sshd.commands.SequenceCommandsModule;
 import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand.LfsPluginAuthCommandModule;
@@ -526,6 +528,8 @@ public class Daemon extends SiteProgram {
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     modules.add(new AuthModule(authConfig));
 
+    modules.add(new ExternalIdCaseSensitivityMigrator.ExternalIdCaseSensitivityMigratorModule());
+
     return cfgInjector.createChildInjector(ModuleOverloader.override(modules, libModules));
   }
 
@@ -578,6 +582,7 @@ public class Daemon extends SiteProgram {
     if (!replica) {
       modules.add(new IndexCommandsModule(sysInjector));
       modules.add(new SequenceCommandsModule());
+      modules.add(new ExternalIdCommandsModule());
     }
     return sysInjector.createChildInjector(modules);
   }

@@ -54,6 +54,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -395,6 +396,18 @@ public class ExternalIdNotes extends VersionedMetaData {
   private boolean noCacheUpdate = false;
   private boolean noReindex = false;
   private boolean isUserNameCaseInsensitiveMigrationMode = false;
+  protected final Function<ExternalId, ObjectId> defaultNoteIdResolver =
+      (extId) -> {
+        ObjectId noteId = extId.key().sha1();
+        try {
+          if (isUserNameCaseInsensitiveMigrationMode && !noteMap.contains(noteId)) {
+            noteId = extId.key().caseSensitiveSha1();
+          }
+        } catch (IOException e) {
+          return noteId;
+        }
+        return noteId;
+      };
 
   private ExternalIdNotes(
       MetricMaker metricMaker,
@@ -708,6 +721,12 @@ public class ExternalIdNotes extends VersionedMetaData {
     cacheUpdates.add(cu -> cu.remove(removedExtIds));
   }
 
+  public void replace(
+      Account.Id accountId, Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
+      throws IOException, DuplicateExternalIdKeyException {
+    replace(accountId, toDelete, toAdd, defaultNoteIdResolver);
+  }
+
   /**
    * Replaces external IDs for an account by external ID keys.
    *
@@ -720,7 +739,10 @@ public class ExternalIdNotes extends VersionedMetaData {
    *     the specified account.
    */
   public void replace(
-      Account.Id accountId, Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
+      Account.Id accountId,
+      Collection<ExternalId.Key> toDelete,
+      Collection<ExternalId> toAdd,
+      Function<ExternalId, ObjectId> noteIdResolver)
       throws IOException, DuplicateExternalIdKeyException {
     checkLoaded();
     checkSameAccount(toAdd, accountId);
@@ -738,7 +760,7 @@ public class ExternalIdNotes extends VersionedMetaData {
           }
 
           for (ExternalId extId : toAdd) {
-            ExternalId insertedExtId = upsert(rw, inserter, noteMap, extId);
+            ExternalId insertedExtId = upsert(rw, inserter, noteMap, extId, noteIdResolver);
             preprocessUpsert(insertedExtId);
             updatedExtIds.add(insertedExtId);
           }
@@ -812,6 +834,32 @@ public class ExternalIdNotes extends VersionedMetaData {
     }
 
     replace(accountId, toDelete.stream().map(ExternalId::key).collect(toSet()), toAdd);
+  }
+
+  /**
+   * Replaces external IDs.
+   *
+   * <p>Deletion of external IDs is done before adding the new external IDs. This means if an
+   * external ID is specified for deletion and an external ID with the same key is specified to be
+   * added, the old external ID with that key is deleted first and then the new external ID is added
+   * (so the external ID for that key is replaced).
+   *
+   * @throws IllegalStateException is thrown if the specified external IDs belong to different
+   *     accounts.
+   */
+  public void replace(
+      Collection<ExternalId> toDelete,
+      Collection<ExternalId> toAdd,
+      Function<ExternalId, ObjectId> noteIdResolver)
+      throws IOException, DuplicateExternalIdKeyException {
+    Account.Id accountId = checkSameAccount(Iterables.concat(toDelete, toAdd));
+    if (accountId == null) {
+      // toDelete and toAdd are empty -> nothing to do
+      return;
+    }
+
+    replace(
+        accountId, toDelete.stream().map(ExternalId::key).collect(toSet()), toAdd, noteIdResolver);
   }
 
   @Override
@@ -922,9 +970,26 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   private ExternalId upsert(RevWalk rw, ObjectInserter ins, NoteMap noteMap, ExternalId extId)
       throws IOException, ConfigInvalidException {
+    return upsert(rw, ins, noteMap, extId, defaultNoteIdResolver);
+  }
+
+  /**
+   * Inserts or updates a new external ID and sets it in the note map.
+   *
+   * <p>If the external ID already exists, it is overwritten.
+   */
+  private ExternalId upsert(
+      RevWalk rw,
+      ObjectInserter ins,
+      NoteMap noteMap,
+      ExternalId extId,
+      Function<ExternalId, ObjectId> noteIdResolver)
+      throws IOException, ConfigInvalidException {
     ObjectId noteId = extId.key().sha1();
     Config c = new Config();
-    if (noteMap.contains(noteId)) {
+    ObjectId resolvedNoteId = noteIdResolver.apply(extId);
+    if (noteMap.contains(resolvedNoteId)) {
+      noteId = resolvedNoteId;
       ObjectId noteDataId = noteMap.get(noteId);
       byte[] raw = readNoteData(rw, noteDataId);
       try {

@@ -236,7 +236,8 @@ public class IndexModule extends LifecycleModule {
     } else if (threads == 0) {
       threads = Runtime.getRuntime().availableProcessors();
     }
-    return MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "Index-Batch", true));
+    return MoreExecutors.listeningDecorator(
+        workQueue.createQueue(this.threads > 0 ? this.threads : threads, "Index-Batch", true));
   }
 
   @Singleton

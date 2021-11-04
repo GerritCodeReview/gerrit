@@ -230,11 +230,13 @@ public class IndexModule extends LifecycleModule {
     if (batchExecutor != null) {
       return batchExecutor;
     }
-    int threads = config.getInt("index", null, "batchThreads", 0);
-    if (threads < 0) {
+    int threads = this.threads;
+    int batchThreadsFromConfig =
+        config.getInt("index", null, "batchThreads", Runtime.getRuntime().availableProcessors());
+    if (threads < 0 || (threads == 0 && batchThreadsFromConfig < 0)) {
       return MoreExecutors.newDirectExecutorService();
     } else if (threads == 0) {
-      threads = Runtime.getRuntime().availableProcessors();
+      threads = batchThreadsFromConfig;
     }
     return MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "Index-Batch", true));
   }

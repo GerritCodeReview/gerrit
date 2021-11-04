@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59c57bce_e2ff1589",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-04T18:32:05Z",
+      "side": 1,
+      "message": "Yes, i\u0027ve tested and it does work.",
+      "parentUuid": "30554631_389813d2",
+      "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dca1a483_4b81a7c8",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-11-04T18:17:41Z",
       "side": 1,
       "message": "Remove _\n\nMark as private or comment why not private.",
+      "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec58ec51_3ccaf7a6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-04T18:32:05Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "dca1a483_4b81a7c8",
       "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8b8b79a_814ab866",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-04T18:32:05Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9b95fd70_e4e717c6",
+      "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "981a37a6_bfb8c7aa",
@@ -86,6 +140,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b753c21_d31a99b2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-04T18:32:05Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "981a37a6_bfb8c7aa",
+      "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7bfddd4_d91a946f",
@@ -99,6 +171,24 @@
       "writtenOn": "2021-11-04T18:17:41Z",
       "side": 1,
       "message": "Consider moving these assertions until after the await promise rather than in this addEventListener.",
+      "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6250b72f_5ab95678",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-04T18:32:05Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a7bfddd4_d91a946f",
       "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

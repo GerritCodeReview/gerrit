@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ec25f3d_86de070a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T20:49:06Z",
+      "side": 1,
+      "message": "Thanks for the migration!",
+      "revId": "101541614e6438dfa68e5945152b4ad2f5d864cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6be16ba_ab1e1a1c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T20:49:06Z",
+      "side": 1,
+      "message": "I don\u0027t think you make this method async because it\u0027s overriding a method that is not async.  I would just fire off this._paramsChanged() and not wait for the result.",
+      "revId": "101541614e6438dfa68e5945152b4ad2f5d864cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "995df245_622a7392",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T20:49:06Z",
+      "side": 1,
+      "message": "Explain why you\u0027re saving it.",
+      "revId": "101541614e6438dfa68e5945152b4ad2f5d864cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4b9bcd0_560ca158",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T18:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd146f86_09400bfd",
+      "range": {
+        "startLine": 11,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "9a0b001aabb110f45636461328d80896ba0e7ee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3d71413_d256c699",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-04T17:50:25Z",
       "side": 1,
       "message": "and this also lets us skip doing many segment merges, correct?",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 9
+      },
+      "revId": "9a0b001aabb110f45636461328d80896ba0e7ee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e31497f_bb537dd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T18:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3d71413_d256c699",
       "range": {
         "startLine": 16,
         "startChar": 8,

@@ -18,7 +18,6 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../../shared/gr-tooltip/gr-tooltip';
 import {customElement, property} from '@polymer/decorators';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-selection-action-box_html';
 import {fireEvent} from '../../../utils/event-util';
@@ -56,8 +55,8 @@ export class GrSelectionActionBox extends PolymerElement {
     this.addEventListener('mousedown', e => this._handleMouseDown(e));
   }
 
-  placeAbove(el: Text | Element | Range) {
-    flush();
+  async placeAbove(el: Text | Element | Range) {
+    await this.$.tooltip.updateComplete;
     const rect = this._getTargetBoundingRect(el);
     const boxRect = this.$.tooltip.getBoundingClientRect();
     const parentRect = this._getParentBoundingClientRect();
@@ -70,8 +69,8 @@ export class GrSelectionActionBox extends PolymerElement {
     }px`;
   }
 
-  placeBelow(el: Text | Element | Range) {
-    flush();
+  async placeBelow(el: Text | Element | Range) {
+    await this.$.tooltip.updateComplete;
     const rect = this._getTargetBoundingRect(el);
     const boxRect = this.$.tooltip.getBoundingClientRect();
     const parentRect = this._getParentBoundingClientRect();

@@ -157,6 +157,9 @@ link:cmd-logging-set-level.html[gerrit logging set-level]::
 link:cmd-ls-user-refs.html[gerrit ls-user-refs]::
 	Lists refs visible for a specified user.
 
+link:cmd-migrate-externalids-to-insensitive.html[gerrit migrate-externalids-to-insensitive]::
+	Migrate external-ids to case insensitive.
+
 link:cmd-plugin-install.html[gerrit plugin add]::
 	Alias for 'gerrit plugin install'.
 

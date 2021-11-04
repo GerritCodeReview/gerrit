@@ -2917,6 +2917,9 @@ online schema upgrades, and also for offline reindexing.
 +
 If not set or set to a zero, defaults to the number of logical CPUs as returned
 by the JVM. If set to a negative value, defaults to a direct executor.
++
+If '--threads' flag is provided during reindex command, that command line
+option is honored when index.batchThreads is not set to a negative value.
 
 [[index.onlineUpgrade]]index.onlineUpgrade::
 +

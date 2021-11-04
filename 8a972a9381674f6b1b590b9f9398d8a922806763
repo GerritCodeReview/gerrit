@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0debdbf6_d0b77dfe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:23:56Z",
+      "side": 1,
+      "message": "Thanks! I think this will be the last round of reviews.",
+      "revId": "8a972a9381674f6b1b590b9f9398d8a922806763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "910fc5c3_ddc6b982",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:23:56Z",
+      "side": 1,
+      "message": "Use \u0027willUpdate\u0027 instead of updated, it happens pre-render, updated happens post-render.",
+      "revId": "8a972a9381674f6b1b590b9f9398d8a922806763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f418ba7_dfc409af",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:23:56Z",
+      "side": 1,
+      "message": "Consider using async/await for this method.",
+      "revId": "8a972a9381674f6b1b590b9f9398d8a922806763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcf25153_dedab489",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:23:56Z",
+      "side": 1,
+      "message": "Remove parameters for this methods, all calls rely on \u0027this....\" values.\n\nYou\u0027ll want to store this.filter into a local variable so that the chec k at line 248 can still be done.",
+      "revId": "8a972a9381674f6b1b590b9f9398d8a922806763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d067dd14_df4dd1bf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:23:56Z",
+      "side": 1,
+      "message": "Consider async/await syntax.",
+      "revId": "8a972a9381674f6b1b590b9f9398d8a922806763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2771b1bd_80d84ae5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:23:56Z",
+      "side": 1,
+      "message": "Inline this in the render function where it\u0027s used.",
+      "revId": "8a972a9381674f6b1b590b9f9398d8a922806763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62d564cc_e385622f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:23:56Z",
+      "side": 1,
+      "message": "Inline this method into renderWebLinks",
+      "revId": "8a972a9381674f6b1b590b9f9398d8a922806763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

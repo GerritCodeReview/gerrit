@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee224b38_e8a51294",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T12:14:52Z",
+      "side": 1,
+      "message": "Thinking about lifecycle. By what point in time do these actually get filled in?",
+      "revId": "c6f8bec0bd66c18510303d7bcf9f4eb6bca9b655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

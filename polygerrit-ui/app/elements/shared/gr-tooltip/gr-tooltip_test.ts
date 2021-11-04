@@ -17,45 +17,49 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-tooltip';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {GrTooltip} from './gr-tooltip';
-import {queryAndAssert} from '../../../test/test-utils';
 
-const basicFixture = fixtureFromElement('gr-tooltip');
+const basicFixture = fixtureFromTemplate(html` <gr-tooltip> </gr-tooltip> `);
 
 suite('gr-tooltip tests', () => {
   let element: GrTooltip;
-
-  setup(async () => {
+  setup(() => {
     element = basicFixture.instantiate() as GrTooltip;
-    await element.updateComplete;
   });
 
-  test('max-width is respected if set', async () => {
+  test('max-width is respected if set', () => {
     element.text =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit' +
       ', sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
     element.maxWidth = '50px';
-    await element.updateComplete;
     assert.equal(getComputedStyle(element).width, '50px');
   });
 
-  test('the correct arrow is displayed', async () => {
+  test('the correct arrow is displayed', () => {
     assert.equal(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionBelow')!).display,
+      getComputedStyle(
+        element.shadowRoot!.querySelector('.arrowPositionBelow')!
+      ).display,
       'none'
     );
     assert.notEqual(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionAbove')!).display,
+      getComputedStyle(
+        element.shadowRoot!.querySelector('.arrowPositionAbove')!
+      ).display,
       'none'
     );
     element.positionBelow = true;
-    await element.updateComplete;
     assert.notEqual(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionBelow')!).display,
+      getComputedStyle(
+        element.shadowRoot!.querySelector('.arrowPositionBelow')!
+      ).display,
       'none'
     );
     assert.equal(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionAbove')!).display,
+      getComputedStyle(
+        element.shadowRoot!.querySelector('.arrowPositionAbove')!
+      ).display,
       'none'
     );
   });

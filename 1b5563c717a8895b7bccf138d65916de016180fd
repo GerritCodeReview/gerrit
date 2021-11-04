@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2478dd5_68a37651",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-04T22:42:36Z",
+      "side": 1,
+      "message": "Each instance is project specific, so pass project in the constructor.",
+      "range": {
+        "startLine": 296,
+        "startChar": 14,
+        "endLine": 296,
+        "endChar": 51
+      },
+      "revId": "1b5563c717a8895b7bccf138d65916de016180fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3debfd3b_48bb7eeb",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-04T22:42:36Z",
+      "side": 1,
+      "message": "I think we can stop using nulls like this if we flip the order a bit. Initialize slice before the forEach to a new ProjectSlice. Then in the forEach just do:\n\n if (slice.isFull()) {\n   addToFilled(slice);\n   slice \u003d ProjectSlice.create(project, sliceNumber++);\n }\n slice.changes().add(c);\n\nand then since slice is never null, line 334 can do:\n\n if (slice.changes.isEmpty()) { // catch the case where the project has no changes\n   sliceNumber--;\n } else {\n   addToFilled(slice);\n }\n\nOh, but I think you can solve the no changes special case by incrementing sliceNumber in addToFilled().",
+      "range": {
+        "startLine": 324,
+        "startChar": 24,
+        "endLine": 324,
+        "endChar": 37
+      },
+      "revId": "1b5563c717a8895b7bccf138d65916de016180fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94576c72_cf4f4938",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-04T22:42:36Z",
+      "side": 1,
+      "message": "Should have noticed this a long time ago, but this is an easy helper method like isFull() to add to ProjectSlice (and then I think move the definition of the constant into there too).",
+      "range": {
+        "startLine": 328,
+        "startChar": 24,
+        "endLine": 328,
+        "endChar": 72
+      },
+      "revId": "1b5563c717a8895b7bccf138d65916de016180fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0107317f_3964b4c9",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-04T22:42:36Z",
+      "side": 1,
+      "message": "can this ever not be true if slice is not null? If it is, that means we should decrement our sliceNumber too, correct?",
+      "range": {
+        "startLine": 334,
+        "startChar": 26,
+        "endLine": 334,
+        "endChar": 55
+      },
+      "revId": "1b5563c717a8895b7bccf138d65916de016180fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a34fa33c_7ed345df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:17:41Z",
+      "side": 1,
+      "message": "Thanks, only some minor nits.",
+      "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30554631_389813d2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:17:41Z",
+      "side": 1,
+      "message": "Does this actually work?",
+      "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dca1a483_4b81a7c8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:17:41Z",
+      "side": 1,
+      "message": "Remove _\n\nMark as private or comment why not private.",
+      "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b95fd70_e4e717c6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:17:41Z",
+      "side": 1,
+      "message": "Remove _\n\nMark as private or comment why not private.",
+      "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "981a37a6_bfb8c7aa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:17:41Z",
+      "side": 1,
+      "message": "Add a comment that nameChanged needs to be set before the event is fired because of how gr-repo-list.ts works",
+      "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7bfddd4_d91a946f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-04T18:17:41Z",
+      "side": 1,
+      "message": "Consider moving these assertions until after the await promise rather than in this addEventListener.",
+      "revId": "c4f9f56023f16994cd22dbd145ffc772ed956170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -408,6 +408,7 @@ export class GrDiffHighlight extends PolymerElement {
     range: Text | Element | Range
   ) {
     if (startLine > 1) {
+      actionBox.positionBelow = false;
       actionBox.placeAbove(range);
       return;
     }

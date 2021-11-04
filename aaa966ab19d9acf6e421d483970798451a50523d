@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e445edd_1a1cd455",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T16:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f86c6372_27e49b9a",
+      "range": {
+        "startLine": 12,
+        "startChar": 61,
+        "endLine": 12,
+        "endChar": 66
+      },
+      "revId": "aaa966ab19d9acf6e421d483970798451a50523d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72f4e2c2_d571cbe6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T16:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d35943c_cea30b37",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "aaa966ab19d9acf6e421d483970798451a50523d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "facdd9fa_cb7ee8a0",
@@ -118,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b887ce52_c3264171",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T16:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29cdcf87_cef7de8a",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 0
+      },
+      "revId": "aaa966ab19d9acf6e421d483970798451a50523d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "324a7114_26d8045f",
@@ -131,6 +203,30 @@
       "writtenOn": "2021-11-03T21:34:06Z",
       "side": 1,
       "message": "s/having/setting/",
+      "range": {
+        "startLine": 3133,
+        "startChar": 27,
+        "endLine": 3133,
+        "endChar": 33
+      },
+      "revId": "aaa966ab19d9acf6e421d483970798451a50523d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "017d3e33_f0d0784b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3133,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T16:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "324a7114_26d8045f",
       "range": {
         "startLine": 3133,
         "startChar": 27,
@@ -187,6 +283,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a425e426_f0958f1f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3134,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T16:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9672a724_716067dc",
+      "range": {
+        "startLine": 3134,
+        "startChar": 0,
+        "endLine": 3134,
+        "endChar": 5
+      },
+      "revId": "aaa966ab19d9acf6e421d483970798451a50523d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ea0c27c_615beca2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3134,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T16:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d519d762_0fd116ef",
+      "range": {
+        "startLine": 3134,
+        "startChar": 32,
+        "endLine": 3134,
+        "endChar": 43
+      },
+      "revId": "aaa966ab19d9acf6e421d483970798451a50523d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f69e0082_fc0b26a9",
@@ -200,6 +344,30 @@
       "writtenOn": "2021-11-03T21:34:06Z",
       "side": 1,
       "message": "\"of the process\"",
+      "range": {
+        "startLine": 3135,
+        "startChar": 31,
+        "endLine": 3135,
+        "endChar": 41
+      },
+      "revId": "aaa966ab19d9acf6e421d483970798451a50523d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b985f971_f377e8a3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3135,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T16:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f69e0082_fc0b26a9",
       "range": {
         "startLine": 3135,
         "startChar": 31,
@@ -233,6 +401,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ad5ef81_11339521",
+        "filename": "java/com/google/gerrit/lucene/LuceneIndexModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T16:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4e08b49_54e11778",
+      "range": {
+        "startLine": 39,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 20
+      },
+      "revId": "aaa966ab19d9acf6e421d483970798451a50523d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee223124_7d82ec7f",
@@ -246,6 +438,30 @@
       "writtenOn": "2021-11-03T21:34:06Z",
       "side": 1,
       "message": "Fix this date.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "aaa966ab19d9acf6e421d483970798451a50523d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fc1e899_9338555e",
+        "filename": "java/com/google/gerrit/server/index/AutoFlush.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T16:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee223124_7d82ec7f",
       "range": {
         "startLine": 1,
         "startChar": 17,

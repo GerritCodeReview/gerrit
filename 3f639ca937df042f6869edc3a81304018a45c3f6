@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f01af7d0_7f8445a4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2922,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T18:10:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f57aecac_3c0234ef",
+      "range": {
+        "startLine": 2921,
+        "startChar": 56,
+        "endLine": 2922,
+        "endChar": 41
+      },
+      "revId": "3f639ca937df042f6869edc3a81304018a45c3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce23def1_263e22a6",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-11-04T17:49:45Z",
       "side": 1,
       "message": "Provide a link to the config?\n\n (If link:config-gerrit.html#index.batchThreads[index.batchThreads] is set to a negative value, this is ignored.)",
+      "revId": "3f639ca937df042f6869edc3a81304018a45c3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "240df0d5_1676fc6e",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-04T18:10:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce23def1_263e22a6",
       "revId": "3f639ca937df042f6869edc3a81304018a45c3f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -100,8 +100,11 @@ export const changeComments$ = commentState$.pipe(
         commentState.portedComments,
         commentState.portedDrafts
       )
-  ),
-  distinctUntilChanged()
+  )
+);
+
+export const threads$ = changeComments$.pipe(
+  map(changeComments => changeComments.getAllThreadsForChange())
 );
 
 function publishState(state: CommentState) {

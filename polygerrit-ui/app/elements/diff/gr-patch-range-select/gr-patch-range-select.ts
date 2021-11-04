@@ -50,6 +50,8 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
+import {subscribe} from '../../lit/subscription-controller';
+import {changeComments$} from '../../../services/comments/comments-model';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -99,9 +101,6 @@ export class GrPatchRangeSelect extends LitElement {
   changeNum?: string;
 
   @property({type: Object})
-  changeComments?: ChangeComments;
-
-  @property({type: Object})
   filesWeblinks?: FilesWebLinks;
 
   @property({type: String})
@@ -117,11 +116,20 @@ export class GrPatchRangeSelect extends LitElement {
   @property({type: Object})
   revisionInfo?: RevisionInfoClass;
 
-  /** Internal state, derived from `revisions` in willUpdate(). */
+  /** Private internal state, derived from `revisions` in willUpdate(). */
   @state()
   private sortedRevisions: (RevisionInfo | EditRevisionInfo)[] = [];
 
+  /** Private internal state, visible for testing. */
+  @state()
+  changeComments?: ChangeComments;
+
   private readonly reporting: ReportingService = appContext.reportingService;
+
+  constructor() {
+    super();
+    subscribe(this, changeComments$, x => (this.changeComments = x));
+  }
 
   static override get styles() {
     return [

@@ -39,7 +39,6 @@ import {
   BasePatchSetNum,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fireEvent} from '../../../utils/event-util';
@@ -99,9 +98,6 @@ export class GrFileListHeader extends PolymerElement {
 
   @property({type: String})
   changeUrl?: string;
-
-  @property({type: Object})
-  changeComments?: ChangeComments;
 
   @property({type: Object})
   commitInfo?: CommitInfo;

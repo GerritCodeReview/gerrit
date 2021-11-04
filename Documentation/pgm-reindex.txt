@@ -21,6 +21,8 @@ Rebuilds the secondary index.
 == OPTIONS
 --threads::
 	Number of threads to use for indexing.
+	(If not provided link:config-gerrit.html#index.batchThreads[index.batchThreads]
+	 is used.)
 
 --changes-schema-version::
 	Schema version to reindex; default is most recent version.

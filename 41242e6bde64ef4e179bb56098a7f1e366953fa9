@@ -16,6 +16,23 @@
       "message": "I\u0027m not sure i understand the left to right text selection being broken. When i go to a diff and select some lines to comment on, it works. Unless i\u0027m doing it wrong? A video would be helpful.",
       "revId": "41242e6bde64ef4e179bb56098a7f1e366953fa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d56296f2_58e7f146",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-04T15:42:20Z",
+      "side": 1,
+      "message": "Fix is https://gerrit-review.googlesource.com/c/gerrit/+/322816.\n\nSo I think this revert can be abandoned.",
+      "revId": "41242e6bde64ef4e179bb56098a7f1e366953fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

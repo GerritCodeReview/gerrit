@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f079728d_96ae6ec5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-04T21:05:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a6be16ba_ab1e1a1c",
+      "revId": "101541614e6438dfa68e5945152b4ad2f5d864cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "995df245_622a7392",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73da0c43_0500918c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-04T21:05:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "995df245_622a7392",
+      "revId": "101541614e6438dfa68e5945152b4ad2f5d864cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16b62e1f_2dacbebd",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-11-04T20:50:57Z",
       "side": 1,
       "message": "Does this actually work? By the time you reach this code the function call to repoStub has already been made.",
+      "revId": "101541614e6438dfa68e5945152b4ad2f5d864cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb4d1087_ef029971",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-04T21:05:32Z",
+      "side": 1,
+      "message": "It appears this is not needed, removed.",
+      "parentUuid": "16b62e1f_2dacbebd",
       "revId": "101541614e6438dfa68e5945152b4ad2f5d864cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

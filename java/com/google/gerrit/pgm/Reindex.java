@@ -55,7 +55,7 @@ import org.kohsuke.args4j.Option;
 
 public class Reindex extends SiteProgram {
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
-  private int threads = Runtime.getRuntime().availableProcessors();
+  private int threads = 0;
 
   @Option(
       name = "--changes-schema-version",

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1395693_9431170a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-04T16:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ae49c70_3fef74e9",
+      "revId": "93e3a46f404bff7a87e56ab134f6b221fc7213eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3047ced9_760604d0",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-11-04T15:59:49Z",
       "side": 1,
       "message": "Is this flush still necessary?",
+      "revId": "93e3a46f404bff7a87e56ab134f6b221fc7213eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d989465_289bae2d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-04T16:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3047ced9_760604d0",
       "revId": "93e3a46f404bff7a87e56ab134f6b221fc7213eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

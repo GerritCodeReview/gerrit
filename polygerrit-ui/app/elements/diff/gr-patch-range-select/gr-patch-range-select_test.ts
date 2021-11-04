@@ -55,7 +55,7 @@ type RevIdToRevisionInfo = {
 suite('gr-patch-range-select tests', () => {
   let element: GrPatchRangeSelect;
 
-  function getInfo(revisions: RevisionInfo[]) {
+  function getInfo(revisions: (RevisionInfo | EditRevisionInfo)[]) {
     const revisionObj: Partial<RevIdToRevisionInfo> = {};
     for (let i = 0; i < revisions.length; i++) {
       revisionObj[i] = revisions[i];
@@ -78,97 +78,54 @@ suite('gr-patch-range-select tests', () => {
     await element.updateComplete;
   });
 
-  test('enabled/disabled options', () => {
-    const patchRange = {
-      basePatchNum: 'PARENT' as PatchSetNum,
-      patchNum: 3 as PatchSetNum,
-    };
-    const sortedRevisions = [
+  test('enabled/disabled options', async () => {
+    element.revisions = [
       createRevision(3) as RevisionInfo,
       createEditRevision(2) as EditRevisionInfo,
       createRevision(2) as RevisionInfo,
       createRevision(1) as RevisionInfo,
     ];
+    await element.updateComplete;
+
+    const parent = 'PARENT' as PatchSetNum;
+    const edit = EditPatchSetNum;
+
     for (const patchNum of [1, 2, 3]) {
       assert.isFalse(
-        element._computeRightDisabled(
-          patchRange.basePatchNum,
-          patchNum as PatchSetNum,
-          sortedRevisions
-        )
+        element.computeRightDisabled(parent, patchNum as PatchSetNum)
       );
     }
     for (const basePatchNum of [1, 2]) {
-      assert.isFalse(
-        element._computeLeftDisabled(
-          basePatchNum as PatchSetNum,
-          patchRange.patchNum,
-          sortedRevisions
-        )
-      );
+      const base = basePatchNum as PatchSetNum;
+      assert.isFalse(element.computeLeftDisabled(base, 3 as PatchSetNum));
     }
     assert.isTrue(
-      element._computeLeftDisabled(3 as PatchSetNum, patchRange.patchNum, [])
+      element.computeLeftDisabled(3 as PatchSetNum, 3 as PatchSetNum)
     );
 
-    patchRange.basePatchNum = EditPatchSetNum;
     assert.isTrue(
-      element._computeLeftDisabled(
-        3 as PatchSetNum,
-        patchRange.patchNum,
-        sortedRevisions
-      )
+      element.computeLeftDisabled(3 as PatchSetNum, 3 as PatchSetNum)
     );
-    assert.isTrue(
-      element._computeRightDisabled(
-        patchRange.basePatchNum,
-        1 as PatchSetNum,
-        sortedRevisions
-      )
-    );
-    assert.isTrue(
-      element._computeRightDisabled(
-        patchRange.basePatchNum,
-        2 as PatchSetNum,
-        sortedRevisions
-      )
-    );
-    assert.isFalse(
-      element._computeRightDisabled(
-        patchRange.basePatchNum,
-        3 as PatchSetNum,
-        sortedRevisions
-      )
-    );
-    assert.isTrue(
-      element._computeRightDisabled(
-        patchRange.basePatchNum,
-        EditPatchSetNum,
-        sortedRevisions
-      )
-    );
+    assert.isTrue(element.computeRightDisabled(edit, 1 as PatchSetNum));
+    assert.isTrue(element.computeRightDisabled(edit, 2 as PatchSetNum));
+    assert.isFalse(element.computeRightDisabled(edit, 3 as PatchSetNum));
+    assert.isTrue(element.computeRightDisabled(edit, edit));
   });
 
-  test('_computeBaseDropdownContent', () => {
-    const availablePatches = [
+  test('computeBaseDropdownContent', async () => {
+    element.availablePatches = [
       {num: 'edit', sha: '1'} as PatchSet,
       {num: 3, sha: '2'} as PatchSet,
       {num: 2, sha: '3'} as PatchSet,
       {num: 1, sha: '4'} as PatchSet,
     ];
-    const revisions: RevisionInfo[] = [
+    element.revisions = [
       createRevision(2),
       createRevision(3),
       createRevision(1),
       createRevision(4),
     ];
-    element.revisionInfo = getInfo(revisions);
-    const sortedRevisions = [
-      createRevision(3) as RevisionInfo,
-      createEditRevision(2) as EditRevisionInfo,
-      createRevision(2) as RevisionInfo,
-      createRevision(1) as RevisionInfo,
-    ];
+    element.revisionInfo = getInfo(element.revisions);
     const expectedResult: DropdownItem[] = [
       {
         disabled: true,
@@ -210,19 +167,14 @@ suite('gr-patch-range-select tests', () => {
         value: 'PARENT',
       } as DropdownItem,
     ];
-    assert.deepEqual(
-      element._computeBaseDropdownContent(
-        availablePatches,
-        1 as PatchSetNum,
-        sortedRevisions,
-        element.changeComments,
-        element.revisionInfo
-      ),
-      expectedResult
-    );
+    element.patchNum = 1 as PatchSetNum;
+    element.basePatchNum = 'PARENT' as BasePatchSetNum;
+    await element.updateComplete;
+
+    assert.deepEqual(element.computeBaseDropdownContent(), expectedResult);
   });
 
-  test('_computeBaseDropdownContent called when patchNum updates', async () => {
+  test('computeBaseDropdownContent called when patchNum updates', async () => {
     element.revisions = [
       createRevision(2),
       createRevision(3),
@@ -240,7 +192,7 @@ suite('gr-patch-range-select tests', () => {
     element.basePatchNum = 'PARENT' as BasePatchSetNum;
     await element.updateComplete;
 
-    const baseDropDownStub = sinon.stub(element, '_computeBaseDropdownContent');
+    const baseDropDownStub = sinon.stub(element, 'computeBaseDropdownContent');
 
     // Should be recomputed for each available patch
     element.patchNum = 1 as PatchSetNum;
@@ -248,7 +200,7 @@ suite('gr-patch-range-select tests', () => {
     assert.equal(baseDropDownStub.callCount, 1);
   });
 
-  test('_computeBaseDropdownContent called when changeComments update', async () => {
+  test('computeBaseDropdownContent called when changeComments update', async () => {
     element.revisions = [
       createRevision(2),
       createRevision(3),
@@ -266,14 +218,14 @@ suite('gr-patch-range-select tests', () => {
     await element.updateComplete;
 
     // Should be recomputed for each available patch
-    const baseDropDownStub = sinon.stub(element, '_computeBaseDropdownContent');
+    const baseDropDownStub = sinon.stub(element, 'computeBaseDropdownContent');
     assert.equal(baseDropDownStub.callCount, 0);
     element.changeComments = new ChangeComments();
     await element.updateComplete;
     assert.equal(baseDropDownStub.callCount, 1);
   });
 
-  test('_computePatchDropdownContent called when basePatchNum updates', async () => {
+  test('computePatchDropdownContent called when basePatchNum updates', async () => {
     element.revisions = [
       createRevision(2),
       createRevision(3),
@@ -292,29 +244,27 @@ suite('gr-patch-range-select tests', () => {
     await element.updateComplete;
 
     // Should be recomputed for each available patch
-    const baseDropDownStub = sinon.stub(
-      element,
-      '_computePatchDropdownContent'
-    );
+    const baseDropDownStub = sinon.stub(element, 'computePatchDropdownContent');
     element.basePatchNum = 1 as BasePatchSetNum;
     await element.updateComplete;
     assert.equal(baseDropDownStub.callCount, 1);
   });
 
-  test('_computePatchDropdownContent', () => {
-    const availablePatches: PatchSet[] = [
+  test('computePatchDropdownContent', async () => {
+    element.availablePatches = [
       {num: 'edit', sha: '1'} as PatchSet,
       {num: 3, sha: '2'} as PatchSet,
       {num: 2, sha: '3'} as PatchSet,
       {num: 1, sha: '4'} as PatchSet,
     ];
-    const basePatchNum = 1;
-    const sortedRevisions = [
+    element.basePatchNum = 1 as BasePatchSetNum;
+    element.revisions = [
       createRevision(3) as RevisionInfo,
       createEditRevision(2) as EditRevisionInfo,
       createRevision(2, 'description') as RevisionInfo,
       createRevision(1) as RevisionInfo,
     ];
+    await element.updateComplete;
 
     const expectedResult: DropdownItem[] = [
       {
@@ -354,15 +304,7 @@ suite('gr-patch-range-select tests', () => {
       } as DropdownItem,
     ];
 
-    assert.deepEqual(
-      element._computePatchDropdownContent(
-        availablePatches,
-        basePatchNum as BasePatchSetNum,
-        sortedRevisions,
-        element.changeComments
-      ),
-      expectedResult
-    );
+    assert.deepEqual(element.computePatchDropdownContent(), expectedResult);
   });
 
   test('filesWeblinks', async () => {
@@ -391,7 +333,7 @@ suite('gr-patch-range-select tests', () => {
     );
   });
 
-  test('_computePatchSetCommentsString', () => {
+  test('computePatchSetCommentsString', () => {
     // Test string with unresolved comments.
     const comments: PathToCommentsInfoMap = {
       foo: [
@@ -432,10 +374,7 @@ suite('gr-patch-range-select tests', () => {
     element.changeComments = new ChangeComments(comments);
 
     assert.equal(
-      element._computePatchSetCommentsString(
-        element.changeComments,
-        1 as PatchSetNum
-      ),
+      element.computePatchSetCommentsString(1 as PatchSetNum),
       ' (3 comments, 1 unresolved)'
     );
 
@@ -443,23 +382,14 @@ suite('gr-patch-range-select tests', () => {
     delete comments['foo'];
     element.changeComments = new ChangeComments(comments);
     assert.equal(
-      element._computePatchSetCommentsString(
-        element.changeComments,
-        1 as PatchSetNum
-      ),
+      element.computePatchSetCommentsString(1 as PatchSetNum),
       ' (2 comments)'
     );
 
     // Test string with no comments.
     delete comments['bar'];
     element.changeComments = new ChangeComments(comments);
-    assert.equal(
-      element._computePatchSetCommentsString(
-        element.changeComments,
-        1 as PatchSetNum
-      ),
-      ''
-    );
+    assert.equal(element.computePatchSetCommentsString(1 as PatchSetNum), '');
   });
 
   test('patch-range-change fires', () => {

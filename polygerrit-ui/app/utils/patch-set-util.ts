@@ -103,7 +103,7 @@ export function getRevisionByPatchNum(
       return rev;
     }
   }
-  console.warn('no revision found');
+  if (revisions.length > 0) console.warn('no revision found');
   return;
 }
 

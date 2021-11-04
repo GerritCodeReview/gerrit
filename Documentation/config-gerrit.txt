@@ -686,6 +686,25 @@ trigger the migration while Gerrit process is running.
 +
 Default is false.
 
+[[auth.userNameCaseInsensitiveOnlineMigration]]auth.userNameCaseInsensitiveOnlineMigration::
++
+Setting online migration to true triggers online conversion of
+`username` and `gerrit` external IDs to be handled case insensitively.
+This is done by recomputing the name of the note from the sha1 sum of
+the all lowercase external ID key, instead of preserving the key
+capitalization.
+
+The tool requires link:#auth.userNameCaseInsensitive[auth.userNameCaseInsensitive] and
+link:#auth.userNameCaseInsensitiveOnlineMigration[auth.userNameCaseInsensitiveOnlineMigration] to
+be set to true to perform the migration.
+
+After the successful migration both link:#auth.userNameCaseInsensitive[auth.userNameCaseInsensitive] and
+link:#auth.userNameCaseInsensitiveOnlineMigration[auth.userNameCaseInsensitiveOnlineMigration] are
+set to false.
+
++
+Default is false.
+
 [[auth.enableRunAs]]auth.enableRunAs::
 +
 If true HTTP REST APIs will accept the `X-Gerrit-RunAs` HTTP request

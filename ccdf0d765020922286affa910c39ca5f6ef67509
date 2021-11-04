@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e6fce9e_2918c0b7",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-04T21:59:59Z",
+      "side": 1,
+      "message": "Probably not, since we use some methods like SetTotalWork and instance variables like repoManager from parent class.",
+      "parentUuid": "e8dd7b64_2276ec3f",
+      "range": {
+        "startLine": 294,
+        "startChar": 9,
+        "endLine": 294,
+        "endChar": 10
+      },
+      "revId": "ccdf0d765020922286affa910c39ca5f6ef67509",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "754a5383_da1d2812",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-04T19:45:56Z",
       "side": 1,
       "message": "I know these are project specific, but maybe putting them as instance variables would be cleaner overall? In the follow up change, we could make a small ProjectSliceCreator class and move them there. Or maybe just create that class now to keep the layering ideal?",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 56
+      },
+      "revId": "ccdf0d765020922286affa910c39ca5f6ef67509",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5bf7eef_9d551121",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-04T21:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "754a5383_da1d2812",
       "range": {
         "startLine": 322,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92aa69f6_e13ed718",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-04T21:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05341f98_29eb62d7",
+      "range": {
+        "startLine": 338,
+        "startChar": 0,
+        "endLine": 340,
+        "endChar": 9
+      },
+      "revId": "ccdf0d765020922286affa910c39ca5f6ef67509",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54ba4357_c38ca81f",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-11-04T19:45:56Z",
       "side": 1,
       "message": "This name doesn\u0027t make sense without the Map and maybe these methods should be simplified/consolidated now?\n\n private void addToFilled(ProjectSlice slice) {\n   filledSlices.add(slice);\n   changeCount +\u003d slice.changes().size();\n }\n\nLine 336 becomes:\n\n if (slice.val.changes().size() \u003d\u003d PROJECT_SLICE_MAX_REFS) {\n   addToFilled(slice.val);\n   slice.val \u003d null;\n }\n\nLines 338-340 become:\n\n if (slice.val !\u003d null \u0026\u0026 slice.val.changes().size() \u003e 0) {\n   addToFilled(slice.val);\n }",
+      "range": {
+        "startLine": 352,
+        "startChar": 25,
+        "endLine": 352,
+        "endChar": 38
+      },
+      "revId": "ccdf0d765020922286affa910c39ca5f6ef67509",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88a12da7_cb4999a2",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-04T21:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54ba4357_c38ca81f",
       "range": {
         "startLine": 352,
         "startChar": 25,

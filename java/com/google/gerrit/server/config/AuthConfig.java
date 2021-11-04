@@ -66,6 +66,7 @@ public class AuthConfig {
   private final boolean allowRegisterNewEmail;
   private final boolean userNameCaseInsensitive;
   private final boolean userNameCaseInsensitiveMigrationMode;
+  private final boolean userNameCaseInsensitiveOnlineMigration;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
 
   @Inject
@@ -100,6 +101,9 @@ public class AuthConfig {
     userNameCaseInsensitive = cfg.getBoolean("auth", "userNameCaseInsensitive", false);
     userNameCaseInsensitiveMigrationMode =
         cfg.getBoolean("auth", "userNameCaseInsensitiveMigrationMode", false);
+
+    userNameCaseInsensitiveOnlineMigration =
+        cfg.getBoolean("auth", "userNameCaseInsensitiveOnlineMigration", false);
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -250,6 +254,10 @@ public class AuthConfig {
   /** Whether user name case insensitive migration is in progress */
   public boolean isUserNameCaseInsensitiveMigrationMode() {
     return userNameCaseInsensitiveMigrationMode;
+  }
+
+  public boolean isUserNameCaseInsensitiveOnlineMigration() {
+    return userNameCaseInsensitiveOnlineMigration;
   }
 
   public GitBasicAuthPolicy getGitBasicAuthPolicy() {

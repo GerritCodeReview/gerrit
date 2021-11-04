@@ -381,7 +381,6 @@ export const htmlTemplate = html`
             on-stop-edit-tap="_handleStopEditTap"
             on-download-tap="_handleOpenDownloadDialog"
             on-included-tap="_handleOpenIncludedInDialog"
-            comment-threads="[[_commentThreads]]"
           ></gr-change-actions>
         </div>
         <!-- end commit actions -->

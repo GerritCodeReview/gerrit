@@ -99,7 +99,6 @@ import {
   getVotingRange,
   StandardLabels,
 } from '../../../utils/label-util';
-import {CommentThread} from '../../../utils/comment-util';
 import {ShowAlertEventDetail} from '../../../types/events';
 import {
   ActionPriority,
@@ -447,9 +446,6 @@ export class GrChangeActions
 
   @property({type: String})
   _actionLoadingMessage = '';
-
-  @property({type: Array})
-  commentThreads: CommentThread[] = [];
 
   @property({
     type: Array,

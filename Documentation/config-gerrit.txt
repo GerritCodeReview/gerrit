@@ -2913,7 +2913,7 @@ by the JVM. If set to a negative value, defaults to a direct executor.
 [[index.batchThreads]]index.batchThreads::
 +
 Number of threads to use for indexing in background operations, such as
-online schema upgrades, and also for offline reindexing.
+online schema upgrades, and also the default for offline reindexing.
 +
 If not set or set to a zero, defaults to the number of logical CPUs as returned
 by the JVM. If set to a negative value, defaults to a direct executor.

@@ -54,8 +54,10 @@ import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
 
 public class Reindex extends SiteProgram {
-  @Option(name = "--threads", usage = "Number of threads to use for indexing")
-  private int threads = Runtime.getRuntime().availableProcessors();
+  @Option(
+      name = "--threads",
+      usage = "Number of threads to use for indexing. Default is index.batchThreads from config.")
+  private int threads = 0;
 
   @Option(
       name = "--changes-schema-version",

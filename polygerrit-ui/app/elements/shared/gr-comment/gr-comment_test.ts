@@ -384,11 +384,7 @@ suite('gr-comment tests', () => {
 
     test('delete comment', async () => {
       const stub = stubRestApi('deleteComment').returns(
-        Promise.resolve({
-          id: '1' as UrlEncodedCommentId,
-          updated: '1' as Timestamp,
-          ...createComment(),
-        })
+        Promise.resolve(createComment())
       );
       const openSpy = sinon.spy(element.confirmDeleteOverlay!, 'open');
       element.changeNum = 42 as NumericChangeId;
@@ -1183,6 +1179,7 @@ suite('gr-comment tests', () => {
 
     test('draft prevent save when disabled', async () => {
       const saveStub = sinon.stub(element, 'save').returns(Promise.resolve());
+      sinon.stub(element, '_fireEdit');
       element.showActions = true;
       element.draft = true;
       await flush();

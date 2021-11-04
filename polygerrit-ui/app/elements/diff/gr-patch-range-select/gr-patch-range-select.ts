@@ -50,9 +50,15 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
+import {subscribe} from '../../lit/subscription-controller';
+import {changeComments$} from '../../../services/comments/comments-model';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
+
+function getShaForPatch(patch: PatchSet) {
+  return patch.sha.substring(0, 10);
+}
 
 export interface PatchRangeChangeDetail {
   patchNum?: PatchSetNum;
@@ -95,9 +101,6 @@ export class GrPatchRangeSelect extends LitElement {
   changeNum?: string;
 
   @property({type: Object})
-  changeComments?: ChangeComments;
-
-  @property({type: Object})
   filesWeblinks?: FilesWebLinks;
 
   @property({type: String})
@@ -106,17 +109,27 @@ export class GrPatchRangeSelect extends LitElement {
   @property({type: String})
   basePatchNum?: BasePatchSetNum;
 
+  /** Not used directly. Translated into `sortedRevisions` in willUpdate(). */
   @property({type: Object})
-  revisions?: RevisionInfo[];
+  revisions: (RevisionInfo | EditRevisionInfo)[] = [];
 
   @property({type: Object})
   revisionInfo?: RevisionInfoClass;
 
-  @property({type: Array})
+  /** Private internal state, derived from `revisions` in willUpdate(). */
   @state()
-  protected sortedRevisions?: RevisionInfo[];
+  private sortedRevisions: (RevisionInfo | EditRevisionInfo)[] = [];
+
+  /** Private internal state, visible for testing. */
+  @state()
+  changeComments?: ChangeComments;
 
   private readonly reporting: ReportingService = appContext.reportingService;
+
+  constructor() {
+    super();
+    subscribe(this, changeComments$, x => (this.changeComments = x));
+  }
 
   static override get styles() {
     return [
@@ -152,20 +165,6 @@ export class GrPatchRangeSelect extends LitElement {
     ];
   }
 
-  private renderWeblinks(fileLink?: GeneratedWebLink[]) {
-    if (!fileLink) return;
-
-    return html`<span class="filesWeblinks">
-      ${fileLink.map(
-        weblink => html`
-          <a target="_blank" rel="noopener" href="${weblink.url}">
-            ${weblink.name}
-          </a>
-        `
-      )}</span
-    > `;
-  }
-
   override render() {
     return html`
       <h3 class="assistive-tech-only">Patchset Range Selection</h3>
@@ -173,14 +172,8 @@ export class GrPatchRangeSelect extends LitElement {
         <gr-dropdown-list
           id="basePatchDropdown"
           .value="${convertToString(this.basePatchNum)}"
-          .items="${this._computeBaseDropdownContent(
-            this.availablePatches,
-            this.patchNum,
-            this.sortedRevisions,
-            this.changeComments,
-            this.revisionInfo
-          )}"
-          @value-change=${this._handlePatchChange}
+          .items="${this.computeBaseDropdownContent()}"
+          @value-change=${this.handlePatchChange}
         >
         </gr-dropdown-list>
       </span>
@@ -190,13 +183,8 @@ export class GrPatchRangeSelect extends LitElement {
         <gr-dropdown-list
           id="patchNumDropdown"
           .value="${convertToString(this.patchNum)}"
-          .items="${this._computePatchDropdownContent(
-            this.availablePatches,
-            this.basePatchNum,
-            this.sortedRevisions,
-            this.changeComments
-          )}"
-          @value-change=${this._handlePatchChange}
+          .items="${this.computePatchDropdownContent()}"
+          @value-change=${this.handlePatchChange}
         >
         </gr-dropdown-list>
         ${this.renderWeblinks(this.filesWeblinks?.meta_b)}
@@ -204,63 +192,54 @@ export class GrPatchRangeSelect extends LitElement {
     `;
   }
 
-  override updated(changedProperties: PropertyValues) {
+  private renderWeblinks(fileLinks?: GeneratedWebLink[]) {
+    if (!fileLinks) return;
+    return html`<span class="filesWeblinks">
+      ${fileLinks.map(
+        weblink => html`
+          <a target="_blank" rel="noopener" href="${weblink.url}">
+            ${weblink.name}
+          </a>
+        `
+      )}</span
+    > `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('revisions')) {
-      this._updateSortedRevisions(this.revisions);
+      this.sortedRevisions = sortRevisions(Object.values(this.revisions || {}));
     }
   }
 
-  _updateSortedRevisions(revisions?: RevisionInfo[]) {
-    if (!revisions) return;
-    this.sortedRevisions = sortRevisions(Object.values(revisions));
-  }
-
-  _getShaForPatch(patch: PatchSet) {
-    return patch.sha.substring(0, 10);
-  }
-
-  _computeBaseDropdownContent(
-    availablePatches?: PatchSet[],
-    patchNum?: PatchSetNum,
-    sortedRevisions?: (RevisionInfo | EditRevisionInfo)[],
-    changeComments?: ChangeComments,
-    revisionInfo?: RevisionInfoClass
-  ): DropdownItem[] {
-    // Polymer 2: check for undefined
+  // Private method, but visible for testing.
+  computeBaseDropdownContent(): DropdownItem[] {
     if (
-      availablePatches === undefined ||
-      patchNum === undefined ||
-      sortedRevisions === undefined ||
-      changeComments === undefined ||
-      revisionInfo === undefined
+      this.availablePatches === undefined ||
+      this.patchNum === undefined ||
+      this.changeComments === undefined ||
+      this.revisionInfo === undefined
     ) {
       return [];
     }
 
-    const parentCounts = revisionInfo.getParentCountMap();
-    const currentParentCount = hasOwnProperty(parentCounts, patchNum)
-      ? parentCounts[patchNum as number]
+    const parentCounts = this.revisionInfo.getParentCountMap();
+    const currentParentCount = hasOwnProperty(parentCounts, this.patchNum)
+      ? parentCounts[this.patchNum as number]
       : 1;
-    const maxParents = revisionInfo.getMaxParents();
+    const maxParents = this.revisionInfo.getMaxParents();
     const isMerge = currentParentCount > 1;
 
     const dropdownContent: DropdownItem[] = [];
-    for (const basePatch of availablePatches) {
+    for (const basePatch of this.availablePatches) {
       const basePatchNum = basePatch.num;
-      const entry: DropdownItem = this._createDropdownEntry(
+      const entry: DropdownItem = this.createDropdownEntry(
         basePatchNum,
         'Patchset ',
-        sortedRevisions,
-        changeComments,
-        this._getShaForPatch(basePatch)
+        getShaForPatch(basePatch)
       );
       dropdownContent.push({
         ...entry,
-        disabled: this._computeLeftDisabled(
-          basePatch.num,
-          patchNum,
-          sortedRevisions
-        ),
+        disabled: this.computeLeftDisabled(basePatch.num, this.patchNum),
       });
     }
 
@@ -282,91 +261,61 @@ export class GrPatchRangeSelect extends LitElement {
     return dropdownContent;
   }
 
-  _computeMobileText(
-    patchNum: PatchSetNum,
-    changeComments: ChangeComments,
-    revisions: (RevisionInfo | EditRevisionInfo)[]
-  ) {
+  private computeMobileText(patchNum: PatchSetNum) {
     return (
       `${patchNum}` +
-      `${this._computePatchSetCommentsString(changeComments, patchNum)}` +
-      `${this._computePatchSetDescription(revisions, patchNum, true)}`
+      `${this.computePatchSetCommentsString(patchNum)}` +
+      `${this.computePatchSetDescription(patchNum, true)}`
     );
   }
 
-  _computePatchDropdownContent(
-    availablePatches?: PatchSet[],
-    basePatchNum?: BasePatchSetNum,
-    sortedRevisions?: (RevisionInfo | EditRevisionInfo)[],
-    changeComments?: ChangeComments
-  ): DropdownItem[] {
-    // Polymer 2: check for undefined
+  // Private method, but visible for testing.
+  computePatchDropdownContent(): DropdownItem[] {
     if (
-      availablePatches === undefined ||
-      basePatchNum === undefined ||
-      sortedRevisions === undefined ||
-      changeComments === undefined
+      this.availablePatches === undefined ||
+      this.basePatchNum === undefined ||
+      this.changeComments === undefined
     ) {
       return [];
     }
 
     const dropdownContent: DropdownItem[] = [];
-    for (const patch of availablePatches) {
+    for (const patch of this.availablePatches) {
       const patchNum = patch.num;
-      const entry = this._createDropdownEntry(
+      const entry = this.createDropdownEntry(
         patchNum,
         patchNum === 'edit' ? '' : 'Patchset ',
-        sortedRevisions,
-        changeComments,
-        this._getShaForPatch(patch)
+        getShaForPatch(patch)
       );
       dropdownContent.push({
         ...entry,
-        disabled: this._computeRightDisabled(
-          basePatchNum,
-          patchNum,
-          sortedRevisions
-        ),
+        disabled: this.computeRightDisabled(this.basePatchNum, patchNum),
       });
     }
     return dropdownContent;
   }
 
-  _computeText(
-    patchNum: PatchSetNum,
-    prefix: string,
-    changeComments: ChangeComments,
-    sha: string
-  ) {
+  private computeText(patchNum: PatchSetNum, prefix: string, sha: string) {
     return (
       `${prefix}${patchNum}` +
-      `${this._computePatchSetCommentsString(changeComments, patchNum)}` +
+      `${this.computePatchSetCommentsString(patchNum)}` +
       ` | ${sha}`
     );
   }
 
-  _createDropdownEntry(
+  private createDropdownEntry(
     patchNum: PatchSetNum,
     prefix: string,
-    sortedRevisions: (RevisionInfo | EditRevisionInfo)[],
-    changeComments: ChangeComments,
     sha: string
   ) {
     const entry: DropdownItem = {
       triggerText: `${prefix}${patchNum}`,
-      text: this._computeText(patchNum, prefix, changeComments, sha),
-      mobileText: this._computeMobileText(
-        patchNum,
-        changeComments,
-        sortedRevisions
-      ),
-      bottomText: `${this._computePatchSetDescription(
-        sortedRevisions,
-        patchNum
-      )}`,
+      text: this.computeText(patchNum, prefix, sha),
+      mobileText: this.computeMobileText(patchNum),
+      bottomText: `${this.computePatchSetDescription(patchNum)}`,
       value: patchNum,
     };
-    const date = this._computePatchSetDate(sortedRevisions, patchNum);
+    const date = this.computePatchSetDate(patchNum);
     if (date) {
       entry.date = date;
     }
@@ -378,17 +327,18 @@ export class GrPatchRangeSelect extends LitElement {
    * is sorted in reverse order (higher patchset nums first), invalid base
    * patch nums have an index greater than the index of patchNum.
    *
+   * Private method, but visible for testing.
+   *
    * @param basePatchNum The possible base patch num.
    * @param patchNum The current selected patch num.
    */
-  _computeLeftDisabled(
+  computeLeftDisabled(
     basePatchNum: PatchSetNum,
-    patchNum: PatchSetNum,
-    sortedRevisions: (RevisionInfo | EditRevisionInfo)[]
+    patchNum: PatchSetNum
   ): boolean {
     return (
-      findSortedIndex(basePatchNum, sortedRevisions) <=
-      findSortedIndex(patchNum, sortedRevisions)
+      findSortedIndex(basePatchNum, this.sortedRevisions) <=
+      findSortedIndex(patchNum, this.sortedRevisions)
     );
   }
 
@@ -403,13 +353,14 @@ export class GrPatchRangeSelect extends LitElement {
    * If the current basePatchNum is a parent index, then only patches that have
    * at least that many parents are valid.
    *
+   * Private method, but visible for testing.
+   *
    * @param basePatchNum The current selected base patch num.
    * @param patchNum The possible patch num.
    */
-  _computeRightDisabled(
+  computeRightDisabled(
     basePatchNum: PatchSetNum,
-    patchNum: PatchSetNum,
-    sortedRevisions: (RevisionInfo | EditRevisionInfo)[]
+    patchNum: PatchSetNum
   ): boolean {
     if (basePatchNum === ParentPatchSetNum) {
       return false;
@@ -427,21 +378,17 @@ export class GrPatchRangeSelect extends LitElement {
     }
 
     return (
-      findSortedIndex(basePatchNum, sortedRevisions) <=
-      findSortedIndex(patchNum, sortedRevisions)
+      findSortedIndex(basePatchNum, this.sortedRevisions) <=
+      findSortedIndex(patchNum, this.sortedRevisions)
     );
   }
 
   // TODO(dhruvsri): have ported comments contribute to this count
-  _computePatchSetCommentsString(
-    changeComments: ChangeComments,
-    patchNum: PatchSetNum
-  ) {
-    if (!changeComments) {
-      return;
-    }
+  // Private method, but visible for testing.
+  computePatchSetCommentsString(patchNum: PatchSetNum): string {
+    if (!this.changeComments) return '';
 
-    const commentThreadCount = changeComments.computeCommentThreadCount(
+    const commentThreadCount = this.changeComments.computeCommentThreadCount(
       {
         patchNum,
       },
@@ -449,7 +396,7 @@ export class GrPatchRangeSelect extends LitElement {
     );
     const commentThreadString = pluralize(commentThreadCount, 'comment');
 
-    const unresolvedCount = changeComments.computeUnresolvedNum(
+    const unresolvedCount = this.changeComments.computeUnresolvedNum(
       {patchNum},
       true
     );
@@ -468,23 +415,19 @@ export class GrPatchRangeSelect extends LitElement {
     );
   }
 
-  _computePatchSetDescription(
-    revisions: (RevisionInfo | EditRevisionInfo)[],
+  private computePatchSetDescription(
     patchNum: PatchSetNum,
     addFrontSpace?: boolean
   ) {
-    const rev = getRevisionByPatchNum(revisions, patchNum);
+    const rev = getRevisionByPatchNum(this.sortedRevisions, patchNum);
     return rev?.description
       ? (addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH)
       : '';
   }
 
-  _computePatchSetDate(
-    revisions: (RevisionInfo | EditRevisionInfo)[],
-    patchNum: PatchSetNum
-  ): Timestamp | undefined {
-    const rev = getRevisionByPatchNum(revisions, patchNum);
+  private computePatchSetDate(patchNum: PatchSetNum): Timestamp | undefined {
+    const rev = getRevisionByPatchNum(this.sortedRevisions, patchNum);
     return rev ? rev.created : undefined;
   }
 
@@ -492,7 +435,7 @@ export class GrPatchRangeSelect extends LitElement {
    * Catches value-change events from the patchset dropdowns and determines
    * whether or not a patch change event should be fired.
    */
-  _handlePatchChange(e: DropDownValueChangeEvent) {
+  private handlePatchChange(e: DropDownValueChangeEvent) {
     const detail: PatchRangeChangeDetail = {
       patchNum: this.patchNum,
       basePatchNum: this.basePatchNum,

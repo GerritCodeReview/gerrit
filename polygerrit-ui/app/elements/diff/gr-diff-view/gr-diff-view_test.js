@@ -30,7 +30,7 @@ import {
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
 import {EventType} from '../../../types/events.js';
-import {_testOnly_resetState, _testOnly_setState} from '../../../services/browser/browser-model.js';
+import {_testOnly_setState} from '../../../services/browser/browser-model.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -68,8 +68,6 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getPortedComments').returns(Promise.resolve({}));
-
-      _testOnly_resetState();
 
       element = basicFixture.instantiate();
       element._changeNum = '42';
@@ -2040,7 +2038,6 @@ suite('gr-diff-view tests', () => {
           Promise.resolve([]));
       element = basicFixture.instantiate();
       element._changeNum = '42';
-      return element._loadComments();
     });
 
     test('_getFiles add files with comments without changes', () => {

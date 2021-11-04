@@ -20,14 +20,18 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-thread-list/gr-thread-list';
-import {ChangeInfo, ActionInfo} from '../../../types/common';
+import {ActionInfo} from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {pluralize} from '../../../utils/string-util';
 import {CommentThread, isUnresolved} from '../../../utils/comment-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, query} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {subscribe} from '../../lit/subscription-controller';
+import {change$} from '../../../services/change/change-model';
+import {threads$} from '../../../services/comments/comments-model';
+import {ParsedChangeInfo} from '../../../types/types';
 
 @customElement('gr-confirm-submit-dialog')
 export class GrConfirmSubmitDialog extends LitElement {
@@ -47,16 +51,16 @@ export class GrConfirmSubmitDialog extends LitElement {
    */
 
   @property({type: Object})
-  change?: ChangeInfo;
-
-  @property({type: Object})
   action?: ActionInfo;
 
-  @property({type: Array})
-  commentThreads?: CommentThread[] = [];
+  @state()
+  change?: ParsedChangeInfo;
 
-  @property({type: Boolean})
-  _initialised = false;
+  @state()
+  unresolvedThreads: CommentThread[] = [];
+
+  @state()
+  initialised = false;
 
   static override get styles() {
     return [
@@ -84,6 +88,16 @@ export class GrConfirmSubmitDialog extends LitElement {
     ];
   }
 
+  constructor() {
+    super();
+    subscribe(this, change$, x => (this.change = x));
+    subscribe(
+      this,
+      threads$,
+      x => (this.unresolvedThreads = x.filter(isUnresolved))
+    );
+  }
+
   private renderPrivate() {
     if (!this.change?.is_private) return '';
     return html`
@@ -106,11 +120,11 @@ export class GrConfirmSubmitDialog extends LitElement {
           icon="gr-icons:warning"
           class="warningBeforeSubmit"
         ></iron-icon>
-        ${this._computeUnresolvedCommentsWarning(this.change)}
+        ${this.computeUnresolvedCommentsWarning()}
       </p>
       <gr-thread-list
         id="commentList"
-        .threads="${this._computeUnresolvedThreads(this.commentThreads)}"
+        .threads="${this.unresolvedThreads}"
         .change="${this.change}"
         .changeNum="${this.change?._number}"
         logged-in
@@ -121,7 +135,7 @@ export class GrConfirmSubmitDialog extends LitElement {
   }
 
   private renderChangeEdit() {
-    if (!this._computeHasChangeEdit(this.change)) return '';
+    if (!this.computeHasChangeEdit()) return '';
     return html`
       <iron-icon
         icon="gr-icons:warning"
@@ -133,7 +147,7 @@ export class GrConfirmSubmitDialog extends LitElement {
   }
 
   private renderInitialised() {
-    if (!this._initialised) return '';
+    if (!this.initialised) return '';
     return html`
       <div class="header" slot="header">${this.action?.label}</div>
       <div class="main" slot="main">
@@ -159,48 +173,43 @@ export class GrConfirmSubmitDialog extends LitElement {
       id="dialog"
       confirm-label="Continue"
       confirm-on-enter=""
-      @cancel=${this._handleCancelTap}
-      @confirm=${this._handleConfirmTap}
+      @cancel=${this.handleCancelTap}
+      @confirm=${this.handleConfirmTap}
     >
       ${this.renderInitialised()}
     </gr-dialog>`;
   }
 
   init() {
-    this._initialised = true;
+    this.initialised = true;
   }
 
   resetFocus() {
     this.dialog?.resetFocus();
   }
 
-  _computeHasChangeEdit(change?: ChangeInfo) {
-    return (
-      !!change &&
-      !!change.revisions &&
-      Object.values(change.revisions).some(rev => rev._number === 'edit')
+  // Private method, but visible for testing.
+  computeHasChangeEdit() {
+    return Object.values(this.change?.revisions ?? {}).some(
+      rev => rev._number === 'edit'
     );
   }
 
-  _computeUnresolvedThreads(commentThreads?: CommentThread[]) {
-    if (!commentThreads) return [];
-    return commentThreads.filter(thread => isUnresolved(thread));
-  }
-
-  _computeUnresolvedCommentsWarning(change?: ChangeInfo) {
-    if (!change) return '';
-    const unresolvedCount = change.unresolved_comment_count;
+  // Private method, but visible for testing.
+  computeUnresolvedCommentsWarning() {
+    if (!this.change) return '';
+    const unresolvedCount = this.change.unresolved_comment_count;
     if (!unresolvedCount) throw new Error('unresolved comments undefined or 0');
     return `Heads Up! ${pluralize(unresolvedCount, 'unresolved comment')}.`;
   }
 
-  _handleConfirmTap(e: Event) {
+  private handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('confirm', {bubbles: false}));
   }
 
-  _handleCancelTap(e: Event) {
+  private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('cancel', {bubbles: false}));

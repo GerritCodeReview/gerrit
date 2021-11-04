@@ -18,7 +18,6 @@ import '@polymer/paper-tabs/paper-tabs';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-paper-styles';
 import '../../../styles/shared-styles';
-import '../../diff/gr-comment-api/gr-comment-api';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-account-link/gr-account-link';
@@ -129,10 +128,7 @@ import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
-import {
-  ChangeComments,
-  GrCommentApi,
-} from '../../diff/gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   assertIsDefined,
   hasOwnProperty,
@@ -230,7 +226,6 @@ const ROBOT_COMMENTS_LIMIT = 10;
 
 export interface GrChangeView {
   $: {
-    commentAPI: GrCommentApi;
     applyFixDialog: GrApplyFixDialog;
     fileList: GrFileList & Element;
     fileListHeader: GrFileListHeader;
@@ -2026,23 +2021,6 @@ export class GrChangeView extends base {
       });
   }
 
-  /**
-   * Fetches a new changeComment object, and data for all types of comments
-   * (comments, robot comments, draft comments) is requested.
-   */
-  _reloadComments() {
-    // We are resetting all comment related properties, because we want to avoid
-    // a new change being loaded and then paired with outdated comments.
-    this._changeComments = undefined;
-    this._commentThreads = undefined;
-    this._draftCommentThreads = undefined;
-    this._robotCommentThreads = undefined;
-    if (!this._changeNum)
-      throw new Error('missing required changeNum property');
-
-    this.commentsService.loadAll(this._changeNum, this._patchRange?.patchNum);
-  }
-
   @observe('_changeComments')
   changeCommentsChanged(comments?: ChangeComments) {
     if (!comments) return;
@@ -2123,8 +2101,6 @@ export class GrChangeView extends base {
       return this._getProjectConfig();
     });
     allDataPromises.push(projectConfigLoaded);
-
-    this._reloadComments();
 
     let coreDataPromise;
 
@@ -2230,13 +2206,20 @@ export class GrChangeView extends base {
     assertIsDefined(this._changeNum, '_changeNum');
     if (!this._patchRange?.patchNum) throw new Error('missing patchNum');
     const promises = [this._getCommitInfo(), this.$.fileList.reload()];
-    if (patchNumChanged)
+    if (patchNumChanged) {
       promises.push(
-        this.$.commentAPI.reloadPortedComments(
+        this.commentsService.reloadPortedComments(
           this._changeNum,
           this._patchRange?.patchNum
         )
       );
+      promises.push(
+        this.commentsService.reloadPortedDrafts(
+          this._changeNum,
+          this._patchRange?.patchNum
+        )
+      );
+    }
     return Promise.all(promises);
   }
 

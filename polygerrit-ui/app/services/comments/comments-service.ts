@@ -31,7 +31,10 @@ import {
   updateStatePortedDrafts,
   updateStateUndoDiscardedDraft,
   discardedDrafts$,
+  updateStateReset,
 } from './comments-model';
+import {changeNum$, currentPatchNum$} from '../change/change-model';
+import {combineLatest} from 'rxjs';
 
 export class CommentsService {
   private discardedDrafts?: UIDraft[] = [];
@@ -40,31 +43,55 @@ export class CommentsService {
     discardedDrafts$.subscribe(
       discardedDrafts => (this.discardedDrafts = discardedDrafts)
     );
+    changeNum$.subscribe(changeNum => {
+      updateStateReset();
+      if (!changeNum) return;
+      this.reloadComments(changeNum);
+      this.reloadRobotComments(changeNum);
+      this.reloadDrafts(changeNum);
+    });
+    combineLatest([changeNum$, currentPatchNum$]).subscribe(
+      ([changeNum, currentPatchNum]) => {
+        if (!changeNum || !currentPatchNum) return;
+        this.reloadPortedComments(changeNum, currentPatchNum);
+        this.reloadPortedDrafts(changeNum, currentPatchNum);
+      }
+    );
   }
 
-  /**
-   * Load all comments (with drafts and robot comments) for the given change
-   * number. The returned promise resolves when the comments have loaded, but
-   * does not yield the comment data.
-   */
-  // TODO(dhruvsri): listen to changeNum changes or reload event to update
-  // automatically
-  loadAll(changeNum: NumericChangeId, patchNum = CURRENT as RevisionId) {
-    const revision = patchNum;
-    this.restApiService
+  reloadComments(changeNum: NumericChangeId): Promise<void> {
+    return this.restApiService
       .getDiffComments(changeNum)
       .then(comments => updateStateComments(comments));
-    this.restApiService
+  }
+
+  reloadRobotComments(changeNum: NumericChangeId): Promise<void> {
+    return this.restApiService
       .getDiffRobotComments(changeNum)
       .then(robotComments => updateStateRobotComments(robotComments));
-    this.restApiService
+  }
+
+  reloadDrafts(changeNum: NumericChangeId): Promise<void> {
+    return this.restApiService
       .getDiffDrafts(changeNum)
       .then(drafts => updateStateDrafts(drafts));
-    this.restApiService
-      .getPortedComments(changeNum, revision)
+  }
+
+  reloadPortedComments(
+    changeNum: NumericChangeId,
+    patchNum = CURRENT as RevisionId
+  ): Promise<void> {
+    return this.restApiService
+      .getPortedComments(changeNum, patchNum)
       .then(portedComments => updateStatePortedComments(portedComments));
-    this.restApiService
-      .getPortedDrafts(changeNum, revision)
+  }
+
+  reloadPortedDrafts(
+    changeNum: NumericChangeId,
+    patchNum = CURRENT as RevisionId
+  ): Promise<void> {
+    return this.restApiService
+      .getPortedDrafts(changeNum, patchNum)
       .then(portedDrafts => updateStatePortedDrafts(portedDrafts));
   }
 

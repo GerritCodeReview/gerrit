@@ -132,7 +132,6 @@ export const htmlTemplate = html`
       <div class="patchInfoContent">
         <gr-patch-range-select
           id="rangeSelect"
-          change-comments="[[changeComments]]"
           change-num="[[changeNum]]"
           patch-num="[[patchNum]]"
           base-patch-num="[[basePatchNum]]"

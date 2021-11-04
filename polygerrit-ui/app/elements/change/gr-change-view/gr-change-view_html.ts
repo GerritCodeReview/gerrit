@@ -381,7 +381,6 @@ export const htmlTemplate = html`
             on-stop-edit-tap="_handleStopEditTap"
             on-download-tap="_handleOpenDownloadDialog"
             on-included-tap="_handleOpenIncludedInDialog"
-            comment-threads="[[_commentThreads]]"
           ></gr-change-actions>
         </div>
         <!-- end commit actions -->
@@ -439,12 +438,7 @@ export const htmlTemplate = html`
                 </gr-editable-content>
               </div>
               <h3 class="assistive-tech-only">Comments and Checks Summary</h3>
-              <gr-change-summary
-                change-comments="[[_changeComments]]"
-                comment-threads="[[_commentThreads]]"
-                self-account="[[_account]]"
-              >
-              </gr-change-summary>
+              <gr-change-summary></gr-change-summary>
               <gr-endpoint-decorator name="commit-container">
                 <gr-endpoint-param name="change" value="[[_change]]">
                 </gr-endpoint-param>
@@ -528,7 +522,6 @@ export const htmlTemplate = html`
           change="[[_change]]"
           change-num="[[_changeNum]]"
           revision-info="[[_revisionInfo]]"
-          change-comments="[[_changeComments]]"
           commit-info="[[_commitInfo]]"
           change-url="[[_computeChangeUrl(_change)]]"
           edit-mode="[[_editMode]]"
@@ -720,5 +713,4 @@ export const htmlTemplate = html`
       </gr-reply-dialog>
     </template>
   </gr-overlay>
-  <gr-comment-api id="commentAPI"></gr-comment-api>
 `;

@@ -16,7 +16,6 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import '../../diff/gr-comment-api/gr-comment-api.js';
 import '../../shared/gr-date-formatter/gr-date-formatter.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-file-list.js';
@@ -49,7 +48,6 @@ const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
     <gr-file-list id="fileList"
         change-comments="[[_changeComments]]"></gr-file-list>
-    <gr-comment-api id="commentAPI"></gr-comment-api>
 `);
 
 const basicFixture = fixtureFromElement(commentApiMock.is);

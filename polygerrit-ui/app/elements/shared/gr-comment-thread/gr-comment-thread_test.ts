@@ -50,7 +50,6 @@ import {
   stubReporting,
   stubRestApi,
 } from '../../../test/test-utils';
-import {_testOnly_resetState} from '../../../services/comments/comments-model';
 import {SinonStub} from 'sinon';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
@@ -63,7 +62,6 @@ suite('gr-comment-thread tests', () => {
 
     setup(() => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-      _testOnly_resetState();
       element = basicFixture.instantiate();
       element.patchNum = 3 as PatchSetNum;
       element.changeNum = 1 as NumericChangeId;

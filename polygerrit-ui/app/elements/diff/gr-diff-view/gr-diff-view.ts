@@ -65,7 +65,7 @@ import {
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {ChangeComments, GrCommentApi} from '../gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
 import {
   BasePatchSetNum,
@@ -134,7 +134,6 @@ interface CommentSkips {
 
 export interface GrDiffView {
   $: {
-    commentAPI: GrCommentApi;
     diffHost: GrDiffHost;
     reviewed: HTMLInputElement;
     dropdown: GrDropdownList;
@@ -347,8 +346,6 @@ export class GrDiffView extends base {
   private readonly restApiService = appContext.restApiService;
 
   private readonly userService = appContext.userService;
-
-  private readonly commentsService = appContext.commentsService;
 
   private readonly shortcuts = appContext.shortcutsService;
 
@@ -1074,8 +1071,6 @@ export class GrDiffView extends base {
 
     if (!this._change) promises.push(this._getChangeDetail(this._changeNum));
 
-    if (!this._changeComments) this._loadComments(value.patchNum);
-
     promises.push(this._getChangeEdit());
 
     this.$.diffHost.cancel();
@@ -1462,11 +1457,6 @@ export class GrDiffView extends base {
     let url = changeBaseURL(project, changeNum, patchRange.patchNum);
     url += '/patch?zip&path=' + encodeURIComponent(path);
     return url;
-  }
-
-  _loadComments(patchSet?: PatchSetNum) {
-    assertIsDefined(this._changeNum, '_changeNum');
-    return this.commentsService.loadAll(this._changeNum, patchSet);
   }
 
   @observe(

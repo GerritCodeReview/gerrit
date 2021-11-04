@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
@@ -65,6 +65,11 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {modifierPressed} from '../../../utils/dom-util';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {account$} from '../../../services/user/user-model';
+import {
+  changeComments$,
+  threads$,
+} from '../../../services/comments/comments-model';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -378,31 +383,31 @@ DETAILS_QUOTA.set(RunStatus.RUNNING, 2);
 
 @customElement('gr-change-summary')
 export class GrChangeSummary extends LitElement {
-  @property({type: Object})
+  @state()
   changeComments?: ChangeComments;
 
-  @property({type: Array})
+  @state()
   commentThreads?: CommentThread[];
 
-  @property({type: Object})
+  @state()
   selfAccount?: AccountInfo;
 
-  @property()
+  @state()
   runs: CheckRun[] = [];
 
-  @property()
+  @state()
   showChecksSummary = false;
 
-  @property()
+  @state()
   someProvidersAreLoading = false;
 
-  @property()
+  @state()
   errorMessages: ErrorMessages = {};
 
-  @property()
+  @state()
   loginCallback?: () => void;
 
-  @property()
+  @state()
   actions: Action[] = [];
 
   private showAllChips = new Map<RunStatus | Category, boolean>();
@@ -421,6 +426,9 @@ export class GrChangeSummary extends LitElement {
     subscribe(this, errorMessagesLatest$, x => (this.errorMessages = x));
     subscribe(this, loginCallbackLatest$, x => (this.loginCallback = x));
     subscribe(this, topLevelActionsLatest$, x => (this.actions = x));
+    subscribe(this, changeComments$, x => (this.changeComments = x));
+    subscribe(this, threads$, x => (this.commentThreads = x));
+    subscribe(this, account$, x => (this.selfAccount = x));
   }
 
   static override get styles() {

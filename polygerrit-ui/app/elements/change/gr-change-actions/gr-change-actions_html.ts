@@ -213,11 +213,9 @@ export const htmlTemplate = html`
     <gr-confirm-submit-dialog
       id="confirmSubmitDialog"
       class="confirmDialog"
-      change="[[change]]"
       action="[[_revisionSubmitAction]]"
       on-cancel="_handleConfirmDialogCancel"
       on-confirm="_handleSubmitConfirm"
-      comment-threads="[[commentThreads]]"
       hidden=""
     ></gr-confirm-submit-dialog>
     <gr-dialog

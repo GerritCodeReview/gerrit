@@ -16,7 +16,6 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import '../../diff/gr-comment-api/gr-comment-api.js';
 import './gr-messages-list.js';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';
 import {TEST_ONLY} from './gr-messages-list.js';
@@ -30,7 +29,6 @@ createCommentApiMockWithTemplateElement(
      <gr-messages-list
          id="messagesList"
          change-comments="[[_changeComments]]"></gr-messages-list>
-     <gr-comment-api id="commentAPI"></gr-comment-api>
 `);
 
 const basicFixture = fixtureFromTemplate(html`

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eaa07fb_0b0b850e",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-05T22:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f4ef59a_a665cc92",
+      "range": {
+        "startLine": 97,
+        "startChar": 31,
+        "endLine": 97,
+        "endChar": 43
+      },
+      "revId": "7a2ecd8b23eedf37eac00ba28a10fd75ed9424cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c389991a_dd087c90",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-11-05T19:53:52Z",
       "side": 1,
       "message": "Can you not make this also static still (same as it was before)? And you can shorten the name since you\u0027re in a ProjectSlice now.\n\n private static final int MAX_CHANGES \u003d 1000;",
+      "range": {
+        "startLine": 98,
+        "startChar": 11,
+        "endLine": 98,
+        "endChar": 12
+      },
+      "revId": "7a2ecd8b23eedf37eac00ba28a10fd75ed9424cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dd3da91_b766bcf3",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-05T22:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c389991a_dd087c90",
       "range": {
         "startLine": 98,
         "startChar": 11,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8a3956b_82c6cb12",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-05T22:09:19Z",
+      "side": 1,
+      "message": "Actually, we don\u0027t have to pass it since SliceCreator is not static.",
+      "parentUuid": "3a9353ae_4c3f0c4d",
+      "range": {
+        "startLine": 139,
+        "startChar": 48,
+        "endLine": 139,
+        "endChar": 60
+      },
+      "revId": "7a2ecd8b23eedf37eac00ba28a10fd75ed9424cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9df16a0a_16b31096",
@@ -104,6 +176,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef22b2e3_1d52062c",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-05T22:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df16a0a_16b31096",
+      "revId": "7a2ecd8b23eedf37eac00ba28a10fd75ed9424cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ac278df_694bcb4b",
@@ -117,6 +207,30 @@
       "writtenOn": "2021-11-05T19:53:52Z",
       "side": 1,
       "message": "We always fully qualify to \u0027Project.NameKey\u0027",
+      "range": {
+        "startLine": 327,
+        "startChar": 33,
+        "endLine": 327,
+        "endChar": 40
+      },
+      "revId": "7a2ecd8b23eedf37eac00ba28a10fd75ed9424cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bc5c0df_6b79b0ef",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-05T22:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ac278df_694bcb4b",
       "range": {
         "startLine": 327,
         "startChar": 33,

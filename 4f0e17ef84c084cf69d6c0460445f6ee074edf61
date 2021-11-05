@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d100811_d95445df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T21:52:29Z",
+      "side": 1,
+      "message": "This is nice, thanks for contributing it!",
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe73d560_aa144674",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T21:52:29Z",
+      "side": 1,
+      "message": "should be \u0027lib\u0027?",
+      "range": {
+        "startLine": 26,
+        "startChar": 30,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b58b3bef_6e5f9262",
+        "filename": "lib/highlightjs/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T21:52:29Z",
+      "side": 1,
+      "message": "repeated?",
+      "range": {
+        "startLine": 1,
+        "startChar": 25,
+        "endLine": 1,
+        "endChar": 30
+      },
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53082d35_8598e30b",
+        "filename": "lib/highlightjs/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T21:52:29Z",
+      "side": 1,
+      "message": "bazel convention keeps the \":\" prefix for labels that refer to targets that are rules.\n\n src \u003d \":highlight\",\n\nhttps://docs.bazel.build/versions/main/build-ref.html#labels",
+      "range": {
+        "startLine": 30,
+        "startChar": 11,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3462ed17_87cdc212",
+        "filename": "lib/highlightjs/index.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T21:52:29Z",
+      "side": 1,
+      "message": "Needs a copyright/license header",
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6c7fa4a_71d56144",
+        "filename": "lib/highlightjs/package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T21:52:29Z",
+      "side": 1,
+      "message": "Current version is 10.7.2. Can you do the version bump in a separate change?",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0496d58c_ae3cadc9",
+        "filename": "lib/highlightjs/package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T21:52:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be https://github.com/highlightjs/highlightjs-closure-templates ?",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 92
+      },
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1ca883c_dab8f38d",
+        "filename": "lib/highlightjs/rollup.config.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T21:52:29Z",
+      "side": 1,
+      "message": "Needs copyright/license header (see https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/rollup.config.js for an example)",
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
@@ -41,7 +42,10 @@ public class PluggableCommitMessageGenerator {
    * modify the message.
    */
   public String generate(
-      RevCommit original, RevCommit mergeTip, BranchNameKey dest, String originalMessage) {
+      RevCommit original,
+      @Nullable RevCommit mergeTip,
+      BranchNameKey dest,
+      String originalMessage) {
     requireNonNull(original.getRawBuffer());
     if (mergeTip != null) {
       requireNonNull(mergeTip.getRawBuffer());

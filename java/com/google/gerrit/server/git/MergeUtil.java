@@ -31,6 +31,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
@@ -630,7 +631,7 @@ public class MergeUtil {
    * @return new message
    */
   public String createCommitMessageOnSubmit(
-      RevCommit n, RevCommit mergeTip, ChangeNotes notes, PatchSet.Id id) {
+      RevCommit n, @Nullable RevCommit mergeTip, ChangeNotes notes, PatchSet.Id id) {
     return commitMessageGenerator.generate(
         n, mergeTip, notes.getChange().getDest(), createDetailedCommitMessage(n, notes, id));
   }

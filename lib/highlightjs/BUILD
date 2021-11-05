@@ -1,3 +1,27 @@
-exports_files([
-    "highlight.min.js",
-])
+# build highlight.min.js from node modules
+
+load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
+
+package(
+    default_visibility = ["//visibility:public"],
+    licenses = ["notice"],
+)
+
+rollup_bundle(
+    name = "highlight.min",
+    srcs = [
+        "@ui_npm//highlight.js",
+        "@ui_npm//highlightjs-closure-templates",
+    ],
+    config_file = "rollup.config.js",
+    entry_point = "index.js",
+    format = "iife",
+    silent = True,
+    sourcemap = "hidden",
+    rollup_bin = "//tools/node_tools:rollup-bin",
+    deps = [
+        "@npm//@rollup/plugin-commonjs",
+        "@npm//@rollup/plugin-json",
+        "@npm//@rollup/plugin-node-resolve",
+    ],
+)

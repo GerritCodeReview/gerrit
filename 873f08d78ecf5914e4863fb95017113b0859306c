@@ -22,6 +22,30 @@
       },
       "revId": "873f08d78ecf5914e4863fb95017113b0859306c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e60fb2_69464dac",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-05T15:35:50Z",
+      "side": 1,
+      "message": "-1.\n\nIf --threads is -1 and index.batchThreads is 10. The code is your comment picks final threads as 10 but not -1 ?",
+      "parentUuid": "20d53103_7e375bb3",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 5
+      },
+      "revId": "873f08d78ecf5914e4863fb95017113b0859306c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

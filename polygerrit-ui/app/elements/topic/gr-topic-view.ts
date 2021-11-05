@@ -1,6 +1,9 @@
+import {customElement, property} from 'lit/decorators';
+import {LitElement, html} from 'lit';
+
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
+ * Copyright (C) 2021 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +18,12 @@
  * limitations under the License.
  */
 
-export interface FlagsService {
-  isEnabled(experimentId: string): boolean;
-  enabledExperiments: string[];
-}
+@customElement('gr-topic-view')
+export class GrTopicView extends LitElement {
+  @property()
+  topic?: string;
 
-/**
- * @desc Experiment ids used in Gerrit.
- */
-export enum KnownExperimentId {
-  NEW_IMAGE_DIFF_UI = 'UiFeature__new_image_diff_ui',
-  CHECKS_DEVELOPER = 'UiFeature__checks_developer',
-  SUBMIT_REQUIREMENTS_UI = 'UiFeature__submit_requirements_ui',
-  TOPICS_PAGE = 'UiFeature__topics_page',
+  override render() {
+    return html`<div>Topic page for ${this.topic ?? ''}</div>`;
+  }
 }

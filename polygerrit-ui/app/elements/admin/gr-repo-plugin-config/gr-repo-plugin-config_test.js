@@ -44,7 +44,6 @@ suite('gr-repo-plugin-config tests', () => {
     element._handleChange({
       _key: 'plugin',
       info: {value: 'newTest'},
-      notifyPath: 'plugin.value',
     });
 
     assert.isTrue(eventStub.called);
@@ -52,7 +51,6 @@ suite('gr-repo-plugin-config tests', () => {
     const {detail} = eventStub.lastCall.args[0];
     assert.equal(detail.name, 'testName');
     assert.deepEqual(detail.config, {plugin: {value: 'newTest'}});
-    assert.equal(detail.notifyPath, 'testName.plugin.value');
   });
 
   suite('option types', () => {
@@ -151,7 +149,6 @@ suite('gr-repo-plugin-config tests', () => {
     const detail = element._buildConfigChangeInfo('newTest', 'plugin');
     assert.equal(detail._key, 'plugin');
     assert.deepEqual(detail.info, {value: 'newTest'});
-    assert.equal(detail.notifyPath, 'plugin.value');
   });
 });
 

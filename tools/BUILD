@@ -223,7 +223,7 @@ java_package_configuration(
         "-Xep:Incomparable:ERROR",
         "-Xep:IncompatibleArgumentType:ERROR",
         "-Xep:IncompatibleModifiers:ERROR",
-        # "-Xep:InconsistentCapitalization:WARN",
+        "-Xep:InconsistentCapitalization:ERROR",
         "-Xep:InconsistentHashCode:ERROR",
         "-Xep:IncrementInForLoopAndHeader:ERROR",
         "-Xep:IndexOfChar:ERROR",

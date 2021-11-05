@@ -81,7 +81,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
   private final MessageIdGenerator messageIdGenerator;
-  private final AddToAttentionSetOp.Factory attentionSetOpfactory;
+  private final AddToAttentionSetOp.Factory attentionSetOpFactory;
   private final Provider<CurrentUser> currentUserProvider;
 
   @Inject
@@ -108,7 +108,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     this.removeReviewerControl = removeReviewerControl;
     this.projectCache = projectCache;
     this.messageIdGenerator = messageIdGenerator;
-    this.attentionSetOpfactory = attentionSetOpFactory;
+    this.attentionSetOpFactory = attentionSetOpFactory;
     this.currentUserProvider = currentUserProvider;
   }
 
@@ -149,7 +149,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       if (!r.getReviewerUser().getAccountId().equals(currentUserProvider.get().getAccountId())) {
         bu.addOp(
             change.getId(),
-            attentionSetOpfactory.create(
+            attentionSetOpFactory.create(
                 r.getReviewerUser().getAccountId(),
                 /* reason= */ "Their vote was deleted",
                 /* notify= */ false));

@@ -28,7 +28,7 @@ public class TestServerPlugin extends ServerPlugin {
       String name,
       String pluginCanonicalWebUrl,
       PluginUser user,
-      ClassLoader classloader,
+      ClassLoader classLoader,
       String sysName,
       String httpName,
       String sshName,
@@ -42,10 +42,10 @@ public class TestServerPlugin extends ServerPlugin {
         null,
         null,
         dataDir,
-        classloader,
+        classLoader,
         null,
         GerritRuntime.DAEMON);
-    this.classLoader = classloader;
+    this.classLoader = classLoader;
     this.sysName = sysName;
     this.httpName = httpName;
     this.sshName = sshName;

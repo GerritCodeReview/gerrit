@@ -41,6 +41,7 @@ import {
   CapabilityInfoMap,
   GitRef,
   LabelNameToLabelTypeInfoMap,
+  RepoName,
 } from '../../../types/common';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 
@@ -77,6 +78,9 @@ export class GrAccessSection extends GestureEventListeners(
   static get template() {
     return htmlTemplate;
   }
+
+  @property({type: String})
+  repo?: RepoName;
 
   @property({type: Object})
   capabilities?: CapabilityInfoMap;

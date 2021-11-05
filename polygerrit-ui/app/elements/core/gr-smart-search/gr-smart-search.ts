@@ -126,7 +126,7 @@ export class GrSmartSearch extends GestureEventListeners(
       return Promise.resolve([]);
     }
     return this.$.restAPI
-      .getSuggestedGroups(expression, MAX_AUTOCOMPLETE_RESULTS)
+      .getSuggestedGroups(expression, undefined, MAX_AUTOCOMPLETE_RESULTS)
       .then(groups => {
         if (!groups) {
           return [];

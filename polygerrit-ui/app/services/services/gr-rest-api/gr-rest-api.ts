@@ -197,6 +197,7 @@ export interface RestApiService {
   ): Promise<AccountInfo[] | undefined>;
   getSuggestedGroups(
     input: string,
+    project?: RepoName,
     n?: number,
     errFn?: ErrorCallback
   ): Promise<GroupNameToGroupInfoMap | undefined>;

@@ -604,7 +604,7 @@ has-unicode@^2.0.0:
   resolved "https://registry.yarnpkg.com/has-unicode/-/has-unicode-2.0.1.tgz#e0e6fe6a28cf51138855e086d1691e771de2a8b9"
   integrity sha1-4Ob+aijPUROIVeCG0Wkedx3iqLk=
 
-highlight.js@^10.7.2:
+highlight.js@^10.4.1, highlight.js@^10.7.2:
   version "10.7.3"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.7.3.tgz#697272e3991356e40c3cac566a74eef681756531"
   integrity sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==
@@ -619,6 +619,12 @@ highlight.js@^10.7.2:
   resolved "https://github.com/tali/highlightjs-closure-templates#c1210a277c0bf4b94a08e3ae7db97ceb44a329dd"
   dependencies:
     highlight.js "^11.3.1 || ^10.4.1"
+
+"highlightjs-structured-text@https://github.com/tali/highlightjs-structured-text":
+  version "1.4.2"
+  resolved "https://github.com/tali/highlightjs-structured-text#2af7d1d9cae113f47f051971a793b0266b3755b9"
+  dependencies:
+    highlight.js "^10.4.1"
 
 https-proxy-agent@^5.0.0:
   version "5.0.0"

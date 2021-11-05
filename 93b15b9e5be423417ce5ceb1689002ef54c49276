@@ -16,6 +16,24 @@
       "message": "This is a race condition. I\u0027m surprised this even works at all.  I think I understand how it works due to how promises are done after regular code, but still, this seems like relying on a browser implementation detail. That or I\u0027m missing something obvious.\n\nWhen getRepos is called, you don\u0027t know when the stub method will be called. I would think it would be called immediately, so before element.filter \u003d \u0027filter\u0027.  Maybe the fact that it returns a promise makes it wait for a setTimeout, but even then I don\u0027t know if that\u0027s guaranteed by the standard.",
       "revId": "93b15b9e5be423417ce5ceb1689002ef54c49276",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "104bdf7b_6cae1e89",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-05T00:19:27Z",
+      "side": 1,
+      "message": "Fixed, thanks.",
+      "parentUuid": "88b1979f_bdfee17e",
+      "revId": "93b15b9e5be423417ce5ceb1689002ef54c49276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

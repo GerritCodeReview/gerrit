@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "260ebd7e_a24aa5dc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2916,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-05T05:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80c01aea_b812633b",
+      "range": {
+        "startLine": 2916,
+        "startChar": 28,
+        "endLine": 2916,
+        "endChar": 36
+      },
+      "revId": "d0df4e9b9a82acd781dd2d8b3aa0aad7dfadf0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5594b15_dfd085ba",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-05T05:13:53Z",
       "side": 1,
       "message": "usually we say this as \"Default is ...\" like on line 28",
+      "range": {
+        "startLine": 24,
+        "startChar": 1,
+        "endLine": 25,
+        "endChar": 11
+      },
+      "revId": "d0df4e9b9a82acd781dd2d8b3aa0aad7dfadf0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "567f9a7b_5d8a2d6e",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-05T05:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5594b15_dfd085ba",
       "range": {
         "startLine": 24,
         "startChar": 1,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "701c49d1_fa7ba6a3",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-05T05:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0baf5e26_fd512b21",
+      "range": {
+        "startLine": 57,
+        "startChar": 76,
+        "endLine": 57,
+        "endChar": 77
+      },
+      "revId": "d0df4e9b9a82acd781dd2d8b3aa0aad7dfadf0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c64272dc_fd3b20ba",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-11-05T05:13:53Z",
       "side": 1,
       "message": "Re-order this so you don\u0027t have to repeat these lines?",
+      "range": {
+        "startLine": 239,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 7
+      },
+      "revId": "d0df4e9b9a82acd781dd2d8b3aa0aad7dfadf0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7bb9593_ff9bbe1e",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-05T05:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c64272dc_fd3b20ba",
       "range": {
         "startLine": 239,
         "startChar": 6,

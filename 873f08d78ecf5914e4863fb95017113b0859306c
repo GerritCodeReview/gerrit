@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20d53103_7e375bb3",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T15:30:41Z",
+      "side": 1,
+      "message": "Isn\u0027t this the same as:\n\n int threads \u003d this.threads;\n if (threads \u003d\u003d 0) {\n   threads \u003d\n     config.getInt(\"index\", null, \"batchThreads\", Runtime.getRuntime().availableProcessors());\n }\n if (threads \u003c 0) {\n   return MoreExecutors.newDirectExecutorService();\n }\n\nThis also points out that the interactive threads code above is buggy wrt what the doc says about handling negatives [1]. Can you upload another change to fix it?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#index.threads",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 5
+      },
+      "revId": "873f08d78ecf5914e4863fb95017113b0859306c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

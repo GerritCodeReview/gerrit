@@ -83,6 +83,7 @@ export class GrAccountDropdown extends LitElement {
         gr-dropdown {
           padding: 0 var(--spacing-m);
           --gr-button-text-color: var(--header-text-color);
+          --gr-dropdown-item-color: var(--primary-text-color);
         }
         gr-avatar {
           height: 2em;
@@ -94,36 +95,23 @@ export class GrAccountDropdown extends LitElement {
   }
 
   override render() {
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const customStyle = html`
-      <style>
-        gr-dropdown {
-          --gr-dropdown-item: {
-            color: var(--primary-text-color);
-          }
-        }
-      </style>
-    `;
-    return html`${customStyle}
-      <gr-dropdown
-        link=""
-        .items="${this.links}"
-        .topContent="${this.topContent}"
-        @tap-item-shortcuts=${this._handleShortcutsTap}
-        .horizontalAlign=${'right'}
+    return html`<gr-dropdown
+      link=""
+      .items="${this.links}"
+      .topContent="${this.topContent}"
+      @tap-item-shortcuts=${this._handleShortcutsTap}
+      .horizontalAlign=${'right'}
+    >
+      <span ?hidden="${this._hasAvatars}"
+        >${this._accountName(this.account)}</span
       >
-        <span ?hidden="${this._hasAvatars}"
-          >${this._accountName(this.account)}</span
-        >
-        <gr-avatar
-          .account="${this.account}"
-          ?hidden=${!this._hasAvatars}
-          .imageSize=${56}
-          aria-label="Account avatar"
-        ></gr-avatar>
-      </gr-dropdown>`;
+      <gr-avatar
+        .account="${this.account}"
+        ?hidden=${!this._hasAvatars}
+        .imageSize=${56}
+        aria-label="Account avatar"
+      ></gr-avatar>
+    </gr-dropdown>`;
   }
 
   get links(): DropdownLink[] | undefined {

@@ -116,6 +116,7 @@ export const htmlTemplate = html`
           editing="[[_editing]]"
           owner-of="[[_ownerOf]]"
           groups="[[_groups]]"
+          repo="[[repo]]"
           on-added-section-removed="_handleAddedSectionRemoved"
         ></gr-access-section>
       </template>

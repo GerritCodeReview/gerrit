@@ -39,6 +39,7 @@ import {
   CapabilityInfoMap,
   GitRef,
   LabelNameToLabelTypeInfoMap,
+  RepoName,
 } from '../../../types/common';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {fireEvent} from '../../../utils/event-util';
@@ -74,6 +75,9 @@ export class GrAccessSection extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
+
+  @property({type: String})
+  repo?: RepoName;
 
   @property({type: Object})
   capabilities?: CapabilityInfoMap;

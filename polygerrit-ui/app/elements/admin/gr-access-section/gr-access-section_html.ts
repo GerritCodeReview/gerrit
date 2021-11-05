@@ -123,6 +123,7 @@ export const htmlTemplate = html`
             section="[[section.id]]"
             editing="[[editing]]"
             groups="[[groups]]"
+            repo="[[repo]]"
             on-added-permission-removed="_handleAddedPermissionRemoved"
           >
           </gr-permission>

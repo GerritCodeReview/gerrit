@@ -36,7 +36,6 @@ import {
   GroupName,
   InheritedBooleanInfo,
   MaxObjectSizeLimitInfo,
-  PluginNameToPluginParametersMap,
   PluginParameterToConfigParameterInfoMap,
   ProjectAccessGroups,
   ProjectAccessInfoMap,
@@ -48,7 +47,6 @@ import {
   ProjectState,
   SubmitType,
 } from '../../../constants/constants';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {
   createConfig,
   createDownloadSchemes,
@@ -163,60 +161,50 @@ suite('gr-repo tests', () => {
     return inputs.concat(textareas).concat(selects);
   }
 
-  setup(() => {
+  setup(async () => {
     loggedInStub = stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     repoStub = stubRestApi('getProjectConfig').returns(
       Promise.resolve(repoConf)
     );
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
-  test('_computePluginData', () => {
-    assert.deepEqual(element._computePluginData(), []);
-    assert.deepEqual(
-      element._computePluginData(
-        {} as unknown as PolymerDeepPropertyChange<
-          PluginNameToPluginParametersMap,
-          PluginNameToPluginParametersMap
-        >
-      ),
-      []
-    );
-    assert.deepEqual(
-      element._computePluginData({base: {}} as PolymerDeepPropertyChange<
-        PluginNameToPluginParametersMap,
-        PluginNameToPluginParametersMap
-      >),
-      []
-    );
-    assert.deepEqual(
-      element._computePluginData({
-        base: {
-          'test-plugin': {test: {display_name: 'test plugin', type: 'STRING'}},
-        } as PluginNameToPluginParametersMap,
-      } as PolymerDeepPropertyChange<PluginNameToPluginParametersMap, PluginNameToPluginParametersMap>),
-      [
-        {
-          name: 'test-plugin',
-          config: {
-            test: {
-              display_name: 'test plugin',
-              type: 'STRING' as ConfigParameterInfoType,
-            },
-          },
-        },
-      ]
-    );
-  });
-
-  test('_handlePluginConfigChanged', async () => {
-    const notifyStub = sinon.stub(element, 'notifyPath');
-    element._repoConfig = {
+  test('_computePluginData', async () => {
+    element.repoConfig = {
       ...createConfig(),
       plugin_config: {},
     };
-    element._handlePluginConfigChanged({
+    await element.updateComplete;
+    assert.deepEqual(element.computePluginData(), []);
+
+    element.repoConfig.plugin_config = {
+      'test-plugin': {
+        test: {display_name: 'test plugin', type: 'STRING'},
+      } as PluginParameterToConfigParameterInfoMap,
+    };
+    await element.updateComplete;
+    assert.deepEqual(element.computePluginData(), [
+      {
+        name: 'test-plugin',
+        config: {
+          test: {
+            display_name: 'test plugin',
+            type: 'STRING' as ConfigParameterInfoType,
+          },
+        },
+      },
+    ]);
+  });
+
+  test('handlePluginConfigChanged', async () => {
+    // const notifyStub = sinon.stub(element, 'notifyPath');
+    element.repoConfig = {
+      ...createConfig(),
+      plugin_config: {},
+    };
+    element.handlePluginConfigChanged({
       detail: {
         name: 'test',
         config: {
@@ -225,12 +213,12 @@ suite('gr-repo tests', () => {
         notifyPath: 'path',
       },
     });
-    await flush();
+    await element.updateComplete;
 
-    assert.deepEqual(element._repoConfig!.plugin_config!.test, {
+    assert.deepEqual(element.repoConfig!.plugin_config!.test, {
       test: {display_name: 'test plugin', type: 'STRING'},
     } as PluginParameterToConfigParameterInfoMap);
-    assert.equal(notifyStub.lastCall.args[0], '_repoConfig.plugin_config.path');
+    // assert.equal(notifyStub.lastCall.args[0], 'repoConfig.plugin_config.path');
   });
 
   test('loading displays before repo config is loaded', () => {
@@ -257,8 +245,8 @@ suite('gr-repo tests', () => {
   });
 
   test('download commands visibility', async () => {
-    element._loading = false;
-    await flush();
+    element.loading = false;
+    await element.updateComplete;
     assert.isTrue(
       queryAndAssert<HTMLDivElement>(
         element,
@@ -270,8 +258,8 @@ suite('gr-repo tests', () => {
         queryAndAssert<HTMLDivElement>(element, '#downloadContent')
       ).display === 'none'
     );
-    element._schemesObj = SCHEMES;
-    await flush();
+    element.schemesObj = SCHEMES;
+    await element.updateComplete;
     assert.isFalse(
       queryAndAssert<HTMLDivElement>(
         element,
@@ -286,13 +274,13 @@ suite('gr-repo tests', () => {
   });
 
   test('form defaults to read only', () => {
-    assert.isTrue(element._readOnly);
+    assert.isTrue(element.readOnly);
   });
 
   test('form defaults to read only when not logged in', async () => {
     element.repo = REPO as RepoName;
-    await element._loadRepo();
-    assert.isTrue(element._readOnly);
+    await element.loadRepo();
+    assert.isTrue(element.readOnly);
   });
 
   test('form defaults to read only when logged in and not admin', async () => {
@@ -321,26 +309,26 @@ suite('gr-repo tests', () => {
         },
       } as ProjectAccessInfoMap)
     );
-    await element._loadRepo();
-    assert.isTrue(element._readOnly);
+    await element.loadRepo();
+    assert.isTrue(element.readOnly);
   });
 
   test('all form elements are disabled when not admin', async () => {
     element.repo = REPO as RepoName;
-    await element._loadRepo();
-    flush();
+    await element.loadRepo();
+    await element.updateComplete;
     const formFields = getFormFields();
     for (const field of formFields) {
       assert.isTrue(field.hasAttribute('disabled'));
     }
   });
 
-  test('_formatBooleanSelect', () => {
+  test('formatBooleanSelect', () => {
     let item: InheritedBooleanInfo = {
       ...createInheritedBoolean(true),
       inherited_value: true,
     };
-    assert.deepEqual(element._formatBooleanSelect(item), [
+    assert.deepEqual(element.formatBooleanSelect(item), [
       {
         label: 'Inherit (true)',
         value: 'INHERIT',
@@ -356,7 +344,7 @@ suite('gr-repo tests', () => {
     ]);
 
     item = {...createInheritedBoolean(false), inherited_value: false};
-    assert.deepEqual(element._formatBooleanSelect(item), [
+    assert.deepEqual(element.formatBooleanSelect(item), [
       {
         label: 'Inherit (false)',
         value: 'INHERIT',
@@ -373,7 +361,7 @@ suite('gr-repo tests', () => {
 
     // For items without inherited values
     item = createInheritedBoolean(false);
-    assert.deepEqual(element._formatBooleanSelect(item), [
+    assert.deepEqual(element.formatBooleanSelect(item), [
       {
         label: 'Inherit',
         value: 'INHERIT',
@@ -407,7 +395,7 @@ suite('gr-repo tests', () => {
       pageErrorFired.resolve();
     });
 
-    element._loadRepo();
+    element.loadRepo();
     await pageErrorFired;
   });
 
@@ -442,18 +430,18 @@ suite('gr-repo tests', () => {
     });
 
     test('all form elements are enabled', async () => {
-      await element._loadRepo();
-      await flush();
+      await element.loadRepo();
+      await element.updateComplete;
       const formFields = getFormFields();
       for (const field of formFields) {
         assert.isFalse(field.hasAttribute('disabled'));
       }
-      assert.isFalse(element._loading);
+      assert.isFalse(element.loading);
     });
 
     test('state gets set correctly', async () => {
-      await element._loadRepo();
-      assert.equal(element._repoConfig!.state, ProjectState.ACTIVE);
+      await element.loadRepo();
+      assert.equal(element.repoConfig!.state, ProjectState.ACTIVE);
       assert.equal(
         queryAndAssert<GrSelect>(element, '#stateSelect').bindValue,
         ProjectState.ACTIVE
@@ -461,7 +449,7 @@ suite('gr-repo tests', () => {
     });
 
     test('inherited submit type value is calculated correctly', async () => {
-      await element._loadRepo();
+      await element.loadRepo();
       const sel = queryAndAssert<GrSelect>(element, '#submitTypeSelect');
       assert.equal(sel.bindValue, 'INHERIT');
       assert.equal(
@@ -499,7 +487,7 @@ suite('gr-repo tests', () => {
 
       const button = queryAll<GrButton>(element, 'gr-button')[2];
 
-      await element._loadRepo();
+      await element.loadRepo();
       assert.isTrue(button.hasAttribute('disabled'));
       assert.isFalse(
         queryAndAssert<HTMLHeadingElement>(
@@ -564,12 +552,10 @@ suite('gr-repo tests', () => {
         ).classList.contains('edited')
       );
 
-      const formattedObj = element._formatRepoConfigForSave(
-        element._repoConfig
-      );
+      const formattedObj = element.formatRepoConfigForSave(element.repoConfig);
       assert.deepEqual(formattedObj, configInputObj);
 
-      await element._handleSaveRepoConfig();
+      await element.handleSaveRepoConfig();
       assert.isTrue(button.hasAttribute('disabled'));
       assert.isFalse(
         queryAndAssert<HTMLHeadingElement>(

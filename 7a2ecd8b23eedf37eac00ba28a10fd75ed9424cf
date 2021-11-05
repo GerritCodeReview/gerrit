@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a87f9cf_2c529b7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T19:53:52Z",
+      "side": 1,
+      "message": "Down to some really small nits, this is great!",
+      "revId": "7a2ecd8b23eedf37eac00ba28a10fd75ed9424cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f4ef59a_a665cc92",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T19:53:52Z",
+      "side": 1,
+      "message": "this was an existing problem, but I think this class should show up earlier in this file, probably just after the logger.",
+      "range": {
+        "startLine": 97,
+        "startChar": 31,
+        "endLine": 97,
+        "endChar": 43
+      },
+      "revId": "7a2ecd8b23eedf37eac00ba28a10fd75ed9424cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c389991a_dd087c90",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T19:53:52Z",
+      "side": 1,
+      "message": "Can you not make this also static still (same as it was before)? And you can shorten the name since you\u0027re in a ProjectSlice now.\n\n private static final int MAX_CHANGES \u003d 1000;",
+      "range": {
+        "startLine": 98,
+        "startChar": 11,
+        "endLine": 98,
+        "endChar": 12
+      },
+      "revId": "7a2ecd8b23eedf37eac00ba28a10fd75ed9424cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a9353ae_4c3f0c4d",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T19:53:52Z",
+      "side": 1,
+      "message": "probably should pass this in the constructor",
+      "range": {
+        "startLine": 139,
+        "startChar": 48,
+        "endLine": 139,
+        "endChar": 60
+      },
+      "revId": "7a2ecd8b23eedf37eac00ba28a10fd75ed9424cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9df16a0a_16b31096",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T19:53:52Z",
+      "side": 1,
+      "message": "This can be final",
+      "revId": "7a2ecd8b23eedf37eac00ba28a10fd75ed9424cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ac278df_694bcb4b",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T19:53:52Z",
+      "side": 1,
+      "message": "We always fully qualify to \u0027Project.NameKey\u0027",
+      "range": {
+        "startLine": 327,
+        "startChar": 33,
+        "endLine": 327,
+        "endChar": 40
+      },
+      "revId": "7a2ecd8b23eedf37eac00ba28a10fd75ed9424cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

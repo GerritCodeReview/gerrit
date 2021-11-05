@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -42,10 +43,13 @@ public interface ChangeMessageModifier {
    * @param original the commit of the change being submitted. <b>Note that its commit message may
    *     be different than newCommitMessage argument.</b>
    * @param mergeTip the current HEAD of the destination branch, which will be a parent of a new
-   *     commit being generated
+   *     commit being generated. mergeTip can be null if the destination branch does not yet exist.
    * @param destination the branch onto which the change is being submitted
    * @return a new not null commit message.
    */
   String onSubmit(
-      String newCommitMessage, RevCommit original, RevCommit mergeTip, BranchNameKey destination);
+      String newCommitMessage,
+      RevCommit original,
+      @Nullable RevCommit mergeTip,
+      BranchNameKey destination);
 }

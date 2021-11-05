@@ -61,6 +61,7 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['text/x-handlebars', 'handlebars'],
   ['text/x-haskell', 'haskell'],
   ['text/x-haxe', 'haxe'],
+  ['text/x-iecst', 'iecst'],
   ['text/x-ini', 'ini'],
   ['text/x-java', 'java'],
   ['text/x-julia', 'julia'],

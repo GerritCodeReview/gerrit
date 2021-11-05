@@ -7,7 +7,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "highlight.js": "^11.3.1",
-    "highlightjs-closure-templates": "https://github.com/tali/highlightjs-closure-templates"
+    "highlightjs-closure-templates": "https://github.com/tali/highlightjs-closure-templates",
+    "highlightjs-structured-text": "^1.4.2"
   },
   "devDependencies": {
     "@bazel/rollup": "^3.5.0",

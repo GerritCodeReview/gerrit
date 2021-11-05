@@ -1,0 +1,20 @@
+{
+  "name": "highlight-gerrit",
+  "version": "11.3.1",
+  "description": "highlight.js for Gerrit",
+  "main": "highlight.js",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "highlight.js": "^11.3.1",
+    "highlightjs-closure-templates": "https://github.com/tali/highlightjs-closure-templates"
+  },
+  "devDependencies": {
+    "@bazel/rollup": "^4.4.2",
+    "@bazel/terser": "^4.4.2",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "rollup": "^2.59.0"
+  }
+}

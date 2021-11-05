@@ -23,6 +23,7 @@ workspace(
         "@ui_dev_npm": ["polygerrit-ui/node_modules"],
         "@tools_npm": ["tools/node_tools/node_modules"],
         "@plugins_npm": ["plugins/node_modules"],
+        "@highlightjs_npm": ["lib/highlightjs/node_modules"],
     },
 )
 
@@ -953,6 +954,14 @@ yarn_install(
     package_json = "//:polygerrit-ui/package.json",
     package_path = "polygerrit-ui",
     yarn_lock = "//:polygerrit-ui/yarn.lock",
+)
+
+yarn_install(
+    name = "highlightjs_npm",
+    frozen_lockfile = False,
+    package_json = "//:lib/highlightjs/package.json",
+    package_path = "lib/highlightjs",
+    yarn_lock = "//:lib/highlightjs/yarn.lock",
 )
 
 yarn_install(

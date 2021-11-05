@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5787e219_7f56ce24",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-05T09:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f1cfd2_2c7cd226",
+      "revId": "6708908804689274a0845adccf76997bc77d9703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97e69313_02ff67e2",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66caf9fb_9c3bd779",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-05T09:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97e69313_02ff67e2",
+      "revId": "6708908804689274a0845adccf76997bc77d9703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "345d2540_dac34b51",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-11-03T16:00:54Z",
       "side": 1,
       "message": "Use {} when the if statement consumes more than one line. And then also use {} for the else block.",
+      "revId": "6708908804689274a0845adccf76997bc77d9703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e63235b_95a6e60f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-05T09:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "345d2540_dac34b51",
       "revId": "6708908804689274a0845adccf76997bc77d9703",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +146,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "675a7a61_3cd23823",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-05T09:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc41b716_48f0fd36",
+      "range": {
+        "startLine": 390,
+        "startChar": 4,
+        "endLine": 415,
+        "endChar": 9
+      },
+      "revId": "6708908804689274a0845adccf76997bc77d9703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84109e86_7ed6108c",
@@ -105,6 +183,24 @@
       "writtenOn": "2021-11-03T16:00:54Z",
       "side": 1,
       "message": "Needs comment. Is this only affecting the diff view?\n\nMaybe rename to `diffPath`?\n\nMaybe move into router-model?",
+      "revId": "6708908804689274a0845adccf76997bc77d9703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2e2a05b_d1fd505b",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-05T09:54:14Z",
+      "side": 1,
+      "message": "Renamed to diff path and added a comment.\nI think it belongs to the change-model more than router-model so I\u0027ll keep it there if that\u0027s okay?",
+      "parentUuid": "84109e86_7ed6108c",
       "revId": "6708908804689274a0845adccf76997bc77d9703",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

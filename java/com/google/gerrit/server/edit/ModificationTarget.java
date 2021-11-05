@@ -52,21 +52,21 @@ public interface ModificationTarget {
   /** A specific patchset commit is the target of the modification. */
   class PatchsetCommit implements ModificationTarget {
 
-    private final PatchSet patchset;
+    private final PatchSet patchSet;
 
-    PatchsetCommit(PatchSet patchset) {
-      this.patchset = patchset;
+    PatchsetCommit(PatchSet patchSet) {
+      this.patchSet = patchSet;
     }
 
     @Override
     public void ensureTargetMayBeModifiedDespiteExistingEdit(ChangeEdit changeEdit)
         throws InvalidChangeOperationException {
-      if (!isBasedOn(changeEdit, patchset)) {
+      if (!isBasedOn(changeEdit, patchSet)) {
         throw new InvalidChangeOperationException(
             String.format(
                 "Only the patch set %s on which the existing change edit is based may be modified "
                     + "(specified patch set: %s)",
-                changeEdit.getBasePatchSet().id(), patchset.id()));
+                changeEdit.getBasePatchSet().id(), patchSet.id()));
       }
     }
 
@@ -78,7 +78,7 @@ public interface ModificationTarget {
     @Override
     public void ensureNewEditMayBeBasedOnTarget(Change change)
         throws InvalidChangeOperationException {
-      PatchSet.Id patchSetId = patchset.id();
+      PatchSet.Id patchSetId = patchSet.id();
       PatchSet.Id currentPatchSetId = change.currentPatchSetId();
       if (!patchSetId.equals(currentPatchSetId)) {
         throw new InvalidChangeOperationException(
@@ -91,13 +91,13 @@ public interface ModificationTarget {
     @Override
     public RevCommit getCommit(Repository repository) throws IOException {
       try (RevWalk revWalk = new RevWalk(repository)) {
-        return revWalk.parseCommit(patchset.commitId());
+        return revWalk.parseCommit(patchSet.commitId());
       }
     }
 
     @Override
     public PatchSet getBasePatchset() {
-      return patchset;
+      return patchSet;
     }
   }
 

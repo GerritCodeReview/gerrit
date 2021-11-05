@@ -49,20 +49,20 @@ public class AuthRequest {
     }
 
     /** Create a request for a local username, such as from LDAP. */
-    public AuthRequest createForUser(String username) {
+    public AuthRequest createForUser(String userName) {
       AuthRequest r =
           new AuthRequest(
-              externalIdKeyFactory.create(SCHEME_GERRIT, username), externalIdKeyFactory);
-      r.setUserName(username);
+              externalIdKeyFactory.create(SCHEME_GERRIT, userName), externalIdKeyFactory);
+      r.setUserName(userName);
       return r;
     }
 
     /** Create a request for an external username. */
-    public AuthRequest createForExternalUser(String username) {
+    public AuthRequest createForExternalUser(String userName) {
       AuthRequest r =
           new AuthRequest(
-              externalIdKeyFactory.create(SCHEME_EXTERNAL, username), externalIdKeyFactory);
-      r.setUserName(username);
+              externalIdKeyFactory.create(SCHEME_EXTERNAL, userName), externalIdKeyFactory);
+      r.setUserName(userName);
       return r;
     }
 

@@ -37,6 +37,8 @@
     "ba-linkify": "^1.0.1",
     "codemirror-minified": "^5.62.2",
     "immer": "^9.0.5",
+    "highlight.js": "^10.7.2",
+    "highlightjs-closure-templates": "https://github.com/tali/highlightjs-closure-templates",
     "lit": "2.0.2",
     "page": "^1.11.6",
     "polymer-bridges": "file:../../polymer-bridges/",

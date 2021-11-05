@@ -4,7 +4,7 @@ package(default_visibility = ["//visibility:public"])
 
 js_component(
     name = "highlightjs",
-    srcs = ["//lib/highlightjs:highlight.min.js"],
+    srcs = ["//lib/highlightjs:highlight.min"],
     license = "//lib:LICENSE-highlightjs",
 )
 
@@ -13,6 +13,6 @@ js_component(
 # double underscore are removed.
 filegroup(
     name = "highlightjs__files",
-    srcs = ["//lib/highlightjs:highlight.min.js"],
+    srcs = ["//lib/highlightjs:highlight.min"],
     data = ["//lib:LICENSE-highlightjs"],
 )

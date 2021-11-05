@@ -36,6 +36,7 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.change.TestHumanComment;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.HumanComment;
@@ -47,9 +48,11 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -1853,6 +1856,42 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(exception.getMessage()).contains(String.format("%s not found", comment.inReplyTo));
   }
 
+  @Test
+  public void commentsOnRootCommitsAreIncludedInEmails() throws Exception {
+    // Create a change in a new branch, making the patch-set commit a root commit.
+    ChangeInfo changeInfo = createChangeInNewBranch("newBranch");
+    Change.Id changeId = Change.Id.tryParse(Integer.toString(changeInfo._number)).get();
+
+    // Add a file.
+    gApi.changes().id(changeId.get()).edit().modifyFile("f1.txt", RawInputUtil.create("content"));
+    gApi.changes().id(changeId.get()).edit().publish();
+    email.clear();
+
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = admin.email();
+    gApi.changes().id(changeId.get()).addReviewer(reviewerInput);
+    changeInfo = gApi.changes().id(changeId.get()).get();
+    assertThat(email.getMessages()).hasSize(1);
+    Message message = email.getMessages().get(0);
+    assertThat(message.body()).contains("f1.txt");
+    email.clear();
+
+    // Send a comment. Make sure the email that is sent includes the comment text.
+    CommentInput c1 =
+        CommentsUtil.newComment(
+            "f1.txt",
+            Side.REVISION,
+            /* line= */ 1,
+            /* message= */ "Comment text",
+            /* unresolved= */ false);
+    CommentsUtil.addComments(gApi, changeId.toString(), changeInfo.currentRevision, c1);
+    assertThat(email.getMessages()).hasSize(1);
+    Message commentMessage = email.getMessages().get(0);
+    assertThat(commentMessage.body())
+        .contains("Patch Set 2:\n" + "\n" + "(1 comment)\n" + "\n" + "File f1.txt:");
+    assertThat(commentMessage.body()).contains("PS2, Line 1: content\n" + "Comment text");
+  }
+
   private List<CommentInfo> getRevisionComments(String changeId, String revId) throws Exception {
     return getPublishedComments(changeId, revId).values().stream()
         .flatMap(List::stream)
@@ -2016,5 +2055,14 @@ public class CommentsIT extends AbstractDaemonTest {
     reviewInput.message = message;
     reviewInput.draftIdsToPublish = draftIdsToPublish;
     return reviewInput;
+  }
+
+  private ChangeInfo createChangeInNewBranch(String branchName) throws Exception {
+    ChangeInput in = new ChangeInput();
+    in.project = project.get();
+    in.branch = branchName;
+    in.newBranch = true;
+    in.subject = "New changes";
+    return gApi.changes().create(in).get();
   }
 }

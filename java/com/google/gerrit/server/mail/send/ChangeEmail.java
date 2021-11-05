@@ -595,6 +595,11 @@ public abstract class ChangeEmail extends NotificationEmail {
         try {
           ObjectId oldId = modifiedFiles.values().iterator().next().oldCommitId();
           ObjectId newId = modifiedFiles.values().iterator().next().newCommitId();
+          if (oldId.equals(ObjectId.zeroId())) {
+            // DiffOperations returns ObjectId.zeroId if newCommit is a root commit, i.e. has no
+            // parents.
+            oldId = null;
+          }
           fmt.setRepository(git);
           fmt.setDetectRenames(true);
           fmt.format(oldId, newId);

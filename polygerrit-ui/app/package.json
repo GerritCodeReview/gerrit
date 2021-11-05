@@ -39,6 +39,7 @@
     "immer": "^9.0.5",
     "highlight.js": "^10.7.2",
     "highlightjs-closure-templates": "https://github.com/tali/highlightjs-closure-templates",
+    "highlightjs-structured-text": "^1.4.2",
     "lit": "2.0.2",
     "page": "^1.11.6",
     "polymer-bridges": "file:../../polymer-bridges/",

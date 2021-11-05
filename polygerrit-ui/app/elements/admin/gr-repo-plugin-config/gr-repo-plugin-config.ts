@@ -43,7 +43,6 @@ const PLUGIN_CONFIG_CHANGED_EVENT_NAME = 'plugin-config-changed';
 export interface ConfigChangeInfo {
   _key: string; // parameterName of PluginParameterToConfigParameterInfoMap
   info: ConfigParameterInfo;
-  notifyPath: string;
 }
 
 export interface PluginData {
@@ -54,7 +53,6 @@ export interface PluginData {
 export interface PluginConfigChangeDetail {
   name: string; // parameterName of PluginParameterToConfigParameterInfoMap
   config: PluginParameterToConfigParameterInfoMap;
-  notifyPath: string;
 }
 
 @customElement('gr-repo-plugin-config')
@@ -248,7 +246,6 @@ export class GrRepoPluginConfig extends LitElement {
     return {
       _key,
       info,
-      notifyPath: `${_key}.value`,
     };
   }
 
@@ -256,7 +253,7 @@ export class GrRepoPluginConfig extends LitElement {
     this._handleChange(e.detail);
   }
 
-  _handleChange({_key, info, notifyPath}: ConfigChangeInfo) {
+  _handleChange({_key, info}: ConfigChangeInfo) {
     // If pluginData is not set, editors are not created and this method
     // can't be called
     const {name, config} = this.pluginData!;
@@ -265,7 +262,6 @@ export class GrRepoPluginConfig extends LitElement {
     const detail: PluginConfigChangeDetail = {
       name,
       config: {...config, [_key]: info},
-      notifyPath: `${name}.${notifyPath}`,
     };
 
     this.dispatchEvent(

@@ -86,9 +86,7 @@ export const htmlTemplate = html`
       padding: var(--spacing-m);
     }
     gr-dropdown {
-      --gr-dropdown-item: {
-        color: var(--primary-text-color);
-      }
+      --gr-dropdown-item-color: var(--primary-text-color);
     }
     .settingsButton {
       margin-left: var(--spacing-m);

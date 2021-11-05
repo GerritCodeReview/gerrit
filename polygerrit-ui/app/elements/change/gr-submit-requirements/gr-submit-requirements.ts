@@ -192,7 +192,9 @@ export class GrSubmitRequirements extends LitElement {
         <td>
           <gr-endpoint-decorator
             class="votes-cell"
-            name="${`submit-requirement-${charsOnly(requirement.name)}`}"
+            name="${`submit-requirement-${charsOnly(
+              requirement.name
+            ).toLowerCase()}`}"
           >
             <gr-endpoint-param
               name="change"

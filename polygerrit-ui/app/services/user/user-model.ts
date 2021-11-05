@@ -77,6 +77,12 @@ export const account$ = userState$.pipe(
   distinctUntilChanged()
 );
 
+/** Note that this may still be true, even if credentials have expired. */
+export const loggedIn$ = account$.pipe(
+  map(account => !!account),
+  distinctUntilChanged()
+);
+
 export const preferences$ = userState$.pipe(
   map(userState => userState.preferences),
   distinctUntilChanged()

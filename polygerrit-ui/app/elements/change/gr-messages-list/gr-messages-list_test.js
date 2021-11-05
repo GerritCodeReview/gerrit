@@ -22,13 +22,11 @@ import {TEST_ONLY} from './gr-messages-list.js';
 import {MessageTag} from '../../../constants/constants.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {stubRestApi} from '../../../test/test-utils.js';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api.js';
+import {updateStateComments} from '../../../services/comments/comments-model';
 
 createCommentApiMockWithTemplateElement(
     'gr-messages-list-comment-mock-api', html`
-     <gr-messages-list
-         id="messagesList"
-         change-comments="[[_changeComments]]"></gr-messages-list>
+     <gr-messages-list id="messagesList"></gr-messages-list>
 `);
 
 const basicFixture = fixtureFromTemplate(html`
@@ -142,7 +140,7 @@ suite('gr-messages-list tests', () => {
       // comment API.
       commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.messagesList;
-      element.changeComments = new ChangeComments(comments);
+      updateStateComments(comments);
       element.messages = messages;
       flush();
     });
@@ -451,7 +449,6 @@ suite('gr-messages-list tests', () => {
       // comment API.
       commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.messagesList;
-      element.changeComments = new ChangeComments();
       element.messages = messages;
       flush();
     });

@@ -277,7 +277,6 @@ export const htmlTemplate = html`
         <gr-patch-range-select
           id="rangeSelect"
           change-num="[[_changeNum]]"
-          change-comments="[[_changeComments]]"
           patch-num="[[_patchRange.patchNum]]"
           base-patch-num="[[_patchRange.basePatchNum]]"
           files-weblinks="[[_filesWeblinks]]"

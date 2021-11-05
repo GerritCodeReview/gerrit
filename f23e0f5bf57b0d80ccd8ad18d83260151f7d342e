@@ -1,0 +1,343 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60cfd53e_5608f098",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "Does this way sound any better? \"Add migration mode for case insensitive external IDs\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c463f96a_6e6a4478",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "nit: change of a series",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a0d6bc7_611d32c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "what do you mean by \"are still\"? are still under processing, i.e.: they haven\u0027t been lowercased yet?",
+      "range": {
+        "startLine": 15,
+        "startChar": 24,
+        "endLine": 15,
+        "endChar": 33
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da6cb97d_c964c036",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "\"For now\", as in, with this change?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 7
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89257e47_716eec30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "nit: I would a bullet point here for clarity",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 9
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b08a3d03_ecd6c27b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "If this is meant to be a trial mode:\n\n1) will the user be able to access the original data when rolling back? I suppose it will since the original version of the user is not deleted right?\n2) there will probably be a bunch of unwanted users created by the migration. It might be difficult to understand which ones are to delete to restore the initial status when rolling back. How can we cope with that?\n3) Shall we make it clearer in the code we are in a trial mode? We only use it in one test.\n4) Not strictly related to the trial mode, how do we handle the case where we have a sha1 collision? I guess we will have to manually fix this case, shall we make clear in the output which users collided?\n\n",
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85dee490_2bb0e803",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "what about splitting this in 2 methods: caseSensitiveSha1() and caseInSensitiveSha1()?\n\nOtherwise, every time you find something like that in the code \"key.sha1(false)\" you need to lookup the signature to understand what the flag is for.",
+      "range": {
+        "startLine": 213,
+        "startChar": 20,
+        "endLine": 213,
+        "endChar": 24
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7d210c5_a7629cbe",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "Can we differentiate this log from the one at L257 so it will make debugging easier? Something like: \"Case sensitive SHA1 of external.....\" ?",
+      "range": {
+        "startLine": 264,
+        "startChar": 17,
+        "endLine": 264,
+        "endChar": 68
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e516e199_e0a687dd",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "why this is always false?",
+      "range": {
+        "startLine": 97,
+        "startChar": 52,
+        "endLine": 97,
+        "endChar": 57
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f972d97_23430d41",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "What about factor out this logic? We could have a method like the following to encapsulate the logic:\n\n   ObjectId getNoteId(ExternalId.Key key)   \n   \nThis way we could use it for example at L499, this way:\n    \n    ObjectId noteId \u003d getNoteId(key);",
+      "range": {
+        "startLine": 501,
+        "startChar": 4,
+        "endLine": 503,
+        "endChar": 5
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e37069c_8a68cdef",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "I am assuming this is never called from the migration, right?",
+      "range": {
+        "startLine": 62,
+        "startChar": 38,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03512b18_5c36801c",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "Since we have already the concept of Trial mode in Gerrit and IMO it make sense in this case as well, why not using trial mode all over the code?",
+      "range": {
+        "startLine": 48,
+        "startChar": 31,
+        "endLine": 48,
+        "endChar": 56
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c70e3ea0_3f3bfd07",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "Why this is hardcoded and the following cases are hardcoded while the previous ones use the userNameCaseInsensitiveTrialMode variable?",
+      "range": {
+        "startLine": 220,
+        "startChar": 78,
+        "endLine": 220,
+        "endChar": 83
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67e16ab2_ba2a6150",
+        "filename": "javatests/com/google/gerrit/server/index/account/AccountFieldTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "This will affect the sha1 final value, right? shall we add a test with this parameter set to true ?",
+      "range": {
+        "startLine": 59,
+        "startChar": 90,
+        "endLine": 59,
+        "endChar": 95
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "183bce0a_d42b952a",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 1,
+      "message": "I don\u0027t think this is value is meant to contain a Gerrit transient status, right?\n\nIs it meant to mark a user as already migrated? If so, probably we should rename it to something like caseInsensitiveMigrated",
+      "range": {
+        "startLine": 279,
+        "startChar": 9,
+        "endLine": 279,
+        "endChar": 39
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

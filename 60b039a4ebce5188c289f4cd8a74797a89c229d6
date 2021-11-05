@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10ab667a_51769180",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T16:59:03Z",
+      "side": 0,
+      "message": "nit: unrealated",
+      "revId": "60b039a4ebce5188c289f4cd8a74797a89c229d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

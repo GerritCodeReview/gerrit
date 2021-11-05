@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0c2333d_06115843",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T17:06:17Z",
+      "side": 0,
+      "message": "is this related to this change ?",
+      "range": {
+        "startLine": 921,
+        "startChar": 3,
+        "endLine": 923,
+        "endChar": 5
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

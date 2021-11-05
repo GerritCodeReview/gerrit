@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fbebb32_d889beea",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T17:06:17Z",
+      "side": 1,
+      "message": "Is this meant to be negated? Seems strange since in the method we are not using the negation of this value...at least judging from the variable name.",
+      "range": {
+        "startLine": 114,
+        "startChar": 19,
+        "endLine": 114,
+        "endChar": 44
+      },
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a8c92fa_728bd201",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T17:06:17Z",
+      "side": 1,
+      "message": "Is change needed? What about ExternalIdCaseSensitivityMigrator ?",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 52
+      },
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c908f3b_be0818b4",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T17:06:17Z",
+      "side": 1,
+      "message": "this can be singleton, right?",
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aebf3772_b7771f04",
+        "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T17:06:17Z",
+      "side": 1,
+      "message": "what about MigrateExternalIdCase?",
+      "range": {
+        "startLine": 71,
+        "startChar": 41,
+        "endLine": 71,
+        "endChar": 55
+      },
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1da6a19a_fd5bef7c",
+        "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T17:06:17Z",
+      "side": 1,
+      "message": "What about using a builder instead? Having two boolean parameters makes it a bit difficult to understand what is the current migrator setting.",
+      "range": {
+        "startLine": 79,
+        "startChar": 28,
+        "endLine": 79,
+        "endChar": 47
+      },
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16d9e145_d72ad34f",
+        "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-05T17:06:17Z",
+      "side": 1,
+      "message": "Why do we need 2 flags?\n\nCan\u0027t we use the same flag? Say we just used \"userNameCaseInsensitiveMigrationMode, at startup we can just check if this is set to \u0027true\u0027 and start the online migration accordingly. Once the migration is over we change its value.",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 85
+      },
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,29 @@
       "parentUuid": "b368e0b7_63e0ab84",
       "revId": "92b5db7b5d42d7f74c800b8c9f657ea8f6f0cb72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c4845aa_99ee0e30",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-05T17:00:51Z",
+      "side": 1,
+      "message": "I think any version used in WORKSPACE should be declared there so that it goes through Google LC review when it changes.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 24
+      },
+      "revId": "92b5db7b5d42d7f74c800b8c9f657ea8f6f0cb72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

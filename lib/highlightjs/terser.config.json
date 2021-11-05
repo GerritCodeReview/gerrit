@@ -1,0 +1,15 @@
+{
+  "format": {
+    "max_line_len": 80,
+    "ascii_only": true
+  },
+  "compress": {
+    "ecma": 2015,
+    "unsafe_arrows": true,
+    "passes": 2,
+    "unsafe": true,
+    "warnings": true,
+    "dead_code": true,
+    "toplevel": "funcs"
+  }
+}

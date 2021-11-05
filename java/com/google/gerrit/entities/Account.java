@@ -196,9 +196,9 @@ public abstract class Account {
    * <p>Example output:
    *
    * <ul>
-   *   <li>{@code A U. Thor &lt;author@example.com&gt;}: full populated
+   *   <li>{@code A U. Thor <author@example.com>}: full populated
    *   <li>{@code A U. Thor (12)}: missing email address
-   *   <li>{@code Anonymous Coward &lt;author@example.com&gt;}: missing name
+   *   <li>{@code Anonymous Coward <author@example.com>}: missing name
    *   <li>{@code Anonymous Coward (12)}: missing name and email address
    * </ul>
    */

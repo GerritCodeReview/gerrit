@@ -180,7 +180,7 @@ java_package_configuration(
         "-Xep:EqualsUsingHashCode:ERROR",
         "-Xep:EqualsWrongThing:ERROR",
         "-Xep:ErroneousThreadPoolConstructorChecker:ERROR",
-        # "-Xep:EscapedEntity:WARN",
+        "-Xep:EscapedEntity:WARN",
         "-Xep:ExpectedExceptionChecker:ERROR",
         "-Xep:ExtendingJUnitAssert:ERROR",
         "-Xep:ExtendsAutoValue:ERROR",

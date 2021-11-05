@@ -688,7 +688,7 @@ export type GroupId = BrandType<string, '_groupId'>;
  * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-info
  */
 export declare interface GroupInfo {
-  id: GroupId;
+  id?: GroupId;
   name?: GroupName;
   url?: string;
   options?: GroupOptionsInfo;

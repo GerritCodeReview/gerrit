@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93accac4_675895c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-05T15:42:46Z",
+      "side": 1,
+      "message": "Is it intentional for this to be optional there? In the loadGroup method you referenced it seems like the ID is known from the parameter and could be set on GroupInfo.\n\nAdding Patrick who may know more about this REST API.",
+      "revId": "1748dfb6f6d963a151fc775a2934343a828e13c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7134744d_a47c02e1",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-05T15:42:46Z",
+      "side": 1,
+      "message": "Can you also update the documentation column about when this will be set or not set? The other rows have this info.\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:Documentation/rest-api-groups.txt;l\u003d1546;drc\u003de587c40aaae3fc25442db06b181b22aa5d7ed631",
+      "range": {
+        "startLine": 688,
+        "startChar": 0,
+        "endLine": 688,
+        "endChar": 87
+      },
+      "revId": "1748dfb6f6d963a151fc775a2934343a828e13c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

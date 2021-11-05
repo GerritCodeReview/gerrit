@@ -50,6 +50,7 @@ export class GrEditFileControls extends LitElement {
           justify-content: flex-end;
         }
         gr-dropdown {
+          --gr-dropdown-item-color: var(--link-color);
           --gr-button-padding: var(--spacing-xs) var(--spacing-s);
         }
         #actions {
@@ -69,7 +70,6 @@ export class GrEditFileControls extends LitElement {
           --gr-dropdown-item: {
             background-color: transparent;
             border: none;
-            color: var(--link-color);
             text-transform: uppercase;
           }
         }

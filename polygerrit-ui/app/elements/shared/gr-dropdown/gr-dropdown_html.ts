@@ -58,6 +58,7 @@ export const htmlTemplate = html`
       padding: var(--spacing-m) var(--spacing-l);
     }
     li .itemAction {
+      color: var(--gr-dropdown-item-color);
       @apply --gr-dropdown-item;
     }
     li .itemAction.disabled {
@@ -83,6 +84,7 @@ export const htmlTemplate = html`
     .topContent {
       display: block;
       padding: var(--spacing-m) var(--spacing-l);
+      color: var(--gr-dropdown-item-color);
       @apply --gr-dropdown-item;
     }
     .bold-text {

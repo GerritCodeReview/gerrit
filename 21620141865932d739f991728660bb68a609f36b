@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b5a1806_09a8e4e6",
+        "filename": "lib/js/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-06T08:54:06Z",
+      "side": 1,
+      "message": "What is the purpose of lib/js, anyway?\nIs it intended as central point for all included javascript libraries?\nWould it make sense to move the rollup/terser code here?\nOr can we remove this directory?",
+      "revId": "21620141865932d739f991728660bb68a609f36b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

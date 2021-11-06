@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0c994d0_60cb21f9",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-06T08:54:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe73d560_aa144674",
+      "range": {
+        "startLine": 26,
+        "startChar": 30,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b58b3bef_6e5f9262",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-11-05T21:52:29Z",
       "side": 1,
       "message": "repeated?",
+      "range": {
+        "startLine": 1,
+        "startChar": 25,
+        "endLine": 1,
+        "endChar": 30
+      },
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d1aa9cb_ceb49709",
+        "filename": "lib/highlightjs/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-06T08:54:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b58b3bef_6e5f9262",
       "range": {
         "startLine": 1,
         "startChar": 25,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a94d32d9_25916c97",
+        "filename": "lib/highlightjs/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-06T08:54:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53082d35_8598e30b",
+      "range": {
+        "startLine": 30,
+        "startChar": 11,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3462ed17_87cdc212",
@@ -104,6 +176,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45ffefa9_d3806ea4",
+        "filename": "lib/highlightjs/index.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-06T08:54:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3462ed17_87cdc212",
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6c7fa4a_71d56144",
@@ -117,6 +207,30 @@
       "writtenOn": "2021-11-05T21:52:29Z",
       "side": 1,
       "message": "Current version is 10.7.2. Can you do the version bump in a separate change?",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63f3be51_81e22cd9",
+        "filename": "lib/highlightjs/package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-06T08:54:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6c7fa4a_71d56144",
       "range": {
         "startLine": 9,
         "startChar": 22,
@@ -187,6 +301,24 @@
       "writtenOn": "2021-11-05T21:52:29Z",
       "side": 1,
       "message": "Needs copyright/license header (see https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/rollup.config.js for an example)",
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70970923_dc6a399d",
+        "filename": "lib/highlightjs/rollup.config.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-06T08:54:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1ca883c_dab8f38d",
       "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

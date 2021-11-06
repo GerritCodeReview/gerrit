@@ -152,6 +152,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4c999d66_8e7f04d5",
+        "filename": "lib/highlightjs/package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-06T08:23:29Z",
+      "side": 1,
+      "message": "Yes, that\u0027s why I still marked this change WIP.\nBut the original repo lacks the `package.json` file and is thus not recognised by `yarn_install`.\nThat\u0027s why I started converting highlightjs-closure-templates to be a real package in my fork.\nCan you also have a look at that repo? I\u0027d like to start a pull request as soon as I\u0027m confident enough that I got it right.",
+      "parentUuid": "0496d58c_ae3cadc9",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 92
+      },
+      "revId": "4f0e17ef84c084cf69d6c0460445f6ee074edf61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a1ca883c_dab8f38d",
         "filename": "lib/highlightjs/rollup.config.js",
         "patchSetId": 3

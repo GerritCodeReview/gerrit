@@ -6,7 +6,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "highlight.js": "^10.7.2",
+    "highlight.js": "^11.3.1",
     "highlightjs-closure-templates": "https://github.com/tali/highlightjs-closure-templates"
   },
   "devDependencies": {

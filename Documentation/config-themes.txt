@@ -27,9 +27,9 @@ Review (v....)" message shown at the extreme bottom.
 
 * `etc/GerritSite.css`
 +
-The CSS rules are inlined into the top of the HTML page, inside
-of a `<style>` tag.  These rules can be used to support styling
-the elements within either the header or the footer.
+Deprecated in Gerrit 3.4. See link:pg-plugin-dev.txt[JavaScript Plugin Development and API]
+for documentation on modifying styles. Also see the
+link:https://www.gerritcodereview.com/3.4.html#html-plugin-support-is-removed[Gerrit 3.4 release notes].
 
 The *.html files must be valid XHTML, with one root element,
 typically a single `<div>` tag.  The server parses it as XML, and

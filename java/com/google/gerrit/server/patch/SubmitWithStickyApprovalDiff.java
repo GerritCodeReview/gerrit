@@ -75,7 +75,7 @@ public class SubmitWithStickyApprovalDiff {
   private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final GitRepositoryManager repositoryManager;
-  private final int maxCumulativeSize;
+  private final int maxAllowedSizeForPostSubmitDiff;
 
   @Inject
   SubmitWithStickyApprovalDiff(
@@ -88,11 +88,17 @@ public class SubmitWithStickyApprovalDiff {
     this.projectCache = projectCache;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.repositoryManager = repositoryManager;
-    maxCumulativeSize =
+    // We divide the max cumulative comment size by 3 since it's a reasonable size that is large
+    // enough for all purposes but not too large to choke the change index by exceeding the
+    // cumulative comment size limit (new comments are not allowed once the limit is reached).
+    // At Google, the change index limit is 5MB, while the cumulative size limit is set at 3MB.
+    // In this example, we can reach at most 4MB hence we ensure not to exceed the limit of 5MB.
+    maxAllowedSizeForPostSubmitDiff =
         serverConfig.getInt(
-            "change",
-            "cumulativeCommentSizeLimit",
-            CommentCumulativeSizeValidator.DEFAULT_CUMULATIVE_COMMENT_SIZE_LIMIT);
+                "change",
+                "cumulativeCommentSizeLimit",
+                CommentCumulativeSizeValidator.DEFAULT_CUMULATIVE_COMMENT_SIZE_LIMIT)
+            / 3;
   }
 
   public String apply(ChangeNotes notes, CurrentUser currentUser)
@@ -129,7 +135,9 @@ public class SubmitWithStickyApprovalDiff {
 
     diff.append("The change was submitted with unreviewed changes in the following files:\n\n");
     TemporaryBuffer.Heap buffer =
-        new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxCumulativeSize), maxCumulativeSize);
+        new TemporaryBuffer.Heap(
+            Math.min(HEAP_EST_SIZE, maxAllowedSizeForPostSubmitDiff),
+            maxAllowedSizeForPostSubmitDiff);
     try (Repository repository = repositoryManager.openRepository(notes.getProjectName());
         DiffFormatter formatter = new DiffFormatter(buffer)) {
       formatter.setRepository(repository);

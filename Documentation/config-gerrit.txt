@@ -1360,6 +1360,13 @@ and change messages. Size computation is approximate and may be off by roughly
 +
 The default limit is 3MiB.
 
+[[change.cumulativeCommentSizeLimit]]change.postSubmitDiffSizeLimit::
++
+Maximum allowed size in characters of the post submit diff. It is posted when
+the submitted patch-set is not the same as the last approved patch-set.
++
+The default limit is 300KiB.
+
 [[change.disablePrivateChanges]]change.disablePrivateChanges::
 +
 If set to true, users are not allowed to create private changes.

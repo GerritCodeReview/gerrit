@@ -70,12 +70,14 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  */
 public class SubmitWithStickyApprovalDiff {
   private static final int HEAP_EST_SIZE = 32 * 1024;
+  private static final int DEFAULT_POST_SUBMIT_SIZE_LIMIT = 3 << 10;
 
   private final DiffOperations diffOperations;
   private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final GitRepositoryManager repositoryManager;
   private final int maxCumulativeSize;
+  private final int maxAllowedSizeForPostSubmitDiff;
 
   @Inject
   SubmitWithStickyApprovalDiff(
@@ -88,11 +90,22 @@ public class SubmitWithStickyApprovalDiff {
     this.projectCache = projectCache;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.repositoryManager = repositoryManager;
+    // (November 2021) We define the max cumulative comment size to 300 KIB since it's a reasonable
+    // size that is large enough for all purposes but not too large to choke the change index by
+    // exceeding the cumulative comment size limit (new comments are not allowed once the limit
+    // is reached). At Google, the change index limit is 5MB, while the cumulative size limit is
+    // set at 3MB. In this example, we can reach at most 3.3MB hence we ensure not to exceed the
+    // limit of 5MB.
+    // The reason we exclude the post submit diff from the cumulative comment size limit is
+    // just because change messages not currently being validated. Change messages are still
+    // counted towards the limit, though.
     maxCumulativeSize =
         serverConfig.getInt(
             "change",
             "cumulativeCommentSizeLimit",
             CommentCumulativeSizeValidator.DEFAULT_CUMULATIVE_COMMENT_SIZE_LIMIT);
+    maxAllowedSizeForPostSubmitDiff =
+        serverConfig.getInt("change", "postSubmitDiffSizeLimit", DEFAULT_POST_SUBMIT_SIZE_LIMIT);
   }
 
   public String apply(ChangeNotes notes, CurrentUser currentUser)
@@ -129,7 +142,9 @@ public class SubmitWithStickyApprovalDiff {
 
     diff.append("The change was submitted with unreviewed changes in the following files:\n\n");
     TemporaryBuffer.Heap buffer =
-        new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxCumulativeSize), maxCumulativeSize);
+        new TemporaryBuffer.Heap(
+            Math.min(HEAP_EST_SIZE, maxAllowedSizeForPostSubmitDiff),
+            maxAllowedSizeForPostSubmitDiff);
     try (Repository repository = repositoryManager.openRepository(notes.getProjectName());
         DiffFormatter formatter = new DiffFormatter(buffer)) {
       formatter.setRepository(repository);
@@ -148,6 +163,12 @@ public class SubmitWithStickyApprovalDiff {
           isDiffTooLarge = true;
         } else {
           throw e;
+        }
+      }
+      if (formatterResult != null) {
+        int addedBytes = formatterResult.stream().mapToInt(String::length).sum();
+        if (!CommentCumulativeSizeValidator.isEnoughSpace(notes, addedBytes, maxCumulativeSize)) {
+          isDiffTooLarge = true;
         }
       }
       for (FileDiffOutput fileDiff : modifiedFilesList) {

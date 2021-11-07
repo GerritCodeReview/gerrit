@@ -350,23 +350,22 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
-    String content = new String(new char[800]).replace("\0", "a");
+    String content = new String(new char[150]).replace("\0", "a");
     changeOperations.change(changeId).newPatchset().file("file").content(content).create();
 
     // Post a submit diff that is almost the cumulativeCommentSizeLimit
     gApi.changes().id(changeId.get()).current().submit();
     assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
-        .doesNotContain("many unreviewed changes");
+        .doesNotContain("The diff is too large to show. Please review the diff");
 
     // unrelated comment and change message posting works fine, since the post submit diff is not
     // counted towards the cumulativeCommentSizeLimit for unrelated follow-up comments.
-    // 800 + 400 + 400 > 1k, but 400 + 400 < 1k, hence these comments are accepted (the original
-    // 800 is not counted).
-    String message = new String(new char[400]).replace("\0", "a");
+    // 150 + 851 > 1k, but 851 < 1k, hence this comment is accepted (the original
+    // 150 is not counted).
+    String message = new String(new char[851]).replace("\0", "a");
     ReviewInput reviewInput = new ReviewInput().message(message);
     CommentInput commentInput = new CommentInput();
     commentInput.line = 1;
-    commentInput.message = message;
     commentInput.path = "file";
     reviewInput.comments = ImmutableMap.of("file", ImmutableList.of(commentInput));
 
@@ -380,11 +379,13 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         changeOperations.newChange().project(project).file("file").content("content").create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
 
-    String content = new String(new char[1100]).replace("\0", "a");
+    // max size is 1k / 3 = 330. 350 > 330.
+    String content = new String(new char[350]).replace("\0", "a");
 
     changeOperations.change(changeId).newPatchset().file("file").content(content).create();
 
-    // Post submit diff is over the cumulativeCommentSizeLimit, so we shorten the message.
+    // Post submit diff is over the cumulativeCommentSizeLimit, (divided by 3) so we shorten the
+    // message.
     gApi.changes().id(changeId.get()).current().submit();
     assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
         .isEqualTo(

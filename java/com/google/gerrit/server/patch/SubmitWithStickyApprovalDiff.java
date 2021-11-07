@@ -76,6 +76,7 @@ public class SubmitWithStickyApprovalDiff {
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final GitRepositoryManager repositoryManager;
   private final int maxCumulativeSize;
+  private final int maxAllowedSizeForPostSubmitDiff;
 
   @Inject
   SubmitWithStickyApprovalDiff(
@@ -88,11 +89,22 @@ public class SubmitWithStickyApprovalDiff {
     this.projectCache = projectCache;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.repositoryManager = repositoryManager;
+    // (November 2021) We divide the max cumulative comment size by 10 since it's a reasonable size
+    // that is large enough for all purposes but not too large to choke the change index by
+    // exceeding the cumulative comment size limit (new comments are not allowed once the limit
+    // is reached). At Google, the change index limit is 5MB, while the cumulative size limit is
+    // set at 3MB. In this example, we can reach at most 3.3MB hence we ensure not to exceed the
+    // limit of 5MB.
+    // The reason we exclude the post submit diff from the cumulative comment size limit is
+    // because we exclude all auto generated messages, since an argument can be made that they
+    // are important enough to be posted anyway. Especially the post submit diff, which must be
+    // posted (at least the short version of "the files are too long, please look at the diff").
     maxCumulativeSize =
         serverConfig.getInt(
             "change",
             "cumulativeCommentSizeLimit",
             CommentCumulativeSizeValidator.DEFAULT_CUMULATIVE_COMMENT_SIZE_LIMIT);
+    maxAllowedSizeForPostSubmitDiff = maxCumulativeSize / 10;
   }
 
   public String apply(ChangeNotes notes, CurrentUser currentUser)
@@ -129,7 +141,9 @@ public class SubmitWithStickyApprovalDiff {
 
     diff.append("The change was submitted with unreviewed changes in the following files:\n\n");
     TemporaryBuffer.Heap buffer =
-        new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxCumulativeSize), maxCumulativeSize);
+        new TemporaryBuffer.Heap(
+            Math.min(HEAP_EST_SIZE, maxAllowedSizeForPostSubmitDiff),
+            maxAllowedSizeForPostSubmitDiff);
     try (Repository repository = repositoryManager.openRepository(notes.getProjectName());
         DiffFormatter formatter = new DiffFormatter(buffer)) {
       formatter.setRepository(repository);
@@ -148,6 +162,12 @@ public class SubmitWithStickyApprovalDiff {
           isDiffTooLarge = true;
         } else {
           throw e;
+        }
+      }
+      if (formatterResult != null) {
+        int newSize = formatterResult.stream().mapToInt(String::length).sum();
+        if (!CommentCumulativeSizeValidator.isEnoughSpace(notes, newSize, maxCumulativeSize)) {
+          isDiffTooLarge = true;
         }
       }
       for (FileDiffOutput fileDiff : modifiedFilesList) {

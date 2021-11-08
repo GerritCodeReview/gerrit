@@ -16,6 +16,24 @@
       "message": "I think this was already fixed by https://gerrit-review.googlesource.com/c/gerrit/+/321604.\n\nAt least I cannot repro anymore.\n\nAlso no bug link?",
       "revId": "33403f7cdd35b1c61ec3f03f2e19d0cce0213c31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b551163_919abe33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-08T09:45:42Z",
+      "side": 1,
+      "message": "It\u0027s reproducible with dev helper. Added bug link and screencast in bug.",
+      "parentUuid": "42f9ddc2_d97147a2",
+      "revId": "33403f7cdd35b1c61ec3f03f2e19d0cce0213c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

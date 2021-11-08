@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d6981aa_b009e3c9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-08T14:54:46Z",
+      "side": 1,
+      "message": "says merged",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 55
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20a225ad_42809194",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-08T14:54:46Z",
+      "side": 1,
+      "message": "we\u0027ll need a generate method \u0026 test at some point right? Not necessary to do in this change.",
+      "range": {
+        "startLine": 350,
+        "startChar": 2,
+        "endLine": 350,
+        "endChar": 14
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9da18ff3_04e01fba",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-08T14:54:46Z",
+      "side": 1,
+      "message": "can we redirect to search page when flag is not enabled? Format: https://gerrit-review.googlesource.com/q/topic:frankborden-testtopic",
+      "range": {
+        "startLine": 1224,
+        "startChar": 2,
+        "endLine": 1224,
+        "endChar": 19
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "817edd27_cd7381d0",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-08T14:54:46Z",
+      "side": 1,
+      "message": "Should have a test like all the other _handle",
+      "range": {
+        "startLine": 1225,
+        "startChar": 4,
+        "endLine": 1228,
+        "endChar": 7
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d99531e4_593e0f7b",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-08T14:54:46Z",
+      "side": 1,
+      "message": "Could this be @state now that we are getting it out of params?",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 11
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d110ecf_69b0f45e",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-08T14:54:46Z",
+      "side": 1,
+      "message": "can we have a skeleton test file too that asserts topic name or something?",
+      "range": {
+        "startLine": 42,
+        "startChar": 43,
+        "endLine": 42,
+        "endChar": 48
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

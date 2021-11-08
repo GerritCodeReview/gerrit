@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a00451b3_f63e1efe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-08T13:14:59Z",
+      "side": 1,
+      "message": "Comments icon will be implemented in next change for b/204991451",
+      "revId": "9f51a13f1df000087a5701ea5d62cc29a1e54a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -236,7 +236,7 @@ export class GrSubmitRequirementHovercard extends base {
     name: string,
     expression?: SubmitRequirementExpressionInfo
   ) {
-    if (!expression) return '';
+    if (!expression?.expression) return '';
     return html`
       <div class="section">
         <div class="sectionIcon"></div>

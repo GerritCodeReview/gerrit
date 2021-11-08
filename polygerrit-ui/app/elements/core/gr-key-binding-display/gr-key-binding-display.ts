@@ -25,6 +25,9 @@ declare global {
 
 @customElement('gr-key-binding-display')
 export class GrKeyBindingDisplay extends LitElement {
+  @property({type: Array})
+  binding: string[][] = [];
+
   static override get styles() {
     return [
       css`
@@ -52,9 +55,6 @@ export class GrKeyBindingDisplay extends LitElement {
     ]);
     return html`${items}`;
   }
-
-  @property({type: Array})
-  binding: string[][] = [];
 
   _computeModifiers(binding: string[]) {
     return binding.slice(0, binding.length - 1);

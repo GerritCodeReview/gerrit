@@ -99,6 +99,11 @@ objects these SQL statements must be executed manually.
 	The administrator must manually install the required library in the `lib/`
 	folder.
 
+--migrate-draft-to::
+PRIVATE | WORK_IN_PROGRESS::
+	Strategy to migrate draft changes during Schema 159 migration. Applicable
+	only when migrating from a version lower than 2.15.
+
 == CONTEXT
 This command can only be run on a server which has direct
 connectivity to the metadata database, and local access to the

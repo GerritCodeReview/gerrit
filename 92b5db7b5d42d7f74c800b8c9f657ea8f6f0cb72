@@ -36,6 +36,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3b574b8_684508c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-08T19:32:58Z",
+      "side": 1,
+      "message": "Provisional -1 ... it could become a -2 with a follow-up change downgrading httpcore-nio",
+      "revId": "92b5db7b5d42d7f74c800b8c9f657ea8f6f0cb72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c4845aa_99ee0e30",
@@ -73,6 +90,30 @@
       "side": 1,
       "message": "+1 - we\u0027re on 4.4.4 internally, and there are large number of other users, so we can\u0027t easily change this.",
       "parentUuid": "8c4845aa_99ee0e30",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 24
+      },
+      "revId": "92b5db7b5d42d7f74c800b8c9f657ea8f6f0cb72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b6d2130_ad45254f",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-08T19:32:58Z",
+      "side": 1,
+      "message": "What is the solution then? Rolling back httpcore-nio and break the ES support?\n\nWe cannot stay in this inconsistent situation where httpcore-nio and httpcore are incompatible and they fire method not found exceptions.",
+      "parentUuid": "1c0ebc6e_83009fe4",
       "range": {
         "startLine": 4,
         "startChar": 0,

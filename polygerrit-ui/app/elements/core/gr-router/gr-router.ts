@@ -82,6 +82,8 @@ const RoutePattern = {
   ROOT: '/',
 
   DASHBOARD: /^\/dashboard\/(.+)$/,
+  // TODO(dhruvsri): remove /c once Change 322894 lands
+  TOPIC: /^\/c\/topic\/(.+)$/,
   CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
   PROJECT_DASHBOARD: /^\/p\/(.+)\/\+\/dashboard\/(.+)/,
   LEGACY_PROJECT_DASHBOARD: /^\/projects\/(.+),dashboards\/(.+)/,
@@ -893,6 +895,8 @@ export class GrRouter extends PolymerElement {
 
     this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
 
+    this._mapRoute(RoutePattern.TOPIC, '_handleTopicRoute');
+
     this._mapRoute(
       RoutePattern.CUSTOM_DASHBOARD,
       '_handleCustomDashboardRoute'
@@ -1215,6 +1219,10 @@ export class GrRouter extends PolymerElement {
         });
       }
     });
+  }
+
+  _handleTopicRoute(data: PageContextWithQueryMap) {
+    console.log(data);
   }
 
   /**

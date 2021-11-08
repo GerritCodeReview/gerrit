@@ -79,6 +79,7 @@ public class StaticModule extends ServletModule {
           "/dashboard/*",
           "/groups/self",
           "/settings/*",
+          "/topic/*",
           "/Documentation/q/*");
 
   /**

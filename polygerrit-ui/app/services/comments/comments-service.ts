@@ -39,24 +39,44 @@ import {combineLatest} from 'rxjs';
 export class CommentsService {
   private discardedDrafts?: UIDraft[] = [];
 
+  private changeNum?: NumericChangeId;
+
+  private patchNum?: PatchSetNum;
+
   constructor(readonly restApiService: RestApiService) {
     discardedDrafts$.subscribe(
       discardedDrafts => (this.discardedDrafts = discardedDrafts)
     );
     changeNum$.subscribe(changeNum => {
+      this.changeNum = changeNum;
       updateStateReset();
-      if (!changeNum) return;
-      this.reloadComments(changeNum);
-      this.reloadRobotComments(changeNum);
-      this.reloadDrafts(changeNum);
+      this.reloadAllComments();
     });
     combineLatest([changeNum$, currentPatchNum$]).subscribe(
-      ([changeNum, currentPatchNum]) => {
-        if (!changeNum || !currentPatchNum) return;
-        this.reloadPortedComments(changeNum, currentPatchNum);
-        this.reloadPortedDrafts(changeNum, currentPatchNum);
+      ([changeNum, patchNum]) => {
+        this.changeNum = changeNum;
+        this.patchNum = patchNum;
+        this.reloadAllPortedComments();
       }
     );
+    document.addEventListener('reload', () => {
+      this.reloadAllComments();
+      this.reloadAllPortedComments();
+    });
+  }
+
+  reloadAllComments() {
+    if (!this.changeNum) return;
+    this.reloadComments(this.changeNum);
+    this.reloadRobotComments(this.changeNum);
+    this.reloadDrafts(this.changeNum);
+  }
+
+  reloadAllPortedComments() {
+    if (!this.changeNum) return;
+    if (!this.patchNum) return;
+    this.reloadPortedComments(this.changeNum, this.patchNum);
+    this.reloadPortedDrafts(this.changeNum, this.patchNum);
   }
 
   reloadComments(changeNum: NumericChangeId): Promise<void> {

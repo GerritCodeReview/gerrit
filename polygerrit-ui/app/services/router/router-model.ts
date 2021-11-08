@@ -33,6 +33,7 @@ export enum GerritView {
   ROOT = 'root',
   SEARCH = 'search',
   SETTINGS = 'settings',
+  TOPIC = 'topc',
 }
 
 export interface RouterState {

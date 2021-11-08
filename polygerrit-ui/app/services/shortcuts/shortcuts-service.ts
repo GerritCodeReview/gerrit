@@ -137,7 +137,7 @@ export class ShortcutsService {
     listener: (e: KeyboardEvent) => void
   ) {
     const wrappedListener = (e: KeyboardEvent) => {
-      if (e.repeat) return;
+      if (e.repeat && !shortcut.allowRepeat) return;
       if (!eventMatchesShortcut(e, shortcut)) return;
       if (shortcut.combo) {
         if (!this.isInSpecificComboKeyMode(shortcut.combo)) return;

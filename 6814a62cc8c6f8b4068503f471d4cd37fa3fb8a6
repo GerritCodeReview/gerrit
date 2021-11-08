@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3eb65f95_74a459c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-08T18:56:37Z",
+      "side": 1,
+      "message": "Which part of those changes you refer to?\nI think the official documentation[1], explains it properly:\n\n```\nBy default, the SHA-1 sum is computed preserving the case of the external ID. If auth.userNameCaseInsensitive` is set to true, the SHA-1 sum of external IDs in the gerrit: and username: schemes are computed from the all lowercase external ID. This enables case insensitive username handling. The case of the external ID is however preserved by using the original capitalization in the note content.```\n\n[1]https://gerrit-review.googlesource.com/Documentation/config-accounts.html",
+      "parentUuid": "7913dec7_627affc9",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c1ada17b_e2a16d77",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -224,6 +248,30 @@
       "side": 1,
       "message": "It actually means that the migration is in progress. This means that some of the accounts can be already migrated and some not. To handle this situation if Gerrit is not able to find external id with case insensitive sha1 it should fallback to case sensitive one",
       "parentUuid": "52cf5305_31aaf8b9",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 68
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ec3246a_c1579a18",
+        "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-08T18:56:37Z",
+      "side": 1,
+      "message": "What happens to this setting when the migration is finished?",
+      "parentUuid": "1bab866a_7ce56b97",
       "range": {
         "startLine": 250,
         "startChar": 0,

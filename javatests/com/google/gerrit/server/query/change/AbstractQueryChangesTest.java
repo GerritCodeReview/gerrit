@@ -3030,8 +3030,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("is:submittable", change1);
     assertQuery("-is:submittable", change2);
-    assertQuery("submittable:ok", change1);
-    assertQuery("submittable:not_ready", change2);
 
     assertQuery("label:CodE-RevieW=ok", change1);
     assertQuery("label:CodE-RevieW=ok,user=user", change1);
@@ -3043,10 +3041,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // NEED records don't have associated users.
     assertQuery("label:CodE-RevieW=need,user1");
     assertQuery("label:CodE-RevieW=need,user");
-
-    gApi.changes().id(change1.getId().get()).current().submit();
-    assertQuery("submittable:ok");
-    assertQuery("submittable:closed", change1);
   }
 
   @Test

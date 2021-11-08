@@ -639,16 +639,6 @@ Changes where 'COMMITTER' is the committer of the current patch set.
 email address. The special case of `committer:self` will find changes committed
 by the caller.
 
-
-[[submittable]]
-submittable:'SUBMIT_STATUS'::
-+
-Changes having the given submit record status after applying submit
-rules. Valid statuses are in the `status` field of
-link:rest-api-changes.html#submit-record[SubmitRecord]. This operator
-only applies to the top-level status; individual label statuses can be
-searched link:#labels[by label].
-
 [[rule]]
 rule:'SUBMIT_RULE_NAME'::
 +

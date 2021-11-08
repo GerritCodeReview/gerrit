@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe8db743_346d93d8",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-08T14:07:33Z",
+      "side": 1,
+      "message": "A little confusing why reloadAllComments does not include ported comments. Perhaps leave a comment explaining that ported comments are not included?",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 19
+      },
+      "revId": "23addf77a888bd262f6db9faef305007525a253b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

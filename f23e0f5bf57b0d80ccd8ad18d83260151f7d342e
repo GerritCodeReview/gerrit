@@ -135,6 +135,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0df53cf1_c9ddd2c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-08T14:14:00Z",
+      "side": 1,
+      "message": "\u003e 1) will the user be able to access the original data when rolling back? I suppose \u003e it will since the original version of the user is not deleted right?\n\nThe migration tool and online migration tool works both way so it can migrate account to case insensitive/sensitive\n\n\u003e 2) there will probably be a bunch of unwanted users created by the migration. It might be difficult to understand which ones are to delete to restore the initial status when rolling back. How can we cope with that?\n\nMigration tool replace the case sensitive sha1 with insensitive, in practice this means delete and add so no unwanted user accounts are created\n\n\u003e 3) Shall we make it clearer in the code we are in a trial mode? We only use it in one test.\n\nYes I will add proper tests and documentation. I posted WIP to make sure that I\u0027m moving into the right direction\n\n\u003e 4) Not strictly related to the trial mode, how do we handle the case where we have a sha1 collision? I guess we will have to manually fix this case, shall we make clear in the output which users collided?\n\nOffline and online migration tool have dry run mode to find all the collisions. After fixing those when real migration finds collision it prints the message and stop",
+      "parentUuid": "b08a3d03_ecd6c27b",
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85dee490_2bb0e803",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
         "patchSetId": 3

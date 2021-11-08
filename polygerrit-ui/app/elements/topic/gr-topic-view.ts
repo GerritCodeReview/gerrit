@@ -1,5 +1,9 @@
-import {customElement, property} from 'lit/decorators';
-import {LitElement, html} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
+import {LitElement, html, PropertyValues} from 'lit';
+import {AppElementTopicParams} from '../gr-app-types';
+import {appContext} from '../../services/app-context';
+import {KnownExperimentId} from '../../services/flags/flags';
+import {GerritNav} from '../core/gr-navigation/gr-navigation';
 
 /**
  * @license
@@ -21,9 +25,30 @@ import {LitElement, html} from 'lit';
 @customElement('gr-topic-view')
 export class GrTopicView extends LitElement {
   @property()
+  params?: AppElementTopicParams;
+
+  @state()
   topic?: string;
+
+  private readonly flagsService = appContext.flagsService;
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this.paramsChanged();
+    }
+  }
 
   override render() {
     return html`<div>Topic page for ${this.topic ?? ''}</div>`;
+  }
+
+  paramsChanged() {
+    this.topic = this.params?.topic;
+    if (
+      !this.flagsService.isEnabled(KnownExperimentId.TOPICS_PAGE) &&
+      this.topic
+    ) {
+      GerritNav.navigateToSearchQuery(`topic:${this.topic}`);
+    }
   }
 }

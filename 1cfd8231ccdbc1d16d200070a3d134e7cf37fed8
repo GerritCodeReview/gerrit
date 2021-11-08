@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ee63e5b_295c4be9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-08T09:18:32Z",
+      "side": 1,
+      "message": "That SGTM for fixing, but from a usability POV, rendering 1MB of plain diff text is still too large to read/analyze.\nIMO, it\u0027s better to omit the diff if it exceeded this new threshold and print a msg like\n\u003e \"Change was submitted with unreviewed changes. Diff is too large,  please review the diff in the files tab\"\nWDYT?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 69
+      },
+      "revId": "1cfd8231ccdbc1d16d200070a3d134e7cf37fed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5dbfaf7_f6b69baf",
         "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
         "patchSetId": 2

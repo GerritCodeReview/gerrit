@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "488ab51c_7b856ba5",
+        "filename": "java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-08T12:56:38Z",
+      "side": 1,
+      "message": "nit:\nif (!diff.oldCommitId().equals(ObjectId.zeroId())){\n   aTree \u003d rw.parseTree(diff.oldCommitId());\n}\n\nthis avoids the redundant aTree \u003d null;",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 61
+      },
+      "revId": "b6014d814f3640010b49cb29d618e6046489d15c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

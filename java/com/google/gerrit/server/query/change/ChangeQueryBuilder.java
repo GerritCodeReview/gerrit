@@ -1483,16 +1483,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> submittable(String str) throws QueryParseException {
-    SubmitRecord.Status status =
-        Enums.getIfPresent(SubmitRecord.Status.class, str.toUpperCase()).orNull();
-    if (status == null) {
-      throw error("invalid value for submittable:" + str);
-    }
-    return new SubmittablePredicate(status);
-  }
-
-  @Operator
   public Predicate<ChangeData> unresolved(String value) throws QueryParseException {
     return new IsUnresolvedPredicate(value);
   }

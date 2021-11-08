@@ -95,6 +95,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d357bfc_4ebeb5d1",
+        "filename": "java/com/google/gerrit/pgm/init/ExternalIdsOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-08T18:18:57Z",
+      "side": 1,
+      "message": "if you set isUserNameCaseInsensitive this means that all external id sha1 are calculated with lower case. If you set isUserNameCaseInsensitive to true without running the migration duplicate accounts will be created. With this change and setting isUserNameCaseInsensitiveMigrationMode to true we notify the system that we are during the migration to the lower case sha1 so part of the accounts can be already migrated but some of them might not be. That\u0027s why if Gerrit is not able to find external id with lower case sha1 it should try with sha1 which preserves the case sensivity.",
+      "parentUuid": "ae846d5a_7a64ecae",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 69
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e6f27fe_4409c1a1",
         "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
         "patchSetId": 4

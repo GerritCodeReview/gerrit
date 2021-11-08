@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7913dec7_627affc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-08T18:24:13Z",
+      "side": 1,
+      "message": "this how it was expressed in the original change so I want to keep the convention:\nhttps://gerrit-review.googlesource.com/q/topic:case-insensitive-usernames",
+      "parentUuid": "4f7616b1_73717328",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c1ada17b_e2a16d77",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -176,6 +200,30 @@
       "writtenOn": "2021-11-08T17:18:36Z",
       "side": 1,
       "message": "This gives the idea that a migration is actively in progress, but that\u0027s not the case right?\n\nAs I understand it just shows whether we gerrit should _fallback_ checking usernames insensitively rather than checking them by preserving the case.",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 68
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bab866a_7ce56b97",
+        "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-08T18:24:13Z",
+      "side": 1,
+      "message": "It actually means that the migration is in progress. This means that some of the accounts can be already migrated and some not. To handle this situation if Gerrit is not able to find external id with case insensitive sha1 it should fallback to case sensitive one",
+      "parentUuid": "52cf5305_31aaf8b9",
       "range": {
         "startLine": 250,
         "startChar": 0,

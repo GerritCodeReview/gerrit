@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb0db9a7_7e5bc12b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-08T18:50:22Z",
+      "side": 1,
+      "message": "\u003e Thanks for contributing to the documentation pages!\n\nI have a few other documentation updates awaiting reviews if you\u0027d like to take a look at those as well.",
+      "parentUuid": "71bb9c37_e2902512",
+      "revId": "43c841ae09891f8d04ebc3554476dd0c4168b598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15a24fd9_bba63e82",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-11-08T09:46:34Z",
       "side": 1,
       "message": "I think the problem is that this sentence should be highlighted more.\n\nAFAICT etc/GerritSite.css is just working fine, but only for login screens (LDAP, OAuth, OpenId) and the internally managed Gitweb servlet. Not for the Gerrit web app pages!\n\nDoes that make sense?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "43c841ae09891f8d04ebc3554476dd0c4168b598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "757812c7_5675fcc9",
+        "filename": "Documentation/config-themes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-08T18:50:22Z",
+      "side": 1,
+      "message": "\u003e I think the problem is that this sentence should be highlighted more.\n\u003e \n\u003e AFAICT etc/GerritSite.css is just working fine, but only for login screens (LDAP, OAuth, OpenId) and the internally managed Gitweb servlet. Not for the Gerrit web app pages!\n\u003e \n\u003e Does that make sense?\n\nI see, thanks. I updated this code review to try to clarify this section.",
+      "parentUuid": "15a24fd9_bba63e82",
       "range": {
         "startLine": 9,
         "startChar": 0,

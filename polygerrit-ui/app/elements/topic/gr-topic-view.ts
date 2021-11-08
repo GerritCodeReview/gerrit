@@ -1,5 +1,6 @@
 import {customElement, property} from 'lit/decorators';
-import {LitElement, html} from 'lit';
+import {LitElement, html, PropertyValues} from 'lit';
+import {AppElementTopicParams} from '../gr-app-types';
 
 /**
  * @license
@@ -21,9 +22,22 @@ import {LitElement, html} from 'lit';
 @customElement('gr-topic-view')
 export class GrTopicView extends LitElement {
   @property()
+  params?: AppElementTopicParams;
+
+  @property()
   topic?: string;
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this.paramsChanged();
+    }
+  }
 
   override render() {
     return html`<div>Topic page for ${this.topic ?? ''}</div>`;
+  }
+
+  paramsChanged() {
+    this.topic = this.params?.topic;
   }
 }

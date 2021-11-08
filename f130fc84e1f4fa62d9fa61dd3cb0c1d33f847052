@@ -56,6 +56,30 @@
       },
       "revId": "f130fc84e1f4fa62d9fa61dd3cb0c1d33f847052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b2b9485_b007e48a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3577,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-08T13:36:09Z",
+      "side": 1,
+      "message": "I generally +1 the idea of experiments (for safer rollouts), however the only downside is that it will slow down the progress/rollout.\n\nI checked the frontend code: we skip permitted_labels if they do not occur in labels [1], hence for extra labels that we will return in permitted_labels (those that are hidden by prolog), they will be skipped anyway.\nIn backend, my reasoning is in the commit message: prior to this refactoring, we got labels from submit records, then checked that each one is a valid label (defined in project.config). If it\u0027s a virtual label we skip it.\nFrom a functional POV, this is not wrong, i.e. a label that is hidden (from ChangeInfo#labels) does not deny the fact that users can still vote on it.\n\nI\u0027d rather prefer submitting. We can revert/cherry-pick in case this causes trouble. If you still think it\u0027s essential to gate with an experiment, please LMK and I can add that.\n\n[1] https://gerrit.googlesource.com/gerrit/+/93cb87e3e2a6bea960c658d068189e2b97210f6c/polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts#949",
+      "parentUuid": "92bdb295_5e87d93a",
+      "range": {
+        "startLine": 3576,
+        "startChar": 0,
+        "endLine": 3577,
+        "endChar": 30
+      },
+      "revId": "f130fc84e1f4fa62d9fa61dd3cb0c1d33f847052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

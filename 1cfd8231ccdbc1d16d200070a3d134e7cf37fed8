@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33cda73f_38eb3ba8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-08T09:46:12Z",
+      "side": 1,
+      "message": "What new threshold. We already omit a message similar to this if it exceeds 1 MB.\nI see your point that 1 MB is also already too large, but I think there is a benefit: the user seeing 1 MB of diff will be (imo) more inclined to actually look at the diff than a person seeing \"please view the diff\".\n\nKeep as is?",
+      "parentUuid": "6ee63e5b_295c4be9",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 69
+      },
+      "revId": "1cfd8231ccdbc1d16d200070a3d134e7cf37fed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5dbfaf7_f6b69baf",
         "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2021-11-08T06:05:19Z",
       "side": 1,
       "message": "nit: Maybe add the date to these numbers, it may be difficult to identify in the future if the file is moved or refactored.",
+      "revId": "1cfd8231ccdbc1d16d200070a3d134e7cf37fed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bff0ab28_17f51f48",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-08T09:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5dbfaf7_f6b69baf",
       "revId": "1cfd8231ccdbc1d16d200070a3d134e7cf37fed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +96,24 @@
       "writtenOn": "2021-11-08T06:05:19Z",
       "side": 1,
       "message": "The comment should also explain why we do these arithmetics instead of just counting the diff towards the configured threshold (i.e. cumulativeCommentSizeLimit) together with the other comments.",
+      "revId": "1cfd8231ccdbc1d16d200070a3d134e7cf37fed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37ce8c1c_302e555b",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-08T09:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cdfd640_4da4081e",
       "revId": "1cfd8231ccdbc1d16d200070a3d134e7cf37fed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

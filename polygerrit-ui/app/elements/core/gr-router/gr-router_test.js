@@ -214,6 +214,7 @@ suite('gr-router tests', () => {
       '_handleTagListFilterOffsetRoute',
       '_handleTagListFilterRoute',
       '_handleTagListOffsetRoute',
+      '_handleTopicRoute',
       '_handlePluginScreen',
     ];
 

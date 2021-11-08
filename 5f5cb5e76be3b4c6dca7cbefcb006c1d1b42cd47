@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7a154fa_e67a1ec1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-08T12:01:07Z",
+      "side": 1,
+      "message": "Another potential use case for this was previously you could navigate within the file holding down the keyboard shortcuts n,p for next/previous diff chunk.\n\nFixing that is potentially harder because we have to make sure users don\u0027t navigate to the next file when holding the key down. (b/160618649).\n\nIt\u0027s probably fine to just ack this and keep the bug for later in case user miss it but just bringing this other regression to your notice.",
+      "revId": "5f5cb5e76be3b4c6dca7cbefcb006c1d1b42cd47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

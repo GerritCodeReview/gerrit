@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {
-  CommentBasics,
   PatchRange,
   PatchSetNum,
   RobotCommentInfo,
@@ -40,7 +39,7 @@ import {
   addPath,
 } from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
-import {CommentSide, Side} from '../../../constants/constants';
+import {CommentSide} from '../../../constants/constants';
 import {pluralize} from '../../../utils/string-util';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 
@@ -75,6 +74,7 @@ export class ChangeComments {
     this._drafts = addPath(drafts);
     this._portedComments = portedComments || {};
     this._portedDrafts = portedDrafts || {};
+    console.log(`ChangeComments constructed with ${JSON.stringify(drafts)}`);
   }
 
   get drafts() {
@@ -156,7 +156,7 @@ export class ChangeComments {
    */
   getAllComments(includeDrafts?: boolean, patchNum?: PatchSetNum) {
     const paths = this.getPaths();
-    const publishedComments: {[path: string]: CommentBasics[]} = {};
+    const publishedComments: {[path: string]: Comment[]} = {};
     for (const path of Object.keys(paths)) {
       publishedComments[path] = this.getAllCommentsForPath(
         path,
@@ -227,43 +227,18 @@ export class ChangeComments {
     return allComments;
   }
 
-  cloneWithUpdatedDrafts(drafts: {[path: string]: DraftInfo[]} | undefined) {
-    return new ChangeComments(
-      this._comments,
-      this._robotComments,
-      drafts,
-      this._portedComments,
-      this._portedDrafts
-    );
-  }
-
-  cloneWithUpdatedPortedComments(
-    portedComments?: PathToCommentsInfoMap,
-    portedDrafts?: PathToCommentsInfoMap
-  ) {
-    return new ChangeComments(
-      this._comments,
-      this._robotComments,
-      this._drafts,
-      portedComments,
-      portedDrafts
-    );
-  }
-
   /**
    * Get the drafts for a path and optional patch num.
    *
    * This will return a shallow copy of all drafts every time,
    * so changes on any copy will not affect other copies.
    */
-  getAllDraftsForPath(path: string, patchNum?: PatchSetNum): Comment[] {
-    let comments = this._drafts[path] || [];
+  getAllDraftsForPath(path: string, patchNum?: PatchSetNum): DraftInfo[] {
+    let drafts = this._drafts[path] || [];
     if (patchNum) {
-      comments = comments.filter(c => c.patch_set === patchNum);
+      drafts = drafts.filter(c => c.patch_set === patchNum);
     }
-    return comments.map(c => {
-      return {...c, __draft: true};
-    });
+    return drafts;
   }
 
   /**
@@ -305,17 +280,13 @@ export class ChangeComments {
       robotComments = this._robotComments[path];
     }
 
-    drafts.forEach(d => {
-      d.__draft = true;
-    });
-
-    return comments
-      .concat(drafts)
-      .concat(robotComments)
+    const all = comments.concat(drafts).concat(robotComments);
+    const final = all
       .filter(c => isInPatchRange(c, patchRange))
       .map(c => {
         return {...c};
       });
+    return final;
   }
 
   /**
@@ -397,7 +368,6 @@ export class ChangeComments {
         return false;
       }
 
-      thread.diffSide = Side.RIGHT;
       if (thread.commentSide === CommentSide.PARENT) {
         // TODO(dhruvsri): Add handling for merge parents
         if (
@@ -405,7 +375,6 @@ export class ChangeComments {
           !!thread.mergeParentNum
         )
           return false;
-        thread.diffSide = Side.LEFT;
       }
 
       if (!isUnresolved(thread) && !isDraftThread(thread)) return false;
@@ -422,8 +391,7 @@ export class ChangeComments {
     patchRange: PatchRange
   ): CommentThread[] {
     const threads = createCommentThreads(
-      this.getCommentsForFile(file, patchRange),
-      patchRange
+      this.getCommentsForFile(file, patchRange)
     );
     threads.push(...this._getPortedCommentThreads(file, patchRange));
     return threads;
@@ -467,7 +435,7 @@ export class ChangeComments {
     if (isPatchSetFile(file)) {
       comments = this.getAllCommentsForFile(file);
     } else {
-      comments = this._commentObjToArray(
+      comments = this._commentObjToArray<Comment>(
         this.getAllPublishedComments(file.patchNum)
       );
     }

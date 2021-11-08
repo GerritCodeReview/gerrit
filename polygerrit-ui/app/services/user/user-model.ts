@@ -128,6 +128,11 @@ export const disableShortcuts$ = preferences$.pipe(
   distinctUntilChanged()
 );
 
+export const disableTokenHighlighting$ = preferences$.pipe(
+  map(preferences => preferences?.disable_token_highlighting ?? false),
+  distinctUntilChanged()
+);
+
 export const capabilities$ = userState$.pipe(
   map(userState => userState.capabilities),
   distinctUntilChanged()

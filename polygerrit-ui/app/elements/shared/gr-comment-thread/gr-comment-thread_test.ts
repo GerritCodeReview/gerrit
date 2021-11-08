@@ -372,7 +372,6 @@ suite('comment action tests with unresolved thread', () => {
     saveDiffDraftPromiseResolver(mockResponse);
 
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
-    const reportStub = stubReporting('recordDraftInteraction');
     assert.ok(commentEl);
 
     const replyBtn = element.replyBtn;
@@ -385,14 +384,12 @@ suite('comment action tests with unresolved thread', () => {
       draft.in_reply_to,
       'baf0414d_60047215' as UrlEncodedCommentId as UrlEncodedCommentId
     );
-    assert.isTrue(reportStub.calledOnce);
   });
 
   test('quote reply', () => {
     saveDiffDraftPromiseResolver(mockResponse);
 
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
-    const reportStub = stubReporting('recordDraftInteraction');
     assert.ok(commentEl);
 
     const quoteBtn = element.quoteBtn;
@@ -409,12 +406,10 @@ suite('comment action tests with unresolved thread', () => {
       draft.in_reply_to,
       'baf0414d_60047215' as UrlEncodedCommentId as UrlEncodedCommentId
     );
-    assert.isTrue(reportStub.calledOnce);
   });
 
   test('quote reply multiline', () => {
     saveDiffDraftPromiseResolver(mockResponse);
-    const reportStub = stubReporting('recordDraftInteraction');
     element.comments = [
       {
         author: {
@@ -443,7 +438,6 @@ suite('comment action tests with unresolved thread', () => {
       '> is this a crossover episode!?\n> It might be!\n\n'
     );
     assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
-    assert.isTrue(reportStub.calledOnce);
   });
 
   test('ack', async () => {
@@ -456,7 +450,6 @@ suite('comment action tests with unresolved thread', () => {
       updated: '2015-12-21 02:01:10.850000000',
       message: 'Ack',
     };
-    const reportStub = stubReporting('recordDraftInteraction');
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
 
@@ -471,7 +464,6 @@ suite('comment action tests with unresolved thread', () => {
     assert.equal(draft.message, 'Ack');
     assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
     assert.isNotOk(draft.unresolved);
-    assert.isTrue(reportStub.calledOnce);
   });
 
   test('done', async () => {
@@ -484,7 +476,6 @@ suite('comment action tests with unresolved thread', () => {
       updated: '2015-12-21 02:01:10.850000000',
       message: 'Done',
     };
-    const reportStub = stubReporting('recordDraftInteraction');
     assert.isFalse(saveDiffDraftStub.called);
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
@@ -502,7 +493,6 @@ suite('comment action tests with unresolved thread', () => {
     assert.equal(draft.message, 'Done');
     assert.equal(draft.in_reply_to, 'baf0414d_60047215' as UrlEncodedCommentId);
     assert.isNotOk(draft.unresolved);
-    assert.isTrue(reportStub.calledOnce);
     assert.isTrue(saveDiffDraftStub.called);
   });
 

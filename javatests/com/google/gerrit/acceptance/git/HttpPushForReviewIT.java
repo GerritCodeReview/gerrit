@@ -71,8 +71,8 @@ public class HttpPushForReviewIT extends AbstractPushForReview {
   public void uploadPackAuditEventLog() throws Exception {
     auditService.drainHttpAuditEvents();
     // testRepo is already a clone. Make a server-side change so we have something to fetch.
-    try (Repository repo = repoManager.openRepository(project);
-        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+    Repository repo = repoManager.openRepository(project);
+    try (TestRepository<Repository> tr = new TestRepository<>(repo)) {
       tr.branch("master").commit().create();
     }
     testRepo.git().fetch().call();

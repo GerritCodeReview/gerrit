@@ -97,8 +97,9 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
       throws Exception {
     auditService.drainHttpAuditEvents();
     // testRepo is already a clone. Make a server-side change so we have something to fetch.
-    try (Repository repo = repoManager.openRepository(project);
-        TestRepository<?> testRepo = new TestRepository<>(repo)) {
+    // testRepo will also close the wrapped repo
+    Repository repo = repoManager.openRepository(project);
+    try (TestRepository<?> testRepo = new TestRepository<>(repo)) {
       testRepo.branch("master").commit().create();
     }
     testRepo.git().fetch().setRemote(remote).call();

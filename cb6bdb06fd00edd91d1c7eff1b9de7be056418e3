@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d1c4d19_dc61b810",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-08T09:35:40Z",
+      "side": 1,
+      "message": "When !reviewedFiles should the private field still be reset?",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53db46b2_1d279cba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-08T09:35:40Z",
+      "side": 1,
+      "message": "Do you also need a takeUntil(this.disconnected$)?",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7de531db_c6558512",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-08T09:35:40Z",
+      "side": 1,
+      "message": "Add a comment about the meaning of this state and how it is managed.\n\nOne things that is important to mention: undefined means \"not yet loaded\", but empty set means \"loaded, but no files reviewed\".",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92db4dff_a3fba036",
+        "filename": "polygerrit-ui/app/services/change/change-model.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-08T09:35:40Z",
+      "side": 1,
+      "message": "Do you want to allow this? A user changing the reviewed state before the reviewed state was loaded?",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94381a91_6570338b",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-08T09:35:40Z",
+      "side": 1,
+      "message": "get... sounds like only read operations are happening and the method should have a return value.\n\nMaybe better update... or fetch... or set...",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 18
+      },
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c679174_5e7d9d46",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-08T09:35:40Z",
+      "side": 1,
+      "message": "So you are filtering twice? In line 58 and line 67.\n\nIf one of them is undefined, then clear the set of reviewed files?",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c6da369_66f68eea",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-08T09:35:40Z",
+      "side": 1,
+      "message": "Better subscribe to account$.",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df2daa3f_9e2c9ab9",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-08T09:35:40Z",
+      "side": 1,
+      "message": "Are you also making sure that the reviewed files in the state are wiped clean as soon as the changeNum changes (even if it changes to undefined)?",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6521f70a_92dec786",
+        "filename": "polygerrit-ui/app/services/change/change-service.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-08T09:35:40Z",
+      "side": 1,
+      "message": "Maybe optimistic update before the API call? And then revert in cath(), if the API call failed?",
+      "revId": "cb6bdb06fd00edd91d1c7eff1b9de7be056418e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -47,9 +47,12 @@ import {
   QuickLabelInfo,
   Timestamp,
 } from '../../../types/common';
-import {hasOwnProperty} from '../../../utils/common-util';
+import {assertNever, hasOwnProperty} from '../../../utils/common-util';
 import {pluralize} from '../../../utils/string-util';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {getRequirements, iconForStatus} from '../../../utils/label-util';
+import {SubmitRequirementStatus} from '../../../api/rest-api';
 
 enum ChangeSize {
   XS = 10,
@@ -121,7 +124,19 @@ export class GrChangeListItem extends PolymerElement {
   @property({type: Array})
   _dynamicCellEndpoints?: string[];
 
+  @property({type: Boolean})
+  _isSubmitRequirementsUiEnabled = false;
+
   reporting: ReportingService = appContext.reportingService;
+
+  private readonly flagsService = appContext.flagsService;
+
+  override ready() {
+    super.ready();
+    this._isSubmitRequirementsUiEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+    );
+  }
 
   override connectedCallback() {
     super.connectedCallback();
@@ -167,8 +182,33 @@ export class GrChangeListItem extends PolymerElement {
   }
 
   _computeLabelClass(change: ChangeInfo | undefined, labelName: string) {
-    const category = this._computeLabelCategory(change, labelName);
     const classes = ['cell', 'label'];
+    if (this._isSubmitRequirementsUiEnabled) {
+      const requirements = getRequirements(change).filter(
+        sr => sr.name === labelName
+      );
+      if (requirements.length === 1) {
+        const status = requirements[0].status;
+        switch (status) {
+          case SubmitRequirementStatus.SATISFIED:
+            classes.push('u-green');
+            break;
+          case SubmitRequirementStatus.UNSATISFIED:
+            classes.push('u-red');
+            break;
+          case SubmitRequirementStatus.OVERRIDDEN:
+            classes.push('u-green');
+            break;
+          case SubmitRequirementStatus.NOT_APPLICABLE:
+            classes.push('u-gray-background');
+            break;
+          default:
+            assertNever(status, `Unsupported status: ${status}`);
+        }
+        return classes.sort().join(' ');
+      }
+    }
+    const category = this._computeLabelCategory(change, labelName);
     switch (category) {
       case LabelCategory.NOT_APPLICABLE:
         classes.push('u-gray-background');
@@ -196,6 +236,14 @@ export class GrChangeListItem extends PolymerElement {
   }
 
   _computeLabelIcon(change: ChangeInfo | undefined, labelName: string): string {
+    if (this._isSubmitRequirementsUiEnabled) {
+      const requirements = getRequirements(change).filter(
+        sr => sr.name === labelName
+      );
+      if (requirements.length === 1) {
+        return `gr-icons:${iconForStatus(requirements[0].status)}`;
+      }
+    }
     const category = this._computeLabelCategory(change, labelName);
     switch (category) {
       case LabelCategory.APPROVED:

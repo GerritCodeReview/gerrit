@@ -10,6 +10,7 @@ java_library(
         "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/schema",
         "//lib:guava",
         "//lib/flogger:api",
         "//lib/guice",

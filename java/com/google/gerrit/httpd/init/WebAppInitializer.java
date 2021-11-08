@@ -73,6 +73,7 @@ import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.OnlineUpgrader;
@@ -344,7 +345,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   private Module createIndexModule() {
     switch (indexType) {
       case LUCENE:
-        return LuceneIndexModule.latestVersion(false);
+        return LuceneIndexModule.latestVersion(false, AutoFlush.ENABLED);
       case ELASTICSEARCH:
         return ElasticIndexModule.latestVersion(false);
       default:

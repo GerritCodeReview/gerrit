@@ -473,4 +473,8 @@ public class BaseInit extends SiteProgram {
   protected boolean getDeleteCaches() {
     return false;
   }
+
+  protected DraftWorkflowMigrationStrategy getDraftMigrationStrategy() {
+    return DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
+  }
 }

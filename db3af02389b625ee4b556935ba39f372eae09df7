@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90e473f3_06367c9b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-08T16:54:04Z",
+      "side": 1,
+      "message": "yeah, technically even if it\u0027s merged we need to wait for the change to be actually live before the linking works, hence I wrote landed.",
+      "parentUuid": "5d6981aa_b009e3c9",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 55
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20a225ad_42809194",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-08T14:54:46Z",
       "side": 1,
       "message": "we\u0027ll need a generate method \u0026 test at some point right? Not necessary to do in this change.",
+      "range": {
+        "startLine": 350,
+        "startChar": 2,
+        "endLine": 350,
+        "endChar": 14
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef44f66c_82fd5e84",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-08T16:54:04Z",
+      "side": 1,
+      "message": "I added a test from the url to the params.",
+      "parentUuid": "20a225ad_42809194",
       "range": {
         "startLine": 350,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "858ee46d_38979b62",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-08T16:54:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9da18ff3_04e01fba",
+      "range": {
+        "startLine": 1224,
+        "startChar": 2,
+        "endLine": 1224,
+        "endChar": 19
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "817edd27_cd7381d0",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-11-08T14:54:46Z",
       "side": 1,
       "message": "Should have a test like all the other _handle",
+      "range": {
+        "startLine": 1225,
+        "startChar": 4,
+        "endLine": 1228,
+        "endChar": 7
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97e77bb3_4b9ae179",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-08T16:54:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "817edd27_cd7381d0",
       "range": {
         "startLine": 1225,
         "startChar": 4,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe8e2fda_bb1b6907",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-08T16:54:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d99531e4_593e0f7b",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 11
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d110ecf_69b0f45e",
@@ -129,6 +249,30 @@
       "writtenOn": "2021-11-08T14:54:46Z",
       "side": 1,
       "message": "can we have a skeleton test file too that asserts topic name or something?",
+      "range": {
+        "startLine": 42,
+        "startChar": 43,
+        "endLine": 42,
+        "endChar": 48
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42a8fb0e_3f770785",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-08T16:54:04Z",
+      "side": 1,
+      "message": "Maybe once we add some functionality.\nThis is way too sparse to test I think.",
+      "parentUuid": "6d110ecf_69b0f45e",
       "range": {
         "startLine": 42,
         "startChar": 43,

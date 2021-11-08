@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d056133_d2c57b46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-08T17:18:36Z",
+      "side": 1,
+      "message": "allows",
+      "range": {
+        "startLine": 13,
+        "startChar": 38,
+        "endLine": 13,
+        "endChar": 43
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f7616b1_73717328",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-08T17:18:36Z",
+      "side": 1,
+      "message": "I think referring to external IDs as \"case insensitive\" or \"case sensitive\" is a bit misleading.\n\nThis flag changes _how_ the SHA-1 of the username is computed, by either preserving the case of the external ID or not, but there is no such a thing as \"case insensitive\" or \"case sensitive\" external ID.\n\nI think it would benefit to rephrase it so that this is clear.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1ada17b_e2a16d77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-08T17:18:36Z",
+      "side": 1,
+      "message": "consider: while Gerrit process is running?",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae846d5a_7a64ecae",
+        "filename": "java/com/google/gerrit/pgm/init/ExternalIdsOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-08T17:18:36Z",
+      "side": 1,
+      "message": "Apologies if this has been covered already, but I coulnd\u0027t find any discussion about this.\nI don\u0027t fully understand the difference and overlapping between \n\nthis.isUserNameCaseInsensitive\n\nand\n\nauthConfig.isUserNameCaseInsensitiveMigrationMode\n\nWhat would it mean for example if the migrationMode was on and the auth.userNameCaseInsensitive was false?",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 69
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e6f27fe_4409c1a1",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-08T17:18:36Z",
+      "side": 1,
+      "message": "What\u0027s the benefit of saving the migration mode in the serialized cache Key?\nIsn\u0027t the sha1 enough to load the key?",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 57
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b352a205_6492b997",
+        "filename": "java/com/google/gerrit/server/account/externalids/testing/ExternalIdTestUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-08T17:18:36Z",
+      "side": 1,
+      "message": "nit: consider naming this boolean?",
+      "range": {
+        "startLine": 72,
+        "startChar": 58,
+        "endLine": 72,
+        "endChar": 63
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52cf5305_31aaf8b9",
+        "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-08T17:18:36Z",
+      "side": 1,
+      "message": "This gives the idea that a migration is actively in progress, but that\u0027s not the case right?\n\nAs I understand it just shows whether we gerrit should _fallback_ checking usernames insensitively rather than checking them by preserving the case.",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 68
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

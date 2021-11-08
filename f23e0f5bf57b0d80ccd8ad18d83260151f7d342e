@@ -644,6 +644,30 @@
       },
       "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b881bbda_0e319bf0",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-08T17:18:36Z",
+      "side": 1,
+      "message": "Also, I was wondering why we need to store this at all?",
+      "parentUuid": "183bce0a_d42b952a",
+      "range": {
+        "startLine": 279,
+        "startChar": 9,
+        "endLine": 279,
+        "endChar": 39
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -134,7 +134,12 @@ export class ShortcutsService {
   addShortcut(
     element: HTMLElement,
     shortcut: Binding,
-    listener: (e: KeyboardEvent) => void
+    listener: (e: KeyboardEvent) => void,
+    options: {
+      shouldSuppress: boolean;
+    } = {
+      shouldSuppress: true,
+    }
   ) {
     const wrappedListener = (e: KeyboardEvent) => {
       if (e.repeat) return;
@@ -144,9 +149,10 @@ export class ShortcutsService {
       } else {
         if (this.isInComboKeyMode()) return;
       }
-      if (this.shouldSuppress(e)) return;
+      if (options.shouldSuppress && this.shouldSuppress(e)) return;
       e.preventDefault();
       e.stopPropagation();
+      console.log(`wrappedListener LISTENER CALLED ${shortcut.key}`);
       listener(e);
     };
     element.addEventListener('keydown', wrappedListener);

@@ -30,17 +30,34 @@ import {
   AccountInfo,
   AccountDetailInfo,
 } from '../types/common';
-import {CommentSide, Side, SpecialFilePath} from '../constants/constants';
+import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
-import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
 import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {isMergeParent, getParentIndex} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
+import {LineNumber} from '../api/diff';
 
 export interface DraftCommentProps {
-  __draft?: boolean;
+  // This must be true for all drafts. Drafts received from the backend will be
+  // modified immediately with __draft=true before allowing them to get into
+  // the application state.
+  __draft: boolean;
+  // These two props are set, iff the draft comment was created in this session.
+  // So drafts simply retrieved from the backend and then updated will not have
+  // these properties.
+  // Unsaved drafts can be identified by __draftID. Once saved they can be
+  // identified by either, id or __draftID.
   __draftID?: UrlEncodedCommentId;
   __date?: Date;
+}
+
+export function createDraftProps(): DraftCommentProps {
+  const randomString = Math.random().toString(36);
+  return {
+    __draft: true,
+    __draftID: `draft__${randomString}` as UrlEncodedCommentId,
+    __date: new Date(),
+  };
 }
 
 export type DraftInfo = CommentBasics & DraftCommentProps;
@@ -85,10 +102,7 @@ export function sortComments<T extends SortableComment>(comments: T[]): T[] {
   });
 }
 
-export function createCommentThreads(
-  comments: Comment[],
-  patchRange?: PatchRange
-) {
+export function createCommentThreads(comments: Comment[]) {
   const sortedComments = sortComments(comments);
   const threads: CommentThread[] = [];
   const idThreadMap: CommentIdToCommentThreadMap = {};
@@ -110,21 +124,13 @@ export function createCommentThreads(
     const newThread: CommentThread = {
       comments: [comment],
       patchNum: comment.patch_set,
-      diffSide: Side.LEFT,
       commentSide: comment.side ?? CommentSide.REVISION,
       mergeParentNum: comment.parent,
       path: comment.path,
       line: comment.line,
       range: comment.range,
-      rootId: comment.id,
+      rootId: computeId(comment),
     };
-    if (patchRange) {
-      if (isInBaseOfPatchRange(comment, patchRange))
-        newThread.diffSide = Side.LEFT;
-      else if (isInRevisionOfPatchRange(comment, patchRange))
-        newThread.diffSide = Side.RIGHT;
-      else throw new Error('comment does not belong in given patchrange');
-    }
     if (!comment.line && !comment.range) {
       newThread.line = 'FILE';
     }
@@ -141,14 +147,16 @@ export interface CommentThread {
   /* mergeParentNum is the merge parent number only valid for merge commits
      when commentSide is PARENT.
      mergeParentNum is undefined for auto merge commits
+     Same as `parent` in CommentInfo.
   */
   mergeParentNum?: number;
   patchNum?: PatchSetNum;
+  /* Different from CommentInfo, which just keeps the line undefined for
+     FILE comments. */
   line?: LineNumber;
   /* rootId is optional since we create a empty comment thread element for
      drafts and then create the draft which becomes the root */
   rootId?: UrlEncodedCommentId;
-  diffSide?: Side;
   range?: CommentRange;
   ported?: boolean; // is the comment ported over from a previous patchset
   rangeInfoLost?: boolean; // if BE was unable to determine a range for this
@@ -196,7 +204,11 @@ export function hasHumanReply(thread?: CommentThread): boolean {
  * given patch range.
  */
 export function isInBaseOfPatchRange(
-  comment: CommentBasics,
+  comment: {
+    patch_set?: PatchSetNum;
+    side?: CommentSide;
+    parent?: number;
+  },
   range: PatchRange
 ) {
   // If the base of the patch range is a parent of a merge, and the comment
@@ -230,7 +242,10 @@ export function isInBaseOfPatchRange(
  * given patch range.
  */
 export function isInRevisionOfPatchRange(
-  comment: CommentBasics,
+  comment: {
+    patch_set?: PatchSetNum;
+    side?: CommentSide;
+  },
   range: PatchRange
 ) {
   return (
@@ -260,7 +275,7 @@ export function getPatchRangeForCommentUrl(
   // TODO(dhruvsri): Add handling for comment left on parents of merge commits
   if (comment.side === CommentSide.PARENT) {
     if (comment.patch_set === ParentPatchSetNum)
-      throw new Error('diffSide cannot be PARENT');
+      throw new Error('comment.patch_set cannot be PARENT');
     return {
       patchNum: comment.patch_set as RevisionPatchSetNum,
       basePatchNum: ParentPatchSetNum,
@@ -337,29 +352,49 @@ export function getCommentAuthors(
 }
 
 export function computeId(comment: Comment): UrlEncodedCommentId {
+  // TODO: Should the __draftID maybe get preference over the id?
   if (comment.id) return comment.id;
   if (isDraft(comment) && comment.__draftID) return comment.__draftID;
   throw new Error('Missing id in root comment.');
 }
 
 /**
- * Add path info to every comment as CommentInfo returned
- * from server does not have that.
- *
- * TODO(taoalpha): should consider changing BE to send path
- * back within CommentInfo
+ * Add path info to every comment as CommentInfo returned from server does not
+ * have that.
  */
 export function addPath<T>(comments: {[path: string]: T[]} = {}): {
   [path: string]: Array<T & {path: string}>;
 } {
   const updatedComments: {[path: string]: Array<T & {path: string}>} = {};
   for (const filePath of Object.keys(comments)) {
-    const allCommentsForPath = comments[filePath] || [];
-    if (allCommentsForPath.length) {
-      updatedComments[filePath] = allCommentsForPath.map(comment => {
-        return {...comment, path: filePath};
-      });
-    }
+    updatedComments[filePath] = (comments[filePath] || []).map(comment => {
+      return {...comment, path: filePath};
+    });
   }
   return updatedComments;
+}
+
+/**
+ * Add __draft:true to all drafts returned from server so that they can be told
+ * apart from published comments easily.
+ */
+export function addDraftProp(draftsByPath: {[path: string]: DraftInfo[]} = {}) {
+  const updated: {[path: string]: DraftInfo[]} = {};
+  for (const filePath of Object.keys(draftsByPath)) {
+    updated[filePath] = (draftsByPath[filePath] ?? []).map(draft => {
+      return {...draft, __draft: true};
+    });
+  }
+  return updated;
+}
+
+export function commentDetailsForReporting(comment: CommentBasics) {
+  return {
+    id: comment?.id,
+    message_length: comment?.message?.length,
+    in_reply_to: comment?.in_reply_to,
+    unresolved: comment?.unresolved,
+    path_length: comment?.path?.length,
+    line: comment?.range?.start_line ?? comment?.line,
+  };
 }

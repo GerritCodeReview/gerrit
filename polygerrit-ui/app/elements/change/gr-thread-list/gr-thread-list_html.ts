@@ -150,16 +150,11 @@ export const htmlTemplate = html`
         <div class="thread-separator"></div>
       </template>
       <gr-comment-thread
+        root-id="[[thread.rootId]]"
         show-file-path=""
         show-ported-comment="[[thread.ported]]"
         show-comment-context="[[showCommentContext]]"
-        comments="[[thread.comments]]"
-        diff-side="[[thread.diffSide]]"
         show-file-name="[[_isFirstThreadWithFileName(_displayedThreads, thread, unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply, selectedAuthors)]]"
-        is-on-parent="[[_isOnParent(thread.commentSide)]]"
-        line-num="[[thread.line]]"
-        patch-num="[[thread.patchNum]]"
-        path="[[thread.path]]"
         should-scroll-into-view="[[computeShouldScrollIntoView(thread.comments, scrollCommentId)]]"
       ></gr-comment-thread>
     </template>

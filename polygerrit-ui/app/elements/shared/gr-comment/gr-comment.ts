@@ -45,22 +45,19 @@ import {
 } from '../../../types/common';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
+  Comment,
+  computeId,
+  DraftInfo,
   isDraft,
   isRobot,
-  Comment,
-  DraftInfo,
 } from '../../../utils/comment-util';
 import {
   OpenFixPreviewEventDetail,
   ValueChangedEvent,
 } from '../../../types/events';
-import {fire, fireAlert, fireEvent} from '../../../utils/event-util';
-import {pluralize} from '../../../utils/string-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {debounce, DelayedTask} from '../../../utils/async-util';
-import {StorageLocation} from '../../../services/storage/gr-storage';
 import {Key, Modifier} from '../../../utils/dom-util';
-import {Interaction} from '../../../constants/reporting';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {account$, isAdmin$} from '../../../services/user/user-model';
@@ -68,16 +65,10 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {repoCommentLinks$} from '../../../services/config/config-model';
 import {classMap} from 'lit/directives/class-map';
 import {changeNum$, repo$} from '../../../services/change/change-model';
+import {LineNumber} from '../../../api/diff';
+import {CommentSide} from '../../../constants/constants';
 
-const STORAGE_DEBOUNCE_INTERVAL = 400;
-const TOAST_DEBOUNCE_INTERVAL = 200;
-
-const SAVED_MESSAGE = 'All changes saved';
 const UNSAVED_MESSAGE = 'Unable to save draft';
-
-const REPORT_CREATE_DRAFT = 'CreateDraftComment';
-const REPORT_UPDATE_DRAFT = 'UpdateDraftComment';
-const REPORT_DISCARD_DRAFT = 'DiscardDraftComment';
 
 const FILE = 'FILE';
 
@@ -104,14 +95,18 @@ declare global {
   interface HTMLElementEventMap {
     'comment-editing-changed': CustomEvent<boolean>;
     'comment-edit': CustomEvent<CommentEventDetail>;
-    'comment-save': CustomEvent<CommentEventDetail>;
-    'comment-update': CustomEvent<CommentEventDetail>;
+    'comment-anchor-tap': CustomEvent<CommentAnchorTapEventDetail>;
   }
 }
 
 export interface CommentEventDetail {
   patchNum?: PatchSetNum;
   comment?: Comment;
+}
+
+export interface CommentAnchorTapEventDetail {
+  number: LineNumber;
+  side?: CommentSide;
 }
 
 @customElement('gr-comment')
@@ -129,27 +124,9 @@ export class GrComment extends LitElement {
    */
 
   /**
-   * Fired when this comment is discarded.
-   *
-   * @event comment-discard
-   */
-
-  /**
    * Fired when this comment is edited.
    *
    * @event comment-edit
-   */
-
-  /**
-   * Fired when this comment is saved.
-   *
-   * @event comment-save
-   */
-
-  /**
-   * Fired when this comment is updated.
-   *
-   * @event comment-update
    */
 
   /**
@@ -203,7 +180,7 @@ export class GrComment extends LitElement {
 
   /* internal only, but used in css rules */
   @property({type: Boolean, reflect: true})
-  disabled = false;
+  saving = false;
 
   /* internal only, but used in css rules */
   @property({type: Boolean, reflect: true})
@@ -221,18 +198,13 @@ export class GrComment extends LitElement {
   @state()
   repoName?: RepoName;
 
-  /* This is just what the editing textarea contains. */
+  /* The 'dirty' state of the comment.message, which will be saved on demand. */
   @state()
   messageText = '';
 
-  /* Can probably be derived. */
-  @property({type: Boolean})
-  resolved = false;
-
-  // TODO! Move this logic into the service such that this is shared across
-  // instances.
+  /* The 'dirty' state of !comment.unresolved, which will be saved on demand. */
   @state()
-  numPendingDraftRequests: {number: number} = {number: 0};
+  resolved = false;
 
   @property({type: Boolean})
   enableOverlay = false;
@@ -250,7 +222,7 @@ export class GrComment extends LitElement {
   showRespectfulTip = false;
 
   @property({type: Boolean, attribute: 'show-patchset'})
-  showPatchset = true;
+  showPatchset = false;
 
   @property({type: String})
   respectfulReviewTip?: string;
@@ -270,9 +242,7 @@ export class GrComment extends LitElement {
   @property({type: Boolean, attribute: 'show-ported-comment'})
   showPortedComment = false;
 
-  // for testing only
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  xhrPromise?: Promise<any>;
+  private hasBeenUpdatedOnce = false;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -284,14 +254,9 @@ export class GrComment extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
-  private fireUpdateTask?: DelayedTask;
-
-  private storeTask?: DelayedTask;
-
-  private draftToastTask?: DelayedTask;
-
   constructor() {
     super();
+    console.log('gr-comment constructor');
     subscribe(this, account$, x => (this.account = x));
     subscribe(this, isAdmin$, x => (this.isAdmin = x));
     subscribe(this, repoCommentLinks$, x => (this.commentLinks = x));
@@ -300,17 +265,16 @@ export class GrComment extends LitElement {
     this.shortcuts.addLocal({key: Key.ESC}, e => this.handleEsc(e));
     for (const key of ['s', Key.ENTER]) {
       for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
-        this.shortcuts.addLocal({key, modifiers: [modifier]}, e =>
-          this.handleSaveKey(e)
-        );
+        this.shortcuts.addLocal({key, modifiers: [modifier]}, e => {
+          console.log(`handleSaveKey ${e}`);
+          this.handleSaveKey(e);
+        });
       }
     }
   }
 
   override disconnectedCallback() {
-    this.fireUpdateTask?.cancel();
-    this.storeTask?.cancel();
-    this.draftToastTask?.cancel();
+    // Clean up emoji dropdown.
     if (this.textarea) this.textarea.closeDropdown();
     super.disconnectedCallback();
   }
@@ -327,12 +291,12 @@ export class GrComment extends LitElement {
         :host([collapsed]) {
           padding: var(--spacing-s) var(--spacing-m);
         }
-        :host([disabled]) {
+        :host([saving]) {
           pointer-events: none;
         }
-        :host([disabled]) .actions,
-        :host([disabled]) .robotActions,
-        :host([disabled]) .date {
+        :host([saving]) .actions,
+        :host([saving]) .robotActions,
+        :host([saving]) .date {
           opacity: 0.5;
         }
         :host([discarding]) {
@@ -508,8 +472,10 @@ export class GrComment extends LitElement {
   }
 
   override render() {
+    const classes = {container: true, draft: isDraft(this.comment)};
+    console.log('gr-comment render()');
     return html`
-      <div id="container" class="container">
+      <div id="container" class="${classMap(classes)}">
         <div
           class="header"
           id="header"
@@ -606,6 +572,10 @@ export class GrComment extends LitElement {
     `;
   }
 
+  /**
+   * Deleting a comment is an admin feature. It means more than just discarding
+   * a draft. It is an action applied to published comments.
+   */
   private renderDeleteButton() {
     if (!this.isAdmin || isDraft(this.comment) || isRobot(this.comment)) return;
     if (this.collapsed) return;
@@ -675,13 +645,16 @@ export class GrComment extends LitElement {
         class="editMessage"
         autocomplete="on"
         code=""
-        ?disabled="${this.disabled}"
+        ?disabled="${this.saving}"
         rows="4"
         text="${this.messageText}"
         @text-changed="${(e: ValueChangedEvent) => {
-          const oldValue = this.messageText;
+          // TODO: This is causing a re-render of <gr-comment> on every key
+          // press. Try to avoid always setting `this.messageText` or at least
+          // debounce it. Can have another look when introducing auto-saving.
+          // But typically most of the code can just inspect the current value
+          // of the textare instead of needing a dedicated property.
           this.messageText = e.detail.value;
-          this.messageTextChanged(this.messageText, oldValue);
         }}"
       ></gr-textarea>
     `;
@@ -728,11 +701,11 @@ export class GrComment extends LitElement {
   private renderCommentMessage() {
     if (this.collapsed || this.editing) return;
     return html`
-      <!--The message class is needed to ensure selectability from
+      <!--The "message" class is needed to ensure selectability from
           gr-diff-selection.-->
       <gr-formatted-text
         class="message"
-        .content="${this.comment?.message}"
+        .content="${this.saving ? this.messageText : this.comment?.message}"
         .config="${this.commentLinks}"
         ?noTrailingMargin="${!isDraft(this.comment)}"
       ></gr-formatted-text>
@@ -740,7 +713,8 @@ export class GrComment extends LitElement {
   }
 
   private renderCopyLinkIcon() {
-    if (!this.comment?.in_reply_to && !this.comment?.id) return;
+    // Only show the icon when the thread contains a published comment.
+    if (!this.comment?.in_reply_to && isDraft(this.comment)) return;
     return html`
       <iron-icon
         class="copy link-icon"
@@ -894,41 +868,28 @@ export class GrComment extends LitElement {
     );
   }
 
-  override willUpdate() {
-    if (this.collapsed === undefined) {
-      if (this.editing) {
-        this.collapsed = false;
-      } else if (this.initiallyCollapsed !== undefined) {
-        this.collapsed = this.initiallyCollapsed;
-      } else {
-        // TODO: Refine the rules for initial collapsed state.
-        this.collapsed = true;
+  override willUpdate(changedProperties: PropertyValues) {
+    console.log('gr-comment willUpdate');
+    if (!this.hasBeenUpdatedOnce) {
+      this.hasBeenUpdatedOnce = true;
+      assertIsDefined(this.comment, 'comment');
+      console.log(
+        `gr-comment first willUpdate ${isDraft(this.comment)} ${
+          this.comment.id
+        } ${JSON.stringify(this.comment)}`
+      );
+      this.resolved = !this.comment.unresolved;
+      this.messageText = this.comment.message ?? '';
+      if (isDraft(this.comment) && !this.comment.id) this.editing = true;
+      if (isDraft(this.comment)) this.collapsed = false;
+      // this.collapsed is only undefined during first update
+      if (this.collapsed === undefined) {
+        this.collapsed = !!this.initiallyCollapsed;
       }
     }
-  }
-
-  override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('editing')) {
       this.onEditingChanged();
     }
-  }
-
-  override firstUpdated() {
-    assertIsDefined(this.comment, 'comment');
-    assertIsDefined(this.container, 'container element');
-    this.container.classList.toggle('draft', isDraft(this.comment));
-    this.resolved = !this.comment.unresolved;
-    this.discarding = false;
-    if (isDraft(this.comment) && !this.comment.id) {
-      this.editing = true;
-    }
-    if (this.editing) {
-      // TODO! This is weird. The thread should not be notified at this point.
-      // It's a new draft/reply, notify.
-      this.fireUpdate();
-    }
-
-    this.loadLocalDraft();
   }
 
   private handlePortedMessageClick() {
@@ -983,65 +944,27 @@ export class GrComment extends LitElement {
     fireEvent(this, 'copy-comment-link');
   }
 
-  private save(opt_comment?: Comment) {
-    assertIsDefined(this.comment, 'comment');
-    let comment = opt_comment;
-    if (!comment) {
-      comment = this.comment;
-    }
-
-    this.comment.message = this.messageText;
-    this.editing = false;
-    this.disabled = true;
-
+  save() {
+    if (this.saving || this.discarding) return;
     if (!this.messageText) {
-      return this.discardDraft();
+      this.discardDraft();
+      return;
     }
 
-    const details = this.commentDetailsForReporting();
-    this.reporting.reportInteraction(Interaction.SAVE_COMMENT, details);
-    this.xhrPromise = this.saveDraft(comment)
-      .then(response => {
-        this.disabled = false;
-        if (!response.ok) {
-          return;
-        }
+    assertIsDefined(this.comment, 'comment');
+    this.editing = false;
+    this.saving = true;
+    this.unableToSave = false;
 
-        this.eraseDraftCommentFromStorage();
-        return this.restApiService.getResponseObject(response).then(obj => {
-          const resComment = obj as unknown as DraftInfo;
-          if (!isDraft(this.comment)) throw new Error('Can only save drafts.');
-          resComment.__draft = true;
-          // Maintain the ephemeral draft ID for identification by other
-          // elements.
-          if (this.comment?.__draftID) {
-            resComment.__draftID = this.comment.__draftID;
-          }
-          if (!resComment.patch_set) resComment.patch_set = this.patchNum;
-          this.comment = resComment;
-          const details = this.commentDetailsForReporting();
-          this.reporting.reportInteraction(Interaction.COMMENT_SAVED, details);
-          this.fireSave();
-          return obj;
-        });
+    this.commentsService
+      .saveDraft(computeId(this.comment), this.messageText, !this.resolved)
+      .catch(e => {
+        this.unableToSave = true;
+        throw e;
       })
-      .catch(err => {
-        this.disabled = false;
-        throw err;
+      .finally(() => {
+        this.saving = false;
       });
-
-    return this.xhrPromise;
-  }
-
-  private commentDetailsForReporting() {
-    return {
-      id: this.comment?.id,
-      message_length: this.comment?.message?.length,
-      in_reply_to: this.comment?.in_reply_to,
-      unresolved: this.comment?.unresolved,
-      path_length: this.comment?.path?.length,
-      line: this.comment?.range?.start_line ?? this.comment?.line,
-    };
   }
 
   /** Enter editing mode. */
@@ -1053,23 +976,6 @@ export class GrComment extends LitElement {
     if (this.comment?.message) this.messageText = this.comment.message;
     this.editing = true;
     this.collapsed = false;
-    this.reporting.recordDraftInteraction();
-  }
-
-  eraseDraftCommentFromStorage() {
-    // Prevents a race condition in which removing the draft comment occurs
-    // prior to it being saved.
-    this.storeTask?.cancel();
-
-    assertIsDefined(this.comment?.path, 'comment.path');
-    assertIsDefined(this.changeNum, 'changeNum');
-    this.storage.eraseDraftComment({
-      changeNum: this.changeNum,
-      patchNum: this.getPatchNum(),
-      path: this.comment.path,
-      line: this.comment.line,
-      range: this.comment.range,
-    });
   }
 
   // TODO: Move this out of gr-comment. gr-comment should not have a comments
@@ -1085,18 +991,11 @@ export class GrComment extends LitElement {
     return {comment: this.comment, patchNum: this.patchNum};
   }
 
-  fireSave() {
-    if (this.comment) this.commentsService.addDraft(this.comment);
-    fire(this, 'comment-save', this.getEventPayload());
-  }
-
-  fireUpdate() {
-    this.fireUpdateTask = debounce(this.fireUpdateTask, () => {
-      fire(this, 'comment-update', this.getEventPayload());
-    });
-  }
-
   private onEditingChanged() {
+    if (this.editing) {
+      this.collapsed = false;
+      setTimeout(() => this.textarea?.putCursorAtEnd(), 1);
+    }
     // visibility based on cache this will make sure we only and always show
     // a tip once every Math.max(a day, period between creating comments)
     const cachedVisibilityOfRespectfulTip =
@@ -1114,23 +1013,15 @@ export class GrComment extends LitElement {
       this.storage.setRespectfulTipVisibility();
     }
 
+    // Parent components such as the reply dialog might be interested in whether
+    // come of their child components are in editing mode.
     fire(this, 'comment-editing-changed', this.editing);
-    this.fireUpdate();
-
-    if (this.editing) {
-      setTimeout(() => this.textarea?.putCursorAtEnd(), 1);
-    }
   }
 
   computeSaveDisabled() {
-    // If resolved state has changed and a msg exists, save should be enabled.
-    if (
-      !this.comment ||
-      (this.comment.unresolved === this.resolved && this.messageText)
-    ) {
-      return false;
-    }
-    return !this.messageText || this.messageText.trim() === '';
+    assertIsDefined(this.comment, 'comment');
+    if (this.comment.unresolved !== this.resolved) return false;
+    return !this.messageText?.trim();
   }
 
   handleSaveKey(e: Event) {
@@ -1140,76 +1031,21 @@ export class GrComment extends LitElement {
   }
 
   handleEsc(e: Event) {
-    if (!this.messageText.length) {
+    // vim users don't like ESC to cancel/discard, so only do this when the
+    // comment text is empty.
+    if (!this.messageText?.trim()) {
       e.preventDefault();
       this.handleCancel(e);
     }
   }
 
-  // TODO! Do we need to react to comment message changes??
-  /*
-  @observe('comment.message')
-  commentMessageChanged(message: string) {
-    /*
-     * Only overwrite the message text user has typed if there is no existing
-     * text typed by the user. This prevents the bug where creating another
-     * comment triggered a recomputation of comments and the text written by
-     * the user was lost.
-     *
-    if (!this.messageText || !this.editing) this.messageText = message || '';
-  }
-  */
-
-  messageTextChanged(_: string, oldValue: string) {
-    assertIsDefined(this.comment, 'comment');
-    // Only store comments that are being edited in local storage.
-    if (this.comment.id && (!isDraft(this.comment) || !this.editing)) return;
-
-    const patchNum = this.comment.patch_set
-      ? this.comment.patch_set
-      : this.getPatchNum();
-    const {path, line, range} = this.comment;
-    if (!path) return;
-    this.storeTask = debounce(
-      this.storeTask,
-      () => {
-        const message = this.messageText;
-        if (this.changeNum === undefined) {
-          throw new Error('undefined changeNum');
-        }
-        const commentLocation: StorageLocation = {
-          changeNum: this.changeNum,
-          patchNum,
-          path,
-          line,
-          range,
-        };
-
-        if ((!message || !message.length) && oldValue) {
-          // If the draft has been modified to be empty, then erase the storage
-          // entry.
-          this.storage.eraseDraftComment(commentLocation);
-        } else {
-          this.storage.setDraftComment(commentLocation, message);
-        }
-      },
-      STORAGE_DEBOUNCE_INTERVAL
-    );
-  }
-
   handleAnchorClick(e: Event) {
     e.preventDefault();
-    if (!this.comment) return;
-    this.dispatchEvent(
-      new CustomEvent('comment-anchor-tap', {
-        bubbles: true,
-        composed: true,
-        detail: {
-          number: this.comment.line || FILE,
-          side: this.comment?.side,
-        },
-      })
-    );
+    assertIsDefined(this.comment, 'comment');
+    fire(this, 'comment-anchor-tap', {
+      number: this.comment.line || FILE,
+      side: this.comment?.side,
+    });
   }
 
   handleEdit(e: Event) {
@@ -1219,200 +1055,54 @@ export class GrComment extends LitElement {
 
   handleSave(e: Event) {
     e.preventDefault();
-
-    // Ignore saves started while already saving.
-    if (this.disabled) return;
-    const timingLabel = this.comment?.id
-      ? REPORT_UPDATE_DRAFT
-      : REPORT_CREATE_DRAFT;
-    const timer = this.reporting.getTimer(timingLabel);
-    return this.save().then(() => {
-      timer.end({id: this.comment?.id});
-    });
+    this.save();
   }
 
   handleCancel(e: Event) {
     e.preventDefault();
     assertIsDefined(this.comment, 'comment');
-    if (!this.comment.id) {
-      // Ensures we update the discarded draft message before deleting the draft
-      // TODO! Do we need to set this?
-      // this.set('comment.message', this.messageText);
-      this.fireDiscard();
-    } else {
-      this.commentsService.cancelDraft(this.comment);
-      this.editing = false;
-    }
-  }
+    this.editing = false;
+    this.messageText = this.comment.message ?? '';
+    this.resolved = !this.comment.unresolved;
+    if (!this.messageText?.trim()) this.discardDraft();
 
-  fireDiscard() {
-    if (this.comment) this.commentsService.deleteDraft(this.comment);
-    this.fireUpdateTask?.cancel();
-    this.dispatchEvent(
-      new CustomEvent('comment-discard', {
-        detail: this.getEventPayload(),
-        composed: true,
-        bubbles: true,
-      })
-    );
+    // TODO: Implement auto-saving. Then we have to revert back to the state
+    // here of before editing mode was entered.
   }
 
   handleFix() {
-    this.dispatchEvent(
-      new CustomEvent('create-fix-comment', {
-        bubbles: true,
-        composed: true,
-        detail: this.getEventPayload(),
-      })
-    );
+    // Handled by <gr-comment-thread>.
+    fire(this, 'create-fix-comment', this.getEventPayload());
   }
 
   handleShowFix() {
-    this.dispatchEvent(
-      new CustomEvent('open-fix-preview', {
-        bubbles: true,
-        composed: true,
-        detail: this.getEventPayload(),
-      })
-    );
+    // Handled top-level in the diff and change view components.
+    fire(this, 'open-fix-preview', this.getEventPayload());
   }
 
   handleDiscard(e: Event) {
     e.preventDefault();
-    this.reporting.recordDraftInteraction();
-
     this.discardDraft();
   }
 
   discardDraft() {
-    if (!this.comment) return Promise.reject(new Error('undefined comment'));
-    if (!isDraft(this.comment)) {
-      return Promise.reject(new Error('Cannot discard a non-draft comment.'));
-    }
-    this.discarding = true;
-    const timer = this.reporting.getTimer(REPORT_DISCARD_DRAFT);
+    if (this.saving || this.discarding) return;
+
+    assertIsDefined(this.comment, 'comment');
     this.editing = false;
-    this.disabled = true;
-    this.eraseDraftCommentFromStorage();
+    this.discarding = true;
+    const draft = this.comment as DraftInfo;
+    const id = draft.id ?? draft.__draftID;
+    assertIsDefined(id, 'comment without id and draft id');
 
-    if (!this.comment.id) {
-      this.disabled = false;
-      this.fireDiscard();
-      return Promise.resolve();
-    }
-
-    this.xhrPromise = this.deleteDraft(this.comment)
-      .then(response => {
-        this.disabled = false;
-        if (!response.ok) {
-          this.discarding = false;
-        }
-        timer.end({id: this.comment?.id});
-        this.fireDiscard();
-        return response;
+    this.commentsService
+      .discardDraft(id)
+      .catch(e => {
+        this.unableToSave = true;
+        throw e;
       })
-      .catch(err => {
-        this.disabled = false;
-        throw err;
-      });
-
-    return this.xhrPromise;
-  }
-
-  getSavingMessage(numPending: number, requestFailed?: boolean) {
-    if (requestFailed) {
-      return UNSAVED_MESSAGE;
-    }
-    if (numPending === 0) {
-      return SAVED_MESSAGE;
-    }
-    return `Saving ${pluralize(numPending, 'draft')}...`;
-  }
-
-  showStartRequest() {
-    const numPending = ++this.numPendingDraftRequests.number;
-    this.updateRequestToast(numPending);
-  }
-
-  showEndRequest() {
-    const numPending = --this.numPendingDraftRequests.number;
-    this.updateRequestToast(numPending);
-  }
-
-  handleFailedDraftRequest() {
-    this.numPendingDraftRequests.number--;
-
-    // Cancel the debouncer so that error toasts from the error-manager will
-    // not be overridden.
-    this.draftToastTask?.cancel();
-    this.updateRequestToast(
-      this.numPendingDraftRequests.number,
-      /* requestFailed=*/ true
-    );
-  }
-
-  updateRequestToast(numPending: number, requestFailed?: boolean) {
-    const message = this.getSavingMessage(numPending, requestFailed);
-    this.draftToastTask = debounce(
-      this.draftToastTask,
-      () => {
-        // Note: the event is fired on the body rather than this element because
-        // this element may not be attached by the time this executes, in which
-        // case the event would not bubble.
-        fireAlert(document.body, message);
-      },
-      TOAST_DEBOUNCE_INTERVAL
-    );
-  }
-
-  handleDraftFailure() {
-    this.unableToSave = true;
-    this.handleFailedDraftRequest();
-  }
-
-  saveDraft(draft?: Comment) {
-    if (!draft || this.changeNum === undefined || this.patchNum === undefined) {
-      throw new Error('undefined draft or changeNum or patchNum');
-    }
-    this.showStartRequest();
-    return this.restApiService
-      .saveDiffDraft(this.changeNum, this.patchNum, draft)
-      .then(result => {
-        if (result.ok) {
-          this.unableToSave = false;
-          this.showEndRequest();
-        } else {
-          this.handleDraftFailure();
-        }
-        return result;
-      })
-      .catch(err => {
-        this.handleDraftFailure();
-        throw err;
-      });
-  }
-
-  deleteDraft(draft: Comment) {
-    const changeNum = this.changeNum;
-    const patchNum = this.patchNum;
-    if (changeNum === undefined || patchNum === undefined) {
-      throw new Error('undefined changeNum or patchNum');
-    }
-    fireAlert(this, 'Discarding draft...');
-    const draftID = draft.id;
-    if (!draftID) throw new Error('Missing id in comment draft.');
-    return this.restApiService
-      .deleteDiffDraft(changeNum, patchNum, {id: draftID})
-      .then(result => {
-        if (result.ok) {
-          fire(this, 'show-alert', {
-            message: 'Draft Discarded',
-            action: 'Undo',
-            callback: () =>
-              this.commentsService.restoreDraft(changeNum, patchNum, draftID),
-          });
-        }
-        return result;
+      .finally(() => {
+        this.discarding = false;
       });
   }
 
@@ -1423,55 +1113,9 @@ export class GrComment extends LitElement {
     return patchNum;
   }
 
-  loadLocalDraft() {
-    assertIsDefined(this.changeNum, 'changeNum');
-    assertIsDefined(this.patchNum, 'patchNum');
-    assertIsDefined(this.comment, 'comment');
-
-    if (
-      !this.comment.path ||
-      this.comment.message ||
-      !isDraft(this.comment) ||
-      !this.editing
-    ) {
-      return;
-    }
-
-    const draft = this.storage.getDraftComment({
-      changeNum: this.changeNum,
-      patchNum: this.getPatchNum(),
-      path: this.comment.path,
-      line: this.comment.line,
-      range: this.comment.range,
-    });
-
-    if (draft) {
-      this.messageText = draft.message || '';
-    }
-  }
-
   handleToggleResolved() {
-    this.reporting.recordDraftInteraction();
     this.resolved = !this.resolved;
-    // Modify payload instead of this.comment, as this.comment is passed from
-    // the parent by ref.
-    const payload = this.getEventPayload();
-    if (!payload.comment) {
-      throw new Error('comment not defined in payload');
-    }
-    assertIsDefined(this.resolvedCheckbox, 'resolvedCheckbox element');
-    payload.comment.unresolved = !this.resolvedCheckbox.checked;
-    this.dispatchEvent(
-      new CustomEvent('comment-update', {
-        detail: payload,
-        composed: true,
-        bubbles: true,
-      })
-    );
-    if (!this.editing) {
-      // Save the resolved state immediately.
-      this.save(payload.comment);
-    }
+    if (!this.editing) this.save();
   }
 
   handleCommentDelete() {
@@ -1493,6 +1137,14 @@ export class GrComment extends LitElement {
     }
   }
 
+  /**
+   * Deleting a comment is an admin feature. It means more than just discarding
+   * a draft. It is an action applied to published comments.
+   *
+   * TODO: Also move this into the comments-service.
+   * TODO: Figure out a good reloading strategy when deleting was successful.
+   *       `this.comment = newComment` does not seem sufficient.
+   */
   handleConfirmDeleteComment() {
     const dialog = this.confirmDeleteOverlay?.querySelector(
       '#confirmDeleteComment'

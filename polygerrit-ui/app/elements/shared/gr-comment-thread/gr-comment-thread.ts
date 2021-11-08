@@ -19,23 +19,20 @@ import '../../../styles/shared-styles';
 import '../gr-comment/gr-comment';
 import '../../diff/gr-diff/gr-diff';
 import '../gr-copy-clipboard/gr-copy-clipboard';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query, queryAll, state} from 'lit/decorators';
 import {
   computeDiffFromContext,
-  computeId,
   isDraft,
   isRobot,
   sortComments,
   Comment,
-  DraftInfo,
+  CommentThread,
 } from '../../../utils/comment-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {
-  CommentSide,
   createDefaultDiffPrefs,
-  Side,
   SpecialFilePath,
 } from '../../../constants/constants';
 import {computeDisplayPath} from '../../../utils/path-list-util';
@@ -43,12 +40,11 @@ import {
   AccountDetailInfo,
   CommentRange,
   NumericChangeId,
-  PatchSetNum,
   RepoName,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {GrComment} from '../gr-comment/gr-comment';
-import {FILE, LineNumber} from '../../diff/gr-diff/gr-diff-line';
+import {FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffLayer, RenderPreferences} from '../../../api/diff';
@@ -65,12 +61,15 @@ import {subscribe} from '../../lit/subscription-controller';
 import {
   account$,
   diffPreferences$,
+  disableTokenHighlighting$,
   syntaxHighlightingEnabled$,
 } from '../../../services/user/user-model';
 import {repeat} from 'lit/directives/repeat';
 import {classMap} from 'lit/directives/class-map';
 import {changeNum$, repo$} from '../../../services/change/change-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import {thread$} from '../../../services/comments/comments-model';
+import {waitUntil} from '../../../test/test-utils';
 
 const NEWLINE_PATTERN = /\n/g;
 
@@ -106,14 +105,7 @@ export class GrCommentThread extends LitElement {
   commentBox?: HTMLElement;
 
   @queryAll('gr-comment')
-  commentElements?: GrComment[];
-
-  @property({type: Array})
-  comments: Comment[] = [];
-
-  /** Ordered version of `comments`. Updated in willUpdate(). */
-  @state()
-  orderedComments: Comment[] = [];
+  commentElements?: NodeList;
 
   /**
    * Id of the first comment and thus must not change. Will be derived from
@@ -128,23 +120,15 @@ export class GrCommentThread extends LitElement {
   @property()
   rootId?: UrlEncodedCommentId;
 
-  @property({type: Object, reflect: true})
-  range?: CommentRange;
+  // TODO: Is this attribute needed for querySelector() or css rules?
+  // We don't need this internally for the component.
+  @property({type: Boolean, reflect: true, attribute: 'has-draft'})
+  hasDraft?: boolean;
 
-  @property({type: String, reflect: true, attribute: 'diff-side'})
-  diffSide?: Side;
-
-  @property({type: String})
-  patchNum?: PatchSetNum;
-
-  @property({type: String})
-  path: string | undefined;
-
-  @property({type: Boolean})
-  isOnParent = false;
-
-  @property({type: Number})
-  parentIndex: number | null = null;
+  // TODO: Is this attribute needed for querySelector() or css rules?
+  // We don't need this internally for the component.
+  @property({type: Boolean, reflect: true})
+  unresolved?: boolean;
 
   /** Will be inspected on firstUpdated() only. */
   @property({type: Boolean, attribute: 'should-scroll-into-view'})
@@ -165,16 +149,11 @@ export class GrCommentThread extends LitElement {
   @property({type: Boolean, attribute: 'show-comment-context'})
   showCommentContext = false;
 
-  @property({type: Object, reflect: true, attribute: 'line-num'})
-  lineNum?: LineNumber;
+  @state()
+  thread?: CommentThread;
 
-  /** This attribute is only used by css filtering rules in <gr-thread-list>. */
-  @property({type: Boolean, reflect: true, attribute: 'has-draft'})
-  hasDraft?: boolean;
-
-  /** This attribute is only used by css filtering rules in <gr-thread-list>. */
-  @property({type: Boolean, reflect: true})
-  unresolved?: boolean;
+  @state()
+  comments: Comment[] = [];
 
   @state()
   changeNum?: NumericChangeId;
@@ -207,11 +186,7 @@ export class GrCommentThread extends LitElement {
   @state()
   highlightRange?: CommentRange;
 
-  private readonly reporting = appContext.reportingService;
-
   private readonly commentsService = appContext.commentsService;
-
-  private readonly restApiService = appContext.restApiService;
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -219,12 +194,20 @@ export class GrCommentThread extends LitElement {
 
   constructor() {
     super();
+    console.log('gr-comment-thread.constrcutor');
     subscribe(this, changeNum$, x => (this.changeNum = x));
     subscribe(this, account$, x => (this.account = x));
     subscribe(this, repo$, x => (this.repoName = x));
     subscribe(this, syntaxHighlightingEnabled$, x =>
       this.syntaxLayer.setEnabled(x)
     );
+    subscribe(this, disableTokenHighlighting$, disable => {
+      const layers: DiffLayer[] = [this.syntaxLayer];
+      if (!disable) {
+        layers.push(new TokenHighlightLayer(this));
+      }
+      this.layers = layers;
+    });
     subscribe(this, diffPreferences$, prefs => {
       this.prefs = {
         ...prefs,
@@ -235,12 +218,6 @@ export class GrCommentThread extends LitElement {
     });
     this.shortcuts.addGlobal({key: 'e'}, () => this.handleExpandShortcut());
     this.shortcuts.addGlobal({key: 'E'}, () => this.handleCollapseShortcut());
-    this.addEventListener('comment-update', e =>
-      this.handleCommentUpdate(e as CustomEvent)
-    );
-    appContext.restApiService.getPreferences().then(prefs => {
-      this.initLayers(!!prefs?.disable_token_highlighting);
-    });
   }
 
   static override get styles() {
@@ -358,8 +335,11 @@ export class GrCommentThread extends LitElement {
   }
 
   override render() {
-    if (this.isEmpty()) return;
-    if (!this.path || !this.patchNum) return;
+    console.log(
+      `gr-comment-thread.render ${this.rootId} ${this.comments.length}`
+    );
+    if (!this.rootId) return;
+    if (this.comments.length === 0) return;
     const dynamicBoxClasses = {
       robotComment: this.isRobotComment(),
       unresolved: this.isUnresolved(),
@@ -379,7 +359,6 @@ export class GrCommentThread extends LitElement {
   renderFilePath() {
     if (!this.showFilePath) return;
     const href = this.getDiffUrlForComment();
-    console.log(`renderFilePath: ${href}`);
     const line = this.computeDisplayLine();
     return html`
       ${this.renderFileName()}
@@ -409,16 +388,16 @@ export class GrCommentThread extends LitElement {
   }
 
   renderComments() {
-    if (this.isEmpty()) return;
     const robotButtonDisabled = !this.account || this.isDraft();
     return repeat(
-      this.orderedComments,
+      this.comments,
       comment => comment.id,
       comment => html`
         <gr-comment
           .comment="${comment}"
           .comments="${this.comments}"
-          .patchNum="${this.patchNum}"
+          .patchNum="${this.thread?.patchNum}"
+          ?initially-collapsed="${!this.isUnresolved()}"
           ?robot-button-disabled="${robotButtonDisabled}"
           ?show-patchset="${this.showPatchset}"
           ?show-ported-comment="${this.showPortedComment &&
@@ -490,6 +469,7 @@ export class GrCommentThread extends LitElement {
 
   renderContextualDiff() {
     if (!this.changeNum || !this.showCommentContext || !this.diff) return;
+    if (!this.thread?.path) return;
     const href = this.getUrlForViewDiff();
     return html`
       <div class="diff-container">
@@ -498,7 +478,7 @@ export class GrCommentThread extends LitElement {
           .changeNum="${this.changeNum}"
           .diff="${this.diff}"
           .layers="${this.layers}"
-          .path="${this.path}"
+          .path="${this.thread.path}"
           .prefs="${this.prefs}"
           .renderPrefs="${this.renderPrefs}"
           .highlightRange="${this.highlightRange}"
@@ -513,18 +493,22 @@ export class GrCommentThread extends LitElement {
     `;
   }
 
-  override willUpdate(changedProperties: PropertyValues) {
-    this.hasDraft = this.isDraft();
-    if (changedProperties.has('comments') || changedProperties.has('path')) {
-      this.diff = this.computeDiff();
-    }
-    if (changedProperties.has('comments')) {
-      this.orderedComments = sortComments(this.comments);
-      if (!this.rootId) {
-        this.rootId = computeId(this.getFirstComment());
-      }
-      this.unresolved = this.getLastComment().unresolved;
-      this.highlightRange = this.computeHighlightRange();
+  override willUpdate() {
+    console.log(`gr-comment-thread.willUpdate ${this.rootId}`);
+    if (this.rootId && !this.thread) {
+      subscribe(this, thread$(this.rootId), t => {
+        console.log(`gr-comment-thread.willUpdate init ${JSON.stringify(t)}`);
+        if (!t) return;
+        const firstTimeUpdate = !this.thread;
+        this.thread = t;
+        this.comments = sortComments(t.comments);
+        this.unresolved = this.getLastComment().unresolved;
+        this.hasDraft = this.isDraft();
+        if (firstTimeUpdate) {
+          this.diff = this.computeDiff();
+          this.highlightRange = this.computeHighlightRange();
+        }
+      });
     }
   }
 
@@ -533,10 +517,6 @@ export class GrCommentThread extends LitElement {
       this.commentBox?.focus();
       this.scrollIntoView();
     }
-  }
-
-  private isEmpty() {
-    return !this.comments || this.comments.length === 0;
   }
 
   private isDraft() {
@@ -548,17 +528,21 @@ export class GrCommentThread extends LitElement {
   }
 
   private isPatchsetLevel() {
-    return this.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
+    return this.thread?.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
   }
 
   private computeDiff() {
-    if (!this.comments || !this.path || !this.showCommentContext) return;
+    console.log(`gr-comment-thread computeDiff ${this.showCommentContext}
+    ${this.thread?.path} ${this.comments[0]?.context_lines?.length}`);
+    if (!this.showCommentContext) return;
+    if (!this.thread?.path) return;
     if (!this.comments[0]?.context_lines?.length) return;
     const diff = computeDiffFromContext(
       this.comments[0].context_lines,
-      this.path,
+      this.thread?.path,
       this.comments[0].source_content_type
     );
+    console.log(`gr-comment-thread computed diff ${JSON.stringify(diff)}`);
     // Do we really have to re-compute (and re-render) the diff?
     if (this.diff && JSON.stringify(this.diff) === JSON.stringify(diff)) {
       return this.diff;
@@ -573,36 +557,16 @@ export class GrCommentThread extends LitElement {
     return diff;
   }
 
-  /** Is being called by the gr-diff-host. */
-  addOrEditDraft(lineNum?: LineNumber, rangeParam?: CommentRange) {
-    const lastComment = this.getLastComment() || {};
-    if (isDraft(lastComment)) {
-      const commentEl = this.commentElWithDraftID(
-        lastComment.id || lastComment.__draftID
-      );
-      if (!commentEl) throw new Error('Failed to find draft.');
-      commentEl.edit();
-    } else {
-      const range = rangeParam
-        ? rangeParam
-        : lastComment
-        ? lastComment.range
-        : undefined;
-      const unresolved = lastComment ? lastComment.unresolved : undefined;
-      const draft = this.newDraft(lineNum, range);
-      draft.unresolved = unresolved === false ? unresolved : true;
-      this.commentsService.addDraft(draft);
-    }
-  }
-
   private getDiffUrlForPath() {
-    if (!this.changeNum || !this.repoName || !this.path) return undefined;
+    if (!this.changeNum || !this.repoName || !this.thread?.path) {
+      return undefined;
+    }
     if (isDraft(this.comments[0])) {
       return GerritNav.getUrlForDiffById(
         this.changeNum,
         this.repoName,
-        this.path,
-        this.patchNum
+        this.thread.path,
+        this.thread.patchNum
       );
     }
     const id = this.comments[0].id;
@@ -625,13 +589,6 @@ export class GrCommentThread extends LitElement {
     return undefined;
   }
 
-  private initLayers(disableTokenHighlighting: boolean) {
-    if (!disableTokenHighlighting) {
-      this.layers.push(new TokenHighlightLayer(this));
-    }
-    this.layers.push(this.syntaxLayer);
-  }
-
   private getUrlForViewDiff(): string {
     if (!this.changeNum) return '';
     if (!this.repoName) return '';
@@ -644,22 +601,21 @@ export class GrCommentThread extends LitElement {
   }
 
   private getDiffUrlForComment() {
-    console.log(
-      `getDiffUrlForComment: ${this.repoName} ${this.changeNum} ${this.path}`
-    );
-    if (!this.repoName || !this.changeNum || !this.path) return undefined;
+    if (!this.repoName || !this.changeNum || !this.thread?.path) {
+      return undefined;
+    }
     if (
       (this.comments.length && this.comments[0].side === 'PARENT') ||
       isDraft(this.comments[0])
     ) {
-      if (this.lineNum === 'LOST') throw new Error('invalid lineNum lost');
+      if (this.thread.line === 'LOST') throw new Error('invalid lineNum lost');
       return GerritNav.getUrlForDiffById(
         this.changeNum,
         this.repoName,
-        this.path,
-        this.patchNum,
+        this.thread.path,
+        this.thread.patchNum,
         undefined,
-        this.lineNum === FILE ? undefined : this.lineNum
+        this.thread.line === FILE ? undefined : this.thread.line
       );
     }
     const id = this.comments[0].id;
@@ -684,14 +640,15 @@ export class GrCommentThread extends LitElement {
 
   private getDisplayPath() {
     if (this.isPatchsetLevel()) return 'Patchset';
-    return computeDisplayPath(this.path);
+    return computeDisplayPath(this.thread?.path);
   }
 
   private computeDisplayLine() {
-    if (this.lineNum === FILE) return this.isPatchsetLevel() ? '' : FILE;
-    if (this.lineNum) return `#${this.lineNum}`;
+    assertIsDefined(this.thread, 'thread');
+    if (this.thread.line === FILE) return this.isPatchsetLevel() ? '' : FILE;
+    if (this.thread.line) return `#${this.thread.line}`;
     // If range is set, then lineNum equals the end line of the range.
-    if (this.range) return `#${this.range.end_line}`;
+    if (this.thread.range) return `#${this.thread.range.end_line}`;
     return '';
   }
 
@@ -700,11 +657,11 @@ export class GrCommentThread extends LitElement {
   }
 
   private getFirstComment() {
-    return this.orderedComments[0];
+    return this.comments[0];
   }
 
   private getLastComment() {
-    return this.orderedComments[this.orderedComments.length - 1];
+    return this.comments[this.comments.length - 1];
   }
 
   private handleExpandShortcut() {
@@ -717,39 +674,32 @@ export class GrCommentThread extends LitElement {
 
   private expandCollapseComments(actionIsCollapse: boolean) {
     for (const comment of this.commentElements ?? []) {
-      comment.collapsed = actionIsCollapse;
+      (comment as GrComment).collapsed = actionIsCollapse;
     }
   }
 
-  private createReplyComment(
+  private async createReplyComment(
     content?: string,
-    isEditing?: boolean,
+    userWantsToEdit?: boolean,
     unresolved?: boolean
   ) {
-    this.reporting.recordDraftInteraction();
-    const id = this.orderedComments[this.orderedComments.length - 1].id;
-    if (!id) throw new Error('Cannot reply to comment without id.');
-    const reply = this.newReply(id, content, unresolved);
+    const id = this.getLastComment().id;
+    assertIsDefined(this.thread, 'thread');
+    assertIsDefined(id, 'id of comment that the user wants to reply to');
+    this.commentsService.addReply(this.thread, id, content, unresolved);
+    if (userWantsToEdit) return;
 
-    if (isEditing) {
-      this.commentsService.addDraft(reply);
-    } else {
-      assertIsDefined(this.changeNum, 'changeNum');
-      assertIsDefined(this.patchNum, 'patchNum');
-      this.restApiService
-        .saveDiffDraft(this.changeNum, this.patchNum, reply)
-        .then(result => {
-          if (!result.ok) {
-            fireAlert(document, 'Unable to restore draft');
-            return;
-          }
-          this.restApiService.getResponseObject(result).then(obj => {
-            const resComment = obj as unknown as DraftInfo;
-            resComment.patch_set = reply.patch_set;
-            this.commentsService.addDraft(resComment);
-          });
-        });
-    }
+    // TODO: Move `waitUntil` out of test-util.
+    await waitUntil(() => this.getDraftElement() !== undefined);
+    const draftEl = this.getDraftElement();
+    assertIsDefined(draftEl, 'draft gr-comment element');
+    draftEl.save();
+  }
+
+  private getDraftElement(): GrComment | undefined {
+    if (!this.commentElements) return;
+    const elements = [...this.commentElements] as GrComment[];
+    return elements.find(c => isDraft(c.comment));
   }
 
   private handleCommentReply(quote: boolean) {
@@ -779,97 +729,6 @@ export class GrCommentThread extends LitElement {
     const quoteStr = '> ' + quoted + '\n\n';
     const response = quoteStr + 'Please fix.';
     this.createReplyComment(response, false, true);
-  }
-
-  private commentElWithDraftID(id?: string): GrComment | null {
-    if (!id) return null;
-    for (const el of this.commentElements ?? []) {
-      const c = el.comment;
-      if (isRobot(c)) continue;
-      if (c?.id === id || (isDraft(c) && c?.__draftID === id)) return el;
-    }
-    return null;
-  }
-
-  private newReply(
-    inReplyTo: UrlEncodedCommentId,
-    message?: string,
-    unresolved?: boolean
-  ) {
-    const d = this.newDraft();
-    d.in_reply_to = inReplyTo;
-    if (message !== undefined) {
-      d.message = message;
-    }
-    if (unresolved !== undefined) {
-      d.unresolved = unresolved;
-    }
-    return d;
-  }
-
-  private newDraft(lineNum?: LineNumber, range?: CommentRange) {
-    const randomString = Math.random().toString(36);
-    const d: DraftInfo = {
-      __draft: true,
-      __draftID: `draft__${randomString}` as UrlEncodedCommentId,
-      __date: new Date(),
-    };
-    if (lineNum === 'LOST') throw new Error('invalid lineNum lost');
-    // For replies, always use same meta info as root.
-    if (this.comments && this.comments.length >= 1) {
-      const rootComment = this.comments[0];
-      if (rootComment.path !== undefined) d.path = rootComment.path;
-      if (rootComment.patch_set !== undefined)
-        d.patch_set = rootComment.patch_set;
-      if (rootComment.side !== undefined) d.side = rootComment.side;
-      if (rootComment.line !== undefined) d.line = rootComment.line;
-      if (rootComment.range !== undefined) d.range = rootComment.range;
-      if (rootComment.parent !== undefined) d.parent = rootComment.parent;
-    } else {
-      // Set meta info for root comment.
-      d.path = this.path;
-      d.patch_set = this.patchNum;
-      d.side = this.isOnParent ? CommentSide.PARENT : CommentSide.REVISION;
-
-      if (lineNum && lineNum !== FILE) {
-        d.line = lineNum;
-      }
-      if (range) {
-        d.range = range;
-      }
-      if (this.parentIndex) {
-        d.parent = this.parentIndex;
-      }
-    }
-    return d;
-  }
-
-  private handleCommentUpdate(e: CustomEvent) {
-    const comment = e.detail.comment;
-    const index = this.indexOf(comment, this.comments);
-    if (index === -1) {
-      // This should never happen: comment belongs to another thread.
-      this.reporting.error(
-        new Error(`Comment update for another comment thread: ${comment}`)
-      );
-      return;
-    }
-    // TODO: this.set('comments') was being used here. Move into model/service.
-    this.requestUpdate();
-  }
-
-  private indexOf(comment: Comment | undefined, arr: Comment[]) {
-    if (!comment) return -1;
-    for (let i = 0; i < arr.length; i++) {
-      const c = arr[i];
-      if (
-        (isDraft(c) && isDraft(comment) && c.__draftID === comment.__draftID) ||
-        (c.id && c.id === comment.id)
-      ) {
-        return i;
-      }
-    }
-    return -1;
   }
 
   private computeAriaHeading() {

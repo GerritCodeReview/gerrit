@@ -64,6 +64,9 @@ export class GrSubmitRequirements extends LitElement {
   @property({type: Boolean})
   mutable?: boolean;
 
+  @property({type: Boolean, attribute: 'disable-hovercards'})
+  disableHovercards = false;
+
   @state()
   runs: CheckRun[] = [];
 
@@ -164,17 +167,19 @@ export class GrSubmitRequirements extends LitElement {
           )}
         </tbody>
       </table>
-      ${submit_requirements.map(
-        requirement => html`
-          <gr-submit-requirement-hovercard
-            for="requirement-${charsOnly(requirement.name)}"
-            .requirement="${requirement}"
-            .change="${this.change}"
-            .account="${this.account}"
-            .mutable="${this.mutable ?? false}"
-          ></gr-submit-requirement-hovercard>
-        `
-      )}
+      ${this.disableHovercards
+        ? ''
+        : submit_requirements.map(
+            requirement => html`
+              <gr-submit-requirement-hovercard
+                for="requirement-${charsOnly(requirement.name)}"
+                .requirement="${requirement}"
+                .change="${this.change}"
+                .account="${this.account}"
+                .mutable="${this.mutable ?? false}"
+              ></gr-submit-requirement-hovercard>
+            `
+          )}
       ${this.renderTriggerVotes()}`;
   }
 

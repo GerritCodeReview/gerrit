@@ -1,5 +1,8 @@
 import {customElement, property} from 'lit/decorators';
-import {LitElement, html} from 'lit';
+import {LitElement, html, PropertyValues} from 'lit';
+import {AppElementTopicParams} from '../gr-app-types';
+import {appContext} from '../../services/app-context';
+import {KnownExperimentId} from '../../services/flags/flags';
 
 /**
  * @license
@@ -21,9 +24,25 @@ import {LitElement, html} from 'lit';
 @customElement('gr-topic-view')
 export class GrTopicView extends LitElement {
   @property()
+  params?: AppElementTopicParams;
+
+  @property()
   topic?: string;
 
+  private readonly flagsService = appContext.flagsService;
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this.paramsChanged();
+    }
+  }
+
   override render() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.TOPICS_PAGE)) return '';
     return html`<div>Topic page for ${this.topic ?? ''}</div>`;
+  }
+
+  paramsChanged() {
+    this.topic = this.params?.topic;
   }
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71bb9c37_e2902512",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-08T09:46:34Z",
+      "side": 1,
+      "message": "Thanks for contributing to the documentation pages!",
+      "revId": "43c841ae09891f8d04ebc3554476dd0c4168b598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15a24fd9_bba63e82",
+        "filename": "Documentation/config-themes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-08T09:46:34Z",
+      "side": 1,
+      "message": "I think the problem is that this sentence should be highlighted more.\n\nAFAICT etc/GerritSite.css is just working fine, but only for login screens (LDAP, OAuth, OpenId) and the internally managed Gitweb servlet. Not for the Gerrit web app pages!\n\nDoes that make sense?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "43c841ae09891f8d04ebc3554476dd0c4168b598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

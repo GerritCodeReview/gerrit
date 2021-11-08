@@ -41,6 +41,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
@@ -374,7 +375,8 @@ public class GerritServer implements AutoCloseable {
     cfg.setString(
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
     daemon.setEnableHttpd(desc.httpd());
-    daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0, isSlave(baseConfig)));
+    daemon.setLuceneModule(
+        LuceneIndexModule.singleVersionAllLatest(0, isSlave(baseConfig), AutoFlush.ENABLED));
     daemon.setDatabaseForTesting(
         ImmutableList.of(
             new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),

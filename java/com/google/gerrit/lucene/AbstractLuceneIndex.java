@@ -43,6 +43,7 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
@@ -101,6 +102,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final ReferenceManager<IndexSearcher> searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
+  private final AutoFlush autoFlush;
   private ScheduledExecutorService autoCommitExecutor;
 
   AbstractLuceneIndex(
@@ -110,12 +112,14 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       String name,
       String subIndex,
       GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory)
+      SearcherFactory searcherFactory,
+      AutoFlush autoFlush)
       throws IOException {
     this.schema = schema;
     this.sitePaths = sitePaths;
     this.dir = dir;
     this.name = name;
+    this.autoFlush = autoFlush;
     String index = Joiner.on('_').skipNulls().join(name, subIndex);
     long commitPeriod = writerConfig.getCommitWithinMs();
 
@@ -209,7 +213,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
           }
         });
 
-    reopenThread.start();
+    if (autoFlush.equals(AutoFlush.ENABLED)) {
+      reopenThread.start();
+    }
   }
 
   @Override
@@ -459,6 +465,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
 
     private boolean isGenAvailableNowForCurrentSearcher() {
+      if (autoFlush.equals(AutoFlush.DISABLED)) {
+        return true;
+      }
       try {
         return reopenThread.waitForGeneration(gen, 0);
       } catch (InterruptedException e) {

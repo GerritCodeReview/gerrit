@@ -213,6 +213,27 @@ public abstract class VersionedMetaData {
   }
 
   /**
+   * Update this metadata branch, recording a new commit on its reference. This method mutates its
+   * receiver.
+   *
+   * @param update helper information to define the update that will occur.
+   * @param objInserter Shared object inserter.
+   * @param objReader Shared object reader.
+   * @param revWalk Shared rev walk.
+   * @return the commit that was created
+   * @throws IOException if there is a storage problem and the update cannot be executed as
+   *     requested or if it failed because of a concurrent update to the same reference
+   */
+  public RevCommit commit(
+      MetaDataUpdate update, ObjectInserter objInserter, ObjectReader objReader, RevWalk revWalk)
+      throws IOException {
+    try (BatchMetaDataUpdate batch = openUpdate(update, objInserter, objReader, revWalk)) {
+      batch.write(update.getCommitBuilder());
+      return batch.commit();
+    }
+  }
+
+  /**
    * Creates a new commit and a new ref based on this commit. This method mutates its receiver.
    *
    * @param update helper information to define the update that will occur.
@@ -259,11 +280,39 @@ public abstract class VersionedMetaData {
    * @throws IOException if the update failed.
    */
   public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
+    return openUpdate(update, null, null, null);
+  }
+
+  /**
+   * Open a batch of updates to the same metadata ref.
+   *
+   * <p>This allows making multiple commits to a single metadata ref, at the end of which is a
+   * single ref update. For batching together updates to multiple refs (each consisting of one or
+   * more commits against their respective refs), create the {@link MetaDataUpdate} with a {@link
+   * BatchRefUpdate}.
+   *
+   * <p>A ref update produced by this {@link BatchMetaDataUpdate} is only committed if there is no
+   * associated {@link BatchRefUpdate}. As a result, the configured ref updated event is not fired
+   * if there is an associated batch.
+   *
+   * <p>If object inserter, reader and revwalk are provided, then the updates are not flushed,
+   * allowing callers the flexibility to flush only once after several updates.
+   *
+   * @param update helper info about the update.
+   * @param objInserter Shared object inserter.
+   * @param objReader Shared object reader.
+   * @param revWalk Shared rev walk.
+   * @throws IOException if the update failed.
+   */
+  public BatchMetaDataUpdate openUpdate(
+      MetaDataUpdate update, ObjectInserter objInserter, ObjectReader objReader, RevWalk revWalk)
+      throws IOException {
     final Repository db = update.getRepository();
 
-    inserter = db.newObjectInserter();
-    reader = inserter.newReader();
-    final RevWalk rw = new RevWalk(reader);
+    inserter = objInserter == null ? db.newObjectInserter() : objInserter;
+    reader = objReader == null ? inserter.newReader() : objReader;
+    final RevWalk rw = revWalk == null ? new RevWalk(reader) : revWalk;
+
     final RevTree tree = revision != null ? rw.parseTree(revision) : null;
     newTree = readTree(tree);
     return new BatchMetaDataUpdate() {
@@ -376,7 +425,7 @@ public abstract class VersionedMetaData {
         newTree = null;
 
         rw.close();
-        if (inserter != null) {
+        if (objInserter == null && inserter != null) {
           inserter.close();
           inserter = null;
         }
@@ -392,7 +441,9 @@ public abstract class VersionedMetaData {
         BatchRefUpdate bru = update.getBatch();
         if (bru != null) {
           bru.addCommand(new ReceiveCommand(oldId.toObjectId(), newId.toObjectId(), refName));
-          inserter.flush();
+          if (objInserter == null) {
+            inserter.flush();
+          }
           revision = rw.parseCommit(newId);
           return revision;
         }

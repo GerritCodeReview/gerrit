@@ -82,6 +82,7 @@ import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.OnlineUpgrader;
@@ -498,7 +499,7 @@ public class Daemon extends SiteProgram {
     }
     switch (indexType) {
       case LUCENE:
-        return LuceneIndexModule.latestVersion(slave);
+        return LuceneIndexModule.latestVersion(slave, AutoFlush.ENABLED);
       case ELASTICSEARCH:
         return ElasticIndexModule.latestVersion(slave);
       default:

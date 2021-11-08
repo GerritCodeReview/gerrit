@@ -29,6 +29,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -48,7 +49,8 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       Path path,
       GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory)
+      SearcherFactory searcherFactory,
+      AutoFlush autoFlush)
       throws IOException {
     this(
         schema,
@@ -56,7 +58,8 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
         FSDirectory.open(path),
         path.getFileName().toString(),
         writerConfig,
-        searcherFactory);
+        searcherFactory,
+        autoFlush);
   }
 
   ChangeSubIndex(
@@ -65,9 +68,10 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       Directory dir,
       String subIndex,
       GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory)
+      SearcherFactory searcherFactory,
+      AutoFlush autoFlush)
       throws IOException {
-    super(schema, sitePaths, dir, NAME, subIndex, writerConfig, searcherFactory);
+    super(schema, sitePaths, dir, NAME, subIndex, writerConfig, searcherFactory, autoFlush);
   }
 
   @Override

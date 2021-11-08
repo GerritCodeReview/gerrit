@@ -43,6 +43,14 @@ public class AttentionSetUtil {
         .collect(ImmutableSet.toImmutableSet());
   }
 
+  /** Returns only updates where the user was removed. */
+  public static ImmutableSet<AttentionSetUpdate> removalsOnly(
+      Collection<AttentionSetUpdate> updates) {
+    return updates.stream()
+        .filter(u -> u.operation() == Operation.REMOVE)
+        .collect(ImmutableSet.toImmutableSet());
+  }
+
   /**
    * Validates the input for AttentionSetInput. This must be called for all inputs that relate to
    * adding or removing attention set entries, except for {@link

@@ -35,6 +35,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SUBMIT_REQUI
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
+import static com.google.gerrit.server.util.AttentionSetUtil.removalsOnly;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Joiner;
@@ -603,6 +604,12 @@ public class ChangeJson {
     out.branch = in.getDest().shortName();
     out.topic = in.getTopic();
     if (!cd.attentionSet().isEmpty()) {
+      out.removedFromAttentionSet =
+          removalsOnly(cd.attentionSet()).stream()
+              .collect(
+                  toImmutableMap(
+                      a -> a.account().get(),
+                      a -> AttentionSetUtil.createAttentionSetInfo(a, accountLoader)));
       out.attentionSet =
           // This filtering should match GetAttentionSet.
           additionsOnly(cd.attentionSet()).stream()

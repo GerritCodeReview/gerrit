@@ -261,6 +261,12 @@ public class AttentionSetIT extends AbstractDaemonTest {
             fakeClock.now(), user.id(), AttentionSetUpdate.Operation.REMOVE, "removed");
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
 
+    // The removal also shows up in AttentionSetInfo.
+    AttentionSetInfo attentionSetInfo =
+        Iterables.getOnlyElement(change(r).get().removedFromAttentionSet.values());
+    assertThat(attentionSetInfo.reason).isEqualTo("removed");
+    assertThat(attentionSetInfo.account).isEqualTo(getAccountInfo(user.id()));
+
     // Second removal is ignored.
     fakeClock.advance(Duration.ofSeconds(42));
     change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed again"));

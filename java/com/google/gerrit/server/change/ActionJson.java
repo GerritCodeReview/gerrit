@@ -118,6 +118,10 @@ public class ActionJson {
     copy.topic = changeInfo.topic;
     copy.attentionSet =
         changeInfo.attentionSet == null ? null : ImmutableMap.copyOf(changeInfo.attentionSet);
+    copy.removedFromAttentionSet =
+        changeInfo.removedFromAttentionSet == null
+            ? null
+            : ImmutableMap.copyOf(changeInfo.removedFromAttentionSet);
     copy.assignee = changeInfo.assignee;
     copy.hashtags = changeInfo.hashtags;
     copy.changeId = changeInfo.changeId;

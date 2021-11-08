@@ -6520,7 +6520,14 @@ The `refs/heads/` prefix is omitted.
 |`topic`              |optional|The topic to which this change belongs.
 |`attention_set`      |optional|
 The map that maps link:rest-api-accounts.html#account-id[account IDs]
-to link:#attention-set-info[AttentionSetInfo] of that account.
+to link:#attention-set-info[AttentionSetInfo] of that account. Those are all
+accounts that are currently in the attention set.
+|`removed_from_attention_set`      |optional|
+The map that maps link:rest-api-accounts.html#account-id[account IDs]
+to link:#attention-set-info[AttentionSetInfo] of that account. Those are all
+accounts that were in the attention set but were removed. The
+link:#attention-set-info[AttentionSetInfo] is the latest and most recent removal
+ of the account from the attention set.
 |`assignee`           |optional|
 The assignee of the change as an link:rest-api-accounts.html#account-info[
 AccountInfo] entity.

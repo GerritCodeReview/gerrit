@@ -85,7 +85,13 @@ import {
   RevisionPatchSetNum,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
+import {
+  ChangeViewState,
+  CommitRange,
+  EditRevisionInfo,
+  FileRange,
+  ParsedChangeInfo,
+} from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrDiffCursor} from '../gr-diff-cursor/gr-diff-cursor';
@@ -177,7 +183,7 @@ export class GrDiffView extends base {
   _commitRange?: CommitRange;
 
   @property({type: Object})
-  _change?: ChangeInfo;
+  _change?: ParsedChangeInfo;
 
   @property({type: Object})
   _changeComments?: ChangeComments;
@@ -349,6 +355,8 @@ export class GrDiffView extends base {
 
   private readonly shortcuts = appContext.shortcutsService;
 
+  private readonly changeService = appContext.changeService;
+
   _throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
   _onRenderHandler?: EventListener;
@@ -438,9 +446,12 @@ export class GrDiffView extends base {
   }
 
   _getChangeDetail(changeNum: NumericChangeId) {
-    return this.restApiService.getDiffChangeDetail(changeNum).then(change => {
+    return this.restApiService.getChangeDetail(changeNum).then(change => {
+      console.log('_getChangeDetail comes back');
       if (!change) throw new Error('Missing "change" in API response.');
       this._change = change;
+      this.changeService.updateChange(change);
+      console.log('_getChangeDetail returns ');
       return change;
     });
   }
@@ -1076,8 +1087,10 @@ export class GrDiffView extends base {
     this.$.diffHost.cancel();
     this.$.diffHost.clearDiffContent();
     this._loading = true;
+    console.log('gr-diff-view loading true');
     return Promise.all(promises)
       .then(r => {
+        console.log('gr-diff-view loading false');
         this._loading = false;
         this._initPatchRange();
         this._initCommitRange();
@@ -1207,7 +1220,11 @@ export class GrDiffView extends base {
     this.set('changeViewState.selectedFileIndex', this._fileList.indexOf(path));
   }
 
-  _getDiffUrl(change?: ChangeInfo, patchRange?: PatchRange, path?: string) {
+  _getDiffUrl(
+    change?: ChangeInfo | ParsedChangeInfo,
+    patchRange?: PatchRange,
+    path?: string
+  ) {
     if (!change || !patchRange || !path) return '';
     return GerritNav.getUrlForDiff(
       change,
@@ -1224,7 +1241,7 @@ export class GrDiffView extends base {
    */
   _getChangeUrlRange(
     patchRange?: PatchRange,
-    revisions?: {[revisionId: string]: RevisionInfo}
+    revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo}
   ) {
     let patchNum = undefined;
     let basePatchNum = undefined;
@@ -1246,9 +1263,9 @@ export class GrDiffView extends base {
   }
 
   _getChangePath(
-    change?: ChangeInfo,
+    change?: ChangeInfo | ParsedChangeInfo,
     patchRange?: PatchRange,
-    revisions?: {[revisionId: string]: RevisionInfo}
+    revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo}
   ) {
     if (!change) return '';
     if (!patchRange) return '';
@@ -1262,9 +1279,9 @@ export class GrDiffView extends base {
   }
 
   _navigateToChange(
-    change?: ChangeInfo,
+    change?: ChangeInfo | ParsedChangeInfo,
     patchRange?: PatchRange,
-    revisions?: {[revisionId: string]: RevisionInfo}
+    revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo}
   ) {
     if (!change) return;
     const range = this._getChangeUrlRange(patchRange, revisions);

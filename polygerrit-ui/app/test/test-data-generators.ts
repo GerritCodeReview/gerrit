@@ -95,7 +95,7 @@ import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
 import {AppElementChangeViewParams} from '../elements/gr-app-types';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
-import {createCommentThreads, Comment, DraftInfo} from '../utils/comment-util';
+import {createCommentThreads, DraftInfo} from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
@@ -611,7 +611,7 @@ export function createChangeComments(): ChangeComments {
   return new ChangeComments(comments, {}, drafts, {}, {});
 }
 
-export function createCommentThread(comments: Comment[]) {
+export function createCommentThread(comments: CommentInfo[]) {
   if (!comments.length) {
     throw new Error('comment is required to create a thread');
   }

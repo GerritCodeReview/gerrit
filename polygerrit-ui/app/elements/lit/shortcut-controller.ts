@@ -35,11 +35,15 @@ export class ShortcutController implements ReactiveController {
 
   private cleanups: Cleanup[] = [];
 
-  constructor(private readonly host: ReactiveControllerHost & HTMLElement) {}
+  constructor(private readonly host: ReactiveControllerHost & HTMLElement) {
+    host.addController(this);
+  }
 
+  // Note that local shortcuts are *not* suppressed when the user has shortcuts
+  // disabled or when the event comes from elements like <input>. So this method
+  // is intended for shortcuts like ESC and Ctrl-ENTER.
   addLocal(binding: Binding, listener: (e: KeyboardEvent) => void) {
     this.listenersLocal.push({binding, listener});
-    this.listenersGlobal.push({binding, listener});
   }
 
   addGlobal(binding: Binding, listener: (e: KeyboardEvent) => void) {
@@ -48,7 +52,9 @@ export class ShortcutController implements ReactiveController {
 
   hostConnected() {
     for (const {binding, listener} of this.listenersLocal) {
-      const cleanup = this.service.addShortcut(this.host, binding, listener);
+      const cleanup = this.service.addShortcut(this.host, binding, listener, {
+        shouldSuppress: false,
+      });
       this.cleanups.push(cleanup);
     }
     for (const {binding, listener} of this.listenersGlobal) {

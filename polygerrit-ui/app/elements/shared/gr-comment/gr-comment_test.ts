@@ -476,16 +476,13 @@ suite('gr-comment tests', () => {
     });
 
     test('edit reports interaction', () => {
-      const reportStub = stubReporting('recordDraftInteraction');
       sinon.stub(element, 'fireEdit');
       element.draft = true;
       flush();
       tap(queryAndAssert(element, '.edit'));
-      assert.isTrue(reportStub.calledOnce);
     });
 
     test('discard reports interaction', () => {
-      const reportStub = stubReporting('recordDraftInteraction');
       sinon.stub(element, 'eraseDraftCommentFromStorage');
       sinon.stub(element, 'fireDiscard');
       sinon
@@ -495,7 +492,6 @@ suite('gr-comment tests', () => {
       element.comment = createDraft();
       flush();
       tap(queryAndAssert(element, '.discard'));
-      assert.isTrue(reportStub.calledOnce);
     });
 
     test('failed save draft request', async () => {
@@ -1064,20 +1060,20 @@ suite('gr-comment tests', () => {
     test('computeSaveDisabled', () => {
       const comment = {unresolved: true};
       const msgComment = {message: 'test', unresolved: true};
-      assert.equal(element.computeSaveDisabled('', comment, false), true);
-      assert.equal(element.computeSaveDisabled('test', comment, false), false);
-      assert.equal(element.computeSaveDisabled('', msgComment, false), true);
+      assert.equal(element.isSaveDisabled('', comment, false), true);
+      assert.equal(element.isSaveDisabled('test', comment, false), false);
+      assert.equal(element.isSaveDisabled('', msgComment, false), true);
       assert.equal(
-        element.computeSaveDisabled('test', msgComment, false),
+        element.isSaveDisabled('test', msgComment, false),
         false
       );
       assert.equal(
-        element.computeSaveDisabled('test2', msgComment, false),
+        element.isSaveDisabled('test2', msgComment, false),
         false
       );
-      assert.equal(element.computeSaveDisabled('test', comment, true), false);
-      assert.equal(element.computeSaveDisabled('', comment, true), true);
-      assert.equal(element.computeSaveDisabled('', comment, false), true);
+      assert.equal(element.isSaveDisabled('test', comment, true), false);
+      assert.equal(element.isSaveDisabled('', comment, true), true);
+      assert.equal(element.isSaveDisabled('', comment, false), true);
     });
 
     test('ctrl+s saves comment', async () => {

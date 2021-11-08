@@ -2024,6 +2024,9 @@ export class GrChangeView extends base {
   @observe('_changeComments')
   changeCommentsChanged(comments?: ChangeComments) {
     if (!comments) return;
+    console.log(
+      `changeCommentsChanged ${comments.getAllThreadsForChange().length}`
+    );
     this._changeComments = comments;
     this._commentThreads = this._changeComments.getAllThreadsForChange();
     this._draftCommentThreads = this._commentThreads

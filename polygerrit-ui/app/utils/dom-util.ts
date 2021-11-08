@@ -338,6 +338,8 @@ export interface Binding {
   combo?: ComboKey;
   /** Defaults to no modifiers. */
   modifiers?: Modifier[];
+  /** Defaults to false. If true, then `event.repeat === true` is allowed. */
+  allowRepeat?: boolean;
 }
 
 const ALPHA_NUM = new RegExp(/^[A-Za-z0-9]$/);
@@ -406,7 +408,7 @@ export function addShortcut(
   }
 ) {
   const wrappedListener = (e: KeyboardEvent) => {
-    if (e.repeat) return;
+    if (e.repeat && !shortcut.allowRepeat) return;
     if (options.shouldSuppress && shouldSuppress(e)) return;
     if (eventMatchesShortcut(e, shortcut)) {
       listener(e);

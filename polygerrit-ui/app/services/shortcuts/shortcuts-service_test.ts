@@ -213,7 +213,10 @@ suite('shortcuts-service tests', () => {
           {
             shortcut: Shortcut.NEXT_LINE,
             text: 'Go to next line',
-            bindings: [{key: 'j'}, {key: 'ArrowDown'}],
+            bindings: [
+              {allowRepeat: true, key: 'j'},
+              {allowRepeat: true, key: 'ArrowDown'}
+            ],
           },
         ],
         [ShortcutSection.NAVIGATION]: [
@@ -234,7 +237,10 @@ suite('shortcuts-service tests', () => {
           {
             shortcut: Shortcut.NEXT_LINE,
             text: 'Go to next line',
-            bindings: [{key: 'j'}, {key: 'ArrowDown'}],
+            bindings: [
+              {allowRepeat: true, key: 'j'},
+              {allowRepeat: true, key: 'ArrowDown'}
+            ],
           },
         ],
         [ShortcutSection.EVERYWHERE]: [

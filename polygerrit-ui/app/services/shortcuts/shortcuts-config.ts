@@ -180,13 +180,13 @@ describe(
   Shortcut.CURSOR_NEXT_CHANGE,
   ShortcutSection.ACTIONS,
   'Select next change',
-  {key: 'j'}
+  {key: 'j', allowRepeat: true}
 );
 describe(
   Shortcut.CURSOR_PREV_CHANGE,
   ShortcutSection.ACTIONS,
   'Select previous change',
-  {key: 'k'}
+  {key: 'k', allowRepeat: true}
 );
 describe(
   Shortcut.OPEN_CHANGE,
@@ -316,15 +316,15 @@ describe(
   Shortcut.NEXT_LINE,
   ShortcutSection.DIFFS,
   'Go to next line',
-  {key: 'j'},
-  {key: Key.DOWN}
+  {key: 'j', allowRepeat: true},
+  {key: Key.DOWN, allowRepeat: true}
 );
 describe(
   Shortcut.PREV_LINE,
   ShortcutSection.DIFFS,
   'Go to previous line',
-  {key: 'k'},
-  {key: Key.UP}
+  {key: 'k', allowRepeat: true},
+  {key: Key.UP, allowRepeat: true}
 );
 describe(
   Shortcut.VISIBLE_LINE,
@@ -480,15 +480,15 @@ describe(
   Shortcut.CURSOR_NEXT_FILE,
   ShortcutSection.FILE_LIST,
   'Select next file',
-  {key: 'j'},
-  {key: Key.DOWN}
+  {key: 'j', allowRepeat: true},
+  {key: Key.DOWN, allowRepeat: true}
 );
 describe(
   Shortcut.CURSOR_PREV_FILE,
   ShortcutSection.FILE_LIST,
   'Select previous file',
-  {key: 'k'},
-  {key: Key.UP}
+  {key: 'k', allowRepeat: true},
+  {key: Key.UP, allowRepeat: true}
 );
 describe(
   Shortcut.OPEN_FILE,

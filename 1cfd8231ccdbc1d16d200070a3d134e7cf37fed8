@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5dbfaf7_f6b69baf",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-11-08T06:05:19Z",
+      "side": 1,
+      "message": "nit: Maybe add the date to these numbers, it may be difficult to identify in the future if the file is moved or refactored.",
+      "revId": "1cfd8231ccdbc1d16d200070a3d134e7cf37fed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cdfd640_4da4081e",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-11-08T06:05:19Z",
+      "side": 1,
+      "message": "The comment should also explain why we do these arithmetics instead of just counting the diff towards the configured threshold (i.e. cumulativeCommentSizeLimit) together with the other comments.",
+      "revId": "1cfd8231ccdbc1d16d200070a3d134e7cf37fed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -93,6 +93,7 @@ export class GrVoteChip extends LitElement {
           padding: 1px;
           border-radius: var(--border-radius);
           line-height: var(--gr-vote-chip-width, 16px);
+          color: var(--vote-text-color);
         }
         .vote-chip {
           position: relative;

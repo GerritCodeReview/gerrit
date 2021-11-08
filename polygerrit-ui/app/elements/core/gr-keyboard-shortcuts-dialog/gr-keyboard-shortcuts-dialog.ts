@@ -16,15 +16,14 @@
  */
 import '../../shared/gr-button/gr-button';
 import '../gr-key-binding-display/gr-key-binding-display';
-import '../../../styles/shared-styles';
-import '../../../styles/gr-font-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-keyboard-shortcuts-dialog_html';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {LitElement, css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 import {
   ShortcutSection,
   SectionView,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {property, customElement} from '@polymer/decorators';
 import {appContext} from '../../../services/app-context';
 import {ShortcutViewListener} from '../../../services/shortcuts/shortcuts-service';
 
@@ -40,11 +39,7 @@ interface SectionShortcut {
 }
 
 @customElement('gr-keyboard-shortcuts-dialog')
-export class GrKeyboardShortcutsDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrKeyboardShortcutsDialog extends LitElement {
   /**
    * Fired when the user presses the close button.
    *
@@ -67,9 +62,107 @@ export class GrKeyboardShortcutsDialog extends PolymerElement {
       this._onDirectoryUpdated(d);
   }
 
-  override ready() {
-    super.ready();
-    this._ensureAttribute('role', 'dialog');
+  static override get styles() {
+    return [
+      sharedStyles,
+      fontStyles,
+      css`
+        :host {
+          display: block;
+          max-height: 100vh;
+          overflow-y: auto;
+        }
+        header {
+          padding: var(--spacing-l);
+        }
+        main {
+          display: flex;
+          padding: 0 var(--spacing-xxl) var(--spacing-xxl);
+        }
+        .column {
+          flex: 50%;
+        }
+        header {
+          align-items: center;
+          border-bottom: 1px solid var(--border-color);
+          display: flex;
+          justify-content: space-between;
+        }
+        table caption {
+          font-weight: var(--font-weight-bold);
+          padding-top: var(--spacing-l);
+          text-align: left;
+        }
+        tr {
+          height: 32px;
+        }
+        td {
+          padding: var(--spacing-xs) 0;
+        }
+        td:first-child,
+        th:first-child {
+          padding-right: var(--spacing-m);
+          text-align: right;
+          width: 160px;
+          color: var(--deemphasized-text-color);
+        }
+        td:second-child {
+          min-width: 200px;
+        }
+        th {
+          color: var(--deemphasized-text-color);
+          text-align: left;
+        }
+        .header {
+          font-weight: var(--font-weight-bold);
+          padding-top: var(--spacing-l);
+        }
+        .modifier {
+          font-weight: var(--font-weight-normal);
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`<header>
+        <h3 class="heading-3">Keyboard shortcuts</h3>
+        <gr-button link="" @click=${this.handleCloseTap}>Close</gr-button>
+      </header>
+      <main>
+        <div class="column">
+          ${this._left?.map(section => this.renderSection(section))}
+        </div>
+        <div class="column">
+          ${this._right?.map(section => this.renderSection(section))}
+        </div>
+      </main>
+      <footer></footer>`;
+  }
+
+  private renderSection(section: SectionShortcut) {
+    return html`<table>
+      <caption>
+        ${section.section}
+      </caption>
+      <thead>
+        <tr>
+          <th>Key</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${section.shortcuts?.map(
+          shortcut => html`<tr>
+            <td>
+              <gr-key-binding-display .binding=${shortcut.binding}>
+              </gr-key-binding-display>
+            </td>
+            <td>${shortcut.text}</td>
+          </tr>`
+        )}
+      </tbody>
+    </table>`;
   }
 
   override connectedCallback() {
@@ -82,7 +175,7 @@ export class GrKeyboardShortcutsDialog extends PolymerElement {
     super.disconnectedCallback();
   }
 
-  _handleCloseTap(e: MouseEvent) {
+  private handleCloseTap(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
@@ -142,7 +235,7 @@ export class GrKeyboardShortcutsDialog extends PolymerElement {
       });
     }
 
-    this.set('_left', left);
-    this.set('_right', right);
+    this._right = right;
+    this._left = left;
   }
 }

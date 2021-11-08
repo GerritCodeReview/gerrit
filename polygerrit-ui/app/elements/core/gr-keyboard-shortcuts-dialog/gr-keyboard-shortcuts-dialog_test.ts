@@ -16,6 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma';
+import './gr-keyboard-shortcuts-dialog';
 import {GrKeyboardShortcutsDialog} from './gr-keyboard-shortcuts-dialog';
 import {
   SectionView,
@@ -27,8 +28,9 @@ const basicFixture = fixtureFromElement('gr-keyboard-shortcuts-dialog');
 suite('gr-keyboard-shortcuts-dialog tests', () => {
   let element: GrKeyboardShortcutsDialog;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
   function update(directory: Map<ShortcutSection, SectionView>) {

@@ -4,11 +4,12 @@ Gerrit supports some customization of the HTML it sends to
 the browser, allowing organizations to alter the look and
 feel of the application to fit with their general scheme.
 
-== HTML Header/Footer and CSS
+== HTML Header/Footer and CSS for login screens
 
-The HTML header, footer and CSS may be customized for login
-screens (LDAP, OAuth, OpenId) and the internally managed
-Gitweb servlet.
+The HTML header, footer, and CSS may be customized for login screens (LDAP,
+OAuth, OpenId) and the internally managed Gitweb servlet. See
+link:pg-plugin-dev.txt[JavaScript Plugin Development and API] for documentation
+on modifying styles for the rest of Gerrit (not login screens).
 
 At startup Gerrit reads the following files (if they exist) and
 uses them to customize the HTML page it sends to clients:

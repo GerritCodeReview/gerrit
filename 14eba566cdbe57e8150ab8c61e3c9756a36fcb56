@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03532715_98f39ee7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T19:08:43Z",
+      "side": 1,
+      "message": "Tested manually by triggering an IOException I get a 500 error.",
+      "revId": "14eba566cdbe57e8150ab8c61e3c9756a36fcb56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 package com.google.gerrit.server.change;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
@@ -81,6 +80,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.SubmitRecordInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.query.QueryResult;
@@ -127,6 +127,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
@@ -140,13 +141,10 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 public class ChangeJson {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
       ChangeField.SUBMIT_RULE_OPTIONS_LENIENT.toBuilder().build();
-
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
       ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().build();
-
   static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(
           ALL_COMMITS,
@@ -172,12 +170,14 @@ public class ChangeJson {
     }
 
     public ChangeJson create(Iterable<ListChangesOption> options) {
-      return factory.create(options, Optional.empty());
+      return factory.create(options, Optional.empty(), OptionalInt.empty());
     }
 
     public ChangeJson create(
-        Iterable<ListChangesOption> options, PluginDefinedInfosFactory pluginDefinedInfosFactory) {
-      return factory.create(options, Optional.of(pluginDefinedInfosFactory));
+        Iterable<ListChangesOption> options,
+        PluginDefinedInfosFactory pluginDefinedInfosFactory,
+        OptionalInt parentNum) {
+      return factory.create(options, Optional.of(pluginDefinedInfosFactory), parentNum);
     }
 
     public ChangeJson create(ListChangesOption first, ListChangesOption... rest) {
@@ -188,7 +188,8 @@ public class ChangeJson {
   public interface AssistedFactory {
     ChangeJson create(
         Iterable<ListChangesOption> options,
-        Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory);
+        Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory,
+        OptionalInt parentNum);
   }
 
   @Singleton
@@ -237,7 +238,6 @@ public class ChangeJson {
   private final Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory;
   private final boolean includeMergeable;
   private final boolean lazyLoad;
-
   private AccountLoader accountLoader;
   private FixInput fix;
 
@@ -259,6 +259,7 @@ public class ChangeJson {
       ExperimentFeatures experimentFeatures,
       @GerritServerConfig Config cfg,
       @Assisted Iterable<ListChangesOption> options,
+      @Assisted OptionalInt parentNum,
       @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
     this.userProvider = user;
     this.changeDataFactory = cdf;
@@ -272,14 +273,13 @@ public class ChangeJson {
     this.removeReviewerControl = removeReviewerControl;
     this.trackingFooters = trackingFooters;
     this.metrics = metrics;
-    this.revisionJson = revisionJsonFactory.create(options);
+    this.revisionJson = revisionJsonFactory.create(options, parentNum);
     this.options = Sets.immutableEnumSet(options);
     this.includeMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
     this.lazyLoad =
         containsAnyOf(this.options, REQUIRE_LAZY_LOAD)
             || lazyloadSubmitRequirements(this.options, experimentFeatures);
     this.pluginDefinedInfosFactory = pluginDefinedInfosFactory;
-
     logger.atFine().log("options = %s", options);
   }
 
@@ -451,6 +451,7 @@ public class ChangeJson {
         | GpgException
         | IOException
         | PermissionBackendException
+        | BadRequestException
         | RuntimeException e) {
       if (!has(CHECK)) {
         Throwables.throwIfInstanceOf(e, StorageException.class);
@@ -508,7 +509,6 @@ public class ChangeJson {
           changeInfos.add(info);
           continue;
         }
-
         // Compute and cache if possible
         try {
           ensureLoaded(Collections.singleton(cd));
@@ -545,7 +545,6 @@ public class ChangeJson {
       info.problems = Lists.newArrayList(p);
       return info;
     }
-
     ConsistencyChecker.Result result = checkerProvider.get().check(notes, fix);
     ChangeInfo info = new ChangeInfo();
     Change c = result.change();
@@ -576,7 +575,8 @@ public class ChangeJson {
       ChangeData cd,
       Optional<PatchSet.Id> limitToPsId,
       List<PluginDefinedInfo> pluginInfosForChange)
-      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
+      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException,
+          BadRequestException {
     try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
       return toChangeInfoImpl(cd, limitToPsId, pluginInfosForChange);
     }
@@ -584,10 +584,10 @@ public class ChangeJson {
 
   private ChangeInfo toChangeInfoImpl(
       ChangeData cd, Optional<PatchSet.Id> limitToPsId, List<PluginDefinedInfo> pluginInfos)
-      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
+      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException,
+          BadRequestException {
     ChangeInfo out = new ChangeInfo();
     CurrentUser user = userProvider.get();
-
     if (has(CHECK)) {
       out.problems = checkerProvider.get().check(cd.notes(), fix).problems();
       // If any problems were fixed, the ChangeData needs to be reloaded.
@@ -598,7 +598,6 @@ public class ChangeJson {
         }
       }
     }
-
     Change in = cd.change();
     out.project = in.getProject().get();
     out.branch = in.getDest().shortName();
@@ -651,16 +650,13 @@ public class ChangeJson {
     out._number = in.getId().get();
     out.totalCommentCount = cd.totalCommentCount();
     out.unresolvedCommentCount = cd.unresolvedCommentCount();
-
     if (cd.getRefStates() != null) {
       String metaName = RefNames.changeMetaRef(cd.getId());
       Optional<RefState> metaState =
           cd.getRefStates().values().stream().filter(r -> r.ref().equals(metaName)).findAny();
-
       // metaState should always be there, but it doesn't hurt to be extra careful.
       metaState.ifPresent(rs -> out.metaRevId = rs.id().getName());
     }
-
     if (user.isIdentifiedUser()) {
       Collection<String> stars = cd.stars(user.getAccountId());
       out.starred = stars.contains(StarredChangesUtil.DEFAULT_LABEL) ? true : null;
@@ -668,18 +664,15 @@ public class ChangeJson {
         out.stars = stars;
       }
     }
-
     if (in.isNew() && has(REVIEWED) && user.isIdentifiedUser()) {
       out.reviewed = cd.isReviewedBy(user.getAccountId()) ? true : null;
     }
-
     out.labels = labelsJson.labelsFor(accountLoader, cd, has(LABELS), has(DETAILED_LABELS));
     out.requirements = requirementsFor(cd);
     out.submitRecords = submitRecordsFor(cd);
     if (has(SUBMIT_REQUIREMENTS)) {
       out.submitRequirements = submitRequirementsFor(cd);
     }
-
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't
       // list permitted labels, since users can't vote on those patch sets.
@@ -691,15 +684,12 @@ public class ChangeJson {
                 : ImmutableMap.of();
       }
     }
-
     if (has(LABELS) || has(DETAILED_LABELS)) {
       out.reviewers = reviewerMap(cd.reviewers(), cd.reviewersByEmail(), false);
       out.pendingReviewers = reviewerMap(cd.pendingReviewers(), cd.pendingReviewersByEmail(), true);
       out.removableReviewers = removableReviewers(cd, out);
     }
-
     setSubmitter(cd, out);
-
     if (!pluginInfos.isEmpty()) {
       out.plugins = pluginInfos;
     }
@@ -711,11 +701,9 @@ public class ChangeJson {
             : null;
     out.cherryPickOfPatchSet =
         cd.change().getCherryPickOf() != null ? cd.change().getCherryPickOf().get() : null;
-
     if (has(REVIEWER_UPDATES)) {
       out.reviewerUpdates = reviewerUpdates(cd);
     }
-
     boolean needMessages = has(MESSAGES);
     boolean needRevisions = has(ALL_REVISIONS) || has(CURRENT_REVISION) || limitToPsId.isPresent();
     Map<PatchSet.Id, PatchSet> src;
@@ -724,12 +712,10 @@ public class ChangeJson {
     } else {
       src = null;
     }
-
     if (needMessages) {
       out.messages = messages(cd);
     }
     finish(out);
-
     // This block must come after the ChangeInfo is mostly populated, since
     // it will be passed to ActionVisitors as-is.
     if (needRevisions) {
@@ -743,11 +729,9 @@ public class ChangeJson {
         }
       }
     }
-
     if (has(CURRENT_ACTIONS) || has(CHANGE_ACTIONS)) {
       actionJson.addChangeActions(out, cd);
     }
-
     if (has(TRACKING_IDS)) {
       ListMultimap<String, String> set = trackingFooters.extract(cd.commitFooters());
       out.trackingIds =
@@ -755,7 +739,6 @@ public class ChangeJson {
               .map(e -> new TrackingIdInfo(e.getKey(), e.getValue()))
               .collect(toList());
     }
-
     return out;
   }
 
@@ -807,7 +790,6 @@ public class ChangeJson {
     if (messages.isEmpty()) {
       return Collections.emptyList();
     }
-
     List<ChangeMessageInfo> result = Lists.newArrayListWithCapacity(messages.size());
     for (ChangeMessage message : messages) {
       result.add(createChangeMessageInfo(message, accountLoader));
@@ -830,14 +812,12 @@ public class ChangeJson {
     Collection<LabelInfo> labels = out.labels.values();
     Set<Account.Id> fixed = Sets.newHashSetWithExpectedSize(labels.size());
     Set<Account.Id> removable = new HashSet<>();
-
     // Add all reviewers, which will later be removed if they are in the "fixed" set.
     removable.addAll(
         out.reviewers.getOrDefault(ReviewerState.REVIEWER, Collections.emptySet()).stream()
             .filter(a -> a._accountId != null)
             .map(a -> Account.id(a._accountId))
             .collect(Collectors.toSet()));
-
     // Check if the user has the permission to remove a reviewer. This means we can bypass the
     // testRemoveReviewer check for a specific reviewer in the loop saving potentially many
     // permission checks.
@@ -852,7 +832,6 @@ public class ChangeJson {
       }
       for (ApprovalInfo ai : label.all) {
         Account.Id id = Account.id(ai._accountId);
-
         if (!canRemoveAnyReviewer
             && !removeReviewerControl.testRemoveReviewer(
                 cd, userProvider.get(), id, MoreObjects.firstNonNull(ai.value, 0))) {
@@ -860,7 +839,6 @@ public class ChangeJson {
         }
       }
     }
-
     // CCs are simpler than reviewers. They are removable if the ChangeControl
     // would permit a non-negative approval by that account to be removed, in
     // which case add them to removable. We don't need to add unremovable CCs to
@@ -877,12 +855,10 @@ public class ChangeJson {
         }
       }
     }
-
     // Subtract any reviewers with non-removable approvals from the "removable"
     // set. This also subtracts any CCs that for some reason also hold
     // unremovable approvals.
     removable.removeAll(fixed);
-
     List<AccountInfo> result = Lists.newArrayListWithCapacity(removable.size());
     for (Account.Id id : removable) {
       result.add(accountLoader.get(id));

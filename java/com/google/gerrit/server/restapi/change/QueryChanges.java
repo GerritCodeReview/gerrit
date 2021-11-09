@@ -43,6 +43,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.OptionalInt;
 import org.kohsuke.args4j.Option;
 
 public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOptions.BeanReceiver {
@@ -55,6 +56,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
   private EnumSet<ListChangesOption> options;
+  private OptionalInt parentNum;
   private Integer limit;
   private Integer start;
   private Boolean noLimit;
@@ -74,6 +76,21 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       usage = "Maximum number of results to return")
   public void setLimit(int limit) {
     this.limit = limit;
+  }
+
+  /**
+   * Used only when files are returned in the response.
+   *
+   * <p>The 1-based parent number. If zero, the default base commit will be used, which is the only
+   * parent for commits having one parent or the auto-merge commit otherwise.
+   */
+  @Option(name = "--parent", metaVar = "parent-number")
+  public void setParentNum(int parentNum) {
+    this.parentNum = OptionalInt.of(parentNum);
+  }
+
+  public void setParentNum(OptionalInt parentNum) {
+    this.parentNum = parentNum;
   }
 
   @Option(name = "-o", usage = "Output options per change")
@@ -187,7 +204,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     int cnt = queries.size();
     List<QueryResult<ChangeData>> results = queryProcessor.query(qb.parse(queries));
     List<List<ChangeInfo>> res =
-        json.create(options, queryProcessor.getInfosFactory()).format(results);
+        json.create(options, queryProcessor.getInfosFactory(), parentNum).format(results);
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
       if (results.get(n).more() && !info.isEmpty()) {

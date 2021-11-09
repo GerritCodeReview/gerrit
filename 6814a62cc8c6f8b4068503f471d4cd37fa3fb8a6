@@ -280,6 +280,30 @@
       },
       "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5a246eb_7a8d797d",
+        "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-09T13:08:53Z",
+      "side": 1,
+      "message": "It depends, on a node where the migration is happening this property will be set to false on other nodes needs to be done manually",
+      "parentUuid": "0ec3246a_c1579a18",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 68
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

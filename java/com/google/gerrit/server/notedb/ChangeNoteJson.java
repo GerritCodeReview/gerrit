@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.EntitiesAdapterFactory;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.json.EnumTypeAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,6 +40,7 @@ public class ChangeNoteJson {
         .registerTypeAdapter(
             new TypeLiteral<ImmutableList<String>>() {}.getType(),
             new ImmutableListAdapter().nullSafe())
+        .registerTypeAdapter(SubmitRequirementResult.class, SubmitRequirementResult.typeAdapter())
         .setPrettyPrinting()
         .create();
   }
@@ -47,7 +49,7 @@ public class ChangeNoteJson {
     return gson;
   }
 
-  static class ImmutableListAdapter extends TypeAdapter<ImmutableList<String>> {
+  public static class ImmutableListAdapter extends TypeAdapter<ImmutableList<String>> {
 
     @Override
     public void write(JsonWriter out, ImmutableList<String> value) throws IOException {

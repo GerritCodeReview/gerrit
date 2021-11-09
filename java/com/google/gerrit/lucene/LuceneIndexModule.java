@@ -14,6 +14,7 @@
 
 package com.google.gerrit.lucene;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.project.ProjectIndex;
@@ -34,6 +35,12 @@ public class LuceneIndexModule extends AbstractIndexModule {
   public static LuceneIndexModule singleVersionAllLatest(
       int threads, boolean slave, AutoFlush autoFlush) {
     return new LuceneIndexModule(ImmutableMap.of(), threads, slave, autoFlush);
+  }
+
+  @VisibleForTesting
+  public static LuceneIndexModule singleVersionWithExplicitVersions(
+      Map<String, Integer> versions, int threads, boolean slave) {
+    return new LuceneIndexModule(versions, threads, slave, AutoFlush.ENABLED);
   }
 
   public static LuceneIndexModule singleVersionWithExplicitVersions(

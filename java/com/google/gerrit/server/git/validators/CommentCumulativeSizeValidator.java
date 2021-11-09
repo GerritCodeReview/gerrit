@@ -64,7 +64,7 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
     int newCumulativeSize =
         comments.stream().mapToInt(CommentForValidation::getApproximateSize).sum();
     ImmutableList.Builder<CommentValidationFailure> failures = ImmutableList.builder();
-    if (!comments.isEmpty() && existingCumulativeSize + newCumulativeSize > maxCumulativeSize) {
+    if (!comments.isEmpty() && !isEnoughSpace(notes, newCumulativeSize, maxCumulativeSize)) {
       // This warning really applies to the set of all comments, but we need to pick one to attach
       // the message to.
       CommentForValidation commentForFailureMessage = Iterables.getLast(comments);
@@ -77,5 +77,20 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
                   existingCumulativeSize, newCumulativeSize, maxCumulativeSize)));
     }
     return failures.build();
+  }
+
+  /**
+   * Returns {@code true} if there is existing size and the new size that we wish to add is less
+   * than the maximum allowed size. {@code false} otherwise (if there is not enough space).
+   */
+  public static boolean isEnoughSpace(ChangeNotes notes, int newSize, int maxCumulativeSize) {
+    int existingCumulativeSize =
+        Stream.concat(
+                    notes.getHumanComments().values().stream(),
+                    notes.getRobotComments().values().stream())
+                .mapToInt(Comment::getApproximateSize)
+                .sum()
+            + notes.getChangeMessages().stream().mapToInt(cm -> cm.getMessage().length()).sum();
+    return (existingCumulativeSize + newSize < maxCumulativeSize);
   }
 }

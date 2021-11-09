@@ -17,8 +17,12 @@ package com.google.gerrit.entities;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
-import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 import java.util.Optional;
 
 /** Describe a applicability, blocking or override expression of a {@link SubmitRequirement}. */
@@ -44,7 +48,28 @@ public abstract class SubmitRequirementExpression {
   /** Returns the underlying String representing this {@link SubmitRequirementExpression}. */
   public abstract String expressionString();
 
-  public static TypeAdapter<SubmitRequirementExpression> typeAdapter(Gson gson) {
-    return new AutoValue_SubmitRequirementExpression.GsonTypeAdapter(gson);
+  public static TypeAdapter<SubmitRequirementExpression> typeAdapter() {
+    // return new AutoValue_SubmitRequirementExpression.GsonTypeAdapter(gson);
+    return new GsonTypeAdapter();
+  }
+
+  static class GsonTypeAdapter extends TypeAdapter<SubmitRequirementExpression> {
+    private static final String KEY_EXPRESSION_STRING = "expressionString";
+
+    @Override
+    public void write(JsonWriter out, SubmitRequirementExpression expression) throws IOException {
+      out.beginObject();
+      out.name("expressionString").value(expression.expressionString());
+      out.endObject();
+    }
+
+    @Override
+    public SubmitRequirementExpression read(JsonReader in) throws IOException {
+      JsonObject parsed = new JsonParser().parse(in).getAsJsonObject();
+      if (parsed.has("expressionString")) {
+        return SubmitRequirementExpression.create(parsed.get("expressionString").getAsString());
+      }
+      return null;
+    }
   }
 }

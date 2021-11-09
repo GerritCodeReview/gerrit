@@ -576,6 +576,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a64e0932_a9efb31a",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-09T15:54:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f87860d_7a97faa9",
+      "range": {
+        "startLine": 220,
+        "startChar": 78,
+        "endLine": 220,
+        "endChar": 83
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67e16ab2_ba2a6150",

@@ -325,9 +325,8 @@ public class InMemoryModule extends FactoryModule {
               "singleVersionWithExplicitVersions",
               Map.class,
               int.class,
-              boolean.class,
-              AutoFlush.class);
-      return (Module) m.invoke(null, getSingleSchemaVersions(), 0, slave, AutoFlush.ENABLED);
+              boolean.class);
+      return (Module) m.invoke(null, getSingleSchemaVersions(), 0, slave);
     } catch (ClassNotFoundException
         | SecurityException
         | NoSuchMethodException

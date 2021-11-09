@@ -16,8 +16,15 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -81,8 +88,129 @@ public abstract class SubmitRequirementResult {
     return new AutoValue_SubmitRequirementResult.Builder();
   }
 
-  public static TypeAdapter<SubmitRequirementResult> typeAdapter(Gson gson) {
+  /** This Json adapter is only used for testing. */
+  @VisibleForTesting
+  public static TypeAdapter<SubmitRequirementResult> defaultTypeAdapter(Gson gson) {
     return new AutoValue_SubmitRequirementResult.GsonTypeAdapter(gson);
+  }
+
+  public static TypeAdapter<SubmitRequirementResult> typeAdapter() {
+    return new GsonTypeAdapter();
+  }
+
+  /** Json serializer for {@link SubmitRequirementResult}. */
+  static class GsonTypeAdapter extends TypeAdapter<SubmitRequirementResult> {
+    private static final String KEY_SUBMIT_REQUIREMENT = "submitRequirement";
+    private static final String KEY_APPLICABILITY_EXPRESSION_RESULT =
+        "applicabilityExpressionResult";
+    private static final String KEY_OVERRIDE_EXPRESSION_RESULT = "overrideExpressionResult";
+    private static final String KEY_SUBMITTABILITY_EXPRESSION_RESULT =
+        "submittabilityExpressionResult";
+    private static final String KEY_PATCHSET_COMMIT_ID = "patchSetCommitId";
+    private static final String KEY_LEGACY = "legacy";
+
+    @Override
+    public void write(JsonWriter out, SubmitRequirementResult srResult) throws IOException {
+      out.beginObject();
+      out.name(KEY_SUBMIT_REQUIREMENT)
+          .jsonValue(SubmitRequirement.typeAdapter().toJson(srResult.submitRequirement()));
+      if (srResult.applicabilityExpressionResult().isPresent()) {
+        serializeExpressionResult(
+            out,
+            KEY_APPLICABILITY_EXPRESSION_RESULT,
+            srResult.applicabilityExpressionResult().get());
+      }
+      serializeExpressionResult(
+          out, KEY_SUBMITTABILITY_EXPRESSION_RESULT, srResult.submittabilityExpressionResult());
+      if (srResult.overrideExpressionResult().isPresent()) {
+        serializeExpressionResult(
+            out, KEY_OVERRIDE_EXPRESSION_RESULT, srResult.overrideExpressionResult().get());
+      }
+      out.name(KEY_PATCHSET_COMMIT_ID).value(srResult.patchSetCommitId().name());
+      if (srResult.legacy().isPresent()) {
+        out.name(KEY_LEGACY).value(srResult.legacy().get());
+      }
+      out.endObject();
+    }
+
+    @Override
+    public SubmitRequirementResult read(JsonReader in) throws IOException {
+      JsonObject parsed = new JsonParser().parse(in).getAsJsonObject();
+      SubmitRequirementResult.Builder builder = SubmitRequirementResult.builder();
+      TypeAdapter<SubmitRequirement> srAdapter = SubmitRequirement.typeAdapter();
+      builder.submitRequirement(srAdapter.fromJsonTree(unpack(parsed.get(KEY_SUBMIT_REQUIREMENT))));
+      if (parsed.has(KEY_APPLICABILITY_EXPRESSION_RESULT)) {
+        builder.applicabilityExpressionResult(
+            Optional.of(deserializeExpressionResult(parsed, KEY_APPLICABILITY_EXPRESSION_RESULT)));
+      }
+      builder.submittabilityExpressionResult(
+          deserializeExpressionResult(parsed, KEY_SUBMITTABILITY_EXPRESSION_RESULT));
+      if (parsed.has(KEY_OVERRIDE_EXPRESSION_RESULT)) {
+        builder.overrideExpressionResult(
+            Optional.of(deserializeExpressionResult(parsed, KEY_OVERRIDE_EXPRESSION_RESULT)));
+      }
+      JsonElement psCommitIdElement = parsed.get(KEY_PATCHSET_COMMIT_ID);
+      builder.patchSetCommitId(deserializePatchsetCommitId(psCommitIdElement));
+      if (parsed.has(KEY_LEGACY)) {
+        JsonElement legacyJsonObject = unpack(parsed.get(KEY_LEGACY));
+        builder.legacy(Optional.of(deserializeLegacy(legacyJsonObject)));
+      }
+      return builder.build();
+    }
+
+    /**
+     * Unpack the {@code in} {@link JsonElement}, i.e. if the element has a single "value" child
+     * return it. We've previously used the default Gson serializer for serializing submit
+     * requirements entities. This unpacking is needed to preserve backward compatibility while
+     * deserializing entities that were previously serialized by the default serializer.
+     */
+    private static JsonElement unpack(JsonElement in) {
+      if (!in.isJsonObject()) {
+        return in;
+      }
+      JsonObject asJsonObject = in.getAsJsonObject();
+      return asJsonObject.has("value") && asJsonObject.size() == 1 ? asJsonObject.get("value") : in;
+    }
+
+    private static void serializeExpressionResult(
+        JsonWriter out, String key, SubmitRequirementExpressionResult expResult)
+        throws IOException {
+      String overrideSerial = SubmitRequirementExpressionResult.typeAdapter().toJson(expResult);
+      out.name(key).jsonValue(overrideSerial);
+    }
+
+    private static SubmitRequirementExpressionResult deserializeExpressionResult(
+        JsonObject obj, String key) {
+      return SubmitRequirementExpressionResult.typeAdapter().fromJsonTree(unpack(obj.get(key)));
+    }
+
+    private static boolean deserializeLegacy(JsonElement obj) {
+      if (obj.isJsonObject()) {
+        obj = unpack(obj.getAsJsonObject());
+      }
+      return obj.getAsBoolean();
+    }
+
+    private static ObjectId deserializePatchsetCommitId(JsonElement element) {
+      return unpack(element).isJsonObject()
+          ? deserializePatchsetCommitIdLegacyFormat(element)
+          : ObjectId.fromString(element.getAsString());
+    }
+
+    /**
+     * Some existing persisted entities in NoteDb are serialized using this format. Ensure proper
+     * deserialization for these.
+     */
+    private static ObjectId deserializePatchsetCommitIdLegacyFormat(JsonElement in) {
+      JsonObject asJsonObject = in.getAsJsonObject();
+      int w1 = asJsonObject.get("w1").getAsInt();
+      int w2 = asJsonObject.get("w2").getAsInt();
+      int w3 = asJsonObject.get("w3").getAsInt();
+      int w4 = asJsonObject.get("w4").getAsInt();
+      int w5 = asJsonObject.get("w5").getAsInt();
+      int[] raw = {w1, w2, w3, w4, w5};
+      return ObjectId.fromRaw(raw);
+    }
   }
 
   public enum Status {

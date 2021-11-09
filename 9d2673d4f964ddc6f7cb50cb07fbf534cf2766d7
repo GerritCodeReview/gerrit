@@ -16,6 +16,24 @@
       "message": "This needs an update.",
       "revId": "9d2673d4f964ddc6f7cb50cb07fbf534cf2766d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09071fff_108646fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-09T11:15:17Z",
+      "side": 1,
+      "message": "I added a line mentioning this will be counted against the limit in the follow-ups.",
+      "parentUuid": "97cf7239_e40ebc8e",
+      "revId": "9d2673d4f964ddc6f7cb50cb07fbf534cf2766d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -190,6 +190,30 @@
       },
       "revId": "696467e40b4b57a27cc9df0bcd77dbb4888ac1c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dc59a39_f13576ac",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-09T11:15:17Z",
+      "side": 1,
+      "message": "ah, I forgot. I added another follow-up. I don\u0027t think it should be instead, but in addition (we never want to have 4.5MB of diff to take all the size).",
+      "parentUuid": "8d915755_1ddb3328",
+      "range": {
+        "startLine": 99,
+        "startChar": 11,
+        "endLine": 99,
+        "endChar": 47
+      },
+      "revId": "696467e40b4b57a27cc9df0bcd77dbb4888ac1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

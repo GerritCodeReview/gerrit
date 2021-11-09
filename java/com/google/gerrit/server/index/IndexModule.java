@@ -215,12 +215,13 @@ public class IndexModule extends LifecycleModule {
       return interactiveExecutor;
     }
     int threads = this.threads;
-    if (threads < 0) {
-      return MoreExecutors.newDirectExecutorService();
-    } else if (threads == 0) {
+    if (threads == 0) {
       threads =
           config.getInt(
               "index", null, "threads", Runtime.getRuntime().availableProcessors() / 2 + 1);
+    }
+    if (threads < 0) {
+      return MoreExecutors.newDirectExecutorService();
     }
     return MoreExecutors.listeningDecorator(
         workQueue.createQueue(threads, "Index-Interactive", true));
@@ -234,11 +235,13 @@ public class IndexModule extends LifecycleModule {
     if (batchExecutor != null) {
       return batchExecutor;
     }
-    int threads = config.getInt("index", null, "batchThreads", 0);
+    int threads = this.threads;
+    if (threads == 0) {
+      threads =
+          config.getInt("index", null, "batchThreads", Runtime.getRuntime().availableProcessors());
+    }
     if (threads < 0) {
       return MoreExecutors.newDirectExecutorService();
-    } else if (threads == 0) {
-      threads = Runtime.getRuntime().availableProcessors();
     }
     return MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "Index-Batch", true));
   }

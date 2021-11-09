@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_COMMAND_STATUS;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_CONTENT_LENGTH;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_CPU_TOTAL;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_CPU_USER;
@@ -56,6 +57,7 @@ public class HttpLogJsonLayout extends JsonLayout {
     public String memory;
     public String referer;
     public String userAgent;
+    public String commandStatus;
 
     public HttpJsonLogEntry(LoggingEvent event) {
       this.host = getMdcString(event, P_HOST);
@@ -73,6 +75,7 @@ public class HttpLogJsonLayout extends JsonLayout {
       this.memory = getMdcString(event, P_MEMORY);
       this.referer = getMdcString(event, P_REFERER);
       this.userAgent = getMdcString(event, P_USER_AGENT);
+      this.commandStatus = getMdcString(event, P_COMMAND_STATUS);
     }
   }
 }

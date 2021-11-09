@@ -50,6 +50,7 @@ import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -145,7 +146,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       SitePaths sitePaths,
       @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       ChangeData.Factory changeDataFactory,
-      @Assisted Schema<ChangeData> schema)
+      @Assisted Schema<ChangeData> schema,
+      AutoFlush autoFlush)
       throws IOException {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
@@ -170,7 +172,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               "ramOpen",
               skipFields,
               openConfig,
-              searcherFactory);
+              searcherFactory,
+              autoFlush);
       closedIndex =
           new ChangeSubIndex(
               schema,
@@ -179,7 +182,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               "ramClosed",
               skipFields,
               closedConfig,
-              searcherFactory);
+              searcherFactory,
+              autoFlush);
     } else {
       Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES, schema);
       openIndex =
@@ -189,7 +193,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               dir.resolve(CHANGES_OPEN),
               skipFields,
               openConfig,
-              searcherFactory);
+              searcherFactory,
+              autoFlush);
       closedIndex =
           new ChangeSubIndex(
               schema,
@@ -197,7 +202,8 @@ public class LuceneChangeIndex implements ChangeIndex {
               dir.resolve(CHANGES_CLOSED),
               skipFields,
               closedConfig,
-              searcherFactory);
+              searcherFactory,
+              autoFlush);
     }
 
     idField = this.schema.useLegacyNumericFields() ? LEGACY_ID : LEGACY_ID_STR;

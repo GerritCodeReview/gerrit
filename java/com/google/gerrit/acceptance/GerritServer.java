@@ -61,6 +61,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits.AsyncReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.ReplicaUtil;
@@ -492,7 +493,8 @@ public class GerritServer implements AutoCloseable {
     }
     if (indexType.isLucene()) {
       daemon.setIndexModule(
-          LuceneIndexModule.singleVersionAllLatest(0, ReplicaUtil.isReplica(baseConfig)));
+          LuceneIndexModule.singleVersionAllLatest(
+              0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED));
     } else {
       daemon.setIndexModule(FakeIndexModule.latestVersion(false));
     }

@@ -138,6 +138,15 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   public T load() {
+    try (Repository repo = args.repoManager.openRepository(getProjectName())) {
+      load(repo);
+      return self();
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  public T load(Repository repo) {
     if (loaded) {
       return self();
     }
@@ -146,7 +155,6 @@ public abstract class AbstractChangeNotes<T> {
       throw new StorageException("Reading from NoteDb is disabled");
     }
     try (Timer0.Context timer = args.metrics.readLatency.start();
-        Repository repo = args.repoManager.openRepository(getProjectName());
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.
         LoadHandle handle = openHandle(repo, revision)) {

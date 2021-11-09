@@ -26,8 +26,9 @@ const basicFixture = fixtureFromTemplate(html`
 
 suite('gr-tooltip tests', () => {
   let element;
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await flush();
   });
 
   test('max-width is respected if set', () => {

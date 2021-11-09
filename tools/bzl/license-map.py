@@ -24,7 +24,7 @@ args = parser.parse_args()
 
 def read_file(filename):
     "Reads file and returns its content"
-    with open(filename) as fd:
+    with open(filename, encoding='utf-8') as fd:
         return fd.read()
 
 # List of files in package to which license is applied.
@@ -56,6 +56,8 @@ PackageInfo = namedtuple("PackageInfo", ["name", "version", "licensed_files"])
 LicenseMapItem = namedtuple("LicenseMapItem",
                             ["name", "safename", "packages", "license_text"])
 
+def print_utf8(str=""):
+  stdout.buffer.write((str + "\n").encode('utf-8'))
 
 def load_xmls(xml_filenames):
     """Load xml files produced by bazel query
@@ -134,7 +136,7 @@ def main():
 
     if args.asciidoctor:
         # We don't want any blank line before "= Gerrit Code Review - Licenses"
-        print("""= Gerrit Code Review - Licenses
+        print_utf8("""= Gerrit Code Review - Licenses
 
 // DO NOT EDIT - GENERATED AUTOMATICALLY.
 
@@ -178,10 +180,10 @@ updates of mirror servers, or realtime backups.
     for data in xml_data + json_map_data:
         name = data.name
         safename = data.safename
-        print()
-        print("[[%s]]" % safename)
-        print(name)
-        print()
+        print_utf8()
+        print_utf8("[[%s]]" % safename)
+        print_utf8(name)
+        print_utf8()
         for p in data.packages:
             package_notice = ""
             if p.licensed_files.kind == "OnlySpecificFiles":
@@ -189,20 +191,20 @@ updates of mirror servers, or realtime backups.
             elif p.licensed_files.kind == "AllFilesExceptSpecific":
                 package_notice = " - except the following file(s):"
 
-            print("* " + get_package_display_name(p) + package_notice)
+            print_utf8("* " + get_package_display_name(p) + package_notice)
             for file in p.licensed_files.files:
-                print("** " + file)
-        print()
-        print("[[%s_license]]" % safename)
-        print("----")
+                print_utf8("** " + file)
+        print_utf8()
+        print_utf8("[[%s_license]]" % safename)
+        print_utf8("----")
         license_text = data.license_text
-        print(data.license_text.rstrip("\r\n"))
-        print()
-        print("----")
-        print()
+        print_utf8(data.license_text.rstrip("\r\n"))
+        print_utf8()
+        print_utf8("----")
+        print_utf8()
 
     if args.asciidoctor:
-        print("""
+        print_utf8("""
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
@@ -219,7 +221,7 @@ def load_jsons(json_filenames):
     """
     result = []
     for json_map in json_filenames:
-        with open(json_map, 'r') as f:
+        with open(json_map, 'r', encoding='utf-8') as f:
             licenses_list = json.load(f)
         for license_id, license in licenses_list.items():
             name = license["licenseName"]

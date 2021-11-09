@@ -59,7 +59,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   DraftCommentNotes(Args args, Change.Id changeId, Account.Id author, @Nullable Ref ref) {
-    super(args, changeId);
+    super(args, changeId, null);
     this.author = requireNonNull(author);
     this.ref = ref;
     if (ref != null) {

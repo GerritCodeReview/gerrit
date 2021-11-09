@@ -207,6 +207,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1f31dedf_6a8a1740",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-09T14:19:48Z",
+      "side": 1,
+      "message": "Not sure if I understand. externalIds.get() will check the lower case sha1 and if cannot find external id and isUserNameCaseInsensitiveMigrationMode is set to true it will try with the old(case sensitive sha1) only when both cannot be found it will create new one",
+      "parentUuid": "04b58a56_102d6262",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 21
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e6f27fe_4409c1a1",
         "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
         "patchSetId": 4
@@ -242,6 +266,30 @@
       "side": 1,
       "message": "@Marcin Is it possibly for storing the \"migration status\" of the accounts? Are you planning to get rid of it afterwards?",
       "parentUuid": "0e6f27fe_4409c1a1",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 57
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97bfe597_a264ff52",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-09T14:19:48Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to store it, same as we don\u0027t need to store the proto.getIsCaseInsensitive(), I\u0027m checking why it\u0027s done in that way.",
+      "parentUuid": "5e1060b7_da2a324f",
       "range": {
         "startLine": 98,
         "startChar": 0,

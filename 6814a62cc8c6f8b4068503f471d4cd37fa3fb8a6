@@ -250,6 +250,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "876c44de_2bda7955",
+        "filename": "java/com/google/gerrit/pgm/init/ExternalIdsOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T23:29:44Z",
+      "side": 1,
+      "message": "\u003e There should be no duplicate account, if the migration was not done, but isUserNameCaseInsensitive is true, because the email of that user would already exist \n\nNot necessarily: you could create a Gerrit account without having any e-mail, which isn\u0027t the primary key and is just one of the external-ids.\n\n\u003e and thus Gerrit would complain about that the email is already registered for an account with a different username.\n\nThat happens only for LDAP authentication (and also some others like OAuth and possibly SAML) but not others.",
+      "parentUuid": "97111493_ff64248d",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 69
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04b58a56_102d6262",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 4
@@ -285,6 +309,30 @@
       "side": 1,
       "message": "Not sure if I understand. externalIds.get() will check the lower case sha1 and if cannot find external id and isUserNameCaseInsensitiveMigrationMode is set to true it will try with the old(case sensitive sha1) only when both cannot be found it will create new one",
       "parentUuid": "04b58a56_102d6262",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 21
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6f713cc_0f305f61",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T23:29:44Z",
+      "side": 1,
+      "message": "I do understand your explanation, but it doesn\u0027t seem that the code does what you say.\n\nIf the external id can\u0027t be found, we enter at L149 and do the second lookup to find the legacy one. However, I was expecting another if(!optionalExtId.isPresent()) also after L152 and, instead, you just create a new account, which is unexpected.\n\nAm I missing anything?",
+      "parentUuid": "1f31dedf_6a8a1740",
       "range": {
         "startLine": 149,
         "startChar": 8,

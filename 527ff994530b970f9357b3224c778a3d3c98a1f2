@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da322c43_f116347d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T23:29:44Z",
+      "side": 1,
+      "message": "@Memoized for consistency with sha1() at L190",
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b72601c_0442f510",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T23:29:44Z",
+      "side": 1,
+      "message": "nor",
+      "range": {
+        "startLine": 267,
+        "startChar": 37,
+        "endLine": 267,
+        "endChar": 40
+      },
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12171b22_ca70365b",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T23:29:44Z",
+      "side": 1,
+      "message": "Neither",
+      "range": {
+        "startLine": 267,
+        "startChar": 17,
+        "endLine": 267,
+        "endChar": 21
+      },
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7363a62d_977d0304",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T23:29:44Z",
+      "side": 1,
+      "message": "match",
+      "range": {
+        "startLine": 267,
+        "startChar": 83,
+        "endLine": 267,
+        "endChar": 97
+      },
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86cae36d_9a1ac4e4",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T23:29:44Z",
+      "side": 1,
+      "message": "Missing JavaDoc",
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39e1550f_a9ae57dd",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T23:29:44Z",
+      "side": 1,
+      "message": "The isUserNameCaseInsensitive shadows the field with the same name, which is error-prone as visually you may not realise which one is used.",
+      "range": {
+        "startLine": 72,
+        "startChar": 50,
+        "endLine": 72,
+        "endChar": 75
+      },
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

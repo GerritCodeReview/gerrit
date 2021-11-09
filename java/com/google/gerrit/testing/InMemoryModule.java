@@ -64,7 +64,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.account.AllAccountsIndexer;
@@ -321,13 +320,8 @@ public class InMemoryModule extends FactoryModule {
       boolean slave = cfg.getBoolean("container", "slave", false);
       Class<?> clazz = Class.forName(moduleClassName);
       Method m =
-          clazz.getMethod(
-              "singleVersionWithExplicitVersions",
-              Map.class,
-              int.class,
-              boolean.class,
-              AutoFlush.class);
-      return (Module) m.invoke(null, getSingleSchemaVersions(), 0, slave, AutoFlush.ENABLED);
+          clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class, boolean.class);
+      return (Module) m.invoke(null, getSingleSchemaVersions(), 0, slave);
     } catch (ClassNotFoundException
         | SecurityException
         | NoSuchMethodException

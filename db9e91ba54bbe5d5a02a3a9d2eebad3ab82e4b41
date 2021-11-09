@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d52d16a_327e46b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-09T22:59:58Z",
+      "side": 1,
+      "message": "Might be nice to add a link to the notes: https://github.com/rharter/auto-value-gson/blob/main/CHANGELOG.md#version-131-2020-11-25",
+      "revId": "db9e91ba54bbe5d5a02a3a9d2eebad3ab82e4b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -80,6 +80,30 @@
       },
       "revId": "f130fc84e1f4fa62d9fa61dd3cb0c1d33f847052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "989a43d9_a072271d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3577,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-09T12:26:02Z",
+      "side": 1,
+      "message": "\u003e I checked the frontend code: we skip permitted_labels if they do not occur in labels [1], hence for extra labels that we will return in permitted_labels (those that are hidden by prolog), they will be skipped anyway.\n\nSGTM!",
+      "parentUuid": "6b2b9485_b007e48a",
+      "range": {
+        "startLine": 3576,
+        "startChar": 0,
+        "endLine": 3577,
+        "endChar": 30
+      },
+      "revId": "f130fc84e1f4fa62d9fa61dd3cb0c1d33f847052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -96,7 +96,13 @@ public class PatchFile {
         bTree = null;
       } else {
         if (diff.oldCommitId() != null) {
-          aTree = rw.parseTree(diff.oldCommitId());
+          if (diff.oldCommitId().equals(ObjectId.zeroId())) {
+            // DiffOperations returns ObjectId.zeroId if newCommit is a root commit, i.e. has no
+            // parents.
+            aTree = null;
+          } else {
+            aTree = rw.parseTree(diff.oldCommitId());
+          }
         } else {
           final RevCommit p = bCommit.getParent(0);
           rw.parseHeaders(p);

@@ -23,9 +23,6 @@ export const htmlTemplate = html`
       font-family: var(--font-family);
       position: absolute;
       white-space: nowrap;
-      /* This prevents the mouse over the tooltip from interfering with the
-         selection. */
-      pointer-events: none;
     }
   </style>
   <gr-tooltip

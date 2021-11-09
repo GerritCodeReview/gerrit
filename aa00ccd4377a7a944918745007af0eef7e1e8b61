@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed66c29_65009408",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-09T16:25:26Z",
+      "side": 1,
+      "message": "Leads to an OOM error on large gerrit installations.",
+      "revId": "aa00ccd4377a7a944918745007af0eef7e1e8b61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80663f26_6f8262e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-09T05:09:05Z",
+      "side": 1,
+      "message": "\u003e Can you be more specific?\n\nCommit message updated with more detail.",
+      "parentUuid": "8a809d28_7c784055",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "59dfee7e757f4b7d9cb9b4b0231e6211da80ee45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fcae738_b5d658a3",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9caa44a_bc898428",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-09T05:09:05Z",
+      "side": 1,
+      "message": "\u003e Was there an issue raised on this? If yes, can you include the Bug: Issue NNN?\n\nNo, I didn\u0027t create an issue for this, but can if needed.",
+      "parentUuid": "6fcae738_b5d658a3",
+      "revId": "59dfee7e757f4b7d9cb9b4b0231e6211da80ee45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "790e7f6c_849a3504",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-11-09T00:51:34Z",
       "side": 1,
       "message": "Can you move it to the earliest supported branch where this problem happened? \n(stable-3.2 or later)\n\nCan you also add a test? Or alternatively perform a manual test of how this change has solved the problem.\n\nThanks for your contribution!",
+      "revId": "59dfee7e757f4b7d9cb9b4b0231e6211da80ee45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b75eca4_f03f070e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-11-09T05:09:05Z",
+      "side": 1,
+      "message": "\u003e Can you move it to the earliest supported branch where this problem happened? \n\u003e (stable-3.2 or later)\n\u003e \n\u003e Can you also add a test? Or alternatively perform a manual test of how this change has solved the problem.\n\u003e \n\u003e Thanks for your contribution!\n\nHere is the patch for stable-3.2: https://gerrit-review.googlesource.com/323100\n\nThis problem has existed in some form since I4f5d8256497c1a97df35754dbe6193c78edde9e1 when InitSshd.java was created. See \u003chttps://gerrit.googlesource.com/gerrit/+/bbf1aaccde2cd0c9d9becff1f7a784466726abda/gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java#77\u003e where if any one of the three key types exist, then none of the missing key types would be generated.\n\nI\u0027m not sure where a test for this would go, I guess under javatests somewhere. Not seeing any docs on how to write and run tests. I can try to make a build that includes my patch and test that missing key types indeed get generated on init when etc/ssh_host_key exists.",
+      "parentUuid": "790e7f6c_849a3504",
       "revId": "59dfee7e757f4b7d9cb9b4b0231e6211da80ee45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

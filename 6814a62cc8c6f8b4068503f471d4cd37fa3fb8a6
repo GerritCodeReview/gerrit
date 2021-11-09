@@ -161,6 +161,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c38fbbc2_90243848",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-09T15:29:38Z",
+      "side": 1,
+      "message": "@Luca @Thomas I\u0027ve manage to refactor the code to not store the migration trial mode in the ExternalId key so the code looks much simpler.\n\n@Thomas thank you for the review I will address all your comments. It looks like the approach is correct so I will finalise the change by adding documentation and tests. After that I will remove the WIP",
+      "parentUuid": "74069f47_6f82ea84",
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae846d5a_7a64ecae",
         "filename": "java/com/google/gerrit/pgm/init/ExternalIdsOnInit.java",
         "patchSetId": 4

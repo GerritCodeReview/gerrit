@@ -172,9 +172,9 @@ maven_jar(
 
 # JGit's transitive dependencies
 maven_jar(
-    name = "hamcrest-library",
-    artifact = "org.hamcrest:hamcrest-library:1.3",
-    sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
+    name = "hamcrest",
+    artifact = "org.hamcrest:hamcrest:2.2",
+    sha1 = "1820c0968dba3a11a1b30669bb1f01978a91dedc",
 )
 
 maven_jar(
@@ -185,9 +185,9 @@ maven_jar(
 
 maven_jar(
     name = "javaewah",
-    artifact = "com.googlecode.javaewah:JavaEWAH:1.1.6",
+    artifact = "com.googlecode.javaewah:JavaEWAH:1.1.12",
     attach_source = False,
-    sha1 = "94ad16d728b374d65bd897625f3fbb3da223a2b6",
+    sha1 = "9feecc2b24d6bc9ff865af8d082f192238a293eb",
 )
 
 maven_jar(
@@ -301,8 +301,8 @@ maven_jar(
 # When upgrading commons-compress, also upgrade tukaani-xz
 maven_jar(
     name = "commons-compress",
-    artifact = "org.apache.commons:commons-compress:1.18",
-    sha1 = "1191f9f2bc0c47a8cce69193feb1ff0a8bcb37d5",
+    artifact = "org.apache.commons:commons-compress:1.20",
+    sha1 = "b8df472b31e1f17c232d2ad78ceb1c84e00c641b",
 )
 
 maven_jar(

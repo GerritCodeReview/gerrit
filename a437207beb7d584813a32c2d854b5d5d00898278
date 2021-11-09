@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7559994_8d5e43b6",
+        "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-09T05:29:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aad02f0c_8639c8c2",
+      "range": {
+        "startLine": 477,
+        "startChar": 0,
+        "endLine": 479,
+        "endChar": 3
+      },
+      "revId": "a437207beb7d584813a32c2d854b5d5d00898278",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "633dcd90_c68735ef",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-09T04:44:13Z",
       "side": 1,
       "message": "should be removed?",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "a437207beb7d584813a32c2d854b5d5d00898278",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3da729e_17947f32",
+        "filename": "java/com/google/gerrit/pgm/init/api/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-09T05:29:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633dcd90_c68735ef",
       "range": {
         "startLine": 13,
         "startChar": 8,

@@ -16,6 +16,24 @@
       "message": "unused?",
       "revId": "20653ab00175d8abd354504801ea4360f90a30e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b94327d_385a9eea",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-09T22:36:25Z",
+      "side": 1,
+      "message": "Never mind, I see it below.",
+      "parentUuid": "68485f61_b410f30e",
+      "revId": "20653ab00175d8abd354504801ea4360f90a30e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

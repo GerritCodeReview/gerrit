@@ -16,8 +16,15 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /** Result of evaluating a submit requirement expression on a given Change. */
@@ -76,6 +83,16 @@ public abstract class SubmitRequirementExpressionResult {
         expression, status, Optional.empty(), passingAtoms, failingAtoms);
   }
 
+  public static SubmitRequirementExpressionResult create(
+      SubmitRequirementExpression expression,
+      Status status,
+      Optional<String> errorMessage,
+      ImmutableList<String> passingAtoms,
+      ImmutableList<String> failingAtoms) {
+    return new AutoValue_SubmitRequirementExpressionResult(
+        expression, status, errorMessage, passingAtoms, failingAtoms);
+  }
+
   public static SubmitRequirementExpressionResult error(
       SubmitRequirementExpression expression, String errorMessage) {
     return new AutoValue_SubmitRequirementExpressionResult(
@@ -86,8 +103,84 @@ public abstract class SubmitRequirementExpressionResult {
         ImmutableList.of());
   }
 
-  public static TypeAdapter<SubmitRequirementExpressionResult> typeAdapter(Gson gson) {
-    return new AutoValue_SubmitRequirementExpressionResult.GsonTypeAdapter(gson);
+  public static TypeAdapter<SubmitRequirementExpressionResult> typeAdapter() {
+    return new GsonTypeAdapter();
+  }
+
+  /** Json serializer for {@link SubmitRequirementExpressionResult}. */
+  static class GsonTypeAdapter extends TypeAdapter<SubmitRequirementExpressionResult> {
+    private static final String KEY_EXPRESSION = "expression";
+    private static final String KEY_STATUS = "status";
+    private static final String KEY_PASSING_ATOMS = "passingAtoms";
+    private static final String KEY_FAILING_ATOMS = "failingAtoms";
+    private static final String KEY_ERROR_MESSAGE = "errorMessage";
+
+    @Override
+    public void write(JsonWriter out, SubmitRequirementExpressionResult expResult)
+        throws IOException {
+      out.beginObject();
+      out.name(KEY_EXPRESSION)
+          .jsonValue(SubmitRequirementExpression.typeAdapter().toJson(expResult.expression()));
+      out.name(KEY_STATUS).value(expResult.status().name());
+      out.name(KEY_PASSING_ATOMS);
+      writeArray(out, expResult.passingAtoms());
+      out.name(KEY_FAILING_ATOMS);
+      writeArray(out, expResult.failingAtoms());
+      if (expResult.errorMessage().isPresent()) {
+        out.name(KEY_ERROR_MESSAGE).value(expResult.errorMessage().get());
+      }
+      out.endObject();
+    }
+
+    @Override
+    public SubmitRequirementExpressionResult read(JsonReader in) throws IOException {
+      JsonObject parsed = unpack(new JsonParser().parse(in)).getAsJsonObject();
+      SubmitRequirementExpression expression =
+          SubmitRequirementExpression.typeAdapter()
+              .fromJsonTree(unpack(parsed.get(KEY_EXPRESSION)));
+      Status status = Status.valueOf(parsed.get(KEY_STATUS).getAsString());
+      List<String> passingAtoms = new ArrayList<>();
+      List<String> failingAtoms = new ArrayList<>();
+      for (JsonElement elem : parsed.getAsJsonArray(KEY_PASSING_ATOMS)) {
+        passingAtoms.add(elem.getAsString());
+      }
+      for (JsonElement elem : parsed.getAsJsonArray(KEY_FAILING_ATOMS)) {
+        failingAtoms.add(elem.getAsString());
+      }
+      Optional<String> errorMessage = Optional.empty();
+      if (parsed.has(KEY_ERROR_MESSAGE)) {
+        errorMessage = Optional.of(unpack(parsed.get(KEY_ERROR_MESSAGE)).getAsString());
+      }
+      return SubmitRequirementExpressionResult.create(
+          expression,
+          status,
+          errorMessage,
+          ImmutableList.copyOf(passingAtoms),
+          ImmutableList.copyOf(failingAtoms));
+    }
+
+    /**
+     * Unpack the {@code in} {@link JsonElement}, i.e. if the element has a single "value" child
+     * return it. We've previously used the default Gson serializer for serializing submit
+     * requirements entities. This unpacking is needed to preserve backward compatibility while
+     * deserializing entities that were previously serialized by the default serializer.
+     */
+    private static JsonElement unpack(JsonElement in) {
+      if (!in.isJsonObject()) {
+        return in;
+      }
+      JsonObject asJsonObject = in.getAsJsonObject();
+      return asJsonObject.has("value") && asJsonObject.size() == 1 ? asJsonObject.get("value") : in;
+    }
+
+    private static void writeArray(JsonWriter out, ImmutableList<String> source)
+        throws IOException {
+      out.beginArray();
+      for (String passingAtom : source) {
+        out.value(passingAtom);
+      }
+      out.endArray();
+    }
   }
 
   public enum Status {

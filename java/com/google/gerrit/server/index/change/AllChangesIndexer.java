@@ -22,13 +22,11 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
@@ -37,6 +35,7 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.OnlineReindexMode;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
+import com.google.gerrit.server.notedb.ChangeNotes.Factory.ScanResult;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -44,11 +43,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -89,11 +86,13 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     private final Project.NameKey name;
     private final int slice;
     private final int slices;
+    private final ScanResult sr;
 
-    ProjectSlice(Project.NameKey name, int slice, int slices) {
+    ProjectSlice(Project.NameKey name, int slice, int slices, ScanResult sr) {
       this.name = name;
       this.slice = slice;
       this.slices = slices;
+      this.sr = sr;
     }
 
     public Project.NameKey getName() {
@@ -106,6 +105,10 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     public int getSlices() {
       return slices;
+    }
+
+    public ScanResult getScanResult() {
+      return sr;
     }
   }
 
@@ -133,14 +136,15 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         // which had 2 big projects, many middle sized ones, and lots of smaller ones, the
         // splitting of repos into smaller parts reduced indexing time from 1.5 hours to 55 minutes
         // in 2020.
-        int size = estimateSize(repo);
+        ScanResult sr = ChangeNotes.Factory.scanChangeIds(repo);
+        int size = sr.all().size();
         changeCount += size;
         int slices = 1 + size / PROJECT_SLICE_MAX_REFS;
         if (slices > 1) {
           verboseWriter.println("Submitting " + name + " for indexing in " + slices + " slices");
         }
         for (int slice = 0; slice < slices; slice++) {
-          projectSlices.add(new ProjectSlice(name, slice, slices));
+          projectSlices.add(new ProjectSlice(name, slice, slices, sr));
         }
       } catch (IOException e) {
         logger.atSevere().withCause(e).log("Error collecting project %s", name);
@@ -165,19 +169,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     return indexAll(index, projectSlices);
   }
 
-  private int estimateSize(Repository repo) throws IOException {
-    // Estimate size based on IDs that show up in ref names. This is not perfect, since patch set
-    // refs may exist for changes whose metadata was never successfully stored. But that's ok, as
-    // the estimate is just used as a heuristic for sorting projects.
-    long size =
-        repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES).stream()
-            .map(r -> Change.Id.fromRef(r.getName()))
-            .filter(Objects::nonNull)
-            .distinct()
-            .count();
-    return Ints.saturatedCast(size);
-  }
-
   private SiteIndexer.Result indexAll(ChangeIndex index, List<ProjectSlice> projectSlices) {
     Stopwatch sw = Stopwatch.createStarted();
     MultiProgressMonitor mpm = new MultiProgressMonitor(progressOut, "Reindexing changes");
@@ -200,6 +191,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                   name,
                   slice,
                   slices,
+                  projectSlice.getScanResult(),
                   doneTask,
                   failedTask));
       String description = "project " + name + " (" + slice + "/" + slices + ")";
@@ -240,7 +232,13 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   public Callable<Void> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
-    return reindexProject(indexer, project, 0, 1, done, failed);
+    try (Repository repo = repoManager.openRepository(project)) {
+      return reindexProject(
+          indexer, project, 0, 1, ChangeNotes.Factory.scanChangeIds(repo), done, failed);
+    } catch (IOException e) {
+      logger.atSevere().log(e.getMessage());
+      return null;
+    }
   }
 
   public Callable<Void> reindexProject(
@@ -248,9 +246,10 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       Project.NameKey project,
       int slice,
       int slices,
+      ScanResult sr,
       Task done,
       Task failed) {
-    return new ProjectIndexer(indexer, project, slice, slices, done, failed);
+    return new ProjectIndexer(indexer, project, slice, slices, sr, done, failed);
   }
 
   private class ProjectIndexer implements Callable<Void> {
@@ -258,6 +257,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     private final Project.NameKey project;
     private final int slice;
     private final int slices;
+    private final ScanResult sr;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
 
@@ -266,32 +266,28 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         Project.NameKey project,
         int slice,
         int slices,
+        ScanResult sr,
         ProgressMonitor done,
         ProgressMonitor failed) {
       this.indexer = indexer;
       this.project = project;
       this.slice = slice;
       this.slices = slices;
+      this.sr = sr;
       this.done = done;
       this.failed = failed;
     }
 
     @Override
     public Void call() throws Exception {
-      try (Repository repo = repoManager.openRepository(project)) {
-        OnlineReindexMode.begin();
-
-        // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
-        // not important for indexing, since sites should have a fully populated DiffSummary cache.
-        // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
-        // but the goal is to invalidate that cache as infrequently as we possibly can. And besides,
-        // we don't have concrete proof that improving packfile locality would help.
-        notesFactory.scan(repo, project, id -> (id.get() % slices) == slice).forEach(r -> index(r));
-      } catch (RepositoryNotFoundException rnfe) {
-        logger.atSevere().log(rnfe.getMessage());
-      } finally {
-        OnlineReindexMode.end();
-      }
+      OnlineReindexMode.begin();
+      // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
+      // not important for indexing, since sites should have a fully populated DiffSummary cache.
+      // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
+      // but the goal is to invalidate that cache as infrequently as we possibly can. And besides,
+      // we don't have concrete proof that improving packfile locality would help.
+      notesFactory.scan(sr, project, id -> (id.get() % slices) == slice).forEach(r -> index(r));
+      OnlineReindexMode.end();
       return null;
     }
 

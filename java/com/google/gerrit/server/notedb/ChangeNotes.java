@@ -110,6 +110,29 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.projectCache = projectCache;
     }
 
+    @AutoValue
+    public abstract static class ScanResult {
+      abstract ImmutableSet<Change.Id> fromPatchSetRefs();
+
+      abstract ImmutableSet<Change.Id> fromMetaRefs();
+
+      public SetView<Change.Id> all() {
+        return Sets.union(fromPatchSetRefs(), fromMetaRefs());
+      }
+    }
+
+    public static ScanResult scanChangeIds(Repository repo) throws IOException {
+      ImmutableSet.Builder<Change.Id> fromPs = ImmutableSet.builder();
+      ImmutableSet.Builder<Change.Id> fromMeta = ImmutableSet.builder();
+      for (Ref r : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
+        Change.Id id = Change.Id.fromRef(r.getName());
+        if (id != null) {
+          (r.getName().endsWith(RefNames.META_SUFFIX) ? fromMeta : fromPs).add(id);
+        }
+      }
+      return new AutoValue_ChangeNotes_Factory_ScanResult(fromPs.build(), fromMeta.build());
+    }
+
     public ChangeNotes createChecked(Change c) {
       return createChecked(c.getProject(), c.getId());
     }
@@ -221,8 +244,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public Stream<ChangeNotesResult> scan(
         Repository repo, Project.NameKey project, Predicate<Change.Id> changeIdPredicate)
         throws IOException {
-      ScanResult sr = scanChangeIds(repo);
+      return scan(scanChangeIds(repo), project, changeIdPredicate);
+    }
 
+    public Stream<ChangeNotesResult> scan(
+        ScanResult sr, Project.NameKey project, Predicate<Change.Id> changeIdPredicate) {
       Stream<Change.Id> idStream = sr.all().stream();
       if (changeIdPredicate != null) {
         idStream = idStream.filter(changeIdPredicate);
@@ -293,29 +319,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
       @Nullable
       abstract ChangeNotes maybeNotes();
-    }
-
-    @AutoValue
-    abstract static class ScanResult {
-      abstract ImmutableSet<Change.Id> fromPatchSetRefs();
-
-      abstract ImmutableSet<Change.Id> fromMetaRefs();
-
-      SetView<Change.Id> all() {
-        return Sets.union(fromPatchSetRefs(), fromMetaRefs());
-      }
-    }
-
-    private static ScanResult scanChangeIds(Repository repo) throws IOException {
-      ImmutableSet.Builder<Change.Id> fromPs = ImmutableSet.builder();
-      ImmutableSet.Builder<Change.Id> fromMeta = ImmutableSet.builder();
-      for (Ref r : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
-        Change.Id id = Change.Id.fromRef(r.getName());
-        if (id != null) {
-          (r.getName().endsWith(RefNames.META_SUFFIX) ? fromMeta : fromPs).add(id);
-        }
-      }
-      return new AutoValue_ChangeNotes_Factory_ScanResult(fromPs.build(), fromMeta.build());
     }
   }
 

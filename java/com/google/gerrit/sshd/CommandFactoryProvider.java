@@ -39,11 +39,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
-import org.apache.sshd.server.SessionAware;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.command.CommandFactory;
 import org.apache.sshd.server.session.ServerSession;
+import org.apache.sshd.server.session.ServerSessionAware;
 import org.eclipse.jgit.lib.Config;
 
 /** Creates a CommandFactory using commands registered by {@link CommandModule}. */
@@ -102,7 +102,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     };
   }
 
-  private class Trampoline implements Command, SessionAware {
+  private class Trampoline implements Command, ServerSessionAware {
     private final String commandLine;
     private final String[] argv;
     private InputStream in;
@@ -184,6 +184,12 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
           cmd.setErrorStream(err);
           cmd.setExitCallback(
               new ExitCallback() {
+                @Override
+                public void onExit(int rc, String exitMessage, boolean closeImmediately) {
+                  exit.onExit(translateExit(rc), exitMessage, closeImmediately);
+                  log(rc, exitMessage);
+                }
+
                 @Override
                 public void onExit(int rc, String exitMessage) {
                   exit.onExit(translateExit(rc), exitMessage);

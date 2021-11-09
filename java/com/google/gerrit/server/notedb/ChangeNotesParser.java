@@ -988,7 +988,6 @@ class ChangeNotesParser {
         if (line.startsWith("Rule-Name: ")) {
           String ruleName = line.split(": ")[1];
           rec.ruleName = ruleName;
-          continue;
         }
         SubmitRecord.Label label = new SubmitRecord.Label();
         if (rec.labels == null) {

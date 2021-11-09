@@ -31,6 +31,7 @@ public class EventGsonProvider implements Provider<Gson> {
         .registerTypeAdapter(Supplier.class, new SupplierDeserializer())
         .registerTypeAdapter(Project.NameKey.class, new ProjectNameKeyAdapter())
         .registerTypeAdapterFactory(EntitiesAdapterFactory.create())
+        .registerTypeHierarchyAdapter(Project.NameKey.class, new ProjectNameKeyAdapter())
         .create();
   }
 }

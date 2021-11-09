@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d64915df_26ae0c16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-09T08:30:15Z",
+      "side": 1,
+      "message": "init command output showing that jars can now be downloaded:\n\n\n▶ java -jar ~/workspace-upstream/gerrit3/buck-out/gen/gerrit.war init -d ./211\nWARNING: An illegal reflective access operation has occurred\nWARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$2  to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)\nWARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$2\nWARNING: Use --illegal-access\u003dwarn to enable warnings of further illegal reflective access operations\nWARNING: All illegal access operations will be denied in a future release\nUsing secure store: com.google.gerrit.server.securestore.DefaultSecureStore\n[2021-11-09 00:22:43,441] INFO  com.google.gerrit.server.config.GerritServerConfigProvider : No ./211/etc/gerrit.config; assuming defaults\n\n*** Gerrit Code Review 2.11.12-11-g57bb978-dirty\n***\n\n\n*** Git Repositories\n***\n\nLocation of Git repositories   [git]:\n\n*** SQL Database\n***\n\nDatabase server type           [h2]:\n\n*** Index\n***\n\nType                           [LUCENE/?]:\n\nThe index must be rebuilt before starting Gerrit:\n  java -jar gerrit.war reindex -d site_path\n\n*** User Authentication\n***\n\nAuthentication method          [OPENID/?]: LDAP\nLDAP server                    [ldap://localhost]:\nLDAP username                  :\nAccount BaseDN                 :\nGroup BaseDN                   :\n\n*** Review Labels\n***\n\nInstall Verified label         [y/N]?\n\n*** Email Delivery\n***\n\nSMTP server hostname           [localhost]:\nSMTP server port               [(default)]:\nSMTP encryption                [NONE/?]:\nSMTP username                  :\n\n*** Container Process\n***\n\nRun as                         []:\nJava runtime                   [/Library/Java/JavaVirtualMachines/jdk-11.0.9.jdk/Contents/Home]:\nCopy gerrit.war to ./211/bin/gerrit.war [Y/n]?\nCopying gerrit.war to ./211/bin/gerrit.war\n\n*** SSH Daemon\n***\n\nListen on address              [*]:\nListen on port                 [29418]:\n\nGerrit Code Review is not shipped with Bouncy Castle Crypto SSL v151\n  If available, Gerrit can take advantage of features\n  in the library, but will also function without it.\nDownload and install it now [Y/n]?\nDownloading https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.51/bcpkix-jdk15on-1.51.jar ... OK\nChecksum bcpkix-jdk15on-1.51.jar OK\n\nGerrit Code Review is not shipped with Bouncy Castle Crypto Provider v151\n** This library is required by Bouncy Castle Crypto SSL v151. **\nDownload and install it now [Y/n]?\nDownloading https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.51/bcprov-jdk15on-1.51.jar ... OK\nChecksum bcprov-jdk15on-1.51.jar OK\nGenerating SSH host key ... rsa... dsa... done\n\n*** HTTP Daemon\n***\n\nBehind reverse proxy           [y/N]?",
+      "revId": "57bb9785c8eb51568a9bfc84b29fcb351d843a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -403,6 +403,36 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.cumulativeCommentSizeLimit", value = "10k")
+  public void postSubmitDiffCannotBeTooBigWithLargeComments() throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+
+    // unrelated comment taking up most of the space, making post submit diff shorter.
+    String message = new String(new char[9700]).replace("\0", "a");
+    ReviewInput reviewInput = new ReviewInput().message(message);
+    CommentInput commentInput = new CommentInput();
+    commentInput.line = 1;
+    commentInput.path = "file";
+    reviewInput.comments = ImmutableMap.of("file", ImmutableList.of(commentInput));
+    gApi.changes().id(changeId.get()).current().review(reviewInput);
+
+    String content = new String(new char[500]).replace("\0", "a");
+    changeOperations.change(changeId).newPatchset().file("file").content(content).create();
+
+    // Post submit diff is over the cumulativeCommentSizeLimit, since the comment took most of
+    // the space.
+    gApi.changes().id(changeId.get()).current().submit();
+    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+        .isEqualTo(
+            "Change has been successfully merged\n\n1 is the latest approved patch-set.\nThe "
+                + "change was submitted with unreviewed changes in the following "
+                + "files:\n\n```\nThe name of the file: file\nInsertions: 1, Deletions: 1.\n\nThe"
+                + " diff is too large to show. Please review the diff.\n```\n");
+  }
+
+  @Test
   public void diffChangeMessageOnSubmitWithStickyVote_addedFile() throws Exception {
     Change.Id changeId = changeOperations.newChange().project(project).create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());

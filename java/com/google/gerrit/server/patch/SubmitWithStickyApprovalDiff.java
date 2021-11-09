@@ -75,6 +75,7 @@ public class SubmitWithStickyApprovalDiff {
   private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final GitRepositoryManager repositoryManager;
+  private final int maxCumulativeSize;
   private final int maxAllowedSizeForPostSubmitDiff;
 
   @Inject
@@ -98,12 +99,12 @@ public class SubmitWithStickyApprovalDiff {
     // because we exclude all auto generated messages, since an argument can be made that they
     // are important enough to be posted anyway. Especially the post submit diff, which must be
     // posted (at least the short version of "the files are too long, please look at the diff").
-    maxAllowedSizeForPostSubmitDiff =
+    maxCumulativeSize =
         serverConfig.getInt(
-                "change",
-                "cumulativeCommentSizeLimit",
-                CommentCumulativeSizeValidator.DEFAULT_CUMULATIVE_COMMENT_SIZE_LIMIT)
-            / 10;
+            "change",
+            "cumulativeCommentSizeLimit",
+            CommentCumulativeSizeValidator.DEFAULT_CUMULATIVE_COMMENT_SIZE_LIMIT);
+    maxAllowedSizeForPostSubmitDiff = maxCumulativeSize / 10;
   }
 
   public String apply(ChangeNotes notes, CurrentUser currentUser)
@@ -161,6 +162,12 @@ public class SubmitWithStickyApprovalDiff {
           isDiffTooLarge = true;
         } else {
           throw e;
+        }
+      }
+      if (formatterResult != null) {
+        int newSize = formatterResult.stream().mapToInt(String::length).sum();
+        if (!CommentCumulativeSizeValidator.isEnoughSpace(notes, newSize, maxCumulativeSize)) {
+          isDiffTooLarge = true;
         }
       }
       for (FileDiffOutput fileDiff : modifiedFilesList) {

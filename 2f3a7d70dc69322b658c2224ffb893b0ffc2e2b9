@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1089ab43_dc2a4cde",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-09T22:41:29Z",
+      "side": 1,
+      "message": "Missed this before. Should this be closing the passed in objReader?",
+      "range": {
+        "startLine": 438,
+        "startChar": 10,
+        "endLine": 438,
+        "endChar": 25
+      },
+      "revId": "2f3a7d70dc69322b658c2224ffb893b0ffc2e2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

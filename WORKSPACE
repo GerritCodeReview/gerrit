@@ -172,9 +172,9 @@ maven_jar(
 
 # JGit's transitive dependencies
 maven_jar(
-    name = "hamcrest-library",
-    artifact = "org.hamcrest:hamcrest-library:1.3",
-    sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
+    name = "hamcrest",
+    artifact = "org.hamcrest:hamcrest:2.2",
+    sha1 = "1820c0968dba3a11a1b30669bb1f01978a91dedc",
 )
 
 maven_jar(
@@ -185,9 +185,9 @@ maven_jar(
 
 maven_jar(
     name = "javaewah",
-    artifact = "com.googlecode.javaewah:JavaEWAH:1.1.6",
+    artifact = "com.googlecode.javaewah:JavaEWAH:1.1.13",
     attach_source = False,
-    sha1 = "94ad16d728b374d65bd897625f3fbb3da223a2b6",
+    sha1 = "32cd724a42dc73f99ca08453d11a4bb83e0034c7",
 )
 
 maven_jar(
@@ -198,8 +198,8 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.8.5",
-    sha1 = "f645ed69d595b24d4cf8b3fbb64cc505bede8829",
+    artifact = "com.google.code.gson:gson:2.8.8",
+    sha1 = "431fc3cbc0ff81abdbfde070062741089c3ba874",
 )
 
 CAFFEINE_VERS = "2.8.5"
@@ -301,8 +301,8 @@ maven_jar(
 # When upgrading commons-compress, also upgrade tukaani-xz
 maven_jar(
     name = "commons-compress",
-    artifact = "org.apache.commons:commons-compress:1.18",
-    sha1 = "1191f9f2bc0c47a8cce69193feb1ff0a8bcb37d5",
+    artifact = "org.apache.commons:commons-compress:1.21",
+    sha1 = "4ec95b60d4e86b5c95a0e919cb172a0af98011ef",
 )
 
 maven_jar(
@@ -807,8 +807,8 @@ maven_jar(
 
 maven_jar(
     name = "junit",
-    artifact = "junit:junit:4.12",
-    sha1 = "2973d150c0dc1fefe998f834810d68f278ea58ec",
+    artifact = "junit:junit:4.13.2",
+    sha1 = "8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12",
 )
 
 maven_jar(

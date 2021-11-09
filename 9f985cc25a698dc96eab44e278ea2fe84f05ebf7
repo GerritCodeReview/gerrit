@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e76b238c_db82aabb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-11-09T11:15:48Z",
+      "side": 1,
+      "message": "the grammar is a bit dodgy, so i\u0027m not really sure what you\u0027re trying to say here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 44,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "9f985cc25a698dc96eab44e278ea2fe84f05ebf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

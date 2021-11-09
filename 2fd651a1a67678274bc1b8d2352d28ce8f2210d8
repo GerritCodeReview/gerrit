@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f2e2158_4c4bfa49",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-09T19:19:07Z",
+      "side": 1,
+      "message": "Doesn\u0027t exist on com.google.gerrit.elasticsearch.ElasticIndexModule",
+      "range": {
+        "startLine": 329,
+        "startChar": 14,
+        "endLine": 329,
+        "endChar": 29
+      },
+      "revId": "2fd651a1a67678274bc1b8d2352d28ce8f2210d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

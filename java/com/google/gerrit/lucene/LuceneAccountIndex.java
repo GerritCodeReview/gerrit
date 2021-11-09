@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.inject.Inject;
@@ -93,7 +94,8 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
-      @Assisted Schema<AccountState> schema)
+      @Assisted Schema<AccountState> schema,
+      AutoFlush autoFlush)
       throws IOException {
     super(
         schema,
@@ -102,7 +104,8 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
         ACCOUNTS,
         null,
         new GerritIndexWriterConfig(cfg, ACCOUNTS),
-        new SearcherFactory());
+        new SearcherFactory(),
+        autoFlush);
     this.accountCache = accountCache;
 
     indexWriterConfig = new GerritIndexWriterConfig(cfg, ACCOUNTS);

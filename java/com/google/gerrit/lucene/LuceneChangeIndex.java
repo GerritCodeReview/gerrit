@@ -56,6 +56,7 @@ import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -174,7 +175,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       SitePaths sitePaths,
       @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       ChangeData.Factory changeDataFactory,
-      @Assisted Schema<ChangeData> schema)
+      @Assisted Schema<ChangeData> schema,
+      AutoFlush autoFlush)
       throws IOException {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
@@ -189,18 +191,35 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       openIndex =
           new ChangeSubIndex(
-              schema, sitePaths, new RAMDirectory(), "ramOpen", openConfig, searcherFactory);
+              schema,
+              sitePaths,
+              new RAMDirectory(),
+              "ramOpen",
+              openConfig,
+              searcherFactory,
+              autoFlush);
       closedIndex =
           new ChangeSubIndex(
-              schema, sitePaths, new RAMDirectory(), "ramClosed", closedConfig, searcherFactory);
+              schema,
+              sitePaths,
+              new RAMDirectory(),
+              "ramClosed",
+              closedConfig,
+              searcherFactory,
+              autoFlush);
     } else {
       Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES, schema);
       openIndex =
           new ChangeSubIndex(
-              schema, sitePaths, dir.resolve(CHANGES_OPEN), openConfig, searcherFactory);
+              schema, sitePaths, dir.resolve(CHANGES_OPEN), openConfig, searcherFactory, autoFlush);
       closedIndex =
           new ChangeSubIndex(
-              schema, sitePaths, dir.resolve(CHANGES_CLOSED), closedConfig, searcherFactory);
+              schema,
+              sitePaths,
+              dir.resolve(CHANGES_CLOSED),
+              closedConfig,
+              searcherFactory,
+              autoFlush);
     }
 
     idField = this.schema.useLegacyNumericFields() ? LEGACY_ID : LEGACY_ID_STR;

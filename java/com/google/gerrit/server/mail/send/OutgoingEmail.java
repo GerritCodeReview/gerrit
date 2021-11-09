@@ -24,6 +24,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.UserIdentity;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
@@ -389,9 +390,13 @@ public abstract class OutgoingEmail {
    * username. If no username is set, this function returns null.
    *
    * @param accountId user to fetch.
-   * @return name/email of account, username, or null if unset.
+   * @return name/email of account, username, or null if unset or the accountId is null.
    */
-  protected String getUserNameEmailFor(Account.Id accountId) {
+  protected String getUserNameEmailFor(@Nullable Account.Id accountId) {
+    if (accountId == null) {
+      return null;
+    }
+
     Optional<AccountState> accountState = args.accountCache.get(accountId);
     if (!accountState.isPresent()) {
       return null;

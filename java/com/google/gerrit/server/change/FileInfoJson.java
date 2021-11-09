@@ -40,6 +40,23 @@ public interface FileInfoJson {
   }
 
   /**
+   * Computes the list of modified files for a given change and patchset against the specified
+   * parent. For merge commits, callers can use 0, 1, 2, etc... to choose a specific parent. The
+   * first parent is 0. A value of -1 for parent can be passed to use the default base commit, which
+   * is the only parent for commits having only one parent, or the auto-merge otherwise.
+   *
+   * @param change a Gerrit change.
+   * @param patchSet a single revision of the change.
+   * @param parentNum 1-based integer identifying the parent number used for comparison. If zero,
+   *     the only parent will be used or the auto-merge if {@code newCommit} is a merge commit.
+   * @return a mapping of the file paths to their related diff information.
+   */
+  default Map<String, FileInfo> getFileInfoMap(Change change, PatchSet patchSet, int parentNum)
+      throws ResourceConflictException, PatchListNotAvailableException {
+    return getFileInfoMap(change, patchSet.commitId(), parentNum);
+  }
+
+  /**
    * Computes the list of modified files for a given change and patchset against its parent. For
    * merge commits, callers can use 0, 1, 2, etc... to choose a specific parent. The first parent is
    * 0.

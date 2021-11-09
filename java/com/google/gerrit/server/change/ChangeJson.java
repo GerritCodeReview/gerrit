@@ -81,6 +81,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.SubmitRecordInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.query.QueryResult;
@@ -127,6 +128,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
@@ -172,12 +174,14 @@ public class ChangeJson {
     }
 
     public ChangeJson create(Iterable<ListChangesOption> options) {
-      return factory.create(options, Optional.empty());
+      return factory.create(options, Optional.empty(), OptionalInt.empty());
     }
 
     public ChangeJson create(
-        Iterable<ListChangesOption> options, PluginDefinedInfosFactory pluginDefinedInfosFactory) {
-      return factory.create(options, Optional.of(pluginDefinedInfosFactory));
+        Iterable<ListChangesOption> options,
+        PluginDefinedInfosFactory pluginDefinedInfosFactory,
+        OptionalInt parentNum) {
+      return factory.create(options, Optional.of(pluginDefinedInfosFactory), parentNum);
     }
 
     public ChangeJson create(ListChangesOption first, ListChangesOption... rest) {
@@ -188,7 +192,8 @@ public class ChangeJson {
   public interface AssistedFactory {
     ChangeJson create(
         Iterable<ListChangesOption> options,
-        Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory);
+        Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory,
+        OptionalInt parentNum);
   }
 
   @Singleton
@@ -259,6 +264,7 @@ public class ChangeJson {
       ExperimentFeatures experimentFeatures,
       @GerritServerConfig Config cfg,
       @Assisted Iterable<ListChangesOption> options,
+      @Assisted OptionalInt parentNum,
       @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
     this.userProvider = user;
     this.changeDataFactory = cdf;
@@ -272,7 +278,7 @@ public class ChangeJson {
     this.removeReviewerControl = removeReviewerControl;
     this.trackingFooters = trackingFooters;
     this.metrics = metrics;
-    this.revisionJson = revisionJsonFactory.create(options);
+    this.revisionJson = revisionJsonFactory.create(options, parentNum);
     this.options = Sets.immutableEnumSet(options);
     this.includeMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
     this.lazyLoad =
@@ -451,6 +457,7 @@ public class ChangeJson {
         | GpgException
         | IOException
         | PermissionBackendException
+        | BadRequestException
         | RuntimeException e) {
       if (!has(CHECK)) {
         Throwables.throwIfInstanceOf(e, StorageException.class);
@@ -576,7 +583,8 @@ public class ChangeJson {
       ChangeData cd,
       Optional<PatchSet.Id> limitToPsId,
       List<PluginDefinedInfo> pluginInfosForChange)
-      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
+      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException,
+          BadRequestException {
     try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
       return toChangeInfoImpl(cd, limitToPsId, pluginInfosForChange);
     }
@@ -584,7 +592,8 @@ public class ChangeJson {
 
   private ChangeInfo toChangeInfoImpl(
       ChangeData cd, Optional<PatchSet.Id> limitToPsId, List<PluginDefinedInfo> pluginInfos)
-      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
+      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException,
+          BadRequestException {
     ChangeInfo out = new ChangeInfo();
     CurrentUser user = userProvider.get();
 

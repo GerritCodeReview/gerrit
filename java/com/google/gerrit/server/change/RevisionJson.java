@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -74,6 +75,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -85,7 +87,7 @@ public class RevisionJson {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    RevisionJson create(Iterable<ListChangesOption> options);
+    RevisionJson create(Iterable<ListChangesOption> options, OptionalInt parentNum);
   }
 
   private final MergeUtil.Factory mergeUtilFactory;
@@ -101,6 +103,7 @@ public class RevisionJson {
   private final Provider<CurrentUser> userProvider;
   private final ProjectCache projectCache;
   private final ImmutableSet<ListChangesOption> options;
+  private final OptionalInt parentNum;
   private final AccountLoader.Factory accountLoaderFactory;
   private final AnonymousUser anonymous;
   private final GitRepositoryManager repoManager;
@@ -124,7 +127,8 @@ public class RevisionJson {
       ChangeKindCache changeKindCache,
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      @Assisted Iterable<ListChangesOption> options) {
+      @Assisted Iterable<ListChangesOption> options,
+      @Assisted OptionalInt parentNum) {
     this.userProvider = userProvider;
     this.anonymous = anonymous;
     this.projectCache = projectCache;
@@ -142,6 +146,7 @@ public class RevisionJson {
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.options = ImmutableSet.copyOf(options);
+    this.parentNum = parentNum;
   }
 
   /**
@@ -149,7 +154,8 @@ public class RevisionJson {
    * depending on the options provided when constructing this instance.
    */
   public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)
-      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
+      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException,
+          BadRequestException {
     AccountLoader accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
@@ -218,7 +224,8 @@ public class RevisionJson {
       Map<PatchSet.Id, PatchSet> map,
       Optional<PatchSet.Id> limitToPsId,
       ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
+      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException,
+          BadRequestException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
     try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
@@ -279,7 +286,8 @@ public class RevisionJson {
       @Nullable RevWalk rw,
       boolean fillCommit,
       @Nullable ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
+      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException,
+          BadRequestException {
     Change c = cd.change();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.id().equals(c.currentPatchSetId());
@@ -320,7 +328,14 @@ public class RevisionJson {
 
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
       try {
-        out.files = fileInfoJson.getFileInfoMap(c, in);
+        if (parentNum.isPresent()) {
+          if (parentNum.getAsInt() < 0) {
+            throw new BadRequestException("invalid parent num: " + parentNum.getAsInt());
+          }
+          out.files = fileInfoJson.getFileInfoMap(c, in, parentNum.getAsInt());
+        } else {
+          out.files = fileInfoJson.getFileInfoMap(c, in);
+        }
         out.files.remove(Patch.COMMIT_MSG);
         out.files.remove(Patch.MERGE_LIST);
       } catch (ResourceConflictException e) {

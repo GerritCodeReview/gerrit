@@ -137,6 +137,7 @@ class ChangesImpl implements Changes {
       if (q.getQuery() != null) {
         qc.addQuery(q.getQuery());
       }
+      qc.setParentNum(q.getParentNum());
       qc.setLimit(q.getLimit());
       qc.setStart(q.getStart());
       qc.setNoLimit(q.getNoLimit());

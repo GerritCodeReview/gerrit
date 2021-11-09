@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.Set;
 
 public interface Changes {
@@ -81,6 +82,7 @@ public interface Changes {
     private int limit;
     private int start;
     private boolean isNoLimit;
+    private OptionalInt parentNum;
     private Set<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
     private ListMultimap<String, String> pluginOptions = ArrayListMultimap.create();
 
@@ -103,6 +105,11 @@ public interface Changes {
 
     public QueryRequest withStart(int start) {
       this.start = start;
+      return this;
+    }
+
+    public QueryRequest withParentNum(int parentNum) {
+      this.parentNum = OptionalInt.of(parentNum);
       return this;
     }
 
@@ -150,6 +157,10 @@ public interface Changes {
 
     public int getStart() {
       return start;
+    }
+
+    public OptionalInt getParentNum() {
+      return parentNum;
     }
 
     public Set<ListChangesOption> getOptions() {

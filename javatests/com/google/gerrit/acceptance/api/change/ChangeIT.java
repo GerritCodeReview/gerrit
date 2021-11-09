@@ -3575,8 +3575,8 @@ public class ChangeIT extends AbstractDaemonTest {
     assertPermitted(change, LabelId.CODE_REVIEW, 2);
     assertPermitted(change, LabelId.VERIFIED, 0, 1);
 
-    // ignore the new label by Prolog submit rule and assert that the label is
-    // no longer returned
+    // Ignore the new label by Prolog submit rule. Permitted ranges are still going to be
+    // returned for the label.
     GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
     testRepo.reset("config");
     PushOneCommit push2 =
@@ -3590,11 +3590,10 @@ public class ChangeIT extends AbstractDaemonTest {
 
     change = gApi.changes().id(r.getChangeId()).get();
     assertPermitted(change, LabelId.CODE_REVIEW, 2);
-    assertPermitted(change, LabelId.VERIFIED);
+    assertPermitted(change, LabelId.VERIFIED, 0, 1);
 
-    // add an approval on the new label and assert that the label is now
-    // returned although it is ignored by the Prolog submit rule and hence not
-    // included in the submit records
+    // add an approval on the new label. The label can still be voted +1 although it is ignored
+    // in Prolog. 0 is not permitted because votes cannot be decreased.
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())
@@ -3603,7 +3602,7 @@ public class ChangeIT extends AbstractDaemonTest {
     change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
     assertPermitted(change, LabelId.CODE_REVIEW, 2);
-    assertPermitted(change, LabelId.VERIFIED);
+    assertPermitted(change, LabelId.VERIFIED, 1);
 
     // remove label and assert that it's no longer returned for existing
     // changes, even if there is an approval for it

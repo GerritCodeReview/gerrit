@@ -95,53 +95,44 @@ public class LabelsJson {
     return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
   }
 
-  /** Returns all labels that the provided user has permission to vote on. */
+  /**
+   * Returns A map of all label names and the values that the provided user has permission to vote
+   * on.
+   *
+   * @param filterApprovalsBy a Gerrit user ID.
+   * @param cd {@link ChangeData} corresponding to a specific gerrit change.
+   * @return A Map where the key contain a label name, and the value is a list of the permissible
+   *     vote values that the user can vote on.
+   */
   Map<String, Collection<String>> permittedLabels(Account.Id filterApprovalsBy, ChangeData cd)
       throws PermissionBackendException {
-    boolean isMerged = cd.change().isMerged();
-    LabelTypes labelTypes = cd.getLabelTypes();
-    Map<String, LabelType> toCheck = new HashMap<>();
-    for (SubmitRecord rec : submitRecords(cd)) {
-      if (rec.labels != null) {
-        for (SubmitRecord.Label r : rec.labels) {
-          Optional<LabelType> type = labelTypes.byLabel(r.label);
-          if (type.isPresent() && (!isMerged || type.get().isAllowPostSubmit())) {
-            toCheck.put(type.get().getName(), type.get());
-          }
-        }
-      }
-    }
-
-    Map<String, Short> labels = null;
-    Set<LabelPermission.WithValue> can =
-        permissionBackend.absentUser(filterApprovalsBy).change(cd).testLabels(toCheck.values());
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
-    for (SubmitRecord rec : submitRecords(cd)) {
-      if (rec.labels == null) {
+    boolean isMerged = cd.change().isMerged();
+    Map<String, Short> currentUserVotes = currentLabels(filterApprovalsBy, cd);
+    for (LabelType labelType : cd.getLabelTypes().getLabelTypes()) {
+      if (isMerged && !labelType.isAllowPostSubmit()) {
         continue;
       }
-      for (SubmitRecord.Label r : rec.labels) {
-        Optional<LabelType> type = labelTypes.byLabel(r.label);
-        if (!type.isPresent() || (isMerged && !type.get().isAllowPostSubmit())) {
-          continue;
+      Set<LabelPermission.WithValue> can =
+          permissionBackend.absentUser(filterApprovalsBy).change(cd).test(labelType);
+      for (LabelValue v : labelType.getValues()) {
+        boolean ok = can.contains(new LabelPermission.WithValue(labelType, v));
+        if (isMerged) {
+          // Votes cannot be decreased if the change is merged. Only accept the label value if it's
+          // greater or equal than the user's latest vote.
+          short prev = currentUserVotes.getOrDefault(labelType.getName(), (short) 0);
+          ok &= v.getValue() >= prev;
         }
-
-        for (LabelValue v : type.get().getValues()) {
-          boolean ok = can.contains(new LabelPermission.WithValue(type.get(), v));
-          if (isMerged) {
-            if (labels == null) {
-              labels = currentLabels(filterApprovalsBy, cd);
-            }
-            short prev = labels.getOrDefault(type.get().getName(), (short) 0);
-            ok &= v.getValue() >= prev;
-          }
-          if (ok) {
-            permitted.put(r.label, v.formatValue());
-          }
+        if (ok) {
+          permitted.put(labelType.getName(), v.formatValue());
         }
       }
     }
+    clearOnlyZerosEntries(permitted);
+    return permitted.asMap();
+  }
 
+  private static void clearOnlyZerosEntries(SetMultimap<String, String> permitted) {
     List<String> toClear = Lists.newArrayListWithCapacity(permitted.keySet().size());
     for (Map.Entry<String, Collection<String>> e : permitted.asMap().entrySet()) {
       if (isOnlyZero(e.getValue())) {
@@ -151,7 +142,6 @@ public class LabelsJson {
     for (String label : toClear) {
       permitted.removeAll(label);
     }
-    return permitted.asMap();
   }
 
   private static boolean isOnlyZero(Collection<String> values) {

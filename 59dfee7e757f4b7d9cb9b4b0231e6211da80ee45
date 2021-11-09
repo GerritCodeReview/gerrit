@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a809d28_7c784055",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T00:51:34Z",
+      "side": 1,
+      "message": "Can you be more specific?",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "59dfee7e757f4b7d9cb9b4b0231e6211da80ee45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fcae738_b5d658a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T00:51:34Z",
+      "side": 1,
+      "message": "Was there an issue raised on this? If yes, can you include the Bug: Issue NNN?",
+      "revId": "59dfee7e757f4b7d9cb9b4b0231e6211da80ee45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "790e7f6c_849a3504",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T00:51:34Z",
+      "side": 1,
+      "message": "Can you move it to the earliest supported branch where this problem happened? \n(stable-3.2 or later)\n\nCan you also add a test? Or alternatively perform a manual test of how this change has solved the problem.\n\nThanks for your contribution!",
+      "revId": "59dfee7e757f4b7d9cb9b4b0231e6211da80ee45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

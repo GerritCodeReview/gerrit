@@ -166,6 +166,30 @@
       },
       "revId": "696467e40b4b57a27cc9df0bcd77dbb4888ac1c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d915755_1ddb3328",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-11-09T09:03:02Z",
+      "side": 1,
+      "message": "Didn\u0027t we also want to extract the size computation and use it here instead of the 10% approach?",
+      "parentUuid": "31c90436_ad616980",
+      "range": {
+        "startLine": 99,
+        "startChar": 11,
+        "endLine": 99,
+        "endChar": 47
+      },
+      "revId": "696467e40b4b57a27cc9df0bcd77dbb4888ac1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

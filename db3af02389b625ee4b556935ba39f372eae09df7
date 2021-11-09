@@ -281,6 +281,30 @@
       },
       "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d7557a9_38c1a570",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-09T10:30:33Z",
+      "side": 1,
+      "message": "It would just be a skeleton just like this component, we can test the flag works right. If you don\u0027t want to do it here I will do it separately.",
+      "parentUuid": "42a8fb0e_3f770785",
+      "range": {
+        "startLine": 42,
+        "startChar": 43,
+        "endLine": 42,
+        "endChar": 48
+      },
+      "revId": "db3af02389b625ee4b556935ba39f372eae09df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

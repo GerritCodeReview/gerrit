@@ -623,24 +623,24 @@ maven_jar(
     sha1 = "eff48ed53995db2dadf0456426cc1f8700136f86",
 )
 
-AUTO_VALUE_GSON_VERSION = "1.3.0"
+AUTO_VALUE_GSON_VERSION = "1.3.1"
 
 maven_jar(
     name = "auto-value-gson-runtime",
     artifact = "com.ryanharter.auto.value:auto-value-gson-runtime:" + AUTO_VALUE_GSON_VERSION,
-    sha1 = "a69a9db5868bb039bd80f60661a771b643eaba59",
+    sha1 = "addda2ae6cce9f855788274df5de55dde4de7b71",
 )
 
 maven_jar(
     name = "auto-value-gson-extension",
     artifact = "com.ryanharter.auto.value:auto-value-gson-extension:" + AUTO_VALUE_GSON_VERSION,
-    sha1 = "6a61236d17b58b05e32b4c532bcb348280d2212b",
+    sha1 = "0c4c01a3e10e5b10df2e5f5697efa4bb3f453ac1",
 )
 
 maven_jar(
     name = "auto-value-gson-factory",
     artifact = "com.ryanharter.auto.value:auto-value-gson-factory:" + AUTO_VALUE_GSON_VERSION,
-    sha1 = "b1f01918c0d6cb1f5482500e6b9e62589334dbb0",
+    sha1 = "9ed8d79144ee8d60cc94cc11f847b5ed8ee9f19c",
 )
 
 maven_jar(

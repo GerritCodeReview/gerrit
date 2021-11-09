@@ -118,6 +118,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74069f47_6f82ea84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T14:12:23Z",
+      "side": 1,
+      "message": "Adding Thomas who developed the case-insensitive username feature: I believe that adding the migration trial mode to the ExternalId key is spilling off complexity everywhere.\n\n@Thomas to do see a better way?",
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae846d5a_7a64ecae",
@@ -167,6 +184,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "04b58a56_102d6262",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T14:12:23Z",
+      "side": 1,
+      "message": "What the value of looking up the legacy one for migration mode here *IF* you are going to create a new one anyway?\n\nDo you need instead two different if() conditions instead?",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 21
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e6f27fe_4409c1a1",
         "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
         "patchSetId": 4
@@ -178,6 +218,30 @@
       "writtenOn": "2021-11-08T17:18:36Z",
       "side": 1,
       "message": "What\u0027s the benefit of saving the migration mode in the serialized cache Key?\nIsn\u0027t the sha1 enough to load the key?",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 57
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e1060b7_da2a324f",
+        "filename": "java/com/google/gerrit/server/account/externalids/AllExternalIds.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-09T14:12:23Z",
+      "side": 1,
+      "message": "@Marcin Is it possibly for storing the \"migration status\" of the accounts? Are you planning to get rid of it afterwards?",
+      "parentUuid": "0e6f27fe_4409c1a1",
       "range": {
         "startLine": 98,
         "startChar": 0,

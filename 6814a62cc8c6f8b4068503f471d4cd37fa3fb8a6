@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "423619f7_b6b49372",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-09T15:11:49Z",
+      "side": 1,
+      "message": "The documentation is more accurate, but Marcin is right, in some places like the migration tool, I used similar wording, which is not accurate.\nUsernames will become case insensitive. The external ID will be computed from the lowercase username instead of the mixedCase username.\nAlso, not all external IDs are converted, only the ones in the GERRIT: and USERNAME: scheme.\nIn my experience, it is really hard to be accurate AND concise, when describing what is happening here.\nMaybe use: `Adding migration mode allows to fallback to case sensitive behavior if the migrated external ID cannot be found.`",
+      "parentUuid": "3eb65f95_74a459c4",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c1ada17b_e2a16d77",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -172,6 +196,30 @@
       "side": 1,
       "message": "if you set isUserNameCaseInsensitive this means that all external id sha1 are calculated with lower case. If you set isUserNameCaseInsensitive to true without running the migration duplicate accounts will be created. With this change and setting isUserNameCaseInsensitiveMigrationMode to true we notify the system that we are during the migration to the lower case sha1 so part of the accounts can be already migrated but some of them might not be. That\u0027s why if Gerrit is not able to find external id with lower case sha1 it should try with sha1 which preserves the case sensivity.",
       "parentUuid": "ae846d5a_7a64ecae",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 69
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97111493_ff64248d",
+        "filename": "java/com/google/gerrit/pgm/init/ExternalIdsOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-09T15:11:49Z",
+      "side": 1,
+      "message": "There should be no duplicate account, if the migration was not done, but isUserNameCaseInsensitive is true, because the email of that user would already exist and thus Gerrit would complain about that the email is already registered for an account with a different username. The user would see an error during login in this case.",
+      "parentUuid": "2d357bfc_4ebeb5d1",
       "range": {
         "startLine": 71,
         "startChar": 0,
@@ -302,6 +350,103 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c51a0dc8_e070ec30",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-09T15:11:49Z",
+      "side": 1,
+      "message": "Do we really need to store this value in the object? Wouldn\u0027t it be enough to use the configuration in the ExternalIdKeyFactory and set the isCaseInsensitive value accordingly?",
+      "range": {
+        "startLine": 182,
+        "startChar": 59,
+        "endLine": 182,
+        "endChar": 97
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e79bdd98_1f9a99bb",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-09T15:11:49Z",
+      "side": 1,
+      "message": "Not only the case sensitive, but also the case insensitive SHA1 does not match the note ID in this case. The error message is thus a bit misleading and should be improved.",
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54218120_d6338875",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-09T15:11:49Z",
+      "side": 1,
+      "message": "To reduce code duplication, just call `create(String scheme, String id, boolean isUserNameCaseInsensitive)` in this method.",
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77c3c4be_ba087d4a",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-09T15:11:49Z",
+      "side": 1,
+      "message": "authConfig",
+      "range": {
+        "startLine": 211,
+        "startChar": 19,
+        "endLine": 211,
+        "endChar": 25
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50241552_61a889ae",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-09T15:11:49Z",
+      "side": 1,
+      "message": "If you follow my suggestion to not store `isUserNameCaseInsensitiveMigrationMode` in the ExternalId.Key object, you could create a method in ExternalIdKeyFactory that takes an existing key and returns a key with switched case sensitivity, which could be used here.",
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b352a205_6492b997",
         "filename": "java/com/google/gerrit/server/account/externalids/testing/ExternalIdTestUtil.java",
         "patchSetId": 4
@@ -414,6 +559,23 @@
         "endLine": 250,
         "endChar": 68
       },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01f53163_0108777f",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-09T15:11:49Z",
+      "side": 1,
+      "message": "Seems to be an unrelated addition of the import.",
       "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

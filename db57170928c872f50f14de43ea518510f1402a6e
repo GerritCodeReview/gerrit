@@ -16,6 +16,24 @@
       "message": "This will require some fixing within https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.ts#L448 and https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.ts#L464 as that\u0027s no longer supported in this version.",
       "revId": "db57170928c872f50f14de43ea518510f1402a6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23cffb4a_8a81cead",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-09T09:13:52Z",
+      "side": 1,
+      "message": "Would it be ok to remove the line-by-line syntax highlighting and provide the whole file at once?\nThis indeed looks like a bigger problem, so maybe we should stay at version 10 for now.",
+      "parentUuid": "377e97e9_2ca9c9e2",
+      "revId": "db57170928c872f50f14de43ea518510f1402a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

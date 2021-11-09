@@ -430,6 +430,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1616827_42f9f09b",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-09T15:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e79bdd98_1f9a99bb",
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54218120_d6338875",
@@ -447,6 +465,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19cd7536_a135c01d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-09T15:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54218120_d6338875",
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77c3c4be_ba087d4a",
@@ -460,6 +496,30 @@
       "writtenOn": "2021-11-09T15:11:49Z",
       "side": 1,
       "message": "authConfig",
+      "range": {
+        "startLine": 211,
+        "startChar": 19,
+        "endLine": 211,
+        "endChar": 25
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ac9c285_233c5e2a",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-09T15:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77c3c4be_ba087d4a",
       "range": {
         "startLine": 211,
         "startChar": 19,
@@ -618,6 +678,24 @@
       "writtenOn": "2021-11-09T15:11:49Z",
       "side": 1,
       "message": "Seems to be an unrelated addition of the import.",
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c27ec1e9_c8361a73",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-09T15:53:06Z",
+      "side": 1,
+      "message": "we are mocking AuthConfig in L63",
+      "parentUuid": "01f53163_0108777f",
       "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -373,6 +373,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "746b6886_133191f6",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-09T15:24:45Z",
+      "side": 1,
+      "message": "Yes, after @Luca comment I started looking if we really need keep isUserNameCaseInsensitiveMigrationMode is the ExternalId, and it looks like we don\u0027t need to. Newest patch set is with the code changes for that.",
+      "parentUuid": "c51a0dc8_e070ec30",
+      "range": {
+        "startLine": 182,
+        "startChar": 59,
+        "endLine": 182,
+        "endChar": 97
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e79bdd98_1f9a99bb",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
         "patchSetId": 4

@@ -214,6 +214,7 @@ suite('gr-router tests', () => {
       '_handleTagListFilterOffsetRoute',
       '_handleTagListFilterRoute',
       '_handleTagListOffsetRoute',
+      '_handleTopicRoute',
       '_handlePluginScreen',
     ];
 
@@ -1226,6 +1227,19 @@ suite('gr-router tests', () => {
             adminView: 'gr-repo-list',
             filter: 'foo',
           });
+        });
+      });
+    });
+
+    suite('topic routes', () => {
+      test('_handleTopicRoute', () => {
+        const url = '/c/topic/random/';
+        const groups = url.match(_testOnly_RoutePattern.TOPIC);
+
+        const data = {params: groups.slice(1)};
+        assertDataToParams(data, '_handleTopicRoute', {
+          view: GerritView.TOPIC,
+          topic: 'random',
         });
       });
     });

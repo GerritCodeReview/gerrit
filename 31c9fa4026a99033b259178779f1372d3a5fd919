@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b1854eb_9d245fe1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-10T19:56:37Z",
+      "side": 1,
+      "message": "Sorry, I have no idea about it. If you will be stuck, I can check on Friday. (on vacation tomorrow)",
+      "parentUuid": "183661e9_a0ebf0ae",
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98ab48e0_97e1b006",
@@ -59,6 +77,52 @@
         "startChar": 12,
         "endLine": 581,
         "endChar": 24
+      },
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5590bd6_98e7663d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-10T19:56:37Z",
+      "side": 1,
+      "message": "this is not needed",
+      "range": {
+        "startLine": 1022,
+        "startChar": 49,
+        "endLine": 1022,
+        "endChar": 61
+      },
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e620a82_51add1d5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-10T19:56:37Z",
+      "side": 1,
+      "message": "NIT: Is this requestUpdate needed?\n\nmaybe this would work better\n```\nthis.repoConfig \u003d {\n...this.repoConfig,\ndescription: e.detail.value\n}\n```\n\nWhat do you think?",
+      "range": {
+        "startLine": 1048,
+        "startChar": 4,
+        "endLine": 1049,
+        "endChar": 25
       },
       "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

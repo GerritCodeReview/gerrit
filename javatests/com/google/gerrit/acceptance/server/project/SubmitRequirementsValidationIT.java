@@ -225,7 +225,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitRequirementWithoutSubmittabilityExpressionIsRejected() throws Exception {
+  public void submitRequirementWithoutSubmittabilityExpressionIsAccepted() throws Exception {
     fetchRefsMetaConfig();
 
     String submitRequirementName = "Code-Review";
@@ -238,16 +238,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
                 /* value= */ "foo bar description"));
 
     PushResult r = pushRefsMetaConfig();
-    assertErrorStatus(
-        r,
-        "Invalid project configuration",
-        String.format(
-            "project.config: Setting a submittability expression for submit requirement '%s' is"
-                + " required: Missing %s.%s.%s",
-            submitRequirementName,
-            ProjectConfig.SUBMIT_REQUIREMENT,
-            submitRequirementName,
-            ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION));
+    assertOkStatus(r);
   }
 
   @Test

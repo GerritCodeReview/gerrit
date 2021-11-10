@@ -33,25 +33,24 @@ public class SubmitRequirementsJson {
     SubmitRequirementResultInfo info = new SubmitRequirementResultInfo();
     info.name = req.name();
     info.description = req.description().orElse(null);
-    if (req.applicabilityExpression().isPresent()) {
-      info.applicabilityExpressionResult =
-          submitRequirementExpressionToInfo(
-              req.applicabilityExpression().get(),
-              result.applicabilityExpressionResult().get(),
-              /* hide= */ true); // Always hide applicability expressions on the API
-    }
-    if (req.overrideExpression().isPresent()) {
-      info.overrideExpressionResult =
-          submitRequirementExpressionToInfo(
-              req.overrideExpression().get(),
-              result.overrideExpressionResult().get(),
-              /* hide= */ false);
-    }
-    info.submittabilityExpressionResult =
-        submitRequirementExpressionToInfo(
-            req.submittabilityExpression(),
-            result.submittabilityExpressionResult(),
-            /* hide= */ false);
+    req.applicabilityExpression()
+        .ifPresent(
+            sr ->
+                info.applicabilityExpressionResult =
+                    submitRequirementExpressionToInfo(
+                        sr, result.applicabilityExpressionResult().get(), /* hide= */ false));
+    req.overrideExpression()
+        .ifPresent(
+            sr ->
+                info.overrideExpressionResult =
+                    submitRequirementExpressionToInfo(
+                        sr, result.overrideExpressionResult().get(), /* hide= */ false));
+    req.submittabilityExpression()
+        .ifPresent(
+            sr ->
+                info.submittabilityExpressionResult =
+                    submitRequirementExpressionToInfo(
+                        sr, result.submittabilityExpressionResult().get(), /* hide= */ false));
     info.status = SubmitRequirementResultInfo.Status.valueOf(result.status().toString());
     info.isLegacy = result.isLegacy();
     return info;

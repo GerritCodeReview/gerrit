@@ -350,4 +350,15 @@ public class ChangePredicates {
   public static Predicate<ChangeData> pureRevert(String value) {
     return new ChangeIndexPredicate(ChangeField.IS_PURE_REVERT, value);
   }
+
+  /**
+   * Returns a predicate that matches with changes that are submittable if {@code value} is equal to
+   * "1", or non-submittable if {@code value} is "0".
+   *
+   * <p>The computation of this field is based on the evaluation of {@link
+   * com.google.gerrit.entities.SubmitRequirement}s.
+   */
+  public static Predicate<ChangeData> isSubmittable(String value) {
+    return new ChangeIndexPredicate(ChangeField.IS_SUBMITTABLE, value);
+  }
 }

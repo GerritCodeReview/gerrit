@@ -209,6 +209,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_CHERRYPICK = "cherrypick";
   public static final String FIELD_CHERRY_PICK_OF_CHANGE = "cherrypickofchange";
   public static final String FIELD_CHERRY_PICK_OF_PATCHSET = "cherrypickofpatchset";
+  public static final String FIELD_IS_SUBMITTABLE = "issubmittable";
 
   public static final String ARG_ID_NAME = "name";
   public static final String ARG_ID_USER = "user";
@@ -713,15 +714,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("submittable".equalsIgnoreCase(value)) {
-      // SubmittablePredicate will match if *any* of the submit records are OK,
-      // but we need to check that they're *all* OK, so check that none of the
-      // submit records match any of the negative cases. To avoid checking yet
-      // more negative cases for CLOSED and FORCED, instead make sure at least
-      // one submit record is OK.
-      return Predicate.and(
-          new SubmittablePredicate(SubmitRecord.Status.OK),
-          Predicate.not(new SubmittablePredicate(SubmitRecord.Status.NOT_READY)),
-          Predicate.not(new SubmittablePredicate(SubmitRecord.Status.RULE_ERROR)));
+      checkFieldAvailable(ChangeField.IS_SUBMITTABLE, "is:submittable");
+      return new BooleanPredicate(ChangeField.IS_SUBMITTABLE);
     }
 
     if ("ignored".equalsIgnoreCase(value)) {

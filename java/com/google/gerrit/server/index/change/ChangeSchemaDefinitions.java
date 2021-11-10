@@ -192,8 +192,13 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V72 =
       new Schema.Builder<ChangeData>().add(V71).add(ChangeField.IS_PURE_REVERT).build();
 
+  @Deprecated
   /** Added new "count=$count" argument to the {@link ChangeField#LABEL} operator. */
   static final Schema<ChangeData> V73 = schema(V72, false);
+
+  /** Added new fieldl {@link ChangeField#IS_SUBMITTABLE} based on submit requirements. */
+  static final Schema<ChangeData> V74 =
+      new Schema.Builder<ChangeData>().add(V73).add(ChangeField.IS_SUBMITTABLE).build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

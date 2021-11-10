@@ -92,7 +92,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
                 try {
                   Optional<AccountState> a = accountCache.get(id);
                   if (a.isPresent()) {
-                    index.replace(a.get());
+                    index.insert(a.get());
                   } else {
                     index.delete(id);
                   }

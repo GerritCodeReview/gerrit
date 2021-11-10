@@ -79,6 +79,29 @@
       "message": "Add guard maybe?\n\n  if (value.view !\u003d\u003d GerritView.TOPIC) return;",
       "revId": "ab83794d8aa6087da093a8d3a076504cf9faad42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26a40580_8b445fce",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-10T08:15:10Z",
+      "side": 1,
+      "message": "I recommend to put it to HTMLElementTagNameMap for good typing\ndeclare global {\n  interface HTMLElementTagNameMap {\n    \u0027gr-topic-view\u0027: GrTopicView;\n  }\n}",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 1
+      },
+      "revId": "ab83794d8aa6087da093a8d3a076504cf9faad42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

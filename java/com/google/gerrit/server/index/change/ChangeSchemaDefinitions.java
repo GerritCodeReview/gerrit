@@ -192,7 +192,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V72 =
       new Schema.Builder<ChangeData>().add(V71).add(ChangeField.IS_PURE_REVERT).build();
 
-  @Deprecated
   /** Added new "count=$count" argument to the {@link ChangeField#LABEL} operator. */
   static final Schema<ChangeData> V73 = schema(V72, false);
 

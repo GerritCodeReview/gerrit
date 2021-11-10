@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-router.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import {GerritNav} from '../gr-navigation/gr-navigation.js';
-import {stubBaseUrl, stubRestApi, addListenerForTest} from '../../../test/test-utils.js';
+import {stubBaseUrl, stubRestApi, addListenerForTest, stubFlags} from '../../../test/test-utils.js';
 import {_testOnly_RoutePattern} from './gr-router.js';
 import {GerritView} from '../../../services/router/router-model.js';
 import {ParentPatchSetNum} from '../../../types/common.js';
@@ -260,6 +260,15 @@ suite('gr-router tests', () => {
   });
 
   suite('generateUrl', () => {
+    test('topic page', () => {
+      const params = {
+        view: GerritView.TOPIC,
+        topic: 'ggh',
+      };
+      assert.equal(element._generateUrl(params),
+          '/c/topic/ggh');
+    });
+
     test('search', () => {
       let params = {
         view: GerritNav.View.SEARCH,
@@ -663,6 +672,20 @@ suite('gr-router tests', () => {
         query: 'project:foo/bar/baz',
         offset: '123',
       });
+    });
+
+    test('_handleQueryRoute to topic page', () => {
+      stubFlags('isEnabled').returns(true);
+      const navStub = sinon.stub(GerritNav, 'navigateToTopicPage');
+      let data = {params: ['topic:abcd']};
+      element._handleQueryRoute(data);
+
+      assert.isTrue(navStub.called);
+
+      // multiple terms so topic page is not loaded
+      data = {params: ['topic:abcd owner:self']};
+      element._handleQueryRoute(data);
+      assert.isTrue(navStub.calledOnce);
     });
 
     test('_handleQueryLegacySuffixRoute', () => {

@@ -123,6 +123,32 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirement_alwaysSkipped() {
+    // submittability expression is redundant and will be skipped anyway because the requirement is
+    // not applicable. Nevertheless, we need to specify it because it is a mandatory field.
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "always:false",
+            /* submittabilityExpr= */ "always:true",
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.NOT_APPLICABLE);
+  }
+
+  @Test
+  public void submitRequirement_alwaysPassing() {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "always:true",
+            /* submittabilityExpr= */ "always:true",
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+  }
+
+  @Test
   public void submitRequirementIsSatisfied_whenSubmittabilityExpressionIsTrue() throws Exception {
     SubmitRequirement sr =
         createSubmitRequirement(

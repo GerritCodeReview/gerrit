@@ -1,10 +1,3 @@
-import {customElement, property, state} from 'lit/decorators';
-import {LitElement, html, PropertyValues} from 'lit';
-import {AppElementTopicParams} from '../gr-app-types';
-import {appContext} from '../../services/app-context';
-import {KnownExperimentId} from '../../services/flags/flags';
-import {GerritNav} from '../core/gr-navigation/gr-navigation';
-
 /**
  * @license
  * Copyright (C) 2021 The Android Open Source Project
@@ -22,6 +15,14 @@ import {GerritNav} from '../core/gr-navigation/gr-navigation';
  * limitations under the License.
  */
 
+import {customElement, property, state} from 'lit/decorators';
+import {LitElement, html, PropertyValues} from 'lit';
+import {AppElementTopicParams} from '../gr-app-types';
+import {appContext} from '../../services/app-context';
+import {KnownExperimentId} from '../../services/flags/flags';
+import {GerritNav} from '../core/gr-navigation/gr-navigation';
+import {GerritView} from '../../services/router/router-model';
+
 @customElement('gr-topic-view')
 export class GrTopicView extends LitElement {
   @property()
@@ -32,7 +33,7 @@ export class GrTopicView extends LitElement {
 
   private readonly flagsService = appContext.flagsService;
 
-  override updated(changedProperties: PropertyValues) {
+  override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('params')) {
       this.paramsChanged();
     }
@@ -43,6 +44,7 @@ export class GrTopicView extends LitElement {
   }
 
   paramsChanged() {
+    if (this.params?.view !== GerritView.TOPIC) return;
     this.topic = this.params?.topic;
     if (
       !this.flagsService.isEnabled(KnownExperimentId.TOPICS_PAGE) &&
@@ -50,5 +52,11 @@ export class GrTopicView extends LitElement {
     ) {
       GerritNav.navigateToSearchQuery(`topic:${this.topic}`);
     }
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-topic-view': GrTopicView;
   }
 }

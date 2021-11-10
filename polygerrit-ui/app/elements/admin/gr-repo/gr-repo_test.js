@@ -107,6 +107,360 @@ suite('gr-repo tests', () => {
     element = basicFixture.instantiate();
   });
 
+  test('renders with default values', async () => {
+    expect(element).shadowDom.to.equal(`<div class="gr-form-styles main read-only">
+    <div class="info">
+      <h1
+        class="heading-1"
+        id="Title"
+      >
+      </h1>
+      <hr>
+      <div>
+        <a>
+          <gr-button
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            Browse
+          </gr-button>
+        </a>
+        <a>
+          <gr-button
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            View Changes
+          </gr-button>
+        </a>
+      </div>
+    </div>
+    <div
+      class="loading"
+      id="loading"
+    >
+      Loading...
+    </div>
+    <div
+      class="loading"
+      id="loadedContent"
+    >
+      <div
+        class="hide"
+        id="downloadContent"
+      >
+        <h2
+          class="heading-2"
+          id="download"
+        >
+          Download
+        </h2>
+        <fieldset>
+          <gr-download-commands id="downloadCommands">
+          </gr-download-commands>
+        </fieldset>
+      </div>
+      <h2
+        class="heading-2"
+        id="configurations"
+      >
+        Configurations
+      </h2>
+      <div id="form">
+        <fieldset>
+          <h3
+            class="heading-3"
+            id="Description"
+          >
+            Description
+          </h3>
+          <fieldset>
+            <iron-autogrow-textarea
+              aria-disabled="true"
+              autocomplete="on"
+              class="description"
+              disabled=""
+              id="descriptionInput"
+              placeholder="<Insert repo description here>"
+              style="pointer-events: none;"
+              tabindex="-1"
+            >
+            </iron-autogrow-textarea>
+          </fieldset>
+          <h3
+            class="heading-3"
+            id="Options"
+          >
+            Repository Options
+          </h3>
+          <fieldset id="options">
+            <section>
+              <span class="title">
+                State
+              </span>
+              <span class="value">
+                <gr-select id="stateSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Submit type
+              </span>
+              <span class="value">
+                <gr-select id="submitTypeSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Allow content merges
+              </span>
+              <span class="value">
+                <gr-select id="contentMergeSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Create a new change for every commit not in the target branch
+              </span>
+              <span class="value">
+                <gr-select id="newChangeSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Require Change-Id in commit message
+              </span>
+              <span class="value">
+                <gr-select id="requireChangeIdSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section
+              class="repositorySettings"
+              id="enableSignedPushSettings"
+            >
+              <span class="title">
+                Enable signed push
+              </span>
+              <span class="value">
+                <gr-select id="enableSignedPush">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section
+              class="repositorySettings"
+              id="requireSignedPushSettings"
+            >
+              <span class="title">
+                Require signed push
+              </span>
+              <span class="value">
+                <gr-select id="requireSignedPush">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Reject implicit merges when changes are pushed for review
+              </span>
+              <span class="value">
+                <gr-select id="rejectImplicitMergesSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Enable adding unregistered users as reviewers and CCs on
+                  changes
+              </span>
+              <span class="value">
+                <gr-select id="unRegisteredCcSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Set all new changes private by default
+              </span>
+              <span class="value">
+                <gr-select id="setAllnewChangesPrivateByDefaultSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Set new changes to "work in progress" by default
+              </span>
+              <span class="value">
+                <gr-select id="setAllNewChangesWorkInProgressByDefaultSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Maximum Git object size limit
+              </span>
+              <span class="value">
+                <iron-input
+                  disabled=""
+                  id="maxGitObjSizeIronInput"
+                  type="text"
+                >
+                  <input
+                    disabled="true"
+                    id="maxGitObjSizeInput"
+                    is="iron-input"
+                    type="text"
+                  >
+                </iron-input>
+                <dom-if style="display: none;">
+                  <template is="dom-if">
+                  </template>
+                </dom-if>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Match authored date with committer date upon submit
+              </span>
+              <span class="value">
+                <gr-select id="matchAuthoredDateWithCommitterDateSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Reject empty commit upon submit
+              </span>
+              <span class="value">
+                <gr-select id="rejectEmptyCommitSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+          </fieldset>
+          <h3
+            class="heading-3"
+            id="Options"
+          >
+            Contributor Agreements
+          </h3>
+          <fieldset id="agreements">
+            <section>
+              <span class="title">
+                Require a valid contributor agreement to upload
+              </span>
+              <span class="value">
+                <gr-select id="contributorAgreementSelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Require Signed-off-by in commit message
+              </span>
+              <span class="value">
+                <gr-select id="useSignedOffBySelect">
+                  <select disabled="true">
+                    <template is="dom-repeat">
+                    </template>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+          </fieldset>
+          <div class="pluginConfig">
+            <h3 class="heading-3">
+              Plugins
+            </h3>
+            <dom-repeat
+              as="data"
+              style="display: none;"
+            >
+              <template is="dom-repeat">
+              </template>
+            </dom-repeat>
+          </div>
+          <gr-button
+            disabled=""
+            role="button"
+            tabindex="0"
+          >
+            Save changes
+          </gr-button>
+        </fieldset>
+        <gr-endpoint-decorator name="repo-config">
+          <gr-endpoint-param name="repoName">
+          </gr-endpoint-param>
+          <gr-endpoint-param name="readOnly">
+          </gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </div>
+    </div>
+  </div>`);
+  });
+
   test('_computePluginData', () => {
     assert.deepEqual(element._computePluginData(), []);
     assert.deepEqual(element._computePluginData({}), []);

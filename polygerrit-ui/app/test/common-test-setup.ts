@@ -36,6 +36,7 @@ import {safeTypesBridge} from '../utils/safe-types-util';
 import {_testOnly_initGerritPluginApi} from '../elements/shared/gr-js-api-interface/gr-gerrit';
 import {initGlobalVariables} from '../elements/gr-app-global-var-init';
 import 'chai/chai';
+import {chaiDomDiff} from '@open-wc/semantic-dom-diff';
 import {
   _testOnly_defaultResinReportHandler,
   installPolymerResin,
@@ -59,6 +60,7 @@ declare global {
     fixture: typeof fixtureImpl;
     stub: typeof stubImpl;
     sinon: typeof sinon;
+    chai: typeof chai;
   }
   let assert: typeof chai.assert;
   let expect: typeof chai.expect;
@@ -67,6 +69,7 @@ declare global {
 }
 window.assert = chai.assert;
 window.expect = chai.expect;
+window.chai.use(chaiDomDiff);
 
 window.sinon = sinon;
 

@@ -34,6 +34,24 @@
       "parentUuid": "9e886d53_abb1b01d",
       "revId": "4052c45e7c35c840ccf02dda3ee2e0b6da520c85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3edff9ef_0237e726",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-10T18:32:50Z",
+      "side": 1,
+      "message": "I think that\u0027s a fair question to raise and if so we should remove this, but until that\u0027s decided let\u0027s at least keep it in sync.\n\nI think it\u0027s fine to remove it",
+      "parentUuid": "536c768f_c0216e65",
+      "revId": "4052c45e7c35c840ccf02dda3ee2e0b6da520c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

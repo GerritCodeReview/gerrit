@@ -257,7 +257,7 @@ public class Submit
           return "Change " + c.getId() + " is marked work in progress";
         }
         try {
-          MergeOp.checkSubmitRule(c, false);
+          MergeOp.checkSubmitRule(c);
         } catch (ResourceConflictException e) {
           return "Change " + c.getId() + " is not ready: " + e.getMessage();
         }
@@ -299,7 +299,7 @@ public class Submit
 
     ChangeData cd = resource.getChangeResource().getChangeData();
     try {
-      MergeOp.checkSubmitRule(cd, false);
+      MergeOp.checkSubmitRule(cd);
     } catch (ResourceConflictException e) {
       return null; // submit not visible
     }

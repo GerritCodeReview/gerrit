@@ -89,6 +89,11 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
   }
 
   @Override
+  public void insert(ChangeData obj) {
+    throw new UnsupportedOperationException("don't use ChangeSubIndex directly");
+  }
+
+  @Override
   public void replace(ChangeData obj) {
     throw new UnsupportedOperationException("don't use ChangeSubIndex directly");
   }

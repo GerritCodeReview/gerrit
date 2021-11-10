@@ -85,6 +85,7 @@ import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
 import com.google.gerrit.server.index.AutoFlush;
+import com.google.gerrit.server.index.IndexInsertOnly;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
@@ -514,7 +515,7 @@ public class Daemon extends SiteProgram {
       return luceneModule;
     }
     if (indexType.isLucene()) {
-      return LuceneIndexModule.latestVersion(replica, AutoFlush.ENABLED);
+      return LuceneIndexModule.latestVersion(replica, AutoFlush.ENABLED, IndexInsertOnly.DISABLED);
     }
     if (indexType.isElasticsearch()) {
       return ElasticIndexModule.latestVersion(replica);

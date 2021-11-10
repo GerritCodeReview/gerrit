@@ -77,6 +77,7 @@ import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.SystemReaderInstaller;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.AutoFlush;
+import com.google.gerrit.server.index.IndexInsertOnly;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
@@ -354,7 +355,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
   private Module createIndexModule() {
     if (indexType.isLucene()) {
-      return LuceneIndexModule.latestVersion(false, AutoFlush.ENABLED);
+      return LuceneIndexModule.latestVersion(false, AutoFlush.ENABLED, IndexInsertOnly.DISABLED);
     } else if (indexType.isElasticsearch()) {
       return ElasticIndexModule.latestVersion(false);
     } else {

@@ -32,6 +32,7 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.AutoFlush;
+import com.google.gerrit.server.index.IndexInsertOnly;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
@@ -155,7 +156,7 @@ public class Reindex extends SiteProgram {
     if (indexType.isLucene()) {
       indexModule =
           LuceneIndexModule.singleVersionWithExplicitVersions(
-              versions, threads, replica, AutoFlush.DISABLED);
+              versions, threads, replica, AutoFlush.DISABLED, IndexInsertOnly.ENABLED);
     } else if (indexType.isElasticsearch()) {
       indexModule =
           ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);

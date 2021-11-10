@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.IndexInsertOnly;
 import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -78,6 +79,7 @@ public class ChangeIndexer {
   private final PluginSetContext<ChangeIndexedListener> indexedListeners;
   private final StalenessChecker stalenessChecker;
   private final boolean autoReindexIfStale;
+  private final IndexInsertOnly insertOnly;
 
   private final Set<IndexTask> queuedIndexTasks =
       Collections.newSetFromMap(new ConcurrentHashMap<>());
@@ -94,7 +96,8 @@ public class ChangeIndexer {
       StalenessChecker stalenessChecker,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
-      @Assisted ChangeIndex index) {
+      @Assisted ChangeIndex index,
+      IndexInsertOnly insertOnly) {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
@@ -105,6 +108,7 @@ public class ChangeIndexer {
     this.autoReindexIfStale = autoReindexIfStale(cfg);
     this.index = index;
     this.indexes = null;
+    this.insertOnly = insertOnly;
   }
 
   @AssistedInject
@@ -117,7 +121,8 @@ public class ChangeIndexer {
       StalenessChecker stalenessChecker,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
-      @Assisted ChangeIndexCollection indexes) {
+      @Assisted ChangeIndexCollection indexes,
+      IndexInsertOnly insertOnly) {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
@@ -128,6 +133,7 @@ public class ChangeIndexer {
     this.autoReindexIfStale = autoReindexIfStale(cfg);
     this.index = null;
     this.indexes = indexes;
+    this.insertOnly = insertOnly;
   }
 
   private static boolean autoReindexIfStale(Config cfg) {
@@ -198,7 +204,6 @@ public class ChangeIndexer {
   }
 
   private void indexImpl(ChangeData cd) {
-    logger.atFine().log("Replace change %d in index.", cd.getId().get());
     for (Index<?, ChangeData> i : getWriteIndexes()) {
       try (TraceTimer traceTimer =
           TraceContext.newTimer(
@@ -208,7 +213,13 @@ public class ChangeIndexer {
                   .patchSetId(cd.currentPatchSet().number())
                   .indexVersion(i.getSchema().getVersion())
                   .build())) {
-        i.replace(cd);
+        if (insertOnly.equals(IndexInsertOnly.ENABLED)) {
+          logger.atFine().log("Insert change %d in index.", cd.getId().get());
+          i.insert(cd);
+        } else {
+          logger.atFine().log("Replace change %d in index.", cd.getId().get());
+          i.replace(cd);
+        }
       } catch (RuntimeException e) {
         throw new StorageException(
             String.format(

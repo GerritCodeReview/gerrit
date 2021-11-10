@@ -46,6 +46,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.index.AutoFlush;
+import com.google.gerrit.server.index.IndexInsertOnly;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.ReplicaUtil;
@@ -421,7 +422,7 @@ public class GerritServer implements AutoCloseable {
     daemon.setEnableHttpd(desc.httpd());
     daemon.setLuceneModule(
         LuceneIndexModule.singleVersionAllLatest(
-            0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED));
+            0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED, IndexInsertOnly.DISABLED));
     daemon.setDatabaseForTesting(
         ImmutableList.of(
             new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),

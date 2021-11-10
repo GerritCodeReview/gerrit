@@ -21,6 +21,7 @@ import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.AutoFlush;
+import com.google.gerrit.server.index.IndexInsertOnly;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -31,25 +32,32 @@ import org.eclipse.jgit.lib.Config;
 
 public class LuceneIndexModule extends AbstractIndexModule {
   private final AutoFlush autoFlush;
+  private final IndexInsertOnly indexInsertOnly;
 
   public static LuceneIndexModule singleVersionAllLatest(
-      int threads, boolean slave, AutoFlush autoFlush) {
-    return new LuceneIndexModule(ImmutableMap.of(), threads, slave, autoFlush);
+      int threads, boolean slave, AutoFlush autoFlush, IndexInsertOnly indexInsertOnly) {
+    return new LuceneIndexModule(ImmutableMap.of(), threads, slave, autoFlush, indexInsertOnly);
   }
 
   @VisibleForTesting
   public static LuceneIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads, boolean slave) {
-    return new LuceneIndexModule(versions, threads, slave, AutoFlush.ENABLED);
+    return new LuceneIndexModule(
+        versions, threads, slave, AutoFlush.ENABLED, IndexInsertOnly.DISABLED);
   }
 
   public static LuceneIndexModule singleVersionWithExplicitVersions(
-      Map<String, Integer> versions, int threads, boolean slave, AutoFlush autoFlush) {
-    return new LuceneIndexModule(versions, threads, slave, autoFlush);
+      Map<String, Integer> versions,
+      int threads,
+      boolean slave,
+      AutoFlush autoFlush,
+      IndexInsertOnly indexInsertOnly) {
+    return new LuceneIndexModule(versions, threads, slave, autoFlush, indexInsertOnly);
   }
 
-  public static LuceneIndexModule latestVersion(boolean slave, AutoFlush autoFlush) {
-    return new LuceneIndexModule(null, 0, slave, autoFlush);
+  public static LuceneIndexModule latestVersion(
+      boolean slave, AutoFlush autoFlush, IndexInsertOnly indexInsertOnly) {
+    return new LuceneIndexModule(null, 0, slave, autoFlush, indexInsertOnly);
   }
 
   static boolean isInMemoryTest(Config cfg) {
@@ -57,15 +65,21 @@ public class LuceneIndexModule extends AbstractIndexModule {
   }
 
   private LuceneIndexModule(
-      Map<String, Integer> singleVersions, int threads, boolean slave, AutoFlush autoFlush) {
+      Map<String, Integer> singleVersions,
+      int threads,
+      boolean slave,
+      AutoFlush autoFlush,
+      IndexInsertOnly indexInsertOnly) {
     super(singleVersions, threads, slave);
     this.autoFlush = autoFlush;
+    this.indexInsertOnly = indexInsertOnly;
   }
 
   @Override
   protected void configure() {
     super.configure();
     bind(AutoFlush.class).toInstance(autoFlush);
+    bind(IndexInsertOnly.class).toInstance(indexInsertOnly);
   }
 
   @Override

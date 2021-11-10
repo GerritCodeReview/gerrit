@@ -44,6 +44,11 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
 
   @Override
   public Predicate<ChangeData> is(String value) throws QueryParseException {
+    if ("submittable".equalsIgnoreCase(value)) {
+      throw new QueryParseException(
+          String.format(
+              "Operator 'is:submittable' cannot be used in submit requirement expressions."));
+    }
     if ("true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value)) {
       return new ConstantPredicate(value);
     }

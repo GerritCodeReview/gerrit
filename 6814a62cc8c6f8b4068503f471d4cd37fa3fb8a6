@@ -298,6 +298,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b603190f_fc6da712",
+        "filename": "java/com/google/gerrit/pgm/init/ExternalIdsOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T09:40:27Z",
+      "side": 1,
+      "message": "In my opinion both are system settings, isUserNameCaseInsensitive tells how to calculate sha1 and isUserNameCaseInsensitiveMigrationMode tells if we are during the online migration process. isUserNameCaseInsensitive is a global setting *not* a setting per account! I\u0027m not sure why is added to proto but this is out of scope for this change",
+      "parentUuid": "d9ba9200_86f20b38",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 69
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04b58a56_102d6262",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 4

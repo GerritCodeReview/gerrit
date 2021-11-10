@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6684c97_9e6fc1aa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-10T09:29:18Z",
+      "side": 1,
+      "message": "Why await this?",
+      "revId": "50b22bee68edd538b86270d6f3e59ce9f7e4ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9fbf56a_d6e86501",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-10T09:29:18Z",
+      "side": 1,
+      "message": "Maybe a separate render method for each section?",
+      "revId": "50b22bee68edd538b86270d6f3e59ce9f7e4ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21977ca1_12db0501",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1120,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-10T09:29:18Z",
+      "side": 1,
+      "message": "Here and in other places: You can do\n\n  !this.repoConfig?.reject_empty_commit\n  \ninstead of\n\n    !this.repoConfig || !this.repoConfig.reject_empty_commit\n    \nThen maybe all these if statements fit on one line?",
+      "range": {
+        "startLine": 1120,
+        "startChar": 6,
+        "endLine": 1120,
+        "endChar": 42
+      },
+      "revId": "50b22bee68edd538b86270d6f3e59ce9f7e4ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

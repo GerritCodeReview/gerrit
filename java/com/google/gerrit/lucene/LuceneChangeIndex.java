@@ -287,6 +287,23 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Override
+  public void insert(ChangeData cd) {
+    Term id = LuceneChangeIndex.idTerm(idTerm, idField, cd);
+    // toDocument is essentially static and doesn't depend on the specific
+    // sub-index, so just pick one.
+    Document doc = openIndex.toDocument(cd);
+    try {
+      if (cd.change().isNew()) {
+        openIndex.insert(doc).get();
+      } else {
+        closedIndex.insert(doc).get();
+      }
+    } catch (ExecutionException | InterruptedException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  @Override
   public void delete(Change.Id changeId) {
     Term id = LuceneChangeIndex.idTerm(idTerm, idField, changeId);
     try {

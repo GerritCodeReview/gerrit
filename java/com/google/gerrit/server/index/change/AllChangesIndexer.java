@@ -303,7 +303,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         return;
       }
       try {
-        indexer.index(changeDataFactory.create(r.notes()));
+        indexer.index(changeDataFactory.create(r.notes()), true);
         done.update(1);
         verboseWriter.format(
             "Reindexed change %d (project: %s)\n", r.id().get(), r.notes().getProjectName().get());

@@ -79,7 +79,7 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
               () -> {
                 try {
                   projectCache.evict(name);
-                  index.replace(
+                  index.insert(
                       projectCache.get(name).orElseThrow(illegalState(name)).toProjectData());
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();

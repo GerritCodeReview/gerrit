@@ -175,6 +175,11 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   @Override
+  public void insert(V obj) {
+    replace(obj);
+  }
+
+  @Override
   public void deleteAll() {
     // Delete the index, if it exists.
     String endpoint = indexName + client.adapter().indicesExistParams();

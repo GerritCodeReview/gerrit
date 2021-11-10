@@ -123,6 +123,30 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirement_alwaysNotApplicable() {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "is:false",
+            /* submittabilityExpr= */ "",
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.NOT_APPLICABLE);
+  }
+
+  @Test
+  public void submitRequirement_alwaysApplicable() {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "is:true",
+            /* submittabilityExpr= */ "is:true",
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+  }
+
+  @Test
   public void submitRequirementIsSatisfied_whenSubmittabilityExpressionIsTrue() throws Exception {
     SubmitRequirement sr =
         createSubmitRequirement(

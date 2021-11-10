@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5c85899_12a63d64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:11:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "423619f7_b6b49372",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1ada17b_e2a16d77",
@@ -825,6 +849,24 @@
       "writtenOn": "2021-11-09T15:11:49Z",
       "side": 1,
       "message": "If you follow my suggestion to not store `isUserNameCaseInsensitiveMigrationMode` in the ExternalId.Key object, you could create a method in ExternalIdKeyFactory that takes an existing key and returns a key with switched case sensitivity, which could be used here.",
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3121257_73dc35f3",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:11:58Z",
+      "side": 1,
+      "message": "With the newest code we do not store  `isUserNameCaseInsensitiveMigrationMode` in the ExternalId.Key object",
+      "parentUuid": "50241552_61a889ae",
       "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28bdf972_fe4a41c2",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-10T01:52:45Z",
+      "side": 1,
+      "message": "Looks like yes. Let\u0027s get that fixed before we submit or merge up more.",
+      "parentUuid": "1089ab43_dc2a4cde",
+      "range": {
+        "startLine": 438,
+        "startChar": 10,
+        "endLine": 438,
+        "endChar": 25
+      },
+      "revId": "2f3a7d70dc69322b658c2224ffb893b0ffc2e2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a95cbd4c_6fa27a11",
         "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2021-11-09T22:43:42Z",
       "side": 1,
       "message": "this is on line 28 already",
+      "revId": "2f3a7d70dc69322b658c2224ffb893b0ffc2e2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dce76600_42c404cb",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-10T01:52:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a95cbd4c_6fa27a11",
       "revId": "2f3a7d70dc69322b658c2224ffb893b0ffc2e2b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

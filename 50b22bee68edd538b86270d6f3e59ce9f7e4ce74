@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40993144_15cbbe7a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T14:09:39Z",
+      "side": 1,
+      "message": "I presumed this was needed, removing. Thanks!",
+      "parentUuid": "f6684c97_9e6fc1aa",
+      "revId": "50b22bee68edd538b86270d6f3e59ce9f7e4ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9fbf56a_d6e86501",
@@ -58,6 +76,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b97e3ba_3003a7c0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T14:09:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a9fbf56a_d6e86501",
+      "revId": "50b22bee68edd538b86270d6f3e59ce9f7e4ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21977ca1_12db0501",
@@ -71,6 +107,30 @@
       "writtenOn": "2021-11-10T09:29:18Z",
       "side": 1,
       "message": "Here and in other places: You can do\n\n  !this.repoConfig?.reject_empty_commit\n  \ninstead of\n\n    !this.repoConfig || !this.repoConfig.reject_empty_commit\n    \nThen maybe all these if statements fit on one line?",
+      "range": {
+        "startLine": 1120,
+        "startChar": 6,
+        "endLine": 1120,
+        "endChar": 42
+      },
+      "revId": "50b22bee68edd538b86270d6f3e59ce9f7e4ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6279f90f_ddd20b32",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1120,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T14:09:39Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "21977ca1_12db0501",
       "range": {
         "startLine": 1120,
         "startChar": 6,

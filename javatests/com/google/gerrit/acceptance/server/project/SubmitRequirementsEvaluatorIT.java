@@ -135,6 +135,19 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirementIsSatisfied_whenNoSubmittabilityExpressionIsConfigured()
+      throws Exception {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "project:" + project.get(),
+            /* submittabilityExpr= */ "",
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+  }
+
+  @Test
   public void submitRequirementIsUnsatisfied_whenSubmittabilityExpressionIsFalse()
       throws Exception {
     SubmitRequirement sr =
@@ -145,7 +158,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.UNSATISFIED);
-    assertThat(result.submittabilityExpressionResult().failingAtoms())
+    assertThat(result.submittabilityExpressionResult().get().failingAtoms())
         .containsExactly("label:\"Code-Review=+2\"");
   }
 
@@ -199,7 +212,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
-    assertThat(result.submittabilityExpressionResult().errorMessage().get())
+    assertThat(result.submittabilityExpressionResult().get().errorMessage().get())
         .isEqualTo("Unsupported operator invalid_field:invalid_value");
   }
 
@@ -266,13 +279,13 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   private SubmitRequirement createSubmitRequirement(
       @Nullable String applicabilityExpr,
-      String submittabilityExpr,
+      @Nullable String submittabilityExpr,
       @Nullable String overrideExpr) {
     return SubmitRequirement.builder()
         .setName("sr-name")
         .setDescription(Optional.of("sr-description"))
         .setApplicabilityExpression(SubmitRequirementExpression.of(applicabilityExpr))
-        .setSubmittabilityExpression(SubmitRequirementExpression.create(submittabilityExpr))
+        .setSubmittabilityExpression(SubmitRequirementExpression.of(submittabilityExpr))
         .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
         .setAllowOverrideInChildProjects(false)
         .build();

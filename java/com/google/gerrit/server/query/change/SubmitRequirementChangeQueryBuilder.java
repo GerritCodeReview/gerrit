@@ -15,7 +15,9 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.inject.Inject;
 
 /**
@@ -29,14 +31,31 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> def =
       new QueryBuilder.Definition<>(SubmitRequirementChangeQueryBuilder.class);
 
+  private final TruePredicate truePredicate;
+  private final FalsePredicate falsePredicate;
+
   @Inject
-  SubmitRequirementChangeQueryBuilder(Arguments args) {
+  SubmitRequirementChangeQueryBuilder(
+      Arguments args, TruePredicate truePredicate, FalsePredicate falsePredicate) {
     super(def, args);
+    this.truePredicate = truePredicate;
+    this.falsePredicate = falsePredicate;
   }
 
   @Override
   protected void checkFieldAvailable(FieldDef<ChangeData, ?> field, String operator) {
     // Submit requirements don't rely on the index, so they can be used regardless of index schema
     // version.
+  }
+
+  @Override
+  public Predicate<ChangeData> is(String value) throws QueryParseException {
+    if ("true".equals(value)) {
+      return truePredicate;
+    }
+    if ("false".equals(value)) {
+      return falsePredicate;
+    }
+    return super.is(value);
   }
 }

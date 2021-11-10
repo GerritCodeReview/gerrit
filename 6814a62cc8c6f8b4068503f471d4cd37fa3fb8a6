@@ -322,6 +322,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64d756d2_3d9856d3",
+        "filename": "java/com/google/gerrit/pgm/init/ExternalIdsOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-10T10:02:35Z",
+      "side": 1,
+      "message": "I added it to proto, because proto is used to cache external IDs and their keys. Unfortunately, the method loading the ExternalId from the cache [1] is static, and has to be AFAIK. Thus, I can\u0027t use the gerrit configuration there and have to rely on the cached value.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/account/externalids/AllExternalIds.java#95",
+      "parentUuid": "b603190f_fc6da712",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 69
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04b58a56_102d6262",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 4

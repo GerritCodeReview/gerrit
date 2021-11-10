@@ -40,7 +40,7 @@ public class SubmitRequirementJsonSerializerTest {
           .setName("CR")
           .setDescription(Optional.of("CR description"))
           .setApplicabilityExpression(SubmitRequirementExpression.of("branch:refs/heads/master"))
-          .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+          .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
           .setAllowOverrideInChildProjects(true)
           .build();
 
@@ -49,8 +49,8 @@ public class SubmitRequirementJsonSerializerTest {
           + "\"description\":{\"value\":\"CR description\"},"
           + "\"applicabilityExpression\":{\"value\":"
           + "{\"expressionString\":\"branch:refs/heads/master\"}},"
-          + "\"submittabilityExpression\":{"
-          + "\"expressionString\":\"label:Code-Review=+2\"},"
+          + "\"submittabilityExpression\":{\"value\":{"
+          + "\"expressionString\":\"label:Code-Review=+2\"}},"
           + "\"overrideExpression\":{\"value\":null},"
           + "\"allowOverrideInChildProjects\":true}";
 
@@ -78,7 +78,7 @@ public class SubmitRequirementJsonSerializerTest {
                   .setApplicabilityExpression(
                       SubmitRequirementExpression.of("branch:refs/heads/master"))
                   .setSubmittabilityExpression(
-                      SubmitRequirementExpression.create("label:\"Code-Review=+2\""))
+                      SubmitRequirementExpression.of("label:\"Code-Review=+2\""))
                   .setOverrideExpression(SubmitRequirementExpression.of("label:Override=+1"))
                   .setAllowOverrideInChildProjects(false)
                   .build())
@@ -91,11 +91,12 @@ public class SubmitRequirementJsonSerializerTest {
                       ImmutableList.of("refs/heads/master"),
                       ImmutableList.of())))
           .submittabilityExpressionResult(
-              SubmitRequirementExpressionResult.create(
-                  SubmitRequirementExpression.create("label:\"Code-Review=+2\""),
-                  Status.PASS,
-                  /* passingAtoms= */ ImmutableList.of("label:\"Code-Review=+2\""),
-                  /* failingAtoms= */ ImmutableList.of()))
+              Optional.of(
+                  SubmitRequirementExpressionResult.create(
+                      SubmitRequirementExpression.create("label:\"Code-Review=+2\""),
+                      Status.PASS,
+                      /* passingAtoms= */ ImmutableList.of("label:\"Code-Review=+2\""),
+                      /* failingAtoms= */ ImmutableList.of())))
           .overrideExpressionResult(
               Optional.of(
                   SubmitRequirementExpressionResult.create(
@@ -110,7 +111,8 @@ public class SubmitRequirementJsonSerializerTest {
       "{\"submitRequirement\":{\"name\":\"CR\",\"description\":{\"value\":\"CR Description\"},"
           + "\"applicabilityExpression\":{\"value\":{"
           + "\"expressionString\":\"branch:refs/heads/master\"}},"
-          + "\"submittabilityExpression\":{\"expressionString\":\"label:\\\"Code-Review=+2\\\"\"},"
+          + "\"submittabilityExpression\":{\"value\":{"
+          + "\"expressionString\":\"label:\\\"Code-Review=+2\\\"\"}},"
           + "\"overrideExpression\":{\"value\":{\"expressionString\":\"label:Override=+1\"}},"
           + "\"allowOverrideInChildProjects\":false},"
           + "\"applicabilityExpressionResult\":{\"value\":{"
@@ -118,11 +120,11 @@ public class SubmitRequirementJsonSerializerTest {
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
           + "\"passingAtoms\":[\"refs/heads/master\"],"
           + "\"failingAtoms\":[]}},"
-          + "\"submittabilityExpressionResult\":{"
+          + "\"submittabilityExpressionResult\":{\"value\":{"
           + "\"expression\":{\"expressionString\":\"label:\\\"Code-Review=+2\\\"\"},"
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
           + "\"passingAtoms\":[\"label:\\\"Code-Review=+2\\\"\"],"
-          + "\"failingAtoms\":[]},"
+          + "\"failingAtoms\":[]}},"
           + "\"overrideExpressionResult\":{\"value\":{"
           + "\"expression\":{\"expressionString\":\"label:Override=+1\"},"
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"

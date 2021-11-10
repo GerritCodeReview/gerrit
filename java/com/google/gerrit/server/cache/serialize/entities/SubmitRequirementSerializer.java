@@ -29,7 +29,7 @@ public class SubmitRequirementSerializer {
         .setApplicabilityExpression(
             SubmitRequirementExpression.of(proto.getApplicabilityExpression()))
         .setSubmittabilityExpression(
-            SubmitRequirementExpression.create(proto.getSubmittabilityExpression()))
+            SubmitRequirementExpression.of(proto.getSubmittabilityExpression()))
         .setOverrideExpression(SubmitRequirementExpression.of(proto.getOverrideExpression()))
         .setAllowOverrideInChildProjects(proto.getAllowOverrideInChildProjects())
         .build();
@@ -43,7 +43,7 @@ public class SubmitRequirementSerializer {
         .setApplicabilityExpression(
             submitRequirement.applicabilityExpression().orElse(emptyExpression).expressionString())
         .setSubmittabilityExpression(
-            submitRequirement.submittabilityExpression().expressionString())
+            submitRequirement.submittabilityExpression().orElse(emptyExpression).expressionString())
         .setOverrideExpression(
             submitRequirement.overrideExpression().orElse(emptyExpression).expressionString())
         .setAllowOverrideInChildProjects(submitRequirement.allowOverrideInChildProjects())

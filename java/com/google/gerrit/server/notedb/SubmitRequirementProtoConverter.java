@@ -32,6 +32,8 @@ public enum SubmitRequirementProtoConverter
 
   private static final FieldDescriptor SR_APPLICABILITY_EXPR_RESULT_FIELD =
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(2);
+  private static final FieldDescriptor SR_SUBMITTABILITY_EXPR_RESULT_FIELD =
+      SubmitRequirementResultProto.getDescriptor().findFieldByNumber(3);
   private static final FieldDescriptor SR_OVERRIDE_EXPR_RESULT_FIELD =
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(4);
   private static final FieldDescriptor SR_LEGACY_FIELD =
@@ -46,18 +48,21 @@ public enum SubmitRequirementProtoConverter
     if (r.legacy().isPresent()) {
       builder.setLegacy(r.legacy().get());
     }
-    if (r.applicabilityExpressionResult().isPresent()) {
-      builder.setApplicabilityExpressionResult(
-          SubmitRequirementExpressionResultSerializer.serialize(
-              r.applicabilityExpressionResult().get()));
-    }
-    builder.setSubmittabilityExpressionResult(
-        SubmitRequirementExpressionResultSerializer.serialize(r.submittabilityExpressionResult()));
-    if (r.overrideExpressionResult().isPresent()) {
-      builder.setOverrideExpressionResult(
-          SubmitRequirementExpressionResultSerializer.serialize(
-              r.overrideExpressionResult().get()));
-    }
+    r.applicabilityExpressionResult()
+        .ifPresent(
+            exp ->
+                builder.setApplicabilityExpressionResult(
+                    SubmitRequirementExpressionResultSerializer.serialize(exp)));
+    r.submittabilityExpressionResult()
+        .ifPresent(
+            exp ->
+                builder.setSubmittabilityExpressionResult(
+                    SubmitRequirementExpressionResultSerializer.serialize(exp)));
+    r.overrideExpressionResult()
+        .ifPresent(
+            exp ->
+                builder.setOverrideExpressionResult(
+                    SubmitRequirementExpressionResultSerializer.serialize(exp)));
     return builder.build();
   }
 
@@ -77,9 +82,12 @@ public enum SubmitRequirementProtoConverter
               SubmitRequirementExpressionResultSerializer.deserialize(
                   proto.getApplicabilityExpressionResult())));
     }
-    builder.submittabilityExpressionResult(
-        SubmitRequirementExpressionResultSerializer.deserialize(
-            proto.getSubmittabilityExpressionResult()));
+    if (proto.hasField(SR_SUBMITTABILITY_EXPR_RESULT_FIELD)) {
+      builder.submittabilityExpressionResult(
+          Optional.of(
+              SubmitRequirementExpressionResultSerializer.deserialize(
+                  proto.getSubmittabilityExpressionResult())));
+    }
     if (proto.hasField(SR_OVERRIDE_EXPR_RESULT_FIELD)) {
       builder.overrideExpressionResult(
           Optional.of(

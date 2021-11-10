@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@open-wc/karma-esm": "^2.16.16",
+    "@open-wc/semantic-dom-diff": "^0.19.5",
     "@polymer/iron-test-helpers": "^3.0.1",
     "@polymer/test-fixture": "^4.0.2",
     "accessibility-developer-tools": "^2.12.0",

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c567bde1_a75cee83",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-10T09:45:02Z",
+      "side": 1,
+      "message": "is this comment still relevant?",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 109,
+        "endChar": 76
+      },
+      "revId": "50b22bee68edd538b86270d6f3e59ce9f7e4ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f6684c97_9e6fc1aa",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
         "patchSetId": 6

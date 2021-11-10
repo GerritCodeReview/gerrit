@@ -302,6 +302,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   public void deleteAll() {
     try {
       writer.deleteAll();
+      writer.commit();
     } catch (IOException e) {
       throw new StorageException(e);
     }

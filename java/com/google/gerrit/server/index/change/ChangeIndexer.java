@@ -169,12 +169,16 @@ public class ChangeIndexer {
    * @param cd change to index.
    */
   public void index(ChangeData cd) {
-    fireChangeScheduledForIndexingEvent(cd.project().get(), cd.getId().get());
-    doIndex(cd);
+    index(cd, false);
   }
 
-  private void doIndex(ChangeData cd) {
-    indexImpl(cd);
+  public void index(ChangeData cd, boolean insertOnly) {
+    fireChangeScheduledForIndexingEvent(cd.project().get(), cd.getId().get());
+    doIndex(cd, insertOnly);
+  }
+
+  private void doIndex(ChangeData cd, boolean insertOnly) {
+    indexImpl(cd, insertOnly);
 
     // Always double-check whether the change might be stale immediately after
     // interactively indexing it. This fixes up the case where two writers write
@@ -197,7 +201,7 @@ public class ChangeIndexer {
     autoReindexIfStale(cd);
   }
 
-  private void indexImpl(ChangeData cd) {
+  private void indexImpl(ChangeData cd, boolean insertOnly) {
     logger.atFine().log("Replace change %d in index.", cd.getId().get());
     for (Index<?, ChangeData> i : getWriteIndexes()) {
       try (TraceTimer traceTimer =
@@ -208,7 +212,11 @@ public class ChangeIndexer {
                   .patchSetId(cd.currentPatchSet().number())
                   .indexVersion(i.getSchema().getVersion())
                   .build())) {
-        i.replace(cd);
+        if (insertOnly) {
+          i.insert(cd);
+        } else {
+          i.replace(cd);
+        }
       } catch (RuntimeException e) {
         throw new StorageException(
             String.format(
@@ -369,7 +377,7 @@ public class ChangeIndexer {
       remove();
       try {
         ChangeNotes changeNotes = notesFactory.createChecked(project, id);
-        doIndex(changeDataFactory.create(changeNotes));
+        doIndex(changeDataFactory.create(changeNotes), false);
       } catch (NoSuchChangeException e) {
         doDelete(id);
       }
@@ -449,7 +457,7 @@ public class ChangeIndexer {
         StalenessCheckResult stalenessCheckResult = stalenessChecker.check(id);
         if (stalenessCheckResult.isStale()) {
           logger.atInfo().log("Reindexing stale document %s", stalenessCheckResult);
-          indexImpl(changeDataFactory.create(project, id));
+          indexImpl(changeDataFactory.create(project, id), false);
           return true;
         }
       } catch (Exception e) {

@@ -159,16 +159,21 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
+  public void evictOnly(Project.NameKey p) {
+    if (p != null) {
+      logger.atFine().log("Evict project '%s'", p.get());
+      byName.invalidate(p.get());
+    }
+  }
+
+  @Override
   public void evict(Project p) {
     evict(p.getNameKey());
   }
 
   @Override
   public void evict(Project.NameKey p) {
-    if (p != null) {
-      logger.atFine().log("Evict project '%s'", p.get());
-      byName.invalidate(p.get());
-    }
+    evictOnly(p);
     indexer.get().index(p);
   }
 

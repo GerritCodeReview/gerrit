@@ -205,7 +205,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                   slice,
                   slices,
                   doneTask,
-                  failedTask));
+                  failedTask,
+                  true));
       String description = "project " + name + " (" + slice + "/" + slices + ")";
       addErrorListener(future, description, projTask, ok);
       futures.add(future);
@@ -242,7 +243,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   public Callable<Void> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
-    return reindexProject(indexer, project, 0, 1, done, failed);
+    return reindexProject(indexer, project, 0, 1, done, failed, false);
   }
 
   public Callable<Void> reindexProject(
@@ -251,8 +252,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       int slice,
       int slices,
       Task done,
-      Task failed) {
-    return new ProjectIndexer(indexer, project, slice, slices, done, failed);
+      Task failed,
+      boolean performOnlyInserts) {
+    return new ProjectIndexer(indexer, project, slice, slices, done, failed, performOnlyInserts);
   }
 
   private class ProjectIndexer implements Callable<Void> {
@@ -262,6 +264,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     private final int slices;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
+    private final boolean performOnlyInserts;
 
     private ProjectIndexer(
         ChangeIndexer indexer,
@@ -269,13 +272,15 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         int slice,
         int slices,
         ProgressMonitor done,
-        ProgressMonitor failed) {
+        ProgressMonitor failed,
+        boolean performOnlyInserts) {
       this.indexer = indexer;
       this.project = project;
       this.slice = slice;
       this.slices = slices;
       this.done = done;
       this.failed = failed;
+      this.performOnlyInserts = performOnlyInserts;
     }
 
     @Override
@@ -303,7 +308,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         return;
       }
       try {
-        indexer.index(changeDataFactory.create(r.notes()));
+        indexer.index(changeDataFactory.create(r.notes()), performOnlyInserts);
         done.update(1);
         verboseWriter.format(
             "Reindexed change %d (project: %s)\n", r.id().get(), r.notes().getProjectName().get());

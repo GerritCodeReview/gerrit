@@ -125,6 +125,15 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   }
 
   @Override
+  public void insert(ProjectData projectState) {
+    try {
+      insert(toDocument(projectState)).get();
+    } catch (ExecutionException | InterruptedException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  @Override
   public void delete(Project.NameKey nameKey) {
     try {
       delete(idTerm(nameKey)).get();

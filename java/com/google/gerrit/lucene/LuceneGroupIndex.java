@@ -125,6 +125,15 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   }
 
   @Override
+  public void insert(InternalGroup group) {
+    try {
+      insert(toDocument(group)).get();
+    } catch (ExecutionException | InterruptedException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  @Override
   public void delete(AccountGroup.UUID key) {
     try {
       delete(idTerm(key)).get();

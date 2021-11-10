@@ -32,6 +32,8 @@ public enum SubmitRequirementProtoConverter
 
   private static final FieldDescriptor SR_APPLICABILITY_EXPR_RESULT_FIELD =
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(2);
+  private static final FieldDescriptor SR_SUBMITTABILITY_EXPR_RESULT_FIELD =
+      SubmitRequirementResultProto.getDescriptor().findFieldByNumber(3);
   private static final FieldDescriptor SR_OVERRIDE_EXPR_RESULT_FIELD =
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(4);
   private static final FieldDescriptor SR_LEGACY_FIELD =
@@ -51,8 +53,11 @@ public enum SubmitRequirementProtoConverter
           SubmitRequirementExpressionResultSerializer.serialize(
               r.applicabilityExpressionResult().get()));
     }
-    builder.setSubmittabilityExpressionResult(
-        SubmitRequirementExpressionResultSerializer.serialize(r.submittabilityExpressionResult()));
+    if (r.submittabilityExpressionResult().isPresent()) {
+      builder.setSubmittabilityExpressionResult(
+          SubmitRequirementExpressionResultSerializer.serialize(
+              r.submittabilityExpressionResult().get()));
+    }
     if (r.overrideExpressionResult().isPresent()) {
       builder.setOverrideExpressionResult(
           SubmitRequirementExpressionResultSerializer.serialize(
@@ -77,9 +82,12 @@ public enum SubmitRequirementProtoConverter
               SubmitRequirementExpressionResultSerializer.deserialize(
                   proto.getApplicabilityExpressionResult())));
     }
-    builder.submittabilityExpressionResult(
-        SubmitRequirementExpressionResultSerializer.deserialize(
-            proto.getSubmittabilityExpressionResult()));
+    if (proto.hasField(SR_SUBMITTABILITY_EXPR_RESULT_FIELD)) {
+      builder.submittabilityExpressionResult(
+          Optional.of(
+              SubmitRequirementExpressionResultSerializer.deserialize(
+                  proto.getSubmittabilityExpressionResult())));
+    }
     if (proto.hasField(SR_OVERRIDE_EXPR_RESULT_FIELD)) {
       builder.overrideExpressionResult(
           Optional.of(

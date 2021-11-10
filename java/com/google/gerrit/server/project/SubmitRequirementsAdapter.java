@@ -103,14 +103,14 @@ public class SubmitRequirementsAdapter {
       SubmitRequirement.Builder req =
           SubmitRequirement.builder()
               .setName(label.label)
-              .setSubmittabilityExpression(toExpression(atoms))
+              .setSubmittabilityExpression(Optional.of(toExpression(atoms)))
               .setAllowOverrideInChildProjects(labelType.isCanOverride());
       result.add(
           SubmitRequirementResult.builder()
               .legacy(Optional.of(true))
               .submitRequirement(req.build())
               .submittabilityExpressionResult(
-                  createExpressionResult(toExpression(atoms), mapStatus(label), atoms))
+                  Optional.of(createExpressionResult(toExpression(atoms), mapStatus(label), atoms)))
               .patchSetCommitId(psCommitId)
               .build());
     }
@@ -125,7 +125,7 @@ public class SubmitRequirementsAdapter {
           SubmitRequirement.builder()
               .setName(ruleName)
               .setSubmittabilityExpression(
-                  SubmitRequirementExpression.create(String.format("rule:%s", ruleName)))
+                  SubmitRequirementExpression.of(String.format("rule:%s", ruleName)))
               .setAllowOverrideInChildProjects(false)
               .build();
       return ImmutableList.of(
@@ -133,8 +133,11 @@ public class SubmitRequirementsAdapter {
               .legacy(Optional.of(true))
               .submitRequirement(sr)
               .submittabilityExpressionResult(
-                  createExpressionResult(
-                      sr.submittabilityExpression(), mapStatus(record), ImmutableList.of(ruleName)))
+                  Optional.of(
+                      createExpressionResult(
+                          sr.submittabilityExpression().get(),
+                          mapStatus(record),
+                          ImmutableList.of(ruleName))))
               .patchSetCommitId(psCommitId)
               .build());
     }
@@ -144,7 +147,7 @@ public class SubmitRequirementsAdapter {
       SubmitRequirement sr =
           SubmitRequirement.builder()
               .setName(label.label)
-              .setSubmittabilityExpression(SubmitRequirementExpression.create(expressionString))
+              .setSubmittabilityExpression(SubmitRequirementExpression.of(expressionString))
               .setAllowOverrideInChildProjects(false)
               .build();
       result.add(
@@ -152,10 +155,11 @@ public class SubmitRequirementsAdapter {
               .legacy(Optional.of(true))
               .submitRequirement(sr)
               .submittabilityExpressionResult(
-                  createExpressionResult(
-                      sr.submittabilityExpression(),
-                      mapStatus(label),
-                      ImmutableList.of(expressionString)))
+                  Optional.of(
+                      createExpressionResult(
+                          sr.submittabilityExpression().get(),
+                          mapStatus(label),
+                          ImmutableList.of(expressionString))))
               .patchSetCommitId(psCommitId)
               .build());
     }

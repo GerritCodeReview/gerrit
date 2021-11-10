@@ -54,6 +54,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0410e496_5836b863",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-10T20:06:57Z",
+      "side": 1,
+      "message": "Sorry for slow review. ",
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98ab48e0_97e1b006",
@@ -95,6 +112,29 @@
         "startChar": 12,
         "endLine": 581,
         "endChar": 24
+      },
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d37a805_4c05eddc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-10T20:06:57Z",
+      "side": 1,
+      "message": "Btw. Do you need to change this section?\n\nI prefer old implementation because it is in theory faster.\n\nYou shouldn\u0027t await for getPreferences() to call getRepo. getRepoAccess, ...\n\nThis async code rewritten in promises is something like\n\n```\nthis.restApiService.getLoggedIn().then(() \u003d\u003e {\n   this.restApiService.getPreferences().then(() \u003d\u003e {\n      this.restApiService.getRepo(repoName).then(() \u003d\u003e {\n        this.restApiService.getRepoAccess.then(() \u003e {}\u0027\n      });\n    })\n})\n```\n\nso getRepoAccess needs to wait 3 request to get started. Before it just waited for getLoggedIn().",
+      "range": {
+        "startLine": 754,
+        "startChar": 8,
+        "endLine": 764,
+        "endChar": 47
       },
       "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

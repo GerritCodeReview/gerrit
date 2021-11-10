@@ -60,6 +60,7 @@ export const routerState$: Observable<RouterState> = privateState$;
 
 // Must only be used by the router service or whatever is in control of this
 // model.
+// TODO: Consider keeping params of type AppElementParams entirely in the state
 export function updateState(
   view?: GerritView,
   changeNum?: NumericChangeId,

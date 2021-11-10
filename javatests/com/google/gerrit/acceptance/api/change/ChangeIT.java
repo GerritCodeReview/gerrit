@@ -4557,6 +4557,42 @@ public class ChangeIT extends AbstractDaemonTest {
   @GerritConfig(
       name = "experiments.enabled",
       value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
+  public void submitRequirement_overriddenInChildProjectAsDisabled() throws Exception {
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("Custom-Requirement")
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(true)
+            .build());
+
+    // Override submit requirement in child project (requires Code-Review=+1 instead of +2)
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Custom-Requirement")
+            .setApplicabilityExpression(SubmitRequirementExpression.of("is:false"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(
+        change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ true);
+    assertSubmitRequirementStatus(
+        change.submitRequirements,
+        "Custom-Requirement",
+        Status.NOT_APPLICABLE,
+        /* isLegacy= */ false);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRequirement_inheritedFromParentProject() throws Exception {
     configSubmitRequirement(
         allProjects,

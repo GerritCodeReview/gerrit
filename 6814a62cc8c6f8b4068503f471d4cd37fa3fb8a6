@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e58990c7_da95d1a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d056133_d2c57b46",
+      "range": {
+        "startLine": 13,
+        "startChar": 38,
+        "endLine": 13,
+        "endChar": 43
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1ada17b_e2a16d77",
@@ -132,6 +156,30 @@
       "writtenOn": "2021-11-08T17:18:36Z",
       "side": 1,
       "message": "consider: while Gerrit process is running?",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c59e83c2_c60a2707",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1ada17b_e2a16d77",
       "range": {
         "startLine": 14,
         "startChar": 5,
@@ -173,6 +221,24 @@
       "side": 1,
       "message": "@Luca @Thomas I\u0027ve manage to refactor the code to not store the migration trial mode in the ExternalId key so the code looks much simpler.\n\n@Thomas thank you for the review I will address all your comments. It looks like the approach is correct so I will finalise the change by adding documentation and tests. After that I will remove the WIP",
       "parentUuid": "74069f47_6f82ea84",
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e94e0c07_2fa20db1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c38fbbc2_90243848",
       "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -334,6 +400,30 @@
       "side": 1,
       "message": "I added it to proto, because proto is used to cache external IDs and their keys. Unfortunately, the method loading the ExternalId from the cache [1] is static, and has to be AFAIK. Thus, I can\u0027t use the gerrit configuration there and have to rely on the cached value.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/account/externalids/AllExternalIds.java#95",
       "parentUuid": "b603190f_fc6da712",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 69
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3d89653_331d4251",
+        "filename": "java/com/google/gerrit/pgm/init/ExternalIdsOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "64d756d2_3d9856d3",
       "range": {
         "startLine": 71,
         "startChar": 0,
@@ -912,6 +1002,24 @@
       "side": 1,
       "message": "we are mocking AuthConfig in L63",
       "parentUuid": "01f53163_0108777f",
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78963193_25cab7b9",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c27ec1e9_c8361a73",
       "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

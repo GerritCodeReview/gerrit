@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e19b0dd8_c919bd93",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da322c43_f116347d",
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b72601c_0442f510",
@@ -87,6 +105,78 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cecb96ad_c1839f23",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12171b22_ca70365b",
+      "range": {
+        "startLine": 267,
+        "startChar": 17,
+        "endLine": 267,
+        "endChar": 21
+      },
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce82edec_acb021e5",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7363a62d_977d0304",
+      "range": {
+        "startLine": 267,
+        "startChar": 83,
+        "endLine": 267,
+        "endChar": 97
+      },
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0eae2688_1448b8de",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b72601c_0442f510",
+      "range": {
+        "startLine": 267,
+        "startChar": 37,
+        "endLine": 267,
+        "endChar": 40
+      },
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86cae36d_9a1ac4e4",
@@ -104,6 +194,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de63edd5_757291c6",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86cae36d_9a1ac4e4",
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39e1550f_a9ae57dd",
@@ -117,6 +225,30 @@
       "writtenOn": "2021-11-09T23:29:44Z",
       "side": 1,
       "message": "The isUserNameCaseInsensitive shadows the field with the same name, which is error-prone as visually you may not realise which one is used.",
+      "range": {
+        "startLine": 72,
+        "startChar": 50,
+        "endLine": 72,
+        "endChar": 75
+      },
+      "revId": "527ff994530b970f9357b3224c778a3d3c98a1f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1f57964_e0543020",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39e1550f_a9ae57dd",
       "range": {
         "startLine": 72,
         "startChar": 50,

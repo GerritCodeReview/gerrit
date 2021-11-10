@@ -213,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b75b7daa_c5959708",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "906ed986_3aad3ecd",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 7
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89257e47_716eec30",
@@ -226,6 +250,30 @@
       "writtenOn": "2021-11-05T16:59:03Z",
       "side": 1,
       "message": "nit: I would a bullet point here for clarity",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 9
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5336e53c_2aeb03e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89257e47_716eec30",
       "range": {
         "startLine": 19,
         "startChar": 0,
@@ -285,6 +333,24 @@
       "side": 1,
       "message": "\u003e Offline and online migration tool have dry run mode to find all the collisions. After fixing those when real migration finds collision it prints the message and stop\n\nCool! Can you make it clear in the documentation?",
       "parentUuid": "0df53cf1_c9ddd2c6",
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c0b6509_545d960c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T23:09:14Z",
+      "side": 1,
+      "message": "I will add that to followup change which is responsible for online migration tool",
+      "parentUuid": "eecaee65_c76dfe54",
       "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

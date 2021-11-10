@@ -27,6 +27,7 @@ import {CommentsService} from '../services/comments/comments-service';
 import {UserService} from '../services/user/user-service';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {queryAndAssert, query} from '../utils/common-util';
+import {FlagsService} from '../services/flags/flags';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise<T> extends Promise<T> {
@@ -136,6 +137,10 @@ export function stubAuth<K extends keyof AuthService>(method: K) {
 
 export function stubReporting<K extends keyof ReportingService>(method: K) {
   return sinon.stub(appContext.reportingService, method);
+}
+
+export function stubFlags<K extends keyof FlagsService>(method: K) {
+  return sinon.stub(appContext.flagsService, method);
 }
 
 export type SinonSpyMember<F extends (...args: any) => any> = SinonSpy<

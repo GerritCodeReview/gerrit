@@ -191,6 +191,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "906ed986_3aad3ecd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-10T09:19:34Z",
+      "side": 1,
+      "message": "Ok, makes sense. What about: \"With this change...\"",
+      "parentUuid": "1888a065_bed72076",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 7
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89257e47_716eec30",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -243,6 +267,24 @@
       "side": 1,
       "message": "\u003e 1) will the user be able to access the original data when rolling back? I suppose \u003e it will since the original version of the user is not deleted right?\n\nThe migration tool and online migration tool works both way so it can migrate account to case insensitive/sensitive\n\n\u003e 2) there will probably be a bunch of unwanted users created by the migration. It might be difficult to understand which ones are to delete to restore the initial status when rolling back. How can we cope with that?\n\nMigration tool replace the case sensitive sha1 with insensitive, in practice this means delete and add so no unwanted user accounts are created\n\n\u003e 3) Shall we make it clearer in the code we are in a trial mode? We only use it in one test.\n\nYes I will add proper tests and documentation. I posted WIP to make sure that I\u0027m moving into the right direction\n\n\u003e 4) Not strictly related to the trial mode, how do we handle the case where we have a sha1 collision? I guess we will have to manually fix this case, shall we make clear in the output which users collided?\n\nOffline and online migration tool have dry run mode to find all the collisions. After fixing those when real migration finds collision it prints the message and stop",
       "parentUuid": "b08a3d03_ecd6c27b",
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eecaee65_c76dfe54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-10T09:19:34Z",
+      "side": 1,
+      "message": "\u003e Offline and online migration tool have dry run mode to find all the collisions. After fixing those when real migration finds collision it prints the message and stop\n\nCool! Can you make it clear in the documentation?",
+      "parentUuid": "0df53cf1_c9ddd2c6",
       "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -482,6 +524,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51b68a7d_8a48d98a",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-10T09:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56d5024e_fb9141e0",
+      "range": {
+        "startLine": 62,
+        "startChar": 38,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03512b18_5c36801c",
@@ -519,6 +585,30 @@
       "side": 1,
       "message": "It\u0027s a bit different, migration mode is to be able to do the online migration. Trial mode is be able to rollback notedb migration.To be consistent I renamed to to CASE_SENSITIVE_MIGRATION_MODE",
       "parentUuid": "03512b18_5c36801c",
+      "range": {
+        "startLine": 48,
+        "startChar": 31,
+        "endLine": 48,
+        "endChar": 56
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea5504af_dfb070f7",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-10T09:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e47448a6_ff864142",
       "range": {
         "startLine": 48,
         "startChar": 31,
@@ -637,6 +727,30 @@
       "side": 1,
       "message": "Yes I will add tests if the approach is correct",
       "parentUuid": "67e16ab2_ba2a6150",
+      "range": {
+        "startLine": 59,
+        "startChar": 90,
+        "endLine": 59,
+        "endChar": 95
+      },
+      "revId": "f23e0f5bf57b0d80ccd8ad18d83260151f7d342e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80e96e67_32a8b3be",
+        "filename": "javatests/com/google/gerrit/server/index/account/AccountFieldTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-10T09:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98ba29d8_9722d856",
       "range": {
         "startLine": 59,
         "startChar": 90,

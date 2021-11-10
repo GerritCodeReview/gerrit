@@ -274,6 +274,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d9ba9200_86f20b38",
+        "filename": "java/com/google/gerrit/pgm/init/ExternalIdsOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-10T09:19:34Z",
+      "side": 1,
+      "message": "Echoing tony\u0027s doubt. I initially thought \"isUserNameCaseInsensitive\" was an account setting while \"isUserNameCaseInsensitiveMigrationMode\" a system status value, i.e.: we are in the middle of a migration or not.\n\nI am not sure anymore. While I still think is the case for \"isUserNameCaseInsensitiveMigrationMode\" (i.e.: I still think it represents a system status), I don\u0027t understand if we can have cases where, without any migration going on, \"isUserNameCaseInsensitive\" can be false for some users and true for some other. 😕",
+      "parentUuid": "876c44de_2bda7955",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 69
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04b58a56_102d6262",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 4

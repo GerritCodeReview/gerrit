@@ -59,6 +59,7 @@ import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+import com.google.inject.multibindings.OptionalBinder;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -143,6 +144,9 @@ public class IndexModule extends LifecycleModule {
     }
 
     DynamicSet.setOf(binder(), OnlineUpgradeListener.class);
+    OptionalBinder.newOptionalBinder(binder(), IndexInsertOnly.class)
+        .setDefault()
+        .toInstance(IndexInsertOnly.DISABLED);
   }
 
   @Provides

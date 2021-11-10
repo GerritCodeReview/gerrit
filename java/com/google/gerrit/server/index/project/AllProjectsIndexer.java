@@ -27,6 +27,7 @@ import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.IndexInsertOnly;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -48,12 +49,16 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
 
   private final ListeningExecutorService executor;
   private final ProjectCache projectCache;
+  private final IndexInsertOnly insertOnly;
 
   @Inject
   AllProjectsIndexer(
-      @IndexExecutor(BATCH) ListeningExecutorService executor, ProjectCache projectCache) {
+      @IndexExecutor(BATCH) ListeningExecutorService executor,
+      ProjectCache projectCache,
+      IndexInsertOnly insertOnly) {
     this.executor = executor;
     this.projectCache = projectCache;
+    this.insertOnly = insertOnly;
   }
 
   @Override
@@ -78,9 +83,14 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
           executor.submit(
               () -> {
                 try {
-                  projectCache.evict(name);
-                  index.replace(
-                      projectCache.get(name).orElseThrow(illegalState(name)).toProjectData());
+                  projectCache.evictOnly(name);
+                  ProjectData projectData =
+                      projectCache.get(name).orElseThrow(illegalState(name)).toProjectData();
+                  if (insertOnly.equals(IndexInsertOnly.ENABLED)) {
+                    index.insert(projectData);
+                  } else {
+                    index.replace(projectData);
+                  }
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();
                 } catch (Exception e) {

@@ -23,6 +23,7 @@ import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.index.IndexInsertOnly;
 import com.google.gerrit.server.index.SingleVersionModule;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
@@ -36,6 +37,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
+import com.google.inject.multibindings.OptionalBinder;
 import com.google.inject.name.Names;
 import com.google.inject.util.Providers;
 import java.util.Collection;
@@ -79,6 +81,9 @@ public class IndexModuleOnInit extends AbstractModule {
     bind(LifecycleListener.class)
         .annotatedWith(Names.named(INDEX_MANAGER))
         .to(SingleVersionListener.class);
+    OptionalBinder.newOptionalBinder(binder(), IndexInsertOnly.class)
+        .setBinding()
+        .toInstance(IndexInsertOnly.ENABLED);
   }
 
   @Provides

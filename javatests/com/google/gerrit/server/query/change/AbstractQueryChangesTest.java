@@ -3017,6 +3017,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_ENABLE_SUBMIT_REQUIREMENTS)
   public void submitRecords() throws Exception {
     Account.Id user1 = createAccount("user1");
     TestRepository<Repo> repo = createProject("repo");

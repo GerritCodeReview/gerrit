@@ -671,22 +671,6 @@ suite('gr-router tests', () => {
       assert.equal(redirectStub.lastCall.args[0], '/q/foo+bar');
     });
 
-    test('_handleQueryRoute', () => {
-      const data = {params: ['project:foo/bar/baz']};
-      assertDataToParams(data, '_handleQueryRoute', {
-        view: GerritNav.View.SEARCH,
-        query: 'project:foo/bar/baz',
-        offset: undefined,
-      });
-
-      data.params.push(',123', '123');
-      assertDataToParams(data, '_handleQueryRoute', {
-        view: GerritNav.View.SEARCH,
-        query: 'project:foo/bar/baz',
-        offset: '123',
-      });
-    });
-
     test('_handleChangeIdQueryRoute', () => {
       const data = {params: ['I0123456789abcdef0123456789abcdef01234567']};
       assertDataToParams(data, '_handleChangeIdQueryRoute', {

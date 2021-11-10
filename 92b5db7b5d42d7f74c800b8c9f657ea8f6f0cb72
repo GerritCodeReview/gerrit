@@ -122,6 +122,30 @@
       },
       "revId": "92b5db7b5d42d7f74c800b8c9f657ea8f6f0cb72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0759445_e5e4ac31",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-11-10T10:40:55Z",
+      "side": 1,
+      "message": "wasn\u0027t this one of the problems that drop ES support would solve?",
+      "parentUuid": "2b6d2130_ad45254f",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 24
+      },
+      "revId": "92b5db7b5d42d7f74c800b8c9f657ea8f6f0cb72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

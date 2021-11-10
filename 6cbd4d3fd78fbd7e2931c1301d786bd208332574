@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eca56401_d5a933e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-10T13:06:12Z",
+      "side": 1,
+      "message": "This breaks the previous index version tests because the new change field is not defined.",
+      "revId": "6cbd4d3fd78fbd7e2931c1301d786bd208332574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

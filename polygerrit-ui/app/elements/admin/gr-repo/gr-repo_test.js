@@ -309,7 +309,7 @@ suite('gr-repo tests', () => {
       await element._loadRepo();
       assert.isTrue(button.hasAttribute('disabled'));
       assert.isFalse(element.$.Title.classList.contains('edited'));
-      element.$.descriptionInput.bindValue = configInputObj.description;
+      element.$.descriptionInput.text = configInputObj.description;
       element.$.stateSelect.bindValue = configInputObj.state;
       element.$.submitTypeSelect.bindValue = configInputObj.submit_type;
       element.$.contentMergeSelect.bindValue =

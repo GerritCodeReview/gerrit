@@ -54,7 +54,7 @@ import {
 import {PageErrorEvent} from '../../../types/events.js';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrSelect} from '../../shared/gr-select/gr-select';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
 
 const basicFixture = fixtureFromElement('gr-repo');
@@ -494,10 +494,8 @@ suite('gr-repo tests', () => {
           '#Title'
         ).classList.contains('edited')
       );
-      queryAndAssert<IronAutogrowTextareaElement>(
-        element,
-        '#descriptionInput'
-      ).bindValue = configInputObj.description;
+      queryAndAssert<GrTextarea>(element, '#descriptionInput').text =
+        configInputObj.description;
       queryAndAssert<GrSelect>(element, '#stateSelect').bindValue =
         configInputObj.state;
       queryAndAssert<GrSelect>(element, '#submitTypeSelect').bindValue =

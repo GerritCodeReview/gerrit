@@ -415,6 +415,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f306170_33064b74",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-10T14:00:20Z",
+      "side": 1,
+      "message": "Good catch! This is just leftover, we are doing the fallback already in L147 inside `externalIds.get` method",
+      "parentUuid": "b6f713cc_0f305f61",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 21
+      },
+      "revId": "6814a62cc8c6f8b4068503f471d4cd37fa3fb8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e6f27fe_4409c1a1",

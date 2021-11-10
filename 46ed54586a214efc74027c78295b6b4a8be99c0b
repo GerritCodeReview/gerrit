@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95954eb7_43a846be",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-10T16:20:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91babfff_5c3003e7",
+      "range": {
+        "startLine": 1564,
+        "startChar": 0,
+        "endLine": 1564,
+        "endChar": 51
+      },
+      "revId": "46ed54586a214efc74027c78295b6b4a8be99c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a30f29d5_61c6edc7",
@@ -83,6 +107,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a36eadca_37f44ad1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-10T16:20:28Z",
+      "side": 1,
+      "message": "The test for that already exists. What exactly do you want to test when the flag is false?",
+      "parentUuid": "a30f29d5_61c6edc7",
+      "range": {
+        "startLine": 677,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 0
+      },
+      "revId": "46ed54586a214efc74027c78295b6b4a8be99c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "59ef21e6_83c38175",
         "filename": "polygerrit-ui/app/test/test-utils.ts",
         "patchSetId": 4
@@ -94,6 +142,30 @@
       "writtenOn": "2021-11-10T15:30:18Z",
       "side": 1,
       "message": "This util should accept the specific flags to stub instead of the method name which would always be \u0027isEnabled\u0027. Looks like you can use withArgs to do that:\nhttps://sinonjs.org/releases/latest/stubs/",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 0
+      },
+      "revId": "46ed54586a214efc74027c78295b6b4a8be99c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f35181b8_a13e37b0",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-10T16:20:28Z",
+      "side": 1,
+      "message": "Nice!\nAdded in the test method though.\n\n stubFlags(\u0027isEnabled\u0027).withArgs(KnownExperimentId.TOPICS_PAGE)\n          .returns(true);",
+      "parentUuid": "59ef21e6_83c38175",
       "range": {
         "startLine": 142,
         "startChar": 0,

@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9630b315_698c2a0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-10T15:30:18Z",
+      "side": 1,
+      "message": "add googbug# 201529567",
+      "revId": "46ed54586a214efc74027c78295b6b4a8be99c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c717df60_05612f01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-10T15:30:18Z",
+      "side": 1,
+      "message": "Just a few small things. Overall it\u0027s good.",
+      "revId": "46ed54586a214efc74027c78295b6b4a8be99c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91babfff_5c3003e7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-10T15:30:18Z",
+      "side": 1,
+      "message": "return afterwards to avoid reaching the normal _setParams below?",
+      "range": {
+        "startLine": 1564,
+        "startChar": 0,
+        "endLine": 1564,
+        "endChar": 51
+      },
+      "revId": "46ed54586a214efc74027c78295b6b4a8be99c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a30f29d5_61c6edc7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-10T15:30:18Z",
+      "side": 1,
+      "message": "add test where flag is false",
+      "range": {
+        "startLine": 677,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 0
+      },
+      "revId": "46ed54586a214efc74027c78295b6b4a8be99c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59ef21e6_83c38175",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-10T15:30:18Z",
+      "side": 1,
+      "message": "This util should accept the specific flags to stub instead of the method name which would always be \u0027isEnabled\u0027. Looks like you can use withArgs to do that:\nhttps://sinonjs.org/releases/latest/stubs/",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 0
+      },
+      "revId": "46ed54586a214efc74027c78295b6b4a8be99c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

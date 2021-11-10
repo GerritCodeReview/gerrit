@@ -430,7 +430,7 @@ public abstract class VersionedMetaData {
           inserter = null;
         }
 
-        if (reader != null) {
+        if (objReader == null && reader != null) {
           reader.close();
           reader = null;
         }

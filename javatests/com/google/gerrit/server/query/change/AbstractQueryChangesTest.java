@@ -3028,8 +3028,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(change2.getId().get()).current().review(ReviewInput.recommend());
     requestContext.setContext(newRequestContext(user.getAccountId()));
 
-    assertQuery("is:submittable", change1);
-    assertQuery("-is:submittable", change2);
+    if (getSchema().hasField(ChangeField.IS_SUBMITTABLE)) {
+      assertQuery("is:submittable", change1);
+      assertQuery("-is:submittable", change2);
+    }
 
     assertQuery("label:CodE-RevieW=ok", change1);
     assertQuery("label:CodE-RevieW=ok,user=user", change1);

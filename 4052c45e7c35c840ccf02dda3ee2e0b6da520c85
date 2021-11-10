@@ -16,6 +16,24 @@
       "message": "Please update this documentation.",
       "revId": "4052c45e7c35c840ccf02dda3ee2e0b6da520c85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "536c768f_c0216e65",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-10T18:30:35Z",
+      "side": 1,
+      "message": "Lot of this seems redundant now that we have typescript (the required optional, part).\nThe variable name is also pretty self explanatory. Do you see much value in this documentation?",
+      "parentUuid": "9e886d53_abb1b01d",
+      "revId": "4052c45e7c35c840ccf02dda3ee2e0b6da520c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

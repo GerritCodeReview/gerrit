@@ -34,12 +34,15 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.options.AutoFlush;
+import com.google.gerrit.server.index.options.WriteMode;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.util.ReplicaUtil;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.multibindings.OptionalBinder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -163,6 +166,16 @@ public class Reindex extends SiteProgram {
       throw new IllegalStateException("unsupported index.type = " + indexType);
     }
     modules.add(indexModule);
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            super.configure();
+            OptionalBinder.newOptionalBinder(binder(), WriteMode.class)
+                .setBinding()
+                .toInstance(WriteMode.INSERT);
+          }
+        });
     modules.add(new BatchProgramModule());
     modules.add(
         new FactoryModule() {

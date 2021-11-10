@@ -5961,6 +5961,29 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirements_disallowsTheIsSubmittableOperator() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Wrong-Req")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("is:submittable"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    SubmitRequirementResultInfo srResult =
+        change.submitRequirements.stream()
+            .filter(sr -> sr.name.equals("Wrong-Req"))
+            .collect(MoreCollectors.onlyElement());
+    assertThat(srResult.status).isEqualTo(Status.ERROR);
+    assertThat(srResult.submittabilityExpressionResult.errorMessage)
+        .isEqualTo("Field is:submittable cannot be used in submit requirement expressions.");
+  }
+
+  @Test
   public void fourByteEmoji() throws Exception {
     // U+1F601 GRINNING FACE WITH SMILING EYES
     String smile = new String(Character.toChars(0x1f601));

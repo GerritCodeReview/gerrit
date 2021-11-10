@@ -18,6 +18,7 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.inject.Inject;
 
 /**
@@ -37,7 +38,13 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   }
 
   @Override
-  protected void checkFieldAvailable(FieldDef<ChangeData, ?> field, String operator) {
+  protected void checkFieldAvailable(FieldDef<ChangeData, ?> field, String operator)
+      throws QueryParseException {
+    if (field.equals(ChangeField.IS_SUBMITTABLE)) {
+      // is:submittable cannot be used in submit requirements.
+      throw new QueryParseException(
+          String.format("Field %s cannot be used in submit requirement expressions.", operator));
+    }
     // Submit requirements don't rely on the index, so they can be used regardless of index schema
     // version.
   }

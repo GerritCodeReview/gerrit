@@ -56,6 +56,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
@@ -416,6 +417,22 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> IS_PURE_REVERT =
       fullText(ChangeQueryBuilder.FIELD_PURE_REVERT)
           .build(cd -> Boolean.TRUE.equals(cd.isPureRevert()) ? "1" : "0");
+
+  /**
+   * Determines if a change is submittable based on {@link
+   * com.google.gerrit.entities.SubmitRequirement}s.
+   */
+  public static final FieldDef<ChangeData, String> IS_SUBMITTABLE =
+      exact(ChangeQueryBuilder.FIELD_IS_SUBMITTABLE)
+          .build(
+              cd ->
+                  // Closed changes are not submittable
+                  !cd.change().isClosed()
+                          // All submit requirements should be fulfilled
+                          && cd.submitRequirements().values().stream()
+                              .allMatch(SubmitRequirementResult::fulfilled)
+                      ? "1"
+                      : "0");
 
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {

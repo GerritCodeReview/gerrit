@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.index.options;
 
-public enum AutoFlush {
-  ENABLED,
-  DISABLED;
+public enum WriteMode {
+  INSERT,
+  REPLACE
 }

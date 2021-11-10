@@ -30,6 +30,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.StalenessCheckResult;
+import com.google.gerrit.server.index.options.WriteMode;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -78,6 +79,7 @@ public class ChangeIndexer {
   private final PluginSetContext<ChangeIndexedListener> indexedListeners;
   private final StalenessChecker stalenessChecker;
   private final boolean autoReindexIfStale;
+  private final WriteMode writeMode;
 
   private final Set<IndexTask> queuedIndexTasks =
       Collections.newSetFromMap(new ConcurrentHashMap<>());
@@ -94,7 +96,8 @@ public class ChangeIndexer {
       StalenessChecker stalenessChecker,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
-      @Assisted ChangeIndex index) {
+      @Assisted ChangeIndex index,
+      WriteMode writeMode) {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
@@ -105,6 +108,7 @@ public class ChangeIndexer {
     this.autoReindexIfStale = autoReindexIfStale(cfg);
     this.index = index;
     this.indexes = null;
+    this.writeMode = writeMode;
   }
 
   @AssistedInject
@@ -117,7 +121,8 @@ public class ChangeIndexer {
       StalenessChecker stalenessChecker,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
-      @Assisted ChangeIndexCollection indexes) {
+      @Assisted ChangeIndexCollection indexes,
+      WriteMode writeMode) {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
@@ -128,6 +133,7 @@ public class ChangeIndexer {
     this.autoReindexIfStale = autoReindexIfStale(cfg);
     this.index = null;
     this.indexes = indexes;
+    this.writeMode = writeMode;
   }
 
   private static boolean autoReindexIfStale(Config cfg) {
@@ -198,22 +204,31 @@ public class ChangeIndexer {
   }
 
   private void indexImpl(ChangeData cd) {
-    logger.atFine().log("Replace change %d in index.", cd.getId().get());
     for (Index<?, ChangeData> i : getWriteIndexes()) {
+      String indexAction = writeMode.equals(WriteMode.INSERT) ? "Insert " : "Replace ";
       try (TraceTimer traceTimer =
           TraceContext.newTimer(
-              "Replacing change in index",
+              indexAction + " change in index",
               Metadata.builder()
                   .changeId(cd.getId().get())
                   .patchSetId(cd.currentPatchSet().number())
                   .indexVersion(i.getSchema().getVersion())
                   .build())) {
-        i.replace(cd);
+        logger.atFine().log(indexAction + " change %d in index.", cd.getId().get());
+        if (writeMode.equals(WriteMode.INSERT)) {
+          i.insert(cd);
+        } else {
+          i.replace(cd);
+        }
       } catch (RuntimeException e) {
         throw new StorageException(
             String.format(
-                "Failed to replace change %d in index version %d (current patch set = %d)",
-                cd.getId().get(), i.getSchema().getVersion(), cd.currentPatchSet().number()),
+                "Failed to "
+                    + indexAction
+                    + " change %d in index version %d (current patch set = %d)",
+                cd.getId().get(),
+                i.getSchema().getVersion(),
+                cd.currentPatchSet().number()),
             e);
       }
     }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b86e4ef_a5612755",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-10T13:58:32Z",
+      "side": 1,
+      "message": "we have tests for other generate methods, we should have it for topic too.",
+      "range": {
+        "startLine": 589,
+        "startChar": 0,
+        "endLine": 589,
+        "endChar": 44
+      },
+      "revId": "f15fb40d6aa91da07adc66d2dacf52ab6ac23de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "101d4525_1bc3f100",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1561,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-10T13:58:32Z",
+      "side": 1,
+      "message": "should have a test for redirect case and test for no-redirect where there\u0027s additional terms.",
+      "range": {
+        "startLine": 1561,
+        "startChar": 0,
+        "endLine": 1561,
+        "endChar": 31
+      },
+      "revId": "f15fb40d6aa91da07adc66d2dacf52ab6ac23de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

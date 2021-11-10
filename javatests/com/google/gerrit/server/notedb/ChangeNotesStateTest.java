@@ -696,7 +696,7 @@ public class ChangeNotesStateTest {
                                 .setApplicabilityExpression(
                                     SubmitRequirementExpression.of("project:foo"))
                                 .setSubmittabilityExpression(
-                                    SubmitRequirementExpression.create("label:Code-Review=+2"))
+                                    SubmitRequirementExpression.of("label:Code-Review=+2"))
                                 .setAllowOverrideInChildProjects(false)
                                 .build())
                         .applicabilityExpressionResult(
@@ -707,11 +707,12 @@ public class ChangeNotesStateTest {
                                     ImmutableList.of("project:foo"),
                                     ImmutableList.of())))
                         .submittabilityExpressionResult(
-                            SubmitRequirementExpressionResult.create(
-                                SubmitRequirementExpression.create("label:Code-Review=+2"),
-                                SubmitRequirementExpressionResult.Status.FAIL,
-                                ImmutableList.of(),
-                                ImmutableList.of("label:Code-Review=+2")))
+                            Optional.of(
+                                SubmitRequirementExpressionResult.create(
+                                    SubmitRequirementExpression.create("label:Code-Review=+2"),
+                                    SubmitRequirementExpressionResult.Status.FAIL,
+                                    ImmutableList.of(),
+                                    ImmutableList.of("label:Code-Review=+2"))))
                         .build()))
             .build(),
         newProtoBuilder()

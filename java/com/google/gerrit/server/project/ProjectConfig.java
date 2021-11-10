@@ -979,15 +979,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         continue;
       }
 
-      if (blockExpr == null) {
-        error(
-            String.format(
-                "Setting a submittability expression for submit requirement '%s' is required:"
-                    + " Missing %s.%s.%s",
-                name, SUBMIT_REQUIREMENT, name, KEY_SR_SUBMITTABILITY_EXPRESSION));
-        continue;
-      }
-
       // The expressions are validated in SubmitRequirementExpressionsValidator.
 
       SubmitRequirement submitRequirement =
@@ -995,7 +986,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               .setName(name)
               .setDescription(Optional.ofNullable(description))
               .setApplicabilityExpression(SubmitRequirementExpression.of(appExpr))
-              .setSubmittabilityExpression(SubmitRequirementExpression.create(blockExpr))
+              .setSubmittabilityExpression(SubmitRequirementExpression.of(blockExpr))
               .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
               .setAllowOverrideInChildProjects(canInherit)
               .build();
@@ -1705,7 +1696,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             SUBMIT_REQUIREMENT,
             name,
             KEY_SR_SUBMITTABILITY_EXPRESSION,
-            sr.submittabilityExpression().expressionString());
+            sr.submittabilityExpression().get().expressionString());
         if (sr.overrideExpression().isPresent()) {
           rc.setString(
               SUBMIT_REQUIREMENT,

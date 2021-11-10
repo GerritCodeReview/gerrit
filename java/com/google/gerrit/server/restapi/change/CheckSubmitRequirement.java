@@ -59,8 +59,7 @@ public class CheckSubmitRequirement
         .setName(input.name)
         .setDescription(Optional.ofNullable(input.description))
         .setApplicabilityExpression(SubmitRequirementExpression.of(input.applicabilityExpression))
-        .setSubmittabilityExpression(
-            SubmitRequirementExpression.create(input.submittabilityExpression))
+        .setSubmittabilityExpression(SubmitRequirementExpression.of(input.submittabilityExpression))
         .setOverrideExpression(SubmitRequirementExpression.of(input.overrideExpression))
         .setAllowOverrideInChildProjects(
             input.allowOverrideInChildProjects == null ? true : input.allowOverrideInChildProjects)

@@ -29,7 +29,7 @@ public class SubmitRequirementSerializerTest {
           .setName("Code-Review")
           .setDescription(Optional.of("require code review +2"))
           .setApplicabilityExpression(SubmitRequirementExpression.of("branch(refs/heads/master)"))
-          .setSubmittabilityExpression(SubmitRequirementExpression.create("label(code-review, 2+)"))
+          .setSubmittabilityExpression(SubmitRequirementExpression.of("label(code-review, 2+)"))
           .setOverrideExpression(Optional.empty())
           .setAllowOverrideInChildProjects(true)
           .build();

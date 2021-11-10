@@ -126,11 +126,15 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
       Collection<SubmitRequirement> submitRequirements) {
     List<CommitValidationMessage> validationMessages = new ArrayList<>();
     for (SubmitRequirement submitRequirement : submitRequirements) {
-      validateSubmitRequirementExpression(
-          validationMessages,
-          submitRequirement,
-          submitRequirement.submittabilityExpression(),
-          ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION);
+      submitRequirement
+          .submittabilityExpression()
+          .ifPresent(
+              expression ->
+                  validateSubmitRequirementExpression(
+                      validationMessages,
+                      submitRequirement,
+                      expression,
+                      ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION));
       submitRequirement
           .applicabilityExpression()
           .ifPresent(

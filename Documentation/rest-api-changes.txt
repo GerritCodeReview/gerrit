@@ -8295,9 +8295,12 @@ Description of the submit requirement.
 Query expression that can be evaluated on any change. If evaluated to true on a
 change, the submit requirement is then applicable for this change.
 If not specified, the submit requirement is applicable for all changes.
-|`submittability_expression`||
+|`submittability_expression`|optional|
 Query expression that can be evaluated on any change. If evaluated to true on a
 change, the submit requirement is fulfilled and not blocking change submission.
++
+If not specified, the submit requirement is always not fulfilled and will not
+block change submission.
 |`override_expression`|optional|
 Query expression that can be evaluated on any change. If evaluated to true on a
 change, the submit requirement is overridden and not blocking change submission.
@@ -8331,7 +8334,7 @@ containing the result of evaluating the applicability expression. Not set if the
 submit requirement did not define an applicability expression.
 Note that fields `expression`, `passing_atoms` and `failing_atoms` are always
 omitted for the `applicability_expression_result`.
-|`submittability_expression_result`||
+|`submittability_expression_result`|optional|
 A link:#submit-requirement-expression-info[SubmitRequirementExpressionInfo]
 containing the result of evaluating the submittability expression.
 |`override_expression_result`|optional|

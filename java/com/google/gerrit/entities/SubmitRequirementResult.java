@@ -33,7 +33,7 @@ public abstract class SubmitRequirementResult {
   /**
    * Result of evaluating a {@link SubmitRequirement#submittabilityExpression()} ()} on a change.
    */
-  public abstract SubmitRequirementExpressionResult submittabilityExpressionResult();
+  public abstract Optional<SubmitRequirementExpressionResult> submittabilityExpressionResult();
 
   /** Result of evaluating a {@link SubmitRequirement#overrideExpression()} ()} on a change. */
   public abstract Optional<SubmitRequirementExpressionResult> overrideExpressionResult();
@@ -63,7 +63,10 @@ public abstract class SubmitRequirementResult {
       return Status.NOT_APPLICABLE;
     } else if (assertPass(overrideExpressionResult())) {
       return Status.OVERRIDDEN;
-    } else if (assertPass(submittabilityExpressionResult())) {
+    } else if (assertPass(submittabilityExpressionResult())
+        || !submittabilityExpressionResult().isPresent()) {
+      // Submit requirement is satisfied either if it was configured and the expression evaluation
+      // was fulfilled, or if it was not configured for the project.
       return Status.SATISFIED;
     } else {
       return Status.UNSATISFIED;
@@ -121,7 +124,8 @@ public abstract class SubmitRequirementResult {
     public abstract Builder applicabilityExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);
 
-    public abstract Builder submittabilityExpressionResult(SubmitRequirementExpressionResult value);
+    public abstract Builder submittabilityExpressionResult(
+        Optional<SubmitRequirementExpressionResult> value);
 
     public abstract Builder overrideExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);
@@ -137,19 +141,11 @@ public abstract class SubmitRequirementResult {
     return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.PASS);
   }
 
-  private boolean assertPass(SubmitRequirementExpressionResult expressionResult) {
-    return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.PASS);
-  }
-
   private boolean assertFail(Optional<SubmitRequirementExpressionResult> expressionResult) {
     return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.FAIL);
   }
 
   private boolean assertError(Optional<SubmitRequirementExpressionResult> expressionResult) {
-    return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.ERROR);
-  }
-
-  private boolean assertError(SubmitRequirementExpressionResult expressionResult) {
     return assertStatus(expressionResult, SubmitRequirementExpressionResult.Status.ERROR);
   }
 

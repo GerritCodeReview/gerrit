@@ -4165,8 +4165,7 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("label:Code-Review=MAX"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=MAX"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4198,7 +4197,7 @@ public class ChangeIT extends AbstractDaemonTest {
         SubmitRequirement.builder()
             .setName("my-label")
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("label:my-label=MAX,user=non_uploader"))
+                SubmitRequirementExpression.of("label:my-label=MAX,user=non_uploader"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4232,8 +4231,7 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("-label:Code-Review=MIN"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("-label:Code-Review=MIN"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4281,7 +4279,7 @@ public class ChangeIT extends AbstractDaemonTest {
         SubmitRequirement.builder()
             .setName("my-label")
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create(
+                SubmitRequirementExpression.of(
                     "label:my-label=MAX,user=non_uploader -label:my-label=MIN"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4322,8 +4320,7 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("label:Code-Review=ANY"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=ANY"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4352,14 +4349,14 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
             .setName("Verified")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Verified=+1"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Verified=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4391,7 +4388,7 @@ public class ChangeIT extends AbstractDaemonTest {
         SubmitRequirement.builder()
             .setName("Code-Review")
             .setApplicabilityExpression(SubmitRequirementExpression.of("project:foo"))
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4423,7 +4420,7 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4451,7 +4448,7 @@ public class ChangeIT extends AbstractDaemonTest {
         allProjects,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+1"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+1"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(true)
             .build());
@@ -4461,7 +4458,7 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4492,7 +4489,7 @@ public class ChangeIT extends AbstractDaemonTest {
         allProjects,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+1"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+1"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4521,7 +4518,7 @@ public class ChangeIT extends AbstractDaemonTest {
         allProjects,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+1"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+1"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4532,7 +4529,7 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
             .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4569,8 +4566,7 @@ public class ChangeIT extends AbstractDaemonTest {
           project,
           SubmitRequirement.builder()
               .setName("Code-Review")
-              .setSubmittabilityExpression(
-                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
               .setAllowOverrideInChildProjects(false)
               .build());
 
@@ -4594,9 +4590,9 @@ public class ChangeIT extends AbstractDaemonTest {
       SubmitRequirementResult result =
           notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
       assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
-      assertThat(result.submittabilityExpressionResult().status())
+      assertThat(result.submittabilityExpressionResult().get().status())
           .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
-      assertThat(result.submittabilityExpressionResult().expression().expressionString())
+      assertThat(result.submittabilityExpressionResult().get().expression().expressionString())
           .isEqualTo("label:Code-Review=+2");
     }
   }
@@ -4615,8 +4611,7 @@ public class ChangeIT extends AbstractDaemonTest {
           project,
           SubmitRequirement.builder()
               .setName("Code-Review")
-              .setSubmittabilityExpression(
-                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
               .setAllowOverrideInChildProjects(false)
               .build());
 
@@ -4635,9 +4630,9 @@ public class ChangeIT extends AbstractDaemonTest {
       SubmitRequirementResult result =
           notes.getSubmitRequirementsResult().stream().collect(MoreCollectors.onlyElement());
       assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
-      assertThat(result.submittabilityExpressionResult().status())
+      assertThat(result.submittabilityExpressionResult().get().status())
           .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
-      assertThat(result.submittabilityExpressionResult().expression().expressionString())
+      assertThat(result.submittabilityExpressionResult().get().expression().expressionString())
           .isEqualTo("label:Code-Review=+2");
     }
   }
@@ -4656,8 +4651,7 @@ public class ChangeIT extends AbstractDaemonTest {
           project,
           SubmitRequirement.builder()
               .setName("Code-Review")
-              .setSubmittabilityExpression(
-                  SubmitRequirementExpression.create("label:Code-Review=+2"))
+              .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
               .setAllowOverrideInChildProjects(false)
               .build());
 
@@ -4673,7 +4667,7 @@ public class ChangeIT extends AbstractDaemonTest {
           project,
           SubmitRequirement.builder()
               .setName("New-Requirement")
-              .setSubmittabilityExpression(SubmitRequirementExpression.create("-has:unresolved"))
+              .setSubmittabilityExpression(SubmitRequirementExpression.of("-has:unresolved"))
               .setAllowOverrideInChildProjects(false)
               .build());
       ChangeInfo changeInfo =
@@ -4733,7 +4727,7 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4759,7 +4753,7 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Verified")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Verified=+1"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Verified=+1"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4797,7 +4791,7 @@ public class ChangeIT extends AbstractDaemonTest {
         SubmitRequirement.builder()
             .setName("build-cop-override")
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create(
+                SubmitRequirementExpression.of(
                     "label:build-cop-override=MAX -label:build-cop-override=MIN"))
             .setAllowOverrideInChildProjects(false)
             .build());
@@ -4857,7 +4851,7 @@ public class ChangeIT extends AbstractDaemonTest {
         SubmitRequirement.builder()
             .setName("build-cop-override")
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("label:build-cop-override=MIN"))
+                SubmitRequirementExpression.of("label:build-cop-override=MIN"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4946,7 +4940,7 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -4981,7 +4975,7 @@ public class ChangeIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -5013,7 +5007,7 @@ public class ChangeIT extends AbstractDaemonTest {
         SubmitRequirement.builder()
             .setName("Code-Review")
             .setApplicabilityExpression(SubmitRequirementExpression.of("branch:refs/heads/master"))
-            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.of("label:Code-Review=+2"))
             .setAllowOverrideInChildProjects(false)
             .build());
 

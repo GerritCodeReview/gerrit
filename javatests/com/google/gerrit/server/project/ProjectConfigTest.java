@@ -237,7 +237,7 @@ public class ProjectConfigTest {
                 .setApplicabilityExpression(
                     SubmitRequirementExpression.of("branch(refs/heads/master)"))
                 .setSubmittabilityExpression(
-                    SubmitRequirementExpression.create("label(Code-Review, +2)"))
+                    SubmitRequirementExpression.of("label(Code-Review, +2)"))
                 .setOverrideExpression(Optional.empty())
                 .setAllowOverrideInChildProjects(false)
                 .build(),
@@ -248,7 +248,7 @@ public class ProjectConfigTest {
                 .setApplicabilityExpression(
                     SubmitRequirementExpression.of("commit_filepath_contains(\"/api/.*\")"))
                 .setSubmittabilityExpression(
-                    SubmitRequirementExpression.create("label(api-review, +2)"))
+                    SubmitRequirementExpression.of("label(api-review, +2)"))
                 .setOverrideExpression(
                     SubmitRequirementExpression.of("label(build-cop-override, +1)"))
                 .setAllowOverrideInChildProjects(true)
@@ -274,7 +274,7 @@ public class ProjectConfigTest {
             SubmitRequirement.builder()
                 .setName("Code-Review")
                 .setSubmittabilityExpression(
-                    SubmitRequirementExpression.create("label(Code-Review, +2)"))
+                    SubmitRequirementExpression.of("label(Code-Review, +2)"))
                 .setAllowOverrideInChildProjects(false)
                 .build());
   }
@@ -304,7 +304,7 @@ public class ProjectConfigTest {
                 .setName("code-review")
                 .setDescription(Optional.of("At least one Code Review +2"))
                 .setSubmittabilityExpression(
-                    SubmitRequirementExpression.create("label(code-review, +2)"))
+                    SubmitRequirementExpression.of("label(code-review, +2)"))
                 .setAllowOverrideInChildProjects(false)
                 .build());
     assertThat(cfg.getValidationErrors()).hasSize(1);
@@ -326,13 +326,15 @@ public class ProjectConfigTest {
 
     ProjectConfig cfg = read(rev);
     Map<String, SubmitRequirement> submitRequirements = cfg.getSubmitRequirementSections();
-    assertThat(submitRequirements).isEmpty();
-    assertThat(cfg.getValidationErrors()).hasSize(1);
-    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
-        .isEqualTo(
-            "project.config: Setting a submittability expression for submit requirement"
-                + " 'Code-Review' is required: Missing"
-                + " submit-requirement.Code-Review.submittableIf");
+    assertThat(submitRequirements).hasSize(1);
+    assertThat(submitRequirements.values())
+        .containsExactly(
+            SubmitRequirement.builder()
+                .setName("Code-Review")
+                .setApplicabilityExpression(
+                    SubmitRequirementExpression.of("label(Code-Review, +2)"))
+                .setAllowOverrideInChildProjects(false)
+                .build());
   }
 
   @Test

@@ -93,14 +93,15 @@ export const htmlTemplate = html`
         <fieldset>
           <h3 id="Description" class="heading-3">Description</h3>
           <fieldset>
-            <iron-autogrow-textarea
+            <gr-textarea
               id="descriptionInput"
               class="description"
               autocomplete="on"
               placeholder="<Insert repo description here>"
-              bind-value="{{_repoConfig.description}}"
+              rows="4"
+              text="{{_repoConfig.description}}"
               disabled$="[[_readOnly]]"
-            ></iron-autogrow-textarea>
+            ></gr-textarea>
           </fieldset>
           <h3 id="Options" class="heading-3">Repository Options</h3>
           <fieldset id="options">

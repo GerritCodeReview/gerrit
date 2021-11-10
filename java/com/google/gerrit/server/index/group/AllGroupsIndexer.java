@@ -97,7 +97,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
                   groupCache.evict(uuid);
                   Optional<InternalGroup> internalGroup = groupCache.get(uuid);
                   if (internalGroup.isPresent()) {
-                    index.replace(internalGroup.get());
+                    index.insert(internalGroup.get());
                   } else {
                     index.delete(uuid);
 

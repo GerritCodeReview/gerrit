@@ -144,6 +144,15 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   }
 
   @Override
+  public void insert(AccountState as) {
+    try {
+      insert(toDocument(as)).get();
+    } catch (ExecutionException | InterruptedException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  @Override
   public void delete(Account.Id key) {
     try {
       delete(idTerm(getSchema().useLegacyNumericFields(), key)).get();

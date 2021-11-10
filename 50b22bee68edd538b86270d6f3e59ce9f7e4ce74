@@ -141,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b991fae2_52f2abb3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T21:24:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ef8bf4d2_314bd647",
+      "range": {
+        "startLine": 842,
+        "startChar": 4,
+        "endLine": 843,
+        "endChar": 70
+      },
+      "revId": "50b22bee68edd538b86270d6f3e59ce9f7e4ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a3958e0_765ce0dc",
@@ -158,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "818eaf90_06def991",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T21:24:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5a3958e0_765ce0dc",
+      "revId": "50b22bee68edd538b86270d6f3e59ce9f7e4ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "199fa3e9_5382b715",
@@ -171,6 +213,30 @@
       "writtenOn": "2021-11-10T19:47:02Z",
       "side": 1,
       "message": "Nit: maybe these ones can be inlined here\n```\nthis.isEdited(\n      originalConfig.require_change_id,\n      repoConfig.require_change_id\n    );\n```\n\n\nFeel free to ignore this nits, if you don\u0027t agree.",
+      "range": {
+        "startLine": 898,
+        "startChar": 6,
+        "endLine": 898,
+        "endChar": 31
+      },
+      "revId": "50b22bee68edd538b86270d6f3e59ce9f7e4ce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e8751ef_daf2ea8d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T21:24:32Z",
+      "side": 1,
+      "message": "I\u0027ve decided to do the above suggestion for them all rather then select few.",
+      "parentUuid": "199fa3e9_5382b715",
       "range": {
         "startLine": 898,
         "startChar": 6,

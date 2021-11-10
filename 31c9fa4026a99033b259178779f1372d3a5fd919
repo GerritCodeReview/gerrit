@@ -94,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54a0c48f_f91b6b03",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T21:24:32Z",
+      "side": 1,
+      "message": "Thank you for catching that!",
+      "parentUuid": "98ab48e0_97e1b006",
+      "range": {
+        "startLine": 229,
+        "startChar": 13,
+        "endLine": 229,
+        "endChar": 49
+      },
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfe49c41_1fb16019",
@@ -107,6 +131,30 @@
       "writtenOn": "2021-11-10T19:47:02Z",
       "side": 1,
       "message": "this is either\n```\n.type\u003d${\"text\"}\n```\nOr\n```\ntype\u003d\"text\"\n```",
+      "range": {
+        "startLine": 581,
+        "startChar": 12,
+        "endLine": 581,
+        "endChar": 24
+      },
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a46b686_1f9d5793",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T21:24:32Z",
+      "side": 1,
+      "message": "Went for the second one. Thanks!",
+      "parentUuid": "cfe49c41_1fb16019",
       "range": {
         "startLine": 581,
         "startChar": 12,
@@ -140,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7132cc67_e114afc1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T21:24:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3d37a805_4c05eddc",
+      "range": {
+        "startLine": 754,
+        "startChar": 8,
+        "endLine": 764,
+        "endChar": 47
+      },
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5590bd6_98e7663d",
@@ -163,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60acefaf_50bd5251",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T21:24:32Z",
+      "side": 1,
+      "message": "It is because this.repo contains undefined thus it complains here because the param in getUrlForProjectChanges doesn\u0027t do param?: value;",
+      "parentUuid": "a5590bd6_98e7663d",
+      "range": {
+        "startLine": 1022,
+        "startChar": 49,
+        "endLine": 1022,
+        "endChar": 61
+      },
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e620a82_51add1d5",
@@ -176,6 +272,30 @@
       "writtenOn": "2021-11-10T19:56:37Z",
       "side": 1,
       "message": "NIT: Is this requestUpdate needed?\n\nmaybe this would work better\n```\nthis.repoConfig \u003d {\n...this.repoConfig,\ndescription: e.detail.value\n}\n```\n\nWhat do you think?",
+      "range": {
+        "startLine": 1048,
+        "startChar": 4,
+        "endLine": 1049,
+        "endChar": 25
+      },
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61f00458_1275f48b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T21:24:32Z",
+      "side": 1,
+      "message": "requstUpdate is needed because it\u0027s updating a sub property and we need configChange to pick up the changed config.\n\nI\u0027ve changed it to follow your change.",
+      "parentUuid": "6e620a82_51add1d5",
       "range": {
         "startLine": 1048,
         "startChar": 4,

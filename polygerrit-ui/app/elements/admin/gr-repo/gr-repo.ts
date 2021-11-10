@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '@polymer/iron-input/iron-input';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-download-commands/gr-download-commands';
 import '../../shared/gr-select/gr-select';
+import '../../shared/gr-textarea/gr-textarea';
 import '../gr-repo-plugin-config/gr-repo-plugin-config';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
@@ -244,15 +244,17 @@ export class GrRepo extends LitElement {
     return html`
       <h3 id="Description" class="heading-3">Description</h3>
       <fieldset>
-        <iron-autogrow-textarea
+        <gr-textarea
           id="descriptionInput"
           class="description"
           autocomplete="on"
           placeholder="&lt;Insert repo description here&gt;"
-          .bindValue=${this.repoConfig.description}
+          rows="4"
+          monospace
           ?disabled=${this.readOnly}
-          @bind-value-changed=${this.handleDescriptionBindValueChanged}
-        ></iron-autogrow-textarea>
+          .text=${this.repoConfig.description}
+          @text-changed=${this.handleDescriptionTextChanged}
+        >
       </fieldset>
     `;
   }
@@ -970,7 +972,7 @@ export class GrRepo extends LitElement {
     this.selectedScheme = e.detail.value;
   }
 
-  private handleDescriptionBindValueChanged(e: BindValueChangeEvent) {
+  private handleDescriptionTextChanged(e: CustomEvent) {
     if (!this.repoConfig || this.loading) return;
     this.repoConfig.description = e.detail.value;
     this.requestUpdate();

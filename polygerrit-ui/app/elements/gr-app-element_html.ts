@@ -131,7 +131,7 @@ export const htmlTemplate = html`
         view-state="{{_viewState.dashboardView}}"
       ></gr-dashboard-view>
     </template>
-    <template is="dom-if" if="[[_showTopicView]]" restamp="true">
+    <template is="dom-if" if="[[_showTopicView]]">
       <gr-topic-view params="[[params]]"></gr-topic-view>
     </template>
     <!-- Note that the change view does not have restamp="true" set, because we

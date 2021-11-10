@@ -86,12 +86,14 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   @Override
   public SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd) {
-    SubmitRequirementExpressionResult blockingResult =
-        evaluateExpression(sr.submittabilityExpression(), cd);
-
     Optional<SubmitRequirementExpressionResult> applicabilityResult =
         sr.applicabilityExpression().isPresent()
             ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
+            : Optional.empty();
+
+    Optional<SubmitRequirementExpressionResult> submittableResult =
+        sr.submittabilityExpression().isPresent()
+            ? Optional.of(evaluateExpression(sr.submittabilityExpression().get(), cd))
             : Optional.empty();
 
     Optional<SubmitRequirementExpressionResult> overrideResult =
@@ -103,7 +105,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
         .legacy(Optional.of(false))
         .submitRequirement(sr)
         .patchSetCommitId(cd.currentPatchSet().commitId())
-        .submittabilityExpressionResult(blockingResult)
+        .submittabilityExpressionResult(submittableResult)
         .applicabilityExpressionResult(applicabilityResult)
         .overrideExpressionResult(overrideResult)
         .build();

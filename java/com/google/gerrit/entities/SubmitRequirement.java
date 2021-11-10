@@ -43,7 +43,7 @@ public abstract class SubmitRequirement {
    * evaluated for a specific {@link Change} and if it returns true, the requirement becomes
    * fulfilled for the change.
    */
-  public abstract SubmitRequirementExpression submittabilityExpression();
+  public abstract Optional<SubmitRequirementExpression> submittabilityExpression();
 
   /**
    * Expression that, if evaluated to true, causes the submit requirement to be fulfilled,
@@ -79,7 +79,7 @@ public abstract class SubmitRequirement {
         Optional<SubmitRequirementExpression> applicabilityExpression);
 
     public abstract Builder setSubmittabilityExpression(
-        SubmitRequirementExpression submittabilityExpression);
+        Optional<SubmitRequirementExpression> submittabilityExpression);
 
     public abstract Builder setOverrideExpression(
         Optional<SubmitRequirementExpression> overrideExpression);

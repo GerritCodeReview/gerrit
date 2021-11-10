@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82683caa_6461ebd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-10T09:27:57Z",
+      "side": 1,
+      "message": "Done in Change 323182",
+      "revId": "ab83794d8aa6087da093a8d3a076504cf9faad42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4772ecaa_5cddef97",
@@ -14,6 +31,30 @@
       "writtenOn": "2021-11-10T07:50:59Z",
       "side": 1,
       "message": "At some point you will have to think about re-using the topic view. I guess navigating to a change page and then back to the topic page will be common, and it would be nice for this to be fast. Maybe remove `restamp`?",
+      "range": {
+        "startLine": 134,
+        "startChar": 49,
+        "endLine": 134,
+        "endChar": 65
+      },
+      "revId": "ab83794d8aa6087da093a8d3a076504cf9faad42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "610ad626_3f89a75d",
+        "filename": "polygerrit-ui/app/elements/gr-app-element_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-10T09:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4772ecaa_5cddef97",
       "range": {
         "startLine": 134,
         "startChar": 49,
@@ -41,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad216e4f_24a1b3e0",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-10T09:27:57Z",
+      "side": 1,
+      "message": "Requires a rewrite of router-model since currently it\u0027s not keeping the entire state(only the view,changeNum and patchNum).\nIt should keep the entire AppElementParams object.\nAdded a TODO for this.",
+      "parentUuid": "e8d9d24b_9f02ee45",
+      "revId": "ab83794d8aa6087da093a8d3a076504cf9faad42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "009b52e3_415eee47",
@@ -54,6 +113,30 @@
       "writtenOn": "2021-11-10T07:50:59Z",
       "side": 1,
       "message": "Prefer `willUpdate`.",
+      "range": {
+        "startLine": 35,
+        "startChar": 11,
+        "endLine": 35,
+        "endChar": 18
+      },
+      "revId": "ab83794d8aa6087da093a8d3a076504cf9faad42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2298987d_c35af34d",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-10T09:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "009b52e3_415eee47",
       "range": {
         "startLine": 35,
         "startChar": 11,
@@ -81,6 +164,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7d1a561_0e41f653",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-10T09:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18a0a7a7_3b96365f",
+      "revId": "ab83794d8aa6087da093a8d3a076504cf9faad42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26a40580_8b445fce",
@@ -94,6 +195,30 @@
       "writtenOn": "2021-11-10T08:15:10Z",
       "side": 1,
       "message": "I recommend to put it to HTMLElementTagNameMap for good typing\ndeclare global {\n  interface HTMLElementTagNameMap {\n    \u0027gr-topic-view\u0027: GrTopicView;\n  }\n}",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 1
+      },
+      "revId": "ab83794d8aa6087da093a8d3a076504cf9faad42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2896a15b_937e3dcb",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-10T09:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26a40580_8b445fce",
       "range": {
         "startLine": 54,
         "startChar": 0,

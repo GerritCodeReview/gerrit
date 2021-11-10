@@ -56,6 +56,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
@@ -63,7 +64,6 @@ import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
-import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.ReviewerByEmailSet;
@@ -78,7 +78,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.MagicLabelValue;
-import com.google.gerrit.server.query.change.SubmittablePredicate;
 import com.google.gson.Gson;
 import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
@@ -427,14 +426,9 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_IS_SUBMITTABLE)
           .build(
               cd ->
-                  Predicate.and(
-                              new SubmittablePredicate(SubmitRecord.Status.OK),
-                              Predicate.not(
-                                  new SubmittablePredicate(SubmitRecord.Status.NOT_READY)),
-                              Predicate.not(
-                                  new SubmittablePredicate(SubmitRecord.Status.RULE_ERROR)))
-                          .asMatchable()
-                          .match(cd)
+                  // All submit requirements should be fulfilled
+                  cd.submitRequirements().values().stream()
+                          .allMatch(SubmitRequirementResult::fulfilled)
                       ? "1"
                       : "0");
 

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "183661e9_a0ebf0ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-10T19:55:00Z",
+      "side": 1,
+      "message": "@Milutin you wouldn\u0027t have any idea about:\n\nTypeError: this._$AH.handleEvent is not a function. (In ‘this._$AH.handleEvent(e)’, ‘this._$AH.handleEvent’ is undefined)\n\nI\u0027m getting it for selected-scheme-changed and comes from lit https://github.com/lit/lit/blob/8c4c845b016bdbe93bf644d0160415d011166faa/packages/lit-html/src/lit-html.ts#L1694",
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98ab48e0_97e1b006",

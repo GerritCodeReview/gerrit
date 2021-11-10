@@ -108,6 +108,7 @@ import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 import {GenerateUrlEditViewParameters} from '../elements/core/gr-navigation/gr-navigation';
 import {
   DetailedLabelInfo,
+  QuickLabelInfo,
   SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
@@ -727,4 +728,8 @@ export function createDetailedLabelInfo(): DetailedLabelInfo {
       '-1': 'Wrong Style or Formatting',
     },
   };
+}
+
+export function createQuickLabelInfo(): QuickLabelInfo {
+  return {};
 }

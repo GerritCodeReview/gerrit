@@ -111,6 +111,8 @@ module.exports = function(config) {
       ...additionalFiles,
       getUiDevNpmFilePath('source-map-support/browser-source-map-support.js'),
       getUiDevNpmFilePath('accessibility-developer-tools/dist/js/axs_testing.js'),
+      {pattern: getUiDevNpmFilePath('@open-wc/semantic-dom-diff/index.js'), type: 'module' },
+      {pattern: getUiDevNpmFilePath('@open-wc/testing-helpers/index.js'), type: 'module' },
       getUiDevNpmFilePath('sinon/pkg/sinon.js'),
       { pattern: testFilesPattern, type: 'module' },
     ],

@@ -31,6 +31,7 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -44,35 +45,38 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
-    implements ChangeIndex {
+        implements ChangeIndex {
   ChangeSubIndex(
-      Schema<ChangeData> schema,
-      SitePaths sitePaths,
-      Path path,
-      ImmutableSet<String> skipFields,
-      GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory)
-      throws IOException {
+          Schema<ChangeData> schema,
+          SitePaths sitePaths,
+          Path path,
+          ImmutableSet<String> skipFields,
+          GerritIndexWriterConfig writerConfig,
+          SearcherFactory searcherFactory,
+          AutoFlush autoFlush)
+          throws IOException {
     this(
-        schema,
-        sitePaths,
-        FSDirectory.open(path),
-        path.getFileName().toString(),
-        skipFields,
-        writerConfig,
-        searcherFactory);
+            schema,
+            sitePaths,
+            FSDirectory.open(path),
+            path.getFileName().toString(),
+            skipFields,
+            writerConfig,
+            searcherFactory,
+            autoFlush);
   }
 
   ChangeSubIndex(
-      Schema<ChangeData> schema,
-      SitePaths sitePaths,
-      Directory dir,
-      String subIndex,
-      ImmutableSet<String> skipFields,
-      GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory)
-      throws IOException {
-    super(schema, sitePaths, dir, NAME, skipFields, subIndex, writerConfig, searcherFactory);
+          Schema<ChangeData> schema,
+          SitePaths sitePaths,
+          Directory dir,
+          String subIndex,
+          ImmutableSet<String> skipFields,
+          GerritIndexWriterConfig writerConfig,
+          SearcherFactory searcherFactory,
+          AutoFlush autoFlush)
+          throws IOException {
+    super(schema, sitePaths, dir, NAME, skipFields, subIndex, writerConfig, searcherFactory, autoFlush);
   }
 
   @Override
@@ -87,7 +91,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
 
   @Override
   public DataSource<ChangeData> getSource(Predicate<ChangeData> p, QueryOptions opts)
-      throws QueryParseException {
+          throws QueryParseException {
     throw new UnsupportedOperationException("don't use ChangeSubIndex directly");
   }
 

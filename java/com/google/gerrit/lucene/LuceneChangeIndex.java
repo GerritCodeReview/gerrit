@@ -59,6 +59,7 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -124,7 +125,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
   private static final String PENDING_REVIEWER_FIELD = ChangeField.PENDING_REVIEWER.getName();
   private static final String PENDING_REVIEWER_BY_EMAIL_FIELD =
-      ChangeField.PENDING_REVIEWER_BY_EMAIL.getName();
+          ChangeField.PENDING_REVIEWER_BY_EMAIL.getName();
   private static final String REF_STATE_FIELD = ChangeField.REF_STATE.getName();
   private static final String REF_STATE_PATTERN_FIELD = ChangeField.REF_STATE_PATTERN.getName();
   private static final String REVIEWEDBY_FIELD = ChangeField.REVIEWEDBY.getName();
@@ -133,12 +134,12 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String HASHTAG_FIELD = ChangeField.HASHTAG_CASE_AWARE.getName();
   private static final String STAR_FIELD = ChangeField.STAR.getName();
   private static final String SUBMIT_RECORD_LENIENT_FIELD =
-      ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName();
+          ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName();
   private static final String SUBMIT_RECORD_STRICT_FIELD =
-      ChangeField.STORED_SUBMIT_RECORD_STRICT.getName();
+          ChangeField.STORED_SUBMIT_RECORD_STRICT.getName();
   private static final String TOTAL_COMMENT_COUNT_FIELD = ChangeField.TOTAL_COMMENT_COUNT.getName();
   private static final String UNRESOLVED_COMMENT_COUNT_FIELD =
-      ChangeField.UNRESOLVED_COMMENT_COUNT.getName();
+          ChangeField.UNRESOLVED_COMMENT_COUNT.getName();
   private static final String ATTENTION_SET_FULL_FIELD = ChangeField.ATTENTION_SET_FULL.getName();
 
   @FunctionalInterface
@@ -175,19 +176,20 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Inject
   LuceneChangeIndex(
-      @GerritServerConfig Config cfg,
-      SitePaths sitePaths,
-      @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
-      ChangeData.Factory changeDataFactory,
-      @Assisted Schema<ChangeData> schema)
-      throws IOException {
+          @GerritServerConfig Config cfg,
+          SitePaths sitePaths,
+          @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
+          ChangeData.Factory changeDataFactory,
+          @Assisted Schema<ChangeData> schema,
+          AutoFlush autoFlush)
+          throws IOException {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.skipFields =
-        MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex()
-            ? ImmutableSet.of()
-            : ImmutableSet.of(ChangeField.MERGEABLE.getName());
+            MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex()
+                    ? ImmutableSet.of()
+                    : ImmutableSet.of(ChangeField.MERGEABLE.getName());
 
     GerritIndexWriterConfig openConfig = new GerritIndexWriterConfig(cfg, "changes_open");
     GerritIndexWriterConfig closedConfig = new GerritIndexWriterConfig(cfg, "changes_closed");
@@ -197,56 +199,57 @@ public class LuceneChangeIndex implements ChangeIndex {
     SearcherFactory searcherFactory = new SearcherFactory();
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       openIndex =
-          new ChangeSubIndex(
-              schema,
-              sitePaths,
-              new RAMDirectory(),
-              "ramOpen",
-              skipFields,
-              openConfig,
-              searcherFactory);
+              new ChangeSubIndex(
+                      schema,
+                      sitePaths,
+                      new RAMDirectory(),
+                      "ramOpen",
+                      skipFields,
+                      openConfig,
+                      searcherFactory,
+                      autoFlush);
       closedIndex =
-          new ChangeSubIndex(
-              schema,
-              sitePaths,
-              new RAMDirectory(),
-              "ramClosed",
-              skipFields,
-              closedConfig,
-              searcherFactory);
+              new ChangeSubIndex(
+                      schema,
+                      sitePaths,
+                      new RAMDirectory(),
+                      "ramClosed",
+                      skipFields,
+                      closedConfig,
+                      searcherFactory,
+                      autoFlush);
     } else {
       Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES, schema);
       openIndex =
-          new ChangeSubIndex(
-              schema,
-              sitePaths,
-              dir.resolve(CHANGES_OPEN),
-              skipFields,
-              openConfig,
-              searcherFactory);
+              new ChangeSubIndex(
+                      schema,
+                      sitePaths,
+                      dir.resolve(CHANGES_OPEN),
+                      skipFields, openConfig, searcherFactory, autoFlush);
       closedIndex =
-          new ChangeSubIndex(
-              schema,
-              sitePaths,
-              dir.resolve(CHANGES_CLOSED),
-              skipFields,
-              closedConfig,
-              searcherFactory);
+              new ChangeSubIndex(
+                      schema,
+                      sitePaths,
+                      dir.resolve(CHANGES_CLOSED),
+                      skipFields,
+                      closedConfig,
+                      searcherFactory,
+                      autoFlush);
     }
 
     idField = this.schema.useLegacyNumericFields() ? LEGACY_ID : LEGACY_ID_STR;
     idSortFieldName = schema.useLegacyNumericFields() ? ID_SORT_FIELD : ID2_SORT_FIELD;
     idTerm =
-        (name, id) ->
-            this.schema.useLegacyNumericFields()
-                ? QueryBuilder.intTerm(name, id)
-                : QueryBuilder.stringTerm(name, Integer.toString(id));
+            (name, id) ->
+                    this.schema.useLegacyNumericFields()
+                            ? QueryBuilder.intTerm(name, id)
+                            : QueryBuilder.stringTerm(name, Integer.toString(id));
     extractor =
-        (f) ->
-            Change.id(
-                this.schema.useLegacyNumericFields()
-                    ? f.numericValue().intValue()
-                    : Integer.valueOf(f.stringValue()));
+            (f) ->
+                    Change.id(
+                            this.schema.useLegacyNumericFields()
+                                    ? f.numericValue().intValue()
+                                    : Integer.valueOf(f.stringValue()));
   }
 
   @Override
@@ -298,7 +301,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
-      throws QueryParseException {
+          throws QueryParseException {
     Set<Change.Status> statuses = ChangeIndexRewriter.getPossibleStatus(p);
     List<ChangeSubIndex> indexes = new ArrayList<>(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
@@ -319,8 +322,8 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private Sort getSort() {
     return new Sort(
-        new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),
-        new SortField(idSortFieldName, SortField.Type.LONG, true));
+            new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),
+            new SortField(idSortFieldName, SortField.Type.LONG, true));
   }
 
   private class QuerySource implements ChangeDataSource {
@@ -332,12 +335,12 @@ public class LuceneChangeIndex implements ChangeIndex {
     private final Function<Document, FieldBundle> rawDocumentMapper;
 
     private QuerySource(
-        List<ChangeSubIndex> indexes,
-        Predicate<ChangeData> predicate,
-        QueryOptions opts,
-        Sort sort,
-        Function<Document, FieldBundle> rawDocumentMapper)
-        throws QueryParseException {
+            List<ChangeSubIndex> indexes,
+            Predicate<ChangeData> predicate,
+            QueryOptions opts,
+            Sort sort,
+            Function<Document, FieldBundle> rawDocumentMapper)
+            throws QueryParseException {
       this.indexes = indexes;
       this.predicate = predicate;
       this.query = requireNonNull(queryBuilder.toQuery(predicate), "null query from Lucene");
@@ -370,19 +373,19 @@ public class LuceneChangeIndex implements ChangeIndex {
 
       final Set<String> fields = IndexUtils.changeFields(opts, schema.useLegacyNumericFields());
       return new ChangeDataResults(
-          executor.submit(
-              new Callable<List<Document>>() {
-                @Override
-                public List<Document> call() throws IOException {
-                  return doRead(fields);
-                }
+              executor.submit(
+                      new Callable<List<Document>>() {
+                        @Override
+                        public List<Document> call() throws IOException {
+                          return doRead(fields);
+                        }
 
-                @Override
-                public String toString() {
-                  return predicate.toString();
-                }
-              }),
-          fields);
+                        @Override
+                        public String toString() {
+                          return predicate.toString();
+                        }
+                      }),
+              fields);
     }
 
     @Override
@@ -394,7 +397,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         throw new StorageException(e);
       }
       ImmutableList<FieldBundle> fieldBundles =
-          documents.stream().map(rawDocumentMapper).collect(toImmutableList());
+              documents.stream().map(rawDocumentMapper).collect(toImmutableList());
       return new ResultSet<FieldBundle>() {
         @Override
         public Iterator<FieldBundle> iterator() {
@@ -466,7 +469,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       try {
         List<Document> docs = future.get();
         ImmutableList.Builder<ChangeData> result =
-            ImmutableList.builderWithExpectedSize(docs.size());
+                ImmutableList.builderWithExpectedSize(docs.size());
         for (Document doc : docs) {
           result.add(toChangeData(fields(doc, fields), fields, idField.getName()));
         }
@@ -488,7 +491,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private static ListMultimap<String, IndexableField> fields(Document doc, Set<String> fields) {
     ListMultimap<String, IndexableField> stored =
-        MultimapBuilder.hashKeys(fields.size()).arrayListValues(4).build();
+            MultimapBuilder.hashKeys(fields.size()).arrayListValues(4).build();
     for (IndexableField f : doc) {
       String name = f.name();
       if (fields.contains(name)) {
@@ -499,7 +502,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private ChangeData toChangeData(
-      ListMultimap<String, IndexableField> doc, Set<String> fields, String idFieldName) {
+          ListMultimap<String, IndexableField> doc, Set<String> fields, String idFieldName) {
     ChangeData cd;
     // Either change or the ID field was guaranteed to be included in the call
     // to fields() above.
@@ -554,9 +557,9 @@ public class LuceneChangeIndex implements ChangeIndex {
       decodeAttentionSet(doc, cd);
     }
     decodeSubmitRecords(
-        doc, SUBMIT_RECORD_STRICT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
+            doc, SUBMIT_RECORD_STRICT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
     decodeSubmitRecords(
-        doc, SUBMIT_RECORD_LENIENT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_LENIENT, cd);
+            doc, SUBMIT_RECORD_LENIENT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_LENIENT, cd);
     if (fields.contains(REF_STATE_FIELD)) {
       decodeRefStates(doc, cd);
     }
@@ -580,7 +583,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private void decodeApprovals(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     cd.setCurrentApprovals(
-        decodeProtos(doc, APPROVAL_FIELD, PatchSetApprovalProtoConverter.INSTANCE));
+            decodeProtos(doc, APPROVAL_FIELD, PatchSetApprovalProtoConverter.INSTANCE));
   }
 
   private void decodeChangedLines(ListMultimap<String, IndexableField> doc, ChangeData cd) {
@@ -647,51 +650,51 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private void decodeReviewers(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     cd.setReviewers(
-        ChangeField.parseReviewerFieldValues(
-            cd.getId(),
-            FluentIterable.from(doc.get(REVIEWER_FIELD)).transform(IndexableField::stringValue)));
+            ChangeField.parseReviewerFieldValues(
+                    cd.getId(),
+                    FluentIterable.from(doc.get(REVIEWER_FIELD)).transform(IndexableField::stringValue)));
   }
 
   private void decodeReviewersByEmail(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     cd.setReviewersByEmail(
-        ChangeField.parseReviewerByEmailFieldValues(
-            cd.getId(),
-            FluentIterable.from(doc.get(REVIEWER_BY_EMAIL_FIELD))
-                .transform(IndexableField::stringValue)));
+            ChangeField.parseReviewerByEmailFieldValues(
+                    cd.getId(),
+                    FluentIterable.from(doc.get(REVIEWER_BY_EMAIL_FIELD))
+                            .transform(IndexableField::stringValue)));
   }
 
   private void decodePendingReviewers(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     cd.setPendingReviewers(
-        ChangeField.parseReviewerFieldValues(
-            cd.getId(),
-            FluentIterable.from(doc.get(PENDING_REVIEWER_FIELD))
-                .transform(IndexableField::stringValue)));
+            ChangeField.parseReviewerFieldValues(
+                    cd.getId(),
+                    FluentIterable.from(doc.get(PENDING_REVIEWER_FIELD))
+                            .transform(IndexableField::stringValue)));
   }
 
   private void decodePendingReviewersByEmail(
-      ListMultimap<String, IndexableField> doc, ChangeData cd) {
+          ListMultimap<String, IndexableField> doc, ChangeData cd) {
     cd.setPendingReviewersByEmail(
-        ChangeField.parseReviewerByEmailFieldValues(
-            cd.getId(),
-            FluentIterable.from(doc.get(PENDING_REVIEWER_BY_EMAIL_FIELD))
-                .transform(IndexableField::stringValue)));
+            ChangeField.parseReviewerByEmailFieldValues(
+                    cd.getId(),
+                    FluentIterable.from(doc.get(PENDING_REVIEWER_BY_EMAIL_FIELD))
+                            .transform(IndexableField::stringValue)));
   }
 
   private void decodeAttentionSet(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     ChangeField.parseAttentionSet(
-        doc.get(ATTENTION_SET_FULL_FIELD).stream()
-            .map(field -> field.binaryValue().utf8ToString())
-            .collect(toImmutableSet()),
-        cd);
+            doc.get(ATTENTION_SET_FULL_FIELD).stream()
+                    .map(field -> field.binaryValue().utf8ToString())
+                    .collect(toImmutableSet()),
+            cd);
   }
 
   private void decodeSubmitRecords(
-      ListMultimap<String, IndexableField> doc,
-      String field,
-      SubmitRuleOptions opts,
-      ChangeData cd) {
+          ListMultimap<String, IndexableField> doc,
+          String field,
+          SubmitRuleOptions opts,
+          ChangeData cd) {
     ChangeField.parseSubmitRecords(
-        Collections2.transform(doc.get(field), f -> f.binaryValue().utf8ToString()), opts, cd);
+            Collections2.transform(doc.get(field), f -> f.binaryValue().utf8ToString()), opts, cd);
   }
 
   private void decodeRefStates(ListMultimap<String, IndexableField> doc, ChangeData cd) {
@@ -703,7 +706,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private void decodeUnresolvedCommentCount(
-      ListMultimap<String, IndexableField> doc, ChangeData cd) {
+          ListMultimap<String, IndexableField> doc, ChangeData cd) {
     decodeIntField(doc, UNRESOLVED_COMMENT_COUNT_FIELD, cd::setUnresolvedCommentCount);
   }
 
@@ -712,7 +715,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private static void decodeIntField(
-      ListMultimap<String, IndexableField> doc, String fieldName, Consumer<Integer> consumer) {
+          ListMultimap<String, IndexableField> doc, String fieldName, Consumer<Integer> consumer) {
     IndexableField f = Iterables.getFirst(doc.get(fieldName), null);
     if (f != null && f.numericValue() != null) {
       consumer.accept(f.numericValue().intValue());
@@ -720,30 +723,30 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private static <T> List<T> decodeProtos(
-      ListMultimap<String, IndexableField> doc, String fieldName, ProtoConverter<?, T> converter) {
+          ListMultimap<String, IndexableField> doc, String fieldName, ProtoConverter<?, T> converter) {
     return doc.get(fieldName).stream()
-        .map(IndexableField::binaryValue)
-        .map(bytesRef -> parseProtoFrom(bytesRef, converter))
-        .collect(toImmutableList());
+            .map(IndexableField::binaryValue)
+            .map(bytesRef -> parseProtoFrom(bytesRef, converter))
+            .collect(toImmutableList());
   }
 
   private static <P extends MessageLite, T> T parseProtoFrom(
-      BytesRef bytesRef, ProtoConverter<P, T> converter) {
+          BytesRef bytesRef, ProtoConverter<P, T> converter) {
     P message =
-        Protos.parseUnchecked(
-            converter.getParser(), bytesRef.bytes, bytesRef.offset, bytesRef.length);
+            Protos.parseUnchecked(
+                    converter.getParser(), bytesRef.bytes, bytesRef.offset, bytesRef.length);
     return converter.fromProto(message);
   }
 
   private static List<byte[]> copyAsBytes(Collection<IndexableField> fields) {
     return fields.stream()
-        .map(
-            f -> {
-              BytesRef ref = f.binaryValue();
-              byte[] b = new byte[ref.length];
-              System.arraycopy(ref.bytes, ref.offset, b, 0, ref.length);
-              return b;
-            })
-        .collect(toList());
+            .map(
+                    f -> {
+                      BytesRef ref = f.binaryValue();
+                      byte[] b = new byte[ref.length];
+                      System.arraycopy(ref.bytes, ref.offset, b, 0, ref.length);
+                      return b;
+                    })
+            .collect(toList());
   }
 }

@@ -299,7 +299,8 @@ public class SubmitWithStickyApprovalDiff {
   private Map<String, FileDiffOutput> listModifiedFiles(
       Project.NameKey project, PatchSet ps, PatchSet priorPatchSet) {
     try {
-      return diffOperations.listModifiedFiles(project, priorPatchSet.commitId(), ps.commitId());
+      return diffOperations.listModifiedFiles(
+          project, priorPatchSet.commitId(), ps.commitId(), DiffOptions.DEFAULTS);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't post diff messsage on submit although "

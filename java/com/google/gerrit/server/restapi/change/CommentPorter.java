@@ -40,6 +40,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffMappings;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.GitPositionTransformer;
 import com.google.gerrit.server.patch.GitPositionTransformer.BestPositionOnConflict;
 import com.google.gerrit.server.patch.GitPositionTransformer.FileMapping;
@@ -315,7 +316,11 @@ public class CommentPorter {
         TraceContext.newTimer(
             "Computing diffs", Metadata.builder().commit(originalCommit.name()).build())) {
       Map<String, FileDiffOutput> modifiedFiles =
-          diffOperations.listModifiedFiles(project, originalCommit, targetCommit);
+          diffOperations.listModifiedFiles(
+              project,
+              originalCommit,
+              targetCommit,
+              DiffOptions.builder().skipFilesWithAllEditsDueToRebase(false).build());
       return modifiedFiles.values().stream()
           .map(CommentPorter::getFileEdits)
           .map(DiffMappings::toMapping)

@@ -42,6 +42,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.FilePathAdapter;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
@@ -319,14 +320,14 @@ public abstract class ChangeEmail extends NotificationEmail {
       }
     }
     return args.diffOperations.listModifiedFilesAgainstParent(
-        change.getProject(), ps.commitId(), /* parentNum= */ 0);
+        change.getProject(), ps.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
   }
 
   /** Get the patch list corresponding to this patch set. */
   protected Map<String, FileDiffOutput> listModifiedFiles() throws DiffNotAvailableException {
     if (patchSet != null) {
       return args.diffOperations.listModifiedFilesAgainstParent(
-          change.getProject(), patchSet.commitId(), /* parentNum= */ 0);
+          change.getProject(), patchSet.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
     }
     throw new DiffNotAvailableException("no patchSet specified");
   }

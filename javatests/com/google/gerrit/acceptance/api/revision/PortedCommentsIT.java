@@ -22,23 +22,30 @@ import static com.google.gerrit.extensions.common.testing.CommentInfoSubject.ass
 import static com.google.gerrit.extensions.common.testing.CommentInfoSubject.assertThatList;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
+import static java.util.stream.Collectors.joining;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.change.TestCommentCreation;
 import com.google.gerrit.acceptance.testsuite.change.TestPatchset;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
+import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
@@ -47,6 +54,8 @@ import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -140,6 +149,69 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(comment2Uuid);
+  }
+
+  @Test
+  public void commentsArePortedWhenAllEditsAreDueToRebase() throws Exception {
+    String fileName = "f.txt";
+    String baseContent =
+        IntStream.rangeClosed(1, 50)
+            .mapToObj(number -> String.format("Line %d\n", number))
+            .collect(joining());
+    ObjectId headCommit = testRepo.getRepository().resolve("HEAD");
+    ObjectId baseCommit = addCommit(headCommit, fileName, baseContent);
+
+    // Create a change on top of baseCommit, modify line 1, then add comment on line 10
+    PushOneCommit.Result r = createEmptyChange();
+    Change.Id changeId = r.getChange().getId();
+    addModifiedPatchSet(
+        changeId.toString(), fileName, baseContent.replace("Line 1\n", "Line one\n"));
+    PatchSet.Id ps2Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    newComment(ps2Id).message("Line comment").onLine(10).ofFile(fileName).create();
+
+    // Add a commit on top of baseCommit. Delete line 4. Rebase the change on top of this commit.
+    ObjectId newBase = addCommit(baseCommit, fileName, baseContent.replace("Line 4\n", ""));
+    rebaseChangeOn(changeId.toString(), newBase);
+    PatchSet.Id ps3Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+
+    List<CommentInfo> portedComments = flatten(getPortedComments(ps3Id));
+    assertThat(portedComments).hasSize(1);
+    int portedLine = portedComments.get(0).line;
+    BinaryResult fileContent = gApi.changes().id(changeId.get()).current().file(fileName).content();
+    String[] lines = fileContent.asString().split("\n");
+    assertThat(lines[portedLine - 1]).isEqualTo("Line 10");
+  }
+
+  private Result createEmptyChange() throws Exception {
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "Test change", ImmutableMap.of());
+    return push.to("refs/for/master");
+  }
+
+  private void rebaseChangeOn(String changeId, ObjectId newParent) throws Exception {
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.base = newParent.getName();
+    // rebaseInput.allowConflicts = true;
+    gApi.changes().id(changeId).current().rebase(rebaseInput);
+  }
+
+  private void addModifiedPatchSet(String changeId, String filePath, String content)
+      throws Exception {
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(content));
+    gApi.changes().id(changeId).edit().publish();
+  }
+
+  private ObjectId addCommit(ObjectId parentCommit, String fileName, String fileContent)
+      throws Exception {
+    testRepo.reset(parentCommit);
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Adjust files of repo",
+            ImmutableMap.of(fileName, fileContent));
+    PushOneCommit.Result result = push.to("refs/for/master");
+    return result.getCommit();
   }
 
   @Test

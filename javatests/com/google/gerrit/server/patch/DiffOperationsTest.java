@@ -104,7 +104,8 @@ public class DiffOperationsTest {
     assertThat(repo.getRefDatabase().exactRef(autoMergeRef)).isNull();
 
     Map<String, FileDiffOutput> changedFiles =
-        diffOperations.listModifiedFilesAgainstParent(testProjectName, merge, /* parentNum=*/ 0);
+        diffOperations.listModifiedFilesAgainstParent(
+            testProjectName, merge, /* parentNum=*/ 0, DiffOptions.DEFAULTS);
     assertThat(changedFiles.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST", "file_3.txt");
 
     // Requesting diff against auto-merge had the side effect of updating the auto-merge ref

@@ -56,7 +56,8 @@ public interface DiffOperations {
    *     an internal error occurred in Git while evaluating the diff.
    */
   Map<String, FileDiffOutput> listModifiedFilesAgainstParent(
-      Project.NameKey project, ObjectId newCommit, int parentNum) throws DiffNotAvailableException;
+      Project.NameKey project, ObjectId newCommit, int parentNum, DiffOptions diffOptions)
+      throws DiffNotAvailableException;
 
   /**
    * Returns the list of added, deleted or modified files between two commits (patchsets). The
@@ -72,7 +73,7 @@ public interface DiffOperations {
    *     diff.
    */
   Map<String, FileDiffOutput> listModifiedFiles(
-      Project.NameKey project, ObjectId oldCommit, ObjectId newCommit)
+      Project.NameKey project, ObjectId oldCommit, ObjectId newCommit, DiffOptions diffOptions)
       throws DiffNotAvailableException;
 
   /**

@@ -29,6 +29,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
@@ -98,7 +99,7 @@ public final class StoredValues {
           try {
             diffList =
                 diffOperations.listModifiedFilesAgainstParent(
-                    project, ps.commitId(), /* parentNum= */ 0);
+                    project, ps.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
           } catch (DiffNotAvailableException e) {
             throw new SystemException(
                 String.format(

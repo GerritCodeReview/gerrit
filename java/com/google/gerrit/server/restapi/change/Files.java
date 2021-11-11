@@ -46,6 +46,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
@@ -280,11 +281,14 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
         Map<String, FileDiffOutput> oldList =
             diffOperations.listModifiedFilesAgainstParent(
-                project, patchSet.commitId(), /* parentNum= */ 0);
+                project, patchSet.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
 
         Map<String, FileDiffOutput> curList =
             diffOperations.listModifiedFilesAgainstParent(
-                project, resource.getPatchSet().commitId(), /* parentNum= */ 0);
+                project,
+                resource.getPatchSet().commitId(),
+                /* parentNum= */ 0,
+                DiffOptions.DEFAULTS);
 
         int sz = paths.size();
         List<String> pathList = Lists.newArrayListWithCapacity(sz);

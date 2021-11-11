@@ -38,6 +38,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.restapi.change.CommentPorter.Metrics;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import java.sql.Timestamp;
@@ -78,7 +79,10 @@ public class CommentPorterTest {
     when(commentsUtil.determineCommitId(any(), any(), anyShort()))
         .thenReturn(Optional.of(dummyObjectId));
     when(diffOperations.listModifiedFiles(
-            any(Project.NameKey.class), any(ObjectId.class), any(ObjectId.class)))
+            any(Project.NameKey.class),
+            any(ObjectId.class),
+            any(ObjectId.class),
+            DiffOptions.DEFAULTS))
         .thenThrow(DiffNotAvailableException.class);
     ImmutableList<HumanComment> portedComments =
         commentPorter.portComments(
@@ -101,7 +105,10 @@ public class CommentPorterTest {
     when(commentsUtil.determineCommitId(any(), any(), anyShort()))
         .thenReturn(Optional.of(dummyObjectId));
     when(diffOperations.listModifiedFiles(
-            any(Project.NameKey.class), any(ObjectId.class), any(ObjectId.class)))
+            any(Project.NameKey.class),
+            any(ObjectId.class),
+            any(ObjectId.class),
+            DiffOptions.DEFAULTS))
         .thenThrow(IllegalStateException.class);
     ImmutableList<HumanComment> portedComments =
         commentPorter.portComments(
@@ -144,7 +151,10 @@ public class CommentPorterTest {
     when(commentsUtil.determineCommitId(any(), any(), anyShort()))
         .thenReturn(Optional.of(dummyObjectId));
     when(diffOperations.listModifiedFiles(
-            any(Project.NameKey.class), any(ObjectId.class), any(ObjectId.class)))
+            any(Project.NameKey.class),
+            any(ObjectId.class),
+            any(ObjectId.class),
+            DiffOptions.DEFAULTS))
         .thenThrow(IllegalStateException.class);
     ImmutableList<HumanComment> portedComments =
         commentPorter.portComments(
@@ -173,7 +183,10 @@ public class CommentPorterTest {
         .thenReturn(Optional.of(dummyObjectId));
     // Throw an exception on the first diff request but return an actual value on the second.
     when(diffOperations.listModifiedFiles(
-            any(Project.NameKey.class), any(ObjectId.class), any(ObjectId.class)))
+            any(Project.NameKey.class),
+            any(ObjectId.class),
+            any(ObjectId.class),
+            DiffOptions.DEFAULTS))
         .thenThrow(IllegalStateException.class)
         .thenReturn(ImmutableMap.of());
     ImmutableList<HumanComment> portedComments =
@@ -200,7 +213,10 @@ public class CommentPorterTest {
     when(commentsUtil.determineCommitId(any(), any(), anyShort()))
         .thenReturn(Optional.of(dummyObjectId));
     when(diffOperations.listModifiedFiles(
-            any(Project.NameKey.class), any(ObjectId.class), any(ObjectId.class)))
+            any(Project.NameKey.class),
+            any(ObjectId.class),
+            any(ObjectId.class),
+            DiffOptions.DEFAULTS))
         .thenReturn(ImmutableMap.of());
     ImmutableList<HumanComment> portedComments =
         commentPorter.portComments(

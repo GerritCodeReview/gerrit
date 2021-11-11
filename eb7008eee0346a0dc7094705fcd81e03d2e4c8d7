@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70f034be_244a0cc6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8302,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-11T10:19:07Z",
+      "side": 1,
+      "message": "nit: \u0027unfulfilled\u0027 ?\n\nMaybe say:\n\nIf not specified, defaults to is:true meaning the requirement will not block change submission.",
+      "range": {
+        "startLine": 8302,
+        "startChar": 51,
+        "endLine": 8302,
+        "endChar": 64
+      },
+      "revId": "eb7008eee0346a0dc7094705fcd81e03d2e4c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4933650c_0b7ceece",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-11T10:19:07Z",
+      "side": 1,
+      "message": "nit: document what Optional.empty means.",
+      "revId": "eb7008eee0346a0dc7094705fcd81e03d2e4c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0817c01e_8674652d",
+        "filename": "java/com/google/gerrit/server/change/SubmitRequirementsJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-11T10:19:07Z",
+      "side": 1,
+      "message": "nit:\n\nreq.sE().ifPresent(r -\u003e ...)",
+      "revId": "eb7008eee0346a0dc7094705fcd81e03d2e4c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c19bd65_8ec3a0c7",
+        "filename": "java/com/google/gerrit/server/notedb/SubmitRequirementProtoConverter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-11T10:19:07Z",
+      "side": 1,
+      "message": "nit: ifPresent(r -\u003e ...)",
+      "range": {
+        "startLine": 56,
+        "startChar": 43,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "eb7008eee0346a0dc7094705fcd81e03d2e4c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

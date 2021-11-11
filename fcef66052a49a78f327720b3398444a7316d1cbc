@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05846ea6_d88afa15",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCumulativeSizeValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-11T13:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e82e3b2_34b3ed4e",
+      "range": {
+        "startLine": 83,
+        "startChar": 38,
+        "endLine": 83,
+        "endChar": 52
+      },
+      "revId": "fcef66052a49a78f327720b3398444a7316d1cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76d823ae_bb2f6c57",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-11-11T11:23:42Z",
       "side": 1,
       "message": "newSize sounds like this is the size it will have after the operation. Maybe addedBytes or bytesToAdd or something like that, to imply it\u0027s about to happen.",
+      "range": {
+        "startLine": 86,
+        "startChar": 61,
+        "endLine": 86,
+        "endChar": 68
+      },
+      "revId": "fcef66052a49a78f327720b3398444a7316d1cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b59f522d_a99323a5",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCumulativeSizeValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-11T13:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76d823ae_bb2f6c57",
       "range": {
         "startLine": 86,
         "startChar": 61,
@@ -81,6 +129,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ca64793_ad18e5a3",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCumulativeSizeValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-11T13:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f7a609d_e736b594",
+      "revId": "fcef66052a49a78f327720b3398444a7316d1cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc9eb41f_e1b5ecb1",
@@ -94,6 +160,24 @@
       "writtenOn": "2021-11-11T11:23:42Z",
       "side": 1,
       "message": "With the new heuristic I think we now ensure that we don\u0027t exceed the limit, so maxAllowedSizeForPostSubmitDiff should IMHO be an absolute value. It would be \u003c\u003c maxCumulativeSize, IIRC 300KB was proposed at some point and sounds about reasonable. Otherwise, increasing maxCumulativeSize would lead to an unreadably large diff.",
+      "revId": "fcef66052a49a78f327720b3398444a7316d1cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30854d52_3a0ccc45",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-11T13:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc9eb41f_e1b5ecb1",
       "revId": "fcef66052a49a78f327720b3398444a7316d1cbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

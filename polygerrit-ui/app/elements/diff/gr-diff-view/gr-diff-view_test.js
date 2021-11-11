@@ -728,8 +728,8 @@ suite('gr-diff-view tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       await flush();
       assert.isTrue(element.changeViewState.showReplyDialog);
-      assert(changeNavStub.lastCall.calledWithExactly(element._change, 10,
-          5), 'Should navigate to /c/42/5..10');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change, {
+        patchNum: 10, basePatchNum: 5}), 'Should navigate to /c/42/5..10');
       assert.isFalse(loggedInErrorSpy.called);
     });
 
@@ -754,8 +754,8 @@ suite('gr-diff-view tests', () => {
           MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
           await flush();
           assert.isTrue(element.changeViewState.showReplyDialog);
-          assert(changeNavStub.lastCall.calledWithExactly(element._change, 1,
-              PARENT), 'Should navigate to /c/42/1');
+          assert(changeNavStub.lastCall.calledWithExactly(element._change, {
+            patchNum: 1, basePatchNum: PARENT}), 'Should navigate to /c/42/1');
           assert.isFalse(loggedInErrorSpy.called);
         });
 
@@ -780,8 +780,8 @@ suite('gr-diff-view tests', () => {
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-      assert(changeNavStub.lastCall.calledWithExactly(element._change, 10,
-          5), 'Should navigate to /c/42/5..10');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change,
+          {patchNum: 10, basePatchNum: 5}), 'Should navigate to /c/42/5..10');
 
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert.isTrue(element._loading);
@@ -810,8 +810,8 @@ suite('gr-diff-view tests', () => {
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert.isTrue(element._loading);
-      assert(changeNavStub.lastCall.calledWithExactly(element._change, 10,
-          5),
+      assert(changeNavStub.lastCall.calledWithExactly(element._change,
+          {patchNum: 10, basePatchNum: 5}),
       'Should navigate to /c/42/5..10');
 
       assert.isUndefined(element.changeViewState.showDownloadDialog);
@@ -840,8 +840,8 @@ suite('gr-diff-view tests', () => {
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
-      assert(changeNavStub.lastCall.calledWithExactly(element._change, 1,
-          PARENT), 'Should navigate to /c/42/1');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change,
+          {patchNum: 1, basePatchNum: PARENT}), 'Should navigate to /c/42/1');
 
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
@@ -866,8 +866,8 @@ suite('gr-diff-view tests', () => {
 
       changeNavStub.reset();
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert(changeNavStub.lastCall.calledWithExactly(element._change, 1,
-          PARENT), 'Should navigate to /c/42/1');
+      assert(changeNavStub.lastCall.calledWithExactly(element._change,
+          {patchNum: 1, basePatchNum: PARENT}), 'Should navigate to /c/42/1');
       assert.isTrue(changeNavStub.calledOnce);
     });
 

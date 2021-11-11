@@ -540,7 +540,7 @@ export class GrRepoAccess extends PolymerElement {
     return this.restApiService
       .setRepoAccessRightsForReview(this.repo, obj)
       .then(change => {
-        GerritNav.navigateToChange(change);
+        GerritNav.navigateToChange(change, {});
       })
       .finally(() => {
         this._modified = false;

@@ -185,13 +185,9 @@ export class GrChangeListView extends PolymerElement {
             if (this._query.match(queryPattern)) {
               // "Back"/"Forward" buttons work correctly only with
               // opt_redirect options
-              GerritNav.navigateToChange(
-                changes[0],
-                undefined,
-                undefined,
-                undefined,
-                true
-              );
+              GerritNav.navigateToChange(changes[0], {
+                redirect: true,
+              });
               return;
             }
           }

@@ -224,7 +224,7 @@ export class GrEditorView extends PolymerElement {
       this,
       'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
     );
-    GerritNav.navigateToChange(value);
+    GerritNav.navigateToChange(value, {});
   }
 
   @observe('_change', '_type')
@@ -233,7 +233,7 @@ export class GrEditorView extends PolymerElement {
 
     // Prevent editing binary files
     fireAlert(this, 'You cannot edit binary files within the inline editor.');
-    GerritNav.navigateToChange(change);
+    GerritNav.navigateToChange(change, {});
   }
 
   _handlePathChanged(e: CustomEvent<string>) {
@@ -259,14 +259,10 @@ export class GrEditorView extends PolymerElement {
 
   _viewEditInChangeView() {
     if (this._change)
-      GerritNav.navigateToChange(
-        this._change,
-        undefined,
-        undefined,
-        true,
-        undefined,
-        true
-      );
+      GerritNav.navigateToChange(this._change, {
+        isEdit: true,
+        forceReload: true,
+      });
   }
 
   _getFileData(
@@ -385,7 +381,7 @@ export class GrEditorView extends PolymerElement {
         )
         .then(() => {
           assertIsDefined(this._change, '_change');
-          GerritNav.navigateToChange(this._change);
+          GerritNav.navigateToChange(this._change, {});
         });
     });
   }

@@ -293,11 +293,10 @@ export class GrApplyFixDialog extends PolymerElement {
       .applyFixSuggestion(changeNum, patchNum, this._currentFix.fix_id)
       .then(res => {
         if (res && res.ok) {
-          GerritNav.navigateToChange(
-            change,
-            EditPatchSetNum,
-            patchNum as BasePatchSetNum
-          );
+          GerritNav.navigateToChange(change, {
+            patchNum: EditPatchSetNum,
+            basePatchNum: patchNum as BasePatchSetNum,
+          });
           this._close(true);
         }
         this._isApplyFixLoading = false;

@@ -277,12 +277,10 @@ suite('gr-apply-fix-dialog tests', () => {
       2 as PatchSetNum,
       '123'
     );
-    sinon.assert.calledWithExactly(
-      navigateToChangeStub,
-      element.change!,
-      EditPatchSetNum,
-      element.change!.revisions[2]._number as BasePatchSetNum
-    );
+    sinon.assert.calledWithExactly(navigateToChangeStub, element.change!, {
+      patchNum: EditPatchSetNum,
+      basePatchNum: element.change!.revisions[2]._number as BasePatchSetNum,
+    });
 
     sinon.assert.calledOnceWithExactly(
       closeFixPreviewEventSpy,

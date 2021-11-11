@@ -27,6 +27,7 @@ import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -110,7 +111,10 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
       throws DiffNotAvailableException {
     return diffOperations
         .listModifiedFilesAgainstParent(
-            receiveEvent.project.getNameKey(), receiveEvent.commit, /* parentNum=*/ 0)
+            receiveEvent.project.getNameKey(),
+            receiveEvent.commit,
+            /* parentNum=*/ 0,
+            DiffOptions.DEFAULTS)
         .keySet().stream()
         .anyMatch(fileName::equals);
   }

@@ -58,6 +58,7 @@ import com.google.gerrit.server.data.TrackingIdAttribute;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.FilePathAdapter;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -400,7 +401,7 @@ public class EventFactory {
     try {
       Map<String, FileDiffOutput> modifiedFiles =
           diffOperations.listModifiedFilesAgainstParent(
-              change.getProject(), patchSet.commitId(), /* parentNum= */ 0);
+              change.getProject(), patchSet.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
 
       for (FileDiffOutput diff : modifiedFiles.values()) {
         if (patchSetAttribute.files == null) {
@@ -457,7 +458,7 @@ public class EventFactory {
 
       Map<String, FileDiffOutput> modifiedFiles =
           diffOperations.listModifiedFilesAgainstParent(
-              change.getProject(), patchSet.commitId(), /* parentNum= */ 0);
+              change.getProject(), patchSet.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
       for (FileDiffOutput fileDiff : modifiedFiles.values()) {
         p.sizeDeletions += fileDiff.deletions();
         p.sizeInsertions += fileDiff.insertions();

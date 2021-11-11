@@ -36,10 +36,15 @@ suite('gr-registration-dialog tests', () => {
 
     account = {
       name: 'name',
+      display_name: 'display name',
       registered_on: '2018-02-08 18:49:18.000000000' as Timestamp,
     };
 
-    stubRestApi('getAccount').returns(Promise.resolve(account));
+    stubRestApi('getAccount').returns(
+      Promise.resolve({
+        ...account,
+      })
+    );
     stubRestApi('setAccountName').callsFake(name => {
       account.name = name;
       return Promise.resolve();
@@ -48,12 +53,19 @@ suite('gr-registration-dialog tests', () => {
       account.username = username;
       return Promise.resolve();
     });
+    stubRestApi('setAccountDisplayName').callsFake(displayName => {
+      account.display_name = displayName;
+      return Promise.resolve();
+    });
     stubRestApi('getConfig').returns(
       Promise.resolve({
         ...createServerInfo(),
         auth: {
           auth_type: AuthType.HTTP,
-          editable_account_fields: [EditableAccountField.USER_NAME],
+          editable_account_fields: [
+            EditableAccountField.USER_NAME,
+            EditableAccountField.FULL_NAME,
+          ],
         },
       })
     );
@@ -106,31 +118,35 @@ suite('gr-registration-dialog tests', () => {
 
   test('saves account details', async () => {
     await flush();
-    element.$.name.value = 'new name';
 
     element.set('_account.username', '');
     element._hasUsernameChange = false;
     assert.isTrue(element._usernameMutable);
 
     element.set('_username', 'new username');
+    element.set('_account.name', 'new name');
+    element.set('_account.display_name', 'new display name');
 
     // Nothing should be committed yet.
     assert.equal(account.name, 'name');
     assert.isNotOk(account.username);
+    assert.equal(account.display_name, 'display name');
 
     // Save and verify new values are committed.
     await save();
     assert.equal(account.name, 'new name');
     assert.equal(account.username, 'new username');
+    assert.equal(account.display_name, 'new display name');
   });
 
   test('save btn disabled', () => {
     const compute = element._computeSaveDisabled;
-    assert.isTrue(compute('', '', false));
-    assert.isFalse(compute('', 'test', false));
-    assert.isFalse(compute('test', '', false));
-    assert.isTrue(compute('test', 'test', true));
-    assert.isFalse(compute('test', 'test', false));
+    assert.isTrue(compute('', '', '', false));
+    assert.isFalse(compute('', '', 'test', false));
+    assert.isFalse(compute('', 'test', '', false));
+    assert.isFalse(compute('test', '', '', false));
+    assert.isTrue(compute('test', 'test', 'test', true));
+    assert.isFalse(compute('test', 'test', 'test', false));
   });
 
   test('_computeUsernameMutable', () => {

@@ -14,22 +14,29 @@
 
 package com.google.gerrit.lucene;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.ConfigUtil;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.util.InfoStream;
 import org.eclipse.jgit.lib.Config;
 
 /** Combination of Lucene {@link IndexWriterConfig} with additional Gerrit-specific options. */
 class GerritIndexWriterConfig {
   private static final ImmutableMap<String, String> CUSTOM_CHAR_MAPPING =
       ImmutableMap.of("_", " ", ".", " ");
+  private static PrintWriter verboseWriter =  new PrintWriter(new OutputStreamWriter(System.out, UTF_8), true);
 
   private final IndexWriterConfig luceneConfig;
   private long commitWithinMs;
@@ -75,6 +82,25 @@ class GerritIndexWriterConfig {
     } catch (IllegalArgumentException e) {
       commitWithinMs = cfg.getLong("index", name, "commitWithin", 0);
     }
+    if(cfg.getBoolean("index", null, "verbose", false)) {
+      luceneConfig.setInfoStream(new LuceneOutput());
+    }
+  }
+
+  private static class LuceneOutput extends InfoStream {
+
+    @Override
+    public void message(String component, String message) {
+      verboseWriter.println(String.format("%s: %s", component, message));
+    }
+
+    @Override
+    public boolean isEnabled(String s) {
+      return true;
+    }
+
+    @Override
+    public void close() throws IOException { }
   }
 
   CustomMappingAnalyzer getAnalyzer() {

@@ -3096,6 +3096,13 @@ Defaults to `5m`.
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.
 
+[[index.verbose]]index.verbose::
++
+If enabled, this outputs verbose logging of the index. When `index.type`
+is set to LUCENE, this enables info stream of lucene's IndexWriter.
++
+Defaults to `false`.
+
 ==== Lucene configuration
 
 Open and closed changes are indexed in separate indexes named

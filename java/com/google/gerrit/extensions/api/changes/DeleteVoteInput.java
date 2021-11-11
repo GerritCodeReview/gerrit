@@ -25,4 +25,10 @@ public class DeleteVoteInput {
   public NotifyHandling notify = NotifyHandling.ALL;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
+
+  /**
+   * Users in the attention set will not be added/removed from this endpoint call. Normally, users
+   * are added to the attention set upon deletion of their vote by other users.
+   */
+  public boolean ignoreAutomaticAttentionSetRules;
 }

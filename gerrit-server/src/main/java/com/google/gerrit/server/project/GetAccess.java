@@ -245,7 +245,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
         }
         AccountGroup.UUID group = r.getGroup().getUUID();
         if (group != null) {
-          pInfo.rules.put(group.get(), info);
+          pInfo.rules.putIfAbsent(group.get(), info); // First entry for the group wins
         }
       }
       accessSectionInfo.permissions.put(p.getName(), pInfo);

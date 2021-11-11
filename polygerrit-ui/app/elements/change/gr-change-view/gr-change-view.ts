@@ -1506,8 +1506,10 @@ export class GrChangeView extends base {
     return 'PARENT';
   }
 
-  _computeChangeUrl(change: ChangeInfo) {
-    return GerritNav.getUrlForChange(change);
+  _computeChangeUrl(change: ChangeInfo, forceReload?: string) {
+    return GerritNav.getUrlForChange(change, {
+      forceReload: !!forceReload,
+    });
   }
 
   _computeReplyButtonLabel(

@@ -16,6 +16,24 @@
       "message": "Sorry to nitpick about this, but does this need to be configurable? Maybe we can avoid this complexity until someone makes a case for it? :-)",
       "revId": "f78fe93650bb82cd570eb7e96c9c2bcfd7d8b610",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eb1ff08_4406a053",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1363,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-11T13:56:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e163c05_6ed26699",
+      "revId": "f78fe93650bb82cd570eb7e96c9c2bcfd7d8b610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

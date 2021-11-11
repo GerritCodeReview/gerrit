@@ -16,6 +16,24 @@
       "message": "Can you elaborate on what happens in the old UI?\n\nBefore removing the experiment entirely, can we ramp it up gradually over 2-3 days internally? Seems cheap given we have everything set up?",
       "revId": "1fd54d13104356a3bc717470f36092846d8306ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76016be3_48fc3cd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-11T11:10:00Z",
+      "side": 1,
+      "message": "Nothing happens to the old UI: SRs are requested by passing a special parameter (o\u003dSUBMIT_REQUIREMENTS) to the change API. Old UI does not pass it.\n\nYes, I can start ramping up the experiment. This SGTM. I\u0027ll post another comment when it is ramped up.",
+      "parentUuid": "08f99391_5081bf57",
+      "revId": "1fd54d13104356a3bc717470f36092846d8306ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

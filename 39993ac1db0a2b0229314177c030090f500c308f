@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "018f132d_1bccfcce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-11T10:05:38Z",
+      "side": 1,
+      "message": "AFAICT allowClosed is only set if we are retrying a failed merge. In that case the new code would read back SRs from NoteDb instead of recomputing. That sounds good to me.",
+      "revId": "39993ac1db0a2b0229314177c030090f500c308f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

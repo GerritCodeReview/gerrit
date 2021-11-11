@@ -46,6 +46,7 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
+import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
@@ -1938,6 +1939,30 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .deleteVote(LabelId.CODE_REVIEW);
 
     assertThat(getAttentionSetUpdates(r.getChange().getId())).isEmpty();
+  }
+
+  @Test
+  public void deleteVotesDoesNotAffectAttentionSetWhenIgnoreAutomaticRulesIsSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(user.id());
+    recommend(r.getChangeId());
+
+    requestScopeOperations.setApiUser(admin.id());
+
+    DeleteVoteInput deleteVoteInput = new DeleteVoteInput();
+    deleteVoteInput.label = LabelId.CODE_REVIEW;
+
+    // set this to true to not change the attention set.
+    deleteVoteInput.ignoreAutomaticAttentionSetRules = true;
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .reviewer(user.id().toString())
+        .deleteVote(deleteVoteInput);
+
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
   }
 
   @Test

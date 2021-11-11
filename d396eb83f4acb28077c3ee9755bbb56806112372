@@ -524,6 +524,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0a419faf_5cf4077f",
+        "filename": "java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T19:30:01Z",
+      "side": 1,
+      "message": "This is also called by OnlineReindexer, so it\u0027s not safe to assume we\u0027re offline and coming from Reindex.",
+      "parentUuid": "3161625a_0d9d9894",
+      "range": {
+        "startLine": 95,
+        "startChar": 26,
+        "endLine": 95,
+        "endChar": 32
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64454e5e_530b18e4",
         "filename": "java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
         "patchSetId": 4

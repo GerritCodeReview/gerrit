@@ -249,6 +249,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06560484_9732dc7f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-11T20:48:26Z",
+      "side": 1,
+      "message": "I\u0027ve been told that we cannot do it that way because of the way google compiles. Also deepEqual doesn\u0027t work.\n\nI tried:\n\nexport function deepEqual(a: any, b: any) {\n  for (const key of Object.keys(a)) {\n    const value \u003d a[key]\n    if (typeof value \u003d\u003d\u003d \u0027object\u0027) {\n      if(!deepEqual(a[key], b[key])) return false;\n    } else if (a[key] !\u003d\u003d b[key])  {\n      return false;\n    }\n  }\n  return true;\n}\n\nwhich worked but i was told it was broken.\n\nAnd also tried:\n\nexport function deepEqual(a: any, b: any) {\n  if (a \u003d\u003d\u003d b) {\n    return true;\n  } else if ((typeof a \u003d\u003d\u003d \u0027object\u0027 \u0026\u0026 a!\u003d\u003d null) \u0026\u0026 (typeof b \u003d\u003d\u003d \u0027object\u0027 \u0026\u0026 b !\u003d\u003d null))  {\n    console.log(\u0027a\u0027);\n    const aKeys \u003d Object.keys(a).sort();\n    console.log(a);\n    console.log(aKeys);\n    console.log(\u0027b\u0027);\n    const bKeys \u003d Object.keys(b).sort();\n    console.log(b);\n    console.log(bKeys);\n    if (aKeys.length !\u003d\u003d bKeys.length) {\n      // console.log(\"Key lengths don\u0027t match: \", aKeys, bKeys);\n      return false;\n    }\n\n    for (const key of aKeys) {\n      if (b.hasOwnProperty(key)) {\n        // console.log(deepEqual(a[key], b[key]));\n        if (!deepEqual(a[key], b[key])) {\n          // console.log(\u0027recursive false for\u0027, a[key], b[key]);\n          return false;\n        }\n      }\n    }\n\n    return true;\n  }\n  // console.log(\"Not equal nor object\");\n  return false;\n}\n\nwhich does not work at all.",
+      "parentUuid": "afd06698_99504896",
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a5590bd6_98e7663d",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
         "patchSetId": 8

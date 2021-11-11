@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0e4178_6c657785",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-11T21:35:13Z",
+      "side": 1,
+      "message": "Remove console.log statements.",
+      "revId": "429315eb862771a85d53603a329eb807102123fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c97c7ae_f4b2fdb5",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-11T21:35:13Z",
+      "side": 1,
+      "message": "Add dom/snapshot tests for \u003cgr-thread-list\u003e.",
+      "revId": "429315eb862771a85d53603a329eb807102123fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42995345_5d216cf8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-11T21:35:13Z",
+      "side": 1,
+      "message": "Add dom/snapshot tests for \u003cgr-comment-thread\u003e.",
+      "revId": "429315eb862771a85d53603a329eb807102123fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f529bdfa_bb433801",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-11T21:35:13Z",
+      "side": 1,
+      "message": "Add dom/snapshot tests for \u003cgr-comment\u003e.",
+      "revId": "429315eb862771a85d53603a329eb807102123fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

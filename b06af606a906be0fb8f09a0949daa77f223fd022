@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c12b0df_df03dfb8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1518,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-11T16:25:02Z",
+      "side": 1,
+      "message": "Any thoughts of using a params object for this function?",
+      "revId": "b06af606a906be0fb8f09a0949daa77f223fd022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

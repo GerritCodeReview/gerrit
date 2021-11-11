@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d644ff8_ac56347d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-11T18:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e1eb273_7550be04",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41be6313_ef920973",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d725dbd_c22fff9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-11T18:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41be6313_ef920973",
+      "range": {
+        "startLine": 10,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01e47ec3_618b0786",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-11-11T16:25:53Z",
       "side": 1,
       "message": "This is a low level detail that probably doesn\u0027t make sense to anyone not familiar with Lucene flushes and the verbose logging output. Any way to make it more understandable to a wider audience?",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a97d86e_c2f7ebd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-11T18:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01e47ec3_618b0786",
       "range": {
         "startLine": 11,
         "startChar": 47,
@@ -166,6 +238,24 @@
       "side": 1,
       "message": "\u003e Yea, should be TODO for future, do you want me to mention it in comment ?\n\nYes please. Just // TODO: Implement real insert() if it helps performance",
       "parentUuid": "f35a4b84_7d959773",
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ce56692_d5f304a5",
+        "filename": "java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-11T18:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "279a23fd_44988917",
       "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -327,6 +417,30 @@
       "side": 1,
       "message": "I don\u0027t think we\u0027re worried about when it gets cleared so long as it happens before we exit reindex.\n\nWe shouldn\u0027t add code unless we\u0027re sure it does something we need. If you\u0027re worried we\u0027re keeping duplicates after reindex completes without this line, we need to test that.",
       "parentUuid": "09e61ee5_5a4d9f39",
+      "range": {
+        "startLine": 305,
+        "startChar": 6,
+        "endLine": 305,
+        "endChar": 22
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca43db19_d3f60e08",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-11T18:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6dc2e1c_ea750f51",
       "range": {
         "startLine": 305,
         "startChar": 6,

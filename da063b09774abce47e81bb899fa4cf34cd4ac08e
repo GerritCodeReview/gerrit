@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87d0af7b_39213046",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-11-11T19:32:13Z",
+      "side": 1,
+      "message": "Hey Ben, \n\nPlease check it out what do you think about this step. In general I think we should improve this API for the gr-diff-cursor so that we don\u0027t have such things, but this is just a step in this direction: First unify/extract some of the behavior and them call more representative methods to operate the cursor. What do you think?",
+      "revId": "da063b09774abce47e81bb899fa4cf34cd4ac08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

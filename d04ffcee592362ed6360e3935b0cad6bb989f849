@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c24997e7_297a17ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-11-11T08:41:47Z",
+      "side": 1,
+      "message": "Could you fold these three changes into one? That would be easier to review for me.",
+      "revId": "d04ffcee592362ed6360e3935b0cad6bb989f849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

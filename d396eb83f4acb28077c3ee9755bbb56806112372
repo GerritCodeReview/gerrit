@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e1eb273_7550be04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T16:25:53Z",
+      "side": 1,
+      "message": "nit: it\u0027s",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41be6313_ef920973",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T16:25:53Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "range": {
+        "startLine": 10,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01e47ec3_618b0786",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T16:25:53Z",
+      "side": 1,
+      "message": "This is a low level detail that probably doesn\u0027t make sense to anyone not familiar with Lucene flushes and the verbose logging output. Any way to make it more understandable to a wider audience?",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00db7559_9663124d",
+        "filename": "java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T16:25:53Z",
+      "side": 1,
+      "message": "Why not provide an insert() implementation for elastic? Is this a TODO?",
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b26c606_088f6520",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T16:25:53Z",
+      "side": 1,
+      "message": "Do we need this?",
+      "range": {
+        "startLine": 305,
+        "startChar": 6,
+        "endLine": 305,
+        "endChar": 22
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec618d28_479d2072",
+        "filename": "java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T16:25:53Z",
+      "side": 1,
+      "message": "It doesn\u0027t look like there was a deleteAll() before this, so is this safe?",
+      "range": {
+        "startLine": 95,
+        "startChar": 26,
+        "endLine": 95,
+        "endChar": 32
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64454e5e_530b18e4",
+        "filename": "java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T16:25:53Z",
+      "side": 1,
+      "message": "same comment as allAccountsIndexer",
+      "range": {
+        "startLine": 100,
+        "startChar": 26,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e064532_c22bd0f2",
+        "filename": "java/com/google/gerrit/server/index/project/AllProjectsIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T16:25:53Z",
+      "side": 1,
+      "message": "Same comment as allAccountsIndexer",
+      "range": {
+        "startLine": 82,
+        "startChar": 24,
+        "endLine": 82,
+        "endChar": 30
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

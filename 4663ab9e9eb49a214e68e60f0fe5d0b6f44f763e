@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67ac2099_596ff6e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-11T09:37:35Z",
+      "side": 1,
+      "message": "IIRC you checked that at Google, this was not used, right?",
+      "revId": "4663ab9e9eb49a214e68e60f0fe5d0b6f44f763e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

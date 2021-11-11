@@ -89,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f35a4b84_7d959773",
+        "filename": "java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-11T16:48:30Z",
+      "side": 1,
+      "message": "Yea, should be TODO for future, do you want me to mention it in comment ?",
+      "parentUuid": "00db7559_9663124d",
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1b26c606_088f6520",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 4
@@ -112,6 +130,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f89f36c2_e0c24f8e",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-11T16:48:30Z",
+      "side": 1,
+      "message": "Yes, safe to commit. Doesn\u0027t introduce any degradation.\n\n\nhttps://lucene.apache.org/core/6_6_5/core/org/apache/lucene/index/IndexWriter.html#deleteAll--",
+      "parentUuid": "1b26c606_088f6520",
+      "range": {
+        "startLine": 305,
+        "startChar": 6,
+        "endLine": 305,
+        "endChar": 22
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec618d28_479d2072",
         "filename": "java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
         "patchSetId": 4
@@ -123,6 +165,30 @@
       "writtenOn": "2021-11-11T16:25:53Z",
       "side": 1,
       "message": "It doesn\u0027t look like there was a deleteAll() before this, so is this safe?",
+      "range": {
+        "startLine": 95,
+        "startChar": 26,
+        "endLine": 95,
+        "endChar": 32
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cd18e47_c7765057",
+        "filename": "java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-11T16:48:30Z",
+      "side": 1,
+      "message": "deleteAll() in performed in Reindex class which then calls this.",
+      "parentUuid": "ec618d28_479d2072",
       "range": {
         "startLine": 95,
         "startChar": 26,

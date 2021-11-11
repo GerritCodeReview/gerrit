@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fd6af1d_91a36196",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-11T09:44:00Z",
+      "side": 1,
+      "message": "Is this an attack vector to send Gerrit into an infinite recursion?\n\nSR:\nsubmittableIf \u003d is:submittable",
+      "revId": "e76317460fa7e5432b54c63e5f6d59e9045df702",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

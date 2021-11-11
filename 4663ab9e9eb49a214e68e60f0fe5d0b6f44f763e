@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a580045e_0a5792e9",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-11T09:44:00Z",
+      "side": 0,
+      "message": "We need to keep this logic, otherwise we are breaking the search operator is:submittable on installations that are still on the old change index version (i.e. us).\n\nis: submittable was used millions of times in the past 30 days in queries.\n\nSo you basically need to conditionally run the old or new logic depending on field presence.",
+      "range": {
+        "startLine": 720,
+        "startChar": 33,
+        "endLine": 724,
+        "endChar": 83
+      },
+      "revId": "4663ab9e9eb49a214e68e60f0fe5d0b6f44f763e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -333,7 +333,7 @@ export class GrMessage extends PolymerElement {
       patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
       basePatchNum = computePredecessor(patchNum)!;
     }
-    GerritNav.navigateToChange(this.change, patchNum, basePatchNum);
+    GerritNav.navigateToChange(this.change, {patchNum, basePatchNum});
     // stop propagation to stop message expansion
     e.stopPropagation();
   }

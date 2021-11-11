@@ -366,8 +366,8 @@ suite('gr-editor-view tests', () => {
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
     element._patchNum = EditPatchSetNum;
     element._viewEditInChangeView();
-    assert.equal(navStub.lastCall.args[1], undefined);
-    assert.equal(navStub.lastCall.args[3], true);
+    assert.equal(navStub.lastCall.args[1].patchNum, undefined);
+    assert.equal(navStub.lastCall.args[1].isEdit, true);
   });
 
   suite('keyboard shortcuts', () => {

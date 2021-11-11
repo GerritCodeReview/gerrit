@@ -175,7 +175,7 @@ export class GrFileListHeader extends PolymerElement {
     ) {
       return;
     }
-    GerritNav.navigateToChange(this.change, patchNum, basePatchNum);
+    GerritNav.navigateToChange(this.change, {patchNum, basePatchNum});
   }
 
   _handlePrefsTap(e: Event) {

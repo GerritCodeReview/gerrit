@@ -416,7 +416,7 @@ suite('gr-change-view tests', () => {
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[0], element._change);
-    assert.equal(args[1], 3 as PatchSetNum);
+    assert.equal(args[1].patchNum, 3 as PatchSetNum);
   });
 
   test('_handleDiffAgainstLatest', () => {
@@ -432,8 +432,8 @@ suite('gr-change-view tests', () => {
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[0], element._change);
-    assert.equal(args[1], 10 as PatchSetNum);
-    assert.equal(args[2], 1 as BasePatchSetNum);
+    assert.equal(args[1].patchNum, 10 as PatchSetNum);
+    assert.equal(args[1].basePatchNum, 1 as BasePatchSetNum);
   });
 
   test('_handleDiffBaseAgainstLeft', () => {
@@ -449,7 +449,7 @@ suite('gr-change-view tests', () => {
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[0], element._change);
-    assert.equal(args[1], 1 as PatchSetNum);
+    assert.equal(args[1].patchNum, 1 as PatchSetNum);
   });
 
   test('_handleDiffRightAgainstLatest', () => {
@@ -464,8 +464,8 @@ suite('gr-change-view tests', () => {
     element._handleDiffRightAgainstLatest();
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[1], 10 as PatchSetNum);
-    assert.equal(args[2], 3 as BasePatchSetNum);
+    assert.equal(args[1].patchNum, 10 as PatchSetNum);
+    assert.equal(args[1].basePatchNum, 3 as BasePatchSetNum);
   });
 
   test('_handleDiffBaseAgainstLatest', () => {
@@ -480,8 +480,8 @@ suite('gr-change-view tests', () => {
     element._handleDiffBaseAgainstLatest();
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[1], 10 as PatchSetNum);
-    assert.isNotOk(args[2]);
+    assert.equal(args[1].patchNum, 10 as PatchSetNum);
+    assert.isNotOk(args[1].basePatchNum);
   });
 
   test('toggle attention set status', async () => {
@@ -2080,7 +2080,7 @@ suite('gr-change-view tests', () => {
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
         assert.equal(args.length, 2);
-        assert.equal(args[1], EditPatchSetNum); // patchNum
+        assert.equal(args[1].patchNum, EditPatchSetNum); // patchNum
         promise.resolve();
       });
 
@@ -2097,8 +2097,8 @@ suite('gr-change-view tests', () => {
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
         assert.equal(args.length, 6);
-        assert.equal(args[1], 1 as PatchSetNum); // patchNum
-        assert.equal(args[3], true); // opt_isEdit
+        assert.equal(args[1].patchNum, 1 as PatchSetNum); // patchNum
+        assert.equal(args[1].isEdit, true); // opt_isEdit
         promise.resolve();
       });
 
@@ -2116,7 +2116,7 @@ suite('gr-change-view tests', () => {
         assert.equal(args.length, 6);
         // No patch should be specified when patchNum == latest.
         assert.isNotOk(args[1]); // patchNum
-        assert.equal(args[3], true); // opt_isEdit
+        assert.equal(args[1].isEdit, true); // opt_isEdit
         promise.resolve();
       });
 
@@ -2138,7 +2138,7 @@ suite('gr-change-view tests', () => {
     const promise = mockPromise();
     sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
       assert.equal(args.length, 6);
-      assert.equal(args[1], 1 as PatchSetNum); // patchNum
+      assert.equal(args[1].patchNum, 1 as PatchSetNum); // patchNum
       promise.resolve();
     });
 

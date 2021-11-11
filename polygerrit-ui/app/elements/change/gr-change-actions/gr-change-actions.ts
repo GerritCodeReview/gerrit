@@ -1618,7 +1618,7 @@ export class GrChangeActions
           this._waitForChangeReachable(revertChangeInfo._number)
             .then(() => this._setReviewOnRevert(revertChangeInfo._number))
             .then(() => {
-              GerritNav.navigateToChange(revertChangeInfo);
+              GerritNav.navigateToChange(revertChangeInfo, {});
             });
           break;
         }
@@ -1626,7 +1626,7 @@ export class GrChangeActions
           const cherrypickChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
           this._waitForChangeReachable(cherrypickChangeInfo._number).then(
             () => {
-              GerritNav.navigateToChange(cherrypickChangeInfo);
+              GerritNav.navigateToChange(cherrypickChangeInfo, {});
             }
           );
           break;

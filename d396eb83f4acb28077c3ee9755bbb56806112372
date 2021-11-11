@@ -107,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "279a23fd_44988917",
+        "filename": "java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T18:11:55Z",
+      "side": 1,
+      "message": "\u003e Yea, should be TODO for future, do you want me to mention it in comment ?\n\nYes please. Just // TODO: Implement real insert() if it helps performance",
+      "parentUuid": "f35a4b84_7d959773",
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1b26c606_088f6520",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 4
@@ -154,6 +172,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34d41c7e_79ceb424",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T18:11:55Z",
+      "side": 1,
+      "message": "\u003e Yes, safe to commit. Doesn\u0027t introduce any degradation.\n\nBut do we *need* it? If yes, why?",
+      "parentUuid": "f89f36c2_e0c24f8e",
+      "range": {
+        "startLine": 305,
+        "startChar": 6,
+        "endLine": 305,
+        "endChar": 22
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec618d28_479d2072",
         "filename": "java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
         "patchSetId": 4
@@ -189,6 +231,30 @@
       "side": 1,
       "message": "deleteAll() in performed in Reindex class which then calls this.",
       "parentUuid": "ec618d28_479d2072",
+      "range": {
+        "startLine": 95,
+        "startChar": 26,
+        "endLine": 95,
+        "endChar": 32
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3161625a_0d9d9894",
+        "filename": "java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T18:11:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9cd18e47_c7765057",
       "range": {
         "startLine": 95,
         "startChar": 26,

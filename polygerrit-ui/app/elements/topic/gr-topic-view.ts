@@ -22,14 +22,20 @@ import {getAppContext} from '../../services/app-context';
 import {KnownExperimentId} from '../../services/flags/flags';
 import {GerritNav} from '../core/gr-navigation/gr-navigation';
 import {GerritView} from '../../services/router/router-model';
+import './gr-topic-summary';
+import './gr-topic-tree';
 
+/**
+ * A page showing all information about a topic and changes that are related
+ * to that topic.
+ */
 @customElement('gr-topic-view')
 export class GrTopicView extends LitElement {
-  @property()
+  @property({type: Object})
   params?: AppElementTopicParams;
 
   @state()
-  topic?: string;
+  topicName?: string;
 
   private readonly flagsService = getAppContext().flagsService;
 
@@ -40,17 +46,24 @@ export class GrTopicView extends LitElement {
   }
 
   override render() {
-    return html`<div>Topic page for ${this.topic ?? ''}</div>`;
+    if (this.topicName === undefined) {
+      return;
+    }
+    // TODO: Add topic selector
+    return html`
+      <gr-topic-summary .topicName=${this.topicName}></gr-topic-summary>
+      <gr-topic-tree .topicName=${this.topicName}></gr-topic-tree>
+    `;
   }
 
   paramsChanged() {
     if (this.params?.view !== GerritView.TOPIC) return;
-    this.topic = this.params?.topic;
+    this.topicName = this.params?.topic;
     if (
       !this.flagsService.isEnabled(KnownExperimentId.TOPICS_PAGE) &&
-      this.topic
+      this.topicName
     ) {
-      GerritNav.navigateToSearchQuery(`topic:${this.topic}`);
+      GerritNav.navigateToSearchQuery(`topic:${this.topicName}`);
     }
   }
 }

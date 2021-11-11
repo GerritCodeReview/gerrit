@@ -16,6 +16,24 @@
       "message": "I would consider keeping this intro section and then simply pointing at GenerateUrlParameters",
       "revId": "4052c45e7c35c840ccf02dda3ee2e0b6da520c85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b834192_3134f799",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-11T13:40:22Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "cb519949_3fb0a016",
+      "revId": "4052c45e7c35c840ccf02dda3ee2e0b6da520c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -40,6 +40,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
+import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
@@ -146,13 +147,17 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
               r.getReviewerUser().state(),
               rsrc.getLabel(),
               input));
-      if (!r.getReviewerUser().getAccountId().equals(currentUserProvider.get().getAccountId())) {
+      if (!input.ignoreAutomaticAttentionSetRules
+          && !r.getReviewerUser().getAccountId().equals(currentUserProvider.get().getAccountId())) {
         bu.addOp(
             change.getId(),
             attentionSetOpFactory.create(
                 r.getReviewerUser().getAccountId(),
                 /* reason= */ "Their vote was deleted",
                 /* notify= */ false));
+      }
+      if (input.ignoreAutomaticAttentionSetRules) {
+        bu.addOp(change.getId(), new AttentionSetUnchangedOp());
       }
       bu.execute();
     }

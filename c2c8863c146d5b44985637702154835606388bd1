@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9af65cf7_6e7257ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-11T00:30:37Z",
+      "side": 1,
+      "message": "Mention code de-duplication as well. We\u0027re able to delete that code from the indexer that was pretty much identical to the ChangeNotes code.",
+      "revId": "c2c8863c146d5b44985637702154835606388bd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

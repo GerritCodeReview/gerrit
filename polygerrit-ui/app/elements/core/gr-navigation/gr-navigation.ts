@@ -439,6 +439,14 @@ export enum WeblinkType {
   RESOLVE_CONFLICTS = 'resolve-conflicts',
 }
 
+interface NavigateToChangeParams {
+  patchNum?: PatchSetNum;
+  basePatchNum?: BasePatchSetNum;
+  isEdit?: boolean;
+  redirect?: boolean;
+  forceReload?: boolean;
+}
+
 // TODO(dmfilippov) Convert to class, extract consts, give better name and
 // expose as a service from appContext
 export const GerritNav = {
@@ -659,15 +667,11 @@ export const GerritNav = {
    *     of the view. In certain cases we want to force the view to reload
    *     and re-render everything.
    */
-  // TODO(dhruvsri): move the arguments into one options object
   navigateToChange(
     change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
-    patchNum?: PatchSetNum,
-    basePatchNum?: BasePatchSetNum,
-    isEdit?: boolean,
-    redirect?: boolean,
-    forceReload?: boolean
+    options: NavigateToChangeParams = {}
   ) {
+    const {patchNum, basePatchNum, isEdit, forceReload, redirect} = options;
     this._navigate(
       this.getUrlForChange(
         change,

@@ -196,6 +196,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a7d5f29_6cb1d028",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2021-11-11T18:18:38Z",
+      "side": 1,
+      "message": "Not needed. Since we are doing inserts and not replaces after the deleteAll(), I thought it would be safe to commit so that duplicate entries don\u0027t get created. Adding it doesn\u0027t introduce degradation but we could be sure enough that it would not be creating any duplicate entries. Do you want me to remove it ?",
+      "parentUuid": "34d41c7e_79ceb424",
+      "range": {
+        "startLine": 305,
+        "startChar": 6,
+        "endLine": 305,
+        "endChar": 22
+      },
+      "revId": "d396eb83f4acb28077c3ee9755bbb56806112372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec618d28_479d2072",
         "filename": "java/com/google/gerrit/server/index/account/AllAccountsIndexer.java",
         "patchSetId": 4

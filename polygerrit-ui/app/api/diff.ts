@@ -484,5 +484,10 @@ export declare interface GrDiffCursor {
 
   createCommentInPlace(): void;
   resetScrollMode(): void;
-  moveToLineNumber(lineNum: number, side: Side, path?: string): void;
+  moveToLineNumber(
+    lineNum: number,
+    side: Side,
+    path?: string,
+    intentionalMove?: boolean
+  ): void;
 }

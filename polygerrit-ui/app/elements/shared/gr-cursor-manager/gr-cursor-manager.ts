@@ -221,8 +221,15 @@ export class GrCursorManager {
    *
    * @param noScroll prevent any potential scrolling in response
    * setting the cursor.
+   * @param intentionalMove indicates if this was an intentional move operation, which
+   * should trigger any automatic behavior related to move operations (e.g.
+   * focusOnMove).
    */
-  setCursor(element: HTMLElement, noScroll?: boolean) {
+  setCursor(
+    element: HTMLElement,
+    noScroll?: boolean,
+    intentionalMove?: boolean
+  ) {
     if (!this.targetableStops.includes(element)) {
       this.unsetCursor();
       return;
@@ -237,7 +244,9 @@ export class GrCursorManager {
     this.target = element;
     this._updateIndex();
     this._decorateTarget();
-
+    if (intentionalMove) {
+      this._focusAfterMove();
+    }
     if (noScroll && behavior) {
       this.scrollMode = behavior;
     }
@@ -346,8 +355,15 @@ export class GrCursorManager {
     }
 
     this._decorateTarget();
+    this._focusAfterMove();
 
     return clipped ? CursorMoveResult.CLIPPED : CursorMoveResult.MOVED;
+  }
+
+  _focusAfterMove() {
+    if (this.focusOnMove) {
+      this.target?.focus();
+    }
   }
 
   _decorateTarget() {

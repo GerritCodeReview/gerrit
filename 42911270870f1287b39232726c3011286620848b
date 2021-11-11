@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "142cab5c_c4acb943",
+        "filename": "java/com/google/gerrit/server/query/change/TruePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-11T10:12:42Z",
+      "side": 1,
+      "message": "nit: Better (because less boiler plate) when you create a \"BooleanPredicate\" and take a boolean in the contructor. That spares half the code :-)",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "42911270870f1287b39232726c3011286620848b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c51ceea7_d0be11b5",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-11-11T10:12:42Z",
+      "side": 1,
+      "message": "Can we add a test that demonstrates the inherit-then-disable behavior?",
+      "revId": "42911270870f1287b39232726c3011286620848b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

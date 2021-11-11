@@ -1508,7 +1508,14 @@ export class GrChangeView extends base {
   }
 
   _computeChangeUrl(change: ChangeInfo) {
-    return GerritNav.getUrlForChange(change);
+    return GerritNav.getUrlForChange(
+      change,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      true
+    );
   }
 
   _computeReplyButtonLabel(

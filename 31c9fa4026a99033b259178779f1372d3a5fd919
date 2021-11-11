@@ -231,6 +231,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "afd06698_99504896",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-11T12:55:28Z",
+      "side": 1,
+      "message": "I\u0027m also looking at this function.\n\nIf deepEquals does not work, a potential option is defining properties as an array,\n\nkeys \u003d [use_content_merge, create_new_change_for_all_not_in_target]\n\nreturn keys.some(key \u003d\u003e originalConfig.key !\u003d\u003d repoConfig.key).\n\nWe can eliminate all the local variables then.\nWDYT?",
+      "parentUuid": "719c46bf_66ca0ff4",
+      "revId": "31c9fa4026a99033b259178779f1372d3a5fd919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a5590bd6_98e7663d",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
         "patchSetId": 8

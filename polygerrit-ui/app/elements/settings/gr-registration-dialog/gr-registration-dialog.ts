@@ -83,6 +83,19 @@ export class GrRegistrationDialog extends PolymerElement {
   @property({type: String, observer: '_usernameChanged'})
   _username?: string;
 
+  @property({
+    type: Boolean,
+    notify: true,
+    computed: '_computeNameMutable(_serverConfig)',
+  })
+  nameMutable?: boolean;
+
+  @property({type: Boolean})
+  _hasNameChange?: boolean;
+
+  @property({type: Boolean})
+  _hasDisplayNameChange?: boolean;
+
   private readonly restApiService = appContext.restApiService;
 
   override ready() {
@@ -95,10 +108,13 @@ export class GrRegistrationDialog extends PolymerElement {
 
     const loadAccount = this.restApiService.getAccount().then(account => {
       if (!account) return;
+      this._hasNameChange = false;
       this._hasUsernameChange = false;
+      this._hasDisplayNameChange = false;
       // Provide predefined value for username to trigger computation of
       // username mutability.
       account.username = account.username || '';
+
       this._account = account;
       this._username = account.username;
     });
@@ -120,6 +136,22 @@ export class GrRegistrationDialog extends PolymerElement {
       (this._account.username || '') !== (this._username || '');
   }
 
+  @observe('_account.display_name')
+  _displayNameChanged() {
+    if (this._loading || !this._account) {
+      return;
+    }
+    this._hasDisplayNameChange = true;
+  }
+
+  @observe('_account.name')
+  _nameChanged() {
+    if (this._loading || !this._account) {
+      return;
+    }
+    this._hasNameChange = true;
+  }
+
   _computeUsernameMutable(username?: string) {
     // Username may not be changed once it is set.
     return !username;
@@ -131,15 +163,30 @@ export class GrRegistrationDialog extends PolymerElement {
     );
   }
 
+  _computeNameMutable(config: ServerInfo) {
+    return config.auth.editable_account_fields.includes(
+      EditableAccountField.FULL_NAME
+    );
+  }
+
   _save() {
     this._saving = true;
 
-    const promises = [this.restApiService.setAccountName(this.$.name.value)];
-
+    const promises = [];
     // Note that we are intentionally not acting on this._username being the
     // empty string (which is falsy).
     if (this._hasUsernameChange && this._usernameMutable && this._username) {
       promises.push(this.restApiService.setAccountUsername(this._username));
+    }
+
+    if (this._hasNameChange && this.nameMutable && this._account?.name) {
+      promises.push(this.restApiService.setAccountName(this._account.name));
+    }
+
+    if (this._hasDisplayNameChange && this._account?.display_name) {
+      promises.push(
+        this.restApiService.setAccountDisplayName(this._account.display_name)
+      );
     }
 
     return Promise.all(promises).then(() => {
@@ -163,8 +210,13 @@ export class GrRegistrationDialog extends PolymerElement {
     fireEvent(this, 'close');
   }
 
-  _computeSaveDisabled(name?: string, username?: string, saving?: boolean) {
-    return saving || (!name && !username);
+  _computeSaveDisabled(
+    displayName?: string,
+    name?: string,
+    username?: string,
+    saving?: boolean
+  ) {
+    return saving || (!displayName && !name && !username);
   }
 
   @observe('_loading')

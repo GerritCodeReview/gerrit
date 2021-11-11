@@ -484,5 +484,20 @@ export declare interface GrDiffCursor {
 
   createCommentInPlace(): void;
   resetScrollMode(): void;
-  moveToLineNumber(lineNum: number, side: Side, path?: string): void;
+
+  /**
+   * Moves to a specific line number in the diff
+   *
+   * @param lineNum which line number should be selected
+   * @param side which side should be selected
+   * @param path file path for the file that should be selected
+   * @param intentionalMove Defines if move-related controls should be applied
+   * (e.g. GrCursorManager.focusOnMove)
+   **/
+  moveToLineNumber(
+    lineNum: number,
+    side: Side,
+    path?: string,
+    intentionalMove?: boolean
+  ): void;
 }

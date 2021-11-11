@@ -222,11 +222,16 @@ export class GrDiffCursor implements GrDiffCursorApi {
     return result;
   }
 
-  moveToLineNumber(number: number, side: Side, path?: string) {
+  moveToLineNumber(
+    number: number,
+    side: Side,
+    path?: string,
+    intentionalMove?: boolean
+  ) {
     const row = this._findRowByNumberAndFile(number, side, path);
     if (row) {
       this.side = side;
-      this.cursorManager.setCursor(row);
+      this.cursorManager.setCursor(row, undefined, intentionalMove);
     }
   }
 

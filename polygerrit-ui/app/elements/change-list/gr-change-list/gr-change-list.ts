@@ -432,7 +432,7 @@ export class GrChangeList extends base {
 
   openChange() {
     const change = this._changeForIndex(this.selectedIndex);
-    if (change) GerritNav.navigateToChange(change);
+    if (change) GerritNav.navigateToChange(change, {});
   }
 
   _nextPage() {

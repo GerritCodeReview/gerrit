@@ -151,7 +151,7 @@ export class GrCreateChangeDialog extends PolymerElement {
         if (!changeCreated) {
           return;
         }
-        GerritNav.navigateToChange(changeCreated);
+        GerritNav.navigateToChange(changeCreated, {});
       });
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21bf3bea_499b2b4a",
+        "filename": "polygerrit-ui/app/elements/topic/gr-topic-view_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-11T22:50:08Z",
+      "side": 1,
+      "message": "I could not get flagStub.restore() working so I have separate suites for true vs false.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 0
+      },
+      "revId": "21192ac8b44ee038178f41e6269183c91474bb8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

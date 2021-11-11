@@ -18,6 +18,40 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "793695ed_3e9421a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-11T21:57:31Z",
+      "side": 1,
+      "message": "At a high level I think we should keep plumbing through the change ID from the change-view or diff-view. Otherwise we\u0027re still stuck relying on one global model for ChangeService",
+      "revId": "429315eb862771a85d53603a329eb807102123fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08670f27_d750fb72",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 2029,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-11T21:57:31Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "429315eb862771a85d53603a329eb807102123fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c97c7ae_f4b2fdb5",

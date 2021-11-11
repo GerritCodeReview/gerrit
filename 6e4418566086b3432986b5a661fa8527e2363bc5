@@ -16,6 +16,64 @@
       "message": "tests are failing but it looks related to Marija\u0027s changes ",
       "revId": "6e4418566086b3432986b5a661fa8527e2363bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa53f909_25463f70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-11T18:36:24Z",
+      "side": 1,
+      "message": "I see no new changes recently so those tests are probably broken by this change (so I\u0027ll un-cc Marija).",
+      "parentUuid": "1193744b_481b9827",
+      "revId": "6e4418566086b3432986b5a661fa8527e2363bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4498ad62_47e63774",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-11T18:36:24Z",
+      "side": 1,
+      "message": "nit/optional: you could make a method that doesn\u0027t get any DiffOptions parameter and just calls the method with the same name with DiffOptions.Default.\n\nThat would have spared you the refactor, but maybe too late for that",
+      "revId": "6e4418566086b3432986b5a661fa8527e2363bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "490e5c98_68ff2884",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-11-11T18:36:24Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 41
+      },
+      "revId": "6e4418566086b3432986b5a661fa8527e2363bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

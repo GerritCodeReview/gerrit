@@ -35,6 +35,7 @@ suite('gr-registration-dialog tests', () => {
 
     account = {
       name: 'name',
+      display_name: 'display name',
       registered_on: '2018-02-08 18:49:18.000000000' as Timestamp,
     };
 
@@ -107,6 +108,8 @@ suite('gr-registration-dialog tests', () => {
     await flush();
     element.$.name.value = 'new name';
 
+    element.$.displayName.value = 'new display name';
+
     element.set('_account.username', '');
     element._hasUsernameChange = false;
     assert.isTrue(element._usernameMutable);
@@ -116,20 +119,23 @@ suite('gr-registration-dialog tests', () => {
     // Nothing should be committed yet.
     assert.equal(account.name, 'name');
     assert.isNotOk(account.username);
+    assert.equal(account.display_name, 'display name');
 
     // Save and verify new values are committed.
     await save();
     assert.equal(account.name, 'new name');
     assert.equal(account.username, 'new username');
+    assert.equal(account.display_name, 'new display name');
   });
 
   test('save btn disabled', () => {
     const compute = element._computeSaveDisabled;
-    assert.isTrue(compute('', '', false));
-    assert.isFalse(compute('', 'test', false));
-    assert.isFalse(compute('test', '', false));
-    assert.isTrue(compute('test', 'test', true));
-    assert.isFalse(compute('test', 'test', false));
+    assert.isTrue(compute('', '', '', false));
+    assert.isFalse(compute('', '', 'test', false));
+    assert.isFalse(compute('', 'test', '', false));
+    assert.isFalse(compute('test', '', '', false));
+    assert.isTrue(compute('test', 'test', 'test', true));
+    assert.isFalse(compute('test', 'test', 'test', false));
   });
 
   test('_computeUsernameMutable', () => {

@@ -1280,7 +1280,7 @@ suite('gr-repo-access tests', () => {
       await flush();
       assert.isTrue(saveForReviewStub.called);
       assert.isTrue(GerritNav.navigateToChange
-          .lastCall.calledWithExactly({_number: 1}));
+          .lastCall.calledWithExactly({_number: 1}, {}));
     });
   });
 });

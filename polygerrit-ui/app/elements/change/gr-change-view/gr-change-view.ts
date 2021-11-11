@@ -1593,7 +1593,9 @@ export class GrChangeView extends base {
       fireAlert(this, 'Base is already selected.');
       return;
     }
-    GerritNav.navigateToChange(this._change, this._patchRange.patchNum);
+    GerritNav.navigateToChange(this._change, {
+      patchNum: this._patchRange.patchNum,
+    });
   }
 
   _handleDiffBaseAgainstLeft() {
@@ -1604,7 +1606,9 @@ export class GrChangeView extends base {
       fireAlert(this, 'Left is already base.');
       return;
     }
-    GerritNav.navigateToChange(this._change, this._patchRange.basePatchNum);
+    GerritNav.navigateToChange(this._change, {
+      patchNum: this._patchRange.basePatchNum,
+    });
   }
 
   _handleDiffAgainstLatest() {
@@ -1616,11 +1620,10 @@ export class GrChangeView extends base {
       fireAlert(this, 'Latest is already selected.');
       return;
     }
-    GerritNav.navigateToChange(
-      this._change,
-      latestPatchNum,
-      this._patchRange.basePatchNum
-    );
+    GerritNav.navigateToChange(this._change, {
+      patchNum: latestPatchNum,
+      basePatchNum: this._patchRange.basePatchNum,
+    });
   }
 
   _handleDiffRightAgainstLatest() {
@@ -1632,11 +1635,10 @@ export class GrChangeView extends base {
       fireAlert(this, 'Right is already latest.');
       return;
     }
-    GerritNav.navigateToChange(
-      this._change,
-      latestPatchNum,
-      this._patchRange.patchNum as BasePatchSetNum
-    );
+    GerritNav.navigateToChange(this._change, {
+      patchNum: latestPatchNum,
+      basePatchNum: this._patchRange.patchNum as BasePatchSetNum,
+    });
   }
 
   _handleDiffBaseAgainstLatest() {
@@ -1651,7 +1653,7 @@ export class GrChangeView extends base {
       fireAlert(this, 'Already diffing base against latest.');
       return;
     }
-    GerritNav.navigateToChange(this._change, latestPatchNum);
+    GerritNav.navigateToChange(this._change, {patchNum: latestPatchNum});
   }
 
   _handleToggleChangeStar() {
@@ -2055,14 +2057,9 @@ export class GrChangeView extends base {
   loadData(isLocationChange?: boolean, clearPatchset?: boolean): Promise<void> {
     if (this.isChangeObsolete()) return Promise.resolve();
     if (clearPatchset && this._change) {
-      GerritNav.navigateToChange(
-        this._change,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        true
-      );
+      GerritNav.navigateToChange(this._change, {
+        forceReload: true,
+      });
       return Promise.resolve();
     }
     this._loading = true;
@@ -2497,7 +2494,7 @@ export class GrChangeView extends base {
     );
 
     if (editInfo) {
-      GerritNav.navigateToChange(this._change, EditPatchSetNum);
+      GerritNav.navigateToChange(this._change, {patchNum: EditPatchSetNum});
       return;
     }
 
@@ -2511,28 +2508,21 @@ export class GrChangeView extends base {
     ) {
       patchNum = this._patchRange.patchNum;
     }
-    GerritNav.navigateToChange(
-      this._change,
+    GerritNav.navigateToChange(this._change, {
       patchNum,
-      undefined,
-      true,
-      undefined,
-      true
-    );
+      isEdit: true,
+      forceReload: true,
+    });
   }
 
   _handleStopEditTap() {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    GerritNav.navigateToChange(
-      this._change,
-      this._patchRange.patchNum,
-      undefined,
-      undefined,
-      undefined,
-      true
-    );
+    GerritNav.navigateToChange(this._change, {
+      patchNum: this._patchRange.patchNum,
+      forceReload: true,
+    });
   }
 
   _resetReplyOverlayFocusStops() {

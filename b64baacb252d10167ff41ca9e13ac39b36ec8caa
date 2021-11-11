@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b86d0e8_28154ee1",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivityMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-11T10:54:07Z",
+      "side": 1,
+      "message": "This class will not only be used by the pgm-tool. And the online migrator would also not necessarily fit into this package. Thus, I think it should be moved outside of the pgm-package. Maybe into com.google.gerrit.server.account.externalids or com.google.gerrit.server.notedb?",
+      "revId": "b64baacb252d10167ff41ca9e13ac39b36ec8caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16420303_2b21b47e",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivityMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-11T10:54:07Z",
+      "side": 1,
+      "message": "Maybe rather `oldKey`?",
+      "range": {
+        "startLine": 89,
+        "startChar": 21,
+        "endLine": 89,
+        "endChar": 26
+      },
+      "revId": "b64baacb252d10167ff41ca9e13ac39b36ec8caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67f990c2_9ffedd6b",
+        "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-11T10:54:07Z",
+      "side": 1,
+      "message": "The migration will take some time, although in my experience not a lot. But how do you plan to deal with accounts that have to be migrated and that are created during the migration?\nShould account creation maybe be deactivated during the migration?",
+      "revId": "b64baacb252d10167ff41ca9e13ac39b36ec8caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "645d78df_4315656a",
+        "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-11-11T10:54:07Z",
+      "side": 1,
+      "message": "Probably not a real issue, but this config change is happening after the commit with the updated external IDs is committed. What happens in the case a user creates an account just at that time? Unlikely and even then easily fixed, so it might not be an issue that we need to take care of.",
+      "revId": "b64baacb252d10167ff41ca9e13ac39b36ec8caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

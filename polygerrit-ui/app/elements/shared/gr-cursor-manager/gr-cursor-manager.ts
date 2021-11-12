@@ -221,8 +221,10 @@ export class GrCursorManager {
    *
    * @param noScroll prevent any potential scrolling in response
    * setting the cursor.
+   * @param applyFocus indicates if it should try to focus after move operation
+   * (e.g. focusOnMove).
    */
-  setCursor(element: HTMLElement, noScroll?: boolean) {
+  setCursor(element: HTMLElement, noScroll?: boolean, applyFocus?: boolean) {
     if (!this.targetableStops.includes(element)) {
       this.unsetCursor();
       return;
@@ -238,6 +240,9 @@ export class GrCursorManager {
     this._updateIndex();
     this._decorateTarget();
 
+    if (applyFocus) {
+      this._focusAfterMove();
+    }
     if (noScroll && behavior) {
       this.scrollMode = behavior;
     }
@@ -341,13 +346,15 @@ export class GrCursorManager {
       this._targetHeight = this.target.scrollHeight;
     }
 
-    if (this.focusOnMove) {
-      this.target.focus();
-    }
-
     this._decorateTarget();
-
+    this._focusAfterMove();
     return clipped ? CursorMoveResult.CLIPPED : CursorMoveResult.MOVED;
+  }
+
+  _focusAfterMove() {
+    if (this.focusOnMove) {
+      this.target?.focus();
+    }
   }
 
   _decorateTarget() {

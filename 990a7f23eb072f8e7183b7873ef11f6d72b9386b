@@ -64,6 +64,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f0dd78d_ec490f4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "First pass, I haven\u0027t gone into the more complicated code yet.\n\nSmall suggestion: this change would possibly be easier to review if it was staged into multiple changes:\n\n - 1 simply for the renames of the Comments objects\n - 1 for unrelated tiny fixes\n - 1 for the core refactor.",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ba94e89_fbee6927",
@@ -89,6 +106,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aa1f40ee_fc7b808f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a97719e8_a4c43a57",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
         "patchSetId": 16
@@ -106,6 +140,244 @@
         "endLine": 281,
         "endChar": 59
       },
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e68e9d11_b43fc0b0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63babb81_d8c208dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d66a1f96_3a9f3e5e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "114902a1_0165fca5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdffd232_5240a62b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba919ac2_a725fc6b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f42ed365_a76eaa93",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffa55357_c6ce15fa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "831b5762_13b87935",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d177d43e_125ad8ed",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Make this method async\n\nthis._change \u003d await this.restApiService.getChangeDetail(changeNum);",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18ad0a74_f6f237dc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Is this a TODO for a follow up change?",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21c22ec6_f09b1dd3",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Does distinctUntilChanged do deep-equals? If not every repoConfig update without commentLinks will result in a new empty object.",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99e0b6d1_10a45f1a",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "What happened with the TODO?",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cb3a797_62991dd0",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T18:49:30Z",
+      "side": 1,
+      "message": "Unrelated to this change?",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

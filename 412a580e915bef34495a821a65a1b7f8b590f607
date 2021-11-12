@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "884a5bc7_b929bdbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-12T16:55:43Z",
+      "side": 1,
+      "message": "nit: you\u0027re wrapping pretty early here. This is only 54 characters and commit message bodies usually go to 72.",
+      "revId": "412a580e915bef34495a821a65a1b7f8b590f607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d599a35_0806e8e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-12T16:55:43Z",
+      "side": 1,
+      "message": "Should we be filing a bug with JGit for this? Why did this get removed from the archive site?",
+      "revId": "412a580e915bef34495a821a65a1b7f8b590f607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

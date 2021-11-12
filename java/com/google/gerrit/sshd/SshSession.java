@@ -31,6 +31,7 @@ public class SshSession {
   private final String remoteAsString;
 
   private volatile CurrentUser identity;
+  private volatile boolean success;
   private volatile String username;
   private volatile String authError;
   private volatile String peerAgent;
@@ -73,6 +74,10 @@ public class SshSession {
     return identity;
   }
 
+  public boolean isSuccess() {
+    return success;
+  }
+
   public SocketAddress getRemoteAddress() {
     return remoteAddress;
   }
@@ -101,12 +106,14 @@ public class SshSession {
     username = user;
     identity = id;
     identity.setAccessPath(AccessPath.SSH_COMMAND);
+    success = true;
     authError = null;
   }
 
   void authenticationError(String user, String error) {
     username = user;
     identity = null;
+    success = false;
     authError = error;
   }
 

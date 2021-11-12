@@ -109,6 +109,10 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   @Override
   public boolean authenticate(String username, PublicKey suppliedKey, ServerSession session) {
     SshSession sd = session.getAttribute(SshSession.KEY);
+    // ignore any additional authentication requests after success has been sent
+    if (sd.isSuccess()) {
+      return true;
+    }
     checkState(sd.getUser() == null);
     if (PeerDaemonUser.USER_NAME.equals(username)) {
       if (myHostKeys.contains(suppliedKey) || getPeerKeys().contains(suppliedKey)) {

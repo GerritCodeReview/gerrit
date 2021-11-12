@@ -55,20 +55,21 @@ export class GrChangeListColumRequirements extends LitElement {
 
     const submitRequirements = getRequirements(this.change);
     if (!submitRequirements.length) return html`n/a`;
-    const numOfRequirements = submitRequirements.length;
-    const numOfSatisfiedRequirements = submitRequirements.filter(
+    const numRequirements = submitRequirements.length;
+    const numSatisfied = submitRequirements.filter(
       req =>
         req.status === SubmitRequirementStatus.SATISFIED ||
         req.status === SubmitRequirementStatus.OVERRIDDEN
     ).length;
 
-    if (numOfSatisfiedRequirements === numOfRequirements) {
+    if (numSatisfied === numRequirements) {
       return this.renderState('check', 'Ready');
     }
-    return this.renderState(
-      'close',
-      `${numOfSatisfiedRequirements} of ${numOfRequirements} granted`
-    );
+
+    const numUnsatisfied = submitRequirements.filter(
+      req => req.status === SubmitRequirementStatus.UNSATISFIED
+    ).length;
+    return this.renderState('close', `${numUnsatisfied} of ${numRequirements}`);
   }
 
   renderState(icon: string, message: string) {

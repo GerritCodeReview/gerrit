@@ -85,7 +85,7 @@ const RoutePattern = {
 
   DASHBOARD: /^\/dashboard\/(.+)$/,
   // TODO(dhruvsri): remove /c once Change 322894 lands
-  TOPIC: /^\/c\/topic\/(\w+)\/?$/,
+  TOPIC: /^\/c\/topic\/([^\/]*)\/?$/,
   CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
   PROJECT_DASHBOARD: /^\/p\/(.+)\/\+\/dashboard\/(.+)/,
   LEGACY_PROJECT_DASHBOARD: /^\/projects\/(.+),dashboards\/(.+)/,

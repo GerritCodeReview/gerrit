@@ -35,6 +35,7 @@ import {
 } from './comments-model';
 import {changeNum$, currentPatchNum$} from '../change/change-model';
 import {combineLatest} from 'rxjs';
+import {routerChangeNum$} from '../router/router-model';
 
 export class CommentsService {
   private discardedDrafts?: UIDraft[] = [];
@@ -47,7 +48,7 @@ export class CommentsService {
     discardedDrafts$.subscribe(
       discardedDrafts => (this.discardedDrafts = discardedDrafts)
     );
-    changeNum$.subscribe(changeNum => {
+    routerChangeNum$.subscribe(changeNum => {
       this.changeNum = changeNum;
       updateStateReset();
       this.reloadAllComments();

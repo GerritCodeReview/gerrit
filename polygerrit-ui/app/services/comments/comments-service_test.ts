@@ -51,9 +51,9 @@ suite('change service tests', () => {
       Promise.resolve({})
     );
     let comments: PathToCommentsInfoMap = {};
-    comments$.subscribe(c => (comments = c));
+    comments$.subscribe(c => (comments = c ?? {}));
     let portedComments: PathToCommentsInfoMap = {};
-    portedComments$.subscribe(c => (portedComments = c));
+    portedComments$.subscribe(c => (portedComments = c ?? {}));
 
     updateRouterState(GerritView.CHANGE, TEST_NUMERIC_CHANGE_ID);
     updateChangeState(createParsedChange());

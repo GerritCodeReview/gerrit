@@ -69,6 +69,30 @@
       },
       "revId": "5cfd5dd55abe54484a02c1efd39399c75318c872",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83f7a875_ff64b9ae",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-12T14:15:36Z",
+      "side": 1,
+      "message": "Yes, feel free to use this in other places, as well. :-)",
+      "parentUuid": "2627da20_780492f2",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 21
+      },
+      "revId": "5cfd5dd55abe54484a02c1efd39399c75318c872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

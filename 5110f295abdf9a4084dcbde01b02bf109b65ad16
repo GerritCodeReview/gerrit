@@ -22,6 +22,30 @@
       },
       "revId": "5110f295abdf9a4084dcbde01b02bf109b65ad16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b4490a7_f6250819",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-12T14:15:36Z",
+      "side": 1,
+      "message": "Yes, failing API calls should also leave these props in undefined states. I would imagine that a toast or popup would then tell the user to reload. It would be fine then, if the page is unusable. You don\u0027t want to start reviewing without the comments having loaded.",
+      "parentUuid": "a6fdd67d_ab2aa375",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 36
+      },
+      "revId": "5110f295abdf9a4084dcbde01b02bf109b65ad16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

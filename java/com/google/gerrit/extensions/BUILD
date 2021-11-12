@@ -49,7 +49,9 @@ java_library(
 java_doc(
     name = "extension-api-javadoc",
     external_docs = [
-        JGIT_DOC_URL,
+# JGit Javadoc is temporarily unavailable:
+# 11/11/2021 00:05:24.292 javadoc: error - Error fetching URL: https://archive.eclipse.org/jgit/site/5.1.16.202106041830-r/apidocs/
+#        JGIT_DOC_URL,
         GUAVA_DOC_URL,
     ],
     libs = [":api"],

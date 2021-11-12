@@ -1242,13 +1242,13 @@ suite('gr-router tests', () => {
 
     suite('topic routes', () => {
       test('_handleTopicRoute', () => {
-        const url = '/c/topic/random/';
+        const url = '/c/topic/super complex-topic name with spaces/';
         const groups = url.match(_testOnly_RoutePattern.TOPIC);
 
         const data = {params: groups.slice(1)};
         assertDataToParams(data, '_handleTopicRoute', {
           view: GerritView.TOPIC,
-          topic: 'random',
+          topic: 'super complex-topic name with spaces',
         });
       });
     });

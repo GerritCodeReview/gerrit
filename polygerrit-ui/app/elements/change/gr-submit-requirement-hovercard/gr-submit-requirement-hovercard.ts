@@ -27,7 +27,6 @@ import {
   iconForStatus,
 } from '../../../utils/label-util';
 import {ParsedChangeInfo} from '../../../types/types';
-import {Label} from '../gr-change-requirements/gr-change-requirements';
 import {css, html, LitElement} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -153,25 +152,29 @@ export class GrSubmitRequirementHovercard extends base {
   }
 
   private renderLabelSection() {
-    const labels = this.computeLabels();
-    const showLabelName = labels.length >= 2;
+    if (!this.requirement) return;
+    const requirementLabels = extractAssociatedLabels(this.requirement);
+    const showLabelName = requirementLabels.length >= 2;
     return html` <div class="section">
       <div class="sectionIcon"></div>
       <div class="row">
-        <div>${labels.map(l => this.renderLabel(l, showLabelName))}</div>
+        <div>
+          ${requirementLabels.map(l => this.renderLabel(l, showLabelName))}
+        </div>
       </div>
     </div>`;
   }
 
-  private renderLabel(label: Label, showLabelName: boolean) {
+  private renderLabel(labelName: string, showLabelName: boolean) {
+    const labels = this.change?.labels ?? {};
     return html`
-      ${showLabelName ? html`<div>${label.labelName} votes</div>` : ''}
+      ${showLabelName ? html`<div>${labelName} votes</div>` : ''}
       <gr-label-info
         .change=${this.change}
         .account=${this.account}
         .mutable=${this.mutable}
-        .label="${label.labelName}"
-        .labelInfo="${label.labelInfo}"
+        .label=${labelName}
+        .labelInfo=${labels[labelName]}
       ></gr-label-info>
     `;
   }
@@ -210,26 +213,6 @@ export class GrSubmitRequirementHovercard extends base {
         )}
       `;
     }
-  }
-
-  private computeLabels() {
-    if (!this.requirement) return [];
-    const requirementLabels = extractAssociatedLabels(this.requirement);
-    const labels = this.change?.labels ?? {};
-
-    const allLabels: Label[] = [];
-
-    for (const label of Object.keys(labels)) {
-      if (requirementLabels.includes(label)) {
-        allLabels.push({
-          labelName: label,
-          icon: '',
-          style: '',
-          labelInfo: labels[label],
-        });
-      }
-    }
-    return allLabels;
   }
 
   private renderCondition(

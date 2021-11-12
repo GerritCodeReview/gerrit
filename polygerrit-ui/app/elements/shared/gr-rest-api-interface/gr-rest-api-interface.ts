@@ -238,6 +238,7 @@ interface QueryGroupsParams {
   [paramName: string]: string | undefined | null | number;
   s: string;
   n?: number;
+  p?: string;
 }
 
 interface QuerySuggestedReviewersParams {

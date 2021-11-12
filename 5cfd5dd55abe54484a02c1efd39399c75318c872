@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3bd5ecd_e0bf4806",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-12T13:25:06Z",
+      "side": 1,
+      "message": "I am ok with that. It looks simple. If there will be problems, we can introduce explicit state and more complexity to it.",
+      "parentUuid": "3fa4111a_99145617",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 36
+      },
+      "revId": "5cfd5dd55abe54484a02c1efd39399c75318c872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2627da20_780492f2",

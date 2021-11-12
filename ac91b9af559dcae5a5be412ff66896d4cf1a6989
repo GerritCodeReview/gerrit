@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3eeeb44_ee7af39e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-12T11:50:56Z",
+      "side": 1,
+      "message": "code style says you don\u0027t need to escape",
+      "range": {
+        "startLine": 88,
+        "startChar": 26,
+        "endLine": 88,
+        "endChar": 28
+      },
+      "revId": "ac91b9af559dcae5a5be412ff66896d4cf1a6989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

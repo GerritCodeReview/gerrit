@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6fdd67d_ab2aa375",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-12T12:00:39Z",
+      "side": 1,
+      "message": "are you differentiating between the cases where the API fails and undefined is returned(based on the type of this.restApiService.getDiffComments) vs it\u0027s simply loading?",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 36
+      },
+      "revId": "5110f295abdf9a4084dcbde01b02bf109b65ad16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

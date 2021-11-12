@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fa4111a_99145617",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-12T12:00:39Z",
+      "side": 1,
+      "message": "not really a huge fan of undefined \u003d still loading, would prefer to make this explicit in the state somewhere.\n@Milutin WDYT?",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 36
+      },
+      "revId": "5cfd5dd55abe54484a02c1efd39399c75318c872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2627da20_780492f2",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-12T12:00:39Z",
+      "side": 1,
+      "message": "I wanted something like this as well.\nIs this the recommended pattern?",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 21
+      },
+      "revId": "5cfd5dd55abe54484a02c1efd39399c75318c872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

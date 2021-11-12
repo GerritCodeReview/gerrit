@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7fe32495_b6488756",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-12T10:37:16Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment.\nDo you mean it should be added in other places as well?",
+      "parentUuid": "63d7e845_651a1f6b",
+      "revId": "b06af606a906be0fb8f09a0949daa77f223fd022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c12b0df_df03dfb8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I\u0027ll send a change.\nKeeping this unresolved until it\u0027s done.",
       "parentUuid": "7c12b0df_df03dfb8",
+      "revId": "b06af606a906be0fb8f09a0949daa77f223fd022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13c4561b_137dd8c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1518,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-12T10:37:16Z",
+      "side": 1,
+      "message": "change 323428",
+      "parentUuid": "14c6e044_16769a5d",
       "revId": "b06af606a906be0fb8f09a0949daa77f223fd022",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

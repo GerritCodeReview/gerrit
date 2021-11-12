@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import '../../../test/common-test-setup-karma';
+import './gr-registration-dialog';
 import {GrRegistrationDialog} from './gr-registration-dialog';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {AccountDetailInfo, Timestamp} from '../../../types/common';

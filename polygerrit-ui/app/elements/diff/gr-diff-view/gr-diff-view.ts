@@ -1254,11 +1254,10 @@ export class GrDiffView extends base {
     if (!patchRange) return '';
 
     const range = this._getChangeUrlRange(patchRange, revisions);
-    return GerritNav.getUrlForChange(
-      change,
-      range.patchNum,
-      range.basePatchNum
-    );
+    return GerritNav.getUrlForChange(change, {
+      patchNum: range.patchNum,
+      basePatchNum: range.basePatchNum,
+    });
   }
 
   _navigateToChange(

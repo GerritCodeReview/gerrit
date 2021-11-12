@@ -1038,7 +1038,8 @@ suite('gr-diff-view tests', () => {
         sinon.stub(
             GerritNav
             , 'getUrlForChange')
-            .callsFake((c, pn, bpn) => `${c._number}-${pn}-${bpn}`);
+            .callsFake((c, ops) =>
+              `${c._number}-${ops.patchNum}-${ops.basePatchNum}`);
       });
 
       test('_formattedFiles', () => {

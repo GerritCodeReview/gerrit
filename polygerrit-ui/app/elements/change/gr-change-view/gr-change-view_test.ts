@@ -399,7 +399,7 @@ suite('gr-change-view tests', () => {
       new CustomEvent('message-anchor-tap', {detail: {id: 'a12345'}})
     );
 
-    assert.equal(getUrlStub.lastCall.args[4], '#message-a12345');
+    assert.equal(getUrlStub.lastCall.args[1]!.messageHash, '#message-a12345');
     assert.isTrue(replaceStateStub.called);
   });
 

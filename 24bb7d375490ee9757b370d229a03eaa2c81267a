@@ -22,6 +22,30 @@
       },
       "revId": "24bb7d375490ee9757b370d229a03eaa2c81267a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13ad2091_2d1252e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-11-12T16:24:00Z",
+      "side": 1,
+      "message": "I have updated it for 3.2. The stats follow a similar trend we noticed on 3.4.",
+      "parentUuid": "1408b05e_9fd36c15",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 57
+      },
+      "revId": "24bb7d375490ee9757b370d229a03eaa2c81267a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

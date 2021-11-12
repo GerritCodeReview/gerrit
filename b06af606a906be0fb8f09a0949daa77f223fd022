@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2a8ee55b_00b03de7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-12T07:23:17Z",
+      "side": 1,
+      "message": "Nit: Add empty line above. Remove empty line below.",
+      "revId": "b06af606a906be0fb8f09a0949daa77f223fd022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63d7e845_651a1f6b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-12T07:23:17Z",
+      "side": 1,
+      "message": "This method is used in 3 places. Only in 1 of them adding a \"force reload\" parameter to the URL is warranted.",
+      "revId": "b06af606a906be0fb8f09a0949daa77f223fd022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c12b0df_df03dfb8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 2

@@ -16,6 +16,63 @@
       "message": "Hey Ben, \n\nPlease check it out what do you think about this step. In general I think we should improve this API for the gr-diff-cursor so that we don\u0027t have such things, but this is just a step in this direction: First unify/extract some of the behavior and them call more representative methods to operate the cursor. What do you think?",
       "revId": "da063b09774abce47e81bb899fa4cf34cd4ac08e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d091f7c_d0773848",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-12T07:33:01Z",
+      "side": 1,
+      "message": "Add a comment pointing to gr-cursor-manager for documentation.",
+      "revId": "da063b09774abce47e81bb899fa4cf34cd4ac08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb466314_e9ec86e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-12T07:33:01Z",
+      "side": 1,
+      "message": "Can you add examples of \"intentional\" and \"unintentional\" moves? Reading this comment still leaves we confused. :-)\n\nOf maybe change to `shouldFocus`?",
+      "revId": "da063b09774abce47e81bb899fa4cf34cd4ac08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c67eb2d_dfdaeb0b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-12T07:33:01Z",
+      "side": 1,
+      "message": "Remove?",
+      "range": {
+        "startLine": 353,
+        "startChar": 4,
+        "endLine": 355,
+        "endChar": 5
+      },
+      "revId": "da063b09774abce47e81bb899fa4cf34cd4ac08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

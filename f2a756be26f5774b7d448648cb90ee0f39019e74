@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7a45968_1b1d8689",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-12T11:59:52Z",
+      "side": 1,
+      "message": "obsolete in favor of https://gerrit-review.googlesource.com/c/gerrit/+/323429",
+      "revId": "f2a756be26f5774b7d448648cb90ee0f39019e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

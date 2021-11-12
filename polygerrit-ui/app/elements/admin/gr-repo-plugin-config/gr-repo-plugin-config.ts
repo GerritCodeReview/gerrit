@@ -66,6 +66,9 @@ export class GrRepoPluginConfig extends LitElement {
   @property({type: Object})
   pluginData?: PluginData;
 
+  @property({type: Boolean, reflect: true})
+  disabled: boolean | null = null;
+
   static override get styles() {
     return [
       sharedStyles,
@@ -145,6 +148,7 @@ export class GrRepoPluginConfig extends LitElement {
         <gr-plugin-config-array-editor
           @plugin-config-option-changed=${this._handleArrayChange}
           .pluginOption="${option}"
+          ?disabled=${this.disabled}
         ></gr-plugin-config-array-editor>
       `;
     } else if (option.info.type === ConfigParameterInfoType.BOOLEAN) {
@@ -153,7 +157,7 @@ export class GrRepoPluginConfig extends LitElement {
           ?checked=${this._computeChecked(option.info.value)}
           @change=${this._handleBooleanChange}
           data-option-key=${option._key}
-          ?disabled=${!option.info.editable}
+          ?disabled=${this.disabled || !option.info.editable}
           @click=${this._onTapPluginBoolean}
         ></paper-toggle-button>
       `;

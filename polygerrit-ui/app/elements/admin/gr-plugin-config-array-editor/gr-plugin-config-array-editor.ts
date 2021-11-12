@@ -55,19 +55,8 @@ export class GrPluginConfigArrayEditor extends PolymerElement {
   @property({type: Object})
   pluginOption!: ArrayPluginOption;
 
-  @property({type: Boolean, computed: '_computeDisabled(pluginOption.*)'})
-  disabled!: boolean; // _computeDisabled never returns null
-
-  _computeDisabled(
-    record: PolymerDeepPropertyChange<ArrayPluginOption, ArrayPluginOption>
-  ) {
-    return !(
-      record &&
-      record.base &&
-      record.base.info &&
-      record.base.info.editable
-    );
-  }
+  @property({type: Boolean, reflect: true})
+  disabled: boolean | null = null;
 
   _handleAddTap(e: MouseEvent) {
     e.preventDefault();

@@ -42,12 +42,13 @@ class GrPluginConfigArrayEditor extends GestureEventListeners(
 
   static get properties() {
     return {
-    /** @type {?} */
+      /** @type {?} */
       pluginOption: Object,
       /** @type {boolean} */
       disabled: {
         type: Boolean,
-        computed: '_computeDisabled(pluginOption.*)',
+        value: false,
+        reflectToAttribute: true,
       },
       /** @type {?} */
       _newValue: {

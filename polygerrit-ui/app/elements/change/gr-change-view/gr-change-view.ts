@@ -1371,13 +1371,12 @@ export class GrChangeView extends base {
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
     const hash = PREFIX + e.detail.id;
-    const url = GerritNav.getUrlForChange(
-      this._change,
-      this._patchRange.patchNum,
-      this._patchRange.basePatchNum,
-      this._editMode,
-      hash
-    );
+    const url = GerritNav.getUrlForChange(this._change, {
+      patchNum: this._patchRange.patchNum,
+      basePatchNum: this._patchRange.basePatchNum,
+      isEdit: this._editMode,
+      messageHash: hash,
+    });
     history.replaceState(null, '', url);
   }
 

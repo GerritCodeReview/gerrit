@@ -389,6 +389,10 @@ interface NavigateToChangeParams {
   forceReload?: boolean;
 }
 
+interface ChangeUrlParams extends NavigateToChangeParams {
+  messageHash?: string;
+}
+
 // TODO(dmfilippov) Convert to class, extract consts, give better name and
 // expose as a service from appContext
 export const GerritNav = {
@@ -563,12 +567,9 @@ export const GerritNav = {
    */
   getUrlForChange(
     change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
-    patchNum?: PatchSetNum,
-    basePatchNum?: BasePatchSetNum,
-    isEdit?: boolean,
-    messageHash?: string,
-    forceReload?: boolean
+    options: ChangeUrlParams = {}
   ) {
+    let {patchNum, basePatchNum, isEdit, messageHash, forceReload} = options;
     if (basePatchNum === ParentPatchSetNum) {
       basePatchNum = undefined;
     }
@@ -615,14 +616,12 @@ export const GerritNav = {
   ) {
     const {patchNum, basePatchNum, isEdit, forceReload, redirect} = options;
     this._navigate(
-      this.getUrlForChange(
-        change,
+      this.getUrlForChange(change, {
         patchNum,
         basePatchNum,
         isEdit,
-        undefined,
-        forceReload
-      ),
+        forceReload,
+      }),
       redirect
     );
   },

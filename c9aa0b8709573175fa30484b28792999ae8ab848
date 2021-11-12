@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ff912ba_5ee8b4df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-12T07:26:20Z",
+      "side": 1,
+      "message": "Nice, more of this! :-)",
+      "revId": "c9aa0b8709573175fa30484b28792999ae8ab848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd5623cd_7e76fe43",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-11-12T07:26:20Z",
+      "side": 1,
+      "message": "Add `\u003d {}`, which makes the parameter have a default and thus be optional. Then you can revert all changes for code where you have just added `, {}`.",
+      "revId": "c9aa0b8709573175fa30484b28792999ae8ab848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

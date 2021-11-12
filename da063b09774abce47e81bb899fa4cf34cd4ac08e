@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd9b8fe3_f6077925",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-11-12T09:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87d0af7b_39213046",
+      "revId": "da063b09774abce47e81bb899fa4cf34cd4ac08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d091f7c_d0773848",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-11-12T07:33:01Z",
       "side": 1,
       "message": "Add a comment pointing to gr-cursor-manager for documentation.",
+      "revId": "da063b09774abce47e81bb899fa4cf34cd4ac08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bd9d4ca_c36bb376",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-11-12T09:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d091f7c_d0773848",
       "revId": "da063b09774abce47e81bb899fa4cf34cd4ac08e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7b3dbac_e9082eb6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-11-12T09:08:15Z",
+      "side": 1,
+      "message": "I\u0027ve changed to `applyFocus` as it still depends if we have `focusOnMove` set.\n\nI honestly believe that we should iterate on that long term to remove this distinction. From our side (our consumption of gr-diff) we mainly have uses with focus change. However we don\u0027t use gr-cursor-manager directly, only the gr-cursor. On the other hand, I can imagine situations where Gerrit might be interested in selecting a specific line but actually setting focus somewhere else (e.g. a comment got created at a specific line).\n\nOf course, this could also IMHO be modeled as changing the focus again to the comment card/field after calling `setCursor`, but maybe we don\u0027t want to make that so restrict that it\u0027s impossible to set the cursor without changing the global focus of the document?",
+      "parentUuid": "cb466314_e9ec86e8",
+      "revId": "da063b09774abce47e81bb899fa4cf34cd4ac08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c67eb2d_dfdaeb0b",
@@ -65,6 +119,30 @@
       "writtenOn": "2021-11-12T07:33:01Z",
       "side": 1,
       "message": "Remove?",
+      "range": {
+        "startLine": 353,
+        "startChar": 4,
+        "endLine": 355,
+        "endChar": 5
+      },
+      "revId": "da063b09774abce47e81bb899fa4cf34cd4ac08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6fa6626_855ad05a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-11-12T09:08:15Z",
+      "side": 1,
+      "message": "ooops.. that was the intention all along - I forgot 😄",
+      "parentUuid": "2c67eb2d_dfdaeb0b",
       "range": {
         "startLine": 353,
         "startChar": 4,

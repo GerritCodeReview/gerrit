@@ -59,6 +59,11 @@ class GrRepoPluginConfig extends mixinBehaviors( [
         type: Array,
         computed: '_computePluginConfigOptions(pluginData.*)',
       },
+      disabled: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
     };
   }
 
@@ -90,8 +95,8 @@ class GrRepoPluginConfig extends mixinBehaviors( [
         type === this.ENTRY_TYPES.LONG;
   }
 
-  _computeDisabled(editable) {
-    return !editable;
+  _computeDisabled(disabled, editable) {
+    return disabled || !editable;
   }
 
   /**

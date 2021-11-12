@@ -55,6 +55,7 @@ export const htmlTemplate = html`
               <gr-plugin-config-array-editor
                 on-plugin-config-option-changed="_handleArrayChange"
                 plugin-option="[[option]]"
+                disabled$="[[_computeDisabled(disabled, option.info.editable)]]"
               ></gr-plugin-config-array-editor>
             </template>
             <template is="dom-if" if="[[_isBoolean(option.info.type)]]">
@@ -62,7 +63,7 @@ export const htmlTemplate = html`
                 checked="[[_computeChecked(option.info.value)]]"
                 on-change="_handleBooleanChange"
                 data-option-key$="[[option._key]]"
-                disabled$="[[_computeDisabled(option.info.editable)]]"
+                disabled$="[[_computeDisabled(disabled, option.info.editable)]]"
                 on-tap="_onTapPluginBoolean"
               ></paper-toggle-button>
             </template>
@@ -73,7 +74,7 @@ export const htmlTemplate = html`
               >
                 <select
                   data-option-key$="[[option._key]]"
-                  disabled$="[[_computeDisabled(option.info.editable)]]"
+                  disabled$="[[_computeDisabled(disabled, option.info.editable)]]"
                 >
                   <template
                     is="dom-repeat"
@@ -90,14 +91,14 @@ export const htmlTemplate = html`
                 bind-value="[[option.info.value]]"
                 on-input="_handleStringChange"
                 data-option-key$="[[option._key]]"
-                disabled$="[[_computeDisabled(option.info.editable)]]"
+                disabled$="[[_computeDisabled(disabled, option.info.editable)]]"
               >
                 <input
                   is="iron-input"
                   value="[[option.info.value]]"
                   on-input="_handleStringChange"
                   data-option-key$="[[option._key]]"
-                  disabled$="[[_computeDisabled(option.info.editable)]]"
+                  disabled$="[[_computeDisabled(disabled, option.info.editable)]]"
                 />
               </iron-input>
             </template>

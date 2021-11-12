@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ff115e9_6551a26d",
+        "filename": "java/com/google/gerrit/pgm/init/index/IndexModuleOnInit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-12T18:40:10Z",
+      "side": 1,
+      "message": "The comments above seem to imply this isn\u0027t the module used for Reindex. Is this the correct value then?",
+      "range": {
+        "startLine": 86,
+        "startChar": 20,
+        "endLine": 86,
+        "endChar": 43
+      },
+      "revId": "7dd9492054acb3594e5a5d7d4a634ad59c0a2ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66ee5432_eb47c947",
+        "filename": "java/com/google/gerrit/server/index/IndexInsertOnly.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-12T18:40:10Z",
+      "side": 1,
+      "message": "Needs copyright/license header",
+      "revId": "7dd9492054acb3594e5a5d7d4a634ad59c0a2ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90ce1b07_0ae484bd",
+        "filename": "java/com/google/gerrit/server/index/IndexInsertOnly.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-12T18:40:10Z",
+      "side": 1,
+      "message": "I feel like this and AutoFlush should be grouped together somehow (a subpackage of index?). Additionally, the \"Index\" part of this name feels redundant in the \u0027index\u0027 package.",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "7dd9492054acb3594e5a5d7d4a634ad59c0a2ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbc8a0a8_2f05b13c",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-12T18:40:10Z",
+      "side": 1,
+      "message": "This still hardcodes \"Replacing\". Since the string is nearly the same as the log below, maybe you can do something like:\n\n String indexMsg \u003d insertOnly.equals(IndexInsertOnly.ENABLED) ? \"Insert change\" : \"Replace change\";\n\nand then use indexMsg for both as well as on line 226 (but that one is all lowercase, so you need to do more to deal with that)?\n\nOr, simplify this more the way the All*Groups/Accounts/ProjectsIndexers are and say something like \"Reindexed X\".",
+      "range": {
+        "startLine": 210,
+        "startChar": 15,
+        "endLine": 210,
+        "endChar": 24
+      },
+      "revId": "7dd9492054acb3594e5a5d7d4a634ad59c0a2ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

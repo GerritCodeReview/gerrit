@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd8b7cb7_b5fc3899",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-12T14:35:54Z",
+      "side": 1,
+      "message": "This is more confusing to me than the old way, but if I\u0027m the only one then it\u0027s ok.",
+      "revId": "ee2aa9b50a5ac478b5c5308a0551bc6e22ff9540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

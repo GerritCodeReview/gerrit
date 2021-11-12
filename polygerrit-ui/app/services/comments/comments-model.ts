@@ -26,11 +26,16 @@ import {
 import {addPath, DraftInfo} from '../../utils/comment-util';
 
 interface CommentState {
-  comments: PathToCommentsInfoMap;
-  robotComments: {[path: string]: RobotCommentInfo[]};
-  drafts: {[path: string]: DraftInfo[]};
-  portedComments: PathToCommentsInfoMap;
-  portedDrafts: PathToCommentsInfoMap;
+  /** undefined means 'still loading' */
+  comments?: PathToCommentsInfoMap;
+  /** undefined means 'still loading' */
+  robotComments?: {[path: string]: RobotCommentInfo[]};
+  /** undefined means 'still loading' */
+  drafts?: {[path: string]: DraftInfo[]};
+  /** undefined means 'still loading' */
+  portedComments?: PathToCommentsInfoMap;
+  /** undefined means 'still loading' */
+  portedDrafts?: PathToCommentsInfoMap;
   /**
    * If a draft is discarded by the user, then we temporarily keep it in this
    * array in case the user decides to Undo the discard operation and bring the
@@ -40,11 +45,11 @@ interface CommentState {
 }
 
 const initialState: CommentState = {
-  comments: {},
-  robotComments: {},
-  drafts: {},
-  portedComments: {},
-  portedDrafts: {},
+  comments: undefined,
+  robotComments: undefined,
+  drafts: undefined,
+  portedComments: undefined,
+  portedDrafts: undefined,
   discardedDrafts: [],
 };
 
@@ -67,6 +72,16 @@ export function _testOnly_getState() {
 export function _testOnly_setState(state: CommentState) {
   privateState$.next(state);
 }
+
+export const commentsLoading$ = commentState$.pipe(
+  map(
+    commentState =>
+      commentState.comments === undefined ||
+      commentState.robotComments === undefined ||
+      commentState.drafts === undefined
+  ),
+  distinctUntilChanged()
+);
 
 export const comments$ = commentState$.pipe(
   map(commentState => commentState.comments),

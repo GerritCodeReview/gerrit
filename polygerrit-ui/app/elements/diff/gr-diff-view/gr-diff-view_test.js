@@ -30,7 +30,8 @@ import {
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
 import {EventType} from '../../../types/events.js';
-import {_testOnly_setState} from '../../../services/browser/browser-model.js';
+import {_testOnly_setState as setBrowerState} from '../../../services/browser/browser-model.js';
+import {_testOnly_setState as setCommentState} from '../../../services/comments/comments-model.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -94,6 +95,15 @@ suite('gr-diff-view tests', () => {
         },
       ]});
       await flush();
+
+      setCommentState({
+        comments: {},
+        robotComments: {},
+        drafts: {},
+        portedComments: {},
+        portedDrafts: {},
+        discardedDrafts: [],
+      });
     });
 
     teardown(() => {
@@ -139,22 +149,29 @@ suite('gr-diff-view tests', () => {
       });
 
       test('comment url resolves to comment.patch_set vs latest', () => {
-        diffCommentsStub.returns(Promise.resolve({
-          '/COMMIT_MSG': [
-            {
-              ...createComment(),
-              id: 'c1',
-              line: 10,
-              patch_set: 2,
-              path: '/COMMIT_MSG',
-            }, {
-              ...createComment(),
-              id: 'c3',
-              line: 10,
-              patch_set: 'PARENT',
-              path: '/COMMIT_MSG',
-            },
-          ]}));
+        setCommentState({
+          comments: {
+            '/COMMIT_MSG': [
+              {
+                ...createComment(),
+                id: 'c1',
+                line: 10,
+                patch_set: 2,
+                path: '/COMMIT_MSG',
+              }, {
+                ...createComment(),
+                id: 'c3',
+                line: 10,
+                patch_set: 'PARENT',
+                path: '/COMMIT_MSG',
+              },
+            ]},
+          robotComments: {},
+          drafts: {},
+          portedComments: {},
+          portedDrafts: {},
+          discardedDrafts: [],
+        });
         element.params = {
           view: GerritNav.View.DIFF,
           changeNum: '42',
@@ -206,22 +223,29 @@ suite('gr-diff-view tests', () => {
     test('unchanged diff X vs latest from comment links navigates to base vs X'
         , () => {
           const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-          diffCommentsStub.returns(Promise.resolve({
-            '/COMMIT_MSG': [
-              {
-                ...createComment(),
-                id: 'c1',
-                line: 10,
-                patch_set: 2,
-                path: '/COMMIT_MSG',
-              }, {
-                ...createComment(),
-                id: 'c3',
-                line: 10,
-                patch_set: 'PARENT',
-                path: '/COMMIT_MSG',
-              },
-            ]}));
+          setCommentState({
+            comments: {
+              '/COMMIT_MSG': [
+                {
+                  ...createComment(),
+                  id: 'c1',
+                  line: 10,
+                  patch_set: 2,
+                  path: '/COMMIT_MSG',
+                }, {
+                  ...createComment(),
+                  id: 'c3',
+                  line: 10,
+                  patch_set: 'PARENT',
+                  path: '/COMMIT_MSG',
+                },
+              ]},
+            robotComments: {},
+            drafts: {},
+            portedComments: {},
+            portedDrafts: {},
+            discardedDrafts: [],
+          });
           sinon.stub(element.reporting, 'diffViewDisplayed');
           sinon.stub(element, '_loadBlame');
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
@@ -251,22 +275,29 @@ suite('gr-diff-view tests', () => {
     test('unchanged diff Base vs latest from comment does not navigate'
         , () => {
           const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-          diffCommentsStub.returns(Promise.resolve({
-            '/COMMIT_MSG': [
-              {
-                ...createComment(),
-                id: 'c1',
-                line: 10,
-                patch_set: 2,
-                path: '/COMMIT_MSG',
-              }, {
-                ...createComment(),
-                id: 'c3',
-                line: 10,
-                patch_set: 'PARENT',
-                path: '/COMMIT_MSG',
-              },
-            ]}));
+          setCommentState({
+            comments: {
+              '/COMMIT_MSG': [
+                {
+                  ...createComment(),
+                  id: 'c1',
+                  line: 10,
+                  patch_set: 2,
+                  path: '/COMMIT_MSG',
+                }, {
+                  ...createComment(),
+                  id: 'c3',
+                  line: 10,
+                  patch_set: 'PARENT',
+                  path: '/COMMIT_MSG',
+                },
+              ]},
+            robotComments: {},
+            drafts: {},
+            portedComments: {},
+            portedDrafts: {},
+            discardedDrafts: [],
+          });
           sinon.stub(element.reporting, 'diffViewDisplayed');
           sinon.stub(element, '_loadBlame');
           sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
@@ -379,22 +410,30 @@ suite('gr-diff-view tests', () => {
         });
 
     test('diff toast to go to latest is shown and not base', async () => {
-      diffCommentsStub.returns(Promise.resolve({
-        '/COMMIT_MSG': [
-          {
-            ...createComment(),
-            id: 'c1',
-            line: 10,
-            patch_set: 2,
-            path: '/COMMIT_MSG',
-          }, {
-            ...createComment(),
-            id: 'c3',
-            line: 10,
-            patch_set: 'PARENT',
-            path: '/COMMIT_MSG',
-          },
-        ]}));
+      setCommentState({
+        comments: {
+          '/COMMIT_MSG': [
+            {
+              ...createComment(),
+              id: 'c1',
+              line: 10,
+              patch_set: 2,
+              path: '/COMMIT_MSG',
+            }, {
+              ...createComment(),
+              id: 'c3',
+              line: 10,
+              patch_set: 'PARENT',
+              path: '/COMMIT_MSG',
+            },
+          ]},
+        robotComments: {},
+        drafts: {},
+        portedComments: {},
+        portedDrafts: {},
+        discardedDrafts: [],
+      });
+
       sinon.stub(element.reporting, 'diffViewDisplayed');
       sinon.stub(element, '_loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
@@ -432,7 +471,7 @@ suite('gr-diff-view tests', () => {
 
     test('keyboard shortcuts', () => {
       element._changeNum = '42';
-      _testOnly_setState({screenWidth: 0});
+      setBrowerState({screenWidth: 0});
       element._patchRange = {
         basePatchNum: PARENT,
         patchNum: 10,
@@ -1313,7 +1352,7 @@ suite('gr-diff-view tests', () => {
       const select = element.$.modeSelect;
       const diffDisplay = element.$.diffHost;
       element._userPrefs = {diff_view: DiffViewMode.SIDE_BY_SIDE};
-      _testOnly_setState({screenWidth: 0});
+      setBrowerState({screenWidth: 0});
 
       const userStub = stubUsers('updatePreferences');
 

@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "445b500a_867dc72a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-12T13:50:22Z",
+      "side": 1,
+      "message": "typo: through (extra t)",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1533f7a6_66ebe624",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-12T13:50:22Z",
+      "side": 1,
+      "message": "can this be done? \nwould be nice to separate into it\u0027s own change.",
+      "range": {
+        "startLine": 35,
+        "startChar": 55,
+        "endLine": 36,
+        "endChar": 68
+      },
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aec499e4_bda0a52b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-12T13:50:22Z",
+      "side": 1,
+      "message": "Halfway done. This is an impressive change!!",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ba94e89_fbee6927",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-12T13:50:22Z",
+      "side": 1,
+      "message": "gr-comment-thread is also maintaining the \"editing\" property. Can we rely on that instead of maintaining this Map?",
+      "range": {
+        "startLine": 126,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 24
+      },
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a97719e8_a4c43a57",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-12T13:50:22Z",
+      "side": 1,
+      "message": "remove?",
+      "range": {
+        "startLine": 281,
+        "startChar": 5,
+        "endLine": 281,
+        "endChar": 59
+      },
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

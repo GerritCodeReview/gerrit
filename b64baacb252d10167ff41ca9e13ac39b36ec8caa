@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20d3595c_2ccc6d3d",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivityMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-12T17:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b86d0e8_28154ee1",
+      "revId": "b64baacb252d10167ff41ca9e13ac39b36ec8caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16420303_2b21b47e",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-11-11T10:54:07Z",
       "side": 1,
       "message": "Maybe rather `oldKey`?",
+      "range": {
+        "startLine": 89,
+        "startChar": 21,
+        "endLine": 89,
+        "endChar": 26
+      },
+      "revId": "b64baacb252d10167ff41ca9e13ac39b36ec8caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6ea1979_ad7f23a3",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivityMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-12T17:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16420303_2b21b47e",
       "range": {
         "startLine": 89,
         "startChar": 21,
@@ -60,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "244f7c1a_b1ca9048",
+        "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-12T17:21:48Z",
+      "side": 1,
+      "message": "For the online migration `userNameCaseInsensitive` must be set to true this means that all account created during the migration will have case insensitive sha1 so they can be omitted for the migration",
+      "parentUuid": "67f990c2_9ffedd6b",
+      "revId": "b64baacb252d10167ff41ca9e13ac39b36ec8caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "645d78df_4315656a",
         "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
         "patchSetId": 5
@@ -71,6 +131,24 @@
       "writtenOn": "2021-11-11T10:54:07Z",
       "side": 1,
       "message": "Probably not a real issue, but this config change is happening after the commit with the updated external IDs is committed. What happens in the case a user creates an account just at that time? Unlikely and even then easily fixed, so it might not be an issue that we need to take care of.",
+      "revId": "b64baacb252d10167ff41ca9e13ac39b36ec8caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eedb78de_0e6a9735",
+        "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-12T17:21:48Z",
+      "side": 1,
+      "message": "I thought about it, we don\u0027t need to set `userNameCaseInsensitive` here because as a prerequisites before starting online migration `userNameCaseInsensitive` must be set to true. In that case if user creates an account it will be already created with case insensitive sha1",
+      "parentUuid": "645d78df_4315656a",
       "revId": "b64baacb252d10167ff41ca9e13ac39b36ec8caa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

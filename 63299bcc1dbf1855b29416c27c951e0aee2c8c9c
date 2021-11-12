@@ -64,6 +64,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59253ca6_b2718100",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-12T17:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8c92fa_728bd201",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 52
+      },
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9bf4ae9_9403682f",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-12T17:21:48Z",
+      "side": 1,
+      "message": "hmm I\u0027m not sure because it is created by factory see L44",
+      "parentUuid": "0c908f3b_be0818b4",
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aebf3772_b7771f04",
@@ -87,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98fe040b_b4b216ff",
+        "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-12T17:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aebf3772_b7771f04",
+      "range": {
+        "startLine": 71,
+        "startChar": 41,
+        "endLine": 71,
+        "endChar": 55
+      },
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1da6a19a_fd5bef7c",
@@ -100,6 +166,30 @@
       "writtenOn": "2021-11-05T17:06:17Z",
       "side": 1,
       "message": "What about using a builder instead? Having two boolean parameters makes it a bit difficult to understand what is the current migrator setting.",
+      "range": {
+        "startLine": 79,
+        "startChar": 28,
+        "endLine": 79,
+        "endChar": 47
+      },
+      "revId": "63299bcc1dbf1855b29416c27c951e0aee2c8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f94d05a4_7746b6de",
+        "filename": "java/com/google/gerrit/pgm/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-12T17:21:48Z",
+      "side": 1,
+      "message": "I\u0027m using @Assisted injection with a Guice Factory. I\u0027m not sure if it is possible to have a builder instead but I will check Guice documentation",
+      "parentUuid": "1da6a19a_fd5bef7c",
       "range": {
         "startLine": 79,
         "startChar": 28,

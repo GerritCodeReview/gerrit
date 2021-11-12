@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dea358c_4fa2d2ef",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-12T13:46:26Z",
+      "side": 1,
+      "message": "can the cast happen within deepClone using generics? ok to submit as is to unblock.",
+      "range": {
+        "startLine": 919,
+        "startChar": 26,
+        "endLine": 919,
+        "endChar": 35
+      },
+      "revId": "6a88b8161092e67add77db160dd9c21723b0d3a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

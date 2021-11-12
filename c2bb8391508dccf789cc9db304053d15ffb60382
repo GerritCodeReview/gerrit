@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c90a3996_69509777",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-11-12T12:07:49Z",
+      "side": 1,
+      "message": "Google-bug-id: b/201529567",
+      "revId": "c2bb8391508dccf789cc9db304053d15ffb60382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

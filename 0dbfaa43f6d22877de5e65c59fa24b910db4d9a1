@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "494bc7a0_0a7c2c46",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-11-12T10:49:49Z",
+      "side": 1,
+      "message": "should we then remove this in the long-term?",
+      "range": {
+        "startLine": 238,
+        "startChar": 2,
+        "endLine": 238,
+        "endChar": 58
+      },
+      "revId": "0dbfaa43f6d22877de5e65c59fa24b910db4d9a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

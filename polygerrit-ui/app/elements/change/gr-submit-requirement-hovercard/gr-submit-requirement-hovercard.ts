@@ -23,6 +23,7 @@ import {
   SubmitRequirementResultInfo,
 } from '../../../api/rest-api';
 import {
+  canVote,
   extractAssociatedLabels,
   iconForStatus,
 } from '../../../utils/label-util';
@@ -154,10 +155,16 @@ export class GrSubmitRequirementHovercard extends base {
   private renderLabelSection() {
     if (!this.requirement) return;
     const requirementLabels = extractAssociatedLabels(this.requirement);
+    const allLabels = this.change?.labels ?? {};
     const labels: string[] = [];
-    for (const label of Object.keys(this.change?.labels ?? {})) {
+    for (const label of Object.keys(allLabels)) {
       if (requirementLabels.includes(label)) {
-        labels.push(label);
+        const canSomeoneVote = (this.change?.reviewers['REVIEWER'] ?? []).some(
+          reviewer => canVote(allLabels[label], reviewer)
+        );
+        if (canSomeoneVote) {
+          labels.push(label);
+        }
       }
     }
     const showLabelName = labels.length >= 2;

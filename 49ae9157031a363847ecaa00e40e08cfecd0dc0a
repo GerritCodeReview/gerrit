@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfd22c23_c7d4a8f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-11-12T15:09:42Z",
+      "side": 1,
+      "message": "It\u0027d be good to move this back to stable-3.2 if it\u0027s been around that long.",
+      "revId": "49ae9157031a363847ecaa00e40e08cfecd0dc0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

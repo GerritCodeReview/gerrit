@@ -66,7 +66,7 @@ export const htmlTemplate = html`
             <span>[[item]]</span>
             <gr-button
               link=""
-              disabled$="[[disabled]]"
+              disabled="[[disabled]]"
               data-item$="[[item]]"
               on-click="_handleDelete"
               >Delete</gr-button
@@ -85,11 +85,12 @@ export const htmlTemplate = html`
           id="input"
           on-keydown="_handleInputKeydown"
           bind-value="{{_newValue}}"
+          disabled="[[disabled]]"
         />
       </iron-input>
       <gr-button
         id="addButton"
-        disabled$="[[!_newValue.length]]"
+        disabled="[[!_newValue.length]]"
         link=""
         on-click="_handleAddTap"
         >Add</gr-button

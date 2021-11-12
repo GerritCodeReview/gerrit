@@ -34,6 +34,24 @@
       "parentUuid": "cfd22c23_c7d4a8f4",
       "revId": "49ae9157031a363847ecaa00e40e08cfecd0dc0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa8a7a09_ce036012",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-11-12T23:52:36Z",
+      "side": 1,
+      "message": "Done https://gerrit-review.googlesource.com/c/gerrit/+/323635",
+      "parentUuid": "d3200baa_613af133",
+      "revId": "49ae9157031a363847ecaa00e40e08cfecd0dc0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -33,6 +33,24 @@
       "message": "Add `\u003d {}`, which makes the parameter have a default and thus be optional. Then you can revert all changes for code where you have just added `, {}`.",
       "revId": "c9aa0b8709573175fa30484b28792999ae8ab848",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93be6456_f644d7e1",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-11-12T10:24:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd5623cd_7e76fe43",
+      "revId": "c9aa0b8709573175fa30484b28792999ae8ab848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

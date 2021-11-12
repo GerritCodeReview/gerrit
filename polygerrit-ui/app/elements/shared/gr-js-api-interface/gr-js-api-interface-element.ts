@@ -32,14 +32,14 @@ import {
 } from './gr-js-api-types';
 import {EventType, TargetElement} from '../../../api/plugin';
 import {DiffLayer, HighlightJS, ParsedChangeInfo} from '../../../types/types';
-import {appContext} from '../../../services/app-context';
 import {MenuLink} from '../../../api/admin';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 
 const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};
 
 export class GrJsApiInterface implements JsApiService {
-  private readonly reporting = appContext.reportingService;
+  constructor(readonly reporting: ReportingService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleEvent(type: EventType, detail: any) {

@@ -16,15 +16,13 @@
  */
 import {updateRepoConfig, updateServerConfig} from './config-model';
 import {repo$} from '../change/change-model';
-import {appContext} from '../app-context';
 import {switchMap} from 'rxjs/operators';
 import {ConfigInfo, RepoName, ServerInfo} from '../../types/common';
 import {from, of} from 'rxjs';
+import {RestApiService} from '../gr-rest-api/gr-rest-api';
 
 export class ConfigService {
-  private readonly restApiService = appContext.restApiService;
-
-  constructor() {
+  constructor(readonly restApiService: RestApiService) {
     from(this.restApiService.getConfig()).subscribe((config?: ServerInfo) => {
       updateServerConfig(config);
     });

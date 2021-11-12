@@ -17,19 +17,17 @@
 import {routerChangeNum$} from '../router/router-model';
 import {change$, updateState} from './change-model';
 import {ParsedChangeInfo} from '../../types/types';
-import {appContext} from '../app-context';
 import {ChangeInfo} from '../../types/common';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
 } from '../../utils/patch-set-util';
+import {RestApiService} from '../gr-rest-api/gr-rest-api';
 
 export class ChangeService {
   private change?: ParsedChangeInfo;
 
-  private readonly restApiService = appContext.restApiService;
-
-  constructor() {
+  constructor(readonly restApiService: RestApiService) {
     // TODO: In the future we will want to make restApiService.getChangeDetail()
     // calls from a switchMap() here. For now just make sure to invalidate the
     // change when no changeNum is set.

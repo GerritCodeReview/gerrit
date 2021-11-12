@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94657f0f_2a0f8213",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-12T07:22:50Z",
+      "side": 1,
+      "message": "My bad. I made a small mistake while adjusting mocking DiffOperations in tests.\n\nFixed.",
+      "parentUuid": "fa53f909_25463f70",
+      "revId": "6e4418566086b3432986b5a661fa8527e2363bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4498ad62_47e63774",
@@ -53,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "571cc99a_729e6b20",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-12T07:22:50Z",
+      "side": 1,
+      "message": "I considered doing that, but wanted to avoid adding two more methods to the interface, especially that the signatures are very similar.",
+      "parentUuid": "4498ad62_47e63774",
+      "revId": "6e4418566086b3432986b5a661fa8527e2363bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "490e5c98_68ff2884",
@@ -66,6 +102,30 @@
       "writtenOn": "2021-11-11T18:36:24Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 41
+      },
+      "revId": "6e4418566086b3432986b5a661fa8527e2363bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3d718ff_cb3964e7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-11-12T07:22:50Z",
+      "side": 1,
+      "message": "Nice catch. Used for debugging and forgot to remove. I also forgot to move the private methods to the end of the class.\n\nDone.",
+      "parentUuid": "490e5c98_68ff2884",
       "range": {
         "startLine": 194,
         "startChar": 0,

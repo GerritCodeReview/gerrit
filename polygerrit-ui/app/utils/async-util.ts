@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 
+import {Observable} from 'rxjs';
+import {filter, take} from 'rxjs/operators';
+
 /**
  * @param fn An iteratee function to be passed each element of
  *     the array in order. Must return a promise, and the following
@@ -130,3 +133,14 @@ export function throttleWrap<T>(fn: (e: T) => void) {
     fn(e);
   };
 }
+
+/**
+ * Let's you wait for an Observable to become true.
+ */
+export function until<T>(obs$: Observable<T>, predicate: (t: T) => boolean) {
+  return new Promise<void>(resolve => {
+    obs$.pipe(filter(predicate), take(1)).subscribe(() => resolve());
+  });
+}
+
+export const isFalse = (b: boolean) => b === false;

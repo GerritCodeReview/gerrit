@@ -72,7 +72,6 @@ import {
   ChangeInfo,
   CommitId,
   ConfigInfo,
-  EditInfo,
   EditPatchSetNum,
   FileInfo,
   NumericChangeId,
@@ -105,8 +104,11 @@ import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {addGlobalShortcut, Key, toggleClass} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
-import {throttleWrap} from '../../../utils/async-util';
-import {changeComments$} from '../../../services/comments/comments-model';
+import {isFalse, throttleWrap, until} from '../../../utils/async-util';
+import {
+  changeComments$,
+  commentsLoading$,
+} from '../../../services/comments/comments-model';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {listen} from '../../../services/shortcuts/shortcuts-service';
@@ -356,6 +358,13 @@ export class GrDiffView extends base {
   private cursor = new GrDiffCursor();
 
   disconnected$ = new Subject();
+
+  constructor() {
+    super();
+    // We just want to make sure that CommentsService is instantiated.
+    // Otherwise subscribing to the model won't emit any data.
+    appContext.commentsService;
+  }
 
   override connectedCallback() {
     super.connectedCallback();
@@ -1068,21 +1077,10 @@ export class GrDiffView extends base {
     }
 
     const promises: Promise<unknown>[] = [];
-
     if (!this._change) promises.push(this._getChangeDetail(this._changeNum));
-
-    promises.push(this._getChangeEdit());
-
-    this.$.diffHost.cancel();
-    this.$.diffHost.clearDiffContent();
-    this._loading = true;
-    return Promise.all(promises)
-      .then(r => {
-        this._loading = false;
-        this._initPatchRange();
-        this._initCommitRange();
-
-        const edit = r[4] as EditInfo | undefined;
+    promises.push(until(commentsLoading$, isFalse));
+    promises.push(
+      this._getChangeEdit().then(edit => {
         if (edit) {
           this.set(`_change.revisions.${edit.commit.commit}`, {
             _number: EditPatchSetNum,
@@ -1090,6 +1088,17 @@ export class GrDiffView extends base {
             commit: edit.commit,
           });
         }
+      })
+    );
+
+    this.$.diffHost.cancel();
+    this.$.diffHost.clearDiffContent();
+    this._loading = true;
+    return Promise.all(promises)
+      .then(() => {
+        this._loading = false;
+        this._initPatchRange();
+        this._initCommitRange();
         return this.$.diffHost.reload(true);
       })
       .then(() => {

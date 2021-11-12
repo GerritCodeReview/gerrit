@@ -30,7 +30,8 @@ import {
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
 import {EventType} from '../../../types/events.js';
-import {_testOnly_setState} from '../../../services/browser/browser-model.js';
+import {_testOnly_setState as setBrowerState} from '../../../services/browser/browser-model.js';
+import {_testOnly_setState as setCommentState} from '../../../services/comments/comments-model.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -94,6 +95,15 @@ suite('gr-diff-view tests', () => {
         },
       ]});
       await flush();
+
+      setCommentState({
+        comments: {},
+        robotComments: {},
+        drafts: {},
+        portedComments: {},
+        portedDrafts: {},
+        discardedDrafts: [],
+      });
     });
 
     teardown(() => {
@@ -432,7 +442,7 @@ suite('gr-diff-view tests', () => {
 
     test('keyboard shortcuts', () => {
       element._changeNum = '42';
-      _testOnly_setState({screenWidth: 0});
+      setBrowerState({screenWidth: 0});
       element._patchRange = {
         basePatchNum: PARENT,
         patchNum: 10,
@@ -1312,7 +1322,7 @@ suite('gr-diff-view tests', () => {
       const select = element.$.modeSelect;
       const diffDisplay = element.$.diffHost;
       element._userPrefs = {diff_view: DiffViewMode.SIDE_BY_SIDE};
-      _testOnly_setState({screenWidth: 0});
+      setBrowerState({screenWidth: 0});
 
       const userStub = stubUsers('updatePreferences');
 

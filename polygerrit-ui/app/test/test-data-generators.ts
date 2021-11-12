@@ -160,6 +160,7 @@ export function createConfig(): ConfigInfo {
     work_in_progress_by_default: createInheritedBoolean(),
     max_object_size_limit: createMaxObjectSizeLimit(),
     default_submit_type: createSubmitType(),
+    enable_reviewer_by_email: createInheritedBoolean(),
     submit_type: SubmitType.INHERIT,
     commentlinks: createCommentLinks(),
   };

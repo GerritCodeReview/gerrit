@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cee072a_377eb29c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-12T23:17:39Z",
+      "side": 1,
+      "message": "So I\u0027m not the only one who liked that feature ;-)\nSee I021c7ae7 for some comments.\nI don\u0027t really know how to move that topic forward.",
+      "revId": "f12294fed0eb1621c949a8ddcd6dc432cffde392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eedaefd5_14f3e6cc",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2021-11-12T23:17:39Z",
+      "side": 1,
+      "message": "Is this strip-space needed?\nCan these commands be generated with leading spaces/comments?",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 34
+      },
+      "revId": "f12294fed0eb1621c949a8ddcd6dc432cffde392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

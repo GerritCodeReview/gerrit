@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22b78a27_ab0f6740",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-11-12T14:51:07Z",
+      "side": 1,
+      "message": "Hi Dmitrii!\n\nWould you have any spare cycles to review this small change?",
+      "revId": "d689850a04f930f503b9c9cdaf3a47a897093237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

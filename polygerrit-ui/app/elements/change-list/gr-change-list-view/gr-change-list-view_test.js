@@ -181,9 +181,9 @@ suite('gr-change-list-view tests', () => {
           .returns(Promise.resolve([change]));
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake(
-          (url, opt_patchNum, opt_basePatchNum, opt_isEdit, opt_redirect) => {
+          (url, opt) => {
             assert.equal(url, change);
-            assert.isTrue(opt_redirect);
+            assert.isTrue(opt.redirect);
             promise.resolve();
           });
 
@@ -197,9 +197,9 @@ suite('gr-change-list-view tests', () => {
           .returns(Promise.resolve([change]));
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake(
-          (url, opt_patchNum, opt_basePatchNum, opt_isEdit, opt_redirect) => {
+          (url, opt) => {
             assert.equal(url, change);
-            assert.isTrue(opt_redirect);
+            assert.isTrue(opt.redirect);
             promise.resolve();
           });
 
@@ -213,9 +213,9 @@ suite('gr-change-list-view tests', () => {
           .returns(Promise.resolve([change]));
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake(
-          (url, opt_patchNum, opt_basePatchNum, opt_isEdit, opt_redirect) => {
+          (url, opt) => {
             assert.equal(url, change);
-            assert.isTrue(opt_redirect);
+            assert.isTrue(opt.redirect);
             promise.resolve();
           });
 

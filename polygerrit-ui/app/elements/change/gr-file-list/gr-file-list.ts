@@ -1125,11 +1125,10 @@ export class GrFileList extends base {
 
   _handleShowParent1(): void {
     if (!this.change || !this.patchRange) return;
-    GerritNav.navigateToChange(
-      this.change,
-      this.patchRange.patchNum,
-      -1 as BasePatchSetNum // Parent 1
-    );
+    GerritNav.navigateToChange(this.change, {
+      patchNum: this.patchRange.patchNum,
+      basePatchNum: -1 as BasePatchSetNum, // Parent 1
+    });
   }
 
   @observe(

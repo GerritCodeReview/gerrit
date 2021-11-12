@@ -285,11 +285,10 @@ suite('gr-message tests', () => {
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(
-          navStub.calledWithExactly(
-            element.change!,
-            1 as PatchSetNum,
-            'PARENT' as BasePatchSetNum
-          )
+          navStub.calledWithExactly(element.change!, {
+            patchNum: 1 as PatchSetNum,
+            basePatchNum: 'PARENT' as BasePatchSetNum,
+          })
         );
       });
 
@@ -300,11 +299,10 @@ suite('gr-message tests', () => {
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(
-          navStub.calledWithExactly(
-            element.change!,
-            2 as PatchSetNum,
-            1 as BasePatchSetNum
-          )
+          navStub.calledWithExactly(element.change!, {
+            patchNum: 2 as PatchSetNum,
+            basePatchNum: 1 as BasePatchSetNum,
+          })
         );
 
         element.message = {
@@ -313,11 +311,10 @@ suite('gr-message tests', () => {
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(
-          navStub.calledWithExactly(
-            element.change!,
-            200 as PatchSetNum,
-            199 as BasePatchSetNum
-          )
+          navStub.calledWithExactly(element.change!, {
+            patchNum: 200 as PatchSetNum,
+            basePatchNum: 199 as BasePatchSetNum,
+          })
         );
       });
 
@@ -328,11 +325,10 @@ suite('gr-message tests', () => {
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(
-          navStub.calledWithExactly(
-            element.change!,
-            4 as PatchSetNum,
-            3 as BasePatchSetNum
-          )
+          navStub.calledWithExactly(element.change!, {
+            patchNum: 4 as PatchSetNum,
+            basePatchNum: 3 as BasePatchSetNum,
+          })
         );
       });
 
@@ -343,11 +339,10 @@ suite('gr-message tests', () => {
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(
-          navStub.calledWithExactly(
-            element.change!,
-            4 as PatchSetNum,
-            3 as BasePatchSetNum
-          )
+          navStub.calledWithExactly(element.change!, {
+            patchNum: 4 as PatchSetNum,
+            basePatchNum: 3 as BasePatchSetNum,
+          })
         );
       });
     });

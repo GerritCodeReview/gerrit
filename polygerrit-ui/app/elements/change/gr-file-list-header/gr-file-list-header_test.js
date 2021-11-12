@@ -144,7 +144,7 @@ suite('gr-file-list-header tests', () => {
     element._handlePatchChange({detail: {basePatchNum: 1, patchNum: 3}});
     assert.equal(navigateToChangeStub.callCount, 1);
     assert.isTrue(navigateToChangeStub.lastCall
-        .calledWithExactly(element.change, 3, 1));
+        .calledWithExactly(element.change, {patchNum: 3, basePatchNum: 1}));
   });
 
   test('class is applied to file list on old patch set', () => {

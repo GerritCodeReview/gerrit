@@ -16,6 +16,8 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.entities.Account;
 import java.security.PublicKey;
+import java.util.Arrays;
+import java.util.Objects;
 
 class SshKeyCacheEntry {
   private final Account.Id accountId;
@@ -31,6 +33,9 @@ class SshKeyCacheEntry {
   }
 
   boolean match(PublicKey inkey) {
-    return publicKey.equals(inkey);
+    // only verify the PublicKey interface, not any nested class objects
+    return Objects.equals(publicKey.getAlgorithm(), inkey.getAlgorithm())
+        && Objects.equals(publicKey.getFormat(), inkey.getFormat())
+        && Arrays.equals(publicKey.getEncoded(), inkey.getEncoded());
   }
 }

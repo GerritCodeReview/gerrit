@@ -33,6 +33,24 @@
       "message": "Should we be filing a bug with JGit for this? Why did this get removed from the archive site?",
       "revId": "412a580e915bef34495a821a65a1b7f8b590f607",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b98ae2c_c51ab508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-11-12T17:00:34Z",
+      "side": 1,
+      "message": "Matthias is already aware of the issue and fixing it. I am hoping to abandon this change pretty soon :-)\n\nI\u0027ll add a header \"[HOPEFULLY I WON\u0027T SUBMIT]\" :-)",
+      "parentUuid": "6d599a35_0806e8e9",
+      "revId": "412a580e915bef34495a821a65a1b7f8b590f607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

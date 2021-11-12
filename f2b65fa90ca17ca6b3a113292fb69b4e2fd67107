@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f97847bd_df85d0aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-11-12T07:39:30Z",
+      "side": 1,
+      "message": "Thanks for huge migrations and a lot of improvements in code.",
+      "revId": "f2b65fa90ca17ca6b3a113292fb69b4e2fd67107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -81,6 +81,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d99444f_db1d913a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T23:43:40Z",
+      "side": 1,
+      "message": "Some more comments.\n\nPlease split this change up into smaller changes as it requires too much mental burden to build up enough state to do a non-superficial review, at least for me 😊\nIt\u0027s hard to build up enough context to meaningfully review the larger changes.\nIt\u0027s hard to see what\u0027s refactor, what\u0027s rename, what\u0027s lit migration and what\u0027s new logic due to model changes.",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ba94e89_fbee6927",
@@ -231,6 +248,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e67fdcd0_9cacc613",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T23:43:40Z",
+      "side": 1,
+      "message": "This feels like it\u0027s far outside the purpose of this change.",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ba919ac2_a725fc6b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
         "patchSetId": 16
@@ -314,6 +348,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "50ce8dcc_c2afe2d0",
+        "filename": "polygerrit-ui/app/elements/lit/shortcut-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T23:43:40Z",
+      "side": 1,
+      "message": "What if you want to add local shortcuts that are suppressed?",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "18ad0a74_f6f237dc",
@@ -344,6 +395,40 @@
       "writtenOn": "2021-11-12T18:49:30Z",
       "side": 1,
       "message": "Does distinctUntilChanged do deep-equals? If not every repoConfig update without commentLinks will result in a new empty object.",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82320d51_2c379335",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T23:43:40Z",
+      "side": 1,
+      "message": "We now have 3 things that say shouldSuppress.\n\noptions.shouldSuppress, this.shouldSuppress and \"shouldSuppress\" called from the latter. This adds some amount of confusion",
+      "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49053bb8_caac9fb4",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2021-11-12T23:43:40Z",
+      "side": 1,
+      "message": "Remove",
       "revId": "990a7f23eb072f8e7183b7873ef11f6d72b9386b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
